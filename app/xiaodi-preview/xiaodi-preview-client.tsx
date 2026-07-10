@@ -8,22 +8,22 @@ import { cn } from '@/lib/utils'
 
 const STATE_INFO: Record<XiaoDiState, { label: string; duration: string; note: string }> = {
   idle: { label: 'idle 待命', duration: '≈3.4s/轮', note: '呼吸、姿势轻换、叶子随帧轻晃' },
-  listening: { label: 'listening 倾听', duration: '≈1.8s/轮', note: '前倾、举放大镜' },
+  listening: { label: 'listening 倾听', duration: '≈2.4s/轮', note: '前倾、举放大镜' },
   thinking: { label: 'thinking 思考', duration: '≈2.3s/轮', note: '托下巴、眼睛上看、左右轻晃' },
   speaking: { label: 'speaking 讲解', duration: '≈1.7s/轮', note: '抬手讲解、点头起伏' },
   success: { label: 'success 成功', duration: '≈1s/轮', note: '跳起、竖拇指、亮一下' },
   error: { label: 'error 困惑', duration: '≈1s/轮', note: '歪头、摊手、挠头' },
-  working: { label: 'working 操作', duration: '≈2s/轮', note: '点全息面板' },
+  working: { label: 'working 操作', duration: '≈3.2s/轮', note: '点全息面板' },
 }
 
 const AI_DRAFT_DURATION: Partial<Record<XiaoDiState, string>> = {
   idle: 'AI≈3.6s/轮',
-  listening: 'AI≈2.4s/轮',
+  listening: 'AI≈3.2s/轮',
   thinking: 'AI≈2.8s/轮',
   speaking: 'AI≈2.8s/轮',
   success: 'AI≈1.5s/轮',
   error: 'AI≈1.8s/轮',
-  working: 'AI≈2.6s/轮',
+  working: 'AI≈4.2s/轮',
 }
 
 export function XiaoDiPreviewClient() {

@@ -39,7 +39,7 @@
 
 ### 方向判断
 
-- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler、Scratch iframe 内积木关键词提示/分类切换与 flyout 具体积木定位已落地；下一步优先扩大 Scratch opcode 覆盖，或做扫雷这类基于已揭示信息的非透视提示。迷宫 BFS 下一步提示暂降为 P2，可等 Playground Agent 交互模式更稳定后再做）。
+- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler、Scratch iframe 内积木关键词提示/分类切换与 flyout 具体积木定位、小迪 `working/success/error` 运行状态反馈已落地；下一步优先扩大 Scratch opcode 覆盖，或做扫雷这类基于已揭示信息的非透视提示。迷宫 BFS 下一步提示暂降为 P2，可等 Playground Agent 交互模式更稳定后再做）。
 - **产品定位**：将小迪从「对话式导师」升级为可调用工具的 Agent，能直接与产品 UI 交互，而不只是输出文字建议。
 - **技术基础**：已有 tutor 引擎、场景上下文、图片来源校验、代币门禁与对话线程；可复用 Qwen Vision 做棋盘、Scratch 或作品截图识别。
 
@@ -63,7 +63,7 @@
 
 1. **P1：Scratch 定位增强或扫雷非透视提示**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断；或做扫雷安全格/必标雷提示，并确保只使用玩家已揭示的棋盘信息，复用现有「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
 2. **P1：工具调用策略升级**：从确定性意图规则扩展到模型受控工具选择，但仍保持服务端白名单、payload 校验与前端受控 handler。
-3. **P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。
+3. ~~**P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。~~（已落地：`resolveTutorMascotState` + FAB 反馈态；tool/上传 → `working`，成功 → `success`，失败/配额 → `error`，`onCycleEnd` 回落）
 4. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
 5. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。
 

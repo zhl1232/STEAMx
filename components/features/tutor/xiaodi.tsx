@@ -42,22 +42,22 @@ type StateConfig = {
 
 const STATE_CONFIG: Record<XiaoDiState, StateConfig> = {
   idle: { durationMs: 3360, motionClass: styles.motionIdle },
-  listening: { durationMs: 1800, motionClass: styles.motionListening },
+  listening: { durationMs: 2400, motionClass: styles.motionListening },
   thinking: { durationMs: 2280, motionClass: styles.motionThinking },
   speaking: { durationMs: 1740, motionClass: styles.motionSpeaking },
   success: { durationMs: 1000, once: true, motionClass: styles.motionSuccess },
   error: { durationMs: 1040, once: true, motionClass: styles.motionError },
-  working: { durationMs: 1980, motionClass: styles.motionWorking },
+  working: { durationMs: 3200, motionClass: styles.motionWorking },
 }
 
 const AI_DRAFT_DURATION_MS: Partial<Record<XiaoDiState, number>> = {
   idle: 3600,
-  listening: 2400,
+  listening: 3200,
   thinking: 2800,
   speaking: 2800,
   success: 1500,
   error: 1800,
-  working: 2600,
+  working: 4200,
 }
 
 const STATE_LABELS: Record<XiaoDiState, string> = {

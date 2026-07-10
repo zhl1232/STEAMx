@@ -209,7 +209,7 @@
   }
 }
 .motionWorking {
-  animation: xiaodi-tap 2s ease-in-out infinite;
+  animation: xiaodi-tap 2.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

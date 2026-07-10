@@ -31,8 +31,8 @@ export type ScratchEditorContext = {
 
 export type ScratchParentMessage =
   | { type: 'SCRATCH_INIT'; lessonId: number; readOnly?: boolean; playerOnly?: boolean }
-  | { type: 'LOAD_PROJECT'; url: string | null }
-  | { type: 'LOAD_PROJECT_BUFFER'; base64: string }
+  | { type: 'LOAD_PROJECT'; url: string | null; force?: boolean }
+  | { type: 'LOAD_PROJECT_BUFFER'; base64: string; force?: boolean }
   | { type: 'SAVE_PROJECT' }
   | { type: 'RUN_PLAYER_ONLY' }
   | { type: 'OPEN_TUTORIALS' }

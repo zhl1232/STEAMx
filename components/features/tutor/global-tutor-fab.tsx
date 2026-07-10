@@ -35,6 +35,10 @@ import {
 import { XiaoDi, type XiaoDiState } from '@/components/features/tutor/xiaodi'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
 import {
+  resolveTutorMascotState,
+  type TutorMascotFeedback,
+} from '@/lib/ai/tutor/mascot-state'
+import {
   buildTutorChatParams,
   fetchTutorSession,
   TUTOR_SESSION_STALE_MS,
@@ -221,6 +225,9 @@ export function GlobalTutorFab({
   const [messages, setMessages] = useState<TutorChatMessage[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
+  const [mascotFeedback, setMascotFeedback] = useState<TutorMascotFeedback | null>(null)
+  const [toolPendingCount, setToolPendingCount] = useState(0)
+  const toolPendingCountRef = useRef(0)
   const [quota, setQuota] = useState<AiCreditStatus | null>(null)
   const [greeting, setGreeting] = useState<TutorGreeting | null>(null)
   const [sceneTitle, setSceneTitle] = useState('')
@@ -698,6 +705,9 @@ export function GlobalTutorFab({
     setRecordingStartedAt(null)
     setRecordingElapsedMs(0)
     setTranscribingVoice(false)
+    setMascotFeedback(null)
+    toolPendingCountRef.current = 0
+    setToolPendingCount(0)
     pendingAutoReadTextRef.current = null
     pendingAutoReadForceRef.current = false
     longPressActiveRef.current = false
@@ -724,6 +734,7 @@ export function GlobalTutorFab({
 
       busyRef.current = true
       setBusy(true)
+      setMascotFeedback(null)
       setGreeting(null)
       setInput('')
       const userMessage: TutorChatMessage = {
@@ -767,6 +778,26 @@ export function GlobalTutorFab({
         })
       }
 
+      const beginToolWork = () => {
+        toolPendingCountRef.current += 1
+        setToolPendingCount(toolPendingCountRef.current)
+      }
+      const endToolWork = () => {
+        toolPendingCountRef.current = Math.max(0, toolPendingCountRef.current - 1)
+        setToolPendingCount(toolPendingCountRef.current)
+      }
+      const runToolCall = async (toolCall: TutorToolCall) => {
+        beginToolWork()
+        try {
+          if (!dispatchTutorToolCall) return false
+          return await dispatchTutorToolCall(toolCall)
+        } catch {
+          return false
+        } finally {
+          endToolWork()
+        }
+      }
+
       try {
         const res = await fetch('/api/tutor/chat', {
           method: 'POST',
@@ -797,6 +828,7 @@ export function GlobalTutorFab({
             content: payload.error ?? '今日免费次数或本月代币已用完。开通会员每月可获 1500 代币～',
             error: true,
           })
+          setMascotFeedback('error')
           logTiming('quota_exceeded', { responseHeadersMs, serverTiming })
           return
         }
@@ -812,6 +844,8 @@ export function GlobalTutorFab({
         let full = ''
         let streamError: string | null = null
         let streamWarning: string | null = null
+        let toolFailed = false
+        let sawToolCall = false
 
         while (true) {
           const { done, value } = await reader.read()
@@ -847,7 +881,9 @@ export function GlobalTutorFab({
             } else if (event.type === 'error') {
               streamError = event.error || '小迪暂时不可用'
             } else if (event.type === 'tool_call' && event.toolCall) {
-              void dispatchTutorToolCall?.(event.toolCall).catch(() => undefined)
+              sawToolCall = true
+              const ok = await runToolCall(event.toolCall)
+              if (!ok) toolFailed = true
             } else if (event.type === 'perf' && TUTOR_CLIENT_TIMING_ENABLED) {
               console.info('[tutor timing]', {
                 label: 'server tutor stream',
@@ -863,6 +899,7 @@ export function GlobalTutorFab({
             // 已有流式内容：保留内容，错误另起一条气泡，不覆盖回复
             patchStreaming({ role: 'assistant', content: full })
             setMessages((current) => [...current, { role: 'assistant', content: streamError, error: true }])
+            setMascotFeedback('error')
             void refreshQuota()
             return
           }
@@ -870,8 +907,18 @@ export function GlobalTutorFab({
         }
 
         const assistantMessage: TutorChatMessage = { role: 'assistant', content: full || '…' }
+        const willAutoRead =
+          (autoReadReplies || options.forceReadReply) && !assistantMessage.error
+
+        if (toolFailed) {
+          setMascotFeedback('error')
+        } else if (!willAutoRead) {
+          // 即将自动朗读时不抢 success，让 speaking 态立刻可见
+          setMascotFeedback('success')
+        }
+
         patchStreaming(assistantMessage)
-        if ((autoReadReplies || options.forceReadReply) && !assistantMessage.error) {
+        if (willAutoRead) {
           pendingAutoReadTextRef.current = assistantMessage.content
           pendingAutoReadForceRef.current = options.forceReadReply === true
         }
@@ -889,7 +936,13 @@ export function GlobalTutorFab({
         if (streamWarning) {
           toast({ title: streamWarning, variant: 'destructive' })
         }
-        logTiming('done', { responseHeadersMs, serverTiming, replyLength: full.length })
+        logTiming('done', {
+          responseHeadersMs,
+          serverTiming,
+          replyLength: full.length,
+          sawToolCall,
+          toolFailed,
+        })
         void refreshQuota()
       } catch (error) {
         logTiming('error', { error: error instanceof Error ? error.message : String(error) })
@@ -898,6 +951,7 @@ export function GlobalTutorFab({
           content: error instanceof Error ? error.message : '小迪暂时不可用，请稍后再试。',
           error: true,
         })
+        setMascotFeedback('error')
       } finally {
         busyRef.current = false
         setBusy(false)
@@ -1044,6 +1098,7 @@ export function GlobalTutorFab({
         } catch (error) {
           const uploadToast = getTutorUploadToast(error)
           toast({ ...uploadToast, variant: 'destructive' })
+          setMascotFeedback('error')
         }
       }
     } finally {
@@ -1186,14 +1241,19 @@ export function GlobalTutorFab({
 
   const panelSubtitle = subtitle || (sceneTitle ? `正在陪你：${sceneTitle}` : '你的 STEAM 学习伙伴')
   const lastMessage = messages[messages.length - 1]
-  const mascotState: XiaoDiState =
-    recordingVoice
-      ? 'listening'
-      : playingSpeechKey || (lastMessage?.role === 'assistant' && lastMessage.streaming && lastMessage.content)
-      ? 'speaking'
-      : busy || transcribingVoice || sessionQuery.isFetching
-        ? 'thinking'
-        : 'idle'
+  const mascotState = resolveTutorMascotState({
+    recording: recordingVoice,
+    feedback: mascotFeedback,
+    working: toolPendingCount > 0 || uploadingImage,
+    speaking: Boolean(
+      playingSpeechKey || (lastMessage?.role === 'assistant' && lastMessage.streaming && lastMessage.content),
+    ),
+    thinking: busy || transcribingVoice || sessionQuery.isFetching,
+  })
+  const handleMascotCycleEnd = useCallback((state: XiaoDiState) => {
+    if (state !== 'success' && state !== 'error') return
+    setMascotFeedback((current) => (current === state ? null : current))
+  }, [])
   const activeVoiceFeedback: TutorVoiceFeedback | null = recordingVoice
     ? {
         tone: 'recording',
@@ -1240,7 +1300,7 @@ export function GlobalTutorFab({
           <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
             <span className="relative h-11 w-10 shrink-0 overflow-visible drop-shadow-[0_8px_12px_hsl(var(--brand-blue)/0.18)]">
               <span className="absolute left-1/2 top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
-                <XiaoDi state={mascotState} size={52} />
+                <XiaoDi state={mascotState} size={52} onCycleEnd={handleMascotCycleEnd} />
               </span>
             </span>
             <div className="min-w-0 flex-1">
@@ -1741,7 +1801,7 @@ export function GlobalTutorFab({
         ) : (
           <>
             <span className="flex h-full w-full items-center justify-center overflow-visible">
-              <XiaoDi state={mascotState} size={86} />
+              <XiaoDi state={mascotState} size={86} onCycleEnd={handleMascotCycleEnd} />
             </span>
           </>
         )}

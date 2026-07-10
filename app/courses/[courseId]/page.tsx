@@ -59,9 +59,20 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const allSameLessonType =
         course.lessons.length > 0 &&
         course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
+    const hasScratchLesson = course.lessons.some((l) => l.lesson_type === "scratch");
 
     return (
         <div className="min-h-screen app-canvas-community">
+            {hasScratchLesson ? (
+                <>
+                    <link rel="prefetch" href="/scratch/index.html" />
+                    <link rel="prefetch" href="/scratch/scratch-gui.js" />
+                    <link rel="prefetch" href="/scratch/vendor/react.production.min.js" />
+                    <link rel="prefetch" href="/scratch/vendor/react-dom.production.min.js" />
+                    <link rel="prefetch" href="/scratch/vendor/redux.min.js" />
+                    <link rel="prefetch" href="/scratch/vendor/react-redux.min.js" />
+                </>
+            ) : null}
             <MobileGlobalHeader variant="title" title={course.title} />
             <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 {/* 返回链接 */}

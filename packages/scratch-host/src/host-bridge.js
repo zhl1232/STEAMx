@@ -723,13 +723,14 @@ async function flushPendingAfterGui() {
   if (!pendingAfterGui || !vmRef || !guiProjectShowing) return
   const job = pendingAfterGui
   pendingAfterGui = null
+  const force = Boolean(job.force)
   try {
     if (job.type === 'url') {
-      await loadProjectFromUrl(job.url)
+      await loadProjectFromUrl(job.url, { force })
     } else if (job.type === 'base64') {
-      await loadProjectFromBase64(job.base64)
+      await loadProjectFromBase64(job.base64, { force })
     } else if (job.type === 'ready') {
-      postToParent({ type: 'PROJECT_LOADED', ok: true })
+      await loadProjectFromUrl(null, { force })
     }
   } catch (err) {
     setStatus('加载失败')
@@ -749,11 +750,14 @@ export function onGuiProjectShowing() {
   void flushPendingAfterGui()
 }
 
-async function loadProjectBuffer(buffer) {
+async function loadProjectBuffer(buffer, { force = false } = {}) {
   if (!vmRef) return
-  if (vmRef.__steamUserTouched) {
+  if (!force && vmRef.__steamUserTouched) {
     postToParent({ type: 'PROJECT_LOADED', ok: true })
     return
+  }
+  if (force) {
+    vmRef.__steamUserTouched = false
   }
   if (!bootstrapDone) {
     await waitForStageTarget(vmRef, 30000)
@@ -763,16 +767,21 @@ async function loadProjectBuffer(buffer) {
     if (!hasStageTarget(vmRef)) {
       throw new Error('Invalid or empty Scratch project')
     }
+    // 强制换课后视为干净项目，避免后续误跳过加载
+    vmRef.__steamUserTouched = false
     syncTargetsToGui(vmRef)
     drawStage(vmRef)
     scheduleEditorContextPost(0)
   })
 }
 
-async function loadProjectFromUrl(url) {
+async function loadProjectFromUrl(url, { force = false } = {}) {
   if (!vmRef) return
 
   if (!url) {
+    if (force) {
+      vmRef.__steamUserTouched = false
+    }
     if (!hasStageTarget(vmRef)) {
       await waitForStageTarget(vmRef, 30000)
     }
@@ -785,16 +794,16 @@ async function loadProjectFromUrl(url) {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Failed to fetch project: ${res.status}`)
   const buf = await res.arrayBuffer()
-  await loadProjectBuffer(buf)
+  await loadProjectBuffer(buf, { force })
   postToParent({ type: 'PROJECT_LOADED', ok: true })
 }
 
-async function loadProjectFromBase64(base64) {
+async function loadProjectFromBase64(base64, { force = false } = {}) {
   if (!vmRef) return
   const binary = atob(base64)
   const bytes = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-  await loadProjectBuffer(bytes.buffer)
+  await loadProjectBuffer(bytes.buffer, { force })
   postToParent({ type: 'PROJECT_LOADED', ok: true })
 }
 
@@ -803,11 +812,12 @@ function scheduleProjectLoad(job) {
     pendingAfterGui = job
     return
   }
+  const force = Boolean(job.force)
   void (async () => {
     try {
-      if (job.type === 'url') await loadProjectFromUrl(job.url)
-      else if (job.type === 'base64') await loadProjectFromBase64(job.base64)
-      else if (job.type === 'ready') await loadProjectFromUrl(null)
+      if (job.type === 'url') await loadProjectFromUrl(job.url, { force })
+      else if (job.type === 'base64') await loadProjectFromBase64(job.base64, { force })
+      else if (job.type === 'ready') await loadProjectFromUrl(null, { force })
     } catch (err) {
       setStatus('加载失败')
       postToParent({
@@ -902,11 +912,17 @@ export function initHostMessageListener() {
         break
       case 'LOAD_PROJECT':
         scheduleProjectLoad(
-          data.url ? { type: 'url', url: data.url } : { type: 'ready' },
+          data.url
+            ? { type: 'url', url: data.url, force: Boolean(data.force) }
+            : { type: 'ready', force: Boolean(data.force) },
         )
         break
       case 'LOAD_PROJECT_BUFFER':
-        scheduleProjectLoad({ type: 'base64', base64: data.base64 })
+        scheduleProjectLoad({
+          type: 'base64',
+          base64: data.base64,
+          force: Boolean(data.force),
+        })
         break
       case 'SAVE_PROJECT':
         void saveProjectToParent()

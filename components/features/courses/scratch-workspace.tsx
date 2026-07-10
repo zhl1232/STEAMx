@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, HelpCircle, Loader2, Save, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,10 @@ import {
 } from "@/lib/courses/scratch-hints";
 import { canUseScratchEditor } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
+import {
+    getScratchHostUrl,
+    useScratchHost,
+} from "./scratch-host-context";
 import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
 
 export type ScratchWorkspaceBlockHint = {
@@ -30,63 +34,52 @@ export type ScratchWorkspaceBlockHint = {
     reason: "stuck" | "next_step" | "review";
 };
 
-function getScratchHostUrl(playerOnly: boolean): string {
-    const origin =
-        typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
-    const base =
-        process.env.NEXT_PUBLIC_SCRATCH_HOST_URL || `${origin}/scratch/index.html`;
-    const url = new URL(base, origin);
-    if (playerOnly) url.searchParams.set("playerOnly", "1");
-    else url.searchParams.set("embed", "1");
-    return url.toString();
-}
-
 function getBlockHintReasonLabel(reason: ScratchWorkspaceBlockHint["reason"]) {
-    if (reason === "review") return "检查这一步"
-    if (reason === "stuck") return "先补这一步"
-    return "继续做这一步"
+    if (reason === "review") return "检查这一步";
+    if (reason === "stuck") return "先补这一步";
+    return "继续做这一步";
 }
 
 function getBlockHintItems(blockHint: ScratchWorkspaceBlockHint): ScratchBlockHintItem[] {
-    if (blockHint.items?.length) return blockHint.items
+    if (blockHint.items?.length) return blockHint.items;
     return blockHint.keywords.map((keyword) => ({
         label: keyword,
         findLabel: keyword,
-    }))
+    }));
 }
 
 function getBlockHintTargetIndex(
     blockHint: ScratchWorkspaceBlockHint,
     items = getBlockHintItems(blockHint),
 ): number {
-    const count = items.length || blockHint.keywords.length
-    if (count <= 0) return 0
+    const count = items.length || blockHint.keywords.length;
+    if (count <= 0) return 0;
     const index = Number.isFinite(blockHint.targetItemIndex)
         ? Math.trunc(blockHint.targetItemIndex ?? 0)
-        : 0
-    return Math.min(Math.max(index, 0), count - 1)
+        : 0;
+    return Math.min(Math.max(index, 0), count - 1);
 }
 
 function getBlockHintCategory(
     blockHint: ScratchWorkspaceBlockHint,
     items = getBlockHintItems(blockHint),
 ): ScratchBlockCategory | undefined {
-    const targetItem = items[getBlockHintTargetIndex(blockHint, items)]
-    return targetItem?.category ?? blockHint.category
+    const targetItem = items[getBlockHintTargetIndex(blockHint, items)];
+    return targetItem?.category ?? blockHint.category;
 }
 
 function getIframeBlockHintPayload(blockHint: ScratchWorkspaceBlockHint) {
-    const items = getBlockHintItems(blockHint)
-    const targetIndex = getBlockHintTargetIndex(blockHint, items)
-    const targetItem = items[targetIndex]
+    const items = getBlockHintItems(blockHint);
+    const targetIndex = getBlockHintTargetIndex(blockHint, items);
+    const targetItem = items[targetIndex];
     const targetKeyword =
-        targetItem?.findLabel ?? blockHint.keywords[targetIndex] ?? blockHint.keywords[0]
+        targetItem?.findLabel ?? blockHint.keywords[targetIndex] ?? blockHint.keywords[0];
 
     return {
         keywords: targetKeyword ? [targetKeyword] : blockHint.keywords,
         items: blockHint.items?.length && targetItem ? [targetItem] : undefined,
         category: targetItem?.category ?? blockHint.category,
-    }
+    };
 }
 
 async function uploadSb3ToLesson(
@@ -137,28 +130,70 @@ export function ScratchWorkspace({
     onProjectSaved?: () => void;
     onCompleted?: () => void;
 }) {
-    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const sharedHost = useScratchHost();
+    // 预览页 / 无 Provider 时走本地 iframe；课时页复用 layout 里的持久 Host
+    const useSharedHost = Boolean(sharedHost) && !playerOnly;
+
+    const localIframeRef = useRef<HTMLIFrameElement>(null);
+    const slotRef = useRef<HTMLDivElement>(null);
     const saveResolverRef = useRef<((ok: boolean) => void) | null>(null);
     const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const saveToastRef = useRef(true);
+    const loadedLessonKeyRef = useRef<string | null>(null);
+    const bootedRef = useRef(false);
+    const readyRef = useRef(false);
+    /** 仅当「当前课时」的项目已成功载入 VM 时等于 `${courseId}:${lessonId}`，用于切课静默保存防串课 */
+    const boundLessonKeyRef = useRef<string | null>(null);
+
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { toast } = useToast();
-    const [ready, setReady] = useState(false);
-    const [projectLoaded, setProjectLoaded] = useState(false);
+
+    const [localReady, setLocalReady] = useState(false);
+    const [localProjectLoaded, setLocalProjectLoaded] = useState(false);
     const [saving, setSaving] = useState(false);
     const [completing, setCompleting] = useState(false);
     const [completed, setCompleted] = useState(initialCompleted);
     const [hasSavedProject, setHasSavedProject] = useState(false);
     const [loadingProject, setLoadingProject] = useState(true);
+
     const fileInputRef = useRef<HTMLInputElement>(null);
     const editorAllowed = playerOnly || canUseScratchEditor();
 
-    const postToIframe = useCallback((message: Record<string, unknown>) => {
-        const win = iframeRef.current?.contentWindow;
-        if (!win) return;
-        win.postMessage({ ...message, source: SCRATCH_PARENT_SOURCE }, window.location.origin);
-    }, []);
+    const ready = useSharedHost ? Boolean(sharedHost?.ready) : localReady;
+    const projectLoaded = useSharedHost
+        ? Boolean(sharedHost?.projectLoaded)
+        : localProjectLoaded;
+    const switching = useSharedHost ? Boolean(sharedHost?.switching) : false;
+
+    readyRef.current = ready;
+
+    const postToIframe = useCallback(
+        (message: Record<string, unknown>) => {
+            if (useSharedHost && sharedHost) {
+                sharedHost.postToIframe(message);
+                return;
+            }
+            const win = localIframeRef.current?.contentWindow;
+            if (!win) return;
+            win.postMessage(
+                { ...message, source: SCRATCH_PARENT_SOURCE },
+                window.location.origin,
+            );
+        },
+        [sharedHost, useSharedHost],
+    );
+
+    const setProjectLoaded = useCallback(
+        (loaded: boolean) => {
+            if (useSharedHost && sharedHost) {
+                sharedHost.setProjectLoaded(loaded);
+            } else {
+                setLocalProjectLoaded(loaded);
+            }
+        },
+        [sharedHost, useSharedHost],
+    );
 
     const finishPendingSave = useCallback((ok: boolean) => {
         if (saveTimeoutRef.current) {
@@ -170,11 +205,20 @@ export function ScratchWorkspace({
     }, []);
 
     const persistBase64 = useCallback(
-        async (base64: string, options?: { showToast?: boolean }) => {
+        async (
+            base64: string,
+            options?: { showToast?: boolean; courseId?: number; lessonId?: number },
+        ) => {
             const showToast = options?.showToast ?? saveToastRef.current;
+            const targetCourseId = options?.courseId ?? courseId;
+            const targetLessonId = options?.lessonId ?? lessonId;
             setSaving(true);
             try {
-                const result = await uploadSb3ToLesson(courseId, lessonId, base64);
+                const result = await uploadSb3ToLesson(
+                    targetCourseId,
+                    targetLessonId,
+                    base64,
+                );
                 if (!result.ok) {
                     if (showToast) {
                         toast({
@@ -186,7 +230,9 @@ export function ScratchWorkspace({
                     postToIframe({ type: "PROJECT_SAVED", ok: false, error: result.error });
                     return false;
                 }
-                setHasSavedProject(true);
+                if (targetCourseId === courseId && targetLessonId === lessonId) {
+                    setHasSavedProject(true);
+                }
                 if (showToast) {
                     toast({ title: "作品已保存到课程" });
                 }
@@ -226,35 +272,174 @@ export function ScratchWorkspace({
         });
     }, [finishPendingSave, postToIframe, ready]);
 
-    const loadProjectUrl = useCallback(async () => {
-        setLoadingProject(true);
-        try {
-            if (!user) {
-                postToIframe({ type: "LOAD_PROJECT", url: null });
-                return;
+    const loadProjectUrl = useCallback(
+        async (options?: { force?: boolean }) => {
+            const force = options?.force ?? false;
+            // 开始换课加载即解除绑定，避免未完成加载时误把上一课内容存到本课
+            boundLessonKeyRef.current = null;
+            setLoadingProject(true);
+            if (useSharedHost && sharedHost) {
+                await sharedHost.waitForPendingSave();
+                if (force) sharedHost.setSwitching(true);
             }
-            const res = await fetch(`/api/courses/${courseId}/lessons/${lessonId}/project`);
-            if (!res.ok) throw new Error("无法加载项目");
-            const data = await res.json();
-            setHasSavedProject(Boolean(data.hasUserProject));
-            postToIframe({ type: "LOAD_PROJECT", url: data.projectUrl ?? null });
-        } catch {
-            setHasSavedProject(false);
-            postToIframe({ type: "LOAD_PROJECT", url: null });
-        } finally {
-            setLoadingProject(false);
-        }
-    }, [courseId, lessonId, postToIframe, user]);
+            setProjectLoaded(false);
+            try {
+                if (!user) {
+                    postToIframe({ type: "LOAD_PROJECT", url: null, force });
+                    return;
+                }
+                const res = await fetch(
+                    `/api/courses/${courseId}/lessons/${lessonId}/project`,
+                );
+                if (!res.ok) throw new Error("无法加载项目");
+                const data = await res.json();
+                setHasSavedProject(Boolean(data.hasUserProject));
+                postToIframe({
+                    type: "LOAD_PROJECT",
+                    url: data.projectUrl ?? null,
+                    force,
+                });
+            } catch {
+                setHasSavedProject(false);
+                postToIframe({ type: "LOAD_PROJECT", url: null, force });
+            } finally {
+                setLoadingProject(false);
+            }
+        },
+        [
+            courseId,
+            lessonId,
+            postToIframe,
+            setProjectLoaded,
+            sharedHost,
+            useSharedHost,
+            user,
+        ],
+    );
+
+    // 共享 Host：挂载槽位 + 订阅消息；卸载时静默保存上一课
+    useLayoutEffect(() => {
+        if (!useSharedHost || !sharedHost) return;
+        sharedHost.activate();
+        const slotEl = slotRef.current;
+        if (slotEl) sharedHost.registerSlot(slotEl);
+        return () => {
+            sharedHost.registerSlot(null);
+        };
+    }, [useSharedHost, sharedHost, courseId, lessonId]);
 
     useEffect(() => {
+        if (!useSharedHost || !sharedHost) return;
+
+        const lessonKey = `${courseId}:${lessonId}`;
+        const unsubscribe = sharedHost.subscribe({
+            onProjectLoaded: (msg) => {
+                if (msg.ok) {
+                    boundLessonKeyRef.current = lessonKey;
+                } else {
+                    boundLessonKeyRef.current = null;
+                    if (msg.error) {
+                        toast({
+                            title: "Scratch 项目加载失败",
+                            description: msg.error,
+                            variant: "destructive",
+                        });
+                    }
+                }
+            },
+            onProjectSaved: (msg) => {
+                if (!msg.ok) finishPendingSave(false);
+            },
+            onProjectSaveData: async (msg) => {
+                if (!user) {
+                    promptLogin();
+                    finishPendingSave(false);
+                    return;
+                }
+                const ok = await persistBase64(msg.base64);
+                finishPendingSave(ok);
+            },
+            onEditorContext: (context) => {
+                onEditorContextChange?.(context);
+            },
+        });
+
+        return () => {
+            unsubscribe();
+            // 仅当本课项目已成功绑定到 VM 时才静默保存，避免把上一课内容写到新课
+            if (
+                readyRef.current &&
+                boundLessonKeyRef.current === lessonKey
+            ) {
+                boundLessonKeyRef.current = null;
+                void sharedHost.requestDetachedSave({ courseId, lessonId });
+            }
+        };
+    }, [
+        courseId,
+        finishPendingSave,
+        lessonId,
+        onEditorContextChange,
+        persistBase64,
+        promptLogin,
+        sharedHost,
+        toast,
+        useSharedHost,
+        user,
+    ]);
+
+    // 共享 Host：ready 后按 lesson 热换项目（force）
+    useEffect(() => {
+        if (!useSharedHost || !sharedHost || !ready) return;
+
+        const key = `${courseId}:${lessonId}`;
+        const isFirstBoot = !bootedRef.current;
+        const lessonChanged = loadedLessonKeyRef.current !== key;
+
+        if (!isFirstBoot && !lessonChanged) return;
+
+        bootedRef.current = true;
+        loadedLessonKeyRef.current = key;
+
+        postToIframe({
+            type: "SCRATCH_INIT",
+            lessonId,
+            playerOnly: false,
+        });
+
+        const delay = isFirstBoot ? 300 : 0;
+        let cancelled = false;
+        const timer = window.setTimeout(() => {
+            if (cancelled) return;
+            void loadProjectUrl({ force: true });
+        }, delay);
+
+        return () => {
+            cancelled = true;
+            window.clearTimeout(timer);
+        };
+    }, [
+        courseId,
+        lessonId,
+        loadProjectUrl,
+        postToIframe,
+        ready,
+        sharedHost,
+        useSharedHost,
+    ]);
+
+    // 本地 iframe（预览 / 无 Provider）：原有消息协议
+    useEffect(() => {
+        if (useSharedHost) return;
+
         const onMessage = async (event: MessageEvent) => {
             if (event.origin !== window.location.origin) return;
             if (!isScratchHostMessage(event.data)) return;
 
             const msg = event.data;
             if (msg.type === "SCRATCH_READY") {
-                setReady(true);
-                setProjectLoaded(false);
+                setLocalReady(true);
+                setLocalProjectLoaded(false);
                 postToIframe({
                     type: "SCRATCH_INIT",
                     lessonId,
@@ -263,13 +448,12 @@ export function ScratchWorkspace({
                 if (playerOnly) {
                     postToIframe({ type: "RUN_PLAYER_ONLY" });
                 }
-                // Let iframe finish default project + redux sync before optional course sb3 load
                 window.setTimeout(() => {
-                    void loadProjectUrl();
+                    void loadProjectUrl({ force: true });
                 }, 300);
             }
             if (msg.type === "PROJECT_LOADED") {
-                setProjectLoaded(msg.ok);
+                setLocalProjectLoaded(msg.ok);
                 if (!msg.ok && msg.error) {
                     toast({
                         title: "Scratch 项目加载失败",
@@ -297,7 +481,6 @@ export function ScratchWorkspace({
         window.addEventListener("message", onMessage);
         return () => window.removeEventListener("message", onMessage);
     }, [
-        courseId,
         finishPendingSave,
         lessonId,
         loadProjectUrl,
@@ -307,6 +490,7 @@ export function ScratchWorkspace({
         promptLogin,
         onEditorContextChange,
         toast,
+        useSharedHost,
         user,
     ]);
 
@@ -355,7 +539,6 @@ export function ScratchWorkspace({
                 missing?: string[];
                 alreadyCompleted?: boolean;
             };
-            // 422：作品还没用到本课要求的关键积木，友好提示孩子还差什么
             if (res.status === 422) {
                 const missing = Array.isArray(data.missing) ? data.missing : [];
                 toast({
@@ -403,7 +586,7 @@ export function ScratchWorkspace({
                 binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
             }
             const base64 = btoa(binary);
-            postToIframe({ type: "LOAD_PROJECT_BUFFER", base64 });
+            postToIframe({ type: "LOAD_PROJECT_BUFFER", base64, force: true });
             saveToastRef.current = true;
             void persistBase64(base64);
         };
@@ -438,7 +621,8 @@ export function ScratchWorkspace({
         return (
             <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
                 <p className="max-w-sm text-muted-foreground">
-                    在手机上的小屏幕较难舒适地使用 Scratch 编辑器。请用平板或电脑打开本课，也可以上传已完成的 .sb3 文件交作业。
+                    在手机上的小屏幕较难舒适地使用 Scratch
+                    编辑器。请用平板或电脑打开本课，也可以上传已完成的 .sb3 文件交作业。
                 </p>
                 <input
                     ref={fileInputRef}
@@ -450,7 +634,11 @@ export function ScratchWorkspace({
                         if (f) handleFileUpload(f);
                     }}
                 />
-                <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                >
                     <Upload className="mr-2 h-4 w-4" />
                     上传 .sb3 作品
                 </Button>
@@ -460,8 +648,14 @@ export function ScratchWorkspace({
 
     const busy = saving || completing;
     const blockHintItems = blockHint ? getBlockHintItems(blockHint) : [];
-    const blockHintTargetIndex = blockHint ? getBlockHintTargetIndex(blockHint, blockHintItems) : 0;
-    const blockHintCategory = blockHint ? getBlockHintCategory(blockHint, blockHintItems) : undefined;
+    const blockHintTargetIndex = blockHint
+        ? getBlockHintTargetIndex(blockHint, blockHintItems)
+        : 0;
+    const blockHintCategory = blockHint
+        ? getBlockHintCategory(blockHint, blockHintItems)
+        : undefined;
+    const showOverlay = !ready || !projectLoaded || switching;
+    const overlayMode = ready && (switching || !projectLoaded) ? "switch" : "boot";
 
     return (
         <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
@@ -532,12 +726,16 @@ export function ScratchWorkspace({
                             <span className="hidden sm:inline">
                                 {completed ? "已完成" : "完成课时"}
                             </span>
-                            <span className="sm:hidden">{completed ? "已完成" : "完成"}</span>
+                            <span className="sm:hidden">
+                                {completed ? "已完成" : "完成"}
+                            </span>
                         </Button>
-                        {(loadingProject || !ready) && (
+                        {(loadingProject || !ready || switching) && (
                             <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
                                 <Loader2 className="h-3 w-3 animate-spin" />
-                                加载编辑器…
+                                {switching || (ready && !projectLoaded)
+                                    ? "切换作品…"
+                                    : "加载编辑器…"}
                             </span>
                         )}
                     </div>
@@ -562,36 +760,40 @@ export function ScratchWorkspace({
                                     {blockHintItems.map((item, index) => {
                                         const active = index === blockHintTargetIndex;
                                         return (
-                                        <li
-                                            key={`${item.findLabel}-${item.editHint ?? ""}-${index}`}
-                                            aria-current={active ? "step" : undefined}
-                                            className={cn(
-                                                "rounded-[var(--radius-sm)] border px-2.5 py-1.5",
-                                                active
-                                                    ? "border-[hsl(var(--brand-amber)/0.55)] bg-background shadow-sm ring-1 ring-[hsl(var(--brand-amber)/0.22)]"
-                                                    : "border-[hsl(var(--brand-amber)/0.24)] bg-background/82",
-                                            )}
-                                        >
-                                            <div className="flex min-w-0 items-center gap-1.5">
-                                                <span className="shrink-0 rounded-full bg-[hsl(var(--brand-amber)/0.16)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
-                                                    {active ? "正在找" : index < blockHintTargetIndex ? "已提示" : "接着"}
-                                                </span>
-                                                <span className="min-w-0 truncate font-semibold text-foreground">
-                                                    {item.findLabel}
-                                                </span>
-                                            </div>
-                                            {item.findHint ? (
-                                                <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
-                                                    {item.findHint}
-                                                </p>
-                                            ) : null}
-                                            {item.editHint ? (
-                                                <p className="mt-1 text-[11px] font-medium leading-snug text-[hsl(var(--brand-blue))]">
-                                                    拖出来后：{item.editHint}
-                                                </p>
-                                            ) : null}
-                                        </li>
-                                        )
+                                            <li
+                                                key={`${item.findLabel}-${item.editHint ?? ""}-${index}`}
+                                                aria-current={active ? "step" : undefined}
+                                                className={cn(
+                                                    "rounded-[var(--radius-sm)] border px-2.5 py-1.5",
+                                                    active
+                                                        ? "border-[hsl(var(--brand-amber)/0.55)] bg-background shadow-sm ring-1 ring-[hsl(var(--brand-amber)/0.22)]"
+                                                        : "border-[hsl(var(--brand-amber)/0.24)] bg-background/82",
+                                                )}
+                                            >
+                                                <div className="flex min-w-0 items-center gap-1.5">
+                                                    <span className="shrink-0 rounded-full bg-[hsl(var(--brand-amber)/0.16)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
+                                                        {active
+                                                            ? "正在找"
+                                                            : index < blockHintTargetIndex
+                                                              ? "已提示"
+                                                              : "接着"}
+                                                    </span>
+                                                    <span className="min-w-0 truncate font-semibold text-foreground">
+                                                        {item.findLabel}
+                                                    </span>
+                                                </div>
+                                                {item.findHint ? (
+                                                    <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
+                                                        {item.findHint}
+                                                    </p>
+                                                ) : null}
+                                                {item.editHint ? (
+                                                    <p className="mt-1 text-[11px] font-medium leading-snug text-[hsl(var(--brand-blue))]">
+                                                        拖出来后：{item.editHint}
+                                                    </p>
+                                                ) : null}
+                                            </li>
+                                        );
                                     })}
                                 </ol>
                             </div>
@@ -617,14 +819,21 @@ export function ScratchWorkspace({
                     playerOnly ? "min-h-[360px]" : "",
                 )}
             >
-                <ScratchLoadingOverlay show={!ready || !projectLoaded} />
-                <iframe
-                    ref={iframeRef}
-                    title="Scratch 编辑器"
-                    src={getScratchHostUrl(playerOnly)}
-                    className="absolute inset-0 h-full w-full border-0 bg-background"
-                    allow="microphone; camera"
-                />
+                <ScratchLoadingOverlay show={showOverlay} mode={overlayMode} />
+                {useSharedHost ? (
+                    <div
+                        ref={slotRef}
+                        className="absolute inset-0 h-full w-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full [&_iframe]:border-0 [&_iframe]:bg-background"
+                    />
+                ) : (
+                    <iframe
+                        ref={localIframeRef}
+                        title="Scratch 编辑器"
+                        src={getScratchHostUrl(playerOnly)}
+                        className="absolute inset-0 h-full w-full border-0 bg-background"
+                        allow="microphone; camera"
+                    />
+                )}
             </div>
         </div>
     );
