@@ -748,7 +748,7 @@ export default function GameOfLifePage() {
                             <div className="space-y-2">
                                 <h2 className="text-base font-semibold flex items-center gap-2">
                                     <Activity className="w-4 h-4 text-emerald-500" />
-                                    本地统计
+                                    云端统计
                                 </h2>
                             </div>
 

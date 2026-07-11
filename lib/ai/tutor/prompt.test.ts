@@ -58,4 +58,19 @@ describe('buildTutorSystemPrompt', () => {
     expect(prompt).toContain('每次只给一个最小线索')
     expect(prompt).toContain('即使学生直接索要答案，也继续分层引导')
   })
+
+  it('requires scene fact points to override vague model guesses', () => {
+    const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
+
+    expect(prompt).toContain('事实准确性')
+    expect(prompt).toContain('事实要点')
+    expect(prompt).toContain('不要用「尚未证明」')
+  })
+
+  it('allows course recommendation chips in replies', () => {
+    const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
+
+    expect(prompt).toContain('[course:ID|标题]')
+    expect(prompt).toContain('[project:ID|标题]')
+  })
 })

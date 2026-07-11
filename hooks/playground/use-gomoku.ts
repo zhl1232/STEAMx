@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import {
+    chooseAiMoveAsync,
+    preloadGomokuAi,
+} from "@/lib/playground/gomoku-ai-client"
+import {
     checkWinner,
-    chooseAiMove,
     cloneBoard,
     createEmptyBoard,
     EMPTY_GOMOKU_STATS,
+    type GomokuPoint,
 } from "@/lib/playground/gomoku-engine"
 import type {
     GomokuCell,
@@ -49,9 +53,15 @@ function saveStats(stats: GomokuStats) {
     setPlaygroundItem(STATS_KEY, { ...existing, ...stats })
 }
 
+function opponentOf(player: GomokuPlayer): GomokuPlayer {
+    return player === "black" ? "white" : "black"
+}
+
 export function useGomoku(
     mode: GomokuMode = "pve",
     level: GomokuLevel = "normal",
+    /** PvE 时玩家执子颜色；黑先手。选白则 AI 执黑并先下。 */
+    humanPlayer: GomokuPlayer = "black",
 ) {
     const [board, setBoard] = useState<GomokuCell[][]>(() => createEmptyBoard())
     const [currentPlayer, setCurrentPlayer] =
@@ -59,6 +69,8 @@ export function useGomoku(
     const [status, setStatus] = useState<GomokuStatus>("idle")
     const [winnerInfo, setWinnerInfo] = useState<WinnerInfo>(null)
     const [moveCount, setMoveCount] = useState(0)
+    /** 有序着法（黑先），供 Rapfi YXBOARD 使用。 */
+    const [moves, setMoves] = useState<GomokuPoint[]>([])
     // 服务端无 localStorage，初次渲染统一用空战绩，避免 SSR/CSR 不一致。
     const [stats, setStats] = useState<GomokuStats>(() => ({
         ...EMPTY_GOMOKU_STATS,
@@ -66,9 +78,15 @@ export function useGomoku(
 
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
-    const aiPlayer: GomokuPlayer = "white"
+    const aiPlayer: GomokuPlayer = opponentOf(humanPlayer)
     const isAiTurn =
         mode === "pve" && currentPlayer === aiPlayer && status === "playing"
+
+    useEffect(() => {
+        if (mode === "pve") {
+            preloadGomokuAi()
+        }
+    }, [mode])
 
     const updateStats = useCallback(
         (result: "win" | "loss" | "draw") => {
@@ -100,10 +118,17 @@ export function useGomoku(
     const resetGame = useCallback(() => {
         setBoard(createEmptyBoard())
         setCurrentPlayer("black")
-        setStatus("idle")
         setWinnerInfo(null)
         setMoveCount(0)
-    }, [])
+        setMoves([])
+        // AI 执黑时直接进入 playing，触发先手搜索
+        setStatus(mode === "pve" && humanPlayer === "white" ? "playing" : "idle")
+    }, [humanPlayer, mode])
+
+    // 切换执子颜色 / 模式后重置局面，避免旧棋盘与新颜色错位
+    useEffect(() => {
+        resetGame()
+    }, [humanPlayer, mode, resetGame])
 
     const makeMove = useCallback(
         (row: number, col: number) => {
@@ -114,16 +139,18 @@ export function useGomoku(
             const nextBoard = cloneBoard(board)
             nextBoard[row][col].value = currentPlayer
             const nextMoveCount = moveCount + 1
+            const nextMoves = [...moves, { row, col }]
 
             const winner = checkWinner(nextBoard)
             if (winner) {
                 setBoard(nextBoard)
+                setMoves(nextMoves)
                 setWinnerInfo(winner)
                 setStatus("won")
                 setMoveCount(nextMoveCount)
                 updateStats(
                     mode === "pve"
-                        ? currentPlayer === "black"
+                        ? winner.winner === humanPlayer
                             ? "win"
                             : "loss"
                         : "win",
@@ -136,6 +163,7 @@ export function useGomoku(
             )
             if (isFull) {
                 setBoard(nextBoard)
+                setMoves(nextMoves)
                 setStatus("draw")
                 setMoveCount(nextMoveCount)
                 updateStats("draw")
@@ -143,62 +171,103 @@ export function useGomoku(
             }
 
             setBoard(nextBoard)
+            setMoves(nextMoves)
             setMoveCount(nextMoveCount)
             setStatus("playing")
-            setCurrentPlayer((prev) =>
-                prev === "black" ? "white" : "black",
-            )
+            setCurrentPlayer((prev) => opponentOf(prev))
         },
-        [aiPlayer, board, currentPlayer, mode, moveCount, status, updateStats],
+        [
+            aiPlayer,
+            board,
+            currentPlayer,
+            humanPlayer,
+            mode,
+            moveCount,
+            moves,
+            status,
+            updateStats,
+        ],
     )
 
     const aiThinkingRef = useRef(false)
+    const aiRequestIdRef = useRef(0)
 
     useEffect(() => {
         if (!isAiTurn) return
         if (aiThinkingRef.current) return
         aiThinkingRef.current = true
+        const requestId = ++aiRequestIdRef.current
+        const snapshotMoveCount = moveCount
+        const searchBoard = cloneBoard(board)
+        const searchMoves = moves.map((m) => ({ ...m }))
+        // Rapfi 自身有思考时限，这里只留极短调度延迟
+        const thinkDelayMs = 50
 
         const handle = window.setTimeout(() => {
-            const searchBoard = cloneBoard(board)
-            const chosen = chooseAiMove(searchBoard, aiPlayer, "black", level)
+            void chooseAiMoveAsync(
+                searchBoard,
+                aiPlayer,
+                humanPlayer,
+                level,
+                searchMoves,
+            ).then((chosen) => {
+                if (requestId !== aiRequestIdRef.current) return
+                if (!chosen) {
+                    aiThinkingRef.current = false
+                    return
+                }
 
-            if (chosen) {
-                const nextBoard = cloneBoard(board)
+                const nextBoard = cloneBoard(searchBoard)
                 nextBoard[chosen.row][chosen.col].value = aiPlayer
-                const nextMoveCount = moveCount + 1
+                const nextMoveCount = snapshotMoveCount + 1
+                const nextMoves = [...searchMoves, chosen]
                 const winner = checkWinner(nextBoard)
                 if (winner) {
                     setBoard(nextBoard)
+                    setMoves(nextMoves)
                     setWinnerInfo(winner)
                     setStatus("won")
                     setMoveCount(nextMoveCount)
-                    updateStats("loss")
+                    updateStats(
+                        winner.winner === humanPlayer ? "win" : "loss",
+                    )
                 } else {
                     const isFull = nextBoard.every((r) =>
                         r.every((c) => c.value !== null),
                     )
                     if (isFull) {
                         setBoard(nextBoard)
+                        setMoves(nextMoves)
                         setStatus("draw")
                         setMoveCount(nextMoveCount)
                         updateStats("draw")
                     } else {
                         setBoard(nextBoard)
+                        setMoves(nextMoves)
                         setMoveCount(nextMoveCount)
                         setStatus("playing")
-                        setCurrentPlayer("black")
+                        setCurrentPlayer(humanPlayer)
                     }
                 }
-            }
-            aiThinkingRef.current = false
-        }, 300)
+                aiThinkingRef.current = false
+            })
+        }, thinkDelayMs)
 
         return () => {
             window.clearTimeout(handle)
+            aiRequestIdRef.current += 1
             aiThinkingRef.current = false
         }
-    }, [aiPlayer, board, isAiTurn, level, moveCount, updateStats])
+    }, [
+        aiPlayer,
+        board,
+        humanPlayer,
+        isAiTurn,
+        level,
+        moveCount,
+        moves,
+        updateStats,
+    ])
 
     return {
         board,
@@ -209,6 +278,8 @@ export function useGomoku(
         stats,
         mode,
         level,
+        humanPlayer,
+        aiPlayer,
         makeMove,
         resetGame,
     }

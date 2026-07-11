@@ -18,10 +18,10 @@ afterEach(() => {
 describe('sanitizeTutorSpeechText', () => {
   it('strips tutor markup into readable speech text', () => {
     const text = sanitizeTutorSpeechText(
-      '听这个：[audio:/birds/audio/crow.ogg|黑头鸦]\n\n再看 [project:12|纸桥挑战]，拖 [[cat:events]] 的 [[block:events|当绿旗被点击]]。',
+      '听这个：[audio:/birds/audio/crow.ogg|黑头鸦]\n\n再看 [project:12|纸桥挑战]，去学 [course:88|五子棋博弈论入门]，拖 [[cat:events]] 的 [[block:events|当绿旗被点击]]。',
     )
 
-    expect(text).toBe('听这个： 再看 纸桥挑战，拖 事件分类 的 当绿旗被点击。')
+    expect(text).toBe('听这个： 再看 纸桥挑战，去学 五子棋博弈论入门，拖 事件分类 的 当绿旗被点击。')
   })
 
   it('limits synthesized speech text length', () => {

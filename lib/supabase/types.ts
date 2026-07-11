@@ -2623,6 +2623,16 @@ export interface Database {
           xp: number
         }[]
       }
+      get_minesweeper_leaderboard: {
+        Args: { difficulty_key: string; limit_count?: number }
+        Returns: {
+          user_id: string
+          display_name: string | null
+          avatar_url: string | null
+          best_time: number
+          rank: number
+        }[]
+      }
       get_user_stats_summary: {
         Args: { target_user_id: string }
         Returns: {

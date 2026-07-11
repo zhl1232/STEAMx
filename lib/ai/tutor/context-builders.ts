@@ -7,6 +7,17 @@ import {
   mapSpeciesRowToAudioRef,
   type TutorAudioRef,
 } from '@/lib/ai/tutor/audio-tags'
+import {
+  formatGomokuCourseFact,
+  GOMOKU_COURSE_TITLE,
+  GOMOKU_TUTOR_FACTS,
+  shouldInjectGomokuFacts,
+} from '@/lib/ai/tutor/gomoku-facts'
+import {
+  fetchTutorRecommendableCourses,
+  findTutorCourseByTitle,
+  formatTutorCourseCatalog,
+} from '@/lib/ai/tutor/course-catalog'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { getWeeklyPlanTutorSummary } from '@/lib/api/weekly-plan-data'
 import {
@@ -237,17 +248,22 @@ export async function buildTutorSceneContext(
     includeRecommendations?: boolean
   },
 ): Promise<TutorSceneContext> {
+  let scene: TutorSceneContext
   switch (contextType) {
     case 'challenge':
-      return buildChallengeContext(supabase, userId, contextId, options?.stageIndex)
+      scene = await buildChallengeContext(supabase, userId, contextId, options?.stageIndex)
+      break
     case 'project':
-      return buildProjectContext(supabase, contextId)
+      scene = await buildProjectContext(supabase, contextId)
+      break
     case 'observation':
-      return buildObservationContext(supabase, userId, contextId)
+      scene = await buildObservationContext(supabase, userId, contextId)
+      break
     case 'species':
-      return buildSpeciesContext(supabase, contextId)
+      scene = await buildSpeciesContext(supabase, contextId)
+      break
     case 'course':
-      return buildCourseContext(
+      scene = await buildCourseContext(
         supabase,
         userId,
         contextId,
@@ -256,8 +272,36 @@ export async function buildTutorSceneContext(
         options?.scratchBlockTargetItemIndex,
         options?.scratchEditorContext,
       )
+      break
     default:
-      return buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
+      scene = await buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
+      break
+  }
+
+  // POST 对话时注入全站可推荐课程，任意页面问「有没有对应课」都能引用 [course:id|标题]
+  if (options?.includeRecommendations) {
+    scene = await appendRecommendableCourses(supabase, scene)
+  }
+
+  return scene
+}
+
+async function appendRecommendableCourses(
+  supabase: SupabaseClient<Database>,
+  scene: TutorSceneContext,
+): Promise<TutorSceneContext> {
+  try {
+    const courses = await fetchTutorRecommendableCourses(supabase)
+    const catalog = formatTutorCourseCatalog(courses)
+    if (!catalog) return scene
+
+    // 前置写入，避免长课时摘要被 prompt 截断时丢掉课程入口
+    return {
+      ...scene,
+      summary: [catalog, scene.summary].filter(Boolean).join('\n\n'),
+    }
+  } catch {
+    return scene
   }
 }
 
@@ -289,7 +333,12 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   },
   playground: {
     title: '益智游乐场',
-    summary: '学生正在益智游乐场（2048、数独、五子棋、扫雷等小游戏），可以聊聊游戏里的数学和策略。',
+    summary: [
+      '学生正在益智游乐场（2048、数独、五子棋、扫雷等小游戏），可以聊聊游戏里的数学和策略。',
+      '如果学生询问扫雷页面操作，请准确说明：工具栏可在「挖掘 / 插旗」两种模式间切换；挖掘模式下点击未翻开的格子是翻开，长按可插旗或撤旗；插旗模式下点击格子即可插旗或撤旗；「重开」会按当前难度重新开一局。',
+      // 静态事实兜底；buildGlobalContext 会再按库内课程 id 替换为带入口的版本
+      GOMOKU_TUTOR_FACTS,
+    ].join('\n'),
   },
   profile: {
     title: '回顾成长',
@@ -323,6 +372,18 @@ async function buildGlobalContext(
       base.summary = [base.summary, '', '【本周探索计划】', planSummary].join('\n')
     } catch {
       // 本周计划查询失败不影响开场白或对话
+    }
+  }
+
+  if (surface === 'playground') {
+    try {
+      const courses = await fetchTutorRecommendableCourses(supabase)
+      const gomokuCourse = findTutorCourseByTitle(courses, GOMOKU_COURSE_TITLE)
+      if (gomokuCourse?.id != null) {
+        base.summary = base.summary.replace(GOMOKU_TUTOR_FACTS, formatGomokuCourseFact(gomokuCourse.id))
+      }
+    } catch {
+      // 课程查询失败时保留静态事实要点
     }
   }
 
@@ -802,9 +863,21 @@ async function buildCourseContext(
       .join('\n')
   }
 
+  const lessonGameKey =
+    currentLesson && typeof (currentLesson.content as LessonContent | null)?.playground?.gameKey === 'string'
+      ? (currentLesson.content as LessonContent).playground?.gameKey
+      : null
+
   const summary = [
     course ? `课程：${compact(course.title, 120)}` : '',
     course?.description ? `简介：${compact(course.description, 300)}` : '',
+    shouldInjectGomokuFacts({
+      courseTitle: course?.title,
+      courseDescription: course?.description,
+      lessonGameKey,
+    })
+      ? GOMOKU_TUTOR_FACTS
+      : '',
     currentLessonText,
     lessonLines ? `进度：\n${lessonLines}` : '',
     compactLines([

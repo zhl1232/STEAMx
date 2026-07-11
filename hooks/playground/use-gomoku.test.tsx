@@ -66,7 +66,7 @@ describe("useGomoku", () => {
         })
     })
 
-    it("AI responds with a stone after the human plays in pve mode", () => {
+    it("AI responds with a stone after the human plays in pve mode", async () => {
         vi.useFakeTimers()
         try {
             const { result } = renderHook(() => useGomoku("pve"))
@@ -76,8 +76,9 @@ describe("useGomoku", () => {
             })
             expect(result.current.currentPlayer).toBe("white")
 
-            act(() => {
+            await act(async () => {
                 vi.advanceTimersByTime(2000)
+                await Promise.resolve()
             })
 
             expect(result.current.currentPlayer).toBe("black")
@@ -95,7 +96,32 @@ describe("useGomoku", () => {
         }
     })
 
-    it("AI blocks an immediate five-in-a-row threat in pve mode", () => {
+    it("lets the AI move first when the human plays white", async () => {
+        vi.useFakeTimers()
+        try {
+            const { result } = renderHook(() =>
+                useGomoku("pve", "normal", "white"),
+            )
+
+            expect(result.current.humanPlayer).toBe("white")
+            expect(result.current.aiPlayer).toBe("black")
+            expect(result.current.status).toBe("playing")
+            expect(result.current.currentPlayer).toBe("black")
+
+            await act(async () => {
+                vi.advanceTimersByTime(2000)
+                await Promise.resolve()
+            })
+
+            expect(result.current.moveCount).toBe(1)
+            expect(result.current.currentPlayer).toBe("white")
+            expect(result.current.board[7][7].value).toBe("black")
+        } finally {
+            vi.useRealTimers()
+        }
+    })
+
+    it("AI blocks an immediate five-in-a-row threat in pve mode", async () => {
         vi.useFakeTimers()
         try {
             const { result } = renderHook(() => useGomoku("pve"))
@@ -113,8 +139,9 @@ describe("useGomoku", () => {
                 act(() => {
                     result.current.makeMove(r, c)
                 })
-                act(() => {
+                await act(async () => {
                     vi.advanceTimersByTime(2000)
+                    await Promise.resolve()
                 })
             }
 

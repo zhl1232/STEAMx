@@ -108,6 +108,19 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/gomoku-rapfi/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'same-origin',
+          },
+        ],
+      },
+      {
         // scratch-gui.js 的文件名固定，避免用户长期缓存旧编辑器；其它运行时文件也复用一天。
         source: '/scratch/scratch-gui.js',
         headers: [

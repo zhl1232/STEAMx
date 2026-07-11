@@ -43,4 +43,19 @@ describe('TutorMessageContent', () => {
 
     expect(screen.getByText('黑头鸦 · 鸟鸣')).toBeInTheDocument()
   })
+
+  it('renders course tags as clickable chips to the course page', () => {
+    render(<TutorMessageContent content="可以去学 [course:88|五子棋博弈论入门]。" />)
+
+    const link = screen.getByRole('link', { name: /五子棋博弈论入门/ })
+    expect(link).toHaveAttribute('href', '/courses/88')
+    expect(screen.queryByText(/\[course:/)).not.toBeInTheDocument()
+  })
+
+  it('renders project tags as clickable chips to the project page', () => {
+    render(<TutorMessageContent content="试试 [project:12|纸桥挑战]。" />)
+
+    const link = screen.getByRole('link', { name: /纸桥挑战/ })
+    expect(link).toHaveAttribute('href', '/project/12')
+  })
 })

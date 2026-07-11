@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { TutorToolHandlerContext } from '@/components/features/tutor/tool-handler-registry'
@@ -71,6 +72,17 @@ vi.mock('framer-motion', () => ({
 
 import MinesweeperPage from '@/app/playground/minesweeper/page'
 
+function renderPage() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MinesweeperPage />
+    </QueryClientProvider>,
+  )
+}
+
 describe('MinesweeperPage tutor hint', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -81,7 +93,7 @@ describe('MinesweeperPage tutor hint', () => {
   })
 
   it('uses only visible board state to highlight the evidence cell without revealing the answer', async () => {
-    render(<MinesweeperPage />)
+    renderPage()
     const handlers = registerToolHandlers.mock.calls.at(-1)?.[0]
     expect(handlers?.hintMinesweeperCell).toBeTypeOf('function')
 
@@ -108,7 +120,7 @@ describe('MinesweeperPage tutor hint', () => {
 
   it('keeps a touch long press active through small finger movement and suppresses the follow-up click', () => {
     vi.useFakeTimers()
-    render(<MinesweeperPage />)
+    renderPage()
     const cell = document.getElementById('minesweeper-cell-0-1')
     expect(cell).not.toBeNull()
 
@@ -123,24 +135,33 @@ describe('MinesweeperPage tutor hint', () => {
   })
 
   it('toggles the mobile action mode when tapping anywhere on the mode control', () => {
-    render(<MinesweeperPage />)
+    renderPage()
     const modeToggle = screen.getByTestId('minesweeper-mobile-mode-toggle')
 
     expect(modeToggle).toHaveAttribute('aria-pressed', 'false')
-    expect(modeToggle).toHaveTextContent('挖')
+    expect(modeToggle).toHaveTextContent('挖掘')
+    expect(modeToggle).toHaveTextContent('插旗')
 
     fireEvent.click(modeToggle)
     expect(modeToggle).toHaveAttribute('aria-pressed', 'true')
-    expect(modeToggle).toHaveTextContent('旗')
 
     fireEvent.click(modeToggle)
     expect(modeToggle).toHaveAttribute('aria-pressed', 'false')
-    expect(modeToggle).toHaveTextContent('挖')
+  })
+
+  it('explains tap, long press, mode switching, and restarting on demand', () => {
+    renderPage()
+
+    fireEvent.click(screen.getByRole('button', { name: '操作说明' }))
+
+    expect(screen.getByText(/点击翻开格子；长按未翻开的格子可插旗或撤旗/)).toBeInTheDocument()
+    expect(screen.getByText(/点击格子插旗或撤旗，方便连续插旗/)).toBeInTheDocument()
+    expect(screen.getByText(/按当前难度重新开一局/)).toBeInTheDocument()
   })
 
   it('cancels a pending long press when the finger movement becomes a swipe', () => {
     vi.useFakeTimers()
-    render(<MinesweeperPage />)
+    renderPage()
     const cell = document.getElementById('minesweeper-cell-0-1')
     expect(cell).not.toBeNull()
 

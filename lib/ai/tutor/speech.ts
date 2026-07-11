@@ -14,6 +14,7 @@ export const MAX_TUTOR_SPEECH_DURATION_MS = 30_000
 export const MAX_TUTOR_SPEECH_PCM_BYTES = ASR_SAMPLE_RATE * 2 * (MAX_TUTOR_SPEECH_DURATION_MS / 1000 + 2)
 
 const PROJECT_TAG_REGEX = /\[project:(\d+)\|([^\]\n]+)\]/g
+const COURSE_TAG_REGEX = /\[course:(\d+)\|([^\]\n]+)\]/g
 const MARKDOWN_LINK_REGEX = /\[([^\]\n]+)\]\(([^)\n]+)\)/g
 const SCRATCH_BLOCK_REGEX = /\[\[block:[^\]|\n]+(?:\|([^\]\n]+))?\]\]/g
 const SCRATCH_CATEGORY_REGEX = /\[\[cat:([^\]|\n]+)\]\]/g
@@ -101,6 +102,7 @@ export function sanitizeTutorSpeechText(input: string) {
   const cleaned = input
     .replace(AUDIO_TAG_REGEX, '')
     .replace(PROJECT_TAG_REGEX, '$2')
+    .replace(COURSE_TAG_REGEX, '$2')
     .replace(MARKDOWN_LINK_REGEX, '$1')
     .replace(SCRATCH_BLOCK_REGEX, (_match, label: string | undefined) => label ?? '')
     .replace(SCRATCH_CATEGORY_REGEX, (_match, category: string) => SCRATCH_CATEGORY_LABELS[category] ?? 'Scratch 分类')

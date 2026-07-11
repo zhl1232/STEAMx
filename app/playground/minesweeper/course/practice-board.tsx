@@ -223,7 +223,7 @@ export function PracticeBoard({
                 }`}
             >
               <Flag className="w-3 h-3" />
-              标旗
+              插旗
             </button>
           </div>
         )}

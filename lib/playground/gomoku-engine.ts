@@ -33,7 +33,7 @@ export type GomokuStats = {
 export type ScoredGomokuMove = GomokuPoint & {
     score: number
     rank: number
-    kind: "win" | "block" | "vcf" | "search" | "impact"
+    kind: "win" | "block" | "vcf" | "vct" | "search" | "impact"
 }
 
 export const GOMOKU_BOARD_SIZE = 15
@@ -44,6 +44,7 @@ const ROOT_CANDIDATES = 12
 const DEEP_CANDIDATES = 8
 const WIN_SCORE = 5_000_000
 const VCF_DEPTH = 10
+const VCT_DEPTH = 8
 
 const DIRS = [
     { dr: 0, dc: 1 },
@@ -58,6 +59,8 @@ const LINE_DIRS = [
     [1, 1],
     [1, -1],
 ] as const
+
+const OPEN_THREE_PATTERNS = ["__aaa__", "_aa_a_", "_a_aa_"] as const
 
 const PATTERN_TABLE: ReadonlyArray<readonly [string, number]> = [
     ["aaaaa", 10_000_000],
@@ -104,6 +107,29 @@ export function createEmptyBoard(): GomokuCell[][] {
             row.push({ row: r, col: c, value: null })
         }
         board.push(row)
+    }
+    return board
+}
+
+/** 把棋盘压成可 postMessage 的一维数组（Worker 传输用）。 */
+export function boardToValues(board: GomokuCell[][]): Array<GomokuPlayer | null> {
+    const values: Array<GomokuPlayer | null> = []
+    for (let r = 0; r < GOMOKU_BOARD_SIZE; r++) {
+        for (let c = 0; c < GOMOKU_BOARD_SIZE; c++) {
+            values.push(board[r][c].value)
+        }
+    }
+    return values
+}
+
+/** 从一维数组还原可搜索的棋盘。 */
+export function valuesToBoard(values: Array<GomokuPlayer | null>): GomokuCell[][] {
+    const board = createEmptyBoard()
+    for (let i = 0; i < values.length; i++) {
+        const row = Math.floor(i / GOMOKU_BOARD_SIZE)
+        const col = i % GOMOKU_BOARD_SIZE
+        if (row >= GOMOKU_BOARD_SIZE || col >= GOMOKU_BOARD_SIZE) break
+        board[row][col].value = values[i] ?? null
     }
     return board
 }
@@ -512,6 +538,195 @@ export function vcfSearch(
     return null
 }
 
+function lineHasOpenThree(line: string): boolean {
+    return OPEN_THREE_PATTERNS.some((pattern) => line.includes(pattern))
+}
+
+function countOpenThrees(board: GomokuCell[][], player: GomokuPlayer): number {
+    let total = 0
+    const visit = (startR: number, startC: number, dr: number, dc: number) => {
+        if (lineHasOpenThree(lineString(board, startR, startC, dr, dc, player))) {
+            total += 1
+        }
+    }
+    for (let r = 0; r < GOMOKU_BOARD_SIZE; r++) visit(r, 0, 0, 1)
+    for (let c = 0; c < GOMOKU_BOARD_SIZE; c++) visit(0, c, 1, 0)
+    for (let c = 0; c < GOMOKU_BOARD_SIZE; c++) visit(0, c, 1, 1)
+    for (let r = 1; r < GOMOKU_BOARD_SIZE; r++) visit(r, 0, 1, 1)
+    for (let c = 0; c < GOMOKU_BOARD_SIZE; c++) visit(0, c, 1, -1)
+    for (let r = 1; r < GOMOKU_BOARD_SIZE; r++) {
+        visit(r, GOMOKU_BOARD_SIZE - 1, 1, -1)
+    }
+    return total
+}
+
+function uniquePoints(points: GomokuPoint[]): GomokuPoint[] {
+    const seen = new Set<string>()
+    const result: GomokuPoint[] = []
+    for (const point of points) {
+        const key = `${point.row},${point.col}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        result.push(point)
+    }
+    return result
+}
+
+/**
+ * 活三威胁：落子后尚未成冲四/活四，但下一手能冲四（对手通常必须挡）。
+ * 返回 { move, defenseSpots }，defenseSpots 为对手必须应对的点。
+ */
+function findOpenThreeThreatMoves(
+    board: GomokuCell[][],
+    player: GomokuPlayer,
+): Array<{ move: GomokuPoint; defenseSpots: GomokuPoint[] }> {
+    const before = countOpenThrees(board, player)
+    const result: Array<{ move: GomokuPoint; defenseSpots: GomokuPoint[] }> = []
+
+    for (let r = 0; r < GOMOKU_BOARD_SIZE; r++) {
+        for (let c = 0; c < GOMOKU_BOARD_SIZE; c++) {
+            if (board[r][c].value !== null) continue
+            if (!hasNearbyStone(board, r, c, 2)) continue
+
+            board[r][c].value = player
+            if (isFiveAt(board, r, c, player) || findWinSpots(board, player).length > 0) {
+                board[r][c].value = null
+                continue
+            }
+
+            const afterOpen = countOpenThrees(board, player)
+            const nextFours = findFourMoves(board, player)
+            board[r][c].value = null
+
+            if (afterOpen <= before || nextFours.length === 0) continue
+            result.push({
+                move: { row: r, col: c },
+                defenseSpots: uniquePoints(nextFours.map((item) => item.move)),
+            })
+        }
+    }
+
+    result.sort((a, b) => b.defenseSpots.length - a.defenseSpots.length)
+    return result
+}
+
+function tryForcedWinBranch(
+    board: GomokuCell[][],
+    attacker: GomokuPlayer,
+    defender: GomokuPlayer,
+    move: GomokuPoint,
+    defenseSpots: GomokuPoint[],
+    maxDepth: number,
+    continueSearch: (
+        board: GomokuCell[][],
+        attacker: GomokuPlayer,
+        maxDepth: number,
+    ) => GomokuPoint | null,
+): boolean {
+    board[move.row][move.col].value = attacker
+
+    if (findWinSpots(board, defender).length > 0) {
+        board[move.row][move.col].value = null
+        return false
+    }
+
+    const spots = uniquePoints(defenseSpots)
+    if (spots.length >= 2) {
+        board[move.row][move.col].value = null
+        return true
+    }
+
+    if (spots.length === 1) {
+        const block = spots[0]
+        board[block.row][block.col].value = defender
+        const continuation = continueSearch(board, attacker, maxDepth - 1)
+        board[block.row][block.col].value = null
+        board[move.row][move.col].value = null
+        return continuation !== null
+    }
+
+    board[move.row][move.col].value = null
+    return false
+}
+
+/**
+ * VCT：在 VCF（连续冲四）之外，允许用活三作为强制威胁推进。
+ * 教学口径对齐课程「VCF 与 VCT」；深度受限，适合大师档。
+ */
+export function vctSearch(
+    board: GomokuCell[][],
+    attacker: GomokuPlayer,
+    maxDepth: number,
+): GomokuPoint | null {
+    if (maxDepth <= 0) return null
+    const defender = getOpponent(attacker)
+
+    const immediate = findWinSpots(board, attacker)
+    if (immediate.length > 0) return immediate[0]
+    if (findWinSpots(board, defender).length > 0) return null
+
+    const fours = findFourMoves(board, attacker)
+    for (const { move, wins } of fours) {
+        if (
+            tryForcedWinBranch(
+                board,
+                attacker,
+                defender,
+                move,
+                wins,
+                maxDepth,
+                vctSearch,
+            )
+        ) {
+            return move
+        }
+    }
+
+    if (maxDepth <= 1) return null
+
+    const openThrees = findOpenThreeThreatMoves(board, attacker)
+    for (const { move, defenseSpots } of openThrees) {
+        if (
+            tryForcedWinBranch(
+                board,
+                attacker,
+                defender,
+                move,
+                defenseSpots,
+                maxDepth,
+                vctSearch,
+            )
+        ) {
+            return move
+        }
+    }
+
+    return null
+}
+
+function findDefenseAgainstForcedWin(
+    board: GomokuCell[][],
+    aiPlayer: GomokuPlayer,
+    human: GomokuPlayer,
+    search: (
+        board: GomokuCell[][],
+        attacker: GomokuPlayer,
+        maxDepth: number,
+    ) => GomokuPoint | null,
+    maxDepth: number,
+): GomokuPoint | undefined {
+    if (!search(board, human, maxDepth)) return undefined
+
+    const candidates = getCandidates(board, aiPlayer, ROOT_CANDIDATES)
+    for (const move of candidates) {
+        board[move.row][move.col].value = aiPlayer
+        const stillForced = search(board, human, maxDepth)
+        board[move.row][move.col].value = null
+        if (!stillForced) return move
+    }
+    return undefined
+}
+
 function findWinningMove(
     board: GomokuCell[][],
     player: GomokuPlayer,
@@ -630,16 +845,26 @@ export function chooseAiMove(
     const vcf = vcfSearch(board, aiPlayer, VCF_DEPTH)
     if (vcf) return vcf
 
-    const opponentVcf = vcfSearch(board, human, VCF_DEPTH)
-    if (opponentVcf) {
-        const candidates = getCandidates(board, aiPlayer, ROOT_CANDIDATES)
-        for (const move of candidates) {
-            board[move.row][move.col].value = aiPlayer
-            const stillVcf = vcfSearch(board, human, VCF_DEPTH)
-            board[move.row][move.col].value = null
-            if (!stillVcf) return move
-        }
-    }
+    const vct = vctSearch(board, aiPlayer, VCT_DEPTH)
+    if (vct) return vct
+
+    const blockVcf = findDefenseAgainstForcedWin(
+        board,
+        aiPlayer,
+        human,
+        vcfSearch,
+        VCF_DEPTH,
+    )
+    if (blockVcf) return blockVcf
+
+    const blockVct = findDefenseAgainstForcedWin(
+        board,
+        aiPlayer,
+        human,
+        vctSearch,
+        VCT_DEPTH,
+    )
+    if (blockVct) return blockVct
 
     return minimax(board, AI_DEPTH, true, aiPlayer, -Infinity, Infinity).move
 }
@@ -676,6 +901,19 @@ export function analyzeBestMoves(
         const rest = impact.filter((move) => !isSamePoint(move, vcf))
         return [
             { ...vcf, score: WIN_SCORE - 2, rank: 1, kind: "vcf" },
+            ...rest.slice(0, Math.max(max - 1, 0)).map((move, index) => ({
+                ...move,
+                rank: index + 2,
+            })),
+        ]
+    }
+
+    const vct = vctSearch(board, player, VCT_DEPTH)
+    if (vct) {
+        const impact = getScoredImpactCandidates(board, player, max)
+        const rest = impact.filter((move) => !isSamePoint(move, vct))
+        return [
+            { ...vct, score: WIN_SCORE - 3, rank: 1, kind: "vct" },
             ...rest.slice(0, Math.max(max - 1, 0)).map((move, index) => ({
                 ...move,
                 rank: index + 2,

@@ -7,8 +7,9 @@ import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-hand
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useGamification } from '@/lib/context/gamification-context'
 import { findMinesweeperHint, type MinesweeperHint } from "@/lib/playground/minesweeper-hint"
-import { Bomb, Flag, Timer, Trophy, RefreshCw, BookOpen, ChevronRight, MousePointerClick, Medal, Star, Lightbulb } from "lucide-react"
+import { Bomb, Flag, Timer, Trophy, RefreshCw, BookOpen, ChevronRight, MousePointerClick, Medal, Star, Lightbulb, CircleHelp, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useQuery } from "@tanstack/react-query"
 
 const DIFF_LABELS: Record<string, { label: string; color: string; xp: number }> = {
     beginner: { label: "初级", color: "text-green-500", xp: 10 },
@@ -34,6 +35,22 @@ type MinesweeperHintFeedback = {
     message: string
     row?: number
     col?: number
+}
+
+type LeaderboardEntry = {
+    userId: string
+    name: string
+    avatarUrl: string | null
+    bestTime: number
+    rank: number
+    isCurrentUser: boolean
+}
+
+async function fetchMinesweeperLeaderboard(difficulty: string): Promise<LeaderboardEntry[]> {
+    const response = await fetch(`/api/playground/minesweeper/leaderboard?difficulty=${difficulty}`)
+    if (!response.ok) throw new Error("排行榜加载失败")
+    const data = await response.json() as { entries: LeaderboardEntry[] }
+    return data.entries
 }
 
 function formatCellPosition(row: number, col: number) {
@@ -85,6 +102,7 @@ export default function MinesweeperPage() {
 
     const [activeTab, setActiveTab] = useState<"course" | "leaderboard">("course")
     const [isFlagMode, setIsFlagMode] = useState(false)
+    const [showControlsHelp, setShowControlsHelp] = useState(false)
     const [hintFeedback, setHintFeedback] = useState<MinesweeperHintFeedback | null>(null)
     const [hideTutorFab, setHideTutorFab] = useState(false)
     const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -152,7 +170,7 @@ export default function MinesweeperPage() {
         setTutorOverride({
             subtitle: "正在看扫雷棋盘",
             sceneCapabilities,
-            quickPrompts: ["帮我找一个能确定的格子", "这局该怎么推理？"],
+            quickPrompts: ["扫雷怎么操作？", "帮我找一个能确定的格子", "这局该怎么推理？"],
             hideFab: hideTutorFab,
         })
         return clearTutorOverride
@@ -201,6 +219,12 @@ export default function MinesweeperPage() {
 
     const currentBest = difficultyName ? bestTimes[difficultyName] : undefined
     const isBeginner = difficultyName === "beginner"
+    const leaderboardQuery = useQuery({
+        queryKey: ["playground", "minesweeper", "leaderboard", difficultyName],
+        queryFn: () => fetchMinesweeperLeaderboard(difficultyName),
+        enabled: activeTab === "leaderboard",
+        staleTime: 30_000,
+    })
 
     const getCellLabel = (rIdx: number, cIdx: number) => {
         const cell = board[rIdx]?.[cIdx]
@@ -305,7 +329,7 @@ export default function MinesweeperPage() {
                             ))}
                         </div>
 
-                        <div className="mt-2 grid grid-cols-[minmax(0,1fr)_2.75rem_auto] items-center gap-2">
+                        <div className="mt-2 grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
                             <div className="flex h-11 min-w-0 items-center justify-center gap-2 rounded-sm border border-border/80 bg-background/90 px-2 font-mono text-base tabular-nums shadow-xs">
                                 <Flag className="h-4 w-4 shrink-0 text-destructive" />
                                 <span className="text-destructive">{formatMineCounter(minesLeft)}</span>
@@ -316,39 +340,84 @@ export default function MinesweeperPage() {
 
                             <button
                                 onClick={resetGame}
-                                aria-label="重新开始扫雷"
-                                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-primary/30 bg-primary text-primary-foreground shadow-[0_6px_14px_-10px_hsl(var(--primary)/0.75)] transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                aria-label="重开当前难度"
+                                title="重开当前难度"
+                                className="flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-sm border border-primary/30 bg-primary px-3 text-sm font-bold text-primary-foreground shadow-[0_6px_14px_-10px_hsl(var(--primary)/0.75)] transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                             >
-                                {status === "lost" ? <Bomb size={19} /> : status === "won" ? <Trophy size={19} /> : <RefreshCw size={19} />}
+                                <RefreshCw size={17} />
+                                <span>重开</span>
                             </button>
 
                             <button
                                 type="button"
                                 onClick={() => setIsFlagMode((current) => !current)}
-                                className={`flex h-11 min-w-[5.75rem] shrink-0 items-center justify-center gap-1.5 rounded-sm border px-3 text-sm font-bold shadow-xs transition-[background-color,border-color,color,transform] active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 ${isFlagMode
-                                    ? "border-destructive/50 bg-destructive text-destructive-foreground focus-visible:outline-destructive"
-                                    : "border-primary/40 bg-primary text-primary-foreground focus-visible:outline-primary"
-                                    }`}
-                                aria-label={isFlagMode ? "当前标记模式，点击切换到挖掘模式" : "当前挖掘模式，点击切换到标记模式"}
+                                className="grid h-11 shrink-0 grid-cols-2 gap-0.5 rounded-sm border border-border/80 bg-muted/50 p-0.5 shadow-xs transition-transform active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                aria-label={isFlagMode ? "当前插旗模式，点击切换到挖掘模式" : "当前挖掘模式，点击切换到插旗模式"}
                                 aria-pressed={isFlagMode}
                                 data-testid="minesweeper-mobile-mode-toggle"
                             >
-                                {isFlagMode ? <Flag className="h-4 w-4" /> : <MousePointerClick className="h-4 w-4" />}
-                                {isFlagMode ? "旗" : "挖"}
+                                <span
+                                    aria-hidden="true"
+                                    className={`flex min-w-[3.25rem] items-center justify-center gap-1 rounded-xs px-2 text-xs font-bold transition-[background-color,color,box-shadow] ${!isFlagMode
+                                        ? "bg-primary text-primary-foreground shadow-xs"
+                                        : "text-muted-foreground"
+                                        }`}
+                                >
+                                    <MousePointerClick className="h-3.5 w-3.5" />
+                                    挖掘
+                                </span>
+                                <span
+                                    aria-hidden="true"
+                                    className={`flex min-w-[3.25rem] items-center justify-center gap-1 rounded-xs px-2 text-xs font-bold transition-[background-color,color,box-shadow] ${isFlagMode
+                                        ? "bg-destructive text-destructive-foreground shadow-xs"
+                                        : "text-muted-foreground"
+                                        }`}
+                                >
+                                    <Flag className="h-3.5 w-3.5" />
+                                    插旗
+                                </span>
                             </button>
+                        </div>
+
+                        <div className="mt-1.5">
+                            <button
+                                type="button"
+                                onClick={() => setShowControlsHelp((current) => !current)}
+                                aria-expanded={showControlsHelp}
+                                aria-controls="minesweeper-controls-help"
+                                className="ml-auto flex min-h-8 items-center gap-1.5 px-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                            >
+                                <CircleHelp className="h-3.5 w-3.5" />
+                                操作说明
+                            </button>
+                            {showControlsHelp ? (
+                                <div id="minesweeper-controls-help" className="relative rounded-sm border border-border bg-background px-3 py-2.5 pr-9 text-xs leading-5 text-muted-foreground shadow-xs">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowControlsHelp(false)}
+                                        aria-label="关闭操作说明"
+                                        className="absolute right-1.5 top-1.5 grid h-7 w-7 place-items-center rounded-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    >
+                                        <X className="h-3.5 w-3.5" />
+                                    </button>
+                                    <p><strong className="text-foreground">挖掘：</strong>点击翻开格子；长按未翻开的格子可插旗或撤旗。</p>
+                                    <p><strong className="text-foreground">插旗：</strong>点击格子插旗或撤旗，方便连续插旗。</p>
+                                    <p><strong className="text-foreground">重开：</strong>按当前难度重新开一局。</p>
+                                </div>
+                            ) : null}
                         </div>
                     </div>
 
                     {/* Desktop controls */}
-                    <div className="mb-3 hidden flex-col gap-3 rounded-sm border border-border/70 bg-background/60 p-2.5 shadow-inner sm:mb-4 lg:flex lg:flex-row lg:items-center lg:justify-between lg:p-3">
-                        <div className="flex justify-center gap-1 rounded-xs border border-primary/20 bg-primary/10 p-1">
+                    <div className="mb-4 hidden rounded-md border border-border/70 bg-background/90 p-2 shadow-[0_18px_48px_-40px_hsl(var(--surface-shadow)/0.5)] lg:grid lg:grid-cols-[minmax(13rem,1fr)_auto_auto_auto_minmax(8.5rem,auto)] lg:items-center lg:gap-3">
+                        <div className="grid grid-cols-3 gap-1 rounded-sm border border-primary/15 bg-primary/10 p-1">
                             {(["beginner", "intermediate", "expert"] as const).map((level) => (
                                 <button
                                     key={level}
                                     onClick={() => changeDifficulty(level)}
-                                    className={`min-h-10 px-3 py-2 text-sm font-bold rounded-xs transition-all sm:min-h-9 sm:px-4 sm:py-1.5 ${difficultyName === level
-                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                                    className={`min-h-10 rounded-xs px-3 text-sm font-bold transition-[background-color,color,box-shadow,transform] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${difficultyName === level
+                                        ? "bg-primary text-primary-foreground shadow-[0_10px_22px_-16px_hsl(var(--primary)/0.75)]"
+                                        : "text-muted-foreground hover:bg-background/70 hover:text-foreground"
                                         }`}
                                 >
                                     {DIFF_LABELS[level].label}
@@ -356,52 +425,52 @@ export default function MinesweeperPage() {
                             ))}
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-end">
-                            <div className="flex min-h-10 items-center gap-2 rounded-xs border border-border bg-background/80 px-3 font-mono text-xl text-destructive sm:min-h-9">
-                                <Flag className="w-4 h-4" />
-                                {formatMineCounter(minesLeft)}
+                        <div className="flex min-h-11 items-center gap-2 rounded-sm border border-border/75 bg-background px-3 font-mono text-lg tabular-nums text-destructive shadow-xs">
+                            <Flag className="h-4 w-4 shrink-0" />
+                            <span>{formatMineCounter(minesLeft)}</span>
+                        </div>
+                        <button
+                            onClick={resetGame}
+                            aria-label="重开当前难度"
+                            title="重开当前难度"
+                            className="flex h-11 items-center justify-center gap-1.5 rounded-sm border border-primary/25 bg-primary px-3 text-sm font-bold text-primary-foreground shadow-[0_14px_28px_-22px_hsl(var(--primary)/0.75)] transition-[opacity,transform] hover:opacity-90 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                        >
+                            <RefreshCw size={17} />
+                            <span>重开</span>
+                        </button>
+                        <div className="flex min-h-11 items-center gap-3 rounded-sm border border-border/75 bg-background px-3 shadow-xs">
+                            <div className="flex items-center gap-2 font-mono text-lg tabular-nums text-primary">
+                                <Timer className="h-4 w-4 shrink-0" />
+                                <span>{time.toString().padStart(3, "0")}</span>
                             </div>
+                            {currentBest !== undefined && (
+                                <span className="border-l border-border pl-3 text-[11px] font-semibold text-muted-foreground">
+                                    最佳 {formatTime(currentBest)}
+                                    {isNewRecord && status === "won" && (
+                                        <span className="ml-1 text-yellow-500">新纪录</span>
+                                    )}
+                                </span>
+                            )}
+                        </div>
+                        <div className="grid min-w-[8.5rem] grid-cols-2 gap-1 rounded-sm border border-border/70 bg-muted/45 p-1" aria-label="操作模式">
                             <button
-                                onClick={resetGame}
-                                aria-label="重新开始扫雷"
-                                className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-500 hover:rotate-180 hover:opacity-90 sm:h-9 sm:w-9"
+                                onClick={() => setIsFlagMode(false)}
+                                className={`flex min-h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-xs px-3 text-sm font-bold transition-[background-color,color,box-shadow,transform] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${!isFlagMode ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:bg-background/60 hover:text-foreground"}`}
+                                aria-label="挖掘模式"
+                                aria-pressed={!isFlagMode}
                             >
-                                {status === "lost" ? <Bomb size={20} /> : status === "won" ? <Trophy size={20} /> : <RefreshCw size={20} />}
+                                <MousePointerClick className="h-4 w-4" />
+                                <span>挖掘</span>
                             </button>
-                            <div className="flex flex-col items-center gap-0.5 sm:items-end">
-                                <div className="flex min-h-10 items-center gap-2 rounded-xs border border-border bg-background/80 px-3 font-mono text-xl text-primary sm:min-h-9">
-                                    <Timer className="w-4 h-4" />
-                                    {time.toString().padStart(3, "0")}
-                                </div>
-                                {currentBest !== undefined && (
-                                    <span className="text-[10px] text-muted-foreground font-mono">
-                                        最佳 {formatTime(currentBest)}
-                                        {isNewRecord && status === "won" && (
-                                            <span className="ml-1 text-yellow-500 font-bold animate-pulse">★新纪录!</span>
-                                        )}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="flex items-center gap-1 rounded-sm border border-border/50 bg-muted/60 p-1" aria-label="操作模式">
-                                <button
-                                    onClick={() => setIsFlagMode(false)}
-                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${!isFlagMode ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`}
-                                    aria-label="挖掘模式"
-                                    aria-pressed={!isFlagMode}
-                                >
-                                    <MousePointerClick className="w-4 h-4" />
-                                    <span>挖掘</span>
-                                </button>
-                                <button
-                                    onClick={() => setIsFlagMode(true)}
-                                    className={`flex min-h-10 items-center gap-1.5 rounded-xs px-3 py-1.5 text-sm font-bold transition-all duration-300 sm:min-h-9 ${isFlagMode ? "bg-destructive/10 text-destructive shadow-xs" : "text-muted-foreground hover:text-foreground"}`}
-                                    aria-label="标记模式"
-                                    aria-pressed={isFlagMode}
-                                >
-                                    <Flag className="w-4 h-4" />
-                                    <span>标记</span>
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => setIsFlagMode(true)}
+                                className={`flex min-h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-xs px-3 text-sm font-bold transition-[background-color,color,box-shadow,transform] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive ${isFlagMode ? "bg-destructive/10 text-destructive shadow-xs" : "text-muted-foreground hover:bg-background/60 hover:text-foreground"}`}
+                                aria-label="插旗模式"
+                                aria-pressed={isFlagMode}
+                            >
+                                <Flag className="h-4 w-4" />
+                                <span>插旗</span>
+                            </button>
                         </div>
                     </div>
 
@@ -421,17 +490,25 @@ export default function MinesweeperPage() {
                     ) : null}
 
                     {/* Board Wrapper */}
-                    <div className="w-full overflow-x-auto overscroll-x-contain no-scrollbar touch-pan-x touch-pan-y pb-1" aria-label="扫雷棋盘，可横向滑动查看大棋盘">
+                    <div className="w-full overflow-x-auto overscroll-x-contain no-scrollbar touch-pan-x touch-pan-y pb-1 lg:rounded-md lg:bg-muted/35 lg:p-5 lg:shadow-inner" aria-label="扫雷棋盘，可横向滑动查看大棋盘">
                         <div className={`minesweeper-board-frame mx-0 sm:mx-auto ${isBeginner ? "w-full max-w-[406px] sm:w-max sm:max-w-none" : "w-max"}`}>
                             <AnimatePresence>
                                 {status === "lost" && (
                                     <motion.div
-                                        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                                        animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-destructive/10 rounded-sm"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="absolute inset-0 z-10 flex items-center justify-center rounded-md bg-background/45"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-destructive/50 text-destructive font-black text-xl sm:text-3xl shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex items-center gap-4">
-                                            <Bomb className="w-8 h-8 sm:w-10 sm:h-10" /> 游戏结束
+                                        <div className="flex items-center gap-3 rounded-md border border-destructive/35 bg-background/95 px-5 py-4 text-destructive shadow-[0_24px_68px_-46px_hsl(var(--surface-shadow)/0.62)] sm:px-7">
+                                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-sm bg-destructive/10">
+                                                <Bomb className="h-6 w-6" />
+                                            </span>
+                                            <div>
+                                                <div className="text-xl font-black sm:text-2xl">游戏结束</div>
+                                                <div className="mt-1 text-sm font-semibold text-muted-foreground">
+                                                    再来一局，换个开局点试试
+                                                </div>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 )}
@@ -439,20 +516,23 @@ export default function MinesweeperPage() {
                                     <motion.div
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className="absolute inset-0 z-10 flex items-center justify-center bg-primary/10 backdrop-blur-md rounded-sm"
+                                        className="absolute inset-0 z-10 flex items-center justify-center rounded-md bg-background/45"
                                     >
-                                        <div className="bg-background/95 px-5 py-3 sm:px-10 sm:py-6 rounded-lg border border-primary/50 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] flex flex-col items-center gap-2">
-                                            <div className="flex items-center gap-3 text-primary font-black text-xl sm:text-3xl">
-                                                <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500" /> 恭喜通关！
-                                            </div>
-                                            <div className="text-sm text-muted-foreground font-medium">
-                                                耗时 <span className="text-primary font-bold">{formatTime(time)}</span>
-                                                {isNewRecord && (
-                                                    <span className="ml-2 text-yellow-500 font-black animate-pulse">★ 新纪录！</span>
-                                                )}
-                                                {!isNewRecord && currentBest !== undefined && (
-                                                    <span className="ml-2 text-muted-foreground">最佳 {formatTime(currentBest)}</span>
-                                                )}
+                                        <div className="flex items-center gap-3 rounded-md border border-primary/35 bg-background/95 px-5 py-4 shadow-[0_24px_68px_-46px_hsl(var(--surface-shadow)/0.62)] sm:px-7">
+                                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-sm bg-yellow-500/10 text-yellow-500">
+                                                <Trophy className="h-6 w-6" />
+                                            </span>
+                                            <div>
+                                                <div className="text-xl font-black text-primary sm:text-2xl">恭喜通关！</div>
+                                                <div className="mt-1 text-sm font-semibold text-muted-foreground">
+                                                    耗时 <span className="text-primary">{formatTime(time)}</span>
+                                                    {isNewRecord && (
+                                                        <span className="ml-2 text-yellow-500">新纪录</span>
+                                                    )}
+                                                    {!isNewRecord && currentBest !== undefined && (
+                                                        <span className="ml-2">最佳 {formatTime(currentBest)}</span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -525,16 +605,16 @@ export default function MinesweeperPage() {
             <div className="w-full xl:w-80 2xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
                 <div className="flex border-b border-border">
                     <button
+                        onClick={() => setActiveTab("leaderboard")}
+                        className={`flex-1 py-5 text-sm font-bold transition-all ${activeTab === "leaderboard" ? "text-primary bg-primary/5 border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
+                    >
+                        排行
+                    </button>
+                    <button
                         onClick={() => setActiveTab("course")}
                         className={`flex-1 py-5 text-sm font-bold transition-all ${activeTab === "course" ? "text-primary bg-primary/5 border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
                     >
                         课程
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("leaderboard")}
-                        className={`flex-1 py-5 text-sm font-bold transition-all ${activeTab === "leaderboard" ? "text-primary bg-primary/5 border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
-                    >
-                        个人记录
                     </button>
                 </div>
 
@@ -556,10 +636,7 @@ export default function MinesweeperPage() {
                         </div>
                     ) : (
                         <div className="space-y-4">
-                            <div>
-                                <h3 className="text-sm font-bold text-foreground mb-1">本地最佳记录</h3>
-                                <p className="text-xs text-muted-foreground mb-4">记录保存在浏览器本地，刷新后依然有效。</p>
-                            </div>
+                            <h3 className="text-sm font-bold text-foreground">我的最佳</h3>
 
                             {(["beginner", "intermediate", "expert"] as const).map((level) => {
                                 const best = bestTimes[level]
@@ -596,16 +673,54 @@ export default function MinesweeperPage() {
                                 )
                             })}
 
-                            <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
-                                <div className="flex items-start gap-3">
-                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
-                                    <div>
-                                        <h4 className="text-sm font-bold text-muted-foreground/70">全服排行榜</h4>
-                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
-                                            和全球玩家竞速即将上线！完成更多课程关卡、解锁扫雷专属徽章吧。
-                                        </p>
+                            <div className="pt-3">
+                                <div className="mb-3 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Trophy className="h-4 w-4 text-yellow-500" />
+                                        <h4 className="text-sm font-bold text-foreground">全服排行</h4>
                                     </div>
+                                    <span className="text-xs font-medium text-muted-foreground">{DIFF_LABELS[difficultyName].label} · 前 10</span>
                                 </div>
+
+                                {leaderboardQuery.isPending ? (
+                                    <div className="space-y-2" aria-label="排行榜加载中">
+                                        {[0, 1, 2].map((item) => <div key={item} className="h-12 animate-pulse rounded-sm bg-muted/60" />)}
+                                    </div>
+                                ) : leaderboardQuery.isError ? (
+                                    <button
+                                        type="button"
+                                        onClick={() => leaderboardQuery.refetch()}
+                                        className="w-full rounded-sm border border-border px-3 py-4 text-sm font-semibold text-muted-foreground hover:bg-muted/40"
+                                    >
+                                        加载失败，点击重试
+                                    </button>
+                                ) : leaderboardQuery.data.length === 0 ? (
+                                    <div className="rounded-sm border border-dashed border-border px-3 py-5 text-center text-sm text-muted-foreground">
+                                        还没有通关记录，来拿下第一名
+                                    </div>
+                                ) : (
+                                    <ol className="divide-y divide-border/70 rounded-md border border-border bg-background/70 px-3">
+                                        {leaderboardQuery.data.map((entry) => (
+                                            <li key={entry.userId} className={`flex h-14 items-center gap-3 ${entry.isCurrentUser ? "text-primary" : "text-foreground"}`}>
+                                                <span className={`w-5 text-center text-sm font-black tabular-nums ${entry.rank <= 3 ? "text-yellow-600 dark:text-yellow-400" : "text-muted-foreground"}`}>
+                                                    {entry.rank}
+                                                </span>
+                                                {entry.avatarUrl ? (
+                                                    // eslint-disable-next-line @next/next/no-img-element
+                                                    <img src={entry.avatarUrl} alt="" className="h-8 w-8 rounded-full object-cover" />
+                                                ) : (
+                                                    <span className="grid h-8 w-8 place-items-center rounded-full bg-primary/10 text-xs font-black text-primary">
+                                                        {entry.name.slice(0, 1)}
+                                                    </span>
+                                                )}
+                                                <span className="min-w-0 flex-1 truncate text-sm font-semibold">
+                                                    {entry.name}{entry.isCurrentUser ? "（我）" : ""}
+                                                </span>
+                                                <span className="font-mono text-sm font-black tabular-nums">{formatTime(entry.bestTime)}</span>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                )}
                             </div>
                         </div>
                     )}

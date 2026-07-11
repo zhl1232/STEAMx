@@ -23,6 +23,72 @@ describe('buildTutorSceneContext playground capabilities', () => {
     )
 
     expect(scene.sceneCapabilities).toEqual(['hintMinesweeperCell'])
+    expect(scene.summary).toContain('长按可插旗或撤旗')
+    expect(scene.summary).toContain('「重开」会按当前难度重新开一局')
+    expect(scene.summary).toContain('先手（黑棋）在双方完美对弈下必胜')
+    expect(scene.summary).toContain('《五子棋博弈论入门》')
+    expect(scene.summary).toContain('不要说站内没有五子棋课程')
+  })
+
+  it('enriches playground gomoku facts with the live course id when available', async () => {
+    const supabase = {
+      from(table: string) {
+        if (table !== 'courses') throw new Error(`unexpected table ${table}`)
+        return {
+          select() {
+            return this
+          },
+          eq() {
+            return this
+          },
+          order() {
+            return this
+          },
+          limit: async () => ({
+            data: [{ id: 88, title: '五子棋博弈论入门', tags: ['五子棋'] }],
+            error: null,
+          }),
+        }
+      },
+    }
+
+    const scene = await buildTutorSceneContext(supabase as never, 'user-1', 'global', '', {
+      surface: 'playground',
+    })
+
+    expect(scene.summary).toContain('[course:88|五子棋博弈论入门]')
+    expect(scene.summary).toContain('《五子棋博弈论入门》')
+  })
+
+  it('prepends recommendable courses on any scene when includeRecommendations is on', async () => {
+    const supabase = {
+      from(table: string) {
+        if (table !== 'courses') throw new Error(`unexpected table ${table}`)
+        return {
+          select() {
+            return this
+          },
+          eq() {
+            return this
+          },
+          order() {
+            return this
+          },
+          limit: async () => ({
+            data: [{ id: 88, title: '五子棋博弈论入门', tags: ['五子棋', '博弈论'] }],
+            error: null,
+          }),
+        }
+      },
+    }
+
+    const scene = await buildTutorSceneContext(supabase as never, 'user-1', 'global', '', {
+      surface: 'home',
+      includeRecommendations: true,
+    })
+
+    expect(scene.summary.startsWith('【可推荐的站内课程】')).toBe(true)
+    expect(scene.summary).toContain('[course:88|五子棋博弈论入门]')
   })
 })
 
@@ -32,7 +98,7 @@ describe('buildTutorSceneContext course Scratch context', () => {
     title: string
     content: Record<string, unknown>
     steps: Array<{ title: string; description: string; checklist: unknown[] }>
-  }>) {
+  }>, course: { title: string; description: string } = { title: 'Scratch 课', description: '学 Scratch' }) {
     const createQuery = (table: string) => ({
       select() {
         return this
@@ -47,7 +113,7 @@ describe('buildTutorSceneContext course Scratch context', () => {
         return this
       },
       maybeSingle: async () => {
-        if (table === 'courses') return { data: { title: 'Scratch 课', description: '学 Scratch' } }
+        if (table === 'courses') return { data: course }
         if (table === 'course_lessons') return { data: lessons[0] }
         return { data: null }
       },
@@ -111,6 +177,32 @@ describe('buildTutorSceneContext course Scratch context', () => {
     expect(scene.summary).toContain('[[block:events|当绿旗被点击]]')
     expect(scene.summary).toContain('不要手写颜色')
     expect(scene.sceneCapabilities).toEqual(['focusCourseLessonStep'])
+  })
+
+  it('injects gomoku fact points for the 五子棋 course', async () => {
+    const lessons = [
+      {
+        id: 9,
+        title: '认识棋盘与连五规则',
+        content: {
+          summary: '建立五子棋的基本规则',
+          playground: { gameKey: 'gomoku', practiceHref: '/playground/gomoku' },
+        },
+        steps: [{ title: '看看棋盘', description: '15×15', checklist: [] }],
+      },
+    ]
+    const supabase = createCourseContextSupabase(lessons, {
+      title: '五子棋博弈论入门',
+      description: '从规则到棋型',
+    })
+
+    const scene = await buildTutorSceneContext(supabase as never, 'user-1', 'course', '3', {
+      lessonId: 9,
+      lessonStepIndex: 0,
+    })
+
+    expect(scene.summary).toContain('先手（黑棋）在双方完美对弈下必胜')
+    expect(scene.summary).toContain('自由五子棋（无禁手）')
   })
 
   it('marks the current Scratch sub-action in multi-block lesson steps', async () => {

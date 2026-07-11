@@ -9,7 +9,7 @@ describe("PracticeBoard", () => {
     async () => {
     const { rerender } = render(<PracticeBoard puzzle={practicePuzzles[1]!} />)
 
-    fireEvent.click(screen.getByRole("button", { name: "标旗" }))
+    fireEvent.click(screen.getByRole("button", { name: "插旗" }))
     fireEvent.click(screen.getByRole("button", { name: /第3行第3列，未翻开，目标地雷格/ }))
 
     expect(await screen.findByText("做对了！推理正确 🎉")).toBeInTheDocument()

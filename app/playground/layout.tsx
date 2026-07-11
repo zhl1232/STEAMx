@@ -64,7 +64,7 @@ const games: PlaygroundNavItem[] = [
         icon: Bomb,
         description: "概率推演与矩阵计算",
         mission: "推断安全格，避开所有地雷。",
-        controls: "点击挖掘，右键或标记模式插旗。",
+        controls: "点击挖掘，右键或插旗模式插旗。",
         badgeGoal: "完成高级难度可解锁排雷专家。",
         color: "text-blue-500 dark:text-blue-300",
         steamTags: ["Science", "Math"],
@@ -315,7 +315,7 @@ function SettingsDialog({
                                 </span>
                                 <div>
                                     <h2 className="font-sans text-sm font-black">游乐场设置</h2>
-                                    <p className="mt-0.5 text-xs text-muted-foreground">管理本地与云端游戏记录</p>
+                                    <p className="mt-0.5 text-xs text-muted-foreground">管理云端游戏记录</p>
                                 </div>
                             </div>
 
@@ -640,7 +640,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     return (
         <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] md:min-h-[calc(100vh-4rem)]">
             <MobilePlaygroundHeader onSettings={() => setSettingsOpen(true)} />
-            <div className="relative app-shell-wide flex w-full">
+            <div className="relative app-shell-wide flex w-full max-md:px-0">
                 <DesktopSidebar onSettings={() => setSettingsOpen(true)} />
                 <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
