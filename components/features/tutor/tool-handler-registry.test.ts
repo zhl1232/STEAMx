@@ -73,6 +73,21 @@ describe('buildTutorToolHandlers', () => {
     const handlers = buildTutorToolHandlers({})
     expect(handlers).toEqual({})
   })
+
+  it('routes the minesweeper hint tool to the mounted playground handler', async () => {
+    const hintMinesweeperCell = vi.fn()
+    const handlers = buildTutorToolHandlers({ hintMinesweeperCell })
+
+    await handlers['playground.hint_minesweeper']?.({
+      name: 'playground.hint_minesweeper',
+      payload: { reason: 'stuck' },
+    })
+
+    expect(hintMinesweeperCell).toHaveBeenCalledWith({
+      name: 'playground.hint_minesweeper',
+      payload: { reason: 'stuck' },
+    })
+  })
 })
 
 describe('getTutorSceneCapabilities', () => {
@@ -81,7 +96,8 @@ describe('getTutorSceneCapabilities', () => {
       getTutorSceneCapabilities({
         focusChallengeStage: vi.fn(),
         focusCourseLessonStep: vi.fn(),
+        hintMinesweeperCell: vi.fn(),
       }),
-    ).toEqual(['focusChallengeStage', 'focusCourseLessonStep'])
+    ).toEqual(['focusChallengeStage', 'focusCourseLessonStep', 'hintMinesweeperCell'])
   })
 })

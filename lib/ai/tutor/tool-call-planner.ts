@@ -96,6 +96,7 @@ function buildPlannerPrompt(input: PlannerInput) {
     '   - 如果当前待提示 Scratch 子动作数为 0，且用户明确要继续推进，选 course.focus_lesson_step，并把 stepIndex 切到下一课时步骤。',
     '   - 只有当前步骤最后一个子动作也完成后，才把 course.focus_lesson_step 的 stepIndex 切到下一课时步骤。',
     '6. 如果只是继续停在当前步骤讲解，可保留当前 stepIndex；需要高亮某个 Scratch 子动作时，带上 targetItemIndex。',
+    '7. 扫雷页里学生明确要提示、问哪格安全/哪格是雷、或表示卡住时，选 playground.hint_minesweeper；普通扫雷知识问答不触发。',
     '',
     `用户消息：${compact(input.content, 260) || '（空）'}`,
     `场景：${input.contextType}`,
@@ -111,6 +112,7 @@ function buildPlannerPrompt(input: PlannerInput) {
     '无动作示例：{"selections":[]}',
     'Scratch 下一子动作示例：{"reason":"next_step","selections":[{"name":"course.focus_lesson_step","reason":"next_step","stepIndex":2},{"name":"course.highlight_scratch_blocks","reason":"next_step","stepIndex":2,"targetItemIndex":1}]}',
     'PBL 反馈示例：{"reason":"review","selections":[{"name":"pbl.focus_current_stage","reason":"review"}]}',
+    '扫雷提示示例：{"reason":"stuck","selections":[{"name":"playground.hint_minesweeper","reason":"stuck"}]}',
   ]
     .filter(Boolean)
     .join('\n')
@@ -152,7 +154,8 @@ function parsePlannerDecision(raw: string, input: PlannerInput): PlannerDecision
       if (
         (name !== 'pbl.focus_current_stage' &&
           name !== 'course.focus_lesson_step' &&
-          name !== 'course.highlight_scratch_blocks') ||
+          name !== 'course.highlight_scratch_blocks' &&
+          name !== 'playground.hint_minesweeper') ||
         !availableTools.has(name) ||
         !reason
       ) {

@@ -80,6 +80,22 @@ describe('useMinesweeper', () => {
         expect(result.current.minesLeft).toBe(DIFFICULTIES.beginner.mines - 1)
     })
 
+    it('keeps allowing flags after the estimated mine count reaches zero', () => {
+        DIFFICULTIES.beginner = { rows: 2, cols: 2, mines: 1 }
+        const { result } = renderHook(() => useMinesweeper('beginner'))
+
+        act(() => {
+            result.current.toggleFlag(0, 0)
+        })
+        act(() => {
+            result.current.toggleFlag(0, 1)
+        })
+
+        expect(result.current.board[0][0].isFlagged).toBe(true)
+        expect(result.current.board[0][1].isFlagged).toBe(true)
+        expect(result.current.minesLeft).toBe(-1)
+    })
+
     it('uses an empty stats snapshot for SSR-safe initial rendering', () => {
         expect(createEmptyMinesweeperStats()).toMatchObject({
             totalGames: 0,

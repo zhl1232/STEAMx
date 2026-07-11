@@ -1,6 +1,7 @@
 export const TUTOR_SCENE_CAPABILITIES = [
   'focusChallengeStage',
   'focusCourseLessonStep',
+  'hintMinesweeperCell',
   'speciesAudio',
 ] as const
 

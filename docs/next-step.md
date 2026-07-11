@@ -39,17 +39,17 @@
 
 ### 方向判断
 
-- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler、Scratch iframe 内积木关键词提示/分类切换与 flyout 具体积木定位、小迪 `working/success/error` 运行状态反馈已落地；下一步优先扩大 Scratch opcode 覆盖，或做扫雷这类基于已揭示信息的非透视提示。迷宫 BFS 下一步提示暂降为 P2，可等 Playground Agent 交互模式更稳定后再做）。
+- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler、Scratch iframe 内积木关键词提示/分类切换与 flyout 具体积木定位、小迪 `working/success/error` 运行状态反馈、扫雷公开棋盘非透视提示均已落地；下一步优先扩大 Scratch opcode 覆盖。迷宫 BFS 下一步提示暂降为 P2，可等 Playground Agent 交互模式更稳定后再做）。
 - **产品定位**：将小迪从「对话式导师」升级为可调用工具的 Agent，能直接与产品 UI 交互，而不只是输出文字建议。
 - **技术基础**：已有 tutor 引擎、场景上下文、图片来源校验、代币门禁与对话线程；可复用 Qwen Vision 做棋盘、Scratch 或作品截图识别。
 
 ### 能力范围
 
 - **工具调用通道扩展**：现有 tutor 流式回复之外已有结构化 `tool_call` 通道，后续可接入更多白名单工具。
-- **场景级 handler 扩展**：前端已支持当前场景注册受控 tool handler；Scratch 课时已支持当前步骤聚焦、iframe 内积木关键词提示、分类切换与 flyout 具体积木定位，后续扩展到 Playground 棋盘级提示等场景。
+- **场景级 handler 扩展**：前端已支持当前场景注册受控 tool handler；Scratch 课时已支持当前步骤聚焦、iframe 内积木关键词提示、分类切换与 flyout 具体积木定位，扫雷已支持公开棋盘确定性提示；后续按收益继续扩展其他 Playground 场景。
 - **典型能力示例**：
   - Scratch 卡关：已可按当前步骤在主站与 Scratch iframe 内提示相关积木关键词，尝试打开对应分类，并在 flyout 中定位匹配积木；后续优先扩展更多 opcode 映射或结合截图判断用户当前缺哪块。
-  - 扫雷：基于已揭示数字、旗帜与未翻开格子的公开状态，给出不偷看雷图的安全格/必标雷提示。
+  - 扫雷：已通过 `playground.hint_minesweeper` + `hintMinesweeperCell` 场景能力落地；服务端只发分析动作、不接收棋盘，浏览器本地基于已揭示数字、旗帜与未翻开格子的公开状态高亮推理依据并给一个递进问题，不直接标出安全格/雷格。
   - 迷宫：已有 BFS / DFS / A* 回放实验，Agent 下一步高亮暂作为 P2 可选项后置。
   - PBL 阶段：已支持在「我卡住了 / 下一步 / 看看反馈」意图中展开并高亮当前阶段；后续可细化到缺失检查项或相关材料入口。
 
@@ -61,8 +61,8 @@
 
 ### 建议迭代顺序
 
-1. **P1：Scratch 定位增强或扫雷非透视提示**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断；或做扫雷安全格/必标雷提示，并确保只使用玩家已揭示的棋盘信息，复用现有「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
-2. **P1：工具调用策略升级**：从确定性意图规则扩展到模型受控工具选择，但仍保持服务端白名单、payload 校验与前端受控 handler。
+1. **P1：Scratch 定位增强**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断。扫雷引导式推理提示已完成，并复用了「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
+2. **P1：工具选择评测与校准**：为现有模型受控工具选择补 Scratch / 扫雷固定意图用例，降低普通知识问答误触发页面动作的概率，同时保持服务端白名单、payload 校验与前端受控 handler。
 3. ~~**P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。~~（已落地：`resolveTutorMascotState` + FAB 反馈态；tool/上传 → `working`，成功 → `success`，失败/配额 → `error`，`onCycleEnd` 回落）
 4. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
 5. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。

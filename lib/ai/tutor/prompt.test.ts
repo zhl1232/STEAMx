@@ -49,4 +49,13 @@ describe('buildTutorSystemPrompt', () => {
     expect(prompt).toContain('课程进度：在学《Scratch 入门》的「出场动画」')
     expect(prompt).toContain('STEAM 雷达：科学72、技术64、工程0、艺术51、数学80')
   })
+
+  it('requires guided hints instead of direct answers for learning exercises', () => {
+    const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
+
+    expect(prompt).toContain('习题、测验、谜题、棋盘或闯关题')
+    expect(prompt).toContain('不直接给最终答案、正确选项、完整解法或精确落点')
+    expect(prompt).toContain('每次只给一个最小线索')
+    expect(prompt).toContain('即使学生直接索要答案，也继续分层引导')
+  })
 })

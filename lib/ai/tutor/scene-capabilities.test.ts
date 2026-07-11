@@ -14,10 +14,10 @@ describe('resolveTutorSceneCapabilities', () => {
   it('only keeps capabilities exposed by both server scene and mounted client handlers', () => {
     expect(
       resolveTutorSceneCapabilities({
-        serverCapabilities: ['focusCourseLessonStep'],
-        clientCapabilities: ['focusChallengeStage'],
+        serverCapabilities: ['focusCourseLessonStep', 'hintMinesweeperCell'],
+        clientCapabilities: ['focusChallengeStage', 'hintMinesweeperCell'],
       }),
-    ).toEqual([])
+    ).toEqual(['hintMinesweeperCell'])
   })
 
   it('does not allow the client to add capabilities the server scene did not expose', () => {

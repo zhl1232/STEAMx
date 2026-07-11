@@ -18,14 +18,104 @@
 }
 
 @utility minesweeper-game-main {
-  @apply justify-start px-2 py-3 sm:px-4 sm:py-5 xl:px-6 xl:py-6;
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  @apply justify-start py-3 sm:px-4 sm:py-5 xl:px-6 xl:py-6;
 }
 
 @utility minesweeper-game-shell {
-  background-color: hsl(var(--surface-raised) / 0.74);
-  border-color: hsl(var(--surface-border) / 0.68);
-  box-shadow: 0 18px 52px -44px hsl(var(--surface-shadow) / 0.52);
-  @apply rounded-md p-1 sm:p-3 xl:p-4;
+  @apply rounded-none p-0;
+
+  @media (min-width: 768px) {
+    background-color: hsl(var(--surface-raised) / 0.74);
+    border-color: hsl(var(--surface-border) / 0.68);
+    box-shadow: 0 18px 52px -44px hsl(var(--surface-shadow) / 0.52);
+    @apply rounded-md p-3;
+  }
+
+  @media (min-width: 1280px) {
+    @apply p-4;
+  }
+}
+
+@utility minesweeper-board-frame {
+  background: oklch(0.54 0.045 248);
+  border-color: oklch(0.48 0.05 248);
+  box-shadow:
+    0 12px 24px -18px oklch(0.28 0.055 248 / 0.56),
+    inset 0 1px 0 oklch(0.88 0.035 248 / 0.72);
+  @apply relative overflow-hidden rounded-md border p-1;
+
+  .dark & {
+    background: oklch(0.2 0.025 248);
+    border-color: oklch(0.32 0.04 248);
+    box-shadow: inset 0 1px 0 oklch(0.48 0.035 248 / 0.36);
+  }
+}
+
+@utility minesweeper-grid {
+  background: oklch(0.49 0.04 248);
+  @apply flex flex-col gap-px overflow-hidden rounded-xs;
+
+  .dark & {
+    background: oklch(0.17 0.018 248);
+  }
+
+  > div {
+    @apply flex gap-px;
+  }
+}
+
+@utility minesweeper-cell {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  @apply relative flex cursor-pointer select-none items-center justify-center rounded-[2px] text-base font-black transition-[transform,background-color,box-shadow] duration-100 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white sm:text-xl;
+}
+
+@utility minesweeper-cell-hidden {
+  background: oklch(0.79 0.105 245);
+  box-shadow:
+    inset 0 1px 0 oklch(0.94 0.035 245 / 0.92),
+    inset 0 -2px 0 oklch(0.67 0.105 245 / 0.72);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: oklch(0.75 0.125 245);
+    }
+  }
+
+  &:active {
+    background: oklch(0.7 0.12 245);
+    box-shadow: inset 0 1px 3px oklch(0.42 0.07 245 / 0.38);
+    transform: translateY(1px) scale(0.96);
+  }
+
+  .dark & {
+    background: oklch(0.43 0.09 245);
+    box-shadow:
+      inset 0 1px 0 oklch(0.66 0.07 245 / 0.5),
+      inset 0 -2px 0 oklch(0.28 0.065 245 / 0.8);
+  }
+}
+
+@utility minesweeper-cell-revealed {
+  background: oklch(0.965 0.009 240);
+  box-shadow: inset 0 0 0 1px oklch(0.9 0.015 240 / 0.72);
+
+  .dark & {
+    background: oklch(0.25 0.018 240);
+    box-shadow: inset 0 0 0 1px oklch(0.36 0.02 240 / 0.66);
+  }
+}
+
+@utility minesweeper-cell-mine {
+  background: oklch(0.63 0.2 25);
+  color: oklch(0.98 0.015 25);
+  box-shadow: inset 0 0 0 1px oklch(0.48 0.17 25 / 0.72);
+
+  .dark & {
+    background: oklch(0.52 0.18 25);
+  }
 }
 
 @utility playground-info-panel {

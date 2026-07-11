@@ -49,11 +49,16 @@ function getConfig(preferVision: boolean, mode: TutorModelMode = 'text') {
   return { apiKey, baseUrl, model }
 }
 
-function buildDashScopeMessages(systemPrompt: string, messages: TutorEngineMessage[]) {
-  let lastUserIndex = -1
+function buildDashScopeMessages(
+  systemPrompt: string,
+  messages: TutorEngineMessage[],
+  options: { includeImages?: boolean } = {},
+) {
+  const includeImages = options.includeImages ?? true
+  let activeImageIndex = -1
   for (let i = messages.length - 1; i >= 0; i -= 1) {
-    if (messages[i].role === 'user') {
-      lastUserIndex = i
+    if (messages[i].role === 'user' && (messages[i].images?.length ?? 0) > 0) {
+      activeImageIndex = i
       break
     }
   }
@@ -62,7 +67,7 @@ function buildDashScopeMessages(systemPrompt: string, messages: TutorEngineMessa
 
   messages.forEach((m, i) => {
     const imageCount = m.images?.length ?? 0
-    const attachImages = i === lastUserIndex && imageCount > 0
+    const attachImages = includeImages && i === activeImageIndex && imageCount > 0
     if (attachImages) {
       const content: Array<Record<string, unknown>> = [
         { type: 'text', text: m.content || '请看看我的产出。' },
@@ -80,7 +85,7 @@ function buildDashScopeMessages(systemPrompt: string, messages: TutorEngineMessa
     }
   })
 
-  return { dsMessages, wantImages: (messages[lastUserIndex]?.images?.length ?? 0) > 0, lastUserIndex }
+  return { dsMessages, wantImages: activeImageIndex >= 0, activeImageIndex }
 }
 
 function parseContent(raw: unknown): string {
@@ -106,6 +111,7 @@ export async function chatWithTutorComplete(
 
   const call = async (includeImages: boolean) => {
     const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages, options?.modelMode ?? 'text')
+    const { dsMessages } = buildDashScopeMessages(systemPrompt, messages, { includeImages })
     const response = await fetch(`${baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -115,7 +121,7 @@ export async function chatWithTutorComplete(
       body: JSON.stringify({
         model,
         temperature: 0.7,
-        messages: buildDashScopeMessages(systemPrompt, messages).dsMessages,
+        messages: dsMessages,
       }),
     })
 
@@ -160,6 +166,7 @@ export async function* streamChatWithTutor(
 
   const streamOnce = async function* (includeImages: boolean) {
     const { apiKey, baseUrl, model } = getConfig(includeImages && wantImages, options?.modelMode ?? 'text')
+    const { dsMessages } = buildDashScopeMessages(systemPrompt, messages, { includeImages })
     const response = await fetch(`${baseUrl}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -170,7 +177,7 @@ export async function* streamChatWithTutor(
         model,
         temperature: 0.7,
         stream: true,
-        messages: buildDashScopeMessages(systemPrompt, messages).dsMessages,
+        messages: dsMessages,
       }),
     })
 

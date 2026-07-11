@@ -8,6 +8,7 @@ describe('TUTOR_TOOL_NAMES', () => {
       'pbl.focus_current_stage',
       'course.focus_lesson_step',
       'course.highlight_scratch_blocks',
+      'playground.hint_minesweeper',
     ])
   })
 })

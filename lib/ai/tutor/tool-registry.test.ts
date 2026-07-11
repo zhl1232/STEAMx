@@ -44,6 +44,17 @@ describe('getAvailableTutorTools', () => {
       }),
     ).toEqual([])
   })
+
+  it('exposes the minesweeper hint only when the playground handler is mounted', () => {
+    expect(
+      getAvailableTutorTools({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+      }).map((tool) => tool.name),
+    ).toEqual(['playground.hint_minesweeper'])
+
+    expect(getAvailableTutorTools({ contextType: 'global' })).toEqual([])
+  })
 })
 
 describe('buildTutorToolCallsFromPlan', () => {
@@ -130,6 +141,21 @@ describe('buildTutorToolCallsFromPlan', () => {
           stepIndex: 2,
           reason: 'stuck',
         },
+      },
+    ])
+  })
+
+  it('builds a validated minesweeper hint tool call', () => {
+    expect(
+      buildTutorToolCallsFromPlan({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        selections: [{ name: 'playground.hint_minesweeper', reason: 'stuck' }],
+      }),
+    ).toEqual([
+      {
+        name: 'playground.hint_minesweeper',
+        payload: { reason: 'stuck' },
       },
     ])
   })

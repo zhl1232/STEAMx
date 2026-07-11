@@ -12,6 +12,20 @@ describe('buildStepReferenceInstruction', () => {
   })
 })
 
+describe('buildTutorSceneContext playground capabilities', () => {
+  it('allows the playground server scene to intersect with a mounted minesweeper handler', async () => {
+    const scene = await buildTutorSceneContext(
+      {} as never,
+      'user-1',
+      'global',
+      '',
+      { surface: 'playground' },
+    )
+
+    expect(scene.sceneCapabilities).toEqual(['hintMinesweeperCell'])
+  })
+})
+
 describe('buildTutorSceneContext course Scratch context', () => {
   function createCourseContextSupabase(lessons: Array<{
     id: number

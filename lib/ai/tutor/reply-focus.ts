@@ -26,6 +26,18 @@ export function buildTutorReplyFocusSummary(input: {
   toolCalls: TutorToolCall[]
   previousLessonStepIndex?: number
 }) {
+  const minesweeperHintCall = input.toolCalls.find(
+    (toolCall) => toolCall.name === 'playground.hint_minesweeper',
+  )
+  if (minesweeperHintCall) {
+    return [
+      '【本轮页面工具焦点】',
+      '页面会在学生浏览器里只根据已翻开的数字、旗子和隐藏格分析当前扫雷棋盘。',
+      '页面只会高亮产生推理依据的数字格，并给一个观察问题；不会高亮答案格。',
+      '你看不到浏览器本地推理结果，所以不要编造坐标、直接说哪格安全/是雷，或给出最终操作。回复只需引导学生查看高亮数字格，自己完成判断，并说明没有偷看未公开的雷图。',
+    ].join('\n')
+  }
+
   const highlightScratchBlocksCall = input.toolCalls.find(
     (toolCall) => toolCall.name === 'course.highlight_scratch_blocks',
   )

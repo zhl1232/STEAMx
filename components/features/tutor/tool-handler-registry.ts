@@ -10,6 +10,9 @@ export type TutorToolHandlerContext = {
   focusCourseLessonStep?: (
     toolCall: Extract<TutorToolCall, { name: 'course.focus_lesson_step' | 'course.highlight_scratch_blocks' }>,
   ) => void | Promise<void>
+  hintMinesweeperCell?: (
+    toolCall: Extract<TutorToolCall, { name: 'playground.hint_minesweeper' }>,
+  ) => void | Promise<void>
 }
 
 type TutorToolHandlerDefinition = {
@@ -48,12 +51,23 @@ const TUTOR_TOOL_HANDLER_REGISTRY: TutorToolHandlerDefinition[] = [
       }
     },
   },
+  {
+    name: 'playground.hint_minesweeper',
+    resolve: (context) => {
+      if (!context.hintMinesweeperCell) return null
+      return (toolCall) => {
+        if (toolCall.name !== 'playground.hint_minesweeper') return
+        return context.hintMinesweeperCell?.(toolCall)
+      }
+    },
+  },
 ]
 
 export function getTutorSceneCapabilities(context: TutorToolHandlerContext): TutorSceneCapability[] {
   const capabilities: TutorSceneCapability[] = []
   if (context.focusChallengeStage) capabilities.push('focusChallengeStage')
   if (context.focusCourseLessonStep) capabilities.push('focusCourseLessonStep')
+  if (context.hintMinesweeperCell) capabilities.push('hintMinesweeperCell')
   return capabilities
 }
 

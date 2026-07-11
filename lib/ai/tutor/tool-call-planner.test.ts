@@ -107,6 +107,29 @@ describe('planTutorToolDecision', () => {
     })
   })
 
+  it('builds a minesweeper hint tool call for the playground scene', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"reason":"stuck","selections":[{"name":"playground.hint_minesweeper","reason":"stuck"}]}',
+    )
+
+    await expect(
+      planTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '我卡住了，帮我看看哪一格能确定',
+      }),
+    ).resolves.toMatchObject({
+      toolCalls: [
+        {
+          name: 'playground.hint_minesweeper',
+          payload: { reason: 'stuck' },
+        },
+      ],
+    })
+
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).toContain('普通扫雷知识问答不触发')
+  })
+
   it('returns null when no tools are available in the current context', async () => {
     await expect(
       planTutorToolDecision({
@@ -215,6 +238,16 @@ describe('shouldPlanTutorToolDecision', () => {
         sceneCapabilities: ['focusChallengeStage'],
         stageIndex: 1,
         content: '我做好了',
+      }),
+    ).toBe(true)
+  })
+
+  it('uses planner when the minesweeper page exposes its local hint handler', () => {
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '哪一格安全？',
       }),
     ).toBe(true)
   })

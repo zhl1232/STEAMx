@@ -4,6 +4,7 @@ export const TUTOR_TOOL_NAMES = [
   'pbl.focus_current_stage',
   'course.focus_lesson_step',
   'course.highlight_scratch_blocks',
+  'playground.hint_minesweeper',
 ] as const
 
 export type TutorToolName = (typeof TUTOR_TOOL_NAMES)[number]
@@ -30,6 +31,10 @@ export type CourseHighlightScratchBlocksToolPayload = {
   reason: TutorToolReason
 }
 
+export type PlaygroundHintMinesweeperToolPayload = {
+  reason: TutorToolReason
+}
+
 export type TutorToolCall =
   | {
       name: 'pbl.focus_current_stage'
@@ -42,4 +47,8 @@ export type TutorToolCall =
   | {
       name: 'course.highlight_scratch_blocks'
       payload: CourseHighlightScratchBlocksToolPayload
+    }
+  | {
+      name: 'playground.hint_minesweeper'
+      payload: PlaygroundHintMinesweeperToolPayload
     }

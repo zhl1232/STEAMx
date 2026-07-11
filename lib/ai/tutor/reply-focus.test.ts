@@ -61,4 +61,20 @@ describe('buildTutorReplyFocusSummary', () => {
       }),
     ).toBe('')
   })
+
+  it('keeps the minesweeper reply aligned with the browser-only board result', () => {
+    const summary = buildTutorReplyFocusSummary({
+      toolCalls: [
+        {
+          name: 'playground.hint_minesweeper',
+          payload: { reason: 'stuck' },
+        },
+      ],
+    })
+
+    expect(summary).toContain('只根据已翻开的数字、旗子和隐藏格')
+    expect(summary).toContain('不会高亮答案格')
+    expect(summary).toContain('不要编造坐标、直接说哪格安全/是雷')
+    expect(summary).toContain('没有偷看未公开的雷图')
+  })
 })

@@ -265,7 +265,6 @@ export function useMinesweeper(initialDifficulty: keyof typeof DIFFICULTIES = 'b
         const cell = newBoard[row][col];
 
         if (!cell.isFlagged) {
-            if (flagsCount >= difficulty.mines) return; // 旗子用完不能再插
             cell.isFlagged = true;
             setFlagsCount(prev => prev + 1);
         } else {

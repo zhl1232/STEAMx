@@ -129,6 +129,7 @@ export const TutorGlobalSurfaceSchema = z.enum([
 export const TutorSceneCapabilitySchema = z.enum([
   'focusChallengeStage',
   'focusCourseLessonStep',
+  'hintMinesweeperCell',
   'speciesAudio',
 ]);
 

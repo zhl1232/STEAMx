@@ -314,6 +314,7 @@ async function buildGlobalContext(
     title: scene.title,
     summary: scene.summary,
     surface,
+    sceneCapabilities: surface === 'playground' ? ['hintMinesweeperCell'] : undefined,
   }
 
   if (surface === 'profile') {

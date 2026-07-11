@@ -48,6 +48,7 @@ export type TutorToolDefinition =
   | BaseToolDefinition<'pbl.focus_current_stage'>
   | BaseToolDefinition<'course.focus_lesson_step'>
   | BaseToolDefinition<'course.highlight_scratch_blocks'>
+  | BaseToolDefinition<'playground.hint_minesweeper'>
 
 function clampIndex(value: number, max: number) {
   return Math.min(Math.max(Math.trunc(value), 0), max)
@@ -172,6 +173,22 @@ export const TUTOR_TOOL_REGISTRY: TutorToolDefinition[] = [
         },
       }
     },
+  },
+  {
+    name: 'playground.hint_minesweeper',
+    description: '只依据扫雷棋盘已翻开的数字、旗子和隐藏格，高亮推理依据并给一步线索，不直接给答案格',
+    whenToUse: '学生在扫雷页明确要提示、问哪一格能确定、或说自己卡住了',
+    payloadShape: '{ reason: "stuck" | "next_step" | "review" }',
+    requiredCapabilities: ['hintMinesweeperCell'],
+    availableWhen: (input) =>
+      input.contextType === 'global' &&
+      hasRequiredCapabilities(input.sceneCapabilities, ['hintMinesweeperCell']),
+    build: (input) => ({
+      name: 'playground.hint_minesweeper',
+      payload: {
+        reason: input.reason,
+      },
+    }),
   },
 ]
 
