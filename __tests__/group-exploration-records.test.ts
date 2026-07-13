@@ -14,6 +14,7 @@ function mockCompletion(
     proofImages: [],
     isPublic: true,
     likes: 0,
+    coins: 0,
     completedAt: '2026-01-01',
     ...partial,
   }
