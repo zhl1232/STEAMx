@@ -143,3 +143,142 @@
   transform: translate(-50%, -50%) scale(0.82);
   animation: gomoku-win-ring-in 180ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
+
+@keyframes maze-view-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes maze-collision-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  35% {
+    transform: translateX(-5px);
+  }
+
+  70% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes maze-goal-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+
+  50% {
+    filter: brightness(1.18);
+    transform: scale(0.94);
+  }
+}
+
+@utility maze-view-enter {
+  animation: maze-view-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility maze-collision-shake {
+  animation: maze-collision-shake 180ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@utility maze-goal-cell {
+  animation: maze-goal-pulse 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes nonogram-cell-flip {
+  0% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  48% {
+    transform: rotateY(90deg) scale(0.9);
+    opacity: 1;
+    filter: brightness(1.45);
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+    opacity: 0;
+    filter: brightness(1);
+  }
+}
+
+@keyframes nonogram-art-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: saturate(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1);
+  }
+}
+
+@utility nonogram-cell-flip {
+  transform-style: preserve-3d;
+  pointer-events: none;
+  animation: nonogram-cell-flip 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility nonogram-art-in {
+  animation: nonogram-art-in 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes memory-card-matched {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@utility memory-card-scene {
+  perspective: 720px;
+}
+
+@utility memory-card-face {
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility memory-card-face-open {
+  transform: rotateY(180deg);
+}
+
+@utility memory-card-side {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@utility memory-card-front {
+  transform: rotateY(180deg);
+}
+
+@utility memory-card-matched {
+  animation: memory-card-matched 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maze-view-enter,
+  .maze-collision-shake,
+  .maze-goal-cell {
+    animation: none;
+  }
+}

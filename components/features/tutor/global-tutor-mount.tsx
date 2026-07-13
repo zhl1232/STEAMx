@@ -39,6 +39,7 @@ export function GlobalTutorMount() {
       stageIndex,
       lessonId: baseContext.lessonId,
       surface: baseContext.surface,
+      playgroundGameKey: baseContext.playgroundGameKey,
     }
   }, [
     visible,

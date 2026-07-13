@@ -44,7 +44,7 @@ export function usePlaygroundSync() {
   }, [queryClient, user?.id]);
 
   const uploadToCloud = useCallback(
-    async (userId: string, options?: { throwOnError?: boolean }) => {
+    async (userId: string) => {
       const blob = collectAllStats();
       const { error } = await supabaseRef.current
         .from("playground_stats")
@@ -58,9 +58,6 @@ export function usePlaygroundSync() {
         );
       if (error) {
         console.error("[PlaygroundSync] upload failed", error.message);
-        if (options?.throwOnError) {
-          throw new Error("云端同步失败，请稍后重试");
-        }
         return false;
       }
       await syncBadgesFromCloud();
@@ -166,33 +163,4 @@ export function usePlaygroundSync() {
       }
     };
   }, [user?.id, uploadToCloud]);
-
-  /** Immediately upload current memory snapshot to cloud (bypasses debounce). */
-  const flushToCloud = useCallback(async () => {
-    if (!user?.id) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    await uploadToCloud(user.id, { throwOnError: true });
-  }, [user?.id, uploadToCloud]);
-
-  /** Delete all playground cloud data and clear memory. */
-  const clearCloud = useCallback(async () => {
-    if (!user?.id) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-    const { error } = await supabaseRef.current
-      .from("playground_stats")
-      .delete()
-      .eq("user_id", user.id);
-    if (error) {
-      console.error("[PlaygroundSync] clear failed", error.message);
-      throw new Error("云端清理失败，请稍后重试");
-    }
-    clearPlaygroundMemoryStore();
-    window.dispatchEvent(
-      new CustomEvent(PLAYGROUND_CHANGE_EVENT, {
-        detail: { source: "clear-cloud", skipUpload: true },
-      }),
-    );
-  }, [user?.id]);
-
-  return { clearCloud, flushToCloud };
 }

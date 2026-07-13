@@ -102,12 +102,17 @@ export default function GameOfLifePage() {
     }, [status, generation])
 
     const [presetOpen, setPresetOpen] = useState(false)
-    const [mode, setMode] = useState<"sandbox" | "challenge">("sandbox")
+    const [mode, setMode] = useState<"sandbox" | "challenge">("challenge")
     const [randomDensity, setRandomDensity] = useState(0.3)
     const [selectedChallengeId, setSelectedChallengeId] = useState(LIFE_CHALLENGES[0].id)
     const [challengeResult, setChallengeResult] = useState<LifeChallengeResult | null>(null)
     const [designSnapshot, setDesignSnapshot] = useState<boolean[][] | null>(null)
     const selectedChallenge = LIFE_CHALLENGES.find((challenge) => challenge.id === selectedChallengeId) ?? LIFE_CHALLENGES[0]
+    const selectedChallengeIndex = LIFE_CHALLENGES.findIndex((challenge) => challenge.id === selectedChallenge.id)
+    const selectedChallengeStars = stats.challengeStars[selectedChallenge.id] ?? 0
+    const selectedChallengeSolved = stats.challengesSolved.includes(selectedChallenge.id)
+    const totalChallengeStars = Object.values(stats.challengeStars).reduce((sum, value) => sum + value, 0)
+    const maxChallengeStars = LIFE_CHALLENGES.length * 3
 
     const loadSelectedChallenge = useCallback(() => {
         setMode("challenge")
@@ -371,7 +376,7 @@ export default function GameOfLifePage() {
                 </div>
 
                 <div className="w-full max-w-5xl mb-3 flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/60 p-2">
-                    {(["sandbox", "challenge"] as const).map((nextMode) => (
+                    {(["challenge", "sandbox"] as const).map((nextMode) => (
                         <button
                             key={nextMode}
                             type="button"
@@ -387,7 +392,7 @@ export default function GameOfLifePage() {
                         </button>
                     ))}
                     <span className="ml-auto text-[11px] text-muted-foreground">
-                        挑战进度 {stats.challengesSolved.length}/{LIFE_CHALLENGES.length}
+                        挑战 {stats.challengesSolved.length}/{LIFE_CHALLENGES.length} · {totalChallengeStars}/{maxChallengeStars} 星
                     </span>
                 </div>
 
@@ -403,7 +408,7 @@ export default function GameOfLifePage() {
                         )}
                     >
                         {status === "running" ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                        {status === "running" ? "暂停" : "运行"}
+                        {status === "running" ? "暂停" : mode === "challenge" ? "播放演化" : "运行"}
                     </button>
 
                     <button
@@ -467,12 +472,16 @@ export default function GameOfLifePage() {
 
                     <button
                         onClick={() => randomizeWithDensity(randomDensity)}
-                        className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium h-8 border border-border bg-background hover:bg-muted transition-colors"
+                        disabled={mode === "challenge"}
+                        className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium h-8 border border-border bg-background hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45 transition-colors"
                     >
                         <Shuffle className="w-3.5 h-3.5" />
-                        随机 {Math.round(randomDensity * 100)}%
+                        {mode === "challenge" ? "随机仅沙盒" : `随机 ${Math.round(randomDensity * 100)}%`}
                     </button>
-                    <label className="flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
+                    <label className={cn(
+                        "flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground",
+                        mode === "challenge" && "opacity-45",
+                    )}>
                         密度
                         <input
                             type="range"
@@ -480,6 +489,7 @@ export default function GameOfLifePage() {
                             max="60"
                             value={Math.round(randomDensity * 100)}
                             onChange={(event) => setRandomDensity(Number(event.target.value) / 100)}
+                            disabled={mode === "challenge"}
                             className="w-20 accent-emerald-500"
                             aria-label="随机密度"
                         />
@@ -516,7 +526,15 @@ export default function GameOfLifePage() {
                                         ))}
                                     </select>
                                     <span className="text-[11px] text-muted-foreground">
-                                        预算 {selectedChallenge.maxCells} 个细胞
+                                        第 {selectedChallengeIndex + 1} 关 · 预算 {selectedChallenge.maxCells} 个细胞
+                                    </span>
+                                    <span className={cn(
+                                        "rounded-full px-2 py-0.5 text-[10px] font-bold",
+                                        selectedChallengeSolved
+                                            ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                                            : "bg-muted text-muted-foreground",
+                                    )}>
+                                        {selectedChallengeSolved ? `已完成 ${selectedChallengeStars} 星` : "待完成"}
                                     </span>
                                     <div className="flex items-center gap-0.5">
                                         {Array.from({ length: 3 }).map((_, index) => (
@@ -535,6 +553,20 @@ export default function GameOfLifePage() {
                                 <div>
                                     <p className="text-sm font-bold text-foreground">{selectedChallenge.description}</p>
                                     <p className="text-xs text-muted-foreground">{selectedChallenge.objective}</p>
+                                </div>
+                                <div className="grid gap-2 text-[11px] sm:grid-cols-3">
+                                    <div className="rounded-xs bg-background/70 px-2.5 py-2">
+                                        <span className="block font-bold text-foreground">判定代数</span>
+                                        <span className="text-muted-foreground">第 {selectedChallenge.goal.generations} 代看结果</span>
+                                    </div>
+                                    <div className="rounded-xs bg-background/70 px-2.5 py-2">
+                                        <span className="block font-bold text-foreground">三星条件</span>
+                                        <span className="text-muted-foreground">最多 {selectedChallenge.starCells[0]} 个细胞</span>
+                                    </div>
+                                    <div className="rounded-xs bg-background/70 px-2.5 py-2">
+                                        <span className="block font-bold text-foreground">下一步</span>
+                                        <span className="text-muted-foreground">先摆初态，再运行并判定</span>
+                                    </div>
                                 </div>
                                 {challengeResult && (
                                     <div className={cn(
@@ -560,7 +592,7 @@ export default function GameOfLifePage() {
                                     onClick={loadSelectedChallenge}
                                     className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-bold hover:bg-muted"
                                 >
-                                    {selectedChallenge.starterCells ? "载入种子" : "清空开始"}
+                                    {selectedChallenge.starterCells ? "载入种子" : "清空设计"}
                                 </button>
                                 {designSnapshot && (
                                     <button
@@ -576,7 +608,7 @@ export default function GameOfLifePage() {
                                     onClick={runChallenge}
                                     className="rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-600"
                                 >
-                                    {designSnapshot ? "重新判定" : "运行挑战判定"}
+                                    {designSnapshot ? "重新判定" : "运行并判定"}
                                 </button>
                             </div>
                         </div>

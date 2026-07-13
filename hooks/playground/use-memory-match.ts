@@ -4,6 +4,8 @@ import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-
 
 export type MemoryDifficulty = "easy" | "normal" | "hard"
 
+export type MemoryTheme = "animals" | "nature" | "space" | "food" | "stem"
+
 export type MemoryCard = {
     id: string
     symbol: string
@@ -17,8 +19,31 @@ export type MemoryStats = {
     bestTimes: Record<string, number>
 }
 
+export type MemoryThemeOption = {
+    key: MemoryTheme
+    label: string
+    preview: string[]
+}
+
 const STATS_KEY = "memory_match_stats"
-const SYMBOLS = ["DNA", "π", "⚙", "★", "∞", "AI", "H₂O", "∑", "光", "磁", "芽", "火", "云", "桥", "弦", "晶", "轨", "波"]
+
+/** 每套至少 18 个互异图案，覆盖 6×6 难度 */
+const THEME_SYMBOLS: Record<MemoryTheme, string[]> = {
+    animals: ["🦊", "🐼", "🦁", "🐸", "🐧", "🦋", "🐙", "🦄", "🐢", "🦉", "🐝", "🐬", "🦩", "🦔", "🐨", "🐯", "🦕", "🐲"],
+    nature: ["🌸", "🌺", "🌻", "🍀", "🌈", "🌊", "🍄", "🌵", "🌴", "🍁", "🌕", "❄️", "🔥", "💧", "🍃", "🌿", "🌙", "⭐"],
+    space: ["🚀", "🛸", "🪐", "☄️", "🌍", "👽", "🛰️", "🌌", "☀️", "💫", "🌑", "✨", "🌠", "🔭", "🌙", "⭐", "🔮", "🌟"],
+    food: ["🍎", "🍊", "🍋", "🍇", "🍓", "🍑", "🥝", "🍉", "🍒", "🫐", "🍌", "🥑", "🍕", "🍪", "🧁", "🍩", "🍦", "🍬"],
+    stem: ["🧬", "🔬", "⚗️", "🔭", "🧪", "🧲", "⚡", "💡", "🔋", "💻", "🧠", "⚛️", "🧮", "📐", "🌡️", "📡", "🚀", "🧿"],
+}
+
+export const MEMORY_THEMES: MemoryThemeOption[] = [
+    { key: "animals", label: "萌宠", preview: THEME_SYMBOLS.animals.slice(0, 4) },
+    { key: "nature", label: "自然", preview: THEME_SYMBOLS.nature.slice(0, 4) },
+    { key: "space", label: "宇宙", preview: THEME_SYMBOLS.space.slice(0, 4) },
+    { key: "food", label: "美食", preview: THEME_SYMBOLS.food.slice(0, 4) },
+    { key: "stem", label: "科学", preview: THEME_SYMBOLS.stem.slice(0, 4) },
+]
+
 const PAIRS: Record<MemoryDifficulty, number> = {
     easy: 8,
     normal: 10,
@@ -47,16 +72,27 @@ function saveStats(stats: MemoryStats) {
     setPlaygroundItem(STATS_KEY, stats)
 }
 
-export function createMemoryDeck(difficulty: MemoryDifficulty): MemoryCard[] {
-    const symbols = SYMBOLS.slice(0, PAIRS[difficulty])
+function symbolsFor(theme: MemoryTheme, difficulty: MemoryDifficulty): string[] {
+    return THEME_SYMBOLS[theme].slice(0, PAIRS[difficulty])
+}
+
+function buildDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryCard[] {
+    const symbols = symbolsFor(theme, difficulty)
     const cards = symbols.flatMap((symbol, pairIndex) => [
-        { id: `${symbol}-${pairIndex}-a`, symbol, matched: false },
-        { id: `${symbol}-${pairIndex}-b`, symbol, matched: false },
+        { id: `${theme}-${pairIndex}-a`, symbol, matched: false },
+        { id: `${theme}-${pairIndex}-b`, symbol, matched: false },
     ])
     return cards
         .map((card) => ({ card, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ card }) => card)
+}
+
+export function createMemoryDeck(
+    difficulty: MemoryDifficulty,
+    theme: MemoryTheme = "animals",
+): MemoryCard[] {
+    return buildDeck(theme, difficulty)
 }
 
 export function getMemoryColumns(difficulty: MemoryDifficulty): number {
@@ -65,14 +101,22 @@ export function getMemoryColumns(difficulty: MemoryDifficulty): number {
     return 6
 }
 
-export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
+export function getMemoryThemeSymbols(theme: MemoryTheme): string[] {
+    return [...THEME_SYMBOLS[theme]]
+}
+
+export type StartMemoryGameOptions = {
+    difficulty?: MemoryDifficulty
+    theme?: MemoryTheme
+}
+
+export function useMemoryMatch(
+    initialDifficulty: MemoryDifficulty = "easy",
+    initialTheme: MemoryTheme = "animals",
+) {
     const [difficulty, setDifficulty] = useState(initialDifficulty)
-    const [cards, setCards] = useState<MemoryCard[]>(() =>
-        SYMBOLS.slice(0, PAIRS[initialDifficulty]).flatMap((symbol, pairIndex) => [
-            { id: `${symbol}-${pairIndex}-a`, symbol, matched: false },
-            { id: `${symbol}-${pairIndex}-b`, symbol, matched: false },
-        ]),
-    )
+    const [theme, setTheme] = useState(initialTheme)
+    const [cards, setCards] = useState<MemoryCard[]>(() => buildDeck(initialTheme, initialDifficulty))
     const [openIds, setOpenIds] = useState<string[]>([])
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
@@ -82,8 +126,9 @@ export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
-        setCards(createMemoryDeck(initialDifficulty))
-    }, [initialDifficulty])
+        setCards(buildDeck(initialTheme, initialDifficulty))
+        setTheme(initialTheme)
+    }, [initialDifficulty, initialTheme])
 
     useEffect(() => {
         if (status !== "playing") return
@@ -130,14 +175,17 @@ export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
         })
     }, [cards, difficulty, moves, status, time])
 
-    const startNewGame = useCallback((nextDifficulty: MemoryDifficulty = difficulty) => {
+    const startNewGame = useCallback((options?: StartMemoryGameOptions) => {
+        const nextDifficulty = options?.difficulty ?? difficulty
+        const nextTheme = options?.theme ?? theme
         setDifficulty(nextDifficulty)
-        setCards(createMemoryDeck(nextDifficulty))
+        setTheme(nextTheme)
+        setCards(buildDeck(nextTheme, nextDifficulty))
         setOpenIds([])
         setMoves(0)
         setTime(0)
         setStatus("playing")
-    }, [difficulty])
+    }, [difficulty, theme])
 
     const flipCard = useCallback((id: string) => {
         if (status === "won" || openIds.length >= 2 || openIds.includes(id)) return
@@ -157,6 +205,7 @@ export function useMemoryMatch(initialDifficulty: MemoryDifficulty = "easy") {
 
     return {
         difficulty,
+        theme,
         cards: visibleCards,
         moves,
         time,

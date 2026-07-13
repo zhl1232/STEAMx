@@ -19,6 +19,28 @@ export const TUTOR_GLOBAL_SURFACES = [
 ] as const
 export type TutorGlobalSurface = (typeof TUTOR_GLOBAL_SURFACES)[number]
 
+export const TUTOR_PLAYGROUND_GAME_KEYS = [
+  'minesweeper',
+  'gomoku',
+  'life',
+  '2048',
+  '24game',
+  'hanoi',
+  'sudoku',
+  'nqueens',
+  'fifteen',
+  'memory',
+  'quickmath',
+  'maze',
+  'tangram',
+  'nonogram',
+  'ballsort',
+  'balance',
+  'symmetry',
+  'circuit',
+] as const
+export type TutorPlaygroundGameKey = (typeof TUTOR_PLAYGROUND_GAME_KEYS)[number]
+
 export type TutorChatMessage = {
   role: 'user' | 'assistant'
   content: string
@@ -57,6 +79,8 @@ export type TutorSceneContext = {
   availableAudios?: TutorAudioRef[]
   /** 仅 global 场景：当前页面标识 */
   surface?: TutorGlobalSurface
+  /** 仅 playground surface：当前具体小游戏 */
+  playgroundGameKey?: TutorPlaygroundGameKey
 }
 
 export type StudentProfileSnapshot = {

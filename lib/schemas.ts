@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { TUTOR_PLAYGROUND_GAME_KEYS } from "@/lib/ai/tutor/types";
+
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url("Invalid image URL"),
   z.string().min(1).startsWith("/"),
@@ -126,6 +128,7 @@ export const TutorContextTypeSchema = z.enum(['global', 'challenge', 'project', 
 export const TutorGlobalSurfaceSchema = z.enum([
   'home', 'explore', 'nature', 'create', 'courses', 'community', 'playground', 'profile', 'users',
 ]);
+export const TutorPlaygroundGameKeySchema = z.enum(TUTOR_PLAYGROUND_GAME_KEYS);
 export const TutorSceneCapabilitySchema = z.enum([
   'focusChallengeStage',
   'focusCourseLessonStep',
@@ -170,6 +173,7 @@ export const TutorSendSchema = z.object({
   scratchEditorContext: ScratchEditorContextSchema.optional(),
   sceneCapabilities: z.array(TutorSceneCapabilitySchema).max(8).optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
+  gameKey: TutorPlaygroundGameKeySchema.optional(),
   meta: z.record(z.string(), z.unknown()).optional(),
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
   message: '消息不能为空',

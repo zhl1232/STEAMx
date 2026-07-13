@@ -4,6 +4,7 @@ import type {
   TutorContextType,
   TutorGlobalSurface,
   TutorGreeting,
+  TutorPlaygroundGameKey,
 } from '@/lib/ai/tutor/types'
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 
@@ -16,6 +17,7 @@ export type TutorSessionQueryInput = {
   stageIndex?: number
   lessonId?: number
   surface?: TutorGlobalSurface
+  playgroundGameKey?: TutorPlaygroundGameKey
 }
 
 export type TutorSessionPayload = {
@@ -45,6 +47,7 @@ export function tutorSessionQueryKey(input: TutorSessionQueryInput) {
     input.stageIndex ?? null,
     input.lessonId ?? null,
     input.surface ?? null,
+    input.playgroundGameKey ?? null,
   ] as const
 }
 
@@ -56,6 +59,7 @@ export function buildTutorChatParams(input: Omit<TutorSessionQueryInput, 'userId
   if (typeof input.stageIndex === 'number') params.set('stageIndex', String(input.stageIndex))
   if (typeof input.lessonId === 'number') params.set('lessonId', String(input.lessonId))
   if (input.surface) params.set('surface', input.surface)
+  if (input.playgroundGameKey) params.set('gameKey', input.playgroundGameKey)
   return params
 }
 

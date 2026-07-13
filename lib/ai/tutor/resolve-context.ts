@@ -1,4 +1,9 @@
-import type { TutorContextType, TutorGlobalSurface } from '@/lib/ai/tutor/types'
+import {
+  TUTOR_PLAYGROUND_GAME_KEYS,
+  type TutorContextType,
+  type TutorGlobalSurface,
+  type TutorPlaygroundGameKey,
+} from '@/lib/ai/tutor/types'
 
 export type ResolvedTutorContext = {
   contextType: TutorContextType
@@ -8,6 +13,8 @@ export type ResolvedTutorContext = {
   lessonId?: number
   /** global 场景：页面标识，决定小迪的开场白与场景上下文 */
   surface?: TutorGlobalSurface
+  /** playground surface：当前具体小游戏，避免不同游戏之间串上下文 */
+  playgroundGameKey?: TutorPlaygroundGameKey
 }
 
 export function resolveTutorContextFromPath(pathname: string): ResolvedTutorContext | null {
@@ -57,10 +64,25 @@ export function resolveTutorContextFromPath(pathname: string): ResolvedTutorCont
 
   const surface = resolveGlobalSurface(pathname)
   if (surface) {
-    return { contextType: 'global', contextId: '', surface }
+    const playgroundGameKey = surface === 'playground' ? resolvePlaygroundGameKey(pathname) : undefined
+    return {
+      contextType: 'global',
+      contextId: playgroundGameKey ? `playground:${playgroundGameKey}` : '',
+      surface,
+      playgroundGameKey,
+    }
   }
 
   return null
+}
+
+function resolvePlaygroundGameKey(pathname: string): TutorPlaygroundGameKey | undefined {
+  const match = pathname.match(/^\/playground\/([^/]+)/)
+  if (!match) return undefined
+  const key = match[1]
+  return TUTOR_PLAYGROUND_GAME_KEYS.includes(key as TutorPlaygroundGameKey)
+    ? (key as TutorPlaygroundGameKey)
+    : undefined
 }
 
 function resolveGlobalSurface(pathname: string): TutorGlobalSurface | null {

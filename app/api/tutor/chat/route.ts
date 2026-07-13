@@ -23,7 +23,13 @@ import { hasTutorSceneCapability, resolveTutorSceneCapabilities } from '@/lib/ai
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { buildTutorToolCallsFromPlan } from '@/lib/ai/tutor/tool-registry'
-import { TUTOR_GLOBAL_SURFACES, type TutorContextType, type TutorGlobalSurface } from '@/lib/ai/tutor/types'
+import {
+  TUTOR_GLOBAL_SURFACES,
+  TUTOR_PLAYGROUND_GAME_KEYS,
+  type TutorContextType,
+  type TutorGlobalSurface,
+  type TutorPlaygroundGameKey,
+} from '@/lib/ai/tutor/types'
 import { logger } from '@/lib/logger'
 import { consumeAiCredit, getAiCreditStatusForProfile, refundAiCredit } from '@/lib/api/ai-credits'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
@@ -122,12 +128,18 @@ function parseContextParams(searchParams: URLSearchParams) {
   const surface = TUTOR_GLOBAL_SURFACES.includes(surfaceRaw as TutorGlobalSurface)
     ? (surfaceRaw as TutorGlobalSurface)
     : undefined
+  const gameKeyRaw = searchParams.get('gameKey')
+  const gameKey =
+    surface === 'playground' && TUTOR_PLAYGROUND_GAME_KEYS.includes(gameKeyRaw as TutorPlaygroundGameKey)
+      ? (gameKeyRaw as TutorPlaygroundGameKey)
+      : undefined
   return {
     contextType,
     contextId,
     stageIndex: Number.isNaN(stageIndex ?? NaN) ? undefined : stageIndex,
     lessonId: Number.isNaN(lessonId ?? NaN) ? undefined : lessonId,
     surface,
+    gameKey,
   }
 }
 
@@ -148,6 +160,7 @@ function buildConversationMeta(input: {
   lessonStepCount?: number
   scratchBlockTargetItemIndex?: number
   surface?: TutorGlobalSurface
+  gameKey?: TutorPlaygroundGameKey
 }) {
   const meta: Record<string, unknown> = {}
   if (typeof input.stageIndex === 'number') meta.stageIndex = input.stageIndex
@@ -158,6 +171,7 @@ function buildConversationMeta(input: {
     meta.scratchBlockTargetItemIndex = input.scratchBlockTargetItemIndex
   }
   if (input.surface) meta.surface = input.surface
+  if (input.gameKey) meta.gameKey = input.gameKey
   return meta
 }
 
@@ -278,7 +292,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   try {
-    const { contextType, contextId, stageIndex, lessonId, surface } = parseContextParams(request.nextUrl.searchParams)
+    const { contextType, contextId, stageIndex, lessonId, surface, gameKey } = parseContextParams(request.nextUrl.searchParams)
 
     const {
       data: { user },
@@ -303,7 +317,7 @@ export async function GET(request: NextRequest) {
     const [quota, studentProfile, scene, notebook] = await Promise.all([
       getAiCreditStatusForProfile(supabase, profile),
       buildStudentProfile(supabase, user.id),
-      buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface }),
+      buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface, gameKey }),
       loadTutorNotebook(supabase, user.id),
     ])
     const conversation = await getOrCreateActiveConversation(supabase, {
@@ -311,7 +325,7 @@ export async function GET(request: NextRequest) {
       contextType,
       contextId,
       title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+      meta: buildConversationMeta({ stageIndex, lessonId, surface, gameKey }),
     })
     const messages = await loadHistory(supabase, conversation.id)
 
@@ -344,14 +358,14 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
-    const { contextType, contextId, stageIndex, lessonId, surface } = parseContextParams(request.nextUrl.searchParams)
-    const scene = await buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface })
+    const { contextType, contextId, stageIndex, lessonId, surface, gameKey } = parseContextParams(request.nextUrl.searchParams)
+    const scene = await buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface, gameKey })
     const conversation = await startNewConversation(supabase, {
       userId: user.id,
       contextType,
       contextId,
       title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, surface }),
+      meta: buildConversationMeta({ stageIndex, lessonId, surface, gameKey }),
     })
 
     return NextResponse.json({ ok: true, conversation: { id: conversation.id } })
@@ -394,6 +408,7 @@ export async function POST(request: NextRequest) {
     const scratchEditorContext = parsed.data.scratchEditorContext
     const clientSceneCapabilities = parsed.data.sceneCapabilities
     const surface = parsed.data.surface
+    const gameKey = surface === 'playground' ? parsed.data.gameKey : undefined
     const cost = getAiChatCreditCost(images.length > 0)
 
     validateContentSafeIfPresent(content, '对话内容')
@@ -432,6 +447,7 @@ export async function POST(request: NextRequest) {
         scratchBlockTargetItemIndex,
         scratchEditorContext,
         surface,
+        gameKey,
         includeRecommendations: true,
       }),
       loadTutorNotebook(supabase, user.id),
@@ -469,6 +485,7 @@ export async function POST(request: NextRequest) {
         lessonStepCount,
         scratchBlockTargetItemIndex,
         surface,
+        gameKey,
       }),
     })
     const [messageAudios, conversation] = await Promise.all([messageAudiosPromise, conversationPromise])
@@ -597,6 +614,7 @@ export async function POST(request: NextRequest) {
             scratchBlockTargetItemIndex: promptScratchBlockTargetItemIndex,
             scratchEditorContext,
             surface,
+            gameKey,
             includeRecommendations: true,
           })
         : scene

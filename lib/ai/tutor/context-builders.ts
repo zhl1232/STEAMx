@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
-import type { TutorGlobalSurface, TutorSceneContext } from '@/lib/ai/tutor/types'
+import type { TutorGlobalSurface, TutorPlaygroundGameKey, TutorSceneContext } from '@/lib/ai/tutor/types'
 import {
   buildAvailableAudiosSummary,
   mapSpeciesRowToAudioRef,
@@ -177,6 +177,7 @@ export async function buildTutorSceneContext(
     scratchBlockTargetItemIndex?: number
     scratchEditorContext?: ScratchEditorContext
     surface?: TutorGlobalSurface
+    gameKey?: TutorPlaygroundGameKey
     includeRecommendations?: boolean
   },
 ): Promise<TutorSceneContext> {
@@ -206,7 +207,14 @@ export async function buildTutorSceneContext(
       )
       break
     default:
-      scene = await buildGlobalContext(supabase, userId, options?.includeRecommendations ?? false, options?.surface)
+      scene = await buildGlobalContext(
+        supabase,
+        userId,
+        contextId,
+        options?.includeRecommendations ?? false,
+        options?.surface,
+        options?.gameKey,
+      )
       break
   }
 
@@ -266,8 +274,8 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   playground: {
     title: '益智游乐场',
     summary: [
-      '学生正在益智游乐场（2048、数独、五子棋、扫雷等小游戏），可以聊聊游戏里的数学和策略。',
-      '如果学生询问扫雷页面操作，请准确说明：工具栏可在「挖掘 / 插旗」两种模式间切换；挖掘模式下点击未翻开的格子是翻开，长按可插旗或撤旗；插旗模式下点击格子即可插旗或撤旗；「重开」会按当前难度重新开一局。',
+      '学生正在益智游乐场，可以聊聊各小游戏里的数学、策略和复盘方法。',
+      '如果学生位于具体小游戏页面，必须以当前小游戏为准，不要把一个游戏的问题回答成另一个游戏。',
       // 静态事实兜底；buildGlobalContext 会再按库内课程 id 替换为带入口的版本
       GOMOKU_TUTOR_FACTS,
     ].join('\n'),
@@ -282,20 +290,117 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   },
 }
 
+const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; summary: string; capabilities?: TutorSceneCapability[] }> = {
+  minesweeper: {
+    title: '扫雷',
+    summary: [
+      '学生正在玩扫雷。回答必须围绕扫雷棋盘、数字线索、插旗/挖掘和确定性推理。',
+      '操作事实：工具栏可在「挖掘 / 插旗」两种模式间切换；挖掘模式下点击未翻开的格子是翻开，长按可插旗或撤旗；插旗模式下点击格子即可插旗或撤旗；「重开」会按当前难度重新开一局。',
+      '提示边界：只能根据已翻开的数字和旗子做确定性推理；不能读取地雷答案，也不要直接标出所有雷或安全格。',
+    ].join('\n'),
+    capabilities: ['hintMinesweeperCell'],
+  },
+  gomoku: {
+    title: '五子棋',
+    summary: [
+      '学生正在玩五子棋。回答必须围绕连五、冲四、活三、防守和落子顺序，不要切到扫雷、迷宫或其他游戏。',
+      GOMOKU_TUTOR_FACTS,
+    ].join('\n'),
+  },
+  life: {
+    title: '生命游戏',
+    summary: '学生正在玩康威生命游戏挑战。围绕细胞预算、演化代数、稳定结构/振荡结构和三星条件给提示，不要切到扫雷或迷宫。',
+  },
+  '2048': {
+    title: '2048',
+    summary: '学生正在玩 2048。围绕合并方向、保留最大数字角落、避免把大数字拆散和局面空间给提示。',
+  },
+  '24game': {
+    title: '24 点',
+    summary: '学生正在玩 24 点。围绕四则运算、凑 24 的中间数和括号组合给分层提示，不直接报完整答案。',
+  },
+  hanoi: {
+    title: '汉诺塔',
+    summary: '学生正在玩汉诺塔。围绕递归目标、先移动上层小盘、最少步数 2^n-1 和三根柱子的中间目标给提示。',
+  },
+  sudoku: {
+    title: '数独',
+    summary: '学生正在玩数独。围绕行、列、宫的候选数排除和唯一候选给提示，不直接填完整盘面。',
+  },
+  nqueens: {
+    title: 'N 皇后',
+    summary: '学生正在玩 N 皇后。围绕行列唯一、对角线冲突和逐行试探回溯给提示。',
+  },
+  fifteen: {
+    title: '数字华容道',
+    summary: '学生正在玩数字华容道。围绕空格移动、先完成前几行/列和保持已排好区域不要打乱给提示。',
+  },
+  memory: {
+    title: '记忆翻牌',
+    summary: '学生正在玩记忆翻牌。围绕记忆位置、主题图案分组和减少重复翻错给提示。',
+  },
+  quickmath: {
+    title: '速算闪电战',
+    summary: '学生正在玩速算闪电战。围绕心算拆分、先估后算和减少手误给提示。',
+  },
+  maze: {
+    title: '迷宫探险',
+    summary: [
+      '学生正在玩迷宫探险，不是扫雷。回答必须围绕迷宫、岔路、路径记忆、迷雾探索、BFS/DFS/A* 复盘和步数效率；禁止把问题解释成扫雷，不要提地雷、插旗、挖掘、翻格或周围数字。',
+      '当前迷宫规则：玩家只能看到附近区域，走过的区域会进入记忆地图；方向键/WASD/手机十字键都按地图绝对上下左右移动；撞墙只转向不计步；通关后全图揭开，并可对比 BFS、DFS、A* 的探索格数和路线步数。',
+      '如果学生问“运气步数少吗”“为什么我走了很多步”，应解释：迷宫的随机性来自地图生成和玩家早期选择岔路；复盘里的 BFS/A* 是基于已知全图的算法基准，玩家闯关时看不到全图，所以多走路主要来自探索和记忆策略，不是扫雷式概率运气。',
+    ].join('\n'),
+  },
+  tangram: {
+    title: '七巧板',
+    summary: '学生正在玩七巧板。围绕旋转、翻转、边角对齐和轮廓分解给提示。',
+  },
+  nonogram: {
+    title: '数织',
+    summary: '学生正在玩数织。围绕行列线索、连续色块长度、确定空格和逐步排除给提示。',
+  },
+  ballsort: {
+    title: '球排序',
+    summary: '学生正在玩球排序。围绕同色归并、腾出空管和避免堵住关键颜色给提示。',
+  },
+  balance: {
+    title: '天平称重',
+    summary: '学生正在玩天平称重。围绕分组称量、比较左右盘和用最少次数找异常硬币给提示。',
+  },
+  symmetry: {
+    title: '像素对称',
+    summary: '学生正在玩像素对称。围绕镜像轴、对应格和图案平衡给提示。',
+  },
+  circuit: {
+    title: '逻辑电路',
+    summary: '学生正在玩逻辑电路。围绕 AND/OR/NOT、输入输出真值和逐门推理给提示。',
+  },
+}
+
 async function buildGlobalContext(
   supabase: SupabaseClient<Database>,
   userId: string,
+  contextId: string,
   includeRecommendations: boolean,
   surface?: TutorGlobalSurface,
+  gameKey?: TutorPlaygroundGameKey,
 ): Promise<TutorSceneContext> {
   const scene = GLOBAL_SURFACE_SCENES[surface ?? 'home'] ?? GLOBAL_SURFACE_SCENES.home
+  const playgroundScene = surface === 'playground' && gameKey ? PLAYGROUND_GAME_SCENES[gameKey] : null
+  const summary = playgroundScene
+    ? [
+        playgroundScene.summary,
+        '学生位于益智游乐场的具体小游戏页。当前小游戏优先级高于历史对话和通用游乐场知识。',
+      ].join('\n\n')
+    : scene.summary
   const base: TutorSceneContext = {
     contextType: 'global',
-    contextId: '',
-    title: scene.title,
-    summary: scene.summary,
+    contextId,
+    title: playgroundScene?.title ?? scene.title,
+    summary,
     surface,
-    sceneCapabilities: surface === 'playground' ? ['hintMinesweeperCell'] : undefined,
+    playgroundGameKey: gameKey,
+    sceneCapabilities: playgroundScene?.capabilities,
   }
 
   if (surface === 'profile') {

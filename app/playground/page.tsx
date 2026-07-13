@@ -15,16 +15,20 @@ import {
     Code2,
     Cog,
     Compass,
+    Cpu,
     Crown,
     Dna,
+    FlipHorizontal,
     Gamepad2,
     Grid3X3,
     Hash,
     Layers,
     Palette,
     RotateCw,
+    Scale,
     Sigma,
     Star,
+    Table,
     Trophy,
     type LucideIcon,
 } from "lucide-react"
@@ -39,7 +43,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram"
+type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "circuit"
 
 type GameCard = {
     name: string
@@ -95,10 +99,10 @@ const GAMES: GameCard[] = [
         iconBg: "bg-emerald-100 dark:bg-emerald-400/10",
         visual: "life",
         tags: ["Science", "Math"],
-        description: "探索元胞自动机的奇妙世界，观察复杂系统的演化。",
+        description: "挑战 8 个涌现任务：用有限细胞造稳定结构、振荡器和滑翔机信号。",
         statsKey: "game_of_life_stats",
         getPlayed: (raw) => safeNum(raw, "totalSessions"),
-        getWins: (raw) => safeNum(raw, "totalSessions"),
+        getWins: (raw) => countStringArray(raw, "challengesSolved"),
     },
     {
         name: "2048",
@@ -222,7 +226,7 @@ const GAMES: GameCard[] = [
         iconBg: "bg-lime-100 dark:bg-lime-400/10",
         visual: "maze",
         tags: ["Technology", "Science"],
-        description: "走出递归迷宫，对比 BFS、DFS 与 A* 寻路路径。",
+        description: "挑战五档迷雾地图与误导岔路，通关后解锁 BFS、DFS 与 A* 复盘。",
         statsKey: "maze_runner_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -240,6 +244,76 @@ const GAMES: GameCard[] = [
         statsKey: "tangram_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).solvedLevels) ? ((raw as Record<string, unknown>).solvedLevels as unknown[]).length : 0,
+    },
+    {
+        name: "数织",
+        subtitle: "Nonogram",
+        href: "/playground/nonogram",
+        icon: Table,
+        color: "text-slate-600 dark:text-slate-300",
+        iconBg: "bg-slate-100 dark:bg-slate-400/10",
+        visual: "nonogram",
+        tags: ["Math", "Arts"],
+        description: "28 关像素谜题，从 3×3 练到 15×15 迷宫与星系。",
+        statsKey: "nonogram_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels"),
+    },
+    {
+        name: "球排序",
+        subtitle: "Ball Sort",
+        href: "/playground/ballsort",
+        icon: Beaker,
+        color: "text-cyan-600 dark:text-cyan-300",
+        iconBg: "bg-cyan-100 dark:bg-cyan-400/10",
+        visual: "ballsort",
+        tags: ["Engineering", "Math"],
+        description: "倾倒彩色球，用空管中转完成同色归位。",
+        statsKey: "ball_sort_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels"),
+    },
+    {
+        name: "天平称重",
+        subtitle: "Balance",
+        href: "/playground/balance",
+        icon: Scale,
+        color: "text-teal-600 dark:text-teal-300",
+        iconBg: "bg-teal-100 dark:bg-teal-400/10",
+        visual: "balance",
+        tags: ["Science", "Math"],
+        description: "有限次称量找出假币，练习三分法推理。",
+        statsKey: "balance_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels"),
+    },
+    {
+        name: "像素对称",
+        subtitle: "Symmetry",
+        href: "/playground/symmetry",
+        icon: FlipHorizontal,
+        color: "text-pink-600 dark:text-pink-300",
+        iconBg: "bg-pink-100 dark:bg-pink-400/10",
+        visual: "symmetry",
+        tags: ["Arts", "Math"],
+        description: "轴对称作画，镜像同步填色拼出剪影。",
+        statsKey: "symmetry_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels"),
+    },
+    {
+        name: "逻辑电路",
+        subtitle: "Logic Circuit",
+        href: "/playground/circuit",
+        icon: Cpu,
+        color: "text-indigo-600 dark:text-indigo-300",
+        iconBg: "bg-indigo-100 dark:bg-indigo-400/10",
+        visual: "circuit",
+        tags: ["Technology", "Science"],
+        description: "组合与/或/非等逻辑门，点亮目标输出。",
+        statsKey: "circuit_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels"),
     },
 ]
 
@@ -313,6 +387,12 @@ function safeNum(raw: unknown, key: string): number {
         return typeof value === "number" ? value : 0
     }
     return 0
+}
+
+function countStringArray(raw: unknown, key: string): number {
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return 0
+    const value = (raw as Record<string, unknown>)[key]
+    return Array.isArray(value) ? value.filter((item) => typeof item === "string").length : 0
 }
 
 function readBestTimes(raw: unknown): unknown {
@@ -497,7 +577,7 @@ export default function PlaygroundPage() {
                         })}
                     </div>
 
-                    <div className="order-4 space-y-5 xl:order-2">
+                    <div className="order-4 hidden space-y-5 md:block xl:order-2">
                         <StatsGrid stats={displayStats} />
                         <SteamRadarPanel
                             stats={displayStats}
@@ -857,6 +937,11 @@ function GameArtwork({ game }: { game: GameCard }) {
                     {game.visual === "quickmath" ? <QuickMathArtwork /> : null}
                     {game.visual === "maze" ? <MazeArtwork /> : null}
                     {game.visual === "tangram" ? <TangramArtwork /> : null}
+                    {game.visual === "nonogram" ? <NonogramArtwork /> : null}
+                    {game.visual === "ballsort" ? <BallSortArtwork /> : null}
+                    {game.visual === "balance" ? <BalanceArtwork /> : null}
+                    {game.visual === "symmetry" ? <SymmetryArtwork /> : null}
+                    {game.visual === "circuit" ? <CircuitArtwork /> : null}
                 </>
             )}
         </div>
@@ -1129,6 +1214,74 @@ function TangramArtwork() {
             <path d="M39 38 L55 54 L39 54 Z" className="fill-rose-400 dark:fill-rose-300" />
             <path d="M20 57 L36 73 H20 Z" className="fill-fuchsia-400 dark:fill-fuchsia-300" />
             <path d="M57 19 L73 35 L73 19 Z" className="fill-blue-400 dark:fill-blue-300" />
+        </svg>
+    )
+}
+
+function NonogramArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-slate-50 dark:fill-slate-950/45" />
+            {[
+                [22, 22], [40, 22], [58, 22],
+                [22, 40], [58, 40],
+                [22, 58], [40, 58], [58, 58],
+            ].map(([x, y]) => (
+                <rect key={`${x}-${y}`} x={x} y={y} width="14" height="14" rx="2" className="fill-slate-700 dark:fill-slate-200" />
+            ))}
+            <text x="14" y="18" className="fill-slate-400 text-[8px] font-bold">2</text>
+            <text x="8" y="50" className="fill-slate-400 text-[8px] font-bold">1</text>
+        </svg>
+    )
+}
+
+function BallSortArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
+            <path d="M24 22 V70 Q24 78 32 78 H40 Q48 78 48 70 V22" className="fill-none stroke-cyan-700/40 dark:stroke-cyan-200/40" strokeWidth="3" />
+            <path d="M52 22 V70 Q52 78 60 78 H68 Q76 78 76 70 V22" className="fill-none stroke-cyan-700/40 dark:stroke-cyan-200/40" strokeWidth="3" />
+            <circle cx="36" cy="66" r="7" className="fill-rose-500" />
+            <circle cx="36" cy="50" r="7" className="fill-sky-500" />
+            <circle cx="64" cy="66" r="7" className="fill-amber-400" />
+            <circle cx="64" cy="50" r="7" className="fill-emerald-500" />
+        </svg>
+    )
+}
+
+function BalanceArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-teal-50 dark:fill-teal-950/45" />
+            <path d="M46 20 V68" className="stroke-teal-700 dark:stroke-teal-200" strokeWidth="4" strokeLinecap="round" />
+            <path d="M22 36 H70" className="stroke-teal-700 dark:stroke-teal-200" strokeWidth="4" strokeLinecap="round" />
+            <path d="M22 36 L16 52 H28 Z" className="fill-teal-500/80 dark:fill-teal-300/80" />
+            <path d="M70 36 L64 48 H76 Z" className="fill-amber-400/90" />
+            <rect x="38" y="68" width="16" height="6" rx="2" className="fill-teal-700 dark:fill-teal-200" />
+        </svg>
+    )
+}
+
+function SymmetryArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-pink-50 dark:fill-pink-950/45" />
+            <path d="M46 16 V76" className="stroke-pink-300 dark:stroke-pink-500/50" strokeWidth="2" strokeDasharray="4 4" />
+            <path d="M20 30 L46 46 L20 62 Z" className="fill-pink-500 dark:fill-pink-300" />
+            <path d="M72 30 L46 46 L72 62 Z" className="fill-pink-400/70 dark:fill-pink-200/70" />
+        </svg>
+    )
+}
+
+function CircuitArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-indigo-50 dark:fill-indigo-950/45" />
+            <rect x="18" y="28" width="22" height="16" rx="4" className="fill-indigo-500 dark:fill-indigo-300" />
+            <rect x="18" y="52" width="22" height="16" rx="4" className="fill-slate-400 dark:fill-slate-500" />
+            <rect x="52" y="38" width="24" height="20" rx="4" className="fill-amber-400 dark:fill-amber-300" />
+            <path d="M40 36 H52 M40 60 H46 V48 H52" className="stroke-indigo-700 dark:stroke-indigo-200" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <circle cx="82" cy="48" r="5" className="fill-emerald-500" />
         </svg>
     )
 }

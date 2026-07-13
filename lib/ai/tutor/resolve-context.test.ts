@@ -25,11 +25,28 @@ describe('resolveTutorContextFromPath', () => {
     })
   })
 
-  it('keeps playground game pages on the playground surface', () => {
-    expect(resolveTutorContextFromPath('/playground/gomoku')).toEqual({
+  it('keeps the playground hub on the generic playground surface', () => {
+    expect(resolveTutorContextFromPath('/playground')).toEqual({
       contextType: 'global',
       contextId: '',
       surface: 'playground',
+      playgroundGameKey: undefined,
+    })
+  })
+
+  it('separates playground game pages by concrete game key', () => {
+    expect(resolveTutorContextFromPath('/playground/gomoku')).toEqual({
+      contextType: 'global',
+      contextId: 'playground:gomoku',
+      surface: 'playground',
+      playgroundGameKey: 'gomoku',
+    })
+
+    expect(resolveTutorContextFromPath('/playground/maze')).toEqual({
+      contextType: 'global',
+      contextId: 'playground:maze',
+      surface: 'playground',
+      playgroundGameKey: 'maze',
     })
   })
 })

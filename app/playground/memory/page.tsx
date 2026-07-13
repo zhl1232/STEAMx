@@ -2,7 +2,11 @@
 
 import { useEffect } from "react"
 import { Brain, RotateCcw, Sparkles, Timer, Trophy } from "lucide-react"
-import { useMemoryMatch, type MemoryDifficulty } from "@/hooks/playground/use-memory-match"
+import {
+    MEMORY_THEMES,
+    useMemoryMatch,
+    type MemoryDifficulty,
+} from "@/hooks/playground/use-memory-match"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -20,7 +24,7 @@ function formatTime(seconds: number) {
 }
 
 export default function MemoryPage() {
-    const game = useMemoryMatch("easy")
+    const game = useMemoryMatch("easy", "animals")
     const { checkBadges } = useGamification()
 
     useEffect(() => {
@@ -48,7 +52,7 @@ export default function MemoryPage() {
                             </div>
                             <div>
                                 <h1 className="text-xl font-black">记忆翻牌</h1>
-                                <p className="text-xs text-muted-foreground">记住图案位置，找出所有配对。</p>
+                                <p className="text-xs text-muted-foreground">选一套图案，记住位置，找出所有配对。</p>
                             </div>
                         </div>
                         <Button
@@ -62,14 +66,15 @@ export default function MemoryPage() {
                         </Button>
                     </div>
 
-                    <div className="mb-4 flex flex-wrap items-center gap-2">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">难度</span>
                         {DIFFICULTIES.map((item) => (
                             <Button
                                 key={item.key}
                                 size="sm"
                                 variant={game.difficulty === item.key ? "default" : "outline"}
                                 className="min-h-11 px-4"
-                                onClick={() => game.startNewGame(item.key)}
+                                onClick={() => game.startNewGame({ difficulty: item.key })}
                             >
                                 {item.label}
                             </Button>
@@ -79,22 +84,92 @@ export default function MemoryPage() {
                         </span>
                     </div>
 
-                    <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${game.columns}, minmax(0, 1fr))` }}>
+                    <div className="mb-4 flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">图案</span>
+                        {MEMORY_THEMES.map((item) => {
+                            const selected = game.theme === item.key
+                            return (
+                                <button
+                                    key={item.key}
+                                    type="button"
+                                    onClick={() => game.startNewGame({ theme: item.key })}
+                                    className={cn(
+                                        "inline-flex min-h-11 items-center gap-1.5 rounded-md border px-2.5 text-xs font-bold transition-colors",
+                                        selected
+                                            ? "border-fuchsia-400/50 bg-fuchsia-500/15 text-foreground"
+                                            : "border-border bg-background text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                                    )}
+                                    aria-pressed={selected}
+                                >
+                                    <span className="flex gap-0.5 text-sm leading-none" aria-hidden="true">
+                                        {item.preview.slice(0, 2).map((emoji) => (
+                                            <span key={emoji}>{emoji}</span>
+                                        ))}
+                                    </span>
+                                    {item.label}
+                                </button>
+                            )
+                        })}
+                    </div>
+
+                    <div
+                        className="grid gap-2 sm:gap-2.5"
+                        style={{ gridTemplateColumns: `repeat(${game.columns}, minmax(0, 1fr))` }}
+                    >
                         {game.cards.map((card) => (
                             <button
                                 key={card.id}
                                 type="button"
                                 onClick={() => game.flipCard(card.id)}
+                                disabled={card.open || game.status === "won"}
+                                aria-label={card.open ? `图案 ${card.symbol}` : "未翻开的牌"}
                                 className={cn(
-                                    "aspect-square rounded-sm border text-sm font-black transition-all sm:text-lg",
-                                    card.open
-                                        ? card.matched
-                                            ? "border-fuchsia-400/40 bg-fuchsia-500 text-white"
-                                            : "border-amber-400/40 bg-amber-500 text-white"
-                                        : "border-border bg-muted text-transparent hover:bg-muted/70",
+                                    "memory-card-scene aspect-square rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60",
+                                    card.matched && "memory-card-matched",
                                 )}
                             >
-                                {card.symbol}
+                                <div
+                                    className={cn(
+                                        "memory-card-face relative h-full w-full",
+                                        card.open && "memory-card-face-open",
+                                    )}
+                                >
+                                    <div
+                                        className={cn(
+                                            "memory-card-side absolute inset-0 flex items-center justify-center overflow-hidden rounded-lg border shadow-sm",
+                                            "border-fuchsia-300/50 bg-[linear-gradient(145deg,oklch(0.72_0.14_330),oklch(0.55_0.18_310))] text-white",
+                                            "dark:border-fuchsia-400/30 dark:bg-[linear-gradient(145deg,oklch(0.42_0.12_320),oklch(0.28_0.1_300))]",
+                                        )}
+                                    >
+                                        <div
+                                            className="absolute inset-0 opacity-30"
+                                            style={{
+                                                backgroundImage:
+                                                    "radial-gradient(circle at 30% 25%, white 0 1.5px, transparent 2px), radial-gradient(circle at 70% 70%, white 0 1.2px, transparent 1.8px)",
+                                                backgroundSize: "14px 14px, 18px 18px",
+                                            }}
+                                        />
+                                        <Brain className="relative h-[28%] w-[28%] text-white/85 drop-shadow-sm" />
+                                    </div>
+                                    <div
+                                        className={cn(
+                                            "memory-card-side memory-card-front absolute inset-0 flex items-center justify-center rounded-lg border shadow-sm",
+                                            card.matched
+                                                ? "border-emerald-400/50 bg-emerald-500/15"
+                                                : "border-amber-300/45 bg-amber-50 dark:border-amber-400/35 dark:bg-amber-500/15",
+                                        )}
+                                    >
+                                        <span
+                                            className={cn(
+                                                "select-none leading-none",
+                                                game.columns >= 6 ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl",
+                                            )}
+                                            aria-hidden="true"
+                                        >
+                                            {card.symbol}
+                                        </span>
+                                    </div>
+                                </div>
                             </button>
                         ))}
                     </div>

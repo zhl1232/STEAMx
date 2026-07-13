@@ -60,6 +60,14 @@ import {
   type TutorPcmRecorder,
   type TutorVoicePreferences,
 } from '@/components/features/tutor/tutor-voice'
+import {
+  clampTutorFabPosition,
+  getDefaultTutorFabPosition,
+  readTutorFabPosition,
+  TUTOR_FAB_DRAG_THRESHOLD_PX,
+  writeTutorFabPosition,
+  type TutorFabPosition,
+} from '@/components/features/tutor/tutor-fab-position'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
@@ -249,6 +257,8 @@ export function GlobalTutorFab({
   const [historyDetail, setHistoryDetail] = useState<TutorHistoryDetail | null>(null)
   const [historyDetailLoading, setHistoryDetailLoading] = useState(false)
   const [deletingHistoryId, setDeletingHistoryId] = useState<string | null>(null)
+  const [fabPosition, setFabPosition] = useState<TutorFabPosition | null>(null)
+  const [fabDragging, setFabDragging] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const composerTextareaRef = useRef<HTMLTextAreaElement>(null)
@@ -258,6 +268,14 @@ export function GlobalTutorFab({
   const longPressActiveRef = useRef(false)
   const longPressReleasePendingRef = useRef(false)
   const suppressNextToggleRef = useRef(false)
+  const fabDragRef = useRef<{
+    pointerId: number
+    startX: number
+    startY: number
+    origin: TutorFabPosition
+    moved: boolean
+  } | null>(null)
+  const fabPositionRef = useRef<TutorFabPosition | null>(null)
   const voiceRecordingModeRef = useRef<TutorVoiceRecordingMode>('composer')
   const speechAudioRef = useRef<HTMLAudioElement | null>(null)
   const speechObjectUrlRef = useRef<string | null>(null)
@@ -269,7 +287,7 @@ export function GlobalTutorFab({
   const busyRef = useRef(false)
   const autoReadReplies = voicePreferences.autoReadReplies
 
-  const contextKey = `${context.contextType}:${context.contextId}:${stageIndex ?? ''}:${context.lessonId ?? ''}:${context.surface ?? ''}`
+  const contextKey = `${context.contextType}:${context.contextId}:${stageIndex ?? ''}:${context.lessonId ?? ''}:${context.surface ?? ''}:${context.playgroundGameKey ?? ''}`
   // 最新场景 key 放 ref，loadSession 响应回来时丢弃过期场景的数据（防快速切换串话题）。
   const contextKeyRef = useRef(contextKey)
   contextKeyRef.current = contextKey
@@ -283,8 +301,9 @@ export function GlobalTutorFab({
       stageIndex,
       lessonId: context.lessonId,
       surface: context.surface,
+      playgroundGameKey: context.playgroundGameKey,
     }
-  }, [user?.id, context.contextType, context.contextId, stageIndex, context.lessonId, context.surface])
+  }, [user?.id, context.contextType, context.contextId, stageIndex, context.lessonId, context.surface, context.playgroundGameKey])
 
   const sessionQueryKey = useMemo(
     () => (sessionInput ? tutorSessionQueryKey(sessionInput) : (['tutor-session', 'disabled'] as const)),
@@ -311,8 +330,9 @@ export function GlobalTutorFab({
       stageIndex,
       lessonId: context.lessonId,
       surface: context.surface,
+      playgroundGameKey: context.playgroundGameKey,
     })
-  }, [context.contextType, context.contextId, stageIndex, context.lessonId, context.surface])
+  }, [context.contextType, context.contextId, stageIndex, context.lessonId, context.surface, context.playgroundGameKey])
 
   const applySessionPayload = useCallback((payload: TutorSessionPayload) => {
     setQuota(payload.quota ?? null)
@@ -362,6 +382,37 @@ export function GlobalTutorFab({
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    fabPositionRef.current = fabPosition
+  }, [fabPosition])
+
+  useEffect(() => {
+    if (!mounted) return
+    const fabSize = open ? 48 : 80
+    const saved = readTutorFabPosition()
+    if (!saved) {
+      setFabPosition(null)
+      return
+    }
+    setFabPosition(clampTutorFabPosition(saved, fabSize))
+  }, [mounted, open, fabPlacement])
+
+  useEffect(() => {
+    if (!mounted) return
+    const reclamp = () => {
+      const current = fabPositionRef.current
+      if (!current) return
+      const fabSize = open ? 48 : 80
+      setFabPosition(clampTutorFabPosition(current, fabSize))
+    }
+    window.addEventListener('resize', reclamp)
+    window.visualViewport?.addEventListener('resize', reclamp)
+    return () => {
+      window.removeEventListener('resize', reclamp)
+      window.visualViewport?.removeEventListener('resize', reclamp)
+    }
+  }, [mounted, open])
 
   useEffect(() => {
     const syncPreferences = () => setVoicePreferences(getTutorVoicePreferences())
@@ -815,6 +866,7 @@ export function GlobalTutorFab({
             scratchEditorContext: scratchEditorContext ?? undefined,
             sceneCapabilities: clientToolCapabilities,
             surface: context.surface,
+            gameKey: context.playgroundGameKey,
           }),
         })
         const responseHeadersMs = TUTOR_CLIENT_TIMING_ENABLED ? markTiming() : 0
@@ -963,6 +1015,7 @@ export function GlobalTutorFab({
       context.contextId,
       context.lessonId,
       context.surface,
+      context.playgroundGameKey,
       stageIndex,
       lessonStepIndex,
       lessonStepCount,
@@ -990,10 +1043,32 @@ export function GlobalTutorFab({
     }
   }, [])
 
+  const resolveFabOrigin = useCallback((): TutorFabPosition => {
+    if (fabPositionRef.current) return fabPositionRef.current
+    return getDefaultTutorFabPosition(fabPlacement)
+  }, [fabPlacement])
+
   const handleFabPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
+    if (hideOnMobile || event.button !== 0) return
+
+    const origin = resolveFabOrigin()
+    fabDragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      origin,
+      moved: false,
+    }
+    setFabDragging(false)
+
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId)
+    } catch {
+      // Some browsers may not allow capture after synthetic pointer events.
+    }
+
     if (
       open ||
-      hideOnMobile ||
       !coarsePointer ||
       !voicePreferences.mobileLongPressInput ||
       event.pointerType === 'mouse' ||
@@ -1005,16 +1080,11 @@ export function GlobalTutorFab({
       return
     }
 
-    try {
-      event.currentTarget.setPointerCapture(event.pointerId)
-    } catch {
-      // Some browsers may not allow capture after synthetic pointer events.
-    }
-
     clearLongPressTimer()
     longPressActiveRef.current = false
     longPressReleasePendingRef.current = false
     longPressTimerRef.current = setTimeout(() => {
+      if (fabDragRef.current?.moved) return
       suppressNextToggleRef.current = true
       longPressActiveRef.current = true
       setShowVoiceHint(false)
@@ -1022,8 +1092,56 @@ export function GlobalTutorFab({
     }, TUTOR_LONG_PRESS_RECORDING_MS)
   }
 
+  const handleFabPointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+    const drag = fabDragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+
+    const deltaX = event.clientX - drag.startX
+    const deltaY = event.clientY - drag.startY
+    const distance = Math.hypot(deltaX, deltaY)
+
+    if (!drag.moved && distance < TUTOR_FAB_DRAG_THRESHOLD_PX) return
+
+    if (!drag.moved) {
+      drag.moved = true
+      setFabDragging(true)
+      clearLongPressTimer()
+      if (longPressActiveRef.current) {
+        longPressActiveRef.current = false
+        longPressReleasePendingRef.current = false
+        if (recorderRef.current) {
+          void finishVoiceRecording()
+        }
+      }
+    }
+
+    event.preventDefault()
+    const fabSize = open ? 48 : 80
+    const next = clampTutorFabPosition(
+      {
+        right: drag.origin.right - deltaX,
+        bottom: drag.origin.bottom - deltaY,
+      },
+      fabSize,
+    )
+    fabPositionRef.current = next
+    setFabPosition(next)
+  }
+
   const handleFabPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
+    const drag = fabDragRef.current
     clearLongPressTimer()
+
+    if (drag && drag.pointerId === event.pointerId) {
+      if (drag.moved) {
+        event.preventDefault()
+        suppressNextToggleRef.current = true
+        const next = fabPositionRef.current ?? drag.origin
+        writeTutorFabPosition(next)
+      }
+      fabDragRef.current = null
+      setFabDragging(false)
+    }
 
     if (!longPressActiveRef.current) return
 
@@ -1282,6 +1400,22 @@ export function GlobalTutorFab({
               canStopSpeech: true,
             }
           : null
+
+  const fabSizePx = open ? 48 : 80
+  const resolvedFabPosition = fabPosition ?? getDefaultTutorFabPosition(fabPlacement)
+  const useCustomFabPosition = fabPosition != null
+  const fabStyle = useCustomFabPosition
+    ? {
+        right: resolvedFabPosition.right,
+        bottom: `calc(${resolvedFabPosition.bottom}px + env(safe-area-inset-bottom, 0px))`,
+      }
+    : undefined
+  const fabBubbleStyle = useCustomFabPosition
+    ? {
+        right: Math.max(12, resolvedFabPosition.right - 4),
+        bottom: `calc(${resolvedFabPosition.bottom + fabSizePx + 12}px + env(safe-area-inset-bottom, 0px))`,
+      }
+    : undefined
 
   if (!mounted) return null
 
@@ -1746,10 +1880,12 @@ export function GlobalTutorFab({
           className={cn(
             'fixed right-3 z-50 w-[min(82vw,18rem)] md:hidden',
             hideOnMobile && 'hidden',
-            fabPlacement === 'compact'
-              ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
-              : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]',
+            !useCustomFabPosition &&
+              (fabPlacement === 'compact'
+                ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
+                : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]'),
           )}
+          style={fabBubbleStyle}
         >
           <VoiceFeedbackBar feedback={activeVoiceFeedback} compact onStopSpeech={stopSpeechPlayback} />
           <span
@@ -1765,10 +1901,12 @@ export function GlobalTutorFab({
           className={cn(
             'fixed right-3 z-50 max-w-46 rounded-sm border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground/86 shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)] md:hidden',
             hideOnMobile && 'hidden',
-            fabPlacement === 'compact'
-              ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
-              : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]',
+            !useCustomFabPosition &&
+              (fabPlacement === 'compact'
+                ? 'bottom-[calc(6.5rem+env(safe-area-inset-bottom))]'
+                : 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]'),
           )}
+          style={fabBubbleStyle}
         >
           长按小迪直接说话
           <span
@@ -1782,19 +1920,23 @@ export function GlobalTutorFab({
         type="button"
         onClick={handleFabClick}
         onPointerDown={handleFabPointerDown}
+        onPointerMove={handleFabPointerMove}
         onPointerUp={handleFabPointerEnd}
         onPointerCancel={handleFabPointerEnd}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
-          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          fabDragging ? 'cursor-grabbing transition-none' : 'cursor-grab transition-transform hover:scale-105 active:scale-95',
           open
             ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
             : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
           hideOnMobile && 'max-lg:hidden',
-          fabPlacement === 'compact'
-            ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
-            : 'bottom-[calc(8.5rem+env(safe-area-inset-bottom))] md:bottom-6',
+          !useCustomFabPosition &&
+            (fabPlacement === 'compact'
+              ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
+              : 'bottom-[calc(8.5rem+env(safe-area-inset-bottom))] md:bottom-6'),
         )}
+        style={fabStyle}
       >
         {open ? (
           <ChevronDown className="h-6 w-6 text-[hsl(var(--brand-blue))]" />

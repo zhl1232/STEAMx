@@ -142,6 +142,11 @@ function countPlaygroundGamesPlayed(args: {
   quickMath: Record<string, unknown>
   maze: Record<string, unknown>
   tangramSolvedLevels: string[]
+  nonogramSolvedLevels: string[]
+  ballSortSolvedLevels: string[]
+  balanceSolvedLevels: string[]
+  symmetrySolvedLevels: string[]
+  circuitSolvedLevels: string[]
 }): number {
   let count = 0
   if (hasPlayedGame(getNumber(args.minesweeperStats, "totalGames"), getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes))) count++
@@ -157,6 +162,11 @@ function countPlaygroundGamesPlayed(args: {
   if (hasPlayedGame(getNumber(args.quickMath, "bestScore"), getNumber(args.quickMath, "bestStreak"))) count++
   if (hasPlayedGame(getNumber(args.maze, "totalGames"), getNumber(args.maze, "wins"))) count++
   if (args.tangramSolvedLevels.length > 0) count++
+  if (args.nonogramSolvedLevels.length > 0) count++
+  if (args.ballSortSolvedLevels.length > 0) count++
+  if (args.balanceSolvedLevels.length > 0) count++
+  if (args.symmetrySolvedLevels.length > 0) count++
+  if (args.circuitSolvedLevels.length > 0) count++
   return count
 }
 
@@ -174,6 +184,11 @@ function sumPlaygroundWins(args: {
   maze: Record<string, unknown>
   lifeChallengesSolved: number
   tangramSolved: number
+  nonogramSolved: number
+  ballSortSolved: number
+  balanceSolved: number
+  symmetrySolved: number
+  circuitSolved: number
 }): number {
   return (
     getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes) +
@@ -187,7 +202,12 @@ function sumPlaygroundWins(args: {
     getNumber(args.memory, "wins") +
     getNumber(args.maze, "wins") +
     args.lifeChallengesSolved +
-    args.tangramSolved
+    args.tangramSolved +
+    args.nonogramSolved +
+    args.ballSortSolved +
+    args.balanceSolved +
+    args.symmetrySolved +
+    args.circuitSolved
   )
 }
 
@@ -213,9 +233,19 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const quickMath = getRecord(source, "quick_math_stats")
   const maze = getRecord(source, "maze_runner_stats")
   const tangram = getRecord(source, "tangram_stats")
+  const nonogram = getRecord(source, "nonogram_stats")
+  const ballSort = getRecord(source, "ball_sort_stats")
+  const balance = getRecord(source, "balance_stats")
+  const symmetry = getRecord(source, "symmetry_stats")
+  const circuit = getRecord(source, "circuit_stats")
 
   const game24BestTime = game24.bestTime
   const tangramSolvedLevels = getStringArray(tangram, "solvedLevels")
+  const nonogramSolvedLevels = getStringArray(nonogram, "solvedLevels")
+  const ballSortSolvedLevels = getStringArray(ballSort, "solvedLevels")
+  const balanceSolvedLevels = getStringArray(balance, "solvedLevels")
+  const symmetrySolvedLevels = getStringArray(symmetry, "solvedLevels")
+  const circuitSolvedLevels = getStringArray(circuit, "solvedLevels")
   const lifeChallengesSolved = getStringArray(life, "challengesSolved").length
   const playgroundGamesPlayed = countPlaygroundGamesPlayed({
     minesweeperStats,
@@ -233,6 +263,11 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     quickMath,
     maze,
     tangramSolvedLevels,
+    nonogramSolvedLevels,
+    ballSortSolvedLevels,
+    balanceSolvedLevels,
+    symmetrySolvedLevels,
+    circuitSolvedLevels,
   })
   const playgroundWinsTotal = sumPlaygroundWins({
     minesweeperStats,
@@ -248,6 +283,11 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     maze,
     lifeChallengesSolved,
     tangramSolved: tangramSolvedLevels.length,
+    nonogramSolved: nonogramSolvedLevels.length,
+    ballSortSolved: ballSortSolvedLevels.length,
+    balanceSolved: balanceSolvedLevels.length,
+    symmetrySolved: symmetrySolvedLevels.length,
+    circuitSolved: circuitSolvedLevels.length,
   })
 
   return {
@@ -278,6 +318,11 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     quickMathBestStreak: getNumber(quickMath, "bestStreak"),
     mazeWins: getNumber(maze, "wins"),
     tangramSolved: tangramSolvedLevels.length,
+    nonogramSolved: nonogramSolvedLevels.length,
+    ballSortSolved: ballSortSolvedLevels.length,
+    balanceSolved: balanceSolvedLevels.length,
+    symmetrySolved: symmetrySolvedLevels.length,
+    circuitSolved: circuitSolvedLevels.length,
     playgroundGamesPlayed,
     playgroundWinsTotal,
   }

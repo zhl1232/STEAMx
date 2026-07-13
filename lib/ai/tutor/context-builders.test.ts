@@ -18,16 +18,52 @@ describe('buildTutorSceneContext playground capabilities', () => {
       {} as never,
       'user-1',
       'global',
+      'playground:minesweeper',
+      { surface: 'playground', gameKey: 'minesweeper' },
+    )
+
+    expect(scene.title).toBe('扫雷')
+    expect(scene.contextId).toBe('playground:minesweeper')
+    expect(scene.playgroundGameKey).toBe('minesweeper')
+    expect(scene.sceneCapabilities).toEqual(['hintMinesweeperCell'])
+    expect(scene.summary).toContain('长按可插旗或撤旗')
+    expect(scene.summary).toContain('「重开」会按当前难度重新开一局')
+  })
+
+  it('keeps the generic playground hub tool-neutral', async () => {
+    const scene = await buildTutorSceneContext(
+      {} as never,
+      'user-1',
+      'global',
       '',
       { surface: 'playground' },
     )
 
-    expect(scene.sceneCapabilities).toEqual(['hintMinesweeperCell'])
-    expect(scene.summary).toContain('长按可插旗或撤旗')
-    expect(scene.summary).toContain('「重开」会按当前难度重新开一局')
+    expect(scene.title).toBe('益智游乐场')
+    expect(scene.sceneCapabilities).toBeUndefined()
     expect(scene.summary).toContain('先手（黑棋）在双方完美对弈下必胜')
     expect(scene.summary).toContain('《五子棋博弈论入门》')
     expect(scene.summary).toContain('不要说站内没有五子棋课程')
+  })
+
+  it('uses a maze-specific playground scene without minesweeper rules or tools', async () => {
+    const scene = await buildTutorSceneContext(
+      {} as never,
+      'user-1',
+      'global',
+      'playground:maze',
+      { surface: 'playground', gameKey: 'maze' },
+    )
+
+    expect(scene.title).toBe('迷宫探险')
+    expect(scene.contextId).toBe('playground:maze')
+    expect(scene.playgroundGameKey).toBe('maze')
+    expect(scene.sceneCapabilities).toBeUndefined()
+    expect(scene.summary).toContain('不是扫雷')
+    expect(scene.summary).toContain('BFS/DFS/A*')
+    expect(scene.summary).toContain('运气步数少吗')
+    expect(scene.summary).not.toContain('长按可插旗或撤旗')
+    expect(scene.summary).not.toContain('hintMinesweeperCell')
   })
 
   it('enriches playground gomoku facts with the live course id when available', async () => {
@@ -52,10 +88,13 @@ describe('buildTutorSceneContext playground capabilities', () => {
       },
     }
 
-    const scene = await buildTutorSceneContext(supabase as never, 'user-1', 'global', '', {
+    const scene = await buildTutorSceneContext(supabase as never, 'user-1', 'global', 'playground:gomoku', {
       surface: 'playground',
+      gameKey: 'gomoku',
     })
 
+    expect(scene.title).toBe('五子棋')
+    expect(scene.playgroundGameKey).toBe('gomoku')
     expect(scene.summary).toContain('[course:88|五子棋博弈论入门]')
     expect(scene.summary).toContain('《五子棋博弈论入门》')
   })

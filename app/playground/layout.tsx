@@ -1,36 +1,34 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
 import {
-    AlertTriangle,
+    Beaker,
     Bomb,
     Bot,
     Brain,
     Calculator,
     ChevronRight,
     Compass,
+    Cpu,
     Crown,
     Dna,
+    FlipHorizontal,
     Grid3X3,
     Hash,
     Home,
     Layers,
     Medal,
     Palette,
-    Settings,
-    Trash2,
+    Scale,
+    Table,
     Touchpad,
     type LucideIcon,
 } from "lucide-react"
-import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { Button } from "@/components/ui/button"
+import { GameHelp, type GameHelpShortcut } from "@/components/features/playground/game-help"
 import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
-import { useToast } from "@/hooks/use-toast"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
-import { getPlaygroundItem, PLAYGROUND_KEYS, removePlaygroundItem } from "@/lib/playground/storage"
 import { cn } from "@/lib/utils"
 
 type PlaygroundNavItem = {
@@ -86,10 +84,10 @@ const games: PlaygroundNavItem[] = [
         nameEn: "Game of Life",
         href: "/playground/life",
         icon: Dna,
-        description: "元胞自动机与涌现理论",
-        mission: "构造细胞图案，观察涌现结构。",
-        controls: "点格子切换生命，播放后观察演化。",
-        badgeGoal: "运行到 1000 代可解锁长时演化者。",
+        description: "元胞自动机挑战",
+        mission: "用有限细胞完成稳定、振荡、传送或长寿目标。",
+        controls: "点格子设计初态，运行判定后按细胞预算拿星。",
+        badgeGoal: "完成全部 8 个挑战可解锁涌现工程师。",
         color: "text-emerald-500 dark:text-emerald-300",
         steamTags: ["Science"],
     },
@@ -194,10 +192,10 @@ const games: PlaygroundNavItem[] = [
         nameEn: "Maze",
         href: "/playground/maze",
         icon: Compass,
-        description: "递归生成与寻路算法",
-        mission: "从左上角走到右下角终点。",
-        controls: "方向键/WASD 或移动端按钮移动。",
-        badgeGoal: "用更少步数完成大迷宫。",
+        description: "五档迷雾地图与算法复盘",
+        mission: "辨认墙与道路，避开误导岔路，找到藏在迷雾里的出口。",
+        controls: "方向键或 WASD 对应地图上下左右；手机端箭头紧贴地图显示。",
+        badgeGoal: "挑战 9×9 至 25×25 五档迷宫的最佳步数。",
         color: "text-lime-500 dark:text-lime-300",
         steamTags: ["Technology", "Science"],
     },
@@ -213,204 +211,162 @@ const games: PlaygroundNavItem[] = [
         color: "text-violet-500 dark:text-violet-300",
         steamTags: ["Arts", "Math"],
     },
+    {
+        name: "数织",
+        nameEn: "Nonogram",
+        href: "/playground/nonogram",
+        icon: Table,
+        description: "线索推理与像素填图，28 关至 15×15",
+        mission: "按顺序解锁，根据行列线索填出隐藏图案。",
+        controls: "填色/叉号切换并可滑动连填；须按顺序通关解锁；错填扣试错（3 次）。",
+        badgeGoal: "按顺序通关全部数织关卡。",
+        color: "text-slate-500 dark:text-slate-300",
+        steamTags: ["Math", "Arts"],
+    },
+    {
+        name: "球排序",
+        nameEn: "Ball Sort",
+        href: "/playground/ballsort",
+        icon: Beaker,
+        description: "状态空间与中转规划",
+        mission: "把同色球倒进同一试管并填满。",
+        controls: "先点源管再点目标管倾倒，空管可作中转。",
+        badgeGoal: "刷新各关最少步数。",
+        color: "text-cyan-500 dark:text-cyan-300",
+        steamTags: ["Engineering", "Math"],
+    },
+    {
+        name: "天平称重",
+        nameEn: "Balance",
+        href: "/playground/balance",
+        icon: Scale,
+        description: "三分法与科学推理",
+        mission: "用有限次称量找出假币。",
+        controls: "把硬币放入左右盘称量，再指认假币。",
+        badgeGoal: "用更少称量通关。",
+        color: "text-teal-500 dark:text-teal-300",
+        steamTags: ["Science", "Math"],
+    },
+    {
+        name: "像素对称",
+        nameEn: "Symmetry",
+        href: "/playground/symmetry",
+        icon: FlipHorizontal,
+        description: "轴对称与构图",
+        mission: "按镜像规则画出目标剪影。",
+        controls: "点击像素，镜像侧会同步填色。",
+        badgeGoal: "完成全部对称画关卡。",
+        color: "text-pink-500 dark:text-pink-300",
+        steamTags: ["Arts", "Math"],
+    },
+    {
+        name: "逻辑电路",
+        nameEn: "Logic Circuit",
+        href: "/playground/circuit",
+        icon: Cpu,
+        description: "布尔逻辑与门电路",
+        mission: "选择与/或/非等门，让输出灯达到目标。",
+        controls: "为每个门选类型，必要时拨动输入开关。",
+        badgeGoal: "通关全部电路关卡。",
+        color: "text-indigo-500 dark:text-indigo-300",
+        steamTags: ["Technology", "Science"],
+    },
 ]
 
-function SettingsDialog({
-    open,
-    onClose,
-    onClearCloud,
-    onFlushCloud,
-}: {
-    open: boolean
-    onClose: () => void
-    onClearCloud: () => Promise<void>
-    onFlushCloud: () => Promise<void>
-}) {
-    const [confirmAll, setConfirmAll] = useState(false)
-    const [pendingAction, setPendingAction] = useState<string | null>(null)
-    const [error, setError] = useState<string | null>(null)
-    const { toast } = useToast()
-
-    useEffect(() => {
-        if (open) return
-        setConfirmAll(false)
-        setPendingAction(null)
-        setError(null)
-    }, [open])
-
-    const runAction = useCallback(
-        async (actionKey: string, action: () => Promise<void>, successTitle: string) => {
-            setPendingAction(actionKey)
-            setError(null)
-
-            try {
-                await action()
-                toast({ title: successTitle })
-                window.location.reload()
-            } catch (err) {
-                const message = err instanceof Error ? err.message : "操作失败，请稍后重试"
-                setError(message)
-                toast({
-                    title: "操作失败",
-                    description: message,
-                    variant: "destructive",
-                })
-            } finally {
-                setPendingAction(null)
-            }
-        },
-        [toast],
-    )
-
-    const clearOne = useCallback(
-        async (key: string) => {
-            await runAction(
-                key,
-                async () => {
-                    removePlaygroundItem(key)
-                    await onFlushCloud()
-                },
-                "游戏数据已清除",
-            )
-        },
-        [onFlushCloud, runAction],
-    )
-
-    const clearAll = useCallback(async () => {
-        await runAction(
-            "all",
-            async () => {
-                PLAYGROUND_KEYS.forEach(({ key }) => removePlaygroundItem(key))
-                await onClearCloud()
-            },
-            "全部游戏数据已重置",
-        )
-    }, [onClearCloud, runAction])
-
-    return (
-        <AnimatePresence>
-            {open ? (
-                <>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-foreground/30 backdrop-blur-xs"
-                        onClick={onClose}
-                    />
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                        transition={{ duration: 0.16 }}
-                        className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4"
-                    >
-                        <div
-                            className="surface-panel pointer-events-auto w-full max-w-sm p-5 shadow-[0_28px_80px_-42px_hsl(var(--surface-shadow)/0.7)]"
-                            onClick={(event) => event.stopPropagation()}
-                        >
-                            <div className="mb-4 flex items-center gap-2">
-                                <span className="surface-subtle grid h-9 w-9 place-items-center text-primary">
-                                    <Settings className="h-4 w-4" />
-                                </span>
-                                <div>
-                                    <h2 className="font-sans text-sm font-black">游乐场设置</h2>
-                                    <p className="mt-0.5 text-xs text-muted-foreground">管理云端游戏记录</p>
-                                </div>
-                            </div>
-
-                            <div className="mb-4 space-y-1.5">
-                                {error ? (
-                                    <div className="surface-subtle border-destructive/20 bg-destructive/5 px-3 py-2 text-xs text-destructive">
-                                        {error}
-                                    </div>
-                                ) : null}
-                                {PLAYGROUND_KEYS.map(({ key, label }) => {
-                                    const hasData = getPlaygroundItem(key) !== null
-                                    const isPending = pendingAction === key || pendingAction === "all"
-                                    return (
-                                        <div key={key} className="flex items-center justify-between rounded-sm px-2.5 py-2 hover:bg-muted/50">
-                                            <span className="text-xs font-semibold">{label}</span>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => clearOne(key)}
-                                                disabled={!hasData || pendingAction !== null}
-                                                className="min-h-11 px-3 text-xs font-bold text-destructive hover:bg-destructive/5 hover:text-destructive disabled:text-muted-foreground/30"
-                                            >
-                                                {hasData ? (isPending ? "处理中..." : "清除") : "无数据"}
-                                            </Button>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-
-                            <div className="border-t border-border pt-3">
-                                {!confirmAll ? (
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={() => setConfirmAll(true)}
-                                        disabled={pendingAction !== null}
-                                        className="min-h-11 w-full gap-2 border-destructive/20 text-xs font-bold text-destructive hover:bg-destructive/5 hover:text-destructive"
-                                    >
-                                        <Trash2 className="h-3.5 w-3.5" />
-                                        重置所有游戏数据
-                                    </Button>
-                                ) : (
-                                    <div className="surface-subtle flex flex-col gap-3 border-destructive/20 bg-destructive/5 p-3 sm:flex-row sm:items-center">
-                                        <div className="flex min-w-0 flex-1 items-start gap-2">
-                                            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
-                                            <p className="text-xs leading-5 text-destructive">确定清除全部游戏数据？此操作不可撤销。</p>
-                                        </div>
-                                        <div className="flex shrink-0 gap-2">
-                                            <Button
-                                                type="button"
-                                                variant="destructive"
-                                                size="sm"
-                                                onClick={clearAll}
-                                                disabled={pendingAction !== null}
-                                                className="min-h-11 px-4 text-xs"
-                                            >
-                                                {pendingAction === "all" ? "处理中..." : "确定"}
-                                            </Button>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => setConfirmAll(false)}
-                                                disabled={pendingAction !== null}
-                                                className="min-h-11 px-4 text-xs"
-                                            >
-                                                取消
-                                            </Button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                onClick={onClose}
-                                disabled={pendingAction !== null}
-                                className="mt-2 min-h-11 w-full text-xs font-semibold text-muted-foreground"
-                            >
-                                关闭
-                            </Button>
-                        </div>
-                    </motion.div>
-                </>
-            ) : null}
-        </AnimatePresence>
-    )
+const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
+    "/playground/minesweeper": [
+        { key: "点击", label: "挖掘格子" },
+        { key: "右键 / 长按", label: "插旗或取消插旗" },
+        { key: "模式按钮", label: "手机切换挖掘与插旗" },
+    ],
+    "/playground/gomoku": [
+        { key: "点击棋盘", label: "在空位落子" },
+        { key: "模式选择", label: "切换双人、AI 或在线对局" },
+    ],
+    "/playground/life": [
+        { key: "点击 / 拖动", label: "放置或清除细胞" },
+        { key: "Space", label: "运行或暂停" },
+        { key: "N", label: "单步演化" },
+    ],
+    "/playground/2048": [
+        { key: "← → ↑ ↓", label: "移动全部方块" },
+        { key: "W / A / S / D", label: "移动全部方块" },
+        { key: "滑动", label: "手机移动方块" },
+        { key: "Ctrl / Cmd + Z", label: "撤销一步" },
+    ],
+    "/playground/24game": [
+        { key: "点击数字", label: "输入牌面数字" },
+        { key: "+ − × ÷", label: "输入运算符" },
+        { key: "Enter", label: "提交表达式" },
+    ],
+    "/playground/hanoi": [
+        { key: "点击柱子", label: "先选圆盘，再选目标柱" },
+        { key: "1 / 2 / 3", label: "快速选择三根柱子" },
+        { key: "A / B / C", label: "快速选择三根柱子" },
+    ],
+    "/playground/sudoku": [
+        { key: "点击格子", label: "选中待填写位置" },
+        { key: "1–9", label: "填写数字" },
+        { key: "N", label: "切换笔记模式" },
+        { key: "Delete", label: "清除当前格" },
+    ],
+    "/playground/nqueens": [
+        { key: "点击棋盘", label: "放置或移除皇后" },
+        { key: "演示", label: "观看回溯搜索过程" },
+    ],
+    "/playground/fifteen": [
+        { key: "点击数字", label: "把相邻数字移入空格" },
+        { key: "滑动", label: "手机滑动移动数字" },
+    ],
+    "/playground/memory": [
+        { key: "点击卡牌", label: "翻开一张卡牌" },
+        { key: "再次点击", label: "寻找相同图案" },
+    ],
+    "/playground/quickmath": [
+        { key: "0–9", label: "输入答案" },
+        { key: "Backspace", label: "删除一位" },
+        { key: "Enter", label: "提交答案" },
+    ],
+    "/playground/maze": [
+        { key: "↑ / W", label: "向地图上方移动" },
+        { key: "→ / D", label: "向地图右方移动" },
+        { key: "↓ / S", label: "向地图下方移动" },
+        { key: "← / A", label: "向地图左方移动" },
+        { key: "手机箭头", label: "直接控制地图上的移动方向" },
+    ],
+    "/playground/tangram": [
+        { key: "拖拽", label: "移动拼图片" },
+        { key: "单击", label: "旋转 45°" },
+        { key: "双击", label: "翻转平行四边形" },
+    ],
+    "/playground/nonogram": [
+        { key: "点击 / 滑动", label: "连续填色或标叉" },
+        { key: "模式按钮", label: "切换填色与叉号" },
+    ],
+    "/playground/ballsort": [
+        { key: "点击源管", label: "拿起顶部同色球" },
+        { key: "点击目标管", label: "倒入可用试管" },
+    ],
+    "/playground/balance": [
+        { key: "点击硬币", label: "选中或取消硬币" },
+        { key: "左右盘", label: "把硬币放入对应托盘" },
+        { key: "称量", label: "比较两侧重量" },
+    ],
+    "/playground/symmetry": [
+        { key: "点击像素", label: "填色或清除" },
+        { key: "镜像侧", label: "自动同步对称图案" },
+    ],
+    "/playground/circuit": [
+        { key: "点击门", label: "切换逻辑门类型" },
+        { key: "输入开关", label: "改变输入信号" },
+    ],
 }
 
-function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
+function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
     const navItems = [{ name: "首页", href: "/playground", icon: Home }, ...games]
+    const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
         <div className="surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
@@ -429,16 +385,18 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
                 <h1 className="min-w-0 flex-1 truncate text-center font-sans text-lg font-black tracking-tight">
                     {isHome ? "游乐场" : games.find((game) => pathname.startsWith(game.href))?.name ?? "游乐场"}
                 </h1>
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={onSettings}
-                    className="h-11 w-11 shrink-0"
-                    aria-label="打开游乐场设置"
-                >
-                    <Settings className="h-5 w-5" />
-                </Button>
+                {activeGame ? (
+                    <GameHelp
+                        name={activeGame.name}
+                        description={activeGame.description}
+                        mission={activeGame.mission}
+                        controls={activeGame.controls}
+                        badgeGoal={activeGame.badgeGoal}
+                        shortcuts={GAME_SHORTCUTS[activeGame.href] ?? []}
+                    />
+                ) : (
+                    <div className="w-11 shrink-0" aria-hidden />
+                )}
             </div>
             {!isHome ? (
                 <nav className="hidden gap-2 overflow-x-auto px-4 pb-3 no-scrollbar sm:flex" aria-label="游乐场游戏导航">
@@ -467,7 +425,7 @@ function MobilePlaygroundHeader({ onSettings }: { onSettings: () => void }) {
     )
 }
 
-function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
+function DesktopSidebar() {
     const pathname = usePathname()
 
     return (
@@ -485,7 +443,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                     </div>
                 </div>
 
-                <nav className="flex h-[calc(100%-9.5rem)] flex-col gap-1.5 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
+                <nav className="flex h-[calc(100%-7.5rem)] flex-col gap-1.5 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
                     <Link
                         href="/playground"
                         aria-current={pathname === "/playground" ? "page" : undefined}
@@ -542,16 +500,7 @@ function DesktopSidebar({ onSettings }: { onSettings: () => void }) {
                     })}
                 </nav>
 
-                <div className="mt-4 space-y-2">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onSettings}
-                        className="min-h-11 w-full gap-2 text-xs font-bold"
-                    >
-                        <Settings className="h-3.5 w-3.5" />
-                        设置
-                    </Button>
+                <div className="mt-4">
                     <div className="surface-subtle px-3 py-3 text-center">
                         <p className="text-xs font-semibold leading-5 text-muted-foreground">
                             用游戏理解算法
@@ -616,7 +565,7 @@ function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
 
 function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
     return (
-        <section className="hidden pt-3 sm:block lg:px-8 lg:pt-5">
+        <section className="hidden pt-3 lg:block lg:px-8 lg:pt-5">
             <details className="surface-panel group xl:hidden">
                 <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 [&::-webkit-details-marker]:hidden">
                     <span className="text-sm font-black">本局提示</span>
@@ -632,28 +581,21 @@ function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
 }
 
 export default function PlaygroundLayout({ children }: { children: React.ReactNode }) {
-    const [settingsOpen, setSettingsOpen] = useState(false)
-    const { clearCloud, flushToCloud } = usePlaygroundSync()
+    usePlaygroundSync()
     const pathname = usePathname()
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
         <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] md:min-h-[calc(100vh-4rem)]">
-            <MobilePlaygroundHeader onSettings={() => setSettingsOpen(true)} />
+            <MobilePlaygroundHeader />
             <div className="relative app-shell-wide flex w-full max-md:px-0">
-                <DesktopSidebar onSettings={() => setSettingsOpen(true)} />
+                <DesktopSidebar />
                 <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
                     {activeGame ? <GameMissionBar game={activeGame} /> : null}
                     {children}
                 </main>
             </div>
-            <SettingsDialog
-                open={settingsOpen}
-                onClose={() => setSettingsOpen(false)}
-                onClearCloud={clearCloud}
-                onFlushCloud={flushToCloud}
-            />
         </div>
     )
 }

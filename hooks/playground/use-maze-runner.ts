@@ -2,9 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
-export type MazeSize = 9 | 13 | 17
+export type MazeSize = 9 | 13 | 17 | 21 | 25
 export type MazeAlgorithm = "bfs" | "dfs" | "astar"
 export type MazePoint = { row: number; col: number }
+/** 0 北 · 1 东 · 2 南 · 3 西 */
+export type MazeFacing = 0 | 1 | 2 | 3
+export type MazeMoveDirection = "up" | "right" | "down" | "left"
+
 export type MazeStats = {
     totalGames: number
     wins: number
@@ -26,17 +30,36 @@ export type MazeAlgorithmComparison = {
     isShortest: boolean
 }
 
+export type MazeComplexity = {
+    deadEnds: number
+    junctions: number
+    misleadingBranches: number
+    routeJunctions: number
+    routeChoices: number
+    pathSteps: number
+}
+
 const STATS_KEY = "maze_runner_stats"
 const EMPTY_STATS: MazeStats = { totalGames: 0, wins: 0, bestSteps: {} }
 const DEMO_TICK_MS = 30
 const DEMO_CELLS_PER_TICK = 2
 const DEFAULT_MAZE_SEED = 20260616
-const DELTAS: MazePoint[] = [
+
+export const FACING_DELTAS: MazePoint[] = [
     { row: -1, col: 0 },
     { row: 0, col: 1 },
     { row: 1, col: 0 },
     { row: 0, col: -1 },
 ]
+
+export const MOVE_FACING: Record<MazeMoveDirection, MazeFacing> = {
+    up: 0,
+    right: 1,
+    down: 2,
+    left: 3,
+}
+
+const DELTAS = FACING_DELTAS
 
 function key(point: MazePoint): string {
     return `${point.row},${point.col}`
@@ -75,7 +98,7 @@ function shuffleWithRandom<T>(items: T[], random: () => number): T[] {
     return shuffled
 }
 
-export function generateMaze(size: MazeSize, seed = Date.now()): boolean[][] {
+function generateBacktrackerMazeCandidate(size: MazeSize, seed: number): boolean[][] {
     const random = createSeededRandom(seed)
     const maze = Array.from({ length: size }, () => Array(size).fill(true))
     const carve = (row: number, col: number) => {
@@ -96,6 +119,150 @@ export function generateMaze(size: MazeSize, seed = Date.now()): boolean[][] {
     return maze
 }
 
+function generatePrimMazeCandidate(size: MazeSize, seed: number): boolean[][] {
+    const random = createSeededRandom(seed)
+    const maze = Array.from({ length: size }, () => Array(size).fill(true))
+    const visited = new Set<string>()
+    const frontier: MazePoint[] = []
+    const frontierKeys = new Set<string>()
+
+    const addFrontier = (row: number, col: number) => {
+        for (const dir of DELTAS) {
+            const nextRow = row + dir.row * 2
+            const nextCol = col + dir.col * 2
+            const nextKey = `${nextRow},${nextCol}`
+            if (nextRow <= 0 || nextRow >= size - 1 || nextCol <= 0 || nextCol >= size - 1) continue
+            if (visited.has(nextKey) || frontierKeys.has(nextKey)) continue
+            frontier.push({ row: nextRow, col: nextCol })
+            frontierKeys.add(nextKey)
+        }
+    }
+
+    const markVisited = (row: number, col: number) => {
+        visited.add(`${row},${col}`)
+        maze[row][col] = false
+        addFrontier(row, col)
+    }
+
+    markVisited(1, 1)
+
+    while (frontier.length > 0) {
+        const frontierIndex = Math.floor(random() * frontier.length)
+        const cell = frontier.splice(frontierIndex, 1)[0]
+        frontierKeys.delete(key(cell))
+
+        const connectedNeighbors = DELTAS
+            .map((dir) => ({
+                row: cell.row + dir.row * 2,
+                col: cell.col + dir.col * 2,
+            }))
+            .filter((neighbor) => visited.has(key(neighbor)))
+
+        if (connectedNeighbors.length === 0) continue
+        const neighbor = connectedNeighbors[Math.floor(random() * connectedNeighbors.length)]
+        maze[(cell.row + neighbor.row) / 2][(cell.col + neighbor.col) / 2] = false
+        markVisited(cell.row, cell.col)
+    }
+
+    maze[size - 2][size - 2] = false
+    return maze
+}
+
+function generateMazeCandidate(size: MazeSize, seed: number, attempt: number): boolean[][] {
+    return attempt % 3 === 1
+        ? generatePrimMazeCandidate(size, seed)
+        : generateBacktrackerMazeCandidate(size, seed)
+}
+
+function countOpenings(maze: boolean[][], point: MazePoint): number {
+    let openings = 0
+    for (const delta of DELTAS) {
+        if (maze[point.row + delta.row]?.[point.col + delta.col] === false) openings++
+    }
+    return openings
+}
+
+export function analyzeMazeComplexity(maze: boolean[][]): MazeComplexity {
+    let deadEnds = 0
+    let junctions = 0
+    let misleadingBranches = 0
+    let routeJunctions = 0
+    let routeChoices = 0
+    const path = solveMaze(maze, "bfs")
+    const pathSet = new Set(path.map(key))
+
+    for (let row = 1; row < maze.length - 1; row++) {
+        for (let col = 1; col < maze.length - 1; col++) {
+            if (maze[row][col]) continue
+            const point = { row, col }
+            const openings = countOpenings(maze, point)
+            if (openings === 1) deadEnds++
+            if (openings === 1 && !pathSet.has(key(point))) misleadingBranches++
+            if (openings >= 3) junctions++
+        }
+    }
+
+    for (let index = 1; index < path.length - 1; index++) {
+        const point = path[index]
+        const previous = path[index - 1]
+        const next = path[index + 1]
+        const wrongTurns = neighbors(point, maze).filter((neighbor) =>
+            key(neighbor) !== key(previous) && key(neighbor) !== key(next)
+        ).length
+        if (wrongTurns > 0) {
+            routeJunctions++
+            routeChoices += wrongTurns
+        }
+    }
+
+    return {
+        deadEnds,
+        junctions,
+        misleadingBranches,
+        routeJunctions,
+        routeChoices,
+        pathSteps: Math.max(0, path.length - 1),
+    }
+}
+
+/**
+ * 每一局都会从多张候选迷宫中选择岔路和死胡同更多的一张。
+ * Prim 候选带来更密集的短岔路，回溯候选保留长走廊；最终仍是唯一解迷宫。
+ */
+export function generateMaze(size: MazeSize, seed = Date.now()): boolean[][] {
+    const attemptsBySize: Record<MazeSize, number> = {
+        9: 12,
+        13: 24,
+        17: 32,
+        21: 44,
+        25: 56,
+    }
+    const attempts = attemptsBySize[size]
+    let bestMaze = generateMazeCandidate(size, seed, 0)
+    let bestScore = -1
+
+    for (let attempt = 0; attempt < attempts; attempt++) {
+        const candidateSeed = seed ^ Math.imul(attempt + 1, 0x9e3779b1)
+        const candidate = generateMazeCandidate(size, candidateSeed, attempt)
+        const complexity = analyzeMazeComplexity(candidate)
+        const minimumRouteSteps = (size - 1) * 2.2
+        const directRoutePenalty = Math.max(0, minimumRouteSteps - complexity.pathSteps) * 22
+        const score =
+            complexity.routeChoices * 34
+            + complexity.routeJunctions * 21
+            + complexity.misleadingBranches * 5
+            + complexity.junctions * 4
+            + complexity.pathSteps * 1.8
+            - directRoutePenalty
+        if (score > bestScore) {
+            bestMaze = candidate
+            bestScore = score
+        }
+    }
+
+    return bestMaze
+}
+
 function neighbors(point: MazePoint, maze: boolean[][]): MazePoint[] {
     const result: MazePoint[] = []
     for (const delta of DELTAS) {
@@ -107,6 +274,64 @@ function neighbors(point: MazePoint, maze: boolean[][]): MazePoint[] {
 
 function heuristic(a: MazePoint, b: MazePoint): number {
     return Math.abs(a.row - b.row) + Math.abs(a.col - b.col)
+}
+
+function isWall(maze: boolean[][], point: MazePoint): boolean {
+    return maze[point.row]?.[point.col] !== false
+}
+
+function isGoalCell(maze: boolean[][], point: MazePoint): boolean {
+    const goalRow = maze.length - 2
+    const goalCol = maze.length - 2
+    return point.row === goalRow && point.col === goalCol
+}
+
+export function getStartingFacing(maze: boolean[][]): MazeFacing {
+    const start = { row: 1, col: 1 }
+    const opening = FACING_DELTAS.findIndex((delta) => !isWall(maze, {
+        row: start.row + delta.row,
+        col: start.col + delta.col,
+    }))
+    return (opening >= 0 ? opening : 2) as MazeFacing
+}
+
+export function getAbsoluteMoves(
+    maze: boolean[][],
+    player: MazePoint,
+): Record<MazeMoveDirection, boolean> {
+    const canMove = (direction: MazeMoveDirection) => {
+        const delta = FACING_DELTAS[MOVE_FACING[direction]]
+        return !isWall(maze, {
+            row: player.row + delta.row,
+            col: player.col + delta.col,
+        })
+    }
+
+    return {
+        up: canMove("up"),
+        right: canMove("right"),
+        down: canMove("down"),
+        left: canMove("left"),
+    }
+}
+
+/** 可见格：玩家周围曼哈顿距离 2 以内，保持局部可读但不暴露全图。 */
+export function computeVisibleCells(
+    maze: boolean[][],
+    player: MazePoint,
+    _facing: MazeFacing,
+): Set<string> {
+    const visible = new Set<string>()
+    for (let rowOffset = -2; rowOffset <= 2; rowOffset++) {
+        for (let colOffset = -2; colOffset <= 2; colOffset++) {
+            if (Math.abs(rowOffset) + Math.abs(colOffset) > 2) continue
+            const row = player.row + rowOffset
+            const col = player.col + colOffset
+            if (row < 0 || row >= maze.length || col < 0 || col >= maze.length) continue
+            visible.add(`${row},${col}`)
+        }
+    }
+    return visible
 }
 
 /** 求解迷宫并记录访问顺序，用于算法可视化（A* 使用 g+h 估价） */
@@ -169,25 +394,57 @@ export function compareMazeAlgorithms(maze: boolean[][]): MazeAlgorithmCompariso
     }))
 }
 
+function mergeExplored(previous: Set<string>, visible: Set<string>): Set<string> {
+    const next = new Set(previous)
+    for (const cell of visible) next.add(cell)
+    return next
+}
+
 export function useMazeRunner(initialSize: MazeSize = 13) {
+    const [initialGame] = useState(() => {
+        const initialMaze = generateMaze(initialSize, DEFAULT_MAZE_SEED)
+        return {
+            maze: initialMaze,
+            facing: getStartingFacing(initialMaze),
+        }
+    })
     const [size, setSize] = useState<MazeSize>(initialSize)
-    const [maze, setMaze] = useState<boolean[][]>(() => generateMaze(initialSize, DEFAULT_MAZE_SEED))
+    const [maze, setMaze] = useState<boolean[][]>(initialGame.maze)
     const [player, setPlayer] = useState<MazePoint>({ row: 1, col: 1 })
+    const [facing, setFacing] = useState<MazeFacing>(initialGame.facing)
     const [steps, setSteps] = useState(0)
     const [status, setStatus] = useState<"playing" | "won">("playing")
+    const [trail, setTrail] = useState<MazePoint[]>([{ row: 1, col: 1 }])
     const [demo, setDemo] = useState<MazeDemo | null>(null)
     const [stats, setStats] = useState<MazeStats>(() => ({ ...EMPTY_STATS, bestSteps: {} }))
+    const [exploredCells, setExploredCells] = useState<Set<string>>(() =>
+        computeVisibleCells(initialGame.maze, { row: 1, col: 1 }, initialGame.facing),
+    )
     const demoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
-    // 最短步数（BFS 路径长 - 1），只展示数字、不暴露路线
+    const visibleCells = useMemo(
+        () => computeVisibleCells(maze, player, facing),
+        [maze, player, facing],
+    )
+
+    const absoluteMoves = useMemo(
+        () => getAbsoluteMoves(maze, player),
+        [maze, player],
+    )
+
+    // 最短步数（BFS 路径长 - 1），闯关中不展示
     const optimalSteps = useMemo(() => {
         const path = exploreMaze(maze, "bfs").path
         return path.length > 0 ? path.length - 1 : 0
     }, [maze])
 
     const algorithmComparison = useMemo(() => compareMazeAlgorithms(maze), [maze])
+
+    useEffect(() => {
+        setExploredCells((previous) => mergeExplored(previous, visibleCells))
+    }, [visibleCells])
 
     const stopDemoTimer = useCallback(() => {
         if (demoTimerRef.current !== null) {
@@ -227,27 +484,38 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
     const startNewGame = useCallback(
         (nextSize: MazeSize = size) => {
             const nextSeed = Date.now()
+            const nextMaze = generateMaze(nextSize, nextSeed)
+            const start = { row: 1, col: 1 }
+            const startFacing = getStartingFacing(nextMaze)
             clearDemo()
             setSize(nextSize)
-            setMaze(generateMaze(nextSize, nextSeed))
-            setPlayer({ row: 1, col: 1 })
+            setMaze(nextMaze)
+            setPlayer(start)
+            setFacing(startFacing)
             setSteps(0)
             setStatus("playing")
+            setTrail([start])
+            setExploredCells(computeVisibleCells(nextMaze, start, startFacing))
         },
         [clearDemo, size],
     )
 
     const move = useCallback(
-        (delta: MazePoint) => {
-            if (status === "won") return
+        (direction: MazeMoveDirection) => {
+            if (status === "won") return false
+            const nextFacing = MOVE_FACING[direction]
+            const delta = FACING_DELTAS[nextFacing]
             const next = { row: player.row + delta.row, col: player.col + delta.col }
-            if (maze[next.row]?.[next.col] !== false) return
+
+            setFacing(nextFacing)
+            if (isWall(maze, next)) return false
 
             const nextSteps = steps + 1
             setPlayer(next)
             setSteps(nextSteps)
+            setTrail((current) => [...current, next])
 
-            if (next.row === size - 2 && next.col === size - 2) {
+            if (isGoalCell(maze, next)) {
                 setStatus("won")
                 setStats((prev) => {
                     const updated = {
@@ -262,20 +530,29 @@ export function useMazeRunner(initialSize: MazeSize = 13) {
                     return updated
                 })
             }
+
+            return true
         },
         [maze, player, size, status, steps],
     )
 
+    const revealed = status === "won"
     return {
         size,
         maze,
         player,
+        facing,
         steps,
         status,
+        trail,
         demo,
         optimalSteps,
         algorithmComparison,
         stats,
+        visibleCells,
+        exploredCells,
+        absoluteMoves,
+        revealed,
         runDemo,
         clearDemo,
         startNewGame,
