@@ -19,6 +19,7 @@ import { canUseScratchEditor } from "@/lib/courses/device";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import { LessonWorkUpload } from "@/components/features/courses/lesson-work-upload";
+import type { ScratchStepCheckResult } from "@/lib/courses/scratch-step-check";
 
 export function LessonWorkspaceRenderer({
     courseId,
@@ -26,7 +27,10 @@ export function LessonWorkspaceRenderer({
     previewHref,
     activeStepIndex,
     scratchBlockHint,
+    scratchStepCheckResult,
     onDismissScratchBlockHint,
+    onCheckScratchStep,
+    onFocusScratchStepCheckItem,
     onScratchEditorContextChange,
     onStepChange,
     initialCompleted,
@@ -37,7 +41,10 @@ export function LessonWorkspaceRenderer({
     previewHref: string;
     activeStepIndex: number;
     scratchBlockHint?: ScratchWorkspaceBlockHint | null;
+    scratchStepCheckResult?: ScratchStepCheckResult | null;
     onDismissScratchBlockHint?: () => void;
+    onCheckScratchStep?: () => void;
+    onFocusScratchStepCheckItem?: (targetItemIndex: number) => void;
     onScratchEditorContextChange?: (context: ScratchEditorContext) => void;
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
@@ -73,6 +80,9 @@ export function LessonWorkspaceRenderer({
                     initialCompleted={initialCompleted}
                     blockHint={scratchBlockHint}
                     onDismissBlockHint={onDismissScratchBlockHint}
+                    stepCheckResult={scratchStepCheckResult}
+                    onCheckCurrentStep={onCheckScratchStep}
+                    onFocusStepCheckItem={onFocusScratchStepCheckItem}
                     onEditorContextChange={onScratchEditorContextChange}
                     onCompleted={onCompleted}
                 />

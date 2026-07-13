@@ -15,6 +15,8 @@ const CATEGORY_LABELS = {
   operators: '运算',
   data: '变量',
   myBlocks: '自制积木',
+  music: '音乐',
+  pen: '画笔',
 }
 const CATEGORY_IDS = new Set(Object.keys(CATEGORY_LABELS))
 const FLYOUT_DOM_CATEGORY_BY_HINT_CATEGORY = {
@@ -27,6 +29,8 @@ const FLYOUT_DOM_CATEGORY_BY_HINT_CATEGORY = {
   operators: 'operators',
   data: 'data',
   myBlocks: 'more',
+  music: 'music',
+  pen: 'pen',
 }
 const FLYOUT_DOM_BLOCK_MATCHERS = {
   event_whenflagclicked: { category: 'events', texts: ['whenclicked', '当绿旗被点击'], index: 0 },
@@ -39,7 +43,11 @@ const FLYOUT_DOM_BLOCK_MATCHERS = {
   control_repeat: { category: 'control', texts: ['repeat'], rejectTexts: ['repeatuntil'] },
   control_forever: { category: 'control', texts: ['forever', '重复执行'] },
   control_if: { category: 'control', texts: ['ifthen', '如果'] },
+  control_if_else: { category: 'control', texts: ['ifthenelse', '否则'] },
+  control_stop: { category: 'control', texts: ['stopall', '停止'] },
   motion_movesteps: { category: 'motion', texts: ['movesteps', '移动'] },
+  motion_goto: { category: 'motion', texts: ['goto', '移到'], rejectTexts: ['gotoxy'] },
+  motion_gotoxy: { category: 'motion', texts: ['gotoxy', '移到x'] },
   motion_turnright: { category: 'motion', texts: ['turndegrees', '右转'] },
   motion_turnleft: { category: 'motion', texts: ['turndegrees', '左转'] },
   motion_pointtowards: { category: 'motion', texts: ['pointtowards', '面向'] },
@@ -53,12 +61,20 @@ const FLYOUT_DOM_BLOCK_MATCHERS = {
   looks_nextbackdrop: { category: 'looks', texts: ['nextbackdrop', '下一个背景'] },
   looks_switchcostumeto: { category: 'looks', texts: ['switchcostumeto', '切换造型'] },
   looks_nextcostume: { category: 'looks', texts: ['nextcostume', '下一个造型'] },
+  looks_changesizeby: { category: 'looks', texts: ['changesizeby', '将大小增加'] },
+  looks_changeeffectby: { category: 'looks', texts: ['changeeffectby', '颜色特效'] },
   sound_play: { category: 'sounds', texts: ['playsound', '播放声音'] },
   sound_playuntildone: { category: 'sounds', texts: ['playsounduntildone', '播放声音'] },
   sensing_touchingobject: { category: 'sensing', texts: ['touching', '碰到'], rejectTexts: ['touchingcolor'] },
   sensing_touchingcolor: { category: 'sensing', texts: ['touchingcolor', '碰到颜色'] },
+  sensing_keypressed: { category: 'sensing', texts: ['keypressed', '按下'] },
   sensing_timer: { category: 'sensing', texts: ['timer', '计时器'], rejectTexts: ['resettimer'] },
   operator_random: { category: 'operators', texts: ['pickrandomto', '随机数'] },
+  operator_lt: { category: 'operators', texts: ['operator_lt', '<'] },
+  data_changevariableby: { category: 'data', texts: ['changevariableby', '增加'] },
+  music_playNoteForBeats: { category: 'music', texts: ['playnoteforbeats', '演奏音符'] },
+  music_midiPlayDrumForBeats: { category: 'music', texts: ['playdrumforbeats', '演奏鼓声'] },
+  music_setTempo: { category: 'music', texts: ['settempotobpm', '将演奏速度设定为'] },
 }
 
 let vmRef = null
@@ -93,6 +109,40 @@ function getTargetCostumeName(target) {
   return typeof costume?.name === 'string' ? costume.name : undefined
 }
 
+function serializeScratchBlockValue(value, depth = 0) {
+  if (depth > 3) return undefined
+  if (value == null) return null
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return value
+
+  if (Array.isArray(value)) {
+    const serialized = value
+      .slice(0, 10)
+      .map((item) => serializeScratchBlockValue(item, depth + 1))
+      .filter((item) => item !== undefined)
+    return serialized.length > 0 ? serialized : undefined
+  }
+
+  if (typeof value !== 'object') return undefined
+
+  const output = {}
+  for (const [key, child] of Object.entries(value).slice(0, 14)) {
+    if (typeof child === 'function') continue
+    const serialized = serializeScratchBlockValue(child, depth + 1)
+    if (serialized !== undefined) output[key] = serialized
+  }
+  return Object.keys(output).length > 0 ? output : undefined
+}
+
+function serializeScratchBlockMap(value) {
+  if (!value || typeof value !== 'object') return undefined
+  const output = {}
+  for (const [key, child] of Object.entries(value).slice(0, 16)) {
+    const serialized = serializeScratchBlockValue(child)
+    if (serialized !== undefined) output[key] = serialized
+  }
+  return Object.keys(output).length > 0 ? output : undefined
+}
+
 function serializeTargetBlocks(target) {
   const blocks = target?.blocks?._blocks
   if (!blocks || typeof blocks !== 'object') return undefined
@@ -102,10 +152,17 @@ function serializeTargetBlocks(target) {
       if (!block || Array.isArray(block) || typeof block !== 'object') return null
       const type = typeof block.opcode === 'string' ? block.opcode : typeof block.type === 'string' ? block.type : ''
       if (!type) return null
+      const next = typeof block.next === 'string' && block.next ? block.next : null
+      const parent = typeof block.parent === 'string' && block.parent ? block.parent : null
       return {
         id: String(block.id ?? id),
         type,
         label: typeof block.name === 'string' ? block.name : undefined,
+        fields: serializeScratchBlockMap(block.fields),
+        inputs: serializeScratchBlockMap(block.inputs),
+        next,
+        parent,
+        topLevel: block.topLevel === true || !parent,
       }
     })
     .filter(Boolean)
@@ -269,6 +326,23 @@ function selectScratchCategory(category) {
     return true
   }
   return false
+}
+
+function selectSpriteForMotionHint(category) {
+  if (category !== 'motion' || !vmRef?.editingTarget?.isStage) return false
+
+  const sprite = vmRef.runtime?.targets?.find((target) => !target?.isStage && target?.isOriginal !== false)
+  if (!sprite?.id || typeof vmRef.setEditingTarget !== 'function') return false
+
+  try {
+    vmRef.setEditingTarget(sprite.id)
+    syncTargetsToGui(vmRef)
+    drawStage(vmRef)
+    return true
+  } catch (err) {
+    console.warn('[scratch-host] could not select a sprite for motion hint:', err)
+    return false
+  }
 }
 
 function normalizeTextForMatch(value) {
@@ -578,6 +652,7 @@ function showBlockHintOverlay(keywords, category, items) {
 
   const safeItems = normalizeHintItems(items, safeKeywords)
   const categoryId = normalizeCategory(category) ?? getFirstHintItemCategory(safeItems)
+  selectSpriteForMotionHint(categoryId)
   const categorySelected = selectScratchCategory(categoryId)
   const overlay = getBlockHintOverlay()
   const categoryEl = overlay.querySelector('.scratch-block-hint-category')

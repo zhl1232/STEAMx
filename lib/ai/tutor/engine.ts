@@ -23,6 +23,12 @@ export type TutorEngineMessage = {
 
 type TutorModelMode = 'text' | 'planner'
 
+export type TutorEngineOptions = {
+  modelMode?: TutorModelMode
+  /** Visual-only callers must not turn a failed image request into a text-only guess. */
+  allowVisionFallback?: boolean
+}
+
 function getConfig(preferVision: boolean, mode: TutorModelMode = 'text') {
   const apiKey = process.env.DASHSCOPE_API_KEY
   const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
@@ -105,7 +111,7 @@ function parseContent(raw: unknown): string {
 export async function chatWithTutorComplete(
   systemPrompt: string,
   messages: TutorEngineMessage[],
-  options?: { modelMode?: TutorModelMode },
+  options?: TutorEngineOptions,
 ): Promise<string> {
   const { wantImages } = buildDashScopeMessages(systemPrompt, messages)
 
@@ -143,7 +149,7 @@ export async function chatWithTutorComplete(
   try {
     reply = await call(wantImages)
   } catch (error) {
-    if (wantImages) {
+    if (wantImages && options?.allowVisionFallback !== false) {
       reply = await call(false)
     } else {
       throw error
@@ -160,7 +166,7 @@ export async function chatWithTutorComplete(
 export async function* streamChatWithTutor(
   systemPrompt: string,
   messages: TutorEngineMessage[],
-  options?: { modelMode?: TutorModelMode },
+  options?: TutorEngineOptions,
 ): AsyncGenerator<string, string, undefined> {
   const { wantImages } = buildDashScopeMessages(systemPrompt, messages)
 

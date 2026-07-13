@@ -17,10 +17,23 @@ export type ScratchEditorTargetContext = {
   blocks?: ScratchEditorBlockContext[]
 }
 
+export type ScratchEditorBlockValue =
+  | string
+  | number
+  | boolean
+  | null
+  | ScratchEditorBlockValue[]
+  | { [key: string]: ScratchEditorBlockValue }
+
 export type ScratchEditorBlockContext = {
   id: string
   type: string
   label?: string
+  fields?: Record<string, ScratchEditorBlockValue>
+  inputs?: Record<string, ScratchEditorBlockValue>
+  next?: string | null
+  parent?: string | null
+  topLevel?: boolean
 }
 
 export type ScratchEditorContext = {

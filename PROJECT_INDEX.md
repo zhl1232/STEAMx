@@ -133,7 +133,7 @@
 |--------|--------|------|
 | `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；观察详情 AI 鉴定头像使用 `public/xiaodi-ai/idle-0.webp` 小迪静帧 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
-| `courses/` | 16 | 技能课程列表、课时侧栏与工作区路由；Scratch 持久 Host 复用单一 iframe 并支持作品发布，大颗粒积木工作区用 three.js/LDraw 渲染课件与分步模型，游乐场工作区承载导学和完成课时；`content.workSubmission.enabled` 为 true 时，`lesson-works-gallery` 直接读取当前课时公开作品，`lesson-work-upload` 复用完成作品弹窗并提交到课程课时 works API，无需项目 Provider 或背书项目 |
+| `courses/` | 16 | 技能课程列表、课时侧栏与工作区路由；Scratch 持久 Host 复用单一 iframe 并支持作品发布，Scratch 工作区支持“自检这步”，按当前选中对象的 VM 积木、参数与连接关系给出已完成/未找到/需核对，并可把下一处缺项交给现有积木高亮；大颗粒积木工作区用 three.js/LDraw 渲染课件与分步模型，游乐场工作区承载导学和完成课时；`content.workSubmission.enabled` 为 true 时，`lesson-works-gallery` 直接读取当前课时公开作品，`lesson-work-upload` 复用完成作品弹窗并提交到课程课时 works API，无需项目 Provider 或背书项目 |
 | `works/` | 2 | 统一作品 UI：`work-card-grid` 为探索页、课程与个人主页提供响应式作品卡片；`work-detail` 展示媒体、来源、作者、点赞、评论和打赏交互 |
 | `community/` | 1 | 讨论列表（含搜索、排序、分页） |
 | `gamification/` | 10 | 徽章图标/画廊、等级进度、排行榜、成就 Toast、每日登录同步（登录用户首页也挂载，临时失败自动重试）、观察游戏化同步；`badge-unlock-overlay` 单枚全屏庆祝（可点跳过/超时关闭），同批 ≥2 枚改为汇总网格一次看全并链到 `/profile` 图鉴 |
@@ -254,11 +254,13 @@
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
-| `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts` | 技能课程课时类型（scratch / building_3d / playground / reading / video / quiz）、课时步骤可选结构化图解类型（目前 `gomoku_board` 支持黑白子、候选点、辅助线、获胜线），3D 步骤 `cameraHint` 支持 front/back/side/top/isometric 视角、课程内容可用 `learningGoals` / `teacherGuide` 声明学习目标与教师/家长引导、根级 `workSubmission.enabled` 控制该课是否支持直接发布作品；`building_3d` 内容优先用 `ldrawModelUrl` 指向自托管 LDraw `.mpd` 模型，模型内 `0 STEP` 驱动分步显隐，可选 PPT 逐页图、动画、搭建说明和成品图；`brickInstances` 仅作为历史/开发兜底，不用于新增大颗粒课程；其余文件负责设备能力判断、Scratch iframe postMessage 协议、`.sb3` 积木校验与小迪 Scratch 积木提示 |
+| `lib/courses/` | `types.ts`, `lesson-types.ts`, `device.ts`, `scratch-messages.ts`, `scratch-validate.ts`, `scratch-hints.ts`, `scratch-step-check.ts` | 技能课程课时类型（scratch / building_3d / playground / reading / video / quiz）、课时步骤可选结构化图解类型（目前 `gomoku_board` 支持黑白子、候选点、辅助线、获胜线），3D 步骤 `cameraHint` 支持 front/back/side/top/isometric 视角、课程内容可用 `learningGoals` / `teacherGuide` 声明学习目标与教师/家长引导、根级 `workSubmission.enabled` 控制该课是否支持直接发布作品；`building_3d` 内容优先用 `ldrawModelUrl` 指向自托管 LDraw `.mpd` 模型，模型内 `0 STEP` 驱动分步显隐，可选 PPT 逐页图、动画、搭建说明和成品图；`brickInstances` 仅作为历史/开发兜底，不用于新增大颗粒课程；其余文件负责设备能力判断、Scratch iframe postMessage 协议、`.sb3` 积木校验、小迪 Scratch 积木提示与当前步骤自检（opcode、字段/输入值和连接关系） |
 | `lib/works/` | `types.ts`, `capability.ts`, `data.ts`, `submission.ts` | 统一作品领域层：判断课时是否支持作品、读取/映射项目完成作品与课程课时作品、提交课程作品、按来源补齐课程或项目信息，并为作品详情、首页趋势作品和个人主页 API 提供共享查询 |
 | `lib/ai/tutor/` | `engine.ts`, `prompt.ts`, `student-profile.ts`, `context-builders.ts`, `reply-focus.ts`, `audio-tags.ts`, `species-hints.ts`, `memory.ts`, `greeting.ts`, `resolve-context.ts`, `tool-calls.ts`, `tool-registry.ts`, `tool-call-planner.ts`, `scene-capabilities.ts`, `speech.ts`, `mascot-state.ts` | AI 导师小迪：`engine.ts` 纯文本默认低延迟 `qwen-flash`（`DASHSCOPE_TUTOR_TEXT_MODEL` 可覆盖），图文走 `DASHSCOPE_TUTOR_VISION_MODEL` / `DASHSCOPE_VISION_MODEL`，工具决策 planner 走 `DASHSCOPE_TUTOR_PLANNER_MODEL` / `DASHSCOPE_FLASH_MODEL`；`student-profile.ts` 只构建当前登录用户的安全画像摘要与「个人中心可见范围」（能力雷达、累计统计、近期活动、成长任务、课程/PBL 进度、徽章、游乐场战绩、作品反馈、AI 额度），扩展信号查询失败时降级为空，并列出不可见隐私；`prompt.ts` 约束小迪被问到个人中心/能力雷达时只引用摘要、不可声称能看完整后台或未列出数据，并要求习题、测验、谜题、棋盘/闯关题使用逐层线索而非直接给最终答案、选项、完整解法或精确落点；`speech.ts` 封装语音输入/输出：TTS 默认 `qwen3-tts-flash` + `Ethan`，ASR 默认 `qwen3-asr-flash-realtime`，均复用 `DASHSCOPE_API_KEY` 且可用 `DASHSCOPE_TUTOR_*` 环境变量覆盖；`mascot-state.ts` 合成 FAB 吉祥物可见态（listening > error/success > working > speaking > thinking > idle）；…物种对话时按提及物种注入「常见环境」（habitat_notes）与「本站公开观察记录」（topLocations 聚合），并约束不要把学生/站内地名观察说成「常见于XX」；课时/阶段/扫雷 UI 交互使用白名单 tool call，`scene-capabilities.ts` 定义前后端共享的 scene capability 契约（如 `focusCourseLessonStep`、`focusChallengeStage`、`hintMinesweeperCell`），`context-builders.ts` 会按场景产出服务端 capability 上限（例如课程课时默认带 `focusCourseLessonStep`、PBL 阶段默认带 `focusChallengeStage`、playground surface 可授权扫雷提示），POST 规划时再与前端当前真实挂载的 handler capability 取交集；`tool-registry.ts` 先按当前 scene 与 capability 限定可用工具，`tool-call-planner.ts` 只在这些可用工具里做 AI 决策，再由 registry 统一校验并生成真实 tool call；`tool-calls.ts` 仅保留工具名称和 payload 类型，不再用正则做“卡住/下一步/反馈”确定性判断；Scratch 课时会结合当前步骤、服务端归一化后的 pending `targetItemIndex` 游标和原始子动作数，决定是停留当前子动作、切到同一步下一个积木动作，还是进入下一课时步骤；扫雷工具 payload 不携带棋盘，前端 handler 在本地运行公开状态推理并只高亮证据数字格；`reply-focus.ts` 会把本轮页面工具焦点插到模型场景最前面，确保 Scratch 文本回复和高亮目标一致，并避免扫雷回复编造浏览器本地才知道的坐标或直接给答案；planner 失败时不触发页面工具，但不影响主回复链路；…
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
+
+Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦测、变量、运算、控制和音乐 opcode，供 iframe 打开分类并定位具体 flyout 积木；`scratch-step-check.ts` 复用同一批 hint item，对当前选中 Scratch 对象做步骤自检，能识别 opcode-only 完成、可编辑文字/数字不匹配，以及带箭头/拼接语义步骤里的未连接积木，并把 pending item 继续供小迪上下文和页面高亮使用；`scratch-screenshot-diagnosis.ts` 仅在 Scratch 课时当前上传截图且学生明确求助/检查时调用视觉模型，并只能以当前步骤候选积木索引返回高置信结论，视觉失败、模糊截图或无结论均不触发 UI；路由仍经 `tool-registry.ts` 校验后才产生高亮 tool call。`tool-call-planner.ts` 只在消息明确请求页面操作时才调用模型规划，普通 Scratch/扫雷知识问答不会触发页面工具，实际工具选择仍走模型与白名单校验。
 
 ### 4.10 根级工具文件
 - `lib/schemas.ts` — Zod 验证 Schema（项目、评论、讨论等）
@@ -311,7 +313,7 @@
 - **素材加载加速**：`scratch-storage` 的 FetchWorker 默认请求 `/chunks/fetch-worker-*.js`，实际在 `/scratch/chunks/`——`next.config.mjs` rewrite + `copy-to-public` 修正嵌套 webpack `publicPath` 为 `/scratch/`，恢复 worker 并行拉造型/声音；`storage-patch` 仅给 worker.get 加超时回退，不再拆掉 worker。素材响应 `Cache-Control: immutable`；host/`index.html` 预取默认工程常用 md5；课程详情页 `preconnect` OSS，`preload` 主 GUI 和 vendor 脚本，并预取 fetch-worker。`deploy/nginx.conf` 对经 `proxy_pass` 的响应启用 gzip，Scratch GUI/vendor/chunk 采用 1 天缓存加后台重验证，避免固定文件名长期滞留旧版本
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
 - **持久 iframe**：`app/courses/[courseId]/lessons/layout.tsx` 挂载 `ScratchHostProvider`（`components/features/courses/scratch-host-context.tsx`），同课程课时间复用单一 embed iframe；切课时只 `LOAD_PROJECT`（`force: true`）热换 `.sb3`，避免每次冷启动 `scratch-gui`；离开 `lessons/*` 才卸载 Host。预览页 `playerOnly` 仍用本地 iframe。课程详情页对含 Scratch 课时的课程 prefetch `/scratch/index.html` 与关键脚本
-- 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议（`LOAD_PROJECT` / `LOAD_PROJECT_BUFFER` 支持 `force` 强制覆盖已编辑项目）；保存走 `POST /api/courses/.../project`；切课卸载时 Provider 可静默导出并上传上一课；主站可向 iframe 发送 `HIGHLIGHT_BLOCK_KEYWORDS` / `DISMISS_BLOCK_KEYWORDS`，host 内部显示/关闭积木关键词提示 overlay，并在可解析分类时尝试切换 Scratch toolbox 分类、按 `items.blockIds` opcode 或积木文案滚动并高亮 flyout 里的当前目标积木；主站对同一步多积木提示只向 iframe 下发当前 `targetItemIndex` 对应的关键词/item，避免一次只高亮第一个后直接跳步；host 会通过 `EDITOR_CONTEXT` 回传当前选中角色/对象、角色列表、坐标/方向/大小/造型/积木数摘要，课时页再随小迪 POST 注入场景
+- 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议（`LOAD_PROJECT` / `LOAD_PROJECT_BUFFER` 支持 `force` 强制覆盖已编辑项目）；保存走 `POST /api/courses/.../project`；切课卸载时 Provider 可静默导出并上传上一课；主站可向 iframe 发送 `HIGHLIGHT_BLOCK_KEYWORDS` / `DISMISS_BLOCK_KEYWORDS`，host 内部显示/关闭积木关键词提示 overlay，并在可解析分类时尝试切换 Scratch toolbox 分类、按 `items.blockIds` opcode 或积木文案滚动并高亮 flyout 里的当前目标积木；主站对同一步多积木提示只向 iframe 下发当前 `targetItemIndex` 对应的关键词/item，避免一次只高亮第一个后直接跳步；host 会通过 `EDITOR_CONTEXT` 回传当前选中角色/对象、角色列表、坐标/方向/大小/造型、积木数以及裁剪后的 block 字段、输入、父子/next 连接，课时页再随小迪 POST 注入场景并供“自检这步”使用
 
 ---
 
@@ -373,10 +375,10 @@
 ## 9. 测试
 
 - `__tests__/` — **50+ 个** API 路由单元测试 + 组件测试
-- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）+ 集成测试
+- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）、集成测试与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证六种课程核心 opcode 真实打开 flyout 并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置
-- `playwright.config.ts` / `playwright.integration.config.ts` — Playwright 配置
+- `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录
 
 ---
 
@@ -415,7 +417,7 @@
 | `pnpm type-check` | TypeScript 类型检查（`tsgo --noEmit`，`@typescript/native-preview` 原生编译器）；CI 使用此命令 |
 | `pnpm type-check:tsc` | 同上，但使用 `typescript` 包提供的 `tsc --noEmit`（与 `tsgo` 的 lib 定义可能不完全一致） |
 | `pnpm lint` | Oxlint 快速检查产品源码（显式启用 React / Next.js 插件，覆盖 Hooks、Next、TypeScript 常用规则；检查 `app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板） |
-| `pnpm test` / `pnpm test:e2e` | Vitest 单元测试 / Playwright E2E |
+| `pnpm test` / `pnpm test:e2e` / `pnpm test:e2e:scratch` | Vitest 单元测试 / 主站 Playwright E2E / 独立 Scratch host Playwright E2E |
 
 ---
 

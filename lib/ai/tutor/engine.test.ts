@@ -91,4 +91,18 @@ describe('chatWithTutorComplete image context', () => {
     expect(request.model).toBe('qwen-flash')
     expect(request.messages[1]).toEqual({ role: 'user', content: '请看图（附了 1 张图片）' })
   })
+
+  it('does not fall back to the text model when a visual-only caller rejects fallback', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('vision unavailable'))
+
+    await expect(
+      chatWithTutorComplete(
+        '只看图片。',
+        [{ role: 'user', content: '请看图', images: ['https://example.com/first.png'] }],
+        { allowVisionFallback: false },
+      ),
+    ).rejects.toThrow('vision unavailable')
+
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
 })

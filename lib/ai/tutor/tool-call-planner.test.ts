@@ -141,6 +141,45 @@ describe('planTutorToolDecision', () => {
     expect(chatWithTutorComplete).not.toHaveBeenCalled()
   })
 
+  it('does not invoke the planner for ordinary Scratch concept questions', async () => {
+    await expect(
+      planTutorToolDecision({
+        contextType: 'course',
+        sceneCapabilities: ['focusCourseLessonStep'],
+        lessonId: 42,
+        lessonStepIndex: 2,
+        scratchBlockKeywords: ['重复执行'],
+        content: '重复执行积木有什么作用？',
+      }),
+    ).resolves.toBeNull()
+
+    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+  })
+
+  it('does not invoke the planner for ordinary minesweeper knowledge questions', async () => {
+    await expect(
+      planTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '扫雷里数字 2 表示什么？',
+      }),
+    ).resolves.toBeNull()
+
+    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+  })
+
+  it('does not invoke the planner for general minesweeper safety concepts', async () => {
+    await expect(
+      planTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '怎么判断一个格子是否安全？',
+      }),
+    ).resolves.toBeNull()
+
+    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+  })
+
   it('tells the planner when all Scratch sub-actions are already present', async () => {
     vi.mocked(chatWithTutorComplete).mockResolvedValue(
       '{"reason":"next_step","selections":[{"name":"course.focus_lesson_step","reason":"next_step","stepIndex":3}]}',
@@ -250,6 +289,48 @@ describe('shouldPlanTutorToolDecision', () => {
         content: '哪一格安全？',
       }),
     ).toBe(true)
+  })
+
+  it('uses planner when a Scratch learner explicitly asks to locate a block', () => {
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'course',
+        sceneCapabilities: ['focusCourseLessonStep'],
+        lessonId: 42,
+        lessonStepIndex: 2,
+        scratchBlockKeywords: ['移到 x: 0 y: 0'],
+        content: '移到 x y 积木在哪里？',
+      }),
+    ).toBe(true)
+  })
+
+  it('does not use planner for normal course or minesweeper questions', () => {
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'course',
+        sceneCapabilities: ['focusCourseLessonStep'],
+        lessonId: 42,
+        lessonStepIndex: 2,
+        scratchBlockKeywords: ['重复执行'],
+        content: '重复执行积木有什么作用？',
+      }),
+    ).toBe(false)
+
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '扫雷里数字 2 表示什么？',
+      }),
+    ).toBe(false)
+
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content: '怎么判断一个格子是否安全？',
+      }),
+    ).toBe(false)
   })
 
   it('does not use planner when no page tools are available', () => {
