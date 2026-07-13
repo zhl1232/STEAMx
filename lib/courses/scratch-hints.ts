@@ -11,6 +11,8 @@ export type ScratchBlockCategory =
   | 'operators'
   | 'data'
   | 'myBlocks'
+  | 'music'
+  | 'pen'
 
 export type ScratchBlockHintItem = {
   /** Final block text used by the lesson goal. */
@@ -63,13 +65,17 @@ const SCRATCH_RICH_TEXT_CATEGORY_KEYS: Record<string, ScratchBlockCategory> = {
   variables: 'data',
   data: 'data',
   myblocks: 'myBlocks',
+  music: 'music',
+  pen: 'pen',
 }
 
 const SCRATCH_BLOCK_KEYWORDS = [
   '当绿旗被点击',
   '当角色被点击',
   '当按下',
+  '按下',
   '移动',
+  '移到',
   '转动',
   '面向',
   '碰到边缘就反弹',
@@ -87,13 +93,20 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '下一个背景',
   '切换造型',
   '下一个造型',
+  '将大小增加',
+  '将颜色特效增加',
   '说',
   '播放声音',
   '声音',
   '变量',
   '分数',
+  '得分',
   '计时器',
   '随机数',
+  '停止',
+  '演奏音符',
+  '演奏鼓声',
+  '演奏速度',
   '方向键',
   '鼠标指针',
   '克隆',
@@ -112,8 +125,10 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['如果', 'control'],
   ['否则', 'control'],
   ['等待', 'control'],
+  ['停止', 'control'],
   ['克隆', 'control'],
   ['移动', 'motion'],
+  ['移到', 'motion'],
   ['转动', 'motion'],
   ['面向', 'motion'],
   ['碰到边缘就反弹', 'motion'],
@@ -123,17 +138,24 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['下一个背景', 'looks'],
   ['切换造型', 'looks'],
   ['下一个造型', 'looks'],
+  ['将大小增加', 'looks'],
+  ['将颜色特效增加', 'looks'],
   ['说', 'looks'],
   ['外观', 'looks'],
   ['播放声音', 'sound'],
   ['声音', 'sound'],
   ['碰到颜色', 'sensing'],
   ['碰到', 'sensing'],
+  ['按下', 'sensing'],
   ['计时器', 'sensing'],
   ['随机数', 'operators'],
   ['变量', 'data'],
   ['分数', 'data'],
-  ['画笔', 'myBlocks'],
+  ['得分', 'data'],
+  ['演奏音符', 'music'],
+  ['演奏鼓声', 'music'],
+  ['演奏速度', 'music'],
+  ['画笔', 'pen'],
 ]
 
 const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
@@ -143,23 +165,38 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['广播消息', ['event_broadcast']],
   ['广播', ['event_broadcast']],
   ['收到消息', ['event_whenbroadcastreceived']],
+  ['停止 全部', ['control_stop']],
+  ['如果…那么否则', ['control_if_else']],
+  ['如果...那么否则', ['control_if_else']],
   ['重复执行', ['control_forever']],
   ['重复', ['control_repeat']],
   ['如果', ['control_if']],
   ['等待', ['control_wait']],
+  ['移到 x:', ['motion_gotoxy']],
+  ['移到', ['motion_goto']],
   ['移动', ['motion_movesteps']],
   ['转动', ['motion_turnright', 'motion_turnleft']],
   ['面向', ['motion_pointtowards', 'motion_pointindirection']],
   ['碰到边缘就反弹', ['motion_ifonedgebounce']],
+  ['将大小增加', ['looks_changesizeby']],
+  ['将颜色特效增加', ['looks_changeeffectby']],
   ['切换背景', ['looks_switchbackdropto']],
+  ['换成 背景', ['looks_switchbackdropto']],
   ['下一个背景', ['looks_nextbackdrop']],
   ['切换造型', ['looks_switchcostumeto']],
   ['下一个造型', ['looks_nextcostume']],
   ['播放声音', ['sound_play', 'sound_playuntildone']],
   ['碰到颜色', ['sensing_touchingcolor']],
   ['碰到', ['sensing_touchingobject']],
+  ['按下', ['sensing_keypressed']],
   ['计时器', ['sensing_timer']],
+  ['将 分数 增加', ['data_changevariableby']],
+  ['将 得分 增加', ['data_changevariableby']],
+  ['y 坐标 <', ['operator_lt']],
   ['随机数', ['operator_random']],
+  ['演奏音符', ['music_playNoteForBeats']],
+  ['演奏鼓声', ['music_midiPlayDrumForBeats']],
+  ['将演奏速度设定为', ['music_setTempo']],
 ]
 
 function addUniqueValue(values: string[], value: string) {
@@ -287,6 +324,11 @@ function inferScratchBlockIds(item: Pick<ScratchBlockHintItem, 'label' | 'findLa
   for (const label of labels) {
     const normalized = label.trim()
     if (!normalized) continue
+
+    if (/^重复执行\s*[0-9.]+\s*次$/u.test(normalized)) {
+      blockIds.push('control_repeat')
+      continue
+    }
 
     if (/^说\s+.+?\s*持续\s*[0-9.]+\s*秒$/u.test(normalized)) {
       blockIds.push('looks_sayforsecs')

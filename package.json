@@ -19,6 +19,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
+    "test:e2e:scratch": "playwright test -c playwright.scratch-host.config.ts",
     "prepare": "husky",
     "compress:images": "node scripts/compress-project-images.mjs",
     "compress:fruit-images": "COMPRESS_IMAGES_DIR=public/fruits/images COMPRESS_MAX_SIDE=1280 COMPRESS_JPEG_QUALITY=80 node scripts/compress-project-images.mjs",

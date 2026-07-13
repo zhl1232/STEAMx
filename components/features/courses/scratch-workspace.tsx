@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Check, HelpCircle, Loader2, Save, Upload, X } from "lucide-react";
+import { AlertCircle, Check, CheckCircle2, HelpCircle, ListChecks, Loader2, Save, Target, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -24,6 +24,7 @@ import {
     useScratchHost,
 } from "./scratch-host-context";
 import { ScratchLoadingOverlay } from "./scratch-loading-overlay";
+import type { ScratchStepCheckItemResult, ScratchStepCheckResult } from "@/lib/courses/scratch-step-check";
 
 export type ScratchWorkspaceBlockHint = {
     stepIndex: number;
@@ -82,6 +83,46 @@ function getIframeBlockHintPayload(blockHint: ScratchWorkspaceBlockHint) {
     };
 }
 
+function getStepCheckTitle(result: ScratchStepCheckResult) {
+    if (result.status === "complete") return "这一步看起来已完成";
+    if (result.reason === "no_items") return "这一步暂时不能自动自检";
+    if (result.reason === "no_editor_context") return "等待 Scratch 同步后再自检";
+    if (result.reason === "no_selected_target") return "先选中要检查的角色";
+    return "这一步还差一点";
+}
+
+function getStepCheckDescription(result: ScratchStepCheckResult) {
+    if (result.reason === "no_items") {
+        return "这一步没有明确的 Scratch 积木目标，请对照步骤说明检查。";
+    }
+    if (result.reason === "no_editor_context") {
+        return "请等编辑器加载完成，或先点一下 Scratch 工作区。";
+    }
+    if (result.reason === "no_selected_target") {
+        return "在舞台或角色列表里点一下当前要做的对象，然后再自检。";
+    }
+    const target = result.targetName ? `「${result.targetName}」` : "当前对象";
+    if (result.status === "complete") {
+        return `已在${target}上找到 ${result.completeCount}/${result.total} 个目标动作。`;
+    }
+    return `已在${target}上完成 ${result.completeCount}/${result.total} 个目标动作。`;
+}
+
+function getStepCheckItemStatusLabel(status: ScratchStepCheckItemResult["status"]) {
+    if (status === "missing") return "未找到";
+    if (status === "needs_edit") return "需修改";
+    if (status === "needs_review") return "需核对";
+    return "已完成";
+}
+
+function getStepCheckToneClass(result: ScratchStepCheckResult) {
+    if (result.status === "complete") {
+        return "border-[hsl(var(--brand-green)/0.3)] bg-[hsl(var(--brand-green)/0.1)]";
+    }
+    if (result.status === "unknown") return "border-border bg-muted/35";
+    return "border-[hsl(var(--brand-amber)/0.3)] bg-[hsl(var(--brand-amber)/0.09)]";
+}
+
 async function uploadSb3ToLesson(
     courseId: number,
     lessonId: number,
@@ -115,6 +156,9 @@ export function ScratchWorkspace({
     initialCompleted = false,
     blockHint,
     onDismissBlockHint,
+    stepCheckResult,
+    onCheckCurrentStep,
+    onFocusStepCheckItem,
     onEditorContextChange,
     onProjectSaved,
     onCompleted,
@@ -126,6 +170,9 @@ export function ScratchWorkspace({
     initialCompleted?: boolean;
     blockHint?: ScratchWorkspaceBlockHint | null;
     onDismissBlockHint?: () => void;
+    stepCheckResult?: ScratchStepCheckResult | null;
+    onCheckCurrentStep?: () => void;
+    onFocusStepCheckItem?: (targetItemIndex: number) => void;
     onEditorContextChange?: (context: ScratchEditorContext) => void;
     onProjectSaved?: () => void;
     onCompleted?: () => void;
@@ -654,6 +701,8 @@ export function ScratchWorkspace({
     const blockHintCategory = blockHint
         ? getBlockHintCategory(blockHint, blockHintItems)
         : undefined;
+    const stepCheckIssue = stepCheckResult?.items.find((item) => item.status !== "complete");
+    const StepCheckIcon = stepCheckResult?.status === "complete" ? CheckCircle2 : AlertCircle;
     const showOverlay = !ready || !projectLoaded || switching;
     const overlayMode = ready && (switching || !projectLoaded) ? "switch" : "boot";
 
@@ -711,6 +760,19 @@ export function ScratchWorkspace({
                             </span>
                             <span className="sm:hidden">教程</span>
                         </Button>
+                        {onCheckCurrentStep ? (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                disabled={!ready || !projectLoaded || busy}
+                                onClick={onCheckCurrentStep}
+                            >
+                                <ListChecks className="mr-1 h-4 w-4" />
+                                <span className="hidden sm:inline">自检这步</span>
+                                <span className="sm:hidden">自检</span>
+                            </Button>
+                        ) : null}
                         <Button
                             type="button"
                             size="sm"
@@ -739,6 +801,68 @@ export function ScratchWorkspace({
                             </span>
                         )}
                     </div>
+                    {stepCheckResult ? (
+                        <div
+                            className={cn(
+                                "flex shrink-0 items-start gap-2 border-b px-3 py-2 text-xs",
+                                getStepCheckToneClass(stepCheckResult),
+                            )}
+                        >
+                            <StepCheckIcon
+                                className={cn(
+                                    "mt-0.5 h-4 w-4 shrink-0",
+                                    stepCheckResult.status === "complete"
+                                        ? "text-[hsl(var(--brand-green))]"
+                                        : "text-[hsl(var(--brand-amber))]",
+                                )}
+                            />
+                            <div className="min-w-0 flex-1">
+                                <div className="font-semibold text-foreground">
+                                    {getStepCheckTitle(stepCheckResult)}
+                                </div>
+                                <p className="mt-0.5 text-muted-foreground">
+                                    {getStepCheckDescription(stepCheckResult)}
+                                </p>
+                                {stepCheckResult.items.some((item) => item.status !== "complete") ? (
+                                    <ol className="mt-1.5 grid gap-1 sm:grid-cols-2">
+                                        {stepCheckResult.items
+                                            .filter((item) => item.status !== "complete")
+                                            .slice(0, 4)
+                                            .map((item) => (
+                                                <li
+                                                    key={`${item.originalIndex}-${item.item.findLabel}`}
+                                                    className="min-w-0 rounded-sm border border-border/70 bg-background/72 px-2 py-1"
+                                                >
+                                                    <span className="mr-1 font-semibold text-foreground">
+                                                        {getStepCheckItemStatusLabel(item.status)}
+                                                    </span>
+                                                    <span className="font-medium text-foreground">
+                                                        {item.item.findLabel}
+                                                    </span>
+                                                    <span className="ml-1 text-muted-foreground">
+                                                        {item.detail}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                    </ol>
+                                ) : null}
+                            </div>
+                            {stepCheckIssue && onFocusStepCheckItem ? (
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    className="shrink-0"
+                                    disabled={!ready || !projectLoaded}
+                                    onClick={() => onFocusStepCheckItem(stepCheckIssue.originalIndex)}
+                                >
+                                    <Target className="mr-1 h-4 w-4" />
+                                    <span className="hidden sm:inline">定位下一处</span>
+                                    <span className="sm:hidden">定位</span>
+                                </Button>
+                            ) : null}
+                        </div>
+                    ) : null}
                     {blockHint?.keywords.length ? (
                         <div className="flex shrink-0 items-start gap-2 border-b border-[hsl(var(--brand-amber)/0.28)] bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2 text-xs">
                             <div className="min-w-0 flex-1">

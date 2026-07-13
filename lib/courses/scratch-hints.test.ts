@@ -137,4 +137,80 @@ describe('buildScratchBlockHintItems', () => {
       },
     ])
   })
+
+  it('maps real course blocks across motion, sensing, data, operators, control, and music', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '小游戏关键积木',
+          description: [
+            '[[block:motion|移到 x:0 y:-130]]',
+            '[[block:sensing|按下 ← 键？]]',
+            '[[block:variables|将 得分 增加 1]]',
+            '[[block:operators|y 坐标 < -160]]',
+            '[[block:control|停止 全部]]',
+            '[[block:music|演奏音符 60 0.5 拍]]',
+          ].join('，'),
+          checklist: [],
+        },
+        maxItems: 6,
+      }),
+    ).toEqual([
+      {
+        label: '移到 x:0 y:-130',
+        findLabel: '移到 x:0 y:-130',
+        category: 'motion',
+        blockIds: ['motion_gotoxy'],
+      },
+      {
+        label: '按下 ← 键？',
+        findLabel: '按下 ← 键？',
+        category: 'sensing',
+        blockIds: ['sensing_keypressed'],
+      },
+      {
+        label: '将 得分 增加 1',
+        findLabel: '将 得分 增加 1',
+        category: 'data',
+        blockIds: ['data_changevariableby'],
+      },
+      {
+        label: 'y 坐标 < -160',
+        findLabel: 'y 坐标 < -160',
+        category: 'operators',
+        blockIds: ['operator_lt'],
+      },
+      {
+        label: '停止 全部',
+        findLabel: '停止 全部',
+        category: 'control',
+        blockIds: ['control_stop'],
+      },
+      {
+        label: '演奏音符 60 0.5 拍',
+        findLabel: '演奏音符 60 0.5 拍',
+        category: 'music',
+        blockIds: ['music_playNoteForBeats'],
+      },
+    ])
+  })
+
+  it('uses the counted repeat opcode instead of the forever loop', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '重复十次',
+          description: '[[block:control|重复执行 10 次]]',
+          checklist: [],
+        },
+      }),
+    ).toEqual([
+      {
+        label: '重复执行 10 次',
+        findLabel: '重复执行 10 次',
+        category: 'control',
+        blockIds: ['control_repeat'],
+      },
+    ])
+  })
 })

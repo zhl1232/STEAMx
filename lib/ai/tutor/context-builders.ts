@@ -29,6 +29,11 @@ import {
   type ScratchBlockHintItem,
 } from '@/lib/courses/scratch-hints'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
+import {
+  filterScratchBlockItemsByExistingBlocks,
+  getSelectedScratchBlockTypes,
+  getSelectedScratchTarget,
+} from '@/lib/courses/scratch-step-check'
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -74,73 +79,6 @@ function formatScratchBlockReferenceItems(items: ScratchBlockHintItem[], targetI
     .join('\n')
 }
 
-function getSelectedScratchTarget(context?: ScratchEditorContext) {
-  if (!context || !Array.isArray(context.targets) || context.targets.length === 0) return null
-  return (
-    context.targets.find((target) => target.id === context.selectedTargetId) ??
-    context.targets.find((target) => target.name === context.selectedTargetName) ??
-    null
-  )
-}
-
-function getSelectedScratchBlockTypes(context?: ScratchEditorContext) {
-  const selected = getSelectedScratchTarget(context)
-  const blocks = selected?.blocks
-  if (!Array.isArray(blocks) || blocks.length === 0) return new Set<string>()
-  return new Set(
-    blocks
-      .map((block) => block.type.trim())
-      .filter(Boolean),
-  )
-}
-
-const OPCODE_ONLY_SCRATCH_BLOCK_IDS = new Set([
-  'event_whenflagclicked',
-  'event_whenthisspriteclicked',
-  'control_forever',
-  'motion_ifonedgebounce',
-  'looks_nextbackdrop',
-  'looks_nextcostume',
-])
-
-function canTreatExistingOpcodeAsComplete(item: ScratchBlockHintItem) {
-  const blockIds = item.blockIds ?? []
-  if (blockIds.length === 0) return false
-  if (item.editHint?.trim()) return false
-  if (item.label.trim() !== item.findLabel.trim()) return false
-  return blockIds.every((blockId) => OPCODE_ONLY_SCRATCH_BLOCK_IDS.has(blockId))
-}
-
-function filterScratchBlockItemsByExistingBlocks(
-  items: ScratchBlockHintItem[],
-  context?: ScratchEditorContext,
-) {
-  const existingTypes = getSelectedScratchBlockTypes(context)
-  if (existingTypes.size === 0) {
-    return {
-      pendingItems: items,
-      existingItems: [] as ScratchBlockHintItem[],
-      pendingOriginalIndexes: items.map((_, index) => index),
-    }
-  }
-
-  const pendingItems: ScratchBlockHintItem[] = []
-  const existingItems: ScratchBlockHintItem[] = []
-  const pendingOriginalIndexes: number[] = []
-  for (const [index, item] of items.entries()) {
-    const blockIds = item.blockIds ?? []
-    const alreadyExists =
-      canTreatExistingOpcodeAsComplete(item) &&
-      blockIds.some((blockId) => existingTypes.has(blockId))
-    if (alreadyExists) existingItems.push(item)
-    else {
-      pendingItems.push(item)
-      pendingOriginalIndexes.push(index)
-    }
-  }
-  return { pendingItems, existingItems, pendingOriginalIndexes }
-}
-
 function resolvePendingScratchTargetItemIndex(input: {
   requestedIndex?: number
   allItemCount: number
@@ -169,17 +107,11 @@ function formatScratchNumber(value: number | undefined) {
 function formatScratchEditorContext(context?: ScratchEditorContext) {
   if (!context || !Array.isArray(context.targets) || context.targets.length === 0) return ''
 
-  const selected =
-    context.targets.find((target) => target.id === context.selectedTargetId) ??
-    context.targets.find((target) => target.name === context.selectedTargetName)
+  const selected = getSelectedScratchTarget(context)
   const selectedName = selected?.name ?? context.selectedTargetName
   const stage = context.targets.find((target) => target.isStage)
   const sprites = context.targets.filter((target) => !target.isStage).slice(0, 8)
-  const selectedBlocks = (selected?.blocks ?? [])
-    .map((block) => block.type)
-    .filter(Boolean)
-    .slice(0, 12)
-    .join('、')
+  const selectedBlocks = [...getSelectedScratchBlockTypes(context)].slice(0, 12).join('、')
   const spriteLines = sprites
     .map((target) => {
       const facts = [

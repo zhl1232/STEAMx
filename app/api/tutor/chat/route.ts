@@ -18,9 +18,11 @@ import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memo
 import { planTutorToolDecision, shouldPlanTutorToolDecision } from '@/lib/ai/tutor/tool-call-planner'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
 import { buildTutorReplyFocusSummary } from '@/lib/ai/tutor/reply-focus'
+import { diagnoseScratchScreenshot, shouldDiagnoseScratchScreenshot } from '@/lib/ai/tutor/scratch-screenshot-diagnosis'
 import { hasTutorSceneCapability, resolveTutorSceneCapabilities } from '@/lib/ai/tutor/scene-capabilities'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
+import { buildTutorToolCallsFromPlan } from '@/lib/ai/tutor/tool-registry'
 import { TUTOR_GLOBAL_SURFACES, type TutorContextType, type TutorGlobalSurface } from '@/lib/ai/tutor/types'
 import { logger } from '@/lib/logger'
 import { consumeAiCredit, getAiCreditStatusForProfile, refundAiCredit } from '@/lib/api/ai-credits'
@@ -440,9 +442,22 @@ export async function POST(request: NextRequest) {
       serverCapabilities: scene.sceneCapabilities,
       clientCapabilities: clientSceneCapabilities,
     })
-    const messageAudios = canUseSpeciesAudio ? await findSpeciesAudiosForMessage(supabase, content) : []
-    timing.mark('message_audio')
-    const conversation = await getOrCreateActiveConversation(supabase, {
+    const scratchScreenshotDiagnosisEligible =
+      contextType === 'course' &&
+      typeof lessonId === 'number' &&
+      hasTutorSceneCapability(effectiveSceneCapabilities, 'focusCourseLessonStep') &&
+      shouldDiagnoseScratchScreenshot({
+        content,
+        images,
+        items: scene.scratchBlockItems ?? [],
+      })
+    const scratchScreenshotDiagnosisPromise = scratchScreenshotDiagnosisEligible
+      ? diagnoseScratchScreenshot({ content, images, items: scene.scratchBlockItems ?? [] })
+      : null
+    const messageAudiosPromise = canUseSpeciesAudio
+      ? findSpeciesAudiosForMessage(supabase, content)
+      : Promise.resolve<TutorAudioRef[]>([])
+    const conversationPromise = getOrCreateActiveConversation(supabase, {
       userId: user.id,
       contextType,
       contextId,
@@ -456,6 +471,8 @@ export async function POST(request: NextRequest) {
         surface,
       }),
     })
+    const [messageAudios, conversation] = await Promise.all([messageAudiosPromise, conversationPromise])
+    timing.mark('message_audio')
     const recentRows = await supabase
       .from('tutor_messages')
       .select('*')
@@ -482,12 +499,37 @@ export async function POST(request: NextRequest) {
     })
 
     const conversationText = history.map((message) => message.content).join('\n')
-    const speciesHints = canUseSpeciesAudio ? await findSpeciesHintsForText(supabase, conversationText) : []
+    const [speciesHints, scratchScreenshotDiagnosis] = await Promise.all([
+      canUseSpeciesAudio ? findSpeciesHintsForText(supabase, conversationText) : Promise.resolve([]),
+      scratchScreenshotDiagnosisPromise ?? Promise.resolve(null),
+    ])
     const hintsSummary = buildSpeciesHintsSummary(speciesHints)
     timing.mark('species_hints')
+    timing.mark('scratch_screenshot_diagnosis')
     const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
-    let toolCalls: TutorToolCall[] = []
+    let toolCalls: TutorToolCall[] = scratchScreenshotDiagnosis
+      ? buildTutorToolCallsFromPlan({
+          contextType,
+          sceneCapabilities: effectiveSceneCapabilities,
+          lessonId,
+          lessonStepIndex,
+          lessonStepCount,
+          scratchBlockKeywords: scene.scratchBlockKeywords,
+          scratchBlockItems: scene.scratchBlockItems,
+          scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
+          scratchBlockCategory: scene.scratchBlockCategory,
+          scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
+          selections: [
+            {
+              name: 'course.highlight_scratch_blocks',
+              reason: 'review',
+              targetItemIndex: scratchScreenshotDiagnosis.targetItemIndex,
+            },
+          ],
+        })
+      : []
     if (
+      !scratchScreenshotDiagnosisEligible &&
       shouldPlanTutorToolDecision({
         contextType,
         sceneCapabilities: effectiveSceneCapabilities,

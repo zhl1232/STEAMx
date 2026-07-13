@@ -6,7 +6,7 @@ const supabaseAnonKey = 'playwright-placeholder-anon-key'
 
 export default defineConfig({
   testDir: './e2e',
-  testIgnore: ['integration/**'],
+  testIgnore: ['integration/**', 'scratch-host/**'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

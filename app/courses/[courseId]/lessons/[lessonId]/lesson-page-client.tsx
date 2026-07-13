@@ -12,8 +12,16 @@ import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
-import type { ScratchBlockHintItem } from "@/lib/courses/scratch-hints";
+import {
+    buildScratchBlockHintItems,
+    resolveScratchBlockCategory,
+    type ScratchBlockHintItem,
+} from "@/lib/courses/scratch-hints";
 import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
+import {
+    buildScratchStepCheck,
+    type ScratchStepCheckResult,
+} from "@/lib/courses/scratch-step-check";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -63,16 +71,61 @@ export function LessonPageClient({
     const [completed, setCompleted] = useState(initialCompleted);
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
+    const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
     const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
-    const steps = lesson.steps ?? [];
+    const steps = useMemo(() => lesson.steps ?? [], [lesson.steps]);
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
     const activeStepTitle = steps[clampedActiveStep]?.title;
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     // Scratch 编辑器需要固定一屏；building_3d 在移动端交给页面自然滚动，
     // 让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
     const usesFixedMobileWorkspace = lessonWorkspace === "scratch";
+
+    const handleScratchEditorContextChange = useCallback((context: ScratchEditorContext) => {
+        setScratchEditorContext(context);
+        setScratchStepCheckResult(null);
+    }, []);
+
+    const runScratchStepCheck = useCallback(() => {
+        const currentStep = steps[clampedActiveStep] ?? null;
+        setScratchStepCheckResult(
+            buildScratchStepCheck({
+                step: currentStep,
+                lessonContent: lesson.content,
+                editorContext: scratchEditorContext,
+            }),
+        );
+    }, [clampedActiveStep, lesson.content, scratchEditorContext, steps]);
+
+    const focusScratchStepCheckItem = useCallback((targetItemIndex: number) => {
+        const currentStep = steps[clampedActiveStep] ?? null;
+        const items = scratchStepCheckResult?.items.map((result) => result.item) ??
+            buildScratchBlockHintItems({
+                step: currentStep,
+                lessonContent: lesson.content,
+                maxItems: 8,
+            });
+        const targetItem = items[targetItemIndex];
+        if (!targetItem) return;
+
+        const keywords = [...new Set(items.map((item) => item.findLabel).filter(Boolean))];
+        setScratchBlockHint({
+            stepIndex: clampedActiveStep,
+            keywords,
+            items,
+            targetItemIndex,
+            category: targetItem.category ?? resolveScratchBlockCategory([targetItem.findLabel]),
+            reason: "review",
+        });
+        setFocusedStep(clampedActiveStep);
+        if (focusTimerRef.current) clearTimeout(focusTimerRef.current);
+        focusTimerRef.current = setTimeout(() => {
+            setFocusedStep(null);
+            focusTimerRef.current = null;
+        }, 3600);
+    }, [clampedActiveStep, lesson.content, scratchStepCheckResult, steps]);
 
     const focusLessonStepFromTutorTool = useCallback((toolCall: TutorToolCall) => {
         if (toolCall.name !== "course.focus_lesson_step" && toolCall.name !== "course.highlight_scratch_blocks") return;
@@ -173,6 +226,7 @@ export function LessonPageClient({
             if (!current || current.stepIndex === clampedActiveStep) return current;
             return null;
         });
+        setScratchStepCheckResult(null);
     }, [clampedActiveStep]);
 
     return (
@@ -234,8 +288,11 @@ export function LessonPageClient({
                         previewHref={previewHref}
                         activeStepIndex={clampedActiveStep}
                         scratchBlockHint={scratchBlockHint}
+                        scratchStepCheckResult={scratchStepCheckResult}
                         onDismissScratchBlockHint={() => setScratchBlockHint(null)}
-                        onScratchEditorContextChange={setScratchEditorContext}
+                        onCheckScratchStep={lessonWorkspace === "scratch" ? runScratchStepCheck : undefined}
+                        onFocusScratchStepCheckItem={focusScratchStepCheckItem}
+                        onScratchEditorContextChange={handleScratchEditorContextChange}
                         onStepChange={setActiveStep}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}

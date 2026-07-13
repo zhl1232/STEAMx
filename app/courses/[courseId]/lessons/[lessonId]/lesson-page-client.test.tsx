@@ -14,7 +14,10 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
   LessonWorkspaceRenderer: ({
     activeStepIndex,
     scratchBlockHint,
+    scratchStepCheckResult,
     onDismissScratchBlockHint,
+    onCheckScratchStep,
+    onFocusScratchStepCheckItem,
     onScratchEditorContextChange,
   }: {
     activeStepIndex: number
@@ -23,11 +26,21 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
       targetItemIndex?: number
       items?: Array<{ findLabel: string; editHint?: string }>
     } | null
+    scratchStepCheckResult?: {
+      status: string
+      items: Array<{
+        originalIndex: number
+        status: string
+        item: { findLabel: string }
+      }>
+    } | null
     onDismissScratchBlockHint?: () => void
+    onCheckScratchStep?: () => void
+    onFocusScratchStepCheckItem?: (targetItemIndex: number) => void
     onScratchEditorContextChange?: (context: {
       selectedTargetId?: string
       selectedTargetName?: string
-      targets: Array<{ id: string; name: string }>
+      targets: Array<{ id: string; name: string; blocks?: Array<{ id: string; type: string }> }>
     }) => void
   }) => (
     <div data-testid="lesson-workspace">
@@ -38,12 +51,57 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
           onScratchEditorContextChange?.({
             selectedTargetId: 'bear-1',
             selectedTargetName: 'Bear',
-            targets: [{ id: 'bear-1', name: 'Bear' }],
+          targets: [{ id: 'bear-1', name: 'Bear' }],
+        })
+      }
+    >
+      发送 Scratch 上下文
+    </button>
+      <button
+        type="button"
+        onClick={() =>
+          onScratchEditorContextChange?.({
+            selectedTargetId: 'cat-1',
+            selectedTargetName: '角色1',
+            targets: [
+              {
+                id: 'cat-1',
+                name: '角色1',
+                blocks: [{ id: 'hat-1', type: 'event_whenflagclicked' }],
+              },
+            ],
           })
         }
       >
-        发送 Scratch 上下文
+        发送 Scratch 积木上下文
       </button>
+      {onCheckScratchStep ? (
+        <button type="button" onClick={onCheckScratchStep}>
+          自检这步
+        </button>
+      ) : null}
+      {scratchStepCheckResult ? (
+        <div>
+          <p>自检状态 {scratchStepCheckResult.status}</p>
+          {scratchStepCheckResult.items.map((item) => (
+            <span key={`${item.originalIndex}-${item.item.findLabel}`}>
+              {item.status}:{item.item.findLabel}
+            </span>
+          ))}
+          {scratchStepCheckResult.items.find((item) => item.status !== 'complete') ? (
+            <button
+              type="button"
+              onClick={() =>
+                onFocusScratchStepCheckItem?.(
+                  scratchStepCheckResult.items.find((item) => item.status !== 'complete')?.originalIndex ?? 0,
+                )
+              }
+            >
+              定位下一处
+            </button>
+          ) : null}
+        </div>
+      ) : null}
       {scratchBlockHint?.keywords.length ? (
         <div>
           <p>第 {activeStepIndex + 1} 步要用到</p>
@@ -367,5 +425,49 @@ describe('LessonPageClient', () => {
       lessonStepIndex: 1,
       scratchBlockTargetItemIndex: 1,
     })
+  })
+
+  it('runs Scratch step self-check and focuses the first unfinished block', async () => {
+    const scratchLesson: CourseLessonRow = {
+      ...lesson,
+      steps: [
+        {
+          title: '出场说句话',
+          description:
+            '[[cat:events]] 的 [[block:events|当绿旗被点击]] → [[cat:looks]] 的 [[block:looks|说 出发啦！]]',
+          checklist: [],
+        },
+      ],
+    }
+
+    render(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="工程课"
+          lesson={scratchLesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    await act(async () => {
+      screen.getByRole('button', { name: '发送 Scratch 积木上下文' }).click()
+    })
+
+    await act(async () => {
+      screen.getByRole('button', { name: '自检这步' }).click()
+    })
+
+    expect(screen.getByText('自检状态 needs_work')).toBeInTheDocument()
+    expect(screen.getByText('missing:说 你好!')).toBeInTheDocument()
+
+    await act(async () => {
+      screen.getByRole('button', { name: '定位下一处' }).click()
+    })
+
+    expect(screen.getByText('当前提示 1')).toBeInTheDocument()
+    expect(screen.getByText('说 你好!')).toBeInTheDocument()
+    expect(screen.getByText('把文字改成「出发啦！」')).toBeInTheDocument()
   })
 })
