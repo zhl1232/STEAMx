@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache'
+import { unstable_rethrow } from 'next/navigation'
 
 import { logger } from '@/lib/logger'
 import { natureTopicKeys, type NatureTopicKey } from '@/lib/config/nature-topics'
@@ -684,6 +685,7 @@ async function getObservedSpeciesIdsForCurrentUser(): Promise<Set<number>> {
 
     return observedSpeciesIds
   } catch (error) {
+    unstable_rethrow(error)
     logger.error('Error resolving observed species for current user', { error })
     return new Set<number>()
   }
@@ -1059,6 +1061,7 @@ export async function getBirdObservationHomepageData(): Promise<BirdHomepageData
       })),
     }
   } catch (error) {
+    unstable_rethrow(error)
     logger.error('Error fetching nature homepage data', { error })
     return {
       featuredSpecies: [],

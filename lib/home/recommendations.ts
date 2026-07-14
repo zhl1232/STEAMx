@@ -1,3 +1,5 @@
+import { unstable_rethrow } from "next/navigation";
+
 import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
 import { getRecentNatureObservationsForMap } from "@/lib/api/nature-observation-homepage";
 import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
@@ -169,15 +171,7 @@ async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> 
     const hasPreferences = steam !== null || ageGroup !== null;
     return { steam, ageGroup, hasPreferences };
   } catch (error) {
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "digest" in error &&
-      (error as { digest?: string }).digest === "DYNAMIC_SERVER_USAGE"
-    ) {
-      return { steam: null, ageGroup: null, hasPreferences: false };
-    }
-
+    unstable_rethrow(error);
     logger.error("Failed to get user preferences for homepage recommendations", { error });
     return { steam: null, ageGroup: null, hasPreferences: false };
   }
@@ -332,6 +326,7 @@ export async function getHomepageRecommendations(args: {
 export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
   const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts] = await Promise.all([
     getTrendingWorks(4).catch((error) => {
+      unstable_rethrow(error);
       logger.warn("Failed to load homepage works", { error });
       return { works: [], nextOffset: 0, hasMore: false };
     }),

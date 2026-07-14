@@ -22,6 +22,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { Button } from '@/components/ui/button'
+import { logger } from '@/lib/logger'
 import {
   Archive,
   CheckCircle2,
@@ -233,7 +234,7 @@ export default function AdminPage() {
       .limit(50)
 
     if (error) {
-      console.error('Failed to fetch pending completions', error)
+      logger.warn('Failed to fetch pending completions', { error })
       return
     }
 
@@ -253,11 +254,11 @@ export default function AdminPage() {
       ])
 
     if (profilesError) {
-      console.error('Failed to fetch completion profiles', profilesError)
+      logger.warn('Failed to fetch completion profiles', { error: profilesError })
     }
 
     if (projectsError) {
-      console.error('Failed to fetch completion projects', projectsError)
+      logger.warn('Failed to fetch completion projects', { error: projectsError })
     }
 
     const profilesById = new Map(
@@ -302,7 +303,7 @@ export default function AdminPage() {
       .limit(50)
 
     if (error) {
-      console.error('Failed to fetch pending observations', error)
+      logger.warn('Failed to fetch pending observations', { error })
       return
     }
 
@@ -322,11 +323,11 @@ export default function AdminPage() {
       ])
 
     if (profilesError) {
-      console.error('Failed to fetch observation profiles', profilesError)
+      logger.warn('Failed to fetch observation profiles', { error: profilesError })
     }
 
     if (speciesLinksError) {
-      console.error('Failed to fetch observation species links', speciesLinksError)
+      logger.warn('Failed to fetch observation species links', { error: speciesLinksError })
     }
 
     const speciesIds = [...new Set(((speciesLinks || []) as { species_id: number }[]).map((row) => row.species_id))]
@@ -335,7 +336,7 @@ export default function AdminPage() {
       : { data: [] as { id: number; common_name: string | null; scientific_name: string | null }[], error: null }
 
     if (speciesError) {
-      console.error('Failed to fetch observation species', speciesError)
+      logger.warn('Failed to fetch observation species', { error: speciesError })
     }
 
     const profilesById = new Map(
@@ -384,7 +385,7 @@ export default function AdminPage() {
       .order('updated_at', { ascending: false })
 
     if (error) {
-      console.error('Failed to fetch pending challenge submissions', error)
+      logger.warn('Failed to fetch pending challenge submissions', { error })
       return
     }
 

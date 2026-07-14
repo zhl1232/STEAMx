@@ -22,7 +22,7 @@
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 17 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏默认挑战、数字华容道、记忆翻牌（萌宠/自然/宇宙/美食/科学五套图案可选与 3D 翻牌）、速算闪电战、迷宫探险、七巧板、数织、球排序、天平称重、像素对称）；球排序扩展为 10 关，后段提升到 6-8 色复杂周转，并采用实验台式试管架，包含选中上浮、可倒目标提示、无效轻震与倒球/落球动效，移动端保持稳定触控尺寸并隐藏小迪悬浮入口避免遮挡高级关试管；天平称重采用实体天平盘面、当前投放托盘分段控件、硬币台一键入盘/移除、称量合法性提示、结果倾斜反馈、通关结果条和称量记录，移动端隐藏小迪悬浮入口以优先露出盘面；像素对称改为半图镜像挑战，样本半边锁定、挑战半边手动补图，提供误点、步数、连击、星级与最佳成绩反馈，并扩展到左右/上下 10 关；数织 28 关（3×3 至 15×15），含船锚/蘑菇/螃蟹/幽灵/外星/骷髅/火箭/猫头鹰/小龙/神殿/飞船/火鸟/迷宫/星系等进阶图案，须按顺序解锁；通关后以答案轮廓生成清晰的分层像素作品（主题配色、边缘明暗、少量关卡细节），替代被剪影切碎的细腻 SVG，并用紧凑收藏结果条展示作品名、用时、失误与下一关；数织移动端点格不再聚焦滚动，线索栏加宽并 sticky，避免行列提示数字被顶栏或格子盖住；生命游戏默认进入关卡挑战，强调细胞预算、演化代数、三星条件与挑战完成口径，不再把单纯运行次数当胜利；迷宫页只保留俯视迷雾探索地图，移除体验不佳的沉浸视角；方向键、WASD 与手机紧贴地图的四向箭头统一为地图绝对上下左右，撞墙时只转向并给出反馈，移动端确保地图和箭头在同一屏内；探索地图用高对比探险者朝向、手电视野、当前可见区/历史记忆区、足迹与迷雾揭开强化方向感和探索感，闯关中继续隐藏理论最短步数与全图，通关后隐藏方向控制、揭图并在地图区上移展示 BFS / DFS / A* 探索对比与回放；`layout.tsx` 统一 `surface-panel` / `--tone-*` 侧栏与本局提示条，并为全部小游戏在移动端顶栏提供统一玩法说明入口（目标、操作、快捷方式、挑战目标）；移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体，且移动端去掉 playground 外层 `app-shell-wide` 横向 gutter，由各游戏页自行保留触控安全边距，避免 `100dvw` 游戏区被父级裁切；扫雷页桌面端采用更清爽的单行控制台、轻量棋盘舞台和低遮挡胜负结果浮层，普通桌面收窄右侧课程面板以增加主游戏区宽度；游乐场用户可见战绩口径统一为云端/在线记录，登录后由 `playground_stats` 同步；移动/平板工具栏持续到 `lg` 断点，游戏区在手机端使用居中的 `100dvw` 容器突破通用 gutter，不依赖负边距，并保留至少 12px 且兼容 `safe-area-inset-left/right` 的安全边距，避免移动 Safari 裁掉页面左右；初级棋盘按容器等分完整显示并使用实体按键式格子材质，中高难度保留横向滑动，状态/重开在左中，移动端挖掘/插旗模式使用工具栏最右侧的分段外观控件（挖掘 | 插旗），整块点按任意位置即切换，选中态高亮；棋盘长按改用 Pointer 事件并容忍 12px 内手指抖动，明显滑动才取消插旗；旗子不受雷数上限限制，超额标记时剩余雷数显示为负数，避免长按被静默忽略；高度不超过 480px 的手机横屏隐藏小迪悬浮入口，避免遮挡最右模式按钮；云端/会话战绩挂载后读取以避免 SSR hydration mismatch；扫雷页还会注册小迪 `playground.hint_minesweeper` 场景工具，收到提示动作后仅在浏览器内存态把已翻开的数字、旗子和隐藏格交给确定性推理器，不向服务端发送棋盘或读取 `isMine` 雷图；页面只用静态高对比描边常亮产生推理依据的数字格并给一个递进问题，关闭移动端聊天面板后仍可见，棋盘发生下一次变化时才清除，不直接标出安全格/雷格，暂无确定结论时引导继续探索；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布，并继承小迪 `playground` surface 且按具体小游戏传递 `gameKey/contextId`，避免迷宫、扫雷等小游戏串场景；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复，且不展示数据统计与 STEAM 能力维度进度；游戏卡片均有独立图形 fallback |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；首页作品统计与摘要读取统一作品，内容库区分「我的作品」与用户创建的「发布的项目」；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`xiaodi/`（小迪语音：自动朗读、移动端长按语音、语音提问播报、提示气泡本设备偏好）、`notifications/`、`privacy/`、`security/`、`about/` |
-| `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录 |
+| `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录/注册；前台文案只提示手机号，邮箱注册入口已移除，旧邮箱账号仍可在手机号输入框中输入原邮箱后用密码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品 |
@@ -220,7 +220,7 @@
 - `site.ts` — 站点基础配置（名称、URL、描述）
 
 ### 4.7 首页 (`lib/home/`)
-- `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数）与推荐 API 算法（个性化/热门兜底；供 `/api/home/recommendations` 使用）
+- `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数）与推荐 API 算法（个性化/热门兜底；供 `/api/home/recommendations` 使用）；捕获数据降级错误前会用 Next `unstable_rethrow` 先交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被业务日志误报
 - `community-feed.ts` — 社区动态 Feed 数据
 - `category-tiles.ts` — 分类磁贴数据
 
@@ -241,6 +241,7 @@
 | `lib/pbl/` | `challenge-workspace.ts`, `challenge-stage-review.ts`, `challenge-stage-progress.ts`, `stage-coach-actions.ts`, `challenge-submission-draft.ts` | PBL 工作台个人项目方向、个人化计划 JSON 类型、确定性计划生成与数据库行映射；阶段导师反馈上下文/产出摘要构建；阶段产出快照比较与反馈失效判断；导师工具动作（拆题/提示/总结）受控结果归一化；投稿草稿规则汇总、STEAM 收获提取与 AI 草稿归一化 |
 | `lib/learning-resources.ts` | `learning-resources.ts` | 资料卡共享常量/类型/映射（分类 `principle`/`material`/`method`/`skill`/`case`，状态 `draft`/`published`） |
 | `lib/api/learning-resources.ts` | `learning-resources.ts` | 服务端读取已发布资料卡（React.cache 去重，供详情页与公开 API 共用） |
+| `lib/api/nature-observation-*` | `nature-observation-data.ts`, `nature-observation-homepage.ts`, `nature-observation-events.ts`, `nature-observation-species.ts` | 自然观察读模型聚合入口、首页/专题/热点/物种/观察列表数据；首页个性化的“当前用户已观察物种”加载在业务降级前先用 Next `unstable_rethrow` 交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被误记为业务错误 |
 | `lib/api/challenge-resources.ts` | `challenge-resources.ts` | 挑战 resources 字段服务端校验（title/url 必填、type 三分类枚举） |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格 |
 | `lib/ai/` | `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `auto-reply.ts` | 通义千问/DashScope AI：自然观察图像安全/质量/物种识别、通用上传图片安全审核、自动互动短回复生成 |
@@ -288,7 +289,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `use-toast` | `hooks/use-toast.ts` | Toast 通知管理 |
 | `use-gamification-data` | `hooks/gamification/` | 游戏化数据（徽章、XP、等级）；徽章列表仅在查询成功后才触发自动 `checkBadges` |
 | `use-profile-observations` | `hooks/profile/` | 个人观察记录与自然观察进度 |
-| `use-2048` 等 | `hooks/playground/` | 17 个游戏逻辑 Hook（记忆翻牌 `use-memory-match` 支持五套图案主题） + `use-playground-sync`（登录后以云端 `playground_stats` 为唯一持久化，战绩变更 debounce 上传并 `invalidateQueries` 刷新徽章缓存；遗留 localStorage 仅一次性迁入）；各游戏经 `usePlaygroundStatsLoader` 在云同步后重载战绩；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底；各游戏 `stats` 初始化统一用空 stats，真实战绩挂载后从内存镜像异步加载，避免 hydration mismatch |
+| `use-2048` 等 | `hooks/playground/` | 17 个游戏逻辑 Hook（记忆翻牌 `use-memory-match` 支持五套图案主题） + `use-playground-sync`（登录后以云端 `playground_stats` 为唯一持久化，战绩变更 debounce 上传并 `invalidateQueries` 刷新徽章缓存；遗留 localStorage 仅一次性迁入；同步失败走集中 `logger.warn` 降噪，不直接写浏览器 `console.error`）；各游戏经 `usePlaygroundStatsLoader` 在云同步后重载战绩；在线五子棋 `use-game-room.ts` 优先订阅 Supabase Realtime，失败后自动降级为 4 秒 HTTP 轮询兜底；各游戏 `stats` 初始化统一用空 stats，真实战绩挂载后从内存镜像异步加载，避免 hydration mismatch |
 | `use-maze-runner` | `hooks/playground/use-maze-runner.ts` | 迷宫支持 9×9、13×13、17×17、21×21、25×25 五档关卡；所有尺寸都会从多张回溯/Prim 候选图中按路线岔路、误导分支、死胡同和路线长度评分，选择更容易出现错误岔路但仍保持唯一解的迷宫 |
 
 ---
@@ -376,7 +377,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ## 9. 测试
 
 - `__tests__/` — **50+ 个** API 路由单元测试 + 组件测试
-- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts`、`messages.spec.ts`）、集成测试与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证六种课程核心 opcode 真实打开 flyout 并高亮；选中舞台时的运动积木提示会自动切换至角色）
+- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖首页、探索、自然观察、创造营、技能课程、游乐场、登录与移动端自然观察，并在页面加载期间断言无未处理 `pageerror`，`messages.spec.ts` 覆盖私信未登录/路由基础健康）、集成测试（`integration/core-flow.spec.ts` 覆盖真实登录后的创建项目与评论链路，`integration/authenticated-routes.spec.ts` 覆盖普通用户登录态下 `/profile`、`/messages`、`/settings/profile` 可访问以及 `/admin` 权限拦截；`helpers/supabase-admin.ts` 会归一化复用种子账号的 profile 角色/昵称）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证六种课程核心 opcode 真实打开 flyout 并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置
 - `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录

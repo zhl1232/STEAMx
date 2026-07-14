@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
 type AdminUser = { id: string; email?: string | null }
+export type UserRole = 'user' | 'teacher' | 'moderator' | 'admin'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -29,22 +30,39 @@ async function ensureProfileRow(params: {
   userId: string
   username: string
   fullName: string
+  role?: UserRole
 }) {
+  const role = params.role ?? 'user'
+  const avatarUrl = defaultAvatarPath(params.userId)
   const existingProfile = await admin
     .from('profiles')
-    .select('id')
+    .select('id, avatar_url')
     .eq('id', params.userId)
     .maybeSingle()
 
   if (existingProfile.error) throw existingProfile.error
-  if (existingProfile.data) return
+  if (existingProfile.data) {
+    const { error } = await admin
+      .from('profiles')
+      .update({
+        username: params.username,
+        display_name: params.fullName,
+        avatar_url: existingProfile.data.avatar_url || avatarUrl,
+        role,
+        age_confirmed_at: new Date().toISOString(),
+      })
+      .eq('id', params.userId)
+
+    if (error) throw error
+    return
+  }
 
   const { error } = await admin.from('profiles').insert({
     id: params.userId,
     username: params.username,
     display_name: params.fullName,
-    avatar_url: defaultAvatarPath(params.userId),
-    role: 'user',
+    avatar_url: avatarUrl,
+    role,
     age_confirmed_at: new Date().toISOString(),
   })
 
@@ -96,6 +114,7 @@ export async function ensureEmailUser(params: {
   password: string
   fullName?: string
   username?: string
+  role?: UserRole
 }) {
   const normalizedEmail = params.email.trim().toLowerCase()
   const fallbackName = normalizedEmail.split('@')[0] || 'e2e-user'
@@ -117,7 +136,7 @@ export async function ensureEmailUser(params: {
     })
 
     if (error) throw error
-    await ensureProfileRow({ userId: existing.id, username, fullName })
+    await ensureProfileRow({ userId: existing.id, username, fullName, role: params.role })
     return existing.id
   }
 
@@ -134,7 +153,7 @@ export async function ensureEmailUser(params: {
   if (error) throw error
   if (!data.user) throw new Error(`Unable to create user for email: ${normalizedEmail}`)
 
-  await ensureProfileRow({ userId: data.user.id, username, fullName })
+  await ensureProfileRow({ userId: data.user.id, username, fullName, role: params.role })
   return data.user.id
 }
 

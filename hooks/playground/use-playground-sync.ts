@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from '@/lib/context/auth-context';
+import { logger } from "@/lib/logger";
 import { createClient } from "@/lib/supabase/client";
 import {
   PLAYGROUND_CHANGE_EVENT,
@@ -32,14 +33,14 @@ export function usePlaygroundSync() {
     try {
       const response = await fetch("/api/playground/badges/sync", { method: "POST" });
       if (!response.ok) {
-        console.error("[PlaygroundSync] badge sync failed", response.status);
+        logger.warn("[PlaygroundSync] badge sync failed", { status: response.status });
         return;
       }
       await queryClient.invalidateQueries({
         queryKey: ["gamification", "badges", user.id],
       });
     } catch (error) {
-      console.error("[PlaygroundSync] badge sync error", error);
+      logger.warn("[PlaygroundSync] badge sync error", { error });
     }
   }, [queryClient, user?.id]);
 
@@ -57,7 +58,7 @@ export function usePlaygroundSync() {
           { onConflict: "user_id" },
         );
       if (error) {
-        console.error("[PlaygroundSync] upload failed", error.message);
+        logger.warn("[PlaygroundSync] upload failed", { error });
         return false;
       }
       await syncBadgesFromCloud();
@@ -92,7 +93,7 @@ export function usePlaygroundSync() {
 
         if (cancelled) return;
         if (error) {
-          console.error("[PlaygroundSync] fetch failed", error.message);
+          logger.warn("[PlaygroundSync] fetch failed", { error });
           return;
         }
 
@@ -111,7 +112,7 @@ export function usePlaygroundSync() {
             { onConflict: "user_id" },
           );
         if (upsertError) {
-          console.error("[PlaygroundSync] write-back failed", upsertError.message);
+          logger.warn("[PlaygroundSync] write-back failed", { error: upsertError });
         } else {
           await syncBadgesFromCloud();
         }
@@ -123,7 +124,7 @@ export function usePlaygroundSync() {
           }),
         );
       } catch (err) {
-        console.error("[PlaygroundSync] initial sync error", err);
+        logger.warn("[PlaygroundSync] initial sync error", { error: err });
       }
     })();
 

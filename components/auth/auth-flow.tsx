@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   Loader2,
   Lock,
-  Mail,
   Pencil,
   ShieldCheck,
   Smartphone,
@@ -19,7 +18,8 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
-import { LoginSchema, ResetPasswordSchema } from '@/lib/schemas'
+import { logger } from '@/lib/logger'
+import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import { toE164 } from '@/lib/utils/phone'
@@ -113,7 +113,7 @@ export function AuthFlow({
   title,
   description,
   initialMode = 'sign_in',
-  initialMethod = 'email',
+  initialMethod = 'phone',
   nextPath,
   onBack,
   onClose,
@@ -147,17 +147,29 @@ export function AuthFlow({
   const isPhone = phoneDigits.length >= 11
   const formattedPhone = isPhone ? toE164(phoneValue) : ''
   const isPhoneMethod = method === 'phone'
+  const isLegacyEmailLogin = isPhoneMethod && emailMode === 'sign_in' && isEmailIdentifier(phoneValue)
+  const isPhoneSignUpEmail = isPhoneMethod && emailMode === 'sign_up' && isEmailIdentifier(phoneValue)
   const isSignUpPhoneIdentifier = emailMode === 'sign_up' && !!emailValue && !isEmailIdentifier(emailValue)
   const showPasswordField = !isResetMode && !isPhoneMethod && !(emailMode === 'sign_up' && isSignUpPhoneIdentifier)
-  const showConsent = (isPhoneMethod && !phoneRecoveryAfterOtp) || (emailMode === 'sign_up' && !isResetMode)
-  const passwordIdentifierLabel = isResetMode ? '邮箱或手机号' : '手机号或邮箱'
-  const passwordIdentifierPlaceholder = isResetMode ? '请输入邮箱或手机号' : '请输入手机号或邮箱'
+  const showConsent = (isPhoneMethod && !phoneRecoveryAfterOtp && !isLegacyEmailLogin) || (emailMode === 'sign_up' && !isResetMode && !isPhoneMethod)
+  const passwordIdentifierLabel = '手机号'
+  const passwordIdentifierPlaceholder = '请输入手机号'
 
-  const resolvedTitle = title ?? (isPhoneMethod ? '短信验证' : isResetMode ? '找回密码' : emailMode === 'sign_in' ? '账号登录' : '创建账号')
+  const resolvedTitle = title ?? (
+    phoneRecoveryAfterOtp
+      ? '短信验证'
+      : isResetMode
+      ? '找回密码'
+      : isPhoneMethod
+        ? (emailMode === 'sign_up' ? '手机号注册' : '手机号登录/注册')
+        : emailMode === 'sign_in'
+          ? '手机号登录'
+          : '手机号注册'
+  )
   const resolvedDescription = description?.trim() || (isPhoneMethod
-    ? (phoneRecoveryAfterOtp ? '验证后设置新密码。' : '输入验证码完成注册。')
+    ? (phoneRecoveryAfterOtp ? '验证后设置新密码。' : '输入手机号，验证码登录或注册。')
     : isResetMode
-      ? '邮箱收邮件，手机号用验证码。'
+      ? '输入手机号找回账号。'
       : null)
   const successTarget = nextPath ?? getSafeNextPath()
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
@@ -231,6 +243,10 @@ export function AuthFlow({
 
   const handleSendOtp = async (rawPhone = phoneValue) => {
     if (!requireConsent()) return
+    if (isEmailIdentifier(rawPhone.trim())) {
+      setError('请使用手机号获取验证码。')
+      return
+    }
     const nextFormattedPhone = toE164(rawPhone)
     if (!nextFormattedPhone) {
       setError('请输入有效的手机号')
@@ -254,7 +270,7 @@ export function AuthFlow({
       try {
         if (text) data = JSON.parse(text)
       } catch {
-        if (process.env.NODE_ENV === 'development') console.warn('[OTP] 响应非 JSON:', text?.slice(0, 200))
+        logger.warn('[OTP] 响应非 JSON', { preview: text?.slice(0, 200) })
       }
 
       if (!res.ok) {
@@ -267,7 +283,7 @@ export function AuthFlow({
       setPhone(rawPhone)
       setMethod('phone')
     } catch (err: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('OTP send error:', err)
+      logger.warn('OTP send error', { error: err })
       setError(getOtpErrorMessage(err))
     } finally {
       setLoading(false)
@@ -317,7 +333,7 @@ export function AuthFlow({
 
       completeSuccess()
     } catch (err: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('OTP verify error:', err)
+      logger.warn('OTP verify error', { error: err })
       setError(getOtpErrorMessage(err, OTP_VERIFY_FAIL_DEFAULT))
     } finally {
       setLoading(false)
@@ -330,13 +346,13 @@ export function AuthFlow({
 
     try {
       if (!emailValue) {
-        throw new Error('请输入邮箱或手机号')
+        throw new Error('请输入手机号')
       }
 
       if (!isEmailIdentifier(emailValue)) {
         const formattedRecoveryPhone = toE164(emailValue)
         if (!formattedRecoveryPhone || formattedRecoveryPhone.replace(/\D/g, '').length < 11) {
-          throw new Error('请输入有效的手机号或邮箱')
+          throw new Error('请输入有效的手机号')
         }
         setPhone(emailValue)
         setMethod('phone')
@@ -358,9 +374,9 @@ export function AuthFlow({
       })
 
       if (resetError) throw resetError
-      setMessage('重置密码链接已发送到你的邮箱，请查收。')
+      setMessage('重置链接已发送，请查收。')
     } catch (err: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('Reset password error:', err)
+      logger.warn('Reset password error', { error: err })
       setError(getFriendlyErrorMessage(err))
     } finally {
       setLoading(false)
@@ -376,7 +392,7 @@ export function AuthFlow({
 
     try {
       if (emailMode === 'sign_in') {
-        if (!emailValue) throw new Error('请输入手机号或邮箱')
+        if (!emailValue) throw new Error('请输入手机号')
         if (!password || password.length < 6) throw new Error('密码长度至少需要 6 位。')
 
         const credentials = isEmailIdentifier(emailValue)
@@ -384,7 +400,7 @@ export function AuthFlow({
           : { phone: toE164(emailValue), password }
 
         if ('phone' in credentials && !credentials.phone) {
-          throw new Error('请输入有效的手机号或邮箱')
+          throw new Error('请输入有效的手机号')
         }
 
         const { error: signInError } = await supabase.auth.signInWithPassword(credentials)
@@ -394,45 +410,44 @@ export function AuthFlow({
         return
       }
 
-      if (!emailValue) throw new Error('请输入手机号或邮箱')
-
-      if (!isEmailIdentifier(emailValue)) {
-        const formattedSignUpPhone = toE164(emailValue)
-        if (!formattedSignUpPhone) throw new Error('请输入有效的手机号或邮箱')
-        setPhone(emailValue)
-        setOtp('')
-        setOtpStep('input')
-        await handleSendOtp(emailValue)
-        return
+      if (!emailValue) throw new Error('请输入手机号')
+      if (isEmailIdentifier(emailValue)) {
+        throw new Error('注册请使用手机号。')
       }
 
-      const result = LoginSchema.safeParse({ email: emailValue, password })
-      if (!result.success) throw new Error(result.error.issues[0].message)
+      const formattedSignUpPhone = toE164(emailValue)
+      if (!formattedSignUpPhone) throw new Error('请输入有效的手机号')
+      setPhone(emailValue)
+      setOtp('')
+      setOtpStep('input')
+      await handleSendOtp(emailValue)
+    } catch (err: unknown) {
+      logger.warn('Email auth error', { error: err })
+      setError(getFriendlyErrorMessage(err))
+    } finally {
+      setLoading(false)
+    }
+  }
 
-      const username = `user_${Math.random().toString(36).slice(2, 10)}`
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: emailValue,
+  const handleEmailPasswordAuthFromValue = async (identifier: string) => {
+    setLoading(true)
+    setError(null)
+    setMessage(null)
+
+    try {
+      if (!identifier) throw new Error('请输入手机号')
+      if (!isEmailIdentifier(identifier)) throw new Error('请输入有效的手机号')
+      if (!password || password.length < 6) throw new Error('密码长度至少需要 6 位。')
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: identifier,
         password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback${successTarget !== '/' ? `?next=${encodeURIComponent(successTarget)}` : ''}`,
-          data: {
-            username,
-            full_name: emailValue.split('@')[0],
-          },
-        },
       })
 
-      if (signUpError) throw signUpError
-
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        completeSuccess()
-        return
-      }
-
-      setMessage('注册成功，请前往邮箱完成确认。')
+      if (signInError) throw signInError
+      completeSuccess()
     } catch (err: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('Email auth error:', err)
+      logger.warn('Legacy email auth error', { error: err })
       setError(getFriendlyErrorMessage(err))
     } finally {
       setLoading(false)
@@ -443,6 +458,14 @@ export function AuthFlow({
     e.preventDefault()
 
     if (isPhoneMethod) {
+      if (isLegacyEmailLogin) {
+        await handleEmailPasswordAuthFromValue(phoneValue)
+        return
+      }
+      if (isPhoneSignUpEmail) {
+        setError('注册请使用手机号。')
+        return
+      }
       if (otpStep === 'input') {
         await handleSendOtp()
       } else {
@@ -533,9 +556,9 @@ export function AuthFlow({
                       <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id={`${presentation}-phone`}
-                        type="tel"
-                        inputMode="numeric"
-                        autoComplete="tel-national"
+                        type="text"
+                        inputMode="tel"
+                        autoComplete="username"
                         placeholder="请输入手机号"
                         value={phone}
                         onChange={(event) => setPhone(event.target.value)}
@@ -544,7 +567,46 @@ export function AuthFlow({
                       />
                     </div>
                   </div>
+                ) : null}
+
+                {isLegacyEmailLogin ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-4">
+                      <label htmlFor={`${presentation}-legacy-password`} className="text-sm font-medium text-foreground/86">密码</label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmail(phoneValue)
+                          setMethod('email')
+                          setIsResetMode(true)
+                          setError(null)
+                          setMessage(null)
+                        }}
+                        className="text-xs font-medium text-primary hover:underline"
+                      >
+                        忘记密码
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        id={`${presentation}-legacy-password`}
+                        type="password"
+                        placeholder="请输入至少 6 位密码"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        autoComplete="current-password"
+                        minLength={6}
+                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-[15px]"
+                        required
+                      />
+                    </div>
+                  </div>
                 ) : (
+                  null
+                )}
+
+                {otpStep === 'verify' ? (
                   <div className="rounded-lg border border-border/80 bg-background p-4 shadow-xs">
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -591,7 +653,7 @@ export function AuthFlow({
                       />
                     </div>
                   </div>
-                )}
+                ) : null}
               </>
             ) : (
               <>
@@ -627,9 +689,7 @@ export function AuthFlow({
                 <div className="space-y-2">
                   <label htmlFor={`${presentation}-email`} className="text-sm font-medium text-foreground/86">{passwordIdentifierLabel}</label>
                   <div className="relative">
-                    {isEmailIdentifier(emailValue) ? (
-                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    ) : emailMode === 'sign_up' || isResetMode ? (
+                    {emailMode === 'sign_up' || isResetMode ? (
                       <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     ) : (
                       <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -637,8 +697,8 @@ export function AuthFlow({
                     <Input
                       id={`${presentation}-email`}
                       type="text"
-                      inputMode="text"
-                      autoComplete={emailMode === 'sign_up' ? 'email tel' : 'username'}
+                      inputMode="tel"
+                      autoComplete="username"
                       placeholder={passwordIdentifierPlaceholder}
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
@@ -746,6 +806,8 @@ export function AuthFlow({
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   处理中...
                 </>
+              ) : isLegacyEmailLogin ? (
+                '登录'
               ) : isPhoneMethod ? (
                 otpStep === 'input' ? '获取验证码' : '确认并继续'
               ) : isResetMode ? (
