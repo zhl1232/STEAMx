@@ -129,6 +129,20 @@ function addExpectedValue(values: ExpectedScratchValue[], value: string | undefi
   values.push(entry)
 }
 
+function addExpectedScalarValue(
+  values: ExpectedScratchValue[],
+  value: string | undefined,
+  fallbackKind: ExpectedScratchValue['kind'],
+) {
+  const normalizedValue = value?.trim()
+  if (!normalizedValue) return
+  if (/^-?[0-9]+(?:\.[0-9]+)?$/u.test(normalizedValue)) {
+    addExpectedValue(values, normalizedValue, 'number')
+    return
+  }
+  addExpectedValue(values, normalizedValue, fallbackKind)
+}
+
 function extractExpectedValues(item: ScratchBlockHintItem) {
   const values: ExpectedScratchValue[] = []
   const label = item.label.trim().replace(/[？?]$/u, '')
@@ -152,6 +166,9 @@ function extractExpectedValues(item: ScratchBlockHintItem) {
   const coordinateChangeMatch = label.match(/^将\s+[xy]\s*坐标增加\s*(-?[0-9.]+)$/u)
   if (coordinateChangeMatch) addExpectedValue(values, coordinateChangeMatch[1], 'number')
 
+  const coordinateSetMatch = label.match(/^将\s+[xy]\s*坐标设为\s+(.+)$/u)
+  if (coordinateSetMatch) addExpectedScalarValue(values, coordinateSetMatch[1], 'text')
+
   const waitMatch = label.match(/^等待\s*(-?[0-9.]+)\s*秒$/u)
   if (waitMatch) addExpectedValue(values, waitMatch[1], 'number')
 
@@ -170,11 +187,27 @@ function extractExpectedValues(item: ScratchBlockHintItem) {
     addExpectedValue(values, changeVariableMatch[2], 'number')
   }
 
+  const setVariableMatch = label.match(/^将\s+(.+?)\s+设为\s+(.+)$/u)
+  if (setVariableMatch) {
+    addExpectedValue(values, setVariableMatch[1], 'text')
+    addExpectedScalarValue(values, setVariableMatch[2], 'text')
+  }
+
   const lessThanMatch = label.match(/^(.+?)\s*<\s*(-?[0-9.]+)$/u)
   if (lessThanMatch) {
     addExpectedValue(values, lessThanMatch[1], 'option')
     addExpectedValue(values, lessThanMatch[2], 'number')
   }
+
+  const conditionLabel = label.replace(/^(?:重复执行直到|等待直到)\s+/u, '')
+  const comparisonMatch = conditionLabel.match(/^(.+?)\s*(?:<|>|=)\s*(.+)$/u)
+  if (comparisonMatch) {
+    addExpectedValue(values, comparisonMatch[1], 'option')
+    addExpectedScalarValue(values, comparisonMatch[2], 'text')
+  }
+
+  const createCloneMatch = label.match(/^建立克隆体\s+(.+)$/u)
+  if (createCloneMatch) addExpectedValue(values, createCloneMatch[1], 'option')
 
   const musicNumbers = label.match(/^(?:演奏音符|演奏鼓声)\s+(-?[0-9.]+)\s+(-?[0-9.]+)\s*拍$/u)
   if (musicNumbers) {
@@ -187,6 +220,12 @@ function extractExpectedValues(item: ScratchBlockHintItem) {
 
   const looksNumberMatch = label.match(/^将(?:大小|颜色特效)增加\s*(-?[0-9.]+)$/u)
   if (looksNumberMatch) addExpectedValue(values, looksNumberMatch[1], 'number')
+
+  const sizeSetMatch = label.match(/^将大小设为\s*(-?[0-9.]+)$/u)
+  if (sizeSetMatch) addExpectedValue(values, sizeSetMatch[1], 'number')
+
+  const penSizeSetMatch = label.match(/^将笔的大小设为\s*(-?[0-9.]+)$/u)
+  if (penSizeSetMatch) addExpectedValue(values, penSizeSetMatch[1], 'number')
 
   return values
 }

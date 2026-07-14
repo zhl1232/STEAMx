@@ -78,13 +78,17 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '移到',
   '转动',
   '面向',
+  '将 x 坐标设为',
+  '将 y 坐标设为',
   '碰到边缘就反弹',
   '碰到颜色',
   '碰到',
+  '重复执行直到',
   '重复执行',
   '重复',
   '如果',
   '否则',
+  '等待直到',
   '等待',
   '广播消息',
   '广播',
@@ -93,9 +97,14 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '下一个背景',
   '切换造型',
   '下一个造型',
+  '显示',
+  '隐藏',
   '将大小增加',
+  '将大小设为',
   '将颜色特效增加',
+  '设为',
   '说',
+  '停止所有声音',
   '播放声音',
   '声音',
   '变量',
@@ -109,7 +118,14 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '演奏速度',
   '方向键',
   '鼠标指针',
+  '建立克隆体',
+  '当作为克隆体启动时',
+  '删除此克隆体',
   '克隆',
+  '清空画笔',
+  '落笔',
+  '抬笔',
+  '将笔的大小设为',
   '画笔',
 ]
 
@@ -120,17 +136,24 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['广播消息', 'events'],
   ['广播', 'events'],
   ['收到消息', 'events'],
+  ['重复执行直到', 'control'],
   ['重复执行', 'control'],
   ['重复', 'control'],
   ['如果', 'control'],
   ['否则', 'control'],
+  ['等待直到', 'control'],
   ['等待', 'control'],
   ['停止', 'control'],
+  ['建立克隆体', 'control'],
+  ['当作为克隆体启动时', 'control'],
+  ['删除此克隆体', 'control'],
   ['克隆', 'control'],
   ['移动', 'motion'],
   ['移到', 'motion'],
   ['转动', 'motion'],
   ['面向', 'motion'],
+  ['将 x 坐标设为', 'motion'],
+  ['将 y 坐标设为', 'motion'],
   ['碰到边缘就反弹', 'motion'],
   ['方向键', 'motion'],
   ['鼠标指针', 'motion'],
@@ -138,10 +161,15 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['下一个背景', 'looks'],
   ['切换造型', 'looks'],
   ['下一个造型', 'looks'],
+  ['显示', 'looks'],
+  ['隐藏', 'looks'],
   ['将大小增加', 'looks'],
+  ['将大小设为', 'looks'],
   ['将颜色特效增加', 'looks'],
+  ['设为', 'data'],
   ['说', 'looks'],
   ['外观', 'looks'],
+  ['停止所有声音', 'sound'],
   ['播放声音', 'sound'],
   ['声音', 'sound'],
   ['碰到颜色', 'sensing'],
@@ -155,6 +183,10 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['演奏音符', 'music'],
   ['演奏鼓声', 'music'],
   ['演奏速度', 'music'],
+  ['清空画笔', 'pen'],
+  ['落笔', 'pen'],
+  ['抬笔', 'pen'],
+  ['将笔的大小设为', 'pen'],
   ['画笔', 'pen'],
 ]
 
@@ -168,23 +200,34 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['停止 全部', ['control_stop']],
   ['如果…那么否则', ['control_if_else']],
   ['如果...那么否则', ['control_if_else']],
+  ['重复执行直到', ['control_repeat_until']],
   ['重复执行', ['control_forever']],
   ['重复', ['control_repeat']],
   ['如果', ['control_if']],
+  ['等待直到', ['control_wait_until']],
   ['等待', ['control_wait']],
+  ['建立克隆体', ['control_create_clone_of']],
+  ['当作为克隆体启动时', ['control_start_as_clone']],
+  ['删除此克隆体', ['control_delete_this_clone']],
   ['移到 x:', ['motion_gotoxy']],
   ['移到', ['motion_goto']],
   ['移动', ['motion_movesteps']],
   ['转动', ['motion_turnright', 'motion_turnleft']],
   ['面向', ['motion_pointtowards', 'motion_pointindirection']],
+  ['将 x 坐标设为', ['motion_setx']],
+  ['将 y 坐标设为', ['motion_sety']],
   ['碰到边缘就反弹', ['motion_ifonedgebounce']],
+  ['将大小设为', ['looks_setsizeto']],
   ['将大小增加', ['looks_changesizeby']],
   ['将颜色特效增加', ['looks_changeeffectby']],
+  ['显示', ['looks_show']],
+  ['隐藏', ['looks_hide']],
   ['切换背景', ['looks_switchbackdropto']],
   ['换成 背景', ['looks_switchbackdropto']],
   ['下一个背景', ['looks_nextbackdrop']],
   ['切换造型', ['looks_switchcostumeto']],
   ['下一个造型', ['looks_nextcostume']],
+  ['停止所有声音', ['sound_stopallsounds']],
   ['播放声音', ['sound_play', 'sound_playuntildone']],
   ['碰到颜色', ['sensing_touchingcolor']],
   ['碰到', ['sensing_touchingobject']],
@@ -192,11 +235,19 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['计时器', ['sensing_timer']],
   ['将 分数 增加', ['data_changevariableby']],
   ['将 得分 增加', ['data_changevariableby']],
+  ['>', ['operator_gt']],
   ['y 坐标 <', ['operator_lt']],
+  ['<', ['operator_lt']],
+  ['=', ['operator_equals']],
   ['随机数', ['operator_random']],
   ['演奏音符', ['music_playNoteForBeats']],
   ['演奏鼓声', ['music_midiPlayDrumForBeats']],
   ['将演奏速度设定为', ['music_setTempo']],
+  ['清空画笔', ['pen_clear']],
+  ['落笔', ['pen_penDown']],
+  ['抬笔', ['pen_penUp']],
+  ['将笔的大小设为', ['pen_setPenSizeTo']],
+  ['设为', ['data_setvariableto']],
 ]
 
 function addUniqueValue(values: string[], value: string) {
@@ -291,6 +342,36 @@ function normalizeScratchBlockHintItem(label: string, category?: ScratchBlockCat
     })
   }
 
+  const coordinateSetMatch = normalized.match(/^将\s+([xy])\s*坐标设为\s+(.+)$/u)
+  if (coordinateSetMatch) {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: `将 ${coordinateSetMatch[1]} 坐标设为 0`,
+      category: category ?? 'motion',
+      editHint: `把数值改成「${coordinateSetMatch[2]?.trim() ?? ''}」`,
+    })
+  }
+
+  const sizeSetMatch = normalized.match(/^将大小设为\s+(-?[0-9.]+)$/u)
+  if (sizeSetMatch && sizeSetMatch[1] !== '100') {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: '将大小设为 100',
+      category: category ?? 'looks',
+      editHint: `把大小改成「${sizeSetMatch[1]}」`,
+    })
+  }
+
+  const penSizeSetMatch = normalized.match(/^将笔的大小设为\s+(-?[0-9.]+)$/u)
+  if (penSizeSetMatch && penSizeSetMatch[1] !== '1') {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: '将笔的大小设为 1',
+      category: category ?? 'pen',
+      editHint: `把笔粗细改成「${penSizeSetMatch[1]}」`,
+    })
+  }
+
   const waitMatch = normalized.match(/^等待\s+([0-9.]+)\s*秒$/u)
   if (waitMatch && waitMatch[1] !== '1') {
     return withInferredBlockIds({
@@ -340,7 +421,7 @@ function inferScratchBlockIds(item: Pick<ScratchBlockHintItem, 'label' | 'findLa
     if (/^将\s+y\s*坐标增加/u.test(normalized)) blockIds.push('motion_changeyby')
 
     for (const [pattern, ids] of SCRATCH_BLOCK_ID_ENTRIES) {
-      if (normalized.includes(pattern) || pattern.includes(normalized)) {
+      if (normalized.includes(pattern)) {
         blockIds.push(...ids)
         break
       }

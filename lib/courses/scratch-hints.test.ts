@@ -213,4 +213,120 @@ describe('buildScratchBlockHintItems', () => {
       },
     ])
   })
+
+  it('maps expanded Scratch blocks used by richer lessons and projects', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '进阶互动',
+          description: [
+            '[[block:motion|将 y 坐标设为 鼠标的 y 坐标]]',
+            '[[block:looks|将大小设为 60]]',
+            '[[block:looks|显示]]',
+            '[[block:looks|隐藏]]',
+            '[[block:sound|停止所有声音]]',
+            '[[block:control|等待直到 碰到边缘？]]',
+            '[[block:control|重复执行直到 得分 = 10]]',
+            '[[block:control|建立克隆体 自己]]',
+            '[[block:control|当作为克隆体启动时]]',
+            '[[block:control|删除此克隆体]]',
+            '[[block:pen|清空画笔]]',
+            '[[block:pen|落笔]]',
+            '[[block:pen|抬笔]]',
+            '[[block:pen|将笔的大小设为 5]]',
+          ].join('，'),
+          checklist: [],
+        },
+        maxItems: 14,
+      }),
+    ).toEqual([
+      {
+        label: '将 y 坐标设为 鼠标的 y 坐标',
+        findLabel: '将 y 坐标设为 0',
+        category: 'motion',
+        blockIds: ['motion_sety'],
+        editHint: '把数值改成「鼠标的 y 坐标」',
+      },
+      {
+        label: '将大小设为 60',
+        findLabel: '将大小设为 100',
+        category: 'looks',
+        blockIds: ['looks_setsizeto'],
+        editHint: '把大小改成「60」',
+      },
+      {
+        label: '显示',
+        findLabel: '显示',
+        category: 'looks',
+        blockIds: ['looks_show'],
+      },
+      {
+        label: '隐藏',
+        findLabel: '隐藏',
+        category: 'looks',
+        blockIds: ['looks_hide'],
+      },
+      {
+        label: '停止所有声音',
+        findLabel: '停止所有声音',
+        category: 'sound',
+        blockIds: ['sound_stopallsounds'],
+      },
+      {
+        label: '等待直到 碰到边缘？',
+        findLabel: '等待直到 碰到边缘？',
+        category: 'control',
+        blockIds: ['control_wait_until'],
+      },
+      {
+        label: '重复执行直到 得分 = 10',
+        findLabel: '重复执行直到 得分 = 10',
+        category: 'control',
+        blockIds: ['control_repeat_until'],
+      },
+      {
+        label: '建立克隆体 自己',
+        findLabel: '建立克隆体 自己',
+        category: 'control',
+        blockIds: ['control_create_clone_of'],
+      },
+      {
+        label: '当作为克隆体启动时',
+        findLabel: '当作为克隆体启动时',
+        category: 'control',
+        blockIds: ['control_start_as_clone'],
+      },
+      {
+        label: '删除此克隆体',
+        findLabel: '删除此克隆体',
+        category: 'control',
+        blockIds: ['control_delete_this_clone'],
+      },
+      {
+        label: '清空画笔',
+        findLabel: '清空画笔',
+        category: 'pen',
+        blockIds: ['pen_clear'],
+      },
+      {
+        label: '落笔',
+        findLabel: '落笔',
+        category: 'pen',
+        blockIds: ['pen_penDown'],
+      },
+      {
+        label: '抬笔',
+        findLabel: '抬笔',
+        category: 'pen',
+        blockIds: ['pen_penUp'],
+      },
+      {
+        label: '将笔的大小设为 5',
+        findLabel: '将笔的大小设为 1',
+        category: 'pen',
+        blockIds: ['pen_setPenSizeTo'],
+        editHint: '把笔粗细改成「5」',
+      },
+    ])
+  })
 })

@@ -235,4 +235,118 @@ describe('buildScratchStepCheck', () => {
     expect(result.status).toBe('complete')
     expect(result.completeCount).toBe(2)
   })
+
+  it('checks expanded Scratch block values for richer lesson steps', () => {
+    const result = buildScratchStepCheck({
+      step: {
+        title: '进阶互动',
+        description: [
+          '[[block:motion|将 y 坐标设为 鼠标的 y 坐标]]',
+          '[[block:looks|将大小设为 60]]',
+          '[[block:pen|将笔的大小设为 5]]',
+          '[[block:control|重复执行直到 得分 = 10]]',
+          '[[block:control|建立克隆体 自己]]',
+          '[[block:data|将 得分 设为 10]]',
+        ].join('，'),
+        checklist: [],
+      },
+      editorContext: {
+        selectedTargetId: 'cat',
+        selectedTargetName: 'Cat',
+        targets: [
+          {
+            id: 'cat',
+            name: 'Cat',
+            blocks: [
+              {
+                id: 'set-y',
+                type: 'motion_sety',
+                inputs: { Y: [3, 'mouse-y'] },
+              },
+              {
+                id: 'mouse-y',
+                type: 'sensing_mousey',
+                label: '鼠标的 y 坐标',
+              },
+              {
+                id: 'set-size',
+                type: 'looks_setsizeto',
+                inputs: { SIZE: [1, [4, '60']] },
+              },
+              {
+                id: 'set-pen-size',
+                type: 'pen_setPenSizeTo',
+                inputs: { SIZE: [1, [4, '5']] },
+              },
+              {
+                id: 'repeat-until',
+                type: 'control_repeat_until',
+                inputs: { CONDITION: [2, 'score-equals'] },
+              },
+              {
+                id: 'score-equals',
+                type: 'operator_equals',
+                inputs: {
+                  OPERAND1: [3, 'score-variable'],
+                  OPERAND2: [1, [4, '10']],
+                },
+              },
+              {
+                id: 'score-variable',
+                type: 'data_variable',
+                fields: { VARIABLE: ['得分'] },
+              },
+              {
+                id: 'create-clone',
+                type: 'control_create_clone_of',
+                fields: { CLONE_OPTION: ['自己'] },
+              },
+              {
+                id: 'set-score',
+                type: 'data_setvariableto',
+                fields: { VARIABLE: ['得分'] },
+                inputs: { VALUE: [1, [4, '10']] },
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    expect(result.status).toBe('complete')
+    expect(result.completeCount).toBe(6)
+  })
+
+  it('flags expanded Scratch editable values that differ from the lesson step', () => {
+    const result = buildScratchStepCheck({
+      step: {
+        title: '变大一点',
+        description: '[[block:looks|将大小设为 60]]',
+        checklist: [],
+      },
+      editorContext: {
+        selectedTargetId: 'cat',
+        selectedTargetName: 'Cat',
+        targets: [
+          {
+            id: 'cat',
+            name: 'Cat',
+            blocks: [
+              {
+                id: 'set-size',
+                type: 'looks_setsizeto',
+                inputs: { SIZE: [1, [4, '50']] },
+              },
+            ],
+          },
+        ],
+      },
+    })
+
+    expect(result.status).toBe('needs_work')
+    expect(result.items[0]).toMatchObject({
+      status: 'needs_edit',
+      originalIndex: 0,
+    })
+  })
 })
