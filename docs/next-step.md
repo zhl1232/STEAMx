@@ -62,7 +62,7 @@
 ### 建议迭代顺序
 
 1. **P1：Scratch 定位增强**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断。扫雷引导式推理提示已完成，并复用了「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
-2. **P1：工具选择评测与校准**：为现有模型受控工具选择补 Scratch / 扫雷固定意图用例，降低普通知识问答误触发页面动作的概率，同时保持服务端白名单、payload 校验与前端受控 handler。
+2. ~~**P1：工具选择评测与校准**：为现有模型受控工具选择补 Scratch / 扫雷固定意图用例，降低普通知识问答误触发页面动作的概率，同时保持服务端白名单、payload 校验与前端受控 handler。~~（已补 `tool-call-planner.test.ts` Scratch / 扫雷固定意图矩阵：明确页面动作触发 planner，普通知识问答不触发）
 3. ~~**P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。~~（已落地：`resolveTutorMascotState` + FAB 反馈态；tool/上传 → `working`，成功 → `success`，失败/配额 → `error`，`onCycleEnd` 回落）
 4. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
 5. **P2：技能池运营**：按 `xxx-skill` 规范沉淀更多场景 skill，Admin 可配置启用范围与代币消耗策略。

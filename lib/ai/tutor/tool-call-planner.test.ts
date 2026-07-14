@@ -5,7 +5,11 @@ vi.mock('@/lib/ai/tutor/engine', () => ({
 }))
 
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
-import { planTutorToolDecision, shouldPlanTutorToolDecision } from '@/lib/ai/tutor/tool-call-planner'
+import {
+  planTutorToolDecision,
+  shouldPlanTutorToolDecision,
+  type PlannerInput,
+} from '@/lib/ai/tutor/tool-call-planner'
 
 describe('planTutorToolDecision', () => {
   beforeEach(() => {
@@ -239,6 +243,18 @@ describe('planTutorToolDecision', () => {
 })
 
 describe('shouldPlanTutorToolDecision', () => {
+  const baseScratchCourseInput: Omit<PlannerInput, 'content'> = {
+    contextType: 'course' as const,
+    sceneCapabilities: ['focusCourseLessonStep'],
+    lessonId: 42,
+    lessonStepIndex: 2,
+    scratchBlockKeywords: ['移动 10 步', '重复执行'],
+    scratchBlockItems: [
+      { label: '移动 10 步', findLabel: '移动 10 步', category: 'motion' as const },
+      { label: '重复执行', findLabel: '重复执行', category: 'control' as const },
+    ],
+  }
+
   it('uses planner for explicit page-action requests when tools are available', () => {
     expect(
       shouldPlanTutorToolDecision({
@@ -250,6 +266,32 @@ describe('shouldPlanTutorToolDecision', () => {
         content: '下一步',
       }),
     ).toBe(true)
+  })
+
+  it.each([
+    '帮我打开运动分类并高亮移动 10 步积木',
+    '我找不到重复执行积木，帮我定位一下',
+    '检查这一步还缺哪块积木',
+  ])('uses planner for explicit Scratch page-action intent: %s', (content) => {
+    expect(
+      shouldPlanTutorToolDecision({
+        ...baseScratchCourseInput,
+        content,
+      }),
+    ).toBe(true)
+  })
+
+  it.each([
+    '什么是广播消息积木？',
+    'Scratch 变量和列表有什么区别？',
+    '重复执行和重复执行直到有什么区别？',
+  ])('does not use planner for ordinary Scratch knowledge intent: %s', (content) => {
+    expect(
+      shouldPlanTutorToolDecision({
+        ...baseScratchCourseInput,
+        content,
+      }),
+    ).toBe(false)
   })
 
   it('uses planner for implicit scratch completion-style messages', () => {
@@ -289,6 +331,34 @@ describe('shouldPlanTutorToolDecision', () => {
         content: '哪一格安全？',
       }),
     ).toBe(true)
+  })
+
+  it.each([
+    '这一局下一步怎么点？',
+    '帮我看看当前棋盘有没有能确定的格子',
+    '这格安全吗？',
+  ])('uses planner for explicit minesweeper page-action intent: %s', (content) => {
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content,
+      }),
+    ).toBe(true)
+  })
+
+  it.each([
+    '扫雷里旗子有什么用？',
+    '数字 1 周围代表几个雷？',
+    '为什么扫雷第一步通常不会炸？',
+  ])('does not use planner for ordinary minesweeper knowledge intent: %s', (content) => {
+    expect(
+      shouldPlanTutorToolDecision({
+        contextType: 'global',
+        sceneCapabilities: ['hintMinesweeperCell'],
+        content,
+      }),
+    ).toBe(false)
   })
 
   it('uses planner when a Scratch learner explicitly asks to locate a block', () => {
