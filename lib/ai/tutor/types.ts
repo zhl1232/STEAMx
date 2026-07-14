@@ -37,7 +37,6 @@ export const TUTOR_PLAYGROUND_GAME_KEYS = [
   'ballsort',
   'balance',
   'symmetry',
-  'circuit',
 ] as const
 export type TutorPlaygroundGameKey = (typeof TUTOR_PLAYGROUND_GAME_KEYS)[number]
 

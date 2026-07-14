@@ -369,11 +369,7 @@ const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; su
   },
   symmetry: {
     title: '像素对称',
-    summary: '学生正在玩像素对称。围绕镜像轴、对应格和图案平衡给提示。',
-  },
-  circuit: {
-    title: '逻辑电路',
-    summary: '学生正在玩逻辑电路。围绕 AND/OR/NOT、输入输出真值和逐门推理给提示。',
+    summary: '学生正在玩像素对称。当前规则是观察锁定的半边样本，在另一半手动补出镜像图案；围绕镜像轴、行列对应、误点修正和图案平衡给提示。',
   },
 }
 

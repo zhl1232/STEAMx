@@ -28,7 +28,6 @@ export const PLAYGROUND_KEYS = [
   { key: "ball_sort_stats", label: "球排序" },
   { key: "balance_stats", label: "天平称重" },
   { key: "symmetry_stats", label: "像素对称" },
-  { key: "circuit_stats", label: "逻辑电路" },
 ] as const;
 
 export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];

@@ -48,7 +48,7 @@ function getSeriesPanelClass(seriesKey: string) {
   if (seriesKey === "bird_observer" || seriesKey === "species_collector") {
     return "border-emerald-200/70 bg-linear-to-br from-emerald-50/90 via-background to-teal-50/70 dark:border-emerald-400/20 dark:from-emerald-950/35 dark:via-slate-950 dark:to-teal-950/25";
   }
-  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life" || seriesKey === "circuit") {
+  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life") {
     return "border-cyan-200/70 bg-linear-to-br from-cyan-50/90 via-background to-sky-50/70 dark:border-cyan-400/20 dark:from-cyan-950/35 dark:via-slate-950 dark:to-sky-950/25";
   }
   if (seriesKey === "art_expert") {

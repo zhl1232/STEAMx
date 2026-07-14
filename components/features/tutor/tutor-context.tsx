@@ -25,6 +25,8 @@ export type TutorContextOverride = {
   /** PBL：获取当前阶段产出用于「请导师看看」 */
   getReviewPayload?: () => { text: string; images: string[] } | null
   hideFab?: boolean
+  /** 仅在手机/平板窄屏隐藏悬浮入口，避免覆盖游戏棋盘、地图或画布。 */
+  hideFabOnMobile?: boolean
 }
 
 export type TutorToolHandler = (toolCall: TutorToolCall) => void | Promise<void>

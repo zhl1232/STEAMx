@@ -60,7 +60,6 @@ export interface UserStats {
     ballSortSolved?: number;
     balanceSolved?: number;
     symmetrySolved?: number;
-    circuitSolved?: number;
     /** 游乐场：玩过不同游戏数量（仅云端 sync 聚合） */
     playgroundGamesPlayed?: number;
     /** 游乐场：累计胜利/通关次数（仅云端 sync 聚合） */

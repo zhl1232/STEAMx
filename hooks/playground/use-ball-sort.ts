@@ -18,6 +18,19 @@ export type BallSortStats = {
     bestTimes: Record<string, number>
 }
 
+export type BallSortMoveFeedback = {
+    key: number
+    from: number
+    to: number
+    color: number
+    count: number
+}
+
+export type BallSortInvalidFeedback = {
+    key: number
+    index: number
+}
+
 const STATS_KEY = "ball_sort_stats"
 const EMPTY_STATS: BallSortStats = { totalGames: 0, solvedLevels: [], bestMoves: {}, bestTimes: {} }
 
@@ -88,6 +101,91 @@ export const BALL_SORT_LEVELS: BallSortLevel[] = [
             [],
         ],
     },
+    {
+        id: "hexagon",
+        name: "六色回环",
+        hint: "每个颜色先找一根同色接力管，别急着把空管一次用满。",
+        capacity: 4,
+        tubes: [
+            [1, 2, 3, 4],
+            [2, 3, 4, 5],
+            [3, 4, 5, 6],
+            [4, 5, 6, 1],
+            [5, 6, 1, 2],
+            [6, 1, 2, 3],
+            [],
+            [],
+        ],
+    },
+    {
+        id: "tide",
+        name: "七色潮汐",
+        hint: "先锁住容易成管的颜色，再慢慢拆掉缠在一起的那几层。",
+        capacity: 4,
+        tubes: [
+            [1, 2, 3, 4],
+            [2, 3, 4, 5],
+            [3, 4, 5, 6],
+            [4, 5, 6, 7],
+            [5, 6, 7, 1],
+            [6, 7, 1, 2],
+            [7, 1, 2, 3],
+            [],
+            [],
+        ],
+    },
+    {
+        id: "starring",
+        name: "八色星环",
+        hint: "保留空管给长链，短链先落袋，别让周转空间太早被占满。",
+        capacity: 4,
+        tubes: [
+            [1, 2, 3, 4],
+            [2, 3, 4, 5],
+            [3, 4, 5, 6],
+            [4, 5, 6, 7],
+            [5, 6, 7, 8],
+            [6, 7, 8, 1],
+            [7, 8, 1, 2],
+            [8, 1, 2, 3],
+            [],
+            [],
+        ],
+    },
+    {
+        id: "layered",
+        name: "七色夹层",
+        hint: "混层越多，越要按顶部颜色分段回收，别被中间颜色带偏。",
+        capacity: 4,
+        tubes: [
+            [1, 2, 4, 6],
+            [2, 3, 5, 7],
+            [4, 5, 7, 2],
+            [5, 6, 1, 3],
+            [7, 1, 3, 5],
+            [3, 4, 6, 1],
+            [6, 7, 2, 4],
+            [],
+            [],
+        ],
+    },
+    {
+        id: "vortex",
+        name: "七色漩涡",
+        hint: "最后一关要靠多轮周转，先腾空间，再把同色球一层层卷回来。",
+        capacity: 4,
+        tubes: [
+            [1, 4, 2, 5],
+            [4, 7, 5, 1],
+            [2, 5, 3, 6],
+            [5, 1, 6, 2],
+            [3, 6, 4, 7],
+            [6, 2, 7, 3],
+            [7, 3, 1, 4],
+            [],
+            [],
+        ],
+    },
 ]
 
 export function isBallSortSolved(tubes: number[][], capacity: number): boolean {
@@ -106,11 +204,24 @@ export function canPour(from: number[], to: number[], capacity: number): boolean
     return to[to.length - 1] === color
 }
 
+export function getTopRun(tube: number[]): { color: number; count: number } | null {
+    if (tube.length === 0) return null
+    const color = tube[tube.length - 1]
+    let count = 0
+    for (let index = tube.length - 1; index >= 0; index -= 1) {
+        if (tube[index] !== color) break
+        count += 1
+    }
+    return { color, count }
+}
+
 export function pourBalls(from: number[], to: number[], capacity: number): { from: number[]; to: number[] } | null {
     if (!canPour(from, to, capacity)) return null
     const nextFrom = [...from]
     const nextTo = [...to]
-    const color = nextFrom[nextFrom.length - 1]
+    const topRun = getTopRun(nextFrom)
+    if (!topRun) return null
+    const color = topRun.color
     while (
         nextFrom.length > 0 &&
         nextFrom[nextFrom.length - 1] === color &&
@@ -150,7 +261,10 @@ export function useBallSort() {
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved">("playing")
     const [stats, setStats] = useState<BallSortStats>(EMPTY_STATS)
+    const [moveFeedback, setMoveFeedback] = useState<BallSortMoveFeedback | null>(null)
+    const [invalidFeedback, setInvalidFeedback] = useState<BallSortInvalidFeedback | null>(null)
     const solvedRecordedRef = useRef(false)
+    const feedbackKeyRef = useRef(0)
     const level = BALL_SORT_LEVELS[levelIndex]
 
     usePlaygroundStatsLoader(() => setStats(loadStats()))
@@ -193,15 +307,19 @@ export function useBallSort() {
             if (status === "solved") return
             if (selected === null) {
                 if (tubes[index].length === 0) return
+                setInvalidFeedback(null)
                 setSelected(index)
                 return
             }
             if (selected === index) {
+                setInvalidFeedback(null)
                 setSelected(null)
                 return
             }
             const result = pourBalls(tubes[selected], tubes[index], level.capacity)
             if (!result) {
+                feedbackKeyRef.current += 1
+                setInvalidFeedback({ key: feedbackKeyRef.current, index })
                 setSelected(tubes[index].length > 0 ? index : null)
                 return
             }
@@ -209,9 +327,20 @@ export function useBallSort() {
             next[selected] = result.from
             next[index] = result.to
             const nextMoves = moves + 1
+            const movedCount = result.to.length - tubes[index].length
+            const movedColor = result.to[result.to.length - 1]
             setTubes(next)
             setMoves(nextMoves)
             setSelected(null)
+            setInvalidFeedback(null)
+            feedbackKeyRef.current += 1
+            setMoveFeedback({
+                key: feedbackKeyRef.current,
+                from: selected,
+                to: index,
+                color: movedColor,
+                count: movedCount,
+            })
             if (isBallSortSolved(next, level.capacity)) {
                 recordSolve(level, nextMoves, time)
             }
@@ -228,6 +357,8 @@ export function useBallSort() {
         setMoves(0)
         setTime(0)
         setStatus("playing")
+        setMoveFeedback(null)
+        setInvalidFeedback(null)
     }, [])
 
     const reset = useCallback(() => startLevel(levelIndex), [levelIndex, startLevel])
@@ -242,6 +373,8 @@ export function useBallSort() {
         time,
         status,
         stats,
+        moveFeedback,
+        invalidFeedback,
         selectTube,
         startLevel,
         reset,

@@ -1,25 +1,25 @@
 "use client"
 
 import {
-    Beaker,
     Bomb,
     Bot,
     Brain,
     Calculator,
     ChevronRight,
+    Columns2,
     Compass,
-    Cpu,
     Crown,
     Dna,
-    FlipHorizontal,
     Grid3X3,
     Hash,
     Home,
     Layers,
     Medal,
     Palette,
+    PanelTopOpen,
     Scale,
-    Table,
+    TableCellsSplit,
+    TestTubes,
     Touchpad,
     type LucideIcon,
 } from "lucide-react"
@@ -155,7 +155,7 @@ const games: PlaygroundNavItem[] = [
         name: "数字华容道",
         nameEn: "15 Puzzle",
         href: "/playground/fifteen",
-        icon: Grid3X3,
+        icon: PanelTopOpen,
         description: "排列组合与可解性",
         mission: "滑动数字，还原从 1 到空格的顺序。",
         controls: "点击空格旁的数字移动，可切换 3×3/4×4/5×5。",
@@ -215,7 +215,7 @@ const games: PlaygroundNavItem[] = [
         name: "数织",
         nameEn: "Nonogram",
         href: "/playground/nonogram",
-        icon: Table,
+        icon: TableCellsSplit,
         description: "线索推理与像素填图，28 关至 15×15",
         mission: "按顺序解锁，根据行列线索填出隐藏图案。",
         controls: "填色/叉号切换并可滑动连填；须按顺序通关解锁；错填扣试错（3 次）。",
@@ -227,11 +227,11 @@ const games: PlaygroundNavItem[] = [
         name: "球排序",
         nameEn: "Ball Sort",
         href: "/playground/ballsort",
-        icon: Beaker,
-        description: "状态空间与中转规划",
+        icon: TestTubes,
+        description: "10 关状态空间与中转规划",
         mission: "把同色球倒进同一试管并填满。",
         controls: "先点源管再点目标管倾倒，空管可作中转。",
-        badgeGoal: "刷新各关最少步数。",
+        badgeGoal: "刷新 10 关最少步数。",
         color: "text-cyan-500 dark:text-cyan-300",
         steamTags: ["Engineering", "Math"],
     },
@@ -242,7 +242,7 @@ const games: PlaygroundNavItem[] = [
         icon: Scale,
         description: "三分法与科学推理",
         mission: "用有限次称量找出假币。",
-        controls: "把硬币放入左右盘称量，再指认假币。",
+        controls: "先选择左盘或右盘，把硬币点入托盘称量，再指认假币。",
         badgeGoal: "用更少称量通关。",
         color: "text-teal-500 dark:text-teal-300",
         steamTags: ["Science", "Math"],
@@ -251,25 +251,13 @@ const games: PlaygroundNavItem[] = [
         name: "像素对称",
         nameEn: "Symmetry",
         href: "/playground/symmetry",
-        icon: FlipHorizontal,
-        description: "轴对称与构图",
-        mission: "按镜像规则画出目标剪影。",
-        controls: "点击像素，镜像侧会同步填色。",
-        badgeGoal: "完成全部对称画关卡。",
+        icon: Columns2,
+        description: "半图镜像与坐标对应",
+        mission: "观察锁定样本半边，在挑战半边补出镜像图案。",
+        controls: "点击挑战半边填色或清除；样本半边不可编辑，误点会压低星级。",
+        badgeGoal: "完成全部镜像挑战并刷新星级。",
         color: "text-pink-500 dark:text-pink-300",
         steamTags: ["Arts", "Math"],
-    },
-    {
-        name: "逻辑电路",
-        nameEn: "Logic Circuit",
-        href: "/playground/circuit",
-        icon: Cpu,
-        description: "布尔逻辑与门电路",
-        mission: "选择与/或/非等门，让输出灯达到目标。",
-        controls: "为每个门选类型，必要时拨动输入开关。",
-        badgeGoal: "通关全部电路关卡。",
-        color: "text-indigo-500 dark:text-indigo-300",
-        steamTags: ["Technology", "Science"],
     },
 ]
 
@@ -348,18 +336,113 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "点击目标管", label: "倒入可用试管" },
     ],
     "/playground/balance": [
-        { key: "点击硬币", label: "选中或取消硬币" },
-        { key: "左右盘", label: "把硬币放入对应托盘" },
+        { key: "左盘 / 右盘", label: "选择当前投放托盘" },
+        { key: "点击硬币", label: "放入当前托盘或从原盘移除" },
         { key: "称量", label: "比较两侧重量" },
+        { key: "指认", label: "选择你认为的假币" },
     ],
     "/playground/symmetry": [
-        { key: "点击像素", label: "填色或清除" },
-        { key: "镜像侧", label: "自动同步对称图案" },
+        { key: "样本半边", label: "观察锁定图案" },
+        { key: "挑战半边", label: "手动补出镜像" },
+        { key: "误点", label: "可修正但影响星级" },
     ],
-    "/playground/circuit": [
-        { key: "点击门", label: "切换逻辑门类型" },
-        { key: "输入开关", label: "改变输入信号" },
-    ],
+}
+
+function GameNavGlyph({
+    href,
+    icon: Icon,
+    active,
+}: {
+    href: string
+    icon: LucideIcon
+    active: boolean
+}) {
+    const customGlyph = (() => {
+        switch (href) {
+            case "/playground/fifteen":
+                return (
+                    <>
+                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-cyan-50 stroke-cyan-300 dark:fill-cyan-950 dark:stroke-cyan-300/40" />
+                        {[
+                            [8, 8, "1"], [16, 8, "2"], [8, 16, "3"],
+                        ].map(([x, y, value]) => (
+                            <g key={`${x}-${y}`}>
+                                <rect x={x} y={y} width="7" height="7" rx="1.6" className="fill-cyan-500/18 stroke-cyan-400/60 dark:fill-cyan-300/18" />
+                                <text x={Number(x) + 3.5} y={Number(y) + 4.1} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[3.8px] font-black dark:fill-cyan-50">{value}</text>
+                            </g>
+                        ))}
+                        <rect x="16" y="16" width="7" height="7" rx="1.6" className="fill-cyan-500 dark:fill-cyan-300" />
+                    </>
+                )
+            case "/playground/nonogram":
+                return (
+                    <>
+                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-slate-50 stroke-slate-300 dark:fill-slate-950 dark:stroke-slate-300/30" />
+                        {[
+                            [10, 10], [15, 10], [20, 10], [15, 15], [10, 20], [15, 20], [20, 20],
+                        ].map(([x, y]) => (
+                            <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" rx="0.8" className="fill-slate-800 dark:fill-slate-100" />
+                        ))}
+                        <text x="8" y="13" className="fill-slate-400 text-[4px] font-black">3</text>
+                    </>
+                )
+            case "/playground/ballsort":
+                return (
+                    <>
+                        <rect x="5" y="25" width="22" height="2" rx="1" className="fill-cyan-800/25 dark:fill-cyan-100/25" />
+                        <path d="M8 7 V22 Q8 26 12 26 H13 Q17 26 17 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
+                        <path d="M17 7 V22 Q17 26 21 26 H22 Q26 26 26 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
+                        <circle cx="12.5" cy="21.5" r="2.2" className="fill-rose-500" />
+                        <circle cx="12.5" cy="16.4" r="2.2" className="fill-sky-500" />
+                        <circle cx="21.5" cy="21.5" r="2.2" className="fill-emerald-500" />
+                        <circle cx="21.5" cy="16.4" r="2.2" className="fill-amber-400" />
+                    </>
+                )
+            case "/playground/balance":
+                return (
+                    <>
+                        <path d="M16 7 V25" className="stroke-teal-800 dark:stroke-teal-100" strokeWidth="1.8" strokeLinecap="round" />
+                        <path d="M8 12 L25 10" className="stroke-teal-800 dark:stroke-teal-100" strokeWidth="1.8" strokeLinecap="round" />
+                        <path d="M8 12 L5 19 H12 Z" className="fill-teal-500 dark:fill-teal-300" />
+                        <path d="M25 10 L21 17 H29 Z" className="fill-amber-400 dark:fill-amber-300" />
+                        <rect x="11" y="25" width="10" height="2.5" rx="1.2" className="fill-teal-800 dark:fill-teal-100" />
+                    </>
+                )
+            case "/playground/symmetry":
+                return (
+                    <>
+                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-pink-50 stroke-pink-200 dark:fill-pink-950 dark:stroke-pink-200/20" />
+                        <path d="M16 7 V25" className="stroke-pink-500 dark:stroke-pink-300" strokeWidth="1.2" strokeDasharray="2 2" />
+                        {[9, 14, 19].map((y) => (
+                            <rect key={`l-${y}`} x="9" y={y} width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
+                        ))}
+                        {[9, 14, 19].map((y) => (
+                            <rect key={`r-${y}`} x="19" y={y} width="4" height="4" rx="0.8" className="fill-sky-500 dark:fill-sky-300" />
+                        ))}
+                        <rect x="14" y="14" width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
+                    </>
+                )
+            default:
+                return null
+        }
+    })()
+
+    return (
+        <span
+            className={cn(
+                "surface-subtle grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-sm",
+                active && "bg-background/90",
+            )}
+        >
+            {customGlyph ? (
+                <svg viewBox="0 0 32 32" className="h-full w-full" aria-hidden="true">
+                    {customGlyph}
+                </svg>
+            ) : (
+                <Icon className={cn("h-[18px] w-[18px]", active ? "text-primary" : "text-muted-foreground group-hover:text-primary")} />
+            )}
+        </span>
+    )
 }
 
 function MobilePlaygroundHeader() {
@@ -414,7 +497,11 @@ function MobilePlaygroundHeader() {
                                         : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
                                 )}
                             >
-                                <item.icon className="h-4 w-4" />
+                                {item.href === "/playground" ? (
+                                    <item.icon className="h-4 w-4" />
+                                ) : (
+                                    <GameNavGlyph href={item.href} icon={item.icon} active={active} />
+                                )}
                                 {item.name}
                             </Link>
                         )
@@ -471,9 +558,7 @@ function DesktopSidebar() {
                                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                                 )}
                             >
-                                <span className="surface-subtle grid h-8 w-8 shrink-0 place-items-center rounded-sm">
-                                    <game.icon className={cn("h-[18px] w-[18px]", active ? game.color : "text-muted-foreground group-hover:text-primary")} />
-                                </span>
+                                <GameNavGlyph href={game.href} icon={game.icon} active={active} />
                                 <span className="min-w-0 flex-1">
                                     <span className="block truncate text-sm font-bold">{game.name}</span>
                                     <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>

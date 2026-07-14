@@ -14,21 +14,22 @@ import {
     ChevronRight,
     Code2,
     Cog,
+    Columns2,
     Compass,
-    Cpu,
     Crown,
     Dna,
-    FlipHorizontal,
     Gamepad2,
     Grid3X3,
     Hash,
     Layers,
     Palette,
+    PanelTopOpen,
     RotateCw,
     Scale,
     Sigma,
     Star,
-    Table,
+    TableCellsSplit,
+    TestTubes,
     Trophy,
     type LucideIcon,
 } from "lucide-react"
@@ -43,7 +44,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "circuit"
+type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry"
 
 type GameCard = {
     name: string
@@ -51,7 +52,6 @@ type GameCard = {
     href: string
     icon: LucideIcon
     color: string
-    iconBg: string
     visual: GameVisual
     tags: SteamTag[]
     description: string
@@ -68,7 +68,6 @@ const GAMES: GameCard[] = [
         href: "/playground/minesweeper",
         icon: Bomb,
         color: "text-primary",
-        iconBg: "bg-blue-100 dark:bg-blue-400/10",
         visual: "mines",
         tags: ["Science", "Math"],
         description: "经典逻辑推理游戏，训练你的推理与安全排雷能力。",
@@ -82,7 +81,6 @@ const GAMES: GameCard[] = [
         href: "/playground/gomoku",
         icon: Bot,
         color: "text-violet-600 dark:text-violet-300",
-        iconBg: "bg-violet-100 dark:bg-violet-400/10",
         visual: "gomoku",
         tags: ["Technology"],
         description: "连续五子即可胜利，策略与布局的经典对决。",
@@ -96,7 +94,6 @@ const GAMES: GameCard[] = [
         href: "/playground/life",
         icon: Dna,
         color: "text-emerald-600 dark:text-emerald-300",
-        iconBg: "bg-emerald-100 dark:bg-emerald-400/10",
         visual: "life",
         tags: ["Science", "Math"],
         description: "挑战 8 个涌现任务：用有限细胞造稳定结构、振荡器和滑翔机信号。",
@@ -110,7 +107,6 @@ const GAMES: GameCard[] = [
         href: "/playground/2048",
         icon: Grid3X3,
         color: "text-amber-600 dark:text-amber-300",
-        iconBg: "bg-amber-100 dark:bg-amber-400/10",
         visual: "2048",
         tags: ["Math", "Technology"],
         description: "合并相同数字，挑战你的逻辑与规划能力。",
@@ -124,7 +120,6 @@ const GAMES: GameCard[] = [
         href: "/playground/24game",
         icon: Calculator,
         color: "text-sky-600 dark:text-sky-300",
-        iconBg: "bg-sky-100 dark:bg-sky-400/10",
         visual: "24",
         tags: ["Math"],
         description: "用加减乘除算出 24，锻炼心算与运算能力。",
@@ -138,7 +133,6 @@ const GAMES: GameCard[] = [
         href: "/playground/hanoi",
         icon: Layers,
         color: "text-orange-600 dark:text-orange-300",
-        iconBg: "bg-orange-100 dark:bg-orange-400/10",
         visual: "hanoi",
         tags: ["Math", "Engineering"],
         description: "经典递归问题，最少步数完成所有圆盘移动。",
@@ -153,7 +147,6 @@ const GAMES: GameCard[] = [
         href: "/playground/sudoku",
         icon: Hash,
         color: "text-rose-600 dark:text-rose-300",
-        iconBg: "bg-rose-100 dark:bg-rose-400/10",
         visual: "sudoku",
         tags: ["Math", "Technology"],
         description: "逻辑填数，挑战你的耐心与推理能力。",
@@ -167,7 +160,6 @@ const GAMES: GameCard[] = [
         href: "/playground/nqueens",
         icon: Crown,
         color: "text-yellow-600 dark:text-yellow-300",
-        iconBg: "bg-yellow-100 dark:bg-yellow-400/10",
         visual: "nqueens",
         tags: ["Technology", "Engineering"],
         description: "在 N×N 棋盘上放置 N 个皇后，互不攻击。",
@@ -179,9 +171,8 @@ const GAMES: GameCard[] = [
         name: "数字华容道",
         subtitle: "15 Puzzle",
         href: "/playground/fifteen",
-        icon: Grid3X3,
+        icon: PanelTopOpen,
         color: "text-cyan-600 dark:text-cyan-300",
-        iconBg: "bg-cyan-100 dark:bg-cyan-400/10",
         visual: "fifteen",
         tags: ["Math", "Engineering"],
         description: "滑动数字复原顺序，理解可解性与空间规划。",
@@ -195,7 +186,6 @@ const GAMES: GameCard[] = [
         href: "/playground/memory",
         icon: Brain,
         color: "text-fuchsia-600 dark:text-fuchsia-300",
-        iconBg: "bg-fuchsia-100 dark:bg-fuchsia-400/10",
         visual: "memory",
         tags: ["Science", "Arts"],
         description: "翻牌配对 STEAM 图案，训练工作记忆与空间记忆。",
@@ -209,7 +199,6 @@ const GAMES: GameCard[] = [
         href: "/playground/quickmath",
         icon: Calculator,
         color: "text-amber-600 dark:text-amber-300",
-        iconBg: "bg-amber-100 dark:bg-amber-400/10",
         visual: "quickmath",
         tags: ["Math"],
         description: "60 秒限时四则运算，连击越高题目越难、奖励越多。",
@@ -223,7 +212,6 @@ const GAMES: GameCard[] = [
         href: "/playground/maze",
         icon: Compass,
         color: "text-lime-600 dark:text-lime-300",
-        iconBg: "bg-lime-100 dark:bg-lime-400/10",
         visual: "maze",
         tags: ["Technology", "Science"],
         description: "挑战五档迷雾地图与误导岔路，通关后解锁 BFS、DFS 与 A* 复盘。",
@@ -237,7 +225,6 @@ const GAMES: GameCard[] = [
         href: "/playground/tangram",
         icon: Palette,
         color: "text-violet-600 dark:text-violet-300",
-        iconBg: "bg-violet-100 dark:bg-violet-400/10",
         visual: "tangram",
         tags: ["Arts", "Math"],
         description: "拖拽七块标准件拼出剪影，练习旋转、镜像和组合。",
@@ -249,9 +236,8 @@ const GAMES: GameCard[] = [
         name: "数织",
         subtitle: "Nonogram",
         href: "/playground/nonogram",
-        icon: Table,
+        icon: TableCellsSplit,
         color: "text-slate-600 dark:text-slate-300",
-        iconBg: "bg-slate-100 dark:bg-slate-400/10",
         visual: "nonogram",
         tags: ["Math", "Arts"],
         description: "28 关像素谜题，从 3×3 练到 15×15 迷宫与星系。",
@@ -263,12 +249,11 @@ const GAMES: GameCard[] = [
         name: "球排序",
         subtitle: "Ball Sort",
         href: "/playground/ballsort",
-        icon: Beaker,
+        icon: TestTubes,
         color: "text-cyan-600 dark:text-cyan-300",
-        iconBg: "bg-cyan-100 dark:bg-cyan-400/10",
         visual: "ballsort",
         tags: ["Engineering", "Math"],
-        description: "倾倒彩色球，用空管中转完成同色归位。",
+        description: "10 关试管排序，从五色练到八色复杂周转。",
         statsKey: "ball_sort_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
@@ -279,7 +264,6 @@ const GAMES: GameCard[] = [
         href: "/playground/balance",
         icon: Scale,
         color: "text-teal-600 dark:text-teal-300",
-        iconBg: "bg-teal-100 dark:bg-teal-400/10",
         visual: "balance",
         tags: ["Science", "Math"],
         description: "有限次称量找出假币，练习三分法推理。",
@@ -291,27 +275,12 @@ const GAMES: GameCard[] = [
         name: "像素对称",
         subtitle: "Symmetry",
         href: "/playground/symmetry",
-        icon: FlipHorizontal,
+        icon: Columns2,
         color: "text-pink-600 dark:text-pink-300",
-        iconBg: "bg-pink-100 dark:bg-pink-400/10",
         visual: "symmetry",
         tags: ["Arts", "Math"],
-        description: "轴对称作画，镜像同步填色拼出剪影。",
+        description: "观察半边样本，手动补出镜像图案并争取满星。",
         statsKey: "symmetry_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => countStringArray(raw, "solvedLevels"),
-    },
-    {
-        name: "逻辑电路",
-        subtitle: "Logic Circuit",
-        href: "/playground/circuit",
-        icon: Cpu,
-        color: "text-indigo-600 dark:text-indigo-300",
-        iconBg: "bg-indigo-100 dark:bg-indigo-400/10",
-        visual: "circuit",
-        tags: ["Technology", "Science"],
-        description: "组合与/或/非等逻辑门，点亮目标输出。",
-        statsKey: "circuit_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
     },
@@ -864,7 +833,6 @@ function SteamRadarPanel({
 
 function GameTile({ game, index, played }: { game: GameCard; index: number; played: number }) {
     const status = getStatus(index, played)
-    const Icon = game.icon
 
     return (
         <Link
@@ -892,16 +860,21 @@ function GameTile({ game, index, played }: { game: GameCard; index: number; play
                     </div>
                 </div>
             </div>
-            <Icon className={cn("pointer-events-none absolute -bottom-6 -right-5 h-20 w-20 opacity-[0.05]", game.color)} />
+            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/5 transition-transform duration-300 group-hover:scale-110" />
         </Link>
     )
 }
 
-function GameArtwork({ game }: { game: GameCard }) {
+function GameArtwork({ game, compact = false }: { game: GameCard; compact?: boolean }) {
     const imageArtwork = IMAGE_ARTWORKS[game.visual]
 
     return (
-        <div className="surface-subtle relative h-[80px] w-[80px] shrink-0 overflow-hidden sm:h-[92px] sm:w-[92px]">
+        <div
+            className={cn(
+                "surface-subtle relative shrink-0 overflow-hidden",
+                compact ? "h-11 w-11 rounded-sm" : "h-[80px] w-[80px] sm:h-[92px] sm:w-[92px]",
+            )}
+        >
             {imageArtwork ? (
                 <>
                     <Image
@@ -941,7 +914,6 @@ function GameArtwork({ game }: { game: GameCard }) {
                     {game.visual === "ballsort" ? <BallSortArtwork /> : null}
                     {game.visual === "balance" ? <BalanceArtwork /> : null}
                     {game.visual === "symmetry" ? <SymmetryArtwork /> : null}
-                    {game.visual === "circuit" ? <CircuitArtwork /> : null}
                 </>
             )}
         </div>
@@ -1119,31 +1091,33 @@ function FifteenArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
-            <rect x="13" y="13" width="66" height="66" rx="12" className="fill-white stroke-cyan-200 dark:fill-white/7 dark:stroke-cyan-300/20" />
+            <rect x="11" y="12" width="70" height="70" rx="13" className="fill-white stroke-cyan-200 dark:fill-white/8 dark:stroke-cyan-200/20" />
+            <g className="stroke-cyan-300/70 dark:stroke-cyan-100/15" strokeWidth="1">
+                {[28, 46, 64].map((pos) => (
+                    <line key={`v-${pos}`} x1={pos} y1="20" x2={pos} y2="74" />
+                ))}
+                {[29, 47, 65].map((pos) => (
+                    <line key={`h-${pos}`} x1="20" y1={pos} x2="74" y2={pos} />
+                ))}
+            </g>
             {[
-                [22, 22, "1"], [46, 22, "2"], [70, 22, "3"],
-                [22, 46, "4"], [46, 46, "5"], [70, 46, "6"],
-                [22, 70, "7"], [46, 70, "8"],
+                [20, 20, "1"],
+                [38, 20, "2"],
+                [56, 20, "3"],
+                [20, 38, "4"],
+                [38, 38, "5"],
+                [56, 38, "6"],
+                [20, 56, "7"],
+                [38, 56, "8"],
             ].map(([x, y, value]) => (
-                <rect
-                    key={`${x}-${y}-${value}`}
-                    x={Number(x) - 8}
-                    y={Number(y) - 8}
-                    width="16"
-                    height="16"
-                    rx="4"
-                    className="fill-cyan-500/15 stroke-cyan-400/35 dark:fill-cyan-300/14 dark:stroke-cyan-200/30"
-                />
+                <g key={`${x}-${y}-${value}`}>
+                    <rect x={Number(x)} y={Number(y)} width="14" height="14" rx="3.2" className="fill-cyan-500/15 stroke-cyan-400/55 dark:fill-cyan-300/12 dark:stroke-cyan-100/25" />
+                    <text x={Number(x) + 7} y={Number(y) + 7.6} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[8px] font-black dark:fill-cyan-50">
+                        {value}
+                    </text>
+                </g>
             ))}
-            {[
-                [22, 22, "1"], [46, 22, "2"], [70, 22, "3"],
-                [22, 46, "4"], [46, 46, "5"], [70, 46, "6"],
-                [22, 70, "7"], [46, 70, "8"],
-            ].map(([x, y, value]) => (
-                <text key={`${value}-text`} x={x} y={y} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[10px] font-black dark:fill-cyan-100">
-                    {value}
-                </text>
-            ))}
+            <rect x="56" y="56" width="14" height="14" rx="3.2" className="fill-cyan-950/5 stroke-dashed stroke-cyan-400/65 dark:fill-black/15 dark:stroke-cyan-100/25" />
         </svg>
     )
 }
@@ -1177,10 +1151,24 @@ function QuickMathArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <rect width="92" height="92" rx="18" className="fill-amber-50 dark:fill-amber-950/45" />
-            <circle cx="46" cy="46" r="27" className="fill-white stroke-amber-200 dark:fill-white/7 dark:stroke-amber-300/25" strokeWidth="3" />
-            <path d="M46 23 V31 M46 61 V69 M23 46 H31 M61 46 H69" className="stroke-amber-500 dark:stroke-amber-200" strokeWidth="4" strokeLinecap="round" />
-            <path d="M36 49 L43 56 L58 35" className="stroke-emerald-500 dark:stroke-emerald-300" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            <text x="46" y="21" textAnchor="middle" className="fill-amber-600 text-[11px] font-black dark:fill-amber-200">60s</text>
+            <rect x="14" y="18" width="64" height="56" rx="12" className="fill-white stroke-amber-200 dark:fill-white/8 dark:stroke-amber-300/20" />
+            <rect x="21" y="25" width="40" height="14" rx="5" className="fill-amber-100 stroke-amber-300 dark:fill-amber-500/12 dark:stroke-amber-200/20" />
+            <text x="41" y="34" textAnchor="middle" className="fill-amber-700 text-[13px] font-black dark:fill-amber-100">12 + 8</text>
+            <path d="M68 21 L60 35 H67 L62 47 L75 30 H69 Z" className="fill-amber-400 dark:fill-amber-300" />
+            <path d="M69 23 L65 33 H69 L66 40 L72 31 H69 Z" className="fill-white/65" />
+            {[
+                [22, "18", "fill-sky-500 dark:fill-sky-300"],
+                [40, "20", "fill-emerald-500 dark:fill-emerald-300"],
+                [58, "24", "fill-rose-500 dark:fill-rose-300"],
+            ].map(([x, value, fill]) => (
+                <g key={value}>
+                    <rect x={x} y="47" width="14" height="12" rx="4" className={fill as string} />
+                    <text x={Number(x) + 7} y="53.7" textAnchor="middle" dominantBaseline="middle" className="fill-white text-[6px] font-black dark:fill-amber-950">
+                        {value}
+                    </text>
+                </g>
+            ))}
+            <text x="46" y="76" textAnchor="middle" className="fill-amber-700 text-[9px] font-black dark:fill-amber-100">60s · 连击</text>
         </svg>
     )
 }
@@ -1221,16 +1209,34 @@ function TangramArtwork() {
 function NonogramArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-slate-50 dark:fill-slate-950/45" />
-            {[
-                [22, 22], [40, 22], [58, 22],
-                [22, 40], [58, 40],
-                [22, 58], [40, 58], [58, 58],
-            ].map(([x, y]) => (
-                <rect key={`${x}-${y}`} x={x} y={y} width="14" height="14" rx="2" className="fill-slate-700 dark:fill-slate-200" />
+            <rect width="92" height="92" rx="18" className="fill-slate-50 dark:fill-slate-950/50" />
+            <rect x="13" y="13" width="66" height="66" rx="11" className="fill-white stroke-slate-200 dark:fill-white/8 dark:stroke-white/10" />
+            {["3", "1", "2", "4"].map((value, index) => (
+                <text key={`top-${value}-${index}`} x={31 + index * 12} y="25" textAnchor="middle" className="fill-slate-400 text-[7px] font-black dark:fill-slate-500">
+                    {value}
+                </text>
             ))}
-            <text x="14" y="18" className="fill-slate-400 text-[8px] font-bold">2</text>
-            <text x="8" y="50" className="fill-slate-400 text-[8px] font-bold">1</text>
+            {["1", "3", "2", "1"].map((value, index) => (
+                <text key={`left-${value}-${index}`} x="20" y={39 + index * 11} textAnchor="middle" className="fill-slate-400 text-[7px] font-black dark:fill-slate-500">
+                    {value}
+                </text>
+            ))}
+            <g className="stroke-slate-200 dark:stroke-white/10" strokeWidth="1">
+                {[31, 43, 55, 67].map((pos) => (
+                    <line key={`v-${pos}`} x1={pos} y1="29" x2={pos} y2="75" />
+                ))}
+                {[39, 51, 63].map((pos) => (
+                    <line key={`h-${pos}`} x1="25" y1={pos} x2="74" y2={pos} />
+                ))}
+            </g>
+            {[
+                [31, 29, "fill-slate-800 dark:fill-slate-100"], [43, 29, "fill-slate-800 dark:fill-slate-100"], [55, 29, "fill-slate-800 dark:fill-slate-100"],
+                [43, 41, "fill-cyan-500 dark:fill-cyan-300"],
+                [31, 53, "fill-slate-800 dark:fill-slate-100"], [43, 53, "fill-slate-800 dark:fill-slate-100"], [55, 53, "fill-slate-800 dark:fill-slate-100"], [67, 53, "fill-slate-800 dark:fill-slate-100"],
+                [31, 65, "fill-slate-800 dark:fill-slate-100"], [67, 65, "fill-slate-800 dark:fill-slate-100"],
+            ].map(([x, y, fill]) => (
+                <rect key={`${x}-${y}`} x={Number(x)} y={Number(y)} width="11" height="11" rx="2" className={fill as string} />
+            ))}
         </svg>
     )
 }
@@ -1239,12 +1245,17 @@ function BallSortArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
-            <path d="M24 22 V70 Q24 78 32 78 H40 Q48 78 48 70 V22" className="fill-none stroke-cyan-700/40 dark:stroke-cyan-200/40" strokeWidth="3" />
-            <path d="M52 22 V70 Q52 78 60 78 H68 Q76 78 76 70 V22" className="fill-none stroke-cyan-700/40 dark:stroke-cyan-200/40" strokeWidth="3" />
-            <circle cx="36" cy="66" r="7" className="fill-rose-500" />
-            <circle cx="36" cy="50" r="7" className="fill-sky-500" />
-            <circle cx="64" cy="66" r="7" className="fill-amber-400" />
-            <circle cx="64" cy="50" r="7" className="fill-emerald-500" />
+            <rect x="14" y="75" width="64" height="5" rx="2.5" className="fill-cyan-800/20 dark:fill-cyan-100/20" />
+            <path d="M23 22 V66 Q23 76 33 76 H34 Q44 76 44 66 V22" className="fill-white/70 stroke-cyan-700/45 dark:fill-white/8 dark:stroke-cyan-100/45" strokeWidth="3" strokeLinejoin="round" />
+            <path d="M49 22 V66 Q49 76 59 76 H60 Q70 76 70 66 V22" className="fill-white/70 stroke-cyan-700/45 dark:fill-white/8 dark:stroke-cyan-100/45" strokeWidth="3" strokeLinejoin="round" />
+            <path d="M20 21 H47 M46 21 H73" className="stroke-cyan-900/35 dark:stroke-cyan-100/35" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="33.5" cy="65" r="6.2" className="fill-rose-500" />
+            <circle cx="33.5" cy="51" r="6.2" className="fill-sky-500" />
+            <circle cx="59.5" cy="65" r="6.2" className="fill-emerald-500" />
+            <circle cx="59.5" cy="51" r="6.2" className="fill-amber-400" />
+            <circle cx="59.5" cy="37" r="6.2" className="fill-rose-500" />
+            <path d="M33 28 C38 15 57 14 62 28" className="fill-none stroke-sky-500 dark:stroke-sky-300" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 4" />
+            <path d="M61 28 L65 27 L63 31" className="fill-none stroke-sky-500 dark:stroke-sky-300" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     )
 }
@@ -1253,11 +1264,17 @@ function BalanceArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <rect width="92" height="92" rx="18" className="fill-teal-50 dark:fill-teal-950/45" />
-            <path d="M46 20 V68" className="stroke-teal-700 dark:stroke-teal-200" strokeWidth="4" strokeLinecap="round" />
-            <path d="M22 36 H70" className="stroke-teal-700 dark:stroke-teal-200" strokeWidth="4" strokeLinecap="round" />
-            <path d="M22 36 L16 52 H28 Z" className="fill-teal-500/80 dark:fill-teal-300/80" />
-            <path d="M70 36 L64 48 H76 Z" className="fill-amber-400/90" />
-            <rect x="38" y="68" width="16" height="6" rx="2" className="fill-teal-700 dark:fill-teal-200" />
+            <rect x="34" y="70" width="24" height="6" rx="3" className="fill-teal-800 dark:fill-teal-100" />
+            <path d="M46 19 V70" className="stroke-teal-800 dark:stroke-teal-100" strokeWidth="4" strokeLinecap="round" />
+            <path d="M24 35 L70 29" className="stroke-teal-800 dark:stroke-teal-100" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="46" cy="32" r="4" className="fill-teal-600 dark:fill-teal-200" />
+            <path d="M25 35 L17 56 M25 35 L35 53" className="stroke-teal-700/55 dark:stroke-teal-200/50" strokeWidth="2" strokeLinecap="round" />
+            <path d="M70 29 L62 48 M70 29 L79 47" className="stroke-teal-700/55 dark:stroke-teal-200/50" strokeWidth="2" strokeLinecap="round" />
+            <path d="M13 56 H39 Q36 67 26 67 H25 Q16 67 13 56 Z" className="fill-teal-500 dark:fill-teal-300" />
+            <path d="M58 48 H83 Q80 58 71 58 H70 Q61 58 58 48 Z" className="fill-amber-400 dark:fill-amber-300" />
+            {[23, 29, 67, 73].map((cx, index) => (
+                <circle key={cx} cx={cx} cy={index < 2 ? 51 : 43} r="4" className={index < 2 ? "fill-white/75 dark:fill-teal-950/70" : "fill-white/80 dark:fill-amber-950/65"} />
+            ))}
         </svg>
     )
 }
@@ -1266,22 +1283,21 @@ function SymmetryArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <rect width="92" height="92" rx="18" className="fill-pink-50 dark:fill-pink-950/45" />
-            <path d="M46 16 V76" className="stroke-pink-300 dark:stroke-pink-500/50" strokeWidth="2" strokeDasharray="4 4" />
-            <path d="M20 30 L46 46 L20 62 Z" className="fill-pink-500 dark:fill-pink-300" />
-            <path d="M72 30 L46 46 L72 62 Z" className="fill-pink-400/70 dark:fill-pink-200/70" />
-        </svg>
-    )
-}
-
-function CircuitArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-indigo-50 dark:fill-indigo-950/45" />
-            <rect x="18" y="28" width="22" height="16" rx="4" className="fill-indigo-500 dark:fill-indigo-300" />
-            <rect x="18" y="52" width="22" height="16" rx="4" className="fill-slate-400 dark:fill-slate-500" />
-            <rect x="52" y="38" width="24" height="20" rx="4" className="fill-amber-400 dark:fill-amber-300" />
-            <path d="M40 36 H52 M40 60 H46 V48 H52" className="stroke-indigo-700 dark:stroke-indigo-200" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <circle cx="82" cy="48" r="5" className="fill-emerald-500" />
+            <rect x="14" y="14" width="64" height="64" rx="10" className="fill-white stroke-pink-200 dark:fill-white/8 dark:stroke-pink-200/15" />
+            <path d="M46 16 V76" className="stroke-pink-500 dark:stroke-pink-300" strokeWidth="2.5" strokeDasharray="4 4" />
+            {[22, 34, 58].map((y) => (
+                <rect key={`sample-a-${y}`} x="23" y={y} width="10" height="10" rx="2" className="fill-rose-500 dark:fill-rose-300" />
+            ))}
+            {[34, 46, 58].map((y) => (
+                <rect key={`sample-b-${y}`} x="34" y={y} width="10" height="10" rx="2" className="fill-rose-500 dark:fill-rose-300" />
+            ))}
+            {[22, 34, 58].map((y) => (
+                <rect key={`mirror-a-${y}`} x="59" y={y} width="10" height="10" rx="2" className="fill-sky-500 dark:fill-sky-300" />
+            ))}
+            {[34, 46, 58].map((y) => (
+                <rect key={`mirror-b-${y}`} x="48" y={y} width="10" height="10" rx="2" className="fill-sky-500 dark:fill-sky-300" />
+            ))}
+            <rect x="59" y="46" width="10" height="10" rx="2" className="fill-amber-300 stroke-amber-500 dark:fill-amber-400 dark:stroke-amber-200" />
         </svg>
     )
 }
@@ -1320,16 +1336,13 @@ function RecommendationPanel({
             </div>
             <div className="space-y-2.5">
                 {games.map((game) => {
-                    const Icon = game.icon
                     return (
                         <Link
                             key={game.href}
                             href={game.href}
                             className="surface-card surface-card-interactive group flex min-h-11 items-center gap-3 p-3"
                         >
-                            <span className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-sm", game.iconBg, game.color)}>
-                                <Icon className="h-5 w-5" />
-                            </span>
+                            <GameArtwork game={game} compact />
                             <span className="min-w-0 flex-1">
                                 <span className="block truncate text-sm font-black">{game.name}</span>
                                 <span className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{game.description}</span>
