@@ -3,12 +3,14 @@ import { NextResponse } from "next/server"
 import { handleApiError, requireAuth } from "@/lib/api/auth"
 import { requireRateLimit } from "@/lib/api/rate-limit"
 import { validateRequiredString } from "@/lib/api/validation"
+import { logger } from "@/lib/logger"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 import {
     badRequest,
     castRaceMatch,
     parseRaceGameKey,
+    settleExpiredRaceMatches,
     serviceUnavailable,
 } from "@/app/api/playground/race-rooms/_shared"
 
@@ -27,6 +29,8 @@ export async function POST(request: Request) {
 
         if (!supabaseAdmin) return serviceUnavailable()
 
+        await settleExpiredRaceMatches()
+
         const body = await request.json().catch(() => null)
         const code = validateRequiredString(body?.code, "code", 6).toUpperCase()
         let requestedGameKey
@@ -38,7 +42,7 @@ export async function POST(request: Request) {
 
         const { data, error } = await supabaseAdmin
             .from("playground_race_matches")
-            .select("id, code, game_key, host_user_id, guest_user_id, status, settings")
+            .select("*")
             .eq("code", code)
             .maybeSingle()
 
@@ -60,6 +64,25 @@ export async function POST(request: Request) {
                     game_key: match.game_key,
                     settings: match.settings,
                 })
+            }
+            if (
+                match.status === "cancelled" &&
+                match.finish_reason === "waiting_timeout"
+            ) {
+                return NextResponse.json({ error: "房间已过期" }, { status: 409 })
+            }
+            if (match.status === "playing" && match.guest_user_id) {
+                logger.warn("playground race concurrent join conflict", {
+                    event: "playground_race_join_conflict",
+                    metric_value: 1,
+                    match_id: match.id,
+                    game_key: match.game_key,
+                    current_status: match.status,
+                })
+                return NextResponse.json(
+                    { error: "加入失败，房间已被他人加入或已关闭" },
+                    { status: 409 },
+                )
             }
             return NextResponse.json({ error: "房间已开始或已结束" }, { status: 409 })
         }
@@ -93,6 +116,30 @@ export async function POST(request: Request) {
 
         if (joinError) throw joinError
         if (!count || count === 0) {
+            const { data: current, error: currentError } = await supabaseAdmin
+                .from("playground_race_matches")
+                .select("id, code, game_key, guest_user_id, status, settings")
+                .eq("id", match.id)
+                .single()
+            if (currentError) throw currentError
+
+            if (current?.guest_user_id === user.id) {
+                return NextResponse.json({
+                    id: current.id,
+                    code: current.code,
+                    status: current.status,
+                    game_key: current.game_key,
+                    settings: current.settings,
+                })
+            }
+
+            logger.warn("playground race concurrent join conflict", {
+                event: "playground_race_join_conflict",
+                metric_value: 1,
+                match_id: match.id,
+                game_key: match.game_key,
+                current_status: current?.status ?? "unknown",
+            })
             return NextResponse.json(
                 { error: "加入失败，房间已被他人加入或已关闭" },
                 { status: 409 },

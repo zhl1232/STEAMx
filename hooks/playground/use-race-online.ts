@@ -43,6 +43,7 @@ export function useRaceOnline(gameKey: RaceGameKey, settings: RaceSettings) {
             table: "playground_race_matches",
             apiBase: "/api/playground/race-rooms",
             channelPrefix: "race-match",
+            fetchMatchViaApi: true,
             createBody: () => ({
                 game_key: gameKey,
                 settings,

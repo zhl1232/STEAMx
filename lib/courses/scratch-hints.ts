@@ -519,6 +519,31 @@ function inferScratchBlockIds(item: Pick<ScratchBlockHintItem, 'label' | 'findLa
     const normalized = label.trim()
     if (!normalized) continue
 
+    const arithmeticMatch = normalized.match(/^.+?\s+([+\-*/])\s+.+$/u)
+    if (arithmeticMatch) {
+      const arithmeticOpcodes: Record<string, string> = {
+        '+': 'operator_add',
+        '-': 'operator_subtract',
+        '*': 'operator_multiply',
+        '/': 'operator_divide',
+      }
+      blockIds.push(arithmeticOpcodes[arithmeticMatch[1] ?? ''] ?? '')
+      continue
+    }
+
+    const reporterOpcodes: Record<string, string> = {
+      'x 坐标': 'motion_xposition',
+      'y 坐标': 'motion_yposition',
+      '方向': 'motion_direction',
+      '大小': 'looks_size',
+      '音量': 'sound_volume',
+    }
+    const reporterOpcode = reporterOpcodes[normalized]
+    if (reporterOpcode) {
+      blockIds.push(reporterOpcode)
+      continue
+    }
+
     if (/^重复执行\s*[0-9.]+\s*次$/u.test(normalized)) {
       blockIds.push('control_repeat')
       continue

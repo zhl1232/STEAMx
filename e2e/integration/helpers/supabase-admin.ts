@@ -164,6 +164,24 @@ export async function deleteUserByEmail(email: string) {
   if (error) throw error
 }
 
+export async function deletePlaygroundRaceMatchByCode(code: string) {
+  const normalizedCode = code.trim().toUpperCase()
+  if (!normalizedCode) return
+  const { error } = await admin
+    .from('playground_race_matches')
+    .delete()
+    .eq('code', normalizedCode)
+  if (error) throw error
+}
+
+export async function setPlaygroundRaceMatchDeadline(matchId: string, deadlineAt: string) {
+  const { error } = await admin
+    .from('playground_race_matches')
+    .update({ deadline_at: deadlineAt })
+    .eq('id', matchId)
+  if (error) throw error
+}
+
 /** Service-role delete: removes discussion and cascaded replies / likes. */
 export async function deleteDiscussionByTitle(title: string) {
   const trimmed = title.trim()

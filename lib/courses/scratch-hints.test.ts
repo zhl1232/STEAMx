@@ -482,4 +482,82 @@ describe('buildScratchBlockHintItems', () => {
       },
     ])
   })
+
+  it('maps arithmetic and live-value reporter blocks used in game logic', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '计算和角色状态',
+          description: [
+            '[[block:operators|5 + 3]]',
+            '[[block:operators|10 - 2]]',
+            '[[block:operators|4 * 6]]',
+            '[[block:operators|24 / 3]]',
+            '[[block:motion|x 坐标]]',
+            '[[block:motion|y 坐标]]',
+            '[[block:motion|方向]]',
+            '[[block:looks|大小]]',
+            '[[block:sound|音量]]',
+          ].join('，'),
+          checklist: [],
+        },
+        maxItems: 9,
+      }),
+    ).toEqual([
+      {
+        label: '5 + 3',
+        findLabel: '5 + 3',
+        category: 'operators',
+        blockIds: ['operator_add'],
+      },
+      {
+        label: '10 - 2',
+        findLabel: '10 - 2',
+        category: 'operators',
+        blockIds: ['operator_subtract'],
+      },
+      {
+        label: '4 * 6',
+        findLabel: '4 * 6',
+        category: 'operators',
+        blockIds: ['operator_multiply'],
+      },
+      {
+        label: '24 / 3',
+        findLabel: '24 / 3',
+        category: 'operators',
+        blockIds: ['operator_divide'],
+      },
+      {
+        label: 'x 坐标',
+        findLabel: 'x 坐标',
+        category: 'motion',
+        blockIds: ['motion_xposition'],
+      },
+      {
+        label: 'y 坐标',
+        findLabel: 'y 坐标',
+        category: 'motion',
+        blockIds: ['motion_yposition'],
+      },
+      {
+        label: '方向',
+        findLabel: '方向',
+        category: 'motion',
+        blockIds: ['motion_direction'],
+      },
+      {
+        label: '大小',
+        findLabel: '大小',
+        category: 'looks',
+        blockIds: ['looks_size'],
+      },
+      {
+        label: '音量',
+        findLabel: '音量',
+        category: 'sound',
+        blockIds: ['sound_volume'],
+      },
+    ])
+  })
 })

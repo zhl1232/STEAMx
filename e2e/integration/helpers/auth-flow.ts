@@ -28,6 +28,7 @@ export async function signUpAndLogin(page: Page, options: AuthOptions) {
   const { email, password } = options
   // Integration runs against shared Supabase environments where public signups
   // may be disabled. Seed the user via admin API, then verify the real login UI.
-  await ensureEmailUser(options)
+  const userId = await ensureEmailUser(options)
   await loginWithEmail(page, { email, password })
+  return userId
 }

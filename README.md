@@ -13,13 +13,13 @@ STEAM 探索 是一个面向 6-16 岁青少年的互动学习社区，围绕科�
 - **服务端与数据**: Supabase (数据库 + 认证 + 存储)
 - **客户端状态**: TanStack Query v5
 - **部署目标**: Docker 镜像 + 自托管服务器
-- **工程质量**: TypeScript / ESLint / Vitest / Playwright / Husky
+- **工程质量**: TypeScript / Oxlint / Vitest / Playwright / Husky
 
 ## ✨ 主要功能
 
 - **项目系统** — 浏览、搜索、分类筛选、项目详情（步骤/材料）、点赞/收藏、评论
 - **自然观察** — 鸟类与植物物种库、野外观察记录提交、AI 物种识别、地图标注
-- **益智游乐场** — 13 个互动游戏（2048/24点/五子棋/扫雷/汉诺塔/数独/N皇后/生命游戏/数字华容道/记忆翻牌/速算闪电战/迷宫探险/七巧板）
+- **益智游乐场** — 17 个互动游戏，含五子棋与记忆翻牌实时对战、10 款固定题面游戏的邀请竞速房间，以及扫雷云端榜单
 - **社区** — 讨论区、PBL 双轨挑战系统（限时竞赛 + 长期学习）、多维评价
 - **游戏化** — XP 经验值/等级、112 枚徽章、STEAM 能力雷达图、排行榜
 - **金币经济** — 每日签到获取、打赏创作者、积分商店（头像框/名字颜色/主题）
@@ -75,12 +75,9 @@ cp .env.example .env.local
 ```bash
 # 使用自定义推送工具
 set -a && source .env.local && set +a && pnpm db:push
-
-# 或使用 Supabase CLI
-supabase db push
 ```
 
-> 若使用阿里云 AnalyticDB（不支持 Supabase CLI），参考 [docs/database-psql.md](./docs/database-psql.md)
+> 本项目统一通过 `pnpm db:push` 推送迁移，不使用 `supabase db push`。迁移规则见 `.cursor/rules/db-migrations.mdc`；数据库连接说明见 [docs/database-psql.md](./docs/database-psql.md)。
 
 ### 启动开发服务器
 
@@ -101,13 +98,13 @@ pnpm dev
 ## ☁️ 部署
 
 - **生产发布**：Docker 部署，GitHub Actions 构建镜像后通过 SSH 发布到服务器
-- **CI**：ESLint、TypeScript、Vitest、Next build、Playwright smoke
+- **CI**：Oxlint、TypeScript、Vitest、Next build、Playwright smoke
 
 ## 📝 开发规范
 
 - [Conventional Commits](https://www.conventionalcommits.org/) 提交规范（Husky 自动检查）
 - TypeScript 严格模式
-- ESLint 代码检查
+- Oxlint 代码检查
 
 ## 📚 相关文档
 

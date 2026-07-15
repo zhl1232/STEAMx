@@ -18,6 +18,13 @@ export const RACE_GAME_KEYS = [
 export type RaceGameKey = (typeof RACE_GAME_KEYS)[number]
 export type RaceRole = "host" | "guest"
 export type RaceWinner = RaceRole | "draw" | null
+export type RaceFinishReason =
+    | "completed"
+    | "forfeit"
+    | "cancelled_by_host"
+    | "waiting_timeout"
+    | "result_timeout"
+    | "no_result_timeout"
 
 export type RaceSettings = {
     durationSeconds?: number
@@ -55,6 +62,8 @@ export type RaceMatchRow = BaseMatchRow & {
     host_result: RaceResult | null
     guest_result: RaceResult | null
     winner: RaceWinner
+    deadline_at: string
+    finish_reason: RaceFinishReason | null
     last_activity_at: string
 }
 

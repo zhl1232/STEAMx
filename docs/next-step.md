@@ -1,20 +1,20 @@
 # Next step 备忘
 
-> 2026-06-28 复核：已落地项已从本文删除。当前已具备 `/create`、`/pbl/[id]`、阶段工作台、阶段进度保存、完成清单、阶段图文产出、全局小迪阶段上下文、阶段结构化反馈卡片、导师工具拆题/提示/总结受控动作、小迪 SSE 结构化 `tool_call` 通道、PBL 当前阶段高亮 handler、课时当前步骤高亮 handler（`course.focus_lesson_step` 会使用 active step）、Scratch 当前步骤积木关键词提示 handler（`course.highlight_scratch_blocks`，含主站提示条、Scratch iframe 内 overlay、可解析分类时的 toolbox 分类切换，并可基于 `requiredBlocks.anyOf` opcode 或积木文案定位 flyout 里的具体积木）、提交页按阶段产出预填、一键整理投稿草稿、挑战作品审核与奖励闭环。本文只保留仍未完成或可选恢复的后续项。
+> 2026-07-15 复核：已落地项会就地标记，本文只保留仍需推进或需要持续稳定化的工作。当前优先级是联网房间可靠性、少量高价值小迪场景能力，以及积木课件人工审核，不再以批量生成数量作为完成口径。
 
 ## 积木课件批量上线（3+/4+/5+）
 
 ### 方向判断
 
-- **优先级**：P2（MVP 已上线：300 课 slides/PDF/成品图/292 视频 + 占位 steps 已入库；后续补精细文案、LDraw、作品墙）。
+- **优先级**：P2（MVP 已上线；下一阶段先做少量人工审核样板课，再决定批量节奏）。
 - **产品定位**：把 `C:\Users\Administrator\Documents` 下 3+/4+/5+ 共 300 课批量转成线上 `building_3d` 课时；最小可上线路径先跳过 LDraw，以「幻灯片 + PDF + 视频 + 成品图」图文课件上线。
-- **技术基础**：资源管线见 `.agents/skills/import-courseware/SKILL.md`；草稿在 `scripts/courseware/*.json`（301 份，含 `eiffel-tower`）；批量切图/OSS 报告见 `scripts/courseware/batch-slide-export-report.json`（`uploaded: 300, uploadFailed: 0`）。
+- **技术基础**：资源管线见 `.agents/skills/import-courseware/SKILL.md`；课件 JSON 和批处理报告属于本地可再生成资产，通常被 gitignore，仓库追踪数量不是线上课程数量的核对口径。
 
-### 当前进度（2026-06-28 MVP 已上线）
+### 当前进度（2026-07-15 复核）
 
 **已完成（最小可上线）**
 
-- 301 份 JSON 草稿；300 课 `--prepare` 后 OSS 绝对 URL + 占位 `steps`（按课件页）+ 292 课 `videoSlideIndex`；无 LDraw 引用。
+- 301 份历史 JSON 草稿；300 课批量 `--prepare` 时生成 OSS 绝对 URL + 占位 `steps`（按课件页）+ 292 课 `videoSlideIndex`，该批量准备阶段不自动写入 LDraw 引用；后续模型只按人工审核结果单课挂载。
 - OSS：`slides` 300/300、`pdf` 300/300、`finished` 300/300、`video` 292/300（8 课源素材无 mp4）。
 - DB：`3+课件100` / `4+课件100` / `5+课件100` 三门课 + **300 课时**已幂等 upsert（`node scripts/upsert-courseware.mjs`）。
 - 脚本：`scripts/upsert-courseware.mjs`（`--prepare` / `--upload-assets` / 默认入库）、`scripts/check-courseware-oss.mjs`（OSS 存在性核对）。
@@ -25,21 +25,21 @@
 |------|------|
 | 本地/OSS 动画 | 8 课无 `animation.mp4`（源素材缺失）：`3-dian-hua-ji`、`3-pen-zai`、`4-dian-hua-ji`、`4-diao-che`、`4-hua-kai-hua-luo`、`4-mo-tian-lun`、`4-re-qi-qiu`、`5-re-qi-qiu` |
 | 教学文案 | 当前为按页占位 `steps`；`parts` / 精细 `steps3d` 仍空 |
-| LDraw | 298 课暂无 `.mpd`；**已补** `3-ai-fei-er-tie-ta`（3+ 第 1 课「埃菲尔铁塔」，复用 `eiffel-tower.mpd`）、`3-bao-jian`（3+ 第 2 课「宝剑」） |
+| LDraw | `scripts/ldraw-models/` 根目录现有 240 份 `.ldr`，其中 AI 批量稿均视为不可信草稿；`public/courses/ldraw/` 有 27 份 `.mpd` 和 `LDConfig.ldr`，但“文件存在”不等于“审核合格” |
 | 作品墙 | 300 课缺 `worksProjectId` |
 
 ### 建议迭代顺序（MVP 之后）
 
-1. **P2：撰写精细 `steps` 教学文案**：读 PDF/PPT 替换占位步骤。
-2. **P2：作品墙**：批量建背书项目 + 回填 `worksProjectId`。
-3. **P3：LDraw 建模**：逐课建模 → `pack-ldraw-model.mjs` → 补 `steps3d` / `parts`。
-4. **P3：补 8 课动画**：从源文件夹找回或确认无动画并去掉 JSON 中 `videoUrl`。
+1. **P2：人工样板课**：人工选择少量代表课，对照 PPT/PDF/成品图逐页重写 `steps`，确认教学顺序与材料清单。
+2. **P2：LDraw 人工审核关卡**：AI 只能产出待审草稿；必须由人工在 Studio 中逐步核对零件、颜色、方向、连接、悬空/穿模和 BOM，审核通过后才允许 `pack-ldraw-model.mjs`、迁移和上线。自动校验通过不能替代人工审核。
+3. **P2：作品墙**：样板课验证后再批量建背书项目并回填 `worksProjectId`。
+4. **P3：补 8 课动画**：从源文件夹找回，或确认无动画并去掉 JSON 中 `videoUrl`。
 
 ## AI Tutor Agent 化深度集成
 
 ### 方向判断
 
-- **优先级**：P1（Agent 运行时骨架、PBL 首个 handler、课时步骤聚焦 handler、Scratch iframe 内积木关键词提示/分类切换与 flyout 具体积木定位、小迪 `working/success/error` 运行状态反馈、扫雷公开棋盘非透视提示均已落地；下一步优先扩大 Scratch opcode 覆盖。迷宫 BFS 下一步提示暂降为 P2，可等 Playground Agent 交互模式更稳定后再做）。
+- **优先级**：P1（运行时骨架与首批受控工具已落地；继续做能直接减少卡关的窄场景能力，不扩展无约束自动操作）。
 - **产品定位**：将小迪从「对话式导师」升级为可调用工具的 Agent，能直接与产品 UI 交互，而不只是输出文字建议。
 - **技术基础**：已有 tutor 引擎、场景上下文、图片来源校验、代币门禁与对话线程；可复用 Qwen Vision 做棋盘、Scratch 或作品截图识别。
 
@@ -48,7 +48,7 @@
 - **工具调用通道扩展**：现有 tutor 流式回复之外已有结构化 `tool_call` 通道，后续可接入更多白名单工具。
 - **场景级 handler 扩展**：前端已支持当前场景注册受控 tool handler；Scratch 课时已支持当前步骤聚焦、iframe 内积木关键词提示、分类切换与 flyout 具体积木定位，扫雷已支持公开棋盘确定性提示；后续按收益继续扩展其他 Playground 场景。
 - **典型能力示例**：
-  - Scratch 卡关：已可按当前步骤在主站与 Scratch iframe 内提示相关积木关键词，尝试打开对应分类，并在 flyout 中定位匹配积木；后续优先扩展更多 opcode 映射或结合截图判断用户当前缺哪块。
+  - Scratch 卡关：已可按当前步骤在主站与 Scratch iframe 内提示相关积木关键词，尝试打开对应分类，并在 flyout 中定位匹配积木；四则运算和角色实时值 reporter 已补映射，并由真实 Scratch flyout E2E 验证，后续按实际课程缺口扩展或结合截图判断当前缺哪块。
   - 扫雷：已通过 `playground.hint_minesweeper` + `hintMinesweeperCell` 场景能力落地；服务端只发分析动作、不接收棋盘，浏览器本地基于已揭示数字、旗帜与未翻开格子的公开状态高亮推理依据并给一个递进问题，不直接标出安全格/雷格。
   - 迷宫：已有 BFS / DFS / A* 回放实验，Agent 下一步高亮暂作为 P2 可选项后置。
   - PBL 阶段：已支持在「我卡住了 / 下一步 / 看看反馈」意图中展开并高亮当前阶段；后续可细化到缺失检查项或相关材料入口。
@@ -61,7 +61,7 @@
 
 ### 建议迭代顺序
 
-1. **P1：Scratch 定位增强**：扩大 Scratch 具体积木定位的 opcode 覆盖与截图诊断。扫雷引导式推理提示已完成，并复用了「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
+1. **P1：Scratch 定位增强**：继续按真实课件补 opcode 与截图诊断；已覆盖四则运算、`x/y 坐标`、方向、大小、音量 reporter，并把 10 个核心 opcode 纳入真实 flyout E2E。扫雷引导式推理提示已完成，并复用了「对话 -> tool_call -> 场景 handler -> UI 反馈」链路。
 2. ~~**P1：工具选择评测与校准**：为现有模型受控工具选择补 Scratch / 扫雷固定意图用例，降低普通知识问答误触发页面动作的概率，同时保持服务端白名单、payload 校验与前端受控 handler。~~（已补 `tool-call-planner.test.ts` Scratch / 扫雷固定意图矩阵：明确页面动作触发 planner，普通知识问答不触发）
 3. ~~**P1：小迪运行状态反馈**：当前线上只使用 `idle` / `thinking` / `speaking`；后续把 `working` 接到 tool call 执行期（聚焦课程步骤、PBL 阶段、Scratch 积木高亮、保存/生成等操作），把 `success` 接到工具执行或生成成功后短暂播一轮回 idle，把 `error` 接到请求失败、输入不完整、权限/配额不足、工具执行失败等场景后短暂播一轮回 idle。~~（已落地：`resolveTutorMascotState` + FAB 反馈态；tool/上传 → `working`，成功 → `success`，失败/配额 → `error`，`onCycleEnd` 回落）
 4. **P2：迷宫 Agent 提示（后置）**：在不影响现有算法回放教学目标的前提下，再考虑小迪高亮 BFS 下一格。
@@ -103,20 +103,20 @@
 
 ### 方向判断
 
-- **优先级**：P1（单机 Playground 体验稳定、留存数据验证后再上多人）。
+- **优先级**：P1（多人 MVP 和竞速房间异常生命周期已上线，下一步再扩共享题面范围）。
 - **产品定位**：利用 Supabase Realtime 将五子棋、排序竞速、迷宫、扫雷等升级为可匹配、可邀请、可协作的多人体验。
-- **技术基础**：Supabase 已接入；游戏逻辑集中在 `hooks/playground/`；小迪 playground 场景可后续与双人协作提示联动。
+- **技术基础**：Supabase Realtime + 4 秒轮询兜底已接入；竞速轮询走权威 API，由数据库 RPC 检查截止时间和原子结算，游戏逻辑集中在 `hooks/playground/`。
 
 ### 能力范围
 
-- **匹配对战**：五子棋、排序竞速等竞技游戏支持快速匹配或排位对战。
+- **邀请对战**：五子棋、记忆翻牌支持实时房间；24 点、速算、汉诺塔、N 皇后、数字华容道、数织、球排序、天平、像素对称、七巧板支持同题竞速。
 - **开房邀请**：生成房间码或分享链接，好友加入同一对局；观战可放到 P2。
-- **双人协作**：迷宫、扫雷等解谜类支持共享棋盘状态和协作胜利条件。
-- **房间生命周期**：创建、等待、进行中、结束；需支持断线重连、超时判负和平局规则。
+- **双人协作候选**：迷宫、扫雷等解谜类需要另行设计共享状态和协作胜利条件，当前尚未接入。
+- **房间生命周期**：已支持创建、等待、进行中、结束、主动离开和刷新重连；等待 15 分钟自动取消，开局 30 分钟后按成绩提交状态结算，并发加入只有一个访客成功且失败分支有结构化指标。当前没有 heartbeat，超时不等同于识别到玩家断线。
 
 ### 非目标
 
-- 暂不一次性多人化全部 15 款游戏。
+- 暂不一次性多人化全部 17 款游戏。
 - 暂不做跨房间语音/聊天。
 - 暂不做真钱或站外赌注；奖励走现有 XP/金币体系且需防刷。
 
@@ -124,9 +124,11 @@
 
 1. ~~**P1：Realtime 房间模型**：数据表、Supabase channel 约定、通用 `useGameRoom` hook。~~（已落地：`gomoku_matches` 表 + `gomoku_place_stone` RPC + 私有 channel RLS + `hooks/playground/use-game-room.ts`，服务端权威 + postgres_changes + 本地开发轮询兜底）
 2. ~~**P1：五子棋对战 MVP**：匹配队列或开房二选一，完整一局可玩并写入成绩/统计。~~（已落地：开房邀请 + 6 位房间码 + 分享链接，`hooks/playground/use-gomoku-online.ts` 落子走 RPC、胜负由服务端判定、断线重连 + 战绩写入 + 徽章；`app/playground/gomoku` 新增「在线」模式）
-3. **P2：排序竞速对战**：同题竞速、实时排行榜条。
-4. **P2：迷宫/扫雷协作**：共享状态同步与协作胜利结算。
-5. **P3：游乐场大厅**：在线人数、热门房间、邀请入口与社区动态联动。
+3. ~~**P1：通用竞速房间**：固定题面/关卡、双方成绩提交与服务端胜负。~~（已覆盖 10 款游戏）
+4. ~~**P1：双用户生命周期基线**：真实登录、UI 建房、邀请链接加入、双方提交和胜负渲染。~~（已补 Playwright integration；普通 smoke 同时校验未登录跳转保留 `room`）
+5. ~~**P1：异常生命周期**：房间过期清理、超时判负、并发加入冲突观测和失败指标。~~（已落地：`deadline_at` / `finish_reason`、受限超时与成绩 RPC、4 秒权威读取、CAS 加入冲突日志；真实三账号集成覆盖正常胜负、并发竞争和三种超时结算）
+6. **P2：共享 seed/题面**：完成后再评估 2048、数独、迷宫竞速；扫雷协作需单独设计共享状态与胜利口径。
+7. **P3：游乐场大厅**：在线人数、热门房间、邀请入口与社区动态联动。
 
 ## 动态经济系统与赛季运营
 

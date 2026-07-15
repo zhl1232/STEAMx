@@ -8,11 +8,12 @@ import { createClient } from "@/lib/supabase/server"
 import {
     badRequest,
     castRaceMatch,
-    finishPatch,
+    finishRaceMatchIfComplete,
     getRaceRole,
     parseRaceResult,
-    raceResultPatch,
+    settleExpiredRaceMatches,
     serviceUnavailable,
+    submitRaceResultBeforeDeadline,
 } from "@/app/api/playground/race-rooms/_shared"
 
 // 提交通用竞速成绩。双方成绩都到齐后，服务端按 game_key 对应规则计算 winner 并结束房间。
@@ -35,6 +36,8 @@ export async function POST(
         const { id } = await params
         const matchId = validateUUID(id, "match id")
 
+        await settleExpiredRaceMatches(matchId)
+
         const { data, error } = await supabase
             .from("playground_race_matches")
             .select("*")
@@ -45,7 +48,7 @@ export async function POST(
             return NextResponse.json({ error: "对局不存在" }, { status: 404 })
         }
 
-        const match = castRaceMatch(data)
+        let match = castRaceMatch(data)
         const role = getRaceRole(match, user.id)
         if (!role) {
             return NextResponse.json({ error: "无权操作该对局" }, { status: 403 })
@@ -56,6 +59,11 @@ export async function POST(
         }
         if (match.status !== "playing") {
             return NextResponse.json({ error: "对局尚未开始" }, { status: 409 })
+        }
+
+        match = await finishRaceMatchIfComplete(match)
+        if (match.status === "finished" || match.status === "cancelled") {
+            return NextResponse.json({ match })
         }
 
         const ownResult = role === "host" ? match.host_result : match.guest_result
@@ -71,13 +79,8 @@ export async function POST(
             return badRequest(error instanceof Error ? error.message : "成绩不合法")
         }
 
-        const { error: updateError } = await supabaseAdmin
-            .from("playground_race_matches")
-            .update(raceResultPatch(role, result))
-            .eq("id", match.id)
-            .eq("status", "playing")
-
-        if (updateError) throw updateError
+        const submitted = await submitRaceResultBeforeDeadline(match.id, role, result)
+        if (!submitted) await settleExpiredRaceMatches(match.id)
 
         const { data: freshData, error: freshError } = await supabaseAdmin
             .from("playground_race_matches")
@@ -86,25 +89,7 @@ export async function POST(
             .single()
 
         if (freshError || !freshData) throw freshError
-        const fresh = castRaceMatch(freshData)
-        const finish = finishPatch(fresh)
-
-        if (finish && fresh.status === "playing") {
-            const { error: finishError } = await supabaseAdmin
-                .from("playground_race_matches")
-                .update(finish)
-                .eq("id", fresh.id)
-                .eq("status", "playing")
-            if (finishError) throw finishError
-
-            return NextResponse.json({
-                match: {
-                    ...fresh,
-                    ...finish,
-                },
-            })
-        }
-
+        const fresh = await finishRaceMatchIfComplete(castRaceMatch(freshData))
         return NextResponse.json({ match: fresh })
     } catch (error) {
         return handleApiError(error)

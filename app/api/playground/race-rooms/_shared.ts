@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 
+import { logger } from "@/lib/logger"
 import type { Json } from "@/lib/supabase/types"
+import { supabaseAdmin } from "@/lib/supabase/admin"
+import { callRpc } from "@/lib/supabase/rpc"
 import {
     decideRaceWinner,
     isRaceGameKey,
@@ -22,6 +25,66 @@ export function badRequest(message: string) {
 
 export function serviceUnavailable() {
     return NextResponse.json({ error: "服务暂时不可用" }, { status: 500 })
+}
+
+type RaceLifecycleCounts = {
+    waiting_cancelled: number
+    result_timeout_finished: number
+    no_result_timeout_cancelled: number
+}
+
+const EMPTY_LIFECYCLE_COUNTS: RaceLifecycleCounts = {
+    waiting_cancelled: 0,
+    result_timeout_finished: 0,
+    no_result_timeout_cancelled: 0,
+}
+
+export async function settleExpiredRaceMatches(matchId: string | null = null) {
+    if (!supabaseAdmin) throw new Error("Supabase service role is unavailable")
+
+    const { data, error } = await callRpc(
+        supabaseAdmin,
+        "expire_playground_race_matches",
+        { p_match_id: matchId },
+    )
+    if (error) throw error
+
+    const counts = data?.[0] ?? EMPTY_LIFECYCLE_COUNTS
+    const total =
+        counts.waiting_cancelled +
+        counts.result_timeout_finished +
+        counts.no_result_timeout_cancelled
+
+    if (total > 0) {
+        logger.warn("playground race lifecycle auto-settled", {
+            event: "playground_race_timeout_settlement",
+            metric_value: total,
+            match_id: matchId,
+            ...counts,
+        })
+    }
+
+    return counts
+}
+
+export async function submitRaceResultBeforeDeadline(
+    matchId: string,
+    role: RaceRole,
+    result: RaceResult,
+): Promise<boolean> {
+    if (!supabaseAdmin) throw new Error("Supabase service role is unavailable")
+
+    const { data, error } = await callRpc(
+        supabaseAdmin,
+        "submit_playground_race_result",
+        {
+            p_match_id: matchId,
+            p_role: role,
+            p_result: result as Json,
+        },
+    )
+    if (error) throw error
+    return data === true
 }
 
 export function parseRaceGameKey(value: unknown): RaceGameKey {
@@ -90,6 +153,33 @@ export function finishPatch(match: RaceMatchRow) {
     return {
         status: "finished",
         winner,
+        finish_reason: "completed",
         finished_at: new Date().toISOString(),
     }
+}
+
+export async function finishRaceMatchIfComplete(
+    match: RaceMatchRow,
+): Promise<RaceMatchRow> {
+    if (match.status !== "playing") return match
+    if (!supabaseAdmin) throw new Error("Supabase service role is unavailable")
+
+    const finish = finishPatch(match)
+    if (!finish) return match
+
+    const { count, error } = await supabaseAdmin
+        .from("playground_race_matches")
+        .update(finish, { count: "exact" })
+        .eq("id", match.id)
+        .eq("status", "playing")
+    if (error) throw error
+    if (count && count > 0) return { ...match, ...finish } as RaceMatchRow
+
+    const { data, error: freshError } = await supabaseAdmin
+        .from("playground_race_matches")
+        .select("*")
+        .eq("id", match.id)
+        .single()
+    if (freshError || !data) throw freshError ?? new Error("Race match not found")
+    return castRaceMatch(data)
 }

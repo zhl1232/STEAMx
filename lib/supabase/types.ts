@@ -343,6 +343,8 @@ export interface Database {
           created_at: string
           started_at: string | null
           finished_at: string | null
+          deadline_at: string
+          finish_reason: string | null
           last_activity_at: string
         }
         Insert: {
@@ -359,6 +361,8 @@ export interface Database {
           created_at?: string
           started_at?: string | null
           finished_at?: string | null
+          deadline_at?: string
+          finish_reason?: string | null
           last_activity_at?: string
         }
         Update: {
@@ -375,6 +379,8 @@ export interface Database {
           created_at?: string
           started_at?: string | null
           finished_at?: string | null
+          deadline_at?: string
+          finish_reason?: string | null
           last_activity_at?: string
         }
         Relationships: [
@@ -2562,6 +2568,18 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      expire_playground_race_matches: {
+        Args: { p_match_id?: string | null }
+        Returns: Array<{
+          waiting_cancelled: number
+          result_timeout_finished: number
+          no_result_timeout_cancelled: number
+        }>
+      }
+      submit_playground_race_result: {
+        Args: { p_match_id: string; p_role: string; p_result: Json }
+        Returns: boolean
+      }
       get_trending_works: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: { work_id: number; score: number }[]

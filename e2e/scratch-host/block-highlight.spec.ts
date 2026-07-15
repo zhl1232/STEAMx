@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 
 type ScratchHint = {
   label: string
-  category: 'motion' | 'looks' | 'control' | 'sensing' | 'operators' | 'data'
+  category: 'motion' | 'looks' | 'sound' | 'events' | 'control' | 'sensing' | 'operators' | 'data'
   blockId: string
 }
 
@@ -13,6 +13,10 @@ const HINT_CASES: ScratchHint[] = [
   { label: 'y 坐标 < -160', category: 'operators', blockId: 'operator_lt' },
   { label: '停止 全部', category: 'control', blockId: 'control_stop' },
   { label: '将大小增加 10', category: 'looks', blockId: 'looks_changesizeby' },
+  { label: '5 + 3', category: 'operators', blockId: 'operator_add' },
+  { label: '24 / 3', category: 'operators', blockId: 'operator_divide' },
+  { label: 'x 坐标', category: 'motion', blockId: 'motion_xposition' },
+  { label: '音量', category: 'sound', blockId: 'sound_volume' },
 ]
 
 type ScratchVm = {

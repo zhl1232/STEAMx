@@ -8,6 +8,7 @@ import {
     castRaceMatch,
     getRaceRole,
     oppositeRaceRole,
+    settleExpiredRaceMatches,
     serviceUnavailable,
 } from "@/app/api/playground/race-rooms/_shared"
 
@@ -25,6 +26,9 @@ export async function POST(
         const user = await requireAuth(supabase)
         const { id } = await params
         const matchId = validateUUID(id, "match id")
+
+        if (!supabaseAdmin) return serviceUnavailable()
+        await settleExpiredRaceMatches(matchId)
 
         const { data, error } = await supabase
             .from("playground_race_matches")
@@ -46,10 +50,13 @@ export async function POST(
             if (role !== "host") {
                 return NextResponse.json({ error: "无权取消该房间" }, { status: 403 })
             }
-            if (!supabaseAdmin) return serviceUnavailable()
             const { error: cancelError } = await supabaseAdmin
                 .from("playground_race_matches")
-                .update({ status: "cancelled", finished_at: new Date().toISOString() })
+                .update({
+                    status: "cancelled",
+                    finish_reason: "cancelled_by_host",
+                    finished_at: new Date().toISOString(),
+                })
                 .eq("id", match.id)
                 .eq("status", "waiting")
             if (cancelError) throw cancelError
@@ -57,7 +64,6 @@ export async function POST(
         }
 
         if (match.status === "playing") {
-            if (!supabaseAdmin) return serviceUnavailable()
             const winner = oppositeRaceRole(role)
             const { count, error: finishError } = await supabaseAdmin
                 .from("playground_race_matches")
@@ -65,6 +71,7 @@ export async function POST(
                     {
                         status: "finished",
                         winner,
+                        finish_reason: "forfeit",
                         finished_at: new Date().toISOString(),
                     },
                     { count: "exact" },

@@ -47,6 +47,15 @@ test('游乐场页 smoke', async ({ page }) => {
   await expect(page.getByRole('heading', { name: /STEAM Playground/ })).toBeVisible()
 })
 
+test('联网竞速登录链接保留邀请房间码', async ({ page }) => {
+  await page.goto('/playground/24game?room=ABC123', { waitUntil: 'domcontentloaded' })
+  await page.getByRole('link', { name: '去登录' }).click()
+  await expect(page).toHaveURL(/\/login\?next=/)
+
+  const loginUrl = new URL(page.url())
+  expect(loginUrl.searchParams.get('next')).toBe('/playground/24game?room=ABC123')
+})
+
 test('登录页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/login')
   await expect(page.getByRole('heading', { name: '回到你的探索档案' })).toBeVisible()

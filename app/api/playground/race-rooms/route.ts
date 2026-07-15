@@ -10,6 +10,7 @@ import {
     parseRaceGameKey,
     parseRaceSettings,
     raceSettingsEqual,
+    settleExpiredRaceMatches,
     serviceUnavailable,
 } from "@/app/api/playground/race-rooms/_shared"
 import type { Json } from "@/lib/supabase/types"
@@ -25,6 +26,8 @@ export async function POST(request: Request) {
             limit: 12,
             windowMs: 60_000,
         })
+
+        if (supabaseAdmin) await settleExpiredRaceMatches()
 
         const body = await request.json().catch(() => null)
         let gameKey

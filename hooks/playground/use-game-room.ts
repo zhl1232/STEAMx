@@ -40,6 +40,8 @@ export type GameRoomConfig = {
     createBody?: (options?: unknown) => Record<string, unknown>;
     /** 加入请求体构造；默认只发 { code } */
     joinBody?: (code: string) => Record<string, unknown>;
+    /** 通过 `${apiBase}/${matchId}` 读取，让服务端在返回前推进权威生命周期。 */
+    fetchMatchViaApi?: boolean;
 };
 
 // Realtime 开关：与 notification-context 同款约定，本地开发默认跳过 WebSocket。
@@ -71,7 +73,7 @@ function isRealtimeFailureStatus(status: string) {
  * 游戏差异经 config（表名/API 前缀/channel 前缀/建房体）注入。
  */
 export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
-    const { table, apiBase, channelPrefix, createBody, joinBody } = config;
+    const { table, apiBase, channelPrefix, createBody, joinBody, fetchMatchViaApi } = config;
     const { user } = useAuth();
     const supabaseRef = useRef(createClient());
     const channelRef = useRef<RealtimeChannel | null>(null);
@@ -109,6 +111,19 @@ export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
 
     const fetchMatch = useCallback(
         async (matchId: string) => {
+            if (fetchMatchViaApi) {
+                const response = await fetch(`${apiBase}/${matchId}`, { cache: "no-store" });
+                if (!response.ok) {
+                    logger.warn("game room authoritative fetch failed", {
+                        table,
+                        matchId,
+                        status: response.status,
+                    });
+                    return null;
+                }
+                return (await response.json()) as TRow;
+            }
+
             // table 是运行期字符串（各游戏对局表），Supabase 类型客户端无法窄化到已知表，
             // 会把列名推断为 never。id 列在所有对局表都存在，用最小接口断言避开类型窄化，运行时不变。
             const db = supabaseRef.current as unknown as {
@@ -131,7 +146,7 @@ export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
             }
             return data as TRow | null;
         },
-        [table],
+        [apiBase, fetchMatchViaApi, table],
     );
 
     const clearPolling = useCallback(() => {

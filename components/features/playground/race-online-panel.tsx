@@ -33,6 +33,8 @@ function roleLabel(role: string | null): string {
 }
 
 function outcomeText(online: RaceOnlineApi): string {
+    if (online.match?.finish_reason === "waiting_timeout") return "等待超时，房间已关闭"
+    if (online.match?.finish_reason === "no_result_timeout") return "对局超时，未计胜负"
     if (!online.winner) return "对局已结束"
     if (online.winner === "draw") return "平局"
     return online.winner === online.myRole ? "你获胜了" : "对手获胜"
