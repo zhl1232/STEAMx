@@ -1,16 +1,23 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Calculator, Delete, RotateCcw, Sparkles, Trophy, Zap } from "lucide-react"
 import { useQuickMath } from "@/hooks/playground/use-quick-math"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 
 const KEYS = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "-", "0"]
 
 export default function QuickMathPage() {
     const game = useQuickMath()
+    const race = useRaceOnline("quickmath", { durationSeconds: 60 })
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
+    const prevStatusRef = useRef(game.status)
 
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
@@ -37,6 +44,24 @@ export default function QuickMathPage() {
             quickMathBestStreak: Math.max(game.stats.bestStreak, game.bestRoundStreak),
         })
     }, [checkBadges, game.bestRoundStreak, game.score, game.stats, game.status])
+
+    useEffect(() => {
+        const justFinished = prevStatusRef.current !== "finished" && game.status === "finished"
+        prevStatusRef.current = game.status
+        if (!justFinished || !raceIsPlaying || raceHasSubmitted) return
+        void submitRaceResult({
+            score: game.score,
+            streak: game.bestRoundStreak,
+            durationSeconds: 60,
+        })
+    }, [
+        game.bestRoundStreak,
+        game.score,
+        game.status,
+        raceHasSubmitted,
+        raceIsPlaying,
+        submitRaceResult,
+    ])
 
     return (
         <div className="playground-game-page">
@@ -113,6 +138,7 @@ export default function QuickMathPage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/quickmath" />
                     <section className="rounded-sm bg-muted/30 p-4">
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-amber-500" />

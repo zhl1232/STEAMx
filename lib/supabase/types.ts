@@ -252,6 +252,146 @@ export interface Database {
           }
         ]
       }
+      memory_matches: {
+        Row: {
+          id: string
+          code: string
+          host_user_id: string
+          guest_user_id: string | null
+          status: string
+          theme: string
+          difficulty: string
+          deck: Json
+          current_turn: string
+          first_flip: Json | null
+          last_result: Json | null
+          result_seq: number
+          scores: Json
+          winner: string | null
+          created_at: string
+          started_at: string | null
+          finished_at: string | null
+          last_activity_at: string
+        }
+        Insert: {
+          id?: string
+          code: string
+          host_user_id: string
+          guest_user_id?: string | null
+          status?: string
+          theme?: string
+          difficulty?: string
+          deck?: Json
+          current_turn?: string
+          first_flip?: Json | null
+          last_result?: Json | null
+          result_seq?: number
+          scores?: Json
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Update: {
+          id?: string
+          code?: string
+          host_user_id?: string
+          guest_user_id?: string | null
+          status?: string
+          theme?: string
+          difficulty?: string
+          deck?: Json
+          current_turn?: string
+          first_flip?: Json | null
+          last_result?: Json | null
+          result_seq?: number
+          scores?: Json
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_matches_host_user_id_fkey"
+            columns: ["host_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_matches_guest_user_id_fkey"
+            columns: ["guest_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      playground_race_matches: {
+        Row: {
+          id: string
+          code: string
+          game_key: string
+          host_user_id: string
+          guest_user_id: string | null
+          status: string
+          settings: Json
+          host_result: Json | null
+          guest_result: Json | null
+          winner: string | null
+          created_at: string
+          started_at: string | null
+          finished_at: string | null
+          last_activity_at: string
+        }
+        Insert: {
+          id?: string
+          code: string
+          game_key: string
+          host_user_id: string
+          guest_user_id?: string | null
+          status?: string
+          settings?: Json
+          host_result?: Json | null
+          guest_result?: Json | null
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Update: {
+          id?: string
+          code?: string
+          game_key?: string
+          host_user_id?: string
+          guest_user_id?: string | null
+          status?: string
+          settings?: Json
+          host_result?: Json | null
+          guest_result?: Json | null
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playground_race_matches_host_user_id_fkey"
+            columns: ["host_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "playground_race_matches_guest_user_id_fkey"
+            columns: ["guest_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       categories: {
         Row: {
           id: number
@@ -2777,6 +2917,13 @@ export interface Database {
           current_turn: string | null
           winner: string | null
           win_line: Json | null
+        }[]
+      }
+      memory_flip_card: {
+        Args: { match_uuid: string; p_card_id: string }
+        Returns: {
+          ok: boolean
+          reason: string
         }[]
       }
       get_ai_credit_status: {

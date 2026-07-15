@@ -17,6 +17,27 @@ vi.mock("@/lib/context/gamification-context", () => ({
     }),
 }))
 
+vi.mock("@/lib/context/auth-context", () => ({
+    useAuth: () => ({
+        user: null,
+        loading: false,
+    }),
+}))
+
+vi.mock("@/hooks/playground/use-race-online", () => ({
+    useRaceOnline: () => ({
+        settings: {},
+        isWaiting: false,
+        isPlaying: false,
+        hasSubmitted: false,
+        submitResult: vi.fn(),
+    }),
+}))
+
+vi.mock("@/components/features/playground/race-online-panel", () => ({
+    RaceOnlinePanel: () => null,
+}))
+
 vi.mock("@/hooks/playground/use-hanoi", () => ({
     useHanoi: () => ({
         pegs: { A: [3, 2, 1], B: [], C: [] },

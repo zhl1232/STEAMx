@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, type CSSProperties } from "react"
+import { useEffect, useMemo, useRef, type CSSProperties } from "react"
 import { Beaker, Check, Clock, RotateCcw, Sparkles, Trophy } from "lucide-react"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { BALL_SORT_LEVELS, canPour, getTopRun, useBallSort } from "@/hooks/playground/use-ball-sort"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 type BallPalette = {
@@ -116,11 +118,18 @@ function describeTube(tube: number[], index: number, capacity: number, state: st
 
 export default function BallSortPage() {
     const game = useBallSort()
+    const race = useRaceOnline("ballsort", { levelId: game.level.id, levelIndex: game.levelIndex })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const raceLevelId = race.settings.levelId
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const {
         setOverride: setTutorOverride,
         clearOverride: clearTutorOverride,
     } = useTutorContext()
+    const prevStatusRef = useRef(game.status)
     const selectedRun = useMemo(
         () => (game.selected == null ? null : getTopRun(game.tubes[game.selected] ?? [])),
         [game.selected, game.tubes],
@@ -164,6 +173,37 @@ export default function BallSortPage() {
             ballSortSolved: game.stats.solvedLevels.length,
         })
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
+
+    const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
+        game.startLevel(raceLevelIndex)
+    }, [game, raceActive, raceLevelIndex])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (raceLevelId !== game.level.id) return
+        void submitRaceResult({
+            levelId: game.level.id,
+            levelIndex: game.levelIndex,
+            moves: game.moves,
+            timeSeconds: game.time,
+        })
+    }, [
+        game.level.id,
+        game.levelIndex,
+        game.moves,
+        game.status,
+        game.time,
+        raceHasSubmitted,
+        raceIsPlaying,
+        raceLevelId,
+        submitRaceResult,
+    ])
 
     return (
         <div className="playground-game-page">
@@ -222,6 +262,8 @@ export default function BallSortPage() {
                             )
                         })}
                     </div>
+
+                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/ballsort" />
 
                     <div
                         className={cn(
@@ -443,6 +485,7 @@ export default function BallSortPage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-5 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/ballsort" />
                     <section>
                         <h2 className="mb-3 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-sky-500" />

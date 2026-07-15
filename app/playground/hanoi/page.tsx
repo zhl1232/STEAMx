@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useHanoi, type HanoiPeg, type HanoiSpeed } from "@/hooks/playground/use-hanoi"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import {
     Play,
     Pause,
@@ -158,8 +160,14 @@ export default function HanoiPage() {
         autoSolvePaused,
     } = useHanoi()
 
+    const race = useRaceOnline("hanoi", { diskCount })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const [activeTab, setActiveTab] = useState<"concepts" | "stats">("concepts")
+    const prevStatusRef = useRef(status)
 
     useEffect(() => {
         if (status !== "won") return
@@ -196,6 +204,33 @@ export default function HanoiPage() {
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
+
+    const raceDiskCount = typeof race.settings.diskCount === "number" ? race.settings.diskCount : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || !raceDiskCount || raceDiskCount === diskCount) return
+        setDiskCount(raceDiskCount)
+    }, [diskCount, raceActive, raceDiskCount, setDiskCount])
+
+    useEffect(() => {
+        const justWonByPlaying = prevStatusRef.current === "playing" && status === "won"
+        prevStatusRef.current = status
+        if (!justWonByPlaying || !raceIsPlaying || raceHasSubmitted) return
+        void submitRaceResult({
+            diskCount,
+            moves,
+            timeSeconds: time,
+        })
+    }, [
+        diskCount,
+        moves,
+        raceHasSubmitted,
+        raceIsPlaying,
+        status,
+        submitRaceResult,
+        time,
+    ])
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -275,7 +310,7 @@ export default function HanoiPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-7 w-7 rounded-xs"
-                                disabled={diskCount <= 3 || status === "playing" || isAutoSolving}
+                                disabled={raceActive || diskCount <= 3 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount - 1)}
                                 aria-label="减少圆盘数量"
                             >
@@ -288,7 +323,7 @@ export default function HanoiPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-7 w-7 rounded-xs"
-                                disabled={diskCount >= 8 || status === "playing" || isAutoSolving}
+                                disabled={raceActive || diskCount >= 8 || status === "playing" || isAutoSolving}
                                 onClick={() => setDiskCount(diskCount + 1)}
                                 aria-label="增加圆盘数量"
                             >
@@ -329,7 +364,7 @@ export default function HanoiPage() {
                                     size="sm"
                                     className="h-7 rounded-xs text-xs gap-1 px-2.5"
                                     onClick={autoSolve}
-                                    disabled={status === "won"}
+                                    disabled={raceActive || status === "won"}
                                 >
                                     <Zap className="w-3 h-3" />
                                     自动演示
@@ -439,6 +474,9 @@ export default function HanoiPage() {
 
             {/* Right: Knowledge panel */}
             <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
+                <div className="border-b border-border p-4">
+                    <RaceOnlinePanel online={race} gamePath="/playground/hanoi" />
+                </div>
                 <Tabs
                     value={activeTab}
                     onValueChange={(v) => setActiveTab(v as "concepts" | "stats")}

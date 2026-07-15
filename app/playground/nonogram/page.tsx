@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Check, CircleHelp, Heart, Lock, PaintBucket, RotateCcw, Sparkles, Table, Trophy, X } from "lucide-react"
 import { NONOGRAM_LEVELS, useNonogram, type NonogramTool } from "@/hooks/playground/use-nonogram"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { NonogramVictoryArt } from "@/components/features/playground/nonogram-victory-art"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
@@ -27,6 +29,12 @@ function cellFromPoint(clientX: number, clientY: number): { row: number; col: nu
 
 export default function NonogramPage() {
     const game = useNonogram()
+    const race = useRaceOnline("nonogram", { levelId: game.level.id, levelIndex: game.levelIndex })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const raceLevelId = race.settings.levelId
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const {
         setOverride: setTutorOverride,
@@ -34,6 +42,7 @@ export default function NonogramPage() {
     } = useTutorContext()
     const boardRef = useRef<HTMLDivElement>(null)
     const paintingRef = useRef(false)
+    const prevStatusRef = useRef(game.status)
     const [showHelp, setShowHelp] = useState(false)
     const size = game.size
     const maxRowClueCount = Math.max(1, ...game.clues.rows.map((clue) => clue.length))
@@ -64,6 +73,37 @@ export default function NonogramPage() {
             nonogramSolved: game.stats.solvedLevels.length,
         })
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
+
+    const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
+        game.startLevel(raceLevelIndex)
+    }, [game, raceActive, raceLevelIndex])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (raceLevelId !== game.level.id) return
+        void submitRaceResult({
+            levelId: game.level.id,
+            levelIndex: game.levelIndex,
+            timeSeconds: game.time,
+            mistakes: game.mistakes,
+        })
+    }, [
+        game.level.id,
+        game.levelIndex,
+        game.mistakes,
+        game.status,
+        game.time,
+        raceHasSubmitted,
+        raceIsPlaying,
+        raceLevelId,
+        submitRaceResult,
+    ])
 
     const startAtPoint = useCallback(
         (clientX: number, clientY: number, strokeTool: NonogramTool) => {
@@ -182,6 +222,8 @@ export default function NonogramPage() {
                             )
                         })}
                     </div>
+
+                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/nonogram" />
 
                     <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
                         <button
@@ -486,6 +528,7 @@ export default function NonogramPage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-6 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-slate-500" />

@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect } from "react"
-import { Brain, RotateCcw, Sparkles, Timer, Trophy } from "lucide-react"
+import { Suspense, useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
+import { Brain, Globe, RotateCcw, Sparkles, Timer, Trophy, User } from "lucide-react"
 import {
     MEMORY_THEMES,
     useMemoryMatch,
@@ -10,6 +11,9 @@ import {
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { MemoryOnlineView } from "@/components/features/playground/memory-online-view"
+
+type PageMode = "single" | "online"
 
 const DIFFICULTIES: Array<{ key: MemoryDifficulty; label: string }> = [
     { key: "easy", label: "4×4" },
@@ -24,6 +28,18 @@ function formatTime(seconds: number) {
 }
 
 export default function MemoryPage() {
+    return (
+        <Suspense fallback={null}>
+            <MemoryPageInner />
+        </Suspense>
+    )
+}
+
+function MemoryPageInner() {
+    const searchParams = useSearchParams()
+    const initialRoomCode = searchParams.get("room")
+    // 带 room 参数时直接进入在线模式
+    const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "single")
     const game = useMemoryMatch("easy", "animals")
     const { checkBadges } = useGamification()
 
@@ -55,18 +71,54 @@ export default function MemoryPage() {
                                 <p className="text-xs text-muted-foreground">选一套图案，记住位置，找出所有配对。</p>
                             </div>
                         </div>
-                        <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-11 w-11"
-                            onClick={() => game.startNewGame()}
-                            aria-label="重新开始"
-                        >
-                            <RotateCcw className="h-4 w-4" />
-                        </Button>
+                        {mode === "single" ? (
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-11 w-11"
+                                onClick={() => game.startNewGame()}
+                                aria-label="重新开始"
+                            >
+                                <RotateCcw className="h-4 w-4" />
+                            </Button>
+                        ) : null}
                     </div>
 
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                    {/* 单机 / 在线模式切换 */}
+                    <div
+                        className="mb-4 flex h-10 w-full items-center rounded-full border border-border/60 bg-muted/40 p-0.5 sm:h-9 sm:w-auto"
+                        role="group"
+                        aria-label="游戏模式"
+                    >
+                        {(
+                            [
+                                { value: "single" as const, label: "单机", icon: User },
+                                { value: "online" as const, label: "在线", icon: Globe },
+                            ]
+                        ).map(({ value, label, icon: Icon }) => (
+                            <button
+                                key={value}
+                                type="button"
+                                onClick={() => setMode(value)}
+                                className={cn(
+                                    "inline-flex h-full flex-1 items-center justify-center gap-1 rounded-full px-3 text-xs font-medium transition-colors sm:flex-none sm:px-4 sm:text-[13px]",
+                                    mode === value
+                                        ? "bg-primary text-primary-foreground shadow-xs"
+                                        : "text-muted-foreground hover:text-foreground",
+                                )}
+                                aria-pressed={mode === value}
+                            >
+                                <Icon className="h-3.5 w-3.5" />
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {mode === "online" ? (
+                        <MemoryOnlineView initialRoomCode={initialRoomCode} />
+                    ) : null}
+
+                    <div className={cn("mb-3 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
                         <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">难度</span>
                         {DIFFICULTIES.map((item) => (
                             <Button
@@ -84,7 +136,7 @@ export default function MemoryPage() {
                         </span>
                     </div>
 
-                    <div className="mb-4 flex flex-wrap items-center gap-2">
+                    <div className={cn("mb-4 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
                         <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">图案</span>
                         {MEMORY_THEMES.map((item) => {
                             const selected = game.theme === item.key
@@ -113,7 +165,7 @@ export default function MemoryPage() {
                     </div>
 
                     <div
-                        className="grid gap-2 sm:gap-2.5"
+                        className={cn("grid gap-2 sm:gap-2.5", mode === "online" && "hidden")}
                         style={{ gridTemplateColumns: `repeat(${game.columns}, minmax(0, 1fr))` }}
                     >
                         {game.cards.map((card) => (
@@ -174,7 +226,7 @@ export default function MemoryPage() {
                         ))}
                     </div>
 
-                    {game.status === "won" && (
+                    {mode === "single" && game.status === "won" && (
                         <div className="mt-4 rounded-lg border border-fuchsia-400/40 bg-fuchsia-500/10 p-4 text-center">
                             <Sparkles className="mx-auto mb-2 h-6 w-6 text-fuchsia-500" />
                             <p className="font-black">全部配对完成！</p>

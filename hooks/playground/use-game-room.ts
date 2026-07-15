@@ -6,10 +6,7 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useAuth } from "@/lib/context/auth-context";
 import { logger } from "@/lib/logger";
 import { createClient } from "@/lib/supabase/client";
-import type {
-    GomokuColor,
-    GomokuMatchRow,
-} from "@/lib/playground/gomoku-online";
+import type { BaseMatchRow } from "@/lib/playground/online-room";
 
 export type GameRoomPhase =
     | "idle"
@@ -20,13 +17,29 @@ export type GameRoomPhase =
     | "finished"
     | "error";
 
-export type GameRoomState = {
+export type GameRoomState<TRow extends BaseMatchRow> = {
     phase: GameRoomPhase;
     matchId: string | null;
     code: string | null;
-    hostColor: GomokuColor | null;
-    match: GomokuMatchRow | null;
+    match: TRow | null;
     error: string | null;
+};
+
+/**
+ * 各游戏接入房间层需提供的配置。传输逻辑（channel/订阅/轮询/重连）与游戏无关，
+ * 差异只在：对局表名、房间 API 前缀、Realtime channel 前缀、建房请求体。
+ */
+export type GameRoomConfig = {
+    /** 对局表名，如 "gomoku_matches" / "memory_matches" */
+    table: string;
+    /** 房间 API 前缀，如 "/api/playground/gomoku-rooms" */
+    apiBase: string;
+    /** 私有 channel 前缀，如 "gomoku-match"（实际 topic 为 `${prefix}:${matchId}`） */
+    channelPrefix: string;
+    /** 建房请求体构造（如五子棋发 { host_color }）；无则发空体 */
+    createBody?: (options?: unknown) => Record<string, unknown>;
+    /** 加入请求体构造；默认只发 { code } */
+    joinBody?: (code: string) => Record<string, unknown>;
 };
 
 // Realtime 开关：与 notification-context 同款约定，本地开发默认跳过 WebSocket。
@@ -52,11 +65,13 @@ function isRealtimeFailureStatus(status: string) {
 }
 
 /**
- * 通用在线对战房间 hook（MVP 仅服务于五子棋，但 channel/订阅逻辑与游戏无关）。
+ * 通用在线对战房间 hook（五子棋、记忆翻牌等复用）。
  * 负责：建房、加入、拉取全量、postgres_changes 订阅、断线轮询兜底、清理。
- * 落子与胜负判定由调用方通过 RPC 触发，本 hook 只负责状态广播。
+ * 落子/翻牌与胜负判定由调用方通过各游戏的 RPC 触发，本 hook 只负责状态广播。
+ * 游戏差异经 config（表名/API 前缀/channel 前缀/建房体）注入。
  */
-export function useGameRoom() {
+export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
+    const { table, apiBase, channelPrefix, createBody, joinBody } = config;
     const { user } = useAuth();
     const supabaseRef = useRef(createClient());
     const channelRef = useRef<RealtimeChannel | null>(null);
@@ -64,16 +79,15 @@ export function useGameRoom() {
     const lastMatchIdRef = useRef<string | null>(null);
     const realtimeUnavailableRef = useRef(false);
 
-    const [state, setState] = useState<GameRoomState>({
+    const [state, setState] = useState<GameRoomState<TRow>>({
         phase: "idle",
         matchId: null,
         code: null,
-        hostColor: null,
         match: null,
         error: null,
     });
 
-    const updateMatch = useCallback((row: GomokuMatchRow | null) => {
+    const updateMatch = useCallback((row: TRow | null) => {
         setState((prev) => {
             const phase: GameRoomPhase =
                 row == null
@@ -93,18 +107,32 @@ export function useGameRoom() {
         });
     }, []);
 
-    const fetchMatch = useCallback(async (matchId: string) => {
-        const { data, error } = await supabaseRef.current
-            .from("gomoku_matches")
-            .select("*")
-            .eq("id", matchId)
-            .maybeSingle();
-        if (error) {
-            logger.warn("gomoku fetch match failed", { error });
-            return null;
-        }
-        return data as GomokuMatchRow | null;
-    }, []);
+    const fetchMatch = useCallback(
+        async (matchId: string) => {
+            // table 是运行期字符串（各游戏对局表），Supabase 类型客户端无法窄化到已知表，
+            // 会把列名推断为 never。id 列在所有对局表都存在，用最小接口断言避开类型窄化，运行时不变。
+            const db = supabaseRef.current as unknown as {
+                from: (table: string) => {
+                    select: (cols: string) => {
+                        eq: (col: string, val: string) => {
+                            maybeSingle: () => Promise<{ data: unknown; error: unknown }>;
+                        };
+                    };
+                };
+            };
+            const { data, error } = await db
+                .from(table)
+                .select("*")
+                .eq("id", matchId)
+                .maybeSingle();
+            if (error) {
+                logger.warn("game room fetch match failed", { table, error });
+                return null;
+            }
+            return data as TRow | null;
+        },
+        [table],
+    );
 
     const clearPolling = useCallback(() => {
         if (pollRef.current !== null) {
@@ -127,31 +155,33 @@ export function useGameRoom() {
             unsubscribe();
             lastMatchIdRef.current = matchId;
 
-            const handleRow = (row: GomokuMatchRow | null) => {
+            const handleRow = (row: TRow | null) => {
                 if (row) updateMatch(row);
             };
 
             if (shouldSubscribePlaygroundRealtime() && !realtimeUnavailableRef.current) {
-                const channel = supabaseRef.current.channel(`gomoku-match:${matchId}`, {
-                    config: { private: true },
-                });
+                const channel = supabaseRef.current.channel(
+                    `${channelPrefix}:${matchId}`,
+                    { config: { private: true } },
+                );
                 channel
                     .on(
                         "postgres_changes",
                         {
                             event: "*",
                             schema: "public",
-                            table: "gomoku_matches",
+                            table,
                             filter: `id=eq.${matchId}`,
                         },
                         (payload) => {
-                            updateMatch(payload.new as GomokuMatchRow);
+                            updateMatch(payload.new as TRow);
                         },
                     )
                     .subscribe((status, error) => {
                         if (isRealtimeFailureStatus(status)) {
                             realtimeUnavailableRef.current = true;
-                            logger.warn("gomoku realtime channel unavailable", {
+                            logger.warn("game room realtime channel unavailable", {
+                                table,
                                 status,
                                 error,
                             });
@@ -177,37 +207,32 @@ export function useGameRoom() {
                 }
             }, RECONNECT_POLL_INTERVAL_MS);
         },
-        [clearPolling, fetchMatch, unsubscribe, updateMatch],
+        [channelPrefix, clearPolling, fetchMatch, table, unsubscribe, updateMatch],
     );
 
     const createRoom = useCallback(
-        async (hostColor: GomokuColor = "black") => {
+        async (options?: unknown) => {
             if (!user?.id) {
                 setState((p) => ({ ...p, error: "请先登录", phase: "error" }));
                 return null;
             }
             setState((p) => ({ ...p, phase: "creating", error: null }));
             try {
-                const res = await fetch("/api/playground/gomoku-rooms", {
+                const res = await fetch(apiBase, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ host_color: hostColor }),
+                    body: JSON.stringify(createBody ? createBody(options) : {}),
                 });
                 if (!res.ok) {
                     const body = await res.json().catch(() => null);
                     throw new Error(body?.error ?? "创建房间失败");
                 }
-                const data = (await res.json()) as {
-                    id: string;
-                    code: string;
-                    host_color: GomokuColor;
-                };
+                const data = (await res.json()) as { id: string; code: string };
                 setState((p) => ({
                     ...p,
                     phase: "waiting",
                     matchId: data.id,
                     code: data.code,
-                    hostColor: data.host_color,
                     error: null,
                 }));
                 subscribe(data.id);
@@ -220,7 +245,7 @@ export function useGameRoom() {
                 return null;
             }
         },
-        [fetchMatch, subscribe, updateMatch, user?.id],
+        [apiBase, createBody, fetchMatch, subscribe, updateMatch, user?.id],
     );
 
     const joinRoom = useCallback(
@@ -231,10 +256,10 @@ export function useGameRoom() {
             }
             setState((p) => ({ ...p, phase: "joining", error: null }));
             try {
-                const res = await fetch("/api/playground/gomoku-rooms/join", {
+                const res = await fetch(`${apiBase}/join`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ code }),
+                    body: JSON.stringify(joinBody ? joinBody(code) : { code }),
                 });
                 if (!res.ok) {
                     const body = await res.json().catch(() => null);
@@ -272,7 +297,7 @@ export function useGameRoom() {
                 return null;
             }
         },
-        [fetchMatch, subscribe, updateMatch, user?.id],
+        [apiBase, fetchMatch, joinBody, subscribe, updateMatch, user?.id],
     );
 
     // 按 matchId 重连（页面冷启动 / 刷新恢复）
@@ -288,7 +313,6 @@ export function useGameRoom() {
                 ...p,
                 matchId: row.id,
                 code: row.code,
-                hostColor: row.host_color,
                 match: row,
                 phase:
                     row.status === "waiting"
@@ -309,9 +333,7 @@ export function useGameRoom() {
         const matchId = state.matchId;
         if (!matchId) return;
         try {
-            await fetch(`/api/playground/gomoku-rooms/${matchId}/leave`, {
-                method: "POST",
-            });
+            await fetch(`${apiBase}/${matchId}/leave`, { method: "POST" });
         } catch {
             // 离开失败不阻塞 UI
         } finally {
@@ -320,12 +342,11 @@ export function useGameRoom() {
                 phase: "idle",
                 matchId: null,
                 code: null,
-                hostColor: null,
                 match: null,
                 error: null,
             });
         }
-    }, [state.matchId, unsubscribe]);
+    }, [apiBase, state.matchId, unsubscribe]);
 
     // 仅清本地状态与订阅，不调 leave API（用于已结束对局"再开一局"）
     const resetLocalState = useCallback(() => {
@@ -334,7 +355,6 @@ export function useGameRoom() {
             phase: "idle",
             matchId: null,
             code: null,
-            hostColor: null,
             match: null,
             error: null,
         });

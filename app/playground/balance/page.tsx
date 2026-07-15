@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { AlertCircle, ArrowLeftRight, Check, Clock, Coins, Lightbulb, RotateCcw, Scale, Sparkles, Trophy } from "lucide-react"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { BALANCE_LEVELS, useBalance, type WeighResult } from "@/hooks/playground/use-balance"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 type PanSide = "left" | "right"
@@ -181,9 +183,16 @@ function PanTray({
 
 export default function BalancePage() {
     const game = useBalance()
+    const race = useRaceOnline("balance", { levelId: game.level.id, levelIndex: game.levelIndex })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const raceLevelId = race.settings.levelId
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
     const [selectedPan, setSelectedPan] = useState<PanSide>("left")
+    const prevStatusRef = useRef(game.status)
 
     const coins = useMemo(
         () => Array.from({ length: game.level.coinCount }, (_, coin) => coin),
@@ -228,6 +237,37 @@ export default function BalancePage() {
             balanceSolved: game.stats.solvedLevels.length,
         })
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
+
+    const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
+        game.startLevel(raceLevelIndex)
+    }, [game, raceActive, raceLevelIndex])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (raceLevelId !== game.level.id) return
+        void submitRaceResult({
+            levelId: game.level.id,
+            levelIndex: game.levelIndex,
+            weighings: game.weighings,
+            timeSeconds: game.time,
+        })
+    }, [
+        game.level.id,
+        game.levelIndex,
+        game.status,
+        game.time,
+        game.weighings,
+        raceHasSubmitted,
+        raceIsPlaying,
+        raceLevelId,
+        submitRaceResult,
+    ])
 
     return (
         <div className="playground-game-page">
@@ -287,6 +327,8 @@ export default function BalancePage() {
                             )
                         })}
                     </div>
+
+                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/balance" />
 
                     <div
                         className={cn(
@@ -518,6 +560,7 @@ export default function BalancePage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-5 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/balance" />
                     <section>
                         <h2 className="mb-3 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-teal-500" />

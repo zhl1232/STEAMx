@@ -1,11 +1,28 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
+import {
+    getMemoryColumns,
+    getMemoryThemeSymbols,
+    MEMORY_THEMES,
+    memorySymbolsFor,
+    type MemoryDifficulty,
+    type MemoryTheme,
+    type MemoryThemeOption,
+} from "@/lib/playground/memory-online"
 
-export type MemoryDifficulty = "easy" | "normal" | "hard"
+// 主题符号表、难度对数、列数等静态数据已下沉到 lib/playground/memory-online.ts（服务端安全），
+// 单机与在线对战共用。此处 re-export 保持既有导入路径不变。
+export {
+    getMemoryColumns,
+    getMemoryThemeSymbols,
+    MEMORY_THEMES,
+    type MemoryDifficulty,
+    type MemoryTheme,
+    type MemoryThemeOption,
+}
 
-export type MemoryTheme = "animals" | "nature" | "space" | "food" | "stem"
-
+/** 单机模式的牌：matched 为布尔（在线模式记录归属方，见 memory-online.ts） */
 export type MemoryCard = {
     id: string
     symbol: string
@@ -19,36 +36,7 @@ export type MemoryStats = {
     bestTimes: Record<string, number>
 }
 
-export type MemoryThemeOption = {
-    key: MemoryTheme
-    label: string
-    preview: string[]
-}
-
 const STATS_KEY = "memory_match_stats"
-
-/** 每套至少 18 个互异图案，覆盖 6×6 难度 */
-const THEME_SYMBOLS: Record<MemoryTheme, string[]> = {
-    animals: ["🦊", "🐼", "🦁", "🐸", "🐧", "🦋", "🐙", "🦄", "🐢", "🦉", "🐝", "🐬", "🦩", "🦔", "🐨", "🐯", "🦕", "🐲"],
-    nature: ["🌸", "🌺", "🌻", "🍀", "🌈", "🌊", "🍄", "🌵", "🌴", "🍁", "🌕", "❄️", "🔥", "💧", "🍃", "🌿", "🌙", "⭐"],
-    space: ["🚀", "🛸", "🪐", "☄️", "🌍", "👽", "🛰️", "🌌", "☀️", "💫", "🌑", "✨", "🌠", "🔭", "🌙", "⭐", "🔮", "🌟"],
-    food: ["🍎", "🍊", "🍋", "🍇", "🍓", "🍑", "🥝", "🍉", "🍒", "🫐", "🍌", "🥑", "🍕", "🍪", "🧁", "🍩", "🍦", "🍬"],
-    stem: ["🧬", "🔬", "⚗️", "🔭", "🧪", "🧲", "⚡", "💡", "🔋", "💻", "🧠", "⚛️", "🧮", "📐", "🌡️", "📡", "🚀", "🧿"],
-}
-
-export const MEMORY_THEMES: MemoryThemeOption[] = [
-    { key: "animals", label: "萌宠", preview: THEME_SYMBOLS.animals.slice(0, 4) },
-    { key: "nature", label: "自然", preview: THEME_SYMBOLS.nature.slice(0, 4) },
-    { key: "space", label: "宇宙", preview: THEME_SYMBOLS.space.slice(0, 4) },
-    { key: "food", label: "美食", preview: THEME_SYMBOLS.food.slice(0, 4) },
-    { key: "stem", label: "科学", preview: THEME_SYMBOLS.stem.slice(0, 4) },
-]
-
-const PAIRS: Record<MemoryDifficulty, number> = {
-    easy: 8,
-    normal: 10,
-    hard: 18,
-}
 
 const EMPTY_STATS: MemoryStats = {
     totalGames: 0,
@@ -72,12 +60,8 @@ function saveStats(stats: MemoryStats) {
     setPlaygroundItem(STATS_KEY, stats)
 }
 
-function symbolsFor(theme: MemoryTheme, difficulty: MemoryDifficulty): string[] {
-    return THEME_SYMBOLS[theme].slice(0, PAIRS[difficulty])
-}
-
 function buildDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryCard[] {
-    const symbols = symbolsFor(theme, difficulty)
+    const symbols = memorySymbolsFor(theme, difficulty)
     const cards = symbols.flatMap((symbol, pairIndex) => [
         { id: `${theme}-${pairIndex}-a`, symbol, matched: false },
         { id: `${theme}-${pairIndex}-b`, symbol, matched: false },
@@ -93,16 +77,6 @@ export function createMemoryDeck(
     theme: MemoryTheme = "animals",
 ): MemoryCard[] {
     return buildDeck(theme, difficulty)
-}
-
-export function getMemoryColumns(difficulty: MemoryDifficulty): number {
-    if (difficulty === "easy") return 4
-    if (difficulty === "normal") return 5
-    return 6
-}
-
-export function getMemoryThemeSymbols(theme: MemoryTheme): string[] {
-    return [...THEME_SYMBOLS[theme]]
 }
 
 export type StartMemoryGameOptions = {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import {
     CheckCircle2,
     FlipHorizontal,
@@ -19,8 +19,10 @@ import {
     type SymmetryLevel,
     useSymmetry,
 } from "@/hooks/playground/use-symmetry"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 function formatTime(seconds: number) {
@@ -66,7 +68,14 @@ function renderStars(count: number, className?: string) {
 
 export default function SymmetryPage() {
     const game = useSymmetry()
+    const race = useRaceOnline("symmetry", { levelId: game.level.id, levelIndex: game.levelIndex })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const raceLevelId = race.settings.levelId
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
+    const prevStatusRef = useRef(game.status)
     const size = game.level.size
     const nextLevelIndex = game.levelIndex + 1 < game.levelCount ? game.levelIndex + 1 : 0
     const boardMaxWidth = size >= 10 ? "max-w-[34rem]" : size >= 8 ? "max-w-[29rem]" : "max-w-[23rem]"
@@ -84,6 +93,41 @@ export default function SymmetryPage() {
             symmetrySolved: game.stats.solvedLevels.length,
         })
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
+
+    const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
+        game.startLevel(raceLevelIndex)
+    }, [game, raceActive, raceLevelIndex])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (raceLevelId !== game.level.id) return
+        void submitRaceResult({
+            levelId: game.level.id,
+            levelIndex: game.levelIndex,
+            stars: game.stars,
+            mistakes: game.mistakes,
+            moves: game.moves,
+            timeSeconds: game.time,
+        })
+    }, [
+        game.level.id,
+        game.levelIndex,
+        game.mistakes,
+        game.moves,
+        game.stars,
+        game.status,
+        game.time,
+        raceHasSubmitted,
+        raceIsPlaying,
+        raceLevelId,
+        submitRaceResult,
+    ])
 
     return (
         <div className="playground-game-page">
@@ -237,6 +281,7 @@ export default function SymmetryPage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/symmetry" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-rose-500" />

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuth } from "@/lib/context/auth-context";
-import { useGameRoom } from "@/hooks/playground/use-game-room";
+import { useGameRoom, type GameRoomConfig } from "@/hooks/playground/use-game-room";
 import {
     getPlaygroundItem,
     setPlaygroundItem,
@@ -15,8 +15,17 @@ import {
     opponentColor,
     type GomokuCell,
     type GomokuColor,
+    type GomokuMatchRow,
     type GomokuPlaceStoneResult,
 } from "@/lib/playground/gomoku-online";
+
+// 五子棋房间层配置：建房时把房主执子颜色映射为 { host_color }。
+const GOMOKU_ROOM_CONFIG: GameRoomConfig = {
+    table: "gomoku_matches",
+    apiBase: "/api/playground/gomoku-rooms",
+    channelPrefix: "gomoku-match",
+    createBody: (options) => ({ host_color: (options as GomokuColor) ?? "black" }),
+};
 
 export type GomokuOnlineResult = "win" | "loss" | "draw";
 
@@ -137,7 +146,7 @@ function lineArray(line: unknown): { row: number; col: number }[] | null {
  */
 export function useGomokuOnline() {
     const { user } = useAuth();
-    const room = useGameRoom();
+    const room = useGameRoom<GomokuMatchRow>(GOMOKU_ROOM_CONFIG);
     const supabaseRef = useRef(createClient());
     // room 整体每次渲染都是新引用，用 ref 在 callback 里引用以避免依赖告警与重建
     const roomRef = useRef(room);

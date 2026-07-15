@@ -10,8 +10,10 @@ import {
     type TangramPieceId,
     type TangramTransform,
 } from "@/hooks/playground/use-tangram"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 const COLORS: Record<TangramPieceId, string> = {
@@ -40,6 +42,12 @@ function formatTime(seconds: number) {
 
 export default function TangramPage() {
     const game = useTangram()
+    const race = useRaceOnline("tangram", { levelId: game.level.id, levelIndex: game.levelIndex })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const raceLevelId = race.settings.levelId
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const svgRef = useRef<SVGSVGElement>(null)
     const dragRef = useRef<{
@@ -51,6 +59,7 @@ export default function TangramPage() {
         moved: boolean
     } | null>(null)
     const lastTapRef = useRef<{ id: TangramPieceId; time: number } | null>(null)
+    const prevStatusRef = useRef(game.status)
 
     const toSvgPoint = useCallback((clientX: number, clientY: number) => {
         const svg = svgRef.current
@@ -74,6 +83,35 @@ export default function TangramPage() {
             tangramSolved: game.stats.solvedLevels.length,
         })
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
+
+    const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
+        game.startLevel(raceLevelIndex)
+    }, [game, raceActive, raceLevelIndex])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (raceLevelId !== game.level.id) return
+        void submitRaceResult({
+            levelId: game.level.id,
+            levelIndex: game.levelIndex,
+            timeSeconds: game.time,
+        })
+    }, [
+        game.level.id,
+        game.levelIndex,
+        game.status,
+        game.time,
+        raceHasSubmitted,
+        raceIsPlaying,
+        raceLevelId,
+        submitRaceResult,
+    ])
 
     const selectedPiece = game.pieces.find((piece) => piece.id === game.selectedId)
     const canFlip = selectedPiece ? PIECE_KIND[selectedPiece.id] === "parallelogram" : false
@@ -243,6 +281,7 @@ export default function TangramPage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/tangram" />
                     <section className="rounded-sm bg-muted/30 p-4">
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-violet-500" />

@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useNQueens, type NQueensMode, type NQueensSpeed, type CellState } from "@/hooks/playground/use-nqueens"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import {
     Crown,
     Play,
@@ -103,9 +105,15 @@ export default function NQueensPage() {
         reset,
     } = useNQueens()
 
+    const race = useRaceOnline("nqueens", { n })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
     const [activeTab, setActiveTab] = useState<"concepts" | "stats">("concepts")
     const [isMobile, setIsMobile] = useState(false)
+    const prevStatusRef = useRef(status)
 
     useEffect(() => {
         const mql = window.matchMedia("(max-width: 640px)")
@@ -144,6 +152,25 @@ export default function NQueensPage() {
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, mode])
+
+    const raceN = typeof race.settings.n === "number" ? race.settings.n : null
+    const raceActive = raceIsWaiting || raceIsPlaying
+
+    useEffect(() => {
+        if (!raceActive) return
+        if (raceN && raceN !== n) setN(raceN)
+        if (mode !== "manual" && status !== "visualizing") setMode("manual")
+    }, [mode, n, raceActive, raceN, setMode, setN, status])
+
+    useEffect(() => {
+        const justSolvedManual = prevStatusRef.current === "playing" && status === "solved" && mode === "manual"
+        prevStatusRef.current = status
+        if (!justSolvedManual || !raceIsPlaying || raceHasSubmitted) return
+        void submitRaceResult({
+            n,
+            timeSeconds: time,
+        })
+    }, [mode, n, raceHasSubmitted, raceIsPlaying, status, submitRaceResult, time])
 
     const cellSize = useMemo(() => cellSizeForN(n, isMobile), [n, isMobile])
     const boardSize = cellSize * n
@@ -192,7 +219,7 @@ export default function NQueensPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
-                                disabled={n <= 4 || isVisualizing}
+                                disabled={raceActive || n <= 4 || isVisualizing}
                                 onClick={() => setN(n - 1)}
                                 aria-label="减少棋盘大小"
                             >
@@ -205,7 +232,7 @@ export default function NQueensPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-11 w-11 rounded-xs sm:h-7 sm:w-7"
-                                disabled={n >= 12 || isVisualizing}
+                                disabled={raceActive || n >= 12 || isVisualizing}
                                 onClick={() => setN(n + 1)}
                                 aria-label="增加棋盘大小"
                             >
@@ -221,13 +248,13 @@ export default function NQueensPage() {
                                 <button
                                     key={m}
                                     onClick={() => setMode(m)}
-                                    disabled={isVisualizing}
+                                    disabled={raceActive || isVisualizing}
                                     className={cn(
                                         "min-h-11 px-3 py-1 text-[10px] sm:min-h-0 sm:px-2.5 sm:text-xs font-medium transition-colors flex items-center gap-1",
                                         mode === m
                                             ? "bg-primary text-primary-foreground"
                                             : "text-muted-foreground hover:text-foreground",
-                                        isVisualizing && "cursor-not-allowed opacity-60",
+                                        (raceActive || isVisualizing) && "cursor-not-allowed opacity-60",
                                     )}
                                 >
                                     {m === "manual" ? <Hand className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
@@ -280,6 +307,7 @@ export default function NQueensPage() {
                                         size="sm"
                                         className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2.5"
                                         onClick={startVisualization}
+                                        disabled={raceActive}
                                     >
                                         <Play className="w-3 h-3" />
                                         开始
@@ -435,6 +463,9 @@ export default function NQueensPage() {
 
             {/* Right: Knowledge panel */}
             <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
+                <div className="border-b border-border p-4">
+                    <RaceOnlinePanel online={race} gamePath="/playground/nqueens" />
+                </div>
                 <Tabs
                     value={activeTab}
                     onValueChange={(v) => setActiveTab(v as "concepts" | "stats")}
