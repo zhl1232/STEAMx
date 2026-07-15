@@ -19,7 +19,7 @@ import {
 function stableSettingsKey(settings: RaceSettings): string {
     const keys = Object.keys(settings).sort() as Array<keyof RaceSettings>;
     return JSON.stringify(
-        keys.reduce<Record<string, string | number>>((acc, key) => {
+        keys.reduce<Record<string, string | number | number[]>>((acc, key) => {
             const value = settings[key];
             if (value !== undefined) acc[key] = value;
             return acc;

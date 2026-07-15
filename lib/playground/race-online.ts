@@ -3,9 +3,11 @@ import { generateRoomCode, type BaseMatchRow } from "@/lib/playground/online-roo
 export { generateRoomCode }
 
 export const RACE_GAME_KEYS = [
+    "game24",
     "quickmath",
     "hanoi",
     "nqueens",
+    "fifteen",
     "nonogram",
     "ballsort",
     "balance",
@@ -19,6 +21,9 @@ export type RaceWinner = RaceRole | "draw" | null
 
 export type RaceSettings = {
     durationSeconds?: number
+    cardValues?: number[]
+    initialBoard?: number[]
+    size?: number
     diskCount?: number
     n?: number
     levelId?: string
@@ -31,6 +36,9 @@ export type RaceResult = {
     streak?: number
     moves?: number
     timeSeconds?: number
+    cardValues?: number[]
+    initialBoard?: number[]
+    size?: number
     mistakes?: number
     stars?: number
     weighings?: number
@@ -60,6 +68,21 @@ export type RaceGameMeta = {
 }
 
 const FALLBACK_LEVEL_LABEL = "当前关卡"
+const CARD_LABELS: Record<number, string> = {
+    1: "A",
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: "10",
+    11: "J",
+    12: "Q",
+    13: "K",
+}
 
 function formatTime(seconds: number | undefined): string {
     if (typeof seconds !== "number" || !Number.isFinite(seconds)) return "--:--"
@@ -74,7 +97,24 @@ function levelName(settings: RaceSettings): string {
     return FALLBACK_LEVEL_LABEL
 }
 
+function cardValuesName(settings: RaceSettings): string {
+    return settings.cardValues?.map((value) => CARD_LABELS[value] ?? String(value)).join(" ") ?? "同一组牌"
+}
+
 export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
+    game24: {
+        key: "game24",
+        label: "24 点",
+        shortLabel: "24 点",
+        objective: "同一组牌比解题用时，未解出不计胜。",
+        settingLabel: cardValuesName,
+        resultLabel: (result) =>
+            result
+                ? result.completed
+                    ? formatTime(result.timeSeconds)
+                    : "未解出"
+                : "等待提交",
+    },
     quickmath: {
         key: "quickmath",
         label: "速算闪电战",
@@ -105,6 +145,17 @@ export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
         settingLabel: (settings) => `${settings.n ?? 8} 皇后`,
         resultLabel: (result) =>
             result ? `${formatTime(result.timeSeconds)}` : "等待提交",
+    },
+    fifteen: {
+        key: "fifteen",
+        label: "数字华容道",
+        shortLabel: "华容道",
+        objective: "同一初始棋盘复原，步数少者胜，步数相同比用时。",
+        settingLabel: (settings) => `${settings.size ?? 4}×${settings.size ?? 4} 固定盘面`,
+        resultLabel: (result) =>
+            result
+                ? `${result.moves ?? 0} 步 · ${formatTime(result.timeSeconds)}`
+                : "等待提交",
     },
     nonogram: {
         key: "nonogram",
@@ -191,6 +242,146 @@ function readInteger(
     return numberValue
 }
 
+function readIntegerArray(
+    value: unknown,
+    field: string,
+    length: number,
+    min: number,
+    max: number,
+): number[] {
+    if (!Array.isArray(value) || value.length !== length) {
+        throw new Error(`${field} must contain ${length} numbers`)
+    }
+    return value.map((item, index) => readInteger(item, `${field}[${index}]`, min, max))
+}
+
+function arraysEqual(a: number[] | undefined, b: number[] | undefined): boolean {
+    if (a === undefined || b === undefined) return a === b
+    if (a.length !== b.length) return false
+    return a.every((value, index) => value === b[index])
+}
+
+function ensureArrayMatches(
+    actual: number[] | undefined,
+    expected: number[] | undefined,
+    field: string,
+) {
+    if (expected === undefined) return
+    if (!arraysEqual(actual, expected)) throw new Error(`${field} does not match room settings`)
+}
+
+function getPermutations(values: number[]): number[][] {
+    if (values.length <= 1) return [values]
+    const result: number[][] = []
+    for (let index = 0; index < values.length; index += 1) {
+        const rest = [...values.slice(0, index), ...values.slice(index + 1)]
+        for (const permutation of getPermutations(rest)) {
+            result.push([values[index], ...permutation])
+        }
+    }
+    return result
+}
+
+function apply24Op(a: number, op: string, b: number): number | null {
+    switch (op) {
+        case "+":
+            return a + b
+        case "-":
+            return a - b
+        case "*":
+            return a * b
+        case "/":
+            return b === 0 ? null : a / b
+        default:
+            return null
+    }
+}
+
+function has24Solution(values: number[]): boolean {
+    const ops = ["+", "-", "*", "/"]
+    const epsilon = 1e-9
+    for (const [a, b, c, d] of getPermutations(values)) {
+        for (const op1 of ops) {
+            for (const op2 of ops) {
+                for (const op3 of ops) {
+                    const r1 = apply24Op(a, op1, b)
+                    if (r1 !== null) {
+                        const r2 = apply24Op(r1, op2, c)
+                        const r3 = r2 === null ? null : apply24Op(r2, op3, d)
+                        if (r3 !== null && Math.abs(r3 - 24) < epsilon) return true
+                    }
+
+                    const r4 = apply24Op(b, op2, c)
+                    if (r4 !== null) {
+                        const r5 = apply24Op(a, op1, r4)
+                        const r6 = r5 === null ? null : apply24Op(r5, op3, d)
+                        if (r6 !== null && Math.abs(r6 - 24) < epsilon) return true
+                    }
+
+                    const r7 = apply24Op(a, op1, b)
+                    const r8 = apply24Op(c, op3, d)
+                    if (r7 !== null && r8 !== null) {
+                        const r9 = apply24Op(r7, op2, r8)
+                        if (r9 !== null && Math.abs(r9 - 24) < epsilon) return true
+                    }
+
+                    const r10 = apply24Op(b, op2, c)
+                    if (r10 !== null) {
+                        const r11 = apply24Op(r10, op3, d)
+                        const r12 = r11 === null ? null : apply24Op(a, op1, r11)
+                        if (r12 !== null && Math.abs(r12 - 24) < epsilon) return true
+                    }
+
+                    const r13 = apply24Op(c, op3, d)
+                    if (r13 !== null) {
+                        const r14 = apply24Op(b, op2, r13)
+                        const r15 = r14 === null ? null : apply24Op(a, op1, r14)
+                        if (r15 !== null && Math.abs(r15 - 24) < epsilon) return true
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
+
+function validateFifteenBoard(board: number[], size: number) {
+    const expectedLength = size * size
+    if (board.length !== expectedLength) {
+        throw new Error("initialBoard length does not match size")
+    }
+    const seen = new Set(board)
+    for (let value = 0; value < expectedLength; value += 1) {
+        if (!seen.has(value)) throw new Error("initialBoard must contain every tile once")
+    }
+    if (isSolvedSlidingBoard(board)) {
+        throw new Error("initialBoard must not be solved")
+    }
+    if (!isSolvableSlidingBoard(board, size)) {
+        throw new Error("initialBoard must be solvable")
+    }
+}
+
+function isSolvedSlidingBoard(board: number[]): boolean {
+    for (let index = 0; index < board.length - 1; index += 1) {
+        if (board[index] !== index + 1) return false
+    }
+    return board[board.length - 1] === 0
+}
+
+function isSolvableSlidingBoard(board: number[], size: number): boolean {
+    const values = board.filter((value) => value !== 0)
+    let inversions = 0
+    for (let left = 0; left < values.length; left += 1) {
+        for (let right = left + 1; right < values.length; right += 1) {
+            if (values[left] > values[right]) inversions += 1
+        }
+    }
+    if (size % 2 === 1) return inversions % 2 === 0
+    const blankRowFromBottom = size - Math.floor(board.indexOf(0) / size)
+    return blankRowFromBottom % 2 === 0 ? inversions % 2 === 1 : inversions % 2 === 0
+}
+
 function readLevelSettings(raw: Record<string, unknown>): RaceSettings {
     const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
     if (!levelId || levelId.length > 80) {
@@ -209,6 +400,22 @@ export function normalizeRaceSettings(
 ): RaceSettings {
     const raw = readObject(value)
     switch (gameKey) {
+        case "game24": {
+            const cardValues = readIntegerArray(raw.cardValues, "cardValues", 4, 1, 13)
+            if (!has24Solution(cardValues)) {
+                throw new Error("cardValues must have at least one 24-point solution")
+            }
+            return {
+                durationSeconds: readInteger(
+                    raw.durationSeconds,
+                    "durationSeconds",
+                    60,
+                    60,
+                    60,
+                ),
+                cardValues,
+            }
+        }
         case "quickmath":
             return {
                 durationSeconds: readInteger(
@@ -223,6 +430,18 @@ export function normalizeRaceSettings(
             return { diskCount: readInteger(raw.diskCount, "diskCount", 3, 8, 3) }
         case "nqueens":
             return { n: readInteger(raw.n, "n", 4, 12, 8) }
+        case "fifteen": {
+            const size = readInteger(raw.size, "size", 3, 5, 4)
+            const initialBoard = readIntegerArray(
+                raw.initialBoard,
+                "initialBoard",
+                size * size,
+                0,
+                size * size - 1,
+            )
+            validateFifteenBoard(initialBoard, size)
+            return { size, initialBoard }
+        }
         case "nonogram":
         case "ballsort":
         case "balance":
@@ -254,6 +473,33 @@ export function normalizeRaceResult(
     const result = baseResult(raw)
 
     switch (gameKey) {
+        case "game24": {
+            const cardValues =
+                raw.cardValues === undefined
+                    ? settings.cardValues
+                    : readIntegerArray(raw.cardValues, "cardValues", 4, 1, 13)
+            ensureArrayMatches(cardValues, settings.cardValues, "cardValues")
+            const durationSeconds = readInteger(
+                raw.durationSeconds,
+                "durationSeconds",
+                60,
+                60,
+                settings.durationSeconds ?? 60,
+            )
+            ensureMatches(durationSeconds, settings.durationSeconds, "durationSeconds")
+            return {
+                ...result,
+                cardValues,
+                durationSeconds,
+                timeSeconds: readInteger(
+                    raw.timeSeconds,
+                    "timeSeconds",
+                    0,
+                    durationSeconds,
+                    result.completed ? undefined : durationSeconds,
+                ),
+            }
+        }
         case "quickmath": {
             const durationSeconds = readInteger(
                 raw.durationSeconds,
@@ -286,6 +532,28 @@ export function normalizeRaceResult(
             return {
                 ...result,
                 n,
+                timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
+            }
+        }
+        case "fifteen": {
+            const size = readInteger(raw.size, "size", 3, 5, settings.size ?? 4)
+            ensureMatches(size, settings.size, "size")
+            const initialBoard =
+                raw.initialBoard === undefined
+                    ? settings.initialBoard
+                    : readIntegerArray(
+                        raw.initialBoard,
+                        "initialBoard",
+                        size * size,
+                        0,
+                        size * size - 1,
+                    )
+            ensureArrayMatches(initialBoard, settings.initialBoard, "initialBoard")
+            return {
+                ...result,
+                size,
+                initialBoard,
+                moves: readInteger(raw.moves, "moves", 1, 100_000),
                 timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
             }
         }
@@ -374,6 +642,9 @@ export function compareRaceResults(
     if (a.completed !== b.completed) return a.completed ? -1 : 1
 
     switch (gameKey) {
+        case "game24":
+            if (!a.completed && !b.completed) return 0
+            return compareLower(a.timeSeconds, b.timeSeconds)
         case "quickmath":
             return firstNonDraw([
                 compareHigher(a.score, b.score),
@@ -381,6 +652,7 @@ export function compareRaceResults(
             ])
         case "hanoi":
         case "ballsort":
+        case "fifteen":
             return firstNonDraw([
                 compareLower(a.moves, b.moves),
                 compareLower(a.timeSeconds, b.timeSeconds),

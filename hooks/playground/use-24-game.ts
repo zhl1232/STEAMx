@@ -21,6 +21,11 @@ export type Game24Stats = {
   averageTime: number | null
 }
 
+export type Game24Round = {
+  cards: Card24[]
+  solutions: string[]
+}
+
 // ── Constants ─────────────────────────────────────────────────────────
 
 const STATS_KEY = 'game_24_stats'
@@ -169,7 +174,19 @@ function makeCard(value: number, suit: Card24['suit']): Card24 {
   return { value, suit, label: VALUE_LABELS[value] }
 }
 
-function generateCards(): { cards: Card24[]; solutions: string[] } {
+export function create24RoundFromValues(values: number[]): Game24Round {
+  if (values.length !== 4 || values.some((value) => !Number.isInteger(value) || value < 1 || value > 13)) {
+    throw new Error('24 点牌面必须是 4 个 1-13 之间的整数')
+  }
+  const cards = values.map((value, index) => makeCard(value, SUITS[index % SUITS.length]))
+  const solutions = solve24(values)
+  if (solutions.length === 0) {
+    throw new Error('这组牌没有 24 点解法')
+  }
+  return { cards, solutions }
+}
+
+function generateCards(): Game24Round {
   for (;;) {
     const cards: Card24[] = []
     for (let i = 0; i < 4; i++) {
@@ -389,8 +406,11 @@ export function use24Game(timerDuration = 60) {
     return clearTimer
   }, [startTimer, clearTimer])
 
-  const beginRound = useCallback((nextRound: number | ((prev: number) => number)) => {
-    const { cards: newCards, solutions: newSolutions } = generateCards()
+  const beginRound = useCallback((
+    nextRound: number | ((prev: number) => number),
+    roundData: Game24Round = generateCards(),
+  ) => {
+    const { cards: newCards, solutions: newSolutions } = roundData
     setCards(newCards)
     solutionsRef.current = newSolutions
     setSolutions([])
@@ -407,6 +427,11 @@ export function use24Game(timerDuration = 60) {
   const newGame = useCallback(() => {
     setStreak(0)
     beginRound(1)
+  }, [beginRound])
+
+  const loadRoundFromValues = useCallback((values: number[], nextRound = 1) => {
+    setStreak(0)
+    beginRound(nextRound, create24RoundFromValues(values))
   }, [beginRound])
 
   const submitExpression = useCallback(
@@ -483,5 +508,6 @@ export function use24Game(timerDuration = 60) {
     skipRound,
     newGame,
     dealNewRound,
+    loadRoundFromValues,
   }
 }

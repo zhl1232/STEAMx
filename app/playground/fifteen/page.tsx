@@ -1,10 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Grid3X3, RotateCcw, Sparkles, Timer, Trophy, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react"
 import { useFifteenPuzzle, type FifteenSize } from "@/hooks/playground/use-fifteen-puzzle"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 function formatTime(seconds: number) {
@@ -17,10 +19,22 @@ const SIZES: FifteenSize[] = [3, 4, 5]
 
 export default function FifteenPuzzlePage() {
     const game = useFifteenPuzzle(4)
+    const race = useRaceOnline("fifteen", {
+        size: game.size,
+        initialBoard: game.initialBoard,
+    })
+    const raceIsWaiting = race.isWaiting
+    const raceIsPlaying = race.isPlaying
+    const raceHasSubmitted = race.hasSubmitted
+    const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
+    const appliedRaceBoardRef = useRef<string | null>(null)
+    const prevStatusRef = useRef(game.status)
+    const raceLocked = raceIsWaiting || (raceIsPlaying && !raceHasSubmitted)
 
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
+            if (raceIsWaiting) return
             const map: Record<string, "up" | "down" | "left" | "right" | undefined> = {
                 ArrowUp: "up",
                 ArrowDown: "down",
@@ -35,7 +49,17 @@ export default function FifteenPuzzlePage() {
         }
         window.addEventListener("keydown", onKeyDown)
         return () => window.removeEventListener("keydown", onKeyDown)
-    }, [game])
+    }, [game, raceIsWaiting])
+
+    useEffect(() => {
+        const initialBoard = race.settings.initialBoard
+        const size = race.settings.size as FifteenSize | undefined
+        if (!raceIsPlaying || !race.matchId || !initialBoard || !size) return
+        const key = `${race.matchId}:${size}:${initialBoard.join(",")}`
+        if (appliedRaceBoardRef.current === key) return
+        appliedRaceBoardRef.current = key
+        game.startFromBoard(size, initialBoard)
+    }, [game, race.matchId, race.settings.initialBoard, race.settings.size, raceIsPlaying])
 
     useEffect(() => {
         if (game.status !== "solved") return
@@ -50,6 +74,29 @@ export default function FifteenPuzzlePage() {
             fifteenWins: game.stats.wins,
         })
     }, [checkBadges, game.status, game.stats.wins])
+
+    useEffect(() => {
+        const justSolved = prevStatusRef.current !== "solved" && game.status === "solved"
+        prevStatusRef.current = game.status
+        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+
+        void submitRaceResult({
+            size: game.size,
+            initialBoard: race.settings.initialBoard ?? game.initialBoard,
+            moves: game.moves,
+            timeSeconds: game.time,
+        })
+    }, [
+        game.initialBoard,
+        game.moves,
+        game.size,
+        game.status,
+        game.time,
+        race.settings.initialBoard,
+        raceHasSubmitted,
+        raceIsPlaying,
+        submitRaceResult,
+    ])
 
     return (
         <div className="playground-game-page">
@@ -70,6 +117,7 @@ export default function FifteenPuzzlePage() {
                             size="icon"
                             className="h-11 w-11"
                             onClick={() => game.startNewGame()}
+                            disabled={raceLocked}
                             aria-label="重新开始"
                         >
                             <RotateCcw className="h-4 w-4" />
@@ -84,6 +132,7 @@ export default function FifteenPuzzlePage() {
                                 size="sm"
                                 className="min-h-11 px-4"
                                 onClick={() => game.startNewGame(size)}
+                                disabled={raceLocked}
                             >
                                 {size}×{size}
                             </Button>
@@ -104,7 +153,7 @@ export default function FifteenPuzzlePage() {
                                 key={`${tile}-${index}`}
                                 type="button"
                                 onClick={() => game.tapTile(index)}
-                                disabled={tile === 0 || game.status === "solved"}
+                                disabled={tile === 0 || game.status === "solved" || raceIsWaiting}
                                 className={cn(
                                     "aspect-square rounded-sm text-lg font-black transition-all sm:text-2xl",
                                     tile === 0
@@ -135,6 +184,7 @@ export default function FifteenPuzzlePage() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => game.moveByDirection("up")}
+                                disabled={raceIsWaiting}
                                 className="w-full h-full rounded-sm"
                                 aria-label="向上移动"
                             >
@@ -145,6 +195,7 @@ export default function FifteenPuzzlePage() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => game.moveByDirection("left")}
+                                disabled={raceIsWaiting}
                                 className="w-full h-full rounded-sm"
                                 aria-label="向左移动"
                             >
@@ -155,6 +206,7 @@ export default function FifteenPuzzlePage() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => game.moveByDirection("right")}
+                                disabled={raceIsWaiting}
                                 className="w-full h-full rounded-sm"
                                 aria-label="向右移动"
                             >
@@ -165,6 +217,7 @@ export default function FifteenPuzzlePage() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => game.moveByDirection("down")}
+                                disabled={raceIsWaiting}
                                 className="w-full h-full rounded-sm"
                                 aria-label="向下移动"
                             >
@@ -178,6 +231,7 @@ export default function FifteenPuzzlePage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/fifteen" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-cyan-500" />

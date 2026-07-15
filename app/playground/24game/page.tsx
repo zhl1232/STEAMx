@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { use24Game, type Card24 } from "@/hooks/playground/use-24-game"
+import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Timer,
@@ -88,12 +90,23 @@ export default function Game24Page() {
     skipRound,
     newGame,
     dealNewRound,
+    loadRoundFromValues,
   } = use24Game()
+  const race = useRaceOnline("game24", {
+    durationSeconds: 60,
+    cardValues: cards.map((card) => card.value),
+  })
+  const raceIsWaiting = race.isWaiting
+  const raceIsPlaying = race.isPlaying
+  const raceHasSubmitted = race.hasSubmitted
+  const submitRaceResult = race.submitResult
   const { checkBadges } = useGamification()
 
   const [expression, setExpression] = useState("")
   const [error, setError] = useState("")
   const [isMounted, setIsMounted] = useState(false)
+  const appliedRaceRoundRef = useRef<string | null>(null)
+  const prevStatusRef = useRef(status)
 
   useEffect(() => {
     setIsMounted(true)
@@ -105,6 +118,15 @@ export default function Game24Page() {
       setError("")
     }
   }, [status, round])
+
+  useEffect(() => {
+    const cardValues = race.settings.cardValues
+    if (!raceIsPlaying || !race.matchId || !cardValues) return
+    const key = `${race.matchId}:${cardValues.join(",")}`
+    if (appliedRaceRoundRef.current === key) return
+    appliedRaceRoundRef.current = key
+    loadRoundFromValues(cardValues)
+  }, [loadRoundFromValues, race.matchId, race.settings.cardValues, raceIsPlaying])
 
   useEffect(() => {
     if (status !== "solved") return
@@ -124,7 +146,41 @@ export default function Game24Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status])
 
+  useEffect(() => {
+    const justEnded = prevStatusRef.current === "playing" && status !== "playing"
+    prevStatusRef.current = status
+    if (!justEnded || !raceIsPlaying || raceHasSubmitted) return
+
+    const cardValues = race.settings.cardValues ?? cards.map((card) => card.value)
+    if (status === "solved") {
+      void submitRaceResult({
+        cardValues,
+        durationSeconds: 60,
+        timeSeconds: 60 - timeLeft,
+      })
+      return
+    }
+
+    if (status === "timeout" || status === "skipped") {
+      void submitRaceResult({
+        completed: false,
+        cardValues,
+        durationSeconds: 60,
+        timeSeconds: status === "timeout" ? 60 : 60 - timeLeft,
+      })
+    }
+  }, [
+    cards,
+    race.settings.cardValues,
+    raceHasSubmitted,
+    raceIsPlaying,
+    status,
+    submitRaceResult,
+    timeLeft,
+  ])
+
   const handleSubmit = () => {
+    if (raceIsWaiting) return
     const trimmed = expression.trim()
     if (!trimmed) return
     const result = submitExpression(trimmed)
@@ -274,6 +330,7 @@ export default function Game24Page() {
                     if (error) setError("")
                   }}
                   onKeyDown={handleKeyDown}
+                  disabled={raceIsWaiting}
                   placeholder="用 +, -, *, / 和括号组出 24"
                   className={cn(
                     "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
@@ -289,7 +346,7 @@ export default function Game24Page() {
                   size="lg"
                   className="rounded-sm h-11 sm:h-12 px-4 sm:px-6 gap-2"
                   onClick={handleSubmit}
-                  disabled={!expression.trim()}
+                  disabled={raceIsWaiting || !expression.trim()}
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline">提交</span>
@@ -305,6 +362,7 @@ export default function Game24Page() {
                     key={`${card.suit}-${card.value}-${index}-quick`}
                     type="button"
                     onClick={() => appendToken(card.label)}
+                    disabled={raceIsWaiting}
                     className="min-h-10 rounded-sm bg-background text-sm font-black shadow-xs active:scale-95"
                     aria-label={`输入 ${card.label}`}
                   >
@@ -316,6 +374,7 @@ export default function Game24Page() {
                     key={token}
                     type="button"
                     onClick={() => appendToken(token)}
+                    disabled={raceIsWaiting}
                     className="min-h-10 rounded-sm bg-background text-sm font-black text-primary shadow-xs active:scale-95"
                     aria-label={`输入 ${token}`}
                   >
@@ -325,6 +384,7 @@ export default function Game24Page() {
                 <button
                   type="button"
                   onClick={deleteToken}
+                  disabled={raceIsWaiting}
                   className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
                 >
                   删除
@@ -335,6 +395,7 @@ export default function Game24Page() {
                     setExpression("")
                     if (error) setError("")
                   }}
+                  disabled={raceIsWaiting}
                   className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
                 >
                   清空
@@ -349,18 +410,18 @@ export default function Game24Page() {
           {/* Action buttons */}
           <div className="flex items-center gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="gap-1.5" onClick={skipRound}>
+              <Button variant="outline" size="sm" className="gap-1.5" onClick={skipRound} disabled={raceIsWaiting}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
             )}
             {(status === "solved" || status === "skipped" || status === "timeout") && (
-              <Button size="sm" className="gap-1.5" onClick={dealNewRound}>
+              <Button size="sm" className="gap-1.5" onClick={dealNewRound} disabled={raceIsWaiting}>
                 <Zap className="w-3.5 h-3.5" />
                 下一轮
               </Button>
             )}
-            <Button variant="outline" size="sm" className="gap-1.5" onClick={newGame}>
+            <Button variant="outline" size="sm" className="gap-1.5" onClick={newGame} disabled={raceIsWaiting}>
               <RefreshCw className="w-3.5 h-3.5" />
               新游戏
             </Button>
@@ -391,6 +452,9 @@ export default function Game24Page() {
 
       {/* Right knowledge panel */}
       <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-10">
+        <div className="border-b border-border p-4">
+          <RaceOnlinePanel online={race} gamePath="/playground/24game" />
+        </div>
         <Tabs defaultValue="concepts" className="flex-1 flex flex-col">
           <div className="border-b border-border px-4 pt-3">
             <TabsList className="grid grid-cols-2 w-full bg-muted/40">

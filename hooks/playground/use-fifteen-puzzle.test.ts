@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
     canMoveTile,
     createSolvedBoard,
+    generateFifteenBoard,
     isSolvableBoard,
     moveTile,
 } from "./use-fifteen-puzzle"
@@ -24,5 +25,13 @@ describe("fifteen puzzle rules", () => {
     it("detects unsolvable parity", () => {
         expect(isSolvableBoard([1, 2, 3, 4, 5, 6, 8, 7, 0], 3)).toBe(false)
         expect(isSolvableBoard(createSolvedBoard(4), 4)).toBe(true)
+    })
+
+    it("generates a solvable unsolved board for sharing", () => {
+        const board = generateFifteenBoard(3)
+
+        expect(board).toHaveLength(9)
+        expect(isSolvableBoard(board, 3)).toBe(true)
+        expect(board).not.toEqual(createSolvedBoard(3))
     })
 })

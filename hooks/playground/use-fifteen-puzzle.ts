@@ -84,7 +84,7 @@ export function moveTile(board: number[], index: number, size: FifteenSize): num
     return next
 }
 
-function shuffledBoard(size: FifteenSize): number[] {
+export function generateFifteenBoard(size: FifteenSize): number[] {
     let board = createSolvedBoard(size)
     let previousBlank = -1
     const steps = size * size * 30
@@ -101,6 +101,7 @@ function shuffledBoard(size: FifteenSize): number[] {
 export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     const [size, setSizeState] = useState<FifteenSize>(initialSize)
     const [board, setBoard] = useState<number[]>(() => createSolvedBoard(initialSize))
+    const [initialBoard, setInitialBoard] = useState<number[]>(() => createSolvedBoard(initialSize))
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved">("playing")
@@ -109,7 +110,9 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
-        setBoard(shuffledBoard(initialSize))
+        const nextBoard = generateFifteenBoard(initialSize)
+        setBoard(nextBoard)
+        setInitialBoard(nextBoard)
     }, [initialSize])
 
     useEffect(() => {
@@ -119,12 +122,24 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     }, [status])
 
     const startNewGame = useCallback((nextSize: FifteenSize = size) => {
+        const nextBoard = generateFifteenBoard(nextSize)
         setSizeState(nextSize)
-        setBoard(shuffledBoard(nextSize))
+        setBoard(nextBoard)
+        setInitialBoard(nextBoard)
         setMoves(0)
         setTime(0)
         setStatus("playing")
     }, [size])
+
+    const startFromBoard = useCallback((nextSize: FifteenSize, nextBoard: number[]) => {
+        if (nextBoard.length !== nextSize * nextSize) return
+        setSizeState(nextSize)
+        setBoard([...nextBoard])
+        setInitialBoard([...nextBoard])
+        setMoves(0)
+        setTime(0)
+        setStatus("playing")
+    }, [])
 
     const tilePositions = useMemo(() => board.map((value, index) => ({ value, index })), [board])
 
@@ -203,6 +218,7 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
     return {
         size,
         board,
+        initialBoard,
         tilePositions,
         moves,
         time,
@@ -212,6 +228,7 @@ export function useFifteenPuzzle(initialSize: FifteenSize = 4) {
         tapTile,
         moveByDirection,
         startNewGame,
+        startFromBoard,
         isSolvable: isSolvableBoard(board, size),
         onTouchStart,
         onTouchEnd,

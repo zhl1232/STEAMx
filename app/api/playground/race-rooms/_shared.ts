@@ -60,7 +60,20 @@ export function raceSettingsEqual(a: RaceSettings, b: RaceSettings): boolean {
     const aKeys = Object.keys(a).sort()
     const bKeys = Object.keys(b).sort()
     if (aKeys.length !== bKeys.length) return false
-    return aKeys.every((key, index) => key === bKeys[index] && a[key as keyof RaceSettings] === b[key as keyof RaceSettings])
+    return aKeys.every((key, index) => {
+        if (key !== bKeys[index]) return false
+        const left = a[key as keyof RaceSettings]
+        const right = b[key as keyof RaceSettings]
+        if (Array.isArray(left) || Array.isArray(right)) {
+            return (
+                Array.isArray(left) &&
+                Array.isArray(right) &&
+                left.length === right.length &&
+                left.every((value, valueIndex) => value === right[valueIndex])
+            )
+        }
+        return left === right
+    })
 }
 
 export function raceResultPatch(

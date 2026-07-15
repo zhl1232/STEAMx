@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { normalize24Expression, use24Game, validate24Expression } from './use-24-game'
+import { create24RoundFromValues, normalize24Expression, use24Game, validate24Expression } from './use-24-game'
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
   getPlaygroundItemMock: vi.fn(() => null),
@@ -42,6 +42,14 @@ describe('24 game expression validation', () => {
       result: 0,
       error: '除数不能为 0',
     })
+  })
+
+  it('creates a deterministic shared round from card values', () => {
+    const round = create24RoundFromValues([1, 3, 4, 6])
+
+    expect(round.cards.map((card) => card.value)).toEqual([1, 3, 4, 6])
+    expect(round.cards.map((card) => card.suit)).toEqual(['spades', 'hearts', 'diamonds', 'clubs'])
+    expect(round.solutions.length).toBeGreaterThan(0)
   })
 
   it('starts immediately on round 1 with a playable hand', async () => {
