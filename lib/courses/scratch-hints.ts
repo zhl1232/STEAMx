@@ -75,6 +75,9 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '当按下',
   '按下',
   '移动',
+  '滑行',
+  '移到最前面',
+  '移到最后面',
   '移到',
   '转动',
   '面向',
@@ -83,6 +86,10 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '碰到边缘就反弹',
   '碰到颜色',
   '碰到',
+  '询问并等待',
+  '询问',
+  '回答',
+  '响度',
   '重复执行直到',
   '重复执行',
   '重复',
@@ -90,6 +97,7 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '否则',
   '等待直到',
   '等待',
+  '广播消息并等待',
   '广播消息',
   '广播',
   '收到消息',
@@ -97,21 +105,37 @@ const SCRATCH_BLOCK_KEYWORDS = [
   '下一个背景',
   '切换造型',
   '下一个造型',
+  '思考',
   '显示',
   '隐藏',
+  '前移',
+  '后移',
   '将大小增加',
   '将大小设为',
   '将颜色特效增加',
+  '将颜色特效设为',
+  '清除图形特效',
   '设为',
   '说',
   '停止所有声音',
   '播放声音',
+  '将音量增加',
+  '将音量设为',
+  '音量',
   '声音',
   '变量',
   '分数',
   '得分',
+  '计时器归零',
   '计时器',
+  '鼠标的 x 坐标',
+  '鼠标的 y 坐标',
+  '按下鼠标',
   '随机数',
+  '连接',
+  '除以',
+  '余数',
+  '四舍五入',
   '停止',
   '演奏音符',
   '演奏鼓声',
@@ -133,6 +157,7 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['当绿旗被点击', 'events'],
   ['当角色被点击', 'events'],
   ['当按下', 'events'],
+  ['广播消息并等待', 'events'],
   ['广播消息', 'events'],
   ['广播', 'events'],
   ['收到消息', 'events'],
@@ -149,6 +174,11 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['删除此克隆体', 'control'],
   ['克隆', 'control'],
   ['移动', 'motion'],
+  ['滑行', 'motion'],
+  ['移到最前面', 'looks'],
+  ['移到最后面', 'looks'],
+  ['前移', 'looks'],
+  ['后移', 'looks'],
   ['移到', 'motion'],
   ['转动', 'motion'],
   ['面向', 'motion'],
@@ -161,22 +191,43 @@ const KEYWORD_CATEGORY_ENTRIES: Array<[string, ScratchBlockCategory]> = [
   ['下一个背景', 'looks'],
   ['切换造型', 'looks'],
   ['下一个造型', 'looks'],
+  ['思考', 'looks'],
   ['显示', 'looks'],
   ['隐藏', 'looks'],
   ['将大小增加', 'looks'],
   ['将大小设为', 'looks'],
   ['将颜色特效增加', 'looks'],
+  ['将颜色特效设为', 'looks'],
+  ['清除图形特效', 'looks'],
   ['设为', 'data'],
   ['说', 'looks'],
   ['外观', 'looks'],
   ['停止所有声音', 'sound'],
   ['播放声音', 'sound'],
+  ['将音量增加', 'sound'],
+  ['将音量设为', 'sound'],
+  ['音量', 'sound'],
   ['声音', 'sound'],
   ['碰到颜色', 'sensing'],
   ['碰到', 'sensing'],
+  ['按下鼠标', 'sensing'],
   ['按下', 'sensing'],
+  ['询问并等待', 'sensing'],
+  ['询问', 'sensing'],
+  ['回答', 'sensing'],
+  ['响度', 'sensing'],
+  ['鼠标的 x 坐标', 'sensing'],
+  ['鼠标的 y 坐标', 'sensing'],
+  ['计时器归零', 'sensing'],
   ['计时器', 'sensing'],
   ['随机数', 'operators'],
+  ['连接', 'operators'],
+  ['除以', 'operators'],
+  ['余数', 'operators'],
+  ['四舍五入', 'operators'],
+  ['与', 'operators'],
+  ['或', 'operators'],
+  ['不成立', 'operators'],
   ['变量', 'data'],
   ['分数', 'data'],
   ['得分', 'data'],
@@ -194,6 +245,7 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['当绿旗被点击', ['event_whenflagclicked']],
   ['当角色被点击', ['event_whenthisspriteclicked']],
   ['当按下', ['event_whenkeypressed']],
+  ['广播消息并等待', ['event_broadcastandwait']],
   ['广播消息', ['event_broadcast']],
   ['广播', ['event_broadcast']],
   ['收到消息', ['event_whenbroadcastreceived']],
@@ -209,6 +261,8 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['建立克隆体', ['control_create_clone_of']],
   ['当作为克隆体启动时', ['control_start_as_clone']],
   ['删除此克隆体', ['control_delete_this_clone']],
+  ['移到最前面', ['looks_gotofrontback']],
+  ['移到最后面', ['looks_gotofrontback']],
   ['移到 x:', ['motion_gotoxy']],
   ['移到', ['motion_goto']],
   ['移动', ['motion_movesteps']],
@@ -220,6 +274,10 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['将大小设为', ['looks_setsizeto']],
   ['将大小增加', ['looks_changesizeby']],
   ['将颜色特效增加', ['looks_changeeffectby']],
+  ['将颜色特效设为', ['looks_seteffectto']],
+  ['清除图形特效', ['looks_cleargraphiceffects']],
+  ['前移', ['looks_goforwardbackwardlayers']],
+  ['后移', ['looks_goforwardbackwardlayers']],
   ['显示', ['looks_show']],
   ['隐藏', ['looks_hide']],
   ['切换背景', ['looks_switchbackdropto']],
@@ -229,9 +287,18 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['下一个造型', ['looks_nextcostume']],
   ['停止所有声音', ['sound_stopallsounds']],
   ['播放声音', ['sound_play', 'sound_playuntildone']],
+  ['将音量增加', ['sound_changevolumeby']],
+  ['将音量设为', ['sound_setvolumeto']],
   ['碰到颜色', ['sensing_touchingcolor']],
   ['碰到', ['sensing_touchingobject']],
+  ['询问并等待', ['sensing_askandwait']],
+  ['回答', ['sensing_answer']],
+  ['按下鼠标', ['sensing_mousedown']],
+  ['鼠标的 x 坐标', ['sensing_mousex']],
+  ['鼠标的 y 坐标', ['sensing_mousey']],
+  ['响度', ['sensing_loudness']],
   ['按下', ['sensing_keypressed']],
+  ['计时器归零', ['sensing_resettimer']],
   ['计时器', ['sensing_timer']],
   ['将 分数 增加', ['data_changevariableby']],
   ['将 得分 增加', ['data_changevariableby']],
@@ -240,6 +307,12 @@ const SCRATCH_BLOCK_ID_ENTRIES: Array<[string, string[]]> = [
   ['<', ['operator_lt']],
   ['=', ['operator_equals']],
   ['随机数', ['operator_random']],
+  ['连接', ['operator_join']],
+  ['余数', ['operator_mod']],
+  ['四舍五入', ['operator_round']],
+  ['不成立', ['operator_not']],
+  ['与', ['operator_and']],
+  ['或', ['operator_or']],
   ['演奏音符', ['music_playNoteForBeats']],
   ['演奏鼓声', ['music_midiPlayDrumForBeats']],
   ['将演奏速度设定为', ['music_setTempo']],
@@ -319,6 +392,46 @@ function normalizeScratchBlockHintItem(label: string, category?: ScratchBlockCat
       findLabel: '说 你好!',
       category: category ?? 'looks',
       editHint: `把文字改成「${normalizeSpeechText(sayMatch[1] ?? '')}」`,
+    })
+  }
+
+  const thinkForSecondsMatch = normalized.match(/^思考\s+(.+?)\s*(?:持续\s*)?([0-9.]+)\s*秒$/u)
+  if (thinkForSecondsMatch) {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: `思考 嗯... ${thinkForSecondsMatch[2]} 秒`,
+      category: category ?? 'looks',
+      editHint: `把文字改成「${normalizeSpeechText(thinkForSecondsMatch[1] ?? '')}」`,
+    })
+  }
+
+  const thinkMatch = normalized.match(/^思考\s+(.+)$/u)
+  if (thinkMatch) {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: '思考 嗯...',
+      category: category ?? 'looks',
+      editHint: `把文字改成「${normalizeSpeechText(thinkMatch[1] ?? '')}」`,
+    })
+  }
+
+  const askMatch = normalized.match(/^询问\s+(.+?)\s*并等待$/u)
+  if (askMatch) {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: '询问 你叫什么名字？ 并等待',
+      category: category ?? 'sensing',
+      editHint: `把问题改成「${normalizeSpeechText(askMatch[1] ?? '')}」`,
+    })
+  }
+
+  const volumeSetMatch = normalized.match(/^将音量设为\s+(-?[0-9.]+)/u)
+  if (volumeSetMatch && volumeSetMatch[1] !== '100') {
+    return withInferredBlockIds({
+      label: normalized,
+      findLabel: '将音量设为 100%',
+      category: category ?? 'sound',
+      editHint: `把音量改成「${volumeSetMatch[1]}」`,
     })
   }
 
@@ -408,6 +521,39 @@ function inferScratchBlockIds(item: Pick<ScratchBlockHintItem, 'label' | 'findLa
 
     if (/^重复执行\s*[0-9.]+\s*次$/u.test(normalized)) {
       blockIds.push('control_repeat')
+      continue
+    }
+
+    if (/^滑行\s*[0-9.]+\s*秒到\s*x:/u.test(normalized)) {
+      blockIds.push('motion_glidesecstoxy')
+      continue
+    }
+    if (/^滑行\s*[0-9.]+\s*秒(?:滑行)?到/u.test(normalized)) {
+      blockIds.push('motion_glideto')
+      continue
+    }
+
+    if (/^思考\s+.+?\s*持续\s*[0-9.]+\s*秒$/u.test(normalized) || /^思考\s+.+?\s+[0-9.]+\s*秒$/u.test(normalized)) {
+      blockIds.push('looks_thinkforsecs')
+      continue
+    }
+    if (/^思考(\s|$)/u.test(normalized)) {
+      blockIds.push('looks_think')
+      continue
+    }
+
+    if (/^询问\s.*并等待$/u.test(normalized)) {
+      blockIds.push('sensing_askandwait')
+      continue
+    }
+
+    if (/^广播消息\s.*并等待$/u.test(normalized)) {
+      blockIds.push('event_broadcastandwait')
+      continue
+    }
+
+    if (/特效设为/u.test(normalized)) {
+      blockIds.push('looks_seteffectto')
       continue
     }
 

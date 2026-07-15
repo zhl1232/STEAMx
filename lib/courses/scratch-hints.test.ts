@@ -329,4 +329,157 @@ describe('buildScratchBlockHintItems', () => {
       },
     ])
   })
+
+  it('maps newly added interaction and animation blocks kids reach for when stuck', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '互动与动画积木',
+          description: [
+            '[[block:motion|滑行 1 秒到 x:100 y:50]]',
+            '[[block:looks|移到最前面]]',
+            '[[block:looks|前移 1 层]]',
+            '[[block:looks|清除图形特效]]',
+            '[[block:sound|将音量设为 60]]',
+            '[[block:events|广播消息 开始 并等待]]',
+            '[[block:sensing|回答]]',
+            '[[block:sensing|鼠标的 x 坐标]]',
+            '[[block:sensing|按下鼠标？]]',
+            '[[block:sensing|响度]]',
+            '[[block:sensing|计时器归零]]',
+          ].join('，'),
+          checklist: [],
+        },
+        maxItems: 11,
+      }),
+    ).toEqual([
+      {
+        label: '滑行 1 秒到 x:100 y:50',
+        findLabel: '滑行 1 秒到 x:100 y:50',
+        category: 'motion',
+        blockIds: ['motion_glidesecstoxy'],
+      },
+      {
+        label: '移到最前面',
+        findLabel: '移到最前面',
+        category: 'looks',
+        blockIds: ['looks_gotofrontback'],
+      },
+      {
+        label: '前移 1 层',
+        findLabel: '前移 1 层',
+        category: 'looks',
+        blockIds: ['looks_goforwardbackwardlayers'],
+      },
+      {
+        label: '清除图形特效',
+        findLabel: '清除图形特效',
+        category: 'looks',
+        blockIds: ['looks_cleargraphiceffects'],
+      },
+      {
+        label: '将音量设为 60',
+        findLabel: '将音量设为 100%',
+        category: 'sound',
+        blockIds: ['sound_setvolumeto'],
+        editHint: '把音量改成「60」',
+      },
+      {
+        label: '广播消息 开始 并等待',
+        findLabel: '广播消息 开始 并等待',
+        category: 'events',
+        blockIds: ['event_broadcastandwait'],
+      },
+      {
+        label: '回答',
+        findLabel: '回答',
+        category: 'sensing',
+        blockIds: ['sensing_answer'],
+      },
+      {
+        label: '鼠标的 x 坐标',
+        findLabel: '鼠标的 x 坐标',
+        category: 'sensing',
+        blockIds: ['sensing_mousex'],
+      },
+      {
+        label: '按下鼠标？',
+        findLabel: '按下鼠标？',
+        category: 'sensing',
+        blockIds: ['sensing_mousedown'],
+      },
+      {
+        label: '响度',
+        findLabel: '响度',
+        category: 'sensing',
+        blockIds: ['sensing_loudness'],
+      },
+      {
+        label: '计时器归零',
+        findLabel: '计时器归零',
+        category: 'sensing',
+        blockIds: ['sensing_resettimer'],
+      },
+    ])
+  })
+
+  it('splits think and ask blocks into a default toolbox form plus the edit to make', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '思考与提问',
+          description: ['[[block:looks|思考 让我想想 2 秒]]', '[[block:sensing|询问 你叫什么名字？ 并等待]]'].join('，'),
+          checklist: [],
+        },
+        maxItems: 2,
+      }),
+    ).toEqual([
+      {
+        label: '思考 让我想想 2 秒',
+        findLabel: '思考 嗯... 2 秒',
+        category: 'looks',
+        blockIds: ['looks_thinkforsecs'],
+        editHint: '把文字改成「让我想想」',
+      },
+      {
+        label: '询问 你叫什么名字？ 并等待',
+        findLabel: '询问 你叫什么名字？ 并等待',
+        category: 'sensing',
+        blockIds: ['sensing_askandwait'],
+        editHint: '把问题改成「你叫什么名字？」',
+      },
+    ])
+  })
+
+  it('maps word-based operator blocks without colliding with coordinates', () => {
+    expect(
+      buildScratchBlockHintItems({
+        step: {
+          title: '运算积木',
+          description: ['[[block:operators|连接 苹果 和 香蕉]]', '[[block:operators|除以 3 的余数]]', '[[block:operators|四舍五入 3.6]]'].join('，'),
+          checklist: [],
+        },
+        maxItems: 3,
+      }),
+    ).toEqual([
+      {
+        label: '连接 苹果 和 香蕉',
+        findLabel: '连接 苹果 和 香蕉',
+        category: 'operators',
+        blockIds: ['operator_join'],
+      },
+      {
+        label: '除以 3 的余数',
+        findLabel: '除以 3 的余数',
+        category: 'operators',
+        blockIds: ['operator_mod'],
+      },
+      {
+        label: '四舍五入 3.6',
+        findLabel: '四舍五入 3.6',
+        category: 'operators',
+        blockIds: ['operator_round'],
+      },
+    ])
+  })
 })
