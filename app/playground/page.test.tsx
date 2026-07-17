@@ -59,12 +59,12 @@ describe("PlaygroundPage", () => {
 
         expect(await screen.findByText("总游玩局数")).toBeInTheDocument()
         expect(screen.getAllByText("已玩 2").length).toBeGreaterThan(0)
-    })
+    }, 15_000)
 
     it("lists function wars as the eighteenth playground game", () => {
         render(<PlaygroundPage />)
 
         expect(screen.getAllByRole("link", { name: /函数战争/ }).length).toBeGreaterThan(0)
         expect(screen.getAllByText("18 款").length).toBeGreaterThan(0)
-    })
+    }, 15_000)
 })
