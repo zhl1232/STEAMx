@@ -431,13 +431,16 @@ export default function EditProjectPage() {
                                             key={star}
                                             type="button"
                                             onClick={() => setFormData({ ...formData, difficulty_stars: star })}
-                                            className="focus:outline-hidden transition-transform hover:scale-110"
+                                            aria-label={`设置难度为 ${star} 星`}
+                                            aria-pressed={star === formData.difficulty_stars}
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-sm transition-transform hover:scale-105 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                                         >
                                             <Star
                                                 className={`h-6 w-6 ${star <= formData.difficulty_stars
                                                     ? "fill-yellow-400 text-yellow-400"
                                                     : "text-gray-300"
                                                     }`}
+                                                aria-hidden
                                             />
                                         </button>
                                     ))}

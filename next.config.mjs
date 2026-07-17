@@ -14,17 +14,14 @@ function buildAssetsRemotePatterns() {
   }
 }
 
-function buildScratchAssetDestination() {
+export function buildScratchAssetDestination() {
   const baseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL?.trim().replace(/\/+$/, '')
   if (!baseUrl) return '/scratch/assets/:md5ext'
 
-  const isProduction = process.env.NODE_ENV === 'production'
   const useDirectDisplay = process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE === 'direct'
-  if (!isProduction && !useDirectDisplay) {
-    return '/api/assets/scratch/assets/:md5ext'
-  }
-
-  return `${baseUrl}/scratch/assets/:md5ext`
+  return useDirectDisplay
+    ? `${baseUrl}/scratch/assets/:md5ext`
+    : '/api/assets/scratch/assets/:md5ext'
 }
 
 function buildAllowedDevOrigins() {

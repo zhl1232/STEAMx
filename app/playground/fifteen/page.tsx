@@ -154,6 +154,7 @@ export default function FifteenPuzzlePage() {
                                 type="button"
                                 onClick={() => game.tapTile(index)}
                                 disabled={tile === 0 || game.status === "solved" || raceIsWaiting}
+                                aria-label={tile === 0 ? "空白格" : `数字 ${tile}${game.canMove(index) ? "，可移动" : ""}`}
                                 className={cn(
                                     "aspect-square rounded-sm text-lg font-black transition-all sm:text-2xl",
                                     tile === 0

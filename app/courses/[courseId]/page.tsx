@@ -59,52 +59,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const allSameLessonType =
         course.lessons.length > 0 &&
         course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
-    const hasScratchLesson = course.lessons.some((l) => l.lesson_type === "scratch");
-
     return (
         <div className="min-h-screen app-canvas-community">
-            {hasScratchLesson ? (
-                <>
-                    {process.env.NEXT_PUBLIC_ASSETS_BASE_URL ? (
-                        <link
-                            rel="preconnect"
-                            href={process.env.NEXT_PUBLIC_ASSETS_BASE_URL}
-                            crossOrigin="anonymous"
-                        />
-                    ) : null}
-                    <link rel="prefetch" href="/scratch/index.html" />
-                    <link
-                        rel="preload"
-                        href="/scratch/scratch-gui.js"
-                        as="script"
-                        fetchPriority="high"
-                    />
-                    <link
-                        rel="preload"
-                        href="/scratch/vendor/react.production.min.js"
-                        as="script"
-                    />
-                    <link
-                        rel="preload"
-                        href="/scratch/vendor/react-dom.production.min.js"
-                        as="script"
-                    />
-                    <link
-                        rel="preload"
-                        href="/scratch/vendor/redux.min.js"
-                        as="script"
-                    />
-                    <link
-                        rel="preload"
-                        href="/scratch/vendor/react-redux.min.js"
-                        as="script"
-                    />
-                    <link
-                        rel="prefetch"
-                        href="/scratch/chunks/fetch-worker.7a0adc94df277ffeb963.js"
-                    />
-                </>
-            ) : null}
             <MobileGlobalHeader variant="title" title={course.title} />
             <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 {/* 返回链接 */}

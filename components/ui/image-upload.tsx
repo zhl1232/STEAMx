@@ -117,10 +117,11 @@ export function ImageUpload({
                 type="button"
                 variant="destructive"
                 size="icon"
-                className="h-8 w-8"
+                className="h-11 w-11 sm:h-9 sm:w-9"
                 onClick={handleRemove}
+                aria-label="移除已上传图片"
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4" aria-hidden />
               </Button>
             </div>
           </>

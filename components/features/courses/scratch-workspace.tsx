@@ -17,7 +17,7 @@ import {
     type ScratchBlockCategory,
     type ScratchBlockHintItem,
 } from "@/lib/courses/scratch-hints";
-import { canUseScratchEditor } from "@/lib/courses/device";
+import { useScratchEditorAvailability } from "@/lib/courses/device";
 import { cn } from "@/lib/utils";
 import {
     getScratchHostUrl,
@@ -178,8 +178,6 @@ export function ScratchWorkspace({
     onCompleted?: () => void;
 }) {
     const sharedHost = useScratchHost();
-    // 预览页 / 无 Provider 时走本地 iframe；课时页复用 layout 里的持久 Host
-    const useSharedHost = Boolean(sharedHost) && !playerOnly;
 
     const localIframeRef = useRef<HTMLIFrameElement>(null);
     const slotRef = useRef<HTMLDivElement>(null);
@@ -205,7 +203,10 @@ export function ScratchWorkspace({
     const [loadingProject, setLoadingProject] = useState(true);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const editorAllowed = playerOnly || canUseScratchEditor();
+    const scratchEditorAvailable = useScratchEditorAvailability();
+    const editorAllowed = playerOnly || scratchEditorAvailable;
+    // 预览页 / 无 Provider 时走本地 iframe；课时页仅在支持编辑器的设备上激活共享 Host
+    const useSharedHost = Boolean(sharedHost) && !playerOnly && editorAllowed;
 
     const ready = useSharedHost ? Boolean(sharedHost?.ready) : localReady;
     const projectLoaded = useSharedHost

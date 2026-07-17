@@ -252,6 +252,7 @@ export function ProjectRecordsClient({
           ) : null
         }
       />
+      <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
       <RecordsPageContent>
         <RecordsTabsRow>

@@ -130,7 +130,7 @@ export async function POST(req: Request) {
       logger.error('[auth/sms/send] insert phone_otps', { error: insertError })
       const msg =
         process.env.NODE_ENV === 'development'
-          ? `存储验证码失败: ${insertError.message}（若提示 relation "phone_otps" 不存在，请执行 supabase db push 或应用迁移）`
+          ? `存储验证码失败: ${insertError.message}（若提示 relation "phone_otps" 不存在，请执行 pnpm db:push 应用迁移）`
           : '发送失败，请稍后重试'
       return jsonError(msg, 500)
     }

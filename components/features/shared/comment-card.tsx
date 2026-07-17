@@ -118,13 +118,15 @@ function CommentCardComponent({
   const UserLink = ({
     children,
     className,
+    ariaLabel,
   }: {
     children: React.ReactNode;
     className?: string;
+    ariaLabel?: string;
   }) => {
     if (enableUserLink && comment.userId) {
       return (
-        <Link href={`/users/${comment.userId}`} className={className}>
+        <Link href={`/users/${comment.userId}`} className={className} aria-label={ariaLabel}>
           {children}
         </Link>
       );
@@ -174,9 +176,10 @@ function CommentCardComponent({
       )}
       id={anchorId}
     >
-      <UserLink className="shrink-0">
+      <UserLink className="shrink-0" ariaLabel={`查看 ${comment.author} 的主页`}>
         <AvatarWithFrame
           src={comment.avatar}
+          alt={comment.author}
           fallback={comment.author[0]?.toUpperCase()}
           avatarFrameId={comment.avatarFrameId}
           className={cn(

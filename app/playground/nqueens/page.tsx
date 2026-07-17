@@ -82,6 +82,23 @@ function CellOverlay({ state, size }: { state: CellState; size: number }) {
     }
 }
 
+function getCellStateLabel(state: CellState) {
+    switch (state) {
+        case "queen":
+            return "已放置皇后"
+        case "attacking":
+            return "处于皇后攻击范围"
+        case "trying":
+            return "正在尝试放置皇后"
+        case "backtracked":
+            return "已回溯"
+        case "safe":
+            return "安全位置"
+        default:
+            return "空格"
+    }
+}
+
 export default function NQueensPage() {
     const {
         n,
@@ -366,6 +383,9 @@ export default function NQueensPage() {
                                     return (
                                         <button
                                             key={`${row}-${col}`}
+                                            type="button"
+                                            aria-label={`第 ${row + 1} 行第 ${col + 1} 列，${getCellStateLabel(state)}`}
+                                            aria-pressed={state === "queen"}
                                             className={cn(
                                                 "relative transition-colors duration-150",
                                                 isLight

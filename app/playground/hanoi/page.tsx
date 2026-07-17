@@ -390,9 +390,11 @@ export default function HanoiPage() {
                                 {(["slow", "normal", "fast"] as HanoiSpeed[]).map((s) => (
                                     <button
                                         key={s}
+                                        type="button"
                                         onClick={() => setSpeed(s)}
+                                        aria-pressed={speed === s}
                                         className={cn(
-                                            "px-2 py-1 text-[10px] font-medium transition-colors",
+                                            "inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-xs font-medium transition-colors sm:min-h-8 sm:min-w-8 sm:text-[10px]",
                                             speed === s
                                                 ? "bg-primary text-primary-foreground"
                                                 : "text-muted-foreground hover:text-foreground",

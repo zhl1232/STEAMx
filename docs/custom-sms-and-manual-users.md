@@ -50,7 +50,7 @@ POST 请求体为：
 执行一次迁移以创建 OTP 与手机号映射表：
 
 ```bash
-pnpm supabase db push
+pnpm db:push
 # 或
 npx supabase migration up
 ```

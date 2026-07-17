@@ -43,6 +43,32 @@ function formatTime(seconds: number) {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
 }
 
+function getSudokuCellAriaLabel({
+    row,
+    column,
+    value,
+    isInitial,
+    isConflict,
+    notes,
+}: {
+    row: number
+    column: number
+    value: number
+    isInitial: boolean
+    isConflict: boolean
+    notes?: Set<number>
+}) {
+    const position = `第 ${row + 1} 行第 ${column + 1} 列`
+    if (value !== 0) {
+        const source = isInitial ? "题目数字" : "填写数字"
+        return `${position}，${source} ${value}${isConflict ? "，存在冲突" : ""}`
+    }
+    if (notes?.size) {
+        return `${position}，候选数字 ${[...notes].sort((a, b) => a - b).join("、")}`
+    }
+    return `${position}，空格`
+}
+
 export default function SudokuPage() {
     const {
         board,
@@ -292,7 +318,17 @@ export default function SudokuPage() {
                                         return (
                                             <button
                                                 key={`${rIdx}-${cIdx}`}
+                                                type="button"
                                                 onClick={() => selectCell(rIdx, cIdx)}
+                                                aria-label={getSudokuCellAriaLabel({
+                                                    row: rIdx,
+                                                    column: cIdx,
+                                                    value: cellValue,
+                                                    isInitial,
+                                                    isConflict,
+                                                    notes: cellNotes,
+                                                })}
+                                                aria-pressed={isSelected}
                                                 className={cn(
                                                     "w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-sm sm:text-base md:text-lg transition-colors duration-100 select-none relative",
                                                     "border-border/60 border-r border-b",

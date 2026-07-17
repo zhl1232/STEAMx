@@ -33,8 +33,8 @@
 | `/create` | `app/create/page.tsx` | 创造营 — **项目挑战** + **技能课程** Tab；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 3+/4+/5+ 大颗粒积木搭建 + 五子棋博弈论入门等）；页面服务端直接读取已审核课程并输出首屏卡片，避免挂载后再请求 `/api/courses` 的瀑布 |
-| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章） |
-| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 可选学习目标/教师引导 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；LDraw 课程模型优先通过 `.agents/skills/image-to-ldraw` 的 `part-metadata.json` 零件定义和 `validate-assembly.mjs` 统一校验支撑、穿模、管道端口连接与方向约束；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
+| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章；Scratch 编辑器及 vendor 不在课程介绍页预加载，只在进入课时后按需启动） |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 可选学习目标/教师引导 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；Scratch 手机/桌面能力用 hydration-safe 外部存储快照判断，手机首屏不挂载重型编辑器且保留预览/上传入口；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；LDraw 课程模型优先通过 `.agents/skills/image-to-ldraw` 的 `part-metadata.json` 零件定义和 `validate-assembly.mjs` 统一校验支撑、穿模、管道端口连接与方向约束；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页，默认展示其公开「作品」，并区分「发布的项目」与徽章 |
@@ -44,13 +44,14 @@
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
 | `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用 AI sprite，并可切回原版 sprite 对比） |
 | `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
-| `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（CLI 指引） |
+| `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（只引导使用项目封装的 `pnpm db:push`；长命令在手机端限制于代码块内部横向滚动） |
 
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
 - `app/globals.css` — 全局样式与 CSS 变量；Tailwind CSS 4 CSS-first 配置入口（`@theme` / `@utility` / `@plugin`）；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
+- 游乐场数独/N 皇后/数字华容道棋盘格提供坐标、数字/皇后状态与选中语义；首页轮播分页和汉诺塔速度控件在手机端使用至少 44px 触控区域
 - `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO
 - `proxy.ts` — Next.js 16 Proxy 入口：补种匿名推荐 `rec_viewer` cookie（替代已废弃的 `middleware.ts`）
 - `AGENTS.md` / `.cursor/rules/project-context.mdc` — AI/自动化工具项目约定：先读索引、同步维护索引、禁止恢复 `middleware.ts`
@@ -64,7 +65,7 @@
 | 模块 | 路径 | 功能 |
 |------|------|------|
 | admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通 |
-| assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**（LDraw 打包 MPD 本地更完整时也优先本地），避免开发环境因 CDN 防盗链/网络抖动把本地存在的资源打成 500；`OptimizedImage` 的同源 `/api/assets` 图片继续经过 `/_next/image` 缩放与格式转换，仅已经使用 Supabase Render Transform 的直连图片跳过 Next 优化；设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 可绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
+| assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）和 `/scratch/assets` 资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），包括生产环境 `/internalapi/asset/*` 的 Scratch rewrite；自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**（LDraw 打包 MPD 本地更完整时也优先本地），避免开发环境因 CDN 防盗链/网络抖动把本地存在的资源打成 500；`OptimizedImage` 的同源 `/api/assets` 图片继续经过 `/_next/image` 缩放与格式转换，仅已经使用 Supabase Render Transform 的直连图片跳过 Next 优化；仅设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 时绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
 | courses | `api/courses/` | 技能课程列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +15 XP；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；投稿草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑终稿草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
@@ -187,7 +188,7 @@
 - `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
 - `categories.ts` — 分类与子分类
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
-- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度；植物物种图集同时读取树木与水果 manifest；物种封面优先使用本地 `public/` 文件，缺失时再回退 OSS；数据库封面为空时回退 manifest 首张图）
+- `nature-observation-*.ts` — 自然观察全套（首页/数据/事件/热点/物种/封面/审核；物种列表按审核通过记录 + 社群共识或 AI 高置信度鉴定计算已观察/待观察进度；植物物种图集同时读取树木与水果 manifest；物种封面优先使用本地 `public/` 文件，缺失时再回退 OSS；数据库封面为空时回退 manifest 首张图；详情图集在单张资源加载失败时自动剔除并切到下一张，全部失败才显示空态）
 - `nature-observation-progress.ts` — 用户自然观察进度摘要：按专题汇总已观察/待观察物种，并提供个人页待观察预览
 - `nature-observation-observed-species.ts` — 已观察物种统计：审核通过记录上优先取社群共识物种，否则取 AI 置信度 ≥ 0.8 的鉴定结果；`get_user_stats_summary.speciesObserved` 与此口径对齐（游戏化/小迪画像同源）
 - `observation-gamification.ts` — 观察游戏化逻辑
@@ -323,10 +324,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离
 - 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
-- Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，生产环境 `/internalapi/asset/*` rewrite 到 OSS；本地开发默认 rewrite 到 `/api/assets/scratch/assets/*` 代理（带生产 Referer 绕过防盗链），未配置 base URL 时仍走本地 `public/scratch/assets/`
-- **素材加载加速**：`scratch-storage` 的 FetchWorker 默认请求 `/chunks/fetch-worker-*.js`，实际在 `/scratch/chunks/`——`next.config.mjs` rewrite + `copy-to-public` 修正嵌套 webpack `publicPath` 为 `/scratch/`，恢复 worker 并行拉造型/声音；`storage-patch` 仅给 worker.get 加超时回退，不再拆掉 worker。素材响应 `Cache-Control: immutable`；host/`index.html` 预取默认工程常用 md5；课程详情页 `preconnect` OSS，`preload` 主 GUI 和 vendor 脚本，并预取 fetch-worker。`deploy/nginx.conf` 对经 `proxy_pass` 的响应启用 gzip，Scratch GUI/vendor/chunk 采用 1 天缓存加后台重验证，避免固定文件名长期滞留旧版本
+- Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，各环境 `/internalapi/asset/*` 默认 rewrite 到 `/api/assets/scratch/assets/*` 同源代理（带生产 Referer绕过防盗链并支持本地回退），仅显式 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 才直连 OSS；未配置 base URL 时仍走本地 `public/scratch/assets/`
+- **素材加载加速**：`scratch-storage` 的 FetchWorker 默认请求 `/chunks/fetch-worker-*.js`，实际在 `/scratch/chunks/`——`next.config.mjs` rewrite + `copy-to-public` 修正嵌套 webpack `publicPath` 为 `/scratch/`，恢复 worker 并行拉造型/声音；`storage-patch` 仅给 worker.get 加超时回退，不再拆掉 worker。素材响应 `Cache-Control: immutable`；host/`index.html` 只在编辑器实际启动时预取默认工程常用 md5；`copy-to-public` 还会补入受版本控制的官方空白舞台 SVG，防止干净部署缺少默认资产；课程介绍页不再预载 18MB GUI/vendor。`deploy/nginx.conf` 对经 `proxy_pass` 的响应启用 gzip，Scratch GUI/vendor/chunk 采用 1 天缓存加后台重验证，避免固定文件名长期滞留旧版本
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
-- **持久 iframe**：`app/courses/[courseId]/lessons/layout.tsx` 挂载 `ScratchHostProvider`（`components/features/courses/scratch-host-context.tsx`），同课程课时间复用单一 embed iframe；切课时只 `LOAD_PROJECT`（`force: true`）热换 `.sb3`，避免每次冷启动 `scratch-gui`；离开 `lessons/*` 才卸载 Host。预览页 `playerOnly` 仍用本地 iframe。课程详情页对含 Scratch 课时的课程 prefetch `/scratch/index.html` 与关键脚本
+- **持久 iframe**：`app/courses/[courseId]/lessons/layout.tsx` 挂载 `ScratchHostProvider`（`components/features/courses/scratch-host-context.tsx`），同课程课时间复用单一 embed iframe；切课时只 `LOAD_PROJECT`（`force: true`）热换 `.sb3`，避免每次冷启动 `scratch-gui`；离开 `lessons/*` 才卸载 Host。预览页 `playerOnly` 仍用本地 iframe；手机端通过 `useSyncExternalStore` 的稳定服务端快照避免 hydration mismatch，且不挂载完整编辑器
 - 与主站通信：`lib/courses/scratch-messages.ts` postMessage 协议（`LOAD_PROJECT` / `LOAD_PROJECT_BUFFER` 支持 `force` 强制覆盖已编辑项目）；保存走 `POST /api/courses/.../project`；切课卸载时 Provider 可静默导出并上传上一课；主站可向 iframe 发送 `HIGHLIGHT_BLOCK_KEYWORDS` / `DISMISS_BLOCK_KEYWORDS`，host 内部显示/关闭积木关键词提示 overlay，并在可解析分类时尝试切换 Scratch toolbox 分类、按 `items.blockIds` opcode 或积木文案滚动并高亮 flyout 里的当前目标积木（含四则运算和角色实时值 reporter）；主站对同一步多积木提示只向 iframe 下发当前 `targetItemIndex` 对应的关键词/item，避免一次只高亮第一个后直接跳步；host 会通过 `EDITOR_CONTEXT` 回传当前选中角色/对象、角色列表、坐标/方向/大小/造型、积木数以及裁剪后的 block 字段、输入、父子/next 连接，课时页再随小迪 POST 注入场景并供“自检这步”使用
 
 ---

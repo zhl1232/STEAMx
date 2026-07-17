@@ -31,10 +31,6 @@ vi.mock('@/components/features/courses/lesson-work-upload', () => ({
   LessonWorkUpload: () => <div data-testid="lesson-work-upload" />,
 }))
 
-vi.mock('@/lib/courses/device', () => ({
-  canUseScratchEditor: () => true,
-}))
-
 const baseLesson: CourseLessonRow = {
   id: 1,
   course_id: 1,
@@ -69,6 +65,7 @@ describe('LessonWorkspaceRenderer', () => {
     renderWorkspace('scratch')
 
     expect(screen.getByTestId('scratch-workspace')).toBeInTheDocument()
+    expect(screen.getByText('建议在平板或电脑上使用完整编辑器').parentElement).toHaveClass('md:hidden')
   })
 
   it('passes Scratch block hints to the Scratch workspace', () => {

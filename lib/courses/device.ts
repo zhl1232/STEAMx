@@ -1,10 +1,25 @@
+import { useSyncExternalStore } from 'react'
+
+const SCRATCH_EDITOR_MEDIA_QUERY = '(min-width: 768px)'
+
 /** Tablet/desktop: full Scratch editor; phone: preview + upload only */
 export function canUseScratchEditor(): boolean {
-  if (typeof window === 'undefined') return true
-  const coarse = window.matchMedia('(pointer: coarse)').matches
-  const narrow = window.matchMedia('(max-width: 767px)').matches
-  if (narrow && coarse) return false
-  return window.matchMedia('(min-width: 768px)').matches
+  if (typeof window === 'undefined') return false
+  return window.matchMedia(SCRATCH_EDITOR_MEDIA_QUERY).matches
+}
+
+function subscribeToScratchEditorAvailability(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(SCRATCH_EDITOR_MEDIA_QUERY)
+  mediaQuery.addEventListener('change', onStoreChange)
+  return () => mediaQuery.removeEventListener('change', onStoreChange)
+}
+
+export function useScratchEditorAvailability(): boolean {
+  return useSyncExternalStore(
+    subscribeToScratchEditorAvailability,
+    canUseScratchEditor,
+    () => false,
+  )
 }
 
 export function isMobileViewport(): boolean {

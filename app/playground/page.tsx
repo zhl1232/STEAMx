@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -1039,15 +1039,17 @@ function Game2048Artwork() {
 }
 
 function Game24Artwork() {
+    const gradientId = `game24-gradient-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`
+
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
             <defs>
-                <linearGradient id="game24-gradient" x1="14" y1="12" x2="78" y2="84" gradientUnits="userSpaceOnUse">
+                <linearGradient id={gradientId} x1="14" y1="12" x2="78" y2="84" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#38bdf8" />
                     <stop offset="1" stopColor="#2563eb" />
                 </linearGradient>
             </defs>
-            <rect width="92" height="92" rx="18" fill="url(#game24-gradient)" />
+            <rect width="92" height="92" rx="18" fill={`url(#${gradientId})`} />
             <text x="46" y="45" textAnchor="middle" className="fill-white text-[32px] font-black">24</text>
             <text x="46" y="68" textAnchor="middle" className="fill-white text-[17px] font-black">+ - × ÷</text>
             <path d="M20 74 H72" className="stroke-white/45" strokeWidth="2" strokeLinecap="round" />

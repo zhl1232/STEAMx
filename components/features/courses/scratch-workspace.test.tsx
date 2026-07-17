@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { ScratchHostProvider } from './scratch-host-context'
 import { ScratchWorkspace } from './scratch-workspace'
 
 const postMessage = vi.fn()
+const { mockScratchEditorAvailability } = vi.hoisted(() => ({
+  mockScratchEditorAvailability: vi.fn(() => true),
+}))
 
 vi.mock('@/lib/context/auth-context', () => ({
   useAuth: () => ({ user: { id: 'user-1' } }),
@@ -18,7 +22,7 @@ vi.mock('@/hooks/use-toast', () => ({
 }))
 
 vi.mock('@/lib/courses/device', () => ({
-  canUseScratchEditor: () => true,
+  useScratchEditorAvailability: mockScratchEditorAvailability,
 }))
 
 vi.mock('./scratch-loading-overlay', () => ({
@@ -26,6 +30,24 @@ vi.mock('./scratch-loading-overlay', () => ({
 }))
 
 describe('ScratchWorkspace', () => {
+  beforeEach(() => {
+    mockScratchEditorAvailability.mockReturnValue(true)
+  })
+
+  it('shows the upload fallback instead of mounting the editor on phones', () => {
+    mockScratchEditorAvailability.mockReturnValue(false)
+
+    render(
+      <ScratchHostProvider>
+        <ScratchWorkspace courseId={1} lessonId={2} />
+      </ScratchHostProvider>,
+    )
+
+    expect(screen.getByText(/在手机上的小屏幕较难舒适地使用 Scratch/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '上传 .sb3 作品' })).toBeInTheDocument()
+    expect(document.querySelector('iframe')).toBeNull()
+  })
+
   it('forwards the current block hint target to the Scratch iframe and dismisses it', () => {
     postMessage.mockClear()
     Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {

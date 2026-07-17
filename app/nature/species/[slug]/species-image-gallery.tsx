@@ -13,11 +13,25 @@ interface SpeciesImageGalleryProps {
 
 export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [failedImageUrls, setFailedImageUrls] = useState<Set<string>>(() => new Set());
   const railRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const activeImageUrl = imageUrls[activeIndex] ?? imageUrls[0];
-  const activeImageSrc = resolveAssetDisplayUrl(activeImageUrl) ?? activeImageUrl;
-  const hasManyImages = imageUrls.length > 5;
+  const availableImageUrls = imageUrls.filter((imageUrl) => !failedImageUrls.has(imageUrl));
+  const boundedActiveIndex = Math.min(activeIndex, Math.max(availableImageUrls.length - 1, 0));
+  const activeImageUrl = availableImageUrls[boundedActiveIndex];
+  const activeImageSrc = activeImageUrl
+    ? resolveAssetDisplayUrl(activeImageUrl) ?? activeImageUrl
+    : null;
+  const hasManyImages = availableImageUrls.length > 5;
+
+  function handleImageError(imageUrl: string) {
+    setFailedImageUrls((current) => {
+      if (current.has(imageUrl)) return current;
+      const next = new Set(current);
+      next.add(imageUrl);
+      return next;
+    });
+  }
 
   function selectImage(index: number) {
     setActiveIndex(index);
@@ -40,26 +54,33 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
   return (
     <div className="min-w-0">
       <div className="relative aspect-4/3 min-h-[220px] overflow-hidden bg-muted/40 sm:rounded-lg sm:border sm:border-border/70 sm:shadow-xs sm:aspect-[1.42] lg:aspect-[1.34]">
-        <Image
-          key={activeImageUrl}
-          src={activeImageSrc}
-          alt={speciesName}
-          fill
-          className="object-cover"
-          sizes="(max-width: 1024px) 100vw, 660px"
-          quality={72}
-          priority
-          unoptimized={shouldBypassAssetDisplayOptimization(activeImageUrl)}
-        />
+        {activeImageUrl && activeImageSrc ? (
+          <Image
+            key={activeImageUrl}
+            src={activeImageSrc}
+            alt={speciesName}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 660px"
+            quality={72}
+            priority
+            unoptimized={shouldBypassAssetDisplayOptimization(activeImageUrl)}
+            onError={() => handleImageError(activeImageUrl)}
+          />
+        ) : (
+          <div className="grid h-full place-items-center px-6 text-center text-sm text-muted-foreground">
+            暂无可用图片
+          </div>
+        )}
         {/* 移动端图片计数器 */}
-        {imageUrls.length > 1 ? (
+        {availableImageUrls.length > 1 ? (
           <div className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-xs lg:hidden">
-            {activeIndex + 1}/{imageUrls.length}
+            {boundedActiveIndex + 1}/{availableImageUrls.length}
           </div>
         ) : null}
       </div>
 
-      {imageUrls.length > 1 ? (
+      {availableImageUrls.length > 1 ? (
         <div className="mt-3 flex items-center gap-2 px-4 sm:px-0">
           {hasManyImages ? (
             <button
@@ -77,7 +98,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
             className="flex min-w-0 flex-1 gap-3 overflow-x-auto scroll-smooth pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
             aria-label={`${speciesName} 图集`}
           >
-            {imageUrls.map((imageUrl, index) => {
+            {availableImageUrls.map((imageUrl, index) => {
               const imageSrc = resolveAssetDisplayUrl(imageUrl) ?? imageUrl;
 
               return (
@@ -89,12 +110,12 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
                   type="button"
                   onClick={() => selectImage(index)}
                   className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xs border bg-muted/40 shadow-xs transition sm:h-[72px] sm:w-[72px] sm:rounded-sm ${
-                    index === activeIndex
+                    index === boundedActiveIndex
                       ? "border-primary ring-2 ring-primary/18"
                       : "border-border/70 hover:border-primary/50"
                   }`}
                   aria-label={`查看${speciesName}图片 ${index + 1}`}
-                  aria-pressed={index === activeIndex}
+                  aria-pressed={index === boundedActiveIndex}
                 >
                   <Image
                     src={imageSrc}
@@ -104,6 +125,7 @@ export function SpeciesImageGallery({ imageUrls, speciesName }: SpeciesImageGall
                     sizes="72px"
                     quality={48}
                     unoptimized={shouldBypassAssetDisplayOptimization(imageUrl)}
+                    onError={() => handleImageError(imageUrl)}
                   />
                 </button>
               );

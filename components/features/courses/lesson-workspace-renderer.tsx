@@ -15,7 +15,6 @@ import { PlaygroundWorkspace } from "@/components/features/courses/playground-wo
 import { Button } from "@/components/ui/button";
 import type { ScratchEditorContext } from "@/lib/courses/scratch-messages";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
-import { canUseScratchEditor } from "@/lib/courses/device";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import { LessonWorkUpload } from "@/components/features/courses/lesson-work-upload";
@@ -53,22 +52,19 @@ export function LessonWorkspaceRenderer({
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
     if (lessonType.workspace === "scratch") {
-        const showEditor = canUseScratchEditor();
         return (
             <div className="flex min-h-0 flex-1 flex-col">
-                {!showEditor ? (
-                    <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/30 px-3 py-2">
-                        <p className="text-xs text-muted-foreground">
-                            建议在平板或电脑上使用完整编辑器
-                        </p>
-                        <Button variant="outline" size="sm" asChild>
-                            <Link href={previewHref}>
-                                <Smartphone className="mr-1 h-4 w-4" />
-                                预览
-                            </Link>
-                        </Button>
-                    </div>
-                ) : null}
+                <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/30 px-3 py-2 md:hidden">
+                    <p className="text-xs text-muted-foreground">
+                        建议在平板或电脑上使用完整编辑器
+                    </p>
+                    <Button variant="outline" size="sm" asChild>
+                        <Link href={previewHref}>
+                            <Smartphone className="mr-1 h-4 w-4" />
+                            预览
+                        </Link>
+                    </Button>
+                </div>
                 <ScratchWorkspace
                     courseId={courseId}
                     lessonId={lesson.id}

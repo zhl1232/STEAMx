@@ -23,21 +23,21 @@ export default function MigratePage() {
         </div>
 
         <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <div className="surface-subtle rounded-(--radius-lg) border border-border/70 p-6 shadow-none">
+          <div className="surface-subtle min-w-0 rounded-(--radius-lg) border border-border/70 p-6 shadow-none">
             <div className="mb-4 flex items-center gap-2">
               <TerminalSquare className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold">推荐方式</h2>
             </div>
             <p className="mb-4 text-sm leading-6 text-muted-foreground">
-              使用 `pnpm db:push` 或 `supabase db push` 按顺序应用 `supabase/migrations/` 中的迁移。
+              使用项目封装的 `pnpm db:push` 按顺序应用 `supabase/migrations/` 中的迁移。
             </p>
-            <pre className="overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
+            <pre className="max-w-full overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
               <code>{`set -a && source .env.local && set +a
 pnpm db:push`}</code>
             </pre>
           </div>
 
-          <div className="surface-subtle rounded-(--radius-lg) border border-border/70 p-6 shadow-none">
+          <div className="surface-subtle min-w-0 rounded-(--radius-lg) border border-border/70 p-6 shadow-none">
             <div className="mb-4 flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold">种子数据</h2>
@@ -45,7 +45,7 @@ pnpm db:push`}</code>
             <p className="mb-4 text-sm leading-6 text-muted-foreground">
               示例项目、讨论和私信已包含在迁移与 `supabase/seed.sql` 中，重复执行前请确认当前环境允许重放。
             </p>
-            <pre className="overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
+            <pre className="max-w-full overflow-x-auto rounded-md border border-border/70 bg-muted/50 p-4 text-sm">
               <code>{`psql -h <IP> -p 5432 -U postgres -d postgres -f supabase/seed.sql`}</code>
             </pre>
           </div>

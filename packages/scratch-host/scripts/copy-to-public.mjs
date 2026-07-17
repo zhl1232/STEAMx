@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const dist = path.resolve(__dirname, '../dist')
 const target = path.resolve(__dirname, '../../../public/scratch')
+const bundledAssetSource = path.resolve(__dirname, '../src/default-project-assets')
 
 // 仅清理由 webpack 产出的部分；保留 fetch-scratch-assets 镜像下来的 assets/
 const PRESERVE = new Set(['assets'])
@@ -70,5 +71,10 @@ for (const name of readdirSync(target)) {
   rmSync(path.join(target, name), { recursive: true, force: true })
 }
 cpSync(dist, target, { recursive: true })
+if (existsSync(bundledAssetSource)) {
+  const assetTarget = path.join(target, 'assets')
+  mkdirSync(assetTarget, { recursive: true })
+  cpSync(bundledAssetSource, assetTarget, { recursive: true })
+}
 patchScratchGuiAssetUrls(target)
 console.log(`Copied scratch-host dist → ${target}`)
