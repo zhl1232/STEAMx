@@ -146,6 +146,8 @@ function countPlaygroundGamesPlayed(args: {
   ballSortSolvedLevels: string[]
   balanceSolvedLevels: string[]
   symmetrySolvedLevels: string[]
+  functionWars: Record<string, unknown>
+  functionWarsSolvedLevels: string[]
 }): number {
   let count = 0
   if (hasPlayedGame(getNumber(args.minesweeperStats, "totalGames"), getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes))) count++
@@ -165,6 +167,7 @@ function countPlaygroundGamesPlayed(args: {
   if (args.ballSortSolvedLevels.length > 0) count++
   if (args.balanceSolvedLevels.length > 0) count++
   if (args.symmetrySolvedLevels.length > 0) count++
+  if (hasPlayedGame(getNumber(args.functionWars, "totalGames"), getNumber(args.functionWars, "onlineGames")) || args.functionWarsSolvedLevels.length > 0) count++
   return count
 }
 
@@ -186,6 +189,9 @@ function sumPlaygroundWins(args: {
   ballSortSolved: number
   balanceSolved: number
   symmetrySolved: number
+  functionWarsSolved: number
+  functionWarsChallengeSolved: number
+  functionWarsOnlineWins: number
 }): number {
   return (
     getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes) +
@@ -203,7 +209,10 @@ function sumPlaygroundWins(args: {
     args.nonogramSolved +
     args.ballSortSolved +
     args.balanceSolved +
-    args.symmetrySolved
+    args.symmetrySolved +
+    args.functionWarsSolved +
+    args.functionWarsChallengeSolved +
+    args.functionWarsOnlineWins
   )
 }
 
@@ -233,6 +242,7 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const ballSort = getRecord(source, "ball_sort_stats")
   const balance = getRecord(source, "balance_stats")
   const symmetry = getRecord(source, "symmetry_stats")
+  const functionWars = getRecord(source, "function_wars_stats")
 
   const game24BestTime = game24.bestTime
   const tangramSolvedLevels = getStringArray(tangram, "solvedLevels")
@@ -240,6 +250,9 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const ballSortSolvedLevels = getStringArray(ballSort, "solvedLevels")
   const balanceSolvedLevels = getStringArray(balance, "solvedLevels")
   const symmetrySolvedLevels = getStringArray(symmetry, "solvedLevels")
+  const functionWarsSolvedLevels = [...new Set(getStringArray(functionWars, "solvedLevels"))]
+  const functionWarsChallengeSolved = functionWarsSolvedLevels.filter((id) => id.startsWith("challenge-")).length
+  const functionWarsCampaignSolved = functionWarsSolvedLevels.length - functionWarsChallengeSolved
   const lifeChallengesSolved = getStringArray(life, "challengesSolved").length
   const playgroundGamesPlayed = countPlaygroundGamesPlayed({
     minesweeperStats,
@@ -261,6 +274,8 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     ballSortSolvedLevels,
     balanceSolvedLevels,
     symmetrySolvedLevels,
+    functionWars,
+    functionWarsSolvedLevels,
   })
   const playgroundWinsTotal = sumPlaygroundWins({
     minesweeperStats,
@@ -280,6 +295,9 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     ballSortSolved: ballSortSolvedLevels.length,
     balanceSolved: balanceSolvedLevels.length,
     symmetrySolved: symmetrySolvedLevels.length,
+    functionWarsSolved: functionWarsCampaignSolved,
+    functionWarsChallengeSolved,
+    functionWarsOnlineWins: getNumber(functionWars, "onlineWins"),
   })
 
   return {
@@ -314,6 +332,9 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     ballSortSolved: ballSortSolvedLevels.length,
     balanceSolved: balanceSolvedLevels.length,
     symmetrySolved: symmetrySolvedLevels.length,
+    functionWarsSolved: functionWarsCampaignSolved,
+    functionWarsChallengeSolved,
+    functionWarsOnlineWins: getNumber(functionWars, "onlineWins"),
     playgroundGamesPlayed,
     playgroundWinsTotal,
   }

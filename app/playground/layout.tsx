@@ -8,6 +8,7 @@ import {
     ChevronRight,
     Columns2,
     Compass,
+    Crosshair,
     Crown,
     Dna,
     Grid3X3,
@@ -259,6 +260,18 @@ const games: PlaygroundNavItem[] = [
         color: "text-pink-500 dark:text-pink-300",
         steamTags: ["Arts", "Math"],
     },
+    {
+        name: "函数战争",
+        nameEn: "Function Wars",
+        href: "/playground/functionwars",
+        icon: Crosshair,
+        description: "函数图像与坐标变换",
+        mission: "完成 10 个战役关和 5 个挑战关，用函数弹道清除目标并连接信号中继。",
+        controls: "选择武器、输入 f(x)，再开火；可用数学键盘补全函数。",
+        badgeGoal: "完成 10 个战役关解锁曲线大师，再完成 5 个挑战关解锁函数指挥官。",
+        color: "text-emerald-600 dark:text-emerald-300",
+        steamTags: ["Math", "Technology"],
+    },
 ]
 
 const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
@@ -345,6 +358,12 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "样本半边", label: "观察锁定图案" },
         { key: "挑战半边", label: "手动补出镜像" },
         { key: "误点", label: "可修正但影响星级" },
+    ],
+    "/playground/functionwars": [
+        { key: "输入 f(x)", label: "定义炮弹相对炮口的轨迹" },
+        { key: "Enter", label: "按当前函数开火" },
+        { key: "武器栏", label: "切换标准弹与特殊武器" },
+        { key: "网格", label: "显示或隐藏坐标刻度" },
     ],
 }
 
@@ -452,7 +471,7 @@ function MobilePlaygroundHeader() {
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
-        <div className="surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
+        <div className="playground-mobile-header surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
             <div className="flex min-h-14 items-center justify-between gap-3 px-4">
                 {isHome ? (
                     <div className="w-11" />

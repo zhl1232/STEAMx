@@ -28,6 +28,7 @@ export const PLAYGROUND_KEYS = [
   { key: "ball_sort_stats", label: "球排序" },
   { key: "balance_stats", label: "天平称重" },
   { key: "symmetry_stats", label: "像素对称" },
+  { key: "function_wars_stats", label: "函数战争" },
 ] as const;
 
 export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];
@@ -147,7 +148,7 @@ export function collectAllStats(): Record<string, unknown> {
 // - Arrays → union
 // - Booleans → OR
 
-const LOWER_IS_BETTER_PATTERNS = /time|moves/i;
+const LOWER_IS_BETTER_PATTERNS = /time|moves|shots/i;
 
 function mergeNumber(a: number, b: number, lowerIsBetter: boolean): number {
   if (lowerIsBetter) {

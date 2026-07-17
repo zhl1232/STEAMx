@@ -231,6 +231,8 @@ const SINGLE_BADGES: Badge[] = [
     { id: "hanoi_perfect", name: "巴别塔最优解", description: "以最少步数（2ⁿ−1）通关汉诺塔", icon: "target", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.hanoiPerfect ?? 0) >= 1 },
     { id: "life_challenge_all", name: "涌现工程师", description: "完成所有生命游戏挑战", icon: "sparkles", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.gameOfLifeChallengesSolved ?? 0) >= 8 },
     { id: "tangram_all", name: "七巧大师", description: "完成全部 4 个七巧板剪影", icon: "sparkles", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.tangramSolved ?? 0) >= 4 },
+    { id: "function_wars_all", name: "曲线大师", description: "完成函数战争全部 10 个战役关", icon: "calculator", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.functionWarsSolved ?? 0) >= 10 },
+    { id: "function_wars_challenge_all", name: "函数指挥官", description: "完成函数战争全部 5 个挑战关", icon: "strategy", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.functionWarsChallengeSolved ?? 0) >= 5 },
 ];
 
 /**

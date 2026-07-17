@@ -48,5 +48,12 @@ describe('resolveTutorContextFromPath', () => {
       surface: 'playground',
       playgroundGameKey: 'maze',
     })
+
+    expect(resolveTutorContextFromPath('/playground/functionwars')).toEqual({
+      contextType: 'global',
+      contextId: 'playground:functionwars',
+      surface: 'playground',
+      playgroundGameKey: 'functionwars',
+    })
   })
 })

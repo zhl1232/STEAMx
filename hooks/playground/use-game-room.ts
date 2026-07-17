@@ -95,9 +95,7 @@ export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
                 row == null
                     ? prev.phase
                     : row.status === "waiting"
-                      ? prev.phase === "joining"
-                          ? "joining"
-                          : "waiting"
+                      ? "waiting"
                       : row.status === "playing"
                         ? "playing"
                         : row.status === "finished"
@@ -288,7 +286,7 @@ export function useGameRoom<TRow extends BaseMatchRow>(config: GameRoomConfig) {
                 // 重入已开始/已结束对局时，phase 跟随服务端 status
                 const nextPhase =
                     data.status === "waiting"
-                        ? "joining"
+                        ? "waiting"
                         : data.status === "playing"
                           ? "playing"
                           : data.status === "finished" ||

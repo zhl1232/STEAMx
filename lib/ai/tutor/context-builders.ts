@@ -371,6 +371,14 @@ const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; su
     title: '像素对称',
     summary: '学生正在玩像素对称。当前规则是观察锁定的半边样本，在另一半手动补出镜像图案；围绕镜像轴、行列对应、误点修正和图案平衡给提示。',
   },
+  functionwars: {
+    title: '函数战争',
+    summary: [
+      '学生正在玩函数战争：炮弹从炮口出发，沿 y = y0 + f(x-x0) 的函数图像飞行。回答必须围绕函数图像、平移缩放、函数族和障碍位置，不要切到其他游戏。',
+      '提示边界：只给函数族、参数变化方向或观察问题，例如一次函数斜率、抛物线开口、绝对值折点、正弦振幅与周期；不要直接给出能命中目标的完整最终函数。',
+      '遇到不可破坏障碍时，引导学生比较轨迹与障碍的坐标范围；遇到 tan、1/x 等不连续函数时，说明渐近线会让弹道中断，不能穿越跳变。',
+    ].join('\n'),
+  },
 }
 
 async function buildGlobalContext(

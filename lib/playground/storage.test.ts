@@ -56,4 +56,19 @@ describe("playground storage", () => {
     clearPlaygroundLocalStorage()
     expect(window.localStorage.getItem("sudoku_stats")).toBeNull()
   })
+
+  it("keeps the lower shot record when function wars stats are merged", () => {
+    window.localStorage.setItem(
+      "function_wars_stats",
+      JSON.stringify({ bestShots: { "grassland-1": 4, "canyon-1": 5 } }),
+    )
+
+    const merged = mergeCloudWithLocal({
+      function_wars_stats: { bestShots: { "grassland-1": 6, "space-1": 3 } },
+    })
+
+    expect(merged.function_wars_stats).toEqual({
+      bestShots: { "grassland-1": 4, "canyon-1": 5, "space-1": 3 },
+    })
+  })
 })

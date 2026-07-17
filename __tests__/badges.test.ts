@@ -209,6 +209,20 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats({ tangramSolved: 4 }))).toBe(true);
     });
 
+    test("function_wars_all requires completing all 10 levels", () => {
+        const badge = BADGES.find((b) => b.id === "function_wars_all");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ functionWarsSolved: 9 }))).toBe(false);
+        expect(badge!.condition(createStats({ functionWarsSolved: 10 }))).toBe(true);
+    });
+
+    test("function_wars_challenge_all requires completing all 5 challenge levels", () => {
+        const badge = BADGES.find((b) => b.id === "function_wars_challenge_all");
+        expect(badge).toBeDefined();
+        expect(badge!.condition(createStats({ functionWarsChallengeSolved: 4 }))).toBe(false);
+        expect(badge!.condition(createStats({ functionWarsChallengeSolved: 5 }))).toBe(true);
+    });
+
     test("removed playground single badges should not exist", () => {
         const removedIds = [
             "minesweeper_rookie",
@@ -261,6 +275,8 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             "hanoi_perfect",
             "life_challenge_all",
             "tangram_all",
+            "function_wars_all",
+            "function_wars_challenge_all",
         ];
         for (const id of starIds) {
             const badge = BADGES.find((b) => b.id === id);
@@ -294,7 +310,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             badge.seriesKey === "playground_star"
         ).length;
 
-        expect(PLAYGROUND_BADGE_COUNT).toBe(14);
+        expect(PLAYGROUND_BADGE_COUNT).toBe(16);
         expect(PLAYGROUND_BADGE_COUNT).toBe(count);
     });
 });

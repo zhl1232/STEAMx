@@ -185,6 +185,131 @@ export interface Database {
           }
         ]
       }
+      function_wars_matches: {
+        Row: {
+          id: string
+          code: string
+          host_user_id: string
+          guest_user_id: string | null
+          status: string
+          map_seed: number
+          map_id: string
+          craters: Json
+          hp: Json
+          inventory: Json
+          crates: Json
+          repairs: Json
+          current_turn: string
+          turn_deadline_at: string | null
+          last_shot: Json | null
+          shot_seq: number
+          winner: string | null
+          created_at: string
+          started_at: string | null
+          finished_at: string | null
+          last_activity_at: string
+          host_consecutive_timeouts: number
+          guest_consecutive_timeouts: number
+        }
+        Insert: {
+          id?: string
+          code: string
+          host_user_id: string
+          guest_user_id?: string | null
+          status?: string
+          map_seed: number
+          map_id?: string
+          craters?: Json
+          hp?: Json
+          inventory: Json
+          crates?: Json
+          repairs?: Json
+          current_turn?: string
+          turn_deadline_at?: string | null
+          last_shot?: Json | null
+          shot_seq?: number
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+          host_consecutive_timeouts?: number
+          guest_consecutive_timeouts?: number
+        }
+        Update: {
+          id?: string
+          code?: string
+          host_user_id?: string
+          guest_user_id?: string | null
+          status?: string
+          map_seed?: number
+          map_id?: string
+          craters?: Json
+          hp?: Json
+          inventory?: Json
+          crates?: Json
+          repairs?: Json
+          current_turn?: string
+          turn_deadline_at?: string | null
+          last_shot?: Json | null
+          shot_seq?: number
+          winner?: string | null
+          created_at?: string
+          started_at?: string | null
+          finished_at?: string | null
+          last_activity_at?: string
+          host_consecutive_timeouts?: number
+          guest_consecutive_timeouts?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "function_wars_matches_host_user_id_fkey"
+            columns: ["host_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "function_wars_matches_guest_user_id_fkey"
+            columns: ["guest_user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      function_wars_match_results: {
+        Row: {
+          match_id: string
+          user_id: string
+          result: string
+          recorded_at: string
+        }
+        Insert: {
+          match_id: string
+          user_id: string
+          result: string
+          recorded_at?: string
+        }
+        Update: {
+          match_id?: string
+          user_id?: string
+          result?: string
+          recorded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "function_wars_match_results_match_id_fkey"
+            columns: ["match_id"]
+            referencedRelation: "function_wars_matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "function_wars_match_results_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       gomoku_matches: {
         Row: {
           id: string
@@ -2925,6 +3050,46 @@ export interface Database {
       consume_rate_limit: {
         Args: { p_key: string; p_limit: number; p_window_seconds: number }
         Returns: { ok?: boolean; error?: string; limit?: number; remaining?: number; reset_at?: number }
+      }
+      function_wars_advance_expired_turn: {
+        Args: { match_uuid: string }
+        Returns: {
+          advanced: boolean
+          current_turn: string
+          turn_deadline_at: string | null
+        }[]
+      }
+      function_wars_fire: {
+        Args: {
+          match_uuid: string
+          p_weapon: string
+          p_expression: string
+          p_summary: Json
+        }
+        Returns: {
+          ok: boolean
+          reason: string
+          shot_seq: number | null
+          current_turn: string | null
+          winner: string | null
+        }[]
+      }
+      function_wars_fire_authoritative: {
+        Args: {
+          match_uuid: string
+          p_weapon: string
+          p_expression: string
+          p_summary: Json
+          p_expected_shot_seq: number
+          p_actor_user_id: string
+        }
+        Returns: {
+          ok: boolean
+          reason: string
+          shot_seq: number | null
+          current_turn: string | null
+          winner: string | null
+        }[]
       }
       gomoku_place_stone: {
         Args: { match_uuid: string; p_row: number; p_col: number }

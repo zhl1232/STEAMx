@@ -16,6 +16,7 @@ import {
     Cog,
     Columns2,
     Compass,
+    Crosshair,
     Crown,
     Dna,
     Gamepad2,
@@ -44,7 +45,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry"
+type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "functionwars"
 
 type GameCard = {
     name: string
@@ -284,6 +285,19 @@ const GAMES: GameCard[] = [
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
     },
+    {
+        name: "函数战争",
+        subtitle: "Function Wars",
+        href: "/playground/functionwars",
+        icon: Crosshair,
+        color: "text-emerald-700 dark:text-emerald-300",
+        visual: "functionwars",
+        tags: ["Math", "Technology"],
+        description: "输入函数绘制炮弹轨迹，绕过障碍并攻克 10 个弹道关卡。",
+        statsKey: "function_wars_stats",
+        getPlayed: (raw) => safeNum(raw, "totalGames") + safeNum(raw, "onlineGames"),
+        getWins: (raw) => countStringArray(raw, "solvedLevels") + safeNum(raw, "onlineWins"),
+    },
 ]
 
 const TAG_LABELS: Record<SteamTag, string> = {
@@ -320,6 +334,8 @@ const BADGE_PREVIEW_IDS = [
     "hanoi_perfect",
     "life_challenge_all",
     "tangram_all",
+    "function_wars_all",
+    "function_wars_challenge_all",
 ] as const
 const BADGE_PREVIEW_BADGES = BADGE_PREVIEW_IDS.flatMap((id) => {
     const badge = BADGES.find((item) => item.id === id)
@@ -347,6 +363,10 @@ const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }
     nqueens: {
         light: "/assets/playground-art/nqueens-transparent-light.png",
         dark: "/assets/playground-art/nqueens-transparent-dark.png",
+    },
+    functionwars: {
+        light: "/assets/playground-art/functionwars-transparent-light.png",
+        dark: "/assets/playground-art/functionwars-transparent-dark.png",
     },
 }
 
@@ -914,6 +934,7 @@ function GameArtwork({ game, compact = false }: { game: GameCard; compact?: bool
                     {game.visual === "ballsort" ? <BallSortArtwork /> : null}
                     {game.visual === "balance" ? <BalanceArtwork /> : null}
                     {game.visual === "symmetry" ? <SymmetryArtwork /> : null}
+                    {game.visual === "functionwars" ? <FunctionWarsArtwork /> : null}
                 </>
             )}
         </div>
@@ -1298,6 +1319,29 @@ function SymmetryArtwork() {
                 <rect key={`mirror-b-${y}`} x="48" y={y} width="10" height="10" rx="2" className="fill-sky-500 dark:fill-sky-300" />
             ))}
             <rect x="59" y="46" width="10" height="10" rx="2" className="fill-amber-300 stroke-amber-500 dark:fill-amber-400 dark:stroke-amber-200" />
+        </svg>
+    )
+}
+
+function FunctionWarsArtwork() {
+    return (
+        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
+            <rect width="92" height="92" rx="18" className="fill-emerald-50 dark:fill-emerald-950/45" />
+            <path d="M10 69 C22 61 28 66 39 62 C51 58 60 66 82 57 V82 H10 Z" className="fill-emerald-500/35 dark:fill-emerald-300/20" />
+            <path d="M11 28 H81 M11 44 H81 M11 60 H81 M27 17 V72 M45 17 V72 M63 17 V72" className="stroke-emerald-900/10 dark:stroke-emerald-100/10" strokeWidth="1" />
+            <path d="M15 58 C27 21 42 18 51 42 C60 65 68 45 79 29" className="fill-none stroke-cyan-600 dark:stroke-cyan-300" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 3" />
+            <circle cx="78" cy="29" r="4.5" className="fill-amber-400 stroke-amber-600 dark:fill-amber-300 dark:stroke-amber-100" strokeWidth="2" />
+            <g transform="translate(13 57)">
+                <rect x="0" y="5" width="20" height="11" rx="4" className="fill-emerald-700 dark:fill-emerald-300" />
+                <circle cx="5" cy="17" r="3" className="fill-emerald-950 dark:fill-emerald-800" />
+                <circle cx="15" cy="17" r="3" className="fill-emerald-950 dark:fill-emerald-800" />
+                <path d="M8 7 L19 0" className="stroke-emerald-900 dark:stroke-emerald-100" strokeWidth="4" strokeLinecap="round" />
+            </g>
+            <g transform="translate(67 51)">
+                <rect width="12" height="15" rx="3" className="fill-rose-500 dark:fill-rose-300" />
+                <circle cx="4" cy="5" r="1.3" className="fill-white" />
+                <circle cx="8" cy="5" r="1.3" className="fill-white" />
+            </g>
         </svg>
     )
 }

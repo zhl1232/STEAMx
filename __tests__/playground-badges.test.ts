@@ -13,6 +13,12 @@ describe("playground badge stats", () => {
       tangram_stats: {
         solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],
       },
+      function_wars_stats: {
+        totalGames: 12,
+        solvedLevels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        onlineGames: 3,
+        onlineWins: 2,
+      },
     })
 
     expect(stats.minesweeperWins).toBe(2)
@@ -22,8 +28,11 @@ describe("playground badge stats", () => {
     expect(stats.hanoiPerfect).toBe(1)
     expect(stats.hanoiMaxDisksCleared).toBe(8)
     expect(stats.tangramSolved).toBe(4)
-    expect(stats.playgroundGamesPlayed).toBe(3)
-    expect(stats.playgroundWinsTotal).toBe(8)
+    expect(stats.functionWarsSolved).toBe(10)
+    expect(stats.functionWarsChallengeSolved).toBe(0)
+    expect(stats.functionWarsOnlineWins).toBe(2)
+    expect(stats.playgroundGamesPlayed).toBe(4)
+    expect(stats.playgroundWinsTotal).toBe(20)
   })
 
   test("prefers structured minesweeper wins while keeping legacy best time fallback", () => {
@@ -68,16 +77,35 @@ describe("playground badge stats", () => {
       tangram_stats: {
         solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],
       },
+      function_wars_stats: {
+        solvedLevels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+      },
     })
 
     expect(unlocked).toEqual(
       expect.arrayContaining([
         "minesweeper_speedster",
         "tangram_all",
+        "function_wars_all",
         "playground_explorer_bronze",
         "playground_victories_bronze",
       ]),
     )
     expect(unlocked).not.toEqual(expect.arrayContaining(["sorting_first_run", "tangram_first"]))
+  })
+
+  test("counts challenge ids separately and unlocks the commander badge", () => {
+    const solvedLevels = [
+      "grass-01", "grass-02", "grass-03", "canyon-04", "canyon-05",
+      "canyon-06", "canyon-07", "space-08", "space-09", "space-10",
+      "challenge-11", "challenge-12", "challenge-13", "challenge-14", "challenge-15",
+    ]
+
+    const stats = buildPlaygroundUserStats({ function_wars_stats: { solvedLevels } })
+    const unlocked = getUnlockedPlaygroundBadgeIds({ function_wars_stats: { solvedLevels } })
+
+    expect(stats.functionWarsSolved).toBe(10)
+    expect(stats.functionWarsChallengeSolved).toBe(5)
+    expect(unlocked).toEqual(expect.arrayContaining(["function_wars_all", "function_wars_challenge_all"]))
   })
 })

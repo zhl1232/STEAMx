@@ -66,6 +66,23 @@ describe('buildTutorSceneContext playground capabilities', () => {
     expect(scene.summary).not.toContain('hintMinesweeperCell')
   })
 
+  it('keeps function wars hints at the function-family level', async () => {
+    const scene = await buildTutorSceneContext(
+      {} as never,
+      'user-1',
+      'global',
+      'playground:functionwars',
+      { surface: 'playground', gameKey: 'functionwars' },
+    )
+
+    expect(scene.title).toBe('函数战争')
+    expect(scene.contextId).toBe('playground:functionwars')
+    expect(scene.playgroundGameKey).toBe('functionwars')
+    expect(scene.summary).toContain('函数族')
+    expect(scene.summary).toContain('不要直接给出')
+    expect(scene.summary).toContain('渐近线')
+  })
+
   it('enriches playground gomoku facts with the live course id when available', async () => {
     const supabase = {
       from(table: string) {
