@@ -1943,7 +1943,12 @@ export function GlobalTutorFab({
         ) : (
           <>
             <span className="flex h-full w-full items-center justify-center overflow-visible">
-              <XiaoDi state={mascotState} size={86} onCycleEnd={handleMascotCycleEnd} />
+              <XiaoDi
+                state={mascotState}
+                size={86}
+                animated={mascotState !== 'idle'}
+                onCycleEnd={handleMascotCycleEnd}
+              />
             </span>
           </>
         )}

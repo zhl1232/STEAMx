@@ -2,7 +2,6 @@
 
 import Image, { ImageProps } from "next/image"
 import {
-  isProxiedAssetDisplayUrl,
   resolveAssetDisplayUrl,
   rewriteAssetUrl,
 } from "@/lib/utils/asset-url"
@@ -162,9 +161,6 @@ export function OptimizedImage({
     typeof optimizedSrc === "string"
       ? resolveAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
       : optimizedSrc
-  const useDirectStaticAsset =
-    (typeof src === "string" && isProxiedAssetDisplayUrl(src)) || useDirectSupabaseTransform
-
   return (
     <Image
       {...rest}
@@ -173,7 +169,7 @@ export function OptimizedImage({
       quality={quality}
       loading={loadingProp}
       priority={priority}
-      unoptimized={useDirectSupabaseTransform || useDirectStaticAsset}
+      unoptimized={useDirectSupabaseTransform}
       placeholder={useBlur ? "blur" : placeholder}
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
       className={cn(className)}

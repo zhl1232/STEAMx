@@ -21,7 +21,6 @@ import {
     COMPACT_VERTICAL_PROJECT_GRID_CLASS,
 } from '@/components/features/compact-project-grid-styles'
 import { ProjectCard } from '@/components/features/project-card'
-import { getOptimizedImageSrc } from '@/components/ui/optimized-image'
 import { Progress } from '@/components/ui/progress'
 import { useProjects } from '@/lib/context/project-context'
 import { useSyncProjectInteractions } from '@/hooks/use-sync-project-interactions'
@@ -343,61 +342,6 @@ export function ExploreClient({
     const isAbortError = useCallback((error: unknown) => {
         return (error instanceof DOMException && error.name === 'AbortError')
             || (error instanceof Error && error.name === 'AbortError')
-    }, [])
-
-    const preloadProjectImages = useCallback(async (nextProjects: Project[], signal: AbortSignal) => {
-        if (typeof window === 'undefined') return
-
-        const previewUrls = Array.from(
-            new Set(
-                nextProjects
-                    .slice(0, 6)
-                    .map(project => project.image)
-                    .filter((src): src is string => typeof src === 'string' && src.trim().length > 0)
-                    .map(src => getOptimizedImageSrc(src, 'card'))
-            )
-        )
-
-        await Promise.allSettled(previewUrls.map((src) => new Promise<void>((resolve, reject) => {
-            if (signal.aborted) {
-                reject(new DOMException('Aborted', 'AbortError'))
-                return
-            }
-
-            const image = new window.Image()
-            let timeoutId: number | null = null
-
-            const cleanup = () => {
-                if (timeoutId !== null) {
-                    window.clearTimeout(timeoutId)
-                }
-                signal.removeEventListener('abort', handleAbort)
-                image.onload = null
-                image.onerror = null
-            }
-
-            const finish = () => {
-                cleanup()
-                resolve()
-            }
-
-            const handleAbort = () => {
-                cleanup()
-                reject(new DOMException('Aborted', 'AbortError'))
-            }
-
-            signal.addEventListener('abort', handleAbort, { once: true })
-            image.onload = finish
-            image.onerror = finish
-            image.src = src
-
-            if (image.complete) {
-                finish()
-                return
-            }
-
-            timeoutId = window.setTimeout(finish, 1200)
-        })))
     }, [])
 
     const sheetSubCategories = useMemo(() => (
@@ -753,7 +697,6 @@ export function ExploreClient({
             pageRef.current = 1
             syncUrl(params)
 
-            void preloadProjectImages(data.projects, controller.signal)
         } catch (error) {
             if (isAbortError(error)) {
                 return
@@ -767,7 +710,7 @@ export function ExploreClient({
                 isFilteringRef.current = false
             }
         }
-    }, [clearLikesDeltaForProjects, isAbortError, preloadProjectImages, syncUrl, toast])
+    }, [clearLikesDeltaForProjects, isAbortError, syncUrl, toast])
 
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category)
@@ -1315,7 +1258,7 @@ export function ExploreClient({
                                         onClickCapture={handleExploreProjectLinkClick}
                                     >
                                         {projects.map((project, index) => {
-                                            const isPriority = index < 4
+                                            const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id, index)
                                             const card = (
                                                 <ProjectCard

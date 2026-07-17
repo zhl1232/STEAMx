@@ -134,6 +134,23 @@ describe("function wars renderer metrics", () => {
         }
     })
 
+    it("uses a low-frequency redraw cadence when only ambient motion is active", () => {
+        const getContext = vi
+            .spyOn(HTMLCanvasElement.prototype, "getContext")
+            .mockReturnValue({} as CanvasRenderingContext2D)
+        const setTimeoutSpy = vi.spyOn(window, "setTimeout")
+        const renderer = new FunctionWarsRenderer(document.createElement("canvas"))
+
+        try {
+            renderer.start()
+            expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), 250)
+        } finally {
+            renderer.destroy()
+            setTimeoutSpy.mockRestore()
+            getContext.mockRestore()
+        }
+    })
+
     it("delays impact effects until the trace ends and resets shot identity", () => {
         const getContext = vi
             .spyOn(HTMLCanvasElement.prototype, "getContext")

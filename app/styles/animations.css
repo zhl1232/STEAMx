@@ -48,6 +48,44 @@
   40%, 80% { transform: translateX(4px); }
 }
 
+@keyframes route-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes achievement-icon-enter {
+  from { opacity: 0; transform: scale(0) rotate(-180deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes achievement-copy-enter {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.route-transition-enter {
+  animation: route-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.achievement-toast-icon {
+  animation: achievement-icon-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.achievement-toast-copy {
+  animation: achievement-copy-enter 260ms 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.achievement-toast-copy-delayed {
+  animation-delay: 260ms;
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -58,4 +96,15 @@
 
 .animate-twinkle {
   animation: twinkle 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition-enter {
+    animation: none;
+  }
+
+  .achievement-toast-icon,
+  .achievement-toast-copy {
+    animation: none;
+  }
 }

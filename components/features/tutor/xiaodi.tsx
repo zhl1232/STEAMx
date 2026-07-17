@@ -167,6 +167,8 @@ type XiaoDiProps = {
   variant?: XiaoDiVariant
   /** 每完成一轮帧序列回调一次；可用于 success/error 播完后切回 idle */
   onCycleEnd?: (state: XiaoDiState) => void
+  /** 关闭态悬浮入口使用轻量静帧，避免提前下载完整 sprite。 */
+  animated?: boolean
 }
 
 type StackEntry = {
@@ -176,7 +178,7 @@ type StackEntry = {
   exiting: boolean
 }
 
-function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-draft', onCycleEnd }: XiaoDiProps) {
+function AnimatedXiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-draft', onCycleEnd }: XiaoDiProps) {
   const reducedMotion = usePrefersReducedMotion()
 
   // 当前/退场中的状态栈：状态切换时旧姿势短暂淡出，避免硬切。
@@ -305,6 +307,24 @@ function XiaoDiComponent({ state = 'idle', size = 160, className, variant = 'ai-
       })}
     </div>
   )
+}
+
+function XiaoDiComponent({ animated = true, state = 'idle', size = 160, className, ...props }: XiaoDiProps) {
+  if (!animated) {
+    return (
+      <div
+        className={cn(styles.root, className)}
+        style={{ width: size, height: size }}
+        role="img"
+        aria-label={STATE_LABELS[state]}
+      >
+        <div className={styles.shadow} aria-hidden />
+        <div className={styles.staticFrame} aria-hidden />
+      </div>
+    )
+  }
+
+  return <AnimatedXiaoDiComponent {...props} state={state} size={size} className={className} />
 }
 
 export const XiaoDi = memo(XiaoDiComponent)

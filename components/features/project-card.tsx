@@ -62,6 +62,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                 >
                     <Link
                         href={detailHref}
+                        prefetch={false}
                         className="absolute inset-0 z-0"
                         aria-label={`查看项目：${project.title}`}
                     />
@@ -199,6 +200,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                 <div className="surface-card surface-card-interactive group relative flex h-full flex-col overflow-hidden">
                     <Link
                         href={detailHref}
+                        prefetch={false}
                         className="absolute inset-0 z-0"
                         aria-label={`查看重点推荐项目：${project.title}`}
                     />
@@ -314,6 +316,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                 {/* Main Card Link Overlay */}
                 <Link
                     href={detailHref}
+                    prefetch={false}
                     className="absolute inset-0 z-0"
                     aria-label={`查看项目：${project.title}`}
                 />

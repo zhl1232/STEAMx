@@ -68,8 +68,8 @@
   --radius-lg: 1.25rem;
   --radius-xl: 1.75rem;
 
-  --font-sans: var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-noto-serif), ui-serif, serif;
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Songti SC", "Noto Serif CJK SC", STSong, ui-serif, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
@@ -538,9 +538,9 @@
 
 @layer base {
   :root {
-    /* next/font 注入 --font-noto-sans / --font-noto-serif / --font-jetbrains-mono(SIL OFL 1.1) */
-    --font-sans: var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
-    --font-heading: var(--font-noto-serif), ui-serif, serif;
+    /* 中文正文/标题优先复用系统字体；仅等宽字体由 next/font 自托管。 */
+    --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif;
+    --font-heading: "Songti SC", "Noto Serif CJK SC", STSong, ui-serif, serif;
     --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
     /* 浅色模式背景:极淡的冷白 */

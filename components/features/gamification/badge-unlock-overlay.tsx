@@ -1,49 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
-import type { Badge } from "@/lib/gamification/types";
 import { cn } from "@/lib/utils";
 import { BadgeIcon } from "./badge-icon";
 import { BadgeTierPill } from "@/components/features/gamification/badge-tier-pill";
+import {
+  dismissBadgeUnlockOverlay,
+  getBadgeUnlockState,
+  subscribeBadgeUnlockState,
+  type BadgeUnlockPayload,
+} from "@/lib/gamification/badge-unlock-store";
 
-type BadgeUnlockPayload = Pick<Badge, "id" | "name" | "description" | "icon" | "tier" | "seriesKey">;
-
-type OverlayState = {
-  badges: BadgeUnlockPayload[];
-};
+export {
+  dismissBadgeUnlockOverlay,
+  resetBadgeUnlockOverlayForTests,
+  showBadgeUnlockOverlay,
+} from "@/lib/gamification/badge-unlock-store";
 
 const SINGLE_AUTO_DISMISS_MS = 3600;
-
-const listeners = new Set<(state: OverlayState) => void>();
-let overlayState: OverlayState = { badges: [] };
-
-function emit() {
-  listeners.forEach((listener) => listener(overlayState));
-}
-
-function setOverlayState(next: OverlayState) {
-  overlayState = next;
-  emit();
-}
-
-export function dismissBadgeUnlockOverlay() {
-  if (overlayState.badges.length === 0) return;
-  setOverlayState({ badges: [] });
-}
-
-/** Test helper: reset module-level overlay queue between cases. */
-export function resetBadgeUnlockOverlayForTests() {
-  overlayState = { badges: [] };
-  emit();
-}
-
-export function showBadgeUnlockOverlay(badge: BadgeUnlockPayload) {
-  if (overlayState.badges.some((item) => item.id === badge.id)) return;
-  setOverlayState({ badges: [...overlayState.badges, badge] });
-}
 
 function fireConfetti() {
   confetti({
@@ -237,16 +214,13 @@ function BadgeUnlockSummary({
 }
 
 export function BadgeUnlockOverlay() {
-  const [state, setState] = useState<OverlayState>(overlayState);
+  const state = useSyncExternalStore(
+    subscribeBadgeUnlockState,
+    getBadgeUnlockState,
+    getBadgeUnlockState,
+  );
   const badges = state.badges;
   const mode = badges.length === 0 ? "hidden" : badges.length === 1 ? "single" : "summary";
-
-  useEffect(() => {
-    listeners.add(setState);
-    return () => {
-      listeners.delete(setState);
-    };
-  }, []);
 
   return (
     <>

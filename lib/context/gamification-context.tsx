@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AchievementToast } from "@/components/features/gamification/achievement-toast";
-import { showBadgeUnlockOverlay } from "@/components/features/gamification/badge-unlock-overlay";
+import { showBadgeUnlockOverlay } from "@/lib/gamification/badge-unlock-store";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";

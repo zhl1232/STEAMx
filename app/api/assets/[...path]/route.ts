@@ -30,6 +30,7 @@ const PASS_THROUGH_HEADERS = [
 ] as const
 
 const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
+const CANONICAL_ASSET_REFERER = 'https://steamx.cc'
 
 function isAllowedAssetPath(pathname: string) {
   return (
@@ -43,8 +44,22 @@ function getAssetReferer() {
     process.env.ASSETS_PROXY_REFERER ||
     process.env.NEXT_PUBLIC_APP_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    'https://steamx.cc'
+    CANONICAL_ASSET_REFERER
   )
+}
+
+async function fetchUpstreamAsset(upstreamUrl: string, method: 'GET' | 'HEAD', isScratchAsset: boolean) {
+  const referer = getAssetReferer()
+  const fetchWithReferer = (value: string) =>
+    fetch(upstreamUrl, {
+      method,
+      cache: isScratchAsset ? 'force-cache' : 'no-store',
+      headers: { Referer: value },
+    })
+
+  const upstream = await fetchWithReferer(referer)
+  if (upstream.status !== 403 || referer === CANONICAL_ASSET_REFERER) return upstream
+  return fetchWithReferer(CANONICAL_ASSET_REFERER)
 }
 
 function inferContentType(filePath: string) {
@@ -126,14 +141,8 @@ async function proxyAsset(
   const isScratchAsset = pathname.startsWith(SCRATCH_ASSET_PREFIX)
   let upstream: Response
   try {
-    upstream = await fetch(upstreamUrl, {
-      method,
-      // Scratch 素材按 md5 寻址，允许 CDN/Next 缓存；其它资源仍 no-store 防盗链抖动
-      cache: isScratchAsset ? 'force-cache' : 'no-store',
-      headers: {
-        Referer: getAssetReferer(),
-      },
-    })
+    // Scratch 素材按 md5 寻址，允许 CDN/Next 缓存；其它资源仍 no-store 防盗链抖动。
+    upstream = await fetchUpstreamAsset(upstreamUrl, method, isScratchAsset)
   } catch (error) {
     const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
     if (localResponse) return localResponse

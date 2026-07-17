@@ -28,6 +28,7 @@ export function ObservationCard({ observation, className, fromHref, priority = f
   return (
     <Link
       href={appendNatureFrom(`/nature/observations/${observation.id}`, fromHref)}
+      prefetch={false}
       className={cn(
         "group overflow-hidden rounded-(--radius-lg) border border-border/70 bg-card/90 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_20px_46px_-28px_rgba(15,23,42,0.45)]",
         className,

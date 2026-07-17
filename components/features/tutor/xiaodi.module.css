@@ -58,6 +58,12 @@
   will-change: transform;
 }
 
+.staticFrame {
+  position: absolute;
+  inset: 0;
+  background: url("/xiaodi-ai/idle.webp") center / contain no-repeat;
+}
+
 /* 脚下软阴影，随呼吸/跳跃有轻微缩放 */
 .shadow {
   position: absolute;

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
@@ -15,12 +14,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
     }, [pathname]);
 
     return (
-        <motion.div
-            initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ease: "easeOut", duration: 0.5 }}
-        >
+        <div className={shouldAnimate ? "route-transition-enter" : undefined}>
             {children}
-        </motion.div>
+        </div>
     );
 }

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Compass, Leaf, Home, Sparkles, CircleUser } from "lucide-react";
-import { motion } from "framer-motion";
 
 import { LoginDialog } from "@/components/layout/login-dialog";
 import { cn } from "@/lib/utils";
@@ -63,11 +62,9 @@ export function BottomNav() {
                     const activePillClass = "bg-[hsl(var(--nav-active))] text-[hsl(var(--nav-active-foreground))] shadow-[0_12px_22px_-14px_hsl(var(--nav-active)/0.8)]";
                     const inactivePillClass = "text-muted-foreground hover:nature-media-placeholder hover:text-[hsl(var(--nav-active))]";
                     const content = (
-                        <motion.div
-                            whileTap={{ scale: 0.85 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                        <div
                             className={cn(
-                                "mx-auto flex min-w-11.5 max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-colors",
+                                "mx-auto flex min-w-11.5 max-w-full flex-col items-center justify-center gap-1 rounded-sm px-2 py-1.5 transition-[color,background-color,transform] duration-150 active:scale-[0.85] motion-reduce:transition-none",
                                 item.active ? activePillClass : inactivePillClass,
                             )}
                         >
@@ -78,7 +75,7 @@ export function BottomNav() {
                                 )}
                             />
                             <span className="text-[10.5px] font-semibold leading-none">{item.label}</span>
-                        </motion.div>
+                        </div>
                     )
 
                     if (item.protected && !user) {

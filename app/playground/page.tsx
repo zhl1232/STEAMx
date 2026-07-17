@@ -365,8 +365,8 @@ const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }
         dark: "/assets/playground-art/nqueens-transparent-dark.png",
     },
     functionwars: {
-        light: "/assets/playground-art/functionwars-transparent-light.png",
-        dark: "/assets/playground-art/functionwars-transparent-dark.png",
+        light: "/assets/playground-art/functionwars-transparent-light.webp",
+        dark: "/assets/playground-art/functionwars-transparent-dark.webp",
     },
 }
 
@@ -857,6 +857,7 @@ function GameTile({ game, index, played }: { game: GameCard; index: number; play
     return (
         <Link
             href={game.href}
+            prefetch={false}
             className="surface-card surface-card-interactive group relative flex min-h-[124px] items-center gap-3 overflow-hidden p-3 sm:min-h-[132px] md:min-h-[152px] md:items-stretch md:p-3.5 xl:min-h-[164px]"
         >
             <GameArtwork game={game} />
@@ -1384,6 +1385,7 @@ function RecommendationPanel({
                         <Link
                             key={game.href}
                             href={game.href}
+                            prefetch={false}
                             className="surface-card surface-card-interactive group flex min-h-11 items-center gap-3 p-3"
                         >
                             <GameArtwork game={game} compact />

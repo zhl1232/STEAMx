@@ -1,6 +1,9 @@
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { CourseBoard } from "@/components/features/courses/course-board";
+import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
+import { listApprovedCourses } from "@/lib/api/courses";
+import type { CourseListItem } from "@/lib/courses/types";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata = buildPageMetadata({
     title: "技能课程",
@@ -8,7 +11,15 @@ export const metadata = buildPageMetadata({
     path: "/courses",
 });
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+    let courses: CourseListItem[] | null = null;
+    try {
+        const supabase = await createClient();
+        courses = await listApprovedCourses(supabase);
+    } catch {
+        courses = null;
+    }
+
     return (
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
@@ -20,7 +31,11 @@ export default function CoursesPage() {
                     </p>
                 </header>
                 <div className="surface-panel overflow-hidden">
-                    <CourseBoard />
+                    {courses ? (
+                        <CourseBoard courses={courses} />
+                    ) : (
+                        <CourseBoardError retryHref="/courses" />
+                    )}
                 </div>
             </main>
         </div>

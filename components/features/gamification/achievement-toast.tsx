@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import type { BadgeTier } from "@/lib/gamification/types";
 import { PREMIUM_ICONS_MAP } from "./premium-icons";
 
@@ -27,31 +26,18 @@ export function AchievementToast({ title, description, icon, tier }: Achievement
 
     return (
         <div className="flex w-full items-center gap-4">
-            <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className={`flex h-12 w-12 items-center justify-center rounded-full border-2 text-2xl ${iconRingClass}`}
+            <div
+                className={`achievement-toast-icon flex h-12 w-12 items-center justify-center rounded-full border-2 text-2xl ${iconRingClass}`}
             >
                 {IconComp ? <IconComp className="h-6 w-6" /> : icon}
-            </motion.div>
+            </div>
             <div className="flex flex-col">
-                <motion.h4
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-lg font-bold text-foreground"
-                >
+                <h4 className="achievement-toast-copy text-lg font-bold text-foreground">
                     {title}
-                </motion.h4>
-                <motion.p
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-sm text-muted-foreground"
-                >
+                </h4>
+                <p className="achievement-toast-copy achievement-toast-copy-delayed text-sm text-muted-foreground">
                     {description}
-                </motion.p>
+                </p>
             </div>
         </div>
     );

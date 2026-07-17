@@ -131,6 +131,8 @@ const DEFAULT_SCENE: FunctionWarsRenderScene = {
     activeSide: null,
 }
 
+const INACTIVE_AMBIENT_FRAME_MS = 250
+
 const THEME_ASSET_PATHS: Record<string, Record<string, string>> = {
     grassland: {
         sky: "/assets/playground-art/function-wars/grassland-sky.webp",
@@ -145,10 +147,10 @@ const THEME_ASSET_PATHS: Record<string, Record<string, string>> = {
         far: "/assets/playground-art/function-wars/space-distant.webp",
     },
     units: {
-        player: "/assets/playground-art/function-wars/player-turret.png",
-        enemy: "/assets/playground-art/function-wars/enemy.png",
-        armored: "/assets/playground-art/function-wars/enemy-armored.png",
-        crate: "/assets/playground-art/function-wars/crate.png",
+        player: "/assets/playground-art/function-wars/player-turret.webp",
+        enemy: "/assets/playground-art/function-wars/enemy.webp",
+        armored: "/assets/playground-art/function-wars/enemy-armored.webp",
+        crate: "/assets/playground-art/function-wars/crate.webp",
     },
 }
 
@@ -650,7 +652,7 @@ export class FunctionWarsRenderer {
             window.clearTimeout(this.wakeTimerId)
             this.wakeTimerId = null
         }
-        const delay = active ? 0 : 50
+        const delay = active ? 0 : INACTIVE_AMBIENT_FRAME_MS
         if (delay > 0) {
             this.wakeTimerId = window.setTimeout(() => {
                 this.wakeTimerId = null

@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { BookOpen, ChevronRight } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
@@ -10,53 +7,7 @@ import { CompactCardSkeleton } from "@/components/ui/loading-skeleton";
 import type { CourseListItem } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
-export function CourseBoard() {
-    const [courses, setCourses] = useState<CourseListItem[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        let cancelled = false;
-        (async () => {
-            try {
-                const res = await fetch("/api/courses");
-                if (!res.ok) throw new Error("加载失败");
-                const data = await res.json();
-                if (!cancelled) setCourses(data.courses ?? []);
-            } catch (e) {
-                if (!cancelled) {
-                    setError(e instanceof Error ? e.message : "加载失败");
-                }
-            } finally {
-                if (!cancelled) setLoading(false);
-            }
-        })();
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="grid gap-3 pt-5 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
-                {Array.from({ length: 4 }).map((_, i) => (
-                    <CompactCardSkeleton key={i} />
-                ))}
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="p-8 text-center text-muted-foreground">
-                <p>{error}</p>
-                <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
-                    重试
-                </Button>
-            </div>
-        );
-    }
-
+export function CourseBoard({ courses }: { courses: CourseListItem[] }) {
     if (courses.length === 0) {
         return (
             <div className="p-8 text-center text-muted-foreground">
@@ -75,6 +26,33 @@ export function CourseBoard() {
     );
 }
 
+export function CourseBoardSkeleton() {
+    return (
+        <div className="grid gap-3 pt-5 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+                <CompactCardSkeleton key={i} />
+            ))}
+        </div>
+    );
+}
+
+export function CourseBoardError({
+    message = "课程加载失败，请稍后重试。",
+    retryHref,
+}: {
+    message?: string;
+    retryHref: string;
+}) {
+    return (
+        <div className="p-8 text-center text-muted-foreground">
+            <p>{message}</p>
+            <Button asChild variant="outline" className="mt-4">
+                <Link href={retryHref}>重试</Link>
+            </Button>
+        </div>
+    );
+}
+
 function CourseCard({ course }: { course: CourseListItem }) {
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
 
@@ -82,6 +60,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
             <Link
                 href={`/courses/${course.id}`}
+                prefetch={false}
                 className="absolute inset-0 z-10 rounded-sm"
                 aria-label={`进入技能课程：${course.title}`}
             />

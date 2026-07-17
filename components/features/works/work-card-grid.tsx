@@ -21,6 +21,7 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
   return (
     <Link
       href={`/works/${work.id}`}
+      prefetch={false}
       className="group block overflow-hidden rounded-md border border-border bg-card transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <div className="relative aspect-square overflow-hidden bg-muted">

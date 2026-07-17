@@ -318,6 +318,7 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
   return (
     <Link
       href={`/nature/observations/${observation.id}?from=${encodeURIComponent("/")}`}
+      prefetch={false}
       className="group grid min-h-[112px] grid-cols-[108px_minmax(0,1fr)] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))] sm:grid-cols-[124px_minmax(0,1fr)] lg:grid-cols-[112px_minmax(0,1fr)]"
     >
       <div className="relative min-h-[112px] bg-[hsl(var(--surface-muted))]">

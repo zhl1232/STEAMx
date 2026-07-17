@@ -5,7 +5,7 @@ import { useState, type KeyboardEvent } from "react";
 
 import { useChallenge } from "@/lib/context/challenge-context";
 import { ChallengeBoard } from "@/components/features/pbl/challenge-board";
-import { CourseBoard } from "@/components/features/courses/course-board";
+import { CourseBoardLoader } from "@/components/features/courses/course-board-loader";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { cn } from "@/lib/utils";
 
@@ -138,7 +138,7 @@ export function CreatePageClient() {
                                 reloadChallenges={reloadChallenges}
                             />
                         ) : (
-                            <CourseBoard />
+                            <CourseBoardLoader />
                         )}
                     </div>
                 </section>

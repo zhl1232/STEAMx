@@ -55,6 +55,9 @@ const nextConfig = {
         pathname: "/projects/generated/**",
         search: "?v=20260522-tech-images",
       },
+      {
+        pathname: "/api/assets/**",
+      },
     ],
     remotePatterns: [
       {

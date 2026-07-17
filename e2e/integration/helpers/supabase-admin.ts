@@ -182,6 +182,44 @@ export async function setPlaygroundRaceMatchDeadline(matchId: string, deadlineAt
   if (error) throw error
 }
 
+export async function deleteFunctionWarsMatchByCode(code: string) {
+  const normalizedCode = code.trim().toUpperCase()
+  if (!normalizedCode) return
+  const { error } = await admin
+    .from('function_wars_matches')
+    .delete()
+    .eq('code', normalizedCode)
+  if (error) throw error
+}
+
+export async function setFunctionWarsMatchDeadline(matchId: string, deadlineAt: string) {
+  const { error } = await admin
+    .from('function_wars_matches')
+    .update({ turn_deadline_at: deadlineAt })
+    .eq('id', matchId)
+  if (error) throw error
+}
+
+export async function getFunctionWarsOnlineStats(userId: string) {
+  const { data, error } = await admin
+    .from('playground_stats')
+    .select('stats')
+    .eq('user_id', userId)
+    .maybeSingle()
+  if (error) throw error
+
+  const stats = data?.stats as Record<string, unknown> | null | undefined
+  const online = stats?.function_wars_stats
+  const record = online && typeof online === 'object' && !Array.isArray(online)
+    ? online as Record<string, unknown>
+    : {}
+
+  return {
+    onlineGames: typeof record.onlineGames === 'number' ? record.onlineGames : 0,
+    onlineWins: typeof record.onlineWins === 'number' ? record.onlineWins : 0,
+  }
+}
+
 /** Service-role delete: removes discussion and cascaded replies / likes. */
 export async function deleteDiscussionByTitle(title: string) {
   const trimmed = title.trim()
