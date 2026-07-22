@@ -34,7 +34,7 @@
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 小班/中班/大班大颗粒积木 + 五子棋博弈论入门等）；页面服务端直接读取已审核课程并输出首屏卡片，避免挂载后再请求 `/api/courses` 的瀑布 |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章；概览查询只读取课时标题/类型/顺序/时长/分轨摘要，不加载每课完整 content/steps；Scratch 编辑器及 vendor 不在课程介绍页预加载，只在进入课时后按需启动，课时链接禁用自动 prefetch） |
-| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 可选学习目标/教师引导 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；Scratch 手机/桌面能力用 hydration-safe 外部存储快照判断，手机首屏不挂载重型编辑器且保留预览/上传入口；所有 `building_3d` 课时通过统一课程流保留 PPT 第 1 页、隐藏第 2/3 页教学目标与教学流程、隐藏搭建说明 PDF，有真实模型时以全部 3D 步骤替换“作品构建”图片区并保留末尾反思/分享/完成页，无真实模型时保留其余图片页；课件图在移动端按原始 16:9 比例决定高度、桌面端限制约 900px 最大宽度，避免媒体区出现大块无效留白；积木课移动端隐藏与工作区翻页重复的侧栏步骤，桌面端继续保留；3D 模型继续按模型内步骤分段展示；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
+| `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 可选学习目标/教师引导 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；Scratch 手机/桌面能力用 hydration-safe 外部存储快照判断，手机首屏不挂载重型编辑器且保留预览/上传入口；所有 `building_3d` 课时通过统一课程流保留 PPT 第 1 页、隐藏第 2/3 页教学目标与教学流程、隐藏搭建说明 PDF，有真实模型时以全部 3D 步骤替换“作品构建”图片区并保留末尾反思/分享/完成页，无真实模型时保留其余图片页；积木课当前页以一基 `?step=N` 写入路由，离开后返回、刷新及浏览器前进/后退都恢复同一步，并保留 `view` / `ldrawEdit` 等已有查询参数；课件图在移动端按原始 16:9 比例决定高度、桌面端限制约 900px 最大宽度，避免媒体区出现大块无效留白；积木课移动端隐藏与工作区翻页重复的侧栏步骤，桌面端继续保留；3D 模型继续按模型内步骤分段展示；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页，默认展示其公开「作品」，并区分「发布的项目」与徽章 |
@@ -135,7 +135,7 @@
 
 | 子目录 | 文件数 | 职责 |
 |--------|--------|------|
-| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；观察详情 AI 鉴定头像使用 `public/xiaodi-ai/idle-0.webp` 小迪静帧 |
+| `bird-observation/` | 14 | 观察提交表单、照片上传、地图选点、观察卡片、物种热点面板、物种统计面板（无观察记录时隐藏）、评论区；照片上传先从原始文件读取 EXIF 拍摄时间与 GPS，再上传客户端压缩副本，避免转码丢失元数据影响自动回填；观察详情 AI 鉴定头像使用 `public/xiaodi-ai/idle-0.webp` 小迪静帧 |
 | `challenge/` | 5 | 挑战提交表单（新建时按阶段产出汇总预填，并可一键整理成可编辑投稿草稿：标题、作品说明/反思、阶段图片与 STEAM 收获）、PBL 信息 `pbl-info`（「相关资料」按 参考项目/前置技能/资料卡 三分类分组渲染，带描述行）、评分星级、阶段工作台 `stage-workspace`（逐步解锁引导：未解锁阶段不渲染，仅显示"还有 N 步"折叠提示；支持保存个人项目方向并显示每阶段个人化计划；阶段产出防抖自动保存，唯一主按钮「完成这步」+完成清单(成功标准)+导师工具「帮我拆题 / 给我提示 / 整理这步」返回受控参考卡；「请导师看看这步」生成并持久化 做得好/还缺/下一步 反馈卡；注册小迪 `pbl.focus_current_stage` 工具 handler，在卡住/下一步/反馈意图下展开并高亮当前阶段）、提交作品画廊 |
 | `courses/` | 17 | 技能课程列表、课时侧栏与工作区路由；`course-board` 是可由服务端直接传入课程的展示组件，`course-board-loader` 仅供创造营在用户切换到课程页签后按需请求；Scratch 持久 Host 复用单一 iframe 并支持作品发布，Scratch 工作区支持“自检这步”，按当前选中对象的 VM 积木、参数与连接关系给出已完成/未找到/需核对，并可把下一处缺项交给现有积木高亮；积木定位已覆盖四则运算与 `x/y 坐标`、方向、大小、音量 reporter；大颗粒积木工作区用 three.js/LDraw 渲染课件与分步模型，游乐场工作区承载导学和完成课时；`content.workSubmission.enabled` 为 true 时，`lesson-works-gallery` 直接读取当前课时公开作品，`lesson-work-upload` 复用完成作品弹窗并提交到课程课时 works API，无需项目 Provider 或背书项目 |
 | `works/` | 2 | 统一作品 UI：`work-card-grid` 为探索页、课程与个人主页提供响应式作品卡片；`work-detail` 展示媒体、来源、作者、点赞、评论和打赏交互 |
@@ -422,7 +422,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | 文件 | 用途 |
 |------|------|
 | `package.json` | 依赖与脚本；主站依赖基线为 Next 16.2.x / React 19.2.x / Supabase JS 2.110.x / TypeScript 7.0.x / Tailwind CSS 4.3.x；Lint 策略已切到 Oxlint，不再保留 ESLint 链路 |
-| `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理 |
+| `pnpm-lock.yaml` / `pnpm-workspace.yaml` | pnpm 包管理；锁文件保留 TypeScript 7 的平台可选包映射，确保 CI frozen install 能安装当前系统的 `tsc` 二进制 |
 | `tsconfig.json` | TypeScript 配置（`@/` 路径别名） |
 | `next.config.mjs` | Next.js 配置（图片域名、输出模式、`allowedDevOrigins`；`images.localPatterns` 允许 `/api/assets/**` 携带资源版本查询参数进入 `/_next/image`，其它本地图片仍限制查询串；内网/手机访问开发服务可用 `NEXT_ALLOWED_DEV_ORIGINS=ip1,ip2` 追加允许来源） |
 | `app/globals.css` | Tailwind CSS 4 CSS-first 配置（`@import 'tailwindcss'`、`@plugin 'tailwindcss-animate'`、自定义 theme/utility）；中文正文/标题使用系统中文字体栈，WebFont 仅保留 JetBrains Mono 400/700，避免全站下载多组 Noto CJK 字重 |

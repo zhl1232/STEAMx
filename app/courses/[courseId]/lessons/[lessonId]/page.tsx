@@ -7,6 +7,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
     params: Promise<{ courseId: string; lessonId: string }>;
+    searchParams: Promise<{ step?: string | string[] }>;
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -27,10 +28,15 @@ export async function generateMetadata({ params }: PageProps) {
     });
 }
 
-export default async function LessonPage({ params }: PageProps) {
+export default async function LessonPage({ params, searchParams }: PageProps) {
     const { courseId: cRaw, lessonId: lRaw } = await params;
+    const { step: rawStep } = await searchParams;
     const courseId = Number(cRaw);
     const lessonId = Number(lRaw);
+    const parsedStep = Number(Array.isArray(rawStep) ? rawStep[0] : rawStep);
+    const initialStepIndex = Number.isSafeInteger(parsedStep) && parsedStep > 0
+        ? parsedStep - 1
+        : 0;
     if (!Number.isFinite(courseId) || !Number.isFinite(lessonId)) notFound();
 
     const supabase = await createClient();
@@ -51,6 +57,7 @@ export default async function LessonPage({ params }: PageProps) {
             lesson={context.lesson}
             previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
             initialCompleted={Boolean(progress?.completed_at)}
+            initialStepIndex={initialStepIndex}
         />
     );
 }

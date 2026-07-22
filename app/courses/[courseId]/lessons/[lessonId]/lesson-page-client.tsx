@@ -29,6 +29,28 @@ import { cn } from "@/lib/utils";
 /** 交互式编辑/搭建课需要固定工作区；阅读型 playground 课在移动端应交给页面自然滚动。 */
 const FIXED_LESSON_PAGE_HEIGHT = "max-md:h-dvh md:h-[calc(100dvh-4rem)]";
 const SCROLL_LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
+const BUILDING_STEP_QUERY_PARAM = "step";
+
+function clampStepIndex(index: number, stepCount: number) {
+    if (stepCount <= 0) return 0;
+    return Math.min(Math.max(Math.trunc(index), 0), stepCount - 1);
+}
+
+function readBuildingStepFromUrl(stepCount: number) {
+    const rawStep = new URLSearchParams(window.location.search).get(BUILDING_STEP_QUERY_PARAM);
+    const routeStep = rawStep && /^\d+$/.test(rawStep) ? Number(rawStep) : 1;
+    return clampStepIndex(routeStep - 1, stepCount);
+}
+
+function replaceBuildingStepInUrl(stepIndex: number) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(BUILDING_STEP_QUERY_PARAM, String(stepIndex + 1));
+    window.history.replaceState(
+        window.history.state,
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+    );
+}
 
 function getHintTargetCount(payload: {
     keywords: string[];
@@ -61,21 +83,15 @@ export function LessonPageClient({
     lesson,
     previewHref,
     initialCompleted = false,
+    initialStepIndex = 0,
 }: {
     courseId: number;
     courseTitle: string;
     lesson: CourseLessonRow;
     previewHref: string;
     initialCompleted?: boolean;
+    initialStepIndex?: number;
 }) {
-    const [activeStep, setActiveStep] = useState(0);
-    const [completed, setCompleted] = useState(initialCompleted);
-    const [focusedStep, setFocusedStep] = useState<number | null>(null);
-    const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
-    const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
-    const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
-    const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     const steps = useMemo(
         () => lessonWorkspace === "building_3d"
@@ -86,11 +102,47 @@ export function LessonPageClient({
             : lesson.steps ?? [],
         [lesson.content?.building3d, lesson.steps, lesson.title, lessonWorkspace],
     );
-    const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
+    const [activeStep, setActiveStep] = useState(() =>
+        lessonWorkspace === "building_3d"
+            ? clampStepIndex(initialStepIndex, steps.length)
+            : 0,
+    );
+    const [completed, setCompleted] = useState(initialCompleted);
+    const [focusedStep, setFocusedStep] = useState<number | null>(null);
+    const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
+    const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
+    const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
+    const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
+    const clampedActiveStep = clampStepIndex(activeStep, steps.length);
     const activeStepTitle = steps[clampedActiveStep]?.title;
     // Scratch 编辑器需要固定一屏；building_3d 在移动端交给页面自然滚动，
     // 让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
     const usesFixedMobileWorkspace = lessonWorkspace === "scratch";
+
+    const handleStepChange = useCallback((index: number) => {
+        const nextStep = clampStepIndex(index, steps.length);
+        setActiveStep(nextStep);
+        if (lessonWorkspace === "building_3d") {
+            replaceBuildingStepInUrl(nextStep);
+        }
+    }, [lessonWorkspace, steps.length]);
+
+    useEffect(() => {
+        if (lessonWorkspace !== "building_3d") return;
+        const lessonPath = `/courses/${courseId}/lessons/${lesson.id}`;
+
+        const restoreStepFromUrl = () => {
+            if (window.location.pathname !== lessonPath) return;
+            const routeStep = readBuildingStepFromUrl(steps.length);
+            setActiveStep(routeStep);
+            replaceBuildingStepInUrl(routeStep);
+        };
+
+        restoreStepFromUrl();
+        window.addEventListener("popstate", restoreStepFromUrl);
+        return () => window.removeEventListener("popstate", restoreStepFromUrl);
+    }, [courseId, lesson.id, lessonWorkspace, steps.length]);
 
     const handleScratchEditorContextChange = useCallback((context: ScratchEditorContext) => {
         setScratchEditorContext(context);
@@ -142,7 +194,7 @@ export function LessonPageClient({
 
         const maxStepIndex = Math.max(steps.length - 1, 0);
         const targetIndex = Math.min(Math.max(toolCall.payload.stepIndex, 0), maxStepIndex);
-        setActiveStep(targetIndex);
+        handleStepChange(targetIndex);
         setFocusedStep(targetIndex);
         if (toolCall.name === "course.highlight_scratch_blocks") {
             const keywords = toolCall.payload.keywords.slice(0, 4);
@@ -180,7 +232,7 @@ export function LessonPageClient({
             setFocusedStep(null);
             focusTimerRef.current = null;
         }, 3600);
-    }, [lesson.id, steps.length]);
+    }, [handleStepChange, lesson.id, steps.length]);
     const sceneCapabilities = useMemo(
         () =>
             getTutorSceneCapabilities({
@@ -277,7 +329,7 @@ export function LessonPageClient({
                         displaySteps={steps}
                         activeStepIndex={clampedActiveStep}
                         focusedStepIndex={focusedStep}
-                        onStepClick={setActiveStep}
+                        onStepClick={handleStepChange}
                         completed={completed}
                         compactSteps={lessonWorkspace === "playground"}
                     />
@@ -304,7 +356,7 @@ export function LessonPageClient({
                         onCheckScratchStep={lessonWorkspace === "scratch" ? runScratchStepCheck : undefined}
                         onFocusScratchStepCheckItem={focusScratchStepCheckItem}
                         onScratchEditorContextChange={handleScratchEditorContextChange}
-                        onStepChange={setActiveStep}
+                        onStepChange={handleStepChange}
                         initialCompleted={initialCompleted}
                         onCompleted={() => setCompleted(true)}
                     />

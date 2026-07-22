@@ -1,5 +1,5 @@
-import { act, render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { LessonPageClient } from './lesson-page-client'
 import { TutorProvider, useTutorContext, type TutorContextOverride } from '@/components/features/tutor/tutor-context'
@@ -19,6 +19,7 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
     onCheckScratchStep,
     onFocusScratchStepCheckItem,
     onScratchEditorContextChange,
+    onStepChange,
   }: {
     activeStepIndex: number
     scratchBlockHint?: {
@@ -42,9 +43,13 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
       selectedTargetName?: string
       targets: Array<{ id: string; name: string; blocks?: Array<{ id: string; type: string }> }>
     }) => void
+    onStepChange: (index: number) => void
   }) => (
     <div data-testid="lesson-workspace">
       <p>workspace step {activeStepIndex + 1}</p>
+      <button type="button" onClick={() => onStepChange(activeStepIndex + 1)}>
+        下一页
+      </button>
       <button
         type="button"
         onClick={() =>
@@ -168,6 +173,10 @@ function TutorOverrideCapture({
 }
 
 describe('LessonPageClient', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/courses/7/lessons/42')
+  })
+
   it('uses the unified slide and 3D flow in building lesson sidebars', () => {
     const buildingLesson: CourseLessonRow = {
       ...lesson,
@@ -218,6 +227,63 @@ describe('LessonPageClient', () => {
     expect(screen.queryByText('旧的数据库步骤')).not.toBeInTheDocument()
     expect(screen.queryByText('教学目标')).not.toBeInTheDocument()
     expect(screen.queryByText('教学流程')).not.toBeInTheDocument()
+  })
+
+  it('restores and records the current building lesson step in the route', async () => {
+    const buildingLesson: CourseLessonRow = {
+      ...lesson,
+      title: '长颈鹿',
+      lesson_type: 'building_3d',
+      content: {
+        building3d: {
+          slideImageUrls: Array.from(
+            { length: 8 },
+            (_, index) => `/slides/giraffe-${index + 1}.webp`,
+          ),
+          parts: [],
+          steps3d: [],
+        },
+      },
+    }
+    window.history.replaceState({}, '', '/courses/7/lessons/42?view=works&step=4')
+
+    render(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="积木课"
+          lesson={buildingLesson}
+          previewHref="/courses/7/lessons/42/preview"
+          initialStepIndex={3}
+        />
+      </TutorProvider>,
+    )
+
+    expect(screen.getByText('workspace step 4')).toBeInTheDocument()
+    expect(window.location.search).toBe('?view=works&step=4')
+
+    fireEvent.click(screen.getByRole('button', { name: '下一页' }))
+
+    expect(screen.getByText('workspace step 5')).toBeInTheDocument()
+    expect(window.location.search).toBe('?view=works&step=5')
+
+    fireEvent.click(screen.getByRole('button', { name: /步骤 2 联系生活/ }))
+
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(window.location.search).toBe('?view=works&step=2')
+
+    window.history.replaceState({}, '', '/courses/7/lessons/42?view=works&step=3')
+    window.dispatchEvent(new PopStateEvent('popstate'))
+
+    await waitFor(() => {
+      expect(screen.getByText('workspace step 3')).toBeInTheDocument()
+    })
+
+    window.history.replaceState({}, '', '/courses/7')
+    window.dispatchEvent(new PopStateEvent('popstate'))
+
+    expect(window.location.pathname).toBe('/courses/7')
+    expect(window.location.search).toBe('')
   })
 
   it('keeps playground sidebars compact so step copy is not repeated', () => {
