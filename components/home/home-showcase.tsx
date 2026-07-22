@@ -14,6 +14,7 @@ import {
 import { MobileShortcutCarousel } from "@/components/home/mobile-shortcut-carousel";
 import { HomeWorksSection } from "@/components/home/home-works-section";
 import { buttonVariants } from "@/components/ui/button";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { SteamLogo } from "@/components/layout/logo";
 import { CATEGORY_META } from "@/lib/config/categories";
@@ -323,12 +324,12 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
     >
       <div className="relative min-h-[112px] bg-[hsl(var(--surface-muted))]">
         {image ? (
-          <Image
+          <OptimizedImage
             src={image}
             alt={title}
             fill
+            variant="thumbnail"
             sizes="140px"
-            quality={60}
             priority={priority}
             className="object-cover transition duration-500 group-hover:scale-[1.035]"
           />

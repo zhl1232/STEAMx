@@ -7,7 +7,7 @@ import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
-import { getCourseDetail } from "@/lib/api/courses";
+import { getCourseOverview } from "@/lib/api/courses";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ type PageProps = { params: Promise<{ courseId: string }> };
 export async function generateMetadata({ params }: PageProps) {
     const { courseId } = await params;
     const supabase = await createClient();
-    const course = await getCourseDetail(supabase, Number(courseId));
+    const course = await getCourseOverview(supabase, Number(courseId));
     if (!course) {
         return buildPageMetadata({
             title: "课程未找到",
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: PageProps) {
  * 五子棋课程（tags 含「五子棋」或所有课时都是 playground/gomoku）用纯 CSS/SVG 棋盘，
  * 其它课程仍走 course.image_url 位图，保持 Scratch/积木课的封面体系。
  */
-function usesGomokuHero(course: Awaited<ReturnType<typeof getCourseDetail>>) {
+function usesGomokuHero(course: Awaited<ReturnType<typeof getCourseOverview>>) {
     if (!course) return false;
     if (course.tags?.some((t) => t === "五子棋" || t === "gomoku")) return true;
     const playgroundLessons = course.lessons.filter((l) => l.lesson_type === "playground");
@@ -51,7 +51,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
     if (!Number.isFinite(courseId)) notFound();
 
     const supabase = await createClient();
-    const course = await getCourseDetail(supabase, courseId);
+    const course = await getCourseOverview(supabase, courseId);
     if (!course) notFound();
 
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
@@ -150,7 +150,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
                             {course.lessons.length > 0 ? (
                                 <Button asChild tone="brand" shape="pill" size="lg" className="mt-6 gap-2 font-bold md:mt-7">
-                                    <Link href={`/courses/${course.id}/lessons/${course.lessons[0].id}`}>
+                                    <Link
+                                        href={`/courses/${course.id}/lessons/${course.lessons[0].id}`}
+                                        prefetch={false}
+                                    >
                                         开始第 1 课
                                         <ChevronRight className="h-4 w-4" />
                                     </Link>
@@ -176,11 +179,15 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
                     <ol className="space-y-2.5 md:space-y-3">
                         {course.lessons.map((lesson, index) => {
-                            const trackLabel = getLessonTrackLabel(lesson.content);
+                            const trackLabel = getLessonTrackLabel({
+                                track: lesson.track ?? undefined,
+                                levelLabel: lesson.level_label ?? undefined,
+                            });
                             return (
                                 <li key={lesson.id}>
                                     <Link
                                         href={`/courses/${course.id}/lessons/${lesson.id}`}
+                                        prefetch={false}
                                         className="surface-card surface-card-interactive group flex items-center gap-3 rounded-md p-3.5 md:gap-4 md:p-4"
                                     >
                                         <LessonIndexBadge

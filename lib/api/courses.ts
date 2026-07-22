@@ -2,9 +2,10 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/lib/supabase/types'
 import type {
-  CourseDetail,
   CourseLessonRow,
+  CourseLessonSummary,
   CourseListItem,
+  CourseOverview,
   CourseRow,
   UserLessonProgressRow,
 } from '@/lib/courses/types'
@@ -59,11 +60,11 @@ export async function listApprovedCourses(supabase: DbClient): Promise<CourseLis
   }))
 }
 
-export async function getCourseDetail(
+export async function getCourseOverview(
   supabase: DbClient,
   courseId: number,
   options?: { includeDraftForStaff?: boolean }
-): Promise<CourseDetail | null> {
+): Promise<CourseOverview | null> {
   let query = supabase.from('courses').select('*').eq('id', courseId)
 
   if (!options?.includeDraftForStaff) {
@@ -76,7 +77,7 @@ export async function getCourseDetail(
 
   const { data: lessons, error: lessonsError } = await supabase
     .from('course_lessons')
-    .select('*')
+    .select('id, course_id, title, lesson_type, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel')
     .eq('course_id', courseId)
     .order('sort_order', { ascending: true })
 
@@ -84,7 +85,7 @@ export async function getCourseDetail(
 
   return {
     ...(course as CourseRow),
-    lessons: (lessons ?? []).map((l) => mapLessonRow(l as Record<string, unknown>)),
+    lessons: (lessons ?? []) as CourseLessonSummary[],
   }
 }
 
@@ -93,12 +94,29 @@ export async function getLessonInCourse(
   courseId: number,
   lessonId: number
 ): Promise<{ course: CourseRow; lesson: CourseLessonRow } | null> {
-  const detail = await getCourseDetail(supabase, courseId)
-  if (!detail) return null
-  const lesson = detail.lessons.find((l) => l.id === lessonId)
-  if (!lesson) return null
-  const { lessons: _lessons, ...course } = detail
-  return { course, lesson }
+  const [courseResult, lessonResult] = await Promise.all([
+    supabase
+      .from('courses')
+      .select('*')
+      .eq('id', courseId)
+      .eq('status', 'approved')
+      .maybeSingle(),
+    supabase
+      .from('course_lessons')
+      .select('*')
+      .eq('course_id', courseId)
+      .eq('id', lessonId)
+      .maybeSingle(),
+  ])
+
+  if (courseResult.error) throw courseResult.error
+  if (lessonResult.error) throw lessonResult.error
+  if (!courseResult.data || !lessonResult.data) return null
+
+  return {
+    course: courseResult.data as CourseRow,
+    lesson: mapLessonRow(lessonResult.data as Record<string, unknown>),
+  }
 }
 
 /** Resolve both legacy course work projects and the pre-migration JSON bridge. */

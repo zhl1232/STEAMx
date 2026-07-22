@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 
 import { cn } from "@/lib/utils"
+import { getMapTileImage } from "@/lib/utils/map-tile-cache"
 
 // ---------------------------------------------------------------------------
 // 高德瓦片 URL – 与之前 Leaflet 版完全一致，不需要 API Key
@@ -129,25 +130,13 @@ function formatPopupDate(dateString: string | undefined) {
   })
 }
 
-// ---------------------------------------------------------------------------
-// Tile cache
-// ---------------------------------------------------------------------------
-const tileCache = new Map<string, HTMLImageElement>()
-
 function getTileUrl(x: number, y: number, z: number) {
   const s = TILE_SUBDOMAINS[Math.abs(x + y) % TILE_SUBDOMAINS.length]
   return TILE_URL.replace("{s}", s).replace("{x}", String(x)).replace("{y}", String(y)).replace("{z}", String(z))
 }
 
 function loadTile(x: number, y: number, z: number): HTMLImageElement {
-  const key = `${z}/${x}/${y}`
-  const cached = tileCache.get(key)
-  if (cached) return cached
-  const img = new Image()
-  img.crossOrigin = "anonymous"
-  img.src = getTileUrl(x, y, z)
-  tileCache.set(key, img)
-  return img
+  return getMapTileImage(getTileUrl(x, y, z))
 }
 
 // ---------------------------------------------------------------------------
@@ -215,6 +204,11 @@ export function DomesticMiniMap({
     : -1
 
   const draw = useCallback(() => {
+    if (animRef.current != null) {
+      cancelAnimationFrame(animRef.current)
+      animRef.current = null
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")
@@ -264,12 +258,9 @@ export function DomesticMiniMap({
             ctx.filter = "none"
           }
         } else {
-          allLoaded = false
+          if (!img.complete) allLoaded = false
           ctx.fillStyle = isDark ? "#0b1710" : "#e8f1e9"
           ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE)
-          img.onload = () => {
-            if (canvasRef.current) draw()
-          }
         }
       }
     }

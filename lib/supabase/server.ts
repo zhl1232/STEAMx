@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { SupabaseClient } from '@supabase/supabase-js'
 
 import { getSupabaseEnv } from './env'
+import { fetchWithSupabaseTimeout } from './fetch'
 import type { Database } from './types'
 
 /**
@@ -17,6 +18,7 @@ export const createClient = async (): Promise<SupabaseClient<Database, 'public'>
     url,
     anonKey,
     {
+      global: { fetch: fetchWithSupabaseTimeout },
       cookies: {
         get(name: string) {
           return cookieStore.get(name)?.value
@@ -50,6 +52,7 @@ export const createPublicClient = (): SupabaseClient<Database, 'public'> => {
     url,
     anonKey,
     {
+      global: { fetch: fetchWithSupabaseTimeout },
       cookies: {
         get() {
           return undefined

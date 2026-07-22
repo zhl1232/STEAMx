@@ -18,9 +18,10 @@ import { logger } from '@/lib/logger'
 import { getSteamRadarWithGuidanceSafe, type SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database } from '@/lib/supabase/types'
+import { BoundedTtlMap } from '@/lib/utils/bounded-ttl-map'
 
-type CacheEntry = { value: StudentProfileSnapshot; expiresAt: number }
-const profileCache = new Map<string, CacheEntry>()
+const PROFILE_CACHE_MAX_ENTRIES = 1_000
+const profileCache = new BoundedTtlMap<string, StudentProfileSnapshot>(PROFILE_CACHE_MAX_ENTRIES)
 const PROFILE_CACHE_TTL_MS = 5 * 60 * 1000
 
 const STEAM_LABELS: Record<string, string> = {
@@ -420,7 +421,7 @@ export async function buildStudentProfile(
   userId: string,
 ): Promise<StudentProfileSnapshot> {
   const cached = profileCache.get(userId)
-  if (cached && cached.expiresAt > Date.now()) return cached.value
+  if (cached) return cached
 
   const [
     profileResult,
@@ -595,7 +596,7 @@ export async function buildStudentProfile(
     text,
   }
 
-  profileCache.set(userId, { value: snapshot, expiresAt: Date.now() + PROFILE_CACHE_TTL_MS })
+  profileCache.set(userId, snapshot, Date.now() + PROFILE_CACHE_TTL_MS)
   return snapshot
 }
 

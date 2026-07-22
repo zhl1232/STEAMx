@@ -4,6 +4,7 @@ import Image, { ImageProps } from "next/image"
 import {
   resolveAssetDisplayUrl,
   rewriteAssetUrl,
+  shouldBypassAssetDisplayOptimization,
 } from "@/lib/utils/asset-url"
 import { cn } from "@/lib/utils"
 
@@ -130,6 +131,10 @@ export function getOptimizedImageSrc(
     : rewrittenSrc
 }
 
+export function shouldUseUnoptimizedImage(src: string, useDirectSupabaseTransform = false) {
+  return useDirectSupabaseTransform || shouldBypassAssetDisplayOptimization(src)
+}
+
 /**
  * 用户上传图片的优化封装：统一 sizes、quality、懒加载，配合 next.config 的缓存与格式优化。
  */
@@ -143,6 +148,7 @@ export function OptimizedImage({
   blurPlaceholder = false,
   blurDataURL,
   placeholder,
+  unoptimized,
   ...rest
 }: OptimizedImageProps) {
   const sizes = sizesProp ?? SIZE_PRESETS[variant]
@@ -161,6 +167,9 @@ export function OptimizedImage({
     typeof optimizedSrc === "string"
       ? resolveAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
       : optimizedSrc
+  const useUnoptimizedImage =
+    unoptimized ||
+    (typeof src === "string" && shouldUseUnoptimizedImage(src, useDirectSupabaseTransform))
   return (
     <Image
       {...rest}
@@ -169,7 +178,7 @@ export function OptimizedImage({
       quality={quality}
       loading={loadingProp}
       priority={priority}
-      unoptimized={useDirectSupabaseTransform}
+      unoptimized={useUnoptimizedImage}
       placeholder={useBlur ? "blur" : placeholder}
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
       className={cn(className)}

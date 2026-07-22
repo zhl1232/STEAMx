@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { GET } from "./route";
+import { GET, HEAD } from "./route";
 
 const originalAssetsBaseUrl = process.env.ASSETS_BASE_URL;
 const originalProxyReferer = process.env.ASSETS_PROXY_REFERER;
@@ -43,7 +43,39 @@ describe("asset proxy", () => {
         expect(response.status).toBe(200);
         expect(response.headers.get("content-type")).toBe("image/webp");
         expect(fetchMock).toHaveBeenCalledTimes(2);
-        expect(fetchMock.mock.calls[0]?.[1]?.headers).toEqual({ Referer: "http://127.0.0.1:3000" });
-        expect(fetchMock.mock.calls[1]?.[1]?.headers).toEqual({ Referer: "https://steamx.cc" });
+        const firstHeaders = fetchMock.mock.calls[0]?.[1]?.headers as Headers;
+        const retryHeaders = fetchMock.mock.calls[1]?.[1]?.headers as Headers;
+        expect(firstHeaders.get("Referer")).toBe("http://127.0.0.1:3000");
+        expect(retryHeaders.get("Referer")).toBe("https://steamx.cc");
+    });
+
+    it("streams byte ranges from the local public fallback", async () => {
+        delete process.env.ASSETS_BASE_URL;
+        const request = new NextRequest(
+            "http://localhost/api/assets/courses/ldraw/LDConfig.ldr",
+            { headers: { Range: "bytes=0-3" } },
+        );
+
+        const response = await GET(request, {
+            params: Promise.resolve({ path: ["courses", "ldraw", "LDConfig.ldr"] }),
+        });
+
+        expect(response.status).toBe(206);
+        expect(response.headers.get("accept-ranges")).toBe("bytes");
+        expect(response.headers.get("content-length")).toBe("4");
+        expect(response.headers.get("content-range")).toMatch(/^bytes 0-3\/\d+$/);
+        expect(await response.text()).toBe("0 LD");
+    });
+
+    it("returns metadata without opening a response body for local HEAD requests", async () => {
+        delete process.env.ASSETS_BASE_URL;
+        const response = await HEAD(
+            new NextRequest("http://localhost/api/assets/courses/ldraw/LDConfig.ldr"),
+            { params: Promise.resolve({ path: ["courses", "ldraw", "LDConfig.ldr"] }) },
+        );
+
+        expect(response.status).toBe(200);
+        expect(Number(response.headers.get("content-length"))).toBeGreaterThan(0);
+        expect(response.body).toBeNull();
     });
 });

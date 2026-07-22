@@ -18,7 +18,7 @@
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、评论、点赞/收藏、完成记录、打赏；历史课程背书项目会重定向到对应课时作品区 |
 | `/works/[id]` | `app/works/[id]/page.tsx` | 统一作品详情 — 展示项目完成作品或课程课时作品的媒体、来源、作者、点赞、评论与打赏；课程作品可返回对应课时 |
 | `/community` | `app/community/page.tsx` | 社区 — 讨论列表、发帖；子路由 `challenge/`（挑战详情）、`discussion/`（帖子详情） |
-| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度；进入详情前用 `lib/nature-species-scroll-restore.ts` 记录筛选、已加载页、滚动位置、点击物种卡锚点与列表 index，返回清单时按 index 补齐分页并把同一卡片恢复到原视口位置；详情页挂载 `species-detail-scroll-top.tsx`，客户端路由进入时强制回到顶部）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
+| `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；地图预览与选点器共享最多 128 张解码瓦片的 LRU，拖动历史不会无限占用浏览器内存，瓦片失败也会停止重绘轮询；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（物种探索清单：按专题/搜索/已观察/待观察筛选，并显示自然观察进度；进入详情前用 `lib/nature-species-scroll-restore.ts` 记录筛选、已加载页、滚动位置、点击物种卡锚点与列表 index，返回清单时按 index 补齐分页并把同一卡片恢复到原视口位置；详情页挂载 `species-detail-scroll-top.tsx`，客户端路由进入时强制回到顶部）、`submit/`（移动端引导式发布；公开准确位置需显式确认）、`map/` |
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 18 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏默认挑战、数字华容道、记忆翻牌（萌宠/自然/宇宙/美食/科学五套图案可选与 3D 翻牌）、速算闪电战、迷宫探险、七巧板、数织、球排序、天平称重、像素对称、函数战争）；在线能力覆盖五子棋实时对弈、记忆翻牌实时对战、函数战争回合制 1v1、扫雷云端榜单，以及 24 点/速算/汉诺塔/N 皇后/数字华容道/数织/球排序/天平/像素对称/七巧板通用竞速房间（6 位邀请码、邀请链接、共享牌面/初始棋盘或固定关卡，双方成绩提交后判胜负）；球排序扩展为 10 关，后段提升到 6-8 色复杂周转，并采用实验台式试管架，包含选中上浮、可倒目标提示、无效轻震与倒球/落球动效，移动端保持稳定触控尺寸并隐藏小迪悬浮入口避免遮挡高级关试管；天平称重采用实体天平盘面、当前投放托盘分段控件、硬币台一键入盘/移除、称量合法性提示、结果倾斜反馈、通关结果条和称量记录，移动端隐藏小迪悬浮入口以优先露出盘面；像素对称改为半图镜像挑战，样本半边锁定、挑战半边手动补图，提供误点、步数、连击、星级与最佳成绩反馈，并扩展到左右/上下 10 关；数织 28 关（3×3 至 15×15），含船锚/蘑菇/螃蟹/幽灵/外星/骷髅/火箭/猫头鹰/小龙/神殿/飞船/火鸟/迷宫/星系等进阶图案，须按顺序解锁；通关后以答案轮廓生成清晰的分层像素作品（主题配色、边缘明暗、少量关卡细节），替代被剪影切碎的细腻 SVG，并用紧凑收藏结果条展示作品名、用时、失误与下一关；数织移动端点格不再聚焦滚动，线索栏加宽并 sticky，避免行列提示数字被顶栏或格子盖住；生命游戏默认进入关卡挑战，强调细胞预算、演化代数、三星条件与挑战完成口径，不再把单纯运行次数当胜利；迷宫页只保留俯视迷雾探索地图，移除体验不佳的沉浸视角；方向键、WASD 与手机紧贴地图的四向箭头统一为地图绝对上下左右，撞墙时只转向并给出反馈，移动端确保地图和箭头在同一屏内；探索地图用高对比探险者朝向、手电视野、当前可见区/历史记忆区、足迹与迷雾揭开强化方向感和探索感，闯关中继续隐藏理论最短步数与全图，通关后隐藏方向控制、揭图并在地图区上移展示 BFS / DFS / A* 探索对比与回放；`layout.tsx` 统一 `surface-panel` / `--tone-*` 侧栏与本局提示条，并为全部小游戏在移动端顶栏提供统一玩法说明入口（目标、操作、快捷方式、挑战目标）；移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体，且移动端去掉 playground 外层 `app-shell-wide` 横向 gutter，由各游戏页自行保留触控安全边距，避免 `100dvw` 游戏区被父级裁切；扫雷页桌面端采用更清爽的单行控制台、轻量棋盘舞台和低遮挡胜负结果浮层，普通桌面收窄右侧课程面板以增加主游戏区宽度；游乐场用户可见战绩口径统一为云端/在线记录，登录后由 `playground_stats` 同步；移动/平板工具栏持续到 `lg` 断点，游戏区在手机端使用居中的 `100dvw` 容器突破通用 gutter，不依赖负边距，并保留至少 12px 且兼容 `safe-area-inset-left/right` 的安全边距，避免移动 Safari 裁掉页面左右；初级棋盘按容器等分完整显示并使用实体按键式格子材质，中高难度保留横向滑动，状态/重开在左中，移动端挖掘/插旗模式使用工具栏最右侧的分段外观控件（挖掘 | 插旗），整块点按任意位置即切换，选中态高亮；棋盘长按改用 Pointer 事件并容忍 12px 内手指抖动，明显滑动才取消插旗；旗子不受雷数上限限制，超额标记时剩余雷数显示为负数，避免长按被静默忽略；高度不超过 480px 的手机横屏隐藏小迪悬浮入口，避免遮挡最右模式按钮；云端/会话战绩挂载后读取以避免 SSR hydration mismatch；扫雷页还会注册小迪 `playground.hint_minesweeper` 场景工具，收到提示动作后仅在浏览器内存态把已翻开的数字、旗子和隐藏格交给确定性推理器，不向服务端发送棋盘或读取 `isMine` 雷图；页面只用静态高对比描边常亮产生推理依据的数字格并给一个递进问题，关闭移动端聊天面板后仍可见，棋盘发生下一次变化时才清除，不直接标出安全格/雷格，暂无确定结论时引导继续探索；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布，并继承小迪 `playground` surface 且按具体小游戏传递 `gameKey/contextId`，避免迷宫、扫雷等小游戏串场景；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复，且不展示数据统计与 STEAM 能力维度进度；游戏卡片均有独立图形 fallback |
 | `/playground/functionwars` | `app/playground/functionwars/page.tsx` + `renderer.ts` | 函数战争：无 `eval` 表达式 AST 驱动纯函数弹道；3 主题 10 个战役关 + 5 个挑战关，含可破坏/不可破坏障碍、所有单位的可碰撞前景支撑（贴图落脚线按最近支撑单独做视觉对齐，不改变弹道碰撞几何）、太空后段无地面空岛关与易碎承重坠落结算（敌方失去承重造成一次坠落伤害，己方失去承重本关失败）、表达式必用函数/常量、有效射击函数/武器、信号中继、射击上限和平台保护等任务目标、5 种配置化武器、曲线拾取道具、Canvas 地形破坏/弹道特效/坐标网格、分层 WebP 背景与透明 WebP 单位贴图的超裁切视差及草原云影/峡谷沙雾/太空星闪环境动效（低动态偏好下冻结；无射击/爆炸时环境重绘降到 250ms 一帧，活动特效仍走 rAF）、主题化前景地面/平台材质（可破坏物使用暖色、颗粒与边缘缺口；不可破坏支撑/墙体使用冷灰硬质、斜纹与螺栓）、从实际炮口过渡到函数曲线首点的出膛动画（不改变弹道碰撞几何）、星级与 `function_wars_stats` 战绩；`NODE_ENV=development` 下关卡栏显示开发模式并解锁全部 15 关用于预览；单人/真人弹道纵向出屏后可继续采样并重入，横向越界、断点、发散或采样上限才终止，陡峭采样段按连续线段判定碰撞；真人模式使用 6 位邀请码的共享地图 1v1 回合制房间，100 HP 且单回合伤害封顶 80，避免镜像双中满血秒杀；客户端开火只提交武器、表达式和预期 `shot_seq`，认证 API 用共享确定性模拟器重算命中后调用 service-role RPC；单人/真人切换均保留本局，隐藏的单人计时暂停，在线活跃对局在页签标记；Canvas 提供屏幕阅读器战场摘要，错误/结算自动聚焦，320px 控制台不遮挡画布，短横屏采用战场/控制台双栏并可收起数学键盘；移动端隐藏小迪悬浮入口，避免遮挡函数输入与发射按钮 |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；首页作品统计与摘要读取统一作品，内容库区分「我的作品」与用户创建的「发布的项目」；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
@@ -33,7 +33,7 @@
 | `/create` | `app/create/page.tsx` | 创造营 — **项目挑战** + **技能课程** Tab；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 3+/4+/5+ 大颗粒积木搭建 + 五子棋博弈论入门等）；页面服务端直接读取已审核课程并输出首屏卡片，避免挂载后再请求 `/api/courses` 的瀑布 |
-| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章；Scratch 编辑器及 vendor 不在课程介绍页预加载，只在进入课时后按需启动） |
+| `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章；概览查询只读取课时标题/类型/顺序/时长/分轨摘要，不加载每课完整 content/steps；Scratch 编辑器及 vendor 不在课程介绍页预加载，只在进入课时后按需启动，课时链接禁用自动 prefetch） |
 | `/courses/.../lessons/[lessonId]` | `app/courses/[courseId]/lessons/[lessonId]/` | 课时学习页（侧栏步骤 + 可选学习目标/教师引导 + 按 `lesson_type` 切换工作区：Scratch 编辑器 / 大颗粒积木 3D 搭建预览 / 游乐场实训导学；Scratch 手机/桌面能力用 hydration-safe 外部存储快照判断，手机首屏不挂载重型编辑器且保留预览/上传入口；3D 用 three.js `LDrawLoader` 加载自托管 `.mpd`，`0 STEP` 驱动分步显隐；LDraw 课程模型优先通过 `.agents/skills/image-to-ldraw` 的 `part-metadata.json` 零件定义和 `validate-assembly.mjs` 统一校验支撑、穿模、管道端口连接与方向约束；playground 课时把游乐场游戏包成导学课，右侧「去实战」按钮跳到对应 `/playground/*` 游戏页；playground 课时在移动端用单栏：隐藏左侧 `LessonSidebar` 步骤列表，由 `PlaygroundWorkspace` 承载讲解 + 紧凑进度条 + 上一步/下一步/完成 + 底部「去实战」按钮，桌面端仍保留双栏） |
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
@@ -65,8 +65,8 @@
 | 模块 | 路径 | 功能 |
 |------|------|------|
 | admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通 |
-| assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）和 `/scratch/assets` 资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），包括生产环境 `/internalapi/asset/*` 的 Scratch rewrite；自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**（LDraw 打包 MPD 本地更完整时也优先本地），避免开发环境因 CDN 防盗链/网络抖动把本地存在的资源打成 500；`OptimizedImage` 的同源 `/api/assets` 图片继续经过 `/_next/image` 缩放与格式转换，仅已经使用 Supabase Render Transform 的直连图片跳过 Next 优化；仅设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 时绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
-| courses | `api/courses/` | 技能课程列表/详情；课时 `.sb3` 保存与 signed URL；完成课时 +15 XP；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
+| assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）和 `/scratch/assets` 资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），包括生产环境 `/internalapi/asset/*` 的 Scratch rewrite；自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**（LDraw 打包 MPD 本地更完整时也优先本地），本地文件以 Node stream 输出并支持单段 Range/HEAD，视频、PDF 等不再整文件读入进程内存；切换 Referer 或回退前会取消旧上游响应体；白名单 OSS/代理图片与 Supabase Render Transform 图片会绕过重复的 Next/Sharp 转码；仅设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 时绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
+| courses | `api/courses/` | 技能课程列表/瘦身概览/单课详情；课时 `.sb3` 保存与 signed URL；完成课时 +15 XP；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；投稿草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑终稿草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
 | tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，同时把当前登录用户的有限个人中心摘要（昵称、年龄段、等级/XP、STEAM 能力雷达、累计统计、近期活动、成长任务、课程/PBL 进度、徽章、游乐场战绩、作品反馈、AI 额度）作为服务端只读上下文传入并明确不可见隐私边界，`/playground/*` 游戏页归入 playground surface 并携带具体 `gameKey/contextId` 生成小游戏专属上下文与独立线程；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；开发环境或 `TUTOR_DEBUG_TIMING=1` 下输出服务端阶段耗时、`Server-Timing` 与 SSE `perf` 事件，用于定位响应头/首事件/首 chunk 延迟；DELETE 归档当前线程并开启新对话）；语音辅助 `speech/transcribe`（登录后接收 30 秒内 16k PCM 录音，经 DashScope Qwen-ASR-Realtime 仅转写文本、不落库音频）与 `speech/synthesize`（登录后将小迪回复文本经 DashScope Qwen-TTS 合成并转发音频二进制，手动/自动朗读均不扣 AI 对话代币）；历史对话 `conversations`（GET 按场景列归档线程+首条用户消息预览，最近一张聊天图片在上下文窗口内作为活跃附件持续发送并保持视觉模型，上传新图时替换旧图）与 `conversations/[id]`（GET 线程消息，DELETE 删除已归档线程，均做归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
@@ -75,7 +75,7 @@
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
 | geo | `api/geo/` | 反向地理编码 |
-| health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务 |
+| health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务；响应附带进程 uptime 与 RSS/heap/external 内存观测值，便于定位 OOM 前的增长趋势 |
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏）与历史 approved 项目低比例 backfill 入队 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
@@ -256,7 +256,8 @@
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
 | `lib/playground/` | `catalog.ts`, `storage.ts`, `use-playground-stats-loader.ts`, `minesweeper-stats.ts`, `minesweeper-hint.ts`, `online-room.ts`, `gomoku-online.ts`, `memory-online.ts`, `race-online.ts`, `gomoku-engine.ts`, `gomoku-ai-client.ts`, `gomoku-ai.worker.ts`, `gomoku-rapfi.ts` | 游戏目录、战绩存储（登录用户以 `playground_stats` 云端为唯一持久化，会话内存镜像，遗留 localStorage 仅登录时一次性迁入后清除；未登录仅会话内存）；`usePlaygroundStatsLoader` 在云同步后重载各游戏战绩；扫雷统一写入 `minesweeper_stats`，读取时经 `readMergedMinesweeperStats` 合并旧 `minesweeper_best_times`；`minesweeper-hint.ts` 只接收已翻开数字/旗子/隐藏格的公开状态，用“旗数等于数字则其余安全、旗数加隐藏数等于数字则隐藏格必为雷”规则返回确定性提示，输入类型不含 `isMine`；`online-room.ts` 提供在线对战共享房间码/状态类型；`race-online.ts` 定义 24 点/速算/汉诺塔/N 皇后/数字华容道/数织/球排序/天平/像素对称/七巧板的联网竞速设置、题面/棋盘校验、成绩校验和胜负比较规则；五子棋 PvE 三档均走 [Rapfi](https://github.com/dhbloo/rapfi) 单线程 WASM（`public/gomoku-rapfi/`，Piskvork/Yixin，GPL-3）：入门 STRENGTH≈25%/0.4s、进阶≈60%/1.2s、大师 100%/2.5s（见 `RAPFI_LEVEL_PRESETS`）；`gomoku-ai-client` 进入 PvE 即预加载，失败时回退自研 `gomoku-engine`（仍经 `gomoku-ai.worker`）；PvE 维护有序着法供 YXBOARD，可选执黑/执白（执白时 AI 先手）；在线五子棋共享房间/棋盘类型、空棋盘构造和房间码生成，落子权威逻辑由数据库 RPC `gomoku_place_stone` 执行；在线记忆翻牌共享主题/难度/牌堆类型和服务端建牌，翻牌权威逻辑由数据库 RPC `memory_flip_card` 执行 |
 | `lib/playground/function-wars-*` | `function-plotter.ts`, `function-wars-weapons.ts`, `function-wars-levels.ts`, `function-wars-online.ts`, `function-wars-simulation.ts` | 函数战争共享领域层：tokenizer + 递归下降 AST 安全解析/求值（含隐式乘法、白名单函数、渐近线与阶跃中断检测）、武器/道具参数、3 场景 10 个战役关 + 5 个挑战关关卡库（挑战关含表达式规则、中继器、射击上限、有效射击进度与三星奖励目标），以及确定性对称在线地图/房间快照类型；`function-wars-simulation.ts` 是浏览器预览、回放与服务端权威开火共用的 server-safe 弹道/碰撞实现 |
-| `lib/utils/` | 11 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类 |
+| `lib/utils/` | 13 个文件 | 文件校验、HTTP 工具、上传、手机号、拼音、自然导航、主题分类；`bounded-ttl-map.ts` 提供无定时器、带 TTL 与容量上限的进程内 LRU，避免用户/IP 维度缓存随请求无限增长；`map-tile-cache.ts` 让自然观察地图共享有界的浏览器图片缓存 |
+| `lib/supabase/fetch.ts` | `fetch.ts` | 服务端 Supabase 请求统一 12 秒可配置超时（`SUPABASE_FETCH_TIMEOUT_MS`），避免 DNS/上游故障期间请求对象长期堆积；服务端与 service-role 客户端均复用 |
 | `lib/auth/` | `server.ts` | 服务端认证辅助 |
 | `lib/testing/` | `playwright-smoke.ts` | E2E 测试辅助 |
 | `lib/membership.ts` | `membership.ts` | 会员档位/周期、有效性判断与 AI 代币常量（免费 5 次/天、会员月发 1500 代币、图文扣费 1/2） |
@@ -267,6 +268,10 @@
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 
 函数战争 Tutor 场景：`functionwars` 已加入 playground game key/context 映射；小迪围绕函数图像、平移缩放、斜率、抛物线/绝对值/三角函数族给递进线索，不直接给出可命中的最终表达式。
+
+Tutor 用户画像缓存使用 5 分钟 TTL 且最多保留 1000 个用户；短信 IP 限流缓存最多保留 10000 项，二者均按周期/容量主动清理过期项，避免模块级 `Map` 随长期流量无限增长。
+
+`OptimizedImage` 对已压缩的 `/projects`、物种图、课程图及其 `/api/assets` 代理地址直接透传，不再交给 Next/Sharp 二次转换；Supabase 原始用户上传仍保留尺寸优化，避免 OSS 403/空响应期间图片转换任务放大 native memory。
 
 Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦测、变量、运算、控制、外观、声音、音乐和画笔 opcode（含坐标/大小设值、显示/隐藏、等待直到/重复直到、克隆和画笔粗细），供 iframe 打开分类并定位具体 flyout 积木；`scratch-step-check.ts` 复用同一批 hint item，对当前选中 Scratch 对象做步骤自检，能识别 opcode-only 完成、坐标/变量/大小/比较/克隆等可编辑值不匹配，以及带箭头/拼接语义步骤里的未连接积木，并把 pending item 继续供小迪上下文和页面高亮使用；`scratch-screenshot-diagnosis.ts` 仅在 Scratch 课时当前上传截图且学生明确求助/检查时调用视觉模型，并只能以当前步骤候选积木索引返回高置信结论，视觉失败、模糊截图或无结论均不触发 UI；路由仍经 `tool-registry.ts` 校验后才产生高亮 tool call。`tool-call-planner.ts` 只在消息明确请求页面操作时才调用模型规划，普通 Scratch/扫雷知识问答不会触发页面工具，实际工具选择仍走模型与白名单校验。
 
@@ -402,11 +407,11 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 10. 部署与 CI
 
-- `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口
+- `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口；主站/worker 分别设有可配置的 cgroup 内存上限与 Node heap 上限，避免单个泄漏进程拖垮宿主机
 - `deploy/nginx.conf` — Nginx 反向代理模板；保留线上 `steamx.cc www.steamx.cc`、Certbot include、上传接口大小限制，并为 Scratch GUI/vendor/chunk 加 gzip 和缓存；Release 会用 GitHub Variables 渲染域名/证书路径后同步到服务器，先备份当前站点配置、`nginx -t` 通过后再 reload
 - `deploy/server-init.sh` — 服务器初始化脚本
 - `deploy/auto-interactions-worker.mjs` — 自动互动队列 Docker worker（可在启动时按 `AUTO_INTERACTION_BACKFILL_*` 低比例补偿历史项目；随后按 `AUTO_INTERACTION_WORKER_INTERVAL_SECONDS` 周期 POST `/api/internal/auto-interactions/run`）
-- `Dockerfile` — 生产镜像构建；将 Next standalone 与自动互动 worker 脚本复制进运行镜像
+- `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright
 - `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 渲染/同步 Nginx 配置 + 同步 compose 文件 + SSH 部署；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
 
@@ -425,7 +430,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |
 | `renovate.json` | Renovate 自动依赖更新 |
-| `.env.example` | 环境变量模板 |
+| `.env.example` | 环境变量模板；支持 `SUPABASE_FETCH_TIMEOUT_MS`（默认 12000ms）与 `ASSET_CONNECT_TIMEOUT_MS`（默认 10000ms）控制外部请求超时 |
 | `.impeccable.md` | 设计上下文（用户画像、品牌调性、设计原则） |
 
 ### 常用 pnpm 脚本（`package.json`）

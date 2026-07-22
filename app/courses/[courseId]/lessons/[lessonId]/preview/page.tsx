@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { createClient } from "@/lib/supabase/server";
-import { getCourseDetail } from "@/lib/api/courses";
+import { getLessonInCourse } from "@/lib/api/courses";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
 
@@ -26,13 +26,12 @@ export default async function LessonPreviewPage({ params }: PageProps) {
     if (!Number.isFinite(courseId) || !Number.isFinite(lessonId)) notFound();
 
     const supabase = await createClient();
-    const course = await getCourseDetail(supabase, courseId);
-    const lesson = course?.lessons.find((l) => l.id === lessonId);
-    if (!course || !lesson) notFound();
+    const context = await getLessonInCourse(supabase, courseId, lessonId);
+    if (!context) notFound();
 
     return (
         <div className={cn("flex flex-col overflow-hidden", PREVIEW_HEIGHT)}>
-            <MobileGlobalHeader variant="title" title={`预览 · ${lesson.title}`} />
+            <MobileGlobalHeader variant="title" title={`预览 · ${context.lesson.title}`} />
             <ScratchWorkspace courseId={courseId} lessonId={lessonId} playerOnly />
         </div>
     );

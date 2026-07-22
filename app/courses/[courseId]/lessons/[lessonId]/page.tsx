@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { LessonPageClient } from "./lesson-page-client";
 import { createClient } from "@/lib/supabase/server";
-import { getCourseDetail, getUserLessonProgress } from "@/lib/api/courses";
+import { getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
@@ -12,9 +12,8 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps) {
     const { courseId, lessonId } = await params;
     const supabase = await createClient();
-    const course = await getCourseDetail(supabase, Number(courseId));
-    const lesson = course?.lessons.find((l) => l.id === Number(lessonId));
-    if (!lesson) {
+    const context = await getLessonInCourse(supabase, Number(courseId), Number(lessonId));
+    if (!context) {
         return buildPageMetadata({
             title: "课时",
             description: "技能课程",
@@ -22,8 +21,8 @@ export async function generateMetadata({ params }: PageProps) {
         });
     }
     return buildPageMetadata({
-        title: `${lesson.title} · ${course?.title ?? "技能课程"}`,
-        description: course?.description ?? "技能课程课时学习",
+        title: `${context.lesson.title} · ${context.course.title}`,
+        description: context.course.description ?? "技能课程课时学习",
         path: `/courses/${courseId}/lessons/${lessonId}`,
     });
 }
@@ -35,11 +34,8 @@ export default async function LessonPage({ params }: PageProps) {
     if (!Number.isFinite(courseId) || !Number.isFinite(lessonId)) notFound();
 
     const supabase = await createClient();
-    const course = await getCourseDetail(supabase, courseId);
-    if (!course) notFound();
-
-    const lesson = course.lessons.find((l) => l.id === lessonId);
-    if (!lesson) notFound();
+    const context = await getLessonInCourse(supabase, courseId, lessonId);
+    if (!context) notFound();
 
     const {
         data: { user },
@@ -51,8 +47,8 @@ export default async function LessonPage({ params }: PageProps) {
     return (
         <LessonPageClient
             courseId={courseId}
-            courseTitle={course.title}
-            lesson={lesson}
+            courseTitle={context.course.title}
+            lesson={context.lesson}
             previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
             initialCompleted={Boolean(progress?.completed_at)}
         />

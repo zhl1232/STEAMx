@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { getCourseDetail } from '@/lib/api/courses'
+import { getCourseOverview } from '@/lib/api/courses'
 import { handleApiError } from '@/lib/api/auth'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const course = await getCourseDetail(supabase, courseId)
+    const course = await getCourseOverview(supabase, courseId)
     if (!course) {
       return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     }

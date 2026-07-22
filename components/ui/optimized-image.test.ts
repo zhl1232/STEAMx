@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { getOptimizedImageSrc, withGeneratedProjectImageCacheVersion } from './optimized-image'
+import {
+  getOptimizedImageSrc,
+  shouldUseUnoptimizedImage,
+  withGeneratedProjectImageCacheVersion,
+} from './optimized-image'
 
 const ASSETS_BASE_ENV_KEY = 'NEXT_PUBLIC_ASSETS_BASE_URL'
 const originalAssetsBaseUrl = process.env[ASSETS_BASE_ENV_KEY]
@@ -62,5 +66,17 @@ describe('getOptimizedImageSrc', () => {
     expect(withGeneratedProjectImageCacheVersion('/projects/generated/project-0142.webp?v=manual')).toBe(
       '/projects/generated/project-0142.webp?v=manual',
     )
+  })
+})
+
+describe('shouldUseUnoptimizedImage', () => {
+  it('bypasses Sharp for pre-compressed static assets and their proxy URLs', () => {
+    expect(shouldUseUnoptimizedImage('/projects/generated/project-0142.webp')).toBe(true)
+    expect(shouldUseUnoptimizedImage('/api/assets/projects/generated/project-0142.webp')).toBe(true)
+    expect(shouldUseUnoptimizedImage('/assets/local-hero.png')).toBe(false)
+  })
+
+  it('bypasses Sharp when Supabase already rendered the requested size', () => {
+    expect(shouldUseUnoptimizedImage('https://example.supabase.co/render.png', true)).toBe(true)
   })
 })

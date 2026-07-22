@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 import { reverseGeocode } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
+import { getMapTileImage } from "@/lib/utils/map-tile-cache"
 
 // ---------------------------------------------------------------------------
 // 高德瓦片 URL – 与 DomesticMiniMap 共用，不需要 API Key
@@ -35,25 +36,13 @@ function pixelYToLat(py: number, zoom: number) {
   return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)))
 }
 
-// ---------------------------------------------------------------------------
-// Tile cache & loading
-// ---------------------------------------------------------------------------
-const tileCache = new Map<string, HTMLImageElement>()
-
 function getTileUrl(x: number, y: number, z: number) {
   const s = TILE_SUBDOMAINS[Math.abs(x + y) % TILE_SUBDOMAINS.length]
   return TILE_URL.replace("{s}", s).replace("{x}", String(x)).replace("{y}", String(y)).replace("{z}", String(z))
 }
 
 function loadTile(x: number, y: number, z: number): HTMLImageElement {
-  const key = `${z}/${x}/${y}`
-  const cached = tileCache.get(key)
-  if (cached) return cached
-  const img = new Image()
-  img.crossOrigin = "anonymous"
-  img.src = getTileUrl(x, y, z)
-  tileCache.set(key, img)
-  return img
+  return getMapTileImage(getTileUrl(x, y, z))
 }
 
 // ---------------------------------------------------------------------------
@@ -123,6 +112,11 @@ export function DomesticMapPicker({
   }, [])
 
   const draw = useCallback(() => {
+    if (animRef.current != null) {
+      cancelAnimationFrame(animRef.current)
+      animRef.current = null
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")
@@ -166,10 +160,9 @@ export function DomesticMapPicker({
           ctx.drawImage(img, screenX, screenY, TILE_SIZE, TILE_SIZE)
           if (isDark) ctx.filter = "none"
         } else {
-          allLoaded = false
+          if (!img.complete) allLoaded = false
           ctx.fillStyle = isDark ? "#0b1710" : "#e8f1e9"
           ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE)
-          img.onload = () => { if (canvasRef.current) draw() }
         }
       }
     }

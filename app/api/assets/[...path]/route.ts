@@ -1,6 +1,7 @@
-import fs from 'node:fs/promises'
-import { existsSync } from 'node:fs'
+import { createReadStream } from 'node:fs'
+import { stat } from 'node:fs/promises'
 import path from 'node:path'
+import { Readable } from 'node:stream'
 
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -24,6 +25,7 @@ const PASS_THROUGH_HEADERS = [
   'accept-ranges',
   'cache-control',
   'content-length',
+  'content-range',
   'content-type',
   'etag',
   'last-modified',
@@ -31,6 +33,13 @@ const PASS_THROUGH_HEADERS = [
 
 const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
 const CANONICAL_ASSET_REFERER = 'https://steamx.cc'
+const DEFAULT_ASSET_CONNECT_TIMEOUT_MS = 10_000
+
+function getAssetConnectTimeoutMs() {
+  const configured = Number(process.env.ASSET_CONNECT_TIMEOUT_MS)
+  if (!Number.isFinite(configured)) return DEFAULT_ASSET_CONNECT_TIMEOUT_MS
+  return Math.min(60_000, Math.max(1_000, Math.round(configured)))
+}
 
 function isAllowedAssetPath(pathname: string) {
   return (
@@ -48,17 +57,39 @@ function getAssetReferer() {
   )
 }
 
-async function fetchUpstreamAsset(upstreamUrl: string, method: 'GET' | 'HEAD', isScratchAsset: boolean) {
+async function fetchUpstreamAsset(
+  upstreamUrl: string,
+  method: 'GET' | 'HEAD',
+  isScratchAsset: boolean,
+  requestHeaders: Headers,
+) {
   const referer = getAssetReferer()
-  const fetchWithReferer = (value: string) =>
-    fetch(upstreamUrl, {
-      method,
-      cache: isScratchAsset ? 'force-cache' : 'no-store',
-      headers: { Referer: value },
-    })
+  const fetchWithReferer = async (value: string) => {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), getAssetConnectTimeoutMs())
+    const headers = new Headers({ Referer: value })
+    const range = requestHeaders.get('range')
+    const ifRange = requestHeaders.get('if-range')
+    if (range) headers.set('Range', range)
+    if (ifRange) headers.set('If-Range', ifRange)
+
+    try {
+      // Clear the timer once headers arrive so long video/audio streams are not
+      // aborted midway through a healthy download.
+      return await fetch(upstreamUrl, {
+        method,
+        cache: isScratchAsset && !headers.has('Range') ? 'force-cache' : 'no-store',
+        headers,
+        signal: controller.signal,
+      })
+    } finally {
+      clearTimeout(timeout)
+    }
+  }
 
   const upstream = await fetchWithReferer(referer)
   if (upstream.status !== 403 || referer === CANONICAL_ASSET_REFERER) return upstream
+  await upstream.body?.cancel().catch(() => undefined)
   return fetchWithReferer(CANONICAL_ASSET_REFERER)
 }
 
@@ -70,31 +101,65 @@ function isLdrawLibraryPath(pathname: string) {
   return pathname.startsWith('/courses/ldraw/') && /\.(mpd|ldr)$/i.test(pathname)
 }
 
-function countEmbeddedLdrawFiles(text: string) {
-  return (text.match(/^0 FILE /gm) ?? []).length
-}
-
-/** 本地 public/ 读取（开发环境，或 LDraw MPD 需与 OSS 比完整性时）。 */
-async function readLocalPublicAsset(pathname: string, { allowProduction = false } = {}) {
+/** 解析本地 public/ 文件（开发环境或 OSS 故障回退）。 */
+async function resolveLocalPublicAsset(pathname: string, { allowProduction = false } = {}) {
   if (process.env.NODE_ENV === 'production' && !allowProduction) return null
 
   const relativePath = pathname.replace(/^\/+/, '')
   const localPath = path.resolve(PUBLIC_DIR, relativePath)
   if (!localPath.startsWith(`${path.resolve(PUBLIC_DIR)}${path.sep}`)) return null
-  if (!existsSync(localPath)) return null
 
-  const data = await fs.readFile(localPath)
-  return {
-    data,
-    contentType: inferContentType(localPath),
+  try {
+    const fileStat = await stat(/* turbopackIgnore: true */ localPath)
+    if (!fileStat.isFile()) return null
+    return {
+      localPath,
+      size: fileStat.size,
+      modifiedAt: fileStat.mtime,
+      contentType: inferContentType(localPath),
+    }
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return null
+    throw error
   }
 }
 
+type ByteRange = { start: number; end: number }
+
+function parseByteRange(value: string | null, size: number): ByteRange | 'invalid' | null {
+  if (!value) return null
+  if (size <= 0) return 'invalid'
+  const match = /^bytes=(\d*)-(\d*)$/.exec(value.trim())
+  if (!match || (match[1] === '' && match[2] === '')) return 'invalid'
+
+  if (match[1] === '') {
+    const suffixLength = Number(match[2])
+    if (!Number.isSafeInteger(suffixLength) || suffixLength <= 0) return 'invalid'
+    return { start: Math.max(0, size - suffixLength), end: Math.max(0, size - 1) }
+  }
+
+  const start = Number(match[1])
+  const requestedEnd = match[2] === '' ? size - 1 : Number(match[2])
+  if (
+    !Number.isSafeInteger(start) ||
+    !Number.isSafeInteger(requestedEnd) ||
+    start < 0 ||
+    start >= size ||
+    requestedEnd < start
+  ) {
+    return 'invalid'
+  }
+
+  return { start, end: Math.min(requestedEnd, size - 1) }
+}
+
 async function respondWithLocalAsset(
+  request: NextRequest,
   pathname: string,
+  method: 'GET' | 'HEAD',
   { allowProduction = false }: { allowProduction?: boolean } = {},
 ) {
-  const local = await readLocalPublicAsset(pathname, { allowProduction })
+  const local = await resolveLocalPublicAsset(pathname, { allowProduction })
   if (!local) return null
 
   const cacheControl = isLdrawLibraryPath(pathname)
@@ -102,13 +167,40 @@ async function respondWithLocalAsset(
     : pathname.startsWith(SCRATCH_ASSET_PREFIX)
       ? 'public, max-age=31536000, immutable'
       : 'public, max-age=86400'
+  const range = parseByteRange(request.headers.get('range'), local.size)
+  if (range === 'invalid') {
+    return new Response(null, {
+      status: 416,
+      headers: {
+        'Content-Range': `bytes */${local.size}`,
+        'Cache-Control': cacheControl,
+        'X-Content-Type-Options': 'nosniff',
+      },
+    })
+  }
 
-  return new Response(local.data, {
-    status: 200,
-    headers: {
-      'Content-Type': local.contentType,
-      'Cache-Control': cacheControl,
-    },
+  const start = range?.start ?? 0
+  const end = range?.end ?? Math.max(0, local.size - 1)
+  const contentLength = local.size === 0 ? 0 : end - start + 1
+  const headers = new Headers({
+    'Accept-Ranges': 'bytes',
+    'Cache-Control': cacheControl,
+    'Content-Length': String(contentLength),
+    'Content-Type': local.contentType,
+    'Last-Modified': local.modifiedAt.toUTCString(),
+    'X-Content-Type-Options': 'nosniff',
+  })
+  if (range) headers.set('Content-Range', `bytes ${start}-${end}/${local.size}`)
+
+  const body = method === 'HEAD' || local.size === 0
+    ? null
+    : Readable.toWeb(
+        createReadStream(/* turbopackIgnore: true */ local.localPath, { start, end }),
+      ) as ReadableStream<Uint8Array>
+
+  return new Response(body, {
+    status: range ? 206 : 200,
+    headers,
   })
 }
 
@@ -126,14 +218,14 @@ async function proxyAsset(
   const baseUrl = getAssetsBaseUrl()
   if (!baseUrl) {
     // 开发环境未配置 ASSETS_BASE_URL 时，回退到 public/ 本地文件
-    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
+    const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
     if (localResponse) return localResponse
     return NextResponse.json({ error: 'Assets base URL is not configured' }, { status: 404 })
   }
 
   // LDraw 库始终走 public/ 本地（文件小、打包后最新，避免 OSS/CDN 旧缓存）
   if (isLdrawLibraryPath(pathname)) {
-    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
+    const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
     if (localResponse) return localResponse
   }
 
@@ -142,30 +234,18 @@ async function proxyAsset(
   let upstream: Response
   try {
     // Scratch 素材按 md5 寻址，允许 CDN/Next 缓存；其它资源仍 no-store 防盗链抖动。
-    upstream = await fetchUpstreamAsset(upstreamUrl, method, isScratchAsset)
+    upstream = await fetchUpstreamAsset(upstreamUrl, method, isScratchAsset, request.headers)
   } catch (error) {
-    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
+    const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
     if (localResponse) return localResponse
     throw error
   }
 
   if (!upstream.ok) {
-    const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
-    if (localResponse) return localResponse
-  }
-
-  // 打包 MPD：OSS 可能是旧版（缺内联 0 FILE 块），本地 public/ 更完整时优先本地。
-  if (method === 'GET' && upstream.ok && isLdrawLibraryPath(pathname)) {
-    const local = await readLocalPublicAsset(pathname, { allowProduction: true })
-    if (local) {
-      const upstreamText = await upstream.clone().text()
-      const localText = local.data.toString('utf8')
-      const upstreamEmbedded = countEmbeddedLdrawFiles(upstreamText)
-      const localEmbedded = countEmbeddedLdrawFiles(localText)
-      if (process.env.NODE_ENV !== 'production' || localEmbedded > upstreamEmbedded) {
-        const localResponse = await respondWithLocalAsset(pathname, { allowProduction: true })
-        if (localResponse) return localResponse
-      }
+    const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
+    if (localResponse) {
+      await upstream.body?.cancel().catch(() => undefined)
+      return localResponse
     }
   }
 

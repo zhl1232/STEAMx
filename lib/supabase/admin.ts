@@ -1,4 +1,5 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { fetchWithSupabaseTimeout } from './fetch'
 import type { Database } from './types'
 
 /**
@@ -15,5 +16,6 @@ export const supabaseAdmin =
   _url && _key
     ? createSupabaseClient<Database>(_url, _key, {
         auth: { autoRefreshToken: false, persistSession: false },
+        global: { fetch: fetchWithSupabaseTimeout },
       })
     : (null as unknown as ReturnType<typeof createSupabaseClient<Database>>)

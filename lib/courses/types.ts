@@ -228,8 +228,19 @@ export interface CourseListItem extends CourseRow {
   lesson_count: number
 }
 
-export interface CourseDetail extends CourseRow {
-  lessons: CourseLessonRow[]
+export interface CourseLessonSummary {
+  id: number
+  course_id: number
+  title: string
+  lesson_type: LessonType
+  sort_order: number
+  duration_minutes: number | null
+  track: CourseLessonTrack | null
+  level_label: string | null
+}
+
+export interface CourseOverview extends CourseRow {
+  lessons: CourseLessonSummary[]
 }
 
 export interface UserLessonProgressRow {
