@@ -107,7 +107,7 @@ export function MobileShortcutCarousel({ children }: MobileShortcutCarouselProps
                 key={index}
                 type="button"
                 onClick={() => scrollToSlide(index)}
-                className="flex h-11 w-11 items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-6 w-[18px] items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label={`第 ${index + 1} 个快捷入口`}
                 aria-current={active ? "true" : undefined}
               >

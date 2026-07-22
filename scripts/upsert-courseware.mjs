@@ -5,7 +5,7 @@
  * 用法:
  *   node scripts/upsert-courseware.mjs --prepare              # 改 JSON：OSS 绝对 URL、占位 steps、去 LDraw
  *   node scripts/upsert-courseware.mjs --upload-assets        # 补传 PDF/视频/成品图（slides 已有则 skip）
- *   node scripts/upsert-courseware.mjs                        # 写入 3 门课 + 300 课时
+ *   node scripts/upsert-courseware.mjs                        # 写入小/中/大班 3 门课 + 300 课时
  *   node scripts/upsert-courseware.mjs --dry-run              # 预览，不写库
  *   node scripts/upsert-courseware.mjs --only=3-bao-jian      # 只处理指定 slug
  *
@@ -50,6 +50,7 @@ const onlyMatchers = (flag("only", "") || "")
 
 const COURSE_META = {
   "3+课件100": {
+    title: "小班大颗粒积木",
     sort_order: 30,
     difficulty_stars: 2,
     tags: ["乐高", "得宝", "大颗粒积木", "3+"],
@@ -58,6 +59,7 @@ const COURSE_META = {
     gradePrefix: "3-",
   },
   "4+课件100": {
+    title: "中班大颗粒积木",
     sort_order: 31,
     difficulty_stars: 3,
     tags: ["乐高", "得宝", "大颗粒积木", "4+"],
@@ -66,6 +68,7 @@ const COURSE_META = {
     gradePrefix: "4-",
   },
   "5+课件100": {
+    title: "大班大颗粒积木",
     sort_order: 32,
     difficulty_stars: 4,
     tags: ["乐高", "得宝", "大颗粒积木", "5+"],
@@ -313,6 +316,7 @@ async function execSQL(sql) {
 
 function upsertLessonSql(courseTitle, lesson, sortOrder, assetsBase) {
   const meta = COURSE_META[courseTitle];
+  const displayTitle = meta.title;
   const b3d = lesson.content.building3d;
   const coverForCourse = b3d.finishedImageUrl || `${assetsBase}/courses/${lesson.slug}/finished.png`;
   const stepsSql = sqlJsonb(lesson.steps);
@@ -324,12 +328,19 @@ DECLARE
   v_course_id bigint;
   v_lesson_id bigint;
 BEGIN
-  SELECT id INTO v_course_id FROM public.courses WHERE title = '${escapeSqlLiteral(courseTitle)}' LIMIT 1;
+  SELECT id INTO v_course_id
+    FROM public.courses
+   WHERE title IN (
+     '${escapeSqlLiteral(courseTitle)}',
+     '${escapeSqlLiteral(displayTitle)}'
+   )
+   ORDER BY CASE WHEN title = '${escapeSqlLiteral(displayTitle)}' THEN 0 ELSE 1 END
+   LIMIT 1;
   IF v_course_id IS NULL THEN
     INSERT INTO public.courses (
       title, description, image_url, tags, difficulty_stars, status, sort_order, steam_weights
     ) VALUES (
-      '${escapeSqlLiteral(courseTitle)}',
+      '${escapeSqlLiteral(displayTitle)}',
       '${escapeSqlLiteral(meta.description)}',
       '${escapeSqlLiteral(coverForCourse)}',
       ARRAY[${meta.tags.map((t) => `'${escapeSqlLiteral(t)}'`).join(", ")}],
@@ -341,7 +352,8 @@ BEGIN
     RETURNING id INTO v_course_id;
   ELSE
     UPDATE public.courses
-       SET description = '${escapeSqlLiteral(meta.description)}',
+       SET title = '${escapeSqlLiteral(displayTitle)}',
+           description = '${escapeSqlLiteral(meta.description)}',
            tags = ARRAY[${meta.tags.map((t) => `'${escapeSqlLiteral(t)}'`).join(", ")}],
            difficulty_stars = ${meta.difficulty_stars},
            status = 'approved',

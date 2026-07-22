@@ -168,6 +168,58 @@ function TutorOverrideCapture({
 }
 
 describe('LessonPageClient', () => {
+  it('uses the unified slide and 3D flow in building lesson sidebars', () => {
+    const buildingLesson: CourseLessonRow = {
+      ...lesson,
+      title: '长颈鹿',
+      lesson_type: 'building_3d',
+      content: {
+        building3d: {
+          slideImageUrls: Array.from(
+            { length: 18 },
+            (_, index) => `/slides/giraffe-${index + 1}.webp`,
+          ),
+          ldrawModelUrl: '/courses/ldraw/giraffe.mpd',
+          parts: [],
+          steps3d: [
+            { title: '搭建四肢', description: '先搭四肢', partIds: [] },
+            { title: '搭建身体', description: '再搭身体', partIds: [] },
+          ],
+        },
+      },
+      steps: [
+        { title: '旧的数据库步骤', description: '不应显示', checklist: [] },
+      ],
+    }
+
+    render(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="积木课"
+          lesson={buildingLesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    const stepButtons = screen.getAllByRole('button', { name: /步骤 \d+/ })
+    expect(stepButtons.map((button) => button.textContent)).toEqual([
+      expect.stringContaining('认识长颈鹿'),
+      expect.stringContaining('联系生活'),
+      expect.stringContaining('观察主题'),
+      expect.stringContaining('结构分析'),
+      expect.stringContaining('搭建四肢'),
+      expect.stringContaining('搭建身体'),
+      expect.stringContaining('反思完善'),
+      expect.stringContaining('延续分享'),
+      expect.stringContaining('完成本课'),
+    ])
+    expect(screen.queryByText('旧的数据库步骤')).not.toBeInTheDocument()
+    expect(screen.queryByText('教学目标')).not.toBeInTheDocument()
+    expect(screen.queryByText('教学流程')).not.toBeInTheDocument()
+  })
+
   it('keeps playground sidebars compact so step copy is not repeated', () => {
     const playgroundLesson: CourseLessonRow = {
       ...lesson,

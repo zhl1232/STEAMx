@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type KeyboardEvent } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, type KeyboardEvent } from "react";
 
 import { useChallenge } from "@/lib/context/challenge-context";
 import { ChallengeBoard } from "@/components/features/pbl/challenge-board";
@@ -13,11 +14,11 @@ const createHeroImage = "/assets/community-hero-kids-robot.png";
 const mobileHeaderClassName =
     "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
 
-type CreateTab = "pbl" | "courses";
+export type CreateTab = "pbl" | "courses";
 
 const CREATE_TABS = [
-    { value: "pbl" as const, label: "项目挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
     { value: "courses" as const, label: "技能课程", tabId: "create-tab-courses", panelId: "create-panel-courses" },
+    { value: "pbl" as const, label: "项目挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
 ] as const;
 
 function CreateHero() {
@@ -97,13 +98,25 @@ function CreateTabs({
     );
 }
 
-export function CreatePageClient() {
+export function CreatePageClient({ initialTab }: { initialTab: CreateTab }) {
+    const router = useRouter();
     const { challenges, challengesError, isLoading, reloadChallenges } = useChallenge();
-    const [activeTab, setActiveTab] = useState<CreateTab>("pbl");
+    const [activeTab, setActiveTab] = useState<CreateTab>(initialTab);
     const activeTimed = challenges.activeTimed ?? [];
     const evergreen = challenges.evergreen ?? [];
     const ended = challenges.ended ?? [];
     const activePanel = CREATE_TABS.find((tab) => tab.value === activeTab) ?? CREATE_TABS[0];
+
+    useEffect(() => {
+        setActiveTab(initialTab);
+    }, [initialTab]);
+
+    const handleTabChange = (tab: CreateTab) => {
+        if (tab === activeTab) return;
+
+        setActiveTab(tab);
+        router.push(`/create?tab=${tab}`, { scroll: false });
+    };
 
     return (
         <div className="min-h-screen app-canvas-community">
@@ -120,7 +133,7 @@ export function CreatePageClient() {
 
                 <section aria-label="项目挑战与技能课程">
                     <div className="flex min-h-[44px] items-center justify-between gap-4 border-b border-[hsl(var(--surface-border)/0.72)] px-3 md:min-h-[58px] md:px-6">
-                        <CreateTabs activeTab={activeTab} onChange={setActiveTab} />
+                        <CreateTabs activeTab={activeTab} onChange={handleTabChange} />
                     </div>
                     <div
                         role="tabpanel"

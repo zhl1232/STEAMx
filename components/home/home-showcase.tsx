@@ -268,7 +268,7 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
         </div>
         <Link
           href="/explore"
-          className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))]"
+          className="inline-flex min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:min-h-11"
         >
           全部项目
           <ArrowRight className="h-4 w-4" />

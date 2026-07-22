@@ -16,7 +16,7 @@
 
 - 301 份历史 JSON 草稿；300 课批量 `--prepare` 时生成 OSS 绝对 URL + 占位 `steps`（按课件页）+ 292 课 `videoSlideIndex`，该批量准备阶段不自动写入 LDraw 引用；后续模型只按人工审核结果单课挂载。
 - OSS：`slides` 300/300、`pdf` 300/300、`finished` 300/300、`video` 292/300（8 课源素材无 mp4）。
-- DB：`3+课件100` / `4+课件100` / `5+课件100` 三门课 + **300 课时**已幂等 upsert（`node scripts/upsert-courseware.mjs`）。
+- DB：`小班大颗粒积木` / `中班大颗粒积木` / `大班大颗粒积木` 三门课 + **300 课时**已幂等 upsert（历史课件 JSON 仍使用 3+/4+/5+ 内部标题，`node scripts/upsert-courseware.mjs` 会映射为展示名称）。
 - 脚本：`scripts/upsert-courseware.mjs`（`--prepare` / `--upload-assets` / 默认入库）、`scripts/check-courseware-oss.mjs`（OSS 存在性核对）。
 
 **仍待完善**

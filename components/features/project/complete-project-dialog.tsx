@@ -202,7 +202,7 @@ export function CompleteProjectDialog({
 
         setUploading((prev) => [...prev, ...newItems]);
 
-        await Promise.all(
+        const results = await Promise.all(
             newItems.map(async (item) => {
                 const url = await uploadFileSecureWithProgress(
                     item.file,
@@ -216,19 +216,28 @@ export function CompleteProjectDialog({
                 );
 
                 if (url) {
-                    setProofImages((prev) => [...prev, url]);
-                    setImageCaptions((prev) => [...prev, ""]);
-                    setUploading((prev) => prev.filter((u) => u.id !== item.id));
-                    URL.revokeObjectURL(item.preview);
+                    return { item, url };
                 } else {
                     setUploading((prev) =>
                         prev.map((u) =>
                             u.id === item.id ? { ...u, error: "上传失败，请重试", progress: 0 } : u
                         )
                     );
+                    return { item, url: null };
                 }
             })
         );
+
+        const uploaded = results.filter(
+            (result): result is { item: UploadingImage; url: string } => Boolean(result.url),
+        );
+        if (uploaded.length > 0) {
+            setProofImages((prev) => [...prev, ...uploaded.map((result) => result.url)]);
+            setImageCaptions((prev) => [...prev, ...uploaded.map(() => "")]);
+            const uploadedIds = new Set(uploaded.map((result) => result.item.id));
+            setUploading((prev) => prev.filter((item) => !uploadedIds.has(item.id)));
+            for (const result of uploaded) URL.revokeObjectURL(result.item.preview);
+        }
     }, [user, toast, totalImages]);
 
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -512,7 +521,7 @@ export function CompleteProjectDialog({
                                     作品照片 <span className="text-red-500">*</span>
                                 </Label>
                                 <span className="text-xs text-muted-foreground">
-                                    {proofImages.length}/{MAX_IMAGES}
+                                    {totalImages}/{MAX_IMAGES}
                                 </span>
                             </div>
 
@@ -618,11 +627,11 @@ export function CompleteProjectDialog({
                                         <ImagePlus className="h-8 w-8" />
                                         <span className="text-sm">
                                             {proofImages.length === 0
-                                                ? "点击或拖拽上传作品照片"
-                                                : "继续添加照片"}
+                                                ? "选择多张作品照片"
+                                                : `继续添加照片（还可 ${MAX_IMAGES - totalImages} 张）`}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
-                                            支持 JPG / PNG / WebP
+                                            可一次选择多张，最多 {MAX_IMAGES} 张 · 支持 JPG / PNG / WebP
                                         </span>
                                     </button>
                                 )}

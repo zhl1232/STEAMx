@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Box, Check, ChevronLeft, ChevronRight, Copy, FileText, Film, Loader2, PlayCircle, Presentation, RotateCcw, Sparkles, ZoomIn } from "lucide-react";
+import { Box, Check, ChevronLeft, ChevronRight, Copy, Loader2, Presentation, RotateCcw, Sparkles, ZoomIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { fetchPackedLdrawText, parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
@@ -621,17 +622,19 @@ export function Building3DWorkspace({
     const [loadError, setLoadError] = useState<string | null>(null);
     const [completing, setCompleting] = useState(false);
     const [completed, setCompleted] = useState(initialCompleted);
-    const activeStepIndexRef = useRef(activeStepIndex);
     const content = useMemo(() => normalizeBuildingContent(lesson), [lesson]);
     const partsById = useMemo(() => partMap(content.parts), [content.parts]);
-    const activeStep = content.steps3d[Math.min(activeStepIndex, content.steps3d.length - 1)] ?? content.steps3d[0];
-
-    const hasSlideImages = Boolean(content.slideImageUrls?.length);
-    const hasVideo = Boolean(content.videoUrl);
-    // 「课件」Tab：有 PPT 图就用翻页器，否则只有 PDF 时回退内嵌 PDF。
-    const hasSlides = hasSlideImages || Boolean(content.slidesPdfUrl);
-    // 独立「动画」Tab 仅在没有 PPT 图（视频无处安放）时作为兜底出现。
-    const standaloneVideo = hasVideo && !hasSlideImages;
+    const flow = useMemo(
+        () => buildBuildingLessonFlow({ lessonTitle: lesson.title, content }),
+        [content, lesson.title],
+    );
+    const clampedPageIndex = flow.length > 0
+        ? Math.min(Math.max(activeStepIndex, 0), flow.length - 1)
+        : 0;
+    const activePage = flow[clampedPageIndex] ?? null;
+    const activeBuildStepIndex = activePage?.kind === "build" ? activePage.stepIndex : 0;
+    const activeBuildStepIndexRef = useRef(activeBuildStepIndex);
+    const activeStep = content.steps3d[activeBuildStepIndex] ?? content.steps3d[0];
     const slideCount = content.slideImageUrls?.length ?? 0;
     // videoSlideIndex 为 1 基，转 0 基；越界视为没有内嵌视频页。
     const videoSlide0 =
@@ -639,26 +642,27 @@ export function Building3DWorkspace({
             ? content.videoSlideIndex - 1
             : -1;
     const hasWorks = isWorkSubmissionEnabled(lesson);
-    const [view, setView] = useState<"build" | "video" | "slides" | "works">(
-        hasSlides ? "slides" : standaloneVideo ? "video" : "build",
-    );
-    const [slideIndex, setSlideIndex] = useState(0);
+    const [view, setView] = useState<"lesson" | "works">("lesson");
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
-    const currentSlide = Math.min(slideIndex, Math.max(slideCount - 1, 0));
+    const showBuildPage = view === "lesson" && activePage?.kind === "build";
 
     useEffect(() => {
-        activeStepIndexRef.current = activeStepIndex;
-    }, [activeStepIndex]);
+        activeBuildStepIndexRef.current = activeBuildStepIndex;
+    }, [activeBuildStepIndex]);
 
     useEffect(() => {
-        setLdrawEditEnabled(new URLSearchParams(window.location.search).get("ldrawEdit") === "1");
-        if (hasWorks && new URLSearchParams(window.location.search).get("view") === "works") {
-            setView("works");
+        const searchParams = new URLSearchParams(window.location.search);
+        setLdrawEditEnabled(searchParams.get("ldrawEdit") === "1");
+        setView(hasWorks && searchParams.get("view") === "works" ? "works" : "lesson");
+    }, [hasWorks, lesson.id]);
+
+    useEffect(() => {
+        if (!showBuildPage) {
+            setLoading(false);
+            return;
         }
-    }, [hasWorks]);
 
-    useEffect(() => {
         let cancelled = false;
         let state: SceneState | null = null;
 
@@ -843,7 +847,7 @@ export function Building3DWorkspace({
                     scene.add(root);
                     collectDefaultMaterials(root);
                     currentLdrawMpdText = nextMpdText;
-                    focusStep(activeStepIndexRef.current);
+                    focusStep(activeBuildStepIndexRef.current);
                 };
 
                 const resize = () => {
@@ -856,7 +860,7 @@ export function Building3DWorkspace({
                 const resizeObserver = new ResizeObserver(resize);
                 resizeObserver.observe(mount);
                 resize();
-                focusStep(activeStepIndexRef.current);
+                focusStep(activeBuildStepIndexRef.current);
 
                 let frame = 0;
                 const animate = () => {
@@ -896,11 +900,11 @@ export function Building3DWorkspace({
             state?.cleanup();
             if (sceneRef.current === state) sceneRef.current = null;
         };
-    }, [content]);
+    }, [content, showBuildPage]);
 
     useEffect(() => {
-        sceneRef.current?.focusStep(activeStepIndex);
-    }, [activeStepIndex]);
+        sceneRef.current?.focusStep(activeBuildStepIndex);
+    }, [activeBuildStepIndex, showBuildPage]);
 
     const handleComplete = useCallback(async () => {
         if (!user) {
@@ -931,8 +935,8 @@ export function Building3DWorkspace({
         }
     }, [courseId, lesson.id, onCompleted, promptLogin, toast, user]);
 
-    const goStep = (delta: number) => {
-        const next = Math.min(Math.max(activeStepIndex + delta, 0), content.steps3d.length - 1);
+    const goPage = (delta: number) => {
+        const next = Math.min(Math.max(clampedPageIndex + delta, 0), flow.length - 1);
         onStepChange(next);
     };
 
@@ -940,70 +944,78 @@ export function Building3DWorkspace({
         return sceneRef.current?.previewLDrawLineEdit?.(lineIndex, line);
     }, []);
 
-    const showTabs = standaloneVideo || hasSlides || hasWorks;
+    const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
+    const flowControls = (
+        <div className="space-y-2 border-t border-border bg-card p-3">
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                <Button
+                    type="button"
+                    variant="outline"
+                    disabled={clampedPageIndex === 0}
+                    onClick={() => goPage(-1)}
+                >
+                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    上一页
+                </Button>
+                <span className="min-w-14 text-center text-sm font-semibold tabular-nums text-muted-foreground">
+                    {clampedPageIndex + 1} / {flow.length}
+                </span>
+                {isFinalPage ? (
+                    <Button type="button" disabled={completing || completed} onClick={() => void handleComplete()}>
+                        {completing ? (
+                            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                        ) : (
+                            <Check className="mr-1 h-4 w-4" />
+                        )}
+                        {completed ? "已完成" : "完成这课"}
+                    </Button>
+                ) : (
+                    <Button type="button" onClick={() => goPage(1)}>
+                        下一页
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                )}
+            </div>
+            {isFinalPage && hasWorks ? (
+                <LessonWorkUpload
+                    courseId={courseId}
+                    lessonId={lesson.id}
+                    lessonTitle={lesson.title}
+                />
+            ) : null}
+        </div>
+    );
 
     return (
         <section className="flex min-h-0 flex-1 flex-col bg-[hsl(var(--background))]">
-            {showTabs ? (
+            {hasWorks ? (
                 <div className="flex shrink-0 items-center gap-1 border-b border-border bg-card px-2 py-1.5">
-                    {hasSlides ? (
-                        <button
-                            type="button"
-                            onClick={() => setView("slides")}
-                            className={cn(
-                                "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
-                                view === "slides"
-                                    ? "bg-[hsl(var(--brand-blue))] text-white"
-                                    : "text-muted-foreground hover:bg-muted",
-                            )}
-                        >
-                            <Presentation className="h-4 w-4" />
-                            课件
-                        </button>
-                    ) : null}
-                    {standaloneVideo ? (
-                        <button
-                            type="button"
-                            onClick={() => setView("video")}
-                            className={cn(
-                                "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
-                                view === "video"
-                                    ? "bg-[hsl(var(--brand-blue))] text-white"
-                                    : "text-muted-foreground hover:bg-muted",
-                            )}
-                        >
-                            <Film className="h-4 w-4" />
-                            动画
-                        </button>
-                    ) : null}
                     <button
                         type="button"
-                        onClick={() => setView("build")}
+                        onClick={() => setView("lesson")}
                         className={cn(
                             "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
-                            view === "build"
+                            view === "lesson"
                                 ? "bg-[hsl(var(--brand-blue))] text-white"
                                 : "text-muted-foreground hover:bg-muted",
                         )}
                     >
-                        <Box className="h-4 w-4" />
-                        3D 搭建
+                        <Presentation className="h-4 w-4" />
+                        课程内容
                     </button>
-                    {hasWorks ? (
-                        <button
-                            type="button"
-                            onClick={() => setView("works")}
-                            className={cn(
-                                "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
-                                view === "works"
-                                    ? "bg-[hsl(var(--brand-blue))] text-white"
-                                    : "text-muted-foreground hover:bg-muted",
-                            )}
-                        >
-                            <Sparkles className="h-4 w-4" />
-                            作品
-                        </button>
-                    ) : null}
+                    <button
+                        type="button"
+                        onClick={() => setView("works")}
+                        className={cn(
+                            "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
+                            view === "works"
+                                ? "bg-[hsl(var(--brand-blue))] text-white"
+                                : "text-muted-foreground hover:bg-muted",
+                        )}
+                    >
+                        <Sparkles className="h-4 w-4" />
+                        作品
+                    </button>
                 </div>
             ) : null}
 
@@ -1015,115 +1027,75 @@ export function Building3DWorkspace({
                 />
             ) : null}
 
-            {view === "video" && content.videoUrl ? (
-                <div className="flex min-h-0 flex-1 items-center justify-center bg-black p-2">
-                    <video
-                        key={content.videoUrl}
-                        src={content.videoUrl}
-                        controls
-                        playsInline
-                        className="max-h-full max-w-full rounded-sm"
-                    />
+            {view === "lesson" && activePage?.kind === "slide" ? (
+                <div className="flex min-h-0 flex-none flex-col bg-[#0f172a] lg:flex-1">
+                    <div className="flex min-h-0 flex-none items-center justify-center overflow-hidden p-3 lg:flex-1 lg:p-6">
+                        {activePage.sourceIndex === videoSlide0 && content.videoUrl ? (
+                            <video
+                                key={content.videoUrl}
+                                src={content.videoUrl}
+                                controls
+                                playsInline
+                                className="aspect-video h-auto w-full max-w-[900px] rounded-sm bg-black shadow-lg"
+                            />
+                        ) : failedSlides.has(activePage.sourceIndex) ? (
+                            <div className="flex max-w-sm flex-col items-center gap-2 rounded-sm border border-dashed border-white/25 bg-white/5 px-6 py-8 text-center">
+                                <Presentation className="h-8 w-8 text-white/40" />
+                                <p className="text-sm font-semibold text-white/80">本页课件待导入</p>
+                                <p className="text-xs leading-relaxed text-white/50">
+                                    课件图片加载失败，请检查资源或刷新页面重试。
+                                </p>
+                            </div>
+                        ) : (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                                src={activePage.imageUrl}
+                                alt={activePage.title}
+                                onError={() =>
+                                    setFailedSlides((prev) => {
+                                        const next = new Set(prev);
+                                        next.add(activePage.sourceIndex);
+                                        return next;
+                                    })
+                                }
+                                className="h-auto w-full max-w-[900px] rounded-sm bg-white object-contain shadow-lg"
+                            />
+                        )}
+                    </div>
+                    {flowControls}
                 </div>
             ) : null}
 
-            {view === "slides" ? (
-                <div className="flex min-h-0 flex-1 flex-col bg-[#0f172a]">
-                    {hasSlideImages && content.slideImageUrls ? (
-                        <>
-                            <div className="flex shrink-0 items-center justify-between gap-2 border-b border-white/10 px-3 py-1.5">
-                                <span className="truncate text-xs font-semibold text-white/70">
-                                    授课课件 · 共 {slideCount} 页
-                                    {videoSlide0 >= 0 ? `（第 ${videoSlide0 + 1} 页为动画）` : ""}
-                                </span>
-                                {content.slidesPdfUrl ? (
-                                    <a
-                                        href={content.slidesPdfUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-white/20 px-2.5 py-1 text-xs font-semibold text-white/80 transition-colors hover:bg-white/10"
-                                    >
-                                        <FileText className="h-3.5 w-3.5" />
-                                        搭建说明
-                                    </a>
-                                ) : null}
-                            </div>
-                            <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-3">
-                                {currentSlide === videoSlide0 && content.videoUrl ? (
-                                    <video
-                                        key={content.videoUrl}
-                                        src={content.videoUrl}
-                                        controls
-                                        playsInline
-                                        poster={content.slideImageUrls[currentSlide]}
-                                        className="max-h-full max-w-full rounded-sm bg-black shadow-lg"
-                                    />
-                                ) : failedSlides.has(currentSlide) ? (
-                                    <div className="flex max-w-sm flex-col items-center gap-2 rounded-sm border border-dashed border-white/25 bg-white/5 px-6 py-8 text-center">
-                                        <Presentation className="h-8 w-8 text-white/40" />
-                                        <p className="text-sm font-semibold text-white/80">第 {currentSlide + 1} 页课件待导入</p>
-                                        <p className="text-xs leading-relaxed text-white/50">
-                                            课件图片加载失败，请检查 OSS 资源或刷新页面重试。
-                                        </p>
-                                    </div>
-                                ) : (
-                                    /* eslint-disable-next-line @next/next/no-img-element */
-                                    <img
-                                        src={content.slideImageUrls[currentSlide]}
-                                        alt={`课件第 ${currentSlide + 1} 页`}
-                                        onError={() =>
-                                            setFailedSlides((prev) => {
-                                                const next = new Set(prev);
-                                                next.add(currentSlide);
-                                                return next;
-                                            })
-                                        }
-                                        className="max-h-full max-w-full rounded-sm bg-white object-contain shadow-lg"
-                                    />
-                                )}
-                            </div>
-                            <div className="flex shrink-0 items-center justify-center gap-3 border-t border-white/10 bg-[#0b1220] p-2">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={slideIndex <= 0}
-                                    onClick={() => setSlideIndex((i) => Math.max(0, i - 1))}
-                                >
-                                    <ChevronLeft className="mr-1 h-4 w-4" />
-                                    上一页
-                                </Button>
-                                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/80">
-                                    {videoSlide0 >= 0 && currentSlide === videoSlide0 ? (
-                                        <PlayCircle className="h-4 w-4 text-[hsl(var(--brand-blue))]" />
-                                    ) : null}
-                                    {currentSlide + 1} / {slideCount}
-                                </span>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    disabled={slideIndex >= slideCount - 1}
-                                    onClick={() => setSlideIndex((i) => Math.min(slideCount - 1, i + 1))}
-                                >
-                                    下一页
-                                    <ChevronRight className="ml-1 h-4 w-4" />
-                                </Button>
-                            </div>
-                        </>
-                    ) : content.slidesPdfUrl ? (
-                        <iframe
-                            title="授课课件"
-                            src={content.slidesPdfUrl}
-                            className="min-h-0 flex-1 border-0"
+            {view === "lesson" && activePage?.kind === "video" && content.videoUrl ? (
+                <div className="flex min-h-0 flex-1 flex-col bg-black">
+                    <div className="flex min-h-[360px] flex-1 items-center justify-center p-3 max-lg:h-[62dvh] max-lg:flex-none">
+                        <video
+                            key={content.videoUrl}
+                            src={content.videoUrl}
+                            controls
+                            playsInline
+                            className="max-h-full max-w-full rounded-sm"
                         />
-                    ) : null}
+                    </div>
+                    {flowControls}
+                </div>
+            ) : null}
+
+            {view === "lesson" && !activePage ? (
+                <div className="flex min-h-[420px] flex-1 items-center justify-center bg-muted/20 p-6 text-center">
+                    <div className="max-w-sm rounded-sm border border-border bg-card p-5">
+                        <Presentation className="mx-auto h-8 w-8 text-muted-foreground" />
+                        <h3 className="mt-3 text-base font-bold text-foreground">课程内容暂不可用</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                            这节课的在线内容还没有准备好。
+                        </p>
+                    </div>
                 </div>
             ) : null}
 
             <div className={cn(
                 "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[44dvh_auto] lg:grid-cols-[minmax(0,1fr)_280px] lg:grid-rows-1",
-                view !== "build" && "hidden",
+                !showBuildPage && "hidden",
             )}>
                 <div className="relative min-h-[320px] max-lg:min-h-0 overflow-hidden bg-[#f8fbff]">
                     <div ref={mountRef} className="h-full w-full" aria-label="3D 搭建图纸" />
@@ -1151,7 +1123,7 @@ export function Building3DWorkspace({
                             size="sm"
                             variant="outline"
                             className="bg-card/90"
-                            onClick={() => sceneRef.current?.focusStep(activeStepIndex)}
+                            onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex)}
                         >
                             <RotateCcw className="mr-1 h-4 w-4" />
                             视角
@@ -1173,7 +1145,7 @@ export function Building3DWorkspace({
                         <div className="border-b border-border px-4 py-3">
                             <div className="flex items-center justify-between gap-2">
                                 <p className="text-xs font-semibold text-[hsl(var(--brand-blue))]">
-                                    步骤 {activeStepIndex + 1}/{content.steps3d.length}
+                                    搭建步骤 {activeBuildStepIndex + 1}/{content.steps3d.length}
                                 </p>
                                 {completed ? (
                                     <span className="rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-xs font-semibold text-[hsl(var(--status-success))]">
@@ -1189,17 +1161,6 @@ export function Building3DWorkspace({
                             </p>
                         </div>
                         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
-                            {content.finishedImageUrl ? (
-                                <div className="mb-3">
-                                    <h4 className="mb-2 text-xs font-bold text-muted-foreground">成品参考</h4>
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={content.finishedImageUrl}
-                                        alt="搭好的样子"
-                                        className="w-full rounded-sm border border-border object-cover"
-                                    />
-                                </div>
-                            ) : null}
                             <h4 className="mb-2 flex items-center gap-1 text-xs font-bold text-muted-foreground">
                                 <Box className="h-3.5 w-3.5" />
                                 本步零件
@@ -1229,45 +1190,11 @@ export function Building3DWorkspace({
                         {ldrawEditEnabled && content.ldrawModelUrl ? (
                             <LDrawDebugEditor
                                 modelUrl={content.ldrawModelUrl}
-                                activeStepIndex={activeStepIndex}
+                                activeStepIndex={activeBuildStepIndex}
                                 onPreviewLine={previewLDrawLineEdit}
                             />
                         ) : null}
-                        <div className="space-y-2 border-t border-border p-3">
-                            <div className="grid grid-cols-[1fr_1fr] gap-2">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    disabled={activeStepIndex === 0}
-                                    onClick={() => goStep(-1)}
-                                >
-                                    <ChevronLeft className="mr-1 h-4 w-4" />
-                                    上一步
-                                </Button>
-                                {activeStepIndex < content.steps3d.length - 1 ? (
-                                    <Button type="button" onClick={() => goStep(1)}>
-                                        下一步
-                                        <ChevronRight className="ml-1 h-4 w-4" />
-                                    </Button>
-                                ) : (
-                                    <Button type="button" disabled={completing || completed} onClick={() => void handleComplete()}>
-                                        {completing ? (
-                                            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <Check className="mr-1 h-4 w-4" />
-                                        )}
-                                        {completed ? "已完成" : "完成这课"}
-                                    </Button>
-                                )}
-                            </div>
-                            {hasWorks ? (
-                                <LessonWorkUpload
-                                    courseId={courseId}
-                                    lessonId={lesson.id}
-                                    lessonTitle={lesson.title}
-                                />
-                            ) : null}
-                        </div>
+                        {flowControls}
                     </div>
                 </aside>
             </div>

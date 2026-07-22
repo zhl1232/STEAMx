@@ -47,10 +47,10 @@ export const COMPRESSION_PRESETS: Record<string, CompressionPreset> = {
     initialQuality: 0.85,
   },
   'project-completions': {
-    skipBelowKB: 1024,
-    targetMB: 3.5,
-    maxWidthOrHeight: 2560,
-    initialQuality: 0.85,
+    skipBelowKB: 300,
+    targetMB: 0.9,
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.82,
   },
 }
 

@@ -185,9 +185,9 @@ export interface Building3DLessonContent {
    * 设置后，课件翻页到该页时就地播放 videoUrl，还原「动画嵌在 PPT 里播放」。
    */
   videoSlideIndex?: number
-  /** 搭建说明 PDF（课件翻页器右上角「搭建说明」按钮打开；slideImageUrls 缺省时回退为内嵌 PDF）。 */
+  /** 历史搭建说明 PDF；学习页不展示，仅保留供课程导入与后台管理使用。 */
   slidesPdfUrl?: string
-  /** 成品参考照片（真实积木拼好的样子）。 */
+  /** 成品参考照片；真实 3D 搭建步骤不展示此图。 */
   finishedImageUrl?: string
   parts: Building3DPart[]
   steps3d: Building3DStep[]

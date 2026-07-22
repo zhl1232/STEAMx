@@ -22,6 +22,7 @@ import {
     buildScratchStepCheck,
     type ScratchStepCheckResult,
 } from "@/lib/courses/scratch-step-check";
+import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -75,10 +76,18 @@ export function LessonPageClient({
     const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
-    const steps = useMemo(() => lesson.steps ?? [], [lesson.steps]);
+    const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
+    const steps = useMemo(
+        () => lessonWorkspace === "building_3d"
+            ? buildBuildingLessonDisplaySteps({
+                lessonTitle: lesson.title,
+                content: lesson.content?.building3d,
+            })
+            : lesson.steps ?? [],
+        [lesson.content?.building3d, lesson.steps, lesson.title, lessonWorkspace],
+    );
     const clampedActiveStep = steps.length > 0 ? Math.min(activeStep, steps.length - 1) : 0;
     const activeStepTitle = steps[clampedActiveStep]?.title;
-    const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     // Scratch 编辑器需要固定一屏；building_3d 在移动端交给页面自然滚动，
     // 让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
     const usesFixedMobileWorkspace = lessonWorkspace === "scratch";
@@ -257,15 +266,15 @@ export function LessonPageClient({
                             : "max-lg:shrink-0 max-lg:overflow-visible",
                         "max-lg:order-2 max-lg:border-b",
                         "lg:order-0 lg:min-h-0 lg:max-h-none lg:shrink-0",
-                        // playground 课时在移动端用单栏：讲解+实战都由 PlaygroundWorkspace 承载，
-                        // 不再额外渲染左侧步骤列表，避免与工作区讲解重复堆叠。
-                        lessonWorkspace === "playground" && "max-lg:hidden",
+                        // playground 与积木课在移动端都由工作区承载翻页，隐藏重复的侧栏步骤。
+                        (lessonWorkspace === "playground" || lessonWorkspace === "building_3d") && "max-lg:hidden",
                     )}
                 >
                     <LessonSidebar
                         courseId={courseId}
                         courseTitle={courseTitle}
                         lesson={lesson}
+                        displaySteps={steps}
                         activeStepIndex={clampedActiveStep}
                         focusedStepIndex={focusedStep}
                         onStepClick={setActiveStep}
@@ -276,7 +285,9 @@ export function LessonPageClient({
                 <div
                     className={cn(
                         "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-0",
-                        usesFixedMobileWorkspace ? "min-h-0" : "min-h-[60vh] md:min-h-0",
+                        usesFixedMobileWorkspace || lessonWorkspace === "building_3d"
+                            ? "min-h-0"
+                            : "min-h-[60vh] md:min-h-0",
                         // building_3d 在移动端不参与 flex 撑满，3D 画布用固定 dvh 高度，
                         // 避免可滚动布局下 flex-1 高度波动触发 ResizeObserver 反复 setSize 闪烁。
                         lessonWorkspace === "building_3d" && "max-lg:flex-none",

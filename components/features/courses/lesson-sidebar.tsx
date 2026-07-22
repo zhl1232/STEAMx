@@ -13,6 +13,7 @@ export function LessonSidebar({
     courseId,
     courseTitle,
     lesson,
+    displaySteps,
     activeStepIndex,
     focusedStepIndex,
     onStepClick,
@@ -22,6 +23,7 @@ export function LessonSidebar({
     courseId: number;
     courseTitle: string;
     lesson: CourseLessonRow;
+    displaySteps?: CourseLessonStep[];
     activeStepIndex: number;
     focusedStepIndex?: number | null;
     onStepClick: (index: number) => void;
@@ -34,7 +36,7 @@ export function LessonSidebar({
         ? lesson.content.learningGoals.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
         : [];
     const teacherGuide = normalizeTeacherGuide(lesson.content?.teacherGuide);
-    const steps = lesson.steps ?? [];
+    const steps = displaySteps ?? lesson.steps ?? [];
 
     return (
         <aside className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
