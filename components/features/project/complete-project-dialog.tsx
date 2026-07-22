@@ -49,8 +49,14 @@ interface CompleteProjectDialogProps {
     stageLabel?: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSuccess: () => void;
+    onSuccess: (result: CompletionSubmitResult) => void;
 }
+
+export type CompletionSubmitResult = {
+    id: number;
+    status: string;
+    recordKind: string;
+};
 
 function getVideoDuration(file: File): Promise<number> {
     return new Promise((resolve, reject) => {
@@ -403,6 +409,7 @@ export function CompleteProjectDialog({
                 imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
             };
 
+            let result: CompletionSubmitResult;
             if (submitEndpoint) {
                 const response = await fetch(submitEndpoint, {
                     method: "POST",
@@ -411,9 +418,17 @@ export function CompleteProjectDialog({
                 });
                 const payload = await response.json().catch(() => ({}));
                 if (!response.ok) throw new Error(payload?.error || "提交失败");
+                if (!Number.isInteger(payload?.id) || payload.id <= 0) {
+                    throw new Error("服务端未返回作品编号");
+                }
+                result = {
+                    id: payload.id,
+                    status: typeof payload.status === "string" ? payload.status : "pending",
+                    recordKind: typeof payload.recordKind === "string" ? payload.recordKind : mode,
+                };
             } else {
                 if (projectId === undefined) throw new Error("缺少作品来源");
-                await submitExplorationPost(projectId, proof, {
+                result = await submitExplorationPost(projectId, proof, {
                     kind: mode,
                     recordType,
                     stageLabel,
@@ -441,7 +456,7 @@ export function CompleteProjectDialog({
                     : "AI 审核通过后将公开展示并获得 XP 奖励",
             });
 
-            onSuccess();
+            onSuccess(result);
             onOpenChange(false);
             resetForm();
         } catch (error: unknown) {

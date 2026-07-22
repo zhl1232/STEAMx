@@ -4,7 +4,10 @@ import { notFound } from "next/navigation"
 import { WorkDetail } from "@/components/features/works/work-detail"
 import { getWorkById } from "@/lib/works/data"
 
-type WorkPageProps = { params: Promise<{ id: string }> }
+type WorkPageProps = {
+  params: Promise<{ id: string }>
+  searchParams?: Promise<{ share?: string | string[] }>
+}
 
 export async function generateMetadata({ params }: WorkPageProps): Promise<Metadata> {
   const id = Number((await params).id)
@@ -26,10 +29,11 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
   }
 }
 
-export default async function WorkPage({ params }: WorkPageProps) {
+export default async function WorkPage({ params, searchParams }: WorkPageProps) {
   const id = Number((await params).id)
   if (!Number.isInteger(id) || id <= 0) notFound()
   const work = await getWorkById(id)
   if (!work) notFound()
-  return <WorkDetail work={work} />
+  const shareParam = (await searchParams)?.share
+  return <WorkDetail work={work} autoOpenShare={shareParam === "1"} />
 }

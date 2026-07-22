@@ -45,13 +45,14 @@ describe('CompleteProjectDialog', () => {
     )
     vi.stubGlobal('fetch', fetchMock)
 
+    const onSuccess = vi.fn()
     render(
       <CompleteProjectDialog
         projectTitle="长颈鹿"
         submitEndpoint="/api/courses/5/lessons/33/works"
         open
         onOpenChange={vi.fn()}
-        onSuccess={vi.fn()}
+        onSuccess={onSuccess}
       />,
     )
 
@@ -81,6 +82,7 @@ describe('CompleteProjectDialog', () => {
         'https://assets.example.com/project-completions/user-1/side.webp',
       ],
     })
+    expect(onSuccess).toHaveBeenCalledWith({ id: 8, status: 'pending', recordKind: 'final' })
 
     vi.unstubAllGlobals()
   })

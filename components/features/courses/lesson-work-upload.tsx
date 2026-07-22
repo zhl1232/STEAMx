@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { ImagePlus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ export function LessonWorkUpload({
     lessonTitle: string;
     onUploaded?: () => void;
 }) {
+    const router = useRouter();
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const [open, setOpen] = useState(false);
@@ -56,9 +58,9 @@ export function LessonWorkUpload({
                     mode="final"
                     open={open}
                     onOpenChange={setOpen}
-                    onSuccess={() => {
-                        setOpen(false);
+                    onSuccess={(result) => {
                         onUploaded?.();
+                        router.push(`/works/${result.id}?share=1`);
                     }}
                 />
             ) : null}

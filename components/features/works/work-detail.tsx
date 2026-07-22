@@ -1,9 +1,10 @@
 "use client"
 
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, BookOpen, Coins, Heart, Images, MessageCircle, Wrench } from "lucide-react"
+import { ArrowLeft, BookOpen, Coins, Heart, Images, MessageCircle, Share2, Wrench } from "lucide-react"
 
 import { CompletionRecordComments } from "@/components/features/project/completion-record-comments"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
@@ -17,12 +18,18 @@ import { cn } from "@/lib/utils"
 
 type LikeMeta = { count: number; isLiked: boolean }
 
-export function WorkDetail({ work }: { work: Work }) {
+const ShareWorkDialog = dynamic(
+  () => import("@/components/features/works/share-work-dialog").then((module) => module.ShareWorkDialog),
+  { ssr: false },
+)
+
+export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOpenShare?: boolean }) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const queryClient = useQueryClient()
   const [activeImage, setActiveImage] = useState(0)
   const [tipOpen, setTipOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(autoOpenShare)
   const source = work.source
   const cover = work.proofImages[activeImage]
 
@@ -162,18 +169,18 @@ export function WorkDetail({ work }: { work: Work }) {
             </Link>
           ) : null}
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-2">
             <Button
               type="button"
               variant="outline"
-              className={cn("h-12", likeMeta.isLiked && "text-red-500")}
+              className={cn("h-12 px-2", likeMeta.isLiked && "text-red-500")}
               onClick={handleLike}
               disabled={likeMutation.isPending}
             >
               <Heart className={cn("mr-1.5 h-4 w-4", likeMeta.isLiked && "fill-current")} />
               {likeMeta.count}
             </Button>
-            <Button variant="outline" className="h-12" asChild>
+            <Button variant="outline" className="h-12 px-2" asChild>
               <a href="#comments">
                 <MessageCircle className="mr-1.5 h-4 w-4" />
                 {work.commentsCount ?? 0}
@@ -182,7 +189,7 @@ export function WorkDetail({ work }: { work: Work }) {
             <Button
               type="button"
               variant="outline"
-              className="h-12"
+              className="h-12 px-2"
               onClick={() => {
                 if (!user) {
                   promptLogin(() => setTipOpen(true), { title: "登录以投币", description: "登录后即可支持作品作者" })
@@ -193,6 +200,16 @@ export function WorkDetail({ work }: { work: Work }) {
             >
               <Coins className="mr-1.5 h-4 w-4" />
               {work.coins}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 px-2"
+              onClick={() => setShareOpen(true)}
+              aria-label="分享作品"
+            >
+              <Share2 className="mr-1.5 h-4 w-4" />
+              分享
             </Button>
           </div>
 
@@ -229,6 +246,9 @@ export function WorkDetail({ work }: { work: Work }) {
         projectId={work.id}
         resourceType="completion"
       />
+      {shareOpen ? (
+        <ShareWorkDialog work={work} open={shareOpen} onOpenChange={setShareOpen} />
+      ) : null}
     </main>
   )
 }

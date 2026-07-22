@@ -363,7 +363,13 @@ export function ProjectRecordsClient({
           recordType={selectedRecordType}
           open={dialogOpen}
           onOpenChange={setDialogOpen}
-          onSuccess={() => router.refresh()}
+          onSuccess={(result) => {
+            if (result.recordKind === "final") {
+              router.push(`/works/${result.id}?share=1`)
+              return
+            }
+            router.refresh()
+          }}
         />
       ) : null}
     </RecordsPageShell>

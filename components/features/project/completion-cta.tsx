@@ -51,6 +51,9 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
     }
 
     const actionLabel = actionLabelProp ?? (mode === "observation" ? "提交这次观察" : "上传我的作品")
+    const handleSuccess = (result: { id: number }) => {
+        router.push(`/works/${result.id}?share=1`)
+    }
 
 
     if (variant === "records") {
@@ -72,7 +75,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                         challengeId={challengeId}
                         open={showDialog}
                         onOpenChange={setShowDialog}
-                        onSuccess={() => router.refresh()}
+                        onSuccess={handleSuccess}
                     />
                 )}
             </>
@@ -93,7 +96,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                         challengeId={challengeId}
                         open={showDialog}
                         onOpenChange={setShowDialog}
-                        onSuccess={() => router.refresh()}
+                        onSuccess={handleSuccess}
                     />
                 )}
             </>
@@ -124,7 +127,7 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                     challengeId={challengeId}
                     open={showDialog}
                     onOpenChange={setShowDialog}
-                    onSuccess={() => router.refresh()}
+                    onSuccess={handleSuccess}
                 />
             )}
         </>
