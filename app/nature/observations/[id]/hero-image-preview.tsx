@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface HeroImagePreviewProps {
   heroImage: string;
@@ -17,10 +17,11 @@ export function HeroImagePreview({ heroImage, displayTitle }: HeroImagePreviewPr
     <>
       <button type="button" onClick={() => setOpen(true)} className="block w-full text-left">
         <div className="relative aspect-5/4 overflow-hidden bg-muted/30 sm:aspect-16/10 md:aspect-video">
-          <Image
+          <OptimizedImage
             src={heroImage}
             alt={displayTitle}
             fill
+            variant="cover"
             priority
             sizes="(min-width: 1280px) 1120px, 100vw"
             className="object-contain transition duration-500 hover:scale-[1.01]"
@@ -39,10 +40,11 @@ export function HeroImagePreview({ heroImage, displayTitle }: HeroImagePreviewPr
 
           <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_45%)]">
             <div className="relative h-full w-full">
-              <Image
+              <OptimizedImage
                 src={heroImage}
                 alt={displayTitle}
                 fill
+                variant="cover"
                 className="object-contain p-6 sm:p-10"
                 sizes="100vw"
                 priority

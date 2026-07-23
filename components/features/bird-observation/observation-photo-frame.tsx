@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { cn } from "@/lib/utils";
 
 interface ObservationPhotoFrameProps {
@@ -23,10 +22,11 @@ export function ObservationPhotoFrame({
 }: ObservationPhotoFrameProps) {
   return (
     <div className={cn("relative overflow-hidden bg-muted/25", className)}>
-      <Image
+      <OptimizedImage
         src={src}
         alt=""
         fill
+        variant="card"
         aria-hidden="true"
         className="scale-110 object-cover blur-2xl opacity-55"
         sizes={sizes}
@@ -34,10 +34,11 @@ export function ObservationPhotoFrame({
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.22),transparent_48%)]" />
       <div className="absolute inset-0 bg-linear-to-t from-black/28 via-black/8 to-transparent" />
-      <Image
+      <OptimizedImage
         src={src}
         alt={alt}
         fill
+        variant="cover"
         className={cn("object-contain", paddingClassName, imageClassName)}
         sizes={sizes}
         priority={priority}

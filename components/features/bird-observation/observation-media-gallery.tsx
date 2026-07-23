@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { ObservationPhotoFrame } from "@/components/features/bird-observation/observation-photo-frame";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { cn } from "@/lib/utils";
 
 interface ObservationMediaGalleryProps {
@@ -86,10 +86,11 @@ export function ObservationMediaGallery({ mediaUrls }: ObservationMediaGalleryPr
               ) : null}
 
               <div className="relative h-full w-full">
-                <Image
+                <OptimizedImage
                   src={selectedUrl}
                   alt={`观察照片 ${selectedIndex! + 1}`}
                   fill
+                  variant="cover"
                   className="object-contain p-6 sm:p-10"
                   sizes="100vw"
                   priority

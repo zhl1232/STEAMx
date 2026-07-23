@@ -1,9 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion, type Easing } from "framer-motion"
 
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useHorizontalSwipe } from "@/hooks/use-horizontal-swipe"
 import { cn } from "@/lib/utils"
 
@@ -118,10 +118,11 @@ export function SwipeablePhotoViewer({
             transition={slideTransition}
             className="absolute inset-0"
           >
-            <Image
+            <OptimizedImage
               src={activeUrl}
               alt={alt}
               fill
+              variant="cover"
               priority={priority}
               draggable={false}
               className={cn("pointer-events-none select-none object-contain", imageClassName)}

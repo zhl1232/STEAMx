@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import { formatObservationDateKey } from "@/lib/observations/display";
 import type { NaturalObservationProgressSummary } from "@/lib/observations/progress";
@@ -129,10 +129,11 @@ export function ProfileObservationsPanel({
         >
           {observation.mediaUrls[0] ? (
             <div className="relative mb-3 aspect-16/10 overflow-hidden rounded-lg bg-muted">
-              <Image
+              <OptimizedImage
                 src={observation.mediaUrls[0]}
                 alt="观察照片"
                 fill
+                variant="card"
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
               />

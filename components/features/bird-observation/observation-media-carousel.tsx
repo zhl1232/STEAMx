@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion, type Easing } from "framer-motion";
 
 import { SwipeablePhotoViewer } from "@/components/features/bird-observation/swipeable-photo-viewer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useHorizontalSwipe } from "@/hooks/use-horizontal-swipe";
 import { cn } from "@/lib/utils";
 
@@ -122,7 +122,14 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
                   : "border-border/70 opacity-80 hover:opacity-100",
               )}
             >
-              <Image src={url} alt="" fill className="object-cover" sizes="72px" />
+              <OptimizedImage
+                src={url}
+                alt=""
+                fill
+                variant="thumbnail"
+                className="object-cover"
+                sizes="72px"
+              />
             </button>
           ))}
         </div>
@@ -177,10 +184,11 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
                 transition={previewSlideTransition}
                 className="absolute inset-0"
               >
-                <Image
+                <OptimizedImage
                   src={activeUrl}
                   alt={`${alt}（${activeIndex + 1}/${mediaUrls.length}）`}
                   fill
+                  variant="cover"
                   className="object-contain p-6 sm:p-10"
                   sizes="100vw"
                   priority

@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -24,6 +23,7 @@ import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { CommentCard } from "@/components/features/shared/comment-card";
 import { BottomReplyBox } from "@/components/features/shared/bottom-reply-box";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 const getRootOrderFromComments = (items: Comment[]): string[] => {
   const order: string[] = [];
@@ -848,11 +848,12 @@ export function ProjectComments({
           >
             <X className="h-6 w-6" />
           </button>
-          <Image
+          <OptimizedImage
             src={previewImageUrl}
             alt="图片预览"
             width={800}
             height={800}
+            variant="cover"
             className="max-w-full max-h-[85vh] object-contain rounded-xs"
             onClick={(e) => e.stopPropagation()}
           />

@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Camera, ChevronRight, Leaf, MapPin } from "lucide-react"
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import type { ObservationEvent } from "@/lib/mappers/types"
 import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation"
 
@@ -123,10 +123,11 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                       >
                         <div className="relative aspect-4/3 w-full overflow-hidden rounded-xs bg-muted/50">
                           {observation.mediaUrls[0] ? (
-                            <Image
+                            <OptimizedImage
                               src={observation.mediaUrls[0]}
                               alt={speciesName ?? "待鉴定观察"}
                               fill
+                              variant="card"
                               className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                               sizes="72vw"
                             />
@@ -180,10 +181,11 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                       >
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xs bg-muted/50">
                           {observation.mediaUrls[0] ? (
-                            <Image
+                            <OptimizedImage
                               src={observation.mediaUrls[0]}
                               alt={speciesName ?? "待鉴定观察"}
                               fill
+                              variant="thumbnail"
                               className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                               sizes="64px"
                             />

@@ -38,6 +38,15 @@ describe('getOptimizedImageSrc', () => {
     )
   })
 
+  it('uses Supabase render transforms for cover images too', () => {
+    const src =
+      'https://example.supabase.co/storage/v1/object/public/project-completions/user/file.png'
+
+    expect(getOptimizedImageSrc(src, 'cover')).toBe(
+      'https://example.supabase.co/storage/v1/render/image/public/project-completions/user/file.png?width=1280&quality=72',
+    )
+  })
+
   it('adds a cache version for local generated project images', () => {
     delete process.env[ASSETS_BASE_ENV_KEY]
 
@@ -78,5 +87,25 @@ describe('shouldUseUnoptimizedImage', () => {
 
   it('bypasses Sharp when Supabase already rendered the requested size', () => {
     expect(shouldUseUnoptimizedImage('https://example.supabase.co/render.png', true)).toBe(true)
+  })
+
+  it('bypasses Next image caching for Supabase hosts without render transforms', () => {
+    expect(
+      shouldUseUnoptimizedImage(
+        'https://spb-l3q6k3bebzxrok83.supabase.opentrust.net/storage/v1/object/public/project-completions/user/file.webp',
+      ),
+    ).toBe(true)
+  })
+
+  it('bypasses Next image caching for an existing Supabase render URL', () => {
+    expect(
+      shouldUseUnoptimizedImage(
+        'https://example.supabase.co/storage/v1/render/image/public/project-completions/user/file.webp?width=1280&quality=72',
+      ),
+    ).toBe(true)
+  })
+
+  it('bypasses Next image caching for other remote image URLs', () => {
+    expect(shouldUseUnoptimizedImage('https://cdn.example.com/uploads/photo.webp')).toBe(true)
   })
 })

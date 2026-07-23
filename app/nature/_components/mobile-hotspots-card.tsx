@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, List, Map, MapPin } from "lucide-react";
 import { useState } from "react";
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import type { ObservationHotspotSummary } from "@/lib/api/nature-observation-data";
 import { cn } from "@/lib/utils";
 
@@ -109,10 +109,11 @@ export function MobileHotspotsCard({ hotspots }: MobileHotspotsCardProps) {
               className="group block overflow-hidden rounded-sm nature-media-placeholder shadow-[0_14px_34px_-30px_rgba(23,58,41,0.5)] transition-transform duration-300 active:scale-[0.99] dark:bg-[#16251b]"
             >
               <div className="relative aspect-video overflow-hidden">
-                <Image
+                <OptimizedImage
                   src={getHotspotImage(hotspot, index)}
                   alt=""
                   fill
+                  variant="card"
                   className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.04] dark:brightness-[.82]"
                   sizes="(max-width: 768px) calc(100vw - 64px), 360px"
                 />

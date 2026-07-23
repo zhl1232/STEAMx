@@ -73,6 +73,22 @@ function isSupabasePublicStorageUrl(src: string): boolean {
   }
 }
 
+function isSupabaseTransformedImageUrl(src: string): boolean {
+  try {
+    const url = new URL(src)
+    const isSupabaseHost =
+      url.hostname.endsWith(".supabase.co") || url.hostname.endsWith(".supabase.opentrust.net")
+
+    return isSupabaseHost && url.pathname.includes("/storage/v1/render/image/")
+  } catch {
+    return false
+  }
+}
+
+function isRemoteImageUrl(src: string): boolean {
+  return /^https?:\/\//i.test(src)
+}
+
 function supportsSupabaseRenderTransform(src: string): boolean {
   try {
     const url = new URL(src)
@@ -122,21 +138,28 @@ export function getOptimizedImageSrc(
   const versionedSrc = withGeneratedProjectImageCacheVersion(src)
   const rewrittenSrc = rewriteAssetUrl(versionedSrc) ?? versionedSrc
 
-  if (variant === "cover") {
+  if (!isSupabasePublicStorageUrl(rewrittenSrc)) {
     return rewrittenSrc
   }
 
-  return isSupabasePublicStorageUrl(rewrittenSrc) && supportsSupabaseRenderTransform(rewrittenSrc)
+  return supportsSupabaseRenderTransform(rewrittenSrc)
     ? toSupabaseTransformedUrl(rewrittenSrc, width, quality)
     : rewrittenSrc
 }
 
 export function shouldUseUnoptimizedImage(src: string, useDirectSupabaseTransform = false) {
-  return useDirectSupabaseTransform || shouldBypassAssetDisplayOptimization(src)
+  return (
+    useDirectSupabaseTransform ||
+    isSupabaseTransformedImageUrl(src) ||
+    isSupabasePublicStorageUrl(src) ||
+    isRemoteImageUrl(src) ||
+    shouldBypassAssetDisplayOptimization(src)
+  )
 }
 
 /**
- * 用户上传图片的优化封装：统一 sizes、quality、懒加载，配合 next.config 的缓存与格式优化。
+ * 图片展示封装：统一 sizes、quality、懒加载；远程图片交给源站/CDN，
+ * 固定的本地静态资源仍可使用 Next 的格式与尺寸优化。
  */
 export function OptimizedImage({
   variant = "cover",
@@ -159,7 +182,6 @@ export function OptimizedImage({
   const rawSrc = typeof rest.src === "string" ? rest.src : null
   const useDirectSupabaseTransform =
     rawSrc !== null &&
-    variant !== "cover" &&
     isSupabasePublicStorageUrl(rawSrc) &&
     supportsSupabaseRenderTransform(rawSrc)
   const optimizedSrc = rawSrc !== null ? getOptimizedImageSrc(rawSrc, variant, quality) : rest.src

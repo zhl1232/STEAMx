@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 import { useState, useRef, useEffect } from "react";
@@ -10,6 +9,7 @@ import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { Button } from "@/components/ui/button";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -141,11 +141,12 @@ function CommentCardComponent({
         className="mt-2 block"
         onClick={() => onImageClick(comment.image_url!)}
       >
-        <Image
+        <OptimizedImage
           src={comment.image_url}
           alt="评论附图"
           width={200}
           height={200}
+          variant="grid"
           className="rounded-xs border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
         />
       </button>
@@ -156,11 +157,12 @@ function CommentCardComponent({
         rel="noopener noreferrer"
         className="mt-2 block"
       >
-        <Image
+        <OptimizedImage
           src={comment.image_url}
           alt="评论附图"
           width={200}
           height={200}
+          variant="grid"
           className="rounded-xs border object-cover max-h-[200px] w-auto hover:opacity-90 transition-opacity cursor-zoom-in"
         />
       </a>

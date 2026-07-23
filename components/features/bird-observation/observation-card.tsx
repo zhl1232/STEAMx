@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Clock3, MapPin, Sprout } from "lucide-react";
 
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import type { ObservationEvent } from "@/lib/mappers/types";
 import {
   formatObservationDateTime,
@@ -36,10 +36,11 @@ export function ObservationCard({ observation, className, fromHref, priority = f
     >
       <div className="relative aspect-4/3 overflow-hidden border-b border-border/60">
         {heroImage ? (
-          <Image
+          <OptimizedImage
             src={heroImage}
             alt={title}
             fill
+            variant="card"
             sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1280px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             quality={60}

@@ -271,7 +271,7 @@
 
 Tutor 用户画像缓存使用 5 分钟 TTL 且最多保留 1000 个用户；短信 IP 限流缓存最多保留 10000 项，二者均按周期/容量主动清理过期项，避免模块级 `Map` 随长期流量无限增长。
 
-`OptimizedImage` 对已压缩的 `/projects`、物种图、课程图及其 `/api/assets` 代理地址直接透传，不再交给 Next/Sharp 二次转换；Supabase 原始用户上传仍保留尺寸优化，避免 OSS 403/空响应期间图片转换任务放大 native memory。
+`OptimizedImage` 对已压缩的 `/projects`、物种图、课程图及其 `/api/assets` 代理地址直接透传，不再交给 Next/Sharp 二次转换；远程用户图统一标记 `unoptimized`，Supabase `supabase.co` 用户图同时改用 Render Transform（含 `cover` 变体），避免 Next/Sharp 为用户 URL/尺寸组合建立无界服务器图片缓存；浏览器与图片源站仍负责客户端/CDN 缓存。
 
 Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦测、变量、运算、控制、外观、声音、音乐和画笔 opcode（含坐标/大小设值、显示/隐藏、等待直到/重复直到、克隆和画笔粗细），供 iframe 打开分类并定位具体 flyout 积木；`scratch-step-check.ts` 复用同一批 hint item，对当前选中 Scratch 对象做步骤自检，能识别 opcode-only 完成、坐标/变量/大小/比较/克隆等可编辑值不匹配，以及带箭头/拼接语义步骤里的未连接积木，并把 pending item 继续供小迪上下文和页面高亮使用；`scratch-screenshot-diagnosis.ts` 仅在 Scratch 课时当前上传截图且学生明确求助/检查时调用视觉模型，并只能以当前步骤候选积木索引返回高置信结论，视觉失败、模糊截图或无结论均不触发 UI；路由仍经 `tool-registry.ts` 校验后才产生高亮 tool call。`tool-call-planner.ts` 只在消息明确请求页面操作时才调用模型规划，普通 Scratch/扫雷知识问答不会触发页面工具，实际工具选择仍走模型与白名单校验。
 
