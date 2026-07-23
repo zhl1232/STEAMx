@@ -30,7 +30,7 @@
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
-| `/create` | `app/create/page.tsx` | 创造营 — **技能课程** + **项目挑战** 路由化 Tab；裸 `/create` 默认重定向到 `/create?tab=courses`，项目挑战使用 `/create?tab=pbl`，切换与浏览器历史同步；`/create` 重定向自 `/community` |
+| `/create` | `app/create/page.tsx` | 创造营 — **技能课程** + **项目挑战** 路由化 Tab；裸 `/create` 默认重定向到 `/create?tab=courses`，项目挑战使用 `/create?tab=pbl`，切换与浏览器历史同步；移动端自有页头不显示跳往探索页的搜索入口；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
 | `/courses` | `app/courses/page.tsx` | 技能课程列表（Scratch 编程 + 小班/中班/大班大颗粒积木 + 五子棋博弈论入门等）；页面服务端直接读取已审核课程并输出首屏卡片，避免挂载后再请求 `/api/courses` 的瀑布 |
 | `/courses/[courseId]` | `app/courses/[courseId]/page.tsx` | 课程详情与课时列表（左文右图 Hero：五子棋课用纯 SVG 棋盘装饰，其它课走 `image_url` 位图；课时卡带序号棋子 + 课时类型徽章；概览查询只读取课时标题/类型/顺序/时长/分轨摘要，不加载每课完整 content/steps；Scratch 编辑器及 vendor 不在课程介绍页预加载，只在进入课时后按需启动，课时链接禁用自动 prefetch） |
@@ -147,7 +147,7 @@
 | `project/` | 9 | 完成项目弹窗（作品照片支持一次多选、继续追加并按选择顺序提交，最多 9 张；终稿提交后把作品 ID 传给详情页并自动打开分享卡片）、项目详情操作栏、打赏弹窗、续做卡片 |
 | `social/` | 2 | 关注按钮 |
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
-| `profile/` | 16 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，含新增 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
+| `profile/` | 16 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，当前周完成项保留显示并弱化为“已完成 / 查看记录”，含 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
 ### 3.5 管理后台 (`components/admin/`) — 11 个组件
 项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、全部项目管理、用户会员管理 `user-membership-management`
@@ -231,7 +231,7 @@
 ### 4.8 个人资料 (`lib/profile/`)
 - `timeline.ts` — 用户活动时间线
 - `next-action.ts` — 个人主页「今日行动」决策：按可领取新手引导、探索中项目、未完成新手引导、STEAM 雷达补短板、自然待观察物种、时间线回顾等顺序给出下一步（作为本周探索计划加载失败时的 UI 回退）
-- `weekly-plan.ts` — 个人主页「本周探索计划」纯规则生成：3-5 步学习路径，聚合已完成时间线、PBL 阶段、在学课程、探索中项目、STEAM 雷达、自然观察与新手引导；同一摘要供小迪 profile 场景解读
+- `weekly-plan.ts` — 个人主页「本周探索计划」纯规则生成：3-5 步学习路径，聚合并保留当前周已完成时间线（最多 3 条）、PBL 阶段、在学课程、探索中项目、STEAM 雷达、自然观察与新手引导；同一摘要供小迪 profile 场景解读
 - `growth-tasks.ts` — 新手引导系统（内部模块名仍为 growth-tasks）
 - `steam-radar.ts` — STEAM 能力雷达图数据
 - `study-checkin.ts` — 每日打卡展示逻辑；后端 `get_user_study_checkin_summary` 同时计入每日登录打卡、已通过项目终稿、已通过观察与待审/已通过挑战作品

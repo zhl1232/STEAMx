@@ -119,7 +119,7 @@ function doneStepFromTimelineEvent(event: ProfileTimelineEvent): WeeklyPlanStep 
     title: event.label,
     subtitle: event.detail || '本周已经完成一项探索',
     href: event.href || '/profile/timeline',
-    actionLabel: '查看',
+    actionLabel: '查看记录',
     occurredAt: event.occurredAt,
   }
 

@@ -178,6 +178,11 @@ describe('buildWeeklyPlan', () => {
     expect(plan.steps).toHaveLength(5)
     expect(plan.completedCount).toBe(3)
     expect(plan.steps.slice(0, 3).map((step) => step.title)).toEqual(['最新完成', '中间完成', '较早完成'])
+    expect(plan.steps.slice(0, 3).map((step) => step.actionLabel)).toEqual([
+      '查看记录',
+      '查看记录',
+      '查看记录',
+    ])
     expect(plan.steps[3].status).toBe('todo')
   })
 

@@ -123,7 +123,6 @@ export function CreatePageClient({ initialTab }: { initialTab: CreateTab }) {
             <MobileGlobalHeader
                 variant="title"
                 title="创造营"
-                showSearch={true}
                 showUserButton={true}
                 showNotification={true}
                 className={mobileHeaderClassName}

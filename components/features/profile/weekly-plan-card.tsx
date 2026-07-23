@@ -78,26 +78,44 @@ export function WeeklyPlanCard({
         )}
       >
         {plan.steps.map((step) => {
-          const canClaim = step.type === 'reward' && step.growthTaskId && onClaim
+          const isDone = step.status === 'done'
+          const canClaim = !isDone && step.type === 'reward' && step.growthTaskId && onClaim
           const isClaimPending = !!step.growthTaskId && claimPendingTaskId === step.growthTaskId
 
           return (
             <div
               key={step.id}
               className={cn(
-                'grid grid-cols-[40px_minmax(0,1fr)_auto] items-center gap-3 rounded-md py-1.5',
-                step.status === 'done' && 'text-muted-foreground',
+                'grid grid-cols-[40px_minmax(0,1fr)_auto] items-center gap-3 rounded-md px-2 py-1.5',
+                isDone &&
+                  'bg-[hsl(var(--surface-muted)/0.46)] text-muted-foreground dark:bg-[hsl(var(--surface-muted)/0.3)]',
               )}
             >
-              <ProfileSpotIcon name={STEP_ICONS[step.type]} size="sm" />
+              <ProfileSpotIcon
+                name={STEP_ICONS[step.type]}
+                size="sm"
+                className={cn(isDone && 'opacity-60 saturate-50')}
+              />
               <div className="min-w-0">
                 <div className="flex min-w-0 items-center gap-1.5">
-                  {step.status === 'done' ? (
+                  {isDone ? (
                     <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-green))]" />
                   ) : (
                     <Circle className="h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue)/0.5)]" />
                   )}
-                  <p className="line-clamp-1 text-sm font-semibold leading-snug text-foreground">{step.title}</p>
+                  <p
+                    className={cn(
+                      'line-clamp-1 text-sm font-semibold leading-snug',
+                      isDone ? 'text-muted-foreground' : 'text-foreground',
+                    )}
+                  >
+                    {step.title}
+                  </p>
+                  {isDone ? (
+                    <span className="shrink-0 text-[10px] font-semibold text-[hsl(var(--brand-green))]">
+                      已完成
+                    </span>
+                  ) : null}
                 </div>
                 <p className="mt-0.5 line-clamp-1 text-xs leading-5 text-muted-foreground">{step.subtitle}</p>
               </div>
@@ -112,8 +130,15 @@ export function WeeklyPlanCard({
                   {isClaimPending ? '领取中' : step.actionLabel}
                 </button>
               ) : (
-                <Link href={step.href} className="profile-soft-cta min-h-9 px-3 text-xs">
-                  {step.status === 'done' ? '查看' : step.actionLabel}
+                <Link
+                  href={step.href}
+                  className={cn(
+                    isDone
+                      ? 'inline-flex min-h-9 items-center justify-center px-2 text-xs font-semibold text-muted-foreground transition hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.25)]'
+                      : 'profile-soft-cta min-h-9 px-3 text-xs',
+                  )}
+                >
+                  {step.actionLabel}
                 </Link>
               )}
             </div>
