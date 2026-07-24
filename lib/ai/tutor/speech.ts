@@ -1,4 +1,5 @@
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
+import WebSocket, { type RawData } from 'ws'
 
 const DEFAULT_TTS_URL = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
 const DEFAULT_TTS_MODEL = 'qwen3-tts-flash'
@@ -171,10 +172,14 @@ function buildAsrWebSocketUrl() {
   return url.toString()
 }
 
-function parseServerEvent(data: unknown): AsrServerEvent | null {
-  if (typeof data !== 'string') return null
+function parseServerEvent(data: RawData): AsrServerEvent | null {
   try {
-    const parsed = JSON.parse(data) as AsrServerEvent
+    const serialized = Array.isArray(data)
+      ? Buffer.concat(data).toString('utf8')
+      : data instanceof ArrayBuffer
+        ? Buffer.from(data).toString('utf8')
+        : data.toString('utf8')
+    const parsed = JSON.parse(serialized) as AsrServerEvent
     return parsed && typeof parsed === 'object' ? parsed : null
   } catch {
     return null
@@ -190,20 +195,16 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
   }
 
   const apiKey = requireDashScopeApiKey()
-  const WebSocketCtor = WebSocket as unknown as new (
-    url: string,
-    protocols?: string | string[],
-    options?: { headers?: Record<string, string> },
-  ) => WebSocket
 
   return new Promise((resolve, reject) => {
     let settled = false
     let sentAudio = false
     let transcript = ''
     const timer = setTimeout(() => fail(new TutorSpeechError('ASR timed out')), ASR_TIMEOUT_MS)
-    const ws = new WebSocketCtor(buildAsrWebSocketUrl(), [], {
+    const ws = new WebSocket(buildAsrWebSocketUrl(), {
       headers: {
         Authorization: `Bearer ${apiKey}`,
+        'OpenAI-Beta': 'realtime=v1',
         'user-agent': 'steam-explore-share/tutor-speech',
       },
     })
@@ -254,7 +255,7 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       })
     }
 
-    ws.addEventListener('open', () => {
+    ws.on('open', () => {
       sendJson({
         event_id: buildEventId('session'),
         type: 'session.update',
@@ -269,8 +270,8 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       })
     })
 
-    ws.addEventListener('message', (event) => {
-      const payload = parseServerEvent(event.data)
+    ws.on('message', (data) => {
+      const payload = parseServerEvent(data)
       if (!payload?.type) return
 
       if (payload.type === 'session.updated') {
@@ -302,8 +303,14 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       }
     })
 
-    ws.addEventListener('error', () => {
-      fail(new TutorSpeechError('ASR websocket error'))
+    ws.on('error', (error) => {
+      fail(new TutorSpeechError(`ASR websocket error: ${error.message}`))
+    })
+
+    ws.on('close', (code, reason) => {
+      if (settled) return
+      const detail = reason.toString('utf8').trim()
+      fail(new TutorSpeechError(`ASR websocket closed before completion (${code})${detail ? `: ${detail}` : ''}`))
     })
   })
 }

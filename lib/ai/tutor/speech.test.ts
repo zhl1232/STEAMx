@@ -1,17 +1,66 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+type MockAsrSocket = {
+  url: string
+  options: { headers?: Record<string, string> }
+  sent: string[]
+  close: ReturnType<typeof vi.fn>
+  emit: (event: string, ...args: unknown[]) => void
+}
+
+const asrSocketMock = vi.hoisted(() => ({
+  instances: [] as MockAsrSocket[],
+}))
+
+vi.mock('ws', () => {
+  class MockWebSocket {
+    url: string
+    options: { headers?: Record<string, string> }
+    sent: string[] = []
+    close = vi.fn()
+    private listeners = new Map<string, Array<(...args: unknown[]) => void>>()
+
+    constructor(url: string, options: { headers?: Record<string, string> }) {
+      this.url = url
+      this.options = options
+      asrSocketMock.instances.push(this)
+    }
+
+    on(event: string, listener: (...args: unknown[]) => void) {
+      const listeners = this.listeners.get(event) ?? []
+      listeners.push(listener)
+      this.listeners.set(event, listeners)
+      return this
+    }
+
+    send(payload: string) {
+      this.sent.push(payload)
+    }
+
+    emit(event: string, ...args: unknown[]) {
+      for (const listener of this.listeners.get(event) ?? []) {
+        listener(...args)
+      }
+    }
+  }
+
+  return { default: MockWebSocket }
+})
+
 import {
   extractDashScopeAudioUrl,
+  MAX_TUTOR_TTS_TEXT_CHARS,
   sanitizeTutorSpeechText,
   synthesizeTutorSpeech,
+  transcribeTutorSpeechPcm16,
   TutorSpeechError,
-  MAX_TUTOR_TTS_TEXT_CHARS,
 } from '@/lib/ai/tutor/speech'
 
 const originalApiKey = process.env.DASHSCOPE_API_KEY
 
 afterEach(() => {
   process.env.DASHSCOPE_API_KEY = originalApiKey
+  asrSocketMock.instances.length = 0
   vi.restoreAllMocks()
 })
 
@@ -56,5 +105,53 @@ describe('synthesizeTutorSpeech', () => {
       name: 'TutorSpeechError',
       status: 503,
     } satisfies Partial<TutorSpeechError>)
+  })
+})
+
+describe('transcribeTutorSpeechPcm16', () => {
+  it('authenticates the websocket handshake and completes the manual ASR flow', async () => {
+    process.env.DASHSCOPE_API_KEY = 'test-dashscope-key'
+    const audio = Uint8Array.from([0, 1, 2, 3]).buffer
+
+    const transcription = transcribeTutorSpeechPcm16(audio)
+    const socket = asrSocketMock.instances[0]
+
+    expect(socket.url).toContain('model=qwen3-asr-flash-realtime')
+    expect(socket.options.headers).toMatchObject({
+      Authorization: 'Bearer test-dashscope-key',
+      'OpenAI-Beta': 'realtime=v1',
+    })
+
+    socket.emit('open')
+    expect(JSON.parse(socket.sent[0])).toMatchObject({
+      type: 'session.update',
+      session: {
+        input_audio_format: 'pcm',
+        sample_rate: 16_000,
+        turn_detection: null,
+      },
+    })
+
+    socket.emit('message', Buffer.from(JSON.stringify({ type: 'session.updated' })))
+    expect(socket.sent.slice(1).map((event) => JSON.parse(event).type)).toEqual([
+      'input_audio_buffer.append',
+      'input_audio_buffer.commit',
+      'session.finish',
+    ])
+    expect(JSON.parse(socket.sent[1]).audio).toBe(Buffer.from(audio).toString('base64'))
+
+    socket.emit(
+      'message',
+      Buffer.from(
+        JSON.stringify({
+          type: 'conversation.item.input_audio_transcription.completed',
+          transcript: '你好，小迪',
+        }),
+      ),
+    )
+    socket.emit('message', Buffer.from(JSON.stringify({ type: 'session.finished' })))
+
+    await expect(transcription).resolves.toBe('你好，小迪')
+    expect(socket.close).toHaveBeenCalledOnce()
   })
 })
