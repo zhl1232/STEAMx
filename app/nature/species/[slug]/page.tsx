@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { AudioLines, Binoculars, CalendarDays, Feather, Leaf, MapPin } from "lucide-react";
+import { AudioLines, Binoculars, CalendarDays, Leaf, MapPin } from "lucide-react";
 
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";
 import { SpeciesStatsPanel } from "@/components/features/bird-observation/species-stats-panel";
@@ -122,7 +122,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
       ? [species.coverImageUrl]
       : [];
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
-  const aliasesPinyin = toSpeciesPinyinLabel(species.aliasesDisplay);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
   const topicAssetPrefix = isBirdSpecies
     ? "/assets/species-detail/bird"
@@ -134,9 +133,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;
   const audioIllustrationUrl = "/assets/species-detail/bird-audio.png";
   const audioSrc = resolveAssetDisplayUrl(species.audioUrl) ?? species.audioUrl;
-  const taxonSummaryItems = [
-    species.aliasesDisplay ? { label: "别名", value: species.aliasesDisplay, pinyin: aliasesPinyin } : null,
-  ].filter((item): item is { label: string; value: string; pinyin: string | null } => Boolean(item));
   const taxonomyRankItems = [
     family ? { rank: "科", name: family } : null,
     genus ? { rank: "属", name: genus } : null,
@@ -173,29 +169,14 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const hasObservationStats = stats.totalObservationCount > 0;
 
   const galleryBlock = (
-    <div className="min-w-0">
-      {galleryImageUrls.length > 0 ? (
-        <div className="-mx-4 sm:mx-0">
-          <SpeciesImageGallery imageUrls={galleryImageUrls} speciesName={species.commonName} />
-        </div>
-      ) : (
-        <div className="relative aspect-4/3 min-h-[220px] min-w-0 overflow-hidden rounded-lg border border-border/70 bg-muted/40 shadow-xs sm:aspect-[1.42] lg:aspect-[1.34]">
-          <div className="flex h-full w-full flex-col justify-between bg-[radial-gradient(circle_at_top,rgba(110,231,183,0.35),transparent_45%),linear-gradient(160deg,rgba(240,253,250,0.95),rgba(240,249,255,0.92)_52%,rgba(250,245,255,0.9))] p-5 dark:bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.22),transparent_38%),linear-gradient(160deg,rgba(6,20,18,0.96),rgba(11,27,34,0.94)_52%,rgba(26,18,38,0.92))]">
-            <div className="flex h-14 w-14 items-center justify-center rounded-md bg-background/70 text-emerald-700 shadow-xs dark:bg-background/10 dark:text-emerald-300">
-              <Feather className="h-7 w-7" />
-            </div>
-            <div className="rounded-md border border-border/60 bg-background/72 px-3 py-2 backdrop-blur-sm dark:bg-background/10">
-              {commonNamePinyin ? (
-                <div className="mb-1 text-[11px] text-primary/80">{commonNamePinyin}</div>
-              ) : null}
-              <div className="text-sm font-semibold">{species.commonName}</div>
-              {species.scientificName ? (
-                <div className="mt-1 text-[11px] italic leading-5 text-muted-foreground">{species.scientificName}</div>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="-mx-4 min-w-0 sm:mx-0">
+      <SpeciesImageGallery
+        imageUrls={galleryImageUrls}
+        speciesName={species.commonName}
+        scientificName={species.scientificName}
+        speciesNamePinyin={commonNamePinyin}
+        topicKey={species.topicKey}
+      />
     </div>
   );
 
@@ -235,21 +216,22 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
               </p>
             ) : null}
 
-            {taxonSummaryItems.length > 0 ? (
-              <dl className="mt-4 flex flex-wrap gap-2 text-sm leading-6 md:mt-5">
-                {taxonSummaryItems.map((item) => (
-                  <div
-                    key={item.label}
-                    className="inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-2 rounded-sm bg-muted/45 px-3 py-1.5 text-muted-foreground"
-                  >
-                    <dt className="shrink-0 text-xs font-medium text-foreground/70">{item.label}</dt>
-                    <dd className="min-w-0">
-                      <span>{item.value}</span>
-                      {item.pinyin ? <span className="ml-2 text-xs text-primary/70">{item.pinyin}</span> : null}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+            {species.aliases.length > 0 ? (
+              <div className="mt-4 inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-2 rounded-sm bg-muted/45 px-3 py-1.5 text-sm leading-6 text-muted-foreground md:mt-5">
+                <span className="shrink-0 text-xs font-medium text-foreground/70">别名</span>
+                {species.aliases.map((alias, i) => {
+                  const py = toSpeciesPinyinLabel(alias);
+                  return (
+                    <span key={alias} className="inline-flex items-baseline gap-x-0.5">
+                      {i > 0 ? <span className="mr-0.5 text-muted-foreground/50">、</span> : null}
+                      <span className="inline-flex flex-col items-center">
+                        {py ? <span className="text-[10px] leading-tight text-primary/70">{py}</span> : null}
+                        <span>{alias}</span>
+                      </span>
+                    </span>
+                  );
+                })}
+              </div>
             ) : null}
           </div>
 

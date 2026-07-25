@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { ChevronRight, Feather, Loader2 } from "lucide-react";
+import { Bug, ChevronRight, Feather, ImageOff, Loader2, TreePine } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { Species } from "@/lib/mappers/types";
@@ -36,6 +36,61 @@ interface SpeciesListLoadMoreProps {
   initialHasMore: boolean;
   total: number;
   fromHref?: string;
+}
+
+interface SpeciesCardCoverProps {
+  imageUrl?: string | null;
+  speciesName: string;
+  topicKey?: Species["topicKey"];
+}
+
+export function SpeciesCardCover({
+  imageUrl,
+  speciesName,
+  topicKey,
+}: SpeciesCardCoverProps) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const imageSrc = resolveAssetDisplayUrl(imageUrl) ?? imageUrl;
+  const Icon =
+    topicKey === "birds"
+      ? Feather
+      : topicKey === "plants"
+        ? TreePine
+        : topicKey === "insects"
+          ? Bug
+          : ImageOff;
+  const showUnavailable = !imageSrc || failed;
+
+  return (
+    <div className="nature-species-card-media">
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[hsl(var(--primary)/0.72)]"
+        aria-hidden={!showUnavailable}
+      >
+        <Icon className="h-10 w-10" strokeWidth={1.7} />
+        {showUnavailable ? (
+          <span className="text-xs font-medium text-muted-foreground">暂无图片</span>
+        ) : null}
+      </div>
+
+      {imageSrc && !failed ? (
+        <Image
+          src={imageSrc}
+          alt={speciesName}
+          fill
+          sizes="(min-width: 1536px) 25vw, (min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+          className={`object-cover transition duration-500 group-hover:scale-[1.03] ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          quality={60}
+          unoptimized={shouldBypassAssetDisplayOptimization(imageUrl)}
+          onLoad={() => setLoaded(true)}
+          onError={() => setFailed(true)}
+        />
+      ) : null}
+    </div>
+  );
 }
 
 export function SpeciesListLoadMore({
@@ -288,7 +343,6 @@ export function SpeciesListLoadMore({
           const familyPinyin = toSpeciesPinyinLabel(family);
           const genusPinyin = toSpeciesPinyinLabel(genus);
           const staggerMs = Math.min(index, 10) * 40;
-          const coverImageSrc = resolveAssetDisplayUrl(item.coverImageUrl) ?? item.coverImageUrl;
 
           return (
             <Link
@@ -299,23 +353,12 @@ export function SpeciesListLoadMore({
               className="nature-species-card group motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:fill-mode-both motion-safe:duration-500 hover:-translate-y-0.5"
               style={{ animationDelay: `${staggerMs}ms` }}
             >
-              <div className="nature-species-card-media">
-                {coverImageSrc ? (
-                  <Image
-                    src={coverImageSrc}
-                    alt={item.commonName}
-                    fill
-                    sizes="(min-width: 1536px) 25vw, (min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    quality={60}
-                    unoptimized={shouldBypassAssetDisplayOptimization(item.coverImageUrl)}
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-[hsl(var(--primary)/0.78)]">
-                    <Feather className="h-10 w-10" />
-                  </div>
-                )}
-              </div>
+              <SpeciesCardCover
+                key={item.coverImageUrl || "empty-cover"}
+                imageUrl={item.coverImageUrl}
+                speciesName={item.commonName}
+                topicKey={item.topicKey}
+              />
 
               <div className="space-y-2.5 p-3.5">
                 <div className="min-w-0">

@@ -5,7 +5,7 @@
  * Renders an LDraw .ldr/.mpd file to a PNG screenshot using Playwright + three.js.
  *
  * Usage:
- *   node scripts/preview-model.mjs <model.ldr|model.mpd> [--out preview.png] [--width 800] [--height 600]
+ *   node scripts/preview-model.mjs <model.ldr|model.mpd> [--out preview.png] [--width 800] [--height 600] [--step 3] [--view top]
  *
  * Requires: @playwright/test (already in project devDependencies)
  */
@@ -28,12 +28,21 @@ function parseArgs(argv) {
     width: 800,
     height: 600,
     timeout: 60000,
+    step: null,
+    view: 'iso',
   }
   for (let i = 1; i < argv.length; i++) {
     if (argv[i] === '--out' && argv[i + 1]) args.outPath = resolve(argv[++i])
     else if (argv[i] === '--width' && argv[i + 1]) args.width = parseInt(argv[++i])
     else if (argv[i] === '--height' && argv[i + 1]) args.height = parseInt(argv[++i])
     else if (argv[i] === '--timeout' && argv[i + 1]) args.timeout = parseInt(argv[++i])
+    else if (argv[i] === '--step' && argv[i + 1]) args.step = parseInt(argv[++i])
+    else if (argv[i] === '--view' && argv[i + 1]) args.view = argv[++i]
+  }
+  const views = new Set(['iso', 'iso-rear', 'front', 'rear', 'left', 'right', 'top'])
+  if (!views.has(args.view)) {
+    console.error(`Unknown view '${args.view}'. Expected one of: ${[...views].join(', ')}`)
+    process.exit(1)
   }
   if (!args.outPath) {
     const name = basename(args.modelPath, extname(args.modelPath))
@@ -119,7 +128,8 @@ async function main() {
   const ldrawLibDir = resolve(SCRIPT_DIR, '../.cache/ldraw-library/extracted/ldraw')
   const { server, port } = await startServer(PREVIEW_HTML, args.modelPath, ldrawLibDir)
   const ldrawPath = `http://127.0.0.1:${port}/ldraw/`
-  const pageUrl = `http://127.0.0.1:${port}/?model=http://127.0.0.1:${port}/model&w=${args.width}&h=${args.height}&ldrawPath=${encodeURIComponent(ldrawPath)}`
+  const stepParam = Number.isInteger(args.step) && args.step > 0 ? `&step=${args.step}` : ''
+  const pageUrl = `http://127.0.0.1:${port}/?model=http://127.0.0.1:${port}/model&w=${args.width}&h=${args.height}&ldrawPath=${encodeURIComponent(ldrawPath)}&view=${args.view}${stepParam}`
 
   console.log(`Server: http://127.0.0.1:${port}`)
   console.log('Launching browser...')

@@ -5,6 +5,10 @@ import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
 import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
 import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
+import {
+  createDefaultDisplayName,
+  isPhoneBasedDisplayName,
+} from '@/lib/auth/default-display-name'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 
 const PHONE_EMAIL_PREFIX = 'p_'
@@ -210,7 +214,7 @@ export async function POST(req: Request) {
       userMetadata = (authData?.user?.user_metadata as Record<string, unknown> | null) || null
     } else {
       const username = `user_${Math.random().toString(36).slice(2, 10)}`
-      const displayName = phone.replace(/^\+86/, '') || '用户'
+      const displayName = createDefaultDisplayName()
       const userPassword = password && password.length >= 6 ? password : undefined
       if (!userPassword) {
         const randomPass = Math.random().toString(36).slice(2) + 'A1!'
@@ -277,7 +281,27 @@ export async function POST(req: Request) {
     }
 
     const username = (userMetadata?.username as string | undefined) || `user_${Math.random().toString(36).slice(2, 10)}`
-    const displayName = (userMetadata?.full_name as string | undefined) || phone.replace(/^\+86/, '') || '用户'
+    const metadataDisplayName = userMetadata?.full_name as string | undefined
+    const displayName =
+      !metadataDisplayName || isPhoneBasedDisplayName(metadataDisplayName, phone)
+        ? createDefaultDisplayName()
+        : metadataDisplayName
+
+    if (displayName !== metadataDisplayName) {
+      userMetadata = { ...userMetadata, full_name: displayName }
+      await supabaseAdmin.auth.admin.updateUserById(userId, {
+        user_metadata: userMetadata,
+      })
+
+      if (metadataDisplayName) {
+        await supabaseAdmin
+          .from('profiles')
+          .update({ display_name: displayName } as never)
+          .eq('id', userId)
+          .eq('display_name', metadataDisplayName)
+      }
+    }
+
     const avatarUrl = getDefaultAvatarPath(userId)
     await supabaseAdmin
       .from('profiles')

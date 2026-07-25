@@ -8,7 +8,7 @@ services:
     env_file:
       - .env.production
     environment:
-      NODE_OPTIONS: "${STEAM_APP_NODE_OPTIONS:---max-old-space-size=768}"
+      NODE_OPTIONS: "${STEAM_APP_NODE_OPTIONS:---max-old-space-size=512}"
     mem_limit: "${STEAM_APP_MEMORY_LIMIT:-1g}"
     healthcheck:
       test:

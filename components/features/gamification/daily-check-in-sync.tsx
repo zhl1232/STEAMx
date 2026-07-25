@@ -10,6 +10,7 @@ import { useGamification } from "@/lib/context/gamification-context";
 import type { UserStats } from "@/lib/gamification/types";
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
+import { createDefaultDisplayName } from "@/lib/auth/default-display-name";
 import { createClient } from "@/lib/supabase/client";
 
 interface CheckInResult {
@@ -170,7 +171,7 @@ export function DailyCheckInSync() {
                             const displayName =
                                 user.user_metadata?.full_name ||
                                 user.user_metadata?.name ||
-                                (user.phone ? user.phone.replace(/^\+86/, "") : null);
+                                createDefaultDisplayName();
                             const avatarUrl = getDefaultAvatarPath(user.id);
 
                             await supabase

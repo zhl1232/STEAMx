@@ -560,7 +560,6 @@ export default function ShopPage() {
     profileName: typedProfile?.display_name ?? null,
     metadataFullName: user?.user_metadata?.full_name,
     metadataName: user?.user_metadata?.username,
-    phone: user?.phone ?? null,
     email: user?.email,
     fallback: "探索者",
   });

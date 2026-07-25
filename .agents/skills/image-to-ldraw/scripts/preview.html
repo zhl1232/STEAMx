@@ -27,6 +27,7 @@
 <script type="module">
 import * as THREE from 'three'
 import { LDrawLoader } from 'three/addons/loaders/LDrawLoader.js'
+import { LDrawConditionalLineMaterial } from 'three/addons/materials/LDrawConditionalLineMaterial.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 const params = new URLSearchParams(window.location.search)
@@ -34,6 +35,8 @@ const modelUrl = params.get('model')
 const width = parseInt(params.get('w') || '800')
 const height = parseInt(params.get('h') || '600')
 const bgColor = params.get('bg') || '#f0f0f0'
+const requestedStep = parseInt(params.get('step') || '', 10)
+const requestedView = params.get('view') || 'iso'
 
 const statusEl = document.getElementById('status')
 
@@ -72,14 +75,104 @@ controls.enableDamping = true
 statusEl.textContent = 'Loading model...'
 
 const loader = new LDrawLoader()
+loader.setConditionalLineMaterial(LDrawConditionalLineMaterial)
 
 // Configure LDraw parts library path
 const ldrawPath = params.get('ldrawPath') || 'https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/complete/ldraw/'
 loader.setPartsLibraryPath(ldrawPath)
 
-try {
-  loader.load(modelUrl, (group) => {
+function splitPackedMpd(text) {
+  const blocks = new Map()
+  let currentName = null
+  let currentLines = []
+
+  const flush = () => {
+    if (currentName) blocks.set(currentName.toLowerCase(), currentLines.join('\n').trimEnd())
+  }
+
+  for (const line of text.split(/\r?\n/)) {
+    if (line.startsWith('0 FILE ')) {
+      flush()
+      currentName = line.slice('0 FILE '.length).trim()
+      currentLines = []
+    } else if (currentName !== null) {
+      currentLines.push(line)
+    }
+  }
+  flush()
+
+  const mainName = text.match(/^0 FILE\s+(.+)$/m)?.[1]?.trim()
+  if (mainName) blocks.delete(mainName.toLowerCase())
+  return blocks
+}
+
+function buildEmbeddedLookup(embedded) {
+  const lookup = new Map()
+  for (const [name, text] of embedded) {
+    const normalized = name.trim().replace(/\\/g, '/').toLowerCase()
+    const basename = normalized.split('/').pop()
+    const candidates = new Set([normalized, basename])
+    if (!normalized.startsWith('parts/')) candidates.add(`parts/${normalized}`)
+    if (normalized.startsWith('parts/')) candidates.add(normalized.slice('parts/'.length))
+    if (normalized.startsWith('p/')) candidates.add(normalized.slice(2))
+    if (normalized.startsWith('48/')) candidates.add(`p/${normalized}`)
+    for (const key of candidates) {
+      if (key && !lookup.has(key)) lookup.set(key, text)
+    }
+  }
+  return lookup
+}
+
+function patchPackedMpdCache(embedded) {
+  const parseCache = loader.partsCache.parseCache
+  const lookup = buildEmbeddedLookup(embedded)
+  parseCache.fetchData = async (fileName) => {
+    const normalized = fileName.trim().replace(/\\/g, '/').toLowerCase()
+    const basename = normalized.split('/').pop()
+    const candidates = [
+      normalized,
+      `parts/${normalized}`,
+      `p/${normalized}`,
+      `models/${normalized}`,
+      basename,
+    ]
+    if (normalized.startsWith('s/')) candidates.push(`parts/${normalized}`)
+    if (normalized.startsWith('48/')) candidates.push(`p/${normalized}`)
+    if (normalized.startsWith('parts/')) candidates.push(normalized.slice('parts/'.length))
+    for (const key of candidates) {
+      const hit = lookup.get(key)
+      if (hit !== undefined) return hit
+    }
+    throw new Error(`Packed MPD is missing embedded part: ${fileName}`)
+  }
+  for (const [name, fileText] of embedded) parseCache.setData(name, fileText)
+}
+
+async function loadModel() {
+  const response = await fetch(modelUrl, { cache: 'no-store' })
+  if (!response.ok) throw new Error(`Model request failed: HTTP ${response.status}`)
+  const modelText = await response.text()
+  const embedded = splitPackedMpd(modelText)
+
+  if (embedded.size === 0) return loader.loadAsync(modelUrl)
+
+  patchPackedMpdCache(embedded)
+  loader.addDefaultMaterials()
+  await loader.preloadMaterials(`${ldrawPath}LDConfig.ldr`)
+  return new Promise((resolve, reject) => loader.parse(modelText, resolve, reject))
+}
+
+loadModel()
+  .then((group) => {
     statusEl.textContent = 'Rendering...'
+
+    if (Number.isInteger(requestedStep) && requestedStep > 0) {
+      const stepIndex = requestedStep - 1
+      group.traverse((object) => {
+        const buildingStep = object.userData?.buildingStep
+        if (typeof buildingStep === 'number') object.visible = buildingStep <= stepIndex
+      })
+    }
 
     // LDraw uses Y-up with negative Y being "up" visually
     // Flip so the model appears right-side up
@@ -94,12 +187,18 @@ try {
     const fov = camera.fov * (Math.PI / 180)
     const distance = maxDim / (2 * Math.tan(fov / 2)) * 1.5
 
-    // Position camera at a nice isometric-ish angle
-    camera.position.set(
-      center.x + distance * 0.7,
-      center.y + distance * 0.5,
-      center.z + distance * 0.7
-    )
+    const viewDirections = {
+      iso: new THREE.Vector3(0.7, 0.5, 0.7),
+      'iso-rear': new THREE.Vector3(-0.7, 0.5, -0.7),
+      front: new THREE.Vector3(0, 0, 1),
+      rear: new THREE.Vector3(0, 0, -1),
+      left: new THREE.Vector3(-1, 0, 0),
+      right: new THREE.Vector3(1, 0, 0),
+      top: new THREE.Vector3(0, 1, 0),
+    }
+    const direction = (viewDirections[requestedView] || viewDirections.iso).normalize()
+    camera.position.copy(center).addScaledVector(direction, distance)
+    if (requestedView === 'top') camera.up.set(0, 0, -1)
     camera.lookAt(center)
     controls.target.copy(center)
     controls.update()
@@ -116,20 +215,12 @@ try {
       boundingBox: { min: box.min.toArray(), max: box.max.toArray() },
       size: size.toArray(),
     })
-  }, (progress) => {
-    if (progress.total > 0) {
-      const pct = Math.round((progress.loaded / progress.total) * 100)
-      statusEl.textContent = `Loading... ${pct}%`
-    }
-  }, (error) => {
+  })
+  .catch((error) => {
     console.error('Load error:', error)
     statusEl.textContent = `Error: ${error.message}`
     window.__PREVIEW_ERROR = error.message
   })
-} catch (error) {
-  statusEl.textContent = `Error: ${error.message}`
-  window.__PREVIEW_ERROR = error.message
-}
 
 // Animation loop (for interactive mode)
 function animate() {

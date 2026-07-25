@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { WorkDetail } from "@/components/features/works/work-detail"
+import { createClient } from "@/lib/supabase/server"
 import { getWorkById } from "@/lib/works/data"
 
 type WorkPageProps = {
@@ -32,8 +33,17 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
 export default async function WorkPage({ params, searchParams }: WorkPageProps) {
   const id = Number((await params).id)
   if (!Number.isInteger(id) || id <= 0) notFound()
-  const work = await getWorkById(id)
+  const [work, supabase] = await Promise.all([getWorkById(id), createClient()])
   if (!work) notFound()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const shareParam = (await searchParams)?.share
-  return <WorkDetail work={work} autoOpenShare={shareParam === "1"} />
+  return (
+    <WorkDetail
+      work={work}
+      canShare={user?.id === work.userId}
+      autoOpenShare={shareParam === "1"}
+    />
+  )
 }

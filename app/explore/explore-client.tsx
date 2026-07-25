@@ -1252,7 +1252,7 @@ export function ExploreClient({
                                     <div
                                         className={cn(
                                             COMPACT_VERTICAL_PROJECT_GRID_CLASS,
-                                            "max-md:pr-2 transition-opacity duration-300",
+                                            "transition-opacity duration-300",
                                             isFiltering && "opacity-40 pointer-events-none"
                                         )}
                                         onClickCapture={handleExploreProjectLinkClick}

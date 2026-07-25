@@ -1,0 +1,7 @@
+0 31191 orientation probe
+0 Name: 31191-orientation-probe.ldr
+0 !LDRAW_ORG Model
+1 4 -480 0 0 1 0 0 0 1 0 0 0 1 31191.dat
+1 4 -160 0 0 1 0 0 0 0 -1 0 1 0 31191.dat
+1 4 160 0 0 1 0 0 0 0 1 0 -1 0 31191.dat
+1 4 480 0 0 0 0 -1 -1 0 0 0 1 0 31191.dat

@@ -379,7 +379,6 @@ function ShareForm() {
                     profileName: null,
                     metadataFullName: user?.user_metadata?.display_name,
                     metadataName: user?.user_metadata?.username,
-                    phone: user?.phone ?? null,
                     email: user?.email,
                     fallback: "匿名用户",
                 }),

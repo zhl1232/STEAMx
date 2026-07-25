@@ -2,13 +2,27 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Box, Check, ChevronLeft, ChevronRight, Copy, Loader2, Presentation, RotateCcw, Sparkles, ZoomIn } from "lucide-react";
+import {
+    Box,
+    Check,
+    ChevronLeft,
+    ChevronRight,
+    Copy,
+    Loader2,
+    Maximize2,
+    Minimize2,
+    Presentation,
+    RotateCcw,
+    RotateCw,
+    Sparkles,
+    ZoomIn,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
-import { fetchPackedLdrawText, parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
+import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
@@ -46,8 +60,12 @@ const LessonWorksGallery = dynamic(
 
 type SceneState = {
     cleanup: () => void;
-    focusStep: (stepIndex: number) => void;
-    previewLDrawLineEdit?: (lineIndex: number, line: string) => Promise<void>;
+    focusStep: (stepIndex: number, resetCamera?: boolean) => void;
+};
+
+type LockableScreenOrientation = {
+    lock?: (orientation: "landscape") => Promise<void>;
+    unlock?: () => void;
 };
 
 type LDrawEditableLine = {
@@ -263,18 +281,6 @@ function updateEditableLine(
     return { ...line, ...patch, line: formatLDrawLine({ ...line, ...patch }) };
 }
 
-function replaceMainLDrawLine(mpdText: string, lineIndex: number, line: string) {
-    const { mainName, mainText, embedded } = splitPackedMpd(mpdText);
-    const mainLines = mainText.split(/\r?\n/);
-    if (lineIndex < 0 || lineIndex >= mainLines.length) return mpdText;
-    mainLines[lineIndex] = line;
-    const blocks = [`0 FILE ${mainName}\n${mainLines.join("\n").trimEnd()}\n`];
-    for (const [name, text] of embedded) {
-        blocks.push(`0 FILE ${name}\n${text.trimEnd()}\n`);
-    }
-    return blocks.join("\n");
-}
-
 async function loadThree(): Promise<LoadedThree> {
     const [THREE, controls, gltf, ldraw, ldrawLine] = await Promise.all([
         import("three"),
@@ -293,26 +299,30 @@ async function loadThree(): Promise<LoadedThree> {
     };
 }
 
-/**
- * 把 LDrawLoader 加载出的模型摆正、缩放并落到地面：
- * LDraw 坐标系 +Y 朝下且单位很大，需绕 X 翻 180° 再按包围盒缩放到约 4 个单位。
- */
-function prepareLdrawModel(THREE: ThreeModule, model: import("three").Group, floorY: number) {
-    model.rotation.x = Math.PI;
-    model.updateMatrixWorld(true);
+function normalizeLdrawAssembly(
+    THREE: ThreeModule,
+    assembly: import("three").Group,
+    floorY: number,
+) {
+    assembly.scale.setScalar(1);
+    assembly.position.set(0, 0, 0);
+    assembly.rotation.x = Math.PI;
+    assembly.updateMatrixWorld(true);
 
-    const box = new THREE.Box3().setFromObject(model);
+    const box = new THREE.Box3().setFromObject(assembly);
+    if (box.isEmpty()) return;
     const size = box.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
-    model.scale.setScalar(4 / maxDim);
-    model.updateMatrixWorld(true);
+    assembly.scale.setScalar(4 / maxDim);
+    assembly.updateMatrixWorld(true);
 
-    const scaledBox = new THREE.Box3().setFromObject(model);
+    const scaledBox = new THREE.Box3().setFromObject(assembly);
     const center = scaledBox.getCenter(new THREE.Vector3());
-    model.position.x -= center.x;
-    model.position.z -= center.z;
-    model.position.y += floorY - scaledBox.min.y;
+    assembly.position.set(-center.x, floorY - scaledBox.min.y, -center.z);
+    assembly.updateMatrixWorld(true);
+}
 
+function prepareLdrawStepModel(model: import("three").Group) {
     model.traverse((object) => {
         const mesh = object as import("three").Mesh;
         if ((mesh as { isMesh?: boolean }).isMesh) {
@@ -320,8 +330,47 @@ function prepareLdrawModel(THREE: ThreeModule, model: import("three").Group, flo
             mesh.receiveShadow = true;
         }
     });
+}
 
-    return model;
+function disposeObject3D(root: import("three").Object3D) {
+    const geometries = new Set<import("three").BufferGeometry>();
+    const materials = new Set<import("three").Material>();
+    const textures = new Set<import("three").Texture>();
+
+    root.traverse((object) => {
+        const mesh = object as import("three").Mesh;
+        if (mesh.geometry) geometries.add(mesh.geometry);
+        const meshMaterials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        for (const material of meshMaterials) {
+            if (!material) continue;
+            materials.add(material);
+            for (const value of Object.values(material)) {
+                if (value && typeof value === "object" && (value as { isTexture?: boolean }).isTexture) {
+                    textures.add(value as import("three").Texture);
+                }
+            }
+        }
+    });
+
+    for (const geometry of geometries) geometry.dispose();
+    for (const texture of textures) texture.dispose();
+    for (const material of materials) material.dispose();
+}
+
+function getLdrawModelFileName(modelUrl: string): string | null {
+    try {
+        const pathname = new URL(modelUrl, window.location.origin).pathname;
+        const fileName = pathname.split("/").pop() ?? "";
+        return /^[A-Za-z0-9][A-Za-z0-9._-]*\.mpd$/.test(fileName) && !fileName.includes("..")
+            ? fileName
+            : null;
+    } catch {
+        return null;
+    }
+}
+
+function getScreenOrientation() {
+    return (window.screen as Screen & { orientation?: LockableScreenOrientation }).orientation;
 }
 
 function applyCameraHint(
@@ -444,11 +493,9 @@ function createDemoBrickScene(
 function LDrawDebugEditor({
     modelUrl,
     activeStepIndex,
-    onPreviewLine,
 }: {
     modelUrl?: string;
     activeStepIndex: number;
-    onPreviewLine?: (lineIndex: number, line: string) => Promise<void> | void;
 }) {
     const { toast } = useToast();
     const [lines, setLines] = useState<LDrawEditableLine[]>([]);
@@ -494,7 +541,6 @@ function LDrawDebugEditor({
 
     const applyDraft = (next: LDrawEditableLine) => {
         setDraft(next);
-        void onPreviewLine?.(next.index, formatLDrawLine(next));
     };
 
     const nudge = (axis: "x" | "y" | "z", amount: number) => {
@@ -613,8 +659,10 @@ export function Building3DWorkspace({
     initialCompleted?: boolean;
     onCompleted?: () => void;
 }) {
+    const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<SceneState | null>(null);
+    const nativeFullscreenSessionRef = useRef(false);
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { toast } = useToast();
@@ -645,7 +693,19 @@ export function Building3DWorkspace({
     const [view, setView] = useState<"lesson" | "works">("lesson");
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
+    const [isImmersive, setIsImmersive] = useState(false);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
+    const nextPage = view === "lesson" ? flow[clampedPageIndex + 1] ?? null : null;
+    const nextSlideImageUrl =
+        nextPage?.kind === "slide" &&
+        !(nextPage.sourceIndex === videoSlide0 && content.videoUrl)
+            ? nextPage.imageUrl
+            : null;
+    const nextVideoUrl =
+        nextPage?.kind === "video" ||
+        (nextPage?.kind === "slide" && nextPage.sourceIndex === videoSlide0)
+            ? content.videoUrl
+            : undefined;
 
     useEffect(() => {
         activeBuildStepIndexRef.current = activeBuildStepIndex;
@@ -658,6 +718,73 @@ export function Building3DWorkspace({
     }, [hasWorks, lesson.id]);
 
     useEffect(() => {
+        if (!nextVideoUrl) return;
+        const video = document.createElement("video");
+        video.preload = "metadata";
+        video.src = nextVideoUrl;
+        video.load();
+
+        return () => {
+            video.removeAttribute("src");
+            video.load();
+        };
+    }, [nextVideoUrl]);
+
+    useEffect(() => {
+        if (nextPage?.kind !== "build") return;
+
+        const abortController = new AbortController();
+        let preloadUrl: string | null = null;
+
+        if (content.ldrawModelUrl) {
+            const modelFileName = getLdrawModelFileName(content.ldrawModelUrl);
+            if (modelFileName) {
+                preloadUrl = `/api/courses/ldraw-step?model=${encodeURIComponent(modelFileName)}&step=${nextPage.stepIndex}`;
+            }
+        } else if (content.modelUrl) {
+            preloadUrl = resolveAssetDisplayUrl(content.modelUrl) ?? content.modelUrl;
+        }
+
+        if (preloadUrl) {
+            void fetch(preloadUrl, {
+                cache: "force-cache",
+                signal: abortController.signal,
+            })
+                .then((response) => response.ok ? response.arrayBuffer() : undefined)
+                .catch(() => undefined);
+        }
+
+        return () => abortController.abort();
+    }, [content.ldrawModelUrl, content.modelUrl, nextPage]);
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            if (document.fullscreenElement === workspaceRef.current) {
+                nativeFullscreenSessionRef.current = true;
+                setIsImmersive(true);
+                return;
+            }
+            if (!nativeFullscreenSessionRef.current) return;
+
+            nativeFullscreenSessionRef.current = false;
+            getScreenOrientation()?.unlock?.();
+            setIsImmersive(false);
+        };
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    }, []);
+
+    useEffect(() => {
+        if (!isImmersive) return;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isImmersive]);
+
+    useEffect(() => {
         if (!showBuildPage) {
             setLoading(false);
             return;
@@ -665,6 +792,8 @@ export function Building3DWorkspace({
 
         let cancelled = false;
         let state: SceneState | null = null;
+        let cleanupIncompleteScene: (() => void) | null = null;
+        const abortController = new AbortController();
 
         async function setup() {
             const mount = mountRef.current;
@@ -685,7 +814,6 @@ export function Building3DWorkspace({
                 const renderer = new THREE.WebGLRenderer({
                     antialias: true,
                     alpha: false,
-                    preserveDrawingBuffer: true,
                 });
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 renderer.shadowMap.enabled = true;
@@ -696,6 +824,25 @@ export function Building3DWorkspace({
                 controls.dampingFactor = 0.08;
                 controls.minDistance = 4;
                 controls.maxDistance = 16;
+
+                let frame = 0;
+                let resizeObserver: ResizeObserver | null = null;
+                let disposed = false;
+                const cleanupScene = () => {
+                    if (disposed) return;
+                    disposed = true;
+                    cancelAnimationFrame(frame);
+                    resizeObserver?.disconnect();
+                    controls.dispose();
+                    disposeObject3D(scene);
+                    renderer.renderLists.dispose();
+                    renderer.dispose();
+                    renderer.forceContextLoss();
+                    if (renderer.domElement.parentElement === mount) {
+                        mount.removeChild(renderer.domElement);
+                    }
+                };
+                cleanupIncompleteScene = cleanupScene;
 
                 const hemi = new THREE.HemisphereLight("#ffffff", "#cbd5e1", 2.2);
                 scene.add(hemi);
@@ -714,9 +861,14 @@ export function Building3DWorkspace({
 
                 let root: import("three").Object3D | null = null;
                 let revealPartsByStep = true;
-                // LDraw 模型用模型内 `0 STEP` 元数据驱动分步显隐（buildingStep）。
-                let ldrawNumSteps = 0;
-                let currentLdrawMpdText: string | null = null;
+                let ldrawAssembly: import("three").Group | null = null;
+                const ldrawStepRoots = new Map<number, import("three").Group>();
+                let visibleLdrawStep = 0;
+                let requestedLdrawStep = -1;
+                let loadedLdrawStep = -1;
+                let ldrawStepCount: number | null = null;
+                let ldrawLoadPromise: Promise<void> | null = null;
+                let ldrawMaterialsReady = false;
                 const defaultMaterials = new Map<
                     import("three").Mesh,
                     import("three").Material | import("three").Material[]
@@ -738,32 +890,79 @@ export function Building3DWorkspace({
                     loader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
                     return loader;
                 };
-                const parseLdrawPreviewModel = async (mpdText: string) => {
+                const ldrawLoader = createLdrawLoader();
+                const parseLdrawStepModel = async (mpdText: string) => {
                     const model = await parsePackedLdrawModelText(
-                        createLdrawLoader(),
+                        ldrawLoader,
                         mpdText,
                         ldrawColorUrl,
+                        {
+                            allowSmallPackedMpd: true,
+                            preloadMaterials: !ldrawMaterialsReady,
+                        },
                     );
-                    prepareLdrawModel(THREE, model, FLOOR_Y);
+                    ldrawMaterialsReady = true;
+                    prepareLdrawStepModel(model);
                     return model;
                 };
 
                 if (content.ldrawModelUrl) {
-                    try {
-                        currentLdrawMpdText = await fetchPackedLdrawText(content.ldrawModelUrl);
-                        const model = await parseLdrawPreviewModel(currentLdrawMpdText);
-                        if (cancelled || !mountRef.current) return;
-                        root = model;
-                        revealPartsByStep = false;
-                        const parsedStepCount = model.userData.numBuildingSteps;
-                        ldrawNumSteps =
-                            typeof parsedStepCount === "number" && parsedStepCount > 0
-                                ? parsedStepCount
-                                : content.steps3d.length;
-                        scene.add(root);
-                    } catch (error) {
-                        setLoadError(getErrorMessage(error, "LDraw 模型加载失败"));
-                    }
+                    const modelFileName = getLdrawModelFileName(content.ldrawModelUrl);
+                    if (!modelFileName) throw new Error("LDraw 模型地址无效");
+                    ldrawAssembly = new THREE.Group();
+                    root = ldrawAssembly;
+                    revealPartsByStep = false;
+                    scene.add(root);
+
+                    const loadLdrawSteps = async () => {
+                        if (ldrawLoadPromise) return ldrawLoadPromise;
+                        setLoading(true);
+                        setLoadError(null);
+                        ldrawLoadPromise = (async () => {
+                            while (!cancelled && loadedLdrawStep < requestedLdrawStep) {
+                                const nextStep = loadedLdrawStep + 1;
+                                const response = await fetch(
+                                    `/api/courses/ldraw-step?model=${encodeURIComponent(modelFileName)}&step=${nextStep}`,
+                                    { cache: "force-cache", signal: abortController.signal },
+                                );
+                                if (!response.ok) {
+                                    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+                                    throw new Error(payload?.error ?? `LDraw 第 ${nextStep + 1} 步加载失败`);
+                                }
+                                const responseStepCount = Number(response.headers.get("X-LDraw-Step-Count"));
+                                if (Number.isSafeInteger(responseStepCount) && responseStepCount > 0) {
+                                    ldrawStepCount = responseStepCount;
+                                    const lastModelStep = responseStepCount - 1;
+                                    visibleLdrawStep = Math.min(visibleLdrawStep, lastModelStep);
+                                    requestedLdrawStep = Math.min(requestedLdrawStep, lastModelStep);
+                                }
+                                const stepRoot = await parseLdrawStepModel(await response.text());
+                                if (cancelled || !ldrawAssembly) {
+                                    disposeObject3D(stepRoot);
+                                    return;
+                                }
+                                ldrawStepRoots.set(nextStep, stepRoot);
+                                ldrawAssembly.add(stepRoot);
+                                loadedLdrawStep = nextStep;
+                                normalizeLdrawAssembly(THREE, ldrawAssembly, FLOOR_Y);
+                                for (const [index, loadedRoot] of ldrawStepRoots) {
+                                    loadedRoot.visible = index <= visibleLdrawStep;
+                                }
+                            }
+                        })();
+                        try {
+                            await ldrawLoadPromise;
+                        } catch (error) {
+                            if (!cancelled && !(error instanceof DOMException && error.name === "AbortError")) {
+                                setLoadError(getErrorMessage(error, "LDraw 模型加载失败"));
+                            }
+                        } finally {
+                            ldrawLoadPromise = null;
+                            if (!cancelled) setLoading(false);
+                        }
+                    };
+
+                    root.userData.loadLdrawSteps = loadLdrawSteps;
                 } else if (content.modelUrl) {
                     try {
                         const gltf = await new GLTFLoader().loadAsync(content.modelUrl);
@@ -798,17 +997,23 @@ export function Building3DWorkspace({
                     roughness: 0.38,
                 });
 
-                const focusStep = (stepIndex: number) => {
-                    if (ldrawNumSteps > 0) {
-                        const clamped = Math.min(Math.max(stepIndex, 0), ldrawNumSteps - 1);
-                        root?.traverse((object) => {
-                            const buildingStep = (object.userData as { buildingStep?: number }).buildingStep;
-                            if (typeof buildingStep === "number") {
-                                object.visible = buildingStep <= clamped;
-                            }
-                        });
+                const focusStep = (stepIndex: number, resetCamera = false) => {
+                    if (ldrawAssembly) {
+                        const contentStep = Math.min(Math.max(stepIndex, 0), content.steps3d.length - 1);
+                        const clamped = ldrawStepCount === null
+                            ? contentStep
+                            : Math.min(contentStep, ldrawStepCount - 1);
+                        visibleLdrawStep = clamped;
+                        requestedLdrawStep = clamped;
+                        for (const [index, stepRoot] of ldrawStepRoots) {
+                            stepRoot.visible = index <= clamped;
+                        }
                         const ldrawStep = content.steps3d[Math.min(clamped, content.steps3d.length - 1)];
-                        applyCameraHint(THREE, camera, controls, ldrawStep?.cameraHint);
+                        if (resetCamera) {
+                            applyCameraHint(THREE, camera, controls, ldrawStep?.cameraHint);
+                        }
+                        const loadLdrawSteps = root?.userData.loadLdrawSteps as (() => Promise<void>) | undefined;
+                        void loadLdrawSteps?.();
                         return;
                     }
 
@@ -832,22 +1037,9 @@ export function Building3DWorkspace({
                         mesh.visible = shown;
                         mesh.material = activeParts.has(partId) || activeParts.has(nodeId) ? highlightMaterial : material;
                     }
-                    applyCameraHint(THREE, camera, controls, step?.cameraHint);
-                };
-
-                const previewLDrawLineEdit = async (lineIndex: number, line: string) => {
-                    if (!currentLdrawMpdText || !content.ldrawModelUrl) return;
-                    const nextMpdText = replaceMainLDrawLine(currentLdrawMpdText, lineIndex, line);
-                    const nextRoot = await parseLdrawPreviewModel(nextMpdText);
-                    if (cancelled || !mountRef.current) return;
-                    if (root) {
-                        scene.remove(root);
+                    if (resetCamera) {
+                        applyCameraHint(THREE, camera, controls, step?.cameraHint);
                     }
-                    root = nextRoot;
-                    scene.add(root);
-                    collectDefaultMaterials(root);
-                    currentLdrawMpdText = nextMpdText;
-                    focusStep(activeBuildStepIndexRef.current);
                 };
 
                 const resize = () => {
@@ -857,12 +1049,11 @@ export function Building3DWorkspace({
                     camera.aspect = width / height;
                     camera.updateProjectionMatrix();
                 };
-                const resizeObserver = new ResizeObserver(resize);
+                resizeObserver = new ResizeObserver(resize);
                 resizeObserver.observe(mount);
                 resize();
-                focusStep(activeBuildStepIndexRef.current);
+                focusStep(activeBuildStepIndexRef.current, true);
 
-                let frame = 0;
                 const animate = () => {
                     frame = requestAnimationFrame(animate);
                     controls.update();
@@ -872,20 +1063,16 @@ export function Building3DWorkspace({
 
                 state = {
                     cleanup: () => {
-                        cancelAnimationFrame(frame);
-                        resizeObserver.disconnect();
-                        controls.dispose();
-                        renderer.dispose();
-                        if (renderer.domElement.parentElement === mount) {
-                            mount.removeChild(renderer.domElement);
-                        }
+                        cleanupScene();
+                        cleanupIncompleteScene = null;
                     },
                     focusStep,
-                    previewLDrawLineEdit: content.ldrawModelUrl ? previewLDrawLineEdit : undefined,
                 };
                 sceneRef.current = state;
             } catch (error) {
-                setLoadError(getErrorMessage(error, "3D 场景初始化失败"));
+                cleanupIncompleteScene?.();
+                cleanupIncompleteScene = null;
+                if (!cancelled) setLoadError(getErrorMessage(error, "3D 场景初始化失败"));
             } finally {
                 if (!cancelled) {
                     setLoading(false);
@@ -897,7 +1084,10 @@ export function Building3DWorkspace({
 
         return () => {
             cancelled = true;
-            state?.cleanup();
+            abortController.abort();
+            if (state) state.cleanup();
+            else cleanupIncompleteScene?.();
+            cleanupIncompleteScene = null;
             if (sceneRef.current === state) sceneRef.current = null;
         };
     }, [content, showBuildPage]);
@@ -940,17 +1130,61 @@ export function Building3DWorkspace({
         onStepChange(next);
     };
 
-    const previewLDrawLineEdit = useCallback((lineIndex: number, line: string) => {
-        return sceneRef.current?.previewLDrawLineEdit?.(lineIndex, line);
+    const enterImmersive = useCallback(async () => {
+        const workspace = workspaceRef.current;
+        if (!workspace) return;
+
+        setIsImmersive(true);
+        if (!workspace.requestFullscreen) {
+            toast({
+                title: "已进入横向展示",
+                description: "将设备横放即可全屏查看课程内容。",
+            });
+            return;
+        }
+
+        nativeFullscreenSessionRef.current = true;
+        try {
+            await workspace.requestFullscreen();
+            try {
+                await getScreenOrientation()?.lock?.("landscape");
+            } catch {
+                toast({
+                    title: "已进入全屏",
+                    description: "当前浏览器不能自动旋转，请将设备横放。",
+                });
+            }
+        } catch {
+            nativeFullscreenSessionRef.current = false;
+            toast({
+                title: "已进入横向展示",
+                description: "当前浏览器不支持页面全屏，请将设备横放。",
+            });
+        }
+    }, [toast]);
+
+    const exitImmersive = useCallback(async () => {
+        nativeFullscreenSessionRef.current = false;
+        getScreenOrientation()?.unlock?.();
+        setIsImmersive(false);
+        if (document.fullscreenElement === workspaceRef.current) {
+            await document.exitFullscreen().catch(() => undefined);
+        }
     }, []);
 
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
     const flowControls = (
-        <div className="space-y-2 border-t border-border bg-card p-3">
+        <div className={cn(
+            "space-y-2 border-t border-border bg-card p-3",
+            isImmersive && "p-2",
+        )}>
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
                 <Button
                     type="button"
                     variant="outline"
+                    className={cn(
+                        isImmersive && activePage?.kind === "build" && "h-11 px-2",
+                    )}
                     disabled={clampedPageIndex === 0}
                     onClick={() => goPage(-1)}
                 >
@@ -961,7 +1195,14 @@ export function Building3DWorkspace({
                     {clampedPageIndex + 1} / {flow.length}
                 </span>
                 {isFinalPage ? (
-                    <Button type="button" disabled={completing || completed} onClick={() => void handleComplete()}>
+                    <Button
+                        type="button"
+                        className={cn(
+                            isImmersive && activePage?.kind === "build" && "h-11 px-2",
+                        )}
+                        disabled={completing || completed}
+                        onClick={() => void handleComplete()}
+                    >
                         {completing ? (
                             <Loader2 className="mr-1 h-4 w-4 animate-spin" />
                         ) : (
@@ -970,7 +1211,13 @@ export function Building3DWorkspace({
                         {completed ? "已完成" : "完成这课"}
                     </Button>
                 ) : (
-                    <Button type="button" onClick={() => goPage(1)}>
+                    <Button
+                        type="button"
+                        className={cn(
+                            isImmersive && activePage?.kind === "build" && "h-11 px-2",
+                        )}
+                        onClick={() => goPage(1)}
+                    >
                         下一页
                         <ChevronRight className="ml-1 h-4 w-4" />
                     </Button>
@@ -987,7 +1234,40 @@ export function Building3DWorkspace({
     );
 
     return (
-        <section className="flex min-h-0 flex-1 flex-col bg-[hsl(var(--background))]">
+        <section
+            ref={workspaceRef}
+            className={cn(
+                "relative flex min-h-0 flex-1 flex-col bg-[hsl(var(--background))]",
+                isImmersive &&
+                    "fixed inset-0 z-[100] h-dvh w-dvw max-w-none overflow-hidden",
+            )}
+        >
+            {nextSlideImageUrl ? (
+                <link rel="preload" as="image" href={nextSlideImageUrl} />
+            ) : null}
+            {view === "lesson" ? (
+                <Button
+                    type="button"
+                    size="icon"
+                    variant="outline"
+                    className="absolute right-2 top-2 z-40 h-11 w-11 bg-card/90 shadow-sm lg:hidden"
+                    aria-label={isImmersive ? "退出全屏" : "全屏横向展示"}
+                    title={isImmersive ? "退出全屏" : "全屏横向展示"}
+                    onClick={() => void (isImmersive ? exitImmersive() : enterImmersive())}
+                >
+                    {isImmersive ? (
+                        <Minimize2 className="h-5 w-5" />
+                    ) : (
+                        <Maximize2 className="h-5 w-5" />
+                    )}
+                </Button>
+            ) : null}
+            {isImmersive ? (
+                <div className="absolute inset-0 z-30 hidden flex-col items-center justify-center gap-3 bg-[#0f172a] text-white portrait:flex landscape:hidden lg:hidden">
+                    <RotateCw className="h-9 w-9" />
+                    <p className="text-sm font-semibold">请将设备横放</p>
+                </div>
+            ) : null}
             {hasWorks ? (
                 <div className="flex shrink-0 items-center gap-1 border-b border-border bg-card px-2 py-1.5">
                     <button
@@ -1028,15 +1308,24 @@ export function Building3DWorkspace({
             ) : null}
 
             {view === "lesson" && activePage?.kind === "slide" ? (
-                <div className="flex min-h-0 flex-none flex-col bg-[#0f172a] lg:flex-1">
-                    <div className="flex min-h-0 flex-none items-center justify-center overflow-hidden p-3 lg:flex-1 lg:p-6">
+                <div className={cn(
+                    "flex min-h-0 flex-none flex-col bg-[#0f172a] lg:flex-1",
+                    isImmersive && "flex-1",
+                )}>
+                    <div className={cn(
+                        "flex min-h-0 flex-none items-center justify-center overflow-hidden p-3 lg:flex-1 lg:p-6",
+                        isImmersive && "flex-1 p-2",
+                    )}>
                         {activePage.sourceIndex === videoSlide0 && content.videoUrl ? (
                             <video
                                 key={content.videoUrl}
                                 src={content.videoUrl}
                                 controls
                                 playsInline
-                                className="aspect-video h-auto w-full max-w-[900px] rounded-sm bg-black shadow-lg"
+                                className={cn(
+                                    "aspect-video h-auto w-full max-w-[900px] rounded-sm bg-black shadow-lg",
+                                    isImmersive && "h-full w-full max-w-none object-contain",
+                                )}
                             />
                         ) : failedSlides.has(activePage.sourceIndex) ? (
                             <div className="flex max-w-sm flex-col items-center gap-2 rounded-sm border border-dashed border-white/25 bg-white/5 px-6 py-8 text-center">
@@ -1058,7 +1347,10 @@ export function Building3DWorkspace({
                                         return next;
                                     })
                                 }
-                                className="h-auto w-full max-w-[900px] rounded-sm bg-white object-contain shadow-lg"
+                                className={cn(
+                                    "h-auto w-full max-w-[900px] rounded-sm bg-white object-contain shadow-lg",
+                                    isImmersive && "h-full max-w-none",
+                                )}
                             />
                         )}
                     </div>
@@ -1068,7 +1360,10 @@ export function Building3DWorkspace({
 
             {view === "lesson" && activePage?.kind === "video" && content.videoUrl ? (
                 <div className="flex min-h-0 flex-1 flex-col bg-black">
-                    <div className="flex min-h-[360px] flex-1 items-center justify-center p-3 max-lg:h-[62dvh] max-lg:flex-none">
+                    <div className={cn(
+                        "flex min-h-[360px] flex-1 items-center justify-center p-3 max-lg:h-[62dvh] max-lg:flex-none",
+                        isImmersive && "min-h-0 p-2 max-lg:h-auto max-lg:flex-1",
+                    )}>
                         <video
                             key={content.videoUrl}
                             src={content.videoUrl}
@@ -1095,9 +1390,14 @@ export function Building3DWorkspace({
 
             <div className={cn(
                 "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[44dvh_auto] lg:grid-cols-[minmax(0,1fr)_280px] lg:grid-rows-1",
+                isImmersive &&
+                    "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
             )}>
-                <div className="relative min-h-[320px] max-lg:min-h-0 overflow-hidden bg-[#f8fbff]">
+                <div className={cn(
+                    "relative min-h-[320px] overflow-hidden bg-[#f8fbff] max-lg:min-h-0",
+                    isImmersive && "min-h-0",
+                )}>
                     <div ref={mountRef} className="h-full w-full" aria-label="3D 搭建图纸" />
                     {loading ? (
                         <div className="absolute inset-0 grid place-items-center bg-[#f8fbff]/80">
@@ -1123,7 +1423,7 @@ export function Building3DWorkspace({
                             size="sm"
                             variant="outline"
                             className="bg-card/90"
-                            onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex)}
+                            onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex, true)}
                         >
                             <RotateCcw className="mr-1 h-4 w-4" />
                             视角
@@ -1140,7 +1440,10 @@ export function Building3DWorkspace({
                     ) : null}
                 </div>
 
-                <aside className="min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0">
+                <aside className={cn(
+                    "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
+                    isImmersive && "overflow-hidden border-l border-t-0",
+                )}>
                     <div className="flex h-full flex-col">
                         <div className="border-b border-border px-4 py-3">
                             <div className="flex items-center justify-between gap-2">
@@ -1191,7 +1494,6 @@ export function Building3DWorkspace({
                             <LDrawDebugEditor
                                 modelUrl={content.ldrawModelUrl}
                                 activeStepIndex={activeBuildStepIndex}
-                                onPreviewLine={previewLDrawLineEdit}
                             />
                         ) : null}
                         {flowControls}

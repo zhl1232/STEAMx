@@ -23,13 +23,21 @@ const ShareWorkDialog = dynamic(
   { ssr: false },
 )
 
-export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOpenShare?: boolean }) {
+export function WorkDetail({
+  work,
+  canShare,
+  autoOpenShare = false,
+}: {
+  work: Work
+  canShare: boolean
+  autoOpenShare?: boolean
+}) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const queryClient = useQueryClient()
   const [activeImage, setActiveImage] = useState(0)
   const [tipOpen, setTipOpen] = useState(false)
-  const [shareOpen, setShareOpen] = useState(autoOpenShare)
+  const [shareOpen, setShareOpen] = useState(autoOpenShare && canShare)
   const source = work.source
   const cover = work.proofImages[activeImage]
 
@@ -41,6 +49,21 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
       return response.json() as Promise<LikeMeta>
     },
     initialData: { count: work.likes, isLiked: false },
+  })
+
+  const { data: myTippedCompletion = 0 } = useQuery<number>({
+    queryKey: ["tip_my", "completion", work.id],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        resourceType: "completion",
+        resourceId: String(work.id),
+      })
+      const response = await fetch(`/api/tips/my?${params.toString()}`)
+      if (!response.ok) return 0
+      const payload = await response.json()
+      return (payload?.myTipped as number) ?? 0
+    },
+    enabled: Boolean(user?.id) && user?.id !== work.userId,
   })
 
   const likeMutation = useMutation({
@@ -71,6 +94,7 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
 
   const sourceLabel = source?.type === "course_lesson" ? "课程作品" : "项目作品"
   const SourceIcon = source?.type === "course_lesson" ? BookOpen : Wrench
+  const hasTippedCompletion = myTippedCompletion > 0
 
   return (
     <main className="page-shell pb-24 pt-4 md:py-8">
@@ -88,7 +112,7 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
       </div>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(300px,0.75fr)] lg:gap-8">
-        <section className="min-w-0 lg:col-start-1 lg:row-start-1">
+        <section className="min-w-0 lg:col-start-1 lg:row-start-1" aria-label="作品媒体">
           <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[hsl(var(--surface-muted))]">
             {cover ? (
               <OptimizedImage
@@ -130,7 +154,10 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
           ) : null}
         </section>
 
-        <aside className="space-y-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <aside
+          className="space-y-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1"
+          aria-label="作品信息"
+        >
           <div className="border-b border-border pb-5">
             <div className="flex items-center gap-3">
               <AvatarWithFrame
@@ -140,11 +167,60 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
                 fallback={work.author[0] || "?"}
                 className="h-12 w-12"
               />
-              <div className="min-w-0">
-                <Link href={`/users/${work.userId}`} className="truncate text-base font-bold text-foreground hover:underline">
+              <div className="min-w-0 flex-1">
+                <Link href={`/users/${work.userId}`} className="block truncate text-base font-bold text-foreground hover:underline">
                   {work.author}
                 </Link>
                 <p className="mt-1 text-sm text-muted-foreground">{work.completedAt}</p>
+              </div>
+              <div className="ml-auto flex shrink-0 items-center gap-0.5" role="group" aria-label="作品支持操作">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className={cn("h-11 min-w-11 px-2", likeMeta.isLiked && "text-red-500")}
+                  onClick={handleLike}
+                  disabled={likeMutation.isPending}
+                  aria-label={likeMeta.isLiked ? `取消点赞，当前 ${likeMeta.count} 个赞` : `点赞，当前 ${likeMeta.count} 个赞`}
+                >
+                  <Heart className={cn("mr-1.5 h-4 w-4", likeMeta.isLiked && "fill-current")} />
+                  <span className="tabular-nums">{likeMeta.count}</span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className={cn(
+                    "h-11 min-w-11 px-2",
+                    hasTippedCompletion &&
+                      "text-[hsl(var(--brand-amber))] hover:text-[hsl(var(--brand-amber))]",
+                  )}
+                  onClick={() => {
+                    if (!user) {
+                      promptLogin(() => setTipOpen(true), { title: "登录以投币", description: "登录后即可支持作品作者" })
+                      return
+                    }
+                    setTipOpen(true)
+                  }}
+                  aria-label={
+                    hasTippedCompletion
+                      ? `已投币支持，当前 ${work.coins} 枚，我已投 ${myTippedCompletion} 枚`
+                      : `投币支持，当前 ${work.coins} 枚`
+                  }
+                >
+                  <Coins className="mr-1.5 h-4 w-4" />
+                  <span className="tabular-nums">{work.coins}</span>
+                </Button>
+                {canShare ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-11 w-11 shrink-0"
+                    onClick={() => setShareOpen(true)}
+                    aria-label="分享作品"
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                ) : null}
               </div>
             </div>
           </div>
@@ -169,50 +245,6 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
             </Link>
           ) : null}
 
-          <div className="grid grid-cols-4 gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className={cn("h-12 px-2", likeMeta.isLiked && "text-red-500")}
-              onClick={handleLike}
-              disabled={likeMutation.isPending}
-            >
-              <Heart className={cn("mr-1.5 h-4 w-4", likeMeta.isLiked && "fill-current")} />
-              {likeMeta.count}
-            </Button>
-            <Button variant="outline" className="h-12 px-2" asChild>
-              <a href="#comments">
-                <MessageCircle className="mr-1.5 h-4 w-4" />
-                {work.commentsCount ?? 0}
-              </a>
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 px-2"
-              onClick={() => {
-                if (!user) {
-                  promptLogin(() => setTipOpen(true), { title: "登录以投币", description: "登录后即可支持作品作者" })
-                  return
-                }
-                setTipOpen(true)
-              }}
-            >
-              <Coins className="mr-1.5 h-4 w-4" />
-              {work.coins}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 px-2"
-              onClick={() => setShareOpen(true)}
-              aria-label="分享作品"
-            >
-              <Share2 className="mr-1.5 h-4 w-4" />
-              分享
-            </Button>
-          </div>
-
           {work.status !== "approved" ? (
             <div className="rounded-sm border border-[hsl(var(--brand-amber)/0.3)] bg-[hsl(var(--brand-amber)/0.1)] p-3 text-sm text-foreground">
               {work.status === "rejected" ? `作品未通过：${work.rejectionReason || "请修改后重新提交"}` : "作品正在审核中，仅你自己可见。"}
@@ -221,12 +253,14 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
         </aside>
 
         <section className="min-w-0 lg:col-start-1 lg:row-start-2">
-          <section className="mt-8 border-t border-border pt-6">
-            <h2 className="text-xl font-bold text-foreground">创作记录</h2>
-            <p className="mt-3 max-w-[70ch] whitespace-pre-wrap text-base leading-7 text-foreground/82">
-              {work.notes || "作者还没有补充创作说明。"}
-            </p>
-          </section>
+          {work.notes?.trim() ? (
+            <section className="mt-8 border-t border-border pt-6">
+              <h2 className="text-xl font-bold text-foreground">创作记录</h2>
+              <p className="mt-3 max-w-[70ch] whitespace-pre-wrap text-base leading-7 text-foreground/82">
+                {work.notes}
+              </p>
+            </section>
+          ) : null}
 
           <section className="mt-8 border-t border-border pt-6" id="comments">
             <div className="mb-4 flex items-center gap-2">
@@ -246,7 +280,7 @@ export function WorkDetail({ work, autoOpenShare = false }: { work: Work; autoOp
         projectId={work.id}
         resourceType="completion"
       />
-      {shareOpen ? (
+      {canShare && shareOpen ? (
         <ShareWorkDialog work={work} open={shareOpen} onOpenChange={setShareOpen} />
       ) : null}
     </main>

@@ -7,6 +7,9 @@ import {
   assertValidLdrawMpd,
   buildEmbeddedLookup,
   countEmbeddedLdrawFiles,
+  createPackedLdrawStep,
+  createPackedLdrawStepMpd,
+  getPackedLdrawStepCount,
   patchParseCacheForEmbedded,
   splitPackedMpd,
 } from './ldraw-mpd'
@@ -79,5 +82,42 @@ describe('splitPackedMpd', () => {
     expect(embedded.size).toBeGreaterThan(20)
     expect(embedded.has('3001.dat')).toBe(true)
     expect(embedded.has('parts/s/3811s01.dat')).toBe(true)
+  })
+})
+
+describe('createPackedLdrawStepMpd', () => {
+  const packed = [
+    '0 FILE model.ldr',
+    '0 Name: model.ldr',
+    '0 BFC CERTIFY CCW',
+    '1 16 0 0 0 1 0 0 0 1 0 0 0 1 first.dat',
+    '0 STEP',
+    '1 4 20 0 0 1 0 0 0 1 0 0 0 1 second.dat',
+    '0 FILE first.dat',
+    '1 16 0 0 0 1 0 0 0 1 0 0 0 1 shared.dat',
+    '0 FILE second.dat',
+    '2 24 0 0 0 10 0 0',
+    '0 FILE shared.dat',
+    '2 24 0 0 0 0 10 0',
+  ].join('\n')
+
+  it('returns only the selected step and recursive dependencies', () => {
+    const firstStep = createPackedLdrawStepMpd(packed, 0)
+    expect(firstStep).toContain('first.dat')
+    expect(firstStep).toContain('shared.dat')
+    expect(firstStep).not.toContain('second.dat')
+
+    const secondStep = createPackedLdrawStepMpd(packed, 1)
+    expect(secondStep).toContain('second.dat')
+    expect(secondStep).not.toContain('first.dat')
+    expect(secondStep).not.toContain('shared.dat')
+    expect(secondStep).toContain('0 BFC CERTIFY CCW')
+  })
+
+  it('reports step count and rejects out-of-range requests', () => {
+    expect(getPackedLdrawStepCount(packed)).toBe(2)
+    expect(createPackedLdrawStep(packed, 0).stepCount).toBe(2)
+    expect(() => createPackedLdrawStepMpd(packed, 2)).toThrow(RangeError)
+    expect(() => createPackedLdrawStepMpd(packed, -1)).toThrow(RangeError)
   })
 })

@@ -64,6 +64,106 @@ export function countEmbeddedLdrawFiles(text: string): number {
   return (text.match(/^0 FILE /gm) ?? []).length
 }
 
+function splitMainModelSteps(mainText: string): { preamble: string; steps: string[] } {
+  const sections: string[][] = [[]]
+
+  for (const line of mainText.split(/\r?\n/)) {
+    if (line.trim() === '0 STEP') {
+      sections.push([])
+    } else {
+      sections[sections.length - 1].push(line)
+    }
+  }
+
+  while (sections.length > 1 && sections[sections.length - 1].join('\n').trim() === '') {
+    sections.pop()
+  }
+
+  const firstGeometryIndex = sections[0].findIndex((line) => /^[1-5]\s/.test(line.trim()))
+  const preambleLines = firstGeometryIndex >= 0 ? sections[0].slice(0, firstGeometryIndex) : sections[0]
+  if (firstGeometryIndex >= 0) sections[0] = sections[0].slice(firstGeometryIndex)
+
+  return {
+    preamble: preambleLines.join('\n').trimEnd(),
+    steps: sections.map((lines) => lines.join('\n').trimEnd()),
+  }
+}
+
+function referencedLdrawFiles(text: string): string[] {
+  const references: string[] = []
+
+  for (const line of text.split(/\r?\n/)) {
+    const tokens = line.trim().split(/\s+/)
+    if (tokens[0] === '1' && tokens.length >= 15) {
+      references.push(tokens.slice(14).join(' '))
+    }
+  }
+
+  return references
+}
+
+function resolveEmbeddedBlock(
+  embedded: Map<string, string>,
+  fileName: string,
+): { name: string; text: string } | null {
+  for (const variant of loaderFileNameVariants(fileName)) {
+    const text = embedded.get(variant)
+    if (text !== undefined) return { name: variant, text }
+  }
+  return null
+}
+
+export function getPackedLdrawStepCount(mpdText: string): number {
+  const { mainText } = splitPackedMpd(mpdText)
+  return splitMainModelSteps(mainText).steps.length
+}
+
+/** 生成只含目标搭建步骤及其递归零件依赖的独立 MPD。 */
+export function createPackedLdrawStep(
+  mpdText: string,
+  stepIndex: number,
+): { mpdText: string; stepCount: number } {
+  if (!Number.isInteger(stepIndex) || stepIndex < 0) {
+    throw new RangeError('LDraw step index must be a non-negative integer')
+  }
+
+  assertValidLdrawMpd(mpdText)
+  const { mainName, mainText, embedded } = splitPackedMpd(mpdText)
+  const { preamble, steps } = splitMainModelSteps(mainText)
+  const stepText = steps[stepIndex]
+  if (stepText === undefined) {
+    throw new RangeError(`LDraw step ${stepIndex} is out of range (total ${steps.length})`)
+  }
+
+  const included = new Map<string, string>()
+  const pending = referencedLdrawFiles(stepText)
+  while (pending.length > 0) {
+    const reference = pending.pop()
+    if (!reference) continue
+    const block = resolveEmbeddedBlock(embedded, reference)
+    if (!block) {
+      throw new Error(`LDraw MPD is missing embedded dependency "${reference}"`)
+    }
+    if (included.has(block.name)) continue
+    included.set(block.name, block.text)
+    pending.push(...referencedLdrawFiles(block.text))
+  }
+
+  const mainBlock = [preamble, stepText].filter(Boolean).join('\n')
+  const blocks = [`0 FILE ${mainName}\n${mainBlock}`]
+  for (const [name, text] of included) {
+    blocks.push(`0 FILE ${name}\n${text}`)
+  }
+  return {
+    mpdText: `${blocks.join('\n\n')}\n`,
+    stepCount: steps.length,
+  }
+}
+
+export function createPackedLdrawStepMpd(mpdText: string, stepIndex: number): string {
+  return createPackedLdrawStep(mpdText, stepIndex).mpdText
+}
+
 /** 校验 fetch 到的内容确实是 LDraw 文本，而非 CDN 403 HTML。 */
 export function assertValidLdrawMpd(text: string): void {
   const trimmed = text.trimStart()
@@ -144,6 +244,7 @@ export async function parsePackedLdrawModelText(
   loader: LDrawLoaderBase,
   mpdText: string,
   colorUrl: string,
+  options?: { allowSmallPackedMpd?: boolean; preloadMaterials?: boolean },
 ): Promise<import('three').Group> {
   const packedLoader = loader as LDrawLoaderWithPartsCache
   assertValidLdrawMpd(mpdText)
@@ -153,7 +254,7 @@ export async function parsePackedLdrawModelText(
   if (embedded.size === 0 && /\b\S+\.dat\b/i.test(mpdText)) {
     throw new Error('LDraw 模型未打包内联零件，请运行 scripts/pack-ldraw-model.mjs 后重新上传')
   }
-  if (fileBlockCount <= 2 && /\b\d+\.dat\b/i.test(mpdText)) {
+  if (!options?.allowSmallPackedMpd && fileBlockCount <= 2 && /\b\d+\.dat\b/i.test(mpdText)) {
     throw new Error(
       `LDraw MPD 不完整（仅 ${fileBlockCount} 个 FILE 块、${embedded.size} 个内联零件）。请硬刷新（Ctrl+Shift+R）或重启 dev server`,
     )
@@ -166,8 +267,10 @@ export async function parsePackedLdrawModelText(
     parseCache.setData(name, fileText)
   }
 
-  packedLoader.addDefaultMaterials()
-  await packedLoader.preloadMaterials(colorUrl)
+  if (options?.preloadMaterials !== false) {
+    packedLoader.addDefaultMaterials()
+    await packedLoader.preloadMaterials(colorUrl)
+  }
 
   // 传完整 MPD：LDrawLoader 会在 parse 时自动处理内联 0 FILE 块。
   return new Promise((resolve, reject) => {

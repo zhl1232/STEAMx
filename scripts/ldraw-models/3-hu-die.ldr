@@ -1,72 +1,86 @@
-0 3+ 蝴蝶 (Butterfly) - DUPLO draft for manual repair
+0 3+ Butterfly - source-first DUPLO reconstruction
 0 Name: 3-hu-die.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+蝴蝶 course slides, build pages 1-9.
-0 // Draft policy: DUPLO-only approximation for manual Studio repair before MPD/course generation.
-0 // Uses only project-supported DUPLO parts: 3011.dat, 3437.dat, 40666.dat.
-0 // Known simplifications: front-facing butterfly is modeled on a flat u/v plane; eyes use plain DUPLO bricks.
-0 // Side-built matrices: horizontal=[1 0 0 / 0 -1 0 / 0 1 0], vertical=[0 0 -1 / -1 0 0 / 0 1 0].
+0 // Source: C:\Users\arron\Downloads\pdf预览\3+蝴蝶搭建说明_pdf, pages 1-12.
+0 // Grid: 40 LDU per DUPLO stud; 48 LDU per full-height brick.
+0 // Axes: X left/right; +Y down; +Z rear and -Z front.
+0 // Origin: center of the bottom row at its top connection plane; the model is two studs deep.
+0 // Parts: official 3011.dat 2x4 brick, 3437.dat 2x2 brick, and 3437pe1.dat eye brick.
+0 // Source discrepancy: pages 1-10 add five blue 2x2 bricks and six yellow 2x4 bricks,
+0 // while the page-11 BOM groups those counts as nine yellow 2x2 bricks, six blue 2x4 bricks,
+0 // and four yellow 2x4 bricks. Placement colors follow the consecutive build pages.
+0 // Page 11 is the parts summary and page 12 is the completed-model view; neither adds parts.
+0 // Verification: renderer-verified only; collision/static and multi-view step renders passed.
+0 // Not opened in BrickLink Studio.
 
-0 // STEP 1 - yellow lower wing base
-1 14 -160 120 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 14 160 120 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 14 -260 160 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 14 260 160 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 1 - two separated yellow lower-wing feet
+1 14 -120 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 0 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 2 - red upper wing bridge and blue body start
-1 4 -120 40 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 4 120 40 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 0 40 24 0 0 -1 -1 0 0 0 1 0 3437.dat
-1 4 -320 80 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 4 320 80 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 2 - inset yellow locking row
+1 14 -80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 3 - central abdomen stack
-1 1 0 -40 24 0 0 -1 -1 0 0 0 1 0 3437.dat
-1 1 0 120 24 0 0 -1 -1 0 0 0 1 0 3437.dat
-1 14 0 200 24 0 0 -1 -1 0 0 0 1 0 3437.dat
+0 // STEP 3 - yellow lower wings and blue center
+1 14 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 4 - extend upper red wings
-1 4 -280 -40 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 4 280 -40 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 -440 0 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 1 440 0 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 4 - first red body row
+1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 5 - blue side pattern
-1 1 -420 80 24 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 420 80 24 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 -320 180 24 1 0 0 0 -1 0 0 1 0 3437.dat
-1 1 320 180 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 5 - red wings around a blue center
+1 4 -120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 6 - widen upper wings symmetrically
-1 4 -120 -80 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 4 120 -80 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 -300 -100 24 1 0 0 0 -1 0 0 1 0 3437.dat
-1 1 300 -100 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 6 - wide red row with blue outer tips
+1 1 -240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 7 - complete lower wing blocks
-1 14 -220 240 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 14 220 240 0 1 0 0 0 -1 0 0 1 0 3011.dat
-1 1 -80 260 24 1 0 0 0 -1 0 0 1 0 3437.dat
-1 1 80 260 24 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 7 - staggered red row with three blue 2x2 locks
+1 1 -240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
-0 // STEP 8 - white head bricks and yellow antennae
-1 15 -80 -160 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 15 80 -160 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 14 -160 -260 0 0 0 -1 -1 0 0 0 1 0 3437.dat
-1 14 160 -260 0 0 0 -1 -1 0 0 0 1 0 3437.dat
-1 14 -220 -340 0 1 0 0 0 -1 0 0 1 0 3437.dat
-1 14 220 -340 0 1 0 0 0 -1 0 0 1 0 3437.dat
+0 // STEP 8 - second wide red row with blue outer tips
+1 1 -240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 9 - black eye dots and final symmetric silhouette
-1 0 -80 -170 -24 1 0 0 0 -1 0 0 1 0 40666.dat
-1 0 80 -170 -24 1 0 0 0 -1 0 0 1 0 40666.dat
+0 // STEP 9 - narrowed red shoulder and head-support row
+1 4 -160 -384 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -384 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 10 - eye bricks and two-stage yellow antennae
+1 15 -80 -432 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 15 80 -432 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 -120 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 11 - parts summary; no new parts
+0 STEP
+
+0 // STEP 12 - finished butterfly; no new parts

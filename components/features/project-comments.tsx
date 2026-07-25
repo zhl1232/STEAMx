@@ -304,7 +304,6 @@ export function ProjectComments({
         profileName: profile?.display_name,
         metadataFullName: user?.user_metadata?.full_name,
         metadataName: user?.user_metadata?.name,
-        phone: user?.phone ?? null,
         email: user?.email,
         fallback: "Me",
       }),
