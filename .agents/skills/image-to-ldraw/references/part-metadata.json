@@ -6380,7 +6380,7 @@
     "31191.dat": {
       "name": "Duplo Ball Tube Exit with Round Doorway 2 x 6 x 5",
       "category": "tube",
-      "ldrawStatus": "Unofficial",
+      "ldrawStatus": "Official",
       "studFootprint": {
         "x": 6,
         "z": 2
@@ -6470,6 +6470,7 @@
       ],
       "supportPolicy": "structural",
       "notes": [
+        "Official LDraw 2025-03 geometry copied from BrickLink Studio CustomParts on 2026-07-26 under CC BY 4.0; legacy course placements that used the prior inverted-Y flattened file must right-multiply their matrix by diag(1,-1,1).",
         "Full frame height is 240 LDU; bottom connection plane is local y=240.",
         "Collision volumes approximate the frame around the circular opening instead of filling the hole."
       ]
@@ -6611,6 +6612,7 @@
         }
       },
       "notes": [
+        "Official LDraw 2025-03 geometry copied from BrickLink Studio CustomParts on 2026-07-26 under CC BY 4.0; repository MPDs must embed this definition because the legacy flattened local file used a different origin and axis convention.",
         "Do not use named north/east/south/west for chained elbows; emit exact ldrawLine and verify with tubeChecks against the instruction image.",
         "At the -Z end of the long-neck dinosaur straight 31452 run, rotZ(+90deg)*rotY(180deg) connects local +Z to the straight start port and bends the first elbow downward (+Y) and outward (-Z).",
         "For a 4-piece tail that must stay physically connected, chain the official chainLocal between every adjacent elbow and declare portConnection checks between adjacent elbows."
@@ -6833,6 +6835,7 @@
       "supportPolicy": "manual",
       "collisionPolicy": "manual",
       "notes": [
+        "Official LDraw 2025-03 geometry copied from BrickLink Studio CustomParts on 2026-07-26 under CC BY 4.0; the straight run follows local +Z from 0 to 120 LDU.",
         "Manual review required for tube assemblies."
       ]
     },
