@@ -82,7 +82,7 @@ describe("Building3DWorkspace", () => {
         ).toBeInTheDocument();
     });
 
-    it("prefetches the first LDraw step before entering the build page", async () => {
+    it("prefetches the first LDraw step as soon as a future build page exists", async () => {
         const arrayBuffer = vi.fn().mockResolvedValue(new ArrayBuffer(0));
         const fetchMock = vi.fn().mockResolvedValue({ ok: true, arrayBuffer });
         vi.stubGlobal("fetch", fetchMock);
@@ -105,7 +105,7 @@ describe("Building3DWorkspace", () => {
             },
         };
 
-        renderWorkspace(lesson, 3);
+        renderWorkspace(lesson, 0);
 
         await waitFor(() => {
             expect(fetchMock).toHaveBeenCalledWith(

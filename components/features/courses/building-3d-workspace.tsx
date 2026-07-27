@@ -37,10 +37,12 @@ import type {
 
 type ThreeModule = typeof import("three");
 
-type LoadedThree = {
+type LoadedThreeCore = {
     THREE: ThreeModule;
     OrbitControls: typeof import("three/examples/jsm/controls/OrbitControls.js").OrbitControls;
-    GLTFLoader: typeof import("three/examples/jsm/loaders/GLTFLoader.js").GLTFLoader;
+};
+
+type LoadedLdraw = {
     LDrawLoader: typeof import("three/examples/jsm/loaders/LDrawLoader.js").LDrawLoader;
     LDrawConditionalLineMaterial: typeof import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js").LDrawConditionalLineMaterial;
 };
@@ -281,22 +283,61 @@ function updateEditableLine(
     return { ...line, ...patch, line: formatLDrawLine({ ...line, ...patch }) };
 }
 
-async function loadThree(): Promise<LoadedThree> {
-    const [THREE, controls, gltf, ldraw, ldrawLine] = await Promise.all([
+let threeCorePromise: Promise<LoadedThreeCore> | null = null;
+let ldrawRuntimePromise: Promise<LoadedLdraw> | null = null;
+let gltfLoaderPromise: Promise<typeof import("three/examples/jsm/loaders/GLTFLoader.js").GLTFLoader> | null = null;
+
+function loadThreeCore(): Promise<LoadedThreeCore> {
+    if (threeCorePromise) return threeCorePromise;
+
+    threeCorePromise = Promise.all([
         import("three"),
         import("three/examples/jsm/controls/OrbitControls.js"),
-        import("three/examples/jsm/loaders/GLTFLoader.js"),
-        import("three/examples/jsm/loaders/LDrawLoader.js"),
-        import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js"),
-    ]);
-
-    return {
+    ]).then(([THREE, controls]) => ({
         THREE,
         OrbitControls: controls.OrbitControls,
-        GLTFLoader: gltf.GLTFLoader,
+    }));
+    void threeCorePromise.catch(() => {
+        threeCorePromise = null;
+    });
+    return threeCorePromise;
+}
+
+function loadLdrawRuntime(): Promise<LoadedLdraw> {
+    if (ldrawRuntimePromise) return ldrawRuntimePromise;
+
+    ldrawRuntimePromise = Promise.all([
+        import("three/examples/jsm/loaders/LDrawLoader.js"),
+        import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js"),
+    ]).then(([ldraw, ldrawLine]) => ({
         LDrawLoader: ldraw.LDrawLoader,
         LDrawConditionalLineMaterial: ldrawLine.LDrawConditionalLineMaterial,
-    };
+    }));
+    void ldrawRuntimePromise.catch(() => {
+        ldrawRuntimePromise = null;
+    });
+    return ldrawRuntimePromise;
+}
+
+function loadGltfLoader() {
+    if (gltfLoaderPromise) return gltfLoaderPromise;
+
+    gltfLoaderPromise = import("three/examples/jsm/loaders/GLTFLoader.js").then(
+        (gltf) => gltf.GLTFLoader,
+    );
+    void gltfLoaderPromise.catch(() => {
+        gltfLoaderPromise = null;
+    });
+    return gltfLoaderPromise;
+}
+
+function preloadThreeRuntime(content: Building3DLessonContent) {
+    void loadThreeCore().catch(() => undefined);
+    if (content.ldrawModelUrl) {
+        void loadLdrawRuntime().catch(() => undefined);
+    } else if (content.modelUrl) {
+        void loadGltfLoader().catch(() => undefined);
+    }
 }
 
 function normalizeLdrawAssembly(
@@ -696,6 +737,9 @@ export function Building3DWorkspace({
     const [isImmersive, setIsImmersive] = useState(false);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
     const nextPage = view === "lesson" ? flow[clampedPageIndex + 1] ?? null : null;
+    const upcomingBuildPage = view === "lesson" && !showBuildPage
+        ? flow.find((page, index) => index > clampedPageIndex && page.kind === "build") ?? null
+        : null;
     const nextSlideImageUrl =
         nextPage?.kind === "slide" &&
         !(nextPage.sourceIndex === videoSlide0 && content.videoUrl)
@@ -731,15 +775,16 @@ export function Building3DWorkspace({
     }, [nextVideoUrl]);
 
     useEffect(() => {
-        if (nextPage?.kind !== "build") return;
+        if (upcomingBuildPage?.kind !== "build") return;
 
         const abortController = new AbortController();
         let preloadUrl: string | null = null;
+        preloadThreeRuntime(content);
 
         if (content.ldrawModelUrl) {
             const modelFileName = getLdrawModelFileName(content.ldrawModelUrl);
             if (modelFileName) {
-                preloadUrl = `/api/courses/ldraw-step?model=${encodeURIComponent(modelFileName)}&step=${nextPage.stepIndex}`;
+                preloadUrl = `/api/courses/ldraw-step?model=${encodeURIComponent(modelFileName)}&step=${upcomingBuildPage.stepIndex}`;
             }
         } else if (content.modelUrl) {
             preloadUrl = resolveAssetDisplayUrl(content.modelUrl) ?? content.modelUrl;
@@ -755,7 +800,7 @@ export function Building3DWorkspace({
         }
 
         return () => abortController.abort();
-    }, [content.ldrawModelUrl, content.modelUrl, nextPage]);
+    }, [content, upcomingBuildPage]);
 
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -801,9 +846,15 @@ export function Building3DWorkspace({
             setLoading(true);
             setLoadError(null);
             try {
-                const { THREE, OrbitControls, GLTFLoader, LDrawLoader, LDrawConditionalLineMaterial } =
-                    await loadThree();
+                const [threeCore, ldrawRuntime, GLTFLoader] = await Promise.all([
+                    loadThreeCore(),
+                    content.ldrawModelUrl ? loadLdrawRuntime() : Promise.resolve(null),
+                    !content.ldrawModelUrl && content.modelUrl
+                        ? loadGltfLoader()
+                        : Promise.resolve(null),
+                ]);
                 if (cancelled || !mountRef.current) return;
+                const { THREE, OrbitControls } = threeCore;
 
                 const FLOOR_Y = -0.18;
 
@@ -868,7 +919,7 @@ export function Building3DWorkspace({
                 let loadedLdrawStep = -1;
                 let ldrawStepCount: number | null = null;
                 let ldrawLoadPromise: Promise<void> | null = null;
-                let ldrawMaterialsReady = false;
+                const prefetchedLdrawSteps = new Set<number>();
                 const defaultMaterials = new Map<
                     import("three").Mesh,
                     import("three").Material | import("three").Material[]
@@ -885,23 +936,34 @@ export function Building3DWorkspace({
                     resolveAssetDisplayUrl(content.ldrawColorUrl ?? DEFAULT_LDRAW_COLOR_URL)
                     ?? DEFAULT_LDRAW_COLOR_URL;
                 const createLdrawLoader = () => {
-                    const loader = new LDrawLoader();
-                    loader.smoothNormals = true;
-                    loader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
+                    if (!ldrawRuntime) throw new Error("LDraw 运行时未能加载");
+                    const loader = new ldrawRuntime.LDrawLoader();
+                    // 高细节零件的平滑法线预处理会阻塞主线程数秒；条件线已能保留曲面轮廓。
+                    loader.smoothNormals = false;
+                    loader.setConditionalLineMaterial(ldrawRuntime.LDrawConditionalLineMaterial);
                     return loader;
                 };
-                const ldrawLoader = createLdrawLoader();
+                const ldrawLoader = content.ldrawModelUrl ? createLdrawLoader() : null;
+                const ldrawMaterialsPromise = ldrawLoader
+                    ? (async () => {
+                        ldrawLoader.addDefaultMaterials();
+                        await ldrawLoader.preloadMaterials(ldrawColorUrl);
+                    })()
+                    : null;
                 const parseLdrawStepModel = async (mpdText: string) => {
+                    if (!ldrawLoader || !ldrawMaterialsPromise) {
+                        throw new Error("LDraw 运行时未能加载");
+                    }
+                    await ldrawMaterialsPromise;
                     const model = await parsePackedLdrawModelText(
                         ldrawLoader,
                         mpdText,
                         ldrawColorUrl,
                         {
                             allowSmallPackedMpd: true,
-                            preloadMaterials: !ldrawMaterialsReady,
+                            preloadMaterials: false,
                         },
                     );
-                    ldrawMaterialsReady = true;
                     prepareLdrawStepModel(model);
                     return model;
                 };
@@ -913,6 +975,29 @@ export function Building3DWorkspace({
                     root = ldrawAssembly;
                     revealPartsByStep = false;
                     scene.add(root);
+
+                    const prefetchLdrawStep = (step: number) => {
+                        if (
+                            cancelled ||
+                            step < 0 ||
+                            (ldrawStepCount !== null && step >= ldrawStepCount) ||
+                            prefetchedLdrawSteps.has(step)
+                        ) {
+                            return;
+                        }
+                        prefetchedLdrawSteps.add(step);
+                        void fetch(
+                            `/api/courses/ldraw-step?model=${encodeURIComponent(modelFileName)}&step=${step}`,
+                            { cache: "force-cache", signal: abortController.signal },
+                        )
+                            .then((response) => {
+                                if (!response.ok) throw new Error(`LDraw 第 ${step + 1} 步预加载失败`);
+                                return response.arrayBuffer();
+                            })
+                            .catch(() => {
+                                prefetchedLdrawSteps.delete(step);
+                            });
+                    };
 
                     const loadLdrawSteps = async () => {
                         if (ldrawLoadPromise) return ldrawLoadPromise;
@@ -949,6 +1034,7 @@ export function Building3DWorkspace({
                                     loadedRoot.visible = index <= visibleLdrawStep;
                                 }
                             }
+                            prefetchLdrawStep(loadedLdrawStep + 1);
                         })();
                         try {
                             await ldrawLoadPromise;
@@ -965,6 +1051,7 @@ export function Building3DWorkspace({
                     root.userData.loadLdrawSteps = loadLdrawSteps;
                 } else if (content.modelUrl) {
                     try {
+                        if (!GLTFLoader) throw new Error("GLTF 运行时未能加载");
                         const gltf = await new GLTFLoader().loadAsync(content.modelUrl);
                         root = gltf.scene;
                         revealPartsByStep = false;
@@ -1053,6 +1140,11 @@ export function Building3DWorkspace({
                 resizeObserver.observe(mount);
                 resize();
                 focusStep(activeBuildStepIndexRef.current, true);
+                if (ldrawAssembly) {
+                    const loadLdrawSteps = root.userData.loadLdrawSteps as (() => Promise<void>) | undefined;
+                    await loadLdrawSteps?.();
+                    if (cancelled) return;
+                }
 
                 const animate = () => {
                     frame = requestAnimationFrame(animate);

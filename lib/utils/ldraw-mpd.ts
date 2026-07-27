@@ -102,6 +102,33 @@ function referencedLdrawFiles(text: string): string[] {
   return references
 }
 
+const LDRAW_GEOMETRY_TOKEN_COUNTS: Readonly<Record<string, number>> = {
+  '2': 8,
+  '3': 11,
+  '4': 14,
+  '5': 14,
+}
+
+/**
+ * Studio 导出的部分自定义件会在标准 type 2-5 坐标后附带 UV 等字段。
+ * LDrawLoader 不读取这些尾字段，按步骤下发前剔除可减少文本传输且不改变几何。
+ */
+function stripUnsupportedGeometryFields(text: string): string {
+  return text
+    .split(/\r?\n/)
+    .map((line) => {
+      const trimmed = line.trim()
+      const tokens = trimmed.split(/\s+/)
+      const standardTokenCount = LDRAW_GEOMETRY_TOKEN_COUNTS[tokens[0]]
+      if (!standardTokenCount) return line
+
+      return tokens.length > standardTokenCount
+        ? tokens.slice(0, standardTokenCount).join(' ')
+        : line
+    })
+    .join('\n')
+}
+
 function resolveEmbeddedBlock(
   embedded: Map<string, string>,
   fileName: string,
@@ -145,11 +172,13 @@ export function createPackedLdrawStep(
       throw new Error(`LDraw MPD is missing embedded dependency "${reference}"`)
     }
     if (included.has(block.name)) continue
-    included.set(block.name, block.text)
+    included.set(block.name, stripUnsupportedGeometryFields(block.text))
     pending.push(...referencedLdrawFiles(block.text))
   }
 
-  const mainBlock = [preamble, stepText].filter(Boolean).join('\n')
+  const mainBlock = stripUnsupportedGeometryFields(
+    [preamble, stepText].filter(Boolean).join('\n'),
+  )
   const blocks = [`0 FILE ${mainName}\n${mainBlock}`]
   for (const [name, text] of included) {
     blocks.push(`0 FILE ${name}\n${text}`)

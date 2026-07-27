@@ -54,6 +54,7 @@ import { dispatchObservationCreated } from "@/lib/gamification/observation-event
 import { useGamification } from "@/lib/context/gamification-context"
 import { useAuth } from "@/lib/context/auth-context"
 import type { ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
+import { resolveObservationPhotoMetadataAutofill } from "@/lib/observations/photo-metadata-autofill"
 import {
   observationLifecycleStageOptions,
   observationSexOptions,
@@ -1179,38 +1180,41 @@ export function ObservationSubmitForm({
   }, [])
 
   const handlePhotoMetadata = useCallback(async (items: ObservationPhotoMetadata[]) => {
-    photoMetadataRef.current = [...photoMetadataRef.current, ...items]
-    const allMetadata = photoMetadataRef.current
-    const dates = Array.from(new Set(allMetadata.flatMap((item) => item.observedAt ? [item.observedAt] : [])))
-    if (dates.length > 1) {
-      setMetadataWarning("多张照片的拍摄时间不一致，请手动确认这次观察的实际时间。")
-    } else if (dates[0] && !observedAt) {
-      setObservedAt(dates[0])
+    const previousMetadata = photoMetadataRef.current
+    const nextMetadata = [...previousMetadata, ...items]
+    photoMetadataRef.current = nextMetadata
+
+    const result = await resolveObservationPhotoMetadataAutofill({
+      previousMetadata,
+      incomingMetadata: items,
+      currentObservedAt: observedAt,
+      currentLatitude: latitude,
+      currentLongitude: longitude,
+      convertGpsToMap: convertGpsToAmap,
+      reverseGeocode,
+    })
+
+    setMetadataWarning(result.warning ?? "")
+
+    if (result.observedAt) {
+      setObservedAt(result.observedAt)
       setObservedAtSource("photo_exif")
     }
 
-    const positions = allMetadata.filter(
-      (item): item is ObservationPhotoMetadata & { latitude: number; longitude: number } =>
-        item.latitude != null && item.longitude != null,
-    )
-    if (positions.length > 1 && positions.some((item) =>
-      Math.abs(item.latitude - positions[0].latitude) > 0.001 || Math.abs(item.longitude - positions[0].longitude) > 0.001)) {
-      setMetadataWarning("多张照片的位置不一致，请在地图上确认这次观察的实际地点。")
-      return
-    }
-    if (positions[0] && !latitude && !longitude) {
-      const converted = await convertGpsToAmap(positions[0].latitude, positions[0].longitude)
-      if (!converted) return
-      setLatitude(converted.latitude.toFixed(6))
-      setLongitude(converted.longitude.toFixed(6))
+    if (result.latitude && result.longitude) {
+      setLatitude(result.latitude)
+      setLongitude(result.longitude)
       setLocationSource("photo_exif")
       setLocationDisclosureConfirmed(false)
-      const name = await reverseGeocode(converted.latitude, converted.longitude)
-      if (name) {
-        placeSearchRequestRef.current += 1
-        setPlaceResults([])
-        setLocationName(name)
-      }
+    }
+
+    if (result.shouldClearPlaceResults) {
+      placeSearchRequestRef.current += 1
+      setPlaceResults([])
+    }
+
+    if (result.locationName) {
+      setLocationName(result.locationName)
     }
   }, [latitude, longitude, observedAt])
 

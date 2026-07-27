@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/layout/error-boundary";
 import { ConditionalAppShell } from "@/components/layout/conditional-app-shell";

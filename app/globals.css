@@ -1,7 +1,7 @@
 @import './styles/animations.css' layer(base);
 @import './styles/avatar-frames.css' layer(base);
 @import './styles/name-colors.css' layer(base);
-@import './styles/nature.css' layer(base);
+@import './styles/nature.css';
 @import './styles/nature.utilities.css';
 @import './styles/community.css';
 @import './styles/profile.css';

@@ -120,4 +120,17 @@ describe('createPackedLdrawStepMpd', () => {
     expect(() => createPackedLdrawStepMpd(packed, 2)).toThrow(RangeError)
     expect(() => createPackedLdrawStepMpd(packed, -1)).toThrow(RangeError)
   })
+
+  it('strips ignored trailing geometry fields from step responses', () => {
+    const packedWithUvFields = [
+      '0 FILE model.ldr',
+      '1 16 0 0 0 1 0 0 0 1 0 0 0 1 textured.dat',
+      '0 FILE textured.dat',
+      '3 16 0 0 0 10 0 0 0 10 0 0.0 0.0 1.0 0.0 0.0 1.0',
+    ].join('\n')
+
+    const step = createPackedLdrawStepMpd(packedWithUvFields, 0)
+    expect(step).toContain('3 16 0 0 0 10 0 0 0 10 0\n')
+    expect(step).not.toContain('0.0 0.0 1.0 0.0 0.0 1.0')
+  })
 })
