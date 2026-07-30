@@ -34,7 +34,7 @@ Use exact `transform` or `ldrawLine` only for special decorative or non-grid ele
 
 ## Side-Built Models (exact-transform u/v/depth grids)
 
-Some instruction sets are drawn from a single fixed side/isometric angle instead of a stack built up from the ground — a sword on a display stand, a dinosaur silhouette, anything where the picture reads left-to-right/top-to-bottom rather than layer-by-layer. Model these on a `u`/`v`/`depth` stud grid with exact `ldrawLine` transforms instead of `anchor` + `support`-computed Y. `scripts/ldraw-models/gen-3-bao-jian.mjs` and `gen-3-chang-jing-long.mjs` are reference implementations; read one before starting a new side-built model.
+Some instruction sets are drawn from a single fixed side/isometric angle instead of a stack built up from the ground — a sword on a display stand, a dinosaur silhouette, anything where the picture reads left-to-right/top-to-bottom rather than layer-by-layer. Model these on a `u`/`v`/`depth` stud grid with exact `ldrawLine` transforms instead of `anchor` + `support`-computed Y. Published course models keep only the human-reviewed `.ldr`; do not add per-model generator scripts as reference implementations.
 
 ### Coordinate convention
 

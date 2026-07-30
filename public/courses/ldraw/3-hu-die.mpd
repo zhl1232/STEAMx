@@ -81,11 +81,6 @@
 1 14 160 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
-0 // STEP 11 - parts summary; no new parts
-0 STEP
-
-0 // STEP 12 - finished butterfly; no new parts
-
 0 FILE 3011.dat
 0 Duplo Brick  2 x  4
 0 Name: 3011.dat

@@ -936,6 +936,82 @@
         "Auto-generated: rectangular approximation for tube part. Actual geometry may differ significantly."
       ]
     },
+    "14639p02.dat": {
+      "name": "Duplo Car Base 2 x 6 with Bottom Tube, with Yellow Wheels with Fake Bolts",
+      "category": "vehicle-base",
+      "ldrawStatus": "Official",
+      "studFootprint": {
+        "x": 2,
+        "z": 6
+      },
+      "heightLdu": 68.2,
+      "bbox": {
+        "xMin": -74,
+        "xMax": 74,
+        "yMin": 0,
+        "yMax": 68.2,
+        "zMin": -155,
+        "zMax": 155
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 68.2
+      },
+      "connectionSurfaces": {
+        "top": {
+          "yLdu": 0,
+          "xMin": -40,
+          "xMax": 40,
+          "zMin": -120,
+          "zMax": 120
+        },
+        "bottom": {
+          "yLdu": 68.2,
+          "xMin": -74,
+          "xMax": 74,
+          "zMin": -111,
+          "zMax": 111
+        }
+      },
+      "collisionVolumes": [
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": 0,
+          "yMax": 48,
+          "zMin": -120,
+          "zMax": 120
+        },
+        {
+          "xMin": -74,
+          "xMax": -40,
+          "yMin": 8.8,
+          "yMax": 68.2,
+          "zMin": -111,
+          "zMax": 111
+        },
+        {
+          "xMin": 40,
+          "xMax": 74,
+          "yMin": 8.8,
+          "yMax": 68.2,
+          "zMin": -111,
+          "zMax": 111
+        }
+      ],
+      "allowedOrientations": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "supportPolicy": "structural",
+      "notes": [
+        "Official LDraw 2020-03 shortcut by Philippe Hurbain [Philo], licensed under CC BY 4.0; copied from C:\\Users\\arron\\AppData\\Local\\Stud.io\\CustomParts\\parts\\14639p02.dat on 2026-07-28 (source SHA-256 f3fa7c535620b58cb22549ad039e8055fbfbda73d210cf93ca248dbc5250f531).",
+        "The local +Z axis follows the 2 x 6 chassis length; the bounding box includes the hook, hitch, and four yellow wheels, while collision volumes cover the chassis body and wheel rows."
+      ]
+    },
     "14721.dat": {
       "name": "Duplo Plate  4 x  4",
       "category": "plate",
@@ -12642,65 +12718,57 @@
     "42029.dat": {
       "name": "Duplo Plate 2 x 4 with Round Tube Holder",
       "category": "tube-holder",
-      "ldrawStatus": "Custom LDraw approximation",
+      "ldrawStatus": "Unofficial",
       "studFootprint": {
         "x": 4,
         "z": 2
       },
-      "heightLdu": 46,
+      "heightLdu": 48.021,
       "bbox": {
-        "xMin": -80,
-        "xMax": 80,
-        "yMin": -6,
-        "yMax": 40,
-        "zMin": -40,
-        "zMax": 200
+        "xMin": -96.759,
+        "xMax": 96.759,
+        "yMin": -59.021,
+        "yMax": 0,
+        "zMin": -128.125,
+        "zMax": 128.125
       },
       "origin": {
-        "type": "top-center",
-        "originToTop": 0,
-        "originToBottom": 24
+        "type": "bottom-center",
+        "originToTop": 48.021,
+        "originToBottom": 0
       },
       "connectionSurfaces": {
         "top": {
+          "yLdu": -48.021,
+          "xMin": -80,
+          "xMax": 80,
+          "zMin": 49.3765,
+          "zMax": 129.3765
+        },
+        "bottom": {
           "yLdu": 0,
           "xMin": -80,
           "xMax": 80,
-          "zMin": -40,
-          "zMax": 40
-        },
-        "bottom": {
-          "yLdu": 24,
-          "xMin": -80,
-          "xMax": 80,
-          "zMin": -40,
-          "zMax": 40
+          "zMin": 49.3765,
+          "zMax": 129.3765
         }
       },
       "collisionVolumes": [
         {
           "xMin": -80,
           "xMax": 80,
-          "yMin": 0,
-          "yMax": 24,
-          "zMin": -40,
-          "zMax": 40
+          "yMin": -48.021,
+          "yMax": 0,
+          "zMin": 49.3765,
+          "zMax": 128.125
         },
         {
-          "xMin": -60,
-          "xMax": 60,
-          "yMin": 24,
-          "yMax": 40,
-          "zMin": -18,
-          "zMax": 18
-        },
-        {
-          "xMin": -80,
-          "xMax": 80,
-          "yMin": -6,
-          "yMax": 18,
-          "zMin": 40,
-          "zMax": 200
+          "xMin": -96.759,
+          "xMax": 96.759,
+          "yMin": -48.116,
+          "yMax": 0,
+          "zMin": -128.125,
+          "zMax": 49.3765
         }
       ],
       "allowedOrientations": [
@@ -12712,8 +12780,9 @@
       "supportPolicy": "manual",
       "collisionPolicy": "manual",
       "notes": [
-        "Local approximation stored in scripts/ldraw-models/parts/42029.dat.",
-        "Approximates the visible low plate, 8 top Duplo studs, 3 underside clutch tubes, side shoulders, and horizontal tube-holder ring; the ring outer edge is tangent to the plate front edge at z=40, and the circular hole is handled by manual collision policy."
+        "Unofficial Philippe Hurbain [Philo] geometry retained under CCAL 2.0 and translated to the BrickLink Studio CustomParts origin; synchronized from C:\\Users\\arron\\AppData\\Local\\Stud.io\\CustomParts\\parts\\42029.dat on 2026-07-28 (source SHA-256 16a8085894d62ed2954ff72631c8b590838e7f61e9c99554f0cf1340c38433ef).",
+        "The Studio-aligned 2 x 4 base is centered near local z=89.3765, spans local y=-48.021..0, and the round holder opens along the local Y axis toward local -Z; retain Studio-exported placement matrices when using this definition.",
+        "The bounding box includes the top studs; collision volumes fill the round opening and therefore remain manual."
       ]
     },
     "45202.dat": {

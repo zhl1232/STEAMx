@@ -58,12 +58,12 @@ node scripts/import-courseware.mjs "<课件文件夹>" --slug=<slug> \
 
 类型定义见 `lib/courses/types.ts` 的 `Building3DLessonContent`。
 
-### 步骤 3 — LDraw 3D 模型（最重，半自动）
+### 步骤 3 — LDraw 3D 模型（人工核验）
 
-把图片转 LDraw 无可靠自动工具，需按搭建说明建模。参考样板 `scripts/ldraw-models/gen-eiffel.mjs`（4 重对称 + 逐层 `topY` 跟踪 + 悬空/穿模几何自检）。
+把图片转 LDraw 无可靠自动工具，需按搭建说明在 Studio 中建模并人工核验。仓库只保留最终 `.ldr` 源文件，不为单个课件保留 generator、assembly/BOM/report sidecar 或生成产物专项测试。
 
 ```bash
-node scripts/ldraw-models/gen-<slug>.mjs          # 生成 <slug>.ldr（含几何自检）
+node .agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs scripts/ldraw-models/<slug>.ldr
 node scripts/pack-ldraw-model.mjs scripts/ldraw-models/<slug>.ldr <slug>
 # → public/courses/ldraw/<slug>.mpd（模型内 0 STEP 驱动分步显隐）
 ```

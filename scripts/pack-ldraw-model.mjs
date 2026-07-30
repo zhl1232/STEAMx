@@ -148,7 +148,9 @@ function normalizeLDrawText(text) {
 }
 
 function normalizeSourceModelText(text) {
-  return normalizeLDrawText(text).replace(/^0 FILE[^\n]*(?:\n)?/, '')
+  return normalizeLDrawText(text)
+    .replace(/^0 FILE[^\n]*(?:\n)?/, '')
+    .replace(/(?:^|\n)0 NOFILE\s*$/, '')
 }
 
 async function main() {
