@@ -26,6 +26,7 @@ import {
   type TopicHotspotObservationInput,
   type TopicHotspotSpeciesInput,
 } from './nature-observation-hotspots'
+import { getCurrentUserObservedSpeciesLookup } from './nature-observation-observed-species'
 import type {
   ObservationEventRow,
   ObservationEventSpeciesRow,
@@ -652,38 +653,8 @@ export async function getBirdObservationFeaturedSpecies(limit = 8): Promise<Spec
 
 async function getObservedSpeciesIdsForCurrentUser(): Promise<Set<number>> {
   try {
-    const authClient = await createClient()
-    const {
-      data: { user },
-    } = await authClient.auth.getUser()
-
-    if (!user?.id) {
-      return new Set<number>()
-    }
-
-    const { data: userEventRows } = await authClient
-      .from('observation_events')
-      .select('id')
-      .eq('user_id', user.id)
-    const userEventIds = ((userEventRows || []) as Array<{ id: number }>).map((row) => row.id)
-
-    if (userEventIds.length === 0) {
-      return new Set<number>()
-    }
-
-    const { data: userLinkRows } = await authClient
-      .from('observation_event_species')
-      .select('species_id')
-      .in('observation_event_id', userEventIds)
-
-    const observedSpeciesIds = new Set<number>()
-    for (const row of ((userLinkRows || []) as Array<{ species_id: number | null }>)) {
-      if (typeof row.species_id === 'number') {
-        observedSpeciesIds.add(row.species_id)
-      }
-    }
-
-    return observedSpeciesIds
+    const lookup = await getCurrentUserObservedSpeciesLookup()
+    return lookup.status === 'ready' ? lookup.speciesIds : new Set<number>()
   } catch (error) {
     unstable_rethrow(error)
     logger.error('Error resolving observed species for current user', { error })

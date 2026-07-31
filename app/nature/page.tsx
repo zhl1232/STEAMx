@@ -19,6 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import { NatureHomeMapPair } from "@/components/features/bird-observation/nature-home-map-pair";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { Button } from "@/components/ui/button";
+import { getSpeciesAtlasProgress } from "@/lib/api/nature-observation-atlas";
 import { getBirdObservationHomepageData } from "@/lib/api/nature-observation-data";
 import type {
   NatureObservationStats,
@@ -63,6 +64,8 @@ interface TopicCardBase {
 interface TopicCard extends TopicCardBase {
   observationCount: number;
   speciesCount: number;
+  observedCount: number | null;
+  progressState: "ready" | "anonymous" | "unavailable" | null;
 }
 
 const natureBlurDataUrl =
@@ -127,15 +130,24 @@ function buildContributionStats(stats: NatureObservationStats) {
   ];
 }
 
-function buildTopicCards(topicSummaries: NatureTopicSummary[]): TopicCard[] {
+function buildTopicCards(
+  topicSummaries: NatureTopicSummary[],
+  atlasProgress: Awaited<ReturnType<typeof getSpeciesAtlasProgress>> | null,
+): TopicCard[] {
   const summaryByKey = new Map(topicSummaries.map((summary) => [summary.key, summary]));
+  const progressByKey = new Map(atlasProgress?.groups.map((group) => [group.key, group]) ?? []);
 
   return topicCardBase.map((topic) => {
     const summary = summaryByKey.get(topic.key);
+    const progress = topic.key === "birds" || topic.key === "insects" || topic.key === "plants"
+      ? progressByKey.get(topic.key)
+      : undefined;
     return {
       ...topic,
       observationCount: summary?.observationCount ?? 0,
-      speciesCount: summary?.speciesCount ?? 0,
+      speciesCount: progress?.total ?? summary?.speciesCount ?? 0,
+      observedCount: progress?.observedCount ?? null,
+      progressState: progress ? atlasProgress?.viewer.progressState ?? null : null,
     };
   });
 }
@@ -256,7 +268,12 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         <div className="flex items-end justify-between gap-2">
           <div className="min-w-0 flex-1 text-[11px] leading-[1.4] text-muted-foreground md:text-xs">
             <p>{formatCount(topic.observationCount)} 条观察记录</p>
-            <p>{formatCount(topic.speciesCount)} 个物种</p>
+            {topic.progressState === "ready" ? (
+              <p>已观察 {formatCount(topic.observedCount ?? 0)} / {formatCount(topic.speciesCount)}</p>
+            ) : (
+              <p>共 {formatCount(topic.speciesCount)} 个物种</p>
+            )}
+            {topic.progressState === "anonymous" && topic.href ? <p className="mt-0.5 text-primary/80">登录后查看观察状态</p> : null}
           </div>
           {topic.href ? (
             <span
@@ -279,7 +296,11 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
 
   if (topic.href) {
     return (
-      <Link href={topic.href} className={className} aria-label={`进入${topic.title}专题，${formatCount(topic.observationCount)} 条观察记录，${formatCount(topic.speciesCount)} 个物种`}>
+      <Link
+        href={topic.href}
+        className={className}
+        aria-label={`进入${topic.title}专题，${formatCount(topic.observationCount)} 条观察记录，${topic.progressState === "ready" ? `已观察 ${formatCount(topic.observedCount ?? 0)} / ${formatCount(topic.speciesCount)}` : `共 ${formatCount(topic.speciesCount)} 个物种`}`}
+      >
         {content}
       </Link>
     );
@@ -423,8 +444,11 @@ function DesktopSidebar({
 
 
 export default async function NaturePage() {
-  const homepage = await getBirdObservationHomepageData();
-  const topicCards = buildTopicCards(homepage.topicSummaries);
+  const [homepage, atlasProgress] = await Promise.all([
+    getBirdObservationHomepageData(),
+    getSpeciesAtlasProgress().catch(() => null),
+  ]);
+  const topicCards = buildTopicCards(homepage.topicSummaries, atlasProgress);
   const latestObservation = homepage.recentObservations[0];
   const topHotspot = homepage.hotspots[0];
   const submitHref = buildNatureSubmitHref({

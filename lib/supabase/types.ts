@@ -2741,6 +2741,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_my_observed_species_ids: {
+        Args: Record<string, never>
+        Returns: { species_id: number }[]
+      }
       expire_playground_race_matches: {
         Args: { p_match_id?: string | null }
         Returns: Array<{

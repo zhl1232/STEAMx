@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 import { logger } from '@/lib/logger'
 import { AI_IDENTIFICATION_CONFIDENCE_THRESHOLD } from '@/lib/observations/identifications'
 import {
@@ -11,6 +13,42 @@ import { createClient } from '@/lib/supabase/server'
 const OBSERVED_SPECIES_EVENT_BATCH_SIZE = 200
 
 type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>
+
+export type CurrentUserObservedSpeciesLookup =
+  | { status: 'anonymous'; userId: null; speciesIds: Set<number> }
+  | { status: 'ready'; userId: string; speciesIds: Set<number> }
+  | { status: 'unavailable'; userId: string; speciesIds: Set<number> }
+
+async function fetchCurrentUserObservedSpeciesLookup(): Promise<CurrentUserObservedSpeciesLookup> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user?.id) {
+    return { status: 'anonymous', userId: null, speciesIds: new Set<number>() }
+  }
+
+  const { data, error } = await supabase.rpc('get_my_observed_species_ids')
+  if (error) {
+    logger.error('Error fetching current user observed species ids', { error })
+    return { status: 'unavailable', userId: user.id, speciesIds: new Set<number>() }
+  }
+
+  const speciesIds = new Set(
+    ((data || []) as Array<{ species_id: number | null }>)
+      .map((row) => row.species_id)
+      .filter((speciesId): speciesId is number => typeof speciesId === 'number'),
+  )
+
+  return { status: 'ready', userId: user.id, speciesIds }
+}
+
+/**
+ * One request-scoped lookup shared by the atlas, homepage and profile progress.
+ * The returned Set is never placed in a cross-user cache.
+ */
+export const getCurrentUserObservedSpeciesLookup = cache(fetchCurrentUserObservedSpeciesLookup)
 
 function chunkItems<T>(items: T[], size: number): T[][] {
   const chunks: T[][] = []

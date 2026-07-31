@@ -1,4 +1,7 @@
-import { fetchObservedSpeciesEventLinksForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
+import {
+  fetchObservedSpeciesEventLinksForApprovedEvents,
+  getCurrentUserObservedSpeciesLookup,
+} from '@/lib/api/nature-observation-observed-species'
 import { logger } from '@/lib/logger'
 import { mapDbSpecies } from '@/lib/mappers/types'
 import {
@@ -89,8 +92,14 @@ export async function getNaturalObservationProgressSummary(
   supabase: SupabaseServerClient,
   userId: string,
 ): Promise<NaturalObservationProgressSummary> {
-  const { totalObservations, speciesRows, speciesEventIds } = await getApprovedObservedSpeciesData(supabase, userId)
-  const observedSpeciesIds = new Set(Array.from(speciesEventIds.keys()))
+  const [approvedData, observedLookup] = await Promise.all([
+    getApprovedObservedSpeciesData(supabase, userId),
+    getCurrentUserObservedSpeciesLookup(),
+  ])
+  const { totalObservations, speciesEventIds } = approvedData
+  const observedSpeciesIds = observedLookup.status === 'ready'
+    ? observedLookup.speciesIds
+    : new Set(Array.from(speciesEventIds.keys()))
 
   const { data: activeSpeciesRows, error: activeSpeciesError } = await supabase
     .from('species')
@@ -149,7 +158,7 @@ export async function getNaturalObservationProgressSummary(
 
   return {
     totalObservations,
-    uniqueSpeciesCount: speciesRows.length,
+    uniqueSpeciesCount: observedSpeciesIds.size,
     topicProgress,
     unobservedSpeciesPreview,
   }

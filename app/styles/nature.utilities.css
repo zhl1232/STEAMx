@@ -375,3 +375,137 @@
   background-color: hsl(var(--status-info-surface) / 0.2);
   @apply flex items-center justify-between gap-3 rounded-(--radius-xs) px-3 py-2 text-xs;
 }
+
+@utility nature-atlas-toolbar {
+  border-color: hsl(var(--surface-border) / 0.68);
+  @apply mt-4 border-b pb-4 md:mt-5 md:pb-5;
+}
+
+@utility nature-atlas-search-form {
+  background-color: hsl(var(--surface-raised) / 0.72);
+  border-color: hsl(var(--surface-border) / 0.82);
+  @apply flex min-h-11 items-center gap-2 rounded-(--radius-xs) border px-3;
+
+  & > input {
+    @apply min-w-0 flex-1 bg-transparent text-sm text-foreground outline-hidden placeholder:text-muted-foreground;
+  }
+}
+
+@utility nature-atlas-icon-button {
+  color: hsl(var(--muted-foreground));
+  @apply grid h-8 w-8 shrink-0 place-items-center rounded-(--radius-xs) transition-colors hover:bg-[hsl(var(--status-info-surface))] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
+}
+
+@utility nature-atlas-filter-row {
+  @apply mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between;
+}
+
+@utility nature-atlas-topic-filters {
+  @apply flex flex-wrap gap-1.5;
+}
+
+@utility nature-atlas-status-filters {
+  @apply flex flex-wrap gap-1.5 md:justify-end;
+}
+
+@utility nature-atlas-filter-button {
+  color: hsl(var(--foreground) / 0.76);
+  @apply inline-flex min-h-9 items-center justify-center gap-1.5 rounded-(--radius-xs) px-2.5 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.7)] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)] disabled:cursor-not-allowed disabled:opacity-55;
+}
+
+@utility nature-atlas-filter-button-active {
+  background-color: hsl(var(--status-info-surface));
+  color: hsl(var(--primary));
+  box-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.2);
+}
+
+@utility nature-atlas-filter-button-warm {
+  &.nature-atlas-filter-button-active {
+    background-color: hsl(var(--brand-amber-soft));
+    color: hsl(var(--brand-amber));
+    box-shadow: inset 0 0 0 1px hsl(var(--brand-amber) / 0.2);
+  }
+}
+
+@utility nature-atlas-status-note {
+  background-color: hsl(var(--status-info-surface) / 0.55);
+  color: hsl(var(--muted-foreground));
+  @apply mt-3 rounded-(--radius-xs) px-3 py-2 text-xs leading-5;
+}
+
+@utility nature-atlas-status-note-warning {
+  background-color: hsl(var(--brand-amber-soft) / 0.62);
+  color: hsl(var(--foreground) / 0.78);
+}
+
+@utility nature-atlas-group {
+  content-visibility: auto;
+  contain-intrinsic-size: 420px;
+}
+
+@utility nature-atlas-group-heading {
+  border-color: hsl(var(--surface-border) / 0.58);
+  @apply flex items-end justify-between gap-4 border-b pb-3;
+}
+
+@utility nature-atlas-group-link {
+  color: hsl(var(--primary));
+  @apply min-h-9 shrink-0 rounded-(--radius-xs) px-2.5 py-2 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.72)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
+}
+
+@utility nature-atlas-grid {
+  @apply mt-4 grid grid-cols-4 gap-2;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 92px));
+    gap: 10px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 112px));
+    gap: 12px;
+  }
+}
+
+@utility nature-atlas-tile {
+  background-color: hsl(var(--surface-raised) / 0.84);
+  border-color: hsl(var(--surface-border) / 0.78);
+  @apply block min-w-0 overflow-hidden rounded-(--radius-xs) border transition-[border-color,background-color,box-shadow] duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.48)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--background))];
+
+  &:hover {
+    background-color: hsl(var(--surface-raised));
+    border-color: hsl(var(--primary) / 0.38);
+    box-shadow: 0 12px 24px -20px hsl(var(--primary) / 0.45);
+  }
+}
+
+@utility nature-atlas-tile-media {
+  background-color: hsl(var(--status-info-surface) / 0.6);
+  @apply relative grid aspect-square place-items-center overflow-hidden;
+}
+
+@utility nature-atlas-tile-check {
+  background-color: hsl(var(--status-success-surface) / 0.94);
+  color: hsl(var(--status-success));
+  @apply absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full shadow-sm;
+}
+
+@utility nature-atlas-tile-name {
+  color: hsl(var(--foreground));
+  @apply flex min-h-10 items-start px-1.5 py-1.5 text-center text-[11px] font-semibold leading-4 sm:min-h-11 sm:px-2 sm:text-xs;
+}
+
+@utility nature-atlas-empty {
+  color: hsl(var(--muted-foreground));
+  @apply mt-4 rounded-(--radius-xs) border border-dashed border-[hsl(var(--surface-border)/0.68)] px-4 py-8 text-center text-sm;
+}
+
+@utility nature-atlas-empty-all {
+  color: hsl(var(--muted-foreground));
+  @apply mt-8 flex flex-col items-center gap-2 rounded-(--radius-sm) border border-dashed border-[hsl(var(--surface-border)/0.7)] px-5 py-12 text-sm;
+
+  & > button {
+    color: hsl(var(--primary));
+    @apply mt-1 font-semibold underline underline-offset-4;
+  }
+}

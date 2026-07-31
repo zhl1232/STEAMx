@@ -19,6 +19,10 @@ public/insects/images/
 public/trees/images/
 public/fruits/images/
 public/fruits/rejected-images/
+public/birds/atlas/
+public/insects/atlas/
+public/trees/atlas/
+public/fruits/atlas/
 public/projects/generated/*.png
 public/projects/generated/*.jpg
 public/projects/generated/*.jpeg
