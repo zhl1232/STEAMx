@@ -9,6 +9,7 @@ import type {
   CourseRow,
   UserLessonProgressRow,
 } from '@/lib/courses/types'
+import { deriveCourseProgress } from '@/lib/courses/progress'
 
 type DbClient = SupabaseClient<Database>
 
@@ -29,63 +30,208 @@ function mapLessonRow(row: Record<string, unknown>): CourseLessonRow {
   }
 }
 
-export async function listApprovedCourses(supabase: DbClient): Promise<CourseListItem[]> {
-  const { data: courses, error } = await supabase
+type CourseLessonIndexRow = {
+  id: number
+  course_id: number
+  sort_order: number
+}
+
+type CourseProgressRow = {
+  lesson_id: number
+  completed_at: string | null
+}
+
+type CourseMilestoneRow = {
+  course_id: number
+  completed_at: string
+}
+
+type CourseQueryRow = CourseRow & {
+  user_course_completions?: CourseMilestoneRow[]
+}
+
+function groupLessonsByCourse(rows: CourseLessonIndexRow[]) {
+  const lessonsByCourse = new Map<number, CourseLessonIndexRow[]>()
+  for (const row of rows) {
+    const lessons = lessonsByCourse.get(row.course_id) ?? []
+    lessons.push(row)
+    lessonsByCourse.set(row.course_id, lessons)
+  }
+  return lessonsByCourse
+}
+
+async function loadCourseProgress(
+  supabase: DbClient,
+  userId: string | null | undefined,
+  courseIds: number[],
+  lessonRows: CourseLessonIndexRow[],
+  nestedMilestones?: CourseMilestoneRow[],
+) {
+  const progressByCourse = new Map<number, Set<number>>()
+  const completedAtByLesson = new Map<number, string>()
+  const milestoneByCourse = new Map<number, string>()
+
+  if (!userId || courseIds.length === 0) {
+    return { progressByCourse, completedAtByLesson, milestoneByCourse }
+  }
+
+  const lessonIds = lessonRows.map((lesson) => lesson.id)
+  const [progressResult, milestoneResult] = await Promise.all([
+    lessonIds.length
+      ? supabase
+          .from('user_lesson_progress')
+          .select('lesson_id, completed_at')
+          .eq('user_id', userId)
+          .in('lesson_id', lessonIds)
+      : Promise.resolve({ data: [], error: null }),
+    nestedMilestones
+      ? Promise.resolve({ data: nestedMilestones, error: null })
+      : supabase
+          .from('user_course_completions')
+          .select('course_id, completed_at')
+          .eq('user_id', userId)
+          .in('course_id', courseIds),
+  ])
+
+  if (progressResult.error) throw progressResult.error
+  if (milestoneResult.error) throw milestoneResult.error
+
+  const courseIdByLessonId = new Map(lessonRows.map((lesson) => [lesson.id, lesson.course_id]))
+  for (const raw of (progressResult.data ?? []) as CourseProgressRow[]) {
+    if (!raw.completed_at) continue
+    const courseId = courseIdByLessonId.get(raw.lesson_id)
+    if (!courseId) continue
+    const completedIds = progressByCourse.get(courseId) ?? new Set<number>()
+    completedIds.add(raw.lesson_id)
+    progressByCourse.set(courseId, completedIds)
+    completedAtByLesson.set(raw.lesson_id, raw.completed_at)
+  }
+  for (const raw of (milestoneResult.data ?? []) as CourseMilestoneRow[]) {
+    milestoneByCourse.set(raw.course_id, raw.completed_at)
+  }
+
+  return { progressByCourse, completedAtByLesson, milestoneByCourse }
+}
+
+export async function listApprovedCourses(
+  supabase: DbClient,
+  options?: { userId?: string | null },
+): Promise<CourseListItem[]> {
+  const courseSelect = options?.userId
+    ? '*, user_course_completions(course_id, completed_at)'
+    : '*'
+  let courseQuery = supabase
     .from('courses')
-    .select('*')
+    .select(courseSelect)
     .eq('status', 'approved')
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
+  if (options?.userId) {
+    courseQuery = courseQuery.eq('user_course_completions.user_id', options.userId)
+  }
+  const { data: courses, error } = await courseQuery
 
   if (error) throw error
   if (!courses?.length) return []
 
-  const ids = courses.map((c) => c.id)
-  const { data: counts, error: countError } = await supabase
+  const courseRows = courses as unknown as CourseQueryRow[]
+  const ids = courseRows.map((c) => c.id)
+  const { data: lessonRows, error: lessonError } = await supabase
     .from('course_lessons')
-    .select('course_id')
+    .select('id, course_id, sort_order')
     .in('course_id', ids)
+    .order('sort_order', { ascending: true })
+    .order('id', { ascending: true })
 
-  if (countError) throw countError
+  if (lessonError) throw lessonError
 
-  const countByCourse = new Map<number, number>()
-  for (const row of counts ?? []) {
-    const cid = row.course_id as number
-    countByCourse.set(cid, (countByCourse.get(cid) ?? 0) + 1)
-  }
+  const typedLessonRows = (lessonRows ?? []) as CourseLessonIndexRow[]
+  const { progressByCourse, milestoneByCourse } = await loadCourseProgress(
+    supabase,
+    options?.userId,
+    ids,
+    typedLessonRows,
+    options?.userId
+      ? courseRows.flatMap((course) => course.user_course_completions ?? [])
+      : undefined,
+  )
+  const lessonsByCourse = groupLessonsByCourse(typedLessonRows)
 
-  return courses.map((c) => ({
-    ...(c as CourseRow),
-    lesson_count: countByCourse.get(c.id) ?? 0,
+  return courseRows.map(({ user_course_completions: _milestones, ...course }) => ({
+    ...course,
+    lesson_count: lessonsByCourse.get(course.id)?.length ?? 0,
+    progress: options?.userId
+      ? deriveCourseProgress(
+          lessonsByCourse.get(course.id) ?? [],
+          progressByCourse.get(course.id) ?? [],
+          milestoneByCourse.get(course.id) ?? null,
+        )
+      : null,
   }))
 }
 
 export async function getCourseOverview(
   supabase: DbClient,
   courseId: number,
-  options?: { includeDraftForStaff?: boolean }
+  options?: { includeDraftForStaff?: boolean; userId?: string | null }
 ): Promise<CourseOverview | null> {
-  let query = supabase.from('courses').select('*').eq('id', courseId)
+  const courseSelect = options?.userId
+    ? '*, user_course_completions(course_id, completed_at)'
+    : '*'
+  let query = supabase.from('courses').select(courseSelect).eq('id', courseId)
 
   if (!options?.includeDraftForStaff) {
     query = query.eq('status', 'approved')
+  }
+  if (options?.userId) {
+    query = query.eq('user_course_completions.user_id', options.userId)
   }
 
   const { data: course, error } = await query.maybeSingle()
   if (error) throw error
   if (!course) return null
+  const {
+    user_course_completions: nestedMilestones,
+    ...courseRow
+  } = course as unknown as CourseQueryRow
 
   const { data: lessons, error: lessonsError } = await supabase
     .from('course_lessons')
     .select('id, course_id, title, lesson_type, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel')
     .eq('course_id', courseId)
     .order('sort_order', { ascending: true })
+    .order('id', { ascending: true })
 
   if (lessonsError) throw lessonsError
 
+  const summaryRows = (lessons ?? []) as Array<CourseLessonSummary & {
+    completed_at?: string | null
+  }>
+  const lessonRows = summaryRows.map((lesson) => ({
+    id: lesson.id,
+    course_id: lesson.course_id,
+    sort_order: lesson.sort_order,
+  }))
+  const progress = await loadCourseProgress(
+    supabase,
+    options?.userId,
+    [courseId],
+    lessonRows,
+    options?.userId ? nestedMilestones ?? [] : undefined,
+  )
+  const completedIds = progress.progressByCourse.get(courseId) ?? new Set<number>()
+  const milestoneCompletedAt = progress.milestoneByCourse.get(courseId) ?? null
+
   return {
-    ...(course as CourseRow),
-    lessons: (lessons ?? []) as CourseLessonSummary[],
+    ...courseRow,
+    lessons: summaryRows.map((lesson) => ({
+      ...lesson,
+      is_completed: completedIds.has(lesson.id),
+      completed_at: progress.completedAtByLesson.get(lesson.id) ?? null,
+    })),
+    progress: options?.userId
+      ? deriveCourseProgress(lessonRows, completedIds, milestoneCompletedAt)
+      : null,
   }
 }
 
@@ -183,7 +329,6 @@ export async function upsertUserLessonProgress(
     userId: string
     lessonId: number
     scratchProjectPath?: string | null
-    completed?: boolean
   }
 ): Promise<UserLessonProgressRow> {
   const payload: Record<string, unknown> = {
@@ -194,10 +339,6 @@ export async function upsertUserLessonProgress(
   if (params.scratchProjectPath !== undefined) {
     payload.scratch_project_path = params.scratchProjectPath
   }
-  if (params.completed) {
-    payload.completed_at = new Date().toISOString()
-  }
-
   const { data, error } = await supabase
     .from('user_lesson_progress')
     .upsert(payload as never, { onConflict: 'user_id,lesson_id' })

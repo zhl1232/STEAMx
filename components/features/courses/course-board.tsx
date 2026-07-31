@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, ChevronRight } from "lucide-react";
+import { BookOpen, CheckCircle2, ChevronRight, Circle, PlayCircle } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
@@ -55,6 +55,19 @@ export function CourseBoardError({
 
 function CourseCard({ course }: { course: CourseListItem }) {
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
+    const progress = course.progress;
+    const progressLabel =
+        progress?.status === "completed"
+            ? "已完成"
+            : progress?.status === "in_progress"
+                ? "进行中"
+                : "未开始";
+    const ProgressIcon =
+        progress?.status === "completed"
+            ? CheckCircle2
+            : progress?.status === "in_progress"
+                ? PlayCircle
+                : Circle;
 
     return (
         <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
@@ -101,8 +114,25 @@ function CourseCard({ course }: { course: CourseListItem }) {
                             {tag}
                         </span>
                     )) ?? null}
+                    {progress && progress.total_lesson_count > 0 ? (
+                        <span className="inline-flex items-center gap-1 font-semibold text-foreground">
+                            <ProgressIcon
+                                className={cn(
+                                    "h-3.5 w-3.5",
+                                    progress.status === "completed" && "text-[hsl(var(--status-success))]",
+                                    progress.status === "in_progress" && "text-[hsl(var(--brand-blue))]",
+                                )}
+                                aria-hidden
+                            />
+                            {progress.completed_lesson_count}/{progress.total_lesson_count} · {progressLabel}
+                        </span>
+                    ) : null}
                     <span className="inline-flex items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1.5 text-[12.5px] font-bold text-[hsl(var(--brand-blue))] md:hidden">
-                        开始学习
+                        {progress?.status === "completed"
+                            ? "回顾课程"
+                            : progress?.status === "in_progress"
+                                ? "继续学习"
+                                : "开始学习"}
                         <ChevronRight className="h-3.5 w-3.5" />
                     </span>
                 </div>
@@ -114,7 +144,11 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     "md:inline-flex",
                 )}
             >
-                开始学习
+                {progress?.status === "completed"
+                    ? "回顾课程"
+                    : progress?.status === "in_progress"
+                        ? "继续学习"
+                        : "开始学习"}
                 <ChevronRight className="h-4 w-4" />
             </span>
         </article>

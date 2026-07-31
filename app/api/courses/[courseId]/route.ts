@@ -4,6 +4,7 @@ import { getCourseOverview } from '@/lib/api/courses'
 import { handleApiError } from '@/lib/api/auth'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
+import { toCourseProgressApi } from '@/lib/courses/progress'
 
 type RouteParams = { params: Promise<{ courseId: string }> }
 
@@ -17,11 +18,23 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const course = await getCourseOverview(supabase, courseId)
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    const course = await getCourseOverview(supabase, courseId, { userId: user?.id ?? null })
     if (!course) {
       return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     }
-    return NextResponse.json({ course })
+    const apiCourse = {
+      ...course,
+      progress: course.progress ? toCourseProgressApi(course.progress) : null,
+    }
+    return NextResponse.json(
+      { course: apiCourse },
+      user
+        ? { headers: { 'Cache-Control': 'private, no-store' } }
+        : { headers: { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300' } },
+    )
   } catch (error) {
     logger.error('GET /api/courses/[courseId] failed', { error, courseId })
     return handleApiError(error)

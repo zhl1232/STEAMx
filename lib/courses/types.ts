@@ -4,6 +4,22 @@ export type CourseStatus = 'draft' | 'approved' | 'archived'
 export type LessonType = LessonTypeSlug
 export type CourseLessonTrack = 'foundation' | 'tactics' | 'ai' | 'review'
 
+export type CourseProgressStatus = 'not_started' | 'in_progress' | 'completed'
+
+export interface CourseProgressSummary {
+  completed_lesson_count: number
+  total_lesson_count: number
+  status: CourseProgressStatus
+  next_lesson_id: number | null
+  milestone_completed_at: string | null
+}
+
+export type CourseCompletionState =
+  | 'not_complete'
+  | 'created'
+  | 'already_recorded'
+  | 'configuration_error'
+
 export interface CourseLessonStep {
   title: string
   description: string
@@ -226,6 +242,7 @@ export interface CourseLessonRow {
 
 export interface CourseListItem extends CourseRow {
   lesson_count: number
+  progress: CourseProgressSummary | null
 }
 
 export interface CourseLessonSummary {
@@ -237,10 +254,13 @@ export interface CourseLessonSummary {
   duration_minutes: number | null
   track: CourseLessonTrack | null
   level_label: string | null
+  is_completed: boolean
+  completed_at?: string | null
 }
 
 export interface CourseOverview extends CourseRow {
   lessons: CourseLessonSummary[]
+  progress: CourseProgressSummary | null
 }
 
 export interface UserLessonProgressRow {
@@ -249,4 +269,5 @@ export interface UserLessonProgressRow {
   scratch_project_path: string | null
   completed_at: string | null
   updated_at: string
+  completion_source?: 'legacy_client' | 'server_v1' | 'staff_verified' | null
 }

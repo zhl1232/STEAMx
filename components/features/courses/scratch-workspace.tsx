@@ -18,6 +18,7 @@ import {
     type ScratchBlockHintItem,
 } from "@/lib/courses/scratch-hints";
 import { useScratchEditorAvailability } from "@/lib/courses/device";
+import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { cn } from "@/lib/utils";
 import {
     getScratchHostUrl,
@@ -586,6 +587,7 @@ export function ScratchWorkspace({
                 error?: string;
                 missing?: string[];
                 alreadyCompleted?: boolean;
+                courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
             };
             if (res.status === 422) {
                 const missing = Array.isArray(data.missing) ? data.missing : [];
@@ -601,11 +603,8 @@ export function ScratchWorkspace({
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            if (data.alreadyCompleted) {
-                toast({ title: "本课已完成 ✓" });
-            } else {
-                toast({ title: "课时已完成 🎉", description: "+15 经验值" });
-            }
+            const feedback = getLessonCompletionFeedback(data);
+            toast({ title: feedback.title, description: feedback.description });
             onCompleted?.();
         } catch (e) {
             toast({

@@ -20,6 +20,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
+import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
@@ -1198,13 +1199,15 @@ export function Building3DWorkspace({
             const res = await fetch(`/api/courses/${courseId}/lessons/${lesson.id}/complete`, {
                 method: "POST",
             });
-            const data = (await res.json().catch(() => ({}))) as { error?: string; alreadyCompleted?: boolean };
+            const data = (await res.json().catch(() => ({}))) as {
+                error?: string;
+                alreadyCompleted?: boolean;
+                courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
+            };
             if (!res.ok) throw new Error(data.error || "完成失败");
             setCompleted(true);
-            toast({
-                title: data.alreadyCompleted ? "本课已完成 ✓" : "搭建课已完成 🎉",
-                description: data.alreadyCompleted ? undefined : "+15 经验值",
-            });
+            const feedback = getLessonCompletionFeedback(data);
+            toast({ title: feedback.title, description: feedback.description });
             onCompleted?.();
         } catch (error) {
             toast({

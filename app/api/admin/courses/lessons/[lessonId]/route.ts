@@ -4,6 +4,7 @@ import { requireRole, handleApiError } from '@/lib/api/auth'
 import { isValidLessonTypeSlug } from '@/lib/courses/lesson-types'
 import { validateRequiredString, ValidationError } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
+import { triggerCourseCompletionReconcile } from '@/lib/courses/reconcile'
 
 type RouteParams = { params: Promise<{ lessonId: string }> }
 
@@ -67,8 +68,18 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   try {
     await requireRole(supabase, ['moderator', 'admin'])
 
+    const { data: lesson, error: lessonLookupError } = await supabase
+      .from('course_lessons')
+      .select('course_id')
+      .eq('id', lessonId)
+      .maybeSingle()
+    if (lessonLookupError) throw lessonLookupError
+    if (!lesson) return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+
     const { error } = await supabase.from('course_lessons').delete().eq('id', lessonId)
     if (error) throw error
+
+    await triggerCourseCompletionReconcile(Number((lesson as { course_id: number }).course_id))
 
     return NextResponse.json({ ok: true })
   } catch (error) {

@@ -35,6 +35,11 @@ import { useToast } from "@/hooks/use-toast";
 import { LESSON_TYPE_OPTIONS } from "@/lib/courses/lesson-types";
 import { getApiErrorMessage } from "@/lib/utils/http";
 import type { CourseStatus } from "@/lib/courses/types";
+import {
+    COURSE_STEAM_DIMENSIONS,
+    DEFAULT_COURSE_STEAM_WEIGHTS,
+    type CourseSteamDimension,
+} from "@/lib/courses/config";
 
 interface AdminCourse {
     id: number;
@@ -45,6 +50,7 @@ interface AdminCourse {
     difficulty_stars: number;
     sort_order: number;
     tags: string[] | null;
+    steam_weights: Record<string, number> | null;
     course_lessons?: { count: number }[];
 }
 
@@ -71,6 +77,7 @@ const EMPTY_COURSE = {
     difficulty_stars: 1,
     sort_order: 0,
     tags: "Scratch,编程",
+    steam_weights: { ...DEFAULT_COURSE_STEAM_WEIGHTS },
 };
 
 const EMPTY_LESSON = {
@@ -266,6 +273,51 @@ export function CourseManagement() {
                                 </Select>
                             </div>
                             <div>
+                                <Label htmlFor="course-difficulty">难度星级（1-6）</Label>
+                                <Input
+                                    id="course-difficulty"
+                                    type="number"
+                                    min={1}
+                                    max={6}
+                                    step={1}
+                                    value={courseForm.difficulty_stars}
+                                    onChange={(e) =>
+                                        setCourseForm((f) => ({
+                                            ...f,
+                                            difficulty_stars: Number(e.target.value),
+                                        }))
+                                    }
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>STEAM 能力权重</Label>
+                                <div className="grid grid-cols-5 gap-2">
+                                    {COURSE_STEAM_DIMENSIONS.map((dimension) => (
+                                        <label key={dimension} className="grid gap-1 text-xs font-semibold text-muted-foreground">
+                                            <span>{dimension}</span>
+                                            <Input
+                                                type="number"
+                                                min={0}
+                                                step="any"
+                                                value={courseForm.steam_weights[dimension]}
+                                                onChange={(e) =>
+                                                    setCourseForm((f) => ({
+                                                        ...f,
+                                                        steam_weights: {
+                                                            ...f.steam_weights,
+                                                            [dimension as CourseSteamDimension]: Number(e.target.value),
+                                                        },
+                                                    }))
+                                                }
+                                            />
+                                        </label>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                    总和不必等于 100，至少一项需要大于 0。
+                                </p>
+                            </div>
+                            <div>
                                 <Label>标签（逗号分隔）</Label>
                                 <Input
                                     value={courseForm.tags}
@@ -329,6 +381,10 @@ export function CourseManagement() {
                                                 difficulty_stars: c.difficulty_stars,
                                                 sort_order: c.sort_order,
                                                 tags: (c.tags ?? []).join(","),
+                                                steam_weights: {
+                                                    ...DEFAULT_COURSE_STEAM_WEIGHTS,
+                                                    ...(c.steam_weights ?? {}),
+                                                },
                                             });
                                             setCourseDialog(true);
                                         }}

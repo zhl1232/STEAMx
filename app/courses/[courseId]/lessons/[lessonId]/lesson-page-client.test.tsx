@@ -6,6 +6,10 @@ import { TutorProvider, useTutorContext, type TutorContextOverride } from '@/com
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import type { CourseLessonRow } from '@/lib/courses/types'
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ refresh: vi.fn() }),
+}))
+
 vi.mock('@/components/layout/mobile-global-header', () => ({
   MobileGlobalHeader: ({ title }: { title: string }) => <div data-testid="mobile-header">{title}</div>,
 }))

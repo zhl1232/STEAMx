@@ -7,10 +7,15 @@ import {
     CourseBoardSkeleton,
 } from "@/components/features/courses/course-board";
 import { Button } from "@/components/ui/button";
+import { fromCourseProgressApi, type CourseProgressApiSummary } from "@/lib/courses/progress";
 import type { CourseListItem } from "@/lib/courses/types";
 
+type ApiCourseListItem = Omit<CourseListItem, "progress"> & {
+    progress: CourseProgressApiSummary | null;
+};
+
 type CoursesResponse = {
-    courses?: CourseListItem[];
+    courses?: ApiCourseListItem[];
 };
 
 export function CourseBoardLoader() {
@@ -33,7 +38,12 @@ export function CourseBoardLoader() {
                 return response.json() as Promise<CoursesResponse>;
             })
             .then((payload) => {
-                setCourses(payload.courses ?? []);
+                setCourses(
+                    (payload.courses ?? []).map((course) => ({
+                        ...course,
+                        progress: fromCourseProgressApi(course.progress),
+                    })),
+                );
             })
             .catch((requestError: unknown) => {
                 if (requestError instanceof DOMException && requestError.name === "AbortError") return;

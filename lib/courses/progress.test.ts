@@ -1,0 +1,62 @@
+import { describe, expect, it } from 'vitest'
+
+import {
+  deriveCourseProgress,
+  fromCourseProgressApi,
+  getLessonCompletionFeedback,
+  toCourseProgressApi,
+} from '@/lib/courses/progress'
+
+describe('deriveCourseProgress', () => {
+  const lessons = [
+    { id: 20, sort_order: 2 },
+    { id: 10, sort_order: 1 },
+    { id: 11, sort_order: 1 },
+  ]
+
+  it('keeps empty courses from becoming completed', () => {
+    expect(deriveCourseProgress([], [], null)).toEqual({
+      completed_lesson_count: 0,
+      total_lesson_count: 0,
+      status: 'not_started',
+      next_lesson_id: null,
+      milestone_completed_at: null,
+    })
+  })
+
+  it('uses sort order and lesson id for the next lesson', () => {
+    expect(deriveCourseProgress(lessons, [10])).toMatchObject({
+      completed_lesson_count: 1,
+      total_lesson_count: 3,
+      status: 'in_progress',
+      next_lesson_id: 11,
+    })
+  })
+
+  it('returns a completed status only when every current lesson is complete', () => {
+    const progress = deriveCourseProgress(lessons, [10, 11, 20], '2026-07-30T10:00:00.000Z')
+    expect(progress.status).toBe('completed')
+    expect(progress.next_lesson_id).toBeNull()
+    expect(toCourseProgressApi(progress)).toEqual({
+      completedLessonCount: 3,
+      totalLessonCount: 3,
+      status: 'completed',
+      nextLessonId: null,
+      milestoneCompletedAt: '2026-07-30T10:00:00.000Z',
+    })
+    expect(fromCourseProgressApi(toCourseProgressApi(progress))).toEqual(progress)
+  })
+})
+
+describe('getLessonCompletionFeedback', () => {
+  it('does not expose XP for a normal completion', () => {
+    expect(getLessonCompletionFeedback({})).toEqual({ title: '课时进度已保存' })
+  })
+
+  it('reports the course milestone exactly once', () => {
+    expect(getLessonCompletionFeedback({ courseCompletionState: 'created' })).toEqual({
+      title: '课程已完成',
+      description: '课程已完成，STEAM 能力已更新',
+    })
+  })
+})

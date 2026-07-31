@@ -121,7 +121,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     if (uploadError) throw uploadError
 
-    const progress = await upsertUserLessonProgress(supabase, {
+    const progress = await upsertUserLessonProgress(supabaseAdmin, {
       userId: user.id,
       lessonId,
       scratchProjectPath: storagePath,

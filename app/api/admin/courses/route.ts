@@ -6,8 +6,13 @@ import {
   validateOptionalString,
   validateEnum,
   validateNumber,
+  ValidationError,
 } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
+import {
+  DEFAULT_COURSE_STEAM_WEIGHTS,
+  validateCourseSteamWeights,
+} from '@/lib/courses/config'
 
 export async function GET() {
   const supabase = await createClient()
@@ -46,6 +51,19 @@ export async function POST(request: NextRequest) {
       ? validateNumber(body.difficulty_stars, 'difficulty_stars', { min: 1, max: 6, integer: true })
       : 1
 
+    const steamWeights = validateCourseSteamWeights(
+      body.steam_weights === undefined ? DEFAULT_COURSE_STEAM_WEIGHTS : body.steam_weights,
+    )
+    if (!steamWeights.valid || !steamWeights.value) {
+      throw new ValidationError(steamWeights.error || 'Invalid steam_weights')
+    }
+    if (status === 'approved') {
+      return NextResponse.json(
+        { error: '请先创建课时，再发布课程' },
+        { status: 400 },
+      )
+    }
+
     const insertData = {
       title,
       description,
@@ -54,7 +72,7 @@ export async function POST(request: NextRequest) {
       image_url: body.image_url || null,
       tags: body.tags || [],
       sort_order: body.sort_order ?? 0,
-      steam_weights: body.steam_weights || { S: 5, T: 35, E: 5, A: 15, M: 15 },
+      steam_weights: steamWeights.value,
     }
 
     const { data, error } = await supabase

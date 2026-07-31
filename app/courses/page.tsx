@@ -15,7 +15,10 @@ export default async function CoursesPage() {
     let courses: CourseListItem[] | null = null;
     try {
         const supabase = await createClient();
-        courses = await listApprovedCourses(supabase);
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+        courses = await listApprovedCourses(supabase, { userId: user?.id ?? null });
     } catch {
         courses = null;
     }

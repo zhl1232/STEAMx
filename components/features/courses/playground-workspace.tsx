@@ -37,6 +37,7 @@ import {
 } from "@/lib/playground/gomoku-engine";
 import type { GomokuPoint, ScoredGomokuMove } from "@/lib/playground/gomoku-engine";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
+import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { cn } from "@/lib/utils";
 
 /**
@@ -144,16 +145,14 @@ export function PlaygroundWorkspace({
             const data = (await res.json().catch(() => ({}))) as {
                 error?: string;
                 alreadyCompleted?: boolean;
+                courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
             };
             if (!res.ok) {
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            if (data.alreadyCompleted) {
-                toast({ title: "本课已完成 ✓" });
-            } else {
-                toast({ title: "课时已完成 🎉", description: "+15 经验值" });
-            }
+            const feedback = getLessonCompletionFeedback(data);
+            toast({ title: feedback.title, description: feedback.description });
             onCompleted?.();
         } catch (error) {
             toast({

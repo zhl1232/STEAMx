@@ -2085,6 +2085,7 @@ export interface Database {
           scratch_project_path: string | null
           completed_at: string | null
           updated_at: string
+          completion_source: string | null
         }
         Insert: {
           user_id: string
@@ -2092,6 +2093,7 @@ export interface Database {
           scratch_project_path?: string | null
           completed_at?: string | null
           updated_at?: string
+          completion_source?: string | null
         }
         Update: {
           user_id?: string
@@ -2099,11 +2101,57 @@ export interface Database {
           scratch_project_path?: string | null
           completed_at?: string | null
           updated_at?: string
+          completion_source?: string | null
         }
         Relationships: [
           {
             foreignKeyName: 'user_lesson_progress_lesson_id_fkey'
             columns: ['lesson_id']
+            isOneToOne: false
+            referencedRelation: 'course_lessons'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      user_course_completions: {
+        Row: {
+          user_id: string
+          course_id: number
+          completed_at: string
+          trigger_lesson_id: number | null
+          lesson_count_snapshot: number
+          steam_weights_snapshot: Json
+          difficulty_stars_snapshot: number
+        }
+        Insert: {
+          user_id: string
+          course_id: number
+          completed_at?: string
+          trigger_lesson_id?: number | null
+          lesson_count_snapshot: number
+          steam_weights_snapshot: Json
+          difficulty_stars_snapshot: number
+        }
+        Update: {
+          user_id?: string
+          course_id?: number
+          completed_at?: string
+          trigger_lesson_id?: number | null
+          lesson_count_snapshot?: number
+          steam_weights_snapshot?: Json
+          difficulty_stars_snapshot?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_course_completions_course_id_fkey'
+            columns: ['course_id']
+            isOneToOne: false
+            referencedRelation: 'courses'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'user_course_completions_trigger_lesson_id_fkey'
+            columns: ['trigger_lesson_id']
             isOneToOne: false
             referencedRelation: 'course_lessons'
             referencedColumns: ['id']
@@ -2820,9 +2868,29 @@ export interface Database {
         Args: { p_completion_id: number }
         Returns: void
       }
+      approve_completion_with_reward: {
+        Args: { p_completion_id: number }
+        Returns: Json
+      }
+      system_approve_completion_with_reward: {
+        Args: { p_completion_id: number }
+        Returns: Json
+      }
+      repair_completion_rewards: {
+        Args: { p_apply?: boolean }
+        Returns: Json
+      }
       system_reject_completion: {
         Args: { p_completion_id: number; p_reason: string }
         Returns: void
+      }
+      record_course_lesson_completion: {
+        Args: { p_user_id: string; p_course_id: number; p_lesson_id: number }
+        Returns: Json
+      }
+      reconcile_course_completions: {
+        Args: { p_course_id?: number | null }
+        Returns: Json
       }
       increment_user_xp: {
         Args: { p_user_id: string; p_amount: number }

@@ -6,12 +6,6 @@ import { createClient } from '@/lib/supabase/server'
 import { requireRole } from '@/lib/api/auth'
 import { callRpc } from '@/lib/supabase/rpc'
 
-const { supabaseAdminMock } = vi.hoisted(() => ({
-    supabaseAdminMock: {
-        from: vi.fn(),
-    },
-}))
-
 vi.mock('@/lib/supabase/server', () => ({
     createClient: vi.fn(),
 }))
@@ -28,10 +22,6 @@ vi.mock('@/lib/supabase/rpc', () => ({
     callRpc: vi.fn(),
 }))
 
-vi.mock('@/lib/supabase/admin', () => ({
-    supabaseAdmin: supabaseAdminMock,
-}))
-
 describe('POST /api/admin/completions/[id]/review', () => {
     const createClientMock = createClient as Mock<typeof createClient>
     const requireRoleMock = requireRole as Mock<typeof requireRole>
@@ -42,7 +32,7 @@ describe('POST /api/admin/completions/[id]/review', () => {
         requireRoleMock.mockResolvedValue(undefined as never)
     })
 
-    it('awards completion XP without writing unsupported columns to xp_logs', async () => {
+    it('uses the atomic approval-and-reward RPC', async () => {
         const routeSupabase = {
             from: vi.fn((table: string) => {
                 if (table === 'completed_projects') {
@@ -61,40 +51,11 @@ describe('POST /api/admin/completions/[id]/review', () => {
             }),
         })
 
-        const completedProjectsMaybeSingle = vi.fn().mockResolvedValue({
-            data: { user_id: 'user-1', project_id: 42 },
-            error: null,
-        })
-        const completedProjectsEq = vi.fn().mockReturnValue({
-            maybeSingle: completedProjectsMaybeSingle,
-        })
-        const completedProjectsSelect = vi.fn().mockReturnValue({
-            eq: completedProjectsEq,
-        })
-
-        const xpLogsSelect = vi.fn().mockResolvedValue({
-            data: [{ id: 1 }],
-            error: null,
-        })
-        const xpLogsUpsert = vi.fn().mockReturnValue({
-            select: xpLogsSelect,
-        })
-
         createClientMock.mockResolvedValue(routeSupabase as never)
 
-        supabaseAdminMock.from.mockImplementation((table: string) => {
-            if (table === 'completed_projects') {
-                return { select: completedProjectsSelect }
-            }
-            if (table === 'xp_logs') {
-                return { upsert: xpLogsUpsert }
-            }
-            throw new Error(`Unexpected table: ${table}`)
-        })
-
         callRpcMock.mockImplementation(async (_client, fn) => {
-            if (fn === 'approve_completion' || fn === 'increment_user_xp') {
-                return { data: null, error: null }
+            if (fn === 'approve_completion_with_reward') {
+                return { data: { xp_awarded: true }, error: null }
             }
             throw new Error(`Unexpected RPC: ${String(fn)}`)
         })
@@ -108,22 +69,13 @@ describe('POST /api/admin/completions/[id]/review', () => {
         })
 
         expect(response.status).toBe(200)
-        const [xpPayload, xpOptions] = xpLogsUpsert.mock.calls[0] as [Record<string, unknown>, Record<string, unknown>]
-        expect(xpPayload).toMatchObject({
-            user_id: 'user-1',
-            action_type: 'complete_project',
-            resource_id: '42',
-            xp_amount: 20,
+        await expect(response.json()).resolves.toEqual({
+            message: 'Completion approved successfully',
+            status: 'approved',
+            xpAwarded: true,
         })
-        expect(xpPayload).not.toHaveProperty('description')
-        expect(xpOptions).toEqual({
-            onConflict: 'user_id,action_type,resource_id',
-            ignoreDuplicates: true,
-        })
-        expect(callRpcMock).toHaveBeenNthCalledWith(1, routeSupabase, 'approve_completion', { completion_id: 123 })
-        expect(callRpcMock).toHaveBeenNthCalledWith(2, supabaseAdminMock, 'increment_user_xp', {
-            p_user_id: 'user-1',
-            p_amount: 20,
+        expect(callRpcMock).toHaveBeenCalledWith(routeSupabase, 'approve_completion_with_reward', {
+            p_completion_id: 123,
         })
     })
 

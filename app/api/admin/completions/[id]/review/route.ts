@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateOptionalString, validateNumber } from '@/lib/api/validation'
-import { logger } from '@/lib/logger'
-import { awardCompletionXp } from '@/lib/completions/approve'
 import { callRpc } from '@/lib/supabase/rpc'
 
 /**
@@ -50,26 +48,20 @@ export async function POST(
     }
 
     if (action === 'approve') {
-      const { error } = await callRpc(supabase, 'approve_completion', {
-        completion_id: completionId
+      const { data, error } = await callRpc(supabase, 'approve_completion_with_reward', {
+        p_completion_id: completionId,
       })
 
       if (error) {
         throw error
       }
 
-      let xpAwarded = true
-      try {
-        await awardCompletionXp(completionId)
-      } catch (xpError) {
-        xpAwarded = false
-        logger.error(xpError, { context: 'XP award failed after completion approval', completionId })
-      }
+      const rewardResult = data as unknown as { xp_awarded?: boolean }
 
       return NextResponse.json({
         message: 'Completion approved successfully',
         status: 'approved',
-        xpAwarded,
+        xpAwarded: rewardResult.xp_awarded === true,
       })
     } else {
       const { error } = await callRpc(supabase, 'reject_completion', {

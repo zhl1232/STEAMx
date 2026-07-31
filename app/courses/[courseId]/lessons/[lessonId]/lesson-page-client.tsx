@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
@@ -92,6 +93,7 @@ export function LessonPageClient({
     initialCompleted?: boolean;
     initialStepIndex?: number;
 }) {
+    const router = useRouter();
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     const steps = useMemo(
         () => lessonWorkspace === "building_3d"
@@ -358,7 +360,10 @@ export function LessonPageClient({
                         onScratchEditorContextChange={handleScratchEditorContextChange}
                         onStepChange={handleStepChange}
                         initialCompleted={initialCompleted}
-                        onCompleted={() => setCompleted(true)}
+                        onCompleted={() => {
+                            setCompleted(true);
+                            router.refresh();
+                        }}
                     />
                 </div>
             </div>

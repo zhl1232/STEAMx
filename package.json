@@ -27,7 +27,8 @@
     "birds:sync-media-db": "node scripts/sync-bird-media-to-db.mjs",
     "db:push": "node scripts/db-push.mjs push",
     "db:status": "node scripts/db-push.mjs status",
-    "db:baseline": "node scripts/db-push.mjs baseline"
+    "db:baseline": "node scripts/db-push.mjs baseline",
+    "db:course-config": "node scripts/course-config-preflight.mjs"
   },
   "dependencies": {
     "@alicloud/dypnsapi20170525": "^2.0.0",

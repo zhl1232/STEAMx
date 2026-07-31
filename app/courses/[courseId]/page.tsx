@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ChevronRight, Clock, Target } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ChevronRight, Clock, Target } from "lucide-react";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
@@ -51,7 +51,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
     if (!Number.isFinite(courseId)) notFound();
 
     const supabase = await createClient();
-    const course = await getCourseOverview(supabase, courseId);
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    const course = await getCourseOverview(supabase, courseId, { userId: user?.id ?? null });
     if (!course) notFound();
 
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
@@ -59,6 +62,13 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const allSameLessonType =
         course.lessons.length > 0 &&
         course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
+    const nextLessonId = course.progress?.next_lesson_id ?? course.lessons[0]?.id ?? null;
+    const primaryCta =
+        course.progress?.status === "completed"
+            ? "回顾课程"
+            : course.progress?.status === "in_progress"
+                ? "继续学习"
+                : "开始学习";
     return (
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader variant="title" title={course.title} />
@@ -146,15 +156,21 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                         ))}
                                     </span>
                                 ) : null}
+                                {course.progress && course.progress.total_lesson_count > 0 ? (
+                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1.5 text-xs font-bold text-[hsl(var(--brand-blue))]">
+                                        <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
+                                        已完成 {course.progress.completed_lesson_count}/{course.progress.total_lesson_count}
+                                    </span>
+                                ) : null}
                             </div>
 
-                            {course.lessons.length > 0 ? (
+                            {nextLessonId ? (
                                 <Button asChild tone="brand" shape="pill" size="lg" className="mt-6 gap-2 font-bold md:mt-7">
                                     <Link
-                                        href={`/courses/${course.id}/lessons/${course.lessons[0].id}`}
+                                        href={`/courses/${course.id}/lessons/${nextLessonId}`}
                                         prefetch={false}
                                     >
-                                        开始第 1 课
+                                        {primaryCta}
                                         <ChevronRight className="h-4 w-4" />
                                     </Link>
                                 </Button>
@@ -199,6 +215,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                                 <span className="truncate text-[15px] font-bold leading-snug text-foreground md:text-base">
                                                     {lesson.title}
                                                 </span>
+                                                {lesson.is_completed ? (
+                                                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--status-success))]">
+                                                        <CheckCircle2 className="h-4 w-4" aria-hidden />
+                                                        已完成
+                                                    </span>
+                                                ) : null}
                                             </div>
                                             <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                                                 {lesson.duration_minutes ? (
