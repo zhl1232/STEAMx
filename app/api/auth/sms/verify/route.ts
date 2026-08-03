@@ -311,7 +311,6 @@ export async function POST(req: Request) {
           username,
           display_name: displayName,
           avatar_url: avatarUrl,
-          age_confirmed_at: new Date().toISOString(),
         } as never,
         { onConflict: 'id', ignoreDuplicates: true }
       )

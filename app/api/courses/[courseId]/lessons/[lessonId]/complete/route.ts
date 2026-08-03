@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { getLessonInCourse, getUserLessonProgress } from '@/lib/api/courses'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
@@ -47,6 +48,7 @@ export async function POST(_request: NextRequest, { params }: RouteParams) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, {
       key: 'api-courses-complete-lesson',
       limit: 20,

@@ -58,7 +58,14 @@ test('联网竞速登录链接保留邀请房间码', async ({ page }) => {
 
 test('登录页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/login')
-  await expect(page.getByRole('heading', { name: '回到你的探索档案' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '登录 / 注册' })).toBeVisible()
+})
+
+test('登录页移动端聚焦表单', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expectHealthyPage(page, '/login')
+  await expect(page.getByRole('heading', { name: '登录 / 注册' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '回到你的探索档案' })).toBeHidden()
 })
 
 test('移动端自然观察页 smoke', async ({ page }) => {

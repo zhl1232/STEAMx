@@ -18,10 +18,16 @@ import { useNotifications } from '@/lib/context/notification-context';
 import { useToast } from "@/hooks/use-toast";
 import { mapComment, mapProject, type DbComment, type DbProject } from "@/lib/mappers/project";
 import { Project, Comment } from "@/lib/mappers/types";
-import { getWeekKey, getWeekStartISO } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from '@/lib/utils/http';
 
 export interface ProjectCompletionProof {
   images: string[];
@@ -43,7 +49,7 @@ type ProjectContextType = {
   /** 拿到服务端最新 likes 后调用，避免与 delta 重复计算导致多算一次 */
   clearLikesDelta: (projectId: string | number) => void;
   clearLikesDeltaForProjects: (projectIds: (string | number)[]) => void;
-  addProject: (project: Project) => Promise<void>;
+  addProject: (project: Project) => Promise<boolean>;
   addComment: (
     projectId: string | number,
     comment: Comment,
@@ -62,7 +68,7 @@ type ProjectContextType = {
       recordType?: string;
       stageLabel?: string;
     },
-  ) => Promise<{ id: number; status: string; recordKind: string }>;
+  ) => Promise<{ id: number; status: string; recordKind: string } | null>;
   startExploration: (projectId: string | number) => Promise<void>;
   uncompleteProject: (projectId: string | number) => Promise<void>;
   isCompleted: (projectId: string | number) => boolean;
@@ -84,14 +90,14 @@ const EMPTY_PROJECT_CONTEXT: ProjectContextType = {
   getCollectionsDelta: () => 0,
   clearLikesDelta: () => {},
   clearLikesDeltaForProjects: () => {},
-  addProject: async () => {},
+  addProject: async () => false,
   addComment: async () => null,
   toggleLike: async () => {},
   toggleCollection: () => {},
   isLiked: () => false,
   isCollected: () => false,
   completeProject: async () => {},
-  submitExplorationPost: async () => ({ id: 0, status: "pending", recordKind: "final" }),
+  submitExplorationPost: async () => null,
   startExploration: async () => {},
   uncompleteProject: async () => {},
   isCompleted: () => false,
@@ -129,6 +135,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const { addXp, checkBadges } = useGamification();
   const { createNotification } = useNotifications();
   const { toast } = useToast();
+  const { runAfterAgeConfirmation } = useLoginPrompt();
 
   // Refs for stable callbacks
   const likedProjectsRef = useRef(likedProjects);
@@ -343,7 +350,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
   const addProject = useCallback(
     async (project: Project) => {
-      if (!user) return;
+      if (!user) return false;
 
       const textsToCheck = [
         project.title,
@@ -360,7 +367,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             description: "项目中包含不当内容，请修改后重试",
             variant: "destructive",
           });
-          return;
+          return false;
         }
       }
 
@@ -388,15 +395,22 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         })),
       };
 
-      const response = await fetch("/api/projects", {
+      const createProjectRequest = () => fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(insertData),
       });
+      let response = await createProjectRequest();
+      let errorPayload = await getApiErrorPayload(response);
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(createProjectRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        });
+        errorPayload = await getApiErrorPayload(response);
+      }
 
       if (!response.ok) {
-        const body = await response.json().catch(() => ({}));
-        const message = body?.error || "Failed to create project";
+        const message = getApiErrorMessageFromPayload(errorPayload, "Failed to create project");
         logger.error("Error adding project:", { error: message });
         throw new Error(message);
       }
@@ -454,8 +468,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           await Promise.all(notifications);
         }
       }
+
+      return true;
     },
-    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, toast],
+    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, runAfterAgeConfirmation, toast],
   );
 
   const updateProject = useCallback(
@@ -527,7 +543,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     async (projectId: string | number, comment: Comment, parentId?: number) => {
       if (!user) return null;
 
-      const res = await fetch("/api/comments", {
+      const sendCommentRequest = () => fetch("/api/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -537,10 +553,17 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           image_url: comment.image_url || null,
         }),
       });
+      let res = await sendCommentRequest();
+      let errorPayload = await getApiErrorPayload(res);
+      if (!res.ok && isAgeConfirmationRequired(errorPayload)) {
+        res = await runAfterAgeConfirmation(sendCommentRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        });
+        errorPayload = await getApiErrorPayload(res);
+      }
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        const msg = body?.error || "发送评论失败";
+        const msg = getApiErrorMessageFromPayload(errorPayload, "发送评论失败");
         logger.error("Error adding comment:", { error: msg });
         toast({ title: "发送失败", description: msg, variant: "destructive" });
         return null;
@@ -569,30 +592,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             });
           }
 
-          // XP（内部会 refetchStats → 自动 checkBadges）
+          // 评论 XP 和每周目标奖励都由服务端业务路由发放；这里仅刷新本地资料。
           await addXp(1, "发表评论", "comment_project", commentRow.id);
-
-          // 每周小目标（并行查询）
-          const weekStart = getWeekStartISO();
-          const weekKey = getWeekKey();
-          const [{ data: weekComments }, { data: alreadyAwarded }] = await Promise.all([
-            supabase
-              .from("xp_logs")
-              .select("id")
-              .eq("user_id", user.id)
-              .in("action_type", ["comment_project", "reply_discussion"])
-              .gte("created_at", weekStart),
-            supabase
-              .from("xp_logs")
-              .select("id")
-              .eq("user_id", user.id)
-              .eq("action_type", "weekly_goal_comments_5")
-              .eq("resource_id", weekKey)
-              .maybeSingle(),
-          ]);
-          if ((weekComments?.length ?? 0) >= 5 && !alreadyAwarded) {
-            addXp(5, "每周目标：参与讨论5次", "weekly_goal_comments_5", weekKey);
-          }
         } catch (err) {
           logger.error(err, { context: "Comment side effects error" });
         }
@@ -600,7 +601,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return mapComment(newComment as unknown as DbComment);
     },
-    [supabase, user, profile, createNotification, addXp, toast],
+    [user, profile, createNotification, addXp, runAfterAgeConfirmation, toast],
   );
 
   const toggleLike = useCallback(
@@ -722,18 +723,31 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       }));
 
       try {
-        if (isCollected) {
-          const { error } = await supabase
-            .from("collections")
-            .delete()
-            .eq("user_id", user.id)
-            .eq("project_id", pid);
-          if (error) throw error;
-        } else {
-          const { error } = await supabase
-            .from("collections")
-            .insert({ user_id: user.id, project_id: pid } as never);
-          if (error) throw error;
+        const response = await fetch(`/api/projects/${pid}/collection`, { method: "POST" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(getApiErrorMessageFromPayload(payload, "收藏失败"));
+        }
+
+        const collected = Boolean(payload?.collected);
+        const action = payload?.action as "collected" | "uncollected" | undefined;
+
+        if (collected !== !isCollected) {
+          setCollectedProjects((prev) => {
+            const next = new Set(prev);
+            if (collected) next.add(pid);
+            else next.delete(pid);
+            collectedProjectsRef.current = next;
+            return next;
+          });
+        }
+
+        const expectedDelta = action === "collected" ? 1 : action === "uncollected" ? -1 : delta;
+        if (expectedDelta !== delta) {
+          setProjectCollectionsDelta((prev) => ({
+            ...prev,
+            [String(projectId)]: (prev[String(projectId)] ?? 0) + (expectedDelta - delta),
+          }));
         }
       } catch (error) {
         setCollectedProjects((prev) => {
@@ -755,7 +769,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         });
       }
     },
-    [supabase, user, toast],
+    [user, toast],
   );
 
   const startExploration = useCallback(
@@ -800,7 +814,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         throw new Error("至少需要上传一张作品照片");
       }
 
-      const response = await fetch(`/api/projects/${pid}/completions`, {
+      const submitExplorationRequest = () => fetch(`/api/projects/${pid}/completions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -815,9 +829,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }),
       });
 
-      const payload = await response.json().catch(() => ({}));
+      let response = await submitExplorationRequest();
+      let payload = await getApiErrorPayload(response);
+      if (!response.ok && isAgeConfirmationRequired(payload)) {
+        response = await runAfterAgeConfirmation(submitExplorationRequest, {
+          redirectTo: getInteractionAccessRedirect(payload) ?? undefined,
+        });
+        payload = await getApiErrorPayload(response);
+      }
       if (!response.ok) {
-        throw new Error(payload?.error || "提交失败");
+        throw new Error(getApiErrorMessageFromPayload(payload, "提交失败"));
       }
 
       setExploringProjects((prev) => {
@@ -838,7 +859,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return payload as { id: number; status: string; recordKind: string };
     },
-    [user],
+    [runAfterAgeConfirmation, user],
   );
 
   const completeProject = useCallback(

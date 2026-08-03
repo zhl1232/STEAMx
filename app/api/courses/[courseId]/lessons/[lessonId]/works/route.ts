@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getLessonInCourse } from '@/lib/api/courses'
 import { canResubmitCompletion } from '@/lib/completion-records'
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'submit')
     await requireRateLimit(supabase, { key: 'api-course-works-submit', limit: 8, windowMs: 60_000 })
 
     const raw = await params

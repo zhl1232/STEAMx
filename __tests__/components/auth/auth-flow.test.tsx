@@ -37,7 +37,7 @@ describe('AuthFlow', () => {
   it('defaults to phone SMS login without email prompts', () => {
     render(<AuthFlow presentation="page" />)
 
-    expect(screen.getByRole('heading', { name: '手机号登录/注册' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '登录 / 注册' })).toBeInTheDocument()
     expect(screen.getByLabelText('手机号')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('请输入手机号')).toBeInTheDocument()
     expect(screen.queryByLabelText('密码')).not.toBeInTheDocument()
@@ -137,7 +137,7 @@ describe('AuthFlow', () => {
     expect(toastMock).toHaveBeenCalledWith(expect.objectContaining({
       title: '请先确认使用授权',
     }))
-    expect(screen.getByText('请先同意服务条款、隐私政策，并确认年龄或监护人授权。')).toBeInTheDocument()
+    expect(screen.getByText('请先同意服务条款和隐私政策。')).toBeInTheDocument()
   })
 
   it('keeps legacy email password reset hidden behind the phone field', async () => {

@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import { getObservationById } from '@/lib/api/nature-observation-data'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
@@ -38,7 +39,8 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
 export async function POST(request: NextRequest, { params }: RouteContext) {
   const supabase = await createClient()
   try {
-    await requireAuth(supabase)
+    const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'comment')
     const { id } = await params
     const observationId = parseObservationId(id)
     if (!observationId) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })
@@ -68,7 +70,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
   const supabase = await createClient()
   try {
-    await requireAuth(supabase)
+    const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'comment')
     const { id } = await params
     const observationId = parseObservationId(id)
     if (!observationId) return NextResponse.json({ error: '观察记录不存在' }, { status: 404 })

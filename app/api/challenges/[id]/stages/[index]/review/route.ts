@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getStageCoachUserMessage, reviewStageArtifact } from '@/lib/ai/pbl-stage-coach'
 import { consumeAiCredit, refundAiCredit } from '@/lib/api/ai-credits'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getStageProgressByUser, getStageProgressForStage } from '@/lib/api/challenge-stage-progress'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import {
@@ -112,6 +113,7 @@ export async function POST(
     if (stageIndex >= challenge.stages.length) {
       return NextResponse.json({ error: '阶段不存在' }, { status: 400 })
     }
+    await requireInteractionAccess(supabase, user, 'save_progress')
 
     const stage = challenge.stages[stageIndex]
 

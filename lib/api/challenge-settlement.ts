@@ -1,4 +1,4 @@
-import { callRpc } from '@/lib/supabase/rpc'
+import { awardXpOnce } from '@/lib/api/server-awards'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 
 interface RankedSubmission {
@@ -117,25 +117,11 @@ export async function settleTimedChallenge(challengeId: number) {
   )
 
   for (const submission of ranked) {
-    const { data: xpLog, error: xpLogError } = await supabaseAdmin
-      .from('xp_logs')
-      .upsert({
-        user_id: submission.userId,
-        action_type: 'challenge_participation',
-        resource_id: String(challengeId),
-        xp_amount: 20,
-      } as never, { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true })
-      .select('id')
-
-    if (xpLogError) throw xpLogError
-
-    if (xpLog && xpLog.length > 0) {
-      const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
-        p_user_id: submission.userId,
-        p_amount: 20,
-      })
-      if (incrementError) throw incrementError
-    }
+    await awardXpOnce({
+      userId: submission.userId,
+      actionType: 'challenge_participation',
+      resourceId: challengeId,
+    })
 
     const prize = PRIZE_BY_RANK[submission.rank]
     if (!prize) continue

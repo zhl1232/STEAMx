@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { validateProjectContent, validateProjectMediaOwnership } from '@/lib/api/project-validation'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { CreateProjectSchema } from '@/lib/schemas'
@@ -10,6 +11,7 @@ import { parseExploreSortBy } from '@/lib/explore/presets'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
 import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
+import { awardXpOnce } from '@/lib/api/server-awards'
 import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
@@ -141,6 +143,8 @@ export async function POST(request: Request) {
       steps,
     })
 
+    await requireInteractionAccess(supabase, user, 'post')
+
     // 创建项目
     const newProject: ProjectInsert = {
       title,
@@ -236,6 +240,16 @@ export async function POST(request: Request) {
 
         throw childError
       }
+    }
+
+    try {
+      await awardXpOnce({
+        userId: user.id,
+        actionType: 'publish_project',
+        resourceId: project.id,
+      })
+    } catch (awardError) {
+      logger.error('Failed to award project XP', { error: awardError, projectId: project.id })
     }
 
     return NextResponse.json(project, { status: 201 })

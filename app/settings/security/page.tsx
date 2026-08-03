@@ -2,12 +2,13 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChevronDown, KeyRound, Loader2, Smartphone } from "lucide-react";
+import { BadgeCheck, ChevronDown, KeyRound, Loader2, Smartphone } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from '@/lib/context/auth-context';
+import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,8 @@ function maskPhone(phone: string) {
 function SecuritySettingsContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
+  const { completeAgeConfirmation } = useLoginPrompt();
   const [supabase] = useState(() => createClient());
   const recoveryMode = searchParams.get("mode") === "recovery";
 
@@ -35,6 +37,8 @@ function SecuritySettingsContent() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [ageConfirmedAt, setAgeConfirmedAt] = useState<string | null>(profile?.age_confirmed_at ?? null);
+  const [ageLoading, setAgeLoading] = useState(false);
 
   useEffect(() => {
     const loadPhone = async () => {
@@ -53,6 +57,40 @@ function SecuritySettingsContent() {
     if (!recoveryMode) return;
     setPasswordExpand(true);
   }, [recoveryMode]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const loadAgeConfirmation = async () => {
+      const response = await fetch("/api/settings/age-confirmation");
+      if (!response.ok) return;
+      const data = await response.json().catch(() => ({}));
+      setAgeConfirmedAt(typeof data.confirmedAt === "string" ? data.confirmedAt : null);
+    };
+
+    void loadAgeConfirmation();
+  }, [user]);
+
+  const handleConfirmAge = async () => {
+    setAgeLoading(true);
+    try {
+      const response = await fetch("/api/settings/age-confirmation", { method: "POST" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "确认失败");
+      setAgeConfirmedAt(typeof data.confirmedAt === "string" ? data.confirmedAt : new Date().toISOString());
+      await refreshProfile();
+      toast({ title: "年龄确认已完成", description: "现在可以投稿、评论、发帖和发送私信了。" });
+      await completeAgeConfirmation();
+    } catch (error) {
+      toast({
+        title: "确认失败",
+        description: error instanceof Error ? error.message : "请稍后重试",
+        variant: "destructive",
+      });
+    } finally {
+      setAgeLoading(false);
+    }
+  };
 
   const handleChangePassword = async () => {
     if (!newPassword || newPassword.length < 6) {
@@ -175,6 +213,37 @@ function SecuritySettingsContent() {
             请先设置新密码，设置成功后即可继续使用账号。
           </div>
         ) : null}
+
+        <section id="age-confirmation" className="surface-subtle scroll-mt-5 p-4 sm:p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+                <BadgeCheck className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold">本人年龄确认</h3>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                  年龄确认只用于开启投稿和社区互动，不影响浏览公开内容。短信登录不代表年龄确认。
+                </p>
+              </div>
+            </div>
+            {ageConfirmedAt ? (
+              <span className="inline-flex shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                已确认
+              </span>
+            ) : (
+              <Button type="button" onClick={handleConfirmAge} disabled={ageLoading}>
+                {ageLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                我确认本人年龄
+              </Button>
+            )}
+          </div>
+          {!ageConfirmedAt ? (
+            <p className="mt-4 border-t border-border/70 pt-4 text-xs leading-6 text-muted-foreground">
+              点击确认即表示你本人确认已达到平台要求的年龄，并同意遵守服务条款和隐私政策。
+            </p>
+          ) : null}
+        </section>
 
         <section className="surface-subtle p-4 sm:p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

@@ -54,6 +54,18 @@ describe('tips routes visibility', () => {
           })),
         }
       }
+      if (table === 'profiles') {
+        return {
+          select: vi.fn(() => ({
+            eq: vi.fn(() => ({
+              maybeSingle: vi.fn().mockResolvedValue({
+                data: { age_confirmed_at: null, interaction_restricted: false },
+                error: null,
+              }),
+            })),
+          })),
+        }
+      }
       throw new Error(`Unexpected table: ${table}`)
     })
 

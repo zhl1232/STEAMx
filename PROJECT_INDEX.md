@@ -23,7 +23,7 @@
 | `/playground/functionwars` | `app/playground/functionwars/page.tsx` + `renderer.ts` | 函数战争：无 `eval` 表达式 AST 驱动纯函数弹道；3 主题 10 个战役关 + 5 个挑战关，含可破坏/不可破坏障碍、所有单位的可碰撞前景支撑（贴图落脚线按最近支撑单独做视觉对齐，不改变弹道碰撞几何）、太空后段无地面空岛关与易碎承重坠落结算（敌方失去承重造成一次坠落伤害，己方失去承重本关失败）、表达式必用函数/常量、有效射击函数/武器、信号中继、射击上限和平台保护等任务目标、5 种配置化武器、曲线拾取道具、Canvas 地形破坏/弹道特效/坐标网格、分层 WebP 背景与透明 WebP 单位贴图的超裁切视差及草原云影/峡谷沙雾/太空星闪环境动效（低动态偏好下冻结；无射击/爆炸时环境重绘降到 250ms 一帧，活动特效仍走 rAF）、主题化前景地面/平台材质（可破坏物使用暖色、颗粒与边缘缺口；不可破坏支撑/墙体使用冷灰硬质、斜纹与螺栓）、从实际炮口过渡到函数曲线首点的出膛动画（不改变弹道碰撞几何）、星级与 `function_wars_stats` 战绩；`NODE_ENV=development` 下关卡栏显示开发模式并解锁全部 15 关用于预览；单人/真人弹道纵向出屏后可继续采样并重入，横向越界、断点、发散或采样上限才终止，陡峭采样段按连续线段判定碰撞；真人模式使用 6 位邀请码的共享地图 1v1 回合制房间，100 HP 且单回合伤害封顶 80，避免镜像双中满血秒杀；客户端开火只提交武器、表达式和预期 `shot_seq`，认证 API 用共享确定性模拟器重算命中后调用 service-role RPC；单人/真人切换均保留本局，隐藏的单人计时暂停，在线活跃对局在页签标记；Canvas 提供屏幕阅读器战场摘要，错误/结算自动聚焦，320px 控制台不遮挡画布，短横屏采用战场/控制台双栏并可收起数学键盘；移动端隐藏小迪悬浮入口，避免遮挡函数输入与发射按钮 |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级、新手引导（仅未毕业时显示，毕业后由徽章墙承载纪念）与学习打卡放入 400px 右栏；移动端保留 4 个高频入口（内容、消息、钱包、商店）并继续展示本周探索计划、STEAM 雷达、自然观察进度和徽章；首页作品统计与摘要读取统一作品，内容库区分「我的作品」与用户创建的「发布的项目」；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`xiaodi/`（小迪语音：自动朗读、移动端长按语音、语音提问播报、提示气泡本设备偏好）、`notifications/`、`privacy/`、`security/`、`about/` |
-| `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录/注册；新注册用户使用不含手机号的随机昵称 `新用户XXXX`，历史手机号昵称在再次登录时自动替换；前台文案只提示手机号，邮箱注册入口已移除，旧邮箱账号仍可在手机号输入框中输入原邮箱后用密码登录 |
+| `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录/注册；移动端表单位于页头下方剩余空间中央，使用精简标题/说明并隐藏档案介绍区，桌面端保留辅助价值说明；新注册用户使用不含手机号的随机昵称 `新用户XXXX`，历史手机号昵称在再次登录时自动替换；前台文案只提示手机号，邮箱注册入口已移除，旧邮箱账号仍可在手机号输入框中输入原邮箱后用密码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品 |
@@ -70,7 +70,7 @@
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调 |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；投稿草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑终稿草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
 | tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白，`quotaOnly=1` 只刷代币；POST SSE 流式，global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，同时把当前登录用户的有限个人中心摘要（昵称、年龄段、等级/XP、STEAM 能力雷达、累计统计、近期活动、成长任务、课程/PBL 进度、徽章、游乐场战绩、作品反馈、AI 额度）作为服务端只读上下文传入并明确不可见隐私边界，`/playground/*` 游戏页归入 playground surface 并携带具体 `gameKey/contextId` 生成小游戏专属上下文与独立线程；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；开发环境或 `TUTOR_DEBUG_TIMING=1` 下输出服务端阶段耗时、`Server-Timing` 与 SSE `perf` 事件，用于定位响应头/首事件/首 chunk 延迟；DELETE 归档当前线程并开启新对话）；语音辅助 `speech/transcribe`（登录后接收 30 秒内 16k PCM 录音，经 DashScope Qwen-ASR-Realtime 仅转写文本、不落库音频）与 `speech/synthesize`（登录后将小迪回复文本经 DashScope Qwen-TTS 合成并转发音频二进制，手动/自动朗读均不扣 AI 对话代币）；历史对话 `conversations`（GET 按场景列归档线程+首条用户消息预览，最近一张聊天图片在上下文窗口内作为活跃附件持续发送并保持视觉模型，上传新图时替换旧图）与 `conversations/[id]`（GET 线程消息，DELETE 删除已归档线程，均做归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
-| comments | `api/comments/` | 项目评论 CRUD、点赞 |
+| comments | `api/comments/` | 项目评论 CRUD、点赞；发表评论/回复需要本人年龄确认，评论 XP 由服务端固定事件奖励 |
 | completions | `api/completions/` | 完成记录、评论、点赞、审核 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
@@ -79,17 +79,17 @@
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏）与历史 approved 项目低比例 backfill 入队 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
-| messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读 |
+| messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息需要本人年龄确认，仍受接收方隐私设置约束 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
 | playground | `api/playground/` | 游乐场云端战绩徽章同步；`badges/sync` 读取 `playground_stats` 并补发已达成的游乐场徽章；`minesweeper/leaderboard` 通过受限 RPC 按难度返回云端最佳成绩全服前十，仅暴露昵称、头像和用时；在线五子棋 `gomoku-rooms`、记忆翻牌 `memory-rooms`、函数战争 `functionwars-rooms` 和通用竞速 `race-rooms` 创建/加入/读取/离开房间；函数战争 `[id]/fire` 认证 API 在服务端重算弹道并通过 service-role RPC 原子校验 `shot_seq`/轮次后结算，`[id]` 权威读取会推进超时并在同一玩家连续错过两回合时判负，邀请链接保留 `room` 参数；竞速加入按 6 位邀请码用 service role 查询并以 `waiting + guest IS NULL` 条件更新，竞争失败返回 409 并记录不含用户/邀请码的结构化指标；`race-rooms/[id]` GET 在读取前调用受限 RPC 结算截止房间，`[id]/result` 校验成绩后由 RPC 原子检查截止时间，双方到齐再计算胜负；邀请链接会等前端 auth 初始化完成后再自动加入，未登录时登录链接用 `next` 保留 `room` 参数 |
-| observations | `api/observations/` | 自然观察 CRUD；提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录 |
+| observations | `api/observations/` | 自然观察 CRUD；提交、评论、鉴定和图片分析写入需要本人年龄确认，提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录 |
 | profile | `api/profile/` | 个人资料摘要、新手引导、学习打卡、本周探索计划（聚合 PBL 阶段/课程/自然观察/雷达等信号）；`works` 返回当前用户的项目完成作品与课程作品；`growth-tasks/sync` 与 `weekly-plan` 都会读取 `profiles.bio` 并调用 `get_user_stats_summary` 计算成长任务进度 |
-| projects | `api/projects/` | 项目 CRUD、编辑；项目点赞服务端写入作者通知 |
+| projects | `api/projects/` | 项目 CRUD、编辑；创建项目需要本人年龄确认；`[id]/like` 处理项目点赞，`[id]/collection` 处理收藏/取消收藏，均要求登录且受 `interaction_restricted` 门禁；点赞 XP 由服务端固定事件奖励并写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
 | resources | `api/resources/` | 学习资料卡公开读取（仅 published） |
 | reports | `api/reports/` | 举报提交 |
-| settings | `api/settings/` | 用户设置更新 |
+| settings | `api/settings/` | 用户设置更新；`age-confirmation` 提供 GET 状态和 POST 本人年龄确认，确认通过 `confirm_my_age()` RPC 写入，短信验证不自动确认年龄 |
 | species | `api/species/` | 旧物种分页查询（过渡保留）；`api/species/atlas/` 返回不含详情大字段的全量图鉴 DTO，响应按当前 Cookie `private, no-store`，点亮查询失败时显式返回 `unavailable` |
 | tips | `api/tips/` | 打赏 |
 | upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象；审核拒绝返回 `code=image_content_rejected` 并透传安全原因给前端 toast，同时打结构化 warning 便于管理员查服务日志（当前不入 admin 后台列表） |
@@ -97,9 +97,11 @@
 | users | `api/users/` | 用户公开信息查询；`[id]/works` 返回指定用户已公开的统一作品 |
 | works | `api/works/` | 统一作品读取与互动；`[id]` 返回项目/课时来源、作者、媒体、点赞、评论和打赏信息 |
 | explore | `api/explore/` | 探索相关数据；`works` 接受 `limit`/`offset`，通过 `get_trending_works` RPC 返回近期互动热度作品批次，供首页“换一批”使用 |
-| xp | `api/xp/` | 经验值增减 |
+| xp | `api/xp/` | `increment` 接口废弃并返回 `410 XP_EVENT_REQUIRED`；固定 XP 只能由服务端业务事件发放，客户端不能提交金额 |
 
 函数战争房间创建/加入会拒绝用户进入第二个 `waiting/playing` 活跃对局；API 前置检查返回可读的 409，数据库用参与者 advisory lock 触发器封住并发竞态。房主重开自己的等待邀请会恢复到 `waiting`，不会停留在 `joining`。
+
+互动资格边界：课程完成、Scratch/积木项目保存、PBL 阶段与工作区保存、项目探索等个人进度登录即可；项目/课程/挑战作品提交、自然观察提交、评论/鉴定/评分、发帖和私信需要 `age_confirmed_at`；项目/作品/自然观察点赞、收藏、关注和打赏属于 `engage`，登录即可；`interaction_restricted` 会阻断全部保存与互动写入。项目上下文的收藏写入统一经 `POST /api/projects/[id]/collection`，不再由浏览器直接写 `collections` 表。
 
 ---
 
@@ -176,11 +178,11 @@
 
 ### 4.2 上下文 (`lib/context/`)
 - `auth-context.tsx` — 认证状态（用户、角色、登录/登出）
-- `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）
+- `project-context.tsx` — 项目操作（CRUD、点赞、收藏、评论、完成记录）；点赞与收藏写入统一经项目 API，收藏不再由浏览器直接写 `collections`
 - `community-context.tsx` — 社区操作（讨论、回复、点赞）
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）；`checkBadges` 同批多徽章乐观更新基于最新 ref，失败只回滚当前徽章
 - `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket；Realtime 失败后自动断开并保留 HTTP 兜底，页面回到前台兜底刷一次）
-- `login-prompt-context.tsx` — 未登录操作引导弹窗
+- `login-prompt-context.tsx` — 未登录操作引导弹窗；互动 API 返回 `AGE_CONFIRMATION_REQUIRED` 时保存当前路径和原请求，跳转本人年龄确认设置，确认成功后自动重试并返回原页面
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
 服务端 API 的核心业务逻辑，被 `app/api/` 路由调用：
@@ -200,11 +202,13 @@
 - `lib/observations/photo-metadata-autofill.ts` — 观察照片 EXIF 拍摄时间/GPS 自动回填决策，使用首个可用时间与首张带 GPS 的照片，集中处理缺 GPS、坐标转换失败和地点反查失败提示
 - `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`brand` / `outline` / `destructive`，默认 10px 圆角）
 - `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验
+- `interaction-access.ts` — 统一互动资格判定：匿名/已注册/已确认/restricted；保存进度登录即可，投稿、评论、发帖、私信等写入需要本人年龄确认
 - `challenge-submission-validation.ts` — 挑战投稿标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
 - `validation.ts` — 通用输入验证、敏感词校验、上传 URL 归属/本地可信资源校验
 - `upstream-errors.ts` / `rate-limit.ts` — 错误处理与限流
 - `types.ts` — API 层类型
+- `server-awards.ts` — 服务端固定 XP 事件奖励封装；调用 service-role-only 的 `award_xp_once()`，按用户/动作/业务资源幂等发放，并在可信评论路由中结算每周 5 次讨论奖励
 
 ### 4.4 配置 (`lib/config/`)
 - `categories.ts` — STEAM 五大分类定义与图标
@@ -312,8 +316,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 6. 数据库 (`supabase/`)
 
-- `supabase/migrations/` — **275 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`，RPC JSONB 路径类型修复：`20260627145000_fix_gomoku_jsonb_path_casts.sql`；五子棋博弈论入门课程种子与扩写（lesson_type=playground，结构化棋盘图解，不含外部参考资源链接）：`20260626140000_seed_gomoku_course.sql`、`20260626150000_enrich_gomoku_course.sql`；学前大颗粒积木工程启蒙课程种子与 12 课时扩展（lesson_type=building_3d，原创高塔/小车/小桥/动物小屋/坡道/齿轮/跷跷板/迷宫/花园/吊车/风车/小乐园内容，含 `learningGoals`、`teacherGuide`，后续统一切到自托管 LDraw `.mpd` 模型）：`20260627170000_seed_preschool_brick_engineering_course.sql`、`20260627172000_expand_preschool_brick_engineering_course.sql`、`20260627173000_preschool_brick_ldraw_models.sql`；学前大颗粒积木课程重做为公开 STEAM 方向下的原创 12 课（稳稳高塔、小车跑直线、小桥承重、动物小屋、高低平台、转向指针、左右平衡桥、迷宫路线、规律花园、升降高塔、十字转盘、积木小乐园），并保留每课自托管 LDraw 模型：`20260627174000_redesign_preschool_brick_curriculum.sql`；已执行环境的现实搭建修复与官方参考资源回填：`20260628125000_fix_preschool_brick_realistic_lessons.sql`；把「大颗粒积木工程启蒙」第一课「会跑的小车」替换为「埃菲尔铁塔」样板课（13 步严格对照搭建说明 PDF 的 13 页：外八字腿→蓝红交替分层→双层灰平台→收窄塔身→中央蓝红条纹塔尖；动画 mp4 + 搭建说明 PDF + 成品图 + 自托管 LDraw `eiffel-tower.mpd`，源 `.ldr` 已移除，课程继续使用已完成的 `public/courses/ldraw/eiffel-tower.mpd`，不再保留描述生成器入口，资源本地 `public/courses/eiffel-tower/`）：`20260628140000_replace_first_brick_lesson_with_eiffel.sql`；随后将埃菲尔样板课落点改到「小小积木工程师：学前大颗粒启蒙」第 1 课（原「稳稳高塔」→「埃菲尔铁塔」），并把「大颗粒积木工程启蒙」第一课还原回「会跑的小车」：`20260628150000_move_eiffel_to_preschool_lesson1.sql`；课件100「抽屉」「大象」「大熊猫」「灯塔」「电话机」「电影院」「东方明珠」课时挂载本地 LDraw 模型/对齐 3D 步数：`20260705150000_lesson_37_chou_ti_ldraw_model.sql`、`20260705153000_lesson_38_elephant_ldraw_model.sql`、`20260705154000_lesson_39_panda_ldraw_model.sql`、`20260705155000_lesson_40_lighthouse_ldraw_model.sql`、`20260705160000_lesson_41_telephone_ldraw_model.sql`、`20260705162000_lesson_42_cinema_ldraw_model.sql`、`20260705161000_lesson_43_dong_fang_ming_zhu_ldraw_model.sql`、`20260705163000_lesson_43_dong_fang_ming_zhu_steps.sql`；埃菲尔铁塔 LDraw 课程字段刷新：`20260705164000_eiffel_tower_ldraw_refresh.sql`；课件100「购物车」「柜子」「蝴蝶」「滑滑梯」「火箭」「急救包」「奖杯」「警车」「跨海大桥」「拉杆箱」「凉亭」「溜冰鞋」「轮船」「马车」「毛毛虫」批量挂载 LDraw MPD：`20260726123120_mount_more_3plus_ldraw_models.sql`；溜冰鞋 150 件 Studio 模型步骤数修正：`20260728141000_fix_roller_skates_ldraw_steps.sql`；个人资料 `profiles.bio` 明确建列与 Realtime `messages` 复制读取授权修复：`20260626211500_profiles_bio_column.sql`、`20260626211600_realtime_messages_select_grant.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`；函数 search_path 安全加固：`20260627150000_lock_function_search_path_empty.sql`（把全部 public schema routine 锁定到 `search_path = ''`，真正消除 Database Linter `function_search_path_mutable` 告警；先 `CREATE OR REPLACE` 重写 5 个含未全限定引用的函数补 `public.` 前缀，再用幂等 DO 块批量 ALTER 其余 routine；历史 `20260305100000` / `20260523140000` 用 `public` 不被 linter 接受；审计工具 `scripts/audit-function-search-path.mjs`）；统一课程/项目作品模型与近期互动排行 RPC：`20260710190000_unified_course_and_project_works.sql`（课程作品直接关联 `course_lesson_id`、迁移并归档历史背书项目、审核通过作品 +20 XP）；课程进度/可信完成来源/能力里程碑/原子奖励与稳定雷达：`20260731100000_course_progress_rewards_and_steam.sql`（`user_course_completions`、`record_course_lesson_completion`、`reconcile_course_completions`、`approve_completion_with_reward`、`system_approve_completion_with_reward`、`repair_completion_rewards`，收紧 `user_lesson_progress` DML 并过滤 STEAM 活动来源；需先配置预检，再 `pnpm db:push` 应用）
+- `supabase/migrations/` — **277 个**迁移文件；…；AI 导师统一表+笔记本：`20260610150000_tutor_messages_and_notebooks.sql`；小迪物种档案上下文：`20260610170000_tutor_species_context.sql`；小迪对话线程：`20260611140000_tutor_conversations.sql`；AI 代币体系：`20260610151000_ai_credit_system.sql`；PBL 工作台个人化计划：`20260615100000_challenge_workspaces.sql`；在线五子棋对局表/服务端权威落子 RPC/Realtime 策略：`20260625180000_gomoku_matches.sql`、`20260625180100_gomoku_realtime_publication.sql`、`20260625180200_gomoku_realtime_channel_policy.sql`，RPC JSONB 路径类型修复：`20260627145000_fix_gomoku_jsonb_path_casts.sql`；五子棋博弈论入门课程种子与扩写（lesson_type=playground，结构化棋盘图解，不含外部参考资源链接）：`20260626140000_seed_gomoku_course.sql`、`20260626150000_enrich_gomoku_course.sql`；学前大颗粒积木工程启蒙课程种子与 12 课时扩展（lesson_type=building_3d，原创高塔/小车/小桥/动物小屋/坡道/齿轮/跷跷板/迷宫/花园/吊车/风车/小乐园内容，含 `learningGoals`、`teacherGuide`，后续统一切到自托管 LDraw `.mpd` 模型）：`20260627170000_seed_preschool_brick_engineering_course.sql`、`20260627172000_expand_preschool_brick_engineering_course.sql`、`20260627173000_preschool_brick_ldraw_models.sql`；学前大颗粒积木课程重做为公开 STEAM 方向下的原创 12 课（稳稳高塔、小车跑直线、小桥承重、动物小屋、高低平台、转向指针、左右平衡桥、迷宫路线、规律花园、升降高塔、十字转盘、积木小乐园），并保留每课自托管 LDraw 模型：`20260627174000_redesign_preschool_brick_curriculum.sql`；已执行环境的现实搭建修复与官方参考资源回填：`20260628125000_fix_preschool_brick_realistic_lessons.sql`；把「大颗粒积木工程启蒙」第一课「会跑的小车」替换为「埃菲尔铁塔」样板课（13 步严格对照搭建说明 PDF 的 13 页：外八字腿→蓝红交替分层→双层灰平台→收窄塔身→中央蓝红条纹塔尖；动画 mp4 + 搭建说明 PDF + 成品图 + 自托管 LDraw `eiffel-tower.mpd`，源 `.ldr` 已移除，课程继续使用已完成的 `public/courses/ldraw/eiffel-tower.mpd`，不再保留描述生成器入口，资源本地 `public/courses/eiffel-tower/`）：`20260628140000_replace_first_brick_lesson_with_eiffel.sql`；随后将埃菲尔样板课落点改到「小小积木工程师：学前大颗粒启蒙」第 1 课（原「稳稳高塔」→「埃菲尔铁塔」），并把「大颗粒积木工程启蒙」第一课还原回「会跑的小车」：`20260628150000_move_eiffel_to_preschool_lesson1.sql`；课件100「抽屉」「大象」「大熊猫」「灯塔」「电话机」「电影院」「东方明珠」课时挂载本地 LDraw 模型/对齐 3D 步数：`20260705150000_lesson_37_chou_ti_ldraw_model.sql`、`20260705153000_lesson_38_elephant_ldraw_model.sql`、`20260705154000_lesson_39_panda_ldraw_model.sql`、`20260705155000_lesson_40_lighthouse_ldraw_model.sql`、`20260705160000_lesson_41_telephone_ldraw_model.sql`、`20260705162000_lesson_42_cinema_ldraw_model.sql`、`20260705161000_lesson_43_dong_fang_ming_zhu_ldraw_model.sql`、`20260705163000_lesson_43_dong_fang_ming_zhu_steps.sql`；埃菲尔铁塔 LDraw 课程字段刷新：`20260705164000_eiffel_tower_ldraw_refresh.sql`；课件100「购物车」「柜子」「蝴蝶」「滑滑梯」「火箭」「急救包」「奖杯」「警车」「跨海大桥」「拉杆箱」「凉亭」「溜冰鞋」「轮船」「马车」「毛毛虫」批量挂载 LDraw MPD：`20260726123120_mount_more_3plus_ldraw_models.sql`；溜冰鞋 150 件 Studio 模型步骤数修正：`20260728141000_fix_roller_skates_ldraw_steps.sql`；个人资料 `profiles.bio` 明确建列与 Realtime `messages` 复制读取授权修复：`20260626211500_profiles_bio_column.sql`、`20260626211600_realtime_messages_select_grant.sql`；免费配额退款修复：`20260610160000_fix_ai_free_refund.sql`；函数 search_path 安全加固：`20260627150000_lock_function_search_path_empty.sql`（把全部 public schema routine 锁定到 `search_path = ''`，真正消除 Database Linter `function_search_path_mutable` 告警；先 `CREATE OR REPLACE` 重写 5 个含未全限定引用的函数补 `public.` 前缀，再用幂等 DO 块批量 ALTER 其余 routine；历史 `20260305100000` / `20260523140000` 用 `public` 不被 linter 接受；审计工具 `scripts/audit-function-search-path.mjs`）；统一课程/项目作品模型与近期互动排行 RPC：`20260710190000_unified_course_and_project_works.sql`（课程作品直接关联 `course_lesson_id`、迁移并归档历史背书项目、审核通过作品 +20 XP）；课程进度/可信完成来源/能力里程碑/原子奖励与稳定雷达：`20260731100000_course_progress_rewards_and_steam.sql`（`user_course_completions`、`record_course_lesson_completion`、`reconcile_course_completions`、`approve_completion_with_reward`、`system_approve_completion_with_reward`、`repair_completion_rewards`，收紧 `user_lesson_progress` DML 并过滤 STEAM 活动来源；需先配置预检，再 `pnpm db:push` 应用）
 - 本次新增自然观察图鉴 RPC：`20260731113000_observed_species_atlas_rpc.sql` 提供无 user id 的 `get_my_observed_species_ids()`，按 approved 观察、社群共识优先和 AI 置信度 `>= 0.8` 兜底返回当前用户物种点亮集合；应用迁移使用 `pnpm db:push -- --dry-run`、`pnpm db:push`、`pnpm db:status`，不要使用 `supabase db push`
+- 本次新增互动资格与安全 XP 迁移：`20260801090000_interaction_access_and_secure_xp.sql` 增加 `profiles.interaction_restricted`，清空历史自动年龄确认，提供本人确认 `confirm_my_age()` 与 service-role-only 固定奖励 `award_xp_once()`；应用使用 `pnpm db:push`，不要使用 `supabase db push`
+- 本次安全加固迁移：`20260803120000_harden_interaction_access_and_xp.sql` 撤销旧 XP RPC 的公开执行权、禁止客户端写 `xp_logs`，通过 `current_user_can_interact()` 与数据库触发器封住项目/评论/投稿/观察/消息/互动/进度的直接写入绕过，并在 `award_xp_once()` 内恢复项目评论每日 50 XP 上限；迁移末尾通知 PostgREST reload，应用使用 `pnpm db:push`
 - 大颗粒课程的面向用户名称与课程卡文案：`20260722185000_rename_courseware_courses.sql`、`20260723100500_refresh_courseware_descriptions.sql`、`20260723101500_clarify_courseware_age_descriptions.sql`；三档课程统一使用“适合 N 岁以上”的明确年龄表达，强调 100 个主题、课件/动画与分步引导，不再在课程介绍中暴露后台保留的 PDF 资源。
 - 本批课程数据修复：`20260728141000_fix_roller_skates_ldraw_steps.sql` 将「溜冰鞋」同步为用户确认的 150 件 Studio 模型和 13 项课程步骤；`20260728143000_fix_butterfly_ldraw_steps.sql` 删除「蝴蝶」BOM/成品页造成的伪步骤，将侧栏与 3D 模型统一为 10 个实际搭建步骤；`20260728144000_restore_lesson_32_animation.sql` 恢复 lesson 32「长颈龙」在课件第 5 页的 `animation.mp4`，对应课程流 `?step=3`。
 - `supabase/seed.sql` — 种子数据入口
@@ -327,6 +333,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 `profiles`（含 `membership_tier` / …） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`gomoku_matches`**（在线五子棋对局，`board`/`moves` JSONB 快照，落子走 `gomoku_place_stone` RPC） · **`memory_matches`**（在线记忆翻牌对局，`deck`/`scores` JSONB 快照，翻牌走 `memory_flip_card` RPC） · **`playground_race_matches`**（通用联网竞速房间，按 `game_key/settings` 固定规则并保存 host/guest 成绩 JSONB，`deadline_at` / `finish_reason` 记录权威截止和终态原因） · **`tutor_conversations`**（小迪对话线程，active/archived） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划） · …
 
 完整类型定义：`lib/supabase/types.ts`
+
+`profiles.age_confirmed_at` 仅由本人年龄确认流程写入，`profiles.interaction_restricted` 由后台限制流程使用；固定 XP 事件通过 service-role-only `award_xp_once()` 原子写入 `xp_logs` 与 `profiles.xp`，项目评论每日最多计入 50 XP；所有互动/投稿/进度表的用户写入还需通过 `current_user_can_interact()` 数据库触发器。
 
 函数战争新增 **`function_wars_matches`**：保存对称地图种子、双方 HP/弹药/增益、共享弹坑/道具、当前回合、连续超时数与单调 `shot_seq`；参与者 advisory lock 触发器保证每个用户最多出现在一个 `waiting/playing` 对局。浏览器不能直接执行内部 `function_wars_fire`，认证 `/fire` API 先用共享模拟器重算摘要，再由 service-role-only `function_wars_fire_authoritative` 在行锁内校验参与者和预期序号后原子换手或结算。**`function_wars_match_results`** 保存不可变的每局赛果，触发器按参与者 UUID 固定顺序派生 `playground_stats.function_wars_stats.onlineGames/onlineWins`，避免并发赛果反序锁行。
 

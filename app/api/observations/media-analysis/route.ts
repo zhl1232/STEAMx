@@ -12,6 +12,7 @@ import {
   serializeObservationVisionError,
 } from '@/lib/ai/qwen-vision'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { isOwnedProjectImageUrl } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, { key: 'api-observation-media-analysis', limit: 12, windowMs: 60_000 })
 
     const body = await request.json()

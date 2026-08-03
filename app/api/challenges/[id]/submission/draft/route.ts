@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { generateChallengeSubmissionDraft, getStageCoachUserMessage } from '@/lib/ai/pbl-stage-coach'
 import { consumeAiCredit, refundAiCredit } from '@/lib/api/ai-credits'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -62,6 +63,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, { key: 'api-challenge-submission-draft', limit: 6, windowMs: 60_000 })
 
     const { id } = await params

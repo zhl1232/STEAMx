@@ -23,6 +23,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
+import { useLoginPrompt } from "@/lib/context/login-prompt-context";
+import {
+    getApiErrorMessageFromPayload,
+    getApiErrorPayload,
+    getInteractionAccessRedirect,
+    isAgeConfirmationRequired,
+} from "@/lib/utils/http";
 
 const MAX_IMAGES = 9;
 const MAX_VIDEO_DURATION = 15;
@@ -138,6 +145,7 @@ export function CompleteProjectDialog({
     onSuccess,
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
+    const { runAfterAgeConfirmation } = useLoginPrompt();
     const { toast } = useToast();
     const { submitExplorationPost } = useOptionalProjects();
     const isProgress = mode === "progress";
@@ -411,13 +419,21 @@ export function CompleteProjectDialog({
 
             let result: CompletionSubmitResult;
             if (submitEndpoint) {
-                const response = await fetch(submitEndpoint, {
+                const submitRequest = () => fetch(submitEndpoint, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(proof),
                 });
+                let response = await submitRequest();
+                let errorPayload = await getApiErrorPayload(response);
+                if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+                    response = await runAfterAgeConfirmation(submitRequest, {
+                        redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+                    });
+                    errorPayload = await getApiErrorPayload(response);
+                }
                 const payload = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(payload?.error || "提交失败");
+                if (!response.ok) throw new Error(getApiErrorMessageFromPayload(errorPayload, "提交失败"));
                 if (!Number.isInteger(payload?.id) || payload.id <= 0) {
                     throw new Error("服务端未返回作品编号");
                 }
@@ -428,11 +444,13 @@ export function CompleteProjectDialog({
                 };
             } else {
                 if (projectId === undefined) throw new Error("缺少作品来源");
-                result = await submitExplorationPost(projectId, proof, {
+                const submitted = await submitExplorationPost(projectId, proof, {
                     kind: mode,
                     recordType,
                     stageLabel,
                 });
+                if (!submitted) return;
+                result = submitted;
             }
 
             if (!isProgress) {

@@ -49,6 +49,12 @@ import { natureActionButtonClass } from "@/lib/nature/action-buttons"
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from "@/lib/utils/http"
 
 const TUTOR_AVATAR_FRAME = "/xiaodi-ai/idle-0.webp"
 
@@ -135,7 +141,7 @@ export function ObservationDetailActivity({
 }: ObservationDetailActivityProps) {
   const router = useRouter()
   const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
   const { toast } = useToast()
 
   const [identifications, setIdentifications] = useState(initialIdentifications)
@@ -249,7 +255,7 @@ export function ObservationDetailActivity({
     }
     setIsSavingId(true)
     try {
-      const response = await fetch(`/api/observations/${observationId}/identifications`, {
+      const submitIdentificationRequest = () => fetch(`/api/observations/${observationId}/identifications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -258,8 +264,16 @@ export function ObservationDetailActivity({
           sex: traits.sex || null,
         }),
       })
+      let response = await submitIdentificationRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(submitIdentificationRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
+      if (!response.ok) throw new Error(getApiErrorMessageFromPayload(errorPayload, "鉴定提交失败"))
       const data = await response.json() as IdentificationResponse
-      if (!response.ok) throw new Error(data.error || "鉴定提交失败")
       applyIdentificationResponse(data)
       toast({ title: "鉴定已提交" })
     } catch (error) {
@@ -308,9 +322,17 @@ export function ObservationDetailActivity({
     }
     setIsSavingId(true)
     try {
-      const response = await fetch(`/api/observations/${observationId}/identifications`, { method: "DELETE" })
+      const withdrawIdentificationRequest = () => fetch(`/api/observations/${observationId}/identifications`, { method: "DELETE" })
+      let response = await withdrawIdentificationRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(withdrawIdentificationRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
+      if (!response.ok) throw new Error(getApiErrorMessageFromPayload(errorPayload, "撤回失败"))
       const data = await response.json() as IdentificationResponse
-      if (!response.ok) throw new Error(data.error || "撤回失败")
       applyIdentificationResponse(data)
       toast({ title: "已撤回我的鉴定" })
     } catch (error) {
@@ -333,13 +355,21 @@ export function ObservationDetailActivity({
     if (!trimmed) return
     setIsCommentSubmitting(true)
     try {
-      const response = await fetch(`/api/observations/${observationId}/comments`, {
+      const submitCommentRequest = () => fetch(`/api/observations/${observationId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: trimmed }),
       })
+      let response = await submitCommentRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(submitCommentRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
+      if (!response.ok) throw new Error(getApiErrorMessageFromPayload(errorPayload, "评论失败"))
       const data = await response.json()
-      if (!response.ok) throw new Error(data?.error || "评论失败")
       setComments((prev) => [...prev, data.comment as Comment])
       setCommentDraft("")
       toast({ title: "评论已发布" })

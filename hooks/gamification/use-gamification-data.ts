@@ -160,16 +160,10 @@ export function useGamificationData() {
 
     // Mutations
     const updateXpMutation = useMutation({
-        mutationFn: async (amount: number) => {
-            const res = await fetch('/api/xp/increment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount }),
-            });
-            if (!res.ok) {
-                const data = await res.json().catch(() => ({}));
-                throw new Error(data.error || 'Failed to increment XP');
-            }
+        // Kept as a compatibility-shaped mutation for older callers. XP is
+        // awarded by the server-side business route, never by this argument.
+        mutationFn: async (_amount: number) => {
+            await refreshProfile();
         },
         onSuccess: () => {
             refreshProfile();

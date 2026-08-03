@@ -16,6 +16,12 @@ import { uploadFileSecureWithProgress } from '@/lib/utils/upload'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { logger } from '@/lib/logger'
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from '@/lib/utils/http'
 import type { Challenge, ChallengeStage, ChallengeSubmission, StageProgress } from '@/lib/mappers/types'
 import type { ChallengeSubmissionDraft } from '@/lib/pbl/challenge-submission-draft'
 
@@ -111,7 +117,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   const router = useRouter()
   const { toast } = useToast()
   const { user, loading } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
 
   const [challenge, setChallenge] = useState<Challenge | null>(null)
   const [submission, setSubmission] = useState<ChallengeSubmission | null>(null)
@@ -391,15 +397,23 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
         reference_project_ids: referenceProjectIds,
       }
 
-      const response = await fetch(`/api/challenges/${challengeId}/submission`, {
+      const submitRequest = () => fetch(`/api/challenges/${challengeId}/submission`, {
         method: submission ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
 
-      const responsePayload = await response.json().catch(() => ({}))
+      let response = await submitRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(submitRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
+
       if (!response.ok) {
-        throw new Error(responsePayload?.error || '提交失败')
+        throw new Error(getApiErrorMessageFromPayload(errorPayload, '提交失败'))
       }
 
       toast({

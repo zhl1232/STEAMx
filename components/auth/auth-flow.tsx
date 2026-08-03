@@ -161,13 +161,13 @@ export function AuthFlow({
       : isResetMode
       ? '找回密码'
       : isPhoneMethod
-        ? (emailMode === 'sign_up' ? '手机号注册' : '手机号登录/注册')
+        ? (emailMode === 'sign_up' ? '手机号注册' : '登录 / 注册')
         : emailMode === 'sign_in'
           ? '手机号登录'
           : '手机号注册'
   )
   const resolvedDescription = description?.trim() || (isPhoneMethod
-    ? (phoneRecoveryAfterOtp ? '验证后设置新密码。' : '输入手机号，验证码登录或注册。')
+    ? (phoneRecoveryAfterOtp ? '验证后设置新密码。' : '使用手机号和验证码继续。')
     : isResetMode
       ? '输入手机号找回账号。'
       : null)
@@ -213,7 +213,7 @@ export function AuthFlow({
     if (!showConsent) return true
 
     if (!termsAgreed) {
-      const nextMessage = '请先同意服务条款、隐私政策，并确认年龄或监护人授权。'
+      const nextMessage = '请先同意服务条款和隐私政策。'
       setConsentError(nextMessage)
       toast({
         title: '请先确认使用授权',
@@ -551,7 +551,7 @@ export function AuthFlow({
               <>
                 {otpStep === 'input' ? (
                   <div className="space-y-2">
-                    <label htmlFor={`${presentation}-phone`} className="text-sm font-medium text-foreground/86">手机号</label>
+                    <label htmlFor={`${presentation}-phone`} className="sr-only">手机号</label>
                     <div className="relative">
                       <Smartphone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
@@ -788,7 +788,7 @@ export function AuthFlow({
                     <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
                     和
                     <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
-                    ，并确认已年满 14 周岁，或已获得监护人同意使用本平台。
+                    。首次投稿或互动前需完成年龄确认。
                   </label>
                 </div>
                 {consentError && (

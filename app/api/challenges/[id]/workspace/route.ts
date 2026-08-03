@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { ValidationError, validateContentSafeIfPresent } from '@/lib/api/validation'
 import type { ChallengeStage } from '@/lib/mappers/types'
@@ -103,6 +104,7 @@ export async function PUT(
     if (challenge.status !== 'active') {
       return NextResponse.json({ error: '挑战未开放，项目方向仅可查看' }, { status: 400 })
     }
+    await requireInteractionAccess(supabase, user, 'save_progress')
 
     const { project_goal: projectGoalInput } = parsed.data
 

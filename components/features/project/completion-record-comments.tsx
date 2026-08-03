@@ -13,6 +13,12 @@ import { useToast } from "@/hooks/use-toast"
 import { getRepliesUnderRoot } from "@/lib/comments/reply-utils"
 import type { Comment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from "@/lib/utils/http"
 
 interface CompletionRecordCommentsProps {
   completionId: number
@@ -26,7 +32,7 @@ export function CompletionRecordComments({
   className,
 }: CompletionRecordCommentsProps) {
   const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [content, setContent] = useState("")
@@ -53,14 +59,21 @@ export function CompletionRecordComments({
 
   const commentMutation = useMutation({
     mutationFn: async (payload: { content: string; parent_id: number | null }) => {
-      const response = await fetch(`/api/completions/${completionId}/comments`, {
+      const submitCommentRequest = () => fetch(`/api/completions/${completionId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
+      let response = await submitCommentRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(submitCommentRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}))
-        throw new Error((data as { error?: string })?.error || "评论失败")
+        throw new Error(getApiErrorMessageFromPayload(errorPayload, "评论失败"))
       }
       return (await response.json()).comment as Comment
     },

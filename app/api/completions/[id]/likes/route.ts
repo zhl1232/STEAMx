@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { logger } from '@/lib/logger'
@@ -82,6 +83,7 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
     await requireRateLimit(supabase, { key: 'api-completion-likes', limit: 20, windowMs: 60_000 })
 
     const completion = await getAccessibleCompletion(supabase, completionId, user.id)
@@ -122,6 +124,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invalid completion id' }, { status: 400 })
     }
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
     await requireRateLimit(supabase, { key: 'api-completion-likes', limit: 20, windowMs: 60_000 })
 
     const completion = await getAccessibleCompletion(supabase, completionId, user.id)

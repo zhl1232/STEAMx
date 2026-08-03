@@ -3,11 +3,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateNumber, validateOptionalString } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
+import { awardXpOnce } from '@/lib/api/server-awards'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
-
-const EVERGREEN_CHALLENGE_XP = 20
 
 export async function POST(
   request: NextRequest,
@@ -120,25 +118,11 @@ async function handleEvergreenCompletion(submission: { user_id: string; challeng
     return false
   }
 
-  const { data: xpLog, error: xpLogError } = await supabaseAdmin
-    .from('xp_logs')
-    .upsert({
-      user_id: submission.user_id,
-      action_type: 'complete_challenge',
-      resource_id: String(submission.challenge_id),
-      xp_amount: EVERGREEN_CHALLENGE_XP,
-    } as never, { onConflict: 'user_id,action_type,resource_id', ignoreDuplicates: true })
-    .select('id')
-
-  if (xpLogError) throw xpLogError
-
-  if (xpLog && xpLog.length > 0) {
-    const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
-      p_user_id: submission.user_id,
-      p_amount: EVERGREEN_CHALLENGE_XP,
-    })
-    if (incrementError) throw incrementError
-  }
+  await awardXpOnce({
+    userId: submission.user_id,
+    actionType: 'complete_challenge',
+    resourceId: submission.challenge_id,
+  })
 
   return true
 }

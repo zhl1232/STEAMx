@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUUID } from '@/lib/api/validation'
 
@@ -11,6 +12,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
     await requireRateLimit(supabase, { key: 'api-follows-write', limit: 60, windowMs: 60_000 })
     const body = await request.json()
 

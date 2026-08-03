@@ -11,6 +11,7 @@ import { selectAiIdentification } from '@/lib/observations/identifications'
 import { getObservations } from '@/lib/api/nature-observation-data'
 import { isOwnedProjectImageUrl, validateContentSafeIfPresent } from '@/lib/api/validation'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
@@ -67,6 +68,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'submit')
     const body = await request.json()
     const parsed = CreateObservationSchema.safeParse(body)
 

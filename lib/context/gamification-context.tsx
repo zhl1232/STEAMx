@@ -1,10 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { AchievementToast } from "@/components/features/gamification/achievement-toast";
+import React, { createContext, useContext, useEffect, useCallback, useMemo, useRef } from "react";
 import { showBadgeUnlockOverlay } from "@/lib/gamification/badge-unlock-store";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from '@/lib/context/auth-context';
 import { logger } from "@/lib/logger";
 
@@ -61,10 +58,7 @@ function isMissingBadgeDefinitionError(error: unknown): boolean {
 }
 
 export function GamificationProvider({ children }: { children: React.ReactNode }) {
-    const { toast } = useToast();
     const { user, profile } = useAuth();
-    const [supabase] = useState(() => createClient());
-
     // Use our new hook to manage data fetching
     const {
         xp,
@@ -87,107 +81,16 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
     const levelTotalNeeded = nextLevelXp - currentLevelBaseXp;
     const progress = (levelProgress / levelTotalNeeded) * 100;
 
-    // 2. Add XP Logic (Business Logic)
-    const addXp = useCallback(async (amount: number, reason?: string, actionType?: string, resourceId?: string | number) => {
+    // 2. Refresh-only compatibility API. The amount/reason/resource arguments
+    // are intentionally ignored; only server business routes award XP.
+    const addXp = useCallback(async (_amount: number, _reason?: string, actionType?: string) => {
         if (!user) return;
 
-        const DAILY_XP_LIMITS: Record<string, number> = {
-            'reply_discussion': 50,
-            'comment_project': 50
-        };
-
-        // Anti-farming & Daily Limit Logic
-        if (actionType && resourceId) {
-            const rId = String(resourceId);
-
-            // Check existence
-            const { data: existing } = await supabase
-                .from('xp_logs')
-                .select('id')
-                .eq('user_id', user.id)
-                .eq('action_type', actionType)
-                .eq('resource_id', rId)
-                .maybeSingle();
-
-            if (existing) {
-                return;
-            }
-
-            // Check Daily Limit
-            let xpToAward = amount;
-            if (DAILY_XP_LIMITS[actionType]) {
-                const today = new Date().toISOString().split('T')[0];
-                const { data: todayLogs } = await supabase
-                    .from('xp_logs')
-                    .select('xp_amount')
-                    .eq('user_id', user.id)
-                    .eq('action_type', actionType)
-                    .gte('created_at', today);
-
-                const todayTotal = (todayLogs as { xp_amount: number }[] || []).reduce((acc, log) => acc + log.xp_amount, 0);
-
-                if (todayTotal >= DAILY_XP_LIMITS[actionType]) {
-                    xpToAward = 0;
-                } else if (todayTotal + amount > DAILY_XP_LIMITS[actionType]) {
-                    xpToAward = Math.max(0, DAILY_XP_LIMITS[actionType] - todayTotal);
-                }
-            }
-
-            if (xpToAward === 0) return;
-            amount = xpToAward;
-
-            // Insert Log
-            const { error: logError } = await supabase
-                .from('xp_logs')
-                .insert({
-                    user_id: user.id,
-                    action_type: actionType,
-                    resource_id: rId,
-                    xp_amount: xpToAward
-                } as never);
-
-            if (logError) {
-                logger.error('Error logging XP:', { error: logError });
-                return;
-            }
-        }
-
-        const newXp = xp + amount;
-
-        // Optimistic check for level up
-        const oldLevel = Math.floor(Math.sqrt(xp / 100)) + 1;
-        const newLevel = Math.floor(Math.sqrt(newXp / 100)) + 1;
-
-        if (newLevel > oldLevel) {
-            toast({
-                description: (
-                    <AchievementToast
-                        title="升级啦！"
-                        description={`恭喜你达到了等级 ${newLevel}！`}
-                        icon="🎉"
-                    />
-                ),
-                duration: 5000,
-            });
-
-            // Trigger confetti
-            import('canvas-confetti').then((confetti) => {
-                confetti.default({
-                    particleCount: 150,
-                    spread: 80,
-                    origin: { y: 0.6 }
-                });
-            });
-        }
-
-        // Commit via mutation (now expects the increment amount, not absolute newXp)
-        updateXpMutation.mutate(amount);
-
-        // If action implies a stat change (not just passive XP), refresh stats to trigger badge checks
+        updateXpMutation.mutate(_amount);
         if (actionType && !['daily_login', 'visit'].includes(actionType)) {
             refetchStats();
         }
-    }, [user, xp, supabase, toast, updateXpMutation, refetchStats]);
+    }, [user, updateXpMutation, refetchStats]);
 
     // 3. Check Badges Logic
     // Use Ref to break dependency cycle and prevent infinite loops when badges are unlocked
@@ -255,7 +158,7 @@ export function GamificationProvider({ children }: { children: React.ReactNode }
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps -- user intentionally excluded to avoid unnecessary callback churn
-    }, [user?.id, unlockBadgeMutation, toast]);
+    }, [user?.id, unlockBadgeMutation]);
 
     // 4. Auto-Run Checks on Stats Update
     // 仅在 badges 已从 DB 加载后才执行 checkBadges，避免在空 Set 上误判

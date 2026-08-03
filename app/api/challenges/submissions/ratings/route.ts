@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getChallengeRatingSubmission } from '@/lib/api/project-access'
 import { ChallengeSubmissionRatingSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
@@ -28,6 +29,8 @@ export async function POST(request: NextRequest) {
     if (submission.user_id === user.id) {
       return NextResponse.json({ error: '不能对自己的作品评分' }, { status: 403 })
     }
+
+    await requireInteractionAccess(supabase, user, 'comment')
 
     const { data, error } = await supabase
       .from('challenge_submission_ratings')

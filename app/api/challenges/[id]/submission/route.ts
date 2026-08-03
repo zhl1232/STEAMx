@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import {
   validateChallengeSubmissionContent,
   validateChallengeSubmissionMediaOwnership,
@@ -137,6 +138,8 @@ export async function POST(
       return NextResponse.json({ error: 'Submission already exists' }, { status: 409 })
     }
 
+    await requireInteractionAccess(supabase, user, 'submit')
+
     const referenceProjectIds = await validateReferenceProjects(
       supabase,
       challengeId,
@@ -213,6 +216,8 @@ export async function PATCH(
     if (challenge.status !== 'active') {
       return NextResponse.json({ error: 'Challenge已结束，作品仅可查看' }, { status: 400 })
     }
+
+    await requireInteractionAccess(supabase, user, 'submit')
 
     const body = await request.json()
     const parsed = ChallengeSubmissionSchema.safeParse(body)

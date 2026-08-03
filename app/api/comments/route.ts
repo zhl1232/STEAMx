@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateContentSafe, isOwnedCommentImageUrl } from '@/lib/api/validation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import { awardWeeklyCommentGoalIfEligible, awardXpOnce } from '@/lib/api/server-awards'
+import { logger } from '@/lib/logger'
 
 const COMMENT_SELECT = `
   *,
@@ -78,18 +81,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: '评论图片必须使用当前账号上传的文件' }, { status: 400 })
       }
 
-      const { data: profileRow, error: profileError } = await supabase
-        .from('profiles')
-        .select('level')
-        .eq('id', user.id)
-        .maybeSingle()
-
-      if (profileError) throw profileError
-
-      const level = Number((profileRow as { level?: number } | null)?.level ?? 1)
-      if (level < 2) {
-        return NextResponse.json({ error: '等级达到 2 级后才可发送评论图片' }, { status: 403 })
-      }
     }
 
     let replyToUserId: string | null = null
@@ -120,6 +111,8 @@ export async function POST(request: NextRequest) {
       replyToUserId = typedParent.author_id
       replyToUsername = typedParent.profiles?.display_name || null
     }
+
+    await requireInteractionAccess(supabase, user, 'comment')
 
     const { data, error } = await supabase
       .from('comments')
@@ -174,6 +167,22 @@ export async function POST(request: NextRequest) {
         .insert(notificationRows as never)
 
       if (notificationError) throw notificationError
+    }
+
+    try {
+      await awardXpOnce({
+        userId: user.id,
+        actionType: 'comment_project',
+        resourceId: typedComment.id,
+      })
+    } catch (awardError) {
+      logger.error('Failed to award comment XP', { error: awardError, commentId: typedComment.id })
+    }
+
+    try {
+      await awardWeeklyCommentGoalIfEligible(user.id)
+    } catch (awardError) {
+      logger.error('Failed to award weekly comment goal XP', { error: awardError, userId: user.id })
     }
 
     return NextResponse.json({ comment: data })

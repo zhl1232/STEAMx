@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getStageProgressForStage } from '@/lib/api/challenge-stage-progress'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import {
@@ -47,6 +48,7 @@ export async function PUT(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, { key: 'api-challenge-stage-progress', limit: 30, windowMs: 60_000 })
 
     const { id, index } = await params

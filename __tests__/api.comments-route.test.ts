@@ -72,13 +72,13 @@ describe('POST /api/comments', () => {
         await expect(response.json()).resolves.toEqual({ error: '项目不存在' })
     })
 
-    it('rejects image comments for users below level 2', async () => {
+    it('requires本人年龄确认 before posting any comment', async () => {
         const projectMaybeSingle = vi.fn().mockResolvedValue({
             data: { author_id: 'owner-1', status: 'approved' },
             error: null,
         })
         const profileMaybeSingle = vi.fn().mockResolvedValue({
-            data: { level: 1 },
+            data: { age_confirmed_at: null, interaction_restricted: false },
             error: null,
         })
 
@@ -107,21 +107,19 @@ describe('POST /api/comments', () => {
         createClientMock.mockResolvedValue({ from } as never)
         requireAuthMock.mockResolvedValue({ id: 'user-2' } as never)
 
-        const supabaseOrigin =
-            process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '') ?? 'https://example.supabase.co'
-        const imageUrl = `${supabaseOrigin}/storage/v1/object/public/comment-images/user-2/test.png`
-
         const response = await POST(new Request('http://localhost/api/comments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 project_id: 12,
-                content: '带图评论',
-                image_url: imageUrl,
+                content: '一条评论',
             }),
         }) as never)
 
         expect(response.status).toBe(403)
-        await expect(response.json()).resolves.toEqual({ error: '等级达到 2 级后才可发送评论图片' })
+        await expect(response.json()).resolves.toMatchObject({
+            error: '完成本人年龄确认后即可继续此操作',
+            code: 'AGE_CONFIRMATION_REQUIRED',
+        })
     })
 })

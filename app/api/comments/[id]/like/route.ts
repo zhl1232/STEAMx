@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { requireAuth, handleApiError } from "@/lib/api/auth";
+import { requireInteractionAccess } from "@/lib/access/interaction-access";
 import { callRpc } from "@/lib/supabase/rpc";
 
 /**
@@ -20,6 +21,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase);
+    await requireInteractionAccess(supabase, user, "engage");
 
     const { data: commentRow, error: commentError } = await supabase
       .from("comments")

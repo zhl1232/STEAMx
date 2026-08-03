@@ -22,6 +22,12 @@ vi.mock('@/hooks/use-toast', () => ({
   useToast: () => ({ toast }),
 }))
 
+vi.mock('@/lib/context/login-prompt-context', () => ({
+  useLoginPrompt: () => ({
+    runAfterAgeConfirmation: <T,>(action: () => Promise<T>) => action(),
+  }),
+}))
+
 vi.mock('canvas-confetti', () => ({
   default: vi.fn(),
 }))

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getObservationById } from '@/lib/api/nature-observation-data'
 import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
@@ -63,6 +64,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'comment')
     const { id } = await params
     const observationId = Number(id)
 

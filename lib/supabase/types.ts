@@ -37,6 +37,7 @@ export interface Database {
           notify_followed_creator_updates: boolean
           message_privacy: string
           age_confirmed_at: string | null
+          interaction_restricted: boolean
           is_auto_interaction_account: boolean
           membership_tier: string
           membership_period: string
@@ -64,6 +65,7 @@ export interface Database {
           notify_followed_creator_updates?: boolean
           message_privacy?: string
           age_confirmed_at?: string | null
+          interaction_restricted?: boolean
           is_auto_interaction_account?: boolean
           membership_tier?: string
           membership_period?: string
@@ -91,6 +93,7 @@ export interface Database {
           role?: string
           message_privacy?: string
           age_confirmed_at?: string | null
+          interaction_restricted?: boolean
           is_auto_interaction_account?: boolean
           membership_tier?: string
           membership_period?: string
@@ -2899,6 +2902,14 @@ export interface Database {
       increment_user_xp: {
         Args: { p_user_id: string; p_amount: number }
         Returns: void
+      }
+      confirm_my_age: {
+        Args: Record<string, never>
+        Returns: string
+      }
+      award_xp_once: {
+        Args: { p_user_id: string; p_action_type: string; p_resource_id: string }
+        Returns: number
       }
       review_moderator_application: {
         Args: {

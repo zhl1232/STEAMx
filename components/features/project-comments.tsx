@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { useProjects } from '@/lib/context/project-context';
 import { useAuth } from '@/lib/context/auth-context';
-import { useGamification } from '@/lib/context/gamification-context';
 import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -129,10 +128,9 @@ export function ProjectComments({
   const router = useRouter();
   const { addComment, deleteComment } = useProjects();
   const { user, profile } = useAuth();
-  const { level } = useGamification();
   const { promptLogin } = useLoginPrompt();
 
-  const canUploadImage = level >= 2;
+  const canUploadImage = Boolean(user && profile?.age_confirmed_at);
 
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [total, setTotal] = useState(initialTotal || initialComments.length);

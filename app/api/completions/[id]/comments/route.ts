@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { validateContentSafe, validateNumber } from '@/lib/api/validation'
@@ -78,6 +79,8 @@ export async function POST(
     if (!completion) {
       return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
+
+    await requireInteractionAccess(supabase, user, 'comment')
 
     let body: unknown
     try {

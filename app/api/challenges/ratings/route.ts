@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { validateNumber } from '@/lib/api/validation'
 import { getChallengeRatingProject } from '@/lib/api/project-access'
 
@@ -27,6 +28,8 @@ export async function POST(request: NextRequest) {
     if (project.author_id === user.id) {
       return NextResponse.json({ error: '不能对自己的作品评分' }, { status: 403 })
     }
+
+    await requireInteractionAccess(supabase, user, 'comment')
 
     // Upsert rating
     const { data, error } = await supabase

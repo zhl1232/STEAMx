@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import { awardXpOnce } from '@/lib/api/server-awards'
 
 async function sendProjectLikeNotification(params: {
   supabase: Awaited<ReturnType<typeof createClient>>
@@ -60,6 +62,7 @@ export async function POST(
   try {
     // 检查用户认证
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
@@ -129,6 +132,16 @@ export async function POST(
       if (insertedRows && insertedRows.length > 0) {
         const { error: rpcError } = await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
         if (rpcError) throw rpcError
+
+        try {
+          await awardXpOnce({
+            userId: user.id,
+            actionType: 'like_project',
+            resourceId: projectId,
+          })
+        } catch (awardError) {
+          logger.error(awardError, { context: 'Project like XP award failed', projectId })
+        }
 
         try {
           await sendProjectLikeNotification({

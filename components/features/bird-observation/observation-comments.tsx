@@ -12,6 +12,12 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { useToast } from "@/hooks/use-toast"
 import type { Comment } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from "@/lib/utils/http"
 
 interface ObservationCommentsProps {
   observationId: number
@@ -20,7 +26,7 @@ interface ObservationCommentsProps {
 
 export function ObservationComments({ observationId, onCommentCreated }: ObservationCommentsProps) {
   const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
   const { toast } = useToast()
   const [comments, setComments] = useState<Comment[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -63,7 +69,7 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
     setIsSubmitting(true)
 
     try {
-      const res = await fetch(`/api/observations/${observationId}/comments`, {
+      const sendCommentRequest = () => fetch(`/api/observations/${observationId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -71,9 +77,16 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
           parent_id: replyTo?.id ?? null,
         }),
       })
+      let res = await sendCommentRequest()
+      let errorPayload = await getApiErrorPayload(res)
+      if (!res.ok && isAgeConfirmationRequired(errorPayload)) {
+        res = await runAfterAgeConfirmation(sendCommentRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(res)
+      }
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data?.error || "评论失败")
+        throw new Error(getApiErrorMessageFromPayload(errorPayload, "评论失败"))
       }
       const data = await res.json()
       setComments((prev) => [...prev, data.comment as Comment])

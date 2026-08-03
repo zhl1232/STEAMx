@@ -63,6 +63,12 @@ import {
 } from "@/lib/observations/traits"
 import { convertGpsToAmap, reverseGeocode, searchPlaces, type PlaceSearchResult } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
+import {
+  getApiErrorMessageFromPayload,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from "@/lib/utils/http"
 
 export interface SpeciesOption {
   id: number
@@ -489,7 +495,7 @@ export function ObservationSubmitForm({
   const router = useRouter()
   const { toast } = useToast()
   const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
   const { userStats } = useGamification()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -1071,7 +1077,7 @@ export function ObservationSubmitForm({
     setIsSubmitting(true)
 
     try {
-      const response = await fetch("/api/observations", {
+      const submitObservationRequest = () => fetch("/api/observations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1093,9 +1099,18 @@ export function ObservationSubmitForm({
         }),
       })
 
+      let response = await submitObservationRequest()
+      let errorPayload = await getApiErrorPayload(response)
+      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
+        response = await runAfterAgeConfirmation(submitObservationRequest, {
+          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
+        })
+        errorPayload = await getApiErrorPayload(response)
+      }
+
       const payload = (await response.json().catch(() => ({}))) as Partial<SubmitResponse> & { error?: string }
       if (!response.ok || !payload.observation) {
-        throw new Error(payload?.error || "提交失败")
+        throw new Error(getApiErrorMessageFromPayload(errorPayload, "提交失败"))
       }
 
       dispatchObservationCreated()

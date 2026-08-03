@@ -7,6 +7,7 @@ import {
   upsertUserLessonProgress,
 } from '@/lib/api/courses'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
@@ -80,6 +81,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, {
       key: 'api-courses-save-project',
       limit: 20,

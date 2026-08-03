@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { validateNumber } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 
@@ -15,6 +16,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     const { id } = await params
     const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
 

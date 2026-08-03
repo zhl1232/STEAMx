@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { createClient } from '@/lib/supabase/server'
 
 export async function GET(
@@ -41,6 +42,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
     const { id } = await params
     const observationId = Number(id)
 
@@ -87,6 +89,7 @@ export async function DELETE(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'engage')
     const { id } = await params
     const observationId = Number(id)
 

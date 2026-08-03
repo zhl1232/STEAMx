@@ -1,7 +1,12 @@
 /** @vitest-environment node */
 
 import { describe, expect, it } from 'vitest'
-import { getApiErrorMessage } from '@/lib/utils/http'
+import {
+  getApiErrorMessage,
+  getApiErrorPayload,
+  getInteractionAccessRedirect,
+  isAgeConfirmationRequired,
+} from '@/lib/utils/http'
 
 describe('getApiErrorMessage', () => {
   it('prefers the error field from a JSON response', async () => {
@@ -20,5 +25,30 @@ describe('getApiErrorMessage', () => {
     })
 
     await expect(getApiErrorMessage(response)).resolves.toBe('gateway timeout')
+  })
+
+  it('preserves structured interaction access details', async () => {
+    const response = new Response(JSON.stringify({
+      error: '完成本人年龄确认后即可继续此操作',
+      code: 'AGE_CONFIRMATION_REQUIRED',
+      details: {
+        redirectTo: '/settings/security?section=age-confirmation',
+        capability: 'comment',
+      },
+    }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    const payload = await getApiErrorPayload(response)
+    expect(isAgeConfirmationRequired(payload)).toBe(true)
+    expect(getInteractionAccessRedirect(payload)).toBe('/settings/security?section=age-confirmation')
+  })
+
+  it('does not accept an external interaction access redirect', () => {
+    expect(getInteractionAccessRedirect({
+      code: 'AGE_CONFIRMATION_REQUIRED',
+      details: { redirectTo: 'https://example.com' },
+    })).toBe('/settings/security?section=age-confirmation')
   })
 })

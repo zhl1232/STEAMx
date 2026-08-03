@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUUID, validateContentSafe } from '@/lib/api/validation'
 
@@ -10,6 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-messages-send', limit: 20, windowMs: 60_000 })
+    await requireInteractionAccess(supabase, user, 'message')
     const body = await request.json()
 
     const receiverId = validateUUID(body?.receiverId, 'receiverId')

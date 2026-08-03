@@ -2,7 +2,7 @@ import { fetchObservedSpeciesIdsForApprovedEvents } from '@/lib/api/nature-obser
 import { BADGES } from "@/lib/gamification/badges"
 import type { UserStats } from "@/lib/gamification/types"
 import { supabaseAdmin } from "@/lib/supabase/admin"
-import { callRpc } from "@/lib/supabase/rpc"
+import { awardXpOnce } from '@/lib/api/server-awards'
 
 const OBSERVATION_XP = 10
 const OBSERVER_THRESHOLDS = [1, 10, 30, 100]
@@ -111,35 +111,12 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
 }
 
 export async function awardObservationXp(userId: string, observationId: number) {
-  if (!supabaseAdmin) {
-    throw new Error("服务暂时不可用")
-  }
-
-  const resourceId = String(observationId)
-  const { error: insertError } = await supabaseAdmin.from("xp_logs").insert({
-    user_id: userId,
-    action_type: "submit_observation",
-    resource_id: resourceId,
-    xp_amount: OBSERVATION_XP,
-  } as never)
-
-  if (insertError) {
-    if ((insertError as { code?: string }).code === "23505") {
-      return OBSERVATION_XP
-    }
-    throw insertError
-  }
-
-  const { error } = await callRpc(supabaseAdmin, "increment_user_xp", {
-    p_user_id: userId,
-    p_amount: OBSERVATION_XP,
+  const awarded = await awardXpOnce({
+    userId,
+    actionType: "submit_observation",
+    resourceId: observationId,
   })
-
-  if (error) {
-    throw error
-  }
-
-  return OBSERVATION_XP
+  return awarded || OBSERVATION_XP
 }
 
 export async function revokeObservationXp(userId: string, observationId: number) {

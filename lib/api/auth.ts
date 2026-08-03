@@ -18,7 +18,11 @@ export class AuthError extends Error {
  * 权限错误类
  */
 export class PermissionError extends Error {
-  constructor(message: string) {
+  constructor(
+    message: string,
+    public code?: string,
+    public details?: Record<string, unknown>,
+  ) {
     super(message)
     this.name = 'PermissionError'
   }
@@ -122,7 +126,14 @@ export function handleApiError(error: unknown): NextResponse {
 
   // 权限错误
   if (error instanceof PermissionError) {
-    return NextResponse.json({ error: error.message }, { status: 403 })
+    return NextResponse.json(
+      {
+        error: error.message,
+        ...(error.code ? { code: error.code } : {}),
+        ...(error.details ? { details: error.details } : {}),
+      },
+      { status: 403 },
+    )
   }
 
   if (error instanceof ValidationError) {

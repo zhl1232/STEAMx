@@ -12,7 +12,7 @@ export default function LoginPage() {
   const router = useRouter()
 
   return (
-    <main className="app-canvas min-h-screen px-4 pb-8 pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-6 lg:px-8">
+    <main className="app-canvas flex min-h-screen flex-col px-4 pb-8 pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
         <Link href="/" className="inline-flex items-center gap-2">
           <SteamLogo className="h-9 w-9" />
@@ -27,8 +27,9 @@ export default function LoginPage() {
         </Link>
       </div>
 
-      <div className="mx-auto mt-6 grid w-full max-w-5xl gap-5 lg:mt-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(380px,440px)] lg:items-center">
-        <section className="relative order-2 overflow-hidden rounded-xl border border-border bg-card p-5 shadow-[0_24px_70px_-52px_hsl(var(--surface-shadow)/0.42)] sm:p-7 lg:order-1 lg:min-h-[560px]">
+      <div className="mx-auto flex w-full max-w-5xl flex-1 items-center">
+        <div className="grid w-full gap-5 py-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(380px,440px)] lg:items-center lg:py-10">
+        <section className="relative order-2 hidden overflow-hidden rounded-xl border border-border bg-card p-5 shadow-[0_24px_70px_-52px_hsl(var(--surface-shadow)/0.42)] sm:p-7 lg:order-1 lg:block lg:min-h-[560px]">
           <div className="relative z-10 flex h-full flex-col justify-between gap-8">
             <div className="max-w-xl">
               <p className="section-kicker">探索 · 创造 · 成长</p>
@@ -92,6 +93,7 @@ export default function LoginPage() {
             presentation="page"
             onBack={() => router.back()}
           />
+        </div>
         </div>
       </div>
     </main>

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
+import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { callRpc } from '@/lib/supabase/rpc'
+import { awardXpOnce } from '@/lib/api/server-awards'
+import { logger } from '@/lib/logger'
 
 type Action = 'join' | 'leave'
 
@@ -14,6 +17,7 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
+    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, { key: 'api-challenges-participation', limit: 30, windowMs: 60_000 })
 
     const { id } = await params
@@ -59,6 +63,19 @@ export async function POST(
           challenge_id: challengeId,
         })
         if (rpcError) throw rpcError
+
+        try {
+          await awardXpOnce({
+            userId: user.id,
+            actionType: 'join_challenge',
+            resourceId: challengeId,
+          })
+        } catch (awardError) {
+          logger.error('Failed to award challenge participation XP', {
+            error: awardError,
+            challengeId,
+          })
+        }
       }
 
       return NextResponse.json({ joined: true, action: 'joined', changed: Boolean(insertedRows?.length) })
