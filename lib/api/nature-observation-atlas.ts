@@ -7,6 +7,7 @@ import { unstable_cache } from 'next/cache'
 import { getNatureTopicLabel } from '@/lib/utils/nature-topic-classification'
 import {
   sortSpeciesAtlasItems,
+  normalizeSpeciesAtlasInitial,
   speciesAtlasTopicKeys,
   type SpeciesAtlasGroup,
   type SpeciesAtlasItem,
@@ -16,6 +17,7 @@ import {
 } from '@/lib/nature-species-atlas'
 import { logger } from '@/lib/logger'
 import { createPublicClient } from '@/lib/supabase/server'
+import { toSpeciesPinyinLabel } from '@/lib/utils/species-pinyin'
 import type { SpeciesRow } from './nature-observation-internal-types'
 import { getCurrentUserObservedSpeciesLookup } from './nature-observation-observed-species'
 
@@ -73,6 +75,7 @@ function mapCatalogRow(row: Pick<SpeciesRow, 'id' | 'slug' | 'common_name' | 'sc
   const topicKey = row.nature_topic as SpeciesAtlasTopicKey
   const thumbnail = manifest.items[row.slug]
   const thumbnailUrl = thumbnail?.topicKey === topicKey ? thumbnail.thumbnailUrl : null
+  const initial = normalizeSpeciesAtlasInitial(toSpeciesPinyinLabel(row.common_name))
 
   return {
     id: row.id,
@@ -82,6 +85,7 @@ function mapCatalogRow(row: Pick<SpeciesRow, 'id' | 'slug' | 'common_name' | 'sc
     taxonGroup: row.taxon_group,
     aliases: Array.isArray(row.aliases) ? row.aliases.filter((alias): alias is string => typeof alias === 'string') : [],
     topicKey,
+    initial,
     thumbnailUrl,
     observedByCurrentUser: null,
   }

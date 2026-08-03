@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   filterSpeciesAtlasGroups,
+  normalizeSpeciesAtlasInitial,
   sortSpeciesAtlasItems,
   type SpeciesAtlasGroup,
   type SpeciesAtlasItem,
@@ -16,6 +17,7 @@ function item(overrides: Partial<SpeciesAtlasItem>): SpeciesAtlasItem {
     taxonGroup: '默认科 默认属',
     aliases: [],
     topicKey: 'birds',
+    initial: 'M',
     thumbnailUrl: null,
     observedByCurrentUser: false,
     ...overrides,
@@ -27,6 +29,12 @@ function groups(items: SpeciesAtlasItem[]): SpeciesAtlasGroup[] {
 }
 
 describe('nature-species-atlas', () => {
+  it('normalizes accented pinyin initials and labels unknown initials as other', () => {
+    expect(normalizeSpeciesAtlasInitial('Ā')).toBe('A')
+    expect(normalizeSpeciesAtlasInitial('Ōu')).toBe('O')
+    expect(normalizeSpeciesAtlasInitial(null)).toBe('其他')
+  })
+
   it('sorts by Chinese name and uses id as the stable tie breaker', () => {
     const sorted = sortSpeciesAtlasItems([
       item({ id: 3, commonName: '大山雀' }),

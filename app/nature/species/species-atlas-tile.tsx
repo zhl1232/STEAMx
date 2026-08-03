@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { CircleHelp, CircleCheck } from 'lucide-react'
+import { CircleHelp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { saveNatureSpeciesScrollRestore } from '@/lib/nature-species-scroll-restore'
@@ -79,12 +79,6 @@ export function SpeciesAtlasTile({ item, fromHref, filtersKey }: SpeciesAtlasTil
         ) : (
           <CircleHelp className="h-7 w-7 text-muted-foreground/75" strokeWidth={1.7} />
         )}
-
-        {item.observedByCurrentUser === true ? (
-          <span className="nature-atlas-tile-check">
-            <CircleCheck className="h-4 w-4" strokeWidth={2.4} />
-          </span>
-        ) : null}
       </span>
 
       <span className="nature-atlas-tile-name">

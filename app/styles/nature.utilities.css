@@ -377,60 +377,135 @@
 }
 
 @utility nature-atlas-toolbar {
-  border-color: hsl(var(--surface-border) / 0.68);
-  @apply mt-4 border-b pb-4 md:mt-5 md:pb-5;
+  @apply mt-2 md:mt-5;
+}
+
+@utility nature-atlas-mobile-header {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+
+  & + .mobile-page-header-spacer {
+    height: 2.5rem;
+  }
+}
+
+@utility nature-atlas-mobile-header-content {
+  @apply h-10 gap-1 pl-2 pr-3;
+}
+
+@utility nature-atlas-mobile-header-back {
+  @apply h-9 w-9;
+}
+
+@utility nature-atlas-mobile-header-title {
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 @utility nature-atlas-search-form {
-  background-color: hsl(var(--surface-raised) / 0.72);
-  border-color: hsl(var(--surface-border) / 0.82);
-  @apply flex min-h-11 items-center gap-2 rounded-(--radius-xs) border px-3;
+  background-color: hsl(var(--surface-raised) / 0.64);
+  border-color: hsl(var(--surface-border) / 0.46);
+  box-shadow:
+    0 8px 18px -18px hsl(var(--primary) / 0.32),
+    inset 0 1px 0 hsl(var(--surface-raised) / 0.82);
+  @apply flex min-h-10 items-center gap-1.5 rounded-(--radius-sm) border pl-2.5 pr-1;
+
+  &:focus-within {
+    border-color: hsl(var(--primary) / 0.34);
+    box-shadow:
+      0 0 0 3px hsl(var(--primary) / 0.1),
+      0 8px 18px -18px hsl(var(--primary) / 0.32),
+      inset 0 1px 0 hsl(var(--surface-raised) / 0.82);
+  }
 
   & > input {
-    @apply min-w-0 flex-1 bg-transparent text-sm text-foreground outline-hidden placeholder:text-muted-foreground;
+    @apply min-w-0 flex-1 bg-transparent text-xs text-foreground outline-hidden placeholder:text-muted-foreground;
   }
 }
 
 @utility nature-atlas-icon-button {
   color: hsl(var(--muted-foreground));
-  @apply grid h-8 w-8 shrink-0 place-items-center rounded-(--radius-xs) transition-colors hover:bg-[hsl(var(--status-info-surface))] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
+  @apply grid h-7 w-7 shrink-0 place-items-center rounded-(--radius-xs) transition-colors hover:bg-[hsl(var(--status-info-surface))] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
 }
 
-@utility nature-atlas-filter-row {
-  @apply mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between;
+@utility nature-atlas-topic-tabs {
+  scrollbar-width: none;
+  @apply mt-2 flex w-fit min-w-0 max-w-full justify-start gap-1 overflow-x-auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-@utility nature-atlas-topic-filters {
-  @apply flex flex-wrap gap-1.5;
+@utility nature-atlas-topic-tab {
+  color: hsl(var(--foreground) / 0.72);
+  @apply relative flex min-h-9 w-16 shrink-0 flex-col items-start justify-center gap-0.5 px-2.5 text-[11px] font-semibold transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[hsl(var(--primary)/0.42)];
+
+  &::after {
+    background-color: transparent;
+    left: 0.625rem;
+    transform: none;
+    @apply absolute bottom-0 h-0.5 w-6 rounded-full content-[''];
+  }
+}
+
+@utility nature-atlas-topic-tab-active {
+  color: hsl(var(--primary));
+
+  &::after {
+    background-color: hsl(var(--primary));
+  }
+}
+
+@utility nature-atlas-status-row {
+  border-color: hsl(var(--surface-border) / 0.72);
+  @apply mt-2 flex min-w-0 items-center justify-between gap-2 border-b py-1;
 }
 
 @utility nature-atlas-status-filters {
-  @apply flex flex-wrap gap-1.5 md:justify-end;
-}
+  scrollbar-width: none;
+  @apply flex min-w-0 gap-2 overflow-x-auto;
 
-@utility nature-atlas-filter-button {
-  color: hsl(var(--foreground) / 0.76);
-  @apply inline-flex min-h-9 items-center justify-center gap-1.5 rounded-(--radius-xs) px-2.5 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.7)] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)] disabled:cursor-not-allowed disabled:opacity-55;
-}
-
-@utility nature-atlas-filter-button-active {
-  background-color: hsl(var(--status-info-surface));
-  color: hsl(var(--primary));
-  box-shadow: inset 0 0 0 1px hsl(var(--primary) / 0.2);
-}
-
-@utility nature-atlas-filter-button-warm {
-  &.nature-atlas-filter-button-active {
-    background-color: hsl(var(--brand-amber-soft));
-    color: hsl(var(--brand-amber));
-    box-shadow: inset 0 0 0 1px hsl(var(--brand-amber) / 0.2);
+  &::-webkit-scrollbar {
+    display: none;
   }
+}
+
+@utility nature-atlas-status-button {
+  background-color: hsl(var(--surface-raised) / 0.66);
+  border-color: hsl(var(--surface-border) / 0.78);
+  color: hsl(var(--foreground) / 0.78);
+  @apply inline-flex min-h-9 shrink-0 items-center justify-center gap-1.5 rounded-(--radius-sm) border px-2.5 text-[11px] font-semibold tabular-nums transition-colors hover:bg-[hsl(var(--status-info-surface)/0.62)] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)] disabled:cursor-not-allowed disabled:opacity-55;
+}
+
+@utility nature-atlas-status-button-active {
+  background-color: hsl(var(--status-info-surface));
+  border-color: hsl(var(--primary) / 0.34);
+  color: hsl(var(--primary));
+}
+
+@utility nature-atlas-status-button-unobserved {
+  &.nature-atlas-status-button-active {
+    background-color: hsl(var(--brand-amber-soft));
+    border-color: hsl(var(--brand-amber) / 0.34);
+    color: hsl(var(--brand-amber));
+  }
+}
+
+@utility nature-atlas-status-count {
+  color: hsl(var(--foreground) / 0.58);
+  @apply text-[10px] font-semibold leading-none;
+}
+
+@utility nature-atlas-sort-label {
+  color: hsl(var(--muted-foreground));
+  @apply inline-flex shrink-0 items-center gap-0.5 text-[11px] font-semibold whitespace-nowrap;
 }
 
 @utility nature-atlas-status-note {
   background-color: hsl(var(--status-info-surface) / 0.55);
   color: hsl(var(--muted-foreground));
-  @apply mt-3 rounded-(--radius-xs) px-3 py-2 text-xs leading-5;
+  @apply mt-2 rounded-(--radius-xs) px-3 py-1.5 text-[11px] leading-5;
 }
 
 @utility nature-atlas-status-note-warning {
@@ -448,15 +523,44 @@
   @apply flex items-end justify-between gap-4 border-b pb-3;
 }
 
-@utility nature-atlas-group-link {
+@utility nature-atlas-results {
+  @apply flex min-w-0 items-start gap-1.5;
+}
+
+@utility nature-atlas-results-main {
+  @apply min-w-0 flex-1;
+}
+
+@utility nature-atlas-letter-group {
+  scroll-margin-top: calc(var(--mobile-page-header-height) + 0.75rem);
+}
+
+@utility nature-atlas-letter-heading {
+  color: hsl(var(--foreground));
+  @apply flex items-center pb-2 text-lg font-semibold leading-none;
+}
+
+@utility nature-atlas-index {
+  color: hsl(var(--muted-foreground));
+  top: calc(var(--mobile-page-header-height) + 0.75rem);
+  @apply sticky flex w-6 shrink-0 flex-col items-center gap-0.5 pt-2;
+}
+
+@utility nature-atlas-index-link {
   color: hsl(var(--primary));
-  @apply min-h-9 shrink-0 rounded-(--radius-xs) px-2.5 py-2 text-xs font-semibold transition-colors hover:bg-[hsl(var(--status-info-surface)/0.72)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
+  @apply grid h-6 w-6 place-items-center rounded-(--radius-xs) text-[11px] font-semibold leading-none transition-colors hover:bg-[hsl(var(--status-info-surface))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.42)];
+}
+
+@utility nature-atlas-index-link-disabled {
+  color: hsl(var(--muted-foreground) / 0.48);
+  @apply pointer-events-none;
 }
 
 @utility nature-atlas-grid {
-  @apply mt-4 grid grid-cols-4 gap-2;
+  @apply grid grid-cols-3 gap-x-3 gap-y-4;
 
   @media (min-width: 640px) {
+    margin-top: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(80px, 92px));
     gap: 10px;
   }
@@ -479,20 +583,24 @@
   }
 }
 
-@utility nature-atlas-tile-media {
-  background-color: hsl(var(--status-info-surface) / 0.6);
-  @apply relative grid aspect-square place-items-center overflow-hidden;
+@utility nature-atlas-tile-observed {
+  border-color: hsl(var(--status-success) / 0.34);
+  box-shadow: inset 0 0 0 1px hsl(var(--status-success) / 0.1);
+
+  &:hover {
+    border-color: hsl(var(--status-success) / 0.56);
+    box-shadow: 0 12px 24px -20px hsl(var(--status-success) / 0.5), inset 0 0 0 1px hsl(var(--status-success) / 0.14);
+  }
 }
 
-@utility nature-atlas-tile-check {
-  background-color: hsl(var(--status-success-surface) / 0.94);
-  color: hsl(var(--status-success));
-  @apply absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full shadow-sm;
+@utility nature-atlas-tile-media {
+  background-color: hsl(var(--status-info-surface) / 0.6);
+  @apply relative grid aspect-[4/3] place-items-center overflow-hidden sm:aspect-square;
 }
 
 @utility nature-atlas-tile-name {
   color: hsl(var(--foreground));
-  @apply flex min-h-10 items-start px-1.5 py-1.5 text-center text-[11px] font-semibold leading-4 sm:min-h-11 sm:px-2 sm:text-xs;
+  @apply flex min-h-9 items-center justify-start px-2 py-1.5 text-left text-sm font-semibold leading-4 sm:min-h-11 sm:px-2 sm:text-xs;
 }
 
 @utility nature-atlas-empty {

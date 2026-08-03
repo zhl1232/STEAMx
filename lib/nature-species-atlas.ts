@@ -1,9 +1,23 @@
 export const speciesAtlasTopicKeys = ['birds', 'insects', 'plants'] as const
+export const speciesAtlasOtherInitial = '其他'
 
 export type SpeciesAtlasTopicKey = (typeof speciesAtlasTopicKeys)[number]
 export type SpeciesAtlasTopicFilter = SpeciesAtlasTopicKey | 'all'
 export type SpeciesAtlasStatusFilter = 'all' | 'observed' | 'unobserved'
 export type SpeciesAtlasProgressState = 'ready' | 'anonymous' | 'unavailable'
+
+export function normalizeSpeciesAtlasInitial(value?: string | null): string {
+  const normalized = value?.trim()
+  if (!normalized || normalized === speciesAtlasOtherInitial) return speciesAtlasOtherInitial
+
+  const initial = normalized
+    .charAt(0)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+
+  return /^[A-Z]$/.test(initial) ? initial : speciesAtlasOtherInitial
+}
 
 export interface SpeciesAtlasItem {
   id: number
@@ -13,6 +27,7 @@ export interface SpeciesAtlasItem {
   taxonGroup: string | null
   aliases: string[]
   topicKey: SpeciesAtlasTopicKey
+  initial: string
   thumbnailUrl: string | null
   observedByCurrentUser: boolean | null
 }
