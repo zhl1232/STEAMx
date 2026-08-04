@@ -5,6 +5,7 @@ import Link from "next/link"
 import {
   BarChart3,
   CalendarDays,
+  ChevronDown,
   History,
   Layers,
   ShieldCheck,
@@ -78,44 +79,49 @@ function ContributorRanking<T extends { userId: string; displayName: string; ava
   emptyLabel: string
 }) {
   return (
-    <div className="rounded-md border border-border/50 bg-background/70 p-3">
-      <p className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
-        {icon}
-        <span>{title}</span>
-      </p>
-      {people.length > 0 ? (
-        <ol className="mt-2 space-y-1.5 text-xs">
-          {people.slice(0, 5).map((person, index) => (
-            <li key={person.userId}>
-              <Link
-                href={`/users/${person.userId}`}
-                className="flex items-center justify-between gap-2 rounded-sm px-1.5 py-1.5 transition-colors hover:bg-muted/55"
-              >
-                <span className="flex min-w-0 items-center gap-2">
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
-                    {index + 1}
+    <details className="group rounded-md border border-border/50 bg-background/70">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/35 [&::-webkit-details-marker]:hidden">
+        <span className="flex min-w-0 items-center gap-1.5">
+          {icon}
+          <span className="truncate">{title}</span>
+        </span>
+        <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+      </summary>
+      <div className="border-t border-border/50 px-3 pb-3 pt-2">
+        {people.length > 0 ? (
+          <ol className="space-y-1.5 text-xs">
+            {people.slice(0, 5).map((person, index) => (
+              <li key={person.userId}>
+                <Link
+                  href={`/users/${person.userId}`}
+                  className="flex items-center justify-between gap-2 rounded-sm px-1.5 py-1.5 transition-colors hover:bg-muted/55"
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
+                      {index + 1}
+                    </span>
+                    <Avatar className="h-7 w-7 shrink-0 border border-border/60">
+                      <AvatarImage src={person.avatarUrl ?? undefined} alt={person.displayName} />
+                      <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
+                        {person.displayName.slice(0, 1)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="truncate text-foreground/85">{person.displayName}</span>
                   </span>
-                  <Avatar className="h-7 w-7 shrink-0 border border-border/60">
-                    <AvatarImage src={person.avatarUrl ?? undefined} alt={person.displayName} />
-                    <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
-                      {person.displayName.slice(0, 1)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="truncate text-foreground/85">{person.displayName}</span>
-                </span>
-                <span className="shrink-0 text-muted-foreground tabular-nums">
-                  {formatCount(getCount(person))} {countLabel}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <p className="mt-3 rounded-sm border border-dashed border-border/60 bg-background/45 px-3 py-4 text-center text-xs text-muted-foreground">
-          {emptyLabel}
-        </p>
-      )}
-    </div>
+                  <span className="shrink-0 text-muted-foreground tabular-nums">
+                    {formatCount(getCount(person))} {countLabel}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="rounded-sm border border-dashed border-border/60 bg-background/45 px-3 py-4 text-center text-xs text-muted-foreground">
+            {emptyLabel}
+          </p>
+        )}
+      </div>
+    </details>
   )
 }
 

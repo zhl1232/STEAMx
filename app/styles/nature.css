@@ -57,7 +57,7 @@
 }
 
 .nature-leaflet-map .leaflet-marker-pane {
-  z-index: 4;
+  z-index: 7;
 }
 
 .nature-leaflet-map .leaflet-tooltip-pane {
@@ -188,7 +188,7 @@
 }
 
 .nature-map-popup .leaflet-popup-content {
-  width: 216px !important;
+  width: 240px !important;
   margin: 0;
 }
 
@@ -208,22 +208,23 @@
 }
 
 .nature-map-popup-card {
-  padding: 8px;
+  padding: 10px;
   font-size: 12px;
 }
 
 .nature-map-popup-row {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
 }
 
 .nature-map-popup-media {
   position: relative;
-  width: 64px;
-  height: 56px;
+  width: 84px;
+  height: 72px;
   flex: none;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 6px;
   background: linear-gradient(135deg, #dcefe2, #f7ead2);
 }
 
@@ -246,42 +247,51 @@
 }
 
 .nature-map-popup-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
   min-width: 0;
+  min-height: 72px;
   flex: 1;
 }
 
-.nature-map-popup-title {
-  overflow: hidden;
-  color: #17251f;
-  font-weight: 700;
-  line-height: 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nature-map-popup-meta {
-  color: #65736c;
-  line-height: 20px;
-}
-
-.nature-map-popup-summary {
+.nature-map-popup .nature-map-popup-title {
   display: -webkit-box;
   overflow: hidden;
-  margin-top: 8px;
-  color: #40564b;
-  line-height: 20px;
+  margin: 0;
+  color: #17251f;
+  font-weight: 700;
+  line-height: 18px;
+  text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.nature-map-popup .nature-map-popup-meta {
+  margin: 0;
+  color: #65736c;
+  line-height: 18px;
+}
+
+.nature-map-popup .nature-map-popup-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 10px 0 0;
+  color: #40564b;
+  line-height: 18px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .nature-map-popup-link {
   display: inline-flex;
   min-height: 28px;
   align-items: center;
-  margin-top: 8px;
-  border-radius: 999px;
+  margin-top: 10px;
+  border-radius: 6px;
   background: #0f9a5a;
-  padding: 4px 10px;
+  padding: 5px 11px;
   color: #f6fff8;
   font-size: 11px;
   font-weight: 600;

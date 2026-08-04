@@ -377,7 +377,7 @@
 }
 
 @utility nature-atlas-toolbar {
-  @apply mt-2 md:mt-5;
+  @apply flex flex-col gap-3 pt-3 md:mt-5 md:gap-2 md:pt-0;
 }
 
 @utility nature-atlas-mobile-header {
@@ -385,7 +385,7 @@
   box-shadow: none !important;
 
   & + .mobile-page-header-spacer {
-    height: 2.5rem;
+    height: calc(2.5rem + env(safe-area-inset-top));
   }
 }
 
@@ -430,7 +430,7 @@
 
 @utility nature-atlas-topic-tabs {
   scrollbar-width: none;
-  @apply mt-2 flex w-fit min-w-0 max-w-full justify-start gap-1 overflow-x-auto;
+  @apply flex w-fit min-w-0 max-w-full justify-start gap-1 overflow-x-auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -459,7 +459,7 @@
 
 @utility nature-atlas-status-row {
   border-color: hsl(var(--surface-border) / 0.72);
-  @apply mt-2 flex min-w-0 items-center justify-between gap-2 border-b py-1;
+  @apply flex min-w-0 items-center justify-between gap-3 border-b py-1;
 }
 
 @utility nature-atlas-status-filters {
@@ -505,7 +505,7 @@
 @utility nature-atlas-status-note {
   background-color: hsl(var(--status-info-surface) / 0.55);
   color: hsl(var(--muted-foreground));
-  @apply mt-2 rounded-(--radius-xs) px-3 py-1.5 text-[11px] leading-5;
+  @apply rounded-(--radius-xs) px-3 py-1.5 text-[11px] leading-5;
 }
 
 @utility nature-atlas-status-note-warning {

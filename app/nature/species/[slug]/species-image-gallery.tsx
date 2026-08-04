@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Bug, ChevronLeft, ChevronRight, Feather, ImageOff, TreePine } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Bug, ChevronLeft, ChevronRight, Feather, ImageOff, TreePine } from "lucide-react";
 import {
   useRef,
   useState,
@@ -12,8 +13,14 @@ import {
 import type { NatureTopicKey } from "@/lib/config/nature-topics";
 import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from "@/lib/utils/asset-url";
 
+export interface SpeciesImageGalleryItem {
+  url: string;
+  observationHref?: string;
+  observationAuthor?: string | null;
+}
+
 interface SpeciesImageGalleryProps {
-  imageUrls: string[];
+  imageItems: SpeciesImageGalleryItem[];
   speciesName: string;
   scientificName?: string | null;
   speciesNamePinyin?: string | null;
@@ -64,7 +71,7 @@ function SpeciesImageFallback({
 }
 
 export function SpeciesImageGallery({
-  imageUrls,
+  imageItems,
   speciesName,
   scientificName,
   speciesNamePinyin,
@@ -76,16 +83,17 @@ export function SpeciesImageGallery({
   const [loadedThumbnailUrls, setLoadedThumbnailUrls] = useState<Set<string>>(() => new Set());
   const railRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const availableImageUrls = imageUrls.filter((imageUrl) => !failedImageUrls.has(imageUrl));
-  const boundedActiveIndex = Math.min(activeIndex, Math.max(availableImageUrls.length - 1, 0));
-  const activeImageUrl = availableImageUrls[boundedActiveIndex];
+  const availableImageItems = imageItems.filter((image) => !failedImageUrls.has(image.url));
+  const boundedActiveIndex = Math.min(activeIndex, Math.max(availableImageItems.length - 1, 0));
+  const activeImageItem = availableImageItems[boundedActiveIndex];
+  const activeImageUrl = activeImageItem?.url;
   const activeImageSrc = activeImageUrl
     ? resolveAssetDisplayUrl(activeImageUrl) ?? activeImageUrl
     : null;
   const isActiveImageLoaded = activeImageUrl
     ? loadedMainImageUrls.has(activeImageUrl)
     : false;
-  const hasManyImages = availableImageUrls.length > 5;
+  const hasManyImages = availableImageItems.length > 5;
 
   function handleImageError(imageUrl: string) {
     setFailedImageUrls((current) => {
@@ -159,16 +167,31 @@ export function SpeciesImageGallery({
           />
         ) : null}
         {/* 移动端图片计数器 */}
-        {availableImageUrls.length > 1 ? (
+        {availableImageItems.length > 1 ? (
           <div className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-xs lg:hidden">
-            {boundedActiveIndex + 1}/{availableImageUrls.length}
+            {boundedActiveIndex + 1}/{availableImageItems.length}
           </div>
         ) : null}
       </div>
 
-      {availableImageUrls.length > 1 ? (
+      {activeImageItem?.observationHref ? (
+        <div className="mt-2 flex min-w-0 items-center justify-between gap-3 px-4 sm:px-0">
+          <p className="min-w-0 truncate text-xs text-muted-foreground">
+            用户观察 · <span className="font-semibold text-foreground">{activeImageItem.observationAuthor || "匿名观察者"}</span>
+          </p>
+          <Link
+            href={activeImageItem.observationHref}
+            className="inline-flex shrink-0 items-center gap-0.5 rounded-xs px-1.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/8 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/35"
+          >
+            查看观察记录
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
+        </div>
+      ) : null}
+
+      {availableImageItems.length > 1 ? (
         <div className="mt-3 flex items-center gap-2 px-4 sm:px-0">
-          {hasManyImages ? (
+          {availableImageItems.length > 5 ? (
             <button
               type="button"
               onClick={() => scrollThumbnails("previous")}
@@ -184,12 +207,12 @@ export function SpeciesImageGallery({
             className="flex min-w-0 flex-1 gap-3 overflow-x-auto scroll-smooth pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
             aria-label={`${speciesName} 图集`}
           >
-            {availableImageUrls.map((imageUrl, index) => {
-              const imageSrc = resolveAssetDisplayUrl(imageUrl) ?? imageUrl;
+            {availableImageItems.map((image, index) => {
+              const imageSrc = resolveAssetDisplayUrl(image.url) ?? image.url;
 
               return (
                 <button
-                  key={`${imageUrl}-${index}`}
+                  key={`${image.url}-${index}`}
                   ref={(node) => {
                     thumbnailRefs.current[index] = node;
                   }}
@@ -200,7 +223,7 @@ export function SpeciesImageGallery({
                       ? "border-primary ring-2 ring-primary/18"
                       : "border-border/70 hover:border-primary/50"
                   }`}
-                  aria-label={`查看${speciesName}图片 ${index + 1}`}
+                  aria-label={`查看${speciesName}图片 ${index + 1}${image.observationHref ? "，用户观察照片" : ""}`}
                   aria-pressed={index === boundedActiveIndex}
                 >
                   <ImageOff
@@ -213,13 +236,13 @@ export function SpeciesImageGallery({
                     alt={`${speciesName} 图片 ${index + 1}`}
                     fill
                     className={`object-cover transition-opacity duration-200 ${
-                      loadedThumbnailUrls.has(imageUrl) ? "opacity-100" : "opacity-0"
+                      loadedThumbnailUrls.has(image.url) ? "opacity-100" : "opacity-0"
                     }`}
                     sizes="72px"
                     quality={48}
-                    unoptimized={shouldBypassAssetDisplayOptimization(imageUrl)}
-                    onLoad={() => markImageLoaded(imageUrl, setLoadedThumbnailUrls)}
-                    onError={() => handleImageError(imageUrl)}
+                    unoptimized={shouldBypassAssetDisplayOptimization(image.url)}
+                    onLoad={() => markImageLoaded(image.url, setLoadedThumbnailUrls)}
+                    onError={() => handleImageError(image.url)}
                   />
                 </button>
               );

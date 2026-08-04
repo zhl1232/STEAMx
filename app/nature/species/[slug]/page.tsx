@@ -10,10 +10,10 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
-import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 import { SpeciesDetailScrollTop } from "./species-detail-scroll-top";
-import { SpeciesImageGallery } from "./species-image-gallery";
+import { SpeciesImageGallery, type SpeciesImageGalleryItem } from "./species-image-gallery";
 
 interface SpeciesDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -121,6 +121,24 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
     : species.coverImageUrl
       ? [species.coverImageUrl]
       : [];
+  const galleryImageItems: SpeciesImageGalleryItem[] = [];
+  const seenGalleryImageUrls = new Set<string>();
+  const addGalleryImage = (image: SpeciesImageGalleryItem) => {
+    if (!image.url || seenGalleryImageUrls.has(image.url)) return;
+    seenGalleryImageUrls.add(image.url);
+    galleryImageItems.push(image);
+  };
+
+  galleryImageUrls.forEach((url) => addGalleryImage({ url }));
+  recentObservations.forEach((observation) => {
+    observation.mediaUrls.forEach((url) => {
+      addGalleryImage({
+        url,
+        observationAuthor: observation.authorDisplayName,
+        observationHref: appendNatureFrom(`/nature/observations/${observation.id}`, currentPath),
+      });
+    });
+  });
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
   const topicAssetPrefix = isBirdSpecies
@@ -171,7 +189,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   const galleryBlock = (
     <div className="-mx-4 min-w-0 sm:mx-0">
       <SpeciesImageGallery
-        imageUrls={galleryImageUrls}
+        imageItems={galleryImageItems}
         speciesName={species.commonName}
         scientificName={species.scientificName}
         speciesNamePinyin={commonNamePinyin}

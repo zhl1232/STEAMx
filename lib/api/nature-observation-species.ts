@@ -528,6 +528,37 @@ export async function getSpeciesById(id: number): Promise<Species | null> {
   return mapSpeciesWithDerivedFields(data as SpeciesRow)
 }
 
+interface SpeciesObservationAuthorProfileRow {
+  id: string
+  username: string | null
+  display_name: string | null
+}
+
+async function loadSpeciesObservationAuthorNames(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userIds: string[],
+): Promise<Map<string, string | null>> {
+  const uniqueUserIds = Array.from(new Set(userIds.filter(Boolean)))
+  if (uniqueUserIds.length === 0) return new Map()
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id,username,display_name')
+    .in('id', uniqueUserIds)
+
+  if (error) {
+    logger.error('Error fetching species observation authors', { error, userIds: uniqueUserIds })
+    return new Map()
+  }
+
+  return new Map(
+    ((data || []) as SpeciesObservationAuthorProfileRow[]).map((profile) => [
+      profile.id,
+      profile.display_name || profile.username || null,
+    ]),
+  )
+}
+
 export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: string): Promise<Species | null> {
   const supabase = await createClient()
 
@@ -585,6 +616,10 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
   const typedEventRows = ((eventRows || []) as ObservationEventRow[]).map((row) =>
     applyHistoricalPublicLocationPrecision(row),
   )
+  const authorNamesPromise = loadSpeciesObservationAuthorNames(
+    supabase,
+    typedEventRows.map((row) => row.user_id),
+  )
   const visibleEventIds = new Set(typedEventRows.map((row) => row.id))
   const filteredLinkedRows = typedLinkedRows.filter((row) => visibleEventIds.has(row.observation_event_id))
   const speciesSummariesByEvent = new Map<number, ObservationEvent['species']>()
@@ -626,13 +661,19 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
     return new Date(right.latestObservedAt).getTime() - new Date(left.latestObservedAt).getTime()
   })
 
+  const [authorNamesByUserId, stats] = await Promise.all([
+    authorNamesPromise,
+    computeSpeciesStats(supabase, data.id, eventIds, typedLinkedRows),
+  ])
+
   return {
     ...baseSpecies,
-    recentObservations: typedEventRows.map((row) =>
-      mapDbObservationEvent(row as never, speciesSummariesByEvent.get(row.id) || []),
-    ),
+    recentObservations: typedEventRows.map((row) => ({
+      ...mapDbObservationEvent(row as never, speciesSummariesByEvent.get(row.id) || []),
+      authorDisplayName: authorNamesByUserId.get(row.user_id) || null,
+    })),
     topLocations,
-    stats: await computeSpeciesStats(supabase, data.id, eventIds, typedLinkedRows),
+    stats,
   }
 })
 

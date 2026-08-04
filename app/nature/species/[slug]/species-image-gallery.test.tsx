@@ -11,7 +11,7 @@ describe('SpeciesImageGallery', () => {
         scientificName="Ginkgo biloba"
         speciesNamePinyin="yin xing"
         topicKey="plants"
-        imageUrls={[]}
+        imageItems={[]}
       />,
     )
 
@@ -25,7 +25,7 @@ describe('SpeciesImageGallery', () => {
     render(
       <SpeciesImageGallery
         speciesName="东方巨齿蛉"
-        imageUrls={['/insects/images/working.jpg']}
+        imageItems={[{ url: '/insects/images/working.jpg' }]}
       />,
     )
 
@@ -41,10 +41,10 @@ describe('SpeciesImageGallery', () => {
     render(
       <SpeciesImageGallery
         speciesName="东方巨齿蛉"
-        imageUrls={[
-          '/insects/images/missing.jpg',
-          '/insects/images/working-2.jpg',
-          '/insects/images/working-3.jpg',
+        imageItems={[
+          { url: '/insects/images/missing.jpg' },
+          { url: '/insects/images/working-2.jpg' },
+          { url: '/insects/images/working-3.jpg' },
         ]}
       />,
     )
@@ -61,9 +61,9 @@ describe('SpeciesImageGallery', () => {
     render(
       <SpeciesImageGallery
         speciesName="东方巨齿蛉"
-        imageUrls={[
-          '/insects/images/missing-1.jpg',
-          '/insects/images/missing-2.jpg',
+        imageItems={[
+          { url: '/insects/images/missing-1.jpg' },
+          { url: '/insects/images/missing-2.jpg' },
         ]}
       />,
     )
@@ -73,5 +73,27 @@ describe('SpeciesImageGallery', () => {
 
     expect(screen.getByText('暂无图片')).toBeInTheDocument()
     expect(screen.queryByAltText('东方巨齿蛉')).not.toBeInTheDocument()
+  })
+
+  it('shows the observer and links to the source observation', () => {
+    render(
+      <SpeciesImageGallery
+        speciesName="大杜鹃"
+        imageItems={[
+          {
+            url: '/observations/cuculus.jpg',
+            observationAuthor: '自然小队',
+            observationHref: '/nature/observations/6?from=%2Fnature%2Fspecies%2Fcuculus-canorus',
+          },
+        ]}
+      />,
+    )
+
+    expect(screen.getByText('自然小队')).toBeInTheDocument()
+    expect(screen.getByText('用户观察 ·')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '查看观察记录' })).toHaveAttribute(
+      'href',
+      '/nature/observations/6?from=%2Fnature%2Fspecies%2Fcuculus-canorus',
+    )
   })
 })

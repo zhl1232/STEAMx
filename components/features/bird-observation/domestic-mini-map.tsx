@@ -40,8 +40,8 @@ function computeDecayStyle(observedAt: string | undefined, isActive: boolean) {
   const ageDays = ageMs / 86_400_000
   if (ageDays <= 7) return { size: isActive ? 20 : 16, opacity: 1, color: isActive ? "#2563eb" : "#15803d" }
   if (ageDays <= 30) return { size: isActive ? 18 : 14, opacity: 0.85, color: isActive ? "#2563eb" : "#22c55e" }
-  if (ageDays <= 90) return { size: isActive ? 16 : 12, opacity: 0.65, color: isActive ? "#2563eb" : "#86efac" }
-  return { size: isActive ? 14 : 10, opacity: 0.45, color: isActive ? "#2563eb" : "#bbf7d0" }
+  if (ageDays <= 90) return { size: isActive ? 16 : 12, opacity: isActive ? 1 : 0.72, color: isActive ? "#2563eb" : "#4f9d70" }
+  return { size: isActive ? 14 : 10, opacity: isActive ? 1 : 0.62, color: isActive ? "#2563eb" : "#5f9270" }
 }
 
 function computeMarkerStyle(
@@ -128,8 +128,8 @@ function createPopupContent(marker: DomesticMiniMapMarker) {
     const link = document.createElement("a")
     link.href = marker.href
     link.className = "nature-map-popup-link"
-    link.textContent = "查看详情"
-    link.setAttribute("aria-label", `查看${marker.label || "观察热点"}详情`)
+    link.textContent = "查看观察记录"
+    link.setAttribute("aria-label", `查看${marker.label || "观察热点"}观察记录`)
     root.append(link)
   }
 
@@ -272,6 +272,7 @@ export function DomesticMiniMap({
       const marker = L.marker(point, {
         icon: createMarkerIcon(L),
         keyboard: true,
+        bubblingMouseEvents: false,
         riseOnHover: true,
         title: markerData.label || "观察热点",
         alt: markerData.label || "观察热点",
@@ -280,10 +281,10 @@ export function DomesticMiniMap({
       marker.bindPopup(createPopupContent(markerData), {
         className: "nature-map-popup",
         closeButton: false,
-        minWidth: 216,
-        maxWidth: 216,
-        offset: [0, 0],
-        autoPanPadding: [16, 16],
+        minWidth: 240,
+        maxWidth: 240,
+        offset: [0, 40],
+        autoPan: true,
       })
 
       marker.on("mouseover", () => {
@@ -299,7 +300,8 @@ export function DomesticMiniMap({
         marker.closePopup()
         onMarkerHoverRef.current?.(null)
       })
-      marker.on("click", () => {
+      marker.on("click", (event) => {
+        L.DomEvent.stopPropagation(event.originalEvent)
         popupLockedIndexRef.current = index
         setHoveredMarkerIndex(index)
         marker.openPopup()
