@@ -1,18 +1,31 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { LoginPromptProvider, useLoginPrompt } from './login-prompt-context'
 
-const pushMock = vi.fn()
 const deferredAction = vi.fn()
-
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: pushMock }),
-}))
 
 vi.mock('@/components/layout/login-dialog', () => ({
   LoginDialog: () => null,
+}))
+
+vi.mock('@/components/layout/interaction-confirmation-dialog', () => ({
+  InteractionConfirmationDialog: ({
+    open,
+    onConfirm,
+  }: {
+    open: boolean
+    onConfirm: () => void | Promise<void>
+  }) => open ? (
+    <button type="button" onClick={() => void onConfirm()}>
+      弹窗完成确认
+    </button>
+  ) : null,
+}))
+
+vi.mock('@/lib/context/auth-context', () => ({
+  useAuth: () => ({ refreshProfile: vi.fn().mockResolvedValue(undefined) }),
 }))
 
 function Harness() {
@@ -32,7 +45,7 @@ function Harness() {
         触发门禁
       </button>
       <button type="button" onClick={() => void completeAgeConfirmation()}>
-        完成本人确认
+        完成社区互动确认
       </button>
     </>
   )
@@ -44,6 +57,10 @@ describe('LoginPromptProvider age confirmation flow', () => {
     window.history.replaceState({}, '', '/project/42?from=comment')
   })
 
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('keeps the original path and retries the deferred request after confirmation', async () => {
     const user = userEvent.setup()
     render(
@@ -53,13 +70,30 @@ describe('LoginPromptProvider age confirmation flow', () => {
     )
 
     await user.click(screen.getByRole('button', { name: '触发门禁' }))
-    expect(pushMock).toHaveBeenCalledWith('/settings/security?section=age-confirmation')
+    expect(screen.getByRole('button', { name: '弹窗完成确认' })).toBeInTheDocument()
     expect(deferredAction).not.toHaveBeenCalled()
 
-    await user.click(screen.getByRole('button', { name: '完成本人确认' }))
+    await user.click(screen.getByRole('button', { name: '完成社区互动确认' }))
 
     expect(deferredAction).toHaveBeenCalledTimes(1)
-    expect(pushMock).toHaveBeenLastCalledWith('/project/42?from=comment')
+  })
+
+  it('confirms inline and retries the deferred request', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ confirmed: true }), { status: 200 }),
+    ))
+    const user = userEvent.setup()
+    render(
+      <LoginPromptProvider>
+        <Harness />
+      </LoginPromptProvider>,
+    )
+
+    await user.click(screen.getByRole('button', { name: '触发门禁' }))
+    await user.click(screen.getByRole('button', { name: '弹窗完成确认' }))
+
+    await waitFor(() => expect(deferredAction).toHaveBeenCalledTimes(1))
+    expect(fetch).toHaveBeenCalledWith('/api/settings/age-confirmation', { method: 'POST' })
   })
 
   it('does nothing when the settings page was opened without a pending action', async () => {
@@ -70,9 +104,8 @@ describe('LoginPromptProvider age confirmation flow', () => {
       </LoginPromptProvider>,
     )
 
-    await user.click(screen.getByRole('button', { name: '完成本人确认' }))
+    await user.click(screen.getByRole('button', { name: '完成社区互动确认' }))
 
-    expect(pushMock).not.toHaveBeenCalled()
     expect(deferredAction).not.toHaveBeenCalled()
   })
 })

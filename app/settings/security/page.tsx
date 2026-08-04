@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { BadgeCheck, ChevronDown, KeyRound, Loader2, Smartphone } from "lucide-react";
 
@@ -79,7 +80,7 @@ function SecuritySettingsContent() {
       if (!response.ok) throw new Error(data.error || "确认失败");
       setAgeConfirmedAt(typeof data.confirmedAt === "string" ? data.confirmedAt : new Date().toISOString());
       await refreshProfile();
-      toast({ title: "年龄确认已完成", description: "现在可以投稿、评论、发帖和发送私信了。" });
+      toast({ title: "社区互动确认已完成", description: "现在可以发布作品、评论、发帖和发送私信了。" });
       await completeAgeConfirmation();
     } catch (error) {
       toast({
@@ -205,7 +206,7 @@ function SecuritySettingsContent() {
     <SettingsSubpageShell
       title="账号与安全"
       kicker="登录保护"
-      description="管理登录密码和手机号绑定。涉及身份验证的操作会给出明确反馈。"
+      description="管理登录密码、手机号和社区互动确认。"
     >
       <div className="space-y-4">
         {recoveryMode ? (
@@ -221,9 +222,9 @@ function SecuritySettingsContent() {
                 <BadgeCheck className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold">本人年龄确认</h3>
+                <h3 className="text-sm font-semibold">社区互动确认</h3>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  年龄确认只用于开启投稿和社区互动，不影响浏览公开内容。短信登录不代表年龄确认。
+                  发布作品、评论、发帖或私信前，需要完成一次本人确认。公开内容仍可正常浏览。
                 </p>
               </div>
             </div>
@@ -234,13 +235,19 @@ function SecuritySettingsContent() {
             ) : (
               <Button type="button" onClick={handleConfirmAge} disabled={ageLoading}>
                 {ageLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                我确认本人年龄
+                完成确认
               </Button>
             )}
           </div>
           {!ageConfirmedAt ? (
             <p className="mt-4 border-t border-border/70 pt-4 text-xs leading-6 text-muted-foreground">
-              点击确认即表示你本人确认已达到平台要求的年龄，并同意遵守服务条款和隐私政策。
+              未成年人请在监护人指导下使用。确认即表示你同意遵守{" "}
+              <Link href="/legal/terms" className="text-primary underline-offset-2 hover:underline">
+                《服务条款》
+              </Link>{" "}和{" "}
+              <Link href="/legal/privacy" className="text-primary underline-offset-2 hover:underline">
+                《隐私政策》
+              </Link>。
             </p>
           ) : null}
         </section>

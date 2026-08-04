@@ -72,7 +72,7 @@ describe('POST /api/comments', () => {
         await expect(response.json()).resolves.toEqual({ error: '项目不存在' })
     })
 
-    it('requires本人年龄确认 before posting any comment', async () => {
+    it('requires社区互动确认 before posting any comment', async () => {
         const projectMaybeSingle = vi.fn().mockResolvedValue({
             data: { author_id: 'owner-1', status: 'approved' },
             error: null,
@@ -118,7 +118,7 @@ describe('POST /api/comments', () => {
 
         expect(response.status).toBe(403)
         await expect(response.json()).resolves.toMatchObject({
-            error: '完成本人年龄确认后即可继续此操作',
+            error: '完成社区互动确认后即可继续此操作',
             code: 'AGE_CONFIRMATION_REQUIRED',
         })
     })

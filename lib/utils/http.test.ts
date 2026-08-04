@@ -29,7 +29,7 @@ describe('getApiErrorMessage', () => {
 
   it('preserves structured interaction access details', async () => {
     const response = new Response(JSON.stringify({
-      error: '完成本人年龄确认后即可继续此操作',
+      error: '完成社区互动确认后即可继续此操作',
       code: 'AGE_CONFIRMATION_REQUIRED',
       details: {
         redirectTo: '/settings/security?section=age-confirmation',

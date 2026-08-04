@@ -108,7 +108,7 @@ export async function requireInteractionAccess(
   }
 
   if (AGE_GATED_CAPABILITIES.has(capability) && !access.ageConfirmed) {
-    throw new PermissionError('完成本人年龄确认后即可继续此操作', 'AGE_CONFIRMATION_REQUIRED', {
+    throw new PermissionError('完成社区互动确认后即可继续此操作', 'AGE_CONFIRMATION_REQUIRED', {
       capability,
       redirectTo: '/settings/security?section=age-confirmation',
     })
