@@ -6,6 +6,10 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 
+const { supabaseAdminFrom } = vi.hoisted(() => ({
+    supabaseAdminFrom: vi.fn(),
+}))
+
 vi.mock('@/lib/supabase/server', () => ({
     createClient: vi.fn(),
 }))
@@ -20,6 +24,10 @@ vi.mock('@/lib/api/auth', async (importOriginal) => {
 
 vi.mock('@/lib/api/rate-limit', () => ({
     requireRateLimit: vi.fn().mockResolvedValue(undefined),
+}))
+
+vi.mock('@/lib/supabase/admin', () => ({
+    supabaseAdmin: { from: supabaseAdminFrom },
 }))
 
 vi.mock('@/lib/api/validation', async (importOriginal) => {
@@ -38,6 +46,7 @@ describe('POST /api/messages/send', () => {
     beforeEach(() => {
         vi.clearAllMocks()
         requireRateLimitMock.mockResolvedValue(undefined)
+        supabaseAdminFrom.mockReset()
     })
 
     it('allows sending to followers_only users when a follow relationship exists', async () => {
@@ -55,6 +64,7 @@ describe('POST /api/messages/send', () => {
                 sender_id: '11111111-1111-1111-1111-111111111111',
                 receiver_id: '22222222-2222-2222-2222-222222222222',
                 content: '你好',
+                moderation_state: 'approved',
                 read_at: null,
                 created_at: '2026-03-20T00:00:00.000Z',
             },
@@ -62,6 +72,12 @@ describe('POST /api/messages/send', () => {
         })
         const messageSelect = vi.fn(() => ({ single: messageSingle }))
         const messageInsert = vi.fn(() => ({ select: messageSelect }))
+        const priorMessagesLimit = vi.fn().mockResolvedValue({ data: [], error: null })
+        const priorMessagesSelect = vi.fn(() => ({
+            or: vi.fn(() => ({
+                order: vi.fn(() => ({ limit: priorMessagesLimit })),
+            })),
+        }))
         const followSelect = vi.fn(() => ({
             eq: vi.fn(() => ({
                 eq: vi.fn(() => ({
@@ -83,9 +99,25 @@ describe('POST /api/messages/send', () => {
                 return { select: followSelect }
             }
             if (table === 'messages') {
-                return { insert: messageInsert }
+                return { select: priorMessagesSelect, insert: messageInsert }
+            }
+            if (table === 'user_blocks') {
+                return {
+                    select: vi.fn(() => ({
+                        or: vi.fn(() => ({
+                            limit: vi.fn(() => ({
+                                maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+                            })),
+                        })),
+                    })),
+                }
             }
             throw new Error(`Unexpected table: ${table}`)
+        })
+
+        supabaseAdminFrom.mockImplementation((table: string) => {
+            if (table === 'messages') return { insert: messageInsert }
+            throw new Error(`Unexpected admin table: ${table}`)
         })
 
         createClientMock.mockResolvedValue({ from } as never)
@@ -109,9 +141,11 @@ describe('POST /api/messages/send', () => {
                 sender_id: '11111111-1111-1111-1111-111111111111',
                 receiver_id: '22222222-2222-2222-2222-222222222222',
                 content: '你好',
+                moderation_state: 'approved',
                 read_at: null,
                 created_at: '2026-03-20T00:00:00.000Z',
             },
+            moderation: { state: 'approved' },
         })
         expect(followSelect).toHaveBeenCalledWith('follower_id')
     })

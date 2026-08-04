@@ -7,9 +7,11 @@ import { getLessonInCourse } from '@/lib/api/courses'
 import { canResubmitCompletion } from '@/lib/completion-records'
 import { scheduleCompletionModeration } from '@/lib/completions/moderate-completion'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
 import { isWorkSubmissionEnabled } from '@/lib/works/capability'
 import { getLessonWorks } from '@/lib/works/data'
 import { validateWorkSubmission, WorkSubmissionSchema } from '@/lib/works/submission'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 
 type RouteParams = {
   params: Promise<{ courseId: string; lessonId: string }>
@@ -71,6 +73,25 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
     validateWorkSubmission(parsed.data, user.id)
 
+    const moderation = await moderateUserContent({
+      text: [parsed.data.notes, ...(parsed.data.imageCaptions || [])]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: parsed.data.images,
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '作品未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     const { data: existing, error: existingError } = await supabase
       .from('completed_projects')
       .select('id, status')
@@ -102,6 +123,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       reviewed_at: null,
       rejection_reason: null,
       moderation_source: 'ai',
+      moderation_state: moderation.state,
     }
 
     const result = current
@@ -123,9 +145,27 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       { completion_id: workId, status: 'queued' } as never,
       { onConflict: 'completion_id' },
     )
-    scheduleCompletionModeration(workId)
+    const moderationCaseId = moderation.state === 'pending'
+      ? await createModerationCase({
+          contentType: 'completion',
+          contentId: workId,
+          authorId: user.id,
+          riskLevel: moderation.riskLevel,
+          category: moderation.category,
+          reason: moderation.reason,
+          modelName: moderation.modelName,
+          snapshot: { authorId: user.id, text: parsed.data.notes || null, metadata: { imageUrls: parsed.data.images, courseLessonId: ids.lessonId } },
+        })
+      : null
 
-    return NextResponse.json({ id: workId, status: 'pending', recordKind: 'final' }, { status: 201 })
+    if (!moderationCaseId) scheduleCompletionModeration(workId)
+
+    return NextResponse.json(
+      moderationCaseId
+        ? { id: workId, status: 'pending', recordKind: 'final', moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { id: workId, status: 'pending', recordKind: 'final' },
+      { status: moderationCaseId ? 202 : 201 },
+    )
   } catch (error) {
     return handleApiError(error)
   }

@@ -26,7 +26,7 @@ export interface InteractionAccess {
 
 type InteractionProfile = Pick<
   Database['public']['Tables']['profiles']['Row'],
-  'age_confirmed_at' | 'interaction_restricted'
+  'age_confirmed_at' | 'interaction_restricted' | 'safety_status' | 'safety_restricted_until'
 >
 
 const AGE_GATED_CAPABILITIES = new Set<InteractionCapability>([
@@ -48,7 +48,7 @@ export async function getInteractionAccess(
 
   const profileQuery = supabase
     .from('profiles')
-    .select('age_confirmed_at, interaction_restricted')
+    .select('age_confirmed_at, interaction_restricted, safety_status, safety_restricted_until')
     .eq('id', user.id)
   const profileQueryWithFallback = profileQuery as unknown as {
     maybeSingle?: () => PromiseLike<{ data: unknown; error: unknown }>
@@ -64,7 +64,16 @@ export async function getInteractionAccess(
   if (error) throw error
 
   const profile = data as InteractionProfile | null
-  if (profile?.interaction_restricted) {
+  const restrictionHasExpired = Boolean(
+    profile?.safety_restricted_until && new Date(profile.safety_restricted_until).getTime() <= Date.now(),
+  )
+  const isRestricted = Boolean(
+    profile?.safety_status === 'banned'
+      || (profile?.safety_status === 'suspended' && !restrictionHasExpired)
+      || (profile?.interaction_restricted && !restrictionHasExpired),
+  )
+
+  if (isRestricted) {
     return {
       state: 'restricted',
       ageConfirmed: isAgeConfirmed(profile),

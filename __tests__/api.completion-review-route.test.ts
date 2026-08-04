@@ -22,6 +22,10 @@ vi.mock('@/lib/supabase/rpc', () => ({
     callRpc: vi.fn(),
 }))
 
+vi.mock('@/lib/safety/server', () => ({
+    setContentModerationState: vi.fn().mockResolvedValue(undefined),
+}))
+
 describe('POST /api/admin/completions/[id]/review', () => {
     const createClientMock = createClient as Mock<typeof createClient>
     const requireRoleMock = requireRole as Mock<typeof requireRole>

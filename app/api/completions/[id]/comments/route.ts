@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
@@ -7,6 +8,11 @@ import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { validateContentSafe, validateNumber } from '@/lib/api/validation'
 import { mapDbComment, type DbCommentWithProfile } from '@/lib/mappers/types'
 import { logger } from '@/lib/logger'
+import {
+  assertUsersNotBlocked,
+  createModerationCase,
+  moderateUserContent,
+} from '@/lib/safety/server'
 
 const COMMENT_SELECT = `
   id,
@@ -79,6 +85,7 @@ export async function POST(
     if (!completion) {
       return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
+    await assertUsersNotBlocked(supabase, user.id, completion.user_id)
 
     await requireInteractionAccess(supabase, user, 'comment')
 
@@ -135,6 +142,21 @@ export async function POST(
 
       replyToUserId = typed.author_id
       replyToUsername = typed.profiles?.display_name || null
+      await assertUsersNotBlocked(supabase, user.id, typed.author_id)
+    }
+
+    const moderation = await moderateUserContent({ text: content })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '评论未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
     }
 
     const { data, error } = await supabase
@@ -146,11 +168,34 @@ export async function POST(
         parent_id: parentId,
         reply_to_user_id: replyToUserId,
         reply_to_username: replyToUsername,
+        moderation_state: moderation.state,
       } as never)
       .select(COMMENT_SELECT)
       .single()
 
     if (error) throw error
+
+    const typedComment = data as { id: number }
+    if (moderation.state === 'pending') {
+      const caseId = await createModerationCase({
+        contentType: 'completion_comment',
+        contentId: typedComment.id,
+        authorId: user.id,
+        riskLevel: moderation.riskLevel,
+        category: moderation.category,
+        reason: moderation.reason,
+        modelName: moderation.modelName,
+        snapshot: {
+          authorId: user.id,
+          text: content,
+          metadata: { completionId, parentId },
+        },
+      })
+      return NextResponse.json(
+        { comment: data, moderation: { state: 'pending', caseId } },
+        { status: 202 },
+      )
+    }
 
     return NextResponse.json({ comment: mapDbComment(data as DbCommentWithProfile) })
   } catch (error) {

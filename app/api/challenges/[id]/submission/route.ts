@@ -11,6 +11,8 @@ import { getChallengeSubmissionByUser } from '@/lib/api/challenge-submissions'
 import { ChallengeSubmissionSchema } from '@/lib/schemas'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 
 async function getActiveChallenge(supabase: Awaited<ReturnType<typeof createClient>>, challengeId: number) {
   const { data, error } = await supabase
@@ -38,6 +40,7 @@ async function validateReferenceProjects(
     .in('id', referenceProjectIds)
     .eq('challenge_id', challengeId)
     .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
 
   if (error) throw error
 
@@ -138,6 +141,25 @@ export async function POST(
       return NextResponse.json({ error: 'Submission already exists' }, { status: 409 })
     }
 
+    const moderation = await moderateUserContent({
+      text: [parsed.data.title, parsed.data.notes, ...(parsed.data.proof_captions || [])]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: parsed.data.proof_images,
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '挑战作品未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     await requireInteractionAccess(supabase, user, 'submit')
 
     const referenceProjectIds = await validateReferenceProjects(
@@ -158,6 +180,7 @@ export async function POST(
         proof_video_url: parsed.data.proof_video_url ?? null,
         is_public: parsed.data.is_public,
         status: 'pending',
+        moderation_state: moderation.state,
         updated_at: new Date().toISOString(),
       } as never)
       .select('*')
@@ -183,8 +206,30 @@ export async function POST(
 
     await ensureParticipant(supabase, user.id, challengeId)
 
+    const moderationCaseId = moderation.state === 'pending'
+      ? await createModerationCase({
+          contentType: 'challenge_submission',
+          contentId: submission.id,
+          authorId: user.id,
+          riskLevel: moderation.riskLevel,
+          category: moderation.category,
+          reason: moderation.reason,
+          modelName: moderation.modelName,
+          snapshot: {
+            authorId: user.id,
+            text: [parsed.data.title, parsed.data.notes].filter(Boolean).join('\n'),
+            metadata: { imageUrls: parsed.data.proof_images },
+          },
+        })
+      : null
+
     const mapped = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
-    return NextResponse.json({ submission: mapped }, { status: 201 })
+    return NextResponse.json(
+      moderationCaseId
+        ? { submission: mapped, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { submission: mapped },
+      { status: moderationCaseId ? 202 : 201 },
+    )
   } catch (error) {
     if (error instanceof Error && error.message === '部分参考项目不存在或不可关联') {
       return NextResponse.json({ error: error.message }, { status: 400 })
@@ -230,6 +275,25 @@ export async function PATCH(
     validateChallengeSubmissionContent(parsed.data)
     validateChallengeSubmissionMediaOwnership(parsed.data, user.id)
 
+    const moderation = await moderateUserContent({
+      text: [parsed.data.title, parsed.data.notes, ...(parsed.data.proof_captions || [])]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: parsed.data.proof_images,
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '挑战作品未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     const current = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
     if (!current) {
       return NextResponse.json({ error: 'Submission not found' }, { status: 404 })
@@ -255,6 +319,7 @@ export async function PATCH(
         reviewed_by: null,
         reviewed_at: null,
         rejection_reason: null,
+        moderation_state: moderation.state,
         updated_at: new Date().toISOString(),
       } as never)
       .eq('id', current.id)
@@ -281,8 +346,30 @@ export async function PATCH(
       if (linkError) throw linkError
     }
 
+    const moderationCaseId = moderation.state === 'pending'
+      ? await createModerationCase({
+          contentType: 'challenge_submission',
+          contentId: current.id,
+          authorId: user.id,
+          riskLevel: moderation.riskLevel,
+          category: moderation.category,
+          reason: moderation.reason,
+          modelName: moderation.modelName,
+          snapshot: {
+            authorId: user.id,
+            text: [parsed.data.title, parsed.data.notes].filter(Boolean).join('\n'),
+            metadata: { imageUrls: parsed.data.proof_images },
+          },
+        })
+      : null
+
     const mapped = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
-    return NextResponse.json({ submission: mapped })
+    return NextResponse.json(
+      moderationCaseId
+        ? { submission: mapped, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { submission: mapped },
+      { status: moderationCaseId ? 202 : 200 },
+    )
   } catch (error) {
     return handleApiError(error)
   }

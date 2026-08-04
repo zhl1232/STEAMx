@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateContentSafe } from '@/lib/api/validation'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 
 /**
  * PATCH /api/comments/[id]
@@ -34,25 +36,58 @@ export async function PATCH(
 
     validateContentSafe(content, '评论内容')
 
+    const moderation = await moderateUserContent({ text: content })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '评论未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     const { data: row, error: fetchError } = await supabase
       .from('comments')
-      .select('author_id')
+      .select('author_id, moderation_state')
       .eq('id', commentId)
       .maybeSingle()
     if (fetchError) throw fetchError
     if (!row) {
       return NextResponse.json({ error: 'Comment not found' }, { status: 404 })
     }
-    if ((row as { author_id: string }).author_id !== user.id) {
+    const typedRow = row as { author_id: string; moderation_state?: string }
+    if (typedRow.author_id !== user.id) {
       return NextResponse.json({ error: '无权编辑此评论' }, { status: 403 })
     }
 
     const { error } = await supabase
       .from('comments')
-      .update({ content, updated_at: new Date().toISOString() } as never)
+      .update({
+        content,
+        updated_at: new Date().toISOString(),
+        moderation_state: typedRow.moderation_state === 'hidden' ? 'pending' : moderation.state,
+      } as never)
       .eq('id', commentId)
       .eq('author_id', user.id)
     if (error) throw error
+
+    if (typedRow.moderation_state === 'hidden' || moderation.state === 'pending') {
+      const caseId = await createModerationCase({
+        contentType: 'comment',
+        contentId: commentId,
+        authorId: user.id,
+        riskLevel: moderation.riskLevel,
+        category: moderation.category,
+        reason: moderation.reason || '编辑后的评论需要重新审核',
+        modelName: moderation.modelName,
+        snapshot: { authorId: user.id, text: content, metadata: {} },
+      })
+      return NextResponse.json({ message: 'Comment queued for moderation', content, caseId }, { status: 202 })
+    }
 
     return NextResponse.json({ message: 'Comment updated', content })
   } catch (error) {

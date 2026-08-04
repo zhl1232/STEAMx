@@ -13,6 +13,8 @@ import { canResubmitCompletion } from '@/lib/completion-records'
 import { scheduleCompletionModeration } from '@/lib/completions/moderate-completion'
 import { getProjectCompletions } from '@/lib/api/explore-data'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 
 const GALLERY_LIMIT = 24
 
@@ -94,6 +96,25 @@ export async function POST(
       return NextResponse.json({ error: '作品视频必须使用当前账号上传的文件' }, { status: 400 })
     }
 
+    const moderation = await moderateUserContent({
+      text: [payload.notes, ...(payload.imageCaptions || [])]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: payload.images,
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '作品未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     const { data: exploration, error: explorationError } = await supabase
       .from('project_explorations')
       .select('id, status')
@@ -163,6 +184,7 @@ export async function POST(
         reviewed_at: null,
         rejection_reason: null,
         moderation_source: 'ai',
+        moderation_state: moderation.state,
       }
 
       let completionId: number
@@ -194,11 +216,26 @@ export async function POST(
         { onConflict: 'completion_id' },
       )
 
-      scheduleCompletionModeration(completionId)
+      const moderationCaseId = moderation.state === 'pending'
+        ? await createModerationCase({
+            contentType: 'completion',
+            contentId: completionId,
+            authorId: user.id,
+            riskLevel: moderation.riskLevel,
+            category: moderation.category,
+            reason: moderation.reason,
+            modelName: moderation.modelName,
+            snapshot: { authorId: user.id, text: payload.notes || null, metadata: { imageUrls: payload.images } },
+          })
+        : null
+
+      if (!moderationCaseId) scheduleCompletionModeration(completionId)
 
       return NextResponse.json(
-        { id: completionId, status: 'pending', recordKind: 'final' },
-        { status: 201 },
+        moderationCaseId
+          ? { id: completionId, status: 'pending', recordKind: 'final', moderation: { state: 'pending', caseId: moderationCaseId } }
+          : { id: completionId, status: 'pending', recordKind: 'final' },
+        { status: moderationCaseId ? 202 : 201 },
       )
     }
 
@@ -221,6 +258,7 @@ export async function POST(
         reviewed_at: null,
         rejection_reason: null,
         moderation_source: 'ai',
+        moderation_state: moderation.state,
       } as never)
       .select('id, status')
       .single()
@@ -239,11 +277,26 @@ export async function POST(
       { onConflict: 'completion_id' },
     )
 
-    scheduleCompletionModeration(completionId)
+    const moderationCaseId = moderation.state === 'pending'
+      ? await createModerationCase({
+          contentType: 'completion',
+          contentId: completionId,
+          authorId: user.id,
+          riskLevel: moderation.riskLevel,
+          category: moderation.category,
+          reason: moderation.reason,
+          modelName: moderation.modelName,
+          snapshot: { authorId: user.id, text: payload.notes || null, metadata: { imageUrls: payload.images } },
+        })
+      : null
+
+    if (!moderationCaseId) scheduleCompletionModeration(completionId)
 
     return NextResponse.json(
-      { id: completionId, status: 'pending', recordKind: 'progress' },
-      { status: 201 },
+      moderationCaseId
+        ? { id: completionId, status: 'pending', recordKind: 'progress', moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { id: completionId, status: 'pending', recordKind: 'progress' },
+      { status: moderationCaseId ? 202 : 201 },
     )
   } catch (error) {
     return handleApiError(error)

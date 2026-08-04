@@ -5,6 +5,7 @@ import { approveCompletionWithXp, rejectCompletion } from '@/lib/completions/app
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createModerationCase } from '@/lib/safety/server'
 
 type CompletionRow = {
   id: number
@@ -16,6 +17,7 @@ type CompletionRow = {
   proof_images: string[] | null
   notes: string | null
   exploration_id: number | null
+  moderation_state: string | null
 }
 
 export async function runCompletionModeration(completionId: number): Promise<{
@@ -28,7 +30,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
 
   const { data: completion, error: fetchError } = await supabaseAdmin
     .from('completed_projects')
-    .select('id, user_id, project_id, course_lesson_id, record_kind, status, proof_images, notes, exploration_id')
+    .select('id, user_id, project_id, course_lesson_id, record_kind, status, proof_images, notes, exploration_id, moderation_state')
     .eq('id', completionId)
     .maybeSingle()
 
@@ -63,8 +65,44 @@ export async function runCompletionModeration(completionId: number): Promise<{
       imageResults: decision.imageResults,
     } as Json
 
+    if (decision.pending) {
+      await supabaseAdmin
+        .from('completed_projects')
+        .update({ moderation_state: 'pending' } as never)
+        .eq('id', completionId)
+      const caseId = await createModerationCase({
+        contentType: 'completion',
+        contentId: completionId,
+        authorId: row.user_id,
+        riskLevel: 'medium',
+        category: 'moderation_unavailable',
+        reason: decision.reason || '图片审核服务暂时不可用，等待人工审核。',
+        modelName: 'completion-vision-unavailable',
+        snapshot: {
+          authorId: row.user_id,
+          text: row.notes,
+          metadata: { imageUrls: row.proof_images || [] },
+        },
+      })
+      await supabaseAdmin
+        .from('completion_moderation_logs')
+        .update({
+          status: 'queued',
+          moderation_pass: null,
+          moderation_reason: decision.reason,
+          raw_response: rawResponse,
+          updated_at: new Date().toISOString(),
+        } as never)
+        .eq('completion_id', completionId)
+      return { status: 'skipped', reason: `moderation_pending:${caseId}` }
+    }
+
     if (!decision.pass) {
       await rejectCompletion(completionId, decision.reason || '内容未通过审核')
+      await supabaseAdmin
+        .from('completed_projects')
+        .update({ moderation_state: 'rejected' } as never)
+        .eq('id', completionId)
       await supabaseAdmin
         .from('completion_moderation_logs')
         .update({
@@ -88,6 +126,11 @@ export async function runCompletionModeration(completionId: number): Promise<{
       })
       if (approveError) throw approveError
     }
+
+    await supabaseAdmin
+      .from('completed_projects')
+      .update({ moderation_state: 'approved' } as never)
+      .eq('id', completionId)
 
     if (recordKind === 'final' && row.project_id) {
       await supabaseAdmin

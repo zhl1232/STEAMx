@@ -187,7 +187,7 @@ async function resolveTargetContext(
   if (targetType === 'project') {
     const { data, error } = await supabase
       .from('projects')
-      .select('id, title, description, category, author_id, status')
+      .select('id, title, description, category, author_id, status, moderation_state')
       .eq('id', targetId)
       .maybeSingle()
 
@@ -199,9 +199,10 @@ async function resolveTargetContext(
       category?: string | null
       author_id?: string | null
       status?: string | null
+      moderation_state?: string | null
     } | null
 
-    if (!project || project.status !== 'approved' || !project.author_id) return null
+    if (!project || project.status !== 'approved' || project.moderation_state !== 'approved' || !project.author_id) return null
     if (await isAutoInteractionAccount(project.author_id)) return null
 
     return {
@@ -222,7 +223,7 @@ async function resolveTargetContext(
   if (targetType === 'completion') {
     const { data, error } = await supabase
       .from('completed_projects')
-      .select('id, user_id, project_id, course_lesson_id, notes, is_public, status, record_type, stage_label')
+      .select('id, user_id, project_id, course_lesson_id, notes, is_public, status, moderation_state, record_type, stage_label')
       .eq('id', targetId)
       .maybeSingle()
 
@@ -235,22 +236,29 @@ async function resolveTargetContext(
       notes?: string | null
       is_public?: boolean | null
       status?: string | null
+      moderation_state?: string | null
       record_type?: string | null
       stage_label?: string | null
     } | null
 
-    if (!completion || completion.status !== 'approved' || completion.is_public !== true) return null
+    if (!completion || completion.status !== 'approved' || completion.moderation_state !== 'approved' || completion.is_public !== true) return null
     if (await isAutoInteractionAccount(completion.user_id)) return null
 
     let sourceTitle: string | null = null
     if (completion.project_id) {
       const { data: projectData, error: projectError } = await supabase
         .from('projects')
-        .select('title, status')
+        .select('title, status, moderation_state')
         .eq('id', completion.project_id)
         .maybeSingle()
       if (projectError) throw projectError
-      sourceTitle = (projectData as { title?: string | null } | null)?.title ?? null
+      const sourceProject = projectData as {
+        title?: string | null
+        status?: string | null
+        moderation_state?: string | null
+      } | null
+      if (sourceProject?.status !== 'approved' || sourceProject.moderation_state !== 'approved') return null
+      sourceTitle = sourceProject.title ?? null
     } else if (completion.course_lesson_id) {
       const { data: lessonData, error: lessonError } = await supabase
         .from('course_lessons')
@@ -279,7 +287,7 @@ async function resolveTargetContext(
 
   const { data, error } = await supabase
     .from('observation_events')
-    .select('id, user_id, nature_topic, location_name, habitat, weather, notes, is_public, status')
+    .select('id, user_id, nature_topic, location_name, habitat, weather, notes, is_public, status, moderation_state')
     .eq('id', targetId)
     .maybeSingle()
 
@@ -294,9 +302,10 @@ async function resolveTargetContext(
     notes?: string | null
     is_public?: boolean | null
     status?: string | null
+    moderation_state?: string | null
   } | null
 
-  if (!observation || observation.status !== 'approved' || observation.is_public !== true) return null
+  if (!observation || observation.status !== 'approved' || observation.moderation_state !== 'approved' || observation.is_public !== true) return null
   if (await isAutoInteractionAccount(observation.user_id)) return null
 
   return {
@@ -459,6 +468,7 @@ async function performReply(job: AutoInteractionJob, context: TargetContext, act
         reply_to_user_id: null,
         reply_to_username: null,
         image_url: null,
+        moderation_state: 'approved',
       } as never)
       .select('id')
       .single()
@@ -489,6 +499,7 @@ async function performReply(job: AutoInteractionJob, context: TargetContext, act
         parent_id: null,
         reply_to_user_id: null,
         reply_to_username: null,
+        moderation_state: 'approved',
       } as never)
 
     if (error) throw error
@@ -504,6 +515,7 @@ async function performReply(job: AutoInteractionJob, context: TargetContext, act
       parent_id: null,
       reply_to_user_id: null,
       reply_to_username: null,
+      moderation_state: 'approved',
     } as never)
 
   if (error) throw error

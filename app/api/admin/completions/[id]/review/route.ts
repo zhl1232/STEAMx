@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { validateEnum, validateOptionalString, validateNumber } from '@/lib/api/validation'
 import { callRpc } from '@/lib/supabase/rpc'
+import { setContentModerationState } from '@/lib/safety/server'
 
 /**
  * POST /api/admin/completions/[id]/review
@@ -55,6 +56,7 @@ export async function POST(
       if (error) {
         throw error
       }
+      await setContentModerationState('completion', completionId, 'approved')
 
       const rewardResult = data as unknown as { xp_awarded?: boolean }
 
@@ -72,6 +74,7 @@ export async function POST(
       if (error) {
         throw error
       }
+      await setContentModerationState('completion', completionId, 'rejected')
 
       return NextResponse.json({
         message: 'Completion rejected',

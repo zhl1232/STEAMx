@@ -6,6 +6,7 @@ import { logger } from '@/lib/logger'
 import { awardXpOnce } from '@/lib/api/server-awards'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { setContentModerationState } from '@/lib/safety/server'
 
 export async function POST(
   request: NextRequest,
@@ -50,6 +51,7 @@ export async function POST(
         .eq('id', submissionId)
 
       if (updateError) throw updateError
+      await setContentModerationState('challenge_submission', submissionId, 'approved')
 
       let evergreenCompletionRecorded = false
       try {
@@ -78,6 +80,7 @@ export async function POST(
       .eq('id', submissionId)
 
     if (updateError) throw updateError
+    await setContentModerationState('challenge_submission', submissionId, 'rejected')
 
     return NextResponse.json({
       message: 'Challenge submission rejected',

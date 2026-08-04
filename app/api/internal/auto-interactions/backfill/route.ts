@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
       .from('projects')
       .select('id, title, author_id')
       .eq('status', 'approved')
+      .eq('moderation_state', 'approved')
       .not('author_id', 'is', null)
       .order('created_at', { ascending: false })
       .limit(scanLimit)

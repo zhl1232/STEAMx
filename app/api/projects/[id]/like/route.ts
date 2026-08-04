@@ -66,7 +66,7 @@ export async function POST(
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, title')
+      .select('author_id, title, status, moderation_state')
       .eq('id', projectId)
       .maybeSingle()
 
@@ -74,9 +74,17 @@ export async function POST(
       throw projectError
     }
 
-    const project = projectRow as { author_id: string; title?: string | null } | null
+    const project = projectRow as {
+      author_id: string
+      title?: string | null
+      status?: string | null
+      moderation_state?: string | null
+    } | null
 
     if (!project) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
+    if ((project.status && project.status !== 'approved') || project.moderation_state !== 'approved') {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 

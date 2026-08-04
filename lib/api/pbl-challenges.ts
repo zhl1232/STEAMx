@@ -62,6 +62,7 @@ export async function getPblChallengeGroups(): Promise<{
           .in('challenge_id', challengeIds)
           .eq('status', 'approved')
           .eq('is_public', true)
+          .eq('moderation_state', 'approved')
       : Promise.resolve({ data: [], error: null })
 
     const userStatePromise = user

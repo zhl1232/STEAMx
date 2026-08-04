@@ -38,6 +38,7 @@ export async function settleTimedChallenge(challengeId: number) {
     .eq('challenge_id', challengeId)
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
 
   if (submissionError) throw submissionError
 

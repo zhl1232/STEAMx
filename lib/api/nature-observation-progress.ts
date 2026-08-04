@@ -24,6 +24,7 @@ export async function getApprovedObservedSpeciesData(supabase: SupabaseServerCli
     .select('id, observed_at')
     .eq('user_id', userId)
     .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
 
   if (eventsError) {
     logger.error('Error fetching approved user events for natural observation progress', { error: eventsError })

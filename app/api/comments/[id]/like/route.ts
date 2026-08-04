@@ -25,11 +25,14 @@ export async function POST(
 
     const { data: commentRow, error: commentError } = await supabase
       .from("comments")
-      .select("author_id")
+      .select("author_id, moderation_state")
       .eq("id", commentId)
       .maybeSingle();
     if (commentError) throw commentError;
     if (!commentRow) {
+      return NextResponse.json({ error: "Comment not found" }, { status: 404 });
+    }
+    if ((commentRow as { moderation_state?: string }).moderation_state !== "approved") {
       return NextResponse.json({ error: "Comment not found" }, { status: 404 });
     }
     if ((commentRow as { author_id: string }).author_id === user.id) {

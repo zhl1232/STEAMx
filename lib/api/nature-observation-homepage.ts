@@ -183,6 +183,7 @@ async function countPublicObservations() {
     .select('id', { count: 'exact', head: true })
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
 
   if (error) {
     logger.error('Error counting public observations', { error })
@@ -200,6 +201,7 @@ async function countWeeklyPublicObservations() {
     .select('id', { count: 'exact', head: true })
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .gte('observed_at', since)
 
   if (error) {
@@ -232,6 +234,7 @@ async function countIdentifiedObservationRecords() {
     .select('id, observation_events!inner(status,is_public)', { count: 'exact', head: true })
     .eq('observation_events.status', 'approved')
     .eq('observation_events.is_public', true)
+    .eq('observation_events.moderation_state', 'approved')
 
   if (error) {
     logger.error('Error counting identified observation records', { error })
@@ -252,6 +255,7 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
       .select(OBSERVATION_DIMENSION_SELECT)
       .eq('status', 'approved')
       .eq('is_public', true)
+      .eq('moderation_state', 'approved')
       .order('created_at', { ascending: false })
       .order('id', { ascending: false })
       .range(from, to)
@@ -634,6 +638,7 @@ export async function getCuratedChallengeProjects(challengeId: number): Promise<
     .select('id, title')
     .eq('challenge_id', challengeId)
     .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
     .order('created_at', { ascending: true })
 
   if (error) {
@@ -759,6 +764,9 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
     .from('observation_events')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
 
@@ -811,6 +819,9 @@ export async function getRecentNatureObservationsForMap(limit = 24): Promise<Obs
     .from('observation_events')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
 

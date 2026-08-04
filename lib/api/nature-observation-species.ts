@@ -95,6 +95,7 @@ async function fetchObservedSpeciesIdsForUser(
     .select('id')
     .eq('user_id', userId)
     .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
 
   if (eventError) {
     logger.error('Error fetching user observation events for species list', { error: eventError, userId })
@@ -604,6 +605,7 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
     .in('id', eventIds)
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
     .limit(12)
@@ -719,6 +721,7 @@ async function computeSpeciesStats(
       .in('id', allLinkedEventIds)
       .eq('status', 'approved')
       .eq('is_public', true)
+      .eq('moderation_state', 'approved')
 
     if (error) {
       logger.error('Error fetching species stats events', { error, speciesId })

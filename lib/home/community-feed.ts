@@ -81,6 +81,7 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
       .from("projects")
       .select("id, title, created_at, profiles:author_id (display_name, username)")
       .eq("status", "approved")
+      .eq("moderation_state", "approved")
       .order("created_at", { ascending: false })
       .limit(8),
     supabase.from("likes").select("user_id, project_id, created_at").order("created_at", { ascending: false }).limit(14),
@@ -118,7 +119,11 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
     const userIds = [...new Set(likeRows.map((row) => row.user_id))];
 
     const [{ data: likeProjects, error: lpErr }, { data: likeProfiles, error: lprofErr }] = await Promise.all([
-      supabase.from("projects").select("id, title, status").in("id", projectIds),
+      supabase
+        .from("projects")
+        .select("id, title, status, moderation_state")
+        .eq("moderation_state", "approved")
+        .in("id", projectIds),
       supabase.from("profiles").select("id, display_name, username").in("id", userIds),
     ]);
 

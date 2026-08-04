@@ -157,6 +157,18 @@ describe('POST /api/notifications', () => {
                 }
             }
 
+            if (table === 'user_blocks') {
+                return {
+                    select: vi.fn(() => ({
+                        or: vi.fn(() => ({
+                            limit: vi.fn(() => ({
+                                maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+                            })),
+                        })),
+                    })),
+                }
+            }
+
             throw new Error(`Unexpected table: ${table}`)
         })
 
@@ -235,6 +247,18 @@ describe('POST /api/notifications', () => {
                     insert: vi.fn(() => {
                         throw new Error('Notifications insert should not be reached')
                     }),
+                }
+            }
+
+            if (table === 'user_blocks') {
+                return {
+                    select: vi.fn(() => ({
+                        or: vi.fn(() => ({
+                            limit: vi.fn(() => ({
+                                maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+                            })),
+                        })),
+                    })),
                 }
             }
 

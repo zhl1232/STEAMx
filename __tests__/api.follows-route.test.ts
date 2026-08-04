@@ -87,6 +87,17 @@ describe('POST /api/follows', () => {
             if (table === 'follows') {
                 return { insert }
             }
+            if (table === 'user_blocks') {
+                return {
+                    select: vi.fn(() => ({
+                        or: vi.fn(() => ({
+                            limit: vi.fn(() => ({
+                                maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+                            })),
+                        })),
+                    })),
+                }
+            }
             throw new Error(`Unexpected table: ${table}`)
         })
 

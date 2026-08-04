@@ -38,6 +38,9 @@ export interface Database {
           message_privacy: string
           age_confirmed_at: string | null
           interaction_restricted: boolean
+          safety_status: string
+          safety_restricted_until: string | null
+          safety_restriction_reason: string | null
           is_auto_interaction_account: boolean
           membership_tier: string
           membership_period: string
@@ -66,6 +69,9 @@ export interface Database {
           message_privacy?: string
           age_confirmed_at?: string | null
           interaction_restricted?: boolean
+          safety_status?: string
+          safety_restricted_until?: string | null
+          safety_restriction_reason?: string | null
           is_auto_interaction_account?: boolean
           membership_tier?: string
           membership_period?: string
@@ -94,6 +100,9 @@ export interface Database {
           message_privacy?: string
           age_confirmed_at?: string | null
           interaction_restricted?: boolean
+          safety_status?: string
+          safety_restricted_until?: string | null
+          safety_restriction_reason?: string | null
           is_auto_interaction_account?: boolean
           membership_tier?: string
           membership_period?: string
@@ -632,6 +641,7 @@ export interface Database {
           iterations: Json | null
           steam_weights: Json | null
           tags: string[] | null
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -656,6 +666,7 @@ export interface Database {
           iterations?: Json | null
           steam_weights?: Json | null
           tags?: string[] | null
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -680,6 +691,7 @@ export interface Database {
           iterations?: Json | null
           steam_weights?: Json | null
           tags?: string[] | null
+          moderation_state?: string
         }
         Relationships: []
       }
@@ -720,6 +732,7 @@ export interface Database {
           sender_id: string
           receiver_id: string
           content: string
+          moderation_state: string
           read_at: string | null
           created_at: string
         }
@@ -728,6 +741,7 @@ export interface Database {
           sender_id: string
           receiver_id: string
           content: string
+          moderation_state?: string
           read_at?: string | null
           created_at?: string
         }
@@ -736,6 +750,7 @@ export interface Database {
           sender_id?: string
           receiver_id?: string
           content?: string
+          moderation_state?: string
           read_at?: string | null
           created_at?: string
         }
@@ -766,6 +781,13 @@ export interface Database {
           reviewer_id: string | null
           reviewer_note: string | null
           reviewed_at: string | null
+          author_id: string | null
+          risk_level: string
+          snapshot_text: string | null
+          snapshot_metadata: Json
+          moderation_case_id: number | null
+          auto_action: string | null
+          evidence_expires_at: string | null
           created_at: string
         }
         Insert: {
@@ -779,6 +801,13 @@ export interface Database {
           reviewer_id?: string | null
           reviewer_note?: string | null
           reviewed_at?: string | null
+          author_id?: string | null
+          risk_level?: string
+          snapshot_text?: string | null
+          snapshot_metadata?: Json
+          moderation_case_id?: number | null
+          auto_action?: string | null
+          evidence_expires_at?: string | null
           created_at?: string
         }
         Update: {
@@ -792,6 +821,13 @@ export interface Database {
           reviewer_id?: string | null
           reviewer_note?: string | null
           reviewed_at?: string | null
+          author_id?: string | null
+          risk_level?: string
+          snapshot_text?: string | null
+          snapshot_metadata?: Json
+          moderation_case_id?: number | null
+          auto_action?: string | null
+          evidence_expires_at?: string | null
           created_at?: string
         }
         Relationships: [
@@ -802,6 +838,169 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      user_blocks: {
+        Row: {
+          blocker_id: string
+          blocked_user_id: string
+          created_at: string
+        }
+        Insert: {
+          blocker_id: string
+          blocked_user_id: string
+          created_at?: string
+        }
+        Update: {
+          blocker_id?: string
+          blocked_user_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      moderation_cases: {
+        Row: {
+          id: number
+          content_type: string
+          content_id: number
+          author_id: string | null
+          source: string
+          status: string
+          risk_level: string
+          category: string | null
+          reason: string | null
+          model_name: string | null
+          snapshot_text: string | null
+          snapshot_metadata: Json
+          assigned_to: string | null
+          resolved_by: string | null
+          resolved_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          content_type: string
+          content_id: number
+          author_id?: string | null
+          source?: string
+          status?: string
+          risk_level?: string
+          category?: string | null
+          reason?: string | null
+          model_name?: string | null
+          snapshot_text?: string | null
+          snapshot_metadata?: Json
+          assigned_to?: string | null
+          resolved_by?: string | null
+          resolved_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          content_type?: string
+          content_id?: number
+          author_id?: string | null
+          source?: string
+          status?: string
+          risk_level?: string
+          category?: string | null
+          reason?: string | null
+          model_name?: string | null
+          snapshot_text?: string | null
+          snapshot_metadata?: Json
+          assigned_to?: string | null
+          resolved_by?: string | null
+          resolved_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      safety_actions: {
+        Row: {
+          id: number
+          user_id: string
+          action_type: string
+          status: string
+          reason: string
+          source_report_id: number | null
+          source_case_id: number | null
+          created_by: string | null
+          starts_at: string
+          ends_at: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          metadata: Json
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          action_type: string
+          status?: string
+          reason: string
+          source_report_id?: number | null
+          source_case_id?: number | null
+          created_by?: string | null
+          starts_at?: string
+          ends_at?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          action_type?: string
+          status?: string
+          reason?: string
+          source_report_id?: number | null
+          source_case_id?: number | null
+          created_by?: string | null
+          starts_at?: string
+          ends_at?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
+      safety_appeals: {
+        Row: {
+          id: number
+          action_id: number
+          appellant_id: string
+          reason: string
+          status: string
+          reviewer_id: string | null
+          reviewer_note: string | null
+          reviewed_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          action_id: number
+          appellant_id: string
+          reason: string
+          status?: string
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          action_id?: number
+          appellant_id?: string
+          reason?: string
+          status?: string
+          reviewer_id?: string | null
+          reviewer_note?: string | null
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
       }
       project_materials: {
         Row: {
@@ -863,6 +1062,7 @@ export interface Database {
           image_url: string | null
           likes_count: number
           created_at: string
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -875,6 +1075,7 @@ export interface Database {
           image_url?: string | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -887,6 +1088,7 @@ export interface Database {
           image_url?: string | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Relationships: [
           {
@@ -956,6 +1158,7 @@ export interface Database {
           stage_label: string | null
           exploration_id: number | null
           moderation_source: string | null
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -979,6 +1182,7 @@ export interface Database {
           stage_label?: string | null
           exploration_id?: number | null
           moderation_source?: string | null
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -1157,6 +1361,7 @@ export interface Database {
           parent_id: number | null
           reply_to_user_id: string | null
           reply_to_username: string | null
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -1167,6 +1372,7 @@ export interface Database {
           parent_id?: number | null
           reply_to_user_id?: string | null
           reply_to_username?: string | null
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -1177,6 +1383,7 @@ export interface Database {
           parent_id?: number | null
           reply_to_user_id?: string | null
           reply_to_username?: string | null
+          moderation_state?: string
         }
         Relationships: []
       }
@@ -1207,6 +1414,7 @@ export interface Database {
           tags: string[] | null
           likes_count: number
           created_at: string
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -1216,6 +1424,7 @@ export interface Database {
           tags?: string[] | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -1225,6 +1434,7 @@ export interface Database {
           tags?: string[] | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Relationships: []
       }
@@ -1258,6 +1468,7 @@ export interface Database {
           image_url: string | null
           likes_count: number
           created_at: string
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -1270,6 +1481,7 @@ export interface Database {
           image_url?: string | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -1282,6 +1494,7 @@ export interface Database {
           image_url?: string | null
           likes_count?: number
           created_at?: string
+          moderation_state?: string
         }
         Relationships: []
       }
@@ -1392,6 +1605,7 @@ export interface Database {
           sex: string | null
           created_at: string
           updated_at: string
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -1418,6 +1632,7 @@ export interface Database {
           sex?: string | null
           created_at?: string
           updated_at?: string
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -1444,6 +1659,7 @@ export interface Database {
           sex?: string | null
           created_at?: string
           updated_at?: string
+          moderation_state?: string
         }
         Relationships: []
       }
@@ -1843,6 +2059,7 @@ export interface Database {
           parent_id: number | null
           reply_to_user_id: string | null
           reply_to_username: string | null
+          moderation_state: string
           likes_count: number
           created_at: string
           updated_at: string
@@ -1855,6 +2072,7 @@ export interface Database {
           parent_id?: number | null
           reply_to_user_id?: string | null
           reply_to_username?: string | null
+          moderation_state?: string
           likes_count?: number
           created_at?: string
           updated_at?: string
@@ -1867,6 +2085,7 @@ export interface Database {
           parent_id?: number | null
           reply_to_user_id?: string | null
           reply_to_username?: string | null
+          moderation_state?: string
           likes_count?: number
           created_at?: string
           updated_at?: string
@@ -2283,6 +2502,7 @@ export interface Database {
           rejection_reason: string | null
           created_at: string
           updated_at: string
+          moderation_state: string
         }
         Insert: {
           id?: number
@@ -2300,6 +2520,7 @@ export interface Database {
           rejection_reason?: string | null
           created_at?: string
           updated_at?: string
+          moderation_state?: string
         }
         Update: {
           id?: number
@@ -2317,6 +2538,7 @@ export interface Database {
           rejection_reason?: string | null
           created_at?: string
           updated_at?: string
+          moderation_state?: string
         }
         Relationships: [
           {
@@ -2909,6 +3131,10 @@ export interface Database {
       }
       award_xp_once: {
         Args: { p_user_id: string; p_action_type: string; p_resource_id: string }
+        Returns: number
+      }
+      purge_expired_report_evidence: {
+        Args: Record<string, never>
         Returns: number
       }
       review_moderator_application: {

@@ -10,9 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
+import { BlockButton } from "@/components/features/social/block-button";
 import { useAuth } from '@/lib/context/auth-context';
 import { useConversationMessages, useMarkConversationRead, useSendMessage } from "@/hooks/use-messages";
 import type { Message } from "@/lib/mappers/types";
+import { useBlock } from "@/hooks/use-block";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -30,6 +32,7 @@ export default function ConversationPage() {
     useConversationMessages(otherUserId);
   const { sendMessage, isPending } = useSendMessage();
   const { markConversationRead } = useMarkConversationRead();
+  const { blocked } = useBlock(otherUserId);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const isLoadingOlderRef = useRef(false);
@@ -102,7 +105,7 @@ export default function ConversationPage() {
   const handleSend = async () => {
     const trimmed = input.trim();
     if (!trimmed || !otherUserId || !user) return;
-    if (otherUserId === user.id || isMissingPeer || isInvalidPeerId) return;
+    if (otherUserId === user.id || isMissingPeer || isInvalidPeerId || blocked) return;
 
     await sendMessage({ receiverId: otherUserId, content: trimmed });
     setInput("");
@@ -157,10 +160,13 @@ export default function ConversationPage() {
           fallbackHref="/messages"
           className="-mx-4 -mt-6 mb-4 md:hidden"
           rightSlot={
-            <Avatar className="h-9 w-9">
-              <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
-              <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
-            </Avatar>
+            <div className="flex items-center gap-2">
+              {otherUserId && !isInvalidPeerId && !isMissingPeer ? <BlockButton targetUserId={otherUserId} compact /> : null}
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
+                <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
+              </Avatar>
+            </div>
           }
         />
 
@@ -176,6 +182,7 @@ export default function ConversationPage() {
                 <h1 className="mt-1 truncate text-2xl font-semibold tracking-tight">{displayName}</h1>
               </div>
             </div>
+            {otherUserId && !isInvalidPeerId && !isMissingPeer ? <BlockButton targetUserId={otherUserId} compact /> : null}
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 sm:px-5" ref={scrollRef}>
@@ -225,6 +232,9 @@ export default function ConversationPage() {
           </div>
 
           <div className="border-t border-border/60 bg-background/70 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xs">
+            {blocked ? (
+              <p className="mb-2 text-center text-xs text-muted-foreground">双方已断开互动，暂时不能发送私信。</p>
+            ) : null}
             <div className="flex gap-2">
               <Input
                 placeholder={
@@ -248,6 +258,7 @@ export default function ConversationPage() {
                 disabled={
                   !otherUserId ||
                   otherUserId === user.id ||
+                  blocked ||
                   isMissingPeer ||
                   isInvalidPeerId ||
                   Boolean(error)

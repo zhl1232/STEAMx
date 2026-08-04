@@ -6,6 +6,7 @@ import { buildObservationRewardSummary, rollbackObservationGamification } from "
 import { handleApiError, requireRole } from "@/lib/api/auth"
 import { logger } from "@/lib/logger"
 import { createClient } from "@/lib/supabase/server"
+import { setContentModerationState } from "@/lib/safety/server"
 
 const ObservationAdminPatchSchema = z.object({
   status: z.enum(["approved", "rejected"]),
@@ -56,6 +57,7 @@ export async function PATCH(
     if (updateError) {
       throw updateError
     }
+    await setContentModerationState('observation', observationId, nextStatus === 'approved' ? 'approved' : 'rejected')
 
     let rewardSummary = null
     let rewardError = false

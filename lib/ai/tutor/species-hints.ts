@@ -56,6 +56,7 @@ async function fetchObservationLocations(
     .in('id', eventIds)
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .not('location_name', 'is', null)
     .limit(200)
 

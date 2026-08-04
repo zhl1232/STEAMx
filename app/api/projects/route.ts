@@ -13,6 +13,8 @@ import { inferProjectSteamWeights } from '@/lib/config/project-steam-weights'
 import { logger } from '@/lib/logger'
 import { awardXpOnce } from '@/lib/api/server-awards'
 import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
@@ -145,6 +147,27 @@ export async function POST(request: Request) {
 
     await requireInteractionAccess(supabase, user, 'post')
 
+    const moderation = await moderateUserContent({
+      text: [title, description, reflection, problem_statement, ...(steps || []).flatMap((step) => [step.title, step.description])]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: [image_url, ...(steps || []).map((step) => step.image_url)].filter(
+        (value): value is string => Boolean(value?.trim()),
+      ),
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '项目未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     // 创建项目
     const newProject: ProjectInsert = {
       title,
@@ -161,6 +184,7 @@ export async function POST(request: Request) {
       steam_weights: steamWeights as unknown as Json,
       author_id: user.id,
       status: 'pending',
+      moderation_state: moderation.state,
     }
 
     const { data: project, error: projectError } = (await supabase
@@ -242,6 +266,24 @@ export async function POST(request: Request) {
       }
     }
 
+    let moderationCaseId: number | null = null
+    if (moderation.state === 'pending') {
+      moderationCaseId = await createModerationCase({
+        contentType: 'project',
+        contentId: project.id,
+        authorId: user.id,
+        riskLevel: moderation.riskLevel,
+        category: moderation.category,
+        reason: moderation.reason,
+        modelName: moderation.modelName,
+        snapshot: {
+          authorId: user.id,
+          text: [title, description].filter(Boolean).join('\n'),
+          metadata: { imageUrl: image_url, stepImageCount: (steps || []).filter((step) => step.image_url).length },
+        },
+      })
+    }
+
     try {
       await awardXpOnce({
         userId: user.id,
@@ -252,7 +294,12 @@ export async function POST(request: Request) {
       logger.error('Failed to award project XP', { error: awardError, projectId: project.id })
     }
 
-    return NextResponse.json(project, { status: 201 })
+    return NextResponse.json(
+      moderationCaseId
+        ? { ...project, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : project,
+      { status: moderationCaseId ? 202 : 201 },
+    )
   } catch (error) {
     return handleApiError(error)
   }

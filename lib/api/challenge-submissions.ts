@@ -60,6 +60,8 @@ async function loadReferenceProjects(
     .from('projects')
     .select('id, title')
     .in('id', projectIds)
+    .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
 
   if (projectsError || !projects) {
     return new Map()
@@ -195,6 +197,7 @@ export async function getChallengeSubmissions(
     .eq('challenge_id', challengeId)
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
 
   if (error || !data) {
     return []
@@ -225,6 +228,9 @@ export async function getChallengeSubmissionById(
     .from('challenge_submissions')
     .select('*')
     .eq('id', submissionId)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .maybeSingle()
 
   if (error || !data) {

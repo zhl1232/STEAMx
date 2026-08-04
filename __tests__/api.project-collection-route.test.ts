@@ -42,6 +42,7 @@ describe('POST /api/projects/[id]/collection', () => {
       id: 42,
       author_id: 'author-1',
       status: 'approved',
+      moderation_state: 'approved',
       title: '纸火箭',
     })
   })

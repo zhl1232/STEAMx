@@ -49,6 +49,16 @@ vi.mock('@/hooks/use-messages', () => ({
     }),
 }))
 
+vi.mock('@/hooks/use-block', () => ({
+    useBlock: () => ({
+        blocked: false,
+        blockedByMe: false,
+        isLoading: false,
+        isPending: false,
+        toggleBlock: vi.fn(),
+    }),
+}))
+
 vi.mock('@/components/ui/report-dialog', () => ({
     ReportDialog: () => null,
 }))

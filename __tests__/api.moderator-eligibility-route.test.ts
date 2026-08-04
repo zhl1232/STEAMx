@@ -36,17 +36,21 @@ describe('GET /api/moderator/eligibility', () => {
       error: null,
     })
 
-    const publishedStatusEq = vi.fn().mockResolvedValue({ count: 3 })
+    const publishedModerationEq = vi.fn().mockResolvedValue({ count: 3 })
+    const publishedStatusEq = vi.fn(() => ({ eq: publishedModerationEq }))
     const publishedAuthorEq = vi.fn(() => ({ eq: publishedStatusEq }))
 
     const completionsNot = vi.fn().mockResolvedValue({ count: 5 })
     const completionsRecordKindEq = vi.fn(() => ({ not: completionsNot }))
-    const completionsStatusEq = vi.fn(() => ({ eq: completionsRecordKindEq }))
+    const completionsModerationEq = vi.fn(() => ({ eq: completionsRecordKindEq }))
+    const completionsStatusEq = vi.fn(() => ({ eq: completionsModerationEq }))
     const completionsUserEq = vi.fn(() => ({ eq: completionsStatusEq }))
 
-    const commentsAuthorEq = vi.fn().mockResolvedValue({ count: 30 })
+    const commentsModerationEq = vi.fn().mockResolvedValue({ count: 30 })
+    const commentsAuthorEq = vi.fn(() => ({ eq: commentsModerationEq }))
     const badgesUserEq = vi.fn().mockResolvedValue({ count: 2 })
-    const rejectedStatusEq = vi.fn().mockResolvedValue({ count: 0 })
+    const rejectedModerationEq = vi.fn().mockResolvedValue({ count: 0 })
+    const rejectedStatusEq = vi.fn(() => ({ eq: rejectedModerationEq }))
     const rejectedAuthorEq = vi.fn(() => ({ eq: rejectedStatusEq }))
 
     let projectsQueryCount = 0
@@ -117,6 +121,10 @@ describe('GET /api/moderator/eligibility', () => {
     })
 
     expect(completionsStatusEq).toHaveBeenCalledWith('status', 'approved')
+    expect(completionsModerationEq).toHaveBeenCalledWith('moderation_state', 'approved')
+    expect(publishedModerationEq).toHaveBeenCalledWith('moderation_state', 'approved')
+    expect(rejectedModerationEq).toHaveBeenCalledWith('moderation_state', 'approved')
+    expect(commentsModerationEq).toHaveBeenCalledWith('moderation_state', 'approved')
     expect(completionsRecordKindEq).toHaveBeenCalledWith('record_kind', 'final')
   })
 })

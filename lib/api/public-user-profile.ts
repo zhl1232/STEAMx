@@ -46,6 +46,7 @@ const PUBLIC_PROFILE_PROJECT_SELECT = `
   tags,
   status,
   rejection_reason,
+  moderation_state,
   challenge_id,
   profiles:author_id (display_name),
   sub_categories (name)
@@ -79,6 +80,7 @@ export async function getPublicUserProfile(
       .select(PUBLIC_PROFILE_PROJECT_SELECT, { count: 'exact' })
       .eq('author_id', userId)
       .eq('status', 'approved')
+      .eq('moderation_state', 'approved')
       .order('created_at', { ascending: false })
       .range(from, to),
     supabase

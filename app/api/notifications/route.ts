@@ -4,6 +4,7 @@ import { requireAuth, requireRole, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateDateTimeString, validateUUID } from '@/lib/api/validation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import { assertUsersNotBlocked } from '@/lib/safety/server'
 
 const DEFAULT_PAGE_SIZE = 20
 const MAX_PAGE_SIZE = 20
@@ -266,6 +267,10 @@ export async function POST(request: NextRequest) {
       await requireRole(supabase, ['moderator', 'admin'])
     } else if (userId === user.id) {
       return NextResponse.json({ error: 'Cannot create notifications for yourself' }, { status: 400 })
+    }
+
+    if (!isSystem) {
+      await assertUsersNotBlocked(supabase, user.id, userId)
     }
 
     const relatedType =

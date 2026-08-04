@@ -17,6 +17,7 @@ import { CourseManagement } from '@/components/admin/course-management'
 import { ResourceManagement } from '@/components/admin/resource-management'
 import { UserMembershipManagement } from '@/components/admin/user-membership-management'
 import { AiUsageDashboard } from '@/components/admin/ai-usage-dashboard'
+import { SafetyQueues } from '@/components/admin/safety-queues'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -609,7 +610,7 @@ export default function AdminPage() {
 
             <div className="flex flex-wrap gap-2 lg:justify-end">
               <Button asChild variant="outline">
-                <Link href="/settings/security">
+                <Link href="/settings/safety">
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   安全中心
                 </Link>
@@ -667,6 +668,7 @@ export default function AdminPage() {
             <TabsTrigger value="pending-observations" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">自然观察审核 ({pendingObservations.length})</TabsTrigger>
             <TabsTrigger value="pending-challenge-submissions" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">待审核挑战作品 ({pendingChallengeSubmissions.length})</TabsTrigger>
             <TabsTrigger value="reports" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">举报管理</TabsTrigger>
+            <TabsTrigger value="safety" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">安全队列</TabsTrigger>
             <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">所有项目</TabsTrigger>
             {isAdmin && <TabsTrigger value="applications" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">审核员申请</TabsTrigger>}
             <TabsTrigger value="challenges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">挑战</TabsTrigger>
@@ -774,6 +776,10 @@ export default function AdminPage() {
 
           <TabsContent value="reports" className="space-y-4">
             <ReportsList />
+          </TabsContent>
+
+          <TabsContent value="safety" className="space-y-4">
+            <SafetyQueues />
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-4">

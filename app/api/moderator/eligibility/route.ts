@@ -36,18 +36,21 @@ export async function GET() {
         .from('projects')
         .select('*', { count: 'exact', head: true })
         .eq('author_id', user.id)
-        .eq('status', 'approved'),
+        .eq('status', 'approved')
+        .eq('moderation_state', 'approved'),
       supabase
         .from('completed_projects')
         .select('project_id', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .eq('status', 'approved')
+        .eq('moderation_state', 'approved')
         .eq('record_kind', 'final')
         .not('proof_images', 'is', null),
       supabase
         .from('comments')
         .select('*', { count: 'exact', head: true })
-        .eq('author_id', user.id),
+        .eq('author_id', user.id)
+        .eq('moderation_state', 'approved'),
       supabase
         .from('user_badges')
         .select('*', { count: 'exact', head: true })
@@ -56,7 +59,8 @@ export async function GET() {
         .from('projects')
         .select('*', { count: 'exact', head: true })
         .eq('author_id', user.id)
-        .eq('status', 'rejected'),
+        .eq('status', 'rejected')
+        .eq('moderation_state', 'approved'),
     ])
 
     const accountAge = Math.floor(

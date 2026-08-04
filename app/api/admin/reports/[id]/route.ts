@@ -3,9 +3,21 @@ import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
 import { rollbackObservationGamification } from '@/lib/api/observation-gamification'
 import { validateEnum, validateOptionalString } from '@/lib/api/validation'
+import { applySafetyAction, setContentModerationState, syncSafetyProjection } from '@/lib/safety/server'
 
 const STATUSES = ['resolved', 'dismissed'] as const
-const ACTIONS = ['none', 'hide_observation'] as const
+const ACTIONS = [
+  'none',
+  'hide_content',
+  'restore_content',
+  'hide_observation',
+  'warning',
+  'restrict_24h',
+  'restrict_7d',
+  'restrict_30d',
+  'suspend',
+  'ban',
+] as const
 
 export async function PATCH(
   request: NextRequest,
@@ -33,7 +45,7 @@ export async function PATCH(
 
     const { data: existingReport, error: reportLoadError } = await supabase
       .from('reports')
-      .select('id, status, content_type, content_id')
+      .select('id, status, content_type, content_id, author_id, moderation_case_id')
       .eq('id', reportId)
       .maybeSingle()
 
@@ -68,6 +80,73 @@ export async function PATCH(
       if (observation.status === 'approved') {
         await rollbackObservationGamification(observation.user_id, observation.id)
       }
+      await setContentModerationState('observation', existingReport.content_id, 'hidden')
+    }
+
+    if (action === 'hide_content') {
+      await setContentModerationState(existingReport.content_type, existingReport.content_id, 'hidden')
+    }
+
+    if (action === 'restore_content') {
+      await setContentModerationState(existingReport.content_type, existingReport.content_id, 'approved')
+    }
+
+    const accountActions = new Set([
+      'warning',
+      'restrict_24h',
+      'restrict_7d',
+      'restrict_30d',
+      'suspend',
+      'ban',
+    ])
+    if (accountActions.has(action) && existingReport.author_id) {
+      const durationHours = action === 'restrict_24h'
+        ? 24
+        : action === 'restrict_7d'
+          ? 24 * 7
+          : action === 'restrict_30d' || action === 'suspend'
+            ? 24 * 30
+            : undefined
+      const actionType = action === 'warning'
+        ? 'warning'
+        : action === 'ban'
+          ? 'account_ban'
+          : action === 'suspend'
+            ? 'account_suspension'
+            : 'interaction_restriction'
+      const endsAt = durationHours
+        ? new Date(Date.now() + durationHours * 60 * 60 * 1000).toISOString()
+        : null
+
+      await applySafetyAction({
+        userId: existingReport.author_id,
+        actionType,
+        reason: reviewer_note || '举报确认违规',
+        createdBy: user.id,
+        sourceReportId: reportId,
+        sourceCaseId: existingReport.moderation_case_id,
+        endsAt,
+        metadata: { action },
+      })
+      await syncSafetyProjection(existingReport.author_id)
+    }
+
+    if (existingReport.moderation_case_id) {
+      const moderationCaseStatus = status === 'resolved' && action === 'restore_content'
+        ? 'approved'
+        : status === 'resolved' && (action === 'hide_content' || action === 'hide_observation')
+          ? 'hidden'
+          : 'rejected'
+      const { error: caseError } = await supabase
+        .from('moderation_cases')
+        .update({
+          status: moderationCaseStatus,
+          resolved_by: user.id,
+          resolved_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        } as never)
+        .eq('id', existingReport.moderation_case_id)
+      if (caseError) throw caseError
     }
 
     const { data, error } = await supabase

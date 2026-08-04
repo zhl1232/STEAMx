@@ -103,7 +103,6 @@ export async function POST(request: NextRequest) {
         )
       }
     } catch (moderationError) {
-      await supabaseAdmin.storage.from(bucket).remove([data.path])
       logger.error('Upload image moderation failed', {
         error: moderationError,
         userId: user.id,
@@ -114,12 +113,17 @@ export async function POST(request: NextRequest) {
         sizeBytes: buffer.byteLength,
       })
       return NextResponse.json(
-        { error: '图片审核暂时不可用，请稍后重试', code: 'image_moderation_unavailable' },
-        { status: 503 }
+        {
+          publicUrl,
+          moderation: { state: 'pending' },
+          error: '图片审核暂时不可用，关联内容将进入人工审核',
+          code: 'image_moderation_unavailable',
+        },
+        { status: 202 },
       )
     }
 
-    return NextResponse.json({ publicUrl })
+    return NextResponse.json({ publicUrl, moderation: { state: 'approved' } })
   } catch (error) {
     return handleApiError(error)
   }

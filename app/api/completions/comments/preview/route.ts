@@ -17,6 +17,7 @@ const COMMENT_SELECT = `
   reply_to_user_id,
   reply_to_username,
   completed_project_id,
+  moderation_state,
   profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
 `
 
@@ -49,6 +50,7 @@ export async function GET(request: NextRequest) {
       .from('completion_comments')
       .select(COMMENT_SELECT)
       .in('completed_project_id', completionIds)
+      .eq('moderation_state', 'approved')
       .order('created_at', { ascending: false })
       .limit(rowLimit)
 

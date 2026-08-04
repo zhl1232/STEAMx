@@ -53,7 +53,12 @@ async function hydrateWorks(client: DbClient, rows: WorkRow[]): Promise<Work[]> 
       .select('id, display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, xp')
       .in('id', userIds),
     projectIds.length
-      ? client.from('projects').select('id, title, image_url').in('id', projectIds)
+      ? client
+          .from('projects')
+          .select('id, title, image_url')
+          .eq('status', 'approved')
+          .eq('moderation_state', 'approved')
+          .in('id', projectIds)
       : Promise.resolve({ data: [] as ProjectSourceRow[], error: null }),
     lessonIds.length
       ? client
@@ -130,6 +135,9 @@ export async function getWorksByIds(client: DbClient, ids: number[]): Promise<Wo
   const { data, error } = await client
     .from('completed_projects')
     .select('*')
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .in('id', ids)
 
   if (error) throw error
@@ -176,6 +184,7 @@ export async function getLessonWorks(
     .eq('record_kind', 'final')
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .order('likes_count', { ascending: false })
     .order('completed_at', { ascending: false })
     .limit(limit)
@@ -190,6 +199,9 @@ export async function getWorkById(id: number): Promise<Work | null> {
     .from('completed_projects')
     .select('*')
     .eq('id', id)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .maybeSingle()
 
   if (error) throw error
@@ -218,7 +230,7 @@ export async function getUserWorks(args: {
     .range(from, to)
 
   if (args.publicOnly) {
-    query = query.eq('status', 'approved').eq('is_public', true)
+    query = query.eq('status', 'approved').eq('is_public', true).eq('moderation_state', 'approved')
   }
 
   const { data, error, count } = await query

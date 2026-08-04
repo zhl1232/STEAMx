@@ -55,6 +55,19 @@ const CONTENT_TYPE_LABELS: Record<string, string> = {
   observation: "观察记录",
 };
 
+const ACTION_LABELS: Record<string, string> = {
+  none: "仅处理举报",
+  hide_content: "下架内容",
+  restore_content: "恢复内容",
+  hide_observation: "下架观察记录",
+  warning: "发出社区安全提醒",
+  restrict_24h: "限制互动 24 小时",
+  restrict_7d: "限制互动 7 天",
+  restrict_30d: "限制互动 30 天",
+  suspend: "账号暂时停用 30 天",
+  ban: "永久封禁账号",
+};
+
 const STATUS_LABELS: Record<string, string> = {
   pending: "待处理",
   resolved: "已解决",
@@ -72,6 +85,11 @@ interface ReportItem {
   reviewer_note: string | null;
   reviewed_at: string | null;
   created_at: string;
+  author_id: string | null;
+  risk_level: string;
+  snapshot_text: string | null;
+  snapshot_metadata: Record<string, unknown> | null;
+  auto_action: string | null;
   reporter?: {
     username: string | null;
     display_name: string | null;
@@ -90,7 +108,7 @@ export function ReportsList() {
 
   const [reviewReport, setReviewReport] = useState<ReportItem | null>(null);
   const [reviewNote, setReviewNote] = useState("");
-  const [reviewAction, setReviewAction] = useState<"none" | "hide_observation">("none");
+  const [reviewAction, setReviewAction] = useState<keyof typeof ACTION_LABELS>("none");
   const [reviewing, setReviewing] = useState(false);
 
   const fetchReports = useCallback(async () => {
@@ -125,7 +143,11 @@ export function ReportsList() {
       const res = await fetch(`/api/admin/reports/${reviewReport.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, reviewer_note: reviewNote.trim() || undefined, action: reviewAction }),
+        body: JSON.stringify({
+          status,
+          reviewer_note: reviewNote.trim() || undefined,
+          action: status === "resolved" ? reviewAction : "none",
+        }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -186,6 +208,7 @@ export function ReportsList() {
                     <TableHead>内容类型</TableHead>
                     <TableHead>内容 ID</TableHead>
                     <TableHead>举报原因</TableHead>
+                    <TableHead>风险</TableHead>
                     <TableHead>举报人</TableHead>
                     <TableHead>时间</TableHead>
                     <TableHead>状态</TableHead>
@@ -203,6 +226,20 @@ export function ReportsList() {
                       </TableCell>
                       <TableCell>
                         {REASON_LABELS[report.reason] || report.reason}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="secondary"
+                          className={
+                            report.risk_level === "high"
+                              ? "status-danger-surface text-[hsl(var(--status-danger))]"
+                              : report.risk_level === "low"
+                              ? "status-success-surface text-[hsl(var(--status-success))]"
+                              : "status-warning-surface text-[hsl(var(--status-warning))]"
+                          }
+                        >
+                          {report.risk_level === "high" ? "高" : report.risk_level === "low" ? "低" : "中"}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         {report.reporter?.display_name || report.reporter?.username || "未知"}
@@ -319,20 +356,29 @@ export function ReportsList() {
                   <span className="whitespace-pre-wrap">{reviewReport.reviewer_note}</span>
                 </div>
               )}
+              <div className="flex gap-2">
+                <span className="text-muted-foreground shrink-0">风险等级：</span>
+                <span>{reviewReport.risk_level === "high" ? "高风险" : reviewReport.risk_level === "low" ? "低风险" : "中风险"}</span>
+              </div>
+              {reviewReport.snapshot_text ? (
+                <div className="rounded-sm bg-muted/50 p-3">
+                  <p className="text-xs text-muted-foreground">举报时内容快照</p>
+                  <p className="mt-1 whitespace-pre-wrap">{reviewReport.snapshot_text}</p>
+                </div>
+              ) : null}
 
               {reviewReport.status === "pending" && (
                 <div className="space-y-2 pt-2">
-                  {reviewReport.content_type === "observation" ? (
-                    <Select value={reviewAction} onValueChange={(value) => setReviewAction(value as "none" | "hide_observation")}>
-                      <SelectTrigger className="rounded-md">
-                        <SelectValue placeholder="处理动作" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">仅处理举报</SelectItem>
-                        <SelectItem value="hide_observation">处理并下架观察记录</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  ) : null}
+                  <Select value={reviewAction} onValueChange={(value) => setReviewAction(value as keyof typeof ACTION_LABELS)}>
+                    <SelectTrigger className="rounded-md">
+                      <SelectValue placeholder="处理动作" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(ACTION_LABELS).map(([value, label]) => (
+                        <SelectItem key={value} value={value}>{label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <Textarea
                     placeholder="审核备注（选填）"
                     value={reviewNote}

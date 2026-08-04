@@ -26,6 +26,16 @@ vi.mock('@/hooks/use-follow', () => ({
   }),
 }))
 
+vi.mock('@/hooks/use-block', () => ({
+  useBlock: () => ({
+    blocked: false,
+    blockedByMe: false,
+    isLoading: false,
+    isPending: false,
+    toggleBlock: vi.fn(),
+  }),
+}))
+
 vi.mock('@/lib/context/auth-context', () => ({
   useAuth: () => ({
     user: mockUser,

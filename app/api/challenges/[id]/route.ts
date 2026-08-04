@@ -54,7 +54,8 @@ export async function GET(
         .select('id', { count: 'exact', head: true })
         .eq('challenge_id', challengeId)
         .eq('status', 'approved')
-        .eq('is_public', true),
+        .eq('is_public', true)
+        .eq('moderation_state', 'approved'),
       getCuratedChallengeProjects(challengeId),
     ])
 

@@ -22,6 +22,7 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
     .select("id, observed_at")
     .eq("user_id", userId)
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
 
   if (observationError) {
     throw observationError

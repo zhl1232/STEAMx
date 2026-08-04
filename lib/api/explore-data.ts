@@ -227,6 +227,7 @@ const PROJECT_LIST_BASE_SELECT = [
   "difficulty_stars",
   "tags",
   "status",
+  "moderation_state",
   "rejection_reason",
   "challenge_id",
 ].join(",");
@@ -404,6 +405,7 @@ async function hydrateExploreProjectsByIds(
     .from("projects")
     .select(selectStatement)
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
     .in("id", projectIds);
 
   if (hydrateError) {
@@ -791,6 +793,7 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
         .from("projects")
         .select("category, tags, sub_categories (name)")
         .eq("status", "approved")
+        .eq("moderation_state", "approved")
         .not("tags", "is", null),
     ]);
 
@@ -883,6 +886,7 @@ export async function getProjects(
     .from("projects")
     .select(selectStatement, { count: "exact" })
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
     .order("created_at", { ascending: false })
     .order("id", { ascending: false });
 
@@ -1013,6 +1017,7 @@ export async function getRecommendedProjects(
         ${PROJECT_LIST_PROFILE_SELECT},
         ${PROJECT_LIST_SUB_CATEGORIES_SELECT}
       `)
+      .eq("moderation_state", "approved")
       .in("id", rankedProjectIds),
     supabase.rpc("get_projects_comments_count_batch", {
       p_project_ids: rankedProjectIds,
@@ -1040,31 +1045,15 @@ export async function getRecommendedProjects(
     (row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0;
   }
 
-  const fallbackByProjectId = new Map(rows.map((row) => [row.id, row]));
-  let projects: Project[] = rankedProjectIds.map((projectId) => {
+  let projects: Project[] = rankedProjectIds.flatMap((projectId) => {
     const hydratedRow = rowByProjectId.get(projectId);
     if (hydratedRow) {
-      return mapDbProject(hydratedRow);
+      return [mapDbProject(hydratedRow)];
     }
-
-    const fallbackRow = fallbackByProjectId.get(projectId);
-    return {
-      id: projectId,
-      title: fallbackRow?.title || "",
-      author: fallbackRow?.author_display_name || "Unknown",
-      author_id: fallbackRow?.author_id || "",
-      image: fallbackRow?.image_url || "",
-      category: fallbackRow?.category || "",
-      likes: fallbackRow?.likes_count || 0,
-      comments_count: 0,
-      description: fallbackRow?.description || "",
-      materials: [],
-      steps: [],
-      difficulty: (fallbackRow?.difficulty as "easy" | "medium" | "hard") || undefined,
-      difficulty_stars: fallbackRow?.difficulty_stars || 3,
-      tags: [],
-      status: (fallbackRow?.status as "draft" | "pending" | "approved" | "rejected") || "approved",
-    };
+    // A ranking RPC can return an id that was hidden after ranking. Never
+    // hydrate a fallback row from the RPC payload, because that would bypass
+    // the moderation_state filter above.
+    return [];
   });
 
   if (shuffleSeed) {
@@ -1202,6 +1191,7 @@ export async function getProjectComments(
       { count: "exact" },
     )
     .eq("project_id", Number(projectId))
+    .eq("moderation_state", "approved")
     .is("parent_id", null)
     .order("created_at", { ascending: false })
     .limit(MAX_ROOTS);
@@ -1221,6 +1211,7 @@ export async function getProjectComments(
       .from("comments")
       .select("parent_id")
       .eq("project_id", Number(projectId))
+      .eq("moderation_state", "approved")
       .in("parent_id", rootIds);
     for (const row of countRows || []) {
       const pid = Number(row.parent_id);
@@ -1262,8 +1253,9 @@ export async function getProjectComments(
       .select(`
               *,
               profiles:author_id (display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, role)
-          `)
+      `)
       .eq("project_id", Number(projectId))
+      .eq("moderation_state", "approved")
       .in("parent_id", pagedRootIds)
       .order("created_at", { ascending: true })
       .limit(200);
@@ -1328,6 +1320,7 @@ export async function getRelatedProjects(
     `)
     .eq("category", category)
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
     .neq("id", Number(projectId))
     .limit(limit);
 
@@ -1403,7 +1396,8 @@ export async function getProjectCompletions(
     .select("*")
     .eq("project_id", Number(projectId))
     .eq("is_public", true)
-    .eq("status", "approved");
+    .eq("status", "approved")
+    .eq("moderation_state", "approved");
 
   if (sortBy === "featured") {
     query = query.order("likes_count", { ascending: false }).order("completed_at", { ascending: false });
@@ -1502,7 +1496,8 @@ export async function getProjectExplorationRecordsCount(
     .select("id", { count: "exact", head: true })
     .eq("project_id", numericProjectId)
     .eq("is_public", true)
-    .eq("status", "approved");
+    .eq("status", "approved")
+    .eq("moderation_state", "approved");
 
   if (error) {
     logger.error("Error fetching exploration records count", { error, projectId: numericProjectId });
@@ -1539,7 +1534,11 @@ export async function fetchCompletionLikesMeta(
   }
 
   const [{ data: completionRows, error: completionError }, viewerLikesResult] = await Promise.all([
-    supabase.from("completed_projects").select("id, likes_count").in("id", completionIds),
+    supabase
+      .from("completed_projects")
+      .select("id, likes_count")
+      .eq("moderation_state", "approved")
+      .in("id", completionIds),
     viewerUserId
       ? supabase
           .from("completion_likes")
@@ -1596,6 +1595,7 @@ export async function getProjectCompletionById(
     .eq("project_id", numericProjectId)
     .eq("is_public", true)
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
     .maybeSingle();
 
   if (error || !completion) {
@@ -1656,6 +1656,7 @@ export async function getProjectCompletionsCount(
     .eq("project_id", numericProjectId)
     .eq("is_public", true)
     .eq("status", "approved")
+    .eq("moderation_state", "approved")
     .eq("record_kind", "final");
 
   if (error) {

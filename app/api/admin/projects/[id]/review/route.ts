@@ -5,6 +5,7 @@ import { validateEnum, validateNumber, validateOptionalString } from '@/lib/api/
 import { enqueueAutoInteractionsForTarget } from '@/lib/auto-interactions'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
+import { setContentModerationState } from '@/lib/safety/server'
 
 async function sendCreatorUpdateNotifications(params: {
   supabase: Awaited<ReturnType<typeof createClient>>
@@ -127,6 +128,7 @@ export async function POST(
       if (error) {
         throw error
       }
+      await setContentModerationState('project', projectId, 'approved')
 
       // Trigger evergreen challenge completion if applicable (non-blocking)
       if (project.challenge_id) {
@@ -187,6 +189,7 @@ export async function POST(
       if (error) {
         throw error
       }
+      await setContentModerationState('project', projectId, 'rejected')
       
       return NextResponse.json({ 
         message: 'Project rejected',

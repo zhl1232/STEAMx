@@ -9,9 +9,9 @@ function parseNumber(value: string | null, fallback: number) {
   return Math.max(0, parsed)
 }
 
-function canAccessProject(project: { author_id: string; status: string | null } | null, viewerId?: string) {
+function canAccessProject(project: { author_id: string; status: string | null; moderation_state?: string | null } | null, viewerId?: string) {
   if (!project) return false
-  if (!project.status || project.status === 'approved') return true
+  if ((!project.status || project.status === 'approved') && project.moderation_state === 'approved') return true
   return project.author_id === viewerId
 }
 
@@ -35,12 +35,12 @@ export async function GET(
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, status')
+      .select('author_id, status, moderation_state')
       .eq('id', projectId)
       .maybeSingle()
 
     if (projectError) throw projectError
-    if (!projectRow || !canAccessProject(projectRow as { author_id: string; status: string | null }, viewerId)) {
+    if (!projectRow || !canAccessProject(projectRow as { author_id: string; status: string | null; moderation_state?: string | null }, viewerId)) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 

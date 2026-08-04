@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LogOut, ChevronRight, Shield, Bell, Bot, Eye, HelpCircle, Palette, User } from "lucide-react";
+import { LogOut, ChevronRight, Shield, ShieldAlert, Bell, Bot, Eye, HelpCircle, Palette, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -41,6 +41,7 @@ export default function SettingsPage() {
       items: [
         { icon: User, label: "个人资料", href: "/settings/profile" },
         { icon: Shield, label: "账号与安全", href: "/settings/security" },
+        { icon: ShieldAlert, label: "社区安全中心", href: "/settings/safety" },
       ],
     },
     {

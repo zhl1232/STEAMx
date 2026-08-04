@@ -56,6 +56,7 @@ export async function POST(
       .eq('id', observationId)
       .eq('status', 'approved')
       .eq('is_public', true)
+      .eq('moderation_state', 'approved')
       .maybeSingle()
 
     if (!observation) {

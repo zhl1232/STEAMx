@@ -22,6 +22,7 @@ async function countApprovedProjectsByCategory(): Promise<HomeCategoryTileCounts
         .from("projects")
         .select("id", { count: "exact", head: true })
         .eq("status", "approved")
+        .eq("moderation_state", "approved")
         .eq("category", category);
 
       if (error) {

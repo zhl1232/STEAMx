@@ -39,6 +39,7 @@ describe('GET /api/completions/[id]/likes', () => {
                 user_id: 'owner-1',
                 is_public: true,
                 status: 'approved',
+                moderation_state: 'approved',
             },
             error: null,
         })
@@ -108,6 +109,7 @@ describe('GET /api/completions/[id]/likes', () => {
                 user_id: 'owner-1',
                 is_public: false,
                 status: 'approved',
+                moderation_state: 'approved',
             },
             error: null,
         })

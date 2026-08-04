@@ -95,6 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 .from('projects')
                 .select('id, updated_at')
                 .eq('status', 'approved')
+                .eq('moderation_state', 'approved')
                 .order('updated_at', { ascending: false })
                 .limit(500),
             supabase
@@ -108,6 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 .select('id, updated_at')
                 .eq('status', 'approved')
                 .eq('is_public', true)
+                .eq('moderation_state', 'approved')
                 .order('updated_at', { ascending: false })
                 .limit(500),
         ]);

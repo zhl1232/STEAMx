@@ -33,7 +33,7 @@ describe('POST /api/projects/[id]/like', () => {
 
     it('rejects liking your own project on the server', async () => {
         const maybeSingle = vi.fn().mockResolvedValue({
-            data: { author_id: 'user-1' },
+            data: { author_id: 'user-1', status: 'approved', moderation_state: 'approved' },
             error: null,
         })
         const eq = vi.fn().mockReturnValue({ maybeSingle })
@@ -76,7 +76,7 @@ describe('POST /api/projects/[id]/like', () => {
 
     it('creates a notification for the project author when a new like is inserted', async () => {
         const projectMaybeSingle = vi.fn().mockResolvedValue({
-            data: { author_id: 'author-1', title: '纸火箭' },
+            data: { author_id: 'author-1', title: '纸火箭', status: 'approved', moderation_state: 'approved' },
             error: null,
         })
         const projectsSelect = vi.fn(() => ({
@@ -129,7 +129,7 @@ describe('POST /api/projects/[id]/like', () => {
 
         expect(response.status).toBe(200)
         await expect(response.json()).resolves.toEqual({ liked: true, action: 'liked' })
-        expect(projectsSelect).toHaveBeenCalledWith('author_id, title')
+        expect(projectsSelect).toHaveBeenCalledWith('author_id, title, status, moderation_state')
         expect(likesInsert).toHaveBeenCalledWith({ user_id: 'user-2', project_id: 123 })
         expect(callRpcMock).toHaveBeenCalledWith(expect.anything(), 'increment_project_likes', {
             project_id: 123,

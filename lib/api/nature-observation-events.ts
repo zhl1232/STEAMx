@@ -75,6 +75,7 @@ export async function getObservations(
     .select('*', { count: 'exact' })
     .eq('status', 'approved')
     .eq('is_public', true)
+    .eq('moderation_state', 'approved')
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
     .range(from, to)
@@ -120,6 +121,7 @@ export async function getObservationById(id: string | number): Promise<Observati
   if (!data) return null
 
   const isOwner = authData.user?.id === data.user_id
+  if (!isOwner && data.moderation_state !== 'approved') return null
   if (data.status !== 'approved') {
     if (!isOwner) return null
   } else if (!data.is_public && !isOwner) {

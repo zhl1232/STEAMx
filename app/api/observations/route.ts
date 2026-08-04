@@ -17,6 +17,7 @@ import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
 import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
+import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 
 const relativeOrAbsoluteUrlSchema = z.union([
   z.string().url(),
@@ -97,6 +98,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '观察图片必须使用当前账号上传的文件' }, { status: 400 })
     }
 
+    const moderation = await moderateUserContent({
+      text: [
+        payload.location_name,
+        payload.habitat,
+        payload.weather,
+        payload.notes,
+        ...(payload.species_entries || []).flatMap((entry) => [entry.notes, ...entry.behavior_tags]),
+      ]
+        .filter((value): value is string => Boolean(value?.trim()))
+        .join('\n'),
+      imageSources: uniqueMediaUrls,
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '观察记录未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
+
     const { data: analysisRows, error: analysisError } = await supabase
       .from('observation_media_analyses')
       .select('*')
@@ -113,7 +139,7 @@ export async function POST(request: NextRequest) {
 
     for (const imageUrl of uniqueMediaUrls) {
       const analysis = analysisMap.get(imageUrl)
-      if (!isObservationAnalysisPassed(analysis)) {
+      if (moderation.state !== 'pending' && !isObservationAnalysisPassed(analysis)) {
         return NextResponse.json(
           { error: getObservationAnalysisErrorMessage(analysis) },
           { status: 400 },
@@ -172,6 +198,7 @@ export async function POST(request: NextRequest) {
         media_urls: payload.media_urls,
         is_public: payload.is_public,
         status: 'pending',
+        moderation_state: moderation.state,
         lifecycle_stage: payload.lifecycle_stage ?? null,
         sex: payload.sex ?? null,
       })
@@ -214,7 +241,29 @@ export async function POST(request: NextRequest) {
       throw identificationError
     }
 
-    return NextResponse.json({ observation, reviewStatus: 'pending' }, { status: 201 })
+    const moderationCaseId = moderation.state === 'pending'
+      ? await createModerationCase({
+          contentType: 'observation',
+          contentId: observation.id,
+          authorId: user.id,
+          riskLevel: moderation.riskLevel,
+          category: moderation.category,
+          reason: moderation.reason,
+          modelName: moderation.modelName,
+          snapshot: {
+            authorId: user.id,
+            text: [payload.location_name, payload.notes].filter(Boolean).join('\n'),
+            metadata: { mediaUrls: uniqueMediaUrls },
+          },
+        })
+      : null
+
+    return NextResponse.json(
+      moderationCaseId
+        ? { observation, reviewStatus: 'pending', moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { observation, reviewStatus: 'pending' },
+      { status: moderationCaseId ? 202 : 201 },
+    )
   } catch (error) {
     return handleApiError(error)
   }

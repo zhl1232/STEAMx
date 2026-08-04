@@ -10,6 +10,12 @@ import {
   type DbObservationCommentWithProfile,
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import {
+  assertUsersNotBlocked,
+  createModerationCase,
+  moderateUserContent,
+} from '@/lib/safety/server'
 
 const COMMENT_SELECT = `
   *,
@@ -37,7 +43,6 @@ export async function GET(
     if (observation.status !== 'approved') {
       return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
     }
-
     const { data, error } = await supabase
       .from('observation_comments')
       .select(COMMENT_SELECT)
@@ -79,6 +84,7 @@ export async function POST(
     if (observation.status !== 'approved') {
       return NextResponse.json({ error: '观察记录尚未通过审核' }, { status: 403 })
     }
+    await assertUsersNotBlocked(supabase, user.id, observation.userId)
 
     const body = await request.json()
     const content = typeof body?.content === 'string' ? body.content.trim() : ''
@@ -123,6 +129,21 @@ export async function POST(
 
       replyToUserId = typed.author_id
       replyToUsername = typed.profiles?.display_name || null
+      await assertUsersNotBlocked(supabase, user.id, typed.author_id)
+    }
+
+    const moderation = await moderateUserContent({ text: content })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '评论未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
     }
 
     const { data, error } = await supabase
@@ -134,11 +155,34 @@ export async function POST(
         parent_id: parentId,
         reply_to_user_id: replyToUserId,
         reply_to_username: replyToUsername,
-      })
+        moderation_state: moderation.state,
+      } as never)
       .select(COMMENT_SELECT)
       .single()
 
     if (error || !data) throw error
+
+    const typedComment = data as { id: number }
+    if (moderation.state === 'pending') {
+      const caseId = await createModerationCase({
+        contentType: 'observation_comment',
+        contentId: typedComment.id,
+        authorId: user.id,
+        riskLevel: moderation.riskLevel,
+        category: moderation.category,
+        reason: moderation.reason,
+        modelName: moderation.modelName,
+        snapshot: {
+          authorId: user.id,
+          text: content,
+          metadata: { observationId, parentId },
+        },
+      })
+      return NextResponse.json(
+        { comment: data, moderation: { state: 'pending', caseId } },
+        { status: 202 },
+      )
+    }
 
     await supabase.rpc('increment_observation_comments', { target_observation_id: observationId })
 

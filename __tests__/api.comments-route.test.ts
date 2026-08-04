@@ -74,7 +74,7 @@ describe('POST /api/comments', () => {
 
     it('requires社区互动确认 before posting any comment', async () => {
         const projectMaybeSingle = vi.fn().mockResolvedValue({
-            data: { author_id: 'owner-1', status: 'approved' },
+            data: { author_id: 'owner-1', status: 'approved', moderation_state: 'approved' },
             error: null,
         })
         const profileMaybeSingle = vi.fn().mockResolvedValue({
@@ -97,6 +97,17 @@ describe('POST /api/comments', () => {
                     select: vi.fn(() => ({
                         eq: vi.fn(() => ({
                             maybeSingle: profileMaybeSingle,
+                        })),
+                    })),
+                }
+            }
+            if (table === 'user_blocks') {
+                return {
+                    select: vi.fn(() => ({
+                        or: vi.fn(() => ({
+                            limit: vi.fn(() => ({
+                                maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
+                            })),
                         })),
                     })),
                 }

@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
+import { BlockButton } from "@/components/features/social/block-button";
 import { FollowButton } from "@/components/features/social/follow-button";
 import { Button } from "@/components/ui/button";
 import { useFollow } from "@/hooks/use-follow";
+import { useBlock } from "@/hooks/use-block";
 import { useAuth } from "@/lib/context/auth-context";
 
 type MessagePrivacy = "everyone" | "followers_only" | "nobody";
@@ -24,10 +26,12 @@ export function PublicProfileActions({
 }) {
   const { user } = useAuth();
   const { isFollowing, isLoading } = useFollow(targetUserId);
+  const { blocked } = useBlock(targetUserId);
   const privacy = getMessagePrivacy(messagePrivacy);
   const canMessage =
     user &&
     user.id !== targetUserId &&
+    !blocked &&
     (privacy === "everyone" || (privacy === "followers_only" && isFollowing));
   const disabledMessage =
     privacy === "nobody"
@@ -40,11 +44,18 @@ export function PublicProfileActions({
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 xl:justify-end">
-      <FollowButton
-        targetUserId={targetUserId}
-        showCount={false}
-        className="h-11 px-6 text-sm font-semibold"
-      />
+      {blocked ? (
+        <Button type="button" variant="outline" className="h-11 px-6 text-sm font-semibold" disabled>
+          已断开互动
+        </Button>
+      ) : (
+        <FollowButton
+          targetUserId={targetUserId}
+          showCount={false}
+          className="h-11 px-6 text-sm font-semibold"
+        />
+      )}
+      {user && user.id !== targetUserId ? <BlockButton targetUserId={targetUserId} /> : null}
       {user && user.id !== targetUserId ? (
         canMessage ? (
           <Button variant="outline" className="h-11 px-6 text-sm font-semibold" asChild>

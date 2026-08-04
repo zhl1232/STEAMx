@@ -4,6 +4,7 @@ import { isClean } from '@/lib/content-filter'
 
 export type CompletionModerationDecision = {
   pass: boolean
+  pending?: boolean
   reason: string | null
   imageResults: Array<{
     imageUrl: string
@@ -56,6 +57,7 @@ export async function evaluateCompletionContent(input: {
     } catch (error) {
       return {
         pass: false,
+        pending: true,
         reason: getObservationVisionUserMessage(error),
         imageResults,
       }

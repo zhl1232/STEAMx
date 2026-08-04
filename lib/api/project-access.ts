@@ -5,6 +5,7 @@ type ProjectAccessRow = {
   id: number
   author_id: string
   status: string | null
+  moderation_state: string | null
   title?: string | null
 }
 
@@ -18,14 +19,15 @@ type ChallengeRatingSubmissionAccessRow = {
   challenge_id: number
   status: string | null
   is_public: boolean
+  moderation_state: string | null
 }
 
 export function canAccessProject(
-  project: Pick<ProjectAccessRow, 'author_id' | 'status'> | null,
+  project: Pick<ProjectAccessRow, 'author_id' | 'status' | 'moderation_state'> | null,
   viewerUserId?: string | null,
 ) {
   if (!project) return false
-  if (!project.status || project.status === 'approved') return true
+  if ((!project.status || project.status === 'approved') && project.moderation_state === 'approved') return true
   return viewerUserId != null && project.author_id === viewerUserId
 }
 
@@ -36,7 +38,7 @@ export async function getAccessibleProject(
 ): Promise<ProjectAccessRow | null> {
   const { data, error } = await supabase
     .from('projects')
-    .select('id, author_id, status, title')
+    .select('id, author_id, status, moderation_state, title')
     .eq('id', projectId)
     .maybeSingle()
 
@@ -54,7 +56,7 @@ export async function getChallengeRatingProject(
 ): Promise<ChallengeRatingProjectAccessRow | null> {
   const { data, error } = await supabase
     .from('projects')
-    .select('id, author_id, status, challenge_id')
+    .select('id, author_id, status, moderation_state, challenge_id')
     .eq('id', projectId)
     .maybeSingle()
 
@@ -68,7 +70,7 @@ export async function getChallengeRatingProject(
     return null
   }
 
-  if (project.status !== 'approved' || project.challenge_id == null) {
+  if (project.status !== 'approved' || project.moderation_state !== 'approved' || project.challenge_id == null) {
     return null
   }
 
@@ -81,7 +83,7 @@ export async function getChallengeRatingSubmission(
 ): Promise<ChallengeRatingSubmissionAccessRow | null> {
   const { data, error } = await supabase
     .from('challenge_submissions')
-    .select('id, user_id, challenge_id, status, is_public')
+    .select('id, user_id, challenge_id, status, is_public, moderation_state')
     .eq('id', submissionId)
     .maybeSingle()
 
@@ -95,7 +97,7 @@ export async function getChallengeRatingSubmission(
     return null
   }
 
-  if (submission.status !== 'approved' || !submission.is_public) {
+  if (submission.status !== 'approved' || submission.moderation_state !== 'approved' || !submission.is_public) {
     return null
   }
 

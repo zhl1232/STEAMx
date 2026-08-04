@@ -4,6 +4,7 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUUID } from '@/lib/api/validation'
+import { assertUsersNotBlocked } from '@/lib/safety/server'
 
 type Action = 'follow' | 'unfollow'
 
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (action === 'follow') {
+      await assertUsersNotBlocked(supabase, user.id, targetUserId)
       const { error } = await supabase
         .from('follows')
         .insert({

@@ -196,7 +196,8 @@ async function getProjectAuthorSummary(
       .from('projects')
       .select('id', { count: 'exact', head: true })
       .eq('author_id', authorId)
-      .eq('status', 'approved'),
+      .eq('status', 'approved')
+      .eq('moderation_state', 'approved'),
     supabase
       .from('follows')
       .select('follower_id', { count: 'exact', head: true })
@@ -205,7 +206,8 @@ async function getProjectAuthorSummary(
       .from('projects')
       .select('likes_count')
       .eq('author_id', authorId)
-      .eq('status', 'approved'),
+      .eq('status', 'approved')
+      .eq('moderation_state', 'approved'),
   ])
 
   const profile = profileResponse.data as {

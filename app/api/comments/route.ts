@@ -7,6 +7,13 @@ import { validateContentSafe, isOwnedCommentImageUrl } from '@/lib/api/validatio
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { awardWeeklyCommentGoalIfEligible, awardXpOnce } from '@/lib/api/server-awards'
 import { logger } from '@/lib/logger'
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import {
+  assertUsersNotBlocked,
+  createModerationCase,
+  filterBlockedRecipients,
+  moderateUserContent,
+} from '@/lib/safety/server'
 
 const COMMENT_SELECT = `
   *,
@@ -14,11 +21,11 @@ const COMMENT_SELECT = `
 `
 
 function canAccessProject(
-  project: { author_id: string; status: string | null } | null,
+  project: { author_id: string; status: string | null; moderation_state?: string | null } | null,
   viewerId: string,
 ) {
   if (!project) return false
-  if (!project.status || project.status === 'approved') return true
+  if ((!project.status || project.status === 'approved') && project.moderation_state === 'approved') return true
   return project.author_id === viewerId
 }
 
@@ -55,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, status, title')
+      .select('author_id, status, moderation_state, title')
       .eq('id', projectId)
       .maybeSingle()
 
@@ -63,9 +70,12 @@ export async function POST(request: NextRequest) {
     if (!projectRow) {
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
     }
-    const typedProject = projectRow as { author_id: string; status: string | null; title?: string | null }
+    const typedProject = projectRow as { author_id: string; status: string | null; moderation_state?: string | null; title?: string | null }
     if (!canAccessProject(typedProject, user.id)) {
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
+    }
+    if (typedProject.author_id) {
+      await assertUsersNotBlocked(supabase, user.id, typedProject.author_id)
     }
 
     if (content) {
@@ -108,11 +118,30 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: '父评论不属于当前项目' }, { status: 400 })
       }
 
+      await assertUsersNotBlocked(supabase, user.id, typedParent.author_id)
+
       replyToUserId = typedParent.author_id
       replyToUsername = typedParent.profiles?.display_name || null
     }
 
     await requireInteractionAccess(supabase, user, 'comment')
+
+    const moderation = await moderateUserContent({
+      text: content,
+      imageSources: imageUrl ? [imageUrl] : [],
+    })
+    if (moderation.state === 'rejected') {
+      return NextResponse.json(
+        { error: moderation.reason || '评论未通过安全检查', code: 'CONTENT_REJECTED' },
+        { status: 422 },
+      )
+    }
+    if (moderation.state === 'pending' && !supabaseAdmin) {
+      return NextResponse.json(
+        { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
+        { status: 503 },
+      )
+    }
 
     const { data, error } = await supabase
       .from('comments')
@@ -124,6 +153,7 @@ export async function POST(request: NextRequest) {
         reply_to_user_id: replyToUserId,
         reply_to_username: replyToUsername,
         image_url: imageUrl,
+        moderation_state: moderation.state,
       } as never)
       .select(COMMENT_SELECT)
       .single()
@@ -136,6 +166,28 @@ export async function POST(request: NextRequest) {
     }
     const actorName = typedComment.profiles?.display_name || user.email?.split('@')[0] || '用户'
     const actorAvatar = typedComment.profiles?.avatar_url || getDefaultAvatarPath(user.id)
+
+    if (moderation.state === 'pending') {
+      const caseId = await createModerationCase({
+        contentType: 'comment',
+        contentId: typedComment.id,
+        authorId: user.id,
+        riskLevel: moderation.riskLevel,
+        category: moderation.category,
+        reason: moderation.reason,
+        modelName: moderation.modelName,
+        snapshot: {
+          authorId: user.id,
+          text: content || null,
+          metadata: { projectId, imageUrl },
+        },
+      })
+      return NextResponse.json(
+        { comment: data, moderation: { state: 'pending', caseId } },
+        { status: 202 },
+      )
+    }
+
     const recipients = new Set<string>()
 
     if (typedProject.author_id && typedProject.author_id !== user.id) {
@@ -145,9 +197,10 @@ export async function POST(request: NextRequest) {
       recipients.add(replyToUserId)
     }
 
-    if (recipients.size > 0) {
+    const notificationRecipients = await filterBlockedRecipients(user.id, [...recipients])
+    if (notificationRecipients.length > 0) {
       const projectTitle = typedProject.title || '项目'
-      const notificationRows = [...recipients].map((recipientId) => ({
+      const notificationRows = notificationRecipients.map((recipientId) => ({
         user_id: recipientId,
         type: 'reply',
         content:
