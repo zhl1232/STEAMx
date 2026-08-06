@@ -26,7 +26,7 @@ export default function ConversationPage() {
   const isInvalidPeerId =
     otherUserId !== undefined && otherUserId.length > 0 && !UUID_RE.test(otherUserId);
 
-  const { user, loading: authLoading } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const router = useRouter();
   const { messages, peer, isLoading, hasMore, isLoadingMore, loadMore, error } =
     useConversationMessages(otherUserId);
@@ -158,7 +158,7 @@ export default function ConversationPage() {
         <MobilePageHeader
           title={displayName}
           fallbackHref="/messages"
-          className="-mx-4 -mt-6 mb-4 md:hidden"
+          className="-mx-4 mb-4 md:hidden"
           rightSlot={
             <div className="flex items-center gap-2">
               {otherUserId && !isInvalidPeerId && !isMissingPeer ? <BlockButton targetUserId={otherUserId} compact /> : null}
@@ -232,6 +232,11 @@ export default function ConversationPage() {
           </div>
 
           <div className="border-t border-border/60 bg-background/70 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xs">
+            {profile && !profile.age_confirmed_at ? (
+              <p className="mb-2 text-center text-xs leading-5 text-muted-foreground">
+                发送私信前请先完成社区互动确认，点击发送即可弹出确认窗口。
+              </p>
+            ) : null}
             {blocked ? (
               <p className="mb-2 text-center text-xs text-muted-foreground">双方已断开互动，暂时不能发送私信。</p>
             ) : null}

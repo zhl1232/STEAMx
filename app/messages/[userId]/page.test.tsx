@@ -25,6 +25,7 @@ vi.mock('next/link', () => ({
 vi.mock('@/lib/context/auth-context', () => ({
     useAuth: () => ({
         user: { id: '11111111-1111-1111-1111-111111111111' },
+        profile: { age_confirmed_at: null },
         loading: false,
     }),
 }))
@@ -79,6 +80,17 @@ describe('ConversationPage', () => {
         expect(screen.getByPlaceholderText('当前无法向该用户发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
         expect(screen.queryByText('还没有消息')).not.toBeInTheDocument()
+        expect(screen.getByText('发送私信前请先完成社区互动确认，点击发送即可弹出确认窗口。')).toBeInTheDocument()
+    })
+
+    it('keeps the mobile conversation header anchored to the viewport top', () => {
+        render(<ConversationPage />)
+
+        const backButton = screen.getByRole('button', { name: '返回上一页' })
+        const header = backButton.parentElement?.parentElement
+
+        expect(header).toHaveClass('fixed', 'top-0')
+        expect(header).not.toHaveClass('-mt-6')
     })
 
     it('shows an invalid-thread state for malformed user ids', () => {
