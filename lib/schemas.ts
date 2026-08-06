@@ -7,6 +7,10 @@ const relativeOrAbsoluteUrlSchema = z.union([
   z.string().min(1).startsWith("/"),
 ]);
 
+// Accept UUID-shaped database identifiers, including legacy seeded IDs whose
+// version bits are intentionally zeroed for stable fixtures.
+const uuidLikeSchema = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+
 const IterationSchema = z.object({
   description: z.string().min(1).max(2000),
   result: z.string().min(1).max(2000),
@@ -198,8 +202,8 @@ export const ChallengeSubmissionRatingSchema = z.object({
 // 私信消息（Supabase 响应校验）
 export const MessageSchema = z.object({
   id: z.number().int(),
-  sender_id: z.string().uuid(),
-  receiver_id: z.string().uuid(),
+  sender_id: uuidLikeSchema,
+  receiver_id: uuidLikeSchema,
   content: z.string().min(1).max(2000),
   read_at: z.string().nullable().optional(),
   created_at: z.string(),

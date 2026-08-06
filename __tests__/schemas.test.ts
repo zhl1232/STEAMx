@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CreateProjectSchema } from '@/lib/schemas'
+import { CreateProjectSchema, MessageSchema } from '@/lib/schemas'
 
 describe('CreateProjectSchema', () => {
     const validPayload = {
@@ -39,5 +39,20 @@ describe('CreateProjectSchema', () => {
         if (result.success) {
             expect(result.data.sub_category).toBe('机械结构')
         }
+    })
+})
+
+describe('MessageSchema', () => {
+    it('accepts legacy UUID-shaped seeded user ids', () => {
+        const result = MessageSchema.safeParse({
+            id: 12,
+            sender_id: 'a1111111-0000-0000-0000-000000000000',
+            receiver_id: 'b2222222-0000-0000-0000-000000000000',
+            content: '你好',
+            read_at: null,
+            created_at: '2026-08-06T08:15:20.343981+00:00',
+        })
+
+        expect(result.success).toBe(true)
     })
 })
