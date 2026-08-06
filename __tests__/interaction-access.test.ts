@@ -25,10 +25,15 @@ describe('interaction access', () => {
       canSaveProgress: true,
       canSubmit: false,
       canComment: false,
+      canMessage: true,
     })
 
     await expect(requireInteractionAccess(supabase, user, 'submit')).rejects.toMatchObject({
       code: 'AGE_CONFIRMATION_REQUIRED',
+    })
+    await expect(requireInteractionAccess(supabase, user, 'message')).resolves.toMatchObject({
+      state: 'registered',
+      canMessage: true,
     })
   })
 

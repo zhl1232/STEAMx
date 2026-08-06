@@ -51,7 +51,7 @@ describe('POST /api/messages/send', () => {
 
     it('allows sending to followers_only users when a follow relationship exists', async () => {
         const profileSingle = vi.fn().mockResolvedValue({
-            data: { message_privacy: 'followers_only', age_confirmed_at: '2026-03-20T00:00:00.000Z', interaction_restricted: false },
+            data: { message_privacy: 'followers_only', age_confirmed_at: null, interaction_restricted: false },
             error: null,
         })
         const followMaybeSingle = vi.fn().mockResolvedValue({

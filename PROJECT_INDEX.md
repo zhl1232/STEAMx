@@ -83,7 +83,7 @@
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（短回复/点赞/收藏）与历史 approved 项目低比例 backfill 入队 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
-| messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息需要社区互动确认，仍受接收方隐私设置约束 |
+| messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息登录即可，仍受账号安全、屏蔽、接收方隐私、频率限制和内容审核约束 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
 | playground | `api/playground/` | 游乐场云端战绩徽章同步；`badges/sync` 读取 `playground_stats` 并补发已达成的游乐场徽章；`minesweeper/leaderboard` 通过受限 RPC 按难度返回云端最佳成绩全服前十，仅暴露昵称、头像和用时；在线五子棋 `gomoku-rooms`、记忆翻牌 `memory-rooms`、函数战争 `functionwars-rooms` 和通用竞速 `race-rooms` 创建/加入/读取/离开房间；函数战争 `[id]/fire` 认证 API 在服务端重算弹道并通过 service-role RPC 原子校验 `shot_seq`/轮次后结算，`[id]` 权威读取会推进超时并在同一玩家连续错过两回合时判负，邀请链接保留 `room` 参数；竞速加入按 6 位邀请码用 service role 查询并以 `waiting + guest IS NULL` 条件更新，竞争失败返回 409 并记录不含用户/邀请码的结构化指标；`race-rooms/[id]` GET 在读取前调用受限 RPC 结算截止房间，`[id]/result` 校验成绩后由 RPC 原子检查截止时间，双方到齐再计算胜负；邀请链接会等前端 auth 初始化完成后再自动加入，未登录时登录链接用 `next` 保留 `room` 参数 |
@@ -105,7 +105,7 @@
 
 函数战争房间创建/加入会拒绝用户进入第二个 `waiting/playing` 活跃对局；API 前置检查返回可读的 409，数据库用参与者 advisory lock 触发器封住并发竞态。房主重开自己的等待邀请会恢复到 `waiting`，不会停留在 `joining`。
 
-互动资格边界：课程完成、Scratch/积木项目保存、PBL 阶段与工作区保存、项目探索等个人进度登录即可；项目/课程/挑战作品提交、自然观察提交、评论/鉴定/评分、发帖和私信需要社区互动确认，内部由 `age_confirmed_at` 记录；项目/作品/自然观察点赞、收藏、关注和打赏属于 `engage`，登录即可；`interaction_restricted` 会阻断全部保存与互动写入。项目上下文的收藏写入统一经 `POST /api/projects/[id]/collection`，不再由浏览器直接写 `collections` 表。
+互动资格边界：课程完成、Scratch/积木项目保存、PBL 阶段与工作区保存、项目探索和私信发送登录即可；项目/课程/挑战作品提交、自然观察提交、评论/鉴定/评分和发帖需要社区互动确认，内部由 `age_confirmed_at` 记录；私信另受接收方隐私设置、双向屏蔽、频率限制、内容审核和 `interaction_restricted` 控制；项目/作品/自然观察点赞、收藏、关注和打赏属于 `engage`，登录即可。项目上下文的收藏写入统一经 `POST /api/projects/[id]/collection`，不再由浏览器直接写 `collections` 表。
 
 ---
 
@@ -207,7 +207,7 @@
 - `lib/observations/photo-metadata-autofill.ts` — 观察照片 EXIF 拍摄时间/GPS 自动回填决策，使用首个可用时间与首张带 GPS 的照片，集中处理缺 GPS、坐标转换失败和地点反查失败提示
 - `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`brand` / `outline` / `destructive`，默认 10px 圆角）
 - `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验
-- `interaction-access.ts` — 统一互动资格判定：匿名/已注册/已确认/restricted；保存进度登录即可，投稿、评论、发帖、私信等写入需要社区互动确认
+- `interaction-access.ts` — 统一互动资格判定：匿名/已注册/已确认/restricted；保存进度和私信发送登录即可，投稿、评论、发帖等公开内容写入需要社区互动确认
 - `challenge-submission-validation.ts` — 挑战投稿标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
 - `safety/` — 社区安全服务层：屏蔽关系、审核案件、内容 `moderation_state` 投影、举报处罚、账号限制同步与证据保留
@@ -327,6 +327,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - 本次新增互动资格与安全 XP 迁移：`20260801090000_interaction_access_and_secure_xp.sql` 增加 `profiles.interaction_restricted`，清空历史自动确认，提供社区互动确认 `confirm_my_age()` 与 service-role-only 固定奖励 `award_xp_once()`；应用使用 `pnpm db:push`，不要使用 `supabase db push`
 - 本次安全加固迁移：`20260803120000_harden_interaction_access_and_xp.sql` 撤销旧 XP RPC 的公开执行权、禁止客户端写 `xp_logs`，通过 `current_user_can_interact()` 与数据库触发器封住项目/评论/投稿/观察/消息/互动/进度的直接写入绕过，并在 `award_xp_once()` 内恢复项目评论每日 50 XP 上限；迁移末尾通知 PostgREST reload，应用使用 `pnpm db:push`
 - 本次新增社区安全治理迁移：`20260804120000_community_safety_governance.sql` 增加 `user_blocks`、`moderation_cases`、`safety_actions`、`safety_appeals` 与账号安全投影；项目、讨论、评论、完成作品、自然观察、挑战投稿和私信增加 `moderation_state`，公开读取仅允许 `approved`，本人/审核员仍可查看审核态；举报可自动隐藏高风险内容，安全处罚支持互动限制、停用、封禁与有效期内申诉，证据按保留期清理；应用使用 `pnpm db:push`，不要使用 `supabase db push`
+- 本次私信门禁调整迁移：`20260806100000_allow_messages_before_confirmation.sql` 保留账号限制、屏蔽、隐私、频率限制和内容审核，移除私信对社区互动确认的依赖；应用使用 `pnpm db:push`，不要使用 `supabase db push`
 - 大颗粒课程的面向用户名称与课程卡文案：`20260722185000_rename_courseware_courses.sql`、`20260723100500_refresh_courseware_descriptions.sql`、`20260723101500_clarify_courseware_age_descriptions.sql`；三档课程统一使用“适合 N 岁以上”的明确年龄表达，强调 100 个主题、课件/动画与分步引导，不再在课程介绍中暴露后台保留的 PDF 资源。
 - 本批课程数据修复：`20260728141000_fix_roller_skates_ldraw_steps.sql` 将「溜冰鞋」同步为用户确认的 150 件 Studio 模型和 13 项课程步骤；`20260728143000_fix_butterfly_ldraw_steps.sql` 删除「蝴蝶」BOM/成品页造成的伪步骤，将侧栏与 3D 模型统一为 10 个实际搭建步骤；`20260728144000_restore_lesson_32_animation.sql` 恢复 lesson 32「长颈龙」在课件第 5 页的 `animation.mp4`，对应课程流 `?step=3`。
 - `supabase/seed.sql` — 种子数据入口
@@ -341,7 +342,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 完整类型定义：`lib/supabase/types.ts`
 
-`profiles.age_confirmed_at` 仅由社区互动确认流程写入，`profiles.interaction_restricted` 由后台限制流程使用；固定 XP 事件通过 service-role-only `award_xp_once()` 原子写入 `xp_logs` 与 `profiles.xp`，项目评论每日最多计入 50 XP；所有互动/投稿/进度表的用户写入还需通过 `current_user_can_interact()` 数据库触发器。
+`profiles.age_confirmed_at` 仅由社区互动确认流程写入，当前只控制公开投稿/评论/发帖等内容写入；私信仍通过同一 `current_user_can_interact()` 触发器检查账号限制，但不要求该字段。`profiles.interaction_restricted` 由后台限制流程使用；固定 XP 事件通过 service-role-only `award_xp_once()` 原子写入 `xp_logs` 与 `profiles.xp`，项目评论每日最多计入 50 XP。
 
 函数战争新增 **`function_wars_matches`**：保存对称地图种子、双方 HP/弹药/增益、共享弹坑/道具、当前回合、连续超时数与单调 `shot_seq`；参与者 advisory lock 触发器保证每个用户最多出现在一个 `waiting/playing` 对局。浏览器不能直接执行内部 `function_wars_fire`，认证 `/fire` API 先用共享模拟器重算摘要，再由 service-role-only `function_wars_fire_authoritative` 在行锁内校验参与者和预期序号后原子换手或结算。**`function_wars_match_results`** 保存不可变的每局赛果，触发器按参与者 UUID 固定顺序派生 `playground_stats.function_wars_stats.onlineGames/onlineWins`，避免并发赛果反序锁行。
 

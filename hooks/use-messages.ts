@@ -8,10 +8,7 @@ import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
   getApiErrorMessage,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from "@/lib/utils/http";
-import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 
 export type ConversationItem = {
   peerId: string;
@@ -166,7 +163,6 @@ export function useMarkConversationRead() {
 /** 发送私信 */
 export function useSendMessage(options?: { onSuccess?: () => void }) {
   const { user } = useAuth();
-  const { runAfterAgeConfirmation } = useLoginPrompt();
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -189,14 +185,8 @@ export function useSendMessage(options?: { onSuccess?: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ receiverId, content: trimmed }),
       });
-      let response = await sendMessageRequest();
-      let errorPayload = await getApiErrorPayload(response);
-      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-        response = await runAfterAgeConfirmation(sendMessageRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        });
-        errorPayload = await getApiErrorPayload(response);
-      }
+      const response = await sendMessageRequest();
+      const errorPayload = await getApiErrorPayload(response);
       if (!response.ok) {
         throw new Error(getApiErrorMessageFromPayload(errorPayload, '发送失败，请稍后重试'));
       }

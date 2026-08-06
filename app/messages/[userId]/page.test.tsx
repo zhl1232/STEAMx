@@ -80,7 +80,7 @@ describe('ConversationPage', () => {
         expect(screen.getByPlaceholderText('当前无法向该用户发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
         expect(screen.queryByText('还没有消息')).not.toBeInTheDocument()
-        expect(screen.getByText('发送私信前请先完成社区互动确认，点击发送即可弹出确认窗口。')).toBeInTheDocument()
+        expect(screen.queryByText('发送私信前请先完成社区互动确认，点击发送即可弹出确认窗口。')).not.toBeInTheDocument()
     })
 
     it('keeps the mobile conversation header anchored to the viewport top', () => {

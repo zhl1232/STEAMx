@@ -33,7 +33,6 @@ const AGE_GATED_CAPABILITIES = new Set<InteractionCapability>([
   'submit',
   'comment',
   'post',
-  'message',
 ])
 
 function isAgeConfirmed(profile: InteractionProfile | null) {
@@ -95,7 +94,9 @@ export async function getInteractionAccess(
     canSubmit: ageConfirmed,
     canComment: ageConfirmed,
     canPost: ageConfirmed,
-    canMessage: ageConfirmed,
+    // Direct messages are governed by recipient privacy, blocks, moderation,
+    // and rate limits. A sender does not need the public-content confirmation.
+    canMessage: true,
   }
 }
 
