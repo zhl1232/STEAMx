@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import AboutSettingsPage from "./page";
 
@@ -26,21 +27,24 @@ describe("AboutSettingsPage", () => {
     vi.clearAllMocks();
   });
 
-  it("does not render a broken mailto link when the support email is not configured", () => {
+  it("always exposes the in-site feedback composer", async () => {
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL = "";
+    const user = userEvent.setup();
 
     render(<AboutSettingsPage />);
 
-    expect(screen.getByText(/暂未配置反馈邮箱/)).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /问题反馈/i })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /问题反馈/i }));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByLabelText("反馈内容")).toBeInTheDocument();
   });
 
-  it("renders the feedback mailto link when a support email is configured", () => {
+  it("renders the optional email fallback when configured", () => {
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL = "support@example.test";
 
     render(<AboutSettingsPage />);
 
-    expect(screen.getByRole("link", { name: /问题反馈/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /邮件反馈（备用）/i })).toHaveAttribute(
       "href",
       "mailto:support@example.test?subject=问题反馈",
     );

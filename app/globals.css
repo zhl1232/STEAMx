@@ -412,6 +412,47 @@
   @apply rounded-md border;
 }
 
+@utility settings-section {
+  background-color: hsl(var(--surface-muted) / 0.46);
+  @apply rounded-md;
+}
+
+@utility settings-list {
+  @apply divide-y divide-border/50;
+}
+
+@utility settings-row {
+  @apply flex w-full items-center justify-between gap-3 px-3 py-3 text-left transition-colors sm:gap-4 sm:px-4 sm:py-4;
+
+  &:hover {
+    background-color: hsl(var(--muted) / 0.45);
+  }
+
+  &:focus-visible {
+    @apply outline-hidden ring-2 ring-ring ring-offset-2;
+  }
+}
+
+@utility settings-icon {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-md;
+}
+
+@utility settings-description {
+  @apply mt-0.5 text-xs leading-5 text-muted-foreground;
+}
+
+@utility settings-section-heading {
+  @apply text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground;
+}
+
+@utility settings-group {
+  background-color: hsl(var(--surface-muted) / 0.35);
+  border-color: hsl(var(--surface-border) / 0.56);
+  @apply overflow-hidden rounded-md border;
+}
+
 @utility surface-card {
   background-color: hsl(var(--surface-raised) / 0.96);
   border-color: hsl(var(--surface-border) / 0.94);

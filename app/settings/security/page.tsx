@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { BadgeCheck, ChevronDown, KeyRound, Loader2, Smartphone } from "lucide-react";
+import { BadgeCheck, ChevronDown, ChevronUp, KeyRound, Loader2, RotateCcw, ShieldCheck, Smartphone } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,6 @@ import { useAuth } from '@/lib/context/auth-context';
 import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
-import { cn } from "@/lib/utils";
 import { toE164 } from "@/lib/utils/phone";
 
 function maskPhone(phone: string) {
@@ -40,6 +39,14 @@ function SecuritySettingsContent() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [ageConfirmedAt, setAgeConfirmedAt] = useState<string | null>(profile?.age_confirmed_at ?? null);
   const [ageLoading, setAgeLoading] = useState(false);
+
+  const resetPhoneFlow = (clearPhone = false) => {
+    setPhoneStep("idle");
+    setOtpInput("");
+    if (clearPhone) {
+      setPhoneInput("");
+    }
+  };
 
   useEffect(() => {
     const loadPhone = async () => {
@@ -186,9 +193,7 @@ function SecuritySettingsContent() {
       } = await supabase.auth.getUser();
       setAuthPhone(authUser?.phone ?? null);
       setPhoneExpand(false);
-      setPhoneStep("idle");
-      setPhoneInput("");
-      setOtpInput("");
+      resetPhoneFlow(true);
       toast({ title: "绑定成功", description: "手机号已更新。" });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "验证失败";
@@ -206,182 +211,221 @@ function SecuritySettingsContent() {
     <SettingsSubpageShell
       title="账号与安全"
       kicker="登录保护"
-      description="管理登录密码、手机号和社区互动确认。"
+      description="管理登录方式与互动权限。"
     >
-      <div className="space-y-4">
+      <div className="space-y-5">
         {recoveryMode ? (
-          <div className="surface-subtle border-primary/20 bg-primary/8 px-4 py-4 text-sm leading-6 text-foreground/90">
-            请先设置新密码，设置成功后即可继续使用账号。
+          <div role="status" className="flex items-start gap-3 rounded-md bg-primary/8 px-4 py-3 text-sm leading-6 text-foreground/90">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+            <p>请先设置新密码，设置成功后即可继续使用账号。</p>
           </div>
         ) : null}
 
-        <section id="age-confirmation" className="surface-subtle scroll-mt-5 p-4 sm:p-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                <BadgeCheck className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold">社区互动确认</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  发布作品、评论、发帖或私信前，需要完成一次本人确认。公开内容仍可正常浏览。
-                </p>
-              </div>
+        <div className="settings-list">
+        <section id="age-confirmation" className="scroll-mt-5 px-3 py-4 sm:px-4 sm:py-5">
+          <div className="grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-x-3">
+            <div className="settings-icon">
+              <BadgeCheck className="h-5 w-5" />
             </div>
+            <h3 className="min-w-0 text-sm font-semibold">社区互动确认</h3>
             {ageConfirmedAt ? (
-              <span className="inline-flex shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                <BadgeCheck className="h-3.5 w-3.5" />
                 已确认
               </span>
             ) : (
-              <Button type="button" onClick={handleConfirmAge} disabled={ageLoading}>
-                {ageLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              <Button type="button" tone="brand" shape="soft" className="shrink-0" onClick={handleConfirmAge} disabled={ageLoading}>
+                {ageLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <BadgeCheck className="mr-2 h-4 w-4" />}
                 完成确认
               </Button>
             )}
-          </div>
-          {!ageConfirmedAt ? (
-            <p className="mt-4 border-t border-border/70 pt-4 text-xs leading-6 text-muted-foreground">
-              未成年人请在监护人指导下使用。确认即表示你同意遵守{" "}
-              <Link href="/legal/terms" className="text-primary underline-offset-2 hover:underline">
-                《服务条款》
-              </Link>{" "}和{" "}
-              <Link href="/legal/privacy" className="text-primary underline-offset-2 hover:underline">
-                《隐私政策》
-              </Link>。
+            <p className="col-start-1 col-end-[-1] mt-3 text-xs leading-5 text-muted-foreground">
+              发布、评论、发帖和私信前需确认。
+              {!ageConfirmedAt ? (
+                <>
+                  未成年人请在监护人指导下使用；确认即表示你同意遵守
+                  <Link href="/legal/terms" className="mx-1 text-primary underline-offset-2 hover:underline">
+                    《服务条款》
+                  </Link>
+                  和
+                  <Link href="/legal/privacy" className="mx-1 text-primary underline-offset-2 hover:underline">
+                    《隐私政策》
+                  </Link>。
+                </>
+              ) : null}
             </p>
-          ) : null}
+          </div>
         </section>
 
-        <section className="surface-subtle p-4 sm:p-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                <KeyRound className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold">修改密码</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  更新登录密码。建议至少 6 位，并避免与其他常用密码重复。
-                </p>
-              </div>
+        <section className="py-4 sm:py-5">
+          <button
+            type="button"
+            aria-label={passwordExpand ? "收起修改密码" : "展开修改密码"}
+            aria-expanded={passwordExpand}
+            aria-controls="password-settings"
+            className="settings-row group"
+            onClick={() => setPasswordExpand((prev) => !prev)}
+          >
+            <div className="settings-icon">
+              <KeyRound className="h-5 w-5" />
             </div>
-            <Button
-              type="button"
-              variant={passwordExpand ? "secondary" : "outline"}
-              onClick={() => setPasswordExpand((prev) => !prev)}
-            >
-              {passwordExpand ? "收起" : "展开"}
-              <ChevronDown className={cn("ml-2 h-4 w-4 transition-transform", passwordExpand && "rotate-180")} />
-            </Button>
-          </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-sm font-semibold">修改密码</h3>
+            </div>
+            {passwordExpand ? (
+              <ChevronUp className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+            ) : (
+              <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+            )}
+          </button>
 
           {passwordExpand ? (
-            <div className="mt-5 space-y-3 border-t border-border/70 pt-5">
-              <Input
-                placeholder="新密码（至少 6 位）"
-                type="password"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-              />
-              <Input
-                placeholder="确认新密码"
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-              />
-              <Button
-                type="button"
-                className="h-11 px-5 text-sm font-semibold"
-                onClick={handleChangePassword}
-                disabled={passwordLoading}
-              >
-                {passwordLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                确认修改
-              </Button>
-            </div>
+            <form
+              id="password-settings"
+              className="mt-5 space-y-4 px-3 sm:px-4"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void handleChangePassword();
+              }}
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <label htmlFor="new-password" className="text-xs font-medium text-muted-foreground">新密码</label>
+                  <Input
+                    id="new-password"
+                    placeholder="至少 6 位"
+                    type="password"
+                    autoComplete="new-password"
+                    value={newPassword}
+                    onChange={(event) => setNewPassword(event.target.value)}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <label htmlFor="confirm-password" className="text-xs font-medium text-muted-foreground">确认新密码</label>
+                  <Input
+                    id="confirm-password"
+                    placeholder="再次输入新密码"
+                    type="password"
+                    autoComplete="new-password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button type="submit" tone="brand" shape="soft" className="h-11 w-full px-5 text-sm font-semibold sm:w-auto" disabled={passwordLoading}>
+                  {passwordLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <KeyRound className="mr-2 h-4 w-4" />}
+                  保存新密码
+                </Button>
+              </div>
+            </form>
           ) : null}
         </section>
 
-        <section className="surface-subtle p-4 sm:p-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+        <section className="py-4 sm:py-5">
+          {authPhone ? (
+            <div className="flex items-center gap-3">
+              <div className="settings-icon">
                 <Smartphone className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-sm font-semibold">手机号绑定</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  {authPhone ? "当前号码已绑定，可用于身份确认。" : "补充一个可接收短信的手机号，用于后续验证。"}
-                </p>
+              <p className="settings-description">已绑定 · {maskPhone(authPhone)}</p>
               </div>
             </div>
-            {authPhone ? (
-              <span className="inline-flex rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                {maskPhone(authPhone)}
-              </span>
-            ) : (
-              <Button
-                type="button"
-                variant={phoneExpand ? "secondary" : "outline"}
-                onClick={() => setPhoneExpand((prev) => !prev)}
-              >
-                {phoneExpand ? "收起" : "开始绑定"}
-                <ChevronDown className={cn("ml-2 h-4 w-4 transition-transform", phoneExpand && "rotate-180")} />
-              </Button>
-            )}
-          </div>
+          ) : (
+            <button
+              type="button"
+              aria-label={phoneExpand ? "收起手机号绑定" : "展开手机号绑定"}
+              aria-expanded={phoneExpand}
+              aria-controls="phone-binding"
+              className="settings-row group"
+              onClick={() => {
+                if (phoneExpand) resetPhoneFlow(true);
+                setPhoneExpand((prev) => !prev);
+              }}
+            >
+              <div className="settings-icon">
+                <Smartphone className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-sm font-semibold">手机号绑定</h3>
+              </div>
+              {phoneExpand ? (
+                <ChevronUp className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+              ) : (
+                <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+              )}
+            </button>
+          )}
 
           {!authPhone && phoneExpand ? (
-            <div className="mt-5 space-y-3 border-t border-border/70 pt-5">
-              <div className="flex gap-2">
-                <span className="inline-flex items-center rounded-md border border-border/80 bg-background/80 px-3 text-sm text-muted-foreground">
-                  +86
-                </span>
-                <Input
-                  placeholder="手机号"
-                  value={phoneInput}
-                  onChange={(event) => setPhoneInput(event.target.value)}
-                  className="h-11 rounded-md"
-                  disabled={phoneStep === "verify"}
-                />
-                {phoneStep === "idle" ? (
-                  <Button
-                    type="button"
-                    className="h-11 px-4 text-sm font-semibold"
-                    onClick={handleSendPhoneOtp}
-                    disabled={phoneLoading}
-                  >
-                    {phoneLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发送验证码"}
-                  </Button>
-                ) : null}
+            <form
+              id="phone-binding"
+              className="mt-5 space-y-4 px-3 sm:px-4"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void (phoneStep === "idle" ? handleSendPhoneOtp() : handleVerifyPhoneOtp());
+              }}
+            >
+              <div className="grid gap-2">
+                <label htmlFor="settings-phone" className="text-xs font-medium text-muted-foreground">手机号</label>
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <div className="flex min-w-0 flex-1 items-center gap-2">
+                    <span className="inline-flex h-11 shrink-0 items-center rounded-sm bg-background/70 px-3 text-sm text-muted-foreground">+86</span>
+                    <Input
+                      id="settings-phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="请输入手机号"
+                      value={phoneInput}
+                      onChange={(event) => setPhoneInput(event.target.value)}
+                      className="h-11"
+                      disabled={phoneStep === "verify" || phoneLoading}
+                    />
+                  </div>
+                  {phoneStep === "idle" ? (
+                    <Button type="submit" tone="brand" shape="soft" className="h-11 shrink-0 px-4 text-sm font-semibold sm:min-w-32" disabled={phoneLoading}>
+                      {phoneLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "发送验证码"}
+                    </Button>
+                  ) : null}
+                </div>
               </div>
 
               {phoneStep === "verify" ? (
-                <>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="验证码"
-                      value={otpInput}
-                      onChange={(event) => setOtpInput(event.target.value)}
-                      className="h-11 rounded-md"
-                    />
-                    <Button
-                      type="button"
-                      className="h-11 px-5 text-sm font-semibold"
-                      onClick={handleVerifyPhoneOtp}
-                      disabled={phoneLoading}
-                    >
+                <div className="space-y-3">
+                  <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="grid gap-2">
+                      <label htmlFor="settings-otp" className="text-xs font-medium text-muted-foreground">短信验证码</label>
+                      <Input
+                        id="settings-otp"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        placeholder="请输入验证码"
+                        value={otpInput}
+                        onChange={(event) => setOtpInput(event.target.value)}
+                        className="h-11"
+                        disabled={phoneLoading}
+                      />
+                    </div>
+                    <Button type="submit" tone="brand" shape="soft" className="h-11 self-end px-5 text-sm font-semibold" disabled={phoneLoading}>
                       {phoneLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "确认绑定"}
                     </Button>
                   </div>
-                  <p className="text-xs leading-6 text-muted-foreground">
-                    未收到验证码时，请确认手机号填写无误，或稍后再试。
-                  </p>
-                </>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs leading-5 text-muted-foreground">未收到验证码时，请确认手机号填写无误，或稍后再试。</p>
+                    <Button type="button" variant="ghost" size="sm" className="h-9 px-2 text-xs" onClick={() => resetPhoneFlow()}>
+                      <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+                      更换号码
+                    </Button>
+                  </div>
+                </div>
               ) : null}
-            </div>
+            </form>
           ) : null}
         </section>
+        </div>
       </div>
     </SettingsSubpageShell>
   );

@@ -58,15 +58,15 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="page-shell pt-6 pb-24 md:pb-10">
+    <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title="隐私政策"
         fallbackHref="/settings/about"
-        className="-mx-4 -mt-6 mb-4 md:hidden"
+        className="md:hidden"
       />
 
       <div className="mx-auto max-w-3xl">
-        <section className="surface-panel overflow-hidden">
+        <section className="surface-panel overflow-hidden border-[hsl(var(--surface-border)/0.68)] shadow-none">
           <div className="hidden border-b border-border/60 bg-[hsl(var(--surface-muted)/0.56)] px-6 py-6 md:block">
             <p className="section-kicker">规则说明</p>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight">隐私政策</h1>
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
           </div>
 
           <div className="px-4 py-5 sm:px-6 sm:py-6">
-            <div className="surface-subtle p-4">
+            <div className="rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-4 sm:p-5">
               <p className="text-sm font-medium text-foreground">STEAM 探索隐私政策</p>
               <div className="mt-2 space-y-1 text-sm text-muted-foreground md:hidden">
                 <p>版本：{PRIVACY_VERSION}</p>

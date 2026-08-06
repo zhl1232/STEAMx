@@ -69,19 +69,19 @@ export default function PrivacySettingsPage() {
     <SettingsSubpageShell
       title="隐私设置"
       kicker="可见性与联系"
-      description="控制谁可以通过私信联系你。这里的选择会影响新会话发起，不会删除已有对话。"
+      description="选择谁可以向你发起新的私信。"
     >
       {isLoading ? (
-        <div className="surface-subtle flex min-h-56 items-center justify-center">
+        <div className="settings-section flex min-h-56 items-center justify-center">
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
       ) : (
         <div className="space-y-4">
           <section className="space-y-3">
             <div className="px-1">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">谁可以给我发私信</h2>
+              <h2 className="settings-section-heading">谁可以给我发私信</h2>
             </div>
-            <div className="space-y-3">
+            <div className="settings-list">
               {PRIVACY_OPTIONS.map((opt) => {
                 const active = messagePrivacy === opt.value;
 
@@ -92,17 +92,17 @@ export default function PrivacySettingsPage() {
                     onClick={() => void handleChange(opt.value)}
                     disabled={isSaving}
                     className={cn(
-                      "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5 disabled:opacity-70",
-                      active && "border-primary/40 bg-primary/8",
+                      "settings-row disabled:opacity-70",
+                      active && "bg-primary/[0.05]",
                     )}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+                    <div className="flex min-w-0 flex-1 items-start gap-3">
+                      <div className="settings-icon">
                         <opt.icon className="h-5 w-5" />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <div className="text-sm font-semibold">{opt.label}</div>
-                        <p className="mt-1 text-sm leading-6 text-muted-foreground">{opt.desc}</p>
+                        <p className="settings-description">{opt.desc}</p>
                       </div>
                     </div>
                     <div

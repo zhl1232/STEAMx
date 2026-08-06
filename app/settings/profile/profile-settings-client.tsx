@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, RefreshCcw } from "lucide-react";
+import { Loader2, RefreshCcw, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
@@ -207,32 +207,37 @@ export default function ProfileSettingsClient() {
     <SettingsSubpageShell
       title="个人资料"
       kicker="账号名片"
-      description="更新头像、昵称与基础资料。这些信息会展示在个人主页、讨论和作品互动中。"
+      description="更新头像、昵称与基础资料。"
     >
       {isLoading ? (
-        <div className="space-y-4">
-          <div className="surface-subtle p-6">
+        <div className="space-y-6">
+          <div className="settings-section p-5 sm:p-6">
             <div className="flex flex-col items-center gap-3">
               <Skeleton className="h-32 w-32 rounded-full" />
               <Skeleton className="h-4 w-24" />
             </div>
           </div>
-          <Skeleton className="h-28 w-full rounded-(--radius-lg)" />
-          <Skeleton className="h-28 w-full rounded-(--radius-lg)" />
-          <Skeleton className="h-24 w-full rounded-(--radius-lg)" />
+          <div className="space-y-4">
+            <Skeleton className="h-11 w-full rounded-(--radius-sm)" />
+            <Skeleton className="h-28 w-full rounded-(--radius-sm)" />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Skeleton className="h-11 w-full rounded-(--radius-sm)" />
+            <Skeleton className="h-11 w-full rounded-(--radius-sm)" />
+          </div>
         </div>
       ) : loadError ? (
-        <div className="surface-subtle p-6 text-center">
+        <div className="settings-section p-6 text-center">
           <p className="text-sm leading-7 text-muted-foreground">{loadError}</p>
-          <Button className="mt-4" variant="outline" shape="soft" onClick={() => void loadProfile()}>
+          <Button className="mt-4" variant="secondary" shape="soft" onClick={() => void loadProfile()}>
             <RefreshCcw className="mr-2 h-4 w-4" />
             重试
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <section className="surface-subtle p-6">
-            <div className="flex flex-col items-center gap-3">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <section className="settings-section p-4 sm:p-5">
+            <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:text-left">
               <AvatarUpload
                 value={form.avatar_url}
                 persistedUploadUrl={persistedUploadUrl}
@@ -241,7 +246,7 @@ export default function ProfileSettingsClient() {
                 disabled={isSaving}
                 showCameraBadge
               />
-              <div className="text-center">
+              <div className="min-w-0">
                 <p className="text-sm font-semibold">头像</p>
                 <p className="mt-1 text-xs text-muted-foreground">支持 JPG、PNG、GIF、WebP，最大 2MB</p>
                 <p className="mt-1 text-xs text-muted-foreground">账号 ID：{username || "未设置"}</p>
@@ -249,8 +254,13 @@ export default function ProfileSettingsClient() {
             </div>
           </section>
 
-          <section className="surface-subtle p-4 sm:p-5">
-            <div className="grid gap-4">
+          <section className="space-y-5">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 className="settings-section-heading">公开资料</h2>
+              <span className="shrink-0 text-xs text-muted-foreground">公开展示</span>
+            </div>
+
+            <div className="grid gap-5">
               <div className="grid gap-2">
                 <Label htmlFor="display_name">昵称</Label>
                 <Input
@@ -260,7 +270,7 @@ export default function ProfileSettingsClient() {
                   onChange={(event) => updateField("display_name", event.target.value)}
                   placeholder="显示的名称"
                   disabled={isSaving}
-                  className="h-11 rounded-md"
+                  className="h-11"
                 />
               </div>
 
@@ -285,8 +295,13 @@ export default function ProfileSettingsClient() {
             </div>
           </section>
 
-          <section className="surface-subtle p-4 sm:p-5">
-            <div className="grid gap-4">
+          <section className="space-y-5">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 className="settings-section-heading">补充资料</h2>
+              <span className="shrink-0 text-xs text-muted-foreground">可选</span>
+            </div>
+
+            <div className="grid gap-5">
               <div className="grid gap-2">
                 <Label htmlFor="gender">性别</Label>
                 <Select
@@ -296,7 +311,7 @@ export default function ProfileSettingsClient() {
                   }
                   disabled={isSaving}
                 >
-                  <SelectTrigger id="gender" className="h-11 rounded-md">
+                  <SelectTrigger id="gender" className="h-11">
                     <SelectValue placeholder="请选择" />
                   </SelectTrigger>
                   <SelectContent>
@@ -312,7 +327,7 @@ export default function ProfileSettingsClient() {
 
               <div className="grid gap-3">
                 <div className="flex items-center justify-between gap-3">
-                  <Label>出生年月</Label>
+                  <Label htmlFor="birth_year">出生年月</Label>
                   <Button
                     type="button"
                     variant="ghost"
@@ -333,7 +348,7 @@ export default function ProfileSettingsClient() {
                     onValueChange={(value) => updateField("birth_year", value === "none" ? null : value)}
                     disabled={isSaving}
                   >
-                    <SelectTrigger className="h-11 flex-1 rounded-md">
+                    <SelectTrigger id="birth_year" className="h-11 flex-1">
                       <SelectValue placeholder="年" />
                     </SelectTrigger>
                     <SelectContent>
@@ -350,7 +365,7 @@ export default function ProfileSettingsClient() {
                     onValueChange={(value) => updateField("birth_month", value === "none" ? null : value)}
                     disabled={isSaving}
                   >
-                    <SelectTrigger className="h-11 w-28 rounded-md">
+                    <SelectTrigger id="birth_month" aria-label="出生月份" className="h-11 w-28">
                       <SelectValue placeholder="月" />
                     </SelectTrigger>
                     <SelectContent>
@@ -370,10 +385,13 @@ export default function ProfileSettingsClient() {
             </div>
           </section>
 
-          <Button type="submit" shape="soft" className="h-12 px-5 text-base font-semibold" disabled={isSaving}>
-            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+          <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs leading-5 text-muted-foreground">修改会同步到个人主页。</p>
+            <Button type="submit" shape="soft" className="h-11 w-full px-5 text-sm font-semibold sm:w-auto" disabled={isSaving}>
+              {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
             保存更改
-          </Button>
+            </Button>
+          </div>
         </form>
       )}
     </SettingsSubpageShell>

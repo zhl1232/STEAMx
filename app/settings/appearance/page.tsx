@@ -28,9 +28,9 @@ export default function AppearanceSettingsPage() {
     <SettingsSubpageShell
       title="外观"
       kicker="显示偏好"
-      description="选择全站明暗模式。外观设置只影响视觉呈现，不改变内容和账号数据。"
+      description="选择全站明暗模式，只影响视觉呈现。"
     >
-      <div className="space-y-3">
+      <div className="settings-list">
         {baseOptions.map((opt) => {
           const selected = currentTheme === opt.value;
 
@@ -40,17 +40,17 @@ export default function AppearanceSettingsPage() {
               type="button"
               onClick={() => setTheme(opt.value)}
               className={cn(
-                "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5",
-                selected && "border-primary/40 bg-primary/8",
+                "settings-row",
+                selected && "bg-primary/[0.05]",
               )}
             >
-              <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="settings-icon">
                   <opt.icon className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-sm font-semibold">{opt.label}</div>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground">{opt.description}</p>
+                  <p className="settings-description">{opt.description}</p>
                 </div>
               </div>
               <div
@@ -74,25 +74,25 @@ export default function AppearanceSettingsPage() {
           }}
           disabled={!blackGoldUnlocked}
           className={cn(
-            "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70",
-            currentTheme === "black-gold" && "border-amber-500/40 bg-amber-500/8",
+            "settings-row disabled:cursor-not-allowed disabled:opacity-70",
+            currentTheme === "black-gold" && "bg-amber-500/[0.06]",
           )}
         >
-          <div className="flex items-start gap-3">
+          <div className="flex min-w-0 flex-1 items-start gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-amber-500/12 text-amber-500">
               <Crown className="h-5 w-5" />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-sm font-semibold">
                 黑金传说
                 {!blackGoldUnlocked ? (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-border/80 bg-background/80 px-2 py-1 text-[11px] font-medium text-muted-foreground">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground">
                     <Lock className="h-3 w-3" />
                     Lv.50 解锁
                   </span>
                 ) : null}
               </div>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              <p className="settings-description">
                 {blackGoldUnlocked ? "尊贵黑金配色已开放，可应用到全站界面。" : "达到 Lv.50 后可开启专属配色。"}
               </p>
             </div>

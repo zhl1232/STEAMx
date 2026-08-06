@@ -8,7 +8,6 @@ import { LogOut, ChevronRight, Shield, ShieldAlert, Bell, Bot, Eye, HelpCircle, 
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 
 export default function SettingsPage() {
@@ -78,32 +77,28 @@ export default function SettingsPage() {
           </div>
 
           <div className="mt-0 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1.35fr)_320px]">
-            <div className="surface-panel p-5 sm:p-6">
+            <div className="surface-panel p-4 sm:p-6">
               <div className="space-y-6">
                 {menuGroups.map((group) => (
                   <section key={group.title} className="space-y-3">
                     <div className="flex items-center justify-between px-1">
-                      <h2 className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                        {group.title}
-                      </h2>
+                      <h2 className="settings-section-heading">{group.title}</h2>
                     </div>
-                    <div className="overflow-hidden rounded-(--radius-lg) border border-border/70 bg-background/75">
-                      {group.items.map((item, itemIdx) => (
-                        <div key={item.label}>
-                          <Link
-                            href={item.href}
-                            className="flex w-full items-center justify-between p-4 transition-colors hover:bg-muted/60 active:bg-muted"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
-                                <item.icon className="h-4 w-4" />
-                              </div>
-                              <div className="text-sm font-medium">{item.label}</div>
+                    <div className="settings-list">
+                      {group.items.map((item) => (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="settings-row active:bg-muted/60"
+                        >
+                          <div className="flex min-w-0 flex-1 items-center gap-3">
+                            <div className="settings-icon">
+                              <item.icon className="h-4 w-4" />
                             </div>
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                          </Link>
-                          {itemIdx < group.items.length - 1 && <Separator className="ml-18" />}
-                        </div>
+                            <div className="text-sm font-medium">{item.label}</div>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        </Link>
                       ))}
                     </div>
                   </section>
@@ -112,7 +107,7 @@ export default function SettingsPage() {
             </div>
 
             <aside className="space-y-6">
-              <section className="surface-panel p-5 sm:p-6">
+              <section className="surface-panel p-4 sm:p-6">
                 <div className="mb-4">
                   <p className="text-sm font-semibold text-foreground">账号操作</p>
                   <p className="mt-1 text-sm leading-6 text-muted-foreground">退出登录不会删除你的作品、收藏和消息记录。</p>

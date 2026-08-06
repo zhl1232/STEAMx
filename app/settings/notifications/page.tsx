@@ -93,7 +93,7 @@ export default function NotificationsSettingsPage() {
       icon: BellRing,
       label: "关注创作者更新",
       value: preferences.notify_followed_creator_updates ? "已开启" : "已关闭",
-      description: "关注的创作者发布动态或重大更新时，通过站内消息提醒你。",
+      description: "关注的创作者发布新动态时提醒你。",
       action: handleCreatorUpdateToggle,
       active: preferences.notify_followed_creator_updates,
     },
@@ -101,7 +101,7 @@ export default function NotificationsSettingsPage() {
       icon: Megaphone,
       label: "系统通知",
       value: "默认开启",
-      description: "系统安全提醒和审核结果会继续保留在站内消息中。",
+      description: "安全提醒和审核结果始终保留在站内消息中。",
       active: true,
     },
   ];
@@ -110,38 +110,25 @@ export default function NotificationsSettingsPage() {
     <SettingsSubpageShell
       title="消息与通知"
       kicker="通知规则"
-      description="管理站内提醒的触发范围。系统安全和审核结果会继续保留，避免错过关键状态。"
+      description="选择需要接收的站内提醒。"
     >
       {isLoading ? (
-        <div className="surface-subtle flex min-h-56 items-center justify-center">
+        <div className="settings-section flex min-h-56 items-center justify-center">
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="settings-list">
           {menuItems.map((item) => {
             const isActionable = Boolean(item.action);
-
-            return (
-              <button
-                key={item.label}
-                type="button"
-                onClick={item.action}
-                disabled={!isActionable || isSaving}
-                role={isActionable ? "switch" : undefined}
-                aria-checked={isActionable ? item.active : undefined}
-                className={cn(
-                  "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform",
-                  isActionable ? "hover:-translate-y-0.5" : "cursor-default",
-                  isSaving && isActionable && "opacity-80",
-                )}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+            const rowContent = (
+              <>
+                <div className="flex min-w-0 flex-1 items-start gap-3">
+                  <div className="settings-icon">
                     <item.icon className="h-5 w-5" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="text-sm font-semibold">{item.label}</div>
-                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
+                    <p className="settings-description">{item.description}</p>
                   </div>
                 </div>
                 {isActionable ? (
@@ -160,11 +147,32 @@ export default function NotificationsSettingsPage() {
                     />
                   </span>
                 ) : (
-                  <span className="inline-flex shrink-0 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  <span className="inline-flex shrink-0 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
                     {item.value}
                   </span>
                 )}
+              </>
+            );
+
+            return isActionable ? (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => item.action?.()}
+                disabled={isSaving}
+                role="switch"
+                aria-checked={item.active}
+                className={cn(
+                  "settings-row",
+                  isSaving && "cursor-wait opacity-80",
+                )}
+              >
+                {rowContent}
               </button>
+            ) : (
+              <div key={item.label} className="settings-row cursor-default">
+                {rowContent}
+              </div>
             );
           })}
         </div>

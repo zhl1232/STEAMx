@@ -23,26 +23,26 @@ const voicePreferenceOptions: VoicePreferenceOption[] = [
   {
     key: "autoReadReplies",
     icon: Volume2,
-    label: "自动朗读小迪新回复",
-    description: "小迪回复完成后自动播放语音，适合边做项目边听反馈。",
+    label: "自动朗读新回复",
+    description: "回复完成后自动播放语音。",
   },
   {
     key: "mobileLongPressInput",
     icon: Mic,
-    label: "移动端长按小迪语音输入",
-    description: "在手机上长按悬浮小迪即可开始说话，松手后自动发送。",
+    label: "长按小迪语音输入",
+    description: "长按小迪说话，松手自动发送。",
   },
   {
     key: "voiceInputAutoPlay",
     icon: MessageCircle,
-    label: "语音提问后播报回复",
-    description: "通过长按语音提问时，即使关闭全局自动朗读，也会播报这次回复。",
+    label: "语音提问后播报",
+    description: "语音提问时，仍播报本次回复。",
   },
   {
     key: "showLongPressHint",
     icon: Lightbulb,
-    label: "显示长按语音提示",
-    description: "小迪会偶尔在头上提醒可以长按说话，不会频繁打扰。",
+    label: "显示长按提示",
+    description: "偶尔显示长按说话提示。",
   },
 ];
 
@@ -65,24 +65,24 @@ export default function XiaodiSettingsPage() {
     <SettingsSubpageShell
       title="小迪语音"
       kicker="AI 导师"
-      description="管理小迪的语音输入、自动播报和移动端长按提示。这些偏好保存在当前设备。"
+      description="设置小迪的语音偏好，仅保存在本设备。"
       aside={
-        <section className="surface-panel p-5 sm:p-6">
+        <div className="px-1 pt-1">
           <div className="flex items-start gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
               <Bot className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-foreground">语音体验</p>
+              <p className="text-sm font-semibold text-foreground">使用方式</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                长按语音主要面向手机触控使用；桌面端仍可以在小迪面板里点击麦克风输入。
+                手机可长按小迪说话；桌面端在面板中点击麦克风。
               </p>
             </div>
           </div>
-        </section>
+        </div>
       }
     >
-      <div className="space-y-3">
+      <div className="settings-list">
         {voicePreferenceOptions.map((option) => {
           const enabled = preferences[option.key];
 
@@ -94,18 +94,15 @@ export default function XiaodiSettingsPage() {
               aria-checked={enabled}
               disabled={!mounted}
               onClick={() => togglePreference(option.key)}
-              className={cn(
-                "surface-subtle flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-75",
-                enabled && "border-primary/35 bg-primary/[0.07]",
-              )}
+              className="settings-row disabled:cursor-wait disabled:opacity-75"
             >
-              <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="settings-icon">
                   <option.icon className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-sm font-semibold">{option.label}</div>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground">{option.description}</p>
+                  <p className="settings-description">{option.description}</p>
                 </div>
               </div>
               <span

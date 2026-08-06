@@ -29,20 +29,20 @@ describe("XiaodiSettingsPage", () => {
   it("defaults voice preferences to enabled", () => {
     render(<XiaodiSettingsPage />);
 
-    expect(screen.getByRole("switch", { name: /自动朗读小迪新回复/i })).toHaveAttribute("aria-checked", "true");
-    expect(screen.getByRole("switch", { name: /移动端长按小迪语音输入/i })).toHaveAttribute("aria-checked", "true");
-    expect(screen.getByRole("switch", { name: /语音提问后播报回复/i })).toHaveAttribute("aria-checked", "true");
-    expect(screen.getByRole("switch", { name: /显示长按语音提示/i })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("switch", { name: /自动朗读新回复/i })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("switch", { name: /长按小迪语音输入/i })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("switch", { name: /语音提问后播报/i })).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("switch", { name: /显示长按提示/i })).toHaveAttribute("aria-checked", "true");
   });
 
   it("stores preference changes in localStorage", async () => {
     const user = userEvent.setup();
     render(<XiaodiSettingsPage />);
 
-    await user.click(screen.getByRole("switch", { name: /自动朗读小迪新回复/i }));
-    await user.click(screen.getByRole("switch", { name: /移动端长按小迪语音输入/i }));
-    await user.click(screen.getByRole("switch", { name: /语音提问后播报回复/i }));
-    await user.click(screen.getByRole("switch", { name: /显示长按语音提示/i }));
+    await user.click(screen.getByRole("switch", { name: /自动朗读新回复/i }));
+    await user.click(screen.getByRole("switch", { name: /长按小迪语音输入/i }));
+    await user.click(screen.getByRole("switch", { name: /语音提问后播报/i }));
+    await user.click(screen.getByRole("switch", { name: /显示长按提示/i }));
 
     expect(window.localStorage.getItem(TUTOR_AUTO_READ_STORAGE_KEY)).toBe("0");
     expect(window.localStorage.getItem(TUTOR_MOBILE_LONG_PRESS_STORAGE_KEY)).toBe("0");

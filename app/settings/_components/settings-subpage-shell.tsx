@@ -32,7 +32,7 @@ export function SettingsSubpageShell({
 
       <div className="page-shell flex-1 pt-4 md:pt-8">
         {(kicker || description) ? (
-          <div className="surface-subtle mb-4 px-4 py-4 md:hidden">
+          <div className="mb-5 px-1 md:hidden">
             {kicker ? <p className="section-kicker">{kicker}</p> : null}
             {description ? (
               <p className={cn("text-sm leading-6 text-muted-foreground", kicker && "mt-2")}>{description}</p>
@@ -49,7 +49,7 @@ export function SettingsSubpageShell({
         </div>
 
         <div className={cn("mt-0 grid gap-6 md:mt-8", aside ? "lg:grid-cols-[minmax(0,1.35fr)_320px]" : undefined)}>
-          <section className={cn("surface-panel p-5 sm:p-6", mainClassName)}>{children}</section>
+          <section className={cn("surface-panel p-4 sm:p-6", mainClassName)}>{children}</section>
           {aside ? <aside className="space-y-6">{aside}</aside> : null}
         </div>
       </div>

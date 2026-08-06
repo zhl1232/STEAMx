@@ -1,10 +1,11 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { AlertTriangle, Ban, CheckCircle2, Clock3, Loader2, ShieldAlert, UserRound } from 'lucide-react'
+import { AlertTriangle, Ban, CheckCircle2, Clock3, Loader2, RefreshCcw, ShieldAlert, UserRound } from 'lucide-react'
 
 import { SettingsSubpageShell } from '@/app/settings/_components/settings-subpage-shell'
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 
@@ -54,12 +55,42 @@ const ACTION_LABELS: Record<string, string> = {
   account_ban: '账号永久停用',
 }
 
+const CONTENT_TYPE_LABELS: Record<string, string> = {
+  observation: '观察记录',
+  project: '项目',
+  completion: '作品',
+  discussion: '讨论',
+}
+
+const REPORT_REASON_LABELS: Record<string, string> = {
+  spam: '垃圾信息',
+  harassment: '骚扰或辱骂',
+  inappropriate: '不当内容',
+  illegal: '违法违规',
+  other: '其他',
+}
+
 const STATUS_LABELS: Record<string, string> = {
+  active: '进行中',
   pending: '处理中',
   resolved: '已处理',
   dismissed: '已驳回',
   approved: '申诉通过',
   rejected: '申诉驳回',
+  expired: '已结束',
+}
+
+function statusTone(status: string) {
+  if (status === 'active' || status === 'approved') {
+    return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+  }
+  if (status === 'pending') {
+    return 'bg-amber-500/12 text-amber-700 dark:text-amber-300'
+  }
+  if (status === 'dismissed' || status === 'rejected' || status === 'expired') {
+    return 'bg-muted text-muted-foreground'
+  }
+  return 'bg-primary/10 text-primary'
 }
 
 function formatDate(value: string | null) {
@@ -72,6 +103,7 @@ export default function SafetySettingsPage() {
   const { toast } = useToast()
   const [data, setData] = useState<SafetyData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [appealActionId, setAppealActionId] = useState<number | null>(null)
   const [appealReason, setAppealReason] = useState('')
   const [submittingAppeal, setSubmittingAppeal] = useState(false)
@@ -79,11 +111,13 @@ export default function SafetySettingsPage() {
 
   const loadSafety = useCallback(async () => {
     setLoading(true)
+    setLoadError(null)
     try {
       const response = await fetch('/api/settings/safety')
       if (!response.ok) throw new Error('加载安全中心失败')
       setData(await response.json() as SafetyData)
     } catch (error) {
+      setLoadError(error instanceof Error ? error.message : '加载安全中心失败')
       toast({
         title: '加载失败',
         description: error instanceof Error ? error.message : '请稍后重试',
@@ -97,6 +131,8 @@ export default function SafetySettingsPage() {
   useEffect(() => {
     void loadSafety()
   }, [loadSafety])
+
+  const safetyIsActive = data?.profile.safety_status === 'active'
 
   const submitAppeal = async () => {
     if (!appealActionId || !appealReason.trim()) return
@@ -138,24 +174,39 @@ export default function SafetySettingsPage() {
     <SettingsSubpageShell
       title="社区安全中心"
       kicker="安全与治理"
-      description="查看账号安全状态、举报处理、屏蔽关系和处罚申诉。"
+      description="管理账号状态、举报与处罚记录。"
     >
-      {loading || !data ? (
+      {loading ? (
         <div className="flex min-h-56 items-center justify-center">
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
+      ) : loadError || !data ? (
+        <div className="settings-section flex min-h-56 flex-col items-center justify-center gap-4 px-5 py-8 text-center">
+          <p role="alert" className="max-w-sm text-sm leading-6 text-muted-foreground">
+            {loadError || '安全中心暂时无法加载。'}
+          </p>
+          <Button type="button" variant="secondary" shape="soft" onClick={() => void loadSafety()}>
+            <RefreshCcw className="mr-2 h-4 w-4" />
+            重新加载
+          </Button>
+        </div>
       ) : (
-        <div className="space-y-6">
-          <section className="surface-subtle flex items-start gap-3 p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-              {data.profile.safety_status === 'active' ? <CheckCircle2 className="h-5 w-5" /> : <ShieldAlert className="h-5 w-5" />}
+        <div className="space-y-8">
+          <section className={`settings-section flex items-start gap-3 p-4 sm:p-5 ${safetyIsActive ? 'bg-emerald-500/[0.06]' : 'bg-amber-500/[0.08]'}`}>
+            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-md ${safetyIsActive ? 'bg-emerald-500/12 text-emerald-700 dark:text-emerald-300' : 'bg-amber-500/12 text-amber-700 dark:text-amber-300'}`}>
+              {safetyIsActive ? <CheckCircle2 className="h-5 w-5" /> : <ShieldAlert className="h-5 w-5" />}
             </div>
-            <div className="min-w-0">
-              <h2 className="text-sm font-semibold">
-                {data.profile.safety_status === 'active' ? '账号状态正常' : '账号存在安全限制'}
-              </h2>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-sm font-semibold">
+                  {safetyIsActive ? '账号状态正常' : '账号存在安全限制'}
+                </h2>
+                <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${safetyIsActive ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-amber-500/12 text-amber-700 dark:text-amber-300'}`}>
+                  {safetyIsActive ? '可正常互动' : '需要关注'}
+                </span>
+              </div>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                {data.profile.safety_restriction_reason || '你可以继续浏览公开内容，并管理自己的安全设置。'}
+                {data.profile.safety_restriction_reason || '当前账号没有安全限制。'}
               </p>
               {data.profile.safety_restricted_until ? (
                 <p className="mt-2 text-xs text-muted-foreground">预计结束：{formatDate(data.profile.safety_restricted_until)}</p>
@@ -163,17 +214,22 @@ export default function SafetySettingsPage() {
             </div>
           </section>
 
-          <section className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Ban className="h-4 w-4 text-primary" />
-              <h2 className="text-sm font-semibold">已屏蔽用户</h2>
+          <section>
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Ban className="h-4 w-4 text-primary" />
+                <h2 className="text-sm font-semibold">已屏蔽用户</h2>
+              </div>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium tabular-nums text-muted-foreground">{data.blocks.length}</span>
             </div>
             {data.blocks.length === 0 ? (
-              <p className="surface-subtle px-4 py-5 text-sm text-muted-foreground">暂时没有屏蔽用户。</p>
+              <div className="settings-group">
+                <p className="px-4 py-5 text-sm text-muted-foreground">暂时没有屏蔽用户。</p>
+              </div>
             ) : (
-              <div className="space-y-2">
+              <div className="settings-group divide-y divide-border/50">
                 {data.blocks.map((block) => (
-                  <div key={block.blocked_user_id} className="surface-subtle flex items-center justify-between gap-3 px-4 py-3">
+                  <div key={block.blocked_user_id} className="flex min-w-0 flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 items-center gap-3">
                       <UserRound className="h-4 w-4 shrink-0 text-muted-foreground" />
                       <span className="truncate text-sm font-mono">{block.blocked_user_id}</span>
@@ -181,7 +237,9 @@ export default function SafetySettingsPage() {
                     <Button
                       type="button"
                       size="sm"
-                      variant="outline"
+                      variant="secondary"
+                      shape="soft"
+                      className="self-start sm:self-auto"
                       disabled={unblockingUserId === block.blocked_user_id}
                       onClick={() => void unblock(block.blocked_user_id)}
                     >
@@ -194,21 +252,29 @@ export default function SafetySettingsPage() {
             )}
           </section>
 
-          <section className="space-y-3">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-primary" />
-              <h2 className="text-sm font-semibold">我的举报</h2>
+          <section>
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-primary" />
+                <h2 className="text-sm font-semibold">举报记录</h2>
+              </div>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium tabular-nums text-muted-foreground">{data.reports.length}</span>
             </div>
             {data.reports.length === 0 ? (
-              <p className="surface-subtle px-4 py-5 text-sm text-muted-foreground">还没有提交过举报。</p>
+              <div className="settings-group">
+                <p className="px-4 py-5 text-sm text-muted-foreground">暂无举报记录。</p>
+              </div>
             ) : (
-              <div className="space-y-2">
+              <div className="settings-group divide-y divide-border/50">
                 {data.reports.map((report) => (
-                  <div key={report.id} className="surface-subtle space-y-1 px-4 py-3 text-sm">
-                    <div className="flex items-center justify-between gap-3">
-                      <span>举报 {report.content_type} #{report.content_id}</span>
-                      <span className="text-xs text-muted-foreground">{STATUS_LABELS[report.status] || report.status}</span>
+                  <div key={report.id} className="space-y-1 px-4 py-3 text-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span>举报 {CONTENT_TYPE_LABELS[report.content_type] || report.content_type} #{report.content_id}</span>
+                      <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${statusTone(report.status)}`}>
+                        {STATUS_LABELS[report.status] || report.status}
+                      </span>
                     </div>
+                    <p className="text-xs leading-5 text-muted-foreground">举报原因：{REPORT_REASON_LABELS[report.reason] || report.reason}</p>
                     {report.reviewer_note ? <p className="text-xs leading-5 text-muted-foreground">处理说明：{report.reviewer_note}</p> : null}
                   </div>
                 ))}
@@ -216,49 +282,71 @@ export default function SafetySettingsPage() {
             )}
           </section>
 
-          <section className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Clock3 className="h-4 w-4 text-primary" />
-              <h2 className="text-sm font-semibold">安全处罚与申诉</h2>
+          <section>
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Clock3 className="h-4 w-4 text-primary" />
+                <h2 className="text-sm font-semibold">处罚与申诉</h2>
+              </div>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium tabular-nums text-muted-foreground">{data.actions.length}</span>
             </div>
             {data.actions.length === 0 ? (
-              <p className="surface-subtle px-4 py-5 text-sm text-muted-foreground">没有处罚记录。</p>
+              <div className="settings-group">
+                <p className="px-4 py-5 text-sm text-muted-foreground">暂无处罚记录。</p>
+              </div>
             ) : (
               <div className="space-y-3">
                 {data.actions.map((action) => {
                   const hasPendingAppeal = data.appeals.some((appeal) => appeal.action_id === action.id && appeal.status === 'pending')
                   return (
-                    <div key={action.id} className="surface-subtle space-y-3 px-4 py-4">
+                    <article key={action.id} className="settings-group p-4 sm:p-5">
                       <div className="flex items-start justify-between gap-3">
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-sm font-semibold">{ACTION_LABELS[action.action_type] || action.action_type}</p>
                           <p className="mt-1 text-sm leading-6 text-muted-foreground">{action.reason}</p>
                         </div>
-                        <span className="shrink-0 text-xs text-muted-foreground">{STATUS_LABELS[action.status] || action.status}</span>
+                        <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium ${statusTone(action.status)}`}>
+                          {STATUS_LABELS[action.status] || action.status}
+                        </span>
                       </div>
-                      <p className="text-xs text-muted-foreground">开始：{formatDate(action.starts_at)} · 结束：{formatDate(action.ends_at)}</p>
+                      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                        <span>开始：{formatDate(action.starts_at)}</span>
+                        <span>结束：{formatDate(action.ends_at)}</span>
+                      </div>
+                      {action.status === 'active' && hasPendingAppeal ? (
+                        <p className="mt-4 rounded-md bg-amber-500/10 px-3 py-2 text-xs leading-5 text-amber-700 dark:text-amber-300">申诉已提交，等待审核。</p>
+                      ) : null}
                       {action.status === 'active' && !hasPendingAppeal ? (
                         appealActionId === action.id ? (
-                          <div className="space-y-2">
+                          <div className="mt-4 rounded-md bg-background/60 p-4">
+                            <div className="flex items-center justify-between gap-3">
+                              <Label htmlFor={`appeal-reason-${action.id}`} className="text-xs font-semibold">申诉说明</Label>
+                              <span className="text-[11px] text-muted-foreground">{appealReason.length}/2000</span>
+                            </div>
                             <Textarea
+                              id={`appeal-reason-${action.id}`}
                               value={appealReason}
                               onChange={(event) => setAppealReason(event.target.value.slice(0, 2000))}
                               placeholder="请说明你认为需要重新审核的原因"
-                              rows={3}
+                              rows={4}
+                              maxLength={2000}
+                              className="mt-2 min-h-[104px] resize-y"
                             />
-                            <div className="flex justify-end gap-2">
-                              <Button type="button" variant="ghost" size="sm" onClick={() => setAppealActionId(null)}>取消</Button>
-                              <Button type="button" size="sm" disabled={submittingAppeal || !appealReason.trim()} onClick={() => void submitAppeal()}>
+                            <div className="mt-3 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                              <Button type="button" variant="ghost" size="sm" onClick={() => { setAppealActionId(null); setAppealReason('') }}>取消</Button>
+                              <Button type="button" tone="brand" shape="soft" size="sm" disabled={submittingAppeal || !appealReason.trim()} onClick={() => void submitAppeal()}>
                                 {submittingAppeal ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : null}
                                 提交申诉
                               </Button>
                             </div>
                           </div>
                         ) : (
-                          <Button type="button" variant="outline" size="sm" onClick={() => setAppealActionId(action.id)}>提交申诉</Button>
+                          <Button type="button" variant="secondary" shape="soft" size="sm" className="mt-4" onClick={() => { setAppealActionId(action.id); setAppealReason('') }}>
+                            提交申诉
+                          </Button>
                         )
                       ) : null}
-                    </div>
+                    </article>
                   )
                 })}
               </div>
