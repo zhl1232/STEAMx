@@ -36,6 +36,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { MessageContext } from "@/components/admin/message-context";
 
 const REASON_LABELS: Record<string, string> = {
   spam: "垃圾信息",
@@ -365,6 +366,9 @@ export function ReportsList() {
                   <p className="text-xs text-muted-foreground">举报时内容快照</p>
                   <p className="mt-1 whitespace-pre-wrap">{reviewReport.snapshot_text}</p>
                 </div>
+              ) : null}
+              {reviewReport.content_type === "message" ? (
+                <MessageContext metadata={reviewReport.snapshot_metadata} contentId={reviewReport.content_id} />
               ) : null}
 
               {reviewReport.status === "pending" && (

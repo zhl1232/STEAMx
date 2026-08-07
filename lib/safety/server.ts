@@ -17,6 +17,7 @@ type DbClient = SupabaseClient<Database>
 const URL_RE = /(?:https?:\/\/|www\.)\S+/iu
 const EMAIL_RE = /\b[^\s@]+@[^\s@]+\.[^\s@]+\b/u
 const PHONE_RE = /(?<!\d)(?:\+?86[-\s]?)?1[3-9]\d{9}(?!\d)/u
+const MESSAGE_CONTEXT_LIMIT = 3
 
 export function moderateTextContent(
   text: string,
@@ -403,7 +404,7 @@ export async function getContentSnapshot(
       row = await query('observation_events', 'id, user_id, notes, media_urls')
       break
     case 'message':
-      row = await query('messages', 'id, sender_id, receiver_id, content')
+      row = await query('messages', 'id, sender_id, receiver_id, content, created_at')
       break
     default:
       return null
@@ -422,15 +423,90 @@ export async function getContentSnapshot(
     .join('\n')
     .slice(0, 4000) || null
 
+  const metadata: Record<string, unknown> = {
+    contentType,
+    contentId,
+    receiverId: typeof row.receiver_id === 'string' ? row.receiver_id : undefined,
+    imageUrl: typeof row.image_url === 'string' ? row.image_url : undefined,
+    mediaUrls: Array.isArray(row.media_urls) ? row.media_urls.slice(0, 3) : undefined,
+  }
+
+  if (contentType === 'message') {
+    const messageContext = await getMessageContext(supabase, row)
+    if (messageContext.length > 0) {
+      metadata.messageContext = { messages: messageContext }
+    }
+  }
+
   return {
     authorId,
     text,
-    metadata: {
-      contentType,
-      contentId,
-      receiverId: typeof row.receiver_id === 'string' ? row.receiver_id : undefined,
-      imageUrl: typeof row.image_url === 'string' ? row.image_url : undefined,
-      mediaUrls: Array.isArray(row.media_urls) ? row.media_urls.slice(0, 3) : undefined,
-    },
+    metadata,
+  }
+}
+
+type MessageContextRow = {
+  id: number
+  sender_id: string
+  receiver_id: string
+  content: string
+  created_at: string
+}
+
+async function getMessageContext(supabase: DbClient, target: Record<string, unknown>) {
+  const targetId = Number(target.id)
+  const senderId = typeof target.sender_id === 'string' ? target.sender_id : ''
+  const receiverId = typeof target.receiver_id === 'string' ? target.receiver_id : ''
+  const content = typeof target.content === 'string' ? target.content : ''
+  const createdAt = typeof target.created_at === 'string' ? target.created_at : ''
+
+  if (!Number.isInteger(targetId) || !senderId || !receiverId || !createdAt) return []
+
+  const targetItem = {
+    id: targetId,
+    senderId,
+    receiverId,
+    content: content.slice(0, 2000),
+    createdAt,
+  }
+  const conversationFilter = `and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`
+
+  try {
+    const [{ data: previous, error: previousError }, { data: next, error: nextError }] = await Promise.all([
+      supabase
+        .from('messages')
+        .select('id, sender_id, receiver_id, content, created_at')
+        .or(conversationFilter)
+        .lt('created_at', createdAt)
+        .order('created_at', { ascending: false })
+        .limit(MESSAGE_CONTEXT_LIMIT),
+      supabase
+        .from('messages')
+        .select('id, sender_id, receiver_id, content, created_at')
+        .or(conversationFilter)
+        .gt('created_at', createdAt)
+        .order('created_at', { ascending: true })
+        .limit(MESSAGE_CONTEXT_LIMIT),
+    ])
+
+    if (previousError) throw previousError
+    if (nextError) throw nextError
+
+    const mapMessage = (message: MessageContextRow) => ({
+      id: message.id,
+      senderId: message.sender_id,
+      receiverId: message.receiver_id,
+      content: message.content.slice(0, 2000),
+      createdAt: message.created_at,
+    })
+
+    return [
+      ...((previous ?? []) as MessageContextRow[]).reverse().map(mapMessage),
+      targetItem,
+      ...((next ?? []) as MessageContextRow[]).map(mapMessage),
+    ]
+  } catch (error) {
+    logger.warn('Failed to capture message report context', { error, contentId: targetId })
+    return [targetItem]
   }
 }

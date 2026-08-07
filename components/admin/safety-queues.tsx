@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { MessageContext } from "@/components/admin/message-context"
 
 type ModerationCase = {
   id: number
@@ -25,6 +26,7 @@ type ModerationCase = {
   category: string | null
   reason: string | null
   snapshot_text: string | null
+  snapshot_metadata?: Record<string, unknown> | null
   created_at: string
   author?: { display_name: string | null; avatar_url: string | null } | null
 }
@@ -194,6 +196,7 @@ export function SafetyQueues() {
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{item.reason || item.category || "需要人工确认"}</p>
                 {item.snapshot_text ? <p className="mt-2 line-clamp-3 whitespace-pre-wrap rounded-sm bg-muted/50 p-2 text-sm">{item.snapshot_text}</p> : null}
+                {item.content_type === "message" ? <MessageContext metadata={item.snapshot_metadata} contentId={item.content_id} /> : null}
                 <div className="mt-3 grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                   <Select value={action} onValueChange={(value) => setCaseAction((current) => ({ ...current, [item.id]: value }))}>
                     <SelectTrigger className="rounded-md"><SelectValue /></SelectTrigger>

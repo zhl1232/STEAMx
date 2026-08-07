@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Flag, Loader2 } from "lucide-react";
 import {
   Dialog,
@@ -29,19 +29,23 @@ const REASON_OPTIONS: { value: ReportReason; label: string }[] = [
 interface ReportDialogProps {
   contentType: ReportContentType;
   contentId: number | string;
+  contentIds?: Array<number | string>;
   children?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   hideTrigger?: boolean;
+  onSubmitted?: () => void;
 }
 
 export function ReportDialog({
   contentType,
   contentId,
+  contentIds,
   children,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
   hideTrigger = false,
+  onSubmitted,
 }: ReportDialogProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [reason, setReason] = useState<ReportReason | "">("");
@@ -50,6 +54,11 @@ export function ReportDialog({
   const { toast } = useToast();
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = controlledOnOpenChange ?? setUncontrolledOpen;
+  const reportIds = useMemo(
+    () => (contentIds?.length ? contentIds : [contentId]),
+    [contentId, contentIds],
+  );
+  const reportCount = reportIds.length;
 
   const handleSubmit = useCallback(async () => {
     if (!reason) {
@@ -59,32 +68,49 @@ export function ReportDialog({
 
     setLoading(true);
     try {
-      const res = await fetch("/api/reports", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content_type: contentType,
-          content_id: Number(contentId),
-          reason,
-          description: description.trim() || undefined,
-        }),
-      });
+      let submittedCount = 0;
+      let duplicateCount = 0;
 
-      if (res.status === 409) {
-        toast({ title: "您已经举报过该内容" });
-        setOpen(false);
-        return;
+      for (const reportId of reportIds) {
+        const res = await fetch("/api/reports", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content_type: contentType,
+            content_id: Number(reportId),
+            reason,
+            description: description.trim() || undefined,
+          }),
+        });
+
+        if (res.status === 409) {
+          duplicateCount += 1;
+          continue;
+        }
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => null);
+          throw new Error(data?.error || "举报失败");
+        }
+
+        submittedCount += 1;
       }
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error || "举报失败");
+      if (submittedCount === 0 && duplicateCount > 0) {
+        toast({ title: reportCount > 1 ? "所选消息都已举报过" : "您已经举报过该内容" });
+      } else {
+        toast({
+          title: reportCount > 1 ? `已提交 ${submittedCount} 条举报` : "举报已提交",
+          description: duplicateCount > 0
+            ? `${duplicateCount} 条消息此前已经举报过`
+            : "我们会尽快处理，感谢您的反馈",
+        });
       }
 
-      toast({ title: "举报已提交", description: "我们会尽快处理，感谢您的反馈" });
       setOpen(false);
       setReason("");
       setDescription("");
+      onSubmitted?.();
     } catch (err) {
       toast({
         title: "举报失败",
@@ -94,7 +120,7 @@ export function ReportDialog({
     } finally {
       setLoading(false);
     }
-  }, [contentType, contentId, reason, description, toast, setOpen]);
+  }, [contentType, description, onSubmitted, reason, reportIds, reportCount, setOpen, toast]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -114,9 +140,9 @@ export function ReportDialog({
       )}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>举报内容</DialogTitle>
+          <DialogTitle>{reportCount > 1 ? `举报 ${reportCount} 条消息` : "举报内容"}</DialogTitle>
           <DialogDescription>
-            请选择举报原因，我们会尽快处理
+            {reportCount > 1 ? "所选消息会分别提交举报，请选择统一的举报原因" : "请选择举报原因，我们会尽快处理"}
           </DialogDescription>
         </DialogHeader>
 

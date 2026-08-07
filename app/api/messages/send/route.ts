@@ -4,7 +4,7 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUUID, validateContentSafe } from '@/lib/api/validation'
-import { assertUsersNotBlocked, createModerationCase, moderateTextContent } from '@/lib/safety/server'
+import { assertUsersNotBlocked, createModerationCase, getContentSnapshot, moderateTextContent } from '@/lib/safety/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 
 export async function POST(request: NextRequest) {
@@ -100,6 +100,7 @@ export async function POST(request: NextRequest) {
     if (error) throw error
 
     if (moderation.state === 'pending') {
+      const snapshot = await getContentSnapshot(supabase, 'message', data.id)
       const caseId = await createModerationCase({
         contentType: 'message',
         contentId: data.id,
@@ -108,7 +109,7 @@ export async function POST(request: NextRequest) {
         category: moderation.category,
         reason: moderation.reason,
         modelName: moderation.modelName,
-        snapshot: { authorId: user.id, text: content, metadata: { receiverId } },
+        snapshot: snapshot ?? { authorId: user.id, text: content, metadata: { receiverId } },
       })
       return NextResponse.json({
         message: data,

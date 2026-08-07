@@ -1,12 +1,17 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ConversationPage from './page'
+import type { Message } from '@/lib/mappers/types'
 
 let mockUserId = '22222222-2222-2222-2222-222222222222'
 const mockReplace = vi.fn()
 const mockLoadMore = vi.fn()
 const mockSendMessage = vi.fn()
 let mockConversationError: string | null = null
+let mockConversationMessages: Message[] = []
+let mockConversationPeer: { id: string; display_name: string | null; avatar_url: string | null } | null = null
+let mockBlocked = false
+let mockBlockedByMe = false
 
 vi.mock('next/navigation', () => ({
     useParams: () => ({ userId: mockUserId }),
@@ -32,8 +37,8 @@ vi.mock('@/lib/context/auth-context', () => ({
 
 vi.mock('@/hooks/use-messages', () => ({
     useConversationMessages: () => ({
-        messages: [],
-        peer: null,
+        messages: mockConversationMessages,
+        peer: mockConversationPeer,
         isLoading: false,
         hasMore: false,
         isLoadingMore: false,
@@ -45,15 +50,15 @@ vi.mock('@/hooks/use-messages', () => ({
         isPending: false,
     }),
     useMarkConversationRead: () => ({
-        markConversationRead: vi.fn(),
+        markConversationRead: vi.fn(() => Promise.resolve()),
         isPending: false,
     }),
 }))
 
 vi.mock('@/hooks/use-block', () => ({
     useBlock: () => ({
-        blocked: false,
-        blockedByMe: false,
+        blocked: mockBlocked,
+        blockedByMe: mockBlockedByMe,
         isLoading: false,
         isPending: false,
         toggleBlock: vi.fn(),
@@ -69,6 +74,10 @@ describe('ConversationPage', () => {
         vi.clearAllMocks()
         mockUserId = '22222222-2222-2222-2222-222222222222'
         mockConversationError = null
+        mockConversationMessages = []
+        mockConversationPeer = null
+        mockBlocked = false
+        mockBlockedByMe = false
     })
 
     it('shows a missing-user state instead of the empty-thread message', () => {
@@ -87,10 +96,23 @@ describe('ConversationPage', () => {
         render(<ConversationPage />)
 
         const backButton = screen.getByRole('button', { name: '返回上一页' })
+        const headerBar = backButton.parentElement
         const header = backButton.parentElement?.parentElement
 
+        expect(headerBar).toHaveClass('pl-px')
         expect(header).toHaveClass('fixed', 'top-0')
-        expect(header).not.toHaveClass('-mt-6')
+        expect(header).not.toHaveClass('-mt-6', '-mx-4')
+    })
+
+    it('links the conversation header to the peer public profile without a block action', () => {
+        mockConversationPeer = { id: mockUserId, display_name: '对方', avatar_url: null }
+
+        render(<ConversationPage />)
+
+        const profileLinks = screen.getAllByRole('link', { name: '查看对方的公开主页' })
+        expect(profileLinks.length).toBeGreaterThan(0)
+        expect(profileLinks[0]).toHaveAttribute('href', `/users/${mockUserId}`)
+        expect(screen.queryByRole('button', { name: /屏蔽|取消屏蔽/ })).not.toBeInTheDocument()
     })
 
     it('shows an invalid-thread state for malformed user ids', () => {
@@ -116,5 +138,85 @@ describe('ConversationPage', () => {
         expect(screen.getByPlaceholderText('会话加载失败，暂时无法发送消息')).toBeDisabled()
         expect(screen.getByRole('button', { name: '发送' })).toBeDisabled()
         expect(screen.queryByText('该用户不存在或暂时无法发起会话')).not.toBeInTheDocument()
+    })
+
+    it('groups nearby messages under one separator instead of repeating time in every bubble', () => {
+        const now = Date.now()
+        const currentUserId = '11111111-1111-1111-1111-111111111111'
+        const otherUserId = '22222222-2222-2222-2222-222222222222'
+        const messageAt = (id: number, senderId: string, content: string, minutesAgo: number): Message => ({
+            id,
+            sender_id: senderId,
+            receiver_id: senderId === currentUserId ? otherUserId : currentUserId,
+            content,
+            read_at: null,
+            created_at: new Date(now - minutesAgo * 60_000).toISOString(),
+        })
+
+        mockConversationPeer = { id: otherUserId, display_name: '对方', avatar_url: null }
+        mockConversationMessages = [
+            messageAt(1, otherUserId, '第一条', 20 * 60),
+            messageAt(2, otherUserId, '第二条', 19 * 60),
+            messageAt(3, currentUserId, '第三条', 10 * 60),
+            messageAt(4, currentUserId, '第四条', 9 * 60),
+        ]
+
+        const { container } = render(<ConversationPage />)
+
+        expect(container.querySelectorAll('time.message-time')).toHaveLength(2)
+        expect(screen.getByText('第一条').parentElement?.querySelector('time')).toBeNull()
+        expect(screen.getByText('第二条').parentElement?.querySelector('time')).toBeNull()
+        expect(screen.getByText('第三条').parentElement?.querySelector('time')).toBeNull()
+        expect(screen.getByText('第四条').parentElement?.querySelector('time')).toBeNull()
+    })
+
+    it('explains which side blocked the conversation', () => {
+        mockConversationPeer = { id: mockUserId, display_name: '对方', avatar_url: null }
+        mockBlocked = true
+        mockBlockedByMe = true
+
+        render(<ConversationPage />)
+
+        expect(screen.getByText('你已屏蔽对方，无法发送私信。')).toBeInTheDocument()
+    })
+
+    it('lets mobile users select incoming messages before reporting them', () => {
+        const currentUserId = '11111111-1111-1111-1111-111111111111'
+        const otherUserId = mockUserId
+        const message = (id: number, senderId: string, content: string): Message => ({
+            id,
+            sender_id: senderId,
+            receiver_id: senderId === currentUserId ? otherUserId : currentUserId,
+            content,
+            read_at: null,
+            created_at: new Date().toISOString(),
+        })
+
+        mockConversationPeer = { id: otherUserId, display_name: '对方', avatar_url: null }
+        mockConversationMessages = [
+            message(1, otherUserId, '请查看这个链接'),
+            message(2, currentUserId, '好的'),
+            message(3, otherUserId, '这条也需要处理'),
+        ]
+
+        render(<ConversationPage />)
+
+        fireEvent.click(screen.getByRole('button', { name: '举报消息' }))
+
+        expect(screen.getByRole('button', { name: '退出举报选择' })).toBeInTheDocument()
+        expect(screen.getByText('请选择要举报的对方消息，最多 10 条')).toBeInTheDocument()
+        expect(screen.getAllByRole('checkbox')).toHaveLength(2)
+        const firstCheckbox = screen.getByRole('checkbox', { name: '选择消息：请查看这个链接' })
+        expect(firstCheckbox).toHaveClass('h-5', 'w-5')
+        expect(firstCheckbox.parentElement).toHaveClass('h-11', 'w-11')
+        expect(screen.queryByRole('checkbox', { name: '选择消息：好的' })).not.toBeInTheDocument()
+
+        const submitButton = screen.getByRole('button', { name: '举报选中消息（0）' })
+        expect(submitButton).toBeDisabled()
+
+        fireEvent.click(screen.getByRole('checkbox', { name: '选择消息：请查看这个链接' }))
+        fireEvent.click(screen.getByRole('checkbox', { name: '选择消息：这条也需要处理' }))
+
+        expect(screen.getByRole('button', { name: '举报选中消息（2）' })).toBeEnabled()
     })
 })

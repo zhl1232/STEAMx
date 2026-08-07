@@ -31,7 +31,7 @@
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品；页面采用顶部个人预览 + 全宽商品区，移除重复预览、排行榜和引导说明，商品卡仅保留状态、价格与操作 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
-| `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
+| `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；移动端页签下方不重复显示当前分类标题，消息列表外层取消重复面板边框并使用更宽的页面 gutter，通知页签的全部已读收至顶部扫帚图标，私信页签不显示通知清理操作；子路由 `[userId]/` 聊天详情（连续消息不在气泡内重复显示时间，首条或间隔至少 5 小时才显示一次时间分隔；移动/桌面会话头部的头像与昵称进入对应公开主页，屏蔽与取消屏蔽统一在公开主页操作；移动端会话头部提供举报消息入口，可勾选最多 10 条对方消息后统一提交举报，桌面端保留单条悬停举报） |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
 | `/create` | `app/create/page.tsx` | 创造营 — **技能课程** + **项目挑战** 路由化 Tab；裸 `/create` 默认重定向到 `/create?tab=courses`，项目挑战使用 `/create?tab=pbl`，切换与浏览器历史同步；移动端自有页头不显示跳往探索页的搜索入口；`/create` 重定向自 `/community` |
 | `/pbl/[id]` | `app/pbl/[id]/page.tsx` | 项目挑战详情 — Hero + 任务说明 + 阶段工作台 + 作品墙；阶段工作台支持保存一句话项目方向并生成每阶段个人化计划提示；移动端任务说明完整展开，底部固定「记录过程 / 提交终稿」入口，不在正文重复相关项目 |
@@ -156,8 +156,8 @@
 | `shared/` | 2 | 通用评论卡片、底部回复框 |
 | `profile/` | 16 | 头像上传、编辑资料弹窗、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，当前周完成项保留显示并弱化为“已完成 / 查看记录”，含 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
-### 3.5 管理后台 (`components/admin/`) — 12 个组件
-项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、自动审核/处罚申诉队列 `safety-queues`、全部项目管理、用户会员管理 `user-membership-management`
+### 3.5 管理后台 (`components/admin/`) — 13 个组件
+项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、私信举报上下文 `message-context`、自动审核/处罚申诉队列 `safety-queues`、全部项目管理、用户会员管理 `user-membership-management`
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
@@ -210,7 +210,7 @@
 - `interaction-access.ts` — 统一互动资格判定：匿名/已注册/已确认/restricted；保存进度和私信发送登录即可，投稿、评论、发帖等公开内容写入需要社区互动确认
 - `challenge-submission-validation.ts` — 挑战投稿标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
-- `safety/` — 社区安全服务层：屏蔽关系、审核案件、内容 `moderation_state` 投影、举报处罚、账号限制同步与证据保留
+- `safety/` — 社区安全服务层：屏蔽关系、审核案件、内容 `moderation_state` 投影、举报处罚、账号限制同步与证据保留；私信安全案件在证据快照中保留目标消息前后各 3 条可见上下文
 - `validation.ts` — 通用输入验证、敏感词校验、上传 URL 归属/本地可信资源校验
 - `upstream-errors.ts` / `rate-limit.ts` — 错误处理与限流
 - `types.ts` — API 层类型
@@ -299,6 +299,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `lib/comment-image.ts` — 评论图片处理
 - `lib/completion-records.ts` — 完成记录查询
 - `lib/home-featured-slides.ts` — 首页轮播配置
+- `lib/messages/message-time.ts` — 私信连续消息时间分组与本地时间分隔格式化
 
 ---
 
