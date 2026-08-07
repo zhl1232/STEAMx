@@ -135,6 +135,16 @@ describe('ShopPage', () => {
     })
   })
 
+  it('keeps the shop focused on browsing and purchasing', () => {
+    render(<ShopPage />)
+
+    expect(screen.queryByText('用实践获得的硬币兑换个性化装扮')).not.toBeInTheDocument()
+    expect(screen.queryByText('展示在个人主页与排行榜头像周围')).not.toBeInTheDocument()
+    expect(screen.queryByText('效果预览')).not.toBeInTheDocument()
+    expect(screen.queryByText('排行榜预览')).not.toBeInTheDocument()
+    expect(screen.queryByText('更多装扮持续上线中')).not.toBeInTheDocument()
+  })
+
   it('maps min level purchase errors to a readable message', () => {
     expect(
       getShopMutationErrorMessage({

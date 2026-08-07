@@ -29,7 +29,7 @@
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录/注册；移动端表单位于页头下方剩余空间中央，使用精简标题/说明并隐藏档案介绍区，桌面端保留辅助价值说明；新注册用户使用不含手机号的随机昵称 `新用户XXXX`，历史手机号昵称在再次登录时自动替换；前台文案只提示手机号，邮箱注册入口已移除，旧邮箱账号仍可在手机号输入框中输入原邮箱后用密码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
-| `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品 |
+| `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品；页面采用顶部个人预览 + 全宽商品区，移除重复预览、排行榜和引导说明，商品卡仅保留状态、价格与操作 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；子路由 `[userId]/` 聊天详情 |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
