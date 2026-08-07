@@ -9,8 +9,10 @@ const mocks = vi.hoisted(() => ({
     toast: vi.fn(),
 }));
 
+let pathname = "/";
+
 vi.mock("next/navigation", () => ({
-    usePathname: () => "/",
+    usePathname: () => pathname,
 }));
 
 vi.mock("@tanstack/react-query", () => ({
@@ -40,6 +42,7 @@ vi.mock("@/lib/context/auth-context", () => ({
 describe("GlobalTutorMount", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        pathname = "/";
         Object.defineProperty(window, "requestIdleCallback", {
             configurable: true,
             value: vi.fn(() => 1),
@@ -60,5 +63,13 @@ describe("GlobalTutorMount", () => {
 
         expect(mocks.setOpen).toHaveBeenCalledWith(true);
         await waitFor(() => expect(screen.getByTestId("full-tutor-fab")).toBeInTheDocument());
+    });
+
+    it("hides the mobile launcher on public profile pages", () => {
+        pathname = "/users/22222222-2222-2222-2222-222222222222";
+
+        render(<GlobalTutorMount />);
+
+        expect(screen.getByRole("button", { name: "打开 AI 导师" })).toHaveClass("max-lg:hidden");
     });
 });

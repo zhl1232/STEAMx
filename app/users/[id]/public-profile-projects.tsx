@@ -47,9 +47,9 @@ export function PublicProfileProjects({
 
   if (projects.length === 0) {
     return (
-      <div className="surface-panel px-6 py-16 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-border/70 bg-muted/60">
-          <FolderOpen className="h-6 w-6 text-muted-foreground" />
+      <div className="py-14 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]">
+          <FolderOpen className="h-6 w-6" />
         </div>
         <h3 className="mt-4 text-lg font-semibold tracking-tight">还没有公开项目</h3>
         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">

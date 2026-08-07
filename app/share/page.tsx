@@ -477,7 +477,6 @@ function ShareForm() {
                 <MobilePageHeader
                     title={editId ? "编辑项目" : "分享项目"}
                     fallbackHref="/profile"
-                    className="-mx-4"
                 />
             </div>
 

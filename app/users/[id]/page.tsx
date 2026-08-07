@@ -1,5 +1,5 @@
-import { OptimizedImage } from "@/components/ui/optimized-image";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
@@ -7,11 +7,14 @@ import { cn } from "@/lib/utils";
 import { CalendarDays, UserRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
+import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from '@/lib/gamification/badges';
 import { SERIES_ORDER } from "@/lib/gamification/badges";
 import { PageStatus } from "@/components/ui/page-status";
 import { getPublicUserProfile } from "@/lib/api/public-user-profile";
+import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
+import { getNameColorClassName } from "@/lib/shop/items";
 import { PublicProfileActions } from "./public-profile-actions";
 import { PublicProfileProjects } from "./public-profile-projects";
 import { PublicProfileWorks } from "./public-profile-works";
@@ -41,42 +44,20 @@ function groupBadgesBySeries() {
   return grouped;
 }
 
-function getSeriesPanelClass(seriesKey: string) {
-  if (seriesKey === "rare") {
-    return "border-pink-200/70 bg-linear-to-br from-pink-50/90 via-background to-rose-50/70 dark:border-fuchsia-400/20 dark:from-fuchsia-950/35 dark:via-slate-950 dark:to-rose-950/25";
-  }
-  if (seriesKey === "bird_observer" || seriesKey === "species_collector") {
-    return "border-emerald-200/70 bg-linear-to-br from-emerald-50/90 via-background to-teal-50/70 dark:border-emerald-400/20 dark:from-emerald-950/35 dark:via-slate-950 dark:to-teal-950/25";
-  }
-  if (seriesKey === "science_expert" || seriesKey === "tech_expert" || seriesKey === "life") {
-    return "border-cyan-200/70 bg-linear-to-br from-cyan-50/90 via-background to-sky-50/70 dark:border-cyan-400/20 dark:from-cyan-950/35 dark:via-slate-950 dark:to-sky-950/25";
-  }
-  if (seriesKey === "art_expert") {
-    return "border-rose-200/70 bg-linear-to-br from-rose-50/90 via-background to-amber-50/65 dark:border-rose-400/20 dark:from-rose-950/35 dark:via-slate-950 dark:to-amber-950/20";
-  }
-  if (seriesKey === "challenge" || seriesKey === "streak" || seriesKey === "minesweeper") {
-    return "border-orange-200/70 bg-linear-to-br from-orange-50/90 via-background to-red-50/65 dark:border-orange-400/20 dark:from-orange-950/35 dark:via-slate-950 dark:to-red-950/20";
-  }
-  if (seriesKey === "game24" || seriesKey === "game2048" || seriesKey === "sudoku" || seriesKey === "gomoku" || seriesKey === "hanoi" || seriesKey === "nqueens") {
-    return "border-violet-200/70 bg-linear-to-br from-violet-50/90 via-background to-indigo-50/70 dark:border-violet-400/20 dark:from-violet-950/35 dark:via-slate-950 dark:to-indigo-950/25";
-  }
-  return "border-border/60 bg-linear-to-br from-background via-background to-muted/40 dark:border-white/10 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900/80";
-}
-
 function getSeriesStatusClass(isComplete: boolean) {
   if (isComplete) {
     return "border-emerald-200/80 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200";
   }
 
-  return "border-white/60 bg-background/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70";
+  return "border-border/70 bg-background/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70";
 }
 
 function getBadgeCardClass(isUnlocked: boolean) {
   if (isUnlocked) {
-    return "border-primary/20 bg-white/85 shadow-[0_20px_40px_-28px_rgba(59,130,246,0.32)] dark:border-primary/30 dark:bg-white/[0.07] dark:shadow-[0_20px_40px_-28px_rgba(96,165,250,0.28)]";
+    return "border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--brand-blue)/0.045)]";
   }
 
-  return "bg-background/82 dark:bg-slate-950/65";
+  return "border-border/70 bg-background/72";
 }
 
 function getUnlockBadgeClass(isUnlocked: boolean) {
@@ -147,6 +128,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   } = data;
   const level = Math.floor(Math.sqrt((profile.xp || 0) / 100)) + 1;
   const userName = profile.display_name || "匿名用户";
+  const userNameColorClassName = getNameColorClassName(profile.equipped_name_color_id);
   const joinedAt = formatJoinDate(profile.created_at);
   const overviewStats = [
     { label: "作品", value: worksTotalCount },
@@ -160,81 +142,92 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     <div className="page-shell pt-0 pb-24 md:py-8">
       <div className="md:hidden">
         <MobilePageHeader
-          title={userName}
+          title="公开主页"
           fallbackHref="/create"
-          className="-mx-4 mb-4"
+          borderless
+          className="mb-4"
         />
       </div>
 
       <div className="space-y-6">
-        <section className="surface-panel overflow-hidden">
-          <div className="relative overflow-hidden bg-linear-to-r from-background via-background/95 to-primary/8 px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
-            <div className="absolute inset-y-0 right-0 hidden w-44 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_68%)] lg:block" />
+        <section className="overflow-hidden rounded-lg shadow-[0_24px_70px_-46px_hsl(var(--surface-shadow)/0.42)]">
+          <div className="relative overflow-hidden bg-[hsl(var(--brand-blue)/0.04)] px-4 pb-4 pt-5 sm:px-7 sm:pb-6 sm:pt-6 lg:px-8">
+            <Image
+              src="/assets/profile-library-soft-blue-hero.png"
+              alt=""
+              fill
+              sizes="(min-width: 768px) 1100px, 100vw"
+              className="object-cover object-[62%_50%] opacity-85 dark:opacity-25"
+            />
+            <div className="absolute inset-0 bg-background/55 dark:bg-background/78" />
             <div className="relative">
-              <p className="section-kicker">公开主页</p>
-              <div className="mt-4 flex flex-col gap-8 md:flex-row md:items-center">
-                <div className="flex shrink-0 flex-col items-center">
-                  <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-background bg-muted shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)] md:h-32 md:w-32">
-                    {profile.avatar_url ? (
-                      <OptimizedImage src={profile.avatar_url} alt={userName} fill variant="avatar" className="object-cover" />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-primary/18 to-secondary/18 text-4xl font-bold text-primary">
-                        {userName[0].toUpperCase()}
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-3 rounded-full border border-border/70 bg-background/92 px-3 py-1 text-sm font-bold shadow-xs">
-                    Lv.{level}
+              <p className="section-kicker hidden md:block">公开主页</p>
+              <div className="mt-3 grid grid-cols-[5rem_minmax(0,1fr)] items-start gap-x-4 gap-y-4 md:mt-4 md:grid-cols-[7rem_minmax(0,1fr)] md:gap-7">
+                <div className="flex flex-col items-center md:items-start">
+                  <div className="flex flex-col items-center">
+                    <AvatarWithFrame
+                      src={profile.avatar_url || getDefaultAvatarPath(profile.id)}
+                      alt={userName}
+                      fallback={userName[0]?.toUpperCase() || "U"}
+                      avatarFrameId={profile.equipped_avatar_frame_id}
+                      className="h-20 w-20 border-4 border-background bg-muted shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)] md:h-28 md:w-28"
+                      avatarClassName="rounded-full object-cover"
+                    />
+                    <div className="relative mt-1.5 rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-background/95 px-2.5 py-1 text-[11px] font-bold text-foreground shadow-xs">
+                      Lv.{level}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-5 text-center md:text-left">
-                  <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
-                        {profile.role && profile.role !== "user" ? <RoleBadge role={profile.role} size="md" /> : null}
-                        <h1 className="text-3xl font-semibold tracking-tight">{userName}</h1>
-                      </div>
-                      <div className="mt-3 flex flex-wrap items-center justify-center gap-2 md:justify-start">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-xs font-medium text-muted-foreground">
-                          <CalendarDays className="h-3.5 w-3.5 text-primary" />
-                          加入于 {joinedAt}
-                        </div>
-                      </div>
-                      <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted-foreground md:mx-0">
-                        {profile.bio || "暂未填写个人简介。"}
-                      </p>
+                <div className="contents md:flex md:min-w-0 md:items-start md:justify-between md:gap-5">
+                  <div className="min-w-0 md:flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {profile.role && profile.role !== "user" ? <RoleBadge role={profile.role} size="md" /> : null}
+                      <h1 className={cn("text-2xl font-semibold tracking-tight md:text-3xl", userNameColorClassName)}>{userName}</h1>
                     </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--brand-blue)/0.16)] bg-[hsl(var(--brand-blue)/0.05)] px-3 py-1.5 text-xs font-medium text-muted-foreground">
+                        <CalendarDays className="h-3.5 w-3.5 text-primary" />
+                        加入于 {joinedAt}
+                      </div>
+                    </div>
+                    <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+                      {profile.bio || "暂未填写个人简介。"}
+                    </p>
+                  </div>
 
+                  <div className="col-span-2 flex min-w-0 justify-center md:col-span-1 md:shrink-0 md:justify-end">
                     <PublicProfileActions
                       targetUserId={profile.id}
                       messagePrivacy={profile.message_privacy}
+                      className="w-full md:w-auto"
                     />
                   </div>
-
-                  <div className="grid grid-cols-3 gap-3">
-                    {overviewStats.map((item) => (
-                      <div key={item.label} className="surface-subtle px-4 py-3 text-center md:text-left">
-                        <div className="text-lg font-semibold">{item.value}</div>
-                        <div className="mt-1 text-xs text-muted-foreground">{item.label}</div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-3 divide-x divide-border/60 border-t border-border/70">
+                {overviewStats.map((item) => (
+                  <div key={item.label} className="px-2 pb-1 pt-3 text-center sm:px-3">
+                    <div className="text-lg font-semibold tabular-nums">{item.value}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{item.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        <Tabs defaultValue="works" className="space-y-6">
-          <TabsList className="segmented-control grid h-auto w-full max-w-[560px] grid-cols-3 rounded-full bg-transparent p-1">
-            <TabsTrigger value="works" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
+        <Tabs defaultValue="works" className="space-y-4">
+          <TabsList className="segmented-control grid h-auto w-full grid-cols-3 p-1 md:max-w-[42rem]">
+            <TabsTrigger value="works" className="segmented-option min-w-0 whitespace-nowrap rounded-full px-1 text-xs data-[state=active]:bg-[hsl(var(--brand-blue))] data-[state=active]:text-[hsl(var(--brand-blue-foreground))] data-[state=active]:shadow-xs sm:px-4 sm:text-sm">
               作品 ({worksTotalCount})
             </TabsTrigger>
-            <TabsTrigger value="projects" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
-              发布的项目 ({projectsTotalCount})
+            <TabsTrigger value="projects" className="segmented-option min-w-0 whitespace-nowrap rounded-full px-1 text-xs data-[state=active]:bg-[hsl(var(--brand-blue))] data-[state=active]:text-[hsl(var(--brand-blue-foreground))] data-[state=active]:shadow-xs sm:px-4 sm:text-sm" aria-label={`发布的项目 (${projectsTotalCount})`}>
+              <span className="min-[360px]:hidden">项目</span>
+              <span className="hidden min-[360px]:inline">发布的项目</span> ({projectsTotalCount})
             </TabsTrigger>
-            <TabsTrigger value="badges" className="segmented-option rounded-full data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-xs">
+            <TabsTrigger value="badges" className="segmented-option min-w-0 whitespace-nowrap rounded-full px-1 text-xs data-[state=active]:bg-[hsl(var(--brand-blue))] data-[state=active]:text-[hsl(var(--brand-blue-foreground))] data-[state=active]:shadow-xs sm:px-4 sm:text-sm">
               徽章 ({unlockedBadgeIds.size})
             </TabsTrigger>
           </TabsList>
@@ -261,7 +254,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                 return (
                   <section
                     key={key}
-                    className={cn("rounded-xl border p-4 shadow-[0_24px_60px_-42px_rgba(15,23,42,0.28)] sm:p-5", getSeriesPanelClass(key))}
+                    className="rounded-lg border border-border/70 bg-background/72 p-4 shadow-none sm:p-5"
                   >
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div>
@@ -288,7 +281,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                           <div
                             key={badge.id}
                             className={cn(
-                              "surface-subtle flex flex-col items-center justify-center gap-3 p-6 text-center",
+                              "flex flex-col items-center justify-center gap-3 rounded-md border p-4 text-center sm:p-5",
                               getBadgeCardClass(isUnlocked),
                             )}
                           >

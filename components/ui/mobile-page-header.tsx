@@ -13,6 +13,8 @@ interface MobilePageHeaderProps {
   backLabel?: string
   /** 为 true 时顶栏 fixed 吸顶并渲染占位 spacer；为 false 时随文档流（不吸顶） */
   sticky?: boolean
+  /** 使用透明页头，去掉背景、模糊、阴影和底部分隔线 */
+  borderless?: boolean
   className?: string
   contentClassName?: string
   backButtonClassName?: string
@@ -21,13 +23,17 @@ interface MobilePageHeaderProps {
 }
 
 const headerSurfaceClass =
-  'border-b border-border/70 bg-background/92 shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-md supports-backdrop-filter:bg-background/80'
+  'bg-background/92 backdrop-blur-md supports-backdrop-filter:bg-background/80'
+const headerBorderClass = 'border-b border-border/70'
+const headerShadowClass = 'shadow-[0_1px_0_rgba(15,23,42,0.04)]'
+const headerBorderlessClass = 'bg-transparent shadow-none backdrop-blur-none supports-backdrop-filter:bg-transparent'
 
 export function MobilePageHeader({
   title,
   fallbackHref,
   backLabel = '返回上一页',
   sticky = true,
+  borderless = false,
   className,
   contentClassName,
   backButtonClassName,
@@ -35,6 +41,9 @@ export function MobilePageHeader({
   rightSlot,
 }: MobilePageHeaderProps) {
   const router = useRouter()
+  const surfaceClass = borderless
+    ? headerBorderlessClass
+    : cn(headerSurfaceClass, headerBorderClass, headerShadowClass)
 
   const handleBack = () => {
     if (typeof window !== 'undefined' && window.history.length > 1) {
@@ -48,7 +57,7 @@ export function MobilePageHeader({
   const bar = (
     <div
       className={cn(
-        'flex h-12 items-center gap-2 pl-2.5 pr-4',
+        'flex h-12 items-center gap-2 pl-px pr-4',
         contentClassName,
       )}
     >
@@ -79,7 +88,7 @@ export function MobilePageHeader({
 
   if (!sticky) {
     return (
-      <div className={cn('relative w-full pt-[env(safe-area-inset-top)] md:hidden', headerSurfaceClass, className)}>
+      <div className={cn('relative w-full pt-[env(safe-area-inset-top)] md:hidden', surfaceClass, className)}>
         {bar}
       </div>
     )
@@ -90,7 +99,7 @@ export function MobilePageHeader({
       <div
         className={cn(
           'fixed inset-x-0 top-0 z-30 w-full pt-[env(safe-area-inset-top)] md:hidden',
-          headerSurfaceClass,
+          surfaceClass,
           className,
         )}
       >

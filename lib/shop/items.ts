@@ -19,6 +19,7 @@ export interface ShopItem {
 export const AVATAR_FRAME_ITEMS: ShopItem[] = [
   { id: 'pixel_border', name: '像素边框', price: 15, type: 'avatar_frame', styleKey: 'pixel_border' },
   { id: 'crystal_glass', name: '深海琉璃', price: 50, type: 'avatar_frame', styleKey: 'crystal_glass', minLevel: 5 },
+  { id: 'science_orbit', name: '科学星轨', price: 120, type: 'avatar_frame', styleKey: 'science_orbit', minLevel: 8 },
   { id: 'neon_halo', name: '霓虹光环', price: 150, type: 'avatar_frame', styleKey: 'neon_halo', minLevel: 10 },
   { id: 'cyber_glitch', name: '赛博故障', price: 300, type: 'avatar_frame', styleKey: 'cyber_glitch', minLevel: 20 },
   { id: 'golden_crown', name: '黄金王冠', price: 800, type: 'avatar_frame', styleKey: 'golden_crown', minLevel: 30 },
@@ -64,6 +65,8 @@ export function getAvatarFrameClassName(itemId: string | null): string {
       return 'avatar-frame-cyber-glitch'
     case 'crystal_glass':
       return 'avatar-frame-crystal-glass'
+    case 'science_orbit':
+      return 'avatar-frame-science-orbit'
     default:
       return ''
   }

@@ -122,6 +122,19 @@ describe('ShopPage', () => {
     expect(within(topPreview).queryByText('Lv.5 解锁')).not.toBeInTheDocument()
   })
 
+  it('renders both orbit layers for the science avatar frame preview', () => {
+    render(<ShopPage />)
+
+    const scienceOrbitCard = screen.getByText('科学星轨').closest('article')
+    expect(scienceOrbitCard).not.toBeNull()
+    fireEvent.click(scienceOrbitCard!)
+
+    const topPreview = screen.getByRole('region', { name: '商店个人预览' })
+    expect(topPreview.querySelector('.avatar-frame-science-orbit')).toBeInTheDocument()
+    expect(topPreview.querySelectorAll('.avatar-frame-science-orbit__orbit')).toHaveLength(2)
+    expect(topPreview.querySelectorAll('.avatar-frame-science-orbit__icon-layer')).toHaveLength(2)
+  })
+
   it('previews name color items in the top profile card', async () => {
     const user = userEvent.setup()
     render(<ShopPage />)

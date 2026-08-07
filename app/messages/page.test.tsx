@@ -15,6 +15,8 @@ let mockConversations: Array<{
     unreadCount: number
 }> = []
 let mockDmUnreadCount = 0
+let mockNotificationUnreadCount = 0
+const mockMarkAllAsRead = vi.fn()
 
 vi.mock('next/navigation', () => ({
     useRouter: () => ({
@@ -46,10 +48,10 @@ vi.mock('@/lib/context/notification-context', () => ({
     useNotifications: () => ({
         notifications: [],
         unreadCount: mockDmUnreadCount,
-        notificationUnreadCount: 0,
+        notificationUnreadCount: mockNotificationUnreadCount,
         dmUnreadCount: mockDmUnreadCount,
         markAsRead: vi.fn(),
-        markAllAsRead: vi.fn(),
+        markAllAsRead: mockMarkAllAsRead,
         loadMore: vi.fn(),
         hasMore: false,
         isLoadingMore: false,
@@ -77,6 +79,7 @@ describe('MessagesPage', () => {
         mockConversationsError = null
         mockConversations = []
         mockDmUnreadCount = 0
+        mockNotificationUnreadCount = 0
     })
 
     it('falls back to the replies tab when the tab query parameter is invalid', async () => {
@@ -118,5 +121,25 @@ describe('MessagesPage', () => {
         expect(await screen.findByText('Alice')).toBeInTheDocument()
         expect(screen.getByText('新的私信')).toHaveClass('font-medium')
         expect(screen.getByText('2')).toBeInTheDocument()
+    })
+
+    it('uses a compact clear action in the mobile header for notification tabs', async () => {
+        mockNotificationUnreadCount = 1
+
+        const { container } = render(<MessagesPage />)
+
+        expect(await screen.findByText('还没有新的回复或提及')).toBeInTheDocument()
+        expect(container.querySelector('button[aria-label="全部标为已读"][title="全部标为已读"]')).not.toBeNull()
+        expect(screen.queryByText('查看提及、回复与创作者动态')).not.toBeInTheDocument()
+    })
+
+    it('does not show the notification clear action on the dm tab', async () => {
+        mockTab = 'dm'
+        mockNotificationUnreadCount = 1
+
+        render(<MessagesPage />)
+
+        expect(await screen.findByText('还没有私信对话')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '全部标为已读' })).not.toBeInTheDocument()
     })
 })

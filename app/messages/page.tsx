@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import {
+  BrushCleaning,
   CheckCheck,
   Heart,
   MessageCircle,
@@ -28,28 +29,24 @@ const TABS = [
     key: "replies",
     label: "回复与@",
     shortLabel: "回复",
-    description: "查看提及、回复与创作者动态",
     icon: MessageSquare,
   },
   {
     key: "likes",
     label: "收到喜欢",
     shortLabel: "喜欢",
-    description: "查看谁为你的内容点了赞",
     icon: Heart,
   },
   {
     key: "follows",
     label: "新增粉丝",
     shortLabel: "粉丝",
-    description: "查看新关注你的用户",
     icon: UserPlus,
   },
   {
     key: "dm",
     label: "私信",
     shortLabel: "私信",
-    description: "和创作者或同伴继续交流",
     icon: MessageCircle,
   },
 ] as const;
@@ -126,7 +123,6 @@ function MessagesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = getTabKey(searchParams.get("tab"));
-  const activeTab = TABS.find((item) => item.key === tab) ?? TABS[0];
   const setTab = (key: TabKey) => {
     router.replace(`/messages?tab=${key}`, { scroll: false });
   };
@@ -152,6 +148,7 @@ function MessagesContent() {
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
   const unreadByTab = getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount));
   const hasNotificationUnread = notificationUnreadCount > 0;
+  const canMarkAllNotificationsRead = tab !== "dm" && hasNotificationUnread;
   const loadMoreRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -183,7 +180,24 @@ function MessagesContent() {
   return (
     <div className="flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
       <div className="md:hidden">
-        <MobilePageHeader title="消息" fallbackHref="/" />
+        <MobilePageHeader
+          title="消息"
+          fallbackHref="/"
+          rightSlot={
+            canMarkAllNotificationsRead ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground"
+                onClick={() => markAllAsRead()}
+                aria-label="全部标为已读"
+                title="全部标为已读"
+              >
+                <BrushCleaning className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            ) : null
+          }
+        />
         <div className="mobile-subnav sticky top-(--mobile-page-header-height) z-20">
           <div className="px-4 pb-3 pt-1">
             <div className="segmented-control flex w-full justify-between gap-1">
@@ -211,7 +225,7 @@ function MessagesContent() {
       </div>
 
       <div className="page-shell flex-1 md:pt-8">
-      <section className="surface-panel overflow-hidden">
+      <section className="surface-panel overflow-hidden max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:backdrop-blur-0">
         <div className="hidden border-b border-border/60 px-6 py-6 md:block">
           <div className="flex items-start justify-between gap-6">
             <div>
@@ -221,7 +235,7 @@ function MessagesContent() {
                 把回复、喜欢、关注和私信收拢在同一处，减少在不同页面之间来回切换。
               </p>
             </div>
-            {hasNotificationUnread ? (
+            {canMarkAllNotificationsRead ? (
               <Button variant="outline" size="sm" className="gap-2" onClick={() => markAllAsRead()}>
                 <CheckCheck className="h-4 w-4" />
                 全部标为已读
@@ -249,21 +263,7 @@ function MessagesContent() {
           </div>
         </div>
 
-        <div className="border-b border-border/60 px-4 py-4 md:hidden">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-sm font-semibold text-foreground">{activeTab.label}</p>
-              <p className="mt-1 text-xs leading-5 text-muted-foreground">{activeTab.description}</p>
-            </div>
-            {hasNotificationUnread ? (
-              <Button variant="ghost" size="sm" className="h-8 px-3 text-xs" onClick={() => markAllAsRead()}>
-                全部已读
-              </Button>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="px-4 py-5 sm:px-5 sm:py-6 md:px-6">
+        <div className="px-0 py-5 sm:px-5 sm:py-6 md:px-6">
           {tab !== "dm" ? (
             notificationsLoading ? (
               <div className="space-y-3">

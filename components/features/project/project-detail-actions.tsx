@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Bookmark, Heart, Rocket, Share2 } from "lucide-react"
+import { Bookmark, Flag, Heart, Rocket, Share2 } from "lucide-react"
 
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { Button } from "@/components/ui/button"
+import { ReportDialog } from "@/components/ui/report-dialog"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
@@ -264,6 +265,18 @@ export function ProjectDetailActions({
             >
               <CoinIcon className="h-5 w-5" />
             </button>
+          ) : null}
+          {user && !isOwnProject && projectOwnerId ? (
+            <ReportDialog contentType="project" contentId={projectId}>
+              <button
+                type="button"
+                title="举报"
+                aria-label="举报项目"
+                className={coverIconButtonClass}
+              >
+                <Flag className="h-5 w-5" />
+              </button>
+            </ReportDialog>
           ) : null}
         </div>
         {tipDialog}

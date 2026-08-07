@@ -187,3 +187,280 @@
   pointer-events: none;
   z-index: 10;
 }
+
+/* --- 科学星轨 --- */
+@keyframes avatar-frame-science-orbit-atom-path {
+  from { transform: rotateZ(-12deg); }
+  to { transform: rotateZ(348deg); }
+}
+
+@keyframes avatar-frame-science-orbit-gear-path {
+  from { transform: rotateZ(168deg); }
+  to { transform: rotateZ(528deg); }
+}
+
+@keyframes avatar-frame-science-orbit-flat-spin {
+  from { transform: rotateZ(0deg); }
+  to { transform: rotateZ(360deg); }
+}
+
+@keyframes avatar-frame-science-orbit-flat-spin-reverse {
+  from { transform: rotateZ(180deg); }
+  to { transform: rotateZ(-180deg); }
+}
+
+@keyframes avatar-frame-science-orbit-atom-face {
+  from { transform: rotateZ(12deg) scaleY(2.281) rotateZ(38deg); }
+  to { transform: rotateZ(-348deg) scaleY(2.281) rotateZ(38deg); }
+}
+
+@keyframes avatar-frame-science-orbit-gear-face {
+  from { transform: rotateZ(-168deg) scaleY(2.281) rotateZ(38deg); }
+  to { transform: rotateZ(-528deg) scaleY(2.281) rotateZ(38deg); }
+}
+
+@keyframes avatar-frame-science-orbit-atom-front-visibility {
+  0%, 28% { opacity: 0; }
+  30%, 78% { opacity: 1; }
+  80%, 100% { opacity: 0; }
+}
+
+@keyframes avatar-frame-science-orbit-gear-front-visibility {
+  0%, 28% { opacity: 1; }
+  30%, 78% { opacity: 0; }
+  80%, 100% { opacity: 1; }
+}
+
+.avatar-frame-science-orbit {
+  padding: 5px;
+  border-radius: 9999px;
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 8% 48%, #14b8a6 0 2px, transparent 2.8px),
+    radial-gradient(circle at 91% 78%, #f59e0b 0 2.5px, transparent 3.2px),
+    radial-gradient(circle at 28% 2%, #6366f1 0 2.5px, transparent 3.2px),
+    radial-gradient(circle at 82% 10%, #818cf8 0 2px, transparent 2.8px),
+    linear-gradient(135deg, #f8fbff 0%, #dcecff 54%, #c7d2fe 100%);
+  box-shadow:
+    0 0 0 1px rgb(129 140 248 / 0.55),
+    0 0 0 4px rgb(191 219 254 / 0.32),
+    0 8px 18px -12px rgb(37 99 235 / 0.6);
+}
+
+.avatar-frame-science-orbit__flat-orbit {
+  position: absolute;
+  inset: -8%;
+  border: 1px solid rgb(129 140 248 / 0.56);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgb(165 180 252 / 0.36);
+  pointer-events: none;
+  transform: translateZ(-2px);
+  transform-style: preserve-3d;
+  z-index: 0;
+}
+
+.avatar-frame-science-orbit__flat-motion {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.avatar-frame-science-orbit__flat-motion--blue {
+  animation: avatar-frame-science-orbit-flat-spin 9s linear infinite;
+}
+
+.avatar-frame-science-orbit__flat-motion--violet {
+  transform: rotateZ(180deg);
+  animation: avatar-frame-science-orbit-flat-spin-reverse 12s linear infinite;
+}
+
+.avatar-frame-science-orbit__flat-node {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: clamp(5px, 6%, 8px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.avatar-frame-science-orbit__flat-node--blue {
+  background: #60a5fa;
+  box-shadow: 0 0 0 1px rgb(219 234 254 / 0.9), 0 0 7px rgb(96 165 250 / 0.9);
+}
+
+.avatar-frame-science-orbit__flat-node--violet {
+  background: #818cf8;
+  box-shadow: 0 0 0 1px rgb(224 231 255 / 0.9), 0 0 7px rgb(129 140 248 / 0.85);
+}
+
+.avatar-frame-science-orbit__orbit {
+  position: absolute;
+  inset: -22% -14% -14% -26%;
+  pointer-events: none;
+  border: 1px solid rgb(var(--orbit-color) / 0.34);
+  border-radius: 50%;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform: rotateZ(-38deg) scaleY(0.43837);
+}
+
+.avatar-frame-science-orbit__orbit::before,
+.avatar-frame-science-orbit__orbit::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.avatar-frame-science-orbit__orbit::before {
+  border: 1px solid rgb(var(--orbit-color) / 0.24);
+  transform: translateZ(-1px);
+}
+
+.avatar-frame-science-orbit__orbit::after {
+  border: 1px solid transparent;
+  border-bottom-color: rgb(var(--orbit-front) / 0.9);
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  filter: drop-shadow(0 0 2px rgb(var(--orbit-front) / 0.46));
+  transform: translateZ(1px);
+}
+
+.avatar-frame-science-orbit__orbit--back {
+  --orbit-color: 99 102 241;
+  --orbit-front: 129 140 248;
+  z-index: 0;
+}
+
+.avatar-frame-science-orbit__orbit--front {
+  --orbit-color: 99 102 241;
+  --orbit-front: 129 140 248;
+  border-color: transparent;
+  clip-path: none;
+  z-index: 2;
+}
+
+.avatar-frame-science-orbit__orbit--front::before {
+  border-color: transparent;
+}
+
+.avatar-frame-science-orbit__icon-layer {
+  position: absolute;
+  inset: -22% -14% -14% -26%;
+  pointer-events: none;
+  transform-origin: center;
+  transform: rotateZ(-38deg) scaleY(0.43837);
+  transform-style: flat;
+}
+
+.avatar-frame-science-orbit__icon-layer--back {
+  z-index: 0;
+}
+
+.avatar-frame-science-orbit__icon-layer--front {
+  z-index: 3;
+}
+
+.avatar-frame-science-orbit__motion {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.avatar-frame-science-orbit__motion--atom {
+  transform: rotateZ(-12deg);
+  animation: avatar-frame-science-orbit-atom-path 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__motion--gear {
+  transform: rotateZ(168deg);
+  animation: avatar-frame-science-orbit-gear-path 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__icon-position {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+}
+
+.avatar-frame-science-orbit__icon-position--atom {
+  width: clamp(8px, 18%, 16px);
+}
+
+.avatar-frame-science-orbit__icon-position--gear {
+  width: clamp(8px, 16%, 14px);
+}
+
+.avatar-frame-science-orbit__icon-layer--front .avatar-frame-science-orbit__icon-position--atom {
+  opacity: 0;
+  animation: avatar-frame-science-orbit-atom-front-visibility 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__icon-layer--front .avatar-frame-science-orbit__icon-position--gear {
+  opacity: 1;
+  animation: avatar-frame-science-orbit-gear-front-visibility 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__icon-facing {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.avatar-frame-science-orbit__icon-facing--atom {
+  transform: rotateZ(12deg) scaleY(2.281) rotateZ(38deg);
+  animation: avatar-frame-science-orbit-atom-face 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__icon-facing--gear {
+  transform: rotateZ(-168deg) scaleY(2.281) rotateZ(38deg);
+  animation: avatar-frame-science-orbit-gear-face 8s linear infinite;
+}
+
+.avatar-frame-science-orbit__atom,
+.avatar-frame-science-orbit__gear {
+  display: block;
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 1px 2px rgb(15 23 42 / 0.16));
+}
+
+.avatar-frame-science-orbit__atom {
+  color: #06b6d4;
+}
+
+.avatar-frame-science-orbit__gear {
+  color: #f59e0b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-frame-science-orbit__motion,
+  .avatar-frame-science-orbit__flat-motion,
+  .avatar-frame-science-orbit__icon-facing,
+  .avatar-frame-science-orbit__icon-layer--front .avatar-frame-science-orbit__icon-position {
+    animation: none;
+  }
+
+  .avatar-frame-science-orbit__icon-layer--front .avatar-frame-science-orbit__icon-position--atom {
+    opacity: 0;
+  }
+
+  .avatar-frame-science-orbit__icon-layer--front .avatar-frame-science-orbit__icon-position--gear {
+    opacity: 1;
+  }
+}

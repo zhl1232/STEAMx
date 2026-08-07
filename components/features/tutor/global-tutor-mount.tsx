@@ -44,6 +44,7 @@ export function GlobalTutorMount() {
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
   const hideTutorOnMobile = pathname === '/nature/observations'
     || pathname === '/nature/species'
+    || pathname.startsWith('/users/')
     || Boolean(tutorCtx?.override.hideFabOnMobile)
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
   const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex

@@ -38,7 +38,7 @@ export function PublicProfileWorks({
   }
 
   if (works.length === 0) {
-    return <p className="surface-subtle px-5 py-10 text-center text-sm text-muted-foreground">还没有公开作品。</p>
+    return <p className="py-14 text-center text-sm text-muted-foreground">还没有公开作品。</p>
   }
 
   return (

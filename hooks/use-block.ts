@@ -24,24 +24,28 @@ export function useBlock(targetUserId: string | undefined) {
   })
 
   const mutation = useMutation({
-    mutationFn: async (blocked: boolean) => {
+    mutationFn: async (currentlyBlockedByMe: boolean) => {
       if (!targetUserId) throw new Error('用户不存在')
-      const response = await fetch(blocked ? `/api/blocks/${targetUserId}` : '/api/blocks', {
-        method: blocked ? 'DELETE' : 'POST',
-        headers: blocked ? undefined : { 'Content-Type': 'application/json' },
-        body: blocked ? undefined : JSON.stringify({ blockedUserId: targetUserId }),
+      const response = await fetch(currentlyBlockedByMe ? `/api/blocks/${targetUserId}` : '/api/blocks', {
+        method: currentlyBlockedByMe ? 'DELETE' : 'POST',
+        headers: currentlyBlockedByMe ? undefined : { 'Content-Type': 'application/json' },
+        body: currentlyBlockedByMe ? undefined : JSON.stringify({ blockedUserId: targetUserId }),
       })
       if (!response.ok) {
         const payload = await response.json().catch(() => null) as { error?: string } | null
         throw new Error(payload?.error || '操作失败')
       }
-      return !blocked
+      return !currentlyBlockedByMe
     },
-    onSuccess: (blocked) => {
-      queryClient.setQueryData(queryKey, { blocked, userId: targetUserId })
+    onSuccess: (blockedByMe) => {
+      queryClient.setQueryData(queryKey, {
+        blocked: blockedByMe,
+        blockedByMe,
+        userId: targetUserId,
+      })
       queryClient.invalidateQueries({ queryKey: ['conversations'] })
       queryClient.invalidateQueries({ queryKey: ['messages'] })
-      toast({ title: blocked ? '已屏蔽用户' : '已取消屏蔽' })
+      toast({ title: blockedByMe ? '已屏蔽用户' : '已取消屏蔽' })
     },
     onError: (error: Error) => {
       toast({ title: '操作失败', description: error.message, variant: 'destructive' })

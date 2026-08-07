@@ -5,6 +5,8 @@ import { PublicProfileActions } from './public-profile-actions'
 let mockUser: { id: string } | null = { id: '11111111-1111-1111-1111-111111111111' }
 let mockIsFollowing = false
 let mockIsLoading = false
+let mockBlocked = false
+let mockBlockedByMe = false
 
 vi.mock('next/link', () => ({
   __esModule: true,
@@ -28,8 +30,8 @@ vi.mock('@/hooks/use-follow', () => ({
 
 vi.mock('@/hooks/use-block', () => ({
   useBlock: () => ({
-    blocked: false,
-    blockedByMe: false,
+    blocked: mockBlocked,
+    blockedByMe: mockBlockedByMe,
     isLoading: false,
     isPending: false,
     toggleBlock: vi.fn(),
@@ -47,6 +49,8 @@ describe('PublicProfileActions', () => {
     mockUser = { id: '11111111-1111-1111-1111-111111111111' }
     mockIsFollowing = false
     mockIsLoading = false
+    mockBlocked = false
+    mockBlockedByMe = false
   })
 
   it('disables the message button when the target user closed private messages', () => {
@@ -87,5 +91,36 @@ describe('PublicProfileActions', () => {
       'href',
       '/messages/22222222-2222-2222-2222-222222222222',
     )
+  })
+
+  it('explains when the current user blocked the profile', () => {
+    mockBlocked = true
+    mockBlockedByMe = true
+
+    render(
+      <PublicProfileActions
+        targetUserId="22222222-2222-2222-2222-222222222222"
+        messagePrivacy="everyone"
+      />,
+    )
+
+    expect(screen.getByText('你已屏蔽该用户，暂时无法互动')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '你已屏蔽该用户' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: '你已屏蔽该用户，无法发送私信' })).toBeDisabled()
+  })
+
+  it('explains when the profile blocked the current user', () => {
+    mockBlocked = true
+
+    render(
+      <PublicProfileActions
+        targetUserId="22222222-2222-2222-2222-222222222222"
+        messagePrivacy="everyone"
+      />,
+    )
+
+    expect(screen.getByText('你已被该用户屏蔽，暂时无法互动')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '你已被该用户屏蔽' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: '你已被该用户屏蔽，无法发送私信' })).toBeDisabled()
   })
 })

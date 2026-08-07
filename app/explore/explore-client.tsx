@@ -1153,7 +1153,7 @@ export function ExploreClient({
                                     <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
                                     <div className="relative md:static">
                                     <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-                                    <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
+                                    <div className="flex min-w-max items-center gap-1.5 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
                                         {displayCategories.map((category) => {
                                             const meta = CATEGORY_META[category]
                                             const isActive = selectedCategory === category
@@ -1171,23 +1171,32 @@ export function ExploreClient({
                                                     shape="pill"
                                                     size="md"
                                                     className={cn(
-                                                        "h-11 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
+                                                        "h-11 min-w-[64px] px-3 text-[13px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
                                                         !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
                                                         isActive && tone && cn(
                                                             activeToneBg,
-                                                            "border-transparent shadow-xs max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue))]! max-md:text-[hsl(var(--brand-blue-foreground))]!",
+                                                            "border-transparent shadow-xs",
                                                         ),
                                                     )}
                                                 >
-                                                    <Icon
+                                                    <span
                                                         className={cn(
-                                                            "mr-0.5 h-3.5 w-3.5 shrink-0",
-                                                            isActive ? "text-inherit" : tone ? categoryToneClasses[tone].text : "text-muted-foreground",
+                                                            "contents max-md:inline-flex max-md:h-8 max-md:items-center max-md:gap-1.5 max-md:rounded-sm max-md:px-2.5 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors",
+                                                            isActive
+                                                                ? "max-md:bg-[hsl(var(--brand-blue))] max-md:text-[hsl(var(--brand-blue-foreground))] max-md:shadow-xs"
+                                                                : "max-md:bg-[hsl(var(--surface-muted)/0.62)] max-md:text-foreground/76 max-md:hover:bg-[hsl(var(--surface-muted)/0.9)] dark:max-md:bg-white/8 dark:max-md:text-foreground/84 dark:max-md:hover:bg-white/12",
                                                         )}
-                                                        strokeWidth={2.2}
-                                                        aria-hidden="true"
-                                                    />
-                                                    {category}
+                                                    >
+                                                        <Icon
+                                                            className={cn(
+                                                                "mr-0.5 h-3.5 w-3.5 shrink-0 max-md:mr-0 max-md:h-3.5 max-md:w-3.5",
+                                                                isActive ? "text-inherit" : tone ? categoryToneClasses[tone].text : "text-muted-foreground",
+                                                            )}
+                                                            strokeWidth={2.2}
+                                                            aria-hidden="true"
+                                                        />
+                                                        {category}
+                                                    </span>
                                                 </FilterChip>
                                             )
                                         })}
@@ -1235,13 +1244,22 @@ export function ExploreClient({
                                                         shape="pill"
                                                         size="md"
                                                         className={cn(
-                                                            "h-11 min-w-[78px] px-3.5 text-[12px] font-bold md:h-10 md:min-w-[96px] md:text-sm",
+                                                            "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-[96px] md:text-sm",
                                                             isActive
                                                                 ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
                                                                 : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
                                                         )}
                                                     >
-                                                        {preset.label}
+                                                        <span
+                                                            className={cn(
+                                                                "contents max-md:inline-flex max-md:h-8 max-md:min-w-[68px] max-md:items-center max-md:justify-center max-md:rounded-sm max-md:px-3 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors",
+                                                                isActive
+                                                                    ? "max-md:border max-md:border-[hsl(var(--brand-blue)/0.34)] max-md:bg-[hsl(var(--brand-blue)/0.1)] max-md:text-[hsl(var(--brand-blue))] max-md:shadow-none"
+                                                                    : "max-md:bg-[hsl(var(--surface-raised)/0.66)] max-md:text-foreground/68 max-md:hover:bg-[hsl(var(--surface-muted)/0.58)]",
+                                                            )}
+                                                        >
+                                                            {preset.label}
+                                                        </span>
                                                     </FilterChip>
                                                 )
                                             })}

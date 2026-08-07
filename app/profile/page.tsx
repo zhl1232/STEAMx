@@ -765,7 +765,7 @@ function ProfileHero({
       className={cn(
         'relative overflow-hidden',
         compact
-          ? 'profile-mobile-hero'
+          ? 'profile-mobile-hero overflow-visible'
           : 'profile-hero-card surface-panel min-h-[270px] rounded-lg',
       )}
     >
@@ -773,7 +773,7 @@ function ProfileHero({
 
       <div className={cn('relative', compact ? 'px-4 pb-4 pt-4' : 'px-7 pb-0 pt-7')}>
         <div className={cn(compact ? 'grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4' : 'flex min-h-[156px] flex-wrap items-start gap-6')}>
-          <div className="relative shrink-0">
+          <div className={cn('shrink-0', compact ? 'flex w-full flex-col items-center' : 'relative')}>
             <AvatarWithFrame
               src={profileContext.userAvatar}
               alt={profileContext.userName}
@@ -788,7 +788,12 @@ function ProfileHero({
             <LevelGuideDialog>
               <button
                 type="button"
-                className="absolute -bottom-1.5 left-1/2 inline-flex h-6 -translate-x-1/2 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition hover:-translate-y-0.5 hover:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+                className={cn(
+                  'inline-flex h-6 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
+                  compact
+                    ? 'relative mt-1.5 hover:-translate-y-0.5'
+                    : 'absolute -bottom-1.5 left-1/2 -translate-x-1/2 hover:-translate-y-0.5 hover:-translate-x-1/2',
+                )}
               >
                 Lv.{profileContext.level}
               </button>
