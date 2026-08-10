@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getAccessibleProject } from '@/lib/api/project-access'
+import { assertUsersNotBlocked } from '@/lib/safety/server'
 import { createClient } from '@/lib/supabase/server'
 
 function parseProjectId(id: string) {
@@ -36,6 +37,7 @@ export async function POST(
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
+    await assertUsersNotBlocked(supabase, user.id, project.author_id)
 
     const { data: existingCollection, error: existingError } = await supabase
       .from('collections')

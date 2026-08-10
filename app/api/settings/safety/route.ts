@@ -11,7 +11,7 @@ export async function GET() {
     const [profileResult, actionsResult, reportsResult, appealsResult, blocksResult] = await Promise.all([
       supabase
         .from('profiles')
-        .select('safety_status, safety_restricted_until, safety_restriction_reason')
+        .select('safety_status, interaction_restricted, safety_restricted_until, safety_restriction_reason')
         .eq('id', user.id)
         .single(),
       supabase

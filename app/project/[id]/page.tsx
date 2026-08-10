@@ -123,10 +123,32 @@ function parseProjectFilters(searchParams?: Awaited<ProjectDetailPageProps['sear
   }
 }
 
-function canAccessProject(project: Awaited<ReturnType<typeof getProjectById>>, viewerId?: string) {
+function canAccessProject(
+  project: Awaited<ReturnType<typeof getProjectById>>,
+  viewer?: { id?: string; isStaff?: boolean },
+) {
   if (!project) return false
-  if (!project.status || project.status === 'approved') return true
-  return viewerId === project.author_id
+  if ((!project.status || project.status === 'approved') && project.moderation_state === 'approved') return true
+  return viewer?.id === project.author_id || viewer?.isStaff === true
+}
+
+async function getProjectViewerAccess(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { id: undefined, isStaff: false }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle()
+
+  return {
+    id: user.id,
+    isStaff: profile?.role === 'admin' || profile?.role === 'moderator',
+  }
 }
 
 function getCategoryTone(category?: string): CategoryTone {
@@ -658,10 +680,8 @@ export async function generateMetadata(
   }
 
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!canAccessProject(project, user?.id)) {
+  const viewer = await getProjectViewerAccess(supabase)
+  if (!canAccessProject(project, viewer)) {
     return {
       title: '项目未找到',
       robots: {
@@ -731,12 +751,10 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     notFound()
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const isAuthor = user?.id === project.author_id
+  const viewer = await getProjectViewerAccess(supabase)
+  const isAuthor = viewer.id === project.author_id
 
-  if (!canAccessProject(project, user?.id)) {
+  if (!canAccessProject(project, viewer)) {
     notFound()
   }
 
@@ -761,7 +779,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   ] = await Promise.all([
     getProjectCompletions(project.id, 8, { onePerUser: true }),
     getProjectCompletionsCount(project.id),
-    getProjectComments(project.id, 0, 5, { userId: user?.id }),
+    getProjectComments(project.id, 0, 5, { userId: viewer.id }),
     getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0),
     getProjectCollectionsCount(project.id),
     fromExplore && sourceIndex !== null

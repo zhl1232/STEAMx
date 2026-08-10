@@ -22,6 +22,7 @@ type SafetyAction = {
 type SafetyData = {
   profile: {
     safety_status: string
+    interaction_restricted: boolean
     safety_restricted_until: string | null
     safety_restriction_reason: string | null
   }
@@ -132,7 +133,11 @@ export default function SafetySettingsPage() {
     void loadSafety()
   }, [loadSafety])
 
-  const safetyIsActive = data?.profile.safety_status === 'active'
+  const restrictionIsActive = Boolean(
+    data?.profile.interaction_restricted &&
+    (!data.profile.safety_restricted_until || new Date(data.profile.safety_restricted_until).getTime() > Date.now()),
+  )
+  const safetyIsActive = data?.profile.safety_status === 'active' && !restrictionIsActive
 
   const submitAppeal = async () => {
     if (!appealActionId || !appealReason.trim()) return

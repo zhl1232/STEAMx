@@ -3137,6 +3137,10 @@ export interface Database {
         Args: Record<string, never>
         Returns: number
       }
+      sync_safety_projection: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
       review_moderator_application: {
         Args: {
           p_application_id: number

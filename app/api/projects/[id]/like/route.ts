@@ -6,6 +6,7 @@ import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { awardXpOnce } from '@/lib/api/server-awards'
+import { assertUsersNotBlocked } from '@/lib/safety/server'
 
 async function sendProjectLikeNotification(params: {
   supabase: Awaited<ReturnType<typeof createClient>>
@@ -91,6 +92,7 @@ export async function POST(
     if (project.author_id === user.id) {
       return NextResponse.json({ error: '不能给自己的项目点赞' }, { status: 403 })
     }
+    await assertUsersNotBlocked(supabase, user.id, project.author_id)
     
     // 检查是否已点赞
     const { data: existingLike, error: existingLikeError } = await supabase

@@ -164,6 +164,12 @@ export async function deleteUserByEmail(email: string) {
   if (error) throw error
 }
 
+export async function deleteUserById(userId: string) {
+  if (!userId) return
+  const { error } = await admin.auth.admin.deleteUser(userId)
+  if (error) throw error
+}
+
 export async function deletePlaygroundRaceMatchByCode(code: string) {
   const normalizedCode = code.trim().toUpperCase()
   if (!normalizedCode) return

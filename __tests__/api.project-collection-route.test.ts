@@ -49,13 +49,21 @@ describe('POST /api/projects/[id]/collection', () => {
 
   it('collects an accessible project for the current user', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+    const blocksMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+    const blocksSelect = vi.fn(() => ({
+      or: vi.fn(() => ({
+        limit: vi.fn(() => ({ maybeSingle: blocksMaybeSingle })),
+      })),
+    }))
     const select = vi.fn(() => ({
       eq: vi.fn(() => ({
         eq: vi.fn(() => ({ maybeSingle })),
       })),
     }))
     const insert = vi.fn().mockResolvedValue({ error: null })
-    const from = vi.fn(() => ({ select, insert }))
+    const from = vi.fn((table: string) => table === 'user_blocks'
+      ? { select: blocksSelect }
+      : { select, insert })
     createClientMock.mockResolvedValue({ from } as never)
 
     const response = await POST(new Request('http://localhost/api/projects/42/collection'), {
@@ -78,6 +86,12 @@ describe('POST /api/projects/[id]/collection', () => {
 
   it('removes an existing collection', async () => {
     const maybeSingle = vi.fn().mockResolvedValue({ data: { user_id: 'user-1' }, error: null })
+    const blocksMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+    const blocksSelect = vi.fn(() => ({
+      or: vi.fn(() => ({
+        limit: vi.fn(() => ({ maybeSingle: blocksMaybeSingle })),
+      })),
+    }))
     const select = vi.fn(() => ({
       eq: vi.fn(() => ({
         eq: vi.fn(() => ({ maybeSingle })),
@@ -89,7 +103,9 @@ describe('POST /api/projects/[id]/collection', () => {
         eq: vi.fn(() => ({ select: deleteSelect })),
       })),
     }))
-    const from = vi.fn(() => ({ select, delete: deleteQuery }))
+    const from = vi.fn((table: string) => table === 'user_blocks'
+      ? { select: blocksSelect }
+      : { select, delete: deleteQuery })
     createClientMock.mockResolvedValue({ from } as never)
 
     const response = await POST(new Request('http://localhost/api/projects/42/collection'), {

@@ -105,6 +105,7 @@ export interface Project {
     difficulty_stars?: number  // 1-6 星
     tags?: string[]
     status?: 'draft' | 'pending' | 'approved' | 'rejected'
+    moderation_state?: 'pending' | 'approved' | 'rejected' | 'hidden'
     rejection_reason?: string | null
     challenge_id?: number | null
     reflection?: string
@@ -643,6 +644,9 @@ export function mapDbProject(
         difficulty_stars: dbProject.difficulty_stars ?? 3,
         tags,
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
+        moderation_state: ('moderation_state' in dbProject
+            ? (dbProject as Record<string, unknown>).moderation_state as 'pending' | 'approved' | 'rejected' | 'hidden'
+            : 'approved'),
         rejection_reason: dbProject.rejection_reason ?? null,
         challenge_id: ('challenge_id' in dbProject ? (dbProject as Record<string, unknown>).challenge_id as number | null : null),
         reflection: ('reflection' in dbProject ? (dbProject as Record<string, unknown>).reflection as string | undefined : undefined),

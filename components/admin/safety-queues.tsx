@@ -101,8 +101,8 @@ export function SafetyQueues() {
     setLoading(true)
     try {
       const [casesResponse, appealsResponse] = await Promise.all([
-        fetch("/api/admin/moderation/cases?status=pending"),
-        fetch("/api/admin/safety/appeals?status=pending"),
+        fetch("/api/admin/moderation/cases?status=pending", { cache: "no-store" }),
+        fetch("/api/admin/safety/appeals?status=pending", { cache: "no-store" }),
       ])
       if (!casesResponse.ok || !appealsResponse.ok) throw new Error("加载安全队列失败")
       const [casesPayload, appealsPayload] = await Promise.all([

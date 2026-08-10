@@ -314,50 +314,11 @@ export async function applySafetyAction(input: {
 export async function syncSafetyProjection(userId: string) {
   if (!supabaseAdmin) throw new Error('安全管理服务未配置')
 
-  const nowIso = new Date().toISOString()
-  await supabaseAdmin
-    .from('safety_actions')
-    .update({ status: 'expired' } as never)
-    .eq('user_id', userId)
-    .eq('status', 'active')
-    .not('ends_at', 'is', null)
-    .lte('ends_at', nowIso)
-
-  const { data: actions, error } = await supabaseAdmin
-    .from('safety_actions')
-    .select('action_type, status, ends_at, reason')
-    .eq('user_id', userId)
+  const { error } = await supabaseAdmin.rpc('sync_safety_projection' as never, {
+    p_user_id: userId,
+  } as never)
 
   if (error) throw error
-
-  const now = Date.now()
-  const activeActions = (actions ?? []).filter((action) =>
-    action.status === 'active' && (!action.ends_at || new Date(action.ends_at).getTime() > now),
-  )
-  const accountBan = activeActions.some((action) => action.action_type === 'account_ban')
-  const suspension = activeActions.some((action) => action.action_type === 'account_suspension')
-  const restrictionActions = activeActions.filter((action) =>
-    action.action_type === 'interaction_restriction' ||
-    action.action_type === 'account_suspension' ||
-    action.action_type === 'account_ban',
-  )
-  const finiteEnds = restrictionActions
-    .map((action) => action.ends_at)
-    .filter((value): value is string => Boolean(value))
-    .sort()
-
-  const latestReason = restrictionActions.at(-1)?.reason ?? null
-  const { error: updateError } = await supabaseAdmin
-    .from('profiles')
-    .update({
-      safety_status: accountBan ? 'banned' : suspension ? 'suspended' : 'active',
-      interaction_restricted: restrictionActions.length > 0,
-      safety_restricted_until: finiteEnds.at(-1) ?? null,
-      safety_restriction_reason: latestReason,
-    } as never)
-    .eq('id', userId)
-
-  if (updateError) throw updateError
 }
 
 export async function getContentSnapshot(

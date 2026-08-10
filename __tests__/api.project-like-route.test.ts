@@ -107,12 +107,19 @@ describe('POST /api/projects/[id]/like', () => {
         }))
 
         const notificationsInsert = vi.fn().mockResolvedValue({ error: null })
+        const blocksMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+        const blocksSelect = vi.fn(() => ({
+            or: vi.fn(() => ({
+                limit: vi.fn(() => ({ maybeSingle: blocksMaybeSingle })),
+            })),
+        }))
 
         const from = vi.fn((table: string) => {
             if (table === 'projects') return { select: projectsSelect }
             if (table === 'likes') return { select: likesSelect, insert: likesInsert }
             if (table === 'profiles') return { select: profilesSelect }
             if (table === 'notifications') return { insert: notificationsInsert }
+            if (table === 'user_blocks') return { select: blocksSelect }
             throw new Error(`Unexpected table: ${table}`)
         })
 
