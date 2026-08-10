@@ -128,10 +128,13 @@ test.describe('社区安全治理全链路', () => {
       })
       expect(messageWhileBlocked.status()).toBe(403)
 
-      const commentWhileBlocked = await reporter.page.request.post('/api/comments', {
+      const retiredProjectComment = await reporter.page.request.post('/api/comments', {
         data: { project_id: projectId, content: `屏蔽状态评论 ${RUN_ID}` },
       })
-      expect(commentWhileBlocked.status()).toBe(403)
+      expect(retiredProjectComment.status()).toBe(410)
+      await expect(readJson(retiredProjectComment)).resolves.toMatchObject({
+        code: 'PROJECT_COMMENTS_RETIRED',
+      })
 
       const likeWhileBlocked = await reporter.page.request.post(`/api/projects/${projectId}/like`)
       expect(likeWhileBlocked.status()).toBe(403)

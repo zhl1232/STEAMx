@@ -1,10 +1,11 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
-import { Loader2 } from "lucide-react"
+import { Flag, Loader2 } from "lucide-react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Button } from "@/components/ui/button"
+import { ReportDialog } from "@/components/ui/report-dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/lib/context/auth-context"
@@ -115,12 +116,13 @@ export function CompletionRecordComments({
             <Skeleton className="h-14 rounded-sm" />
           </div>
         ) : comments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">还没有评论，来抢沙发吧。</p>
+          <p className="text-sm text-muted-foreground">还没有留言，来说说这个作品吧。</p>
         ) : (
           rootComments.map((comment) => (
             <div key={String(comment.id)}>
               <CompletionCommentItem
                 comment={comment}
+                viewerId={user?.id}
                 onReply={(id, name) => {
                   setReplyTo({ id, name })
                   setContent("")
@@ -134,6 +136,7 @@ export function CompletionRecordComments({
                 >
                   <CompletionCommentItem
                     comment={reply}
+                    viewerId={user?.id}
                     onReply={(id, name) => {
                       setReplyTo({ id, name })
                       setContent("")
@@ -166,7 +169,7 @@ export function CompletionRecordComments({
           ref={textareaRef}
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder={replyTo ? `回复 ${replyTo.name}…` : "写下你的想法…"}
+          placeholder={replyTo ? `回复 ${replyTo.name}…` : "聊聊这个作品，或提出你的问题…"}
           rows={2}
           className="resize-none"
         />
@@ -194,24 +197,41 @@ export function CompletionRecordComments({
 
 function CompletionCommentItem({
   comment,
+  viewerId,
   onReply,
 }: {
   comment: Comment
+  viewerId?: string
   onReply: (id: number, name: string) => void
 }) {
   const displayName = comment.author || "探索者"
+  const canReport = Boolean(viewerId && comment.userId && viewerId !== comment.userId)
 
   return (
     <div className="rounded-sm bg-muted/40 px-3 py-2">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold text-foreground">{displayName}</p>
-        <button
-          type="button"
-          onClick={() => onReply(Number(comment.id), displayName)}
-          className="shrink-0 text-[11px] font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))]"
-        >
-          回复
-        </button>
+        <div className="flex shrink-0 items-center gap-3">
+          <button
+            type="button"
+            onClick={() => onReply(Number(comment.id), displayName)}
+            className="text-[11px] font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))]"
+          >
+            回复
+          </button>
+          {canReport ? (
+            <ReportDialog contentType="completion_comment" contentId={comment.id}>
+              <button
+                type="button"
+                aria-label={`举报 ${displayName} 的评论`}
+                className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-destructive"
+              >
+                <Flag className="h-3 w-3" />
+                举报
+              </button>
+            </ReportDialog>
+          ) : null}
+        </div>
       </div>
       {comment.reply_to_username ? (
         <p className="mt-0.5 text-[11px] text-muted-foreground">回复 @{comment.reply_to_username}</p>

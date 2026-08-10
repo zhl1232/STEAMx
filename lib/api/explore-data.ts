@@ -57,7 +57,7 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     category: "科学",
     sub_category: "物理",
     likes: 42,
-    comments_count: 6,
+    completions_count: 12,
     coins_count: 2,
     description: "用磁铁观察不同材料的吸附差异，记录实验结果。",
     materials: ["磁铁", "水桶", "金属小物件"],
@@ -80,7 +80,7 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     category: "工程",
     sub_category: "结构",
     likes: 58,
-    comments_count: 9,
+    completions_count: 18,
     coins_count: 4,
     description: "用重心和平衡原理制作一个会自动站起来的小玩具。",
     materials: ["纸杯", "橡皮泥", "贴纸"],
@@ -103,7 +103,7 @@ const SMOKE_PROJECTS: SmokeProject[] = [
     category: "艺术",
     sub_category: "手工",
     likes: 27,
-    comments_count: 3,
+    completions_count: 7,
     coins_count: 1,
     description: "从配色到编织，完成一个可重复制作的家居小物件。",
     materials: ["毛线", "针", "剪刀"],
@@ -221,7 +221,6 @@ const PROJECT_LIST_BASE_SELECT = [
   "likes_count",
   "views_count",
   "coins_count",
-  "comments_count",
   "description",
   "difficulty",
   "difficulty_stars",
@@ -329,7 +328,7 @@ function diversifyPopularByCategory<T extends { id: string | number; category?: 
 function getSmokeInteractionRawScore(project: SmokeProject): number {
   return (
     (project.likes ?? 0) * 1 +
-    (project.comments_count ?? 0) * 2 +
+    (project.completions_count ?? 0) * 2 +
     (project.coins_count ?? 0) * 3
   );
 }
@@ -357,6 +356,35 @@ function buildExploreSelectStatement(filters: Pick<ProjectFilters, "materials" |
       ${PROJECT_LIST_PROFILE_SELECT},
       ${subCategoriesJoin}${materialsFilterJoin}
     `;
+}
+
+async function enrichProjectsWithCompletionCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  projects: Project[],
+): Promise<Project[]> {
+  const projectIds = [...new Set(
+    projects
+      .map((project) => Number(project.id))
+      .filter((projectId) => Number.isInteger(projectId) && projectId > 0),
+  )];
+  if (projectIds.length === 0) return projects;
+
+  const { data, error } = await supabase.rpc("get_project_completion_counts_batch", {
+    p_project_ids: projectIds,
+  });
+  if (error) {
+    logger.error("Error fetching project completion counts batch", { error, projectIds });
+    return projects;
+  }
+
+  const countByProjectId = new Map(
+    (data || []).map((row) => [Number(row.project_id), Number(row.completion_count) || 0]),
+  );
+
+  return projects.map((project) => ({
+    ...project,
+    completions_count: countByProjectId.get(Number(project.id)) ?? 0,
+  }));
 }
 
 function buildExploreRankingFilterArgs(
@@ -414,9 +442,11 @@ async function hydrateExploreProjectsByIds(
   }
 
   const idOrder = new Map(projectIds.map((id, index) => [id, index]));
-  let projects = ((rows || []) as unknown as ProjectRowForMapper[])
-    .map(mapDbProject)
-    .sort(
+  let projects = await enrichProjectsWithCompletionCounts(
+    supabase,
+    ((rows || []) as unknown as ProjectRowForMapper[]).map(mapDbProject),
+  );
+  projects = projects.sort(
       (left, right) =>
         (idOrder.get(Number(left.id)) ?? 0) - (idOrder.get(Number(right.id)) ?? 0),
     );
@@ -934,7 +964,7 @@ export async function getProjects(
   }
 
   const rows = (data || []) as unknown as ProjectRowForMapper[];
-  const projects = rows.map(mapDbProject);
+  const projects = await enrichProjectsWithCompletionCounts(supabase, rows.map(mapDbProject));
   const total = count || 0;
   const hasMore = total > to + 1;
 
@@ -1009,41 +1039,22 @@ export async function getRecommendedProjects(
     return { projects: [], total: 0, hasMore: false };
   }
 
-  const [{ data: projectData, error: projectError }, { data: countRows, error: countError }] = await Promise.all([
-    supabase
-      .from("projects")
-      .select(`
-        ${PROJECT_LIST_BASE_SELECT},
-        ${PROJECT_LIST_PROFILE_SELECT},
-        ${PROJECT_LIST_SUB_CATEGORIES_SELECT}
-      `)
-      .eq("moderation_state", "approved")
-      .in("id", rankedProjectIds),
-    supabase.rpc("get_projects_comments_count_batch", {
-      p_project_ids: rankedProjectIds,
-    }),
-  ]);
+  const { data: projectData, error: projectError } = await supabase
+    .from("projects")
+    .select(`
+      ${PROJECT_LIST_BASE_SELECT},
+      ${PROJECT_LIST_PROFILE_SELECT},
+      ${PROJECT_LIST_SUB_CATEGORIES_SELECT}
+    `)
+    .eq("moderation_state", "approved")
+    .in("id", rankedProjectIds);
 
   if (projectError) {
     logger.error("Error hydrating recommended projects", { error: projectError });
   }
 
-  if (countError) {
-    logger.error("Error fetching recommended projects comments count batch", { error: countError });
-  }
-
   const hydratedRows = ((projectData as unknown as ProjectRowForMapper[] | null) || []).map((row) => ({ ...row }));
   const rowByProjectId = new Map(hydratedRows.map((row) => [Number(row.id), row]));
-  const countByProjectId = new Map(
-    ((countRows as { project_id: number; comment_count: number }[] | null) || []).map((row) => [
-      row.project_id,
-      row.comment_count,
-    ]),
-  );
-
-  for (const row of hydratedRows) {
-    (row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0;
-  }
 
   let projects: Project[] = rankedProjectIds.flatMap((projectId) => {
     const hydratedRow = rowByProjectId.get(projectId);
@@ -1055,6 +1066,8 @@ export async function getRecommendedProjects(
     // the moderation_state filter above.
     return [];
   });
+
+  projects = await enrichProjectsWithCompletionCounts(supabase, projects);
 
   if (shuffleSeed) {
     projects = applyPopularListShuffle(projects, { shuffleSeed, shuffleBatch });
@@ -1329,27 +1342,10 @@ export async function getRelatedProjects(
     return [];
   }
 
-  const rows = data as unknown as ProjectRowForMapper[];
-  const projectIds = rows.map((project) => project.id);
-  if (projectIds.length > 0) {
-    const { data: countRows, error: countError } = await supabase.rpc("get_projects_comments_count_batch", {
-      p_project_ids: projectIds.map((id) => Number(id)),
-    });
-    if (countError) {
-      logger.error("Error fetching comments count batch (related)", { error: countError });
-    }
-    const countByProjectId = new Map(
-      ((countRows as { project_id: number; comment_count: number }[]) || []).map((row) => [
-        row.project_id,
-        row.comment_count,
-      ]),
-    );
-    for (const row of rows) {
-      (row as Record<string, unknown>).comments_count = countByProjectId.get(Number(row.id)) ?? 0;
-    }
-  }
-
-  return rows.map(mapDbProject);
+  return enrichProjectsWithCompletionCounts(
+    supabase,
+    (data as unknown as ProjectRowForMapper[]).map(mapDbProject),
+  );
 }
 
 export type ProjectCompletionSort = "latest" | "featured"

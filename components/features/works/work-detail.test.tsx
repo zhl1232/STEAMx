@@ -110,6 +110,12 @@ describe("WorkDetail sharing", () => {
 })
 
 describe("WorkDetail content and support actions", () => {
+  it("presents the work as the shared place for messages and questions", () => {
+    render(<WorkDetail work={work} canShare={false} />)
+
+    expect(screen.getByRole("heading", { name: "留言与提问" })).toBeInTheDocument()
+  })
+
   it("places only like and coin support actions alongside the author for other viewers", () => {
     const { container } = render(<WorkDetail work={{ ...work, commentsCount: 2 }} canShare={false} />)
     const media = screen.getByRole("region", { name: "作品媒体" })

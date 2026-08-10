@@ -175,7 +175,20 @@ export async function deleteSafetyGovernanceFixtures(params: {
   projectIds: number[]
 }) {
   const userIds = [...new Set(params.userIds.filter(Boolean))]
-  const projectIds = [...new Set(params.projectIds.filter((id) => Number.isInteger(id) && id > 0))]
+  const projectIdSet = new Set(params.projectIds.filter((id) => Number.isInteger(id) && id > 0))
+
+  // UI 流程可能在拿到项目 URL 前失败。先按临时作者补齐项目 ID，
+  // 避免遗留项目阻止 auth.users 的级联删除。
+  if (userIds.length > 0) {
+    const { data, error } = await admin
+      .from('projects')
+      .select('id')
+      .in('author_id', userIds)
+    if (error) throw error
+    for (const row of data ?? []) projectIdSet.add(row.id)
+  }
+
+  const projectIds = [...projectIdSet]
 
   const reportIds = new Set<number>()
   if (userIds.length > 0) {

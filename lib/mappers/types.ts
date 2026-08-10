@@ -97,6 +97,7 @@ export interface Project {
     views_count?: number
     coins_count?: number
     comments_count?: number
+    completions_count?: number
     description?: string
     materials?: string[]
     steps?: ProjectStep[]
@@ -628,6 +629,7 @@ export function mapDbProject(
         views_count: ('views_count' in dbProject ? Number((dbProject as Record<string, unknown>).views_count) : 0),
         coins_count: ('coins_count' in dbProject ? Number((dbProject as Record<string, unknown>).coins_count) : 0),
         comments_count: ('comments_count' in dbProject ? Number((dbProject as Record<string, unknown>).comments_count) : 0),
+        completions_count: ('completions_count' in dbProject ? Number((dbProject as Record<string, unknown>).completions_count) : 0),
         description: dbProject.description || '',
         materials: dbProject.project_materials
             ?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Heart, ImageOff, MessageCircle } from "lucide-react";
+import { Heart, ImageOff, Images } from "lucide-react";
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
@@ -162,9 +162,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                         <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} />
                                         <span>{likesCount || 0}</span>
                                     </span>
-                                    <span className="flex items-center gap-1" title="评论数">
-                                        <MessageCircle className="h-3 w-3 text-muted-foreground/80" />
-                                        <span>{project.comments_count ?? 0}</span>
+                                    <span className="flex items-center gap-1" title="作品数">
+                                        <Images className="h-3 w-3 text-muted-foreground/80" />
+                                        <span>{project.completions_count ?? 0}</span>
                                     </span>
                                     <span className="flex items-center gap-1" title="投币数">
                                         <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
@@ -178,9 +178,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} />
                                     {likesCount || 0}
                                 </span>
-                                <span className="flex items-center gap-1" title="评论数">
-                                    <MessageCircle className="h-3 w-3 text-muted-foreground/80" />
-                                    {project.comments_count ?? 0}
+                                <span className="flex items-center gap-1" title="作品数">
+                                    <Images className="h-3 w-3 text-muted-foreground/80" />
+                                    {project.completions_count ?? 0}
                                 </span>
                                 <span className="flex items-center gap-1" title="投币数">
                                     <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
@@ -295,9 +295,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
                                 {likesCount || 0}
                             </span>
-                            <span className="flex items-center gap-1.5" title="评论数">
-                                <MessageCircle className="h-3.5 w-3.5 text-muted-foreground" />
-                                {project.comments_count ?? 0}
+                            <span className="flex items-center gap-1.5" title="作品数">
+                                <Images className="h-3.5 w-3.5 text-muted-foreground" />
+                                {project.completions_count ?? 0}
                             </span>
                             <span className="flex items-center gap-1.5" title="硬币数">
                                 <CoinIcon className="h-4 w-4 text-[hsl(var(--brand-amber))]" />
@@ -408,17 +408,17 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     </div>
 
                     <div className="flex items-center gap-4 border-t border-border/60 pt-3 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1.5" title="评论数">
-                            <MessageCircle className="h-3.5 w-3.5" />
-                            <span>{project.comments_count ?? 0} 评论</span>
+                        <span className="flex items-center gap-1.5" title="点赞数">
+                            <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                            <span>{likesCount} 喜欢</span>
+                        </span>
+                        <span className="flex items-center gap-1.5" title="作品数">
+                            <Images className="h-3.5 w-3.5" />
+                            <span>{project.completions_count ?? 0} 作品</span>
                         </span>
                         <span className="flex items-center gap-1.5" title="投币数">
                             <CoinIcon className="h-[18px] w-[18px] text-amber-500" />
                             <span>{project.coins_count || 0} 投币</span>
-                        </span>
-                        <span className="flex items-center gap-1.5" title="点赞数">
-                            <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
-                            <span>{likesCount} 喜欢</span>
                         </span>
                     </div>
                 </div>

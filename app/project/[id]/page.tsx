@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 
 import { CoinIcon } from '@/components/icons/coin-icon'
-import { ProjectComments } from '@/components/features/project-comments'
 import { ProjectInteractions } from '@/components/features/project-interactions'
 import { MobileProjectAuthorRow } from '@/components/features/project/mobile-project-author-row'
 import { MobileProjectIntro } from '@/components/features/project/mobile-project-intro'
@@ -28,7 +27,6 @@ import { ProjectCourseLink } from '@/components/features/project/project-course-
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStickyBar } from '@/components/features/project/project-detail-sticky-bar'
-import { ProjectHeroActions } from '@/components/features/project/project-hero-actions'
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
@@ -39,7 +37,6 @@ import { CATEGORY_META } from '@/lib/config/categories'
 import {
   getProjectAtIndex,
   getProjectById,
-  getProjectComments,
   getProjectCompletions,
   getProjectCompletionsCount,
   getProjectCollectionsCount,
@@ -769,7 +766,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const [
     completions,
     completionCount,
-    commentsData,
     projectCoinsReceived,
     collectionsCount,
     nextProject,
@@ -779,7 +775,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   ] = await Promise.all([
     getProjectCompletions(project.id, 8, { onePerUser: true }),
     getProjectCompletionsCount(project.id),
-    getProjectComments(project.id, 0, 5, { userId: viewer.id }),
     getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0),
     getProjectCollectionsCount(project.id),
     fromExplore && sourceIndex !== null
@@ -791,13 +786,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     getProjectAuthorSummary(project.author_id, project.author),
     Promise.resolve(null as Awaited<ReturnType<typeof getCourseLessonByWorksProjectId>>),
   ])
-
-  const {
-    comments: initialComments,
-    total: totalComments,
-    hasMore: hasMoreComments,
-    likedCommentIds: initialLikedCommentIds,
-  } = commentsData
 
   const materials = project.materials ?? []
   const steps = project.steps ?? []
@@ -1023,10 +1011,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                         {projectSummary}
                       </p>
                       <div className="flex justify-start md:justify-end">
-                        <ProjectHeroActions
+                        <ProjectInteractions
                           projectId={project.id}
+                          projectTitle={project.title}
                           likes={project.likes}
-                          collections={collectionsCount}
+                          projectOwnerId={project.author_id}
+                          projectCoinsReceived={projectCoinsReceived}
                         />
                       </div>
                     </div>
@@ -1175,25 +1165,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 ) : null}
               </aside>
 
-              <section id="project-comments-desktop" className="surface-panel hidden scroll-mt-24 overflow-hidden rounded-lg px-4 pb-5 sm:px-6 lg:col-start-1 lg:row-start-2 lg:block">
-                <ProjectComments
-                  projectId={project.id}
-                  initialComments={initialComments}
-                  initialTotal={totalComments}
-                  initialHasMore={hasMoreComments}
-                  initialLikedCommentIds={initialLikedCommentIds}
-                  commentBoxId="project-comment-box-desktop"
-                  actionsSlot={
-                    <ProjectInteractions
-                      projectId={project.id}
-                      projectTitle={project.title}
-                      likes={project.likes}
-                      projectOwnerId={project.author_id}
-                      projectCoinsReceived={projectCoinsReceived}
-                    />
-                  }
-                />
-              </section>
             </div>
 
 

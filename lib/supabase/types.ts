@@ -3348,6 +3348,10 @@ export interface Database {
         Args: { p_completion_ids: number[] }
         Returns: { completed_project_id: number; comment_count: number }[]
       }
+      get_project_completion_counts_batch: {
+        Args: { p_project_ids: number[] }
+        Returns: { project_id: number; completion_count: number }[]
+      }
       sum_author_project_likes: {
         Args: { p_author_id: string }
         Returns: number

@@ -265,7 +265,7 @@ export function WorkDetail({
           <section className="mt-8 border-t border-border pt-6" id="comments">
             <div className="mb-4 flex items-center gap-2">
               <MessageCircle className="h-5 w-5 text-[hsl(var(--brand-green))]" />
-              <h2 className="text-xl font-bold text-foreground">评论</h2>
+              <h2 className="text-xl font-bold text-foreground">留言与提问</h2>
             </div>
             <CompletionRecordComments completionId={work.id} />
           </section>
