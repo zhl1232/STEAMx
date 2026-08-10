@@ -170,6 +170,137 @@ export async function deleteUserById(userId: string) {
   if (error) throw error
 }
 
+export async function deleteSafetyGovernanceFixtures(params: {
+  userIds: string[]
+  projectIds: number[]
+}) {
+  const userIds = [...new Set(params.userIds.filter(Boolean))]
+  const projectIds = [...new Set(params.projectIds.filter((id) => Number.isInteger(id) && id > 0))]
+
+  const reportIds = new Set<number>()
+  if (userIds.length > 0) {
+    const { data, error } = await admin
+      .from('reports')
+      .select('id')
+      .in('reporter_id', userIds)
+    if (error) throw error
+    for (const row of data ?? []) reportIds.add(row.id)
+  }
+  if (projectIds.length > 0) {
+    const { data, error } = await admin
+      .from('reports')
+      .select('id')
+      .eq('content_type', 'project')
+      .in('content_id', projectIds)
+    if (error) throw error
+    for (const row of data ?? []) reportIds.add(row.id)
+  }
+
+  const caseIds = new Set<number>()
+  if (userIds.length > 0) {
+    const { data, error } = await admin
+      .from('moderation_cases')
+      .select('id')
+      .in('author_id', userIds)
+    if (error) throw error
+    for (const row of data ?? []) caseIds.add(row.id)
+  }
+  if (projectIds.length > 0) {
+    const { data, error } = await admin
+      .from('moderation_cases')
+      .select('id')
+      .eq('content_type', 'project')
+      .in('content_id', projectIds)
+    if (error) throw error
+    for (const row of data ?? []) caseIds.add(row.id)
+  }
+
+  const actionIds = new Set<number>()
+  if (userIds.length > 0) {
+    const { data, error } = await admin
+      .from('safety_actions')
+      .select('id')
+      .in('user_id', userIds)
+    if (error) throw error
+    for (const row of data ?? []) actionIds.add(row.id)
+  }
+
+  const appealIds = new Set<number>()
+  if (userIds.length > 0) {
+    const { data, error } = await admin
+      .from('safety_appeals')
+      .select('id')
+      .in('appellant_id', userIds)
+    if (error) throw error
+    for (const row of data ?? []) appealIds.add(row.id)
+  }
+  if (actionIds.size > 0) {
+    const { data, error } = await admin
+      .from('safety_appeals')
+      .select('id')
+      .in('action_id', [...actionIds])
+    if (error) throw error
+    for (const row of data ?? []) appealIds.add(row.id)
+  }
+
+  const deletionErrors: string[] = []
+  const attempt = async (label: string, operation: () => Promise<unknown>) => {
+    try {
+      await operation()
+    } catch (error) {
+      deletionErrors.push(`${label}: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+
+  if (appealIds.size > 0) {
+    await attempt('safety appeals', async () => {
+      const { error } = await admin.from('safety_appeals').delete().in('id', [...appealIds])
+      if (error) throw error
+    })
+  }
+  if (actionIds.size > 0) {
+    await attempt('safety actions', async () => {
+      const { error } = await admin.from('safety_actions').delete().in('id', [...actionIds])
+      if (error) throw error
+    })
+  }
+  if (reportIds.size > 0) {
+    await attempt('reports', async () => {
+      const { error } = await admin.from('reports').delete().in('id', [...reportIds])
+      if (error) throw error
+    })
+  }
+  if (caseIds.size > 0) {
+    await attempt('moderation cases', async () => {
+      const { error } = await admin.from('moderation_cases').delete().in('id', [...caseIds])
+      if (error) throw error
+    })
+  }
+  if (userIds.length > 0) {
+    await attempt('blocks by blocker', async () => {
+      const { error } = await admin.from('user_blocks').delete().in('blocker_id', userIds)
+      if (error) throw error
+    })
+    await attempt('blocks by blocked user', async () => {
+      const { error } = await admin.from('user_blocks').delete().in('blocked_user_id', userIds)
+      if (error) throw error
+    })
+  }
+  if (projectIds.length > 0) {
+    await attempt('projects', async () => {
+      const { error } = await admin.from('projects').delete().in('id', projectIds)
+      if (error) throw error
+    })
+  }
+  for (const userId of userIds) {
+    await attempt(`user ${userId}`, () => deleteUserById(userId))
+  }
+
+  if (deletionErrors.length > 0) {
+    throw new Error(`安全治理测试数据清理失败：${deletionErrors.join('; ')}`)
+  }
+}
+
 export async function deletePlaygroundRaceMatchByCode(code: string) {
   const normalizedCode = code.trim().toUpperCase()
   if (!normalizedCode) return

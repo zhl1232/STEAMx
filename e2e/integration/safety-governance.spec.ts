@@ -1,7 +1,7 @@
 import { expect, test, type Browser, type BrowserContext, type Page } from '@playwright/test'
 
 import { signUpAndLogin } from './helpers/auth-flow'
-import { deleteUserById } from './helpers/supabase-admin'
+import { deleteSafetyGovernanceFixtures } from './helpers/supabase-admin'
 
 const DEFAULT_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
 const RUN_ID = `${Date.now()}_${process.pid}`
@@ -61,6 +61,7 @@ test.describe('社区安全治理全链路', () => {
     let author: Session | null = null
     let reporter: Session | null = null
     let admin: Session | null = null
+    let projectId: number | null = null
 
     try {
       author = await createSession(browser, USERS.author)
@@ -82,7 +83,7 @@ test.describe('社区安全治理全链路', () => {
       })
       expect(projectResponse.status()).toBe(201)
       const projectPayload = await readJson(projectResponse)
-      const projectId = Number(projectPayload?.id)
+      projectId = Number(projectPayload?.id)
       expect(projectId).toBeGreaterThan(0)
 
       const sensitiveProjectResponse = await author.page.request.post('/api/projects', {
@@ -250,11 +251,10 @@ test.describe('社区安全治理全链路', () => {
       await expect(author.page.getByText('可正常互动')).toBeVisible()
     } finally {
       await Promise.allSettled(contexts.map((context) => context.close()))
-      await Promise.allSettled([
-        ...(author ? [deleteUserById(author.userId)] : []),
-        ...(reporter ? [deleteUserById(reporter.userId)] : []),
-        ...(admin ? [deleteUserById(admin.userId)] : []),
-      ])
+      await deleteSafetyGovernanceFixtures({
+        userIds: [author?.userId ?? '', reporter?.userId ?? '', admin?.userId ?? ''],
+        projectIds: projectId ? [projectId] : [],
+      })
     }
   })
 })
