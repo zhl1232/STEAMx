@@ -5,8 +5,8 @@ import { enqueueAutoInteractionsForTarget } from "@/lib/auto-interactions"
 import { buildObservationRewardSummary, rollbackObservationGamification } from "@/lib/api/observation-gamification"
 import { handleApiError, requireRole } from "@/lib/api/auth"
 import { logger } from "@/lib/logger"
+import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
-import { setContentModerationState } from "@/lib/safety/server"
 
 const ObservationAdminPatchSchema = z.object({
   status: z.enum(["approved", "rejected"]),
@@ -49,15 +49,24 @@ export async function PATCH(
     }
 
     const nextStatus = parsed.data.status
-    const { error: updateError } = await supabase
+    if (!supabaseAdmin) {
+      throw new Error("Observation review service is not configured")
+    }
+
+    const moderationState = nextStatus === "approved" ? "approved" : "rejected"
+    const { data: updated, error: updateError } = await supabaseAdmin
       .from("observation_events")
-      .update({ status: nextStatus } as never)
+      .update({ status: nextStatus, moderation_state: moderationState } as never)
       .eq("id", observationId)
+      .select("id, status, moderation_state")
+      .maybeSingle()
 
     if (updateError) {
       throw updateError
     }
-    await setContentModerationState('observation', observationId, nextStatus === 'approved' ? 'approved' : 'rejected')
+    if (!updated) {
+      return NextResponse.json({ error: "Observation not found" }, { status: 404 })
+    }
 
     let rewardSummary = null
     let rewardError = false

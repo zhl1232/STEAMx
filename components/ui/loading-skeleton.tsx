@@ -436,15 +436,30 @@ export function ExplorationRecordFeedCardSkeleton({ nested = false }: { nested?:
 /** 与 `ExplorationRecordGroupCard` 一致 */
 export function ExplorationRecordGroupCardSkeleton() {
   return (
-    <section className="overflow-hidden rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] shadow-xs">
-      <header className="flex items-center gap-2.5 border-b border-[hsl(var(--surface-border)/0.7)] px-3.5 py-3">
-        <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
-        <div className="min-w-0 flex-1 space-y-2">
-          <Skeleton className="h-4 w-24 rounded-full" />
-          <Skeleton className="h-3 w-32 rounded-full" />
+    <section className="relative isolate pb-2">
+      <span className="absolute inset-x-4 bottom-0 top-4 -z-20 rounded-md border border-border/45 bg-muted" />
+      <span className="absolute inset-x-2 bottom-1 top-2 -z-10 rounded-md border border-border/65 bg-background" />
+      <div className="overflow-hidden rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] shadow-xs">
+        <header className="flex items-center gap-2.5 px-3.5 py-3">
+          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+          <div className="min-w-0 flex-1 space-y-2">
+            <Skeleton className="h-4 w-24 rounded-full" />
+            <Skeleton className="h-3 w-16 rounded-full" />
+          </div>
+          <Skeleton className="h-6 w-14 rounded-full" />
+        </header>
+        <Skeleton className="mx-3.5 aspect-[16/10] rounded-sm" />
+        <div className="space-y-2 px-3.5 pb-3 pt-2.5">
+          <Skeleton className="h-3 w-20 rounded-full" />
+          <Skeleton className="h-4 w-full rounded-full" />
+          <Skeleton className="h-4 w-4/5 rounded-full" />
+          <div className="flex gap-4 border-t border-border/65 pt-2.5">
+            <Skeleton className="h-4 w-10 rounded-full" />
+            <Skeleton className="h-4 w-10 rounded-full" />
+            <Skeleton className="ml-auto h-4 w-24 rounded-full" />
+          </div>
         </div>
-      </header>
-      <ExplorationRecordFeedCardSkeleton nested />
+      </div>
     </section>
   )
 }
@@ -732,10 +747,9 @@ export function ProjectRecordsPageSkeleton() {
           </div>
           <Skeleton className="h-8 w-20 shrink-0 rounded-full" />
         </section>
-        <div className="space-y-3">
-          <ExplorationRecordFeedCardSkeleton />
+        <div className="space-y-5">
           <ExplorationRecordGroupCardSkeleton />
-          <ExplorationRecordFeedCardSkeleton />
+          <ExplorationRecordGroupCardSkeleton />
         </div>
       </div>
     </div>

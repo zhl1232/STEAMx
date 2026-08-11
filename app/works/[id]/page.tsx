@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { WorkDetail } from "@/components/features/works/work-detail"
 import { createClient } from "@/lib/supabase/server"
-import { getWorkById } from "@/lib/works/data"
+import { getWorkById, getWorkJourneyResult } from "@/lib/works/data"
 
 type WorkPageProps = {
   params: Promise<{ id: string }>
@@ -14,8 +14,9 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
   const id = Number((await params).id)
   const work = Number.isInteger(id) && id > 0 ? await getWorkById(id) : null
   if (!work) return { title: "作品未找到", robots: { index: false, follow: false } }
-  const title = `${work.author}的${work.source?.title || "作品"}`
-  const description = work.notes?.slice(0, 160) || `查看 ${work.author} 分享的 STEAM 探索作品。`
+  const contentLabel = work.recordKind === "final" ? "作品" : "探索记录"
+  const title = `${work.author}的${work.source?.title || contentLabel}`
+  const description = work.notes?.slice(0, 160) || `查看 ${work.author} 分享的 STEAM ${contentLabel}。`
   return {
     title,
     description,
@@ -35,14 +36,22 @@ export default async function WorkPage({ params, searchParams }: WorkPageProps) 
   if (!Number.isInteger(id) || id <= 0) notFound()
   const [work, supabase] = await Promise.all([getWorkById(id), createClient()])
   if (!work) notFound()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  const shareParam = (await searchParams)?.share
+  const [authResult, journeyResult, resolvedSearchParams] = await Promise.all([
+    supabase.auth.getUser(),
+    getWorkJourneyResult(work),
+    searchParams,
+  ])
+  const user = authResult.data.user
+  const shareParam = resolvedSearchParams?.share
+  const isOwner = user?.id === work.userId
   return (
     <WorkDetail
       work={work}
-      canShare={user?.id === work.userId}
+      journeyRecords={journeyResult.records}
+      journeyTotal={journeyResult.total}
+      journeyHasMore={journeyResult.hasMore}
+      canShare={isOwner && work.recordKind === "final"}
+      canPromote={isOwner && work.source?.type === "project"}
       autoOpenShare={shareParam === "1"}
     />
   )

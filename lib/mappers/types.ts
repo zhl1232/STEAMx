@@ -569,6 +569,7 @@ export interface Work {
     userId: string
     projectId: string | number | null
     courseLessonId?: number
+    explorationId?: number
     source?: WorkSource
     author: string
     avatar?: string
@@ -911,6 +912,7 @@ export function mapDbCompletion(
         userId: dbCompletion.user_id,
         projectId: dbCompletion.project_id,
         courseLessonId: dbCompletion.course_lesson_id ?? undefined,
+        explorationId: dbCompletion.exploration_id ?? undefined,
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,

@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import type { Work } from "@/lib/mappers/types"
+import type { WorkJourneyRecord } from "@/lib/works/types"
 
 import { WorkDetail } from "./work-detail"
 
@@ -9,6 +10,13 @@ const mocks = vi.hoisted(() => ({
   mutate: vi.fn(),
   myTipped: 0,
   promptLogin: vi.fn(),
+  push: vi.fn(),
+  refresh: vi.fn(),
+  toast: vi.fn(),
+}))
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mocks.push, refresh: mocks.refresh }),
 }))
 
 vi.mock("next/dynamic", () => ({
@@ -55,6 +63,10 @@ vi.mock("@/lib/context/auth-context", () => ({
 
 vi.mock("@/lib/context/login-prompt-context", () => ({
   useLoginPrompt: () => ({ promptLogin: mocks.promptLogin }),
+}))
+
+vi.mock("@/hooks/use-toast", () => ({
+  useToast: () => ({ toast: mocks.toast }),
 }))
 
 const work: Work = {
@@ -110,6 +122,49 @@ describe("WorkDetail sharing", () => {
 })
 
 describe("WorkDetail content and support actions", () => {
+  it("names the actual destination for project work navigation", () => {
+    render(<WorkDetail work={work} canShare={false} />)
+
+    expect(screen.getByRole("link", { name: "返回探索记录" })).toHaveAttribute(
+      "href",
+      "/project/7",
+    )
+    expect(screen.queryByRole("link", { name: "返回来源" })).not.toBeInTheDocument()
+  })
+
+  it("uses course lesson wording for course work navigation", () => {
+    render(
+      <WorkDetail
+        work={{
+          ...work,
+          projectId: null,
+          courseLessonId: 70,
+          source: {
+            type: "course_lesson",
+            id: 70,
+            title: "轮船",
+            href: "/courses/5/lessons/70?view=works",
+            image: "/courses/ship.webp",
+            courseId: 5,
+            courseTitle: "小班大颗粒积木",
+          },
+        }}
+        canShare={false}
+      />,
+    )
+
+    expect(screen.getByRole("link", { name: "返回课程课时" })).toHaveAttribute(
+      "href",
+      "/courses/5/lessons/70?view=works",
+    )
+  })
+
+  it("falls back to the exploration entry when no source is available", () => {
+    render(<WorkDetail work={{ ...work, source: undefined }} canShare={false} />)
+
+    expect(screen.getByRole("link", { name: "返回探索" })).toHaveAttribute("href", "/explore")
+  })
+
   it("presents the work as the shared place for messages and questions", () => {
     render(<WorkDetail work={work} canShare={false} />)
 
@@ -156,5 +211,92 @@ describe("WorkDetail content and support actions", () => {
 
     expect(screen.getByRole("heading", { name: "创作记录" })).toBeInTheDocument()
     expect(screen.getByText(work.notes!)).toBeInTheDocument()
+  })
+
+  it("shows every exploration record in chronological order before the final work", () => {
+    const journey: WorkJourneyRecord[] = [
+      {
+        id: 18,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:56:45.000Z",
+        proofImages: ["https://example.com/final.webp"],
+        notes: "完成迷宫",
+        recordKind: "final",
+      },
+      {
+        id: 15,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:54:37.000Z",
+        proofImages: ["https://example.com/observe.webp"],
+        recordKind: "progress",
+        recordType: "observation",
+      },
+      {
+        id: 17,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:55:57.000Z",
+        proofImages: ["https://example.com/insight.webp"],
+        notes: "找到更短的路线",
+        recordKind: "progress",
+        recordType: "insight",
+      },
+    ]
+
+    render(
+      <WorkDetail
+        work={{ ...work, id: 18 }}
+        journeyRecords={journey}
+        journeyTotal={51}
+        journeyHasMore
+        canShare={false}
+      />,
+    )
+
+    const timeline = screen.getByRole("region", { name: "探索过程" })
+    const records = within(timeline).getAllByRole("listitem")
+
+    expect(records).toHaveLength(3)
+    expect(records[0]).toHaveTextContent("观察记录")
+    expect(records[1]).toHaveTextContent("心得分享")
+    expect(records[2]).toHaveTextContent("最终作品")
+    expect(records[2]).toHaveTextContent("当前作品")
+    expect(screen.getByText("最近记录（部分展示）")).toBeInTheDocument()
+    expect(screen.getByText("最近 3 / 51 条记录")).toBeInTheDocument()
+    expect(screen.queryByRole("heading", { name: "创作记录" })).not.toBeInTheDocument()
+  })
+
+  it("shows unfinished exploration details and lets the owner promote any approved step", () => {
+    const journey: WorkJourneyRecord[] = [
+      {
+        id: 15,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:54:37.000Z",
+        proofImages: ["https://example.com/observe.webp"],
+        recordKind: "progress",
+        recordType: "observation",
+      },
+      {
+        id: 16,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:55:37.000Z",
+        proofImages: ["https://example.com/result.webp"],
+        recordKind: "progress",
+        recordType: "result",
+      },
+    ]
+
+    render(
+      <WorkDetail
+        work={{ ...work, id: 16, recordKind: "progress" }}
+        journeyRecords={journey}
+        canShare={false}
+        canPromote
+      />,
+    )
+
+    expect(screen.getByText("这次探索还没有完成作品")).toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "探索过程" })).toBeInTheDocument()
+    expect(screen.getAllByRole("button", { name: /把这一步设为完成作品/ })).toHaveLength(2)
+    expect(screen.queryByRole("button", { name: "分享作品" })).not.toBeInTheDocument()
   })
 })

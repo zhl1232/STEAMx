@@ -5,7 +5,6 @@ import type { Metadata } from "next"
 import { ProjectRecordsClient } from "@/components/features/project/project-records-client"
 import { ProjectRecordsPageSkeleton } from "@/components/ui/loading-skeleton"
 import {
-  fetchCompletionLikesMeta,
   getProjectById,
   getProjectCompletionById,
   getProjectCompletions,
@@ -77,12 +76,6 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
   ])
 
   const completions = mergeHighlightCompletion(rawCompletions, highlightCompletion, RECORDS_PAGE_LIMIT)
-  const likesMeta = await fetchCompletionLikesMeta(
-    completions.map((item) => item.id),
-    user?.id,
-  )
-  const likesMetaRecord = Object.fromEntries(likesMeta.entries())
-
   return (
     <Suspense fallback={<ProjectRecordsPageSkeleton />}>
       <ProjectRecordsClient
@@ -94,7 +87,6 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
         totalRecordsCount={totalRecordsCount}
         initialSort={sortBy}
         highlightCompletionId={highlightCompletionId}
-        likesMeta={likesMetaRecord}
       />
     </Suspense>
   )

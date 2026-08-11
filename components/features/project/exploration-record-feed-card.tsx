@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Heart, MessageCircle } from "lucide-react"
+import { ChevronRight, Heart, MessageCircle } from "lucide-react"
+import Link from "next/link"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import {
@@ -240,6 +241,16 @@ export function ExplorationRecordFeedCard({
             <MessageCircle className="h-4 w-4" />
             {formatCount(commentsCount)}
           </button>
+          {isFinal ? (
+            <Link
+              href={`/works/${completion.id}`}
+              aria-label={`查看 ${completion.author} 的作品详情`}
+              className="ml-auto inline-flex h-8 items-center gap-0.5 rounded-full px-2 font-semibold text-[hsl(var(--brand-green))] transition-colors hover:bg-[hsl(var(--brand-green)/0.08)]"
+            >
+              查看作品详情
+              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          ) : null}
         </div>
 
         {commentsCount > 0 ? (

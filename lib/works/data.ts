@@ -4,9 +4,12 @@ import { logger } from '@/lib/logger'
 import { mapDbCompletion, type Work, type WorkSource } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
 import type { Database, Json } from '@/lib/supabase/types'
+import type { WorkJourneyRecord, WorkJourneyResult } from '@/lib/works/types'
 
 type DbClient = SupabaseClient<Database>
 type WorkRow = Database['public']['Tables']['completed_projects']['Row']
+
+const WORK_JOURNEY_LIMIT = 50
 
 type ProfileRow = {
   id: string
@@ -207,6 +210,72 @@ export async function getWorkById(id: number): Promise<Work | null> {
   if (error) throw error
   if (!data) return null
   return (await hydrateWorks(client, [data as WorkRow]))[0] ?? null
+}
+
+function workToJourneyRecord(work: Work): WorkJourneyRecord {
+  return {
+    id: work.id,
+    completedAt: work.completedAt,
+    completedAtIso: work.completedAtIso,
+    proofImages: work.proofImages,
+    proofCaptions: work.proofCaptions,
+    proofVideoUrl: work.proofVideoUrl,
+    notes: work.notes,
+    recordKind: work.recordKind,
+    recordType: work.recordType,
+    stageLabel: work.stageLabel,
+  }
+}
+
+function rowToJourneyRecord(row: WorkRow): WorkJourneyRecord {
+  return workToJourneyRecord(mapDbCompletion(row))
+}
+
+/** Public, approved records from the same project exploration as any selected record. */
+export async function getWorkJourneyResult(work: Work): Promise<WorkJourneyResult> {
+  if (work.source?.type !== 'project') {
+    return { records: [], total: 0, hasMore: false }
+  }
+
+  // Legacy rows have no reliable session key. Showing only the selected row is
+  // safer than joining every historical record for this user/project.
+  if (work.explorationId == null) {
+    return { records: [workToJourneyRecord(work)], total: 1, hasMore: false }
+  }
+
+  const client = await createClient()
+  const { data, error, count } = await client
+    .from('completed_projects')
+    .select('*', { count: 'exact' })
+    .eq('user_id', work.userId)
+    .eq('project_id', work.source.id)
+    .eq('exploration_id', work.explorationId)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
+    .order('completed_at', { ascending: false })
+    .range(0, WORK_JOURNEY_LIMIT - 1)
+  if (error) throw error
+
+  const records = ((data || []) as WorkRow[]).map(rowToJourneyRecord)
+  if (!records.some((record) => record.id === work.id)) {
+    records.push(workToJourneyRecord(work))
+  }
+
+  records.sort((first, second) => (second.completedAtIso || '').localeCompare(first.completedAtIso || ''))
+  if (records.length > WORK_JOURNEY_LIMIT) {
+    const removableIndex = records.findLastIndex((record) => record.id !== work.id)
+    records.splice(removableIndex >= 0 ? removableIndex : records.length - 1, 1)
+  }
+
+  records.sort((first, second) => (first.completedAtIso || '').localeCompare(second.completedAtIso || ''))
+  const total = count ?? records.length
+  return { records, total, hasMore: total > records.length }
+}
+
+/** Backward-compatible array form for callers that only need the timeline rows. */
+export async function getWorkJourney(work: Work): Promise<WorkJourneyRecord[]> {
+  return (await getWorkJourneyResult(work)).records
 }
 
 export async function getUserWorks(args: {

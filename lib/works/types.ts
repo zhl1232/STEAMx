@@ -15,3 +15,23 @@ export type WorkListResult = {
   total: number
   hasMore: boolean
 }
+
+export type WorkJourneyRecord = Pick<
+  Work,
+  | 'id'
+  | 'completedAt'
+  | 'completedAtIso'
+  | 'proofImages'
+  | 'proofCaptions'
+  | 'proofVideoUrl'
+  | 'notes'
+  | 'recordKind'
+  | 'recordType'
+  | 'stageLabel'
+>
+
+export type WorkJourneyResult = {
+  records: WorkJourneyRecord[]
+  total: number
+  hasMore: boolean
+}

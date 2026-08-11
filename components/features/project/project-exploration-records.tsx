@@ -1,9 +1,8 @@
 "use client"
 
 import type { KeyboardEvent, ReactNode } from "react"
-import { Heart } from "lucide-react"
+import { ChevronRight, Heart, MessageCircle } from "lucide-react"
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { getExplorationRecordHref } from "@/lib/project/exploration-record-links"
@@ -20,7 +19,8 @@ function ExplorationRecordCard({
   projectId: string | number
   className?: string
 }) {
-  const href = getExplorationRecordHref(projectId, completion.id)
+  const isWork = completion.recordKind === "final"
+  const href = isWork ? `/works/${completion.id}` : getExplorationRecordHref(projectId, completion.id)
 
   const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
     if (event.key === " ") {
@@ -64,7 +64,7 @@ function ExplorationRecordCard({
             {completion.proofImages[0] ? (
               <OptimizedImage
                 src={completion.proofImages[0]}
-                alt={`${completion.author} 的探索记录`}
+                alt={`${completion.author} 的${isWork ? "作品" : "探索记录"}`}
                 fill
                 variant="grid"
                 className="object-cover"
@@ -77,6 +77,15 @@ function ExplorationRecordCard({
             {completion.notes || "完成了这个项目，留下了一条探索记录。"}
           </p>
           <ExplorationRecordLikes likes={completion.likes || 0} />
+          {isWork ? (
+            <span className="mt-3 flex items-center justify-between gap-2 rounded-sm bg-[hsl(var(--brand-green)/0.08)] px-2.5 py-2 text-[11px] font-semibold text-[hsl(var(--brand-green))]">
+              <span className="inline-flex min-w-0 items-center gap-1.5">
+                <MessageCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                <span className="truncate">查看作品并留言</span>
+              </span>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            </span>
+          ) : null}
         </div>
       </article>
     </Link>
@@ -151,8 +160,19 @@ export function ProjectExplorationRecordsBlock({
   className?: string
   emptyActionSlot?: ReactNode
 }) {
+  const workCount = completions.filter((completion) => completion.recordKind === "final").length
+
   return (
     <div className={className}>
+      <div className="mb-3 flex items-start gap-2.5 rounded-sm border border-[hsl(var(--brand-green)/0.2)] bg-[hsl(var(--brand-green)/0.06)] px-3 py-2.5">
+        <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-green))]" aria-hidden="true" />
+        <p className="min-w-0 text-xs leading-5 text-muted-foreground">
+          <span className="font-semibold text-foreground">想留言或提问？</span>{" "}
+          {workCount > 0
+            ? "打开下面的作品，在作品详情里交流。"
+            : "暂时还没有作品；上传作品后，就可以在作品详情里留言和提问。"}
+        </p>
+      </div>
       <ProjectExplorationRecordsHorizontal
         projectId={projectId}
         completions={completions}

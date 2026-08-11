@@ -206,16 +206,24 @@ function CompletionCommentItem({
 }) {
   const displayName = comment.author || "探索者"
   const canReport = Boolean(viewerId && comment.userId && viewerId !== comment.userId)
+  const commentKindLabel = comment.parent_id ? "回复" : "评论"
 
   return (
     <div className="rounded-sm bg-muted/40 px-3 py-2">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold text-foreground">{displayName}</p>
+        <p className="min-w-0 flex-1 truncate text-xs text-foreground">
+          <span className="font-semibold">{displayName}</span>
+          {comment.reply_to_username ? (
+            <span className="ml-1.5 text-[11px] font-normal text-muted-foreground">
+              回复 @{comment.reply_to_username}
+            </span>
+          ) : null}
+        </p>
         <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
             onClick={() => onReply(Number(comment.id), displayName)}
-            className="text-[11px] font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))]"
+            className="inline-flex h-11 min-w-11 items-center justify-center rounded-full px-2 text-[11px] font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))]"
           >
             回复
           </button>
@@ -223,19 +231,16 @@ function CompletionCommentItem({
             <ReportDialog contentType="completion_comment" contentId={comment.id}>
               <button
                 type="button"
-                aria-label={`举报 ${displayName} 的评论`}
-                className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground hover:text-destructive"
+                aria-label={`举报 ${displayName} 的${commentKindLabel}`}
+                title="举报"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground/70 transition-colors hover:bg-muted hover:text-destructive focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-destructive/40"
               >
-                <Flag className="h-3 w-3" />
-                举报
+                <Flag className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             </ReportDialog>
           ) : null}
         </div>
       </div>
-      {comment.reply_to_username ? (
-        <p className="mt-0.5 text-[11px] text-muted-foreground">回复 @{comment.reply_to_username}</p>
-      ) : null}
       <p className="mt-1 text-sm leading-5 text-foreground whitespace-pre-wrap wrap-break-word">{comment.content}</p>
     </div>
   )

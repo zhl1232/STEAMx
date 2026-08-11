@@ -2,19 +2,27 @@
 
 import Link from "next/link"
 import dynamic from "next/dynamic"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, BookOpen, Coins, Heart, Images, MessageCircle, Share2, Wrench } from "lucide-react"
+import { ArrowLeft, BookOpen, Coins, Flag, Heart, Images, MessageCircle, Share2, Wrench } from "lucide-react"
 
 import { CompletionRecordComments } from "@/components/features/project/completion-record-comments"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import type { Work } from "@/lib/mappers/types"
+import {
+  parseExplorationRecordNotes,
+  resolveRecordTypeLabel,
+  resolveStageLabel,
+} from "@/lib/project/exploration-record-meta"
 import { cn } from "@/lib/utils"
+import type { WorkJourneyRecord } from "@/lib/works/types"
 
 type LikeMeta = { count: number; isLiked: boolean }
 
@@ -25,13 +33,23 @@ const ShareWorkDialog = dynamic(
 
 export function WorkDetail({
   work,
+  journeyRecords = [],
+  journeyTotal,
+  journeyHasMore = false,
   canShare,
+  canPromote = false,
   autoOpenShare = false,
 }: {
   work: Work
+  journeyRecords?: WorkJourneyRecord[]
+  journeyTotal?: number
+  journeyHasMore?: boolean
   canShare: boolean
+  canPromote?: boolean
   autoOpenShare?: boolean
 }) {
+  const router = useRouter()
+  const { toast } = useToast()
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const queryClient = useQueryClient()
@@ -84,6 +102,37 @@ export function WorkDetail({
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["completion_likes", work.id] }),
   })
 
+  const promoteMutation = useMutation({
+    mutationFn: async (completionId: number) => {
+      const response = await fetch(`/api/completions/${completionId}/promote`, {
+        method: "POST",
+      })
+      const payload = (await response.json().catch(() => null)) as {
+        id?: number
+        error?: string
+      } | null
+      if (!response.ok || !payload?.id) {
+        throw new Error(payload?.error || "暂时无法设为完成作品")
+      }
+      return { id: payload.id }
+    },
+    onSuccess: ({ id }) => {
+      toast({
+        title: "已设为完成作品",
+        description: "原来的图片和记录都已保留。",
+      })
+      router.push(`/works/${id}?share=1`)
+      router.refresh()
+    },
+    onError: (error) => {
+      toast({
+        title: "设置失败",
+        description: error instanceof Error ? error.message : "请稍后重试",
+        variant: "destructive",
+      })
+    },
+  })
+
   const handleLike = () => {
     if (!user) {
       promptLogin(handleLike, { title: "登录以点赞", description: "登录后即可支持这件作品" })
@@ -92,9 +141,39 @@ export function WorkDetail({
     likeMutation.mutate()
   }
 
-  const sourceLabel = source?.type === "course_lesson" ? "课程作品" : "项目作品"
+  const effectiveJourneyRecords: WorkJourneyRecord[] = journeyRecords.length > 0
+    ? journeyRecords
+    : [{
+        id: work.id,
+        completedAt: work.completedAt,
+        completedAtIso: work.completedAtIso,
+        proofImages: work.proofImages,
+        proofCaptions: work.proofCaptions,
+        proofVideoUrl: work.proofVideoUrl,
+        notes: work.notes,
+        recordKind: work.recordKind,
+        recordType: work.recordType,
+        stageLabel: work.stageLabel,
+      }]
+  const chronologicalJourney = [...effectiveJourneyRecords].sort((first, second) =>
+    (first.completedAtIso || "").localeCompare(second.completedAtIso || ""),
+  )
+  const effectiveJourneyTotal = Math.max(journeyTotal ?? 0, chronologicalJourney.length)
+  const journeyHasFinal = chronologicalJourney.some((record) => record.recordKind === "final")
+  const sourceLabel = source?.type === "course_lesson"
+    ? "课程作品"
+    : journeyHasFinal
+      ? "项目作品"
+      : "项目探索"
+  const sourceBackLabel = source?.type === "project"
+    ? "返回探索记录"
+    : source?.type === "course_lesson"
+      ? "返回课程课时"
+      : "返回探索"
   const SourceIcon = source?.type === "course_lesson" ? BookOpen : Wrench
   const hasTippedCompletion = myTippedCompletion > 0
+  const showJourney = chronologicalJourney.length > 1 || work.recordKind === "progress"
+  const ownerCanPromote = canPromote && !journeyHasFinal
 
   return (
     <main className="page-shell pb-24 pt-4 md:py-8">
@@ -102,7 +181,7 @@ export function WorkDetail({
         <Button variant="ghost" asChild className="-ml-3 min-h-11 px-3">
           <Link href={source?.href || "/explore"}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            返回来源
+            {sourceBackLabel}
           </Link>
         </Button>
         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
@@ -250,10 +329,34 @@ export function WorkDetail({
               {work.status === "rejected" ? `作品未通过：${work.rejectionReason || "请修改后重新提交"}` : "作品正在审核中，仅你自己可见。"}
             </div>
           ) : null}
+
+          {!journeyHasFinal && source?.type === "project" ? (
+            <div className="rounded-sm bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2.5 text-sm leading-6 text-foreground">
+              <p className="font-semibold">这次探索还没有完成作品</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {ownerCanPromote
+                  ? "如果某一步已经是最终成果，可以在探索过程中直接把它设为完成作品。"
+                  : "作者仍在继续记录，当前步骤也可以正常查看和交流。"}
+              </p>
+            </div>
+          ) : null}
         </aside>
 
         <section className="min-w-0 lg:col-start-1 lg:row-start-2">
-          {work.notes?.trim() ? (
+          {showJourney ? (
+            <WorkJourneyTimeline
+              records={chronologicalJourney}
+              currentWorkId={work.id}
+              hasFinal={journeyHasFinal}
+              totalCount={effectiveJourneyTotal}
+              hasMore={journeyHasMore}
+              canPromote={ownerCanPromote}
+              promotingId={promoteMutation.isPending ? promoteMutation.variables : undefined}
+              onPromote={(completionId) => promoteMutation.mutate(completionId)}
+            />
+          ) : null}
+
+          {work.notes?.trim() && !showJourney ? (
             <section className="mt-8 border-t border-border pt-6">
               <h2 className="text-xl font-bold text-foreground">创作记录</h2>
               <p className="mt-3 max-w-[70ch] whitespace-pre-wrap text-base leading-7 text-foreground/82">
@@ -284,5 +387,175 @@ export function WorkDetail({
         <ShareWorkDialog work={work} open={shareOpen} onOpenChange={setShareOpen} />
       ) : null}
     </main>
+  )
+}
+
+const journeyTimeFormatter = new Intl.DateTimeFormat("zh-CN", {
+  timeZone: "Asia/Shanghai",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+})
+
+function formatJourneyTime(record: WorkJourneyRecord) {
+  if (!record.completedAtIso) return record.completedAt
+  const date = new Date(record.completedAtIso)
+  return Number.isNaN(date.getTime()) ? record.completedAt : journeyTimeFormatter.format(date)
+}
+
+function WorkJourneyTimeline({
+  records,
+  currentWorkId,
+  hasFinal,
+  totalCount,
+  hasMore,
+  canPromote,
+  promotingId,
+  onPromote,
+}: {
+  records: WorkJourneyRecord[]
+  currentWorkId: number
+  hasFinal: boolean
+  totalCount: number
+  hasMore: boolean
+  canPromote: boolean
+  promotingId?: number
+  onPromote: (completionId: number) => void
+}) {
+  return (
+    <section id="exploration-process" className="mt-8 scroll-mt-24 border-t border-border pt-6" aria-labelledby="work-journey-heading">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold text-[hsl(var(--brand-green))]">
+            {hasMore ? "最近记录（部分展示）" : hasFinal ? "从第一次记录到最终作品" : "按时间记录每一步"}
+          </p>
+          <h2 id="work-journey-heading" className="mt-1 text-xl font-bold text-foreground">探索过程</h2>
+        </div>
+        <span className="shrink-0 text-right text-xs font-medium tabular-nums text-muted-foreground">
+          {hasMore ? `最近 ${records.length} / ${totalCount} 条记录` : `${records.length} 条记录`}
+        </span>
+      </div>
+
+      <ol className="mt-5" aria-label="按时间排列的探索记录">
+        {records.map((record, index) => {
+          const parsed = parseExplorationRecordNotes(record.notes)
+          const isFinal = record.recordKind === "final"
+          const isCurrent = record.id === currentWorkId
+          const recordLabel = isFinal
+            ? "最终作品"
+            : resolveRecordTypeLabel(record) || `过程记录 ${index + 1}`
+          const stageLabel = resolveStageLabel(record)
+
+          return (
+            <li key={record.id} className="grid grid-cols-[32px_minmax(0,1fr)] gap-3">
+              <div className="relative flex justify-center" aria-hidden="true">
+                {index < records.length - 1 ? (
+                  <span className="absolute bottom-0 top-7 w-px bg-[hsl(var(--surface-border-strong)/0.7)]" />
+                ) : null}
+                <span
+                  className={cn(
+                    "relative z-10 grid h-7 w-7 place-items-center rounded-full text-[11px] font-bold",
+                    isFinal
+                      ? "bg-[hsl(var(--brand-green))] text-[hsl(var(--brand-green-foreground))]"
+                      : "bg-[hsl(var(--surface-muted))] text-foreground ring-1 ring-inset ring-border",
+                  )}
+                >
+                  {isFinal ? <Flag className="h-3.5 w-3.5" /> : index + 1}
+                </span>
+              </div>
+
+              <article
+                className={cn(
+                  "min-w-0 pb-6",
+                  isFinal && "mb-1 rounded-sm bg-[hsl(var(--brand-green)/0.06)] p-3",
+                )}
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <time
+                    dateTime={record.completedAtIso}
+                    className="text-xs font-semibold text-muted-foreground"
+                  >
+                    {formatJourneyTime(record)}
+                  </time>
+                  <span
+                    className={cn(
+                      "rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                      isFinal
+                        ? "bg-[hsl(var(--brand-green)/0.14)] text-[hsl(var(--brand-green))]"
+                        : "bg-muted text-foreground/75",
+                    )}
+                  >
+                    {recordLabel}
+                  </span>
+                  {stageLabel ? (
+                    <span className="text-[11px] text-muted-foreground">阶段：{stageLabel}</span>
+                  ) : null}
+                  {isCurrent ? (
+                    <span className="text-[11px] font-semibold text-[hsl(var(--brand-green))]">
+                      {isFinal ? "当前作品" : "当前记录"}
+                    </span>
+                  ) : null}
+                </div>
+
+                {parsed.body ? (
+                  <p className="mt-2 max-w-[68ch] whitespace-pre-wrap text-sm leading-6 text-foreground/82">
+                    {parsed.body}
+                  </p>
+                ) : null}
+
+                {record.proofImages.length > 0 ? (
+                  <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {record.proofImages.map((image, imageIndex) => (
+                      <figure key={`${image}-${imageIndex}`} className="w-28 shrink-0">
+                        <div className="relative aspect-4/3 overflow-hidden rounded-sm bg-muted">
+                          <OptimizedImage
+                            src={image}
+                            alt={`${recordLabel}图片 ${imageIndex + 1}`}
+                            fill
+                            variant="thumbnail"
+                            className="object-cover"
+                          />
+                        </div>
+                        {record.proofCaptions?.[imageIndex] ? (
+                          <figcaption className="mt-1 line-clamp-2 text-[11px] leading-4 text-muted-foreground">
+                            {record.proofCaptions[imageIndex]}
+                          </figcaption>
+                        ) : null}
+                      </figure>
+                    ))}
+                  </div>
+                ) : null}
+
+                {record.proofVideoUrl ? (
+                  <video
+                    src={record.proofVideoUrl}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="mt-3 max-h-72 w-full rounded-sm bg-black"
+                  />
+                ) : null}
+
+                {canPromote && !isFinal ? (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    className="mt-3 min-h-11 border-[hsl(var(--brand-green)/0.35)] text-[hsl(var(--brand-green))]"
+                    onClick={() => onPromote(record.id)}
+                    disabled={promotingId !== undefined}
+                  >
+                    <Flag className="mr-1.5 h-4 w-4" aria-hidden="true" />
+                    {promotingId === record.id ? "正在设置…" : "把这一步设为完成作品"}
+                  </Button>
+                ) : null}
+              </article>
+            </li>
+          )
+        })}
+      </ol>
+    </section>
   )
 }

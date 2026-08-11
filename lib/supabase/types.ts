@@ -2742,7 +2742,7 @@ export interface Database {
       }
       xp_logs: {
         Row: {
-          id: number
+          id: string
           user_id: string
           action_type: string
           resource_id: string | null
@@ -2750,7 +2750,7 @@ export interface Database {
           created_at: string
         }
         Insert: {
-          id?: number
+          id?: string
           user_id: string
           action_type: string
           resource_id?: string | null
@@ -2758,7 +2758,7 @@ export interface Database {
           created_at?: string
         }
         Update: {
-          id?: number
+          id?: string
           user_id?: string
           action_type?: string
           resource_id?: string | null
@@ -3107,6 +3107,10 @@ export interface Database {
       }
       repair_completion_rewards: {
         Args: { p_apply?: boolean }
+        Returns: Json
+      }
+      promote_progress_completion_to_final: {
+        Args: { p_completion_id: number }
         Returns: Json
       }
       system_reject_completion: {

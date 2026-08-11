@@ -1,12 +1,10 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
-import { useQuery } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Sprout } from "lucide-react"
 
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
-import { ExplorationRecordFeedCard } from "@/components/features/project/exploration-record-feed-card"
 import { RecordTypePickerSheet } from "@/components/features/project/record-type-picker-sheet"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Button } from "@/components/ui/button"
@@ -23,12 +21,14 @@ import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { ExplorationRecordGroupCard } from "@/components/features/project/exploration-record-group"
-import { groupCompletionsByExplorer } from "@/lib/project/group-exploration-records"
-import type { CompletionLikeMeta } from "@/lib/api/explore-data"
+import {
+  filterExplorationRecordGroups,
+  groupCompletionsByExploration,
+} from "@/lib/project/group-exploration-records"
 import { explorationRecordDomId } from "@/lib/project/exploration-record-links"
 import { RECORD_TYPE_OPTIONS, matchesRecordTypeFilter } from "@/lib/project/exploration-record-meta"
 import { cn } from "@/lib/utils"
-import type { Comment, ProjectCompletion } from "@/lib/mappers/types"
+import type { ProjectCompletion } from "@/lib/mappers/types"
 
 type FeedTab = "latest" | "featured"
 type DialogMode = "progress" | "final"
@@ -42,7 +42,6 @@ interface ProjectRecordsClientProps {
   totalRecordsCount: number
   initialSort: FeedTab
   highlightCompletionId?: number | null
-  likesMeta: Record<number, CompletionLikeMeta>
 }
 
 export function ProjectRecordsClient({
@@ -54,7 +53,6 @@ export function ProjectRecordsClient({
   totalRecordsCount,
   initialSort,
   highlightCompletionId = null,
-  likesMeta,
 }: ProjectRecordsClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -80,33 +78,10 @@ export function ProjectRecordsClient({
     return completions.filter((item) => matchesRecordTypeFilter(item, typeFilter))
   }, [completions, typeFilter])
 
-  const grouped = useMemo(() => groupCompletionsByExplorer(filtered), [filtered])
-
-  const completionIdsWithComments = useMemo(
-    () =>
-      filtered
-        .filter((item) => (item.commentsCount ?? 0) > 0)
-        .map((item) => item.id),
-    [filtered],
-  )
-
-  const { data: commentPreviews = {} } = useQuery({
-    queryKey: ["completion_comments", "preview", completionIdsWithComments.join(",")],
-    queryFn: async () => {
-      if (completionIdsWithComments.length === 0) {
-        return {} as Record<string, Comment[]>
-      }
-      const params = new URLSearchParams({ ids: completionIdsWithComments.join(",") })
-      const response = await fetch(`/api/completions/comments/preview?${params.toString()}`)
-      if (!response.ok) {
-        return {} as Record<string, Comment[]>
-      }
-      const payload = await response.json()
-      return ((payload?.previews as Record<string, Comment[]>) || {}) as Record<string, Comment[]>
-    },
-    enabled: completionIdsWithComments.length > 0,
-    staleTime: 30_000,
-  })
+  const grouped = useMemo(() => {
+    const allGroups = groupCompletionsByExploration(completions)
+    return filterExplorationRecordGroups(allGroups, typeFilter)
+  }, [completions, typeFilter])
 
   const hasOwnProgress = useMemo(() => {
     if (!user?.id) return false
@@ -326,6 +301,12 @@ export function ProjectRecordsClient({
           </section>
         ) : null}
 
+        {totalRecordsCount > completions.length ? (
+          <p className="mb-3 text-xs leading-5 text-muted-foreground">
+            当前展示最近 {completions.length} 条公开记录，共 {totalRecordsCount} 条；卡片中的步数按当前列表统计。
+          </p>
+        ) : null}
+
         {isPending ? (
           <div className="py-8 text-center text-sm text-muted-foreground">加载中…</div>
         ) : filtered.length === 0 ? (
@@ -338,8 +319,8 @@ export function ProjectRecordsClient({
           <RecordsFeedList
             groups={grouped}
             highlightedId={highlightedId}
-            likesMeta={likesMeta}
-            commentPreviews={commentPreviews}
+            currentUserId={user?.id}
+            isPartial={totalRecordsCount > completions.length}
           />
         )}
       </RecordsPageContent>
@@ -448,35 +429,25 @@ function FeedTabButton({
 function RecordsFeedList({
   groups,
   highlightedId,
-  likesMeta,
-  commentPreviews,
+  currentUserId,
+  isPartial,
 }: {
-  groups: ReturnType<typeof groupCompletionsByExplorer>
+  groups: ReturnType<typeof groupCompletionsByExploration>
   highlightedId: number | null
-  likesMeta: Record<number, CompletionLikeMeta>
-  commentPreviews: Record<string, Comment[]>
+  currentUserId?: string
+  isPartial: boolean
 }) {
   return (
-    <div className="space-y-3">
-      {groups.map((group) =>
-        group.posts.length === 1 ? (
-          <ExplorationRecordFeedCard
-            key={group.posts[0].id}
-            completion={group.posts[0]}
-            highlighted={highlightedId === group.posts[0].id}
-            initialLikeMeta={likesMeta[group.posts[0].id]}
-            commentPreviews={commentPreviews[String(group.posts[0].id)]}
-          />
-        ) : (
-          <ExplorationRecordGroupCard
-            key={group.userId}
-            group={group}
-            highlightedId={highlightedId}
-            likesMeta={likesMeta}
-            commentPreviews={commentPreviews}
-          />
-        ),
-      )}
+    <div className="space-y-5 pb-2">
+      {groups.map((group) => (
+        <ExplorationRecordGroupCard
+          key={group.key}
+          group={group}
+          highlighted={group.posts.some((post) => post.id === highlightedId)}
+          currentUserId={currentUserId}
+          isPartial={isPartial}
+        />
+      ))}
     </div>
   )
 }
