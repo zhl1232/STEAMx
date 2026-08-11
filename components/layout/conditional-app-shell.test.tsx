@@ -100,7 +100,7 @@ describe('ConditionalAppShell mobile header policy', () => {
     mockUseAuth.mockReturnValue({ user: null })
   })
 
-  it.each(['/leaderboard', '/admin', '/admin/projects/1', '/moderator/apply', '/playground'])(
+  it.each(['/leaderboard', '/admin', '/admin/projects/1', '/moderator/apply', '/playground', '/works/18'])(
     'does not add the shell mobile global header on %s',
     (pathname) => {
       renderShell(pathname)
@@ -148,6 +148,11 @@ describe('ConditionalAppShell mobile header policy', () => {
 
     unmount()
     renderShell('/playground/minesweeper', <div data-testid="page-content" />)
+
+    expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
+
+    unmount()
+    renderShell('/works/18', <div data-testid="page-content" />)
 
     expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
   })

@@ -31,6 +31,7 @@ const pageOwnedMobileHeaderRoots = [
   '/users',
   '/settings',
   '/project',
+  '/works',
   '/shop',
   '/coins',
   '/nature',
@@ -99,6 +100,7 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
     pathname.startsWith('/share') ||
     pathname.startsWith('/pbl/') ||
     pathname.startsWith('/playground/') ||
+    pathname.startsWith('/works/') ||
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||
     pathname.startsWith('/project/') ||

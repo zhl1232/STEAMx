@@ -49,6 +49,8 @@
 | `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
 | `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（只引导使用项目封装的 `pnpm db:push`；长命令在手机端限制于代码块内部横向滚动） |
 
+> `/works/[id]` 移动端详情页使用页面自有的单一返回/标题页头，隐藏全局 Logo 页头与底部导航；顶部只保留探索状态，来源信息由详情中的来源卡承载，桌面端继续保留完整全局导航。
+
 ### 全局文件
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
 - `app/globals.css` — 全局样式与 CSS 变量；Tailwind CSS 4 CSS-first 配置入口（`@theme` / `@utility` / `@plugin`）；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token

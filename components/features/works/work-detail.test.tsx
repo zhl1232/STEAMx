@@ -132,6 +132,14 @@ describe("WorkDetail content and support actions", () => {
     expect(screen.queryByRole("link", { name: "返回来源" })).not.toBeInTheDocument()
   })
 
+  it("uses a page-owned mobile title bar for the detail view", () => {
+    render(<WorkDetail work={work} canShare={false} />)
+
+    expect(screen.getByRole("button", { name: "返回探索记录" })).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "会跑的小车" })).toBeInTheDocument()
+    expect(screen.getByText("已完成探索")).toBeInTheDocument()
+  })
+
   it("uses course lesson wording for course work navigation", () => {
     render(
       <WorkDetail

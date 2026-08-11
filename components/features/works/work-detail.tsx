@@ -11,6 +11,7 @@ import { CompletionRecordComments } from "@/components/features/project/completi
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
+import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
@@ -189,33 +190,42 @@ export function WorkDetail({
   const ownerCanPromote = canPromote && !journeyHasFinal
 
   return (
-    <main className="page-shell pb-24 pt-4 md:py-8">
-      <nav className="mb-5 flex items-center justify-between gap-3" aria-label="作品路径">
-        <Button variant="ghost" asChild className="-ml-3 min-h-11 px-3">
-          <Link href={source?.href || "/explore"}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {sourceBackLabel}
-          </Link>
-        </Button>
-        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
-          <SourceIcon className="h-4 w-4" />
-          {source ? `来自${sourceContextLabel}` : sourceLabel}
-        </span>
-      </nav>
+    <>
+      <div className="md:hidden">
+        <MobilePageHeader
+          title={source?.title || "作品详情"}
+          fallbackHref={source?.href || "/explore"}
+          backLabel={sourceBackLabel}
+        />
+      </div>
+
+      <div className="page-shell pb-24 pt-4 md:py-8">
+        <nav className="mb-5 hidden items-center justify-between gap-3 md:flex" aria-label="作品路径">
+          <Button variant="ghost" asChild className="-ml-3 min-h-11 px-3">
+            <Link href={source?.href || "/explore"}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              {sourceBackLabel}
+            </Link>
+          </Button>
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
+            <SourceIcon className="h-4 w-4" />
+            {source ? `来自${sourceContextLabel}` : sourceLabel}
+          </span>
+        </nav>
 
       <header className="mb-4 max-w-3xl">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+          <span className="hidden items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))] md:inline-flex">
             作品详情
           </span>
           <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-green)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))]">
             {journeyHasFinal ? "已完成探索" : "探索进行中"}
           </span>
         </div>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h1 className="sr-only font-bold tracking-tight text-foreground md:not-sr-only md:mt-3 md:text-3xl">
           {source?.title || "作品详情"}
         </h1>
-        <p className="mt-2 hidden text-sm leading-6 text-muted-foreground sm:block">
+        <p className="mt-2 hidden text-sm leading-6 text-muted-foreground md:block">
           {work.recordKind === "final"
             ? "把这次探索的成果留给下一次尝试。"
             : "沿着每一步记录，看看作品如何逐渐成形。"}
@@ -448,7 +458,8 @@ export function WorkDetail({
       {canShare && shareOpen ? (
         <ShareWorkDialog work={work} open={shareOpen} onOpenChange={setShareOpen} />
       ) : null}
-    </main>
+      </div>
+    </>
   )
 }
 
