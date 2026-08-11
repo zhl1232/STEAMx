@@ -27,6 +27,9 @@ export type TutorEngineOptions = {
   modelMode?: TutorModelMode
   /** Visual-only callers must not turn a failed image request into a text-only guess. */
   allowVisionFallback?: boolean
+  /** Internal planners use a deterministic, short response. */
+  temperature?: number
+  maxTokens?: number
 }
 
 function getConfig(preferVision: boolean, mode: TutorModelMode = 'text') {
@@ -126,7 +129,8 @@ export async function chatWithTutorComplete(
       },
       body: JSON.stringify({
         model,
-        temperature: 0.7,
+        temperature: options?.temperature ?? 0.7,
+        ...(typeof options?.maxTokens === 'number' ? { max_tokens: options.maxTokens } : {}),
         messages: dsMessages,
       }),
     })

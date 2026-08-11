@@ -10,7 +10,6 @@ import {
   getProjectCompletions,
   getProjectExplorationRecordsCount,
   mergeHighlightCompletion,
-  type ProjectCompletionSort,
 } from "@/lib/api/explore-data"
 import { createClient } from "@/lib/supabase/server"
 import { parseHighlightCompletionId } from "@/lib/project/exploration-record-links"
@@ -20,7 +19,7 @@ const RECORDS_PAGE_LIMIT = 48
 
 interface ProjectRecordsPageProps {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ highlight?: string; sort?: string }>
+  searchParams: Promise<{ highlight?: string }>
 }
 
 function canAccessProject(
@@ -30,10 +29,6 @@ function canAccessProject(
   if (!project) return false
   if (!project.status || project.status === "approved") return true
   return viewerId === project.author_id
-}
-
-function parseRecordsSort(value?: string | null): ProjectCompletionSort {
-  return value === "featured" ? "featured" : "latest"
 }
 
 export async function generateMetadata({ params }: ProjectRecordsPageProps): Promise<Metadata> {
@@ -53,7 +48,6 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
   const { id } = await params
   const resolvedSearchParams = await searchParams
   const highlightCompletionId = parseHighlightCompletionId(resolvedSearchParams.highlight)
-  const sortBy = parseRecordsSort(resolvedSearchParams.sort)
   const project = await getProjectById(id)
   if (!project) notFound()
 
@@ -68,7 +62,7 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
   const mode = tags.includes("鸟类") ? "observation" : "project"
 
   const [rawCompletions, totalRecordsCount, highlightCompletion] = await Promise.all([
-    getProjectCompletions(project.id, RECORDS_PAGE_LIMIT, { sortBy }),
+    getProjectCompletions(project.id, RECORDS_PAGE_LIMIT),
     getProjectExplorationRecordsCount(project.id),
     highlightCompletionId
       ? getProjectCompletionById(project.id, highlightCompletionId)
@@ -85,7 +79,6 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
         mode={mode}
         completions={completions}
         totalRecordsCount={totalRecordsCount}
-        initialSort={sortBy}
         highlightCompletionId={highlightCompletionId}
       />
     </Suspense>

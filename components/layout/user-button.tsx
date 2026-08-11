@@ -30,6 +30,11 @@ import { getMembershipSummary } from '@/lib/membership'
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
 
+interface UserButtonProps {
+  /** 移动端只展示高频入口，低频账户功能从个人中心进入。 */
+  compact?: boolean
+}
+
 function formatMembershipExpiry(value: string | null) {
   if (!value) return '长期有效'
   return new Date(value).toLocaleDateString('zh-CN', {
@@ -39,7 +44,7 @@ function formatMembershipExpiry(value: string | null) {
   })
 }
 
-export function UserButton() {
+export function UserButton({ compact = false }: UserButtonProps) {
   const { user, profile, loading, signOut, canReview } = useAuth()
   const [loginOpen, setLoginOpen] = useState(false)
 
@@ -103,7 +108,7 @@ export function UserButton() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{displayName}</p>
-            {publicEmail ? (
+            {!compact && publicEmail ? (
               <p className="text-xs leading-none text-muted-foreground">
                 {publicEmail}
               </p>
@@ -122,36 +127,42 @@ export function UserButton() {
             <span>个人中心</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/messages" className="cursor-pointer">
-            <MessageCircle className="mr-2 h-4 w-4" />
-            <span>消息中心</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/coins" className="cursor-pointer">
-            <WalletCards className="mr-2 h-4 w-4" />
-            <span>我的钱包</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/profile/library" className="cursor-pointer">
-            <Library className="mr-2 h-4 w-4" />
-            <span>内容库</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/settings/profile" className="cursor-pointer">
-            <Edit3 className="mr-2 h-4 w-4" />
-            <span>编辑资料</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/shop" className="cursor-pointer">
-            <CoinIcon className="mr-2 h-4 w-4" />
-            <span>商店</span>
-          </Link>
-        </DropdownMenuItem>
+        {!compact ? (
+          <DropdownMenuItem asChild>
+            <Link href="/messages" className="cursor-pointer">
+              <MessageCircle className="mr-2 h-4 w-4" />
+              <span>消息中心</span>
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
+        {!compact ? (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/coins" className="cursor-pointer">
+                <WalletCards className="mr-2 h-4 w-4" />
+                <span>我的钱包</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/profile/library" className="cursor-pointer">
+                <Library className="mr-2 h-4 w-4" />
+                <span>内容库</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/settings/profile" className="cursor-pointer">
+                <Edit3 className="mr-2 h-4 w-4" />
+                <span>编辑资料</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/shop" className="cursor-pointer">
+                <CoinIcon className="mr-2 h-4 w-4" />
+                <span>商店</span>
+              </Link>
+            </DropdownMenuItem>
+          </>
+        ) : null}
 
         {canReview ? (
           <DropdownMenuItem asChild>

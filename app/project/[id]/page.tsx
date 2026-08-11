@@ -479,11 +479,17 @@ function MobileBottomProjectBar({
   projectTitle,
   mode,
   collections,
+  projectAuthor,
+  projectImage,
+  projectCategory,
 }: {
   projectId: string | number
   projectTitle: string
   mode: 'project' | 'observation'
   collections: number
+  projectAuthor: string
+  projectImage: string
+  projectCategory: string
 }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[hsl(var(--surface-border)/0.86)] bg-background px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-18px_44px_-34px_rgba(15,23,42,0.46)] md:hidden">
@@ -493,6 +499,9 @@ function MobileBottomProjectBar({
         mode={mode}
         variant="bottom"
         collections={collections}
+        projectAuthor={projectAuthor}
+        projectImage={projectImage}
+        projectCategory={projectCategory}
       />
     </div>
   )
@@ -820,6 +829,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
         title={project.title}
         projectId={project.id}
         mode={mode}
+        projectAuthor={project.author}
+        projectImage={project.image}
+        projectCategory={project.category}
       />
       <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]" />
       <div className="app-shell-wide pb-28 pt-0 md:px-8 md:pb-14 md:pt-6">
@@ -881,6 +893,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 likes={project.likes}
                 projectOwnerId={project.author_id}
                 projectCoinsReceived={projectCoinsReceived}
+                projectAuthor={project.author}
+                projectImage={project.image}
+                projectCategory={project.category}
               />
             </div>
           </div>
@@ -966,6 +981,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
             projectTitle={project.title}
             mode={mode}
             collections={collectionsCount}
+            projectAuthor={project.author}
+            projectImage={project.image}
+            projectCategory={project.category}
           />
         </div>
 

@@ -805,7 +805,7 @@ async function buildCourseContext(
   }
 
   const [{ data: course }, { data: lessons }, { data: progress }, currentLessonResult] = await Promise.all([
-    supabase.from('courses').select('title, description').eq('id', courseId).maybeSingle(),
+    supabase.from('courses').select('title, description, tags').eq('id', courseId).maybeSingle(),
     supabase
       .from('course_lessons')
       .select('id, title, lesson_type')
@@ -914,7 +914,7 @@ async function buildCourseContext(
     course?.description ? `简介：${compact(course.description, 300)}` : '',
     shouldInjectGomokuFacts({
       courseTitle: course?.title,
-      courseDescription: course?.description,
+      courseTags: course?.tags,
       lessonGameKey,
     })
       ? GOMOKU_TUTOR_FACTS

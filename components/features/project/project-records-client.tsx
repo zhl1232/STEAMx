@@ -1,7 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Sprout } from "lucide-react"
 
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
@@ -27,10 +27,8 @@ import {
 } from "@/lib/project/group-exploration-records"
 import { explorationRecordDomId } from "@/lib/project/exploration-record-links"
 import { RECORD_TYPE_OPTIONS, matchesRecordTypeFilter } from "@/lib/project/exploration-record-meta"
-import { cn } from "@/lib/utils"
 import type { ProjectCompletion } from "@/lib/mappers/types"
 
-type FeedTab = "latest" | "featured"
 type DialogMode = "progress" | "final"
 
 interface ProjectRecordsClientProps {
@@ -40,7 +38,6 @@ interface ProjectRecordsClientProps {
   mode: "project" | "observation"
   completions: ProjectCompletion[]
   totalRecordsCount: number
-  initialSort: FeedTab
   highlightCompletionId?: number | null
 }
 
@@ -51,19 +48,15 @@ export function ProjectRecordsClient({
   mode,
   completions,
   totalRecordsCount,
-  initialSort,
   highlightCompletionId = null,
 }: ProjectRecordsClientProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const { toast } = useToast()
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
-  const [isPending, startTransition] = useTransition()
   const { isCompleted, isExploring, startExploration } = useProjects()
   useSyncProjectInteractions([projectId])
   const backHref = `/project/${projectId}`
-  const tab: FeedTab = searchParams.get("sort") === "featured" ? "featured" : initialSort
   const [typeFilter, setTypeFilter] = useState<string>("all")
   const [highlightedId, setHighlightedId] = useState<number | null>(null)
   const [pickerOpen, setPickerOpen] = useState(false)
@@ -89,32 +82,6 @@ export function ProjectRecordsClient({
       (item) => item.userId === user.id && item.recordKind === "progress",
     )
   }, [completions, user?.id])
-
-  const setTab = useCallback(
-    (next: FeedTab) => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (next === "latest") {
-        params.delete("sort")
-      } else {
-        params.set("sort", next)
-      }
-      startTransition(() => {
-        router.replace(`/project/${projectId}/records?${params.toString()}`, { scroll: false })
-      })
-    },
-    [projectId, router, searchParams],
-  )
-
-  useEffect(() => {
-    if (!highlightCompletionId) return
-    const exists = completions.some((item) => item.id === highlightCompletionId)
-    if (!exists) return
-    const visible = filtered.some((item) => item.id === highlightCompletionId)
-    if (!visible) {
-      setTypeFilter("all")
-      if (tab !== "latest") setTab("latest")
-    }
-  }, [highlightCompletionId, completions, filtered, tab, setTab])
 
   useEffect(() => {
     if (!highlightCompletionId) return
@@ -231,14 +198,6 @@ export function ProjectRecordsClient({
 
       <RecordsPageContent>
         <RecordsTabsRow>
-          <div className="segmented-control shrink-0">
-            <FeedTabButton active={tab === "latest"} disabled={isPending} onClick={() => setTab("latest")}>
-              最新
-            </FeedTabButton>
-            <FeedTabButton active={tab === "featured"} disabled={isPending} onClick={() => setTab("featured")}>
-              精选
-            </FeedTabButton>
-          </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
             <SelectTrigger className="control-field ml-auto h-8 w-[108px] rounded-full text-xs shadow-xs">
               <SelectValue placeholder="全部类型" />
@@ -307,9 +266,7 @@ export function ProjectRecordsClient({
           </p>
         ) : null}
 
-        {isPending ? (
-          <div className="py-8 text-center text-sm text-muted-foreground">加载中…</div>
-        ) : filtered.length === 0 ? (
+        {filtered.length === 0 ? (
           <RecordsEmptyState
             totalRecordsCount={totalRecordsCount}
             hasLoadedRecords={completions.length > 0}
@@ -398,33 +355,6 @@ function RecordsEmptyState({
   )
 }
 
-
-function FeedTabButton({
-  active,
-  disabled,
-  onClick,
-  children,
-}: {
-  active: boolean
-  disabled?: boolean
-  onClick: () => void
-  children: React.ReactNode
-}) {
-  return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={onClick}
-      className={cn(
-        "segmented-option px-4 py-1.5 text-sm",
-        active && "segmented-option-active",
-        disabled && "opacity-60",
-      )}
-    >
-      {children}
-    </button>
-  )
-}
 
 function RecordsFeedList({
   groups,

@@ -5,6 +5,7 @@ import {
   finalizeReplyAudio,
   findSpeciesAudiosForMessage,
   findSpeciesAudiosMentionedInText,
+  planTutorAudioAttachment,
   type TutorAudioRef,
 } from '@/lib/ai/tutor/audio-tags'
 import {
@@ -18,6 +19,11 @@ import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memo
 import { planTutorToolDecision, shouldPlanTutorToolDecision } from '@/lib/ai/tutor/tool-call-planner'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
 import { buildTutorReplyFocusSummary } from '@/lib/ai/tutor/reply-focus'
+import {
+  formatTutorResourceSearch,
+  searchTutorResources,
+} from '@/lib/ai/tutor/resource-search'
+import { planTutorResourceSearch } from '@/lib/ai/tutor/resource-search-planner'
 import { diagnoseScratchScreenshot, shouldDiagnoseScratchScreenshot } from '@/lib/ai/tutor/scratch-screenshot-diagnosis'
 import { hasTutorSceneCapability, resolveTutorSceneCapabilities } from '@/lib/ai/tutor/scene-capabilities'
 import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
@@ -448,14 +454,16 @@ export async function POST(request: NextRequest) {
         scratchEditorContext,
         surface,
         gameKey,
-        includeRecommendations: true,
+        // 资源候选由独立的模型规划器决定，避免每次对话加载全量课程目录或首页推荐。
+        includeRecommendations: false,
       }),
       loadTutorNotebook(supabase, user.id),
     ])
+    const sceneWithResources = scene
     timing.mark('profile_scene_notebook')
-    const canUseSpeciesAudio = hasTutorSceneCapability(scene.sceneCapabilities, 'speciesAudio')
+    const canUseSpeciesAudio = hasTutorSceneCapability(sceneWithResources.sceneCapabilities, 'speciesAudio')
     const effectiveSceneCapabilities = resolveTutorSceneCapabilities({
-      serverCapabilities: scene.sceneCapabilities,
+      serverCapabilities: sceneWithResources.sceneCapabilities,
       clientCapabilities: clientSceneCapabilities,
     })
     const scratchScreenshotDiagnosisEligible =
@@ -465,7 +473,7 @@ export async function POST(request: NextRequest) {
       shouldDiagnoseScratchScreenshot({
         content,
         images,
-        items: scene.scratchBlockItems ?? [],
+        items: sceneWithResources.scratchBlockItems ?? [],
       })
     const scratchScreenshotDiagnosisPromise = scratchScreenshotDiagnosisEligible
       ? diagnoseScratchScreenshot({ content, images, items: scene.scratchBlockItems ?? [] })
@@ -516,13 +524,27 @@ export async function POST(request: NextRequest) {
     })
 
     const conversationText = history.map((message) => message.content).join('\n')
-    const [speciesHints, scratchScreenshotDiagnosis] = await Promise.all([
+    const [speciesHints, scratchScreenshotDiagnosis, resourcePlan] = await Promise.all([
       canUseSpeciesAudio ? findSpeciesHintsForText(supabase, conversationText) : Promise.resolve([]),
       scratchScreenshotDiagnosisPromise ?? Promise.resolve(null),
+      planTutorResourceSearch(content, {
+        previousMessages: history
+          .slice(0, -1)
+          .slice(-6)
+          .filter(
+            (message): message is TutorEngineMessage & { role: 'user' | 'assistant' } =>
+              message.role === 'user' || message.role === 'assistant',
+          )
+          .map((message) => ({ role: message.role, content: message.content })),
+      }),
     ])
+    const resourceSearch = resourcePlan.shouldSearch
+      ? await searchTutorResources(supabase, resourcePlan)
+      : null
     const hintsSummary = buildSpeciesHintsSummary(speciesHints)
     timing.mark('species_hints')
     timing.mark('scratch_screenshot_diagnosis')
+    timing.mark('resource_search')
     const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
     let toolCalls: TutorToolCall[] = scratchScreenshotDiagnosis
       ? buildTutorToolCallsFromPlan({
@@ -531,10 +553,10 @@ export async function POST(request: NextRequest) {
           lessonId,
           lessonStepIndex,
           lessonStepCount,
-          scratchBlockKeywords: scene.scratchBlockKeywords,
-          scratchBlockItems: scene.scratchBlockItems,
-          scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
-          scratchBlockCategory: scene.scratchBlockCategory,
+          scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
+          scratchBlockItems: sceneWithResources.scratchBlockItems,
+          scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
+          scratchBlockCategory: sceneWithResources.scratchBlockCategory,
           scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
           selections: [
             {
@@ -546,7 +568,7 @@ export async function POST(request: NextRequest) {
         })
       : []
     if (
-      !scratchScreenshotDiagnosisEligible &&
+      !scratchScreenshotDiagnosis &&
       shouldPlanTutorToolDecision({
         contextType,
         sceneCapabilities: effectiveSceneCapabilities,
@@ -554,10 +576,10 @@ export async function POST(request: NextRequest) {
         lessonId,
         lessonStepIndex,
         lessonStepCount,
-        scratchBlockKeywords: scene.scratchBlockKeywords,
-        scratchBlockItems: scene.scratchBlockItems,
-        scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
-        scratchBlockCategory: scene.scratchBlockCategory,
+        scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
+        scratchBlockItems: sceneWithResources.scratchBlockItems,
+        scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
+        scratchBlockCategory: sceneWithResources.scratchBlockCategory,
         scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
         content,
       })
@@ -570,10 +592,10 @@ export async function POST(request: NextRequest) {
           lessonId,
           lessonStepIndex,
           lessonStepCount,
-          scratchBlockKeywords: scene.scratchBlockKeywords,
-          scratchBlockItems: scene.scratchBlockItems,
-          scratchBlockStepItemCount: scene.scratchBlockStepItemCount,
-          scratchBlockCategory: scene.scratchBlockCategory,
+          scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
+          scratchBlockItems: sceneWithResources.scratchBlockItems,
+          scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
+          scratchBlockCategory: sceneWithResources.scratchBlockCategory,
           scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
           content,
         })
@@ -615,18 +637,21 @@ export async function POST(request: NextRequest) {
             scratchEditorContext,
             surface,
             gameKey,
-            includeRecommendations: true,
+            includeRecommendations: false,
           })
         : scene
+    const promptSceneWithResources = resourceSearch
+      ? { ...promptScene, summary: [formatTutorResourceSearch(resourceSearch), promptScene.summary].filter(Boolean).join('\n\n') }
+      : promptScene
     timing.mark('prompt_scene')
     const replyFocusSummary = buildTutorReplyFocusSummary({
       toolCalls,
       previousLessonStepIndex: lessonStepIndex,
     })
     const sceneForPrompt = replyFocusSummary || hintsSummary
-      ? { ...promptScene, summary: [replyFocusSummary, promptScene.summary, hintsSummary].filter(Boolean).join('\n\n') }
-      : promptScene
-    const canUsePromptSpeciesAudio = hasTutorSceneCapability(promptScene.sceneCapabilities, 'speciesAudio')
+      ? { ...promptSceneWithResources, summary: [replyFocusSummary, promptSceneWithResources.summary, hintsSummary].filter(Boolean).join('\n\n') }
+      : promptSceneWithResources
+    const canUsePromptSpeciesAudio = hasTutorSceneCapability(promptSceneWithResources.sceneCapabilities, 'speciesAudio')
     const availableAudios = canUsePromptSpeciesAudio
       ? mergeTutorAudios(
           promptScene.availableAudios ?? [],
@@ -724,7 +749,10 @@ export async function POST(request: NextRequest) {
               await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`),
             )
           : []
-        fullReply = finalizeReplyAudio(fullReply, content, replyAudios)
+        const selectedAudio = canUsePromptSpeciesAudio
+          ? await planTutorAudioAttachment(content, fullReply, replyAudios)
+          : null
+        fullReply = finalizeReplyAudio(fullReply, selectedAudio)
         timing.mark('finalize_audio')
 
         const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }

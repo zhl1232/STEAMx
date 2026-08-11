@@ -132,6 +132,8 @@ describe('planTutorToolDecision', () => {
     })
 
     expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).toContain('普通扫雷知识问答不触发')
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).not.toContain('我卡住了，帮我看看哪一格能确定')
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[1]?.[0]?.content).toContain('我卡住了，帮我看看哪一格能确定')
   })
 
   it('returns null when no tools are available in the current context', async () => {
@@ -145,7 +147,9 @@ describe('planTutorToolDecision', () => {
     expect(chatWithTutorComplete).not.toHaveBeenCalled()
   })
 
-  it('does not invoke the planner for ordinary Scratch concept questions', async () => {
+  it('lets the model decline ordinary Scratch concept questions', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue('{"selections":[]}')
+
     await expect(
       planTutorToolDecision({
         contextType: 'course',
@@ -155,33 +159,37 @@ describe('planTutorToolDecision', () => {
         scratchBlockKeywords: ['重复执行'],
         content: '重复执行积木有什么作用？',
       }),
-    ).resolves.toBeNull()
+    ).resolves.toMatchObject({ selections: [], toolCalls: [] })
 
-    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+    expect(chatWithTutorComplete).toHaveBeenCalled()
   })
 
-  it('does not invoke the planner for ordinary minesweeper knowledge questions', async () => {
+  it('lets the model decline ordinary minesweeper knowledge questions', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue('{"selections":[]}')
+
     await expect(
       planTutorToolDecision({
         contextType: 'global',
         sceneCapabilities: ['hintMinesweeperCell'],
         content: '扫雷里数字 2 表示什么？',
       }),
-    ).resolves.toBeNull()
+    ).resolves.toMatchObject({ selections: [], toolCalls: [] })
 
-    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+    expect(chatWithTutorComplete).toHaveBeenCalled()
   })
 
-  it('does not invoke the planner for general minesweeper safety concepts', async () => {
+  it('lets the model decline general minesweeper safety concepts', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue('{"selections":[]}')
+
     await expect(
       planTutorToolDecision({
         contextType: 'global',
         sceneCapabilities: ['hintMinesweeperCell'],
         content: '怎么判断一个格子是否安全？',
       }),
-    ).resolves.toBeNull()
+    ).resolves.toMatchObject({ selections: [], toolCalls: [] })
 
-    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+    expect(chatWithTutorComplete).toHaveBeenCalled()
   })
 
   it('tells the planner when all Scratch sub-actions are already present', async () => {
@@ -285,13 +293,13 @@ describe('shouldPlanTutorToolDecision', () => {
     '什么是广播消息积木？',
     'Scratch 变量和列表有什么区别？',
     '重复执行和重复执行直到有什么区别？',
-  ])('does not use planner for ordinary Scratch knowledge intent: %s', (content) => {
+  ])('still exposes the model planner for ordinary Scratch knowledge intent: %s', (content) => {
     expect(
       shouldPlanTutorToolDecision({
         ...baseScratchCourseInput,
         content,
       }),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   it('uses planner for implicit scratch completion-style messages', () => {
@@ -312,7 +320,7 @@ describe('shouldPlanTutorToolDecision', () => {
     ).toBe(true)
   })
 
-  it('uses planner for non-Scratch tutor tools too', () => {
+  it('uses the capability check for non-Scratch tutor tools too', () => {
     expect(
       shouldPlanTutorToolDecision({
         contextType: 'challenge',
@@ -351,14 +359,14 @@ describe('shouldPlanTutorToolDecision', () => {
     '扫雷里旗子有什么用？',
     '数字 1 周围代表几个雷？',
     '为什么扫雷第一步通常不会炸？',
-  ])('does not use planner for ordinary minesweeper knowledge intent: %s', (content) => {
+  ])('still exposes the model planner for ordinary minesweeper knowledge intent: %s', (content) => {
     expect(
       shouldPlanTutorToolDecision({
         contextType: 'global',
         sceneCapabilities: ['hintMinesweeperCell'],
         content,
       }),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   it('uses planner when a Scratch learner explicitly asks to locate a block', () => {
@@ -374,7 +382,7 @@ describe('shouldPlanTutorToolDecision', () => {
     ).toBe(true)
   })
 
-  it('does not use planner for normal course or minesweeper questions', () => {
+  it('does not make the capability check depend on message keywords', () => {
     expect(
       shouldPlanTutorToolDecision({
         contextType: 'course',
@@ -384,7 +392,7 @@ describe('shouldPlanTutorToolDecision', () => {
         scratchBlockKeywords: ['重复执行'],
         content: '重复执行积木有什么作用？',
       }),
-    ).toBe(false)
+    ).toBe(true)
 
     expect(
       shouldPlanTutorToolDecision({
@@ -392,7 +400,7 @@ describe('shouldPlanTutorToolDecision', () => {
         sceneCapabilities: ['hintMinesweeperCell'],
         content: '扫雷里数字 2 表示什么？',
       }),
-    ).toBe(false)
+    ).toBe(true)
 
     expect(
       shouldPlanTutorToolDecision({
@@ -400,7 +408,7 @@ describe('shouldPlanTutorToolDecision', () => {
         sceneCapabilities: ['hintMinesweeperCell'],
         content: '怎么判断一个格子是否安全？',
       }),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   it('does not use planner when no page tools are available', () => {

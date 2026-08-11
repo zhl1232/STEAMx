@@ -28,11 +28,14 @@ export function formatGomokuCourseFact(courseId?: number | null) {
 export function shouldInjectGomokuFacts(input: {
   surface?: string | null
   courseTitle?: string | null
-  courseDescription?: string | null
+  courseTags?: string[] | null
   lessonGameKey?: string | null
 }): boolean {
   if (input.surface === 'playground') return true
   if (input.lessonGameKey === 'gomoku') return true
-  const haystack = `${input.courseTitle ?? ''} ${input.courseDescription ?? ''}`
-  return /五子棋|gomoku/i.test(haystack)
+  if (input.courseTitle?.trim() === GOMOKU_COURSE_TITLE) return true
+  return (input.courseTags ?? []).some((tag) => {
+    const normalized = typeof tag === 'string' ? tag.trim().toLowerCase() : ''
+    return normalized === '五子棋' || normalized === 'gomoku'
+  })
 }

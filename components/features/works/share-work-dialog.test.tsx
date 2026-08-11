@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { Work } from '@/lib/mappers/types'
 
-import { ShareWorkDialog } from './share-work-dialog'
+import { ShareProjectDialog, ShareWorkDialog } from './share-work-dialog'
 
 const mocks = vi.hoisted(() => ({
   domToBlob: vi.fn(),
@@ -83,5 +83,52 @@ describe('ShareWorkDialog', () => {
       expect(writeText).toHaveBeenCalledWith('http://localhost:3000/works/42')
     })
     expect(screen.getByRole('button', { name: '已复制' })).toBeInTheDocument()
+  })
+})
+
+describe('ShareProjectDialog', () => {
+  const projectWriteText = vi.fn()
+  const project = {
+    id: 7,
+    title: '会跑的小车',
+    author: '小明',
+    image: 'https://example.com/project.webp',
+    category: '科学',
+  }
+
+  beforeEach(() => {
+    mocks.domToBlob.mockClear()
+    mocks.waitUntilLoad.mockClear()
+    mocks.domToBlob.mockResolvedValue(new Blob(['poster'], { type: 'image/png' }))
+    mocks.waitUntilLoad.mockResolvedValue(undefined)
+    projectWriteText.mockReset()
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: projectWriteText },
+    })
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('uses the same poster layout with the canonical project QR code', async () => {
+    render(<ShareProjectDialog project={project} open onOpenChange={vi.fn()} />)
+
+    await waitFor(() => expect(mocks.domToBlob).toHaveBeenCalledTimes(1))
+    expect(screen.getByTitle('项目链接二维码')).toBeInTheDocument()
+    expect(screen.getByText('扫码查看完整项目')).toBeInTheDocument()
+    expect(screen.getByAltText('分享卡片预览')).toHaveAttribute('src', 'blob:poster-preview')
+  })
+
+  it('copies the canonical project link', async () => {
+    render(<ShareProjectDialog project={project} open onOpenChange={vi.fn()} />)
+    await screen.findByAltText('分享卡片预览')
+
+    fireEvent.click(screen.getByRole('button', { name: '复制链接' }))
+
+    await waitFor(() => {
+      expect(projectWriteText).toHaveBeenCalledWith('http://localhost:3000/project/7')
+    })
   })
 })

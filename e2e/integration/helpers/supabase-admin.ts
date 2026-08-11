@@ -314,6 +314,139 @@ export async function deleteSafetyGovernanceFixtures(params: {
   }
 }
 
+export type ExplorationJourneyFixture = {
+  projectId: number
+  explorationId: number
+  progressId: number
+  initialXp: number | null
+}
+
+export async function createApprovedExplorationJourneyFixture(params: {
+  userId: string
+  nonce: number
+}): Promise<ExplorationJourneyFixture> {
+  const { data: profile, error: profileError } = await admin
+    .from('profiles')
+    .select('xp')
+    .eq('id', params.userId)
+    .single()
+  if (profileError) throw profileError
+
+  const initialXp = profile?.xp == null ? null : Number(profile.xp)
+  let projectId: number | null = null
+
+  try {
+    const { data: project, error: projectError } = await admin
+      .from('projects')
+      .insert({
+        title: `E2E 探索闭环 ${params.nonce}`,
+        description: '用于验证探索记录到完成作品的真实浏览器链路。',
+        author_id: params.userId,
+        category: '科学',
+        tags: ['E2E'],
+        status: 'approved',
+        moderation_state: 'approved',
+      })
+      .select('id')
+      .single()
+    if (projectError) throw projectError
+    projectId = Number(project.id)
+
+    const { data: exploration, error: explorationError } = await admin
+      .from('project_explorations')
+      .insert({
+        user_id: params.userId,
+        project_id: projectId,
+        status: 'active',
+      })
+      .select('id')
+      .single()
+    if (explorationError) throw explorationError
+
+    const { data: progress, error: progressError } = await admin
+      .from('completed_projects')
+      .insert({
+        user_id: params.userId,
+        project_id: projectId,
+        exploration_id: exploration.id,
+        completed_at: new Date(Date.now() - 60_000).toISOString(),
+        proof_images: ['/logo.png'],
+        proof_captions: ['浏览器回归夹具图片'],
+        notes: '[成果展示] 阶段：成果展示\n这一步已经完成，可以作为最终成果。',
+        is_public: true,
+        status: 'approved',
+        reviewed_at: new Date().toISOString(),
+        record_kind: 'progress',
+        record_type: 'result',
+        stage_label: '成果展示',
+        moderation_source: 'e2e',
+        moderation_state: 'approved',
+      })
+      .select('id')
+      .single()
+    if (progressError) throw progressError
+
+    return {
+      projectId,
+      explorationId: Number(exploration.id),
+      progressId: Number(progress.id),
+      initialXp,
+    }
+  } catch (error) {
+    if (projectId) {
+      await admin.from('projects').delete().eq('id', projectId)
+    }
+    throw error
+  }
+}
+
+export async function deleteExplorationJourneyFixture(params: {
+  userId: string
+  projectId: number
+  initialXp?: number | null
+  removeUser?: boolean
+}) {
+  const { error: completionsError } = await admin
+    .from('completed_projects')
+    .delete()
+    .eq('user_id', params.userId)
+    .eq('project_id', params.projectId)
+  if (completionsError) throw completionsError
+
+  const { error: explorationsError } = await admin
+    .from('project_explorations')
+    .delete()
+    .eq('user_id', params.userId)
+    .eq('project_id', params.projectId)
+  if (explorationsError) throw explorationsError
+
+  const { error: projectError } = await admin
+    .from('projects')
+    .delete()
+    .eq('id', params.projectId)
+  if (projectError) throw projectError
+
+  const { error: xpLogError } = await admin
+    .from('xp_logs')
+    .delete()
+    .eq('user_id', params.userId)
+    .eq('action_type', 'complete_project')
+    .eq('resource_id', String(params.projectId))
+  if (xpLogError) throw xpLogError
+
+  if (params.initialXp !== undefined) {
+    const { error: profileError } = await admin
+      .from('profiles')
+      .update({ xp: params.initialXp })
+      .eq('id', params.userId)
+    if (profileError) throw profileError
+  }
+
+  if (params.removeUser) {
+    await deleteUserById(params.userId)
+  }
+}
+
 export async function deletePlaygroundRaceMatchByCode(code: string) {
   const normalizedCode = code.trim().toUpperCase()
   if (!normalizedCode) return

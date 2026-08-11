@@ -61,28 +61,38 @@ describe('Scratch screenshot diagnosis', () => {
     await expect(diagnoseScratchScreenshot(input)).resolves.toBeNull()
   })
 
-  it('does not call the visual model without an explicit screenshot review request', async () => {
+  it('lets the visual model judge natural language instead of keyword-gating the request', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue('{"conclusion":"no_action"}')
+    const ordinaryQuestion = {
+      ...input,
+      content: '我不太确定这里应该怎么继续，可以帮我看看吗？',
+    }
+
     expect(
       shouldDiagnoseScratchScreenshot({
-        ...input,
-        content: '重复执行积木有什么作用？',
+        ...ordinaryQuestion,
       }),
-    ).toBe(false)
+    ).toBe(true)
 
     await expect(
       diagnoseScratchScreenshot({
-        ...input,
-        content: '重复执行积木有什么作用？',
+        ...ordinaryQuestion,
       }),
     ).resolves.toBeNull()
-    expect(chatWithTutorComplete).not.toHaveBeenCalled()
+    expect(chatWithTutorComplete).toHaveBeenCalled()
   })
 
-  it('does not mistake ordinary questions containing “多少” for screenshot review requests', () => {
+  it('only uses input availability as the deterministic eligibility check', () => {
     expect(
       shouldDiagnoseScratchScreenshot({
         ...input,
-        content: '这个课程有多少个步骤？',
+        images: [],
+      }),
+    ).toBe(false)
+    expect(
+      shouldDiagnoseScratchScreenshot({
+        ...input,
+        items: [],
       }),
     ).toBe(false)
   })

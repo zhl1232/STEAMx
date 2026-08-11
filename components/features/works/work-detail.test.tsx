@@ -171,6 +171,42 @@ describe("WorkDetail content and support actions", () => {
     expect(screen.getByRole("heading", { name: "留言与提问" })).toBeInTheDocument()
   })
 
+  it("makes the exploration timeline primary when a work has a journey", () => {
+    const journey: WorkJourneyRecord[] = [
+      {
+        id: 15,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:54:37.000Z",
+        proofImages: ["https://example.com/observe.webp"],
+        recordKind: "progress",
+        recordType: "observation",
+      },
+      {
+        id: 18,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:56:45.000Z",
+        proofImages: ["https://example.com/final.webp"],
+        recordKind: "final",
+      },
+    ]
+
+    render(
+      <WorkDetail
+        work={{ ...work, id: 18 }}
+        journeyRecords={journey}
+        canShare={false}
+      />,
+    )
+
+    const timeline = screen.getByRole("region", { name: "探索过程" })
+    const info = screen.getByRole("complementary", { name: "作品信息" })
+
+    expect(screen.queryByRole("region", { name: "作品媒体" })).not.toBeInTheDocument()
+    expect(timeline.compareDocumentPosition(info) & 4).toBe(4)
+    expect(within(timeline).getByText("最终作品")).toBeInTheDocument()
+    expect(screen.getByText("查看探索记录 →")).toBeInTheDocument()
+  })
+
   it("places only like and coin support actions alongside the author for other viewers", () => {
     const { container } = render(<WorkDetail work={{ ...work, commentsCount: 2 }} canShare={false} />)
     const media = screen.getByRole("region", { name: "作品媒体" })

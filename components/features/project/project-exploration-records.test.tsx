@@ -57,19 +57,36 @@ describe("ProjectExplorationRecords guidance", () => {
     expect(screen.queryByText("查看作品并留言")).not.toBeInTheDocument()
   })
 
-  it("explains where to leave a message when the project has a work", () => {
+  it("keeps the populated block focused on exploration records", () => {
     render(<ProjectExplorationRecordsBlock projectId={7} completions={[finalWork]} />)
 
-    expect(screen.getByText("想留言或提问？")).toBeInTheDocument()
-    expect(screen.getByText("打开下面的作品，在作品详情里交流。")).toBeInTheDocument()
+    expect(screen.queryByText("想留言或提问？")).not.toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /查看全部探索记录/ })).toHaveAttribute(
+      "href",
+      "/project/7/records",
+    )
   })
 
-  it("explains that uploading a work unlocks messages when there are no records", () => {
+  it("keeps the empty state focused and hides the redundant records link", () => {
     render(<ProjectExplorationRecordsBlock projectId={7} completions={[]} />)
 
-    expect(
-      screen.getByText("暂时还没有作品；上传作品后，就可以在作品详情里留言和提问。"),
-    ).toBeInTheDocument()
+    expect(screen.getByText("还没有探索记录")).toBeInTheDocument()
+    expect(screen.getByText("完成一次探索后，上传作品，记录就会出现在这里。")).toBeInTheDocument()
+    expect(screen.queryByText("想留言或提问？")).not.toBeInTheDocument()
+    expect(screen.queryByRole("link", { name: /查看全部探索记录/ })).not.toBeInTheDocument()
     expect(screen.queryByText("查看作品并留言")).not.toBeInTheDocument()
+  })
+
+  it("places the empty-state action with the guidance instead of adding another block", () => {
+    render(
+      <ProjectExplorationRecordsBlock
+        projectId={7}
+        completions={[]}
+        emptyActionSlot={<button type="button">上传第一件作品</button>}
+      />,
+    )
+
+    expect(screen.getByRole("button", { name: "上传第一件作品" })).toBeInTheDocument()
+    expect(screen.queryByRole("link", { name: /查看全部探索记录/ })).not.toBeInTheDocument()
   })
 })

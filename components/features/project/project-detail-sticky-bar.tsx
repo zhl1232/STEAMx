@@ -9,12 +9,18 @@ interface ProjectDetailStickyBarProps {
   title: string
   projectId: number | string
   mode?: "project" | "observation"
+  projectAuthor?: string
+  projectImage?: string | null
+  projectCategory?: string | null
 }
 
 export function ProjectDetailStickyBar({
   title,
   projectId,
   mode = "project",
+  projectAuthor,
+  projectImage,
+  projectCategory,
 }: ProjectDetailStickyBarProps) {
   const [visible, setVisible] = useState(false)
 
@@ -73,6 +79,9 @@ export function ProjectDetailStickyBar({
           projectTitle={title}
           mode={mode}
           variant="sticky"
+          projectAuthor={projectAuthor}
+          projectImage={projectImage}
+          projectCategory={projectCategory}
         />
       </div>
     </div>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Bookmark, Flag, Heart, Rocket, Share2 } from "lucide-react"
@@ -16,6 +17,12 @@ import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { formatCount } from "@/lib/project/format-count"
 import { cn } from "@/lib/utils"
+import type { ShareProjectData } from "@/components/features/works/share-work-dialog"
+
+const ShareProjectDialog = dynamic(
+  () => import("@/components/features/works/share-work-dialog").then((module) => module.ShareProjectDialog),
+  { ssr: false },
+)
 
 interface ProjectDetailActionsProps {
   projectId: number | string
@@ -27,6 +34,9 @@ interface ProjectDetailActionsProps {
   collections?: number
   projectOwnerId?: string
   projectCoinsReceived?: number
+  projectAuthor?: string
+  projectImage?: string | null
+  projectCategory?: string | null
 }
 
 const coverIconButtonClass =
@@ -42,6 +52,9 @@ export function ProjectDetailActions({
   collections: initialCollections = 0,
   projectOwnerId,
   projectCoinsReceived = 0,
+  projectAuthor = "项目作者",
+  projectImage,
+  projectCategory,
 }: ProjectDetailActionsProps) {
   const router = useRouter()
   const { toast } = useToast()
@@ -62,6 +75,7 @@ export function ProjectDetailActions({
   useSyncProjectInteractions([projectId])
 
   const [showTipDialog, setShowTipDialog] = useState(false)
+  const [showShareDialog, setShowShareDialog] = useState(false)
 
   const collected = isCollected(projectId)
   const liked = isLiked(projectId)
@@ -180,28 +194,7 @@ export function ProjectDetailActions({
     setShowTipDialog(true)
   }
 
-  const handleShare = async () => {
-    const shareUrl = typeof window === "undefined" ? "" : window.location.href
-
-    try {
-      if (typeof navigator !== "undefined" && navigator.share) {
-        await navigator.share({
-          title: projectTitle,
-          text: `我在 STEAM 探索发现了这个项目：${projectTitle}`,
-          url: shareUrl,
-        })
-        return
-      }
-
-      if (typeof navigator !== "undefined" && navigator.clipboard && shareUrl) {
-        await navigator.clipboard.writeText(shareUrl)
-        toast({ title: "链接已复制", description: "可以分享给同学或家长一起制作" })
-      }
-    } catch (error) {
-      if ((error as Error).name === "AbortError") return
-      toast({ variant: "destructive", title: "分享失败", description: "请稍后再试" })
-    }
-  }
+  const handleShare = () => setShowShareDialog(true)
 
   const tipDialog =
     projectOwnerId && !isOwnProject ? (
@@ -214,18 +207,35 @@ export function ProjectDetailActions({
       />
     ) : null
 
+  const shareDialog = showShareDialog ? (
+    <ShareProjectDialog
+      project={{
+        id: projectId,
+        title: projectTitle,
+        author: projectAuthor,
+        image: projectImage,
+        category: projectCategory,
+      } satisfies ShareProjectData}
+      open={showShareDialog}
+      onOpenChange={setShowShareDialog}
+    />
+  ) : null
+
   if (variant === "header") {
     return (
-      <div className={cn("flex items-center gap-1", className)}>
-        <button
-          type="button"
-          onClick={handleShare}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[#26364c] transition-colors hover:bg-muted/70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring dark:text-foreground"
-          aria-label="分享项目"
-        >
-          <Share2 className="h-5 w-5" />
-        </button>
-      </div>
+      <>
+        <div className={cn("flex items-center gap-1", className)}>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-[#26364c] transition-colors hover:bg-muted/70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring dark:text-foreground"
+            aria-label="分享项目"
+          >
+            <Share2 className="h-5 w-5" />
+          </button>
+        </div>
+        {shareDialog}
+      </>
     )
   }
 
@@ -280,49 +290,53 @@ export function ProjectDetailActions({
           ) : null}
         </div>
         {tipDialog}
+        {shareDialog}
       </>
     )
   }
 
   if (variant === "sticky") {
     return (
-      <div className={cn("flex items-center gap-2", className)}>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleCollection}
-          className={cn(
-            "h-9 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-3",
-            collected && "border-[hsl(var(--brand-amber)/0.38)] text-[hsl(var(--brand-amber))]",
-          )}
-        >
-          <Bookmark className={cn("mr-1.5 h-4 w-4", collected && "fill-current")} />
-          {collected ? "已收藏" : "收藏"}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleShare}
-          shape="soft"
-          className="h-9 border-[hsl(var(--surface-border-strong))] bg-background/72 px-3"
-        >
-          <Share2 className="mr-1.5 h-4 w-4" />
-          分享
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          tone="brand"
-          shape="square"
-          onClick={handleStart}
-          className="h-9 px-3"
-        >
-          <Rocket className="mr-1.5 h-4 w-4" />
-          {primaryActionLabel}
-        </Button>
-      </div>
+      <>
+        <div className={cn("flex items-center gap-2", className)}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleCollection}
+            className={cn(
+              "h-9 rounded-xs border-[hsl(var(--surface-border-strong))] bg-background/72 px-3",
+              collected && "border-[hsl(var(--brand-amber)/0.38)] text-[hsl(var(--brand-amber))]",
+            )}
+          >
+            <Bookmark className={cn("mr-1.5 h-4 w-4", collected && "fill-current")} />
+            {collected ? "已收藏" : "收藏"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleShare}
+            shape="soft"
+            className="h-9 border-[hsl(var(--surface-border-strong))] bg-background/72 px-3"
+          >
+            <Share2 className="mr-1.5 h-4 w-4" />
+            分享
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            tone="brand"
+            shape="square"
+            onClick={handleStart}
+            className="h-9 px-3"
+          >
+            <Rocket className="mr-1.5 h-4 w-4" />
+            {primaryActionLabel}
+          </Button>
+        </div>
+        {shareDialog}
+      </>
     )
   }
 
@@ -353,12 +367,14 @@ export function ProjectDetailActions({
             {primaryActionLabel}
           </Button>
         </div>
+        {shareDialog}
       </>
     )
   }
 
   return (
-    <div className={cn("flex items-center gap-1.5", className)}>
+    <>
+      <div className={cn("flex items-center gap-1.5", className)}>
         <button
           type="button"
           onClick={handleLike}
@@ -392,6 +408,8 @@ export function ProjectDetailActions({
           <Share2 className="h-5 w-5" />
           <span>分享</span>
         </button>
-    </div>
+      </div>
+      {shareDialog}
+    </>
   )
 }

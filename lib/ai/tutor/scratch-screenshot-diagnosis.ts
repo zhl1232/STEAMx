@@ -11,9 +11,6 @@ type ScratchScreenshotDiagnosisInput = {
   items: ScratchBlockHintItem[]
 }
 
-const SCREENSHOT_REVIEW_INTENT_RE =
-  /(?:卡住|帮我(?:看|检查|核对)|请(?:看|检查)|看看|看一下|检查|核对|截图|哪里(?:不对|错|有问题)|哪儿(?:不对|错|有问题)|(?:缺少|少了|没有).{0,12}(?:积木|步骤|代码)|(?:积木|步骤|代码).{0,12}(?:缺少|少了|没有|不对|错)|怎么(?:改|做|办))/u
-
 function compact(value: string, max = 240) {
   const text = value.trim()
   return text.length > max ? `${text.slice(0, max)}…` : text
@@ -32,6 +29,7 @@ function buildDiagnosisPrompt(items: ScratchBlockHintItem[]) {
 
   return [
     '你是 Scratch 截图定位器，不是对话助手。只根据截图判断当前步骤的候选积木是否有一个可以高置信地定位给学生。',
+    '是否需要动作由你根据用户消息和截图的完整语义判断，不要用固定关键词或正则表达式门控；用户可以用任何自然表达描述求助。',
     '只能从候选列表选择 targetItemIndex，绝不能自造积木、opcode、步骤或坐标。',
     '只有截图清楚显示 Scratch 代码区，且能明确看出某个候选积木缺失、放错或仍需补做时，才返回 highlight + high。',
     '截图不完整、文字模糊、不是 Scratch、无法确认，或候选都已存在时，一律返回 no_action；不要猜测。',
@@ -63,7 +61,9 @@ function parseDiagnosis(raw: string, itemCount: number): ScratchScreenshotDiagno
 }
 
 export function shouldDiagnoseScratchScreenshot(input: ScratchScreenshotDiagnosisInput) {
-  return input.images.length > 0 && input.items.length > 0 && SCREENSHOT_REVIEW_INTENT_RE.test(input.content.trim())
+  // This only checks whether the visual model has bounded input. The model
+  // itself decides whether the message asks for a screenshot review.
+  return input.images.length > 0 && input.items.length > 0
 }
 
 export async function diagnoseScratchScreenshot(input: ScratchScreenshotDiagnosisInput) {

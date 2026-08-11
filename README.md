@@ -109,6 +109,7 @@ pnpm dev
 ## 📚 相关文档
 
 - [PROJECT_INDEX.md](./PROJECT_INDEX.md) — 完整功能索引与代码定位
+- [docs/AI_DEVELOPMENT_GUIDELINES.md](./docs/AI_DEVELOPMENT_GUIDELINES.md) — AI 意图判断与模型决策开发规范
 - [docs/database-psql.md](./docs/database-psql.md) — psql 迁移与重置说明
 - [docs/custom-sms-and-manual-users.md](./docs/custom-sms-and-manual-users.md) — 自建短信登录方案
 - [docs/PBL_CHALLENGE_SYSTEM.md](./docs/PBL_CHALLENGE_SYSTEM.md) — PBL 挑战系统设计

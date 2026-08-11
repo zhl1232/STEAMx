@@ -65,6 +65,21 @@ vi.mock('@/lib/ai/tutor/audio-tags', () => ({
   finalizeReplyAudio: vi.fn((reply: string) => reply),
   findSpeciesAudiosForMessage: vi.fn().mockResolvedValue([]),
   findSpeciesAudiosMentionedInText: vi.fn().mockResolvedValue([]),
+  planTutorAudioAttachment: vi.fn().mockResolvedValue(null),
+}))
+
+vi.mock('@/lib/ai/tutor/resource-search-planner', () => ({
+  planTutorResourceSearch: vi.fn().mockResolvedValue({
+    status: 'model',
+    shouldSearch: false,
+    queries: [],
+    resourceTypes: ['course', 'project'],
+  }),
+}))
+
+vi.mock('@/lib/ai/tutor/resource-search', () => ({
+  formatTutorResourceSearch: vi.fn(() => ''),
+  searchTutorResources: vi.fn(),
 }))
 
 vi.mock('@/lib/ai/tutor/context-builders', () => ({

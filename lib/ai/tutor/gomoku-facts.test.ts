@@ -10,12 +10,11 @@ describe('shouldInjectGomokuFacts', () => {
   it('injects for gomoku playground lessons and 五子棋 courses', () => {
     expect(shouldInjectGomokuFacts({ lessonGameKey: 'gomoku' })).toBe(true)
     expect(shouldInjectGomokuFacts({ courseTitle: '五子棋博弈论入门' })).toBe(true)
+    expect(shouldInjectGomokuFacts({ courseTags: ['gomoku'] })).toBe(true)
   })
 
   it('skips unrelated courses', () => {
-    expect(shouldInjectGomokuFacts({ courseTitle: 'Scratch 入门', lessonGameKey: 'minesweeper' })).toBe(
-      false,
-    )
+    expect(shouldInjectGomokuFacts({ courseTitle: 'Scratch 入门', courseTags: ['编程'], lessonGameKey: 'minesweeper' })).toBe(false)
   })
 })
 

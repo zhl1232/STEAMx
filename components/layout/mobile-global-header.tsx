@@ -172,7 +172,7 @@ export function MobileGlobalHeader({
             </Link>
           ) : null}
           {showNotification ? <NotificationBell /> : null}
-          {showUserButton ? <UserButton /> : null}
+          {showUserButton ? <UserButton compact /> : null}
           {rightSlot}
         </nav>
       </div>

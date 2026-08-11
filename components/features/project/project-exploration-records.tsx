@@ -111,11 +111,14 @@ function ExplorationRecordLikes({ likes }: { likes: number }) {
   )
 }
 
-function ExplorationRecordsEmptyState() {
+function ExplorationRecordsEmptyState({ action }: { action?: ReactNode }) {
   return (
     <div className="app-empty-state py-8">
       <p className="text-sm font-semibold text-foreground">还没有探索记录</p>
-      <p className="mt-1 text-xs leading-5 text-muted-foreground">完成后上传作品，成为第一个记录的人。</p>
+      <p className="mt-1 text-xs leading-5 text-muted-foreground">
+        完成一次探索后，上传作品，记录就会出现在这里。
+      </p>
+      {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
     </div>
   )
 }
@@ -124,13 +127,15 @@ export function ProjectExplorationRecordsHorizontal({
   projectId,
   completions,
   limit = 6,
+  emptyActionSlot,
 }: {
   projectId: string | number
   completions: ProjectCompletion[]
   limit?: number
+  emptyActionSlot?: ReactNode
 }) {
   if (completions.length === 0) {
-    return <ExplorationRecordsEmptyState />
+    return <ExplorationRecordsEmptyState action={emptyActionSlot} />
   }
 
   return (
@@ -160,34 +165,23 @@ export function ProjectExplorationRecordsBlock({
   className?: string
   emptyActionSlot?: ReactNode
 }) {
-  const workCount = completions.filter((completion) => completion.recordKind === "final").length
-
   return (
     <div className={className}>
-      <div className="mb-3 flex items-start gap-2.5 rounded-sm border border-[hsl(var(--brand-green)/0.2)] bg-[hsl(var(--brand-green)/0.06)] px-3 py-2.5">
-        <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--brand-green))]" aria-hidden="true" />
-        <p className="min-w-0 text-xs leading-5 text-muted-foreground">
-          <span className="font-semibold text-foreground">想留言或提问？</span>{" "}
-          {workCount > 0
-            ? "打开下面的作品，在作品详情里交流。"
-            : "暂时还没有作品；上传作品后，就可以在作品详情里留言和提问。"}
-        </p>
-      </div>
       <ProjectExplorationRecordsHorizontal
         projectId={projectId}
         completions={completions}
         limit={limit}
+        emptyActionSlot={emptyActionSlot}
       />
-      {completions.length === 0 && emptyActionSlot ? (
-        <div className="mt-3">{emptyActionSlot}</div>
+      {completions.length > 0 ? (
+        <Link
+          href={`/project/${projectId}/records`}
+          className="mt-3 flex items-center justify-center gap-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-[hsl(var(--brand-green))]"
+        >
+          查看全部探索记录
+          <ChevronRight className="h-3.5 w-3.5" />
+        </Link>
       ) : null}
-      <Link
-        href={`/project/${projectId}/records`}
-        className="mt-3 flex items-center justify-center gap-1 text-sm font-semibold text-[hsl(var(--brand-green))]"
-      >
-        查看全部探索记录
-        <ChevronRight className="h-4 w-4" />
-      </Link>
     </div>
   )
 }

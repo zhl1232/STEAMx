@@ -1,7 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 import { signUpAndLogin } from './helpers/auth-flow'
-import { deleteSafetyGovernanceFixtures } from './helpers/supabase-admin'
+import {
+  createApprovedExplorationJourneyFixture,
+  deleteExplorationJourneyFixture,
+  deleteSafetyGovernanceFixtures,
+  deleteUserById,
+  type ExplorationJourneyFixture,
+} from './helpers/supabase-admin'
 
 const DEFAULT_PASSWORD = process.env.E2E_USER_PASSWORD ?? '123456'
 
@@ -52,6 +58,78 @@ test.describe('核心业务链路', () => {
         userIds: usesSharedUser ? [] : [userId],
         projectIds: projectId ? [projectId] : [],
       })
+    }
+  })
+
+  test('探索记录 -> 完成作品 -> 作品详情与分享卡片', async ({ page, context }) => {
+    test.setTimeout(120_000)
+
+    const nonce = Date.now()
+    const usesSharedUser = Boolean(process.env.E2E_USER_EMAIL)
+    const email = process.env.E2E_USER_EMAIL ?? `e2e_journey_${nonce}@example.com`
+    const password = DEFAULT_PASSWORD
+    let userId = ''
+    let fixture: ExplorationJourneyFixture | null = null
+
+    try {
+      userId = await signUpAndLogin(page, {
+        email,
+        password,
+        fullName: 'E2E 探索者',
+        username: `e2e_journey_${nonce}`,
+      })
+      fixture = await createApprovedExplorationJourneyFixture({ userId, nonce })
+
+      await page.goto(`/project/${fixture.projectId}/records`, { waitUntil: 'domcontentloaded' })
+      const journeyLink = page.getByRole('link', { name: '查看 E2E 探索者 的完整探索详情' })
+      await expect(journeyLink).toBeVisible({ timeout: 20_000 })
+      await journeyLink.click()
+      await expect(page).toHaveURL(new RegExp(`/works/${fixture.progressId}$`))
+      await page.waitForLoadState('networkidle')
+
+      await expect(page.getByRole('heading', { name: '探索过程' })).toBeVisible()
+      const promoteButton = page.getByRole('button', { name: '把这一步设为完成作品' })
+      await expect(promoteButton).toBeVisible()
+      await expect(promoteButton).toBeEnabled()
+      const promoteResponsePromise = page.waitForResponse(
+        (response) => response.url().includes(`/api/completions/${fixture!.progressId}/promote`)
+          && response.request().method() === 'POST',
+      )
+      await promoteButton.click()
+      const promoteResponse = await promoteResponsePromise
+      expect(promoteResponse.ok()).toBeTruthy()
+      await expect(page.getByText('已设为完成作品', { exact: true })).toBeVisible({ timeout: 10_000 })
+
+      await expect(page).toHaveURL(new RegExp(`/works/${fixture.progressId}\\?share=1$`), {
+        timeout: 30_000,
+      })
+
+      const shareDialog = page.getByRole('dialog')
+      await expect(shareDialog).toBeVisible({ timeout: 20_000 })
+      await expect(shareDialog).toContainText('分享这件作品')
+      await shareDialog.getByRole('button', { name: '关闭' }).click()
+
+      const shareButton = page.getByRole('button', { name: '分享作品' })
+      await expect(shareButton).toBeVisible()
+      await shareButton.click()
+      await expect(shareDialog).toBeVisible()
+
+      const copyButton = shareDialog.getByRole('button', { name: '复制链接' })
+      await expect(copyButton).toBeEnabled({ timeout: 20_000 })
+      await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+      await copyButton.click()
+      await expect(shareDialog.getByRole('button', { name: '已复制' })).toBeVisible()
+    } finally {
+      if (fixture) {
+        await deleteExplorationJourneyFixture({
+          userId,
+          projectId: fixture.projectId,
+          initialXp: fixture.initialXp,
+          removeUser: !usesSharedUser,
+        })
+      } else if (userId && !usesSharedUser) {
+        await deleteUserById(userId)
+      }
     }
   })
 })

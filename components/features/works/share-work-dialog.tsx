@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import type { RefObject } from "react"
 import { Check, Copy, Download, Loader2, Share2 } from "lucide-react"
 import { QRCodeSVG } from "qrcode.react"
 
@@ -21,8 +22,92 @@ const POSTER_HEIGHT = 500
 const TRANSPARENT_PIXEL =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
 
-function posterFileName(workId: number) {
-  return `STEAM-作品-${workId}.png`
+export type ShareProjectData = {
+  id: number | string
+  title: string
+  author: string
+  image?: string | null
+  category?: string | null
+}
+
+type ShareCardContent = {
+  kind: "work" | "project"
+  id: number | string
+  title: string
+  author: string
+  cover?: string | null
+  sourceLabel: string
+  badgeLabel: string
+  metaLabel: string
+  sharePath: string
+  fallbackPath: string
+  fileName: string
+  qrTitle: string
+  dialogTitle: string
+  dialogDescription: string
+  footerTitle: string
+  footerDescription: readonly [string, string]
+  shareTitle: string
+  shareText: string
+  copiedToastTitle: string
+  visibilityMessage?: string | null
+}
+
+function createWorkShareContent(work: Work): ShareCardContent {
+  const title = work.source?.title || "我的 STEAM 探索作品"
+
+  return {
+    kind: "work",
+    id: work.id,
+    title,
+    author: work.author,
+    cover: work.proofImages[0],
+    sourceLabel: work.source?.type === "course_lesson" ? "课程创作" : "项目创作",
+    badgeLabel: `${work.author} 的新作品`,
+    metaLabel: `${work.author} · ${work.completedAt}`,
+    sharePath: `/works/${work.id}`,
+    fallbackPath: `works/${work.id}`,
+    fileName: `STEAM-作品-${work.id}.png`,
+    qrTitle: "作品链接二维码",
+    dialogTitle: "分享这件作品",
+    dialogDescription: "高清作品卡片已配好链接二维码",
+    footerTitle: "扫码查看完整作品",
+    footerDescription: ["看作品照片、创作记录，", "为这次探索送上鼓励。"],
+    shareTitle: `${work.author} 的 STEAM 作品`,
+    shareText: `来看看 ${work.author} 的创作作品`,
+    copiedToastTitle: "作品链接已复制",
+    visibilityMessage: !work.isPublic
+      ? "当前作品未公开，链接仅自己可访问。"
+      : work.status === "pending"
+        ? "作品正在审核，审核通过后链接将对外开放。"
+        : work.status === "rejected"
+          ? "作品未通过审核，链接暂时不会对外开放。"
+          : null,
+  }
+}
+
+function createProjectShareContent(project: ShareProjectData): ShareCardContent {
+  return {
+    kind: "project",
+    id: project.id,
+    title: project.title,
+    author: project.author,
+    cover: project.image,
+    sourceLabel: "项目创作",
+    badgeLabel: `${project.author} 的 STEAM 项目`,
+    metaLabel: `${project.author} · ${project.category || "项目探索"}`,
+    sharePath: `/project/${project.id}`,
+    fallbackPath: `project/${project.id}`,
+    fileName: `STEAM-项目-${project.id}.png`,
+    qrTitle: "项目链接二维码",
+    dialogTitle: "分享这个项目",
+    dialogDescription: "高清项目卡片已配好链接二维码",
+    footerTitle: "扫码查看完整项目",
+    footerDescription: ["看项目步骤和材料，", "一起动手完成探索。"],
+    shareTitle: `${project.author} 的 STEAM 项目`,
+    shareText: `来看看 ${project.author} 分享的项目`,
+    copiedToastTitle: "项目链接已复制",
+  }
 }
 
 function downloadBlob(blob: Blob, fileName: string) {
@@ -50,24 +135,21 @@ async function copyText(value: string) {
   input.remove()
 }
 
-export function WorkSharePoster({
-  work,
+function ShareCardPoster({
+  content,
   shareUrl,
   posterRef,
 }: {
-  work: Work
+  content: ShareCardContent
   shareUrl: string
-  posterRef: React.RefObject<HTMLDivElement | null>
+  posterRef: RefObject<HTMLDivElement | null>
 }) {
-  const sourceLabel = work.source?.type === "course_lesson" ? "课程创作" : "项目创作"
-  const title = work.source?.title || "我的 STEAM 探索作品"
-  const cover = work.proofImages[0]
   const displayShareUrl = shareUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
 
   return (
     <div
       ref={posterRef}
-      data-testid="work-share-poster"
+      data-testid={`${content.kind}-share-poster`}
       aria-hidden="true"
       className="fixed -left-[10000px] top-0 overflow-hidden"
       style={{
@@ -94,13 +176,13 @@ export function WorkSharePoster({
             <p className="mt-1 text-[8px] font-semibold leading-none text-[#5f7683]">创作成长档案</p>
           </div>
         </div>
-        <span className="text-[9px] font-bold text-[#527080]">{sourceLabel}</span>
+        <span className="text-[9px] font-bold text-[#527080]">{content.sourceLabel}</span>
       </header>
 
       <div className="relative mx-5 h-[238px] overflow-hidden rounded-[8px] bg-[#d9e7e1]">
-        {cover ? (
+        {content.cover ? (
           <OptimizedImage
-            src={cover}
+            src={content.cover}
             alt=""
             fill
             priority
@@ -109,16 +191,16 @@ export function WorkSharePoster({
           />
         ) : null}
         <div className="absolute bottom-3 left-3 bg-[#163043] px-2.5 py-1.5 text-[9px] font-bold text-white">
-          {work.author} 的新作品
+          {content.badgeLabel}
         </div>
       </div>
 
       <section className="h-[95px] px-6 pt-3.5">
         <h2 className="line-clamp-2 text-[21px] font-bold leading-[25px] text-[#132c3e]">
-          {title}
+          {content.title}
         </h2>
         <p className="mt-2 truncate text-[10px] font-semibold text-[#5f7683]">
-          {work.author} · {work.completedAt}
+          {content.metaLabel}
         </p>
       </section>
 
@@ -132,19 +214,19 @@ export function WorkSharePoster({
               marginSize={3}
               bgColor="#ffffff"
               fgColor="#163043"
-              title="作品链接二维码"
+              title={content.qrTitle}
             />
           ) : null}
         </div>
         <div className="min-w-0">
-          <p className="text-[15px] font-bold leading-5">扫码查看完整作品</p>
+          <p className="text-[15px] font-bold leading-5">{content.footerTitle}</p>
           <p className="mt-2 text-[9px] leading-4 text-[#c7d9df]">
-            看作品照片、创作记录，
+            {content.footerDescription[0]}
             <br />
-            为这次探索送上鼓励。
+            {content.footerDescription[1]}
           </p>
           <p className="mt-1.5 truncate text-[8px] font-semibold text-[#77c69d]">
-            {displayShareUrl || `works/${work.id}`}
+            {displayShareUrl || content.fallbackPath}
           </p>
         </div>
       </footer>
@@ -152,12 +234,24 @@ export function WorkSharePoster({
   )
 }
 
-export function ShareWorkDialog({
+export function WorkSharePoster({
   work,
+  shareUrl,
+  posterRef,
+}: {
+  work: Work
+  shareUrl: string
+  posterRef: RefObject<HTMLDivElement | null>
+}) {
+  return <ShareCardPoster content={createWorkShareContent(work)} shareUrl={shareUrl} posterRef={posterRef} />
+}
+
+export function ShareCardDialog({
+  content,
   open,
   onOpenChange,
 }: {
-  work: Work
+  content: ShareCardContent
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
@@ -172,8 +266,14 @@ export function ShareWorkDialog({
 
   useEffect(() => {
     if (!open) return
-    setShareUrl(new URL(`/works/${work.id}`, window.location.origin).toString())
-  }, [open, work.id])
+    setShareUrl(new URL(content.sharePath, window.location.origin).toString())
+  }, [content.sharePath, open])
+
+  useEffect(() => {
+    blobRef.current = null
+    setPosterUrl(null)
+    setCopied(false)
+  }, [content.kind, content.sharePath])
 
   useEffect(() => {
     if (!posterUrl) return
@@ -229,7 +329,7 @@ export function ShareWorkDialog({
   const handleDownload = async () => {
     try {
       const blob = await generatePoster()
-      downloadBlob(blob, posterFileName(work.id))
+      downloadBlob(blob, content.fileName)
       toast({ title: "分享卡片已保存" })
     } catch (error) {
       toast({
@@ -243,10 +343,10 @@ export function ShareWorkDialog({
   const handleShare = async () => {
     try {
       const blob = await generatePoster()
-      const file = new File([blob], posterFileName(work.id), { type: "image/png" })
+      const file = new File([blob], content.fileName, { type: "image/png" })
       const shareData = {
-        title: `${work.author} 的 STEAM 作品`,
-        text: `来看看 ${work.author} 的创作作品`,
+        title: content.shareTitle,
+        text: content.shareText,
         url: shareUrl,
       }
 
@@ -259,7 +359,7 @@ export function ShareWorkDialog({
         return
       }
 
-      downloadBlob(blob, posterFileName(work.id))
+      downloadBlob(blob, content.fileName)
       toast({ title: "分享卡片已保存", description: "可在微信中发送这张图片" })
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return
@@ -276,26 +376,18 @@ export function ShareWorkDialog({
       await copyText(shareUrl)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1_500)
-      toast({ title: "作品链接已复制" })
+      toast({ title: content.copiedToastTitle })
     } catch {
       toast({ title: "复制失败", variant: "destructive" })
     }
   }
 
-  const visibilityMessage = !work.isPublic
-    ? "当前作品未公开，链接仅自己可访问。"
-    : work.status === "pending"
-      ? "作品正在审核，审核通过后链接将对外开放。"
-      : work.status === "rejected"
-        ? "作品未通过审核，链接暂时不会对外开放。"
-        : null
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-[780px]">
         <DialogHeader>
-          <DialogTitle>分享这件作品</DialogTitle>
-          <DialogDescription>高清作品卡片已配好链接二维码</DialogDescription>
+          <DialogTitle>{content.dialogTitle}</DialogTitle>
+          <DialogDescription>{content.dialogDescription}</DialogDescription>
         </DialogHeader>
 
         <div className="grid items-start gap-6 md:grid-cols-[minmax(0,375px)_minmax(220px,1fr)]">
@@ -320,13 +412,13 @@ export function ShareWorkDialog({
 
           <div className="space-y-3">
             <div className="border-b border-border pb-4">
-              <p className="text-sm font-bold text-foreground">{work.source?.title || "STEAM 探索作品"}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{work.author} · {work.completedAt}</p>
+              <p className="text-sm font-bold text-foreground">{content.title}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{content.metaLabel}</p>
             </div>
 
-            {visibilityMessage ? (
+            {content.visibilityMessage ? (
               <p className="rounded-sm border border-[hsl(var(--brand-amber)/0.28)] bg-[hsl(var(--brand-amber)/0.08)] p-3 text-xs leading-5 text-foreground">
-                {visibilityMessage}
+                {content.visibilityMessage}
               </p>
             ) : null}
 
@@ -362,8 +454,32 @@ export function ShareWorkDialog({
           </div>
         </div>
 
-        <WorkSharePoster work={work} shareUrl={shareUrl} posterRef={posterRef} />
+        <ShareCardPoster content={content} shareUrl={shareUrl} posterRef={posterRef} />
       </DialogContent>
     </Dialog>
   )
+}
+
+export function ShareWorkDialog({
+  work,
+  open,
+  onOpenChange,
+}: {
+  work: Work
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return <ShareCardDialog content={createWorkShareContent(work)} open={open} onOpenChange={onOpenChange} />
+}
+
+export function ShareProjectDialog({
+  project,
+  open,
+  onOpenChange,
+}: {
+  project: ShareProjectData
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return <ShareCardDialog content={createProjectShareContent(project)} open={open} onOpenChange={onOpenChange} />
 }

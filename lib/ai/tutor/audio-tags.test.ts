@@ -1,12 +1,15 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+vi.mock('@/lib/ai/tutor/engine', () => ({
+  chatWithTutorComplete: vi.fn(),
+}))
+
+import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
 
 import {
   buildAudioTag,
-  enrichReplyWithAudio,
   finalizeReplyAudio,
-  findMatchingAudio,
-  isBirdCallQuery,
-  replyHasAudioTag,
+  planTutorAudioAttachment,
 } from '@/lib/ai/tutor/audio-tags'
 import { buildSpeciesPageResourceSummary } from '@/lib/ai/tutor/context-builders'
 
@@ -41,10 +44,8 @@ describe('audio tag helpers', () => {
     },
   ]
 
-  it('detects bird call questions', () => {
-    expect(isBirdCallQuery('红尾伯劳的叫声')).toBe(true)
-    expect(isBirdCallQuery('它长什么样')).toBe(false)
-    expect(isBirdCallQuery('本站正好有录音，可以对比听听')).toBe(true)
+  beforeEach(() => {
+    vi.resetAllMocks()
   })
 
   it('builds stable audio tags with the database audio path', () => {
@@ -53,23 +54,29 @@ describe('audio tag helpers', () => {
     )
   })
 
-  it('matches audio by species name', () => {
-    expect(findMatchingAudio('红尾伯劳的叫声', '这是红尾伯劳。', audios)?.audioUrl).toBe(
-      '/birds/audio/lanius-cristatus.ogg',
+  it('lets the planner decide whether a candidate audio should be attached', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"shouldAttach":true,"slug":"lanius-cristatus"}',
     )
+
+    await expect(
+      planTutorAudioAttachment('可以听听红尾伯劳的声音吗？', '它的叫声比较清脆。', audios),
+    ).resolves.toEqual(audios[0])
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).toContain('不要用固定关键词或正则表达式判断意图')
   })
 
-  it('enriches replies when audio exists but the model only described the call', () => {
-    const reply = enrichReplyWithAudio('红尾伯劳叫起来很急促。', '红尾伯劳的叫声', audios)
-    expect(replyHasAudioTag(reply)).toBe(true)
-    expect(reply).toContain('[audio:/birds/audio/lanius-cristatus.ogg|红尾伯劳]')
+  it('does not attach audio when the model declines even if text mentions sound', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue('{"shouldAttach":false}')
+
+    await expect(
+      planTutorAudioAttachment('红尾伯劳的声音是什么？', '红尾伯劳常见于开阔林缘。', audios),
+    ).resolves.toBeNull()
   })
 
   it('strips meta lines about auto-attached audio before inserting the player', () => {
     const reply = finalizeReplyAudio(
       '红尾伯劳叫声很清脆。（系统已自动附上红尾伯劳典型鸣声录音 ▶️）',
-      '这个鸟的声音是什么样的',
-      audios,
+      audios[0],
     )
     expect(reply).not.toContain('系统已自动附上')
     expect(reply).toContain('[audio:/birds/audio/lanius-cristatus.ogg|红尾伯劳]')
@@ -78,19 +85,14 @@ describe('audio tag helpers', () => {
   it('replaces model-written placeholder tags with the real audio path', () => {
     const reply = finalizeReplyAudio(
       '听听看：[audio:slug|红尾伯劳]',
-      '红尾伯劳的叫声',
-      audios,
+      audios[0],
     )
     expect(reply).toContain('[audio:/birds/audio/lanius-cristatus.ogg|红尾伯劳]')
     expect(reply).not.toContain('[audio:slug|')
   })
 
-  it('attaches audio when the user confirms species and the reply discusses sound', () => {
-    const reply = enrichReplyWithAudio(
-      '红尾伯劳！你观察得很准。它的叫声像「咯咯咯」。本站正好有录音，可以对比听听。',
-      '应该是红尾伯劳吧？',
-      audios,
-    )
-    expect(reply).toContain('[audio:/birds/audio/lanius-cristatus.ogg|红尾伯劳]')
+  it('does not attach a player without a model-selected audio', () => {
+    const reply = finalizeReplyAudio('红尾伯劳叫声很清脆。', null)
+    expect(reply).not.toContain('[audio:')
   })
 })

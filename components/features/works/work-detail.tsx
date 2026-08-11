@@ -3,7 +3,7 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { ArrowLeft, BookOpen, Coins, Flag, Heart, Images, MessageCircle, Share2, Wrench } from "lucide-react"
 
@@ -58,6 +58,10 @@ export function WorkDetail({
   const [shareOpen, setShareOpen] = useState(autoOpenShare && canShare)
   const source = work.source
   const cover = work.proofImages[activeImage]
+
+  useEffect(() => {
+    if (autoOpenShare && canShare) setShareOpen(true)
+  }, [autoOpenShare, canShare])
 
   const { data: likeMeta = { count: work.likes, isLiked: false } } = useQuery<LikeMeta>({
     queryKey: ["completion_likes", work.id, user?.id],
@@ -122,7 +126,6 @@ export function WorkDetail({
         description: "原来的图片和记录都已保留。",
       })
       router.push(`/works/${id}?share=1`)
-      router.refresh()
     },
     onError: (error) => {
       toast({
@@ -170,6 +173,16 @@ export function WorkDetail({
     : source?.type === "course_lesson"
       ? "返回课程课时"
       : "返回探索"
+  const sourceContextLabel = source?.type === "course_lesson"
+    ? "课程课时"
+    : source?.type === "project"
+      ? "项目"
+      : "探索"
+  const sourceActionLabel = source?.type === "project"
+    ? "查看探索记录"
+    : source?.type === "course_lesson"
+      ? "打开课程课时"
+      : "打开来源"
   const SourceIcon = source?.type === "course_lesson" ? BookOpen : Wrench
   const hasTippedCompletion = myTippedCompletion > 0
   const showJourney = chronologicalJourney.length > 1 || work.recordKind === "progress"
@@ -177,7 +190,7 @@ export function WorkDetail({
 
   return (
     <main className="page-shell pb-24 pt-4 md:py-8">
-      <div className="mb-4 flex items-center justify-between gap-3">
+      <nav className="mb-5 flex items-center justify-between gap-3" aria-label="作品路径">
         <Button variant="ghost" asChild className="-ml-3 min-h-11 px-3">
           <Link href={source?.href || "/explore"}>
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -186,58 +199,115 @@ export function WorkDetail({
         </Button>
         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
           <SourceIcon className="h-4 w-4" />
-          {sourceLabel}
+          {source ? `来自${sourceContextLabel}` : sourceLabel}
         </span>
-      </div>
+      </nav>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(300px,0.75fr)] lg:gap-8">
-        <section className="min-w-0 lg:col-start-1 lg:row-start-1" aria-label="作品媒体">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[hsl(var(--surface-muted))]">
-            {cover ? (
-              <OptimizedImage
-                src={cover}
-                alt={`${work.author} 的作品`}
-                fill
-                priority
-                variant="cover"
-                className="object-contain"
-              />
-            ) : (
-              <div className="grid h-full place-items-center text-muted-foreground">
-                <Images className="h-10 w-10" />
+      <header className="mb-4 max-w-3xl">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">
+            作品详情
+          </span>
+          <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-green)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))]">
+            {journeyHasFinal ? "已完成探索" : "探索进行中"}
+          </span>
+        </div>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          {source?.title || "作品详情"}
+        </h1>
+        <p className="mt-2 hidden text-sm leading-6 text-muted-foreground sm:block">
+          {work.recordKind === "final"
+            ? "把这次探索的成果留给下一次尝试。"
+            : "沿着每一步记录，看看作品如何逐渐成形。"}
+        </p>
+      </header>
+
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.8fr)] lg:gap-8 xl:gap-10">
+        {showJourney ? (
+          <WorkJourneyTimeline
+            className="lg:col-start-1 lg:row-start-1"
+            records={chronologicalJourney}
+            currentWorkId={work.id}
+            hasFinal={journeyHasFinal}
+            totalCount={effectiveJourneyTotal}
+            hasMore={journeyHasMore}
+            canPromote={ownerCanPromote}
+            promotingId={promoteMutation.isPending ? promoteMutation.variables : undefined}
+            onPromote={(completionId) => promoteMutation.mutate(completionId)}
+          />
+        ) : (
+          <section className="min-w-0 lg:col-start-1 lg:row-start-1" aria-label="作品媒体">
+            <div className="surface-panel p-2 sm:p-3">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-[hsl(var(--surface-muted))]">
+                {cover ? (
+                  <OptimizedImage
+                    src={cover}
+                    alt={`${work.author} 的作品`}
+                    fill
+                    priority
+                    variant="cover"
+                    className="object-contain"
+                  />
+                ) : (
+                  <div className="grid h-full place-items-center text-muted-foreground">
+                    <Images className="h-10 w-10" />
+                  </div>
+                )}
+                <div className="pointer-events-none absolute inset-x-3 top-3 flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-[hsl(var(--background)/0.84)] px-2.5 py-1 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm">
+                    作品主图
+                  </span>
+                  {work.proofImages.length > 1 ? (
+                    <span className="rounded-full bg-[hsl(var(--background)/0.84)] px-2.5 py-1 text-[11px] font-semibold tabular-nums text-muted-foreground shadow-sm backdrop-blur-sm">
+                      {activeImage + 1} / {work.proofImages.length}
+                    </span>
+                  ) : null}
+                </div>
               </div>
-            )}
-          </div>
 
-          {work.proofImages.length > 1 ? (
-            <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
-              {work.proofImages.map((image, index) => (
-                <button
-                  key={`${image}-${index}`}
-                  type="button"
-                  onClick={() => setActiveImage(index)}
-                  aria-label={`查看第 ${index + 1} 张图片`}
-                  className={cn(
-                    "relative h-16 w-16 shrink-0 overflow-hidden rounded-sm border-2 bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    activeImage === index ? "border-[hsl(var(--brand-blue))]" : "border-transparent",
-                  )}
-                >
-                  <OptimizedImage src={image} alt="" fill variant="thumbnail" className="object-cover" />
-                </button>
-              ))}
+              {work.proofImages.length > 1 ? (
+                <div className="surface-subtle no-scrollbar mt-3 flex gap-2 overflow-x-auto p-2">
+                  {work.proofImages.map((image, index) => (
+                    <button
+                      key={`${image}-${index}`}
+                      type="button"
+                      onClick={() => setActiveImage(index)}
+                      aria-label={`查看第 ${index + 1} 张图片`}
+                      aria-pressed={activeImage === index}
+                      className={cn(
+                        "relative h-16 w-16 shrink-0 overflow-hidden rounded-md border-2 bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-[4.5rem] sm:w-[4.5rem]",
+                        activeImage === index
+                          ? "border-[hsl(var(--brand-blue))] ring-2 ring-[hsl(var(--brand-blue)/0.18)]"
+                          : "border-transparent",
+                      )}
+                    >
+                      <OptimizedImage src={image} alt="" fill variant="thumbnail" className="object-cover" />
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+
+              {work.proofVideoUrl ? (
+                <video
+                  src={work.proofVideoUrl}
+                  controls
+                  playsInline
+                  className="mt-4 w-full rounded-lg border border-border bg-black"
+                />
+              ) : null}
             </div>
-          ) : null}
-
-          {work.proofVideoUrl ? (
-            <video src={work.proofVideoUrl} controls playsInline className="mt-6 w-full rounded-md bg-black" />
-          ) : null}
-        </section>
+          </section>
+        )}
 
         <aside
-          className="space-y-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1"
+          className={cn(
+            "surface-panel space-y-4 p-4 sm:space-y-5 sm:p-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1",
+            showJourney ? "lg:row-span-1" : "lg:row-span-2",
+          )}
           aria-label="作品信息"
         >
           <div className="border-b border-border pb-5">
+            <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-muted-foreground">作者与支持</p>
             <div className="flex items-center gap-3">
               <AvatarWithFrame
                 src={work.avatar}
@@ -307,31 +377,36 @@ export function WorkDetail({
           {source ? (
             <Link
               href={source.href}
-              className="group grid grid-cols-[64px_minmax(0,1fr)] gap-3 rounded-sm border border-border p-3 transition hover:border-[hsl(var(--surface-border-strong))]"
+              className="group grid grid-cols-[64px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-border bg-[hsl(var(--surface-muted)/0.5)] p-3 transition duration-200 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-sm"
             >
-              <div className="relative h-16 overflow-hidden rounded-xs bg-muted">
-                {source.image ? <OptimizedImage src={source.image} alt="" fill variant="thumbnail" className="object-cover" /> : null}
+              <div className="relative h-16 overflow-hidden rounded-md bg-muted">
+                {source.image ? (
+                  <OptimizedImage src={source.image} alt="" fill variant="thumbnail" className="object-cover" />
+                ) : (
+                  <SourceIcon className="absolute inset-0 m-auto h-6 w-6 text-muted-foreground" aria-hidden="true" />
+                )}
               </div>
               <div className="min-w-0 py-0.5">
-                <p className="text-xs font-semibold text-muted-foreground">来自{sourceLabel}</p>
-                <h1 className="mt-1 line-clamp-2 text-base font-bold leading-5 text-foreground group-hover:underline">
+                <p className="text-xs font-semibold text-muted-foreground">来自{sourceContextLabel}</p>
+                <p className="mt-1 line-clamp-2 text-base font-bold leading-5 text-foreground group-hover:underline">
                   {source.title}
-                </h1>
+                </p>
                 {source.type === "course_lesson" ? (
                   <p className="mt-1 truncate text-xs text-muted-foreground">{source.courseTitle}</p>
                 ) : null}
+                <p className="mt-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">{sourceActionLabel} →</p>
               </div>
             </Link>
           ) : null}
 
           {work.status !== "approved" ? (
-            <div className="rounded-sm border border-[hsl(var(--brand-amber)/0.3)] bg-[hsl(var(--brand-amber)/0.1)] p-3 text-sm text-foreground">
+            <div className="rounded-lg border border-[hsl(var(--brand-amber)/0.3)] bg-[hsl(var(--brand-amber)/0.1)] p-3 text-sm leading-6 text-foreground">
               {work.status === "rejected" ? `作品未通过：${work.rejectionReason || "请修改后重新提交"}` : "作品正在审核中，仅你自己可见。"}
             </div>
           ) : null}
 
           {!journeyHasFinal && source?.type === "project" ? (
-            <div className="rounded-sm bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2.5 text-sm leading-6 text-foreground">
+            <div className="rounded-lg border border-[hsl(var(--brand-amber)/0.18)] bg-[hsl(var(--brand-amber)/0.09)] px-3 py-2.5 text-sm leading-6 text-foreground">
               <p className="font-semibold">这次探索还没有完成作品</p>
               <p className="mt-0.5 text-xs text-muted-foreground">
                 {ownerCanPromote
@@ -343,21 +418,8 @@ export function WorkDetail({
         </aside>
 
         <section className="min-w-0 lg:col-start-1 lg:row-start-2">
-          {showJourney ? (
-            <WorkJourneyTimeline
-              records={chronologicalJourney}
-              currentWorkId={work.id}
-              hasFinal={journeyHasFinal}
-              totalCount={effectiveJourneyTotal}
-              hasMore={journeyHasMore}
-              canPromote={ownerCanPromote}
-              promotingId={promoteMutation.isPending ? promoteMutation.variables : undefined}
-              onPromote={(completionId) => promoteMutation.mutate(completionId)}
-            />
-          ) : null}
-
           {work.notes?.trim() && !showJourney ? (
-            <section className="mt-8 border-t border-border pt-6">
+            <section className="surface-subtle mt-8 p-4 sm:p-5">
               <h2 className="text-xl font-bold text-foreground">创作记录</h2>
               <p className="mt-3 max-w-[70ch] whitespace-pre-wrap text-base leading-7 text-foreground/82">
                 {work.notes}
@@ -365,8 +427,8 @@ export function WorkDetail({
             </section>
           ) : null}
 
-          <section className="mt-8 border-t border-border pt-6" id="comments">
-            <div className="mb-4 flex items-center gap-2">
+          <section className="surface-panel mt-8 p-4 sm:p-5" id="comments">
+            <div className="mb-4 flex items-center gap-2 border-b border-border/70 pb-4">
               <MessageCircle className="h-5 w-5 text-[hsl(var(--brand-green))]" />
               <h2 className="text-xl font-bold text-foreground">留言与提问</h2>
             </div>
@@ -414,6 +476,7 @@ function WorkJourneyTimeline({
   canPromote,
   promotingId,
   onPromote,
+  className,
 }: {
   records: WorkJourneyRecord[]
   currentWorkId: number
@@ -423,9 +486,14 @@ function WorkJourneyTimeline({
   canPromote: boolean
   promotingId?: number
   onPromote: (completionId: number) => void
+  className?: string
 }) {
   return (
-    <section id="exploration-process" className="mt-8 scroll-mt-24 border-t border-border pt-6" aria-labelledby="work-journey-heading">
+    <section
+      id="exploration-process"
+      className={cn("surface-panel scroll-mt-24 p-4 sm:p-5", className)}
+      aria-labelledby="work-journey-heading"
+    >
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold text-[hsl(var(--brand-green))]">
@@ -438,7 +506,7 @@ function WorkJourneyTimeline({
         </span>
       </div>
 
-      <ol className="mt-5" aria-label="按时间排列的探索记录">
+      <ol className="mt-6 space-y-3" aria-label="按时间排列的探索记录">
         {records.map((record, index) => {
           const parsed = parseExplorationRecordNotes(record.notes)
           const isFinal = record.recordKind === "final"
@@ -468,8 +536,9 @@ function WorkJourneyTimeline({
 
               <article
                 className={cn(
-                  "min-w-0 pb-6",
-                  isFinal && "mb-1 rounded-sm bg-[hsl(var(--brand-green)/0.06)] p-3",
+                  "min-w-0 rounded-lg border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.44)] p-3 sm:p-4",
+                  isCurrent && !isFinal && "border-[hsl(var(--brand-blue)/0.28)] bg-[hsl(var(--brand-blue)/0.05)]",
+                  isFinal && "border-[hsl(var(--brand-green)/0.24)] bg-[hsl(var(--brand-green)/0.07)]",
                 )}
               >
                 <div className="flex flex-wrap items-center gap-2">
@@ -508,12 +577,16 @@ function WorkJourneyTimeline({
                 {record.proofImages.length > 0 ? (
                   <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
                     {record.proofImages.map((image, imageIndex) => (
-                      <figure key={`${image}-${imageIndex}`} className="w-28 shrink-0">
-                        <div className="relative aspect-4/3 overflow-hidden rounded-sm bg-muted">
+                      <figure
+                        key={`${image}-${imageIndex}`}
+                        className={cn("shrink-0", isFinal ? "w-48 sm:w-56" : "w-32 sm:w-36")}
+                      >
+                        <div className="relative aspect-4/3 overflow-hidden rounded-md bg-muted ring-1 ring-inset ring-border/60">
                           <OptimizedImage
                             src={image}
                             alt={`${recordLabel}图片 ${imageIndex + 1}`}
                             fill
+                            priority={(index === 0 || isFinal) && imageIndex === 0}
                             variant="thumbnail"
                             className="object-cover"
                           />

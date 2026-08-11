@@ -147,9 +147,11 @@ export function ExplorationRecordGroupCard({
                 </>
               ) : null}
             </div>
-            <p className="mt-1.5 line-clamp-2 min-h-10 text-sm leading-5 text-foreground/88">
-              {parsed.body || (hasFinal ? "查看从第一步到完成作品的完整过程。" : "探索还在继续，点开查看已经记录的每一步。")}
-            </p>
+            {parsed.body ? (
+              <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-foreground/88">
+                {parsed.body}
+              </p>
+            ) : null}
 
             <div className="mt-3 flex min-h-8 items-center gap-4 border-t border-[hsl(var(--surface-border)/0.65)] pt-2.5 text-xs font-medium text-muted-foreground">
               <span className="inline-flex items-center gap-1">
