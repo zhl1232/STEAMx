@@ -196,6 +196,11 @@ export function WorkDetail({
           title={source?.title || "作品详情"}
           fallbackHref={source?.href || "/explore"}
           backLabel={sourceBackLabel}
+          rightSlot={
+            !journeyHasFinal ? (
+              <span className="text-xs font-semibold text-[hsl(var(--brand-green))]">探索进行中</span>
+            ) : null
+          }
         />
       </div>
 
@@ -213,24 +218,24 @@ export function WorkDetail({
           </span>
         </nav>
 
-      <header className="mb-4 max-w-3xl">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="hidden items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))] md:inline-flex">
-            作品详情
-          </span>
-          <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-green)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))]">
-            {journeyHasFinal ? "已完成探索" : "探索进行中"}
-          </span>
-        </div>
-        <h1 className="sr-only font-bold tracking-tight text-foreground md:not-sr-only md:mt-3 md:text-3xl">
-          {source?.title || "作品详情"}
-        </h1>
-        <p className="mt-2 hidden text-sm leading-6 text-muted-foreground md:block">
-          {work.recordKind === "final"
-            ? "把这次探索的成果留给下一次尝试。"
-            : "沿着每一步记录，看看作品如何逐渐成形。"}
-        </p>
-      </header>
+        <header className="mb-0 max-w-3xl md:mb-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="hidden items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))] md:inline-flex">
+              作品详情
+            </span>
+            <span className="hidden items-center rounded-full bg-[hsl(var(--brand-green)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))] md:inline-flex">
+              {journeyHasFinal ? "已完成探索" : "探索进行中"}
+            </span>
+          </div>
+          <h1 className="sr-only font-bold tracking-tight text-foreground md:not-sr-only md:mt-3 md:text-3xl">
+            {source?.title || "作品详情"}
+          </h1>
+          <p className="mt-2 hidden text-sm leading-6 text-muted-foreground md:block">
+            {work.recordKind === "final"
+              ? "把这次探索的成果留给下一次尝试。"
+              : "沿着每一步记录，看看作品如何逐渐成形。"}
+          </p>
+        </header>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.8fr)] lg:gap-8 xl:gap-10">
         {showJourney ? (

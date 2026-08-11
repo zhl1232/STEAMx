@@ -137,7 +137,14 @@ describe("WorkDetail content and support actions", () => {
 
     expect(screen.getByRole("button", { name: "返回探索记录" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "会跑的小车" })).toBeInTheDocument()
-    expect(screen.getByText("已完成探索")).toBeInTheDocument()
+    expect(screen.getByText("已完成探索").className).toContain("hidden")
+  })
+
+  it("keeps an unfinished exploration status quiet in the mobile title bar", () => {
+    render(<WorkDetail work={{ ...work, recordKind: "progress" }} canShare={false} />)
+
+    const statuses = screen.getAllByText("探索进行中")
+    expect(statuses.some((status) => !status.className.includes("hidden"))).toBe(true)
   })
 
   it("uses course lesson wording for course work navigation", () => {
