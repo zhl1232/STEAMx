@@ -41,6 +41,21 @@ function getAssetConnectTimeoutMs() {
   return Math.min(60_000, Math.max(1_000, Math.round(configured)))
 }
 
+function isUpstreamTimeoutError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false
+  const candidate = error as { name?: string; code?: string; cause?: { code?: string; name?: string } }
+  if (candidate.name === 'AbortError' || candidate.name === 'TimeoutError') return true
+  if (candidate.code === 'ABORT_ERR' || candidate.code === 'UND_ERR_CONNECT_TIMEOUT') return true
+  const cause = candidate.cause
+  if (!cause) return false
+  return (
+    cause.name === 'AbortError' ||
+    cause.name === 'TimeoutError' ||
+    cause.code === 'ABORT_ERR' ||
+    cause.code === 'UND_ERR_CONNECT_TIMEOUT'
+  )
+}
+
 function isAllowedAssetPath(pathname: string) {
   return (
     pathname.startsWith(SCRATCH_ASSET_PREFIX) ||
@@ -238,7 +253,13 @@ async function proxyAsset(
   } catch (error) {
     const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
     if (localResponse) return localResponse
-    throw error
+    // Upstream abort/timeout under concurrent page navigations used to rethrow and
+    // surface as 500 + unhandledRejection ("Cannot set property message...").
+    const timedOut = isUpstreamTimeoutError(error)
+    return NextResponse.json(
+      { error: timedOut ? 'Asset upstream timeout' : 'Asset upstream unavailable' },
+      { status: timedOut ? 504 : 502 },
+    )
   }
 
   if (!upstream.ok) {

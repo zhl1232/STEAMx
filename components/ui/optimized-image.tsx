@@ -180,6 +180,10 @@ export function OptimizedImage({
   const loadingProp = priority ? undefined : (loading ?? "lazy")
   const useBlur = blurPlaceholder && !priority && (blurDataURL ?? DEFAULT_BLUR_DATA_URL)
   const rawSrc = typeof rest.src === "string" ? rest.src : null
+  // Empty string src makes Next/Image preload the whole document and spam console errors.
+  if (rawSrc !== null && rawSrc.trim() === "") {
+    return null
+  }
   const useDirectSupabaseTransform =
     rawSrc !== null &&
     isSupabasePublicStorageUrl(rawSrc) &&
@@ -189,6 +193,9 @@ export function OptimizedImage({
     typeof optimizedSrc === "string"
       ? resolveAssetDisplayUrl(optimizedSrc) ?? optimizedSrc
       : optimizedSrc
+  if (typeof src === "string" && src.trim() === "") {
+    return null
+  }
   const useUnoptimizedImage =
     unoptimized ||
     (typeof src === "string" && shouldUseUnoptimizedImage(src, useDirectSupabaseTransform))

@@ -33,7 +33,9 @@ function canAccessProject(
 
 export async function generateMetadata({ params }: ProjectRecordsPageProps): Promise<Metadata> {
   const { id } = await params
-  const project = await getProjectById(id)
+  const numericId = Number(id)
+  const project =
+    Number.isInteger(numericId) && numericId > 0 ? await getProjectById(numericId) : null
   if (!project) {
     return buildPageMetadata({ title: "探索记录", description: "项目探索记录", path: `/project/${id}/records` })
   }
@@ -46,9 +48,11 @@ export async function generateMetadata({ params }: ProjectRecordsPageProps): Pro
 
 export default async function ProjectRecordsPage({ params, searchParams }: ProjectRecordsPageProps) {
   const { id } = await params
+  const numericId = Number(id)
+  if (!Number.isInteger(numericId) || numericId <= 0) notFound()
   const resolvedSearchParams = await searchParams
   const highlightCompletionId = parseHighlightCompletionId(resolvedSearchParams.highlight)
-  const project = await getProjectById(id)
+  const project = await getProjectById(numericId)
   if (!project) notFound()
 
   const supabase = await createClient()

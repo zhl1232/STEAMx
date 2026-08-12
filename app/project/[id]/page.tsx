@@ -674,7 +674,9 @@ export async function generateMetadata(
   { params }: ProjectDetailPageProps,
 ): Promise<Metadata> {
   const { id } = await params
-  const project = await getProjectById(id)
+  const numericId = Number(id)
+  const project =
+    Number.isInteger(numericId) && numericId > 0 ? await getProjectById(numericId) : null
   if (!project) {
     return {
       title: '项目未找到',
@@ -745,14 +747,18 @@ export async function generateMetadata(
 export default async function ProjectDetailPage({ params, searchParams }: ProjectDetailPageProps) {
   const { id } = await params
   const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const numericId = Number(id)
+  if (!Number.isInteger(numericId) || numericId <= 0) {
+    notFound()
+  }
 
   const supabase = await createClient()
-  const legacyCourseLink = await getCourseLessonByWorksProjectId(supabase, Number(id))
+  const legacyCourseLink = await getCourseLessonByWorksProjectId(supabase, numericId)
   if (legacyCourseLink) {
     redirect(`/courses/${legacyCourseLink.courseId}/lessons/${legacyCourseLink.lessonId}?view=works`)
   }
 
-  const project = await getProjectById(id)
+  const project = await getProjectById(numericId)
   if (!project) {
     notFound()
   }
@@ -1056,12 +1062,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   <div className="mt-6 grid grid-cols-4 border-t border-border/70 pt-5">
                     <HeroStat
                       icon={<ListChecks className="h-5 w-5" />}
-                      value={String(steps.length || '-')}
+                      value={String(steps.length)}
                       label="个步骤"
                     />
                     <HeroStat
                       icon={<Box className="h-5 w-5" />}
-                      value={String(materials.length || '-')}
+                      value={String(materials.length)}
                       label="种材料"
                     />
                     <HeroStat

@@ -1083,6 +1083,11 @@ export async function getRecommendedProjects(
  * @returns 项目详情或 null
  */
 export const getProjectById = cache(async (id: string | number): Promise<Project | null> => {
+  const numericId = typeof id === "number" ? id : Number(id);
+  if (!Number.isInteger(numericId) || numericId <= 0) {
+    return null;
+  }
+
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -1094,11 +1099,15 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
       project_steps (*),
       sub_categories (name)
     `)
-    .eq("id", Number(id))
-    .single();
+    .eq("id", numericId)
+    .maybeSingle();
 
-  if (error || !data) {
-    logger.error("Error fetching project", { error });
+  if (error) {
+    logger.error("Error fetching project", { error, projectId: numericId });
+    return null;
+  }
+
+  if (!data) {
     return null;
   }
 

@@ -78,4 +78,21 @@ describe("asset proxy", () => {
         expect(Number(response.headers.get("content-length"))).toBeGreaterThan(0);
         expect(response.body).toBeNull();
     });
+
+    it("returns 504 instead of throwing when the upstream connect times out", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        const abortError = new Error("The operation was aborted");
+        abortError.name = "AbortError";
+        const fetchMock = vi.fn<typeof fetch>().mockRejectedValue(abortError);
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/projects/generated/missing.webp"),
+            { params: Promise.resolve({ path: ["projects", "generated", "missing.webp"] }) },
+        );
+
+        expect(response.status).toBe(504);
+        await expect(response.json()).resolves.toEqual({ error: "Asset upstream timeout" });
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
 });
