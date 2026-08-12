@@ -127,6 +127,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
                 alt=""
                 fill
                 variant="thumbnail"
+                loading={index === activeIndex ? "eager" : "lazy"}
                 className="object-cover"
                 sizes="72px"
               />

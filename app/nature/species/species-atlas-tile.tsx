@@ -15,9 +15,10 @@ interface SpeciesAtlasTileProps {
   item: SpeciesAtlasItem
   fromHref: string
   filtersKey: string
+  priority?: boolean
 }
 
-export function SpeciesAtlasTile({ item, fromHref, filtersKey }: SpeciesAtlasTileProps) {
+export function SpeciesAtlasTile({ item, fromHref, filtersKey, priority = false }: SpeciesAtlasTileProps) {
   const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
   const imageSrc = resolveAssetDisplayUrl(item.thumbnailUrl) ?? item.thumbnailUrl
@@ -65,7 +66,7 @@ export function SpeciesAtlasTile({ item, fromHref, filtersKey }: SpeciesAtlasTil
             src={imageSrc as string}
             alt=""
             fill
-            loading="lazy"
+            priority={priority}
             sizes="(max-width: 639px) 22vw, (max-width: 1023px) 92px, 112px"
             unoptimized={shouldBypassAssetDisplayOptimization(item.thumbnailUrl)}
             className={cn(

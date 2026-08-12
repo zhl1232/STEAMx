@@ -39,8 +39,6 @@ const pageOwnedMobileHeaderRoots = [
   '/share',
   '/pbl',
   '/resources',
-  '/explore/species',
-  '/explore/observations',
   '/leaderboard',
   '/admin',
   '/moderator',

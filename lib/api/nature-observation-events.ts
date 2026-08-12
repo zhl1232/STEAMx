@@ -15,6 +15,16 @@ export interface ObservationListOptions {
   pageSize?: number
 }
 
+/** 公开观察列表的可见性口径，计数与取数必须保持一致 */
+const PUBLIC_OBSERVATION_FILTERS = {
+  status: 'approved',
+  is_public: true,
+  moderation_state: 'approved',
+}
+
+/** PostgREST 对起点超出末行的 range 返回 416 */
+const RANGE_NOT_SATISFIABLE = 'PGRST103'
+
 /** 按观察事件 ID 批量加载物种摘要，供公开列表、「我的」列表等复用 */
 export async function loadObservationSpeciesForEvents(eventIds: number[]) {
   const supabase = await createClient()
@@ -70,19 +80,37 @@ export async function getObservations(
   const from = page * pageSize
   const to = from + pageSize - 1
 
-  const { data, error, count } = await supabase
+  const countQuery = supabase
     .from('observation_events')
-    .select('*', { count: 'exact' })
-    .eq('status', 'approved')
-    .eq('is_public', true)
-    .eq('moderation_state', 'approved')
+    .select('id', { count: 'exact', head: true })
+    .match(PUBLIC_OBSERVATION_FILTERS)
+
+  const dataQuery = supabase
+    .from('observation_events')
+    .select('*')
+    .match(PUBLIC_OBSERVATION_FILTERS)
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
     .range(from, to)
 
-  if (error) {
-    logger.error('Error fetching observations', { error })
+  const [{ count, error: countError }, { data, error }] = await Promise.all([countQuery, dataQuery])
+
+  if (countError) {
+    logger.error('Error counting observations', { error: countError })
     return { observations: [], total: 0, hasMore: false }
+  }
+
+  const total = count || 0
+
+  if (error) {
+    // Deep links and stale pagination controls can legitimately ask for a page
+    // past the last row; report an empty page with the real total instead.
+    if (from >= total || error.code === RANGE_NOT_SATISFIABLE) {
+      return { observations: [], total, hasMore: false }
+    }
+
+    logger.error('Error fetching observations', { error })
+    return { observations: [], total, hasMore: false }
   }
 
   const rows = (data || []) as ObservationEventRow[]
@@ -92,8 +120,8 @@ export async function getObservations(
     observations: rows.map((row) =>
       mapDbObservationEvent(applyHistoricalPublicLocationPrecision(row) as never, speciesByEvent.get(row.id) || []),
     ),
-    total: count || 0,
-    hasMore: (count || 0) > to + 1,
+    total,
+    hasMore: total > from + rows.length,
   }
 }
 

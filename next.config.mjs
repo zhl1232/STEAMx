@@ -84,6 +84,26 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/explore/observations',
+        destination: '/nature/observations',
+        permanent: true,
+      },
+      {
+        source: '/explore/observations/:id',
+        destination: '/nature/observations/:id',
+        permanent: true,
+      },
+      {
+        source: '/explore/species',
+        destination: '/nature/species',
+        permanent: true,
+      },
+      {
+        source: '/explore/species/:slug',
+        destination: '/nature/species/:slug',
+        permanent: true,
+      },
+      {
         source: '/community',
         destination: '/create',
         permanent: true,

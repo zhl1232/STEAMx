@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Sprout } from "lucide-react"
+import { ListFilter, Sprout } from "lucide-react"
 
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 import { RecordTypePickerSheet } from "@/components/features/project/record-type-picker-sheet"
@@ -197,9 +197,21 @@ export function ProjectRecordsClient({
       <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
       <RecordsPageContent>
-        <RecordsTabsRow>
+        <RecordsFilterRow>
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+              <ListFilter className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-xs font-semibold text-foreground">筛选记录</p>
+              <p className="hidden text-[11px] text-muted-foreground sm:block">按类型浏览探索内容</p>
+            </div>
+          </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="control-field ml-auto h-8 w-[108px] rounded-full text-xs shadow-xs">
+            <SelectTrigger
+              aria-label="按记录类型筛选"
+              className="control-field h-8 w-[116px] shrink-0 rounded-full bg-[hsl(var(--surface-raised)/0.88)] px-3 text-xs shadow-none"
+            >
               <SelectValue placeholder="全部类型" />
             </SelectTrigger>
             <SelectContent>
@@ -211,7 +223,7 @@ export function ProjectRecordsClient({
               ))}
             </SelectContent>
           </Select>
-        </RecordsTabsRow>
+        </RecordsFilterRow>
 
         {!completed && mode === "project" ? (
           <section className="exploration-cta-banner">
@@ -322,8 +334,12 @@ function RecordsPageContent({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-2xl">{children}</div>
 }
 
-function RecordsTabsRow({ children }: { children: React.ReactNode }) {
-  return <div className="mb-3 flex items-center gap-2">{children}</div>
+function RecordsFilterRow({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1">
+      {children}
+    </div>
+  )
 }
 
 function RecordsEmptyState({

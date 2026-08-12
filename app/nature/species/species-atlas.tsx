@@ -61,6 +61,9 @@ const SPECIES_ALPHABET = [
   speciesAtlasOtherInitial,
 ]
 
+/** 首屏可见的前几张缩略图使用 priority，其余保持懒加载 */
+const PRIORITY_TILE_COUNT = 3
+
 interface SpeciesLetterGroup {
   initial: string
   items: SpeciesAtlasItem[]
@@ -202,6 +205,21 @@ export function SpeciesAtlas({ initialData, initialQuery = '', initialTopic, ini
     () => (isTopicView ? groupSpeciesByInitial(filteredGroups[0]?.items ?? []) : []),
     [filteredGroups, isTopicView],
   )
+  // 必须按实际渲染顺序取：专题视图会按首字母重新分组，
+  // filteredGroups 的前几项通常不是首屏最先出现的瓦片
+  const priorityItemIds = useMemo(() => {
+    const renderedGroups = isTopicView ? letterGroups : filteredGroups
+    const ids = new Set<number>()
+
+    for (const group of renderedGroups) {
+      for (const item of group.items) {
+        ids.add(item.id)
+        if (ids.size >= PRIORITY_TILE_COUNT) return ids
+      }
+    }
+
+    return ids
+  }, [filteredGroups, isTopicView, letterGroups])
   const availableLetters = useMemo(
     () => new Set(letterGroups.map((group) => group.initial)),
     [letterGroups],
@@ -251,7 +269,12 @@ export function SpeciesAtlas({ initialData, initialQuery = '', initialTopic, ini
       <ul className="nature-atlas-grid" aria-label={label}>
         {items.map((item) => (
           <li key={item.id}>
-            <SpeciesAtlasTile item={item} fromHref={fromHref} filtersKey={filtersKey} />
+            <SpeciesAtlasTile
+              item={item}
+              fromHref={fromHref}
+              filtersKey={filtersKey}
+              priority={priorityItemIds.has(item.id)}
+            />
           </li>
         ))}
       </ul>

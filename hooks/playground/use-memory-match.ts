@@ -60,16 +60,44 @@ function saveStats(stats: MemoryStats) {
     setPlaygroundItem(STATS_KEY, stats)
 }
 
-function buildDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryCard[] {
+type RandomSource = () => number
+
+function createSeededRandom(seed: number): RandomSource {
+    let state = seed >>> 0
+    return () => {
+        state = (state * 1664525 + 1013904223) >>> 0
+        return state / 0x100000000
+    }
+}
+
+function initialDeckSeed(theme: MemoryTheme, difficulty: MemoryDifficulty): number {
+    const value = `${theme}:${difficulty}`
+    let hash = 2166136261
+    for (let index = 0; index < value.length; index += 1) {
+        hash ^= value.charCodeAt(index)
+        hash = Math.imul(hash, 16777619)
+    }
+    return hash >>> 0
+}
+
+function buildDeck(
+    theme: MemoryTheme,
+    difficulty: MemoryDifficulty,
+    random: RandomSource = Math.random,
+): MemoryCard[] {
     const symbols = memorySymbolsFor(theme, difficulty)
     const cards = symbols.flatMap((symbol, pairIndex) => [
         { id: `${theme}-${pairIndex}-a`, symbol, matched: false },
         { id: `${theme}-${pairIndex}-b`, symbol, matched: false },
     ])
     return cards
-        .map((card) => ({ card, sort: Math.random() }))
+        .map((card) => ({ card, sort: random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ card }) => card)
+}
+
+function buildInitialDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryCard[] {
+    return buildDeck(theme, difficulty, createSeededRandom(initialDeckSeed(theme, difficulty)))
 }
 
 export function createMemoryDeck(
@@ -90,7 +118,9 @@ export function useMemoryMatch(
 ) {
     const [difficulty, setDifficulty] = useState(initialDifficulty)
     const [theme, setTheme] = useState(initialTheme)
-    const [cards, setCards] = useState<MemoryCard[]>(() => buildDeck(initialTheme, initialDifficulty))
+    // The first render is server-rendered and hydrated independently. Keep its deck
+    // deterministic; the mount effect below replaces it with a fresh random deck.
+    const [cards, setCards] = useState<MemoryCard[]>(() => buildInitialDeck(initialTheme, initialDifficulty))
     const [openIds, setOpenIds] = useState<string[]>([])
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)

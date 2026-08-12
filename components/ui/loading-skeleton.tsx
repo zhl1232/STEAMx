@@ -734,10 +734,12 @@ export function ProjectRecordsPageSkeleton() {
         rightSlot={<Skeleton className="h-8 w-14 rounded-full" />}
       />
       <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-2xl">
-        <div className="mb-3 flex items-center gap-2">
-          <Skeleton className="h-8 w-16 rounded-full" />
-          <Skeleton className="h-8 w-16 rounded-full" />
-          <Skeleton className="ml-auto h-8 w-[108px] rounded-full" />
+        <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-7 w-7 rounded-full" />
+            <Skeleton className="h-3 w-20 rounded-full" />
+          </div>
+          <Skeleton className="h-8 w-[116px] shrink-0 rounded-full" />
         </div>
         <section className="mb-4 flex items-center gap-3 rounded-md border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
           <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
