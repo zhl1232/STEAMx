@@ -406,6 +406,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `fetch-fruit-images.mjs` | 抓取水果/干果**果实图**（优先 iNaturalist 结果期观测 + Wikimedia 果实关键词搜索）；下载后自动压缩至 1280px |
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
 | `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等；支持 `--only=fruits`；`--only=project-covers` 只同步 `public/projects` 根层旧项目封面；`--only=courses` 上传前会把课时 `slides/*` 和 `finished.*` PNG/JPG 转 WebP，避免课件大图原样进 OSS） |
+| `apply-content-triage-2026-08-13.mjs` | 2026-08-13 内容分诊线上一次性编排：先 OSS 清理（库行还在才能收集 key），再 `db-push.mjs`；默认 dry-run，`--execute` 才删除 OSS 并执行迁移 |
 | `lib/content-triage-2026-08-13.mjs` | 2026-08-13 内容分诊权威 ID 列表：`TRIAGED_PROJECT_IDS_TO_DELETE`（105 个）与 `TRIAGED_PROJECT_IDS_TO_KEEP`（52、73、119、120、177、352）；并提供 OSS key 过滤，只认 `projects/generated/` 与 `projects/steps/`，跳过共用封面、课件、Scratch、物种图 |
 | `purge-triaged-project-assets.mjs` | 2026-08-13 内容分诊：按 `scripts/lib/content-triage-2026-08-13.mjs` 的 105 个项目 ID，从 `projects` / `project_steps` / `comments` 收集图片 URL，只删 Aliyun OSS 上该项目自己的 `projects/generated/` 与 `projects/steps/` 对象；默认 dry-run，`--execute` 才删除；不要从本云端环境对生产执行删除 |
 | `build-species-atlas-thumbnails.mjs` | 只读检查或显式 `--write` 生成 160x160、内容哈希 WebP 图鉴缩略图；从 active 物种与现有鸟/虫/树/水果 manifest 取首张有效图，写入 `species-atlas-thumbnails.json`，支持专题/slug 过滤与并发控制；缩略图经独立 `*-atlas` 组上传 OSS |
@@ -444,6 +445,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright；本地只在 `pre-commit` 跑 lint 和改动相关的用例，全量单测以此为唯一门槛，推送后用 `pnpm ci:watch` 看结论
 - `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 渲染/同步 Nginx 配置 + 同步 compose 文件 + SSH 部署；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；通用页面代理直接拒绝 GPTBot 请求但保留 `/robots.txt` 可访问，OAI-SearchBot 与其他爬虫继续按 robots 规则访问；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
+- `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 在临时 `node:22-alpine` 容器里先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；由 `scripts/apply-content-triage-2026-08-13.mjs --execute` 编排。与 Release 共用 `release-production` 并发组，避免和 Docker 部署抢 SSH。
 
 ---
 
