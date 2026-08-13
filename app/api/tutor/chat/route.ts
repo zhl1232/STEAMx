@@ -487,7 +487,13 @@ export async function POST(request: NextRequest) {
       const value = Math.min(amount, remainingCharge)
       if (value <= 0) return
       remainingCharge -= value
-      await refundAiCredit(supabase, value, creditResult.source).catch(() => undefined)
+      await refundAiCredit(supabase, value, creditResult.source).catch((error) => {
+        logger.warn('AI credit refund failed.', {
+          amount: value,
+          source: creditResult.source,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      })
     }
     pendingRefund = () => refund(cost)
 
@@ -543,16 +549,23 @@ export async function POST(request: NextRequest) {
         gameKey,
       }),
     })
-    const [messageAudios, conversation] = await Promise.all([messageAudiosPromise, conversationPromise])
-    timing.mark('message_audio')
-    const recentRows = await supabase
-      .from('tutor_messages')
-      .select('*')
-      .eq('conversation_id', conversation.id)
-      .order('id', { ascending: false })
-      .limit(CONTEXT_TURNS)
+    const historyRowsPromise = conversationPromise.then(async (activeConversation) => {
+      const recentRows = await supabase
+        .from('tutor_messages')
+        .select('*')
+        .eq('conversation_id', activeConversation.id)
+        .order('id', { ascending: false })
+        .limit(CONTEXT_TURNS)
 
-    if (recentRows.error) throw recentRows.error
+      if (recentRows.error) throw recentRows.error
+      return recentRows
+    })
+    const [messageAudios, conversation, recentRows] = await Promise.all([
+      messageAudiosPromise,
+      conversationPromise,
+      historyRowsPromise,
+    ])
+    timing.mark('message_audio')
     timing.mark('conversation_history')
 
     const history: TutorEngineMessage[] = ((recentRows.data ?? []) as TutorMessageRow[])
@@ -611,15 +624,16 @@ export async function POST(request: NextRequest) {
       !scratchScreenshotDiagnosisEligible && shouldPlanTutorToolDecision(toolPlannerInput)
         ? runToolPlanner()
         : Promise.resolve(null)
-    const [speciesHints, scratchScreenshotDiagnosis, resourcePlan, parallelPlannerDecision] = await Promise.all([
+    const resourcePlanPromise = planTutorResourceSearch(content, { previousMessages: plannerHistory })
+    const resourceSearchPromise = resourcePlanPromise.then((plan) =>
+      plan.shouldSearch ? searchTutorResources(supabase, plan) : null,
+    )
+    const [speciesHints, scratchScreenshotDiagnosis, parallelPlannerDecision, resourceSearch] = await Promise.all([
       canUseSpeciesAudio ? findSpeciesHintsForText(supabase, conversationText) : Promise.resolve([]),
       scratchScreenshotDiagnosisPromise ?? Promise.resolve(null),
-      planTutorResourceSearch(content, { previousMessages: plannerHistory }),
       parallelToolPlannerPromise,
+      resourceSearchPromise,
     ])
-    const resourceSearch = resourcePlan.shouldSearch
-      ? await searchTutorResources(supabase, resourcePlan)
-      : null
     const hintsSummary = buildSpeciesHintsSummary(speciesHints)
     timing.mark('species_hints')
     timing.mark('scratch_screenshot_diagnosis')
@@ -712,6 +726,10 @@ export async function POST(request: NextRequest) {
     })
     const engineHistory = trimHistoryToCharBudget(history)
     timing.mark('build_prompt')
+    const earlyAudioPlanPromise =
+      canUsePromptSpeciesAudio && availableAudios.length > 0
+        ? planTutorAudioAttachment(content, '', availableAudios)
+        : Promise.resolve<TutorAudioRef | null>(null)
 
     const encoder = new TextEncoder()
     let fullReply = ''
@@ -809,13 +827,18 @@ export async function POST(request: NextRequest) {
         }
 
         const replyAudios = canUsePromptSpeciesAudio
-          ? mergeTutorAudios(
-              availableAudios,
-              await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`),
-            )
+          ? await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`)
           : []
+        const availableAudioSlugs = new Set(availableAudios.map((audio) => audio.slug))
+        const hasNewReplyAudios = replyAudios.some((audio) => !availableAudioSlugs.has(audio.slug))
         const selectedAudio = canUsePromptSpeciesAudio
-          ? await planTutorAudioAttachment(content, fullReply, replyAudios)
+          ? hasNewReplyAudios
+            ? await planTutorAudioAttachment(
+                content,
+                fullReply,
+                mergeTutorAudios(availableAudios, replyAudios),
+              )
+            : await earlyAudioPlanPromise
           : null
         fullReply = finalizeReplyAudio(fullReply, selectedAudio)
         timing.mark('finalize_audio')

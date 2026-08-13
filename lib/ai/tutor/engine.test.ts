@@ -3,6 +3,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
+import { logger } from '@/lib/logger'
 
 const fetchMock = vi.fn()
 
@@ -25,10 +26,12 @@ describe('chatWithTutorComplete image context', () => {
       json: async () => ({ choices: [{ message: { content: '收到。' } }] }),
     })
     vi.stubGlobal('fetch', fetchMock)
+    vi.spyOn(logger, 'warn').mockImplementation(() => undefined)
   })
 
   afterEach(() => {
     delete process.env.DASHSCOPE_API_KEY
+    vi.restoreAllMocks()
     vi.unstubAllGlobals()
   })
 

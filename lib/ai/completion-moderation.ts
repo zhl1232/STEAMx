@@ -58,6 +58,7 @@ async function moderateCompletionText(text: string) {
 export async function evaluateCompletionContent(input: {
   notes?: string | null
   imageUrls: string[]
+  skipImageModeration?: boolean
 }): Promise<CompletionModerationDecision> {
   const text = (input.notes || '').trim()
   if (text) {
@@ -98,28 +99,52 @@ export async function evaluateCompletionContent(input: {
     }
   }
 
-  const imageResults: CompletionModerationDecision['imageResults'] = []
-
-  for (const imageUrl of imageUrls) {
-    try {
-      const result = await analyzeCompletionProofImageWithQwen(imageUrl)
-      imageResults.push({
+  if (input.skipImageModeration) {
+    return {
+      pass: true,
+      reason: null,
+      imageResults: imageUrls.map((imageUrl) => ({
         imageUrl,
-        moderationPass: result.moderationPass,
-        moderationReason: result.moderationReason,
-      })
-      if (!result.moderationPass) {
+        moderationPass: true,
+        moderationReason: null,
+      })),
+    }
+  }
+
+  const inspected = await Promise.all(
+    imageUrls.map(async (imageUrl) => {
+      try {
+        const result = await analyzeCompletionProofImageWithQwen(imageUrl)
         return {
-          pass: false,
-          reason: result.moderationReason || '图片内容未通过审核，请更换后重试。',
-          imageResults,
+          imageUrl,
+          moderationPass: result.moderationPass,
+          moderationReason: result.moderationReason,
         }
+      } catch (error) {
+        return { imageUrl, error }
       }
-    } catch (error) {
+    }),
+  )
+
+  const imageResults: CompletionModerationDecision['imageResults'] = []
+  for (const item of inspected) {
+    if ('error' in item) {
       return {
         pass: false,
         pending: true,
-        reason: getObservationVisionUserMessage(error),
+        reason: getObservationVisionUserMessage(item.error),
+        imageResults,
+      }
+    }
+    imageResults.push({
+      imageUrl: item.imageUrl,
+      moderationPass: item.moderationPass,
+      moderationReason: item.moderationReason,
+    })
+    if (!item.moderationPass) {
+      return {
+        pass: false,
+        reason: item.moderationReason || '图片内容未通过审核，请更换后重试。',
         imageResults,
       }
     }

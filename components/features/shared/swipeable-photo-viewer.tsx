@@ -93,7 +93,7 @@ export function SwipeablePhotoViewer({
 
   return (
     <div
-      className={cn("relative touch-pan-y overflow-hidden", className)}
+      className={cn("relative isolate touch-pan-y overflow-hidden", className)}
       onTouchStart={swipe.onTouchStart}
       onTouchEnd={swipe.onTouchEnd}
     >
@@ -101,13 +101,13 @@ export function SwipeablePhotoViewer({
         <button
           type="button"
           onClick={handleTap}
-          className="absolute inset-0 z-10"
+          className="absolute inset-0 z-10 cursor-zoom-in"
           aria-label={alt}
         />
       ) : null}
 
       {activeUrl ? (
-        <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+        <AnimatePresence initial={false} custom={slideDirection}>
           <motion.div
             key={`${activeUrl}-${index}`}
             custom={slideDirection}

@@ -60,12 +60,14 @@ export interface DialogContentProps
     VariantProps<typeof dialogContentVariants> {
   /** 为 true 时不渲染遮罩层，背后的内容保持可见 */
   hideOverlay?: boolean
+  /** 为 true 时不渲染默认关闭按钮，由内容区自行提供关闭控件 */
+  hideCloseButton?: boolean
 }
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, hideOverlay, size, chrome, ...props }, ref) => (
+>(({ className, children, hideOverlay, hideCloseButton, size, chrome, ...props }, ref) => (
   <DialogPortal>
     {!hideOverlay && <DialogOverlay />}
     <DialogPrimitive.Content
@@ -74,10 +76,12 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="h-4 w-4" />
-        <span className="sr-only">关闭</span>
-      </DialogPrimitive.Close>
+      {hideCloseButton ? null : (
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <X className="h-4 w-4" />
+          <span className="sr-only">关闭</span>
+        </DialogPrimitive.Close>
+      )}
     </DialogPrimitive.Content>
   </DialogPortal>
 ))

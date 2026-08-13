@@ -54,15 +54,17 @@ describe('audio tag helpers', () => {
     )
   })
 
-  it('lets the planner decide whether a candidate audio should be attached', async () => {
+  it('lets the planner decide from the student message when the reply is still empty', async () => {
     vi.mocked(chatWithTutorComplete).mockResolvedValue(
       '{"shouldAttach":true,"slug":"lanius-cristatus"}',
     )
 
     await expect(
-      planTutorAudioAttachment('可以听听红尾伯劳的声音吗？', '它的叫声比较清脆。', audios),
+      planTutorAudioAttachment('可以听听红尾伯劳的声音吗？', '', audios),
     ).resolves.toEqual(audios[0])
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).toContain('助手回复可能仍在生成或为空')
     expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[0]).toContain('不要用固定关键词或正则表达式判断意图')
+    expect(vi.mocked(chatWithTutorComplete).mock.calls[0]?.[1]?.[0]?.content).toContain('（空）')
   })
 
   it('does not attach audio when the model declines even if text mentions sound', async () => {

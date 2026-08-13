@@ -106,6 +106,25 @@ describe('synthesizeTutorSpeech', () => {
       status: 503,
     } satisfies Partial<TutorSpeechError>)
   })
+
+  it('maps TTS audio download timeouts to a 504 speech error', async () => {
+    process.env.DASHSCOPE_API_KEY = 'test-dashscope-key'
+    vi.stubGlobal(
+      'fetch',
+      vi.fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ output: { audio: { url: 'https://example.com/audio.wav' } } }),
+        })
+        .mockRejectedValueOnce(new DOMException('The operation timed out.', 'TimeoutError')),
+    )
+
+    await expect(synthesizeTutorSpeech('你好')).rejects.toMatchObject({
+      name: 'TutorSpeechError',
+      status: 504,
+      message: 'DashScope TTS audio download timed out',
+    })
+  })
 })
 
 describe('transcribeTutorSpeechPcm16', () => {

@@ -1,29 +1,11 @@
-import { ObservationVisionError } from '@/lib/ai/qwen-vision'
-
-const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_MODEL = 'qwen3.7-plus'
+import { dashScopeChatComplete } from '@/lib/ai/dashscope'
+import { mapDashScopeErrorToObservationVision, ObservationVisionError } from '@/lib/ai/qwen-vision'
 
 export type UploadedImageModerationResult = {
   pass: boolean
   reason: string | null
   modelName: string
   rawResponse: unknown
-}
-
-function getDashScopeConfig() {
-  const apiKey = process.env.DASHSCOPE_API_KEY
-  const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
-  const model = process.env.DASHSCOPE_VISION_MODEL || DEFAULT_MODEL
-
-  if (!apiKey) {
-    throw new ObservationVisionError({
-      code: 'missing_config',
-      message: 'Missing DASHSCOPE_API_KEY',
-      userMessage: '图片审核服务未配置，请联系管理员。',
-    })
-  }
-
-  return { apiKey, baseUrl, model }
 }
 
 function buildUploadModerationPrompt(contextLabel: string) {
@@ -64,72 +46,64 @@ export function parseUploadModerationPayload(text: string): {
   }
 }
 
+function mapUploadModerationError(error: unknown) {
+  return mapDashScopeErrorToObservationVision(error, {
+    missingConfig: '图片审核服务未配置，请联系管理员。',
+    timeout: '图片审核服务响应超时，请稍后重试。',
+    http: () => '图片审核服务暂时不可用，请稍后重试。',
+  })
+}
+
 export async function moderateUploadedImage(
   imageSource: string,
   contextLabel = '图片',
 ): Promise<UploadedImageModerationResult> {
-  const { apiKey, baseUrl, model } = getDashScopeConfig()
-
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      response_format: { type: 'json_object' },
-      temperature: 0.1,
-      messages: [
-        { role: 'system', content: buildUploadModerationPrompt(contextLabel) },
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: `请审核这张${contextLabel}。` },
-            { type: 'image_url', image_url: { url: imageSource } },
-          ],
-        },
-      ],
-    }),
-  })
-
-  const rawResponse = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new ObservationVisionError({
-      code: 'provider_http_error',
-      message: `DashScope moderation failed (${response.status})`,
-      userMessage: '图片审核服务暂时不可用，请稍后重试。',
-      status: response.status,
-      details: rawResponse,
+  let result: Awaited<ReturnType<typeof dashScopeChatComplete>>
+  try {
+    result = await dashScopeChatComplete({
+      role: 'moderation',
+      payload: {
+        response_format: { type: 'json_object' },
+        temperature: 0.1,
+        messages: [
+          { role: 'system', content: buildUploadModerationPrompt(contextLabel) },
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: `请审核这张${contextLabel}。` },
+              { type: 'image_url', image_url: { url: imageSource } },
+            ],
+          },
+        ],
+      },
     })
+  } catch (error) {
+    throw mapUploadModerationError(error)
   }
 
-  const content = (rawResponse as { choices?: Array<{ message?: { content?: string } }> })?.choices?.[0]
-    ?.message?.content
-  const text = typeof content === 'string' ? content : ''
-  if (!text.trim()) {
+  if (!result.text) {
     throw new ObservationVisionError({
       code: 'provider_empty_response',
       message: 'Empty upload moderation response',
       userMessage: '图片审核返回为空，请稍后重试。',
-      details: rawResponse,
+      details: result.raw,
     })
   }
 
   try {
-    const payload = parseUploadModerationPayload(text)
+    const payload = parseUploadModerationPayload(result.text)
     return {
       pass: payload.moderation_pass,
       reason: payload.moderation_reason,
-      modelName: model,
-      rawResponse,
+      modelName: result.model,
+      rawResponse: result.raw,
     }
   } catch (error) {
     throw new ObservationVisionError({
       code: 'provider_invalid_response',
       message: error instanceof Error ? error.message : 'Failed to parse upload moderation response',
       userMessage: '图片审核返回格式异常，请稍后重试。',
-      details: rawResponse,
+      details: result.raw,
     })
   }
 }

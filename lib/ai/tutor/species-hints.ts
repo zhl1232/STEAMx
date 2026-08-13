@@ -3,6 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/types'
 
 import { mapSpeciesRowToAudioRef, type TutorAudioRef } from './audio-tags'
+import { loadTutorSpeciesCatalog, matchSpeciesCatalogInText } from './species-catalog'
 
 export type TutorSpeciesHint = {
   slug: string
@@ -16,25 +17,6 @@ function compact(value: string | null | undefined, max = 300) {
   const text = typeof value === 'string' ? value.trim() : ''
   if (!text) return ''
   return text.length > max ? `${text.slice(0, max)}…` : text
-}
-
-function matchSpeciesRowsInText(
-  rows: Array<{
-    id: number
-    slug: string
-    common_name: string
-    aliases: string[] | null
-    habitat_notes: string | null
-    audio_url: string | null
-  }>,
-  text: string,
-) {
-  return rows.filter((row) => {
-    const names = [row.common_name, ...(Array.isArray(row.aliases) ? row.aliases : [])]
-      .map((name) => (typeof name === 'string' ? name.trim() : ''))
-      .filter(Boolean)
-    return names.some((name) => text.includes(name))
-  })
 }
 
 async function fetchObservationLocations(
@@ -83,29 +65,19 @@ export async function findSpeciesHintsForText(
   const trimmed = text.trim()
   if (!trimmed) return []
 
-  const { data, error } = await supabase
-    .from('species')
-    .select('id, slug, common_name, aliases, habitat_notes, audio_url')
-    .eq('is_active', true)
-    .limit(300)
+  const catalog = await loadTutorSpeciesCatalog(supabase)
+  if (!catalog.length) return []
 
-  if (error || !data?.length) return []
-
-  const matched = matchSpeciesRowsInText(data, trimmed).slice(0, limit)
-  const hints: TutorSpeciesHint[] = []
-
-  for (const row of matched) {
-    const observationLocations = await fetchObservationLocations(supabase, row.id)
-    hints.push({
+  const matched = matchSpeciesCatalogInText(catalog, trimmed).slice(0, limit)
+  return Promise.all(
+    matched.map(async (row) => ({
       slug: row.slug,
       label: row.common_name,
       habitatNotes: row.habitat_notes,
-      observationLocations,
+      observationLocations: await fetchObservationLocations(supabase, row.id),
       audioRef: mapSpeciesRowToAudioRef(row),
-    })
-  }
-
-  return hints
+    })),
+  )
 }
 
 export function buildSpeciesHintsSummary(hints: TutorSpeciesHint[]) {

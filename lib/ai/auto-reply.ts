@@ -1,5 +1,4 @@
-const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_MODEL = 'qwen-plus'
+import { dashScopeChatComplete } from '@/lib/ai/dashscope'
 
 export type AutoReplyTargetType = 'project' | 'completion' | 'observation'
 
@@ -15,18 +14,6 @@ export type AutoReplyContext = {
   locationName?: string | null
   habitat?: string | null
   weather?: string | null
-}
-
-function getDashScopeTextConfig() {
-  const apiKey = process.env.DASHSCOPE_API_KEY
-  const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
-  const model = process.env.DASHSCOPE_TEXT_MODEL || process.env.DASHSCOPE_VISION_MODEL || DEFAULT_MODEL
-
-  if (!apiKey) {
-    throw new Error('Missing DASHSCOPE_API_KEY')
-  }
-
-  return { apiKey, baseUrl, model }
 }
 
 function compact(value: string | null | undefined, maxLength = 180) {
@@ -102,17 +89,10 @@ export function normalizeAutoReplyText(input: string) {
 }
 
 export async function generateAutoReply(context: AutoReplyContext): Promise<string> {
-  const { apiKey, baseUrl, model } = getDashScopeTextConfig()
   const contextText = buildContextText(context)
-
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
+  const { text } = await dashScopeChatComplete({
+    role: 'auto-reply',
+    payload: {
       response_format: { type: 'json_object' },
       temperature: 0.85,
       messages: [
@@ -132,17 +112,10 @@ export async function generateAutoReply(context: AutoReplyContext): Promise<stri
           content: `根据下面内容写一条短回复：\n${contextText}`,
         },
       ],
-    }),
+    },
   })
 
-  const rawResponse = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new Error(`Auto reply generation failed (${response.status})`)
-  }
-
-  const content = (rawResponse as { choices?: Array<{ message?: { content?: string } }> })?.choices?.[0]
-    ?.message?.content
-  const reply = normalizeAutoReplyText(parseReplyPayload(typeof content === 'string' ? content : ''))
+  const reply = normalizeAutoReplyText(parseReplyPayload(text))
 
   if (reply.length < 2) {
     throw new Error('Auto reply generation returned empty content')

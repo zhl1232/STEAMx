@@ -1,3 +1,4 @@
+import { DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
 import type { StageAiFeedback } from '@/lib/mappers/types'
 import {
   normalizeChallengeSubmissionDraft,
@@ -8,10 +9,6 @@ import {
   type StageCoachAction,
   type StageCoachActionResult,
 } from '@/lib/pbl/stage-coach-actions'
-
-const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_TEXT_MODEL = 'qwen3.7-plus'
-const DEFAULT_VISION_MODEL = 'qwen3.7-plus'
 
 export class StageCoachError extends Error {
   userMessage: string
@@ -44,23 +41,6 @@ export interface StageArtifact {
   imageUrls: string[]
 }
 
-function getConfig(preferVision: boolean) {
-  const apiKey = process.env.DASHSCOPE_API_KEY
-  const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
-  const model = preferVision
-    ? process.env.DASHSCOPE_VISION_MODEL || DEFAULT_VISION_MODEL
-    : process.env.DASHSCOPE_TEXT_MODEL || process.env.DASHSCOPE_VISION_MODEL || DEFAULT_TEXT_MODEL
-
-  if (!apiKey) {
-    throw new StageCoachError(
-      'Missing DASHSCOPE_API_KEY',
-      '服务端未配置 AI 指导密钥，请稍后再试。',
-    )
-  }
-
-  return { apiKey, baseUrl, model }
-}
-
 function compact(value: string | null | undefined, maxLength = 600) {
   const text = typeof value === 'string' ? value.trim() : ''
   if (!text) return ''
@@ -87,72 +67,29 @@ function buildContextText(context: StageCoachContext) {
     .join('\n')
 }
 
-async function callDashScope(body: Record<string, unknown>, preferVision: boolean) {
-  const { apiKey, baseUrl, model } = getConfig(preferVision)
-
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ model, ...body }),
-  })
-
-  const raw = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new StageCoachError(
-      `DashScope request failed (${response.status})`,
-      'AI 指导暂时不可用，请稍后再试。',
-      response.status,
-    )
+function toStageCoachError(error: unknown): StageCoachError {
+  if (error instanceof StageCoachError) return error
+  if (error instanceof DashScopeError) {
+    if (error.code === 'missing_config') {
+      return new StageCoachError(error.message, '服务端未配置 AI 指导密钥，请稍后再试。')
+    }
+    return new StageCoachError(error.message, 'AI 指导暂时不可用，请稍后再试。', error.status)
   }
-
-  const content = (raw as { choices?: Array<{ message?: { content?: unknown } }> })?.choices?.[0]
-    ?.message?.content
-
-  if (typeof content === 'string') return content
-  if (Array.isArray(content)) {
-    return content
-      .map((item) => (item && typeof item === 'object' && typeof (item as { text?: unknown }).text === 'string'
-        ? (item as { text: string }).text
-        : ''))
-      .join('\n')
-  }
-  return ''
+  return error instanceof Error
+    ? new StageCoachError(error.message, 'AI 指导暂时不可用，请稍后再试。')
+    : new StageCoachError(String(error), 'AI 指导暂时不可用，请稍后再试。')
 }
 
-/**
- * 阶段答疑：苏格拉底式引导，不直接给完整方案。
- */
-export async function coachStageQa(context: StageCoachContext, question: string): Promise<string> {
-  const systemPrompt = [
-    '你是青少年 STEAM 项目式学习(PBL)的引导老师，帮助学生推进当前阶段。',
-    '原则：苏格拉底式优先——先用一两个问题点拨方向，再给具体但开放的建议，最后可给一个可立即尝试的小动作。',
-    '严禁直接给出完整答案或替学生做决定；要保留探究空间。',
-    '语气贴近青少年、简短、鼓励，使用中文，控制在 120 字以内。',
-    '不要提"AI、模型、平台、算法"，不要使用 Markdown 标题或代码块。',
-  ].join('\n')
-
-  const content = await callDashScope(
-    {
-      temperature: 0.7,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: `${buildContextText(context)}\n\n学生的问题：${compact(question, 1000)}`,
-        },
-      ],
-    },
-    false,
-  )
-
-  const reply = content.trim()
-  if (reply.length < 2) {
-    throw new StageCoachError('Empty coach reply', 'AI 指导没有给出内容，请换个说法再试。')
+async function callDashScope(body: Record<string, unknown>, preferVision: boolean) {
+  try {
+    const { text } = await dashScopeChatComplete({
+      role: preferVision ? 'pbl-vision' : 'pbl-text',
+      payload: body,
+    })
+    return text
+  } catch (error) {
+    throw toStageCoachError(error)
   }
-  return reply
 }
 
 function parseFeedbackPayload(text: string): StageAiFeedback {
@@ -379,85 +316,8 @@ export async function generateChallengeSubmissionDraft(input: {
 
 export function getStageCoachUserMessage(error: unknown): string {
   if (error instanceof StageCoachError) return error.userMessage
+  if (error instanceof DashScopeError) {
+    if (error.code === 'missing_config') return '服务端未配置 AI 指导密钥，请稍后再试。'
+  }
   return 'AI 指导暂时不可用，请稍后再试。'
-}
-
-export interface TutorChatMessage {
-  role: 'user' | 'assistant'
-  content: string
-  images?: string[]
-}
-
-/**
- * 持续对话的 AI 学习导师（agent 风格）：保留完整上下文，结合当前挑战与阶段，
- * 苏格拉底式引导、可点评学生贴出的图片产出，不直接代做。
- */
-export async function chatWithTutor(
-  context: StageCoachContext,
-  messages: TutorChatMessage[],
-): Promise<string> {
-  const systemPrompt = [
-    '你叫「小迪」，是青少年 STEAM 项目式学习(PBL)的 AI 学习导师，正在一对一陪伴这名学生完成下面这个挑战。',
-    '人设：友好、有耐心、像大哥哥/大姐姐，会鼓励，偶尔用一个表情。中文回答，单条尽量不超过 140 字。',
-    '你有记忆：下面给出了这名学生在各阶段已经记录的产出，以及你们之前的对话。回答时要结合"学生已经做了什么"，',
-    '可以具体引用他/她写过的内容（例如"你在第1步提到的…"），让建议贴合他的项目，而不是泛泛而谈。',
-    '方法：苏格拉底式优先——先点拨方向或反问，再给开放但具体的建议，最后给一个能立刻尝试的小动作；不要直接给完整答案或替学生做决定。',
-    '引导节奏：判断学生现在卡在哪、下一步该做什么；当他这一步已经写得比较完整时，鼓励他保存并"完成这步"进入下一阶段；当还缺关键内容（如该阶段要求的测试数据、对比、取舍说明）时，温和地提醒补上。',
-    '当学生贴出图片或描述了产出时，结合当前阶段目标，指出做得好的点、还缺什么、下一步可以试什么。',
-    '紧扣这个挑战与"当前阶段"的目标和约束；不跑题。不要使用 Markdown 标题或代码块；不要提"模型/平台/算法"。',
-    '',
-    '【当前上下文】',
-    buildContextText(context),
-    `当前阶段类型：${context.stageKind || 'generic'}`,
-  ].join('\n')
-
-  // 只给"最新一条用户消息"带图，历史图片转成文字备注，避免每轮重复抓取旧图。
-  let lastUserIndex = -1
-  for (let i = messages.length - 1; i >= 0; i -= 1) {
-    if (messages[i].role === 'user') {
-      lastUserIndex = i
-      break
-    }
-  }
-
-  const buildMessages = (includeImages: boolean): Array<Record<string, unknown>> => {
-    const dsMessages: Array<Record<string, unknown>> = [{ role: 'system', content: systemPrompt }]
-    messages.forEach((m, i) => {
-      const imageCount = m.images?.length ?? 0
-      const attachImages = includeImages && i === lastUserIndex && imageCount > 0
-      if (attachImages) {
-        const content: Array<Record<string, unknown>> = [{ type: 'text', text: m.content || '请看看我这一步的产出。' }]
-        for (const url of (m.images ?? []).slice(0, 4)) {
-          content.push({ type: 'image_url', image_url: { url } })
-        }
-        dsMessages.push({ role: 'user', content })
-      } else {
-        const note = m.role === 'user' && imageCount > 0
-          ? `${m.content || '（我贴了产出图片）'}（附了 ${imageCount} 张图片）`
-          : m.content
-        dsMessages.push({ role: m.role, content: note })
-      }
-    })
-    return dsMessages
-  }
-
-  const wantImages = (messages[lastUserIndex]?.images?.length ?? 0) > 0
-
-  let reply = ''
-  try {
-    reply = await callDashScope({ temperature: 0.7, messages: buildMessages(wantImages) }, wantImages)
-  } catch (error) {
-    // 视觉调用失败（常见于无法下载图片）时，降级为纯文本重试，导师仍能基于文字描述回复。
-    if (wantImages) {
-      reply = await callDashScope({ temperature: 0.7, messages: buildMessages(false) }, false)
-    } else {
-      throw error
-    }
-  }
-
-  const text = reply.trim()
-  if (text.length < 1) {
-    throw new StageCoachError('Empty tutor reply', '导师没有给出内容，请换个说法再试。')
-  }
-  return text
 }

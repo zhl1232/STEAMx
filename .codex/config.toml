@@ -1,13 +1,5 @@
 model_provider = "freemodel"
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "max"
 disable_response_storage = true
 preferred_auth_method = "apikey"
-
-[model_providers.freemodel]
-name = "freemodel"
-# 【修改点 1】: 结尾加上 /v1 (大多数第三方代理都需要)
-base_url = "https://api.freemodel.dev/v1"
-wire_api = "responses"
-# 【修改点 2】: 明确在这里填入你的 API Key，防止 App 去读取默认的 OpenAI Key
-api_key = "fe_oa_dc2b5fad05205099af04c8893b3090a1a46937b5bdf7e0f9"

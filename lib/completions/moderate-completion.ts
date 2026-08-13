@@ -59,6 +59,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
     const decision = await evaluateCompletionContent({
       notes: row.notes,
       imageUrls: row.proof_images || [],
+      skipImageModeration: row.moderation_state === 'approved',
     })
 
     const rawResponse = {

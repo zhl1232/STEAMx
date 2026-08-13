@@ -24,9 +24,10 @@ import { BoundedTtlMap } from '@/lib/utils/bounded-ttl-map'
 /**
  * 进程内画像缓存（多实例部署评估结论，2026-08）：
  * 各实例独立失效重建，代价是同一用户最多每实例每 5 分钟多跑一次画像聚合查询；
- * 画像只是 tutor prompt 的背景摘要，无跨实例失效需求（invalidate 目前无调用方），
- * TTL 即新鲜度上界，多实例与单实例行为一致。因此当前不外置。
- * 外置触发条件：画像聚合查询在 DB 负载中占比显著，或出现「改完资料要求立刻生效」的产品需求；
+ * 画像只是 tutor prompt 的背景摘要；资料 PATCH 会调用 invalidateStudentProfileCache，
+ * 使昵称/简介/生日等改动在下一轮对话立即生效。XP/雷达等其它字段仍以 TTL 为新鲜度上界。
+ * 多实例与单实例行为一致。因此当前不外置。
+ * 外置触发条件：画像聚合查询在 DB 负载中占比显著，或出现跨实例立即失效需求；
  * 届时优先落 Redis（deployment 已有则直接换 BoundedTtlMap 为 Redis 读写），
  * 其次考虑 Supabase 缓存表（读 1 行替代 ~10 个聚合查询，写放大可接受）。
  */

@@ -98,6 +98,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '观察图片必须使用当前账号上传的文件' }, { status: 400 })
     }
 
+    let analysisRows: ObservationMediaAnalysisRow[] = []
+    if (uniqueMediaUrls.length > 0) {
+      const analysisResult = await supabase
+        .from('observation_media_analyses')
+        .select('*')
+        .eq('user_id', user.id)
+        .in('image_url', uniqueMediaUrls)
+
+      if (analysisResult.error) {
+        throw analysisResult.error
+      }
+      analysisRows = (analysisResult.data || []) as ObservationMediaAnalysisRow[]
+    }
+
+    const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
+      analysisRows.map((row) => [row.image_url, row]),
+    )
+    const imagesNeedingModeration = uniqueMediaUrls.filter(
+      (url) => !isObservationAnalysisPassed(analysisMap.get(url)),
+    )
+
     const moderation = await moderateUserContent({
       text: [
         payload.location_name,
@@ -108,7 +129,7 @@ export async function POST(request: NextRequest) {
       ]
         .filter((value): value is string => Boolean(value?.trim()))
         .join('\n'),
-      imageSources: uniqueMediaUrls,
+      imageSources: imagesNeedingModeration,
     })
     if (moderation.state === 'rejected') {
       return NextResponse.json(
@@ -122,20 +143,6 @@ export async function POST(request: NextRequest) {
         { status: 503 },
       )
     }
-
-    const { data: analysisRows, error: analysisError } = await supabase
-      .from('observation_media_analyses')
-      .select('*')
-      .eq('user_id', user.id)
-      .in('image_url', uniqueMediaUrls)
-
-    if (analysisError) {
-      throw analysisError
-    }
-
-    const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
-      ((analysisRows || []) as ObservationMediaAnalysisRow[]).map((row) => [row.image_url, row]),
-    )
 
     for (const imageUrl of uniqueMediaUrls) {
       const analysis = analysisMap.get(imageUrl)

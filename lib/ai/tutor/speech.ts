@@ -1,4 +1,5 @@
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
+import { isDashScopeTimeoutError } from '@/lib/ai/dashscope'
 import WebSocket, { type RawData } from 'ws'
 
 const DEFAULT_TTS_URL = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
@@ -8,6 +9,7 @@ const DEFAULT_TTS_LANGUAGE = 'Chinese'
 const DEFAULT_ASR_MODEL = 'qwen3-asr-flash-realtime'
 const DEFAULT_ASR_WS_URL = 'wss://dashscope.aliyuncs.com/api-ws/v1/realtime'
 const ASR_TIMEOUT_MS = 25_000
+const TTS_TIMEOUT_MS = 20_000
 const ASR_SAMPLE_RATE = 16_000
 
 export const MAX_TUTOR_TTS_TEXT_CHARS = 800
@@ -127,21 +129,30 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
   const voice = process.env.DASHSCOPE_TUTOR_TTS_VOICE || DEFAULT_TTS_VOICE
   const language = process.env.DASHSCOPE_TUTOR_TTS_LANGUAGE || DEFAULT_TTS_LANGUAGE
 
-  const response = await fetch(ttsUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      input: {
-        text: safeText,
-        voice,
-        language_type: language,
+  let response: Response
+  try {
+    response = await fetch(ttsUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
-    }),
-  })
+      body: JSON.stringify({
+        model,
+        input: {
+          text: safeText,
+          voice,
+          language_type: language,
+        },
+      }),
+      signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
+    })
+  } catch (error) {
+    if (isDashScopeTimeoutError(error)) {
+      throw new TutorSpeechError('DashScope TTS timed out', '小迪语音暂时不可用，请稍后再试。', 504)
+    }
+    throw error
+  }
 
   const raw = await response.json().catch(() => null)
   if (!response.ok) {
@@ -153,7 +164,19 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
     throw new TutorSpeechError('DashScope TTS response missing audio URL')
   }
 
-  const audioResponse = await fetch(audioUrl)
+  let audioResponse: Response
+  try {
+    audioResponse = await fetch(audioUrl, { signal: AbortSignal.timeout(TTS_TIMEOUT_MS) })
+  } catch (error) {
+    if (isDashScopeTimeoutError(error)) {
+      throw new TutorSpeechError(
+        'DashScope TTS audio download timed out',
+        '小迪语音暂时不可用，请稍后再试。',
+        504,
+      )
+    }
+    throw error
+  }
   if (!audioResponse.ok) {
     throw new TutorSpeechError(`DashScope TTS audio download failed (${audioResponse.status})`)
   }

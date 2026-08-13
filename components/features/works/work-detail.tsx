@@ -5,10 +5,11 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, BookOpen, Coins, Flag, Heart, Images, MessageCircle, Share2, Wrench } from "lucide-react"
+import { ArrowLeft, BookOpen, Coins, Flag, Heart, MessageCircle, Share2, Wrench } from "lucide-react"
 
 import { CompletionRecordComments } from "@/components/features/project/completion-record-comments"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
+import { WorkImageGallery } from "@/components/features/works/work-image-gallery"
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
@@ -54,11 +55,9 @@ export function WorkDetail({
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const queryClient = useQueryClient()
-  const [activeImage, setActiveImage] = useState(0)
   const [tipOpen, setTipOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(autoOpenShare && canShare)
   const source = work.source
-  const cover = work.proofImages[activeImage]
 
   useEffect(() => {
     if (autoOpenShare && canShare) setShareOpen(true)
@@ -240,7 +239,7 @@ export function WorkDetail({
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.8fr)] lg:gap-8 xl:gap-10">
         {showJourney ? (
           <WorkJourneyTimeline
-            className="lg:col-start-1 lg:row-start-1"
+            className="min-w-0 lg:col-start-1 lg:row-start-1"
             records={chronologicalJourney}
             currentWorkId={work.id}
             hasFinal={journeyHasFinal}
@@ -253,54 +252,13 @@ export function WorkDetail({
         ) : (
           <section className="min-w-0 lg:col-start-1 lg:row-start-1" aria-label="作品媒体">
             <div className="surface-panel p-2 sm:p-3">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-[hsl(var(--surface-muted))]">
-                {cover ? (
-                  <OptimizedImage
-                    src={cover}
-                    alt={`${work.author} 的作品`}
-                    fill
-                    priority
-                    variant="cover"
-                    className="object-contain"
-                  />
-                ) : (
-                  <div className="grid h-full place-items-center text-muted-foreground">
-                    <Images className="h-10 w-10" />
-                  </div>
-                )}
-                <div className="pointer-events-none absolute inset-x-3 top-3 flex items-center justify-between gap-3">
-                  <span className="rounded-full bg-[hsl(var(--background)/0.84)] px-2.5 py-1 text-[11px] font-semibold text-foreground shadow-sm backdrop-blur-sm">
-                    作品主图
-                  </span>
-                  {work.proofImages.length > 1 ? (
-                    <span className="rounded-full bg-[hsl(var(--background)/0.84)] px-2.5 py-1 text-[11px] font-semibold tabular-nums text-muted-foreground shadow-sm backdrop-blur-sm">
-                      {activeImage + 1} / {work.proofImages.length}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-
-              {work.proofImages.length > 1 ? (
-                <div className="surface-subtle no-scrollbar mt-3 flex gap-2 overflow-x-auto p-2">
-                  {work.proofImages.map((image, index) => (
-                    <button
-                      key={`${image}-${index}`}
-                      type="button"
-                      onClick={() => setActiveImage(index)}
-                      aria-label={`查看第 ${index + 1} 张图片`}
-                      aria-pressed={activeImage === index}
-                      className={cn(
-                        "relative h-16 w-16 shrink-0 overflow-hidden rounded-md border-2 bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-[4.5rem] sm:w-[4.5rem]",
-                        activeImage === index
-                          ? "border-[hsl(var(--brand-blue))] ring-2 ring-[hsl(var(--brand-blue)/0.18)]"
-                          : "border-transparent",
-                      )}
-                    >
-                      <OptimizedImage src={image} alt="" fill variant="thumbnail" className="object-cover" />
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+              <WorkImageGallery
+                images={work.proofImages}
+                captions={work.proofCaptions}
+                alt={`${work.author} 的作品`}
+                priority
+                badge={work.proofImages.length > 0 ? "作品主图" : undefined}
+              />
 
               {work.proofVideoUrl ? (
                 <video
@@ -507,7 +465,7 @@ function WorkJourneyTimeline({
   return (
     <section
       id="exploration-process"
-      className={cn("surface-panel scroll-mt-24 p-4 sm:p-5", className)}
+      className={cn("surface-panel min-w-0 overflow-hidden scroll-mt-24 p-4 sm:p-5", className)}
       aria-labelledby="work-journey-heading"
     >
       <div className="flex items-end justify-between gap-4">
@@ -522,7 +480,7 @@ function WorkJourneyTimeline({
         </span>
       </div>
 
-      <ol className="mt-6 space-y-3" aria-label="按时间排列的探索记录">
+      <ol className="mt-5 min-w-0 space-y-4" aria-label="按时间排列的探索记录">
         {records.map((record, index) => {
           const parsed = parseExplorationRecordNotes(record.notes)
           const isFinal = record.recordKind === "final"
@@ -533,7 +491,7 @@ function WorkJourneyTimeline({
           const stageLabel = resolveStageLabel(record)
 
           return (
-            <li key={record.id} className="grid grid-cols-[32px_minmax(0,1fr)] gap-3">
+            <li key={record.id} className="grid min-w-0 grid-cols-[1.75rem_minmax(0,1fr)] gap-2.5 sm:grid-cols-[2rem_minmax(0,1fr)] sm:gap-3">
               <div className="relative flex justify-center" aria-hidden="true">
                 {index < records.length - 1 ? (
                   <span className="absolute bottom-0 top-7 w-px bg-[hsl(var(--surface-border-strong)/0.7)]" />
@@ -552,7 +510,7 @@ function WorkJourneyTimeline({
 
               <article
                 className={cn(
-                  "min-w-0 rounded-lg border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.44)] p-3 sm:p-4",
+                  "min-w-0 overflow-hidden rounded-lg border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.44)] p-3 sm:p-4",
                   isCurrent && !isFinal && "border-[hsl(var(--brand-blue)/0.28)] bg-[hsl(var(--brand-blue)/0.05)]",
                   isFinal && "border-[hsl(var(--brand-green)/0.24)] bg-[hsl(var(--brand-green)/0.07)]",
                 )}
@@ -591,29 +549,14 @@ function WorkJourneyTimeline({
                 ) : null}
 
                 {record.proofImages.length > 0 ? (
-                  <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
-                    {record.proofImages.map((image, imageIndex) => (
-                      <figure
-                        key={`${image}-${imageIndex}`}
-                        className={cn("shrink-0", isFinal ? "w-48 sm:w-56" : "w-32 sm:w-36")}
-                      >
-                        <div className="relative aspect-4/3 overflow-hidden rounded-md bg-muted ring-1 ring-inset ring-border/60">
-                          <OptimizedImage
-                            src={image}
-                            alt={`${recordLabel}图片 ${imageIndex + 1}`}
-                            fill
-                            priority={(index === 0 || isFinal) && imageIndex === 0}
-                            variant="thumbnail"
-                            className="object-cover"
-                          />
-                        </div>
-                        {record.proofCaptions?.[imageIndex] ? (
-                          <figcaption className="mt-1 line-clamp-2 text-[11px] leading-4 text-muted-foreground">
-                            {record.proofCaptions[imageIndex]}
-                          </figcaption>
-                        ) : null}
-                      </figure>
-                    ))}
+                  <div className="mt-3 min-w-0">
+                    <WorkImageGallery
+                      images={record.proofImages}
+                      captions={record.proofCaptions}
+                      alt={`${recordLabel}图片`}
+                      priority={(index === 0 || isFinal)}
+                      layout="feed"
+                    />
                   </div>
                 ) : null}
 

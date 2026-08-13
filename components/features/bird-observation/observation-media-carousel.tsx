@@ -1,13 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
-import { AnimatePresence, motion, type Easing } from "framer-motion";
 
-import { SwipeablePhotoViewer } from "@/components/features/bird-observation/swipeable-photo-viewer";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { ImageLightbox } from "@/components/features/shared/image-lightbox";
+import { SwipeablePhotoViewer } from "@/components/features/shared/swipeable-photo-viewer";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { useHorizontalSwipe } from "@/hooks/use-horizontal-swipe";
 import { cn } from "@/lib/utils";
 
 interface ObservationMediaCarouselProps {
@@ -15,72 +12,19 @@ interface ObservationMediaCarouselProps {
   alt: string;
 }
 
-const previewSlideEase: Easing = [0.32, 0.72, 0, 1];
-const previewSlideTransition = { type: "tween" as const, duration: 0.26, ease: previewSlideEase };
-
-const previewSlideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? "72%" : "-72%",
-    opacity: 0.2,
-    scale: 0.96,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    scale: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? "-72%" : "72%",
-    opacity: 0.2,
-    scale: 0.96,
-  }),
-};
-
 export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewDirection, setPreviewDirection] = useState(0);
   const railRef = useRef<HTMLDivElement>(null);
 
-  const scrollRailTo = useCallback((index: number) => {
-    railRef.current?.scrollTo({
-      left: index * 120,
+  const goToIndex = useCallback((nextIndex: number) => {
+    setActiveIndex(nextIndex);
+    railRef.current?.children[nextIndex]?.scrollIntoView?.({
       behavior: "smooth",
+      inline: "center",
+      block: "nearest",
     });
   }, []);
-
-  const goToIndex = useCallback(
-    (nextIndex: number) => {
-      const count = mediaUrls.length;
-      if (nextIndex === activeIndex) return;
-      const forward = (nextIndex - activeIndex + count) % count;
-      const backward = (activeIndex - nextIndex + count) % count;
-      const direction = forward <= backward ? 1 : -1;
-      setPreviewDirection(direction);
-      setActiveIndex(nextIndex);
-      scrollRailTo(nextIndex);
-    },
-    [activeIndex, mediaUrls.length, scrollRailTo],
-  );
-
-  const shiftImage = useCallback(
-    (delta: number) => {
-      const count = mediaUrls.length;
-      setPreviewDirection(delta);
-      setActiveIndex((current) => {
-        const wrapped = (current + delta + count) % count;
-        queueMicrotask(() => scrollRailTo(wrapped));
-        return wrapped;
-      });
-    },
-    [mediaUrls.length, scrollRailTo],
-  );
-
-  const previewSwipe = useHorizontalSwipe({
-    enabled: mediaUrls.length > 1,
-    onSwipeLeft: () => shiftImage(1),
-    onSwipeRight: () => shiftImage(-1),
-  });
 
   const activeUrl = mediaUrls[activeIndex] ?? mediaUrls[0];
 
@@ -95,7 +39,7 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
           urls={mediaUrls}
           index={activeIndex}
           onIndexChange={goToIndex}
-          alt={alt}
+          alt={`${alt}，点击查看大图`}
           priority
           showCounter
           onTap={() => setPreviewOpen(true)}
@@ -136,69 +80,16 @@ export function ObservationMediaCarousel({ mediaUrls, alt }: ObservationMediaCar
         </div>
       ) : null}
 
-      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-        <DialogContent className="left-0 top-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 gap-0 border-0 bg-black/96 p-0 shadow-none [&>button:last-child]:right-5 [&>button:last-child]:top-5 [&>button:last-child]:text-white sm:left-[50%] sm:top-[50%] sm:h-[92vh] sm:w-[92vw] sm:max-w-6xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:overflow-hidden sm:rounded-xl sm:border sm:border-white/10">
-          <DialogTitle className="sr-only">观察照片预览</DialogTitle>
-          <DialogDescription className="sr-only">在弹层中查看完整观察照片。</DialogDescription>
-          <div
-            className="relative flex h-full w-full touch-pan-y items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_45%)]"
-            onTouchStart={previewSwipe.onTouchStart}
-            onTouchEnd={previewSwipe.onTouchEnd}
-          >
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute left-5 top-5 z-10 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-white/80 backdrop-blur-sm"
-            >
-              {activeIndex + 1} / {mediaUrls.length}
-            </motion.div>
-            {mediaUrls.length > 1 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => shiftImage(-1)}
-                  className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition hover:bg-black/65"
-                  aria-label="上一张"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => shiftImage(1)}
-                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 p-3 text-white backdrop-blur-sm transition hover:bg-black/65"
-                  aria-label="下一张"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </>
-            ) : null}
-            <AnimatePresence initial={false} custom={previewDirection} mode="popLayout">
-              <motion.div
-                key={`${activeUrl}-${activeIndex}`}
-                custom={previewDirection}
-                variants={previewSlideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={previewSlideTransition}
-                className="absolute inset-0"
-              >
-                <OptimizedImage
-                  src={activeUrl}
-                  alt={`${alt}（${activeIndex + 1}/${mediaUrls.length}）`}
-                  fill
-                  variant="cover"
-                  className="object-contain p-6 sm:p-10"
-                  sizes="100vw"
-                  priority
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ImageLightbox
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        images={mediaUrls}
+        index={activeIndex}
+        onIndexChange={goToIndex}
+        alt={alt}
+        title="观察照片预览"
+        description="左右滑动切换观察照片，双指缩放查看细节，下滑关闭。"
+      />
     </>
   );
 }

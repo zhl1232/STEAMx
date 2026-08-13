@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { invalidateStudentProfileCache } from '@/lib/ai/tutor/student-profile'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateContentSafe } from '@/lib/api/validation'
@@ -148,6 +149,8 @@ export async function PATCH(request: NextRequest) {
     if (!data) {
       return NextResponse.json({ error: '个人资料不存在' }, { status: 404 })
     }
+
+    invalidateStudentProfileCache(user.id)
 
     const row: ProfileSettingsRow = data
     const { birthYear, birthMonth } = splitBirthDate(row.birth_date)

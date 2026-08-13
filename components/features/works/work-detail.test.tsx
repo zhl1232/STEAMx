@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import type { Work } from "@/lib/mappers/types"
@@ -349,5 +350,39 @@ describe("WorkDetail content and support actions", () => {
     expect(screen.getByRole("region", { name: "探索过程" })).toBeInTheDocument()
     expect(screen.getAllByRole("button", { name: /把这一步设为完成作品/ })).toHaveLength(2)
     expect(screen.queryByRole("button", { name: "分享作品" })).not.toBeInTheDocument()
+  })
+
+  it("opens a fullscreen photo viewer from a journey image", async () => {
+    const user = userEvent.setup()
+    const journey: WorkJourneyRecord[] = [
+      {
+        id: 15,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:54:37.000Z",
+        proofImages: ["https://example.com/observe.webp", "https://example.com/observe-2.webp"],
+        recordKind: "progress",
+        recordType: "observation",
+      },
+      {
+        id: 18,
+        completedAt: "2026/8/10",
+        completedAtIso: "2026-08-10T14:56:45.000Z",
+        proofImages: ["https://example.com/final.webp"],
+        recordKind: "final",
+      },
+    ]
+
+    render(
+      <WorkDetail
+        work={{ ...work, id: 18 }}
+        journeyRecords={journey}
+        canShare={false}
+      />,
+    )
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+    await user.click(screen.getByRole("button", { name: "观察记录图片，点击查看大图" }))
+    expect(screen.getByRole("dialog", { name: "作品图片预览" })).toBeInTheDocument()
+    expect(screen.getByText("1 / 2")).toBeInTheDocument()
   })
 })

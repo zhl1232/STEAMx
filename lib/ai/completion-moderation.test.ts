@@ -71,4 +71,53 @@ describe('evaluateCompletionContent', () => {
     ).resolves.toMatchObject({ pass: false, pending: true })
     expect(analyzeCompletionProofImageWithQwen).not.toHaveBeenCalled()
   })
+
+  it('skips image vision when submit already approved the images', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"moderation_pass":true,"moderation_reason":null}',
+    )
+
+    await expect(
+      evaluateCompletionContent({
+        notes: '我比较了不同结构的承重表现。',
+        imageUrls: ['image://one', 'image://two'],
+        skipImageModeration: true,
+      }),
+    ).resolves.toMatchObject({
+      pass: true,
+      imageResults: [
+        { imageUrl: 'image://one', moderationPass: true },
+        { imageUrl: 'image://two', moderationPass: true },
+      ],
+    })
+    expect(analyzeCompletionProofImageWithQwen).not.toHaveBeenCalled()
+  })
+
+  it('inspects remaining images in parallel', async () => {
+    let releaseFirst: (() => void) | undefined
+    const firstGate = new Promise<void>((resolve) => {
+      releaseFirst = resolve
+    })
+
+    vi.mocked(analyzeCompletionProofImageWithQwen).mockImplementation(async (imageUrl) => {
+      if (imageUrl === 'image://one') await firstGate
+      return {
+        moderationPass: true,
+        moderationReason: null,
+        modelName: 'vision-test',
+        rawResponse: null,
+      }
+    })
+
+    const pending = evaluateCompletionContent({
+      notes: null,
+      imageUrls: ['image://one', 'image://two'],
+    })
+
+    await vi.waitFor(() => {
+      expect(analyzeCompletionProofImageWithQwen).toHaveBeenCalledTimes(2)
+    })
+    releaseFirst?.()
+    await expect(pending).resolves.toMatchObject({ pass: true })
+  })
 })

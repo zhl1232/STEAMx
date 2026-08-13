@@ -3,6 +3,7 @@
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 
 import { GET, PATCH } from '@/app/api/settings/profile/route'
+import { invalidateStudentProfileCache } from '@/lib/ai/tutor/student-profile'
 import { requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { createClient } from '@/lib/supabase/server'
@@ -21,6 +22,10 @@ vi.mock('@/lib/api/auth', async (importOriginal) => {
 
 vi.mock('@/lib/api/rate-limit', () => ({
   requireRateLimit: vi.fn().mockResolvedValue(undefined),
+}))
+
+vi.mock('@/lib/ai/tutor/student-profile', () => ({
+  invalidateStudentProfileCache: vi.fn(),
 }))
 
 describe('/api/settings/profile', () => {
@@ -141,6 +146,7 @@ describe('/api/settings/profile', () => {
 
     expect(requireRateLimitMock).toHaveBeenCalledTimes(1)
     expect(response.status).toBe(400)
+    expect(invalidateStudentProfileCache).not.toHaveBeenCalled()
     await expect(response.json()).resolves.toEqual({
       error: '头像必须使用当前账号上传的文件或默认头像',
     })
@@ -185,6 +191,7 @@ describe('/api/settings/profile', () => {
     }) as never)
 
     expect(response.status).toBe(200)
+    expect(invalidateStudentProfileCache).toHaveBeenCalledWith('user-1')
     expect(capturedPayload).toMatchObject({
       display_name: '测试用户',
       bio: '简介',

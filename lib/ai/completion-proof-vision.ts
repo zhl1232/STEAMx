@@ -1,29 +1,11 @@
-import { ObservationVisionError } from '@/lib/ai/qwen-vision'
-
-const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
-const DEFAULT_MODEL = 'qwen3.7-plus'
+import { dashScopeChatComplete } from '@/lib/ai/dashscope'
+import { mapDashScopeErrorToObservationVision, ObservationVisionError } from '@/lib/ai/qwen-vision'
 
 export type CompletionProofVisionResult = {
   moderationPass: boolean
   moderationReason: string | null
   modelName: string
   rawResponse: unknown
-}
-
-function getDashScopeConfig() {
-  const apiKey = process.env.DASHSCOPE_API_KEY
-  const baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, '')
-  const model = process.env.DASHSCOPE_VISION_MODEL || DEFAULT_MODEL
-
-  if (!apiKey) {
-    throw new ObservationVisionError({
-      code: 'missing_config',
-      message: 'Missing DASHSCOPE_API_KEY',
-      userMessage: '服务端未配置视觉识别密钥。',
-    })
-  }
-
-  return { apiKey, baseUrl, model }
 }
 
 function buildCompletionModerationPrompt() {
@@ -52,46 +34,34 @@ function parsePayload(text: string): { moderation_pass: boolean; moderation_reas
 export async function analyzeCompletionProofImageWithQwen(
   imageUrl: string,
 ): Promise<CompletionProofVisionResult> {
-  const { apiKey, baseUrl, model } = getDashScopeConfig()
-
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      response_format: { type: 'json_object' },
-      temperature: 0.1,
-      messages: [
-        { role: 'system', content: buildCompletionModerationPrompt() },
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: '请审核这张探索作品配图。' },
-            { type: 'image_url', image_url: { url: imageUrl } },
-          ],
-        },
-      ],
-    }),
-  })
-
-  const rawResponse = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new ObservationVisionError({
-      code: 'provider_http_error',
-      message: `DashScope failed (${response.status})`,
-      userMessage: '图片审核服务暂时不可用，请稍后重试。',
-      status: response.status,
-      details: rawResponse,
+  let result: Awaited<ReturnType<typeof dashScopeChatComplete>>
+  try {
+    result = await dashScopeChatComplete({
+      role: 'moderation',
+      payload: {
+        response_format: { type: 'json_object' },
+        temperature: 0.1,
+        messages: [
+          { role: 'system', content: buildCompletionModerationPrompt() },
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: '请审核这张探索作品配图。' },
+              { type: 'image_url', image_url: { url: imageUrl } },
+            ],
+          },
+        ],
+      },
+    })
+  } catch (error) {
+    throw mapDashScopeErrorToObservationVision(error, {
+      missingConfig: '服务端未配置视觉识别密钥。',
+      timeout: '图片审核服务响应超时，请稍后重试。',
+      http: () => '图片审核服务暂时不可用，请稍后重试。',
     })
   }
 
-  const content = (rawResponse as { choices?: Array<{ message?: { content?: string } }> })?.choices?.[0]
-    ?.message?.content
-  const text = typeof content === 'string' ? content : ''
-  if (!text.trim()) {
+  if (!result.text) {
     throw new ObservationVisionError({
       code: 'provider_empty_response',
       message: 'Empty vision response',
@@ -99,11 +69,11 @@ export async function analyzeCompletionProofImageWithQwen(
     })
   }
 
-  const payload = parsePayload(text)
+  const payload = parsePayload(result.text)
   return {
     moderationPass: payload.moderation_pass,
     moderationReason: payload.moderation_reason,
-    modelName: model,
-    rawResponse,
+    modelName: result.model,
+    rawResponse: result.raw,
   }
 }
