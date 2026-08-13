@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
+import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { logger } from '@/lib/logger'
 import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
@@ -74,10 +75,7 @@ function getAuthErrorMessage() {
 
 function getSafeNextPath() {
   if (typeof window === 'undefined') return '/'
-  const next = new URLSearchParams(window.location.search).get('next')
-  if (!next || !next.startsWith('/')) return '/'
-  if (next.startsWith('//')) return '/'
-  return next
+  return sanitizeInternalHref(new URLSearchParams(window.location.search).get('next'))
 }
 
 function getFriendlyErrorMessage(error: unknown) {

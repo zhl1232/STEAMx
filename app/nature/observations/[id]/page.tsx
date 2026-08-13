@@ -29,10 +29,7 @@ export async function generateMetadata({ params }: ObservationDetailPageProps): 
   const observation = await getObservationById(id);
 
   if (!observation) {
-    return {
-      title: "观察记录未找到",
-      robots: { index: false, follow: false },
-    };
+    notFound();
   }
 
   const submitTopic = observationSubmitTopicFromNatureTopic(observation.natureTopic);

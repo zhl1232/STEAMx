@@ -135,12 +135,16 @@ export function validateUrl(value: unknown, fieldName: string): string {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+export function isUuid(value: unknown): value is string {
+  return typeof value === 'string' && UUID_RE.test(value)
+}
+
 /**
  * 验证 UUID 格式
  * @throws ValidationError 如果不是合法 UUID
  */
 export function validateUUID(value: unknown, fieldName: string): string {
-  if (typeof value !== 'string' || !UUID_RE.test(value)) {
+  if (!isUuid(value)) {
     throw new ValidationError(`${fieldName} must be a valid UUID`)
   }
   return value

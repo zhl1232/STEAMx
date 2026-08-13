@@ -65,13 +65,7 @@ export async function generateMetadata({ params }: SpeciesDetailPageProps): Prom
   const species = await getSpeciesBySlug(slug);
 
   if (!species) {
-    return {
-      title: "物种未找到",
-      robots: {
-        index: false,
-        follow: false,
-      },
-    };
+    notFound();
   }
 
   const description =

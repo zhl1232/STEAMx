@@ -1,5 +1,6 @@
 import React from 'react'
 import { Metadata } from 'next'
+import { isUuid } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 
 interface UserProfileLayoutProps {
@@ -11,6 +12,10 @@ export async function generateMetadata(
     { params }: UserProfileLayoutProps
 ): Promise<Metadata> {
     const { id } = await params
+    if (!isUuid(id)) {
+        return { title: '用户未找到', robots: { index: false, follow: false } }
+    }
+
     const supabase = await createClient()
 
     interface ProfileMetadata {
@@ -23,10 +28,10 @@ export async function generateMetadata(
         .from("profiles")
         .select("display_name, bio, avatar_url")
         .eq("id", id)
-        .single()
+        .maybeSingle()
 
     const profile = data as ProfileMetadata | null;
-    if (!profile) return { title: '用户未找到' }
+    if (!profile) return { title: '用户未找到', robots: { index: false, follow: false } }
 
     const displayName = profile.display_name || '匿名用户'
     const title = `${displayName} 的个人主页`

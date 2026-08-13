@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   isOwnedCompletionVideoUrl,
   isOwnedProjectImageUrl,
+  isUuid,
   validateOwnedOrTrustedImageUrlFromSources,
   ValidationError,
 } from '@/lib/api/validation'
@@ -167,5 +168,19 @@ describe('validateOwnedOrTrustedImageUrlFromSources', () => {
         TUTOR_SOURCES,
       ),
     ).toThrow(ValidationError)
+  })
+})
+
+describe('isUuid', () => {
+  it('accepts canonical UUID strings', () => {
+    expect(isUuid('00000000-0000-0000-0000-000000000000')).toBe(true)
+    expect(isUuid('A1B2C3D4-E5F6-7890-ABCD-EF1234567890')).toBe(true)
+  })
+
+  it('rejects missing, truncated, or non-UUID ids', () => {
+    expect(isUuid('not-a-uuid')).toBe(false)
+    expect(isUuid('00000000-0000-0000-0000-00000000000')).toBe(false)
+    expect(isUuid('')).toBe(false)
+    expect(isUuid(null)).toBe(false)
   })
 })

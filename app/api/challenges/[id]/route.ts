@@ -13,7 +13,10 @@ export async function GET(
 
   try {
     const { id } = await params
-    const challengeId = parseInt(id)
+    const challengeId = Number(id)
+    if (!Number.isInteger(challengeId) || challengeId <= 0) {
+      return NextResponse.json({ error: 'Challenge not found' }, { status: 404 })
+    }
 
     const { data: challenge, error } = await supabase
       .from('challenges')

@@ -1,3 +1,4 @@
+import { isUuid } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import { mapDbProject, type Project, type Work } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
@@ -58,6 +59,8 @@ export async function getPublicUserProfile(
   userId: string,
   options: { page?: number; pageSize?: number } = {},
 ): Promise<PublicUserProfileData | null> {
+  if (!isUuid(userId)) return null
+
   const supabase = await createClient()
   const page = Math.max(0, options.page ?? 0)
   const pageSize = Math.min(24, Math.max(1, options.pageSize ?? PUBLIC_PROFILE_PROJECTS_PAGE_SIZE))

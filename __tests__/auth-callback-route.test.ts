@@ -45,4 +45,15 @@ describe('GET /auth/callback', () => {
       'http://localhost/login?authError=auth_callback_failed'
     )
   })
+
+  it('drops path-traversal next values instead of bouncing to login', async () => {
+    const response = await GET(
+      new Request('http://localhost/auth/callback?error=access_denied&next=%2Fnature%2F..%2Flogin')
+    )
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get('location')).toBe(
+      'http://localhost/login?authError=auth_callback_failed'
+    )
+  })
 })

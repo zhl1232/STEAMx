@@ -1,17 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
+import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { NextResponse } from 'next/server'
 
 function getSafeNextPath(requestUrl: URL) {
-  const next = requestUrl.searchParams.get('next')
-  if (!next || !next.startsWith('/')) {
-    return '/'
-  }
-
-  if (next.startsWith('//')) {
-    return '/'
-  }
-
-  return next
+  return sanitizeInternalHref(requestUrl.searchParams.get('next'))
 }
 
 function buildLoginRedirectUrl(requestUrl: URL, nextPath: string, authError: string) {

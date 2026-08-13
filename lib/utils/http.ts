@@ -1,3 +1,5 @@
+import { isSafeInternalHref } from '@/lib/utils/safe-internal-href'
+
 export interface ApiErrorDetails {
   redirectTo?: string
   capability?: string
@@ -53,7 +55,7 @@ export function getInteractionAccessRedirect(payload: ApiErrorPayload) {
   if (!isAgeConfirmationRequired(payload)) return null
 
   const redirectTo = payload.details?.redirectTo
-  if (typeof redirectTo === 'string' && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+  if (isSafeInternalHref(redirectTo)) {
     return redirectTo
   }
 

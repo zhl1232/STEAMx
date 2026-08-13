@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 import { logger } from '@/lib/logger'
 import {
   mapDbObservationEvent,
@@ -125,7 +127,9 @@ export async function getObservations(
   }
 }
 
-export async function getObservationById(id: string | number): Promise<ObservationEvent | null> {
+export const getObservationById = cache(async function getObservationById(
+  id: string | number,
+): Promise<ObservationEvent | null> {
   const supabase = await createClient()
   const observationId = Number(id)
 
@@ -166,4 +170,4 @@ export async function getObservationById(id: string | number): Promise<Observati
   const observation = mapDbObservationEvent(visibleData as never, speciesByEvent.get(data.id) || [])
   observation.identifications = identificationsByEvent.get(data.id) || []
   return observation
-}
+})

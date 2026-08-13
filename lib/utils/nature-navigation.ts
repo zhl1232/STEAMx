@@ -1,3 +1,5 @@
+import { isSafeInternalHref, sanitizeInternalHref } from "@/lib/utils/safe-internal-href";
+
 interface NatureSubmitHrefOptions {
   topic?: string | null;
   speciesId?: number | string | null;
@@ -5,18 +7,18 @@ interface NatureSubmitHrefOptions {
 }
 
 export function isSafeNatureHref(value: string | null | undefined): value is string {
-  return typeof value === "string" && value.startsWith("/nature") && !value.startsWith("//");
+  return isSafeInternalHref(value);
 }
 
 export function normalizeNatureFrom(
   from: string | null | undefined,
   fallbackHref: string,
 ): string {
-  return isSafeNatureHref(from) ? from : fallbackHref;
+  return sanitizeInternalHref(from, fallbackHref);
 }
 
 export function appendNatureFrom(href: string, from: string | null | undefined): string {
-  if (!isSafeNatureHref(from)) {
+  if (!isSafeInternalHref(from)) {
     return href;
   }
 
@@ -43,7 +45,7 @@ export function buildNatureSubmitHref({
     params.set("species", String(speciesId));
   }
 
-  if (isSafeNatureHref(from)) {
+  if (isSafeInternalHref(from)) {
     params.set("from", from);
   }
 
