@@ -8,7 +8,7 @@ export const CATEGORY_THEME_IMAGES: Record<string, string> = {
   '技术': '/projects/tech_programming.webp',
   '工程': '/projects/eng_mechanical.webp',
   '艺术': '/projects/art_painting.webp',
-  '数学': '/projects/generated/project-0393.webp',
+  '数学': '/projects/generated/project-0352.webp',
   '其他': '/projects/sensory_box.webp',
 }
 
