@@ -15,6 +15,7 @@
     "lint:fix": "oxlint --fix --react-plugin --nextjs-plugin app components hooks lib packages/scratch-host/src *.config.* *.ts *.tsx",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
+    "test:related": "vitest related --run --passWithNoTests",
     "test:watch": "vitest",
     "eval:tutor": "TUTOR_GOLDEN_SET=1 vitest run __tests__/tutor-golden-set.eval.test.ts",
     "test:coverage": "vitest run --coverage",

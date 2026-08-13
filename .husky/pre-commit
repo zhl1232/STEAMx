@@ -1,2 +1,12 @@
 pnpm run lint
-npm test
+
+# Only run tests that import the staged sources. The full suite runs on pre-push.
+staged=$(git diff --cached --name-only --diff-filter=ACMR -- '*.ts' '*.tsx')
+
+if [ -z "$staged" ]; then
+  echo "pre-commit: no staged TS/TSX files, skipping related tests"
+  exit 0
+fi
+
+# shellcheck disable=SC2086
+VITEST_MAX_THREADS=${VITEST_MAX_THREADS:-4} pnpm exec vitest related --run --passWithNoTests $staged

@@ -1,0 +1,2 @@
+# Cap workers so the full suite does not starve low-core dev machines (WSL).
+VITEST_MAX_THREADS=${VITEST_MAX_THREADS:-4} pnpm test

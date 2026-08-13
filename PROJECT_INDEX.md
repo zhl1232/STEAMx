@@ -512,6 +512,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `pnpm type-check` | TypeScript 类型检查（TypeScript 7 自带的 `tsc --noEmit`）；CI 使用此命令 |
 | `pnpm lint` | Oxlint 快速检查产品源码（显式启用 React / Next.js 插件，覆盖 Hooks、Next、TypeScript 常用规则；检查 `app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板） |
 | `pnpm test` / `pnpm test:e2e` / `pnpm test:e2e:integration` / `pnpm test:e2e:scratch` | Vitest 单元测试 / 主站 Playwright smoke / 真实 Supabase 集成测试 / 独立 Scratch host Playwright E2E |
+| `pnpm test:related <files>` | 只跑 import 了指定文件的 Vitest 用例（`vitest related --run --passWithNoTests`）；Git 钩子分工：`pre-commit` 跑 `lint` + 暂存文件的 related 测试（通常几秒），`pre-push` 跑全量 `pnpm test` 并默认限制 4 个 worker（`VITEST_MAX_THREADS`，避免 WSL 等低核机器被 8 个 happy-dom worker 占满而卡死）。不要在 `pre-commit` 用 `vitest --changed`：改动 `package.json` 等配置文件时它会退化成全量跑 |
 | `pnpm eval:tutor` | 小迪 golden-set 真实模型评估（`TUTOR_GOLDEN_SET=1` 调 DashScope，普通 `pnpm test` 自动跳过）；提示词 / planner 规则改动先跑此评估再上线 |
 
 > TypeScript 7 兼容说明：Next.js 16.2.10 仍硬编码检测 `typescript/lib/typescript.js`，而 TypeScript 7 不再提供该旧 API 文件。项目暂时保留 `@typescript/native-preview` 作为 Next 开发服务器的兼容标记，实际类型检查仍由 `typescript@7` 自带的 `tsc` 执行。待稳定版 Next.js 支持 `experimental.useTypeScriptCli`（或默认使用 TypeScript CLI）后，可删除该兼容依赖。
