@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  buildSpeciesAtlasFiltersKey,
   filterSpeciesAtlasGroups,
   normalizeSpeciesAtlasInitial,
   sortSpeciesAtlasItems,
@@ -67,5 +68,13 @@ describe('nature-species-atlas', () => {
     const result = filterSpeciesAtlasGroups(groups(source), { topic: 'birds', status: 'unobserved' })
 
     expect(result[0].items.map((species) => species.slug)).toEqual(['first', 'third'])
+  })
+
+  it('keeps observed status in the filter key so login can return to it', () => {
+    expect(buildSpeciesAtlasFiltersKey({
+      query: '麻雀',
+      topic: 'birds',
+      status: 'observed',
+    })).toBe('q=%E9%BA%BB%E9%9B%80&topic=birds&status=observed')
   })
 })

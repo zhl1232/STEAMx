@@ -42,6 +42,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
       initialQuery={params.q ?? ''}
       initialTopic={normalizeTopic(params.topic)}
       initialStatus={initialStatus}
+      requestedStatus={requestedStatus}
     />
   )
 }

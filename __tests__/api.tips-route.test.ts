@@ -128,4 +128,21 @@ describe('tips routes visibility', () => {
     await expect(response.json()).resolves.toEqual({ error: '项目不存在' })
     expect(rpc).not.toHaveBeenCalled()
   })
+
+  it('returns zero tips for anonymous viewers without consuming the per-user limiter', async () => {
+    const getUser = vi.fn().mockResolvedValue({ data: { user: null } })
+    createClientMock.mockResolvedValue({
+      auth: { getUser },
+      from: vi.fn(),
+      rpc: vi.fn(),
+    } as never)
+
+    const response = await GET_MY_TIP(
+      new NextRequest('http://localhost/api/tips/my?resourceType=completion&resourceId=18') as never
+    )
+
+    expect(response.status).toBe(200)
+    await expect(response.json()).resolves.toEqual({ myTipped: 0 })
+    expect(requireRateLimitMock).not.toHaveBeenCalled()
+  })
 })

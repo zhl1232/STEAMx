@@ -20,6 +20,14 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+vi.mock("@/lib/context/auth-context", () => ({
+  useAuth: () => ({ user: { id: "user-1" } }),
+}));
+
+vi.mock("@/lib/context/login-prompt-context", () => ({
+  useLoginPrompt: () => ({ promptLogin: vi.fn() }),
+}));
+
 describe("AboutSettingsPage", () => {
   const originalEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 

@@ -35,7 +35,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
       if (!challenge) return
       setChallenge((prev) => (prev ? { ...prev, joined: true, participants: prev.participants + 1 } : prev))
       try {
-        await joinChallenge(challenge.id)
+        await joinChallenge(challenge.id, { currentlyJoined: false })
       } catch {
         setChallenge((prev) =>
           prev ? { ...prev, joined: false, participants: Math.max(0, prev.participants - 1) } : prev,
@@ -149,7 +149,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
           }
         : prev,
     )
-    void joinChallenge(challenge.id).catch(() => {
+    void joinChallenge(challenge.id, { currentlyJoined: wasJoined }).catch(() => {
       setChallenge((prev) =>
         prev
           ? {
@@ -174,7 +174,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
     <>
       <MobilePageHeader
         title={challenge.title}
-        fallbackHref="/create"
+        fallbackHref="/create?tab=pbl"
       />
 
       <div className="page-shell pt-3 pb-28 md:pt-6 md:pb-10">

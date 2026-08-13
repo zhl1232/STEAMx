@@ -41,6 +41,7 @@ interface SpeciesAtlasProps {
   initialQuery?: string
   initialTopic: SpeciesAtlasTopicFilter
   initialStatus: SpeciesAtlasStatusFilter
+  requestedStatus: SpeciesAtlasStatusFilter
 }
 
 const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, LucideIcon | null> = {
@@ -131,7 +132,13 @@ function getTopicSummaryLabel(topic: SpeciesAtlasTopicFilter) {
   return '植物'
 }
 
-export function SpeciesAtlas({ initialData, initialQuery = '', initialTopic, initialStatus }: SpeciesAtlasProps) {
+export function SpeciesAtlas({
+  initialData,
+  initialQuery = '',
+  initialTopic,
+  initialStatus,
+  requestedStatus = initialStatus,
+}: SpeciesAtlasProps) {
   const router = useRouter()
   const [data, setData] = useState(initialData)
   const [query, setQuery] = useState(initialQuery)
@@ -375,7 +382,10 @@ export function SpeciesAtlas({ initialData, initialQuery = '', initialTopic, ini
 
         {data.viewer.progressState === 'anonymous' ? (
           <p className="nature-atlas-status-note">
-            <Link href="/login?next=%2Fnature%2Fspecies" className="font-semibold text-primary hover:underline">登录</Link> 后可筛选已观察物种。
+            <Link
+              href={`/login?next=${encodeURIComponent(buildSpeciesHref({ query, topic, status: requestedStatus }))}`}
+              className="font-semibold text-primary hover:underline"
+            >登录</Link> 后可筛选已观察物种。
           </p>
         ) : null}
         {data.viewer.progressState === 'unavailable' || refreshError ? (

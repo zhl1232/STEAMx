@@ -6,6 +6,8 @@ import { ChevronRight, Copy, FileText, Loader2, Mail, MessageCircle, MessageSqua
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/context/auth-context";
+import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import {
   Dialog,
   DialogContent,
@@ -35,15 +37,32 @@ const FAQ_ITEMS = [
 export default function AboutSettingsPage() {
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ?? "";
   const supportWechat = process.env.NEXT_PUBLIC_SUPPORT_WECHAT?.trim() ?? "";
+  const { user } = useAuth();
+  const { promptLogin } = useLoginPrompt();
   const { toast } = useToast();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
 
+  const openFeedback = () => {
+    if (!user) {
+      promptLogin(() => setFeedbackOpen(true), {
+        title: "登录后提交反馈",
+        description: "登录后即可把问题发给平台客服，回复会回到站内消息。",
+      });
+      return;
+    }
+    setFeedbackOpen(true);
+  };
+
   const handleFeedbackSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const content = feedbackText.trim();
     if (!content || feedbackSubmitting) return;
+    if (!user) {
+      openFeedback();
+      return;
+    }
 
     setFeedbackSubmitting(true);
     try {
@@ -114,6 +133,7 @@ export default function AboutSettingsPage() {
   return (
     <SettingsSubpageShell
       title="关于与帮助"
+      fallbackHref={user ? "/settings" : "/"}
       kicker="支持与规则"
       description="查看帮助、提交反馈和平台规则。"
     >
@@ -123,7 +143,7 @@ export default function AboutSettingsPage() {
             <h2 className="settings-section-heading">帮助入口</h2>
           </div>
           <div className="settings-list">
-            <button type="button" className="settings-row" onClick={() => setFeedbackOpen(true)}>
+            <button type="button" className="settings-row" onClick={openFeedback}>
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <div className="settings-icon">
                   <MessageSquareHeart className="h-5 w-5" />

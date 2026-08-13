@@ -8,6 +8,56 @@ export interface ChallengeGroups {
   ended: Challenge[]
 }
 
+export type FeaturedPblChallenge = {
+  id: number
+  title: string
+  summary: string
+  imageUrl: string
+}
+
+type FeaturedChallengeRow = {
+  id: number
+  title: string
+  description: string | null
+  image_url: string | null
+  challenge_type: string | null
+}
+
+export function pickFeaturedPblChallenge(rows: FeaturedChallengeRow[]): FeaturedPblChallenge | null {
+  if (rows.length === 0) return null
+
+  const featured = rows.find((row) => row.challenge_type === 'timed')
+    ?? rows.find((row) => row.challenge_type === 'evergreen')
+    ?? rows[0]
+  const summary = (featured.description || '').replace(/\s+/g, ' ').trim()
+
+  return {
+    id: featured.id,
+    title: featured.title,
+    summary: summary || '每周开放 · 提交过程记录和作品成果',
+    imageUrl: featured.image_url || '',
+  }
+}
+
+export async function getFeaturedPblChallenge(): Promise<FeaturedPblChallenge | null> {
+  const supabase = await createClient()
+
+  try {
+    const { data, error } = await supabase
+      .from('challenges')
+      .select('id, title, description, image_url, challenge_type')
+      .eq('status', 'active')
+      .order('created_at', { ascending: false })
+      .limit(20)
+
+    if (error) throw error
+    return pickFeaturedPblChallenge((data || []) as FeaturedChallengeRow[])
+  } catch (error) {
+    logger.error('Error fetching featured PBL challenge', { error })
+    return null
+  }
+}
+
 export const emptyChallengeGroups: ChallengeGroups = {
   activeTimed: [],
   evergreen: [],

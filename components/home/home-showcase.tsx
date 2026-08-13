@@ -21,6 +21,7 @@ import { CATEGORY_META } from "@/lib/config/categories";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
 import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/home/community-feed";
+import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { cn } from "@/lib/utils";
@@ -418,7 +419,18 @@ function communityFeedIconWrap(kind: HomeCommunityFeedKind) {
   }
 }
 
-function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityFeedItem[] }) {
+function CommunityAndActivity({
+  communityFeed,
+  featuredChallenge,
+}: {
+  communityFeed: HomeCommunityFeedItem[];
+  featuredChallenge: FeaturedPblChallenge | null;
+}) {
+  const challengeHref = featuredChallenge ? `/pbl/${featuredChallenge.id}` : "/create?tab=pbl";
+  const challengeTitle = featuredChallenge?.title ?? "项目挑战";
+  const challengeSummary = featuredChallenge?.summary ?? "每周开放 · 提交过程记录和作品成果";
+  const challengeImage = featuredChallenge?.imageUrl || heroImage;
+
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]">
       <section className="rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.58)] p-4 shadow-none">
@@ -455,15 +467,15 @@ function CommunityAndActivity({ communityFeed }: { communityFeed: HomeCommunityF
       <section className="rounded-md border border-[hsl(var(--brand-amber)/0.28)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.1),hsl(var(--surface-raised)/0.76)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
-          <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
+          <Link href="/create?tab=pbl" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
         </div>
-        <Link href="/create" className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-raised)/0.72)]">
+        <Link href={challengeHref} className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-raised)/0.72)]">
           <div className="relative h-[64px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
-            <Image src={heroImage} alt="STEAM 创新大赛" fill sizes="120px" className="object-cover object-[62%_center]" />
+            <Image src={challengeImage} alt={challengeTitle} fill sizes="120px" className="object-cover object-[62%_center]" />
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-[15px] font-bold text-foreground">用一个实验解释身边现象</h3>
-            <p className="mt-2 text-[12px] leading-5 text-muted-foreground">每周开放 · 提交过程记录和作品成果</p>
+            <h3 className="truncate text-[15px] font-bold text-foreground">{challengeTitle}</h3>
+            <p className="mt-2 line-clamp-2 text-[12px] leading-5 text-muted-foreground">{challengeSummary}</p>
           </div>
         </Link>
       </section>
@@ -544,6 +556,7 @@ export function HomeShowcase({
   recentNatureObservations,
   communityFeed,
   categoryTileCounts,
+  featuredChallenge,
 }: {
   works: Work[];
   worksNextOffset: number;
@@ -551,6 +564,7 @@ export function HomeShowcase({
   recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
   categoryTileCounts: HomeCategoryTileCounts;
+  featuredChallenge: FeaturedPblChallenge | null;
 }) {
   return (
     <div className="app-canvas min-h-screen">
@@ -571,7 +585,7 @@ export function HomeShowcase({
         </div>
 
         <div className="hidden md:block">
-          <CommunityAndActivity communityFeed={communityFeed} />
+          <CommunityAndActivity communityFeed={communityFeed} featuredChallenge={featuredChallenge} />
         </div>
       </div>
       <HomeFooter />

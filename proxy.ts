@@ -1,12 +1,24 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { STEAM_PATHNAME_HEADER, STEAM_SEARCH_HEADER } from "@/lib/auth/login-redirect";
 import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
+function withSteamPathHeaders(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(STEAM_PATHNAME_HEADER, request.nextUrl.pathname);
+  if (request.nextUrl.search) {
+    requestHeaders.set(STEAM_SEARCH_HEADER, request.nextUrl.search);
+  }
+  return requestHeaders;
+}
+
 export function proxy(request: NextRequest) {
   if (request.cookies.get(REC_VIEWER_COOKIE)?.value) {
-    return NextResponse.next();
+    return NextResponse.next({
+      request: { headers: withSteamPathHeaders(request) },
+    });
   }
 
   const newId = crypto.randomUUID();
@@ -16,7 +28,7 @@ export function proxy(request: NextRequest) {
   request.cookies.set(REC_VIEWER_COOKIE, newId);
 
   const response = NextResponse.next({
-    request: { headers: request.headers },
+    request: { headers: withSteamPathHeaders(request) },
   });
 
   response.cookies.set(REC_VIEWER_COOKIE, newId, {

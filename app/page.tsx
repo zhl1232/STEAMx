@@ -18,6 +18,7 @@ export default async function Home() {
     recentNatureObservations,
     communityFeed,
     categoryTileCounts,
+    featuredChallenge,
   } = await getHomepageShowcaseData();
 
   return (
@@ -28,6 +29,7 @@ export default async function Home() {
       recentNatureObservations={recentNatureObservations}
       communityFeed={communityFeed}
       categoryTileCounts={categoryTileCounts}
+      featuredChallenge={featuredChallenge}
     />
   );
 }

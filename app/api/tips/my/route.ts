@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   try {
-    await requireRateLimit(supabase, { key: 'api-tips-my', limit: 30, windowMs: 60_000 })
     const searchParams = request.nextUrl.searchParams
     const resourceType = searchParams.get('resourceType') || ''
     const resourceId = Number(searchParams.get('resourceId'))
@@ -24,20 +23,22 @@ export async function GET(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser()
 
+    if (!user) {
+      return NextResponse.json({ myTipped: 0 })
+    }
+
+    await requireRateLimit(supabase, { key: 'api-tips-my', limit: 30, windowMs: 60_000 })
+
     if (resourceType === 'project') {
-      const project = await getAccessibleProject(supabase, resourceId, user?.id)
+      const project = await getAccessibleProject(supabase, resourceId, user.id)
       if (!project) {
         return NextResponse.json({ error: '项目不存在' }, { status: 404 })
       }
     } else {
-      const completion = await getAccessibleCompletion(supabase, resourceId, user?.id)
+      const completion = await getAccessibleCompletion(supabase, resourceId, user.id)
       if (!completion) {
         return NextResponse.json({ error: '作品不存在' }, { status: 404 })
       }
-    }
-
-    if (!user) {
-      return NextResponse.json({ myTipped: 0 })
     }
 
     const { data, error } = await supabase.rpc('get_my_tip_for_resource', {

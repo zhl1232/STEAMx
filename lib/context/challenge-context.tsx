@@ -7,10 +7,14 @@ import type { Challenge } from "@/lib/mappers/types";
 import type { ChallengeGroups } from "@/lib/api/pbl-challenges";
 import { logger } from "@/lib/logger";
 
+export type JoinChallengeOptions = {
+    currentlyJoined?: boolean;
+};
+
 type ChallengeContextType = {
     challenges: ChallengeGroups;
     challengesError: string | null;
-    joinChallenge: (challengeId: string | number) => Promise<void>;
+    joinChallenge: (challengeId: string | number, options?: JoinChallengeOptions) => Promise<void>;
     reloadChallenges: () => Promise<void>;
     isLoading: boolean;
 };
@@ -23,11 +27,13 @@ export function ChallengeProvider({
     initialChallenges = emptyChallengeGroups,
     initialChallengesError = null,
     initialUserId,
+    autoLoad = true,
 }: {
     children: React.ReactNode;
     initialChallenges?: ChallengeGroups;
     initialChallengesError?: string | null;
     initialUserId?: string | null;
+    autoLoad?: boolean;
 }) {
     const [challenges, setChallenges] = useState<ChallengeGroups>(initialChallenges);
     const [challengesError, setChallengesError] = useState<string | null>(initialChallengesError);
@@ -70,6 +76,7 @@ export function ChallengeProvider({
     }, [fetchChallenges]);
 
     useEffect(() => {
+        if (!autoLoad) return;
         if (authLoading) return;
 
         const userId = user?.id ?? null;
@@ -82,33 +89,34 @@ export function ChallengeProvider({
             };
             loadData();
         }
-    }, [authLoading, user?.id, reloadChallenges]);
+    }, [autoLoad, authLoading, user?.id, reloadChallenges]);
 
-    const joinChallenge = useCallback(async (challengeId: string | number) => {
-        if (!user) return;
+    const joinChallenge = useCallback(async (challengeId: string | number, options?: JoinChallengeOptions) => {
         const cid = Number(challengeId);
+        if (!Number.isInteger(cid) || cid <= 0) {
+            throw new Error("Invalid challenge id");
+        }
 
         const allChallenges = [
             ...challengesRef.current.activeTimed,
             ...challengesRef.current.evergreen,
             ...challengesRef.current.ended,
         ];
-        const challenge = allChallenges.find(c => Number(c.id) === cid);
-        if (!challenge) return;
-
-        const isJoined = challenge.joined;
+        const listed = allChallenges.find(c => Number(c.id) === cid);
+        const isJoined = options?.currentlyJoined ?? listed?.joined ?? false;
 
         const applyToggle = (arr: Challenge[]) => arr.map(c =>
             Number(c.id) === cid ? { ...c, joined: !isJoined, participants: c.participants + (isJoined ? -1 : 1) } : c
         );
 
         const snapshot = challengesRef.current;
-
-        setChallenges(prev => ({
-            activeTimed: applyToggle(prev.activeTimed),
-            evergreen: applyToggle(prev.evergreen),
-            ended: applyToggle(prev.ended),
-        }));
+        if (listed) {
+            setChallenges(prev => ({
+                activeTimed: applyToggle(prev.activeTimed),
+                evergreen: applyToggle(prev.evergreen),
+                ended: applyToggle(prev.ended),
+            }));
+        }
 
         try {
             const response = await fetch(`/api/challenges/${cid}/participation`, {
@@ -128,11 +136,13 @@ export function ChallengeProvider({
                 await addXp(10, "参加挑战", "join_challenge", cid);
             }
         } catch (error) {
-            setChallenges(snapshot);
+            if (listed) {
+                setChallenges(snapshot);
+            }
             logger.error(error, { context: "Error toggling challenge participation" });
             throw error;
         }
-    }, [user, addXp]);
+    }, [addXp]);
 
     const contextValue = useMemo(() => ({
         challenges,

@@ -2,6 +2,7 @@ import { unstable_rethrow } from "next/navigation";
 
 import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
 import { getRecentNatureObservationsForMap } from "@/lib/api/nature-observation-homepage";
+import { getFeaturedPblChallenge, type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
 import { getHomepageCommunityFeed, type HomeCommunityFeedItem } from "@/lib/home/community-feed";
 import { logger } from "@/lib/logger";
@@ -27,6 +28,7 @@ export interface HomepageShowcaseData {
   recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
   categoryTileCounts: HomeCategoryTileCounts;
+  featuredChallenge: FeaturedPblChallenge | null;
 }
 
 type HomepagePreferenceContext = {
@@ -324,7 +326,7 @@ export async function getHomepageRecommendations(args: {
 }
 
 export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
-  const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts] = await Promise.all([
+  const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts, featuredChallenge] = await Promise.all([
     getTrendingWorks(4).catch((error) => {
       unstable_rethrow(error);
       logger.warn("Failed to load homepage works", { error });
@@ -333,6 +335,7 @@ export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
     getRecentNatureObservationsForMap(3),
     getHomepageCommunityFeed(),
     getHomepageCategoryTileCounts(),
+    getFeaturedPblChallenge(),
   ]);
 
   return {
@@ -342,5 +345,6 @@ export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
     recentNatureObservations,
     communityFeed,
     categoryTileCounts,
+    featuredChallenge,
   };
 }
