@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 import {
   getObservationAnalysisErrorMessage,
@@ -8,6 +8,13 @@ import {
   type ObservationMediaAnalysisRow,
 } from '@/lib/ai/observation-media-analysis'
 import { selectAiIdentification } from '@/lib/observations/identifications'
+import {
+  CreateObservationBatchSchema,
+  hasDuplicateMediaUrls,
+  uniqueMediaUrlsFromItems,
+  type ObservationCreateItem,
+} from '@/lib/observations/create-payload'
+import { rollbackCreatedObservations } from '@/lib/observations/create-rollback'
 import { getObservations } from '@/lib/api/nature-observation-data'
 import { isOwnedProjectImageUrl, validateContentSafeIfPresent } from '@/lib/api/validation'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
@@ -16,39 +23,11 @@ import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
-import { observationLifecycleStageValues, observationSexValues } from '@/lib/observations/traits'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
+import type { Database } from '@/lib/supabase/types'
 
-const relativeOrAbsoluteUrlSchema = z.union([
-  z.string().url(),
-  z.string().min(1).startsWith('/'),
-])
-
-const ObservationSpeciesInputSchema = z.object({
-  species_id: z.number().int().positive(),
-  count: z.number().int().positive().nullable().optional(),
-  behavior_tags: z.array(z.string().min(1).max(50)).max(10).default([]),
-  notes: z.string().max(1000).nullable().optional(),
-})
-
-const CreateObservationSchema = z.object({
-  observed_at: z.string().min(1),
-  observed_at_source: z.enum(['photo_exif', 'manual']).default('manual'),
-  location_name: z.string().min(1).max(200),
-  latitude: z.number().min(-90).max(90),
-  longitude: z.number().min(-180).max(180),
-  location_source: z.enum(['photo_exif', 'place_search', 'map_pin', 'device_location']).default('map_pin'),
-  coordinate_system: z.literal('gcj02').default('gcj02'),
-  habitat: z.string().max(100).nullable().optional(),
-  weather: z.string().max(100).nullable().optional(),
-  notes: z.string().max(2000).nullable().optional(),
-  media_urls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
-  is_public: z.boolean().default(true),
-  initial_species_id: z.number().int().positive().nullable().optional(),
-  species_entries: z.array(ObservationSpeciesInputSchema).max(1).optional(),
-  lifecycle_stage: z.enum(observationLifecycleStageValues).nullable().optional(),
-  sex: z.enum(observationSexValues).nullable().optional(),
-})
+type DbClient = SupabaseClient<Database>
+type ObservationEventRow = Database['public']['Tables']['observation_events']['Row']
 
 export async function GET(request: NextRequest) {
   try {
@@ -64,6 +43,50 @@ export async function GET(request: NextRequest) {
   }
 }
 
+function analysisVoteInput(row: ObservationMediaAnalysisRow) {
+  return {
+    status: row.status,
+    speciesCandidates: parseStoredSpeciesCandidates(row.species_candidates).map((candidate) => ({
+      speciesId: candidate.speciesId,
+      confidence: candidate.confidence,
+    })),
+  }
+}
+
+async function attachIdentifications(options: {
+  supabase: DbClient
+  observationId: number
+  item: ObservationCreateItem
+  analysis: ObservationMediaAnalysisRow | undefined
+}) {
+  const { supabase, observationId, item, analysis } = options
+  if (item.initial_species_id) {
+    const { error } = await callRpc(supabase, 'upsert_observation_identification', {
+      p_observation_id: observationId,
+      p_species_id: item.initial_species_id,
+      p_source: 'human',
+      p_lifecycle_stage: item.lifecycle_stage ?? null,
+      p_sex: item.sex ?? null,
+    })
+    if (error) throw error
+  }
+
+  if (!analysis) return
+
+  const aiIdentification = selectAiIdentification([analysisVoteInput(analysis)])
+  if (!aiIdentification) return
+  if (!supabaseAdmin) throw new Error('AI identification service is unavailable')
+
+  const { error } = await callRpc(supabaseAdmin, 'record_observation_ai_identification', {
+    p_observation_id: observationId,
+    p_species_id: aiIdentification.speciesId,
+    p_confidence: aiIdentification.confidence,
+    p_model_name: analysis.model_name || 'ai-vision',
+    p_media_analysis_id: analysis.id ?? null,
+  })
+  if (error) throw error
+}
+
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
 
@@ -71,7 +94,7 @@ export async function POST(request: NextRequest) {
     const user = await requireAuth(supabase)
     await requireInteractionAccess(supabase, user, 'submit')
     const body = await request.json()
-    const parsed = CreateObservationSchema.safeParse(body)
+    const parsed = CreateObservationBatchSchema.safeParse(body)
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -81,37 +104,29 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = parsed.data
-    const uniqueMediaUrls = Array.from(new Set(payload.media_urls))
+    if (hasDuplicateMediaUrls(payload.items)) {
+      return NextResponse.json({ error: '观察图片不能重复提交' }, { status: 400 })
+    }
 
-    validateContentSafeIfPresent(payload.location_name, '观察地点')
-    validateContentSafeIfPresent(payload.habitat, '生境')
-    validateContentSafeIfPresent(payload.weather, '天气')
-    validateContentSafeIfPresent(payload.notes, '观察备注')
-    for (const entry of payload.species_entries ?? []) {
-      validateContentSafeIfPresent(entry.notes, '物种备注')
-      for (const tag of entry.behavior_tags) {
-        validateContentSafeIfPresent(tag, '行为标签')
-      }
+    const uniqueMediaUrls = uniqueMediaUrlsFromItems(payload.items)
+    for (const item of payload.items) {
+      validateContentSafeIfPresent(item.location_name, '观察地点')
     }
 
     if (uniqueMediaUrls.some((url) => !isOwnedProjectImageUrl(url, user.id, 'observations'))) {
       return NextResponse.json({ error: '观察图片必须使用当前账号上传的文件' }, { status: 400 })
     }
 
-    let analysisRows: ObservationMediaAnalysisRow[] = []
-    if (uniqueMediaUrls.length > 0) {
-      const analysisResult = await supabase
-        .from('observation_media_analyses')
-        .select('*')
-        .eq('user_id', user.id)
-        .in('image_url', uniqueMediaUrls)
+    const analysisResult = await supabase
+      .from('observation_media_analyses')
+      .select('*')
+      .eq('user_id', user.id)
+      .in('image_url', uniqueMediaUrls)
 
-      if (analysisResult.error) {
-        throw analysisResult.error
-      }
-      analysisRows = (analysisResult.data || []) as ObservationMediaAnalysisRow[]
+    if (analysisResult.error) {
+      throw analysisResult.error
     }
-
+    const analysisRows = (analysisResult.data || []) as ObservationMediaAnalysisRow[]
     const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
       analysisRows.map((row) => [row.image_url, row]),
     )
@@ -120,20 +135,12 @@ export async function POST(request: NextRequest) {
     )
 
     const moderation = await moderateUserContent({
-      text: [
-        payload.location_name,
-        payload.habitat,
-        payload.weather,
-        payload.notes,
-        ...(payload.species_entries || []).flatMap((entry) => [entry.notes, ...entry.behavior_tags]),
-      ]
-        .filter((value): value is string => Boolean(value?.trim()))
-        .join('\n'),
+      text: payload.items.map((item) => item.location_name).join('\n'),
       imageSources: imagesNeedingModeration,
     })
     if (moderation.state === 'rejected') {
       return NextResponse.json(
-        { error: moderation.reason || '观察记录未通过安全检查', code: 'CONTENT_REJECTED' },
+        { error: moderation.reason || '观察未通过安全检查', code: 'CONTENT_REJECTED' },
         { status: 422 },
       )
     }
@@ -154,122 +161,142 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const selectedSpeciesId = payload.initial_species_id ?? payload.species_entries?.[0]?.species_id ?? null
-    const typedAnalyses = uniqueMediaUrls
-      .map((imageUrl) => analysisMap.get(imageUrl))
-      .filter((row): row is ObservationMediaAnalysisRow => Boolean(row))
-    const aiIdentification = selectAiIdentification(
-      typedAnalyses.map((row) => ({
-        status: row.status,
-        speciesCandidates: parseStoredSpeciesCandidates(row.species_candidates).map((candidate) => ({
-          speciesId: candidate.speciesId,
-          confidence: candidate.confidence,
-        })),
-      })),
-    )
-    const aiSourceRow = aiIdentification
-      ? typedAnalyses.find((row) => parseStoredSpeciesCandidates(row.species_candidates)[0]?.speciesId === aiIdentification.speciesId)
-      : null
+    const topicLookupIds = Array.from(new Set(
+      payload.items.flatMap((item) => {
+        const selected = item.initial_species_id ?? null
+        const analysis = analysisMap.get(item.media_url)
+        const ai = analysis ? selectAiIdentification([analysisVoteInput(analysis)]) : null
+        return [selected, ai?.speciesId].filter((id): id is number => typeof id === 'number')
+      }),
+    ))
 
-    const topicLookupSpeciesId = selectedSpeciesId ?? aiIdentification?.speciesId ?? null
-    let inferredNatureTopic: string | null = null
-    if (topicLookupSpeciesId) {
-      const { data: speciesRow } = await supabase
+    const speciesTopicById = new Map<number, string | null>()
+    if (topicLookupIds.length > 0) {
+      const { data: speciesRows, error: speciesError } = await supabase
         .from('species')
-        .select('nature_topic')
-        .eq('id', topicLookupSpeciesId)
-        .single()
-      inferredNatureTopic = speciesRow?.nature_topic ?? null
-    }
-    if (!inferredNatureTopic) {
-      const analysisTopic = typedAnalyses.find((row) => row.nature_topic)?.nature_topic ?? null
-      inferredNatureTopic = analysisTopic
+        .select('id, nature_topic')
+        .in('id', topicLookupIds)
+      if (speciesError) throw speciesError
+      for (const row of speciesRows || []) {
+        speciesTopicById.set(row.id, row.nature_topic)
+      }
     }
 
-    const { data: observation, error: observationError } = await supabase
-      .from('observation_events')
-      .insert({
+    const insertRows = payload.items.map((item) => {
+      const analysis = analysisMap.get(item.media_url)
+      const ai = analysis ? selectAiIdentification([analysisVoteInput(analysis)]) : null
+      const topicLookupSpeciesId = item.initial_species_id ?? ai?.speciesId ?? null
+      const inferredNatureTopic = (
+        (topicLookupSpeciesId ? speciesTopicById.get(topicLookupSpeciesId) : null)
+        ?? analysis?.nature_topic
+        ?? null
+      )
+
+      return {
         user_id: user.id,
         nature_topic: inferredNatureTopic,
-        observed_at: payload.observed_at,
-        observed_at_source: payload.observed_at_source,
-        location_name: payload.location_name,
-        latitude: payload.latitude,
-        longitude: payload.longitude,
-        location_precision: 'exact',
-        location_source: payload.location_source,
-        coordinate_system: payload.coordinate_system,
-        habitat: payload.habitat ?? null,
-        weather: payload.weather ?? null,
-        notes: payload.notes ?? null,
-        media_urls: payload.media_urls,
+        observed_at: item.observed_at,
+        observed_at_source: item.observed_at_source,
+        location_name: item.location_name,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        location_precision: 'exact' as const,
+        location_source: item.location_source,
+        coordinate_system: item.coordinate_system,
+        habitat: null,
+        weather: null,
+        notes: null,
+        media_urls: [item.media_url],
         is_public: payload.is_public,
-        status: 'pending',
+        status: 'pending' as const,
         moderation_state: moderation.state,
-        lifecycle_stage: payload.lifecycle_stage ?? null,
-        sex: payload.sex ?? null,
-      })
+        lifecycle_stage: item.lifecycle_stage ?? null,
+        sex: item.sex ?? null,
+      }
+    })
+
+    const { data: observations, error: observationError } = await supabase
+      .from('observation_events')
+      .insert(insertRows)
       .select('*')
-      .single()
 
-    if (observationError || !observation) {
-      throw observationError || new Error('Failed to create observation')
+    if (observationError || !observations || observations.length !== payload.items.length) {
+      throw observationError || new Error('Failed to create observations')
     }
 
+    const created = observations as ObservationEventRow[]
+    const createdIds = created.map((row) => row.id)
+    const createdByUrl = new Map(created.map((row) => [row.media_urls[0], row]))
+
+    const rollbackBatch = async () => {
+      await rollbackCreatedObservations({
+        supabase,
+        userId: user.id,
+        observationIds: createdIds,
+      })
+      if (supabaseAdmin) {
+        const { error: caseRollbackError } = await supabaseAdmin
+          .from('moderation_cases')
+          .delete()
+          .eq('content_type', 'observation')
+          .in('content_id', createdIds)
+        if (caseRollbackError) throw caseRollbackError
+      }
+    }
+
+    let moderationCaseIds: number[] = []
     try {
-      if (selectedSpeciesId) {
-        const { error } = await callRpc(supabase, 'upsert_observation_identification', {
-          p_observation_id: observation.id,
-          p_species_id: selectedSpeciesId,
-          p_source: 'human',
-          p_lifecycle_stage: payload.lifecycle_stage ?? null,
-          p_sex: payload.sex ?? null,
+      for (const item of payload.items) {
+        const observation = createdByUrl.get(item.media_url)
+        if (!observation) throw new Error('Failed to create observations')
+        await attachIdentifications({
+          supabase,
+          observationId: observation.id,
+          item,
+          analysis: analysisMap.get(item.media_url),
         })
-        if (error) throw error
       }
 
-      if (aiIdentification) {
-        if (!supabaseAdmin) throw new Error('AI identification service is unavailable')
-        const { error } = await callRpc(supabaseAdmin, 'record_observation_ai_identification', {
-          p_observation_id: observation.id,
-          p_species_id: aiIdentification.speciesId,
-          p_confidence: aiIdentification.confidence,
-          p_model_name: aiSourceRow?.model_name || 'ai-vision',
-          p_media_analysis_id: aiSourceRow?.id ?? null,
-        })
-        if (error) throw error
+      if (moderation.state === 'pending') {
+        for (const observation of created) {
+          const caseId = await createModerationCase({
+            contentType: 'observation',
+            contentId: observation.id,
+            authorId: user.id,
+            riskLevel: moderation.riskLevel,
+            category: moderation.category,
+            reason: moderation.reason,
+            modelName: moderation.modelName,
+            snapshot: {
+              authorId: user.id,
+              text: payload.items.map((item) => item.location_name).filter(Boolean).join('\n'),
+              metadata: { mediaUrls: [observation.media_urls[0]].filter(Boolean) },
+            },
+          })
+          if (caseId) moderationCaseIds.push(caseId)
+        }
       }
-    } catch (identificationError) {
-      await supabase
-        .from('observation_events')
-        .delete()
-        .eq('id', observation.id)
-        .eq('user_id', user.id)
-      throw identificationError
+    } catch (postInsertError) {
+      try {
+        await rollbackBatch()
+      } catch (rollbackError) {
+        logger.error('Failed to roll back observation batch', { rollbackError, postInsertError })
+        throw rollbackError
+      }
+      throw postInsertError
     }
 
-    const moderationCaseId = moderation.state === 'pending'
-      ? await createModerationCase({
-          contentType: 'observation',
-          contentId: observation.id,
-          authorId: user.id,
-          riskLevel: moderation.riskLevel,
-          category: moderation.category,
-          reason: moderation.reason,
-          modelName: moderation.modelName,
-          snapshot: {
-            authorId: user.id,
-            text: [payload.location_name, payload.notes].filter(Boolean).join('\n'),
-            metadata: { mediaUrls: uniqueMediaUrls },
-          },
-        })
-      : null
-
+    const first = created[0]
     return NextResponse.json(
-      moderationCaseId
-        ? { observation, reviewStatus: 'pending', moderation: { state: 'pending', caseId: moderationCaseId } }
-        : { observation, reviewStatus: 'pending' },
-      { status: moderationCaseId ? 202 : 201 },
+      moderationCaseIds.length > 0
+        ? {
+            observation: first,
+            observations: created,
+            reviewStatus: 'pending',
+            moderation: { state: 'pending', caseIds: moderationCaseIds },
+          }
+        : { observation: first, observations: created, reviewStatus: 'pending' },
+      { status: moderationCaseIds.length > 0 ? 202 : 201 },
     )
   } catch (error) {
     return handleApiError(error)

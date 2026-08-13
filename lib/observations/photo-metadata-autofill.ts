@@ -1,4 +1,5 @@
 import type { ObservationPhotoMetadata } from '@/lib/observation-photo-metadata'
+import type { ObservationPhotoLocationSource, ObservationPhotoTimeSource } from '@/lib/observations/photo-draft'
 
 export const PHOTO_METADATA_NO_GPS_WARNING = '没有读取到照片 GPS，请搜索选择地点或在地图上选点。'
 export const PHOTO_METADATA_COORDINATE_CONVERSION_WARNING = '照片包含 GPS，但地图服务暂时无法转换坐标，请搜索选择地点或在地图上选点。'
@@ -10,29 +11,19 @@ interface MapCoordinates {
 }
 
 interface ResolveObservationPhotoMetadataAutofillOptions {
-  previousMetadata: ObservationPhotoMetadata[]
-  incomingMetadata: ObservationPhotoMetadata[]
-  currentObservedAt: string
-  currentLatitude: string
-  currentLongitude: string
+  metadata: ObservationPhotoMetadata
   convertGpsToMap: (latitude: number, longitude: number) => Promise<MapCoordinates | null>
   reverseGeocode: (latitude: number, longitude: number) => Promise<string | null>
 }
 
 export interface ObservationPhotoMetadataAutofillResult {
-  allMetadata: ObservationPhotoMetadata[]
   observedAt?: string
-  observedAtSource?: 'photo_exif'
+  observedAtSource?: ObservationPhotoTimeSource
   latitude?: string
   longitude?: string
   locationName?: string
-  locationSource?: 'photo_exif'
-  shouldClearPlaceResults?: boolean
+  locationSource?: ObservationPhotoLocationSource
   warning?: string
-}
-
-function hasCoordinateField(value: string) {
-  return value.trim().length > 0
 }
 
 function hasPhotoCoordinates(
@@ -42,56 +33,37 @@ function hasPhotoCoordinates(
 }
 
 export async function resolveObservationPhotoMetadataAutofill({
-  previousMetadata,
-  incomingMetadata,
-  currentObservedAt,
-  currentLatitude,
-  currentLongitude,
+  metadata,
   convertGpsToMap,
   reverseGeocode,
 }: ResolveObservationPhotoMetadataAutofillOptions): Promise<ObservationPhotoMetadataAutofillResult> {
-  const allMetadata = [...previousMetadata, ...incomingMetadata]
-  const result: ObservationPhotoMetadataAutofillResult = { allMetadata }
-  const firstObservedAt = allMetadata.find((item) => item.observedAt)?.observedAt
-  const firstPositionMetadata = allMetadata.find(hasPhotoCoordinates)
+  const result: ObservationPhotoMetadataAutofillResult = {}
 
-  if (allMetadata.length === 0) {
-    return result
-  }
-
-  if (firstObservedAt && !currentObservedAt) {
-    result.observedAt = firstObservedAt
+  if (metadata.observedAt) {
+    result.observedAt = metadata.observedAt
     result.observedAtSource = 'photo_exif'
   }
 
-  const alreadyHasCoordinates = hasCoordinateField(currentLatitude) || hasCoordinateField(currentLongitude)
-  if (!firstPositionMetadata) {
-    return {
-      ...result,
-      warning: alreadyHasCoordinates ? result.warning : result.warning ?? PHOTO_METADATA_NO_GPS_WARNING,
-    }
-  }
-
-  if (alreadyHasCoordinates) {
+  if (!hasPhotoCoordinates(metadata)) {
+    result.warning = PHOTO_METADATA_NO_GPS_WARNING
     return result
   }
 
-  const converted = await convertGpsToMap(firstPositionMetadata.latitude, firstPositionMetadata.longitude)
+  const converted = await convertGpsToMap(metadata.latitude, metadata.longitude)
   if (!converted) {
-    return {
-      ...result,
-      warning: PHOTO_METADATA_COORDINATE_CONVERSION_WARNING,
-    }
+    result.warning = PHOTO_METADATA_COORDINATE_CONVERSION_WARNING
+    return result
   }
 
   const name = await reverseGeocode(converted.latitude, converted.longitude)
-  return {
-    ...result,
-    latitude: converted.latitude.toFixed(6),
-    longitude: converted.longitude.toFixed(6),
-    locationName: name || undefined,
-    locationSource: 'photo_exif',
-    shouldClearPlaceResults: true,
-    warning: name ? result.warning : PHOTO_METADATA_REVERSE_GEOCODE_WARNING,
+  result.latitude = converted.latitude.toFixed(6)
+  result.longitude = converted.longitude.toFixed(6)
+  result.locationSource = 'photo_exif'
+  if (name) {
+    result.locationName = name
+  } else {
+    result.warning = PHOTO_METADATA_REVERSE_GEOCODE_WARNING
   }
+
+  return result
 }

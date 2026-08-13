@@ -90,6 +90,7 @@ describe('ObservationSubmitPhotoSection', () => {
     await waitFor(() => {
       expect(onPhotoMetadata).toHaveBeenCalledWith([
         {
+          imageUrl: 'https://example.com/storage/v1/object/public/project-images/observations/user-1/photo.jpg',
           observedAt: '2026-07-22T09:30',
           latitude: 31.2304,
           longitude: 121.4737,

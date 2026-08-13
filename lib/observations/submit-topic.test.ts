@@ -26,5 +26,6 @@ describe('observation submit topic', () => {
   it('provides topic-specific copy', () => {
     expect(getObservationSubmitTopicCopy('insects').label).toBe('昆虫')
     expect(getObservationSubmitTopicCopy('insects').subjectUnit).toBe('一只昆虫')
+    expect(getObservationSubmitTopicCopy('birds').photoSubjectHint).toContain('单独成为一条观察')
   })
 })

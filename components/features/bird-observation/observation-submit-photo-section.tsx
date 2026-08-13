@@ -42,7 +42,7 @@ interface ObservationSubmitPhotoSectionProps {
   analyses?: ObservationMediaAnalysis[]
   isAnalyzing?: boolean
   showHeader?: boolean
-  onPhotoMetadata?: (items: ObservationPhotoMetadata[]) => void
+  onPhotoMetadata?: (items: Array<ObservationPhotoMetadata & { imageUrl: string }>) => void
   analyzingMessage?: string
 }
 
@@ -175,10 +175,19 @@ export function ObservationSubmitPhotoSection({
       )
 
       onEvidenceChange([...evidenceImages, ...uploadedUrls])
-      onPhotoMetadata?.(metadata)
+      onPhotoMetadata?.(
+        uploadedUrls.map((imageUrl, index) => ({
+          imageUrl,
+          observedAt: metadata[index]?.observedAt ?? null,
+          latitude: metadata[index]?.latitude ?? null,
+          longitude: metadata[index]?.longitude ?? null,
+        })),
+      )
       toast({
-        title: "照片已收进本次观察",
-        description: `成功添加 ${uploadedUrls.length} 张图片`,
+        title: uploadedUrls.length > 1 ? "照片已添加" : "照片已添加",
+        description: uploadedUrls.length > 1
+          ? `成功添加 ${uploadedUrls.length} 张，每张会单独成为一条观察`
+          : "这张照片会成为一条观察",
       })
     } catch (error) {
       const description = getSecureUploadErrorMessage(error)
@@ -233,7 +242,7 @@ export function ObservationSubmitPhotoSection({
             </div>
           </div>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            至少上传 1 张清晰照片，越清楚越容易识别。
+            至少上传 1 张清晰照片。一次可多选，每张会单独成为一条观察。
           </p>
         </div>
       ) : null}
@@ -250,7 +259,7 @@ export function ObservationSubmitPhotoSection({
             <div className="relative aspect-16/11 min-h-[180px] sm:min-h-[210px] md:aspect-16/10">
             <OptimizedImage
               src={heroImage}
-              alt="观察头图"
+              alt="观察照片"
               fill
               variant="cover"
               className="object-cover"
@@ -259,7 +268,7 @@ export function ObservationSubmitPhotoSection({
             <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2 sm:left-4 sm:top-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/35 px-3 py-1.5 text-xs font-medium backdrop-blur-md">
                 <Sparkles className="h-3.5 w-3.5" />
-                封面照片
+                第 1 张
               </div>
               {heroBadge ? (
                 <Badge variant="outline" className={heroBadge.className}>
@@ -276,11 +285,11 @@ export function ObservationSubmitPhotoSection({
             >
               <X className="h-4 w-4" />
             </Button>
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
               <div className="max-w-[18rem]">
                 <p className="text-sm font-medium">照片已进入识别流程</p>
                 <p className="mt-1 text-xs leading-5 text-white/76">
-                  确认物种、地点和描述后即可发布。
+                  每张照片会单独成为一条观察，确认物种和地点后即可发布。
                 </p>
               </div>
             </div>

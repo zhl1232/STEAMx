@@ -30,10 +30,8 @@ import {
 } from "lucide-react"
 
 import { DomesticMapPicker } from "@/components/features/bird-observation/domestic-map-picker"
-import {
-  ObservationSubmitPhotoSection,
-  type ObservationMediaAnalysis,
-} from "@/components/features/bird-observation/observation-submit-photo-section"
+import { ObservationSubmitPhotoSection, type ObservationMediaAnalysis } from "@/components/features/bird-observation/observation-submit-photo-section"
+import { ObservationPhotoStrip } from "@/components/features/bird-observation/observation-photo-strip"
 import { ObservationSubmitSuccessDialog } from "@/components/features/bird-observation/observation-submit-success-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -47,7 +45,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { dispatchObservationCreated } from "@/lib/gamification/observation-events"
@@ -55,6 +52,18 @@ import { useGamification } from "@/lib/context/gamification-context"
 import { useAuth } from "@/lib/context/auth-context"
 import type { ObservationPhotoMetadata } from "@/lib/observation-photo-metadata"
 import { resolveObservationPhotoMetadataAutofill } from "@/lib/observations/photo-metadata-autofill"
+import {
+  copyLocationToDraft,
+  createEmptyPhotoDraft,
+  isPhotoLocated,
+  isPhotoPublishReady,
+  isPhotoTimeReady,
+  nowLocalDateTimeInput,
+  syncPhotoDrafts,
+  type ObservationPhotoDraft,
+  type ObservationPhotoLocationSource,
+} from "@/lib/observations/photo-draft"
+import { getObservationSubmitTopicCopy } from "@/lib/observations/submit-topic"
 import {
   observationLifecycleStageOptions,
   observationSexOptions,
@@ -94,13 +103,16 @@ interface SubmitResponse {
   observation: {
     id: number
   }
+  observations?: Array<{
+    id: number
+  }>
   reviewStatus?: "pending" | "approved" | "rejected"
 }
 
 const DEFAULT_XP_REWARD = 10
 const NOTE_MAX_LENGTH = 500
 const OBSERVATION_DRAFT_KEY = "steam:nature-observation-draft"
-const OBSERVATION_DRAFT_VERSION = 1
+const OBSERVATION_DRAFT_VERSION = 2
 const OBSERVER_THRESHOLDS = [1, 10, 30, 100]
 const LOCATION_PRECISION_VALUES = ["exact", "approximate", "hidden"] as const
 const MEDIA_ANALYSIS_STATUS_VALUES = [
@@ -134,18 +146,10 @@ interface SubmitBlocker {
 }
 
 interface ObservationDraft {
+  version?: number
   evidenceImages: string[]
-  observedAt: string
-  observedAtSource: "photo_exif" | "manual"
-  locationName: string
-  latitude: string
-  longitude: string
-  locationSource: "photo_exif" | "place_search" | "map_pin" | "device_location"
-  notes: string
-  speciesId: string
-  speciesQuery: string
+  photoDrafts: Record<string, ObservationPhotoDraft>
   mediaAnalyses: ObservationMediaAnalysis[]
-  locationPrecision: LocationPrecision
   isPublic: boolean
 }
 
@@ -155,8 +159,6 @@ const subtlePanelClass =
   "rounded-sm border border-(--obs-border) bg-(--obs-subtle) p-4"
 const controlClass =
   "h-11 rounded-sm border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) shadow-none placeholder:text-(--obs-placeholder) transition-colors focus:border-(--obs-accent)! focus:outline-hidden focus:ring-2 focus:ring-(--obs-focus) focus:ring-offset-0 focus-visible:border-(--obs-accent)! focus-visible:ring-(--obs-focus) focus-visible:ring-offset-0"
-const textareaClass =
-  "rounded-sm border-(--obs-border-strong) bg-(--obs-control) px-4 py-3 text-sm leading-6 text-(--obs-text) shadow-none placeholder:text-(--obs-placeholder) transition-colors focus:border-(--obs-accent)! focus:outline-hidden focus:ring-2 focus:ring-(--obs-focus) focus:ring-offset-0 focus-visible:border-(--obs-accent)! focus-visible:ring-(--obs-focus) focus-visible:ring-offset-0"
 const stepStatusClassNames: Record<StepStatusTone, string> = {
   neutral: "border-(--obs-border-strong) bg-(--obs-control) text-(--obs-muted)",
   success: "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-[#3f6b50] dark:bg-[#20352a] dark:text-[#c8efd2]",
@@ -348,26 +350,6 @@ function getNextObserverThreshold(count: number) {
   return OBSERVER_THRESHOLDS.find((threshold) => count < threshold) ?? OBSERVER_THRESHOLDS[OBSERVER_THRESHOLDS.length - 1]
 }
 
-function buildAiNoteSuggestion(analyses: ObservationMediaAnalysis[]) {
-  const seen = new Set<string>()
-  const suggestions: string[] = []
-
-  for (const analysis of analyses) {
-    if (analysis.status !== "passed" && analysis.status !== "passed_no_identification") continue
-    const suggestion = analysis.noteSuggestion?.trim()
-    if (!suggestion || seen.has(suggestion)) continue
-
-    seen.add(suggestion)
-    suggestions.push(suggestion)
-  }
-
-  return suggestions.slice(0, 2).join("\n").slice(0, NOTE_MAX_LENGTH)
-}
-
-function isLocationPrecision(value: unknown): value is LocationPrecision {
-  return LOCATION_PRECISION_VALUES.includes(value as LocationPrecision)
-}
-
 function isMediaAnalysisStatus(value: unknown): value is ObservationMediaAnalysis["status"] {
   return MEDIA_ANALYSIS_STATUS_VALUES.includes(value as ObservationMediaAnalysis["status"])
 }
@@ -431,6 +413,35 @@ function normalizeMediaAnalysis(value: unknown, allowedImageUrls: Set<string>): 
   }
 }
 
+function isObservationSex(value: unknown): value is ObservationSex {
+  return value === "male" || value === "female" || value === "unknown"
+}
+
+function isObservationLifecycleStage(value: unknown): value is ObservationLifecycleStage {
+  return value === "egg" || value === "larva" || value === "pupa" || value === "juvenile" || value === "adult" || value === "unknown"
+}
+
+function isLocationSource(value: unknown): value is ObservationPhotoLocationSource {
+  return value === "photo_exif" || value === "place_search" || value === "map_pin" || value === "device_location"
+}
+
+function normalizePhotoDraft(value: unknown): ObservationPhotoDraft | null {
+  if (!value || typeof value !== "object") return null
+  const row = value as Record<string, unknown>
+  return {
+    speciesId: normalizeDraftString(row.speciesId),
+    sex: isObservationSex(row.sex) ? row.sex : "",
+    lifecycleStage: isObservationLifecycleStage(row.lifecycleStage) ? row.lifecycleStage : "",
+    observedAt: normalizeDraftString(row.observedAt) || nowLocalDateTimeInput(),
+    observedAtSource: row.observedAtSource === "photo_exif" ? "photo_exif" : "manual",
+    latitude: normalizeDraftString(row.latitude),
+    longitude: normalizeDraftString(row.longitude),
+    locationName: normalizeDraftString(row.locationName),
+    locationSource: isLocationSource(row.locationSource) ? row.locationSource : "map_pin",
+    locationWarning: normalizeDraftString(row.locationWarning),
+  }
+}
+
 function shouldAnalyzeImage(analysis: ObservationMediaAnalysis | undefined) {
   if (!analysis) return true
   return !MEDIA_ANALYSIS_FINAL_STATUSES.has(analysis.status)
@@ -439,9 +450,9 @@ function shouldAnalyzeImage(analysis: ObservationMediaAnalysis | undefined) {
 function normalizeObservationDraft(value: unknown): ObservationDraft | null {
   if (!value || typeof value !== "object") return null
 
-  const draft = value as Partial<Record<keyof ObservationDraft, unknown>>
+  const draft = value as Record<string, unknown>
   const evidenceImages = Array.isArray(draft.evidenceImages)
-    ? draft.evidenceImages.filter((url): url is string => typeof url === "string" && url.trim().length > 0).slice(0, 10)
+    ? draft.evidenceImages.filter((url): url is string => typeof url === "string" && url.trim().length > 0).slice(0, 5)
     : []
   const allowedImageUrls = new Set(evidenceImages)
   const mediaAnalyses = Array.isArray(draft.mediaAnalyses)
@@ -449,41 +460,34 @@ function normalizeObservationDraft(value: unknown): ObservationDraft | null {
         .map((analysis) => normalizeMediaAnalysis(analysis, allowedImageUrls))
         .filter((analysis): analysis is ObservationMediaAnalysis => Boolean(analysis))
     : []
-  const observedAt = normalizeDraftString(draft.observedAt)
-  const observedAtSource = draft.observedAtSource === "photo_exif" ? "photo_exif" : "manual"
-  const locationName = normalizeDraftString(draft.locationName)
-  const latitude = normalizeDraftString(draft.latitude)
-  const longitude = normalizeDraftString(draft.longitude)
-  const locationSource = draft.locationSource === "photo_exif" || draft.locationSource === "place_search" || draft.locationSource === "device_location"
-    ? draft.locationSource
-    : "map_pin"
-  const notes = normalizeDraftString(draft.notes, NOTE_MAX_LENGTH)
-  const speciesId = normalizeDraftString(draft.speciesId)
-  const speciesQuery = normalizeDraftString(draft.speciesQuery)
-  const locationPrecision = isLocationPrecision(draft.locationPrecision) ? draft.locationPrecision : "approximate"
   const isPublic = typeof draft.isPublic === "boolean" ? draft.isPublic : true
 
-  const hasContent =
-    evidenceImages.length > 0 ||
-    Boolean(observedAt || locationName || latitude || longitude || notes || speciesId || speciesQuery) ||
-    locationPrecision !== "approximate" ||
-    !isPublic
+  const photoDrafts: Record<string, ObservationPhotoDraft> = {}
+  if (draft.photoDrafts && typeof draft.photoDrafts === "object") {
+    for (const url of evidenceImages) {
+      const parsed = normalizePhotoDraft((draft.photoDrafts as Record<string, unknown>)[url])
+      photoDrafts[url] = parsed ?? createEmptyPhotoDraft()
+    }
+  } else {
+    const shared = createEmptyPhotoDraft()
+    shared.observedAt = normalizeDraftString(draft.observedAt) || shared.observedAt
+    shared.observedAtSource = draft.observedAtSource === "photo_exif" ? "photo_exif" : "manual"
+    shared.locationName = normalizeDraftString(draft.locationName)
+    shared.latitude = normalizeDraftString(draft.latitude)
+    shared.longitude = normalizeDraftString(draft.longitude)
+    shared.locationSource = isLocationSource(draft.locationSource) ? draft.locationSource : "map_pin"
+    shared.speciesId = normalizeDraftString(draft.speciesId)
+    for (const url of evidenceImages) {
+      photoDrafts[url] = { ...shared }
+    }
+  }
 
-  if (!hasContent) return null
+  if (evidenceImages.length === 0 && isPublic) return null
 
   return {
     evidenceImages,
-    observedAt,
-    observedAtSource,
-    locationName,
-    latitude,
-    longitude,
-    locationSource,
-    notes,
-    speciesId,
-    speciesQuery,
+    photoDrafts,
     mediaAnalyses,
-    locationPrecision,
     isPublic,
   }
 }
@@ -500,28 +504,19 @@ export function ObservationSubmitForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [evidenceImages, setEvidenceImages] = useState<string[]>([])
-  const [observedAt, setObservedAt] = useState("")
-  const [observedAtSource, setObservedAtSource] = useState<"photo_exif" | "manual">("manual")
-  const [locationName, setLocationName] = useState("")
-  const [latitude, setLatitude] = useState("")
-  const [longitude, setLongitude] = useState("")
-  const [locationSource, setLocationSource] = useState<"photo_exif" | "place_search" | "map_pin" | "device_location">("map_pin")
-  const [metadataWarning, setMetadataWarning] = useState("")
+  const [photoDrafts, setPhotoDrafts] = useState<Record<string, ObservationPhotoDraft>>({})
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null)
   const [placeResults, setPlaceResults] = useState<PlaceSearchResult[]>([])
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false)
-  const [notes, setNotes] = useState("")
   const [isPublic, setIsPublic] = useState(true)
   const [locationDisclosureConfirmed, setLocationDisclosureConfirmed] = useState(false)
-  const [speciesId, setSpeciesId] = useState(() => (initialSpeciesId ? String(initialSpeciesId) : ""))
   const [speciesQuery, setSpeciesQuery] = useState("")
   const [speciesResults, setSpeciesResults] = useState<SpeciesOption[]>([])
-  const [lifecycleStage, setLifecycleStage] = useState<"" | ObservationLifecycleStage>("")
-  const [sex, setSex] = useState<"" | ObservationSex>("")
   const [isSearchingSpecies, setIsSearchingSpecies] = useState(false)
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
   const [isLocating, setIsLocating] = useState(false)
-  const [locationPrecision] = useState<LocationPrecision>("exact")
+  const locationPrecision: LocationPrecision = "exact"
   const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanelKey>("photo")
   const [speciesSheetOpen, setSpeciesSheetOpen] = useState(false)
   const [locationSheetOpen, setLocationSheetOpen] = useState(false)
@@ -531,22 +526,24 @@ export function ObservationSubmitForm({
     observationId: number | null
     imageUrl: string | null
     speciesName: string | null
+    count: number
   }>({
     open: false,
     observationId: null,
     imageUrl: null,
     speciesName: null,
+    count: 1,
   })
 
   const draftRestoreTriedRef = useRef(false)
   const draftRestoredSpeciesRef = useRef(false)
   const pendingAnalysisImageUrlsRef = useRef(new Set<string>())
-  const photoMetadataRef = useRef<ObservationPhotoMetadata[]>([])
+  const photoMetadataRef = useRef<Record<string, ObservationPhotoMetadata>>({})
   const placeSearchRequestRef = useRef(0)
   const photoSectionRef = useRef<HTMLElement | null>(null)
   const speciesSectionRef = useRef<HTMLElement | null>(null)
   const locationSectionRef = useRef<HTMLElement | null>(null)
-  const aiAutofillAppliedRef = useRef(false)
+  const speciesAutofillRef = useRef(new Set<string>())
   const mobileSectionRefs = {
     photo: photoSectionRef,
     species: speciesSectionRef,
@@ -566,6 +563,17 @@ export function ObservationSubmitForm({
     return Array.from(map.values())
   }, [speciesOptions])
 
+  const selectedDraft = selectedImageUrl ? photoDrafts[selectedImageUrl] ?? createEmptyPhotoDraft() : null
+  const speciesId = selectedDraft?.speciesId ?? ""
+  const sex = selectedDraft?.sex ?? ""
+  const lifecycleStage = selectedDraft?.lifecycleStage ?? ""
+  const observedAt = selectedDraft?.observedAt ?? ""
+  const observedAtSource = selectedDraft?.observedAtSource ?? "manual"
+  const locationName = selectedDraft?.locationName ?? ""
+  const latitude = selectedDraft?.latitude ?? ""
+  const longitude = selectedDraft?.longitude ?? ""
+  const metadataWarning = selectedDraft?.locationWarning ?? ""
+
   const selectedSpecies = useMemo(
     () => allSpecies.find((option) => String(option.id) === speciesId) ?? null,
     [allSpecies, speciesId],
@@ -581,19 +589,10 @@ export function ObservationSubmitForm({
   )
 
   const suggestedCandidates = useMemo(() => {
-    const map = new Map<number, ObservationMediaAnalysis["speciesCandidates"][number]>()
-
-    for (const analysis of mediaAnalyses) {
-      for (const candidate of analysis.speciesCandidates) {
-        const current = map.get(candidate.speciesId)
-        if (!current || candidate.confidence > current.confidence) {
-          map.set(candidate.speciesId, candidate)
-        }
-      }
-    }
-
-    return Array.from(map.values()).sort((left, right) => right.confidence - left.confidence)
-  }, [mediaAnalyses])
+    const analysis = selectedImageUrl ? analysisMap.get(selectedImageUrl) : null
+    if (!analysis) return []
+    return [...analysis.speciesCandidates].sort((left, right) => right.confidence - left.confidence)
+  }, [analysisMap, selectedImageUrl])
 
   const analysisPendingCount = useMemo(
     () =>
@@ -604,42 +603,104 @@ export function ObservationSubmitForm({
     [analysisMap, evidenceImages],
   )
 
-  const failedAnalysis = useMemo(
+  const failedAnalyses = useMemo(
     () =>
       evidenceImages
         .map((url) => analysisMap.get(url))
-        .find((analysis) => analysis && analysis.status !== "passed" && analysis.status !== "passed_no_identification" && analysis.status !== "pending") ?? null,
+        .filter((analysis): analysis is ObservationMediaAnalysis => Boolean(
+          analysis && analysis.status !== "passed" && analysis.status !== "passed_no_identification" && analysis.status !== "pending",
+        )),
     [analysisMap, evidenceImages],
   )
+  const selectedAnalysis = selectedImageUrl ? analysisMap.get(selectedImageUrl) : undefined
+  const selectedFailedAnalysis =
+    selectedAnalysis
+    && selectedAnalysis.status !== "passed"
+    && selectedAnalysis.status !== "passed_no_identification"
+    && selectedAnalysis.status !== "pending"
+      ? selectedAnalysis
+      : null
 
-  const analysisReady = evidenceImages.length > 0 && evidenceImages.every((url) => {
-    const status = analysisMap.get(url)?.status
-    return status === "passed" || status === "passed_no_identification"
-  })
+  const passedImageUrls = useMemo(
+    () =>
+      evidenceImages.filter((url) => {
+        const status = analysisMap.get(url)?.status
+        return status === "passed" || status === "passed_no_identification"
+      }),
+    [analysisMap, evidenceImages],
+  )
+  const analysisReady = passedImageUrls.length > 0 && analysisPendingCount === 0
   const shouldShowSpeciesResults = speciesQuery.trim().length > 0
   const speciesStepLocked = evidenceImages.length === 0
-  const speciesStepStatus = selectedSpecies
-    ? "我的鉴定"
+  const identifiedCount = passedImageUrls.filter((url) => Boolean(photoDrafts[url]?.speciesId)).length
+  const locatedPassedCount = passedImageUrls.filter((url) => {
+    const draft = photoDrafts[url]
+    return Boolean(draft && isPhotoPublishReady(draft))
+  }).length
+  const publishCount = locatedPassedCount
+  const otherUnlocatedCount = evidenceImages.filter((url) => {
+    if (url === selectedImageUrl) return false
+    const draft = photoDrafts[url]
+    return Boolean(draft && !isPhotoLocated(draft))
+  }).length
+  const locatedUrls = useMemo(
+    () => new Set(evidenceImages.filter((url) => photoDrafts[url] && isPhotoLocated(photoDrafts[url]))),
+    [evidenceImages, photoDrafts],
+  )
+  const speciesBadges = useMemo(() => {
+    const badges = new Map<string, string>()
+    for (const url of evidenceImages) {
+      const draft = photoDrafts[url]
+      const match = allSpecies.find((option) => String(option.id) === draft?.speciesId)
+      badges.set(url, match?.commonName ?? "待鉴定")
+    }
+    return badges
+  }, [allSpecies, evidenceImages, photoDrafts])
+  const photoSubjectHint = getObservationSubmitTopicCopy("birds").photoSubjectHint
+  const speciesStepStatus = identifiedCount > 0
+    ? `${identifiedCount}/${Math.max(passedImageUrls.length, 1)} 已鉴定`
     : speciesStepLocked
       ? "待上传"
       : analysisPendingCount > 0 || isAnalyzingImages
         ? "AI 分析中"
         : "可选"
 
-  const observedAtReady = !!observedAt && !Number.isNaN(new Date(observedAt).getTime())
-  const locationReady = !!locationName.trim() && !!latitude.trim() && !!longitude.trim()
+  const updatePhotoDraft = useCallback((url: string, patch: Partial<ObservationPhotoDraft>) => {
+    setPhotoDrafts((current) => {
+      const existing = current[url] ?? createEmptyPhotoDraft()
+      return { ...current, [url]: { ...existing, ...patch } }
+    })
+  }, [])
+
+  const handleEvidenceChange = useCallback((urls: string[]) => {
+    setEvidenceImages(urls)
+    setPhotoDrafts((current) => syncPhotoDrafts(urls, current))
+    setSelectedImageUrl((current) => {
+      if (current && urls.includes(current)) return current
+      return urls[0] ?? null
+    })
+  }, [])
+
+  const locationReady = selectedDraft ? isPhotoLocated(selectedDraft) : false
   const needsLocationDisclosureConfirmation = isPublic && locationPrecision === "exact"
   const locationDisclosureReady = !needsLocationDisclosureConfirmation || locationDisclosureConfirmed
-  const locationAndTimeReady = locationReady && observedAtReady
+  const unlocatedPassedUrls = passedImageUrls.filter((url) => {
+    const draft = photoDrafts[url]
+    return !draft || !isPhotoPublishReady(draft)
+  })
+  const locationAndTimeReady = unlocatedPassedUrls.length === 0 && passedImageUrls.length > 0
   const canSubmit = analysisReady && locationAndTimeReady && locationDisclosureReady
   const observationProgressCount = userStats?.observationsSubmitted
   const displayedObservationCount = observationProgressCount ?? 0
   const nextObserverThreshold = getNextObserverThreshold(displayedObservationCount)
   const observerProgressValue = getProgressValue(displayedObservationCount, nextObserverThreshold)
   const observerProgressKnown = typeof observationProgressCount === "number"
-  const aiNoteSuggestion = useMemo(() => buildAiNoteSuggestion(mediaAnalyses), [mediaAnalyses])
 
   const tryLocate = useCallback(async (withToast: boolean) => {
+    if (!selectedImageUrl) {
+      if (withToast) toast({ title: "请先选择一张照片", variant: "destructive" })
+      return
+    }
     if (!navigator.geolocation) {
       if (withToast) {
         toast({ title: "当前设备不支持定位", variant: "destructive" })
@@ -647,6 +708,7 @@ export function ObservationSubmitForm({
       return
     }
 
+    const imageUrl = selectedImageUrl
     setIsLocating(true)
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -658,22 +720,23 @@ export function ObservationSubmitForm({
         }
         const lat = converted.latitude
         const lng = converted.longitude
-
-        setLatitude(lat.toFixed(6))
-        setLongitude(lng.toFixed(6))
-        setLocationSource("device_location")
-        setLocationDisclosureConfirmed(false)
-        placeSearchRequestRef.current += 1
-        setPlaceResults([])
-
+        let name: string | null = null
         try {
-          const name = await reverseGeocode(lat, lng)
-          if (name) {
-            setLocationName(name)
-          }
+          name = await reverseGeocode(lat, lng)
         } finally {
           setIsLocating(false)
         }
+
+        updatePhotoDraft(imageUrl, {
+          latitude: lat.toFixed(6),
+          longitude: lng.toFixed(6),
+          locationSource: "device_location",
+          locationWarning: "",
+          ...(name ? { locationName: name } : {}),
+        })
+        setLocationDisclosureConfirmed(false)
+        placeSearchRequestRef.current += 1
+        setPlaceResults([])
 
         if (withToast) {
           toast({ title: "已更新当前位置" })
@@ -691,7 +754,7 @@ export function ObservationSubmitForm({
       },
       { enableHighAccuracy: true, timeout: 12000 },
     )
-  }, [toast])
+  }, [selectedImageUrl, toast, updatePhotoDraft])
 
   useEffect(() => {
     if (draftRestoreTriedRef.current || typeof window === "undefined") return
@@ -708,20 +771,16 @@ export function ObservationSubmitForm({
       }
 
       setEvidenceImages(draft.evidenceImages)
-      if (draft.observedAt && !Number.isNaN(new Date(draft.observedAt).getTime())) {
-        setObservedAt(draft.observedAt)
-        setObservedAtSource(draft.observedAtSource)
-      }
-      setLocationName(draft.locationName)
-      setLatitude(draft.latitude)
-      setLongitude(draft.longitude)
-      setLocationSource(draft.locationSource)
-      setNotes(draft.notes)
+      setPhotoDrafts(syncPhotoDrafts(draft.evidenceImages, draft.photoDrafts))
+      setSelectedImageUrl(draft.evidenceImages[0] ?? null)
       setIsPublic(draft.isPublic)
-      setSpeciesId(draft.speciesId)
-      setSpeciesQuery(draft.speciesQuery)
       setMediaAnalyses(draft.mediaAnalyses)
-      draftRestoredSpeciesRef.current = Boolean(draft.speciesId || draft.speciesQuery)
+      const firstDraft = draft.evidenceImages[0] ? draft.photoDrafts[draft.evidenceImages[0]] : null
+      draftRestoredSpeciesRef.current = Boolean(firstDraft?.speciesId)
+      if (firstDraft?.speciesId) {
+        const match = speciesOptions.find((option) => String(option.id) === firstDraft.speciesId)
+        setSpeciesQuery(match?.commonName ?? "")
+      }
 
       toast({ title: "已恢复本地草稿" })
     } catch {
@@ -811,16 +870,30 @@ export function ObservationSubmitForm({
   }, [analysisMap, evidenceImages, toast, user])
 
   useEffect(() => {
-    if (selectedSpecies && speciesQuery.trim() === "") {
-      setSpeciesQuery(selectedSpecies.commonName)
+    if (!selectedImageUrl) {
+      setSpeciesQuery("")
+      return
     }
-  }, [selectedSpecies, speciesQuery])
+    const draft = photoDrafts[selectedImageUrl]
+    const match = allSpecies.find((option) => String(option.id) === draft?.speciesId)
+    setSpeciesQuery(match?.commonName ?? "")
+  }, [allSpecies, selectedImageUrl, selectedDraft?.speciesId])
+
+  useEffect(() => {
+    placeSearchRequestRef.current += 1
+    setPlaceResults([])
+  }, [selectedImageUrl])
 
   useEffect(() => {
     if (!initialSpecies || draftRestoredSpeciesRef.current) return
-    setSpeciesId(String(initialSpecies.id))
-    setSpeciesQuery((current) => current || initialSpecies.commonName)
-  }, [initialSpecies])
+    if (evidenceImages.length === 0) return
+    const url = evidenceImages[0]
+    updatePhotoDraft(url, { speciesId: String(initialSpecies.id) })
+    draftRestoredSpeciesRef.current = true
+    if (url === selectedImageUrl) {
+      setSpeciesQuery(initialSpecies.commonName)
+    }
+  }, [evidenceImages, initialSpecies, selectedImageUrl, updatePhotoDraft])
 
   useEffect(() => {
     const query = speciesQuery.trim()
@@ -864,28 +937,34 @@ export function ObservationSubmitForm({
 
   useEffect(() => {
     if (evidenceImages.length === 0) {
-      aiAutofillAppliedRef.current = false
+      speciesAutofillRef.current.clear()
     }
   }, [evidenceImages.length])
 
   useEffect(() => {
-    if (aiAutofillAppliedRef.current) return
     if (evidenceImages.length === 0) return
-    if (!analysisReady) return
-    if (suggestedCandidates.length === 0 && !aiNoteSuggestion) return
 
-    aiAutofillAppliedRef.current = true
-
-    if (!speciesId && suggestedCandidates[0]) {
-      const top = suggestedCandidates[0]
-      setSpeciesId(String(top.speciesId))
-      setSpeciesQuery((current) => current.trim() ? current : top.commonName)
-    }
-
-    if (!notes.trim() && aiNoteSuggestion) {
-      setNotes(aiNoteSuggestion.slice(0, NOTE_MAX_LENGTH))
-    }
-  }, [analysisReady, evidenceImages.length, suggestedCandidates, aiNoteSuggestion, speciesId, notes])
+    setPhotoDrafts((current) => {
+      let changed = false
+      const next = { ...current }
+      for (const url of evidenceImages) {
+        if (speciesAutofillRef.current.has(url)) continue
+        const analysis = analysisMap.get(url)
+        if (analysis?.status !== "passed") continue
+        const top = [...analysis.speciesCandidates].sort((left, right) => right.confidence - left.confidence)[0]
+        if (!top) continue
+        const draft = next[url] ?? createEmptyPhotoDraft()
+        if (draft.speciesId) {
+          speciesAutofillRef.current.add(url)
+          continue
+        }
+        next[url] = { ...draft, speciesId: String(top.speciesId) }
+        speciesAutofillRef.current.add(url)
+        changed = true
+      }
+      return changed ? next : current
+    })
+  }, [analysisMap, evidenceImages])
 
   const scrollToMobilePanel = (panel: MobilePanelKey, behavior: ScrollBehavior = "smooth") => {
     if (typeof window === "undefined" || !window.matchMedia("(max-width: 767px)").matches) return
@@ -900,25 +979,18 @@ export function ObservationSubmitForm({
     scrollToMobilePanel(panel, behavior)
   }
 
-  const advanceFromSpeciesOnMobile = () => {
-    if (typeof window === "undefined" || !window.matchMedia("(max-width: 767px)").matches) return
-    if (activeMobilePanel !== "species") return
-
-    window.setTimeout(() => openMobilePanel("location"), 180)
-  }
-
   const handleSpeciesSelect = (option: SpeciesOption) => {
-    setSpeciesId(String(option.id))
+    if (!selectedImageUrl) return
+    updatePhotoDraft(selectedImageUrl, { speciesId: String(option.id) })
     setSpeciesQuery(option.commonName)
-    advanceFromSpeciesOnMobile()
   }
 
   const handleCandidateSelect = (candidate: SpeciesCandidate, closeSheet = false) => {
     const option = allSpecies.find((item) => item.id === candidate.speciesId)
     if (option) {
       handleSpeciesSelect(option)
-    } else {
-      setSpeciesId(String(candidate.speciesId))
+    } else if (selectedImageUrl) {
+      updatePhotoDraft(selectedImageUrl, { speciesId: String(candidate.speciesId) })
       setSpeciesQuery(candidate.commonName)
     }
 
@@ -930,20 +1002,25 @@ export function ObservationSubmitForm({
   const toggleMobilePanel = (panel: MobilePanelKey) => openMobilePanel(panel)
 
   const getAnalysisBlockerDescription = () => {
-    if (failedAnalysis) {
-      if (failedAnalysis.status === "failed_low_quality") {
-        return failedAnalysis.qualityReason || "有图片不够清晰，请重拍后再提交"
-      }
-      if (failedAnalysis.status === "failed_unsafe") {
-        return failedAnalysis.moderationReason || "有图片不适合提交观察记录"
-      }
-      if (failedAnalysis.status === "failed_unrecognized") {
-        return "有图片暂时无法识别，请换更清晰的照片"
-      }
-      return failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"
+    if (analysisPendingCount > 0) {
+      return "图片识别尚未完成，请稍后再试"
     }
 
-    return analysisPendingCount > 0 ? "图片识别尚未完成，请稍后再试" : "请先完成图片识别"
+    const blockingFailure = failedAnalyses[0]
+    if (blockingFailure) {
+      if (blockingFailure.status === "failed_low_quality") {
+        return blockingFailure.qualityReason || "这张照片不够清晰，请删除或重拍，其余照片仍可发布"
+      }
+      if (blockingFailure.status === "failed_unsafe") {
+        return blockingFailure.moderationReason || "这张照片不适合提交，请删除后继续发布其余照片"
+      }
+      if (blockingFailure.status === "failed_unrecognized") {
+        return "这张照片暂时无法识别，请删除或换更清晰的照片"
+      }
+      return blockingFailure.moderationReason || "图片识别失败，请删除后重新上传。"
+    }
+
+    return "请先完成图片识别"
   }
 
   const getSubmitBlocker = (): SubmitBlocker | null => {
@@ -955,21 +1032,18 @@ export function ObservationSubmitForm({
       return {
         panel: "photo",
         label: "图片识别",
-        title: "请先完成图片识别",
+        title: passedImageUrls.length === 0 ? "没有可用于发布的照片" : "请先完成图片识别",
         description: getAnalysisBlockerDescription(),
       }
     }
 
-    if (!locationName.trim()) {
-      return { panel: "location", label: "观察地点", title: "请先完善观察地点" }
-    }
-
-    if (!latitude.trim() || !longitude.trim()) {
-      return { panel: "location", label: "地图选点", title: "请先完成地图选点" }
-    }
-
-    if (!observedAtReady) {
-      return { panel: "location", label: "观察时间", title: "请先确认观察时间" }
+    if (!locationAndTimeReady) {
+      return {
+        panel: "location",
+        label: "地点和时间",
+        title: "请为每张可发布的照片确认地点",
+        description: "没有 GPS 的照片需要搜索选择地点或在地图上选点。",
+      }
     }
 
     if (!locationDisclosureReady) {
@@ -987,6 +1061,10 @@ export function ObservationSubmitForm({
   const guideToSubmitBlocker = (blocker = getSubmitBlocker()) => {
     if (!blocker) return false
 
+    if (blocker.panel === "location" && unlocatedPassedUrls[0]) {
+      setSelectedImageUrl(unlocatedPassedUrls[0])
+    }
+
     openMobilePanel(blocker.panel)
     toast({
       title: blocker.title,
@@ -998,21 +1076,15 @@ export function ObservationSubmitForm({
 
   const resetForm = () => {
     setEvidenceImages([])
+    setPhotoDrafts({})
+    setSelectedImageUrl(null)
     setMediaAnalyses([])
-    setObservedAt("")
-    setObservedAtSource("manual")
-    setLocationName("")
-    setLatitude("")
-    setLongitude("")
-    setLocationSource("map_pin")
-    setMetadataWarning("")
     setPlaceResults([])
     placeSearchRequestRef.current += 1
-    photoMetadataRef.current = []
-    setNotes("")
+    photoMetadataRef.current = {}
+    speciesAutofillRef.current.clear()
     setIsPublic(true)
     setLocationDisclosureConfirmed(false)
-    setSpeciesId(initialSpecies ? String(initialSpecies.id) : "")
     setSpeciesQuery(initialSpecies?.commonName ?? "")
   }
 
@@ -1033,41 +1105,31 @@ export function ObservationSubmitForm({
       return
     }
 
-    if (!evidenceImages.length) {
+    const publishableUrls = passedImageUrls.filter((url) => {
+      const draft = photoDrafts[url]
+      return draft && isPhotoPublishReady(draft)
+    })
+
+    if (publishableUrls.length === 0) {
       toast({ title: "先上传一张照片", variant: "destructive" })
       return
     }
 
     if (!analysisReady) {
-      const description = failedAnalysis
-        ? failedAnalysis.status === "failed_low_quality"
-          ? failedAnalysis.qualityReason || "有图片不够清晰，请重拍后再提交"
-          : failedAnalysis.status === "failed_unsafe"
-            ? failedAnalysis.moderationReason || "有图片不适合提交观察记录"
-            : failedAnalysis.status === "failed_unrecognized"
-              ? "有图片暂时无法识别，请换更清晰的照片"
-              : failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"
-        : analysisPendingCount > 0
-          ? "图片识别尚未完成，请稍后再试"
-          : "请先完成图片识别"
-      toast({ title: "先完成图片识别", description, variant: "destructive" })
+      toast({ title: "先完成图片识别", description: getAnalysisBlockerDescription(), variant: "destructive" })
       return
     }
 
-    if (!locationName.trim() || !latitude.trim() || !longitude.trim()) {
-      toast({ title: "请确认位置与时间", description: "我们需要这条观察的地点和定位。", variant: "destructive" })
-      return
-    }
-
-    if (!observedAtReady) {
-      toast({ title: "请确认观察时间", description: "观察日期和时间不能为空。", variant: "destructive" })
+    if (!locationAndTimeReady) {
+      toast({ title: "请确认每张照片的地点和时间", description: "没有 GPS 的照片需要搜索选择地点或在地图上选点。", variant: "destructive" })
+      openMobilePanel("location")
       return
     }
 
     if (!locationDisclosureReady) {
       toast({
         title: "请确认准确位置公开范围",
-        description: "公开记录会展示地点名称和地图坐标。",
+        description: "公开观察会展示地点名称和地图坐标。",
         variant: "destructive",
       })
       openMobilePanel("location")
@@ -1077,25 +1139,30 @@ export function ObservationSubmitForm({
     setIsSubmitting(true)
 
     try {
+      const items = publishableUrls.map((url) => {
+        const draft = photoDrafts[url] ?? createEmptyPhotoDraft()
+        const observedAtValue = isPhotoTimeReady(draft) ? draft.observedAt : nowLocalDateTimeInput()
+        return {
+          media_url: url,
+          observed_at: new Date(observedAtValue).toISOString(),
+          observed_at_source: draft.observedAtSource,
+          location_name: draft.locationName.trim(),
+          location_source: draft.locationSource,
+          coordinate_system: "gcj02",
+          latitude: Number(draft.latitude),
+          longitude: Number(draft.longitude),
+          initial_species_id: draft.speciesId ? Number(draft.speciesId) : null,
+          lifecycle_stage: draft.lifecycleStage || null,
+          sex: draft.sex || null,
+        }
+      })
+
       const submitObservationRequest = () => fetch("/api/observations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          observed_at: new Date(observedAt).toISOString(),
-          observed_at_source: observedAtSource,
-          location_name: locationName.trim(),
-          location_source: locationSource,
-          coordinate_system: "gcj02",
-          habitat: null,
-          weather: null,
-          latitude: Number(latitude),
-          longitude: Number(longitude),
-          notes: notes.trim() || null,
-          media_urls: evidenceImages,
           is_public: isPublic,
-          initial_species_id: speciesId ? Number(speciesId) : null,
-          lifecycle_stage: lifecycleStage || null,
-          sex: sex || null,
+          items,
         }),
       })
 
@@ -1119,11 +1186,16 @@ export function ObservationSubmitForm({
         window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
       }
 
+      const created = payload.observations?.length ? payload.observations : [payload.observation]
+      const firstDraft = photoDrafts[publishableUrls[0]]
+      const firstSpecies = allSpecies.find((option) => String(option.id) === firstDraft?.speciesId)
+
       setSuccessState({
         open: true,
-        observationId: payload.observation.id,
-        imageUrl: evidenceImages[0] ?? null,
-        speciesName: selectedSpecies?.commonName ?? null,
+        observationId: created[0]?.id ?? payload.observation.id,
+        imageUrl: publishableUrls[0] ?? null,
+        speciesName: firstSpecies?.commonName ?? null,
+        count: created.length,
       })
       resetForm()
     } catch (error) {
@@ -1167,78 +1239,88 @@ export function ObservationSubmitForm({
           : "warning"
 
   const updateObservedDate = (date: string) => {
-    setObservedAtSource("manual")
-    setObservedAt(`${date}T${observedTime || "00:00"}`)
+    if (!selectedImageUrl) return
+    updatePhotoDraft(selectedImageUrl, {
+      observedAtSource: "manual",
+      observedAt: `${date}T${observedTime || "00:00"}`,
+    })
   }
 
   const updateObservedTime = (time: string) => {
-    setObservedAtSource("manual")
+    if (!selectedImageUrl) return
     if (observedDate) {
-      setObservedAt(`${observedDate}T${time || "00:00"}`)
+      updatePhotoDraft(selectedImageUrl, {
+        observedAtSource: "manual",
+        observedAt: `${observedDate}T${time || "00:00"}`,
+      })
     }
   }
 
   const handleMapChange = useCallback((coords: { latitude: string; longitude: string }) => {
+    if (!selectedImageUrl) return
     placeSearchRequestRef.current += 1
     setPlaceResults([])
-    setLatitude(coords.latitude)
-    setLongitude(coords.longitude)
-    setLocationSource("map_pin")
+    updatePhotoDraft(selectedImageUrl, {
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      locationSource: "map_pin",
+      locationWarning: "",
+    })
     setLocationDisclosureConfirmed(false)
-  }, [])
+  }, [selectedImageUrl, updatePhotoDraft])
 
   const handleLocationNameSuggestion = useCallback((name: string) => {
+    if (!selectedImageUrl) return
     placeSearchRequestRef.current += 1
-    setLocationName(name)
+    updatePhotoDraft(selectedImageUrl, { locationName: name, locationWarning: "" })
     setLocationDisclosureConfirmed(false)
     setPlaceResults([])
-  }, [])
+  }, [selectedImageUrl, updatePhotoDraft])
 
-  const handlePhotoMetadata = useCallback(async (items: ObservationPhotoMetadata[]) => {
-    const previousMetadata = photoMetadataRef.current
-    const nextMetadata = [...previousMetadata, ...items]
-    photoMetadataRef.current = nextMetadata
+  const handlePhotoMetadata = useCallback(async (items: Array<ObservationPhotoMetadata & { imageUrl: string }>) => {
+    for (const item of items) {
+      photoMetadataRef.current[item.imageUrl] = item
+      const result = await resolveObservationPhotoMetadataAutofill({
+        metadata: item,
+        convertGpsToMap: convertGpsToAmap,
+        reverseGeocode,
+      })
 
-    const result = await resolveObservationPhotoMetadataAutofill({
-      previousMetadata,
-      incomingMetadata: items,
-      currentObservedAt: observedAt,
-      currentLatitude: latitude,
-      currentLongitude: longitude,
-      convertGpsToMap: convertGpsToAmap,
-      reverseGeocode,
-    })
-
-    setMetadataWarning(result.warning ?? "")
-
-    if (result.observedAt) {
-      setObservedAt(result.observedAt)
-      setObservedAtSource("photo_exif")
+      updatePhotoDraft(item.imageUrl, {
+        ...(result.observedAt ? { observedAt: result.observedAt, observedAtSource: "photo_exif" } : {}),
+        ...(result.latitude && result.longitude
+          ? {
+              latitude: result.latitude,
+              longitude: result.longitude,
+              locationSource: "photo_exif",
+              locationName: result.locationName ?? "",
+            }
+          : {}),
+        locationWarning: result.warning ?? "",
+      })
     }
-
-    if (result.latitude && result.longitude) {
-      setLatitude(result.latitude)
-      setLongitude(result.longitude)
-      setLocationSource("photo_exif")
-      setLocationDisclosureConfirmed(false)
-    }
-
-    if (result.shouldClearPlaceResults) {
-      placeSearchRequestRef.current += 1
-      setPlaceResults([])
-    }
-
-    if (result.locationName) {
-      setLocationName(result.locationName)
-    }
-  }, [latitude, longitude, observedAt])
+    setLocationDisclosureConfirmed(false)
+    placeSearchRequestRef.current += 1
+    setPlaceResults([])
+  }, [updatePhotoDraft])
 
   const handleLocationInput = useCallback(async (value: string) => {
+    if (!selectedImageUrl) return
     const requestId = placeSearchRequestRef.current + 1
     placeSearchRequestRef.current = requestId
-    setLocationName(value)
-    setLatitude("")
-    setLongitude("")
+    setPhotoDrafts((current) => {
+      const existing = current[selectedImageUrl] ?? createEmptyPhotoDraft()
+      const keepExifCoordinates = existing.locationSource === "photo_exif" && Boolean(existing.latitude.trim() && existing.longitude.trim())
+      return {
+        ...current,
+        [selectedImageUrl]: {
+          ...existing,
+          locationName: value,
+          locationWarning: "",
+          ...(keepExifCoordinates ? {} : { latitude: "", longitude: "" }),
+        },
+      }
+    })
     setLocationDisclosureConfirmed(false)
     setPlaceResults([])
     if (value.trim().length < 2) {
@@ -1252,36 +1334,38 @@ export function ObservationSubmitForm({
     } finally {
       if (requestId === placeSearchRequestRef.current) setIsSearchingPlaces(false)
     }
-  }, [])
+  }, [selectedImageUrl])
 
   const handlePlaceSelect = useCallback((place: PlaceSearchResult) => {
+    if (!selectedImageUrl) return
     placeSearchRequestRef.current += 1
-    setLocationName(place.name)
-    setLatitude(place.latitude.toFixed(6))
-    setLongitude(place.longitude.toFixed(6))
-    setLocationSource("place_search")
+    updatePhotoDraft(selectedImageUrl, {
+      locationName: place.name,
+      latitude: place.latitude.toFixed(6),
+      longitude: place.longitude.toFixed(6),
+      locationSource: "place_search",
+      locationWarning: "",
+    })
     setLocationDisclosureConfirmed(false)
     setPlaceResults([])
-  }, [])
+  }, [selectedImageUrl, updatePhotoDraft])
 
-  const handleApplyAiNoteSuggestion = useCallback(() => {
-    const suggestion = aiNoteSuggestion.trim()
-    if (!suggestion) return
-
-    const current = notes.trimEnd()
-    if (current.includes(suggestion)) {
-      toast({ title: "AI 描述已在文本中" })
-      return
-    }
-
-    const combined = `${current}${current ? "\n" : ""}${suggestion}`
-    const next = combined.slice(0, NOTE_MAX_LENGTH)
-    setNotes(next)
-
-    if (combined.length > NOTE_MAX_LENGTH) {
-      toast({ title: "已填入可容纳的描述内容" })
-    }
-  }, [aiNoteSuggestion, notes, toast])
+  const handleApplyLocationToUnlocated = useCallback(() => {
+    if (!selectedDraft || !isPhotoLocated(selectedDraft)) return
+    const source = selectedDraft
+    setPhotoDrafts((current) => {
+      const next = { ...current }
+      for (const url of evidenceImages) {
+        if (url === selectedImageUrl) continue
+        const draft = next[url]
+        if (draft && !isPhotoLocated(draft)) {
+          next[url] = copyLocationToDraft(draft, source)
+        }
+      }
+      return next
+    })
+    toast({ title: "已用到其余未定位的照片" })
+  }, [evidenceImages, selectedDraft, selectedImageUrl, toast])
 
   const handleSaveDraft = () => {
     if (typeof window === "undefined") return
@@ -1290,17 +1374,8 @@ export function ObservationSubmitForm({
       OBSERVATION_DRAFT_KEY,
       JSON.stringify({
         evidenceImages,
-        observedAt,
-        observedAtSource,
-        locationName,
-        latitude,
-        longitude,
-        locationSource,
-        notes,
-        speciesId,
-        speciesQuery,
+        photoDrafts,
         mediaAnalyses: mediaAnalyses.filter((item) => evidenceImages.includes(item.imageUrl)),
-        locationPrecision,
         isPublic,
         version: OBSERVATION_DRAFT_VERSION,
         savedAt: new Date().toISOString(),
@@ -1312,17 +1387,14 @@ export function ObservationSubmitForm({
 
   const visibilityLabel = isPublic ? "公开记录，公开准确位置" : "仅自己可见"
   const precisionLabel = "准确位置"
-  const previewImage = evidenceImages[0] ?? null
+  const previewImage = selectedImageUrl ?? evidenceImages[0] ?? null
   const previewSpeciesName = selectedSpecies?.commonName || speciesQuery.trim() || "待共同鉴定"
   const previewScientificName = selectedSpecies?.scientificName || "AI 和社区用户可参与鉴定"
-  const noteLength = notes.trim().length
-  const aiNoteActionLabel = notes.trim() ? "追加到描述" : "填入描述"
   const qualityChecks = [
-    { label: "已提供初步鉴定（可选）", done: !!speciesId },
+    { label: "已提供初步鉴定（可选）", done: identifiedCount > 0 },
     { label: "已上传至少 1 张照片", done: evidenceImages.length > 0 },
-    { label: "已填写时间和地点", done: !!locationName.trim() && observedAtReady },
+    { label: "每张可发布照片已填写时间和地点", done: locationAndTimeReady },
     { label: "已确认位置公开范围", done: locationDisclosureReady },
-    { label: "描述字数 ≥ 10 字", done: noteLength >= 10 },
   ]
   const requiredChecks = [
     analysisReady,
@@ -1344,6 +1416,13 @@ export function ObservationSubmitForm({
       ? `${precisionLabel} · 点击可调整位置`
       : `已保存地图位置 · ${precisionLabel}`
     : "拖动地图可调整精确位置"
+  const locationStepStatus = passedImageUrls.length > 0
+    ? `${locatedPassedCount}/${passedImageUrls.length} 已定位`
+    : locationReady
+      ? "已填写"
+      : "待填写"
+  const locationStepTone: StepStatusTone = locationAndTimeReady ? "success" : "warning"
+  const submitActionLabel = publishCount > 0 ? `发布 ${publishCount} 条观察` : "发布观察"
   const speciesSummary = selectedSpecies
     ? selectedSpecies.commonName
     : suggestedCandidates[0]
@@ -1468,11 +1547,19 @@ export function ObservationSubmitForm({
               />
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("photo"))}>
                 <p className="mb-3 text-sm leading-6 text-(--obs-muted)">
-                  每条记录只对应一个观察对象；上传多张照片时，请确保都是同一个观察对象。
+                  {photoSubjectHint}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => setTipsSheetOpen(true)}
+                  className="mb-3 inline-flex h-9 items-center gap-1.5 rounded-full border border-(--obs-border) bg-(--obs-control) px-3 text-xs font-medium text-(--obs-muted) md:hidden"
+                >
+                  <HelpCircle className="h-3.5 w-3.5" />
+                  小贴士
+                </button>
                 <ObservationSubmitPhotoSection
                   evidenceImages={evidenceImages}
-                  onEvidenceChange={setEvidenceImages}
+                  onEvidenceChange={handleEvidenceChange}
                   analyses={mediaAnalyses}
                   isAnalyzing={isAnalyzingImages}
                   showHeader={false}
@@ -1480,15 +1567,15 @@ export function ObservationSubmitForm({
                   analyzingMessage="正在分析图片质量，并尝试匹配候选物种。"
                 />
                 <MobileStepFooter
-                  actionLabel={analysisReady ? "继续鉴定物种" : evidenceImages.length > 0 ? "等待图片识别" : "先上传照片"}
+                  actionLabel={analysisReady ? "继续按张鉴定" : evidenceImages.length > 0 ? "等待图片识别" : "先上传照片"}
                   disabled={!analysisReady}
                   onNext={() => openMobilePanel("species")}
                   helper={
                     analysisReady
-                      ? "照片已可用于观察记录，下一步可以确认物种，也可以发布后请社区共同鉴定。"
+                      ? "每张可用照片会成为一条观察。下一步可以为每张选择物种，也可以发布为待鉴定。"
                       : evidenceImages.length > 0
                         ? getAnalysisBlockerDescription()
-                        : "上传照片后会自动尝试读取拍摄时间和位置信息。"
+                        : "上传照片后会自动尝试读取每张图的拍摄时间和位置信息。"
                   }
                 />
               </div>
@@ -1498,8 +1585,8 @@ export function ObservationSubmitForm({
               <div className="hidden md:block">
                 <StepHeader
                   index={2}
-                  title="鉴定物种与描述"
-                  description="AI 分析会自动填入候选物种和描述建议；你也可以提供自己的鉴定，或先发布为待鉴定。"
+                  title="按张鉴定"
+                  description="点选一张照片，为这张填写物种、性别和生命阶段。不确定也可以先发布为待鉴定。"
                   icon={Bird}
                   status={speciesStepStatus}
                   statusTone={speciesStatusTone}
@@ -1507,7 +1594,7 @@ export function ObservationSubmitForm({
               </div>
               <MobileAccordionHeader
                 index={2}
-                title="鉴定与描述"
+                title="按张鉴定"
                 icon={Bird}
                 status={speciesStepStatus}
                 statusTone={speciesStatusTone}
@@ -1517,6 +1604,16 @@ export function ObservationSubmitForm({
               />
 
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("species"))}>
+              {evidenceImages.length > 1 ? (
+                <div className="mb-4">
+                  <ObservationPhotoStrip
+                    images={evidenceImages}
+                    selectedUrl={selectedImageUrl}
+                    onSelect={setSelectedImageUrl}
+                    badges={speciesBadges}
+                  />
+                </div>
+              ) : null}
               {(isAnalyzingImages || analysisPendingCount > 0) ? (
                 <div className="mb-4 flex items-start gap-3 rounded-xs border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]">
                   <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin" />
@@ -1524,22 +1621,22 @@ export function ObservationSubmitForm({
                     <div className="font-semibold">AI 分析中…</div>
                     <div className="mt-0.5 text-xs leading-5 text-sky-700/80 dark:text-[#c7dceb]/80">
                       {analysisPendingCount > 0
-                        ? `还有 ${analysisPendingCount} 张图片正在识别，完成后会自动填入候选物种和描述。`
-                        : "完成后会自动填入候选物种和描述。"}
+                        ? `还有 ${analysisPendingCount} 张图片正在识别，完成后会按张填入候选物种。`
+                        : "完成后会按张填入候选物种。"}
                     </div>
                   </div>
                 </div>
               ) : null}
 
-              {failedAnalysis ? (
+              {selectedFailedAnalysis ? (
                 <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                  {failedAnalysis.status === "failed_unsafe"
-                    ? failedAnalysis.moderationReason || "这张图片不适合用于自然观察提交，请更换照片。"
-                    : failedAnalysis.status === "failed_low_quality"
-                      ? failedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"
-                      : failedAnalysis.status === "failed_unrecognized"
+                  {selectedFailedAnalysis.status === "failed_unsafe"
+                    ? selectedFailedAnalysis.moderationReason || "这张图片不适合用于自然观察提交，请更换照片。"
+                    : selectedFailedAnalysis.status === "failed_low_quality"
+                      ? selectedFailedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"
+                      : selectedFailedAnalysis.status === "failed_unrecognized"
                         ? "这是旧版未识别结果，请重新上传照片触发新的鉴定流程。"
-                        : failedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"}
+                        : selectedFailedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"}
                 </div>
               ) : null}
 
@@ -1582,8 +1679,8 @@ export function ObservationSubmitForm({
                     value={speciesQuery}
                     onChange={(event) => {
                       setSpeciesQuery(event.target.value)
-                      if (!event.target.value.trim()) {
-                        setSpeciesId("")
+                      if (!event.target.value.trim() && selectedImageUrl) {
+                        updatePhotoDraft(selectedImageUrl, { speciesId: "" })
                       }
                     }}
                     placeholder={speciesStepLocked ? "先上传照片" : "搜索更多物种名称..."}
@@ -1650,7 +1747,12 @@ export function ObservationSubmitForm({
                       <span className="text-xs font-medium text-(--obs-muted)">生命阶段（可选）</span>
                       <select
                         value={lifecycleStage}
-                        onChange={(event) => setLifecycleStage(event.target.value as typeof lifecycleStage)}
+                        onChange={(event) => {
+                          if (!selectedImageUrl) return
+                          updatePhotoDraft(selectedImageUrl, {
+                            lifecycleStage: event.target.value as ObservationPhotoDraft["lifecycleStage"],
+                          })
+                        }}
                         className={cn(controlClass, "appearance-none bg-no-repeat px-3 text-sm")}
                       >
                         <option value="">未注明</option>
@@ -1665,7 +1767,12 @@ export function ObservationSubmitForm({
                       <span className="text-xs font-medium text-(--obs-muted)">性别（可选）</span>
                       <select
                         value={sex}
-                        onChange={(event) => setSex(event.target.value as typeof sex)}
+                        onChange={(event) => {
+                          if (!selectedImageUrl) return
+                          updatePhotoDraft(selectedImageUrl, {
+                            sex: event.target.value as ObservationPhotoDraft["sex"],
+                          })
+                        }}
                         className={cn(controlClass, "appearance-none bg-no-repeat px-3 text-sm")}
                       >
                         <option value="">未注明</option>
@@ -1679,125 +1786,11 @@ export function ObservationSubmitForm({
                   </div>
                 ) : null}
 
-                <div className="mt-5 border-t border-(--obs-border) pt-5">
-                  <div className="mb-2 flex items-center justify-between gap-3">
-                    <FieldLabel htmlFor="observationNotes">观察描述</FieldLabel>
-                    <button
-                      type="button"
-                      onClick={() => setTipsSheetOpen(true)}
-                      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-(--obs-border) bg-(--obs-control) px-3 text-xs font-medium text-(--obs-muted) md:hidden"
-                    >
-                      <HelpCircle className="h-3.5 w-3.5" />
-                      小贴士
-                    </button>
-                  </div>
-                  <Textarea
-                    id="observationNotes"
-                    value={notes}
-                    onChange={(event) => setNotes(event.target.value)}
-                    placeholder="清晨在湿地附近看到一只主体，停在水边低头觅食，时而展开翅膀。"
-                    rows={5}
-                    maxLength={NOTE_MAX_LENGTH}
-                    className={textareaClass}
-                  />
-                  {aiNoteSuggestion ? (
-                    <div className="mt-3 rounded-xs border border-(--obs-border) bg-(--obs-accent-soft) p-3">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
-                            <Sparkles className="h-4 w-4 text-(--obs-accent)" />
-                            AI 描述建议
-                          </div>
-                          <p className="mt-2 whitespace-pre-wrap wrap-break-word text-sm leading-6 text-(--obs-muted)">
-                            {aiNoteSuggestion}
-                          </p>
-                        </div>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          className="h-9 shrink-0 rounded-full border-(--obs-accent) bg-(--obs-control) px-3 text-(--obs-accent-text) hover:bg-(--obs-control-hover) hover:text-(--obs-accent-text)"
-                          onClick={handleApplyAiNoteSuggestion}
-                        >
-                          {aiNoteActionLabel}
-                        </Button>
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className="mt-2 flex justify-end text-xs text-(--obs-muted-2)">
-                    {noteLength}/{NOTE_MAX_LENGTH}
-                  </div>
-
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={isPublic}
-                    onClick={() => setIsPublic((current) => !current)}
-                    className="mt-4 flex w-full items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-left md:hidden"
-                  >
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
-                      {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-(--obs-text)">
-                        {isPublic ? "公开记录（含准确位置）" : "仅自己可见"}
-                      </span>
-                      <span className="mt-0.5 block truncate text-xs text-(--obs-muted)">
-                        {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
-                      </span>
-                    </span>
-                    <span
-                      className={cn(
-                        "relative h-7 w-12 shrink-0 rounded-full border transition",
-                        isPublic ? "border-(--obs-accent) bg-(--obs-accent)" : "border-(--obs-border-strong) bg-(--obs-subtle)",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-xs transition-transform",
-                          isPublic ? "translate-x-6" : "translate-x-1",
-                        )}
-                      />
-                    </span>
-                  </button>
-
-                  <div className="mt-4 hidden gap-3 md:grid md:grid-cols-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsPublic(true)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
-                      )}
-                    >
-                      <Globe2 className="h-5 w-5 shrink-0 text-(--obs-accent)" />
-                      <span>
-                        <span className="block text-sm font-semibold text-(--obs-text)">公开</span>
-                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">所有人可见</span>
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsPublic(false)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        !isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
-                      )}
-                    >
-                      <ShieldCheck className="h-5 w-5 shrink-0 text-(--obs-accent)" />
-                      <span>
-                        <span className="block text-sm font-semibold text-(--obs-text)">仅自己</span>
-                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">保存在个人记录</span>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
                 <MobileStepFooter
                   actionLabel={speciesStepLocked ? "先上传照片" : "继续填写地点"}
                   disabled={speciesStepLocked}
                   onNext={() => openMobilePanel("location")}
-                  helper={selectedSpecies ? "已保存你的物种鉴定。" : "不确定物种也可以继续发布，审核通过后社区可参与共同鉴定。"}
+                  helper={selectedSpecies ? "已保存这张照片的物种鉴定。" : "不确定物种也可以继续发布，审核通过后社区可参与共同鉴定。"}
                 />
               </div>
               </div>
@@ -1807,25 +1800,38 @@ export function ObservationSubmitForm({
               <div className="hidden md:block">
                 <StepHeader
                   index={3}
-                  title="观察地点与时间"
-                  description="优先读取照片拍摄时间和 GPS；缺失时请搜索选择地点或在地图选点。公开记录会展示准确位置。"
+                  title="按张确认地点"
+                  description="每张照片使用自己的拍摄时间和 GPS。没有定位的照片需要搜索或在地图上选点；公开范围对本批观察一起生效。"
                   icon={MapPin}
-                  status={locationName.trim() && latitude.trim() && longitude.trim() ? "已填写" : "待填写"}
-                  statusTone={locationName.trim() && latitude.trim() && longitude.trim() ? "success" : "warning"}
+                  status={locationStepStatus}
+                  statusTone={locationStepTone}
                 />
               </div>
               <MobileAccordionHeader
                 index={3}
                 title="地点与时间"
                 icon={MapPin}
-                status={locationName.trim() && latitude.trim() && longitude.trim() ? "已填写" : "待填写"}
-                statusTone={locationName.trim() && latitude.trim() && longitude.trim() ? "success" : "warning"}
+                status={locationStepStatus}
+                statusTone={locationStepTone}
                 summary={locationSummary}
                 open={mobilePanels.location}
                 onToggle={() => toggleMobilePanel("location")}
               />
 
               <div className={cn("mt-4 md:mt-0", mobilePanelContentClass("location"))}>
+              {evidenceImages.length > 1 ? (
+                <div className="mb-4">
+                  <ObservationPhotoStrip
+                    images={evidenceImages}
+                    selectedUrl={selectedImageUrl}
+                    onSelect={setSelectedImageUrl}
+                    locatedUrls={locatedUrls}
+                  />
+                  <p className="mt-2 text-xs text-(--obs-muted)">
+                    绿点表示这张已定位，黄点表示还需要选点。
+                  </p>
+                </div>
+              ) : null}
               {metadataWarning ? (
                 <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
                   {metadataWarning}
@@ -1893,8 +1899,92 @@ export function ObservationSubmitForm({
                     ) : null}
                   </div>
 
+                  {selectedDraft && isPhotoLocated(selectedDraft) && otherUnlocatedCount > 0 ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
+                      onClick={handleApplyLocationToUnlocated}
+                    >
+                      用到其余 {otherUnlocatedCount} 张还没定位的照片
+                    </Button>
+                  ) : null}
+
                   <div className="rounded-xs border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                    发布为公开记录时，地点名称和地图准确坐标将对其他用户可见。
+                    发布为公开观察时，地点名称和地图准确坐标将对其他用户可见。
+                  </div>
+
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={isPublic}
+                    onClick={() => {
+                      setIsPublic((current) => !current)
+                      setLocationDisclosureConfirmed(false)
+                    }}
+                    className="flex w-full items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-left md:hidden"
+                  >
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
+                      {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-semibold text-(--obs-text)">
+                        {isPublic ? "公开观察（含准确位置）" : "仅自己可见"}
+                      </span>
+                      <span className="mt-0.5 block truncate text-xs text-(--obs-muted)">
+                        {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
+                      </span>
+                    </span>
+                    <span
+                      className={cn(
+                        "relative h-7 w-12 shrink-0 rounded-full border transition",
+                        isPublic ? "border-(--obs-accent) bg-(--obs-accent)" : "border-(--obs-border-strong) bg-(--obs-subtle)",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-xs transition-transform",
+                          isPublic ? "translate-x-6" : "translate-x-1",
+                        )}
+                      />
+                    </span>
+                  </button>
+
+                  <div className="hidden gap-3 md:grid md:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPublic(true)
+                        setLocationDisclosureConfirmed(false)
+                      }}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
+                        isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
+                      )}
+                    >
+                      <Globe2 className="h-5 w-5 shrink-0 text-(--obs-accent)" />
+                      <span>
+                        <span className="block text-sm font-semibold text-(--obs-text)">公开</span>
+                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">所有人可见</span>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPublic(false)
+                        setLocationDisclosureConfirmed(false)
+                      }}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
+                        !isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
+                      )}
+                    >
+                      <ShieldCheck className="h-5 w-5 shrink-0 text-(--obs-accent)" />
+                      <span>
+                        <span className="block text-sm font-semibold text-(--obs-text)">仅自己</span>
+                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">保存在个人记录</span>
+                      </span>
+                    </button>
                   </div>
 
                   {needsLocationDisclosureConfirmation ? (
@@ -1925,7 +2015,7 @@ export function ObservationSubmitForm({
                           我了解公开记录会展示准确位置
                         </span>
                         <span className="mt-1 block text-xs leading-5 text-(--obs-muted)">
-                          如果不想公开准确位置，可以在“鉴定与描述”里改为仅自己可见。
+                          如果不想公开准确位置，可以把这次提交改为仅自己可见。
                         </span>
                       </span>
                     </button>
@@ -2031,7 +2121,7 @@ export function ObservationSubmitForm({
                 ) : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
-                    发布观察记录
+                    {submitActionLabel}
                   </>
                 )}
               </Button>
@@ -2099,7 +2189,7 @@ export function ObservationSubmitForm({
                     <p className="text-sm font-semibold text-(--obs-text)">
                       {observerProgressKnown ? `${displayedObservationCount} / ${nextObserverThreshold} 条` : "同步中"}
                     </p>
-                    <p className="mt-1 text-xs text-(--obs-muted-2)">审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
+                    <p className="mt-1 text-xs text-(--obs-muted-2)">每条审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
                   </div>
                   <span className="grid h-12 w-12 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
                     <Sparkles className="h-6 w-6" />
@@ -2192,7 +2282,7 @@ export function ObservationSubmitForm({
               ) : (
                 <>
                   <Send className="mr-2 h-4 w-4" />
-                  {mobileSubmitReady ? "发布观察记录" : `还差${submitMissingLabel}`}
+                  {mobileSubmitReady ? submitActionLabel : `还差${submitMissingLabel}`}
                 </>
               )}
             </Button>
@@ -2289,7 +2379,8 @@ export function ObservationSubmitForm({
         observationId={successState.observationId}
         imageUrl={successState.imageUrl}
         speciesName={successState.speciesName}
-        expectedXp={DEFAULT_XP_REWARD}
+        expectedXp={DEFAULT_XP_REWARD * successState.count}
+        count={successState.count}
       />
     </>
   )

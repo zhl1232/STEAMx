@@ -23,6 +23,15 @@ describe('selectAiIdentification', () => {
     ])).toBeNull()
   })
 
+  it('keeps independent high-confidence votes when each photo is scored alone', () => {
+    expect(selectAiIdentification([
+      { status: 'passed', speciesCandidates: [{ speciesId: 10, confidence: 0.86 }] },
+    ])).toEqual({ speciesId: 10, confidence: 0.86 })
+    expect(selectAiIdentification([
+      { status: 'passed', speciesCandidates: [{ speciesId: 20, confidence: 0.88 }] },
+    ])).toEqual({ speciesId: 20, confidence: 0.88 })
+  })
+
   it('uses the highest-confidence candidate when the provider response is unsorted', () => {
     expect(selectAiIdentification([
       { status: 'passed', speciesCandidates: [{ speciesId: 9, confidence: 0.4 }, { speciesId: 3, confidence: 0.91 }] },
