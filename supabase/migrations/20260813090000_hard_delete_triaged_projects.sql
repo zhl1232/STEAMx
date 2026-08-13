@@ -162,11 +162,8 @@ WHERE project_id IN (SELECT id FROM triaged_project_ids);
 
 --------------------------------------------------------------------------------
 -- 可空外键：保留观察记录 / 挑战完成行，只断开项目关联
+-- observation_events.project_id 已在 20260331120000 删除，这里不再 UPDATE。
 --------------------------------------------------------------------------------
-UPDATE public.observation_events
-SET project_id = NULL
-WHERE project_id IN (SELECT id FROM triaged_project_ids);
-
 UPDATE public.challenge_completions
 SET project_id = NULL
 WHERE project_id IN (SELECT id FROM triaged_project_ids);
