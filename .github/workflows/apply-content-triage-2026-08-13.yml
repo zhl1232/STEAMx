@@ -24,13 +24,16 @@ jobs:
 
       - name: Pack apply bundle
         run: |
+          mkdir -p .triage-npm
+          npm install --prefix .triage-npm ali-oss@6.23.0 --omit=dev --no-fund --no-audit
           tar -czf triage-bundle.tgz \
             scripts/apply-content-triage-2026-08-13.mjs \
             scripts/db-push.mjs \
             scripts/purge-triaged-project-assets.mjs \
             scripts/lib/content-triage-2026-08-13.mjs \
             lib/utils/oss-client.mjs \
-            supabase/migrations/20260813090000_hard_delete_triaged_projects.sql
+            supabase/migrations/20260813090000_hard_delete_triaged_projects.sql \
+            -C .triage-npm node_modules
 
       - name: Copy bundle to server
         uses: appleboy/scp-action@v0.1.7
@@ -50,7 +53,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 30m
-          script_stop: true
           script: |
             set -euo pipefail
             rm -rf /tmp/triage-apply
@@ -58,11 +60,10 @@ jobs:
             tar -xzf /tmp/triage-bundle.tgz -C /tmp/triage-apply
             rm -f /tmp/triage-bundle.tgz
             docker run --rm \
+              --user root \
               --env-file /opt/steam-app/.env.production \
               -v /tmp/triage-apply:/work \
               -w /work \
-              node:22-alpine \
-              sh -c 'set -euo pipefail
-                npm install ali-oss@6.23.0 --omit=dev --no-fund --no-audit
-                node scripts/apply-content-triage-2026-08-13.mjs --execute'
+              steam-app:latest \
+              node scripts/apply-content-triage-2026-08-13.mjs --execute
             rm -rf /tmp/triage-apply
