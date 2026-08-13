@@ -1,0 +1,68 @@
+name: Apply content triage hard delete
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/apply-content-triage-2026-08-13.yml"
+
+concurrency:
+  group: release-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  apply-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pack apply bundle
+        run: |
+          tar -czf triage-bundle.tgz \
+            scripts/apply-content-triage-2026-08-13.mjs \
+            scripts/db-push.mjs \
+            scripts/purge-triaged-project-assets.mjs \
+            scripts/lib/content-triage-2026-08-13.mjs \
+            lib/utils/oss-client.mjs \
+            supabase/migrations/20260813090000_hard_delete_triaged_projects.sql
+
+      - name: Copy bundle to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: triage-bundle.tgz
+          target: /tmp/
+
+      - name: Apply OSS purge then db:push
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          command_timeout: 30m
+          script_stop: true
+          script: |
+            set -euo pipefail
+            rm -rf /tmp/triage-apply
+            mkdir -p /tmp/triage-apply
+            tar -xzf /tmp/triage-bundle.tgz -C /tmp/triage-apply
+            rm -f /tmp/triage-bundle.tgz
+            docker run --rm \
+              --env-file /opt/steam-app/.env.production \
+              -v /tmp/triage-apply:/work \
+              -w /work \
+              node:22-alpine \
+              sh -c 'set -euo pipefail
+                npm install ali-oss@6.23.0 --omit=dev --no-fund --no-audit
+                node scripts/apply-content-triage-2026-08-13.mjs --execute'
+            rm -rf /tmp/triage-apply
