@@ -1,11 +1,11 @@
 /**
- * 2026-08-13 owner content triage (zhl1232).
+ * 2026-08-13 站长内容分诊（zhl1232）。
  *
- * Canonical ID lists for the hard-delete migration, OSS purge script, and
- * drift tests. Do not re-seed TRIAGED_PROJECT_IDS_TO_DELETE.
+ * 硬删除迁移、OSS 清理脚本、漂移测试共用的权威 ID 列表。
+ * 不要重新 seed TRIAGED_PROJECT_IDS_TO_DELETE。
  *
- * KEEP (merge winners / still-pending, still live): 52, 73, 119, 120, 177, 352
- * plus every other approved project not in the delete list.
+ * 保留（合并胜出 / 仍待处理、仍然上线）：52、73、119、120、177、352，
+ * 以及删除名单以外的所有已审核项目。
  */
 
 export const CONTENT_TRIAGE_DATE = '2026-08-13'
@@ -24,7 +24,7 @@ export const TRIAGED_PROJECT_IDS_TO_DELETE = Object.freeze([
   396, 397, 398, 399, 403, 404, 405, 406, 408, 409, 410, 424, 457, 461,
 ])
 
-/** Site-wide /projects covers that must not be deleted even if a triaged row points at them. */
+/** 全站 /projects 共用封面：即使分诊行指向它们，也一律不删。 */
 export const SHARED_PROJECT_COVER_KEYS = Object.freeze([
   'projects/default-cover.webp',
   'projects/science_physics.webp',
@@ -67,8 +67,8 @@ export function parseIdsFromSqlIntegerList(sql) {
 }
 
 /**
- * Map a stored image URL to an Aliyun OSS object key, or null if it is not
- * an OSS/public-project path (Supabase Storage, data URLs, empty, etc.).
+ * 把库里存的图片 URL 转成 Aliyun OSS object key。
+ * 不是 OSS / 公开项目路径时返回 null（Supabase Storage、data URL、空值等）。
  */
 export function ossKeyFromImageUrl(rawUrl, assetsBaseUrl = '') {
   if (typeof rawUrl !== 'string') return null
@@ -118,9 +118,8 @@ export function isProtectedOssKey(key) {
 }
 
 /**
- * Only catalog uploads that belong to a project itself: generated covers and
- * step images under OSS `projects/`. Root-level `/projects/*.webp` category
- * art and default covers are skipped.
+ * 只认项目自己的目录上传：OSS `projects/` 下的 generated 封面和步骤图。
+ * 根层 `/projects/*.webp` 分类图和默认封面一律跳过。
  */
 export function isProjectOwnedOssKey(key) {
   if (!key || isProtectedOssKey(key)) return false

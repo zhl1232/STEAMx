@@ -30,8 +30,8 @@ const EXPECTED_DELETE_IDS = [
   396, 397, 398, 399, 403, 404, 405, 406, 408, 409, 410, 424, 457, 461,
 ]
 
-describe('2026-08-13 content triage ID list', () => {
-  it('has exactly 105 unique delete IDs and keeps merge winners', () => {
+describe('2026-08-13 内容分诊 ID 名单', () => {
+  it('恰好 105 个互不相同的删除 ID，并保留合并胜出项', () => {
     expect(TRIAGED_PROJECT_IDS_TO_DELETE).toHaveLength(105)
     expect(new Set(TRIAGED_PROJECT_IDS_TO_DELETE).size).toBe(105)
     expect([...TRIAGED_PROJECT_IDS_TO_DELETE]).toEqual(EXPECTED_DELETE_IDS)
@@ -43,7 +43,7 @@ describe('2026-08-13 content triage ID list', () => {
     }
   })
 
-  it('keeps the SQL migration ID list in lockstep with the JS module', () => {
+  it('SQL 迁移中的 ID 列表与 JS 模块保持一致', () => {
     const sql = readFileSync(MIGRATION_PATH, 'utf8')
     const insertMatch = sql.match(
       /INSERT INTO triaged_project_ids \(id\) VALUES([\s\S]*?);/,
@@ -53,17 +53,17 @@ describe('2026-08-13 content triage ID list', () => {
 
     const sqlIds = [...insertBlock.matchAll(/\((\d+)\)/g)].map((match) => Number(match[1]))
     expect(sqlIds).toEqual([...TRIAGED_PROJECT_IDS_TO_DELETE])
-    expect(sql).toContain('HARD DELETE')
-    expect(sql).toContain('kids+parents')
+    expect(sql).toContain('硬删除')
+    expect(sql).toContain('孩子+家长')
     expect(sqlIntegerList(TRIAGED_PROJECT_IDS_TO_DELETE)).toContain('461')
     expect(parseIdsFromSqlIntegerList('30, 34, 352')).toEqual([30, 34, 352])
   })
 })
 
-describe('triaged OSS key filtering', () => {
+describe('分诊 OSS key 过滤', () => {
   const assetsBase = 'https://assets.example.com'
 
-  it('maps generated and step catalog URLs to OSS keys', () => {
+  it('把 generated / steps 目录 URL 映射成 OSS key', () => {
     expect(ossKeyFromImageUrl('/projects/generated/project-0030.webp')).toBe(
       'projects/generated/project-0030.webp',
     )
@@ -80,7 +80,7 @@ describe('triaged OSS key filtering', () => {
     expect(isProjectOwnedOssKey('projects/steps/demo.webp')).toBe(true)
   })
 
-  it('skips shared covers, species, courseware, scratch, and supabase storage', () => {
+  it('跳过共用封面、物种图、课件、Scratch 和 Supabase Storage', () => {
     expect(isProjectOwnedOssKey('projects/default-cover.webp')).toBe(false)
     expect(isProjectOwnedOssKey('projects/science_physics.webp')).toBe(false)
     expect(isProjectOwnedOssKey('courses/eiffel-tower/slides/slide-01.webp')).toBe(false)

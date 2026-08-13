@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 /**
- * Purge Aliyun OSS objects that belong to the 2026-08-13 triaged STEAMx projects.
+ * 清理 2026-08-13 分诊硬删除项目在 Aliyun OSS 上的对象。
  *
- * Collects image URLs from projects.image_url, project_steps.image_url, and
- * comments.image_url for scripts/lib/content-triage-2026-08-13.mjs IDs.
- * Deletes only OSS keys under projects/generated/ and projects/steps/.
- * Skips shared/default covers, courseware, Scratch, and species assets.
+ * 按 scripts/lib/content-triage-2026-08-13.mjs 的 ID，从
+ * projects.image_url、project_steps.image_url、comments.image_url 收集图片 URL。
+ * 只删 projects/generated/ 与 projects/steps/ 下的 OSS key。
+ * 跳过共用/默认封面、课件、Scratch、物种图。
  *
- * Usage:
+ * 用法：
  *   node scripts/purge-triaged-project-assets.mjs
  *   node scripts/purge-triaged-project-assets.mjs --execute
  *
- * Dry-run is the default. Never prints secrets.
+ * 默认 dry-run。不要打印密钥。不要从本云端环境对生产执行 --execute。
  *
- * Env (loaded from .env.local / .env like other scripts):
+ * 环境变量（与其它脚本一样从 .env.local / .env 加载）：
  *   NEXT_PUBLIC_SUPABASE_URL
  *   SUPABASE_SERVICE_ROLE_KEY
- *   ALIYUN_OSS_*  (only required with --execute)
- *   NEXT_PUBLIC_ASSETS_BASE_URL / ASSETS_BASE_URL  (optional, to resolve CDN URLs)
+ *   ALIYUN_OSS_*  （仅 --execute 时必须）
+ *   NEXT_PUBLIC_ASSETS_BASE_URL / ASSETS_BASE_URL  （可选，用来解析 CDN URL）
  */
 
 import fs from 'node:fs/promises'
@@ -64,7 +64,7 @@ async function execSQL(sql) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+    throw new Error('缺少 NEXT_PUBLIC_SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY')
   }
 
   const response = await fetch(`${url}/pg/query`, {
@@ -78,15 +78,15 @@ async function execSQL(sql) {
   })
 
   if (!response.ok) {
-    throw new Error(`Database query failed with HTTP ${response.status}`)
+    throw new Error(`数据库查询失败，HTTP ${response.status}`)
   }
   const data = await response.json()
   if (data && !Array.isArray(data) && data.error) {
-    throw new Error('Database query returned an error')
+    throw new Error('数据库查询返回了错误')
   }
   if (Array.isArray(data)) {
     for (const item of data) {
-      if (item?.error) throw new Error('Database query returned an error')
+      if (item?.error) throw new Error('数据库查询返回了错误')
     }
   }
   return data ?? []
@@ -151,7 +151,7 @@ async function deleteOssKeys(keys) {
         missing += 1
       } else {
         failed += 1
-        console.error(`  failed key=${key} code=${code || 'unknown'}`)
+        console.error(`  删除失败 key=${key} code=${code || 'unknown'}`)
       }
     }
   }
@@ -168,8 +168,8 @@ const assetsBaseUrl = (
   ''
 ).trim()
 
-console.info(`Content triage OSS purge (${args.execute ? 'EXECUTE' : 'dry-run'})`)
-console.info(`  project ids: ${TRIAGED_PROJECT_IDS_TO_DELETE.length}`)
+console.info(`内容分诊 OSS 清理（${args.execute ? 'EXECUTE' : 'dry-run'}）`)
+console.info(`  项目 ID 数：${TRIAGED_PROJECT_IDS_TO_DELETE.length}`)
 
 const urls = await collectImageUrls(idListSql)
 const classified = {
@@ -199,26 +199,26 @@ for (const url of uniqueUrls) {
 }
 
 const keys = [...keysToDelete].sort()
-console.info(`  urls collected: ${classified.collected} (${classified.uniqueUrls} unique)`)
-console.info(`  skipped non-OSS / supabase storage: ${classified.skippedNonOss}`)
-console.info(`  skipped shared/default/protected: ${classified.skippedSharedOrForeign}`)
-console.info(`  OSS keys to ${args.execute ? 'delete' : 'delete (dry-run)'}: ${keys.length}`)
+console.info(`  已收集 URL：${classified.collected}（去重后 ${classified.uniqueUrls}）`)
+console.info(`  已跳过非 OSS / Supabase Storage：${classified.skippedNonOss}`)
+console.info(`  已跳过共用/默认/受保护对象：${classified.skippedSharedOrForeign}`)
+console.info(`  将${args.execute ? '删除' : '删除（dry-run）'}的 OSS key 数：${keys.length}`)
 for (const key of keys) {
-  console.info(`    ${args.execute ? 'delete' : 'would-delete'} ${key}`)
+  console.info(`    ${args.execute ? '删除' : '将删除'} ${key}`)
 }
 
 if (!args.execute) {
-  console.info('Dry-run complete. Re-run with --execute to delete OSS objects.')
+  console.info('dry-run 结束。确认后加 --execute 才会真正删除 OSS 对象。')
   process.exit(0)
 }
 
 if (keys.length === 0) {
-  console.info('Nothing to delete.')
+  console.info('没有可删的对象。')
   process.exit(0)
 }
 
 const result = await deleteOssKeys(keys)
-console.info(`  deleted: ${result.deleted}`)
-console.info(`  already missing: ${result.missing}`)
-console.info(`  failed: ${result.failed}`)
+console.info(`  已删除：${result.deleted}`)
+console.info(`  本来就不存在：${result.missing}`)
+console.info(`  失败：${result.failed}`)
 if (result.failed > 0) process.exit(1)
