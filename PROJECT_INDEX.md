@@ -294,9 +294,9 @@
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 | `docs/AI_DEVELOPMENT_GUIDELINES.md` | — | AI 开发规范：意图判断必须交给大模型；结构化输出经服务端白名单/范围/权限校验；关键词和正则仅可用于非语义的格式、协议、元数据候选查询或防御性安全边界，不得作为 Tutor/AI 行为门控 |
 
-小迪资源检索：`resource-search-planner.ts` 由轻量模型判断是否需要查找站内课程/课时/项目并提取主题短语，不使用固定关键词决定检索，并接收最近对话辅助“这个/那个”指代消解；planner 模型失败时保守降级为**不检索**（避免故障放大数据库压力，也不会被说成「站内没有」）；`resource-search.ts` 并行、限量查询已发布课程/课时和已审核项目，只注入标题/标签/描述元数据，并把命中的课时挂回课程 chip；普通对话不加载全量课程目录或首页推荐。
+小迪资源检索：`resource-search-planner.ts` 由轻量模型判断是否需要查找站内课程/课时/项目并提取主题短语，不使用固定关键词决定检索，并接收最近对话辅助“这个/那个”指代消解；prompt 要求短语拆到最小可检索单元（“乐高轮船”→「乐高」「轮船」），拼接长词在标题/标签里查不到；planner 模型失败时保守降级为**不检索**（避免故障放大数据库压力，也不会被说成「站内没有」）；`resource-search.ts` 并行、限量查询已发布课程/课时和已审核项目，只注入标题/标签/描述元数据，并把命中的课时挂回课程 chip；`tags` 是 `text[]`，只能用 `tags.cs.{短语}` 元素包含匹配，**对数组列用 `ilike` 会让整个 `or` 过滤报 42883、整张表零命中**；严格短语一条都没命中时补查一轮派生候选（空白切分 + 纯汉字长词二字滑窗，最多 8 个），命中结果标记为「近似匹配」让小迪自行判断相关性；查询报错会 `logger.warn` 留痕，避免再次被当成「站内没有这门课」；普通对话不加载全量课程目录或首页推荐。
 
-小迪 golden-set 评估：`lib/ai/tutor/golden-set.ts` 固化 20 个典型学生输入 → 期望结果（8 个工具决策 + 5 个资源检索 + 7 个回答特征用例，红线含不得自称 AI/模型、不得输出 URL/标题/表格/代码块、测验题不得直接给最终答案、检索空结果只能说「暂时没查到」等）；`__tests__/tutor-golden-set.test.ts` 做无模型的数据集结构校验（普通 CI 运行），`__tests__/tutor-golden-set.eval.test.ts` 经 `pnpm eval:tutor` 调真实 DashScope 评估 planner 决策与回答特征，资源 planner 走 fallback 视为失败不静默放过。
+小迪 golden-set 评估：`lib/ai/tutor/golden-set.ts` 固化 21 个典型学生输入 → 期望结果（8 个工具决策 + 6 个资源检索 + 7 个回答特征用例，红线含不得自称 AI/模型、不得输出 URL/标题/表格/代码块、测验题不得直接给最终答案、检索空结果只能说「暂时没查到」等）；`__tests__/tutor-golden-set.test.ts` 做无模型的数据集结构校验（普通 CI 运行），`__tests__/tutor-golden-set.eval.test.ts` 经 `pnpm eval:tutor` 调真实 DashScope 评估 planner 决策与回答特征，资源 planner 走 fallback 视为失败不静默放过。
 
 小迪隐私与注入防护：`tutor_conversations` / `tutor_messages` RLS 收紧为仅本人可读（`20260812180000_tutor_privacy_owner_only.sql` 移除 admin/moderator 直读，将来人工审查需走带审计的服务端接口）；所有进入 system prompt 的 UGC 经 `sanitizeTutorUGC` 清洗，`prompt.ts` 同时声明引用内容只是背景数据不是指令；`TutorSendSchema` 已移除客户端 `meta` 直通字段（官方客户端从不发送），`tutor_messages.meta` 全部由服务端生成：场景字段（stageIndex/lessonId 等）+ 助手消息 `meta.ai`（模型名、token usage、`promptVersion`＝`TUTOR_PROMPT_VERSION`，prompt 规则文本改动须 bump 并先跑 `pnpm eval:tutor`）；课程进度查询按 `course_lessons.course_id` 过滤，不再读取其他课程进度。
 

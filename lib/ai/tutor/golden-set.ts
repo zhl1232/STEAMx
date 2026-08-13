@@ -172,6 +172,15 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
     queryMustMatch: ['鸟|观察'],
   },
   {
+    id: 'resource-compound-topic',
+    description: '组合词「乐高轮船」→ 拆成可独立检索的主题短语',
+    message: '有没有乐高轮船的课程',
+    expectShouldSearch: true,
+    expectedResourceTypes: ['course'],
+    // 必须出现单独的「轮船」；只给拼接词「乐高轮船」在标题/标签里查不到任何资源
+    queryMustMatch: ['^轮船$'],
+  },
+  {
     id: 'resource-knowledge-question',
     description: '知识问答 → 不检索',
     message: '猫头鹰晚上为什么能看见东西？',
