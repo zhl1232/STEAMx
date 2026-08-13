@@ -320,16 +320,16 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
     <Link
       href={`/nature/observations/${observation.id}?from=${encodeURIComponent("/")}`}
       prefetch={false}
-      className="group grid min-h-[112px] grid-cols-[108px_minmax(0,1fr)] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))] sm:grid-cols-[124px_minmax(0,1fr)] lg:grid-cols-[112px_minmax(0,1fr)]"
+      className="group grid h-[112px] grid-cols-[112px_minmax(0,1fr)] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]"
     >
-      <div className="relative min-h-[112px] bg-[hsl(var(--surface-muted))]">
+      <div className="relative aspect-square bg-[hsl(var(--surface-muted))]">
         {image ? (
           <OptimizedImage
             src={image}
             alt={title}
             fill
             variant="thumbnail"
-            sizes="140px"
+            sizes="112px"
             priority={priority}
             className="object-cover transition duration-500 group-hover:scale-[1.035]"
           />
@@ -339,7 +339,7 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
           </div>
         )}
       </div>
-      <div className="min-w-0 p-3">
+      <div className="flex min-w-0 flex-col justify-center p-3">
         <h3 className="truncate text-sm font-bold text-foreground">{title}</h3>
         <p className="mt-1 truncate text-xs text-muted-foreground">
           {observation.authorDisplayName || "自然观察者"}
