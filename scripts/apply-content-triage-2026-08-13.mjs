@@ -10,6 +10,7 @@
  *   node scripts/apply-content-triage-2026-08-13.mjs --execute
  *
  * 默认只预览。加 --execute 才会删除 OSS 对象并执行 pnpm db:push。
+ * OSS 凭证缺失时记录失败，仍继续执行迁移。
  */
 
 import { spawnSync } from 'node:child_process'
@@ -25,19 +26,29 @@ function run(script, args) {
     env: process.env,
     stdio: 'inherit',
   })
-  if (result.status !== 0) {
-    process.exit(result.status ?? 1)
-  }
+  return result.status ?? 1
 }
 
 console.info(`内容分诊线上应用（${execute ? 'EXECUTE' : 'dry-run'}）`)
 console.info('顺序：先 OSS（库行还在），再 db:push。')
 
-run('scripts/purge-triaged-project-assets.mjs', [])
+let ossStatus = run('scripts/purge-triaged-project-assets.mjs', [])
 if (execute) {
-  run('scripts/purge-triaged-project-assets.mjs', ['--execute'])
-  run('scripts/db-push.mjs', ['push'])
+  const executeStatus = run('scripts/purge-triaged-project-assets.mjs', ['--execute'])
+  if (executeStatus !== 0) {
+    console.error('OSS --execute 失败（常见原因：.env.production 没有 ALIYUN_OSS_*）。继续 db:push。')
+    ossStatus = executeStatus
+  } else if (ossStatus === 0) {
+    ossStatus = 0
+  }
 } else {
   run('scripts/db-push.mjs', ['push', '--dry-run'])
   console.info('dry-run 结束。确认后加 --execute 才会删除 OSS 并执行迁移。')
+  process.exit(ossStatus)
+}
+
+const dbStatus = run('scripts/db-push.mjs', ['push'])
+if (dbStatus !== 0) process.exit(dbStatus)
+if (ossStatus !== 0) {
+  console.error('迁移已执行。OSS 未删干净，需要补齐 ALIYUN_OSS_* 后再跑 purge --execute。')
 }
