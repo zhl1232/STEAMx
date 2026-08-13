@@ -7,6 +7,8 @@ export type TutorStreamEvent = {
   reply?: string
   error?: string
   warning?: string
+  pcm?: string
+  sampleRate?: number
   toolCall?: TutorToolCall
   phase?: string
   timings?: Array<{ name: string; elapsedMs: number; deltaMs: number }>

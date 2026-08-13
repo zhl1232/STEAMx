@@ -71,6 +71,17 @@ describe('readTutorStreamEvents', () => {
     expect(events[0]?.toolCall).toMatchObject({ name: 'highlight_blocks' })
   })
 
+  it('透传 audio / audio_done 事件的 PCM 负载', async () => {
+    const events = await collect([
+      'data: {"type":"audio","pcm":"AQIDBA==","sampleRate":24000}\n\ndata: {"type":"audio_done"}\n\n',
+    ])
+
+    expect(events).toEqual([
+      { type: 'audio', pcm: 'AQIDBA==', sampleRate: 24000 },
+      { type: 'audio_done' },
+    ])
+  })
+
   it('丢弃流结束时没有换行收尾的残缺行（与服务端 \\n\\n 结尾约定一致）', async () => {
     const events = await collect(['data: {"type":"chunk","content":"a"}\ndata: {"type":"done"'])
 

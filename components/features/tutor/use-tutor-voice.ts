@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from 'react'
 
 import {
+  createTutorPcmPlayer,
+  decodeBase64ToArrayBuffer,
+  type TutorPcmPlayer,
+} from '@/components/features/tutor/tutor-pcm-player'
+import { readTutorStreamEvents } from '@/components/features/tutor/tutor-stream-protocol'
+import {
   createTutorPcmRecorder,
   getTutorVoicePreferences,
   markTutorLongPressHintShown,
@@ -15,7 +21,6 @@ import {
   type TutorVoicePreferences,
 } from '@/components/features/tutor/tutor-voice'
 import type { TutorVoiceFeedback } from '@/components/features/tutor/tutor-voice-feedback'
-import type { TutorChatMessage } from '@/components/features/tutor/use-tutor-chat-stream'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
@@ -63,8 +68,8 @@ export type UseTutorVoiceOptions = {
 }
 
 /**
- * 小迪语音控制器：PCM 录音 + 转写、TTS 朗读、语音偏好、长按说话桥接、
- * 自动朗读队列。UI 无关，供 GlobalTutorFab 编排使用。
+ * 小迪语音控制器：PCM 录音 + 转写、流式 TTS 朗读、语音偏好、长按说话桥接。
+ * UI 无关，供 GlobalTutorFab 编排使用。
  */
 export function useTutorVoice({
   open,
@@ -99,8 +104,10 @@ export function useTutorVoice({
   const speechAudioRef = useRef<HTMLAudioElement | null>(null)
   const speechObjectUrlRef = useRef<string | null>(null)
   const speechRequestIdRef = useRef(0)
-  const pendingAutoReadTextRef = useRef<string | null>(null)
-  const pendingAutoReadForceRef = useRef(false)
+  const pcmPlayerRef = useRef<TutorPcmPlayer | null>(null)
+  const streamedSpeechActiveRef = useRef(false)
+  const streamedGotAudioRef = useRef(false)
+  const streamedSpeechKeyRef = useRef<string | null>(null)
 
   const autoReadReplies = voicePreferences.autoReadReplies
 
@@ -162,8 +169,25 @@ export function useTutorVoice({
     return () => clearInterval(timer)
   }, [recordingStartedAt, recordingVoice])
 
+  const getPcmPlayer = () => {
+    if (!pcmPlayerRef.current) {
+      pcmPlayerRef.current = createTutorPcmPlayer({
+        onEnded: () => {
+          streamedSpeechActiveRef.current = false
+          setPlayingSpeechKey(null)
+          setSpeechLoadingKey(null)
+        },
+      })
+    }
+    return pcmPlayerRef.current
+  }
+
   const stopSpeechPlayback = useCallback(() => {
     speechRequestIdRef.current += 1
+    streamedSpeechActiveRef.current = false
+    streamedGotAudioRef.current = false
+    streamedSpeechKeyRef.current = null
+    pcmPlayerRef.current?.stop()
     const audio = speechAudioRef.current
     if (audio) {
       audio.pause()
@@ -178,6 +202,72 @@ export function useTutorVoice({
     setSpeechLoadingKey(null)
   }, [])
 
+  const pushStreamedPcm = useCallback((pcm: string, sampleRate?: number, speechKey?: string) => {
+    if (!streamedSpeechActiveRef.current || !pcm) return
+    if (speechKey && streamedSpeechKeyRef.current !== speechKey) return
+    if (!streamedGotAudioRef.current) {
+      streamedGotAudioRef.current = true
+      setSpeechLoadingKey(null)
+      setPlayingSpeechKey(streamedSpeechKeyRef.current)
+    }
+    getPcmPlayer().enqueue(decodeBase64ToArrayBuffer(pcm), sampleRate)
+  }, [])
+
+  const beginStreamedSpeech = useCallback(
+    async (speechKey: string) => {
+      stopSpeechPlayback()
+      const speechRequestId = speechRequestIdRef.current
+      streamedSpeechActiveRef.current = true
+      streamedGotAudioRef.current = false
+      streamedSpeechKeyRef.current = speechKey
+      setSpeechLoadingKey(speechKey)
+      try {
+        await getPcmPlayer().resume()
+        if (speechRequestIdRef.current !== speechRequestId) return
+      } catch {
+        if (speechRequestIdRef.current !== speechRequestId) return
+        streamedSpeechActiveRef.current = false
+        setSpeechLoadingKey(null)
+      }
+    },
+    [stopSpeechPlayback],
+  )
+
+  const finishStreamedSpeech = useCallback((speechKey?: string) => {
+    if (speechKey && streamedSpeechKeyRef.current !== speechKey) return null
+    if (speechKey) {
+      streamedSpeechKeyRef.current = speechKey
+      if (streamedGotAudioRef.current) setPlayingSpeechKey(speechKey)
+    }
+    getPcmPlayer().markStreamComplete()
+    if (!streamedGotAudioRef.current) {
+      streamedSpeechActiveRef.current = false
+      setSpeechLoadingKey(null)
+    }
+    return streamedGotAudioRef.current
+  }, [])
+
+  const playMpegBlob = useCallback(
+    async (blob: Blob, speechKey: string, speechRequestId: number) => {
+      if (speechRequestIdRef.current !== speechRequestId) return
+      const url = URL.createObjectURL(blob)
+      const audio = new Audio(url)
+      speechObjectUrlRef.current = url
+      speechAudioRef.current = audio
+      setPlayingSpeechKey(speechKey)
+      setSpeechLoadingKey(null)
+      audio.onended = stopSpeechPlayback
+      audio.onerror = stopSpeechPlayback
+      try {
+        await audio.play()
+      } catch (error) {
+        if (speechRequestIdRef.current !== speechRequestId) return
+        throw error
+      }
+    },
+    [stopSpeechPlayback],
+  )
+
   const playSpeech = useCallback(
     async (text: string, speechKey: string) => {
       if (!text.trim()) return
@@ -186,38 +276,50 @@ export function useTutorVoice({
         return
       }
 
-      stopSpeechPlayback()
+      await beginStreamedSpeech(speechKey)
       const speechRequestId = speechRequestIdRef.current
-      setSpeechLoadingKey(speechKey)
 
-      try {
-        const res = await fetch('/api/tutor/speech/synthesize', {
+      const requestSynthesize = (fallback?: boolean) =>
+        fetch('/api/tutor/speech/synthesize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify(fallback ? { text, fallback: true } : { text }),
         })
 
+      try {
+        const res = await requestSynthesize()
+        if (speechRequestIdRef.current !== speechRequestId) return
         if (!res.ok) {
           throw new Error(await readTutorSpeechError(res, '小迪语音暂时不可用，请稍后再试。'))
         }
 
-        const blob = await res.blob()
-        if (speechRequestIdRef.current !== speechRequestId) return
-        const url = URL.createObjectURL(blob)
-        const audio = new Audio(url)
-        speechObjectUrlRef.current = url
-        speechAudioRef.current = audio
-        setPlayingSpeechKey(speechKey)
-        setSpeechLoadingKey(null)
-
-        audio.onended = stopSpeechPlayback
-        audio.onerror = stopSpeechPlayback
-        try {
-          await audio.play()
-        } catch (error) {
+        const contentType = res.headers.get('Content-Type') || ''
+        if (contentType.includes('text/event-stream') && res.body) {
+          let gotAudio = false
+          for await (const event of readTutorStreamEvents(res.body)) {
+            if (speechRequestIdRef.current !== speechRequestId) return
+            if (event.type === 'audio' && event.pcm) {
+              gotAudio = true
+              pushStreamedPcm(event.pcm, event.sampleRate, speechKey)
+            } else if (event.type === 'audio_done' || (event.type === 'error' && !gotAudio)) {
+              break
+            }
+          }
           if (speechRequestIdRef.current !== speechRequestId) return
-          throw error
+          if (gotAudio) {
+            finishStreamedSpeech(speechKey)
+            return
+          }
+          const fallbackRes = await requestSynthesize(true)
+          if (speechRequestIdRef.current !== speechRequestId) return
+          if (!fallbackRes.ok) {
+            throw new Error(await readTutorSpeechError(fallbackRes, '小迪语音暂时不可用，请稍后再试。'))
+          }
+          await playMpegBlob(await fallbackRes.blob(), speechKey, speechRequestId)
+          return
         }
+
+        await playMpegBlob(await res.blob(), speechKey, speechRequestId)
       } catch (error) {
         if (speechRequestIdRef.current !== speechRequestId) return
         stopSpeechPlayback()
@@ -227,7 +329,7 @@ export function useTutorVoice({
         })
       }
     },
-    [playingSpeechKey, stopSpeechPlayback, toast],
+    [beginStreamedSpeech, finishStreamedSpeech, playMpegBlob, playingSpeechKey, pushStreamedPcm, stopSpeechPlayback, toast],
   )
 
   const finishVoiceRecording = useCallback(async () => {
@@ -371,6 +473,7 @@ export function useTutorVoice({
     return () => {
       if (recordingTimerRef.current) clearTimeout(recordingTimerRef.current)
       void recorderRef.current?.cancel()
+      pcmPlayerRef.current?.stop()
       speechAudioRef.current?.pause()
       if (speechObjectUrlRef.current) URL.revokeObjectURL(speechObjectUrlRef.current)
     }
@@ -389,37 +492,9 @@ export function useTutorVoice({
     setRecordingStartedAt(null)
     setRecordingElapsedMs(0)
     setTranscribingVoice(false)
-    pendingAutoReadTextRef.current = null
-    pendingAutoReadForceRef.current = false
     longPressActiveRef.current = false
     longPressReleasePendingRef.current = false
   }, [contextKey, stopSpeechPlayback])
-
-  /** 回复完成后登记待自动朗读的文本 */
-  const queueAutoRead = useCallback((text: string, force: boolean) => {
-    pendingAutoReadTextRef.current = text
-    pendingAutoReadForceRef.current = force
-  }, [])
-
-  /** 消息列表稳定后消费自动朗读队列（由编排组件在 effect 中调用） */
-  const consumePendingAutoRead = useCallback(
-    (messages: TutorChatMessage[]) => {
-      const pendingText = pendingAutoReadTextRef.current
-      if (!pendingText) return
-      if (!autoReadReplies && !pendingAutoReadForceRef.current) {
-        pendingAutoReadTextRef.current = null
-        pendingAutoReadForceRef.current = false
-        return
-      }
-      const lastIndex = messages.length - 1
-      const last = messages[lastIndex]
-      if (last?.role !== 'assistant' || last.error || last.streaming || last.content !== pendingText) return
-      pendingAutoReadTextRef.current = null
-      pendingAutoReadForceRef.current = false
-      void playSpeech(last.content, `chat-${lastIndex}`)
-    },
-    [autoReadReplies, playSpeech],
-  )
 
   const canBeginLongPress = useCallback(
     (pointerType: string) =>
@@ -517,10 +592,11 @@ export function useTutorVoice({
     playingSpeechKey,
     voiceFeedback,
     playSpeech,
+    beginStreamedSpeech,
+    pushStreamedPcm,
+    finishStreamedSpeech,
     stopSpeechPlayback,
     toggleVoiceRecording,
-    queueAutoRead,
-    consumePendingAutoRead,
     longPress,
   }
 }

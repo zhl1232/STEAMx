@@ -48,11 +48,15 @@ vi.mock('ws', () => {
 })
 
 import {
+  createTutorRealtimeTtsSession,
+  createTutorSpeechSanitizer,
   extractDashScopeAudioUrl,
+  findTutorSpeechHoldIndex,
   MAX_TUTOR_TTS_TEXT_CHARS,
   sanitizeTutorSpeechText,
   synthesizeTutorSpeech,
   transcribeTutorSpeechPcm16,
+  TUTOR_TTS_PCM_SAMPLE_RATE,
   TutorSpeechError,
 } from '@/lib/ai/tutor/speech'
 
@@ -124,6 +128,155 @@ describe('synthesizeTutorSpeech', () => {
       status: 504,
       message: 'DashScope TTS audio download timed out',
     })
+  })
+})
+
+describe('createTutorSpeechSanitizer', () => {
+  it('holds incomplete project chips until they close, then speaks the title', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+
+    expect(sanitizer.push('再看 ')).toBe('再看')
+    expect(sanitizer.push('[project:12|纸')).toBe('')
+    expect(sanitizer.push('桥挑战] 吧')).toBe(' 纸桥挑战 吧')
+  })
+
+  it('matches full-text sanitizer after flush', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+    const source =
+      '听这个：[audio:/birds/audio/crow.ogg|黑头鸦]\n\n再看 [project:12|纸桥挑战]，去学 [course:88|五子棋博弈论入门]，拖 [[cat:events]] 的 [[block:events|当绿旗被点击]]。'
+
+    let spoken = ''
+    for (const chunk of source.split('')) {
+      spoken += sanitizer.push(chunk)
+    }
+    spoken += sanitizer.flush()
+
+    expect(spoken).toBe(sanitizeTutorSpeechText(source))
+  })
+
+  it('holds incomplete markdown links until they close', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+
+    expect(sanitizer.push('看 [链')).toBe('看')
+    expect(sanitizer.push('接](https://example.com) 吧')).toBe(' 链接 吧')
+  })
+
+  it('holds incomplete scratch category tags', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+
+    expect(sanitizer.push('拖 [[cat:eve')).toBe('拖')
+    expect(sanitizer.push('nts]]')).toBe(' 事件分类')
+  })
+
+  it('does not hold the rest of the reply after a literal bracket pair', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+
+    expect(sanitizer.push('看看 [3')).toBe('看看')
+    expect(sanitizer.push(', 5] 这一格，然后继续')).toBe(' [3, 5] 这一格，然后继续')
+  })
+
+  it('releases a closed bracket pair that is not a markdown link', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+
+    expect(sanitizer.push('看 [链接]')).toBe('看')
+    expect(sanitizer.push(' 吧')).toBe(' [链接] 吧')
+  })
+
+  it('caps streamed speech text at the same length as full sanitizer', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+    const source = '测'.repeat(MAX_TUTOR_TTS_TEXT_CHARS + 10)
+
+    let spoken = sanitizer.push(source)
+    spoken += sanitizer.flush()
+
+    expect(spoken).toHaveLength(MAX_TUTOR_TTS_TEXT_CHARS)
+  })
+})
+
+describe('findTutorSpeechHoldIndex', () => {
+  it('lets literal brackets pass so later text is not stalled', () => {
+    const raw = '看看 [3, 5] 这一格，然后继续'
+    expect(findTutorSpeechHoldIndex(raw)).toBe(raw.length)
+  })
+
+  it('holds an unclosed project chip', () => {
+    const raw = '再看 [project:12|纸'
+    expect(findTutorSpeechHoldIndex(raw)).toBe(raw.indexOf('['))
+  })
+})
+
+describe('createTutorRealtimeTtsSession', () => {
+  it('streams PCM deltas over the DashScope realtime websocket', async () => {
+    process.env.DASHSCOPE_API_KEY = 'test-dashscope-key'
+    const chunks: Buffer[] = []
+    const session = createTutorRealtimeTtsSession({
+      onAudio: (pcm) => chunks.push(pcm),
+    })
+    const socket = asrSocketMock.instances[0]
+
+    expect(socket.url).toContain('model=qwen3-tts-flash-realtime')
+    expect(socket.options.headers).toMatchObject({
+      Authorization: 'Bearer test-dashscope-key',
+      'OpenAI-Beta': 'realtime=v1',
+    })
+
+    socket.emit('open')
+    expect(JSON.parse(socket.sent[0])).toMatchObject({
+      type: 'session.update',
+      session: {
+        mode: 'server_commit',
+        voice: 'Ethan',
+        language_type: 'Chinese',
+        response_format: 'pcm',
+        sample_rate: TUTOR_TTS_PCM_SAMPLE_RATE,
+      },
+    })
+
+    session.append('你好')
+    socket.emit('message', Buffer.from(JSON.stringify({ type: 'session.updated' })))
+    expect(JSON.parse(socket.sent[1])).toMatchObject({
+      type: 'input_text_buffer.append',
+      text: '你好',
+    })
+
+    session.append('，小迪')
+    await Promise.resolve()
+    expect(JSON.parse(socket.sent[2])).toMatchObject({
+      type: 'input_text_buffer.append',
+      text: '，小迪',
+    })
+
+    const pcm = Buffer.from([1, 2, 3, 4])
+    socket.emit(
+      'message',
+      Buffer.from(
+        JSON.stringify({
+          type: 'response.audio.delta',
+          delta: pcm.toString('base64'),
+        }),
+      ),
+    )
+    expect(Buffer.concat(chunks).equals(pcm)).toBe(true)
+
+    const finished = session.finish()
+    await Promise.resolve()
+    expect(JSON.parse(socket.sent.at(-1)!).type).toBe('session.finish')
+    socket.emit('message', Buffer.from(JSON.stringify({ type: 'session.finished' })))
+    await finished
+    expect(socket.close).toHaveBeenCalled()
+  })
+
+  it('requires a DashScope API key', () => {
+    delete process.env.DASHSCOPE_API_KEY
+    expect(() => createTutorRealtimeTtsSession({ onAudio: () => undefined })).toThrow(TutorSpeechError)
+    try {
+      createTutorRealtimeTtsSession({ onAudio: () => undefined })
+    } catch (error) {
+      expect(error).toMatchObject({
+        name: 'TutorSpeechError',
+        status: 503,
+      } satisfies Partial<TutorSpeechError>)
+    }
   })
 })
 

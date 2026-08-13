@@ -64,6 +64,7 @@ import {
 import { TutorSendSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
+import { createTutorSpeechStreamer } from '@/lib/ai/tutor/speech'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
@@ -451,6 +452,7 @@ export async function POST(request: NextRequest) {
     const clientSceneCapabilities = parsed.data.sceneCapabilities
     const surface = parsed.data.surface
     const gameKey = surface === 'playground' ? parsed.data.gameKey : undefined
+    const wantSpeak = parsed.data.speak === true
     const cost = getAiChatCreditCost(images.length > 0)
 
     validateContentSafeIfPresent(content, '对话内容')
@@ -735,10 +737,12 @@ export async function POST(request: NextRequest) {
     let fullReply = ''
     // 客户端中途断开（关面板/刷新）后 enqueue 会抛错；用标记保证后续落库照常进行。
     let cancelled = false
+    const speechRef: { current: ReturnType<typeof createTutorSpeechStreamer> | null } = { current: null }
 
     const readable = new ReadableStream({
       cancel() {
         cancelled = true
+        speechRef.current?.abort()
       },
       async start(controller) {
         const safeEnqueue = (payload: Record<string, unknown>) => {
@@ -764,6 +768,17 @@ export async function POST(request: NextRequest) {
         try {
           if (TUTOR_TIMING_ENABLED) {
             safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
+          }
+          if (wantSpeak) {
+            speechRef.current = createTutorSpeechStreamer({
+              onAudio: (pcm, sampleRate) => {
+                safeEnqueue({ type: 'audio', pcm, sampleRate })
+              },
+              onError: (error) => {
+                logger.warn('Tutor realtime TTS failed', { message: error.message })
+              },
+            })
+            speechRef.current.start()
           }
           for (const toolCall of toolCalls) {
             safeEnqueue({ type: 'tool_call', toolCall })
@@ -798,10 +813,13 @@ export async function POST(request: NextRequest) {
               }
               fullReply += value
               safeEnqueue({ type: 'chunk', content: value })
+              speechRef.current?.push(value)
             }
           }
           timing.mark('ai_stream_done')
         } catch (error) {
+          speechRef.current?.abort()
+          speechRef.current = null
           await refund(cost)
           timing.log('stream_error', {
             contextType,
@@ -815,6 +833,8 @@ export async function POST(request: NextRequest) {
         }
 
         if (!fullReply.trim()) {
+          speechRef.current?.abort()
+          speechRef.current = null
           await refund(cost)
           safeEnqueue({ type: 'error', error: '小迪没有给出内容，请换个说法再试。' })
           safeClose()
@@ -920,6 +940,14 @@ export async function POST(request: NextRequest) {
         })
 
         safeEnqueue({ type: 'done', reply: fullReply })
+        if (speechRef.current) {
+          try {
+            await speechRef.current.finish()
+          } catch {
+            // TTS 失败只静音，文字已经发出
+          }
+          safeEnqueue({ type: 'audio_done' })
+        }
         safeClose()
       },
     })

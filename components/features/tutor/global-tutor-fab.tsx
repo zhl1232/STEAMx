@@ -268,7 +268,10 @@ export function GlobalTutorFab({
     sessionInput,
     busyRef,
     autoReadReplies: voice.autoReadReplies,
-    queueAutoRead: voice.queueAutoRead,
+    beginStreamedSpeech: voice.beginStreamedSpeech,
+    pushStreamedPcm: voice.pushStreamedPcm,
+    finishStreamedSpeech: voice.finishStreamedSpeech,
+    playSpeech: voice.playSpeech,
     setQuota,
     refreshQuota,
     setMascotFeedback,
@@ -365,13 +368,6 @@ export function GlobalTutorFab({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, user, busy, tutorCtx?.pendingSend])
-
-  // 回复完成且消息列表稳定后，消费自动朗读队列
-  const { consumePendingAutoRead } = voice
-  useEffect(() => {
-    if (busy || view !== 'chat') return
-    consumePendingAutoRead(messages)
-  }, [busy, view, messages, consumePendingAutoRead])
 
   // 输入框/发送按钮共用：携带待发图片，确认会发送后再清空，避免被 guard 拦截时丢图。
   const submitComposer = () => {

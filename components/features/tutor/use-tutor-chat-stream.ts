@@ -50,8 +50,10 @@ export type UseTutorChatStreamOptions = {
   /** 发送中标记（ref 版），loadSession 用它避免覆盖乐观插入的消息 */
   busyRef: MutableRefObject<boolean>
   autoReadReplies: boolean
-  /** 回复完成后登记自动朗读（由语音控制器消费） */
-  queueAutoRead: (text: string, force: boolean) => void
+  beginStreamedSpeech: (speechKey: string) => Promise<void>
+  pushStreamedPcm: (pcm: string, sampleRate?: number, speechKey?: string) => void
+  finishStreamedSpeech: (speechKey?: string) => boolean | null
+  playSpeech: (text: string, speechKey: string) => void | Promise<void>
   setQuota: Dispatch<SetStateAction<AiCreditStatus | null>>
   refreshQuota: () => void | Promise<void>
   setMascotFeedback: (feedback: TutorMascotFeedback | null) => void
@@ -76,7 +78,10 @@ export function useTutorChatStream({
   sessionInput,
   busyRef,
   autoReadReplies,
-  queueAutoRead,
+  beginStreamedSpeech,
+  pushStreamedPcm,
+  finishStreamedSpeech,
+  playSpeech,
   setQuota,
   refreshQuota,
   setMascotFeedback,
@@ -147,11 +152,17 @@ export function useTutorChatStream({
           ...details,
         })
       }
-      setMessages((current) => [
-        ...current,
-        userMessage,
-        { role: 'assistant', content: '', streaming: true },
-      ])
+      const willSpeak = Boolean(autoReadReplies || options.forceReadReply)
+      const assistantSpeechKeyRef = { current: 'chat-live' }
+      setMessages((current) => {
+        const next = [
+          ...current,
+          userMessage,
+          { role: 'assistant' as const, content: '', streaming: true },
+        ]
+        assistantSpeechKeyRef.current = `chat-${next.length - 1}`
+        return next
+      })
 
       // 用「找最后一条 streaming 占位」代替固定索引，避免 loadSession 等并发更新打乱下标。
       const patchStreaming = (patch: TutorChatMessage) => {
@@ -159,6 +170,20 @@ export function useTutorChatStream({
           const next = [...current]
           for (let i = next.length - 1; i >= 0; i -= 1) {
             if (next[i].role === 'assistant' && next[i].streaming) {
+              next[i] = patch
+              return next
+            }
+          }
+          next.push(patch)
+          return next
+        })
+      }
+
+      const patchLastAssistant = (patch: TutorChatMessage) => {
+        setMessages((current) => {
+          const next = [...current]
+          for (let i = next.length - 1; i >= 0; i -= 1) {
+            if (next[i].role === 'assistant') {
               next[i] = patch
               return next
             }
@@ -191,8 +216,12 @@ export function useTutorChatStream({
       streamAbortRef.current?.abort()
       const abortController = new AbortController()
       streamAbortRef.current = abortController
+      let releasedBusy = false
 
       try {
+        if (willSpeak) {
+          await beginStreamedSpeech(assistantSpeechKeyRef.current)
+        }
         const res = await fetch('/api/tutor/chat', {
           method: 'POST',
           signal: abortController.signal,
@@ -211,12 +240,14 @@ export function useTutorChatStream({
             sceneCapabilities: clientToolCapabilities,
             surface: context.surface,
             gameKey: context.playgroundGameKey,
+            speak: willSpeak,
           }),
         })
         const responseHeadersMs = TUTOR_CLIENT_TIMING_ENABLED ? markTiming() : 0
         const serverTiming = TUTOR_CLIENT_TIMING_ENABLED ? res.headers.get('Server-Timing') : null
 
         if (res.status === 402) {
+          if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
           const payload = await res.json().catch(() => ({}))
           setQuota((q) => (q ? { ...q, canChat: false } : q))
           patchStreaming({
@@ -239,6 +270,50 @@ export function useTutorChatStream({
         let streamWarning: string | null = null
         let toolFailed = false
         let sawToolCall = false
+        let receivedAudio = false
+        let settledText = false
+
+        const releaseBusy = () => {
+          if (releasedBusy || streamAbortRef.current !== abortController) return
+          releasedBusy = true
+          busyRef.current = false
+          setBusy(false)
+        }
+
+        const settleAssistantText = (content: string) => {
+          if (settledText) return
+          settledText = true
+          const assistantMessage: TutorChatMessage = { role: 'assistant', content: content || '…' }
+          patchLastAssistant(assistantMessage)
+          releaseBusy()
+          if (toolFailed) {
+            setMascotFeedback('error')
+          } else if (!willSpeak) {
+            setMascotFeedback('success')
+          }
+          if (sessionInput) {
+            queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
+              current
+                ? {
+                    ...current,
+                    messages: [...(current.messages ?? []), userMessage, assistantMessage],
+                    greeting: null,
+                  }
+                : current,
+            )
+          }
+          if (streamWarning) {
+            toast({ title: streamWarning, variant: 'destructive' })
+          }
+          logTiming('done', {
+            responseHeadersMs,
+            serverTiming,
+            replyLength: content.length,
+            sawToolCall,
+            toolFailed,
+          })
+          void refreshQuota()
+        }
 
         for await (const event of readTutorStreamEvents(res.body)) {
           if (TUTOR_CLIENT_TIMING_ENABLED && firstEventMs == null) {
@@ -250,8 +325,14 @@ export function useTutorChatStream({
             }
             full += event.content
             patchStreaming({ role: 'assistant', content: full, streaming: true })
+          } else if (event.type === 'audio' && event.pcm) {
+            receivedAudio = true
+            pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current)
           } else if (event.type === 'done' && event.reply) {
             full = event.reply
+            settleAssistantText(full)
+          } else if (event.type === 'audio_done') {
+            finishStreamedSpeech(assistantSpeechKeyRef.current)
           } else if (event.type === 'warning') {
             streamWarning = event.warning || null
           } else if (event.type === 'error') {
@@ -270,9 +351,10 @@ export function useTutorChatStream({
         }
 
         if (streamError) {
+          if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
           if (full) {
             // 已有流式内容：保留内容，错误另起一条气泡，不覆盖回复
-            patchStreaming({ role: 'assistant', content: full })
+            patchLastAssistant({ role: 'assistant', content: full })
             setMessages((current) => [...current, { role: 'assistant', content: streamError, error: true }])
             setMascotFeedback('error')
             void refreshQuota()
@@ -281,43 +363,14 @@ export function useTutorChatStream({
           throw new Error(streamError)
         }
 
-        const assistantMessage: TutorChatMessage = { role: 'assistant', content: full || '…' }
-        const willAutoRead = (autoReadReplies || options.forceReadReply) && !assistantMessage.error
-
-        if (toolFailed) {
-          setMascotFeedback('error')
-        } else if (!willAutoRead) {
-          // 即将自动朗读时不抢 success，让 speaking 态立刻可见
-          setMascotFeedback('success')
+        if (!settledText) settleAssistantText(full || '…')
+        const shouldSpeak = willSpeak
+        const speechResult = shouldSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
+        if (shouldSpeak && !receivedAudio && speechResult === false) {
+          void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }
-
-        patchStreaming(assistantMessage)
-        if (willAutoRead) {
-          queueAutoRead(assistantMessage.content, options.forceReadReply === true)
-        }
-        if (sessionInput) {
-          queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
-            current
-              ? {
-                  ...current,
-                  messages: [...(current.messages ?? []), userMessage, assistantMessage],
-                  greeting: null,
-                }
-              : current,
-          )
-        }
-        if (streamWarning) {
-          toast({ title: streamWarning, variant: 'destructive' })
-        }
-        logTiming('done', {
-          responseHeadersMs,
-          serverTiming,
-          replyLength: full.length,
-          sawToolCall,
-          toolFailed,
-        })
-        void refreshQuota()
       } catch (error) {
+        if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
         if (abortController.signal.aborted) {
           // 场景切换主动中止：静默清掉流式占位气泡即可，不算错误。
           // 服务端会照常完成并落库，回复在历史里仍然可见。
@@ -335,9 +388,11 @@ export function useTutorChatStream({
       } finally {
         if (streamAbortRef.current === abortController) {
           streamAbortRef.current = null
+          if (!releasedBusy) {
+            busyRef.current = false
+            setBusy(false)
+          }
         }
-        busyRef.current = false
-        setBusy(false)
       }
     },
     [
@@ -360,9 +415,12 @@ export function useTutorChatStream({
       dispatchToolCall,
       clientToolCapabilities,
       autoReadReplies,
+      beginStreamedSpeech,
+      pushStreamedPcm,
+      finishStreamedSpeech,
+      playSpeech,
       busyRef,
       onBeforeSend,
-      queueAutoRead,
       setMascotFeedback,
       setQuota,
     ],

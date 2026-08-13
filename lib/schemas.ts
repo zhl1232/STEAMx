@@ -178,6 +178,7 @@ export const TutorSendSchema = z.object({
   sceneCapabilities: z.array(TutorSceneCapabilitySchema).max(8).optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
   gameKey: TutorPlaygroundGameKeySchema.optional(),
+  speak: z.boolean().optional(),
   // 不接受客户端 meta 直通落库：tutor_messages.meta 全部由服务端生成
   // （stageIndex/lessonId 等场景字段 + meta.ai 遥测），官方客户端从不发送 meta。
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
@@ -186,6 +187,7 @@ export const TutorSendSchema = z.object({
 
 export const TutorSpeechSynthesizeSchema = z.object({
   text: z.string().min(1, '朗读内容不能为空').max(4000, '朗读内容太长'),
+  fallback: z.boolean().optional(),
 });
 
 export const TutorSpeechTranscribeMetaSchema = z.object({

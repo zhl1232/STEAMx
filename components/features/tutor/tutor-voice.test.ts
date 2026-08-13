@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  decodeBase64ToArrayBuffer,
+  decodePcm16ToFloat32,
+} from '@/components/features/tutor/tutor-pcm-player'
+import {
   buildTutorLongPressHintState,
   encodePcm16,
   getTutorVoicePreferences,
@@ -37,6 +41,20 @@ describe('PCM helpers', () => {
 
     expect(output).toHaveLength(TUTOR_VOICE_SAMPLE_RATE)
     expect(output[0]).toBeCloseTo(0.5)
+  })
+
+  it('round-trips PCM16 through float conversion', () => {
+    const encoded = encodePcm16(new Float32Array([-1, 0, 1]))
+    const decoded = decodePcm16ToFloat32(encoded.buffer)
+    expect(decoded[0]).toBeCloseTo(-1)
+    expect(decoded[1]).toBeCloseTo(0)
+    expect(decoded[2]).toBeCloseTo(1)
+  })
+
+  it('decodes base64 PCM frames used by the tutor SSE', () => {
+    const pcm = Uint8Array.from([1, 2, 3, 4])
+    const encoded = btoa(String.fromCharCode(1, 2, 3, 4))
+    expect(Array.from(new Uint8Array(decodeBase64ToArrayBuffer(encoded)))).toEqual([1, 2, 3, 4])
   })
 })
 
