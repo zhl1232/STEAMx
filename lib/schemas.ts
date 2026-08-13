@@ -178,7 +178,8 @@ export const TutorSendSchema = z.object({
   sceneCapabilities: z.array(TutorSceneCapabilitySchema).max(8).optional(),
   surface: TutorGlobalSurfaceSchema.optional(),
   gameKey: TutorPlaygroundGameKeySchema.optional(),
-  meta: z.record(z.string(), z.unknown()).optional(),
+  // 不接受客户端 meta 直通落库：tutor_messages.meta 全部由服务端生成
+  // （stageIndex/lessonId 等场景字段 + meta.ai 遥测），官方客户端从不发送 meta。
 }).refine((value) => value.content.trim().length > 0 || value.images.length > 0, {
   message: '消息不能为空',
 });

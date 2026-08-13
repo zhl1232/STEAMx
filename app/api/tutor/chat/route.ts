@@ -13,11 +13,20 @@ import {
   findSpeciesHintsForText,
   speciesHintsToAudioRefs,
 } from '@/lib/ai/tutor/species-hints'
-import { streamChatWithTutor, getTutorEngineUserMessage, type TutorEngineMessage } from '@/lib/ai/tutor/engine'
+import {
+  streamChatWithTutor,
+  getTutorEngineUserMessage,
+  type TutorEngineMessage,
+  type TutorEngineTelemetry,
+} from '@/lib/ai/tutor/engine'
 import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
-import { maybeUpdateTutorNotebook, loadTutorNotebook } from '@/lib/ai/tutor/memory'
+import {
+  loadTutorNotebook,
+  maybeUpdateTutorConversationSummary,
+  maybeUpdateTutorNotebook,
+} from '@/lib/ai/tutor/memory'
 import { planTutorToolDecision, shouldPlanTutorToolDecision } from '@/lib/ai/tutor/tool-call-planner'
-import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
+import { buildTutorSystemPrompt, TUTOR_PROMPT_VERSION } from '@/lib/ai/tutor/prompt'
 import { buildTutorReplyFocusSummary } from '@/lib/ai/tutor/reply-focus'
 import {
   formatTutorResourceSearch,
@@ -30,6 +39,7 @@ import { buildStudentProfile } from '@/lib/ai/tutor/student-profile'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { buildTutorToolCallsFromPlan } from '@/lib/ai/tutor/tool-registry'
 import {
+  TUTOR_CONTEXT_TYPES,
   TUTOR_GLOBAL_SURFACES,
   TUTOR_PLAYGROUND_GAME_KEYS,
   type TutorContextType,
@@ -46,6 +56,7 @@ import {
   validateOwnedOrTrustedImageUrlFromSources,
 } from '@/lib/api/validation'
 import {
+  AI_CREDIT_COST_TEXT,
   AI_TUTOR_RATE_LIMIT_PER_MINUTE,
   getAiChatCreditCost,
   getMembershipSummary,
@@ -56,6 +67,13 @@ import type { Database } from '@/lib/supabase/types'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
+/**
+ * 送入模型的历史窗口按字符预算截断（中文里字符数与 token 同量级）。
+ * 固定条数无法约束贴长文的情况；预算内至少保留最近一问一答。
+ */
+const HISTORY_CHAR_BUDGET = 6000
+/** 历史消息里每张图片按固定字符成本估算（缩略引用 + 模型侧摘要开销） */
+const HISTORY_IMAGE_CHAR_COST = 400
 const TUTOR_TIMING_ENABLED = process.env.NODE_ENV === 'development' || process.env.TUTOR_DEBUG_TIMING === '1'
 
 type TutorTimingMark = {
@@ -124,7 +142,11 @@ type TutorMessageRow = Database['public']['Tables']['tutor_messages']['Row']
 type TutorConversationRow = Database['public']['Tables']['tutor_conversations']['Row']
 
 function parseContextParams(searchParams: URLSearchParams) {
-  const contextType = (searchParams.get('contextType') || 'global') as TutorContextType
+  const contextTypeRaw = searchParams.get('contextType') || 'global'
+  // 非法值回退 global，避免直接 cast 后在场景构建里抛错
+  const contextType: TutorContextType = TUTOR_CONTEXT_TYPES.includes(contextTypeRaw as TutorContextType)
+    ? (contextTypeRaw as TutorContextType)
+    : 'global'
   const contextId = searchParams.get('contextId') || ''
   const stageIndexRaw = searchParams.get('stageIndex')
   const stageIndex = stageIndexRaw != null ? Number.parseInt(stageIndexRaw, 10) : undefined
@@ -251,16 +273,26 @@ async function getOrCreateActiveConversation(
   }
 }
 
-async function startNewConversation(
+/**
+ * 归档当前 active 线程；空线程直接保留复用，避免反复点「开启新对话」
+ * 在历史里堆出一堆空的归档线程。新线程由下一条 POST 惰性创建。
+ */
+async function archiveActiveConversation(
   supabase: Awaited<ReturnType<typeof createClient>>,
-  input: {
-    userId: string
-    contextType: TutorContextType
-    contextId: string
-    title: string
-    meta: Record<string, unknown>
-  },
+  userId: string,
+  contextType: TutorContextType,
+  contextId: string,
 ) {
+  const active = await getActiveConversation(supabase, userId, contextType, contextId)
+  if (!active) return
+
+  const { count, error: countError } = await supabase
+    .from('tutor_messages')
+    .select('id', { count: 'exact', head: true })
+    .eq('conversation_id', active.id)
+  if (countError) throw countError
+  if ((count ?? 0) === 0) return
+
   const now = new Date().toISOString()
   const { error } = await supabase
     .from('tutor_conversations')
@@ -269,13 +301,11 @@ async function startNewConversation(
       archived_at: now,
       updated_at: now,
     } as never)
-    .eq('user_id', input.userId)
-    .eq('context_type', input.contextType)
-    .eq('context_id', input.contextId)
+    .eq('id', active.id)
+    .eq('user_id', userId)
     .eq('status', 'active')
 
   if (error) throw error
-  return createConversation(supabase, input)
 }
 
 async function loadHistory(
@@ -292,6 +322,20 @@ async function loadHistory(
 
   if (error) throw error
   return ((data ?? []) as TutorMessageRow[]).reverse().map(mapMessage)
+}
+
+/** 从最新往旧累计字符成本，超出预算即停；至少保留最近 2 条。 */
+function trimHistoryToCharBudget(history: TutorEngineMessage[], budget = HISTORY_CHAR_BUDGET) {
+  const kept: TutorEngineMessage[] = []
+  let used = 0
+  for (let i = history.length - 1; i >= 0; i -= 1) {
+    const message = history[i]
+    const cost = message.content.length + (message.images?.length ?? 0) * HISTORY_IMAGE_CHAR_COST
+    if (kept.length >= 2 && used + cost > budget) break
+    kept.unshift(message)
+    used += cost
+  }
+  return kept
 }
 
 export async function GET(request: NextRequest) {
@@ -326,14 +370,9 @@ export async function GET(request: NextRequest) {
       buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface, gameKey }),
       loadTutorNotebook(supabase, user.id),
     ])
-    const conversation = await getOrCreateActiveConversation(supabase, {
-      userId: user.id,
-      contextType,
-      contextId,
-      title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, surface, gameKey }),
-    })
-    const messages = await loadHistory(supabase, conversation.id)
+    // 只读：不在 GET 里创建会话，避免“打开面板就落一条空线程”；首条消息由 POST 创建。
+    const conversation = await getActiveConversation(supabase, user.id, contextType, contextId)
+    const messages = conversation ? await loadHistory(supabase, conversation.id) : []
 
     const greeting = messages.length === 0 ? buildTutorGreeting(studentProfile, scene) : null
 
@@ -341,11 +380,13 @@ export async function GET(request: NextRequest) {
       messages,
       quota,
       greeting,
-      conversation: {
-        id: conversation.id,
-        title: conversation.title,
-        createdAt: conversation.created_at,
-      },
+      conversation: conversation
+        ? {
+            id: conversation.id,
+            title: conversation.title,
+            createdAt: conversation.created_at,
+          }
+        : null,
       scene: {
         title: scene.title,
         contextType: scene.contextType,
@@ -364,17 +405,10 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const user = await requireAuth(supabase)
-    const { contextType, contextId, stageIndex, lessonId, surface, gameKey } = parseContextParams(request.nextUrl.searchParams)
-    const scene = await buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface, gameKey })
-    const conversation = await startNewConversation(supabase, {
-      userId: user.id,
-      contextType,
-      contextId,
-      title: scene.title,
-      meta: buildConversationMeta({ stageIndex, lessonId, surface, gameKey }),
-    })
+    const { contextType, contextId } = parseContextParams(request.nextUrl.searchParams)
+    await archiveActiveConversation(supabase, user.id, contextType, contextId)
 
-    return NextResponse.json({ ok: true, conversation: { id: conversation.id } })
+    return NextResponse.json({ ok: true })
   } catch (error) {
     return handleApiError(error)
   }
@@ -383,6 +417,8 @@ export async function DELETE(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
   const timing = createTutorTimingTrace('api/tutor/chat POST')
+  // 扣费成功后、流式响应移交前若抛错，由外层 catch 统一退款
+  let pendingRefund: (() => Promise<void>) | null = null
 
   try {
     const user = await requireAuth(supabase)
@@ -443,6 +479,17 @@ export async function POST(request: NextRequest) {
       )
     }
     timing.mark('profile_credit')
+
+    // 所有失败路径共用同一份退款额度：refund 按剩余可退金额封顶，天然防止重复退款。
+    let remainingCharge = creditResult.source ? cost : 0
+    const refund = async (amount: number) => {
+      if (!creditResult.source) return
+      const value = Math.min(amount, remainingCharge)
+      if (value <= 0) return
+      remainingCharge -= value
+      await refundAiCredit(supabase, value, creditResult.source).catch(() => undefined)
+    }
+    pendingRefund = () => refund(cost)
 
     const [studentProfile, scene, notebook] = await Promise.all([
       buildStudentProfile(supabase, user.id),
@@ -524,19 +571,51 @@ export async function POST(request: NextRequest) {
     })
 
     const conversationText = history.map((message) => message.content).join('\n')
-    const [speciesHints, scratchScreenshotDiagnosis, resourcePlan] = await Promise.all([
+    const plannerHistory = history
+      .slice(0, -1)
+      .slice(-6)
+      .flatMap((message) =>
+        message.role === 'user' || message.role === 'assistant'
+          ? [{ role: message.role, content: message.content }]
+          : [],
+      )
+    const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
+    const toolPlannerInput = {
+      contextType,
+      sceneCapabilities: effectiveSceneCapabilities,
+      stageIndex,
+      lessonId,
+      lessonStepIndex,
+      lessonStepCount,
+      scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
+      scratchBlockItems: sceneWithResources.scratchBlockItems,
+      scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
+      scratchBlockCategory: sceneWithResources.scratchBlockCategory,
+      scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
+      content,
+    }
+    const runToolPlanner = () =>
+      planTutorToolDecision({ ...toolPlannerInput, previousMessages: plannerHistory }).catch((error) => {
+        logger.warn('Tutor tool planner failed.', {
+          contextType,
+          contextId,
+          lessonId,
+          lessonStepIndex,
+          stageIndex,
+          error: error instanceof Error ? error.message : String(error),
+        })
+        return null
+      })
+    // 没有截图诊断分支时，工具 planner 与资源 planner/物种提示并行，省一轮模型串行等待。
+    const parallelToolPlannerPromise =
+      !scratchScreenshotDiagnosisEligible && shouldPlanTutorToolDecision(toolPlannerInput)
+        ? runToolPlanner()
+        : Promise.resolve(null)
+    const [speciesHints, scratchScreenshotDiagnosis, resourcePlan, parallelPlannerDecision] = await Promise.all([
       canUseSpeciesAudio ? findSpeciesHintsForText(supabase, conversationText) : Promise.resolve([]),
       scratchScreenshotDiagnosisPromise ?? Promise.resolve(null),
-      planTutorResourceSearch(content, {
-        previousMessages: history
-          .slice(0, -1)
-          .slice(-6)
-          .filter(
-            (message): message is TutorEngineMessage & { role: 'user' | 'assistant' } =>
-              message.role === 'user' || message.role === 'assistant',
-          )
-          .map((message) => ({ role: message.role, content: message.content })),
-      }),
+      planTutorResourceSearch(content, { previousMessages: plannerHistory }),
+      parallelToolPlannerPromise,
     ])
     const resourceSearch = resourcePlan.shouldSearch
       ? await searchTutorResources(supabase, resourcePlan)
@@ -545,7 +624,6 @@ export async function POST(request: NextRequest) {
     timing.mark('species_hints')
     timing.mark('scratch_screenshot_diagnosis')
     timing.mark('resource_search')
-    const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
     let toolCalls: TutorToolCall[] = scratchScreenshotDiagnosis
       ? buildTutorToolCallsFromPlan({
           contextType,
@@ -566,50 +644,15 @@ export async function POST(request: NextRequest) {
             },
           ],
         })
-      : []
+      : (parallelPlannerDecision?.toolCalls ?? [])
     if (
       !scratchScreenshotDiagnosis &&
-      shouldPlanTutorToolDecision({
-        contextType,
-        sceneCapabilities: effectiveSceneCapabilities,
-        stageIndex,
-        lessonId,
-        lessonStepIndex,
-        lessonStepCount,
-        scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
-        scratchBlockItems: sceneWithResources.scratchBlockItems,
-        scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
-        scratchBlockCategory: sceneWithResources.scratchBlockCategory,
-        scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
-        content,
-      })
+      scratchScreenshotDiagnosisEligible &&
+      shouldPlanTutorToolDecision(toolPlannerInput)
     ) {
-      try {
-        const plannerDecision = await planTutorToolDecision({
-          contextType,
-          sceneCapabilities: effectiveSceneCapabilities,
-          stageIndex,
-          lessonId,
-          lessonStepIndex,
-          lessonStepCount,
-          scratchBlockKeywords: sceneWithResources.scratchBlockKeywords,
-          scratchBlockItems: sceneWithResources.scratchBlockItems,
-          scratchBlockStepItemCount: sceneWithResources.scratchBlockStepItemCount,
-          scratchBlockCategory: sceneWithResources.scratchBlockCategory,
-          scratchBlockTargetItemIndex: normalizedScratchBlockTargetItemIndex,
-          content,
-        })
-        toolCalls = plannerDecision?.toolCalls ?? []
-      } catch (error) {
-        logger.warn('Tutor tool planner failed.', {
-          contextType,
-          contextId,
-          lessonId,
-          lessonStepIndex,
-          stageIndex,
-          error: error instanceof Error ? error.message : String(error),
-        })
-      }
+      // 诊断分支空手而归的少见情况：补跑一次 planner，保持原有兜底行为。
+      const plannerDecision = await runToolPlanner()
+      toolCalls = plannerDecision?.toolCalls ?? []
     }
     timing.mark('tool_planner')
     const focusLessonStepCall = toolCalls.find((toolCall) => toolCall.name === 'course.focus_lesson_step')
@@ -660,7 +703,14 @@ export async function POST(request: NextRequest) {
         )
       : []
 
-    const systemPrompt = buildTutorSystemPrompt({ scene: sceneForPrompt, profile: studentProfile, notebook })
+    const systemPrompt = buildTutorSystemPrompt({
+      scene: sceneForPrompt,
+      profile: studentProfile,
+      notebook,
+      // 会话滚动摘要：窗口外的早期对话内容（由 after() 里的后台任务滚动维护）
+      conversationSummary: conversation.summary,
+    })
+    const engineHistory = trimHistoryToCharBudget(history)
     timing.mark('build_prompt')
 
     const encoder = new TextEncoder()
@@ -690,6 +740,9 @@ export async function POST(request: NextRequest) {
           }
         }
 
+        let visionFallback = false
+        let telemetry: TutorEngineTelemetry | null = null
+
         try {
           if (TUTOR_TIMING_ENABLED) {
             safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
@@ -698,7 +751,18 @@ export async function POST(request: NextRequest) {
             safeEnqueue({ type: 'tool_call', toolCall })
           }
 
-          const stream = streamChatWithTutor(systemPrompt, history)
+          const stream = streamChatWithTutor(systemPrompt, engineHistory, {
+            onVisionFallback: () => {
+              visionFallback = true
+              safeEnqueue({
+                type: 'warning',
+                warning: '这次图片没能识别成功，小迪先按文字回复，图片分析的差价会退回。',
+              })
+            },
+            onTelemetry: (value) => {
+              telemetry = value
+            },
+          })
           let sawFirstAiChunk = false
           while (true) {
             const { value, done } = await stream.next()
@@ -720,9 +784,7 @@ export async function POST(request: NextRequest) {
           }
           timing.mark('ai_stream_done')
         } catch (error) {
-          if (creditResult.source) {
-            await refundAiCredit(supabase, cost, creditResult.source).catch(() => undefined)
-          }
+          await refund(cost)
           timing.log('stream_error', {
             contextType,
             hasImages: images.length > 0,
@@ -735,12 +797,15 @@ export async function POST(request: NextRequest) {
         }
 
         if (!fullReply.trim()) {
-          if (creditResult.source) {
-            await refundAiCredit(supabase, cost, creditResult.source).catch(() => undefined)
-          }
+          await refund(cost)
           safeEnqueue({ type: 'error', error: '小迪没有给出内容，请换个说法再试。' })
           safeClose()
           return
+        }
+
+        // 图片识别降级为纯文本：只收文字对话的价，退回视觉分析差价。
+        if (visionFallback) {
+          await refund(cost - AI_CREDIT_COST_TEXT)
         }
 
         const replyAudios = canUsePromptSpeciesAudio
@@ -755,13 +820,28 @@ export async function POST(request: NextRequest) {
         fullReply = finalizeReplyAudio(fullReply, selectedAudio)
         timing.mark('finalize_audio')
 
-        const meta: Record<string, unknown> = { ...(parsed.data.meta ?? {}) }
+        // meta 全部由服务端生成，不接受客户端直通字段
+        const meta: Record<string, unknown> = {}
         if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
         if (typeof lessonId === 'number') meta.lessonId = lessonId
         if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
         if (typeof lessonStepCount === 'number') meta.lessonStepCount = lessonStepCount
         if (typeof scratchBlockTargetItemIndex === 'number') {
           meta.scratchBlockTargetItemIndex = scratchBlockTargetItemIndex
+        }
+
+        // 模型、token 用量与 prompt 版本只挂在助手消息上，供成本核对与提示词回归定位。
+        const assistantMeta: Record<string, unknown> = { ...meta }
+        const finalTelemetry = telemetry as TutorEngineTelemetry | null
+        assistantMeta.ai = {
+          promptVersion: TUTOR_PROMPT_VERSION,
+          ...(finalTelemetry
+            ? {
+                model: finalTelemetry.model,
+                visionFallback: finalTelemetry.visionFallback,
+                ...(finalTelemetry.usage ? { usage: finalTelemetry.usage } : {}),
+              }
+            : {}),
         }
 
         const { error: insertError } = await supabase.from('tutor_messages').insert([
@@ -783,15 +863,13 @@ export async function POST(request: NextRequest) {
             role: 'assistant',
             content: fullReply,
             images: null,
-            meta,
+            meta: assistantMeta,
           },
         ] as never)
 
         if (insertError) {
           // 回复已生成并展示，不作废内容：退还代币、提示未保存，照常结束。
-          if (creditResult.source) {
-            await refundAiCredit(supabase, cost, creditResult.source).catch(() => undefined)
-          }
+          await refund(cost)
           safeEnqueue({ type: 'warning', warning: '本条回复未能保存到历史记录。' })
         } else {
           const { error: updateConversationError } = await supabase
@@ -803,7 +881,11 @@ export async function POST(request: NextRequest) {
             safeEnqueue({ type: 'warning', warning: '对话时间未能更新，但消息已保存。' })
           }
           after(async () => {
-            await maybeUpdateTutorNotebook(user.id)
+            // 两层记忆：用户级 notebook + 会话级滚动摘要，都在响应后台更新
+            await Promise.all([
+              maybeUpdateTutorNotebook(user.id),
+              maybeUpdateTutorConversationSummary(conversation.id, user.id),
+            ])
           })
         }
         timing.mark('persist_messages')
@@ -820,6 +902,8 @@ export async function POST(request: NextRequest) {
     })
 
     const serverTiming = timing.serverTiming()
+    // 流内部有独立的退款路径；移交给流之后，外层 catch 不再负责退款。
+    pendingRefund = null
     return new Response(readable, {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
@@ -829,6 +913,9 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
+    if (pendingRefund) {
+      await pendingRefund().catch(() => undefined)
+    }
     timing.log('request_error', {
       error: error instanceof Error ? error.message : String(error),
     })

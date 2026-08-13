@@ -1,7 +1,15 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
 import { formatTutorResourceSearch, searchTutorResources } from '@/lib/ai/tutor/resource-search'
-import { parseTutorResourceSearchPlanForTest } from '@/lib/ai/tutor/resource-search-planner'
+import {
+  parseTutorResourceSearchPlanForTest,
+  planTutorResourceSearch,
+} from '@/lib/ai/tutor/resource-search-planner'
+
+vi.mock('@/lib/ai/tutor/engine', () => ({
+  chatWithTutorComplete: vi.fn(),
+}))
 
 describe('tutor resource search planner', () => {
   it('accepts the model decision and preserves natural-language topic phrases', () => {
@@ -22,6 +30,43 @@ describe('tutor resource search planner', () => {
       queries: [],
       resourceTypes: ['course', 'project'],
     })
+  })
+})
+
+describe('planTutorResourceSearch', () => {
+  beforeEach(() => {
+    vi.mocked(chatWithTutorComplete).mockReset()
+  })
+
+  it('conservatively skips the lookup when the planner model fails', async () => {
+    vi.mocked(chatWithTutorComplete).mockRejectedValue(new Error('planner down'))
+
+    await expect(planTutorResourceSearch('有轮船的课程吗')).resolves.toEqual({
+      status: 'fallback',
+      shouldSearch: false,
+      queries: [],
+      resourceTypes: ['course', 'project'],
+    })
+  })
+
+  it('passes recent history so pronoun-only follow-ups still resolve topics', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"shouldSearch":true,"queries":["轮船"],"resourceTypes":["course"]}',
+    )
+
+    const plan = await planTutorResourceSearch('这个有相关课程吗', {
+      previousMessages: [{ role: 'user', content: '我想做一艘轮船' }],
+    })
+
+    expect(plan).toEqual({
+      status: 'model',
+      shouldSearch: true,
+      queries: ['轮船'],
+      resourceTypes: ['course'],
+    })
+    const [, messages] = vi.mocked(chatWithTutorComplete).mock.calls[0]
+    expect(messages[0].content).toContain('我想做一艘轮船')
+    expect(messages[0].content).toContain('【当前消息】')
   })
 })
 

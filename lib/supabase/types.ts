@@ -1819,6 +1819,8 @@ export interface Database {
           title: string
           status: string
           meta: Json
+          summary: string
+          summary_message_id: number | null
           created_at: string
           updated_at: string
           archived_at: string | null
@@ -1831,6 +1833,8 @@ export interface Database {
           title?: string
           status?: string
           meta?: Json
+          summary?: string
+          summary_message_id?: number | null
           created_at?: string
           updated_at?: string
           archived_at?: string | null
@@ -1843,6 +1847,8 @@ export interface Database {
           title?: string
           status?: string
           meta?: Json
+          summary?: string
+          summary_message_id?: number | null
           created_at?: string
           updated_at?: string
           archived_at?: string | null

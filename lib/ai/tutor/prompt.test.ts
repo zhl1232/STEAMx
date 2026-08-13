@@ -53,10 +53,11 @@ describe('buildTutorSystemPrompt', () => {
   it('requires guided hints instead of direct answers for learning exercises', () => {
     const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
 
-    expect(prompt).toContain('习题、测验、谜题、棋盘或闯关题')
+    expect(prompt).toContain('习题、测验、作业、谜题、棋盘或闯关题')
+    expect(prompt).toContain('优先级高于「回答策略」')
     expect(prompt).toContain('不直接给最终答案、正确选项、完整解法或精确落点')
     expect(prompt).toContain('每次只给一个最小线索')
-    expect(prompt).toContain('即使学生直接索要答案，也继续分层引导')
+    expect(prompt).toContain('即使他直接索要答案，也一律按引导处理')
   })
 
   it('requires scene fact points to override vague model guesses', () => {

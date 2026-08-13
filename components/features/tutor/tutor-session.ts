@@ -28,7 +28,7 @@ export type TutorSessionPayload = {
     id: string
     title: string
     createdAt: string
-  }
+  } | null
   scene?: {
     title?: string
     contextType?: TutorContextType

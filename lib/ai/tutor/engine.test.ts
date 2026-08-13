@@ -74,7 +74,7 @@ describe('chatWithTutorComplete image context', () => {
     ])
   })
 
-  it('removes image parts when falling back to the text model', async () => {
+  it('removes image parts and tells the model the image failed when falling back to text', async () => {
     fetchMock
       .mockRejectedValueOnce(new Error('vision unavailable'))
       .mockResolvedValueOnce({
@@ -82,14 +82,59 @@ describe('chatWithTutorComplete image context', () => {
         json: async () => ({ choices: [{ message: { content: '文本模式回复' } }] }),
       })
 
-    await chatWithTutorComplete('你是小迪。', [
-      { role: 'user', content: '请看图', images: ['https://example.com/first.png'] },
-      { role: 'user', content: '图片里有什么？' },
-    ])
+    const onVisionFallback = vi.fn()
+    const onTelemetry = vi.fn()
+    await chatWithTutorComplete(
+      '你是小迪。',
+      [
+        { role: 'user', content: '请看图', images: ['https://example.com/first.png'] },
+        { role: 'user', content: '图片里有什么？' },
+      ],
+      { onVisionFallback, onTelemetry },
+    )
 
     const request = getRequest()
     expect(request.model).toBe('qwen-flash')
-    expect(request.messages[1]).toEqual({ role: 'user', content: '请看图（附了 1 张图片）' })
+    // 降级后不能让模型假装看过图：注明图片加载失败
+    expect(request.messages[1]).toEqual({
+      role: 'user',
+      content: '请看图（附了 1 张图片，但这次图片没能加载成功；请如实说明看不到图片，并请学生用文字补充关键信息）',
+    })
+    expect(onVisionFallback).toHaveBeenCalledTimes(1)
+    expect(onTelemetry).toHaveBeenCalledWith(
+      expect.objectContaining({ visionFallback: true, model: 'qwen-flash' }),
+    )
+  })
+
+  it('reports model and token usage through onTelemetry', async () => {
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        choices: [{ message: { content: '收到。' } }],
+        usage: { prompt_tokens: 120, completion_tokens: 30, total_tokens: 150 },
+      }),
+    })
+
+    const onTelemetry = vi.fn()
+    await chatWithTutorComplete('你是小迪。', [{ role: 'user', content: '你好' }], { onTelemetry })
+
+    expect(onTelemetry).toHaveBeenCalledWith({
+      model: 'qwen-flash',
+      usage: { promptTokens: 120, completionTokens: 30, totalTokens: 150 },
+      visionFallback: false,
+    })
+  })
+
+  it('maps timeout aborts to a friendly tutor error', async () => {
+    fetchMock.mockRejectedValue(new DOMException('The operation timed out.', 'TimeoutError'))
+
+    await expect(
+      chatWithTutorComplete('你是小迪。', [{ role: 'user', content: '你好' }]),
+    ).rejects.toMatchObject({
+      name: 'TutorEngineError',
+      userMessage: '小迪响应超时，请稍后再试。',
+      status: 504,
+    })
   })
 
   it('does not fall back to the text model when a visual-only caller rejects fallback', async () => {

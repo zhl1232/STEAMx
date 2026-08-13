@@ -1,4 +1,5 @@
 import type { Challenge, ObservationEvent, Project, StageProgress } from '@/lib/mappers/types'
+import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
@@ -363,7 +364,8 @@ export function buildWeeklyPlan(input: BuildWeeklyPlanInput): WeeklyPlan {
 
 function stepProjectTag(step: WeeklyPlanStep) {
   if (!step.project) return null
-  return `[project:${step.project.id}|${step.project.title}]`
+  // 项目标题是社区可编辑文本，清洗后再包进 chip，防止伪造 [project:...] 标记
+  return `[project:${step.project.id}|${sanitizeTutorUGC(step.project.title, 40) || '项目作品'}]`
 }
 
 export function formatWeeklyPlanForTutor(plan: WeeklyPlan): string {
@@ -371,9 +373,9 @@ export function formatWeeklyPlanForTutor(plan: WeeklyPlan): string {
 
   const lines = plan.steps.map((step, index) => {
     const projectTag = stepProjectTag(step)
-    const title = projectTag ?? step.title
+    const title = projectTag ?? (sanitizeTutorUGC(step.title, 60) || step.title)
     const status = step.status === 'done' ? '已完成' : '待完成'
-    return `${index + 1}. ${status}｜${title}：${step.subtitle}（入口：${step.href}）`
+    return `${index + 1}. ${status}｜${title}：${sanitizeTutorUGC(step.subtitle, 80) || step.subtitle}（入口：${step.href}）`
   })
 
   return [

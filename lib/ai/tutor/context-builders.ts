@@ -38,6 +38,7 @@ import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
 import { mapChallengeWorkspace, type ChallengeWorkspaceRow } from '@/lib/pbl/challenge-workspace'
+import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import type { Database } from '@/lib/supabase/types'
 
 function compact(value: string | null | undefined, max = 400) {
@@ -117,7 +118,7 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
       const facts = [
         target.id === selected?.id ? '当前选中' : '',
         target.visible === false ? '隐藏' : '',
-        target.costumeName ? `造型「${compact(target.costumeName, 24)}」` : '',
+        target.costumeName ? `造型「${sanitizeTutorUGC(target.costumeName, 24)}」` : '',
         formatScratchNumber(target.x) && formatScratchNumber(target.y)
           ? `坐标(${formatScratchNumber(target.x)}, ${formatScratchNumber(target.y)})`
           : '',
@@ -125,17 +126,17 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
         formatScratchNumber(target.size) ? `大小${formatScratchNumber(target.size)}` : '',
         typeof target.blockCount === 'number' ? `已有${target.blockCount}个积木` : '',
       ].filter(Boolean)
-      return `- ${compact(target.name, 40)}${facts.length ? `：${facts.join('，')}` : ''}`
+      return `- ${sanitizeTutorUGC(target.name, 40)}${facts.length ? `：${facts.join('，')}` : ''}`
     })
     .join('\n')
 
   return [
     '【Scratch 当前编辑器】',
     selectedName
-      ? `当前选中角色/对象：${compact(selectedName, 40)}。回答具体操作时优先围绕这个对象；如果它不是小猫，不要默认说“小猫”。`
+      ? `当前选中角色/对象：${sanitizeTutorUGC(selectedName, 40)}。回答具体操作时优先围绕这个对象；如果它不是小猫，不要默认说“小猫”。`
       : '',
     selectedBlocks ? `当前选中对象已有积木 opcode：${selectedBlocks}` : '',
-    stage?.name ? `舞台/背景对象：${compact(stage.name, 40)}` : '',
+    stage?.name ? `舞台/背景对象：${sanitizeTutorUGC(stage.name, 40)}` : '',
     spriteLines ? `角色列表：\n${spriteLines}` : '',
   ]
     .filter(Boolean)
@@ -440,7 +441,8 @@ async function buildGlobalContext(
         const detail = [project.category, project.difficulty_stars ? `${project.difficulty_stars}星` : '']
           .filter(Boolean)
           .join('·')
-        return `- [project:${project.id}|${compact(project.title, 40)}]${detail ? `（${detail}）` : ''}`
+        // 社区项目标题是不可信文本：清洗后再放进芯片标记，防止伪造额外芯片
+        return `- [project:${project.id}|${sanitizeTutorUGC(project.title, 40)}]${detail ? `（${detail}）` : ''}`
       })
       .join('\n')
 
@@ -515,8 +517,11 @@ async function buildChallengeContext(
       const p = progressByIndex.get(i)
       const status = STATUS_LABEL[p?.status ?? 'not_started'] ?? '未开始'
       const parts: string[] = []
-      if (p?.notes?.trim()) parts.push(p.notes.trim())
-      if (typeof p?.data?.summary === 'string' && p.data.summary.trim()) parts.push(`数据：${p.data.summary.trim()}`)
+      // 学生笔记与数据摘要是不可信输入，统一清洗后再进 prompt
+      const notes = sanitizeTutorUGC(p?.notes, 240)
+      if (notes) parts.push(notes)
+      const dataSummary = typeof p?.data?.summary === 'string' ? sanitizeTutorUGC(p.data.summary, 200) : ''
+      if (dataSummary) parts.push(`数据：${dataSummary}`)
       if (p?.images?.length) parts.push(`（${p.images.length} 张图片）`)
       const body = parts.length > 0 ? parts.join(' ') : '（暂无记录）'
       const marker = i === idx ? '👉 ' : ''
@@ -534,9 +539,9 @@ async function buildChallengeContext(
       ? `当前阶段（${idx + 1}/${stages.length}）：${compact(stage.title, 120)}\n目标：${compact(stage.description, 400)}`
       : '',
     stage?.hint ? `提示：${compact(stage.hint, 200)}` : '',
-    workspace?.projectGoal ? `学生自己的项目方向：${compact(workspace.projectGoal, 180)}` : '',
+    workspace?.projectGoal ? `学生自己的项目方向：${sanitizeTutorUGC(workspace.projectGoal, 180)}` : '',
     personalStep
-      ? `当前阶段的个人化推进提示：${compact(personalStep.focus, 180)} ${compact(personalStep.evidencePrompt, 160)} ${compact(personalStep.checkpointPrompt, 160)}`
+      ? `当前阶段的个人化推进提示：${sanitizeTutorUGC(personalStep.focus, 180)} ${sanitizeTutorUGC(personalStep.evidencePrompt, 160)} ${sanitizeTutorUGC(personalStep.checkpointPrompt, 160)}`
       : '',
     progressSummary ? `\n【各阶段产出】\n${compact(progressSummary, 1400)}` : '',
     `【学生页面上有】阶段工作台、每一步的目标和产出记录。${buildStepReferenceInstruction('阶段步骤')}回复时尽量让学生对照当前阶段或已保存产出，不要整段复述页面内容。`,
@@ -587,21 +592,22 @@ async function buildProjectContext(
     supabase.from('project_materials').select('material').eq('project_id', projectId).limit(12),
   ])
 
+  // 社区项目的标题、简介、步骤、材料都是创作者可编辑的不可信文本，统一清洗
   const stepSummary = (steps ?? [])
-    .map((step, i) => `第${i + 1}步「${compact(step.title ?? '步骤', 40)}」：${compact(step.description, 100)}`)
+    .map((step, i) => `第${i + 1}步「${sanitizeTutorUGC(step.title ?? '步骤', 40) || '步骤'}」：${sanitizeTutorUGC(step.description, 100)}`)
     .join('\n')
 
   const materialText = (materials ?? [])
-    .map((m) => compact(m.material, 40))
+    .map((m) => sanitizeTutorUGC(m.material, 40))
     .filter(Boolean)
     .join('、')
 
   const summary = [
-    `项目：${compact(project.title, 120)}`,
+    `项目：${sanitizeTutorUGC(project.title, 120)}`,
     project.category ? `分类：${project.category}` : '',
     project.difficulty_stars ? `难度：${project.difficulty_stars} 星` : '',
-    project.description ? `简介：${compact(project.description, 300)}` : '',
-    project.problem_statement ? `问题：${compact(project.problem_statement, 200)}` : '',
+    project.description ? `简介：${sanitizeTutorUGC(project.description, 300)}` : '',
+    project.problem_statement ? `问题：${sanitizeTutorUGC(project.problem_statement, 200)}` : '',
     materialText ? `材料：${materialText}` : '',
     stepSummary ? `页面步骤（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
     `【学生页面上有】项目详情、材料清单和步骤列表。${buildStepReferenceInstruction('项目步骤')}需要学生动手时，直接引导他看页面里的材料清单或对应步骤标题，不要把整页内容重新念一遍。`,
@@ -761,15 +767,16 @@ async function buildObservationContext(
     })
     .filter((item): item is TutorAudioRef => item !== null)
 
+  // 观察记录的文字字段来自学生输入，统一清洗后再进 prompt
   const summary = [
     observation.nature_topic ? `专题：${getSpeciesTopicLabel(observation.nature_topic)}` : '',
     speciesText ? `物种：${speciesText}` : '',
-    observation.location_name ? `地点：${observation.location_name}` : '',
-    observation.habitat ? `生境：${compact(observation.habitat, 80)}` : '',
-    observation.weather ? `天气：${compact(observation.weather, 40)}` : '',
+    observation.location_name ? `地点：${sanitizeTutorUGC(observation.location_name, 80)}` : '',
+    observation.habitat ? `生境：${sanitizeTutorUGC(observation.habitat, 80)}` : '',
+    observation.weather ? `天气：${sanitizeTutorUGC(observation.weather, 40)}` : '',
     observation.lifecycle_stage ? `生命阶段：${observation.lifecycle_stage}` : '',
     observation.sex ? `性别：${observation.sex}` : '',
-    observation.notes ? `记录：${compact(observation.notes, 400)}` : '',
+    observation.notes ? `记录：${sanitizeTutorUGC(observation.notes, 400)}` : '',
     '【学生页面上有】观察照片、地点/生境/天气等记录字段、鉴定和评论区。需要看图时可以提醒学生把页面上的观察照片发给小迪。',
     buildAvailableAudiosSummary(availableAudios),
   ]
@@ -814,8 +821,11 @@ async function buildCourseContext(
       .limit(20),
     supabase
       .from('user_lesson_progress')
-      .select('lesson_id, completed_at')
-      .eq('user_id', userId),
+      // 内联课时表按课程过滤，避免把学生所有课程的进度整表拉回来
+      .select('lesson_id, completed_at, course_lessons!inner(course_id)')
+      .eq('user_id', userId)
+      .eq('course_lessons.course_id', courseId)
+      .limit(100),
     typeof lessonId === 'number'
       ? supabase
           .from('course_lessons')

@@ -16,6 +16,7 @@
     "type-check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "eval:tutor": "TUTOR_GOLDEN_SET=1 vitest run __tests__/tutor-golden-set.eval.test.ts",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",

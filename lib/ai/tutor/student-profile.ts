@@ -15,11 +15,21 @@ import {
   type ProfileGrowthTask,
 } from '@/lib/profile/growth-tasks'
 import { logger } from '@/lib/logger'
+import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import { getSteamRadarWithGuidanceSafe, type SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database } from '@/lib/supabase/types'
 import { BoundedTtlMap } from '@/lib/utils/bounded-ttl-map'
 
+/**
+ * 进程内画像缓存（多实例部署评估结论，2026-08）：
+ * 各实例独立失效重建，代价是同一用户最多每实例每 5 分钟多跑一次画像聚合查询；
+ * 画像只是 tutor prompt 的背景摘要，无跨实例失效需求（invalidate 目前无调用方），
+ * TTL 即新鲜度上界，多实例与单实例行为一致。因此当前不外置。
+ * 外置触发条件：画像聚合查询在 DB 负载中占比显著，或出现「改完资料要求立刻生效」的产品需求；
+ * 届时优先落 Redis（deployment 已有则直接换 BoundedTtlMap 为 Redis 读写），
+ * 其次考虑 Supabase 缓存表（读 1 行替代 ~10 个聚合查询，写放大可接受）。
+ */
 const PROFILE_CACHE_MAX_ENTRIES = 1_000
 const profileCache = new BoundedTtlMap<string, StudentProfileSnapshot>(PROFILE_CACHE_MAX_ENTRIES)
 const PROFILE_CACHE_TTL_MS = 5 * 60 * 1000
@@ -283,7 +293,7 @@ async function loadCourseProgressSummary(supabase: SupabaseClient<Database>, use
 function formatWorkFeedbackSummary(rows: Array<{ title: string | null; likes_count: number | null; comments_count: number | null }>) {
   const lines = rows
     .map((row) => {
-      const title = row.title ? compact(row.title, 24) : '作品'
+      const title = sanitizeTutorUGC(row.title, 24) || '作品'
       const likes = getNumber(row.likes_count)
       const comments = getNumber(row.comments_count)
       if (likes <= 0 && comments <= 0) return `《${title}》已发布`
@@ -412,7 +422,7 @@ export function describeObservationActivity(
   locationName: string | null | undefined,
 ) {
   const topic = natureTopic ? NATURE_TOPIC_LABELS[natureTopic] ?? '自然' : '自然'
-  const location = locationName ? compact(locationName, 20) : ''
+  const location = sanitizeTutorUGC(locationName, 20)
   return location ? `在${location}观察过${topic}` : `观察过${topic}`
 }
 
@@ -485,7 +495,8 @@ export async function buildStudentProfile(
   ])
 
   const profile = profileResult.data
-  const displayName = profile?.display_name || profile?.username || '同学'
+  // 昵称是学生可随意编辑的文本，会直接进入 system prompt，先做注入清洗。
+  const displayName = sanitizeTutorUGC(profile?.display_name || profile?.username, 24) || '同学'
   const xp = profile?.xp ?? 0
   const level = levelFromXp(xp)
   const ageGroup = birthDateToAgeGroup(profile?.birth_date)
@@ -531,12 +542,14 @@ export async function buildStudentProfile(
 
   const exploringLines = (exploringResult.data ?? []).map((row) => {
     const project = row.projects as { title?: string } | null
-    return project?.title ? `探索中《${compact(project.title, 30)}》` : null
+    const title = sanitizeTutorUGC(project?.title, 30)
+    return title ? `探索中《${title}》` : null
   }).filter(Boolean)
 
   const completionLines = (completionsResult.data ?? []).map((row) => {
     const project = row.projects as { title?: string } | null
-    return project?.title ? `完成《${compact(project.title, 30)}》` : null
+    const title = sanitizeTutorUGC(project?.title, 30)
+    return title ? `完成《${title}》` : null
   }).filter(Boolean)
 
   const observationLines = (observationsResult.data ?? []).map((row) => {

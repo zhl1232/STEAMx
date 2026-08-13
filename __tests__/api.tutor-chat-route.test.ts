@@ -13,7 +13,12 @@ import {
 } from '@/lib/api/validation'
 import { finalizeReplyAudio } from '@/lib/ai/tutor/audio-tags'
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
-import { getTutorEngineUserMessage, streamChatWithTutor } from '@/lib/ai/tutor/engine'
+import {
+  getTutorEngineUserMessage,
+  streamChatWithTutor,
+  type TutorEngineMessage,
+  type TutorEngineOptions,
+} from '@/lib/ai/tutor/engine'
 import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { loadTutorNotebook } from '@/lib/ai/tutor/memory'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
@@ -98,10 +103,12 @@ vi.mock('@/lib/ai/tutor/greeting', () => ({
 vi.mock('@/lib/ai/tutor/memory', () => ({
   loadTutorNotebook: vi.fn(),
   maybeUpdateTutorNotebook: vi.fn(),
+  maybeUpdateTutorConversationSummary: vi.fn(),
 }))
 
 vi.mock('@/lib/ai/tutor/prompt', () => ({
   buildTutorSystemPrompt: vi.fn(() => 'system prompt'),
+  TUTOR_PROMPT_VERSION: '20260812.1',
 }))
 
 vi.mock('@/lib/ai/tutor/species-hints', () => ({
@@ -458,6 +465,10 @@ describe('/api/tutor/chat route', () => {
           images: undefined,
         },
       ],
+      expect.objectContaining({
+        onVisionFallback: expect.any(Function),
+        onTelemetry: expect.any(Function),
+      }),
     )
     expect(messageInsert).toHaveBeenCalledWith([
       expect.objectContaining({
@@ -476,7 +487,7 @@ describe('/api/tutor/chat route', () => {
     expect(refundAiCreditMock).not.toHaveBeenCalled()
   })
 
-  it('emits a friendly SSE error and refunds credits when the model stream fails', async () => {
+  it('emits a friendly SSE error and refunds credits exactly once when the model stream fails', async () => {
     const { client, messageInsert } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
     streamChatWithTutorMock.mockImplementation(async function* (): AsyncGenerator<string, string, undefined> {
@@ -490,8 +501,90 @@ describe('/api/tutor/chat route', () => {
       { type: 'error', error: '小迪暂时不可用，请稍后再试。' },
     ])
     expect(getTutorEngineUserMessageMock).toHaveBeenCalledWith(expect.any(Error))
+    expect(refundAiCreditMock).toHaveBeenCalledTimes(1)
     expect(refundAiCreditMock).toHaveBeenCalledWith(client, 1, 'free')
     expect(messageInsert).not.toHaveBeenCalled()
+  })
+
+  it('refunds credits when context building fails after charging', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    buildTutorSceneContextMock.mockRejectedValue(new Error('scene backend down'))
+
+    const response = await POST(createPostRequest({ content: '帮我看看' }))
+
+    expect(response.status).toBe(500)
+    expect(consumeAiCreditMock).toHaveBeenCalledOnce()
+    expect(refundAiCreditMock).toHaveBeenCalledTimes(1)
+    expect(refundAiCreditMock).toHaveBeenCalledWith(client, 1, 'free')
+    expect(streamChatWithTutorMock).not.toHaveBeenCalled()
+  })
+
+  it('warns and refunds the vision surcharge when image analysis falls back to text', async () => {
+    const { client, messageInsert } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    consumeAiCreditMock.mockResolvedValue({
+      ok: true,
+      source: 'free',
+      remaining: 2,
+      cost: 2,
+    })
+    streamChatWithTutorMock.mockImplementation(async function* (
+      _systemPrompt: string,
+      _history: TutorEngineMessage[],
+      options?: TutorEngineOptions,
+    ): AsyncGenerator<string, string, undefined> {
+      options?.onVisionFallback?.()
+      yield '我先按文字帮你分析。'
+      options?.onTelemetry?.({
+        model: 'qwen-flash',
+        usage: { totalTokens: 321 },
+        visionFallback: true,
+      })
+      return '我先按文字帮你分析。'
+    })
+
+    const response = await POST(createPostRequest({
+      content: '看看这张图',
+      images: ['https://example.com/pic.png'],
+    }))
+    const events = await readSseEvents(response)
+
+    // 图片对话计费 2，降级后只收文字价 1，差价 1 退回
+    expect(consumeAiCreditMock).toHaveBeenCalledWith(client, PROFILE, 2)
+    expect(refundAiCreditMock).toHaveBeenCalledTimes(1)
+    expect(refundAiCreditMock).toHaveBeenCalledWith(client, 1, 'free')
+    expect(events).toContainEqual(
+      expect.objectContaining({ type: 'warning', warning: expect.stringContaining('图片') }),
+    )
+    expect(events).toContainEqual({ type: 'done', reply: '我先按文字帮你分析。' })
+    // 模型、token 用量与 prompt 版本落在助手消息 meta 里
+    const insertedRows = messageInsert.mock.calls[0][0] as Array<Record<string, unknown>>
+    expect(insertedRows[1].meta).toMatchObject({
+      ai: {
+        promptVersion: expect.stringMatching(/^\d{8}\.\d+$/),
+        model: 'qwen-flash',
+        visionFallback: true,
+        usage: { totalTokens: 321 },
+      },
+    })
+    expect(insertedRows[0].meta).not.toHaveProperty('ai')
+  })
+
+  it('does not create a conversation on GET when none is active', async () => {
+    const { client } = createTutorSupabaseMock({ conversation: null })
+    createClientMock.mockResolvedValue(client as never)
+
+    const response = await GET(new NextRequest('http://localhost/api/tutor/chat'))
+
+    expect(response.status).toBe(200)
+    const payload = await response.json()
+    expect(payload.conversation).toBeNull()
+    expect(payload.messages).toEqual([])
+    expect(payload.greeting).toEqual({
+      message: '你好，我是小迪。',
+      quickPrompts: ['今天学什么？'],
+    })
   })
 
   it('keeps the generated reply visible but refunds credits when persistence fails', async () => {
