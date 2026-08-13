@@ -55,6 +55,10 @@ const PROJECT_OWN_PREFIXES = Object.freeze([
   'projects/steps/',
 ])
 
+const GENERATED_COVER_KEY_RE = /^projects\/generated\/project-0*(\d+)\.[a-z0-9]+$/i
+const STEP_IMAGE_KEY_RE = /^projects\/steps\/step-0*(\d+)(?:[-.]|$)/i
+const GENERATED_COVER_EXTS = Object.freeze(['webp', 'png', 'jpg', 'jpeg'])
+
 export function sqlIntegerList(ids) {
   return ids.join(', ')
 }
@@ -124,4 +128,34 @@ export function isProtectedOssKey(key) {
 export function isProjectOwnedOssKey(key) {
   if (!key || isProtectedOssKey(key)) return false
   return PROJECT_OWN_PREFIXES.some((prefix) => key.startsWith(prefix))
+}
+
+/**
+ * 从 generated 封面或 steps 图 key 解析项目 ID。
+ * `project-0030.webp` → 30；`step-162-touch-circuit.png` → 162。
+ * 不匹配或受保护对象返回 null。
+ */
+export function projectIdFromOwnedOssKey(key) {
+  if (!isProjectOwnedOssKey(key)) return null
+  const generated = key.match(GENERATED_COVER_KEY_RE)
+  if (generated) return Number.parseInt(generated[1], 10)
+  const step = key.match(STEP_IMAGE_KEY_RE)
+  if (step) return Number.parseInt(step[1], 10)
+  return null
+}
+
+export function isOwnedOssKeyForProjectIds(key, idSet) {
+  const id = projectIdFromOwnedOssKey(key)
+  return id != null && idSet.has(id)
+}
+
+export function conventionalGeneratedCoverKeys(ids) {
+  const keys = []
+  for (const id of ids) {
+    const padded = String(id).padStart(4, '0')
+    for (const ext of GENERATED_COVER_EXTS) {
+      keys.push(`projects/generated/project-${padded}.${ext}`)
+    }
+  }
+  return keys
 }

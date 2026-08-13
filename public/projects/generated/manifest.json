@@ -192,14 +192,6 @@
     "imageUrl": "/projects/generated/project-0029.webp"
   },
   {
-    "index": 30,
-    "title": "自制分光器",
-    "sourceFile": "20260324200000_seed_science_physics.sql",
-    "generated": true,
-    "filename": "project-0030.webp",
-    "imageUrl": "/projects/generated/project-0030.webp"
-  },
-  {
     "index": 31,
     "title": "火山爆发模型",
     "sourceFile": "20260324200001_seed_science_chemistry.sql",
@@ -224,36 +216,12 @@
     "imageUrl": "/projects/generated/project-0033.webp"
   },
   {
-    "index": 34,
-    "title": "气球酵母发酵实验",
-    "sourceFile": "20260324200001_seed_science_chemistry.sql",
-    "generated": true,
-    "filename": "project-0034.webp",
-    "imageUrl": "/projects/generated/project-0034.webp"
-  },
-  {
-    "index": 35,
-    "title": "盐画艺术",
-    "sourceFile": "20260324200001_seed_science_chemistry.sql",
-    "generated": true,
-    "filename": "project-0035.webp",
-    "imageUrl": "/projects/generated/project-0035.webp"
-  },
-  {
     "index": 36,
     "title": "自制酸碱指示剂",
     "sourceFile": "20260324200001_seed_science_chemistry.sql",
     "generated": true,
     "filename": "project-0036.webp",
     "imageUrl": "/projects/generated/project-0036.webp"
-  },
-  {
-    "index": 37,
-    "title": "水果电池",
-    "sourceFile": "20260324200001_seed_science_chemistry.sql",
-    "generated": true,
-    "filename": "project-0037.webp",
-    "imageUrl": "/projects/generated/project-0037.webp"
   },
   {
     "index": 38,
@@ -342,14 +310,6 @@
     "generated": true,
     "filename": "project-0048.webp",
     "imageUrl": "/projects/generated/project-0048.webp"
-  },
-  {
-    "index": 49,
-    "title": "简易水质检测",
-    "sourceFile": "20260324200001_seed_science_chemistry.sql",
-    "generated": true,
-    "filename": "project-0049.webp",
-    "imageUrl": "/projects/generated/project-0049.webp"
   },
   {
     "index": 50,
@@ -592,14 +552,6 @@
     "imageUrl": "/projects/generated/project-0079.webp"
   },
   {
-    "index": 80,
-    "title": "纸箱植物向光实验",
-    "sourceFile": "20260324200003_seed_science_plants.sql",
-    "generated": true,
-    "filename": "project-0080.webp",
-    "imageUrl": "/projects/generated/project-0080.webp"
-  },
-  {
     "index": 81,
     "title": "一朵花的结构解剖",
     "sourceFile": "20260324200003_seed_science_plants.sql",
@@ -752,14 +704,6 @@
     "imageUrl": "/projects/generated/project-0099.webp"
   },
   {
-    "index": 100,
-    "title": "化石印模制作",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0100.webp",
-    "imageUrl": "/projects/generated/project-0100.webp"
-  },
-  {
     "index": 101,
     "title": "自制雨量筒测雨",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
@@ -774,14 +718,6 @@
     "generated": true,
     "filename": "project-0102.webp",
     "imageUrl": "/projects/generated/project-0102.webp"
-  },
-  {
-    "index": 103,
-    "title": "自制风向标",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0103.webp",
-    "imageUrl": "/projects/generated/project-0103.webp"
   },
   {
     "index": 104,
@@ -936,14 +872,6 @@
     "imageUrl": "/projects/generated/project-0122.webp"
   },
   {
-    "index": 123,
-    "title": "Scratch 电子贺卡",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0123.webp",
-    "imageUrl": "/projects/generated/project-0123.webp"
-  },
-  {
     "index": 124,
     "title": "Scratch 弹球游戏",
     "sourceFile": "20260324300000_seed_tech_programming.sql",
@@ -992,22 +920,6 @@
     "imageUrl": "/projects/generated/project-0129.webp"
   },
   {
-    "index": 130,
-    "title": "用 HTML 做个人主页",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0130.webp",
-    "imageUrl": "/projects/generated/project-0130.webp"
-  },
-  {
-    "index": 131,
-    "title": "Scratch 平台跳跃游戏",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0131.webp",
-    "imageUrl": "/projects/generated/project-0131.webp"
-  },
-  {
     "index": 132,
     "title": "Python 猜数字游戏",
     "sourceFile": "20260324300000_seed_tech_programming.sql",
@@ -1030,126 +942,6 @@
     "generated": true,
     "filename": "project-0134.webp",
     "imageUrl": "/projects/generated/project-0134.webp"
-  },
-  {
-    "index": 135,
-    "title": "网页版计算器",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0135.webp",
-    "imageUrl": "/projects/generated/project-0135.webp"
-  },
-  {
-    "index": 136,
-    "title": "Python 文字冒险游戏",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0136.webp",
-    "imageUrl": "/projects/generated/project-0136.webp"
-  },
-  {
-    "index": 137,
-    "title": "Scratch 双人对战游戏",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0137.webp",
-    "imageUrl": "/projects/generated/project-0137.webp"
-  },
-  {
-    "index": 138,
-    "title": "Python 简易聊天机器人",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0138.webp",
-    "imageUrl": "/projects/generated/project-0138.webp"
-  },
-  {
-    "index": 139,
-    "title": "Python 数据可视化",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0139.webp",
-    "imageUrl": "/projects/generated/project-0139.webp"
-  },
-  {
-    "index": 140,
-    "title": "网页版记事本应用",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0140.webp",
-    "imageUrl": "/projects/generated/project-0140.webp"
-  },
-  {
-    "index": 141,
-    "title": "Python 网页列表抓取",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0141.webp",
-    "imageUrl": "/projects/generated/project-0141.webp"
-  },
-  {
-    "index": 142,
-    "title": "Python 图片批量处理",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0142.webp",
-    "imageUrl": "/projects/generated/project-0142.webp"
-  },
-  {
-    "index": 143,
-    "title": "LED 发光贺卡",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0143.webp",
-    "imageUrl": "/projects/generated/project-0143.webp"
-  },
-  {
-    "index": 144,
-    "title": "简易手电筒",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0144.webp",
-    "imageUrl": "/projects/generated/project-0144.webp"
-  },
-  {
-    "index": 145,
-    "title": "锡纸导电实验",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0145.webp",
-    "imageUrl": "/projects/generated/project-0145.webp"
-  },
-  {
-    "index": 146,
-    "title": "水果导电测试",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0146.webp",
-    "imageUrl": "/projects/generated/project-0146.webp"
-  },
-  {
-    "index": 147,
-    "title": "LED 创意灯",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0147.webp",
-    "imageUrl": "/projects/generated/project-0147.webp"
-  },
-  {
-    "index": 148,
-    "title": "简易开关制作",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0148.webp",
-    "imageUrl": "/projects/generated/project-0148.webp"
-  },
-  {
-    "index": 149,
-    "title": "导电面团实验",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0405.webp",
-    "imageUrl": "/projects/generated/project-0405.webp"
   },
   {
     "index": 150,
@@ -1182,14 +974,6 @@
     "generated": true,
     "filename": "project-0159.webp",
     "imageUrl": "/projects/generated/project-0159.webp"
-  },
-  {
-    "index": 154,
-    "title": "摩尔斯电码通信器",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0406.webp",
-    "imageUrl": "/projects/generated/project-0406.webp"
   },
   {
     "index": 155,
@@ -1230,86 +1014,6 @@
     "generated": true,
     "filename": "project-0407.webp",
     "imageUrl": "/projects/generated/project-0407.webp"
-  },
-  {
-    "index": 160,
-    "title": "红外遥控小车",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0162.webp",
-    "imageUrl": "/projects/generated/project-0162.webp"
-  },
-  {
-    "index": 161,
-    "title": "超声波测距仪",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0161.webp",
-    "imageUrl": "/projects/generated/project-0161.webp"
-  },
-  {
-    "index": 162,
-    "title": "蓝牙音箱制作",
-    "sourceFile": "20260324300001_seed_tech_electronics.sql",
-    "generated": true,
-    "filename": "project-0160.webp",
-    "imageUrl": "/projects/generated/project-0160.webp"
-  },
-  {
-    "index": 163,
-    "title": "纸杯振动机器人",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0164.webp",
-    "imageUrl": "/projects/generated/project-0164.webp"
-  },
-  {
-    "index": 164,
-    "title": "牙刷机器人",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0165.webp",
-    "imageUrl": "/projects/generated/project-0165.webp"
-  },
-  {
-    "index": 165,
-    "title": "气球动力机器人",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0167.webp",
-    "imageUrl": "/projects/generated/project-0167.webp"
-  },
-  {
-    "index": 166,
-    "title": "纸板机器人手偶",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0163.webp",
-    "imageUrl": "/projects/generated/project-0163.webp"
-  },
-  {
-    "index": 167,
-    "title": "弹射机器人",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0170.webp",
-    "imageUrl": "/projects/generated/project-0170.webp"
-  },
-  {
-    "index": 168,
-    "title": "遥控纸板车",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0166.webp",
-    "imageUrl": "/projects/generated/project-0166.webp"
-  },
-  {
-    "index": 169,
-    "title": "简易爬坡车",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0168.webp",
-    "imageUrl": "/projects/generated/project-0168.webp"
   },
   {
     "index": 170,
@@ -1400,22 +1104,6 @@
     "imageUrl": "/projects/generated/project-0180.webp"
   },
   {
-    "index": 181,
-    "title": "机器人迷宫挑战",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0181.webp",
-    "imageUrl": "/projects/generated/project-0181.webp"
-  },
-  {
-    "index": 182,
-    "title": "可编程绘图机器人",
-    "sourceFile": "20260324300002_seed_tech_robots.sql",
-    "generated": true,
-    "filename": "project-0182.webp",
-    "imageUrl": "/projects/generated/project-0182.webp"
-  },
-  {
     "index": 183,
     "title": "3D 打印名字标牌",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
@@ -1432,22 +1120,6 @@
     "imageUrl": "/projects/generated/project-0184.webp"
   },
   {
-    "index": 185,
-    "title": "设计一个骰子",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0185.webp",
-    "imageUrl": "/projects/generated/project-0185.webp"
-  },
-  {
-    "index": 186,
-    "title": "3D打印书签",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0186.webp",
-    "imageUrl": "/projects/generated/project-0186.webp"
-  },
-  {
     "index": 187,
     "title": "3D打印钥匙扣",
     "sourceFile": "20260324300003_seed_tech_3dprint.sql",
@@ -1456,164 +1128,12 @@
     "imageUrl": "/projects/generated/project-0187.webp"
   },
   {
-    "index": 188,
-    "title": "定制笔筒设计",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0188.webp",
-    "imageUrl": "/projects/generated/project-0188.webp"
-  },
-  {
-    "index": 189,
-    "title": "3D打印迷宫球",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0189.webp",
-    "imageUrl": "/projects/generated/project-0189.webp"
-  },
-  {
-    "index": 190,
-    "title": "3D 打印动物摆件",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0190.webp",
-    "imageUrl": "/projects/generated/project-0190.webp"
-  },
-  {
-    "index": 191,
-    "title": "3D打印齿轮玩具",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0191.webp",
-    "imageUrl": "/projects/generated/project-0191.webp"
-  },
-  {
-    "index": 192,
-    "title": "拼插积木块建模",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0192.webp",
-    "imageUrl": "/projects/generated/project-0192.webp"
-  },
-  {
-    "index": 193,
-    "title": "3D打印花瓶",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0193.webp",
-    "imageUrl": "/projects/generated/project-0193.webp"
-  },
-  {
-    "index": 194,
-    "title": "单体小屋模型建模",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0194.webp",
-    "imageUrl": "/projects/generated/project-0194.webp"
-  },
-  {
-    "index": 195,
-    "title": "3D打印机械手指",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0195.webp",
-    "imageUrl": "/projects/generated/project-0195.webp"
-  },
-  {
-    "index": 196,
-    "title": "可活动关节模型",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0196.webp",
-    "imageUrl": "/projects/generated/project-0196.webp"
-  },
-  {
-    "index": 197,
-    "title": "3D打印桥梁结构",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0197.webp",
-    "imageUrl": "/projects/generated/project-0197.webp"
-  },
-  {
-    "index": 198,
-    "title": "镂空灯罩设计",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0198.webp",
-    "imageUrl": "/projects/generated/project-0198.webp"
-  },
-  {
-    "index": 199,
-    "title": "行星齿轮组",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0199.webp",
-    "imageUrl": "/projects/generated/project-0199.webp"
-  },
-  {
-    "index": 200,
-    "title": "折叠支架建模",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0200.webp",
-    "imageUrl": "/projects/generated/project-0200.webp"
-  },
-  {
-    "index": 201,
-    "title": "3D打印乐器",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0201.webp",
-    "imageUrl": "/projects/generated/project-0201.webp"
-  },
-  {
-    "index": 202,
-    "title": "仿生结构设计",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0202.webp",
-    "imageUrl": "/projects/generated/project-0202.webp"
-  },
-  {
-    "index": 203,
-    "title": "纸板陀螺",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0203.webp",
-    "imageUrl": "/projects/generated/project-0203.webp"
-  },
-  {
-    "index": 204,
-    "title": "橡皮筋动力风扇",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0204.webp",
-    "imageUrl": "/projects/generated/project-0204.webp"
-  },
-  {
     "index": 205,
     "title": "简易纸弹簧",
     "sourceFile": "20260324400000_seed_eng_mechanical.sql",
     "generated": true,
     "filename": "project-0205.webp",
     "imageUrl": "/projects/generated/project-0205.webp"
-  },
-  {
-    "index": 206,
-    "title": "纸板抽签机",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0206.webp",
-    "imageUrl": "/projects/generated/project-0206.webp"
-  },
-  {
-    "index": 207,
-    "title": "橡皮筋动力车",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0207.webp",
-    "imageUrl": "/projects/generated/project-0207.webp"
   },
   {
     "index": 208,
@@ -1720,14 +1240,6 @@
     "imageUrl": "/projects/generated/project-0220.webp"
   },
   {
-    "index": 221,
-    "title": "纸板自动分拣机",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0221.webp",
-    "imageUrl": "/projects/generated/project-0221.webp"
-  },
-  {
     "index": 222,
     "title": "鲁布·戈德堡机械",
     "sourceFile": "20260324400000_seed_eng_mechanical.sql",
@@ -1792,14 +1304,6 @@
     "imageUrl": "/projects/generated/project-0229.webp"
   },
   {
-    "index": 230,
-    "title": "纸板拱桥",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0230.webp",
-    "imageUrl": "/projects/generated/project-0230.webp"
-  },
-  {
     "index": 231,
     "title": "冰棍棒桁架桥",
     "sourceFile": "20260324400001_seed_eng_bridges.sql",
@@ -1824,28 +1328,12 @@
     "imageUrl": "/projects/generated/project-0233.webp"
   },
   {
-    "index": 234,
-    "title": "自锁桥（达芬奇桥）",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0234.webp",
-    "imageUrl": "/projects/generated/project-0234.webp"
-  },
-  {
     "index": 235,
     "title": "开合桥模型",
     "sourceFile": "20260324400001_seed_eng_bridges.sql",
     "generated": true,
     "filename": "project-0235.webp",
     "imageUrl": "/projects/generated/project-0235.webp"
-  },
-  {
-    "index": 236,
-    "title": "斜拉桥模型",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0236.webp",
-    "imageUrl": "/projects/generated/project-0236.webp"
   },
   {
     "index": 237,
@@ -1856,22 +1344,6 @@
     "imageUrl": "/projects/generated/project-0237.webp"
   },
   {
-    "index": 238,
-    "title": "多材料复合桥",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0238.webp",
-    "imageUrl": "/projects/generated/project-0238.webp"
-  },
-  {
-    "index": 239,
-    "title": "桥梁承重极限测试",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0239.webp",
-    "imageUrl": "/projects/generated/project-0239.webp"
-  },
-  {
     "index": 240,
     "title": "大跨度桥梁设计",
     "sourceFile": "20260324400001_seed_eng_bridges.sql",
@@ -1880,36 +1352,12 @@
     "imageUrl": "/projects/generated/project-0240.webp"
   },
   {
-    "index": 241,
-    "title": "桥梁材料对比实验",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0241.webp",
-    "imageUrl": "/projects/generated/project-0241.webp"
-  },
-  {
-    "index": 242,
-    "title": "双桥型受力仿真对比",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0242.webp",
-    "imageUrl": "/projects/generated/project-0242.webp"
-  },
-  {
     "index": 243,
     "title": "纸风车",
     "sourceFile": "20260324400002_seed_eng_machines.sql",
     "generated": true,
     "filename": "project-0243.webp",
     "imageUrl": "/projects/generated/project-0243.webp"
-  },
-  {
-    "index": 244,
-    "title": "简易滑轮装置",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0244.webp",
-    "imageUrl": "/projects/generated/project-0244.webp"
   },
   {
     "index": 245,
@@ -1936,14 +1384,6 @@
     "imageUrl": "/projects/generated/project-0247.webp"
   },
   {
-    "index": 248,
-    "title": "简易滑轮组",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0248.webp",
-    "imageUrl": "/projects/generated/project-0248.webp"
-  },
-  {
     "index": 249,
     "title": "水车模型",
     "sourceFile": "20260324400002_seed_eng_machines.sql",
@@ -1966,14 +1406,6 @@
     "generated": true,
     "filename": "project-0251.webp",
     "imageUrl": "/projects/generated/project-0251.webp"
-  },
-  {
-    "index": 252,
-    "title": "水力涡轮机",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0252.webp",
-    "imageUrl": "/projects/generated/project-0252.webp"
   },
   {
     "index": 253,
@@ -2072,14 +1504,6 @@
     "imageUrl": "/projects/generated/project-0264.webp"
   },
   {
-    "index": 265,
-    "title": "纸飞机模型集",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0265.webp",
-    "imageUrl": "/projects/generated/project-0265.webp"
-  },
-  {
     "index": 266,
     "title": "折纸小船",
     "sourceFile": "20260324400003_seed_eng_models.sql",
@@ -2152,14 +1576,6 @@
     "imageUrl": "/projects/generated/project-0274.webp"
   },
   {
-    "index": 275,
-    "title": "地球内部结构模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0275.webp",
-    "imageUrl": "/projects/generated/project-0275.webp"
-  },
-  {
     "index": 276,
     "title": "水循环演示模型",
     "sourceFile": "20260324400003_seed_eng_models.sql",
@@ -2208,14 +1624,6 @@
     "imageUrl": "/projects/generated/project-0281.webp"
   },
   {
-    "index": 282,
-    "title": "城市规划沙盘",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0282.webp",
-    "imageUrl": "/projects/generated/project-0282.webp"
-  },
-  {
     "index": 283,
     "title": "蔬菜印章画",
     "sourceFile": "20260324500000_seed_art_painting.sql",
@@ -2246,14 +1654,6 @@
     "generated": true,
     "filename": "project-0286.webp",
     "imageUrl": "/projects/generated/project-0286.webp"
-  },
-  {
-    "index": 287,
-    "title": "自然色彩采集本",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0287.webp",
-    "imageUrl": "/projects/generated/project-0287.webp"
   },
   {
     "index": 288,
@@ -2382,30 +1782,6 @@
     "generated": true,
     "filename": "project-0303.webp",
     "imageUrl": "/projects/generated/project-0303.webp"
-  },
-  {
-    "index": 304,
-    "title": "毛根小动物",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0304.webp",
-    "imageUrl": "/projects/generated/project-0304.webp"
-  },
-  {
-    "index": 305,
-    "title": "纸杯电话",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0305.webp",
-    "imageUrl": "/projects/generated/project-0305.webp"
-  },
-  {
-    "index": 306,
-    "title": "彩纸拉花装饰",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0306.webp",
-    "imageUrl": "/projects/generated/project-0306.webp"
   },
   {
     "index": 307,
@@ -2544,22 +1920,6 @@
     "imageUrl": "/projects/generated/project-0323.webp"
   },
   {
-    "index": 324,
-    "title": "榫卯结构木工",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0324.webp",
-    "imageUrl": "/projects/generated/project-0324.webp"
-  },
-  {
-    "index": 325,
-    "title": "黏土小动物",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0325.webp",
-    "imageUrl": "/projects/generated/project-0325.webp"
-  },
-  {
     "index": 326,
     "title": "盐面团挂饰",
     "sourceFile": "20260324500002_seed_art_sculpture.sql",
@@ -2568,36 +1928,12 @@
     "imageUrl": "/projects/generated/project-0326.webp"
   },
   {
-    "index": 327,
-    "title": "橡皮泥水果",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0327.webp",
-    "imageUrl": "/projects/generated/project-0327.webp"
-  },
-  {
     "index": 328,
     "title": "纸团雕塑",
     "sourceFile": "20260324500002_seed_art_sculpture.sql",
     "generated": true,
     "filename": "project-0328.webp",
     "imageUrl": "/projects/generated/project-0328.webp"
-  },
-  {
-    "index": 329,
-    "title": "黏土地形沙盘",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0329.webp",
-    "imageUrl": "/projects/generated/project-0329.webp"
-  },
-  {
-    "index": 330,
-    "title": "石膏翻模体验",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0330.webp",
-    "imageUrl": "/projects/generated/project-0330.webp"
   },
   {
     "index": 331,
@@ -2704,14 +2040,6 @@
     "imageUrl": "/projects/generated/project-0343.webp"
   },
   {
-    "index": 344,
-    "title": "多材料组合雕塑",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0344.webp",
-    "imageUrl": "/projects/generated/project-0344.webp"
-  },
-  {
     "index": 345,
     "title": "对称剪纸图案",
     "sourceFile": "20260324600000_seed_math_geometry.sql",
@@ -2726,14 +2054,6 @@
     "generated": true,
     "filename": "project-0346.webp",
     "imageUrl": "/projects/generated/project-0346.webp"
-  },
-  {
-    "index": 347,
-    "title": "找找生活中的几何",
-    "sourceFile": "20260324600000_seed_math_geometry.sql",
-    "generated": true,
-    "filename": "project-0347.webp",
-    "imageUrl": "/projects/generated/project-0347.webp"
   },
   {
     "index": 348,
@@ -2888,52 +2208,12 @@
     "imageUrl": "/projects/generated/project-0366.webp"
   },
   {
-    "index": 367,
-    "title": "数字连线画",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0367.webp",
-    "imageUrl": "/projects/generated/project-0367.webp"
-  },
-  {
-    "index": 368,
-    "title": "测量身边的物品",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0368.webp",
-    "imageUrl": "/projects/generated/project-0368.webp"
-  },
-  {
     "index": 369,
     "title": "概率实验：硬币与骰子",
     "sourceFile": "20260324600001_seed_math_games.sql",
     "generated": true,
     "filename": "project-0369.webp",
     "imageUrl": "/projects/generated/project-0369.webp"
-  },
-  {
-    "index": 370,
-    "title": "数字华容道",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0370.webp",
-    "imageUrl": "/projects/generated/project-0370.webp"
-  },
-  {
-    "index": 371,
-    "title": "速算比赛卡片",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0371.webp",
-    "imageUrl": "/projects/generated/project-0371.webp"
-  },
-  {
-    "index": 372,
-    "title": "数字黑洞 6174",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0372.webp",
-    "imageUrl": "/projects/generated/project-0372.webp"
   },
   {
     "index": 373,
@@ -2968,14 +2248,6 @@
     "imageUrl": "/projects/generated/project-0376.webp"
   },
   {
-    "index": 377,
-    "title": "蒙提霍尔问题实验",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0377.webp",
-    "imageUrl": "/projects/generated/project-0377.webp"
-  },
-  {
     "index": 378,
     "title": "囚徒困境模拟",
     "sourceFile": "20260324600001_seed_math_games.sql",
@@ -3008,28 +2280,12 @@
     "imageUrl": "/projects/generated/project-0381.webp"
   },
   {
-    "index": 382,
-    "title": "抽样调查实验",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0382.webp",
-    "imageUrl": "/projects/generated/project-0382.webp"
-  },
-  {
     "index": 383,
     "title": "数列与规律探索",
     "sourceFile": "20260324600001_seed_math_games.sql",
     "generated": true,
     "filename": "project-0383.webp",
     "imageUrl": "/projects/generated/project-0383.webp"
-  },
-  {
-    "index": 384,
-    "title": "数学建模入门",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0384.webp",
-    "imageUrl": "/projects/generated/project-0384.webp"
   },
   {
     "index": 385,
@@ -3080,14 +2336,6 @@
     "imageUrl": "/projects/generated/project-0390.webp"
   },
   {
-    "index": 391,
-    "title": "数字谜题（算式谜）",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0391.webp",
-    "imageUrl": "/projects/generated/project-0391.webp"
-  },
-  {
     "index": 392,
     "title": "路线规划游戏",
     "sourceFile": "20260324600002_seed_math_logic.sql",
@@ -3096,60 +2344,12 @@
     "imageUrl": "/projects/generated/project-0392.webp"
   },
   {
-    "index": 393,
-    "title": "数独进阶技巧",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0393.webp",
-    "imageUrl": "/projects/generated/project-0393.webp"
-  },
-  {
-    "index": 394,
-    "title": "逻辑电路与门",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0394.webp",
-    "imageUrl": "/projects/generated/project-0394.webp"
-  },
-  {
     "index": 395,
     "title": "汉诺塔手工挑战",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0395.webp",
     "imageUrl": "/projects/generated/project-0395.webp"
-  },
-  {
-    "index": 396,
-    "title": "七桥问题探索",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0396.webp",
-    "imageUrl": "/projects/generated/project-0396.webp"
-  },
-  {
-    "index": 397,
-    "title": "日常任务流程图",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0397.webp",
-    "imageUrl": "/projects/generated/project-0397.webp"
-  },
-  {
-    "index": 398,
-    "title": "逻辑悖论探索",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0398.webp",
-    "imageUrl": "/projects/generated/project-0398.webp"
-  },
-  {
-    "index": 399,
-    "title": "三层决策树推演",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0399.webp",
-    "imageUrl": "/projects/generated/project-0399.webp"
   },
   {
     "index": 400,
@@ -3174,21 +2374,5 @@
     "generated": true,
     "filename": "project-0402.webp",
     "imageUrl": "/projects/generated/project-0402.webp"
-  },
-  {
-    "index": 403,
-    "title": "班级关系网络图",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0403.webp",
-    "imageUrl": "/projects/generated/project-0403.webp"
-  },
-  {
-    "index": 404,
-    "title": "冒泡排序卡片演示",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0404.webp",
-    "imageUrl": "/projects/generated/project-0404.webp"
   }
 ]

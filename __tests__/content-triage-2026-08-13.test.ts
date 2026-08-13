@@ -8,9 +8,12 @@ import { describe, expect, it } from 'vitest'
 import {
   TRIAGED_PROJECT_IDS_TO_DELETE,
   TRIAGED_PROJECT_IDS_TO_KEEP,
+  conventionalGeneratedCoverKeys,
+  isOwnedOssKeyForProjectIds,
   isProjectOwnedOssKey,
   ossKeyFromImageUrl,
   parseIdsFromSqlIntegerList,
+  projectIdFromOwnedOssKey,
   sqlIntegerList,
 } from '../scripts/lib/content-triage-2026-08-13.mjs'
 
@@ -78,6 +81,25 @@ describe('分诊 OSS key 过滤', () => {
     )
     expect(isProjectOwnedOssKey('projects/generated/project-0030.webp')).toBe(true)
     expect(isProjectOwnedOssKey('projects/steps/demo.webp')).toBe(true)
+    expect(projectIdFromOwnedOssKey('projects/generated/project-0030.webp')).toBe(30)
+    expect(projectIdFromOwnedOssKey('projects/steps/step-162-touch-circuit.png')).toBe(162)
+    expect(projectIdFromOwnedOssKey('projects/steps/step-32-motor-wire.png')).toBe(32)
+    expect(projectIdFromOwnedOssKey('projects/steps/demo.webp')).toBeNull()
+    expect(projectIdFromOwnedOssKey('projects/default-cover.webp')).toBeNull()
+    expect(projectIdFromOwnedOssKey('projects/steps/step-300-gear.png')).toBe(300)
+    expect(projectIdFromOwnedOssKey('projects/steps/step-30-extra.png')).toBe(30)
+
+    const deleteSet = new Set(TRIAGED_PROJECT_IDS_TO_DELETE)
+    expect(isOwnedOssKeyForProjectIds('projects/generated/project-0030.webp', deleteSet)).toBe(true)
+    expect(isOwnedOssKeyForProjectIds('projects/generated/project-0052.webp', deleteSet)).toBe(false)
+    expect(isOwnedOssKeyForProjectIds('projects/steps/step-162-touch-circuit.png', deleteSet)).toBe(true)
+    expect(isOwnedOssKeyForProjectIds('projects/steps/step-395-matchstick-equation.png', deleteSet)).toBe(false)
+    expect(conventionalGeneratedCoverKeys([30])).toEqual([
+      'projects/generated/project-0030.webp',
+      'projects/generated/project-0030.png',
+      'projects/generated/project-0030.jpg',
+      'projects/generated/project-0030.jpeg',
+    ])
   })
 
   it('跳过共用封面、物种图、课件、Scratch 和 Supabase Storage', () => {

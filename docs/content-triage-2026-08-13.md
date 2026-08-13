@@ -4,7 +4,7 @@
 
 - 权威 ID 列表：`scripts/lib/content-triage-2026-08-13.mjs`
 - 库表硬删除：`supabase/migrations/20260813090000_hard_delete_triaged_projects.sql`（`pnpm db:push`，不要 `supabase db push`）
-- OSS 对象清理：`node scripts/purge-triaged-project-assets.mjs`（默认 dry-run；`--execute` 才删）
+- OSS 对象清理：`node scripts/purge-triaged-project-assets.mjs`（默认 dry-run；`--execute` 才删 OSS 对象和本地 `public/projects/generated|steps` 对应文件）
 
 ## 保留（不要再删、不要当重复项清掉）
 
@@ -20,7 +20,7 @@
 
 后续迁移、课件导入、PBL seed、自动生成封面脚本都不要再插入这些 `projects.id`。若必须引用同类主题，新建项目并拿新 ID。
 
-线上操作顺序：先部署应用（数学分类兜底封面已从已删的 `project-0393` 改到保留项目 `352`），再跑 OSS 脚本（库行还在才能收集 key），最后 `pnpm db:push`。编排脚本：`node scripts/apply-content-triage-2026-08-13.mjs`（默认 dry-run；`--execute` 才真正删除）。生产由 `.github/workflows/apply-content-triage-2026-08-13.yml` 在服务器上用 `.env.production` 执行。
+线上操作顺序：先部署应用（数学分类兜底封面已从已删的 `project-0393` 改到保留项目 `352`），再跑 OSS 脚本（库行还在时从 `image_url` 收集 key；库行已删时改为列举 OSS `projects/generated/` 与 `projects/steps/` 按项目 ID 匹配），最后 `pnpm db:push`。编排脚本：`node scripts/apply-content-triage-2026-08-13.mjs`（默认 dry-run；`--execute` 才真正删除）。生产由 `.github/workflows/apply-content-triage-2026-08-13.yml` 在服务器上用 `.env.production` 执行。若迁移已经落地、OSS 还没清，可单独再跑 `node scripts/purge-triaged-project-assets.mjs --execute`。
 
 ## OSS 范围
 
