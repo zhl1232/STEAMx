@@ -445,11 +445,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright；本地只在 `pre-commit` 跑 lint 和改动相关的用例，全量单测以此为唯一门槛，推送后用 `pnpm ci:watch` 看结论
 - `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 渲染/同步 Nginx 配置 + 同步 compose 文件 + SSH 部署；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；通用页面代理直接拒绝 GPTBot 请求但保留 `/robots.txt` 可访问，OAI-SearchBot 与其他爬虫继续按 robots 规则访问；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
-<<<<<<< HEAD
 - `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 和已有 `steam-app:latest` 镜像先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；`ali-oss` 在 Actions runner 上装进包，避免服务器再拉 Docker Hub。不与 Release 共用并发组，避免排队时被取消。
-=======
-- `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 和已有 `steam-app:latest` 镜像先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；`ali-oss` 在 Actions runner 上装进包，避免服务器再拉 Docker Hub。与 Release 共用 `release-production` 并发组。
->>>>>>> origin/main
 
 ---
 
