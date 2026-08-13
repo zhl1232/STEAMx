@@ -149,8 +149,7 @@ WHERE project_id IN (SELECT id FROM triaged_project_ids);
 DELETE FROM public.project_materials
 WHERE project_id IN (SELECT id FROM triaged_project_ids);
 
-DELETE FROM public.project_species
-WHERE project_id IN (SELECT id FROM triaged_project_ids);
+-- project_species 已在 20260331120000 删除，生产库没有此表，这里不再 DELETE。
 
 DELETE FROM public.challenge_ratings
 WHERE project_id IN (SELECT id FROM triaged_project_ids);

@@ -6,6 +6,9 @@ on:
     branches: ["main"]
     paths:
       - ".github/workflows/apply-content-triage-2026-08-13.yml"
+      - "supabase/migrations/20260813090000_hard_delete_triaged_projects.sql"
+      - "scripts/apply-content-triage-2026-08-13.mjs"
+      - "scripts/purge-triaged-project-assets.mjs"
 
 permissions:
   contents: read
@@ -55,6 +58,7 @@ jobs:
             mkdir -p /tmp/triage-apply
             tar -xzf /tmp/triage-bundle.tgz -C /tmp/triage-apply
             rm -f /tmp/triage-bundle.tgz
+            # 生产库没有 project_species（20260331120000 已删表）。
             docker run --rm \
               --user root \
               --env-file /opt/steam-app/.env.production \

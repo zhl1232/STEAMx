@@ -198,6 +198,17 @@ for (const url of uniqueUrls) {
   classified.ossCandidates += 1
 }
 
+for (const id of TRIAGED_PROJECT_IDS_TO_DELETE) {
+  const padded = String(id).padStart(4, '0')
+  for (const key of [
+    `projects/generated/project-${padded}.webp`,
+    `projects/generated/project-${padded}.png`,
+    `projects/generated/project-${padded}.jpg`,
+  ]) {
+    if (isProjectOwnedOssKey(key)) keysToDelete.add(key)
+  }
+}
+
 const keys = [...keysToDelete].sort()
 console.info(`  已收集 URL：${classified.collected}（去重后 ${classified.uniqueUrls}）`)
 console.info(`  已跳过非 OSS / Supabase Storage：${classified.skippedNonOss}`)
