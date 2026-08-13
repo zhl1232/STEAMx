@@ -7,10 +7,6 @@ on:
     paths:
       - ".github/workflows/apply-content-triage-2026-08-13.yml"
 
-concurrency:
-  group: release-production
-  cancel-in-progress: false
-
 permissions:
   contents: read
 
