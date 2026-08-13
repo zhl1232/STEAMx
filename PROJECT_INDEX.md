@@ -427,7 +427,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，以及联网邀请未登录时 `next` 保留 `room` 参数）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的终稿直达作品页、过程记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报
-- `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置
+- `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置：拆成 `dom` 与 `node` 两个 project，`*.test.tsx` 用 happy-dom + `vitest.setup.ts`，`*.test.ts` 默认跑纯 node（省掉每个文件的 DOM 启动与 React 测试初始化，全量从 ~224s 降到 ~145s）；无 JSX 但需要 DOM/存储/`renderHook`/`Worker` 的 `.ts` 用例登记在配置里的 `domOnlyTsTests`，新写的用例若报 `document is not defined` 就把文件加进该数组
 - `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录
 
 ---
