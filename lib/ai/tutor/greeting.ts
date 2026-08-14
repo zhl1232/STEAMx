@@ -30,8 +30,8 @@ const GLOBAL_SURFACE_GREETINGS: Record<
     quickPrompts: ['新手该选哪门课？', 'Scratch 能做什么？', '学完能做出什么？'],
   }),
   community: (name) => ({
-    message: `嗨 ${name}！社区里有很多同学的讨论和分享，看到感兴趣的话题可以一起聊聊。`,
-    quickPrompts: ['怎么发一个好帖子？', '怎么礼貌地提建议？', '帮我找找有趣的话题'],
+    message: `嗨 ${name}！想接一个项目挑战，还是学一门技能课程？我帮你挑个合适的开始。`,
+    quickPrompts: ['哪个挑战适合新手？', '项目挑战怎么玩？', '该先学哪门课？'],
   }),
   playground: (name) => ({
     message: `你好呀 ${name}！游戏时间到～这些小游戏里都藏着数学和逻辑的小秘密，玩不过的可以来问我。`,

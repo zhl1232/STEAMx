@@ -3452,6 +3452,14 @@ export interface Database {
         Args: { p_target_user_id: string; p_amount: number; p_note?: string | null }
         Returns: Json
       }
+      admin_set_membership: {
+        Args: {
+          p_target_user_id: string
+          p_period: string
+          p_expires_at?: string | null
+        }
+        Returns: Json
+      }
       equip_avatar_frame: {
         Args: { p_item_id: string | null }
         Returns: { ok: boolean; error?: string; equipped?: string | null }

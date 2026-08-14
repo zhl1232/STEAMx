@@ -25,6 +25,19 @@ describe('resolveTutorContextFromPath', () => {
     })
   })
 
+  it('maps legacy community paths onto the create surface', () => {
+    expect(resolveTutorContextFromPath('/community')).toEqual({
+      contextType: 'global',
+      contextId: '',
+      surface: 'create',
+    })
+    expect(resolveTutorContextFromPath('/community/discussion/1')).toEqual({
+      contextType: 'global',
+      contextId: '',
+      surface: 'create',
+    })
+  })
+
   it('keeps the playground hub on the generic playground surface', () => {
     expect(resolveTutorContextFromPath('/playground')).toEqual({
       contextType: 'global',

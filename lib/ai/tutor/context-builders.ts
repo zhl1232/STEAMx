@@ -269,8 +269,8 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
     summary: '学生正在看技能课程列表，可能想学编程、搭建或其他 STEAM 技能。',
   },
   community: {
-    title: '逛社区',
-    summary: '学生正在逛社区讨论区，看同学们的帖子和分享。',
+    title: '项目挑战与技能课程',
+    summary: '学生正在创造营浏览项目挑战和技能课程，可以帮他挑一个合适的开始。',
   },
   playground: {
     title: '益智游乐场',

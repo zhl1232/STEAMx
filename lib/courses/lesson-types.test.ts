@@ -24,5 +24,13 @@ describe('lesson type registry', () => {
     expect(getLessonTypeDefinition('building_3d').workspace).toBe('building_3d')
     expect(getLessonTypeDefinition('future_lab').workspace).toBe('unsupported')
     expect(LESSON_TYPE_OPTIONS.some((option) => option.value === 'building_3d')).toBe(true)
+    expect(LESSON_TYPE_OPTIONS.map((option) => option.value)).toEqual([
+      'scratch',
+      'building_3d',
+      'playground',
+    ])
+    expect(getLessonTypeDefinition('reading').workspace).toBe('unsupported')
+    expect(getLessonTypeDefinition('video').workspace).toBe('unsupported')
+    expect(getLessonTypeDefinition('quiz').workspace).toBe('unsupported')
   })
 })

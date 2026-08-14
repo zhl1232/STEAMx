@@ -44,7 +44,7 @@ export function InteractionConfirmationDialog({
             <div className="space-y-1">
               <DialogTitle>互动前安全确认</DialogTitle>
               <DialogDescription className="leading-6">
-                发布作品、评论、发帖或私信前，需要完成一次本人确认。公开内容仍可正常浏览。
+                发布作品、评论或私信前，需要完成一次本人确认。公开内容仍可正常浏览。
               </DialogDescription>
             </div>
           </div>

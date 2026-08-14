@@ -28,24 +28,6 @@ export const LESSON_TYPE_DEFINITIONS = [
     description: '在游乐场游戏中完成挑战，配套分步讲解与实战入口。',
     workspace: 'playground',
   },
-  {
-    slug: 'reading',
-    label: '阅读资料',
-    description: '以阅读和记录为主的课时。',
-    workspace: 'unsupported',
-  },
-  {
-    slug: 'video',
-    label: '视频课',
-    description: '以视频讲解为主的课时。',
-    workspace: 'unsupported',
-  },
-  {
-    slug: 'quiz',
-    label: '测验',
-    description: '以问题检查和反馈为主的课时。',
-    workspace: 'unsupported',
-  },
 ] as const satisfies readonly LessonTypeDefinition[]
 
 export const LESSON_TYPE_OPTIONS = LESSON_TYPE_DEFINITIONS.map((type) => ({

@@ -87,7 +87,7 @@ function SecuritySettingsContent() {
       if (!response.ok) throw new Error(data.error || "确认失败");
       setAgeConfirmedAt(typeof data.confirmedAt === "string" ? data.confirmedAt : new Date().toISOString());
       await refreshProfile();
-      toast({ title: "社区互动确认已完成", description: "现在可以发布作品、评论、发帖和发送私信了。" });
+      toast({ title: "社区互动确认已完成", description: "现在可以发布作品、评论和发送私信了。" });
       await completeAgeConfirmation();
     } catch (error) {
       toast({
@@ -240,7 +240,7 @@ function SecuritySettingsContent() {
               </Button>
             )}
             <p className="col-start-1 col-end-[-1] mt-3 text-xs leading-5 text-muted-foreground">
-              发布、评论、发帖和私信前需确认。
+              发布作品、评论和私信前需确认。
               {!ageConfirmedAt ? (
                 <>
                   未成年人请在监护人指导下使用；确认即表示你同意遵守

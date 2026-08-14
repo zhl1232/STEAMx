@@ -112,7 +112,7 @@ export function summarizeMpdBomByStep(mpdText: string): LessonBomItem[][]
 
 ### 阶段三：会员做成工具包
 
-9. **先补安全洞**：新增迁移把 `membership_tier/period/started_at/expires_at` 纳入 `protect_profiles_sensitive_fields`，会员写入只允许 service role / SECURITY DEFINER RPC；新增 `membership_events` 审计表；`app/api/admin/users/[id]/membership/route.ts` 从 anon client 直更改为经 RPC 并记录 adminId。迁移按 `.cursor/rules/db-migrations.mdc` 用 `pnpm db:push`，不要用 `supabase db push`。
+9. **先补安全洞**：**字段保护已做**（`protect_profiles_sensitive_fields` 锁定四个 `membership_*`，后台开通走 `admin_set_membership`）。**审计表未做**：`membership_events`、兑换码、`/membership` 介绍页仍暂不实施。迁移按 `.cursor/rules/db-migrations.mdc` 用 `pnpm db:push`，不要用 `supabase db push`。
 
 10. **图纸下载（会员）**：新增 `app/api/courses/[courseId]/lessons/[lessonId]/instructions/route.ts`，服务端读 profile 判 `isMembershipActive` 后再流式转发 PDF；同时在课时数据下发前剥掉 `slidesPdfUrl`。`/api/assets` 保持公开，不在那里加会员判断（它同时服务大量公开资源）。
 

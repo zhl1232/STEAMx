@@ -254,7 +254,11 @@ function buildTodoSteps(input: BuildWeeklyPlanInput): WeeklyPlanStep[] {
       type: 'radar',
       status: 'todo',
       title: `${weakRadarDimension.label}能力补给`,
-      subtitle: weakRadarDimension.guidance || `找一个${weakRadarDimension.label}项目补强你的能力雷达。`,
+      subtitle:
+        weakRadarDimension.guidance
+        || (weakRadarDimension.key === 'S'
+          ? '做科学项目或去记一条自然观察，补强你的能力雷达。'
+          : `找一个${weakRadarDimension.label}项目补强你的能力雷达。`),
       href: `/explore?category=${encodeURIComponent(weakRadarDimension.category)}`,
       actionLabel: '去补强',
       badgeLabel: '补强',

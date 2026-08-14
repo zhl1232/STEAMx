@@ -119,12 +119,12 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
     },
     {
         seriesKey: "social",
-        label: "讨论参与",
+        label: "留言互动",
         icon: "message_circle",
         getValue: (s) => s.commentsCount + s.repliesCount + s.discussionsCreated,
         thresholds: [1, 30, 150, 500],
         tierNames: ["初次见面", "常来聊聊", "气氛担当", "讨论引路人"],
-        descriptionTemplate: (_, v) => `发帖、评论与回复合计 ${v} 条`,
+        descriptionTemplate: (_, v) => `评论与回复合计 ${v} 条`,
     },
     {
         seriesKey: "popularity",
