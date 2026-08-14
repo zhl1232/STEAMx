@@ -5,12 +5,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Box,
     Check,
+    ChevronDown,
     ChevronLeft,
     ChevronRight,
     Copy,
     Loader2,
     Maximize2,
     Minimize2,
+    Package,
     Presentation,
     RotateCcw,
     RotateCw,
@@ -24,6 +26,7 @@ import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
+import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
@@ -191,6 +194,63 @@ function normalizeBuildingContent(lesson: CourseLessonRow): Building3DLessonCont
 
 function partMap(parts: Building3DPart[]) {
     return new Map(parts.map((part) => [part.id, part]));
+}
+
+type PartLine = {
+    key: string;
+    label: string;
+    colorHex: string;
+    count: number;
+    /** LDraw 官方英文零件名，供老师/家长核对 */
+    title?: string;
+};
+
+/**
+ * 课时 steps3d 常比模型多出末尾的「完成 / 对照检查」步（个别课还多出模型没拆到的搭建步）。
+ * 这些步没有新增零件，必须显式给空清单：沿用上一步会让家长把同一批零件配两遍。
+ */
+const EMPTY_BOM_STEP: LdrawBom["steps"][number] = {
+    stepIndex: -1,
+    partCount: 0,
+    entries: [],
+};
+
+function toPartLines(entries: LdrawBom["entries"]): PartLine[] {
+    return entries.map((entry) => ({
+        key: `${entry.partId}|${entry.colorCode}`,
+        label: `${entry.colorName}${entry.partName}`,
+        colorHex: entry.colorHex,
+        count: entry.count,
+        title: entry.partDescription || undefined,
+    }));
+}
+
+function PartLineList({ id, lines }: { id?: string; lines: PartLine[] }) {
+    return (
+        <ul id={id} className="space-y-2">
+            {lines.map((line) => (
+                <li
+                    key={line.key}
+                    className="flex items-center justify-between gap-3 rounded-sm border border-border bg-background px-3 py-2"
+                    title={line.title}
+                >
+                    <span className="flex min-w-0 items-center gap-2">
+                        <span
+                            className="h-4 w-4 shrink-0 rounded-sm border border-black/15 dark:border-white/25"
+                            style={{ backgroundColor: line.colorHex }}
+                        />
+                        {/* 零件名较长（如「白色2×2 积木（眼睛）」），换行比截断更有用 */}
+                        <span className="min-w-0 text-sm font-medium leading-snug text-foreground">
+                            {line.label}
+                        </span>
+                    </span>
+                    <span className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground">
+                        ×{line.count}
+                    </span>
+                </li>
+            ))}
+        </ul>
+    );
 }
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -736,6 +796,9 @@ export function Building3DWorkspace({
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
     const [isImmersive, setIsImmersive] = useState(false);
+    const [bom, setBom] = useState<LdrawBom | null>(null);
+    // null = 跟随默认（搭建第一步展开全部零件，后续步骤收起）
+    const [allPartsExpanded, setAllPartsExpanded] = useState<boolean | null>(null);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
     const nextPage = view === "lesson" ? flow[clampedPageIndex + 1] ?? null : null;
     const upcomingBuildPage = view === "lesson" && !showBuildPage
@@ -751,10 +814,60 @@ export function Building3DWorkspace({
         (nextPage?.kind === "slide" && nextPage.sourceIndex === videoSlide0)
             ? content.videoUrl
             : undefined;
+    const ldrawModelFileName = useMemo(
+        () => (content.ldrawModelUrl ? getLdrawModelFileName(content.ldrawModelUrl) : null),
+        [content.ldrawModelUrl],
+    );
+    // 零件清单在进入搭建区之前就取好，孩子翻到第一步时总数已经在。
+    const needsPartList = showBuildPage || upcomingBuildPage !== null;
+    // 3D 画面在超出模型步数时停在成品（focusStep 里 clamp），零件清单则给空清单而不是重复上一步。
+    const bomStep = bom && bom.steps.length > 0
+        ? bom.steps[activeBuildStepIndex] ?? EMPTY_BOM_STEP
+        : null;
+    const stepPartLines = useMemo<PartLine[]>(() => {
+        if (bomStep) return toPartLines(bomStep.entries);
+
+        // 没有模型清单时退回课时 content 里手写的零件；其数量是全课用量，不是本步用量。
+        return (activeStep?.partIds ?? []).map((partId) => {
+            const part = partsById.get(partId);
+            return {
+                key: partId,
+                label: part?.name ?? partId,
+                colorHex: part?.color ?? "#94a3b8",
+                count: part?.quantity ?? 1,
+            };
+        });
+    }, [activeStep, bomStep, partsById]);
+    const allPartLines = useMemo(() => (bom ? toPartLines(bom.entries) : []), [bom]);
+    const allPartsOpen = allPartsExpanded ?? activeBuildStepIndex === 0;
 
     useEffect(() => {
         activeBuildStepIndexRef.current = activeBuildStepIndex;
     }, [activeBuildStepIndex]);
+
+    useEffect(() => {
+        setBom(null);
+        setAllPartsExpanded(null);
+    }, [ldrawModelFileName]);
+
+    useEffect(() => {
+        // needsPartList 会在翻出搭建区后回到 false，取到清单就别再取第二次。
+        if (!ldrawModelFileName || !needsPartList || bom) return;
+
+        const abortController = new AbortController();
+        void fetch(
+            `/api/courses/ldraw-bom?model=${encodeURIComponent(ldrawModelFileName)}`,
+            { cache: "force-cache", signal: abortController.signal },
+        )
+            .then((response) => (response.ok ? (response.json() as Promise<LdrawBom>) : null))
+            .then((data) => {
+                if (data && Array.isArray(data.steps)) setBom(data);
+            })
+            // 零件清单只是搭建辅助，取不到就退回课时自带的零件字段。
+            .catch(() => undefined);
+
+        return () => abortController.abort();
+    }, [bom, ldrawModelFileName, needsPartList]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -1559,31 +1672,60 @@ export function Building3DWorkspace({
                             </p>
                         </div>
                         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
-                            <h4 className="mb-2 flex items-center gap-1 text-xs font-bold text-muted-foreground">
-                                <Box className="h-3.5 w-3.5" />
-                                本步零件
-                            </h4>
-                            <ul className="space-y-2">
-                                {(activeStep?.partIds ?? []).map((partId) => {
-                                    const part = partsById.get(partId);
-                                    return (
-                                        <li key={partId} className="flex items-center justify-between gap-3 rounded-sm border border-border bg-background px-3 py-2">
-                                            <span className="flex min-w-0 items-center gap-2">
-                                                <span
-                                                    className="h-4 w-4 shrink-0 rounded-sm border border-black/10"
-                                                    style={{ backgroundColor: part?.color ?? "#94a3b8" }}
-                                                />
-                                                <span className="truncate text-sm font-medium text-foreground">
-                                                    {part?.name ?? partId}
-                                                </span>
-                                            </span>
-                                            <span className="text-xs font-semibold text-muted-foreground">
-                                                x{part?.quantity ?? 1}
-                                            </span>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
+                            <div className="mb-2 flex items-center justify-between gap-2">
+                                <h4 className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
+                                    <Box className="h-3.5 w-3.5" />
+                                    本步零件
+                                </h4>
+                                {bomStep ? (
+                                    <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-semibold tabular-nums text-foreground">
+                                        {bomStep.partCount} 块
+                                    </span>
+                                ) : null}
+                            </div>
+                            {stepPartLines.length > 0 ? (
+                                <PartLineList id="building-3d-step-parts" lines={stepPartLines} />
+                            ) : (
+                                <p className="rounded-sm border border-dashed border-border bg-background px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                                    {bomStep
+                                        ? "这一步模型里没有新增零件，照图纸检查一下已经搭好的部分。"
+                                        : "这一课的零件清单暂时看不到，先照 3D 图纸搭。"}
+                                </p>
+                            )}
+
+                            {bom && allPartLines.length > 0 ? (
+                                <div className="mt-3 rounded-sm border border-border bg-background">
+                                    <button
+                                        type="button"
+                                        onClick={() => setAllPartsExpanded(!allPartsOpen)}
+                                        aria-expanded={allPartsOpen}
+                                        aria-controls="building-3d-all-parts"
+                                        className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left"
+                                    >
+                                        <span className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
+                                            <Package className="h-3.5 w-3.5" />
+                                            全部零件
+                                        </span>
+                                        <span className="flex shrink-0 items-center gap-1 text-xs font-semibold tabular-nums text-foreground">
+                                            {bom.kindCount} 种 · {bom.partCount} 块
+                                            <ChevronDown
+                                                className={cn(
+                                                    "h-3.5 w-3.5 text-muted-foreground transition-transform",
+                                                    allPartsOpen && "rotate-180",
+                                                )}
+                                            />
+                                        </span>
+                                    </button>
+                                    {allPartsOpen ? (
+                                        <div className="border-t border-border px-3 py-2">
+                                            <p className="mb-2 text-xs leading-relaxed text-muted-foreground">
+                                                开始前先照这份清单把零件找齐，搭起来更顺。
+                                            </p>
+                                            <PartLineList id="building-3d-all-parts" lines={allPartLines} />
+                                        </div>
+                                    ) : null}
+                                </div>
+                            ) : null}
                         </div>
                         {ldrawEditEnabled && content.ldrawModelUrl ? (
                             <LDrawDebugEditor

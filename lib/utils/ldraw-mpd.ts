@@ -64,7 +64,11 @@ export function countEmbeddedLdrawFiles(text: string): number {
   return (text.match(/^0 FILE /gm) ?? []).length
 }
 
-function splitMainModelSteps(mainText: string): { preamble: string; steps: string[] } {
+/**
+ * 按 `0 STEP` 切分主模型。步骤下标与课时 3D 分步显隐一致，
+ * 因此零件清单统计必须复用同一函数，避免两套口径。
+ */
+export function splitMainModelSteps(mainText: string): { preamble: string; steps: string[] } {
   const sections: string[][] = [[]]
 
   for (const line of mainText.split(/\r?\n/)) {
