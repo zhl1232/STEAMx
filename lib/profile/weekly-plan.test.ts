@@ -23,11 +23,11 @@ function makeProject(id: number, title: string): Project {
 
 function makeGrowthTask(overrides: Partial<ProfileGrowthTask> = {}): ProfileGrowthTask {
   return {
-    id: 'publish_first_project',
-    label: '发布 1 个项目',
-    href: '/share',
-    rewardXp: 20,
-    reward: '+20 经验',
+    id: 'publish_first_work',
+    label: '拍张照，交出第一件作品',
+    href: '/courses',
+    rewardXp: 30,
+    reward: '+30 经验',
     target: 1,
     currentValue: 0,
     progressLabel: '0/1',
@@ -108,12 +108,41 @@ describe('getWeeklyPlanWeekStart', () => {
 })
 
 describe('buildWeeklyPlan', () => {
-  it('builds a starter plan for empty profiles', () => {
+  it('falls back to the mainline entry when there are no growth tasks yet', () => {
     const plan = buildWeeklyPlan(baseInput)
 
     expect(plan.completedCount).toBe(0)
-    expect(plan.steps).toHaveLength(3)
-    expect(plan.steps.map((step) => step.href)).toEqual(['/share', '/nature/submit', '/playground'])
+    expect(plan.steps).toHaveLength(1)
+    expect(plan.steps[0].href).toBe('/courses')
+  })
+
+  it('builds the starter plan from the first three growth tasks', () => {
+    const plan = buildWeeklyPlan({
+      ...baseInput,
+      growthTasks: [
+        makeGrowthTask({ id: 'start_first_lesson', label: '挑一节积木课打开看看', href: '/courses' }),
+        makeGrowthTask({ id: 'complete_first_lesson', label: '跟着 3D 分步搭完这一节', href: '/courses' }),
+        makeGrowthTask({ id: 'publish_first_work' }),
+        makeGrowthTask({ id: 'write_bio', label: '写一句自我介绍', href: '/settings/profile' }),
+        makeGrowthTask({ id: 'submit_first_observation', label: '记录 1 条自然观察', href: '/nature/submit' }),
+      ],
+    })
+
+    expect(plan.steps.map((step) => step.growthTaskId)).toEqual([
+      'start_first_lesson',
+      'complete_first_lesson',
+      'publish_first_work',
+    ])
+    expect(plan.growthProgress).toEqual({ completed: 0, total: 5, graduated: false })
+  })
+
+  it('drops the growth progress row once every task is claimed', () => {
+    const plan = buildWeeklyPlan({
+      ...baseInput,
+      growthTasks: [makeGrowthTask({ done: true, claimed: true, status: 'claimed' })],
+    })
+
+    expect(plan.growthProgress).toBeUndefined()
   })
 
   it('prioritizes reward, PBL, exploring, course, and radar steps', () => {

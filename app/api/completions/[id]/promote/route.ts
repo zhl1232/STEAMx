@@ -29,7 +29,7 @@ function isFinalConflict(error: unknown) {
   return message.includes('FINAL_ALREADY_EXISTS') || candidate.code === '23505'
 }
 
-/** POST /api/completions/[id]/promote — 将本人已审核的过程记录设为完成作品。 */
+/** POST /api/completions/[id]/promote — 将本人已审核的探索记录设为完成作品。 */
 export async function POST(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -60,7 +60,7 @@ export async function POST(
         return NextResponse.json({ error: '记录审核通过后才能设为完成作品' }, { status: 409 })
       }
       if (message.includes('PROJECT_PROGRESS_REQUIRED')) {
-        return NextResponse.json({ error: '只有项目过程记录可以设为完成作品' }, { status: 400 })
+        return NextResponse.json({ error: '只有项目探索记录可以设为完成作品' }, { status: 400 })
       }
       throw error
     }

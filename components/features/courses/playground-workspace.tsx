@@ -38,6 +38,7 @@ import {
 import type { GomokuPoint, ScoredGomokuMove } from "@/lib/playground/gomoku-engine";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
+import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
 
 /**
@@ -151,8 +152,7 @@ export function PlaygroundWorkspace({
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            const feedback = getLessonCompletionFeedback(data);
-            toast({ title: feedback.title, description: feedback.description });
+            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
             onCompleted?.();
         } catch (error) {
             toast({

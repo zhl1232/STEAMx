@@ -161,7 +161,7 @@ export function ProjectRecordsClient({
     if (exploring || completed) return
     try {
       await startExploration(projectId)
-      toast({ title: "已开始探索", description: "点击右上角「+ 记录」写下第一条过程记录" })
+      toast({ title: "已开始探索", description: "点击右上角「+ 记录」写下第一条探索记录" })
     } catch {
       showExplorationError()
     }
@@ -244,7 +244,7 @@ export function ProjectRecordsClient({
                   : "拍照、写心得，让每一步成长都被看见"}
               </p>
               {exploring && !hasOwnProgress ? (
-                <p className="mt-1 text-[11px] text-muted-foreground">先写过程记录，再提交作品</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">先写探索记录，再提交作品</p>
               ) : null}
             </div>
             <div className="flex shrink-0 flex-col gap-1.5">

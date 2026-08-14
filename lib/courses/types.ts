@@ -109,10 +109,6 @@ export interface LessonContent {
   track?: CourseLessonTrack
   /** Optional display override for the learning track. */
   levelLabel?: string
-  /** 面向家长/老师的课前、引导、观察记录与延伸提示。 */
-  teacherGuide?: CourseTeacherGuide
-  /** 课时学习目标，适合在学习页快速浏览。 */
-  learningGoals?: string[]
   /** 本课对应的 Scratch 官方教程 deck id（如 'tell-a-story'、'pong-game'），用于「教程」按钮按课直达 */
   tutorialDeckId?: string
   /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */
@@ -126,15 +122,6 @@ export interface LessonContent {
     enabled: boolean
   }
   [key: string]: unknown
-}
-
-export interface CourseTeacherGuide {
-  inquiryQuestion?: string
-  prepare?: string[]
-  guidePrompts?: string[]
-  observe?: string[]
-  extension?: string
-  familyShare?: string
 }
 
 /**
@@ -254,6 +241,10 @@ export interface CourseLessonSummary {
   duration_minutes: number | null
   track: CourseLessonTrack | null
   level_label: string | null
+  /** 课时一句话简介，用于课时目录搜索 */
+  summary: string | null
+  /** 有 LDraw 模型才有 3D 分步搭建和零件清单 */
+  has_model: boolean
   is_completed: boolean
   completed_at?: string | null
 }

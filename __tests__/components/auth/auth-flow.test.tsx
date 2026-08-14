@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { AuthFlow } from '@/components/auth/auth-flow'
 
@@ -162,6 +162,63 @@ describe('AuthFlow', () => {
           redirectTo: expect.stringContaining('/auth/callback'),
         })
       )
+    })
+  })
+
+  describe('landing page after SMS verification', () => {
+    const originalLocation = window.location
+
+    const stubLocation = () => {
+      const stub = { href: '', search: '' }
+      Object.defineProperty(window, 'location', { value: stub, writable: true, configurable: true })
+      return stub
+    }
+
+    afterEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: originalLocation,
+        writable: true,
+        configurable: true,
+      })
+    })
+
+    const verifyPhone = async (isNewUser: boolean) => {
+      const user = userEvent.setup()
+      verifyOtpMock.mockResolvedValue({ error: null })
+      vi.mocked(global.fetch).mockImplementation((input) => {
+        const url = String(input)
+        if (url.endsWith('/api/auth/sms/send')) {
+          return Promise.resolve({ ok: true, text: () => Promise.resolve('{}') } as Response)
+        }
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ tokenHash: 'hash-1', isNewUser }),
+        } as Response)
+      })
+
+      render(<AuthFlow presentation="page" />)
+
+      fireEvent.change(screen.getByLabelText('手机号'), { target: { value: '13800138000' } })
+      await user.click(screen.getByRole('checkbox'))
+      await user.click(screen.getByRole('button', { name: '获取验证码' }))
+      fireEvent.change(await screen.findByLabelText('验证码'), { target: { value: '123456' } })
+      await user.click(screen.getByRole('button', { name: '确认并继续' }))
+    }
+
+    it('sends a newly registered phone user to the brick course mainline', async () => {
+      const location = stubLocation()
+
+      await verifyPhone(true)
+
+      await waitFor(() => expect(location.href).toBe('/courses'))
+    })
+
+    it('keeps returning users on the home page', async () => {
+      const location = stubLocation()
+
+      await verifyPhone(false)
+
+      await waitFor(() => expect(location.href).toBe('/'))
     })
   })
 

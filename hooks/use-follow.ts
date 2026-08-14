@@ -4,6 +4,12 @@ import { useNotifications } from '@/lib/context/notification-context';
 import { useToast } from "@/hooks/use-toast";
 import { logger } from "@/lib/logger";
 
+type FollowStatus = {
+    isFollowing: boolean;
+    /** 对方是否也关注了我。私信的互相关注门槛靠这个判断 */
+    isFollowedBy: boolean;
+};
+
 export function useFollow(targetUserId: string) {
     const { user, profile, loading: authLoading } = useAuth();
     const { createNotification } = useNotifications();
@@ -12,20 +18,25 @@ export function useFollow(targetUserId: string) {
 
     const isSelf = !!targetUserId && !!user && user.id === targetUserId;
 
+    const NOT_FOLLOWING: FollowStatus = { isFollowing: false, isFollowedBy: false };
+
     // 1. Check if following（仅在看他人主页且已登录后请求，避免未登录时误显示「关注」）
-    const { data: isFollowing = false, isLoading: isFollowQueryLoading } = useQuery({
+    const { data: followStatus = NOT_FOLLOWING, isLoading: isFollowQueryLoading } = useQuery({
         queryKey: ['is_following', targetUserId, user?.id],
-        queryFn: async () => {
-            if (!user) return false;
+        queryFn: async (): Promise<FollowStatus> => {
+            if (!user) return NOT_FOLLOWING;
             const params = new URLSearchParams({ targetUserId });
             const response = await fetch(`/api/follows/status?${params.toString()}`);
-            if (response.status === 401) return false;
+            if (response.status === 401) return NOT_FOLLOWING;
             if (!response.ok) {
                 logger.error("Error checking follow status", { detail: await response.text() });
-                return false;
+                return NOT_FOLLOWING;
             }
             const payload = await response.json();
-            return Boolean(payload?.isFollowing);
+            return {
+                isFollowing: Boolean(payload?.isFollowing),
+                isFollowedBy: Boolean(payload?.isFollowedBy),
+            };
         },
         enabled: !!targetUserId && !!user && !isSelf && !authLoading,
     });
@@ -86,16 +97,19 @@ export function useFollow(targetUserId: string) {
             await queryClient.cancelQueries({ queryKey: ['is_following', targetUserId, user?.id] });
             await queryClient.cancelQueries({ queryKey: ['follower_count', targetUserId] });
 
-            const prevIsFollowing = queryClient.getQueryData(['is_following', targetUserId, user?.id]);
+            const prevStatus = queryClient.getQueryData<FollowStatus>(['is_following', targetUserId, user?.id]);
             const prevCount = queryClient.getQueryData<number>(['follower_count', targetUserId]) || 0;
 
-            queryClient.setQueryData(['is_following', targetUserId, user?.id], shouldFollow);
+            queryClient.setQueryData<FollowStatus>(['is_following', targetUserId, user?.id], {
+                isFollowing: shouldFollow,
+                isFollowedBy: prevStatus?.isFollowedBy ?? false,
+            });
             queryClient.setQueryData(['follower_count', targetUserId], shouldFollow ? prevCount + 1 : Math.max(0, prevCount - 1));
 
-            return { prevIsFollowing, prevCount };
+            return { prevStatus, prevCount };
         },
         onError: (err, variables, context) => {
-            queryClient.setQueryData(['is_following', targetUserId, user?.id], context?.prevIsFollowing);
+            queryClient.setQueryData(['is_following', targetUserId, user?.id], context?.prevStatus);
             queryClient.setQueryData(['follower_count', targetUserId], context?.prevCount);
             toast({
                 title: "操作失败",
@@ -113,7 +127,9 @@ export function useFollow(targetUserId: string) {
     const isLoading = authLoading ? true : (isSelf ? false : isFollowQueryLoading);
 
     return {
-        isFollowing,
+        isFollowing: followStatus.isFollowing,
+        isFollowedBy: followStatus.isFollowedBy,
+        isMutualFollow: followStatus.isFollowing && followStatus.isFollowedBy,
         isLoading,
         isFollowerCountLoading,
         followerCount: followerCount ?? 0,

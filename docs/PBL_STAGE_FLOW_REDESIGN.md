@@ -170,7 +170,7 @@ flowchart TD
 
 ### 复用现有基础设施
 
-仓库已通过 DashScope（阿里云）OpenAI 兼容接口调用 Qwen，见 [lib/ai/qwen-vision.ts](/home/arron/work/lib/ai/qwen-vision.ts) 与 [lib/ai/auto-reply.ts](/home/arron/work/lib/ai/auto-reply.ts)：
+仓库已通过 DashScope（阿里云）OpenAI 兼容接口调用 Qwen，见 [lib/ai/qwen-vision.ts](/home/arron/work/lib/ai/qwen-vision.ts) 与 [lib/ai/dashscope.ts](/home/arron/work/lib/ai/dashscope.ts)：
 
 - 环境变量：`DASHSCOPE_API_KEY`、`DASHSCOPE_BASE_URL`、`DASHSCOPE_VISION_MODEL`（默认 `qwen3.7-plus`，支持图文）、`DASHSCOPE_TEXT_MODEL`（默认 `qwen3.7-plus`）。
 - 调用方式：`POST {baseUrl}/chat/completions`，`messages` 支持 `text` + `image_url`，支持 `response_format: json_object`。

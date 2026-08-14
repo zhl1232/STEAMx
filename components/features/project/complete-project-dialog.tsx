@@ -468,7 +468,7 @@ export function CompleteProjectDialog({
             }
 
             toast({
-                title: isProgress ? "过程记录已提交" : "最终作品已提交",
+                title: isProgress ? "探索记录已提交" : "最终作品已提交",
                 description: isProgress
                     ? "AI 审核通过后将出现在探索记录流"
                     : "AI 审核通过后将公开展示并获得 XP 奖励",
@@ -510,7 +510,9 @@ export function CompleteProjectDialog({
                 <DialogHeader>
                     <DialogTitle>{isProgress ? "记录探索过程" : "提交最终作品"}</DialogTitle>
                     <DialogDescription>
-                        分享你的成果，审核通过后可获得 20 XP
+                        {isProgress
+                            ? "记录这一步的进展，随时可以再来更新。探索记录不计经验，提交最终作品时可获得 20 XP"
+                            : "分享你的成果，审核通过后可获得 20 XP"}
                     </DialogDescription>
                     {/* Stepper indicator */}
                     <div className="flex items-center gap-2 pt-2">
@@ -541,8 +543,7 @@ export function CompleteProjectDialog({
                             <div className="flex items-start gap-2 p-3 rounded-xs bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800">
                                 <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
                                 <p className="text-sm text-blue-700 dark:text-blue-300">
-                                    此项目关联了挑战。填写反思与试错记录可额外获得{" "}
-                                    <span className="font-semibold">+10 XP</span>。
+                                    此项目关联了挑战。填写反思与试错记录，评审更容易看懂你的过程。
                                 </p>
                             </div>
                         )}

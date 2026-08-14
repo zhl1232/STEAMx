@@ -85,6 +85,7 @@ export function LessonPageClient({
     previewHref,
     initialCompleted = false,
     initialStepIndex = 0,
+    shouldRecordStart = false,
 }: {
     courseId: number;
     courseTitle: string;
@@ -92,6 +93,8 @@ export function LessonPageClient({
     previewHref: string;
     initialCompleted?: boolean;
     initialStepIndex?: number;
+    /** 已登录且这节课还没有任何进度行时才为 true，避免匿名访问白打一次 401。 */
+    shouldRecordStart?: boolean;
 }) {
     const router = useRouter();
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
@@ -129,6 +132,17 @@ export function LessonPageClient({
             replaceBuildingStepInUrl(nextStep);
         }
     }, [lessonWorkspace, steps.length]);
+
+    useEffect(() => {
+        if (!shouldRecordStart) return;
+        const controller = new AbortController();
+        // 打开就算开始，不等学完。失败无所谓：下次打开这节课会再试一次。
+        void fetch(`/api/courses/${courseId}/lessons/${lesson.id}/start`, {
+            method: "POST",
+            signal: controller.signal,
+        }).catch(() => {});
+        return () => controller.abort();
+    }, [courseId, lesson.id, shouldRecordStart]);
 
     useEffect(() => {
         if (lessonWorkspace !== "building_3d") return;

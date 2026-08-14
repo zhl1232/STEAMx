@@ -3,6 +3,11 @@ import type { NaturalObservationProgressSummary } from '@/lib/observations/progr
 import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
+import {
+  MAINLINE_ENTRY_HREF,
+  MAINLINE_PRIMARY_CTA_LABEL,
+  MAINLINE_SHORT_PITCH,
+} from '@/lib/product/mainline'
 
 export type ProfileNextActionVariant =
   | 'reward'
@@ -119,10 +124,10 @@ export function resolveProfileNextAction(input: ProfileNextActionInput): Profile
   if (isExploreVacuum(input)) {
     return {
       variant: 'vacuum',
-      title: '从这里点亮你的探索档案',
-      subtitle: '一次小实验、一张观察照片，都会让个人主页变成真正属于你的成长记录。',
-      href: '/project',
-      actionLabel: '发布第一个项目',
+      title: '从一节积木课开始',
+      subtitle: MAINLINE_SHORT_PITCH,
+      href: MAINLINE_ENTRY_HREF,
+      actionLabel: MAINLINE_PRIMARY_CTA_LABEL,
       badgeLabel: '起步',
       secondaryHref: '/nature/submit',
       secondaryLabel: '记录第一只鸟',

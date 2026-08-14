@@ -138,34 +138,6 @@ function NextActionCardSkeleton() {
   );
 }
 
-function GrowthTaskRowsSkeleton({ count = 5 }: { count?: number }) {
-  return (
-    <div className="space-y-3">
-      {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.5)] p-3">
-          <div className="flex items-start gap-3">
-            <SkeletonBlock className="mt-0.5 h-4 w-4 rounded-full" />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-3">
-                <SkeletonBlock className={`h-4 rounded-full ${index === 1 ? "w-36" : index === 3 ? "w-28" : "w-32"}`} />
-                <SkeletonBlock className="h-4 w-14 rounded-full" />
-              </div>
-              <div className="mt-3 flex items-center gap-3">
-                <SkeletonBlock className="h-2 flex-1 rounded-full" />
-                {index === 0 ? (
-                  <SkeletonBlock className="h-8 w-12 rounded-sm" />
-                ) : (
-                  <SkeletonBlock className="h-3 w-10 rounded-full" />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function MobileDashboardProfileSkeleton() {
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground md:hidden">
@@ -306,13 +278,6 @@ function DesktopDashboardProfileSkeleton() {
                       {Array.from({ length: 5 }).map((_, index) => (
                         <SkeletonBlock key={index} className="h-11 rounded-full" />
                       ))}
-                    </div>
-                  </section>
-
-                  <section className="surface-panel rounded-lg p-4">
-                    <SectionTitleSkeleton action={false} />
-                    <div className="mt-4">
-                      <GrowthTaskRowsSkeleton />
                     </div>
                   </section>
 

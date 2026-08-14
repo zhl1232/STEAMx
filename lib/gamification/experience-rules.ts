@@ -6,10 +6,16 @@ export const EXPERIENCE_RULES = [
     description: '分享你的创意作品',
   },
   {
+    id: 'publish_course_work',
+    action: '上传课时作品',
+    reward: '+20',
+    description: '跟着课时搭完后上传作品，审核通过即可获得',
+  },
+  {
     id: 'complete_project',
     action: '完成项目',
     reward: '+20',
-    description: '作品审核通过后获得经验',
+    description: '提交项目作品并通过审核；探索记录不计经验',
   },
   {
     id: 'submit_observation',
@@ -30,18 +36,6 @@ export const EXPERIENCE_RULES = [
     description: '挑战作品通过审核后获得经验',
   },
   {
-    id: 'create_discussion',
-    action: '发起讨论',
-    reward: '+5',
-    description: '在社区分享观点',
-  },
-  {
-    id: 'reply_or_comment',
-    action: '评论或回复',
-    reward: '+1',
-    description: '参与互动交流，评论与回复分别每日上限 50 经验',
-  },
-  {
     id: 'like_project',
     action: '点赞项目',
     reward: '+1',
@@ -59,6 +53,7 @@ export type ExperienceRule = (typeof EXPERIENCE_RULES)[number]
 export type ExperienceRuleId = ExperienceRule['id']
 
 const LEADERBOARD_EXPERIENCE_RULE_IDS: readonly ExperienceRuleId[] = [
+  'publish_course_work',
   'publish_project',
   'complete_project',
   'submit_observation',

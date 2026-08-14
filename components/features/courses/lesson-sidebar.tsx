@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import type { ReactNode } from "react";
-import { ArrowLeft, ClipboardCheck, Lightbulb, MessageCircleQuestion, PackageCheck, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
-import type { CourseLessonRow, CourseLessonStep, CourseTeacherGuide } from "@/lib/courses/types";
+import type { CourseLessonRow, CourseLessonStep } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 import { LessonRichText } from "./lesson-rich-text";
 
@@ -32,10 +31,6 @@ export function LessonSidebar({
 }) {
     const summary =
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
-    const learningGoals = Array.isArray(lesson.content?.learningGoals)
-        ? lesson.content.learningGoals.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
-        : [];
-    const teacherGuide = normalizeTeacherGuide(lesson.content?.teacherGuide);
     const steps = displaySteps ?? lesson.steps ?? [];
 
     return (
@@ -70,7 +65,6 @@ export function LessonSidebar({
                 </div>
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
-                <LessonGuidePanel learningGoals={learningGoals} guide={teacherGuide} />
                 <ol className="space-y-1.5">
                     {steps.map((step, index) => (
                         <LessonStepItem
@@ -121,133 +115,6 @@ export function LessonSidebar({
                 </p>
             ) : null}
         </aside>
-    );
-}
-
-function normalizeStringList(value: unknown) {
-    if (!Array.isArray(value)) return [];
-    return value.filter((item): item is string => typeof item === "string" && item.trim().length > 0);
-}
-
-function normalizeTeacherGuide(value: unknown): CourseTeacherGuide | null {
-    if (!value || typeof value !== "object") return null;
-    const guide = value as Record<string, unknown>;
-    const normalized: CourseTeacherGuide = {
-        inquiryQuestion: typeof guide.inquiryQuestion === "string" ? guide.inquiryQuestion : undefined,
-        prepare: normalizeStringList(guide.prepare),
-        guidePrompts: normalizeStringList(guide.guidePrompts),
-        observe: normalizeStringList(guide.observe),
-        extension: typeof guide.extension === "string" ? guide.extension : undefined,
-        familyShare: typeof guide.familyShare === "string" ? guide.familyShare : undefined,
-    };
-
-    return normalized.inquiryQuestion ||
-        normalized.prepare?.length ||
-        normalized.guidePrompts?.length ||
-        normalized.observe?.length ||
-        normalized.extension ||
-        normalized.familyShare
-        ? normalized
-        : null;
-}
-
-function LessonGuidePanel({
-    learningGoals,
-    guide,
-}: {
-    learningGoals: string[];
-    guide: CourseTeacherGuide | null;
-}) {
-    if (learningGoals.length === 0 && !guide) return null;
-
-    return (
-        <section className="mb-3 space-y-2 rounded-sm border border-border bg-muted/30 p-3">
-            {guide?.inquiryQuestion ? (
-                <div>
-                    <p className="flex items-center gap-1.5 text-xs font-bold text-[hsl(var(--brand-blue))]">
-                        <MessageCircleQuestion className="h-3.5 w-3.5" />
-                        探究问题
-                    </p>
-                    <p className="mt-1 text-xs leading-relaxed text-foreground">
-                        <LessonRichText text={guide.inquiryQuestion} />
-                    </p>
-                </div>
-            ) : null}
-
-            {learningGoals.length > 0 ? (
-                <CompactGuideList
-                    icon={<ClipboardCheck className="h-3.5 w-3.5" />}
-                    title="学习目标"
-                    items={learningGoals}
-                />
-            ) : null}
-            {guide?.prepare?.length ? (
-                <CompactGuideList
-                    icon={<PackageCheck className="h-3.5 w-3.5" />}
-                    title="材料准备"
-                    items={guide.prepare}
-                />
-            ) : null}
-            {guide?.guidePrompts?.length ? (
-                <CompactGuideList
-                    icon={<Lightbulb className="h-3.5 w-3.5" />}
-                    title="引导提问"
-                    items={guide.guidePrompts}
-                />
-            ) : null}
-            {guide?.observe?.length ? (
-                <CompactGuideList
-                    icon={<ClipboardCheck className="h-3.5 w-3.5" />}
-                    title="观察记录"
-                    items={guide.observe}
-                />
-            ) : null}
-            {guide?.extension || guide?.familyShare ? (
-                <div className="space-y-1.5 border-t border-border/70 pt-2">
-                    {guide.extension ? (
-                        <p className="text-xs leading-relaxed text-muted-foreground">
-                            <span className="font-bold text-foreground">延伸：</span>
-                            <LessonRichText text={guide.extension} />
-                        </p>
-                    ) : null}
-                    {guide.familyShare ? (
-                        <p className="text-xs leading-relaxed text-muted-foreground">
-                            <span className="font-bold text-foreground">带回家：</span>
-                            <LessonRichText text={guide.familyShare} />
-                        </p>
-                    ) : null}
-                </div>
-            ) : null}
-        </section>
-    );
-}
-
-function CompactGuideList({
-    icon,
-    title,
-    items,
-}: {
-    icon: ReactNode;
-    title: string;
-    items: string[];
-}) {
-    return (
-        <div>
-            <p className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-                {icon}
-                {title}
-            </p>
-            <ul className="mt-1 space-y-1">
-                {items.map((item) => (
-                    <li key={item} className="flex gap-1.5 text-xs leading-relaxed text-muted-foreground">
-                        <Sparkles className="mt-0.5 h-3 w-3 shrink-0 text-[hsl(var(--brand-amber))]" />
-                        <span>
-                            <LessonRichText text={item} />
-                        </span>
-                    </li>
-                ))}
-            </ul>
-        </div>
     );
 }
 

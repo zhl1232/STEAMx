@@ -27,7 +27,6 @@ import {
 
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { BadgeIcon } from '@/components/features/gamification/badge-icon'
-import { GrowthTaskRow } from '@/components/features/profile/growth-task-row'
 import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
 import { ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
 import {
@@ -36,9 +35,7 @@ import {
 } from '@/components/features/profile/profile-timeline-icons'
 import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
 import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
-import {
-  MobileProfileSectionTitle,
-} from '@/components/features/profile/mobile-today-tasks-card'
+import { MobileProfileSectionTitle } from '@/components/features/profile/mobile-profile-section-title'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
@@ -55,8 +52,8 @@ import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import { getNotificationTargetHref } from '@/lib/notifications/navigation'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
-import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
-import { getCompletedGrowthTaskCount, resolveGrowthTasks, toGrowthTaskInput } from '@/lib/profile/growth-tasks'
+import type { GrowthTaskId } from '@/lib/profile/growth-tasks'
+import { resolveGrowthTasks, toGrowthTaskInput } from '@/lib/profile/growth-tasks'
 import {
   type ProfileStudyCheckInSummary,
   type StudyCheckInLoadState,
@@ -222,7 +219,6 @@ export default function ProfilePage() {
   const naturalObservationProgress = profileHomeData?.naturalObservationProgress ?? null
   const studyCheckInSummary = profileHomeData?.studyCheckInSummary ?? null
   const growthTasks = profileHomeData?.growthTasks ?? null
-  const growthTasksGraduatedAt = profileHomeData?.growthTasksGraduatedAt ?? null
   const profileTimelineEvents = profileHomeData?.profileTimelineEvents ?? null
 
   const studyCheckInState: StudyCheckInLoadState = isProfileHomePending
@@ -347,7 +343,6 @@ export default function ProfilePage() {
     { key: 'likes', label: '获赞', value: totalLikesReceived, href: '/profile/likes', icon: 'likes' },
   ]
   const resolvedGrowthTasks = growthTasks ?? fallbackGrowthTasks
-  const completedTaskCount = getCompletedGrowthTaskCount(resolvedGrowthTasks)
   const nextAction = resolveProfileNextAction({
     exploringProjects,
     steamRadar,
@@ -374,13 +369,10 @@ export default function ProfilePage() {
   const pageData = {
     profileContext,
     stats,
-    growthTasks: resolvedGrowthTasks,
     nextAction,
     weeklyPlan: weeklyPlan ?? null,
     weeklyPlanLoading: isWeeklyPlanPending,
     weeklyPlanError: isWeeklyPlanError,
-    growthTasksGraduatedAt,
-    completedTaskCount,
     claimingTaskId,
     onClaimGrowthTask: handleClaimGrowthTask,
     featuredBadges,
@@ -407,13 +399,10 @@ export default function ProfilePage() {
 function DesktopProfilePage({
   profileContext,
   stats,
-  growthTasks,
   nextAction,
   weeklyPlan,
   weeklyPlanLoading,
   weeklyPlanError,
-  growthTasksGraduatedAt,
-  completedTaskCount,
   claimingTaskId,
   onClaimGrowthTask,
   featuredBadges,
@@ -431,13 +420,10 @@ function DesktopProfilePage({
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
-  growthTasks: ProfileGrowthTask[]
   nextAction: ProfileNextAction
   weeklyPlan: WeeklyPlan | null
   weeklyPlanLoading: boolean
   weeklyPlanError: boolean
-  growthTasksGraduatedAt: string | null
-  completedTaskCount: number
   claimingTaskId: GrowthTaskId | null
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
   featuredBadges: typeof BADGES
@@ -509,9 +495,7 @@ function DesktopProfilePage({
                 </section>
               ) : null}
 
-              {isExploreVacuum ? (
-                <ProfileStarterHub />
-              ) : (
+              {!isExploreVacuum ? (
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[1440px]:grid-cols-1 min-[1680px]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
                   <NaturalObservationProgressCard
                     progress={naturalObservationProgress}
@@ -522,7 +506,7 @@ function DesktopProfilePage({
                     compactEmpty={isExploreVacuum}
                   />
                 </div>
-              )}
+              ) : null}
             </main>
 
             <aside className="min-w-0">
@@ -533,14 +517,6 @@ function DesktopProfilePage({
                   unlockedBadges={unlockedBadges}
                   userBadgeDetails={userBadgeDetails}
                   className="lg:col-span-2 min-[1440px]:col-span-1"
-                />
-                <GrowthTasksPanel
-                  tasks={growthTasks}
-                  growthTasksGraduatedAt={growthTasksGraduatedAt}
-                  completedTaskCount={completedTaskCount}
-                  claimingTaskId={claimingTaskId}
-                  onClaim={onClaimGrowthTask}
-                  compact
                 />
                 <StudyCheckInPanel
                   studyCheckInSummary={studyCheckInSummary}
@@ -1331,44 +1307,6 @@ function CommunityFeedPanel({
   )
 }
 
-function GrowthTasksPanel({
-  tasks,
-  growthTasksGraduatedAt,
-  completedTaskCount,
-  claimingTaskId,
-  onClaim,
-  compact = false,
-}: {
-  tasks: ProfileGrowthTask[]
-  growthTasksGraduatedAt: string | null
-  completedTaskCount: number
-  claimingTaskId: GrowthTaskId | null
-  onClaim: (taskId: GrowthTaskId) => void
-  compact?: boolean
-}) {
-  // 毕业后不再占用侧栏卡位，「新手毕业」徽章已在徽章墙中承载纪念
-  if (growthTasksGraduatedAt) {
-    return null
-  }
-
-  return (
-    <section className={cn('surface-panel rounded-lg', compact ? 'p-4' : 'p-6')}>
-      <SectionTitle iconName="growth" title={`新手引导（${completedTaskCount}/5）`} />
-      <div className={cn(compact ? 'mt-4 space-y-2.5' : 'mt-5 space-y-3')}>
-        {tasks.map((task) => (
-          <GrowthTaskRow
-            key={task.id}
-            task={task}
-            claimPending={claimingTaskId === task.id}
-            onClaim={onClaim}
-            compact={compact}
-          />
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function WorkShowcase({ works }: { works: Work[] }) {
   if (works.length === 0) {
     return (
@@ -1565,55 +1503,6 @@ function NaturalObservationProgressCard({
           />
         </div>
       </div>
-    </section>
-  )
-}
-
-function ProfileStarterHub() {
-  return (
-    <section className="surface-panel overflow-hidden rounded-lg">
-      <div className="grid gap-0 md:grid-cols-[minmax(0,200px)_1fr]">
-        <div className="relative flex min-h-[140px] items-center justify-center bg-[linear-gradient(160deg,hsl(var(--brand-blue)/0.12),hsl(var(--brand-green)/0.08))] px-6 py-6 dark:bg-[linear-gradient(160deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]">
-          <span className="relative grid h-[120px] w-full max-w-[180px] place-items-center">
-            <span className="absolute h-24 w-24 rounded-full bg-[hsl(var(--brand-blue)/0.12)] blur-xl" />
-            <span className="relative grid h-24 w-24 place-items-center rounded-xl border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.76)] shadow-[0_18px_38px_-28px_hsl(var(--surface-shadow)/0.35)]">
-              <Rocket className="h-11 w-11 text-[hsl(var(--brand-blue))]" strokeWidth={2.2} />
-            </span>
-          </span>
-        </div>
-        <div className="flex flex-col justify-center gap-4 p-6">
-          <div>
-            <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">
-              新手出发
-            </span>
-            <h3 className="mt-2 text-lg font-bold tracking-tight text-foreground">从这里点亮你的探索档案</h3>
-            <p className="mt-2 max-w-prose text-sm leading-6 text-muted-foreground">
-              一次小实验、一张观察照片，都会让个人主页变成真正属于你的成长记录。
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/project" className={cn('profile-soft-cta', 'h-10 px-5 text-sm font-semibold')}>
-              <Rocket className="h-4 w-4" />
-              发布第一个项目
-            </Link>
-            <Link
-              href="/nature/submit"
-              className="profile-success-cta h-10"
-            >
-              <Leaf className="h-4 w-4" />
-              记录第一只鸟
-            </Link>
-          </div>
-          <Link
-            href="/create"
-            className="inline-flex w-fit items-center gap-0.5 text-sm font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.85)]"
-          >
-            去参加社区挑战
-            <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-
     </section>
   )
 }

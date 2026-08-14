@@ -21,10 +21,16 @@ export async function generateMetadata({ params }: PageProps) {
             path: `/courses/${courseId}/lessons/${lessonId}`,
         });
     }
+    const content = context.lesson.content as { summary?: unknown; building3d?: { finishedImageUrl?: unknown } } | null;
+    const summary = typeof content?.summary === "string" ? content.summary : null;
+    const finishedImage =
+        typeof content?.building3d?.finishedImageUrl === "string" ? content.building3d.finishedImageUrl : undefined;
     return buildPageMetadata({
         title: `${context.lesson.title} · ${context.course.title}`,
-        description: context.course.description ?? "技能课程课时学习",
+        description: summary ?? context.course.description ?? "技能课程课时学习",
         path: `/courses/${courseId}/lessons/${lessonId}`,
+        keywords: [context.lesson.title, context.course.title],
+        image: finishedImage ?? context.course.image_url ?? undefined,
     });
 }
 
@@ -58,6 +64,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
             previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
             initialCompleted={Boolean(progress?.completed_at)}
             initialStepIndex={initialStepIndex}
+            shouldRecordStart={Boolean(user) && !progress}
         />
     );
 }

@@ -1085,7 +1085,7 @@ export function ExploreClient({
                                             ))}
                                         </div>
 
-                                        <div className="flex flex-wrap items-end justify-between gap-3">
+                                        <div className="flex flex-wrap items-center justify-between gap-3">
                                             <p className="text-[13px] font-semibold text-foreground md:text-sm">
                                                 {isFiltering
                                                     ? '正在查找项目…'
@@ -1101,8 +1101,7 @@ export function ExploreClient({
                                                         active={selectedSortBy === option.value}
                                                         tone="primary"
                                                         shape="pill"
-                                                        size="md"
-                                                        className="h-11 px-3 text-[12px] font-bold md:h-8 md:text-[13px]"
+                                                        className="px-3.5 font-semibold"
                                                     >
                                                         {option.label}
                                                     </FilterChip>

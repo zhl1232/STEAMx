@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { logger } from '@/lib/logger'
+import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
 import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -73,9 +74,14 @@ function getAuthErrorMessage() {
   return null
 }
 
-function getSafeNextPath() {
-  if (typeof window === 'undefined') return '/'
-  return sanitizeInternalHref(new URLSearchParams(window.location.search).get('next'))
+/**
+ * 新注册没有指定 next 时，落地页直接给主线（积木课），而不是首页。
+ * 手机号验证码同时承担登录和注册，所以「是不是新用户」只能由 verify 接口告诉我们。
+ * 老用户登录仍然回首页或来处，避免打断他们原本要做的事。
+ */
+function getSafeNextPath(fallbackHref = '/') {
+  if (typeof window === 'undefined') return fallbackHref
+  return sanitizeInternalHref(new URLSearchParams(window.location.search).get('next'), fallbackHref)
 }
 
 function getFriendlyErrorMessage(error: unknown) {
@@ -169,7 +175,8 @@ export function AuthFlow({
     : isResetMode
       ? '输入手机号找回账号。'
       : null)
-  const successTarget = nextPath ?? getSafeNextPath()
+  const resolveSuccessTarget = (isNewUser: boolean) =>
+    nextPath ?? getSafeNextPath(isNewUser || emailMode === 'sign_up' ? MAINLINE_ENTRY_HREF : '/')
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
   const descriptionId = resolvedDescription
     ? (presentation === 'page' ? 'auth-page-description' : 'auth-layer-description')
@@ -225,7 +232,7 @@ export function AuthFlow({
     return true
   }
 
-  const completeSuccess = () => {
+  const completeSuccess = (options?: { isNewUser?: boolean }) => {
     if (phoneRecoveryAfterOtp) {
       window.location.href = '/settings/security?mode=recovery'
       return
@@ -236,7 +243,7 @@ export function AuthFlow({
       return
     }
 
-    window.location.href = successTarget
+    window.location.href = resolveSuccessTarget(options?.isNewUser ?? false)
   }
 
   const handleSendOtp = async (rawPhone = phoneValue) => {
@@ -313,6 +320,8 @@ export function AuthFlow({
 
       if (!res.ok) throw new Error(data.error || '验证失败')
 
+      const isNewUser = data.isNewUser === true
+
       if (data.tokenHash) {
         const { error: verifyError } = await supabase.auth.verifyOtp({
           type: 'magiclink',
@@ -320,7 +329,7 @@ export function AuthFlow({
         })
 
         if (verifyError) throw verifyError
-        completeSuccess()
+        completeSuccess({ isNewUser })
         return
       }
 
@@ -329,7 +338,7 @@ export function AuthFlow({
         return
       }
 
-      completeSuccess()
+      completeSuccess({ isNewUser })
     } catch (err: unknown) {
       logger.warn('OTP verify error', { error: err })
       setError(getOtpErrorMessage(err, OTP_VERIFY_FAIL_DEFAULT))

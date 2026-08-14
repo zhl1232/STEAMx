@@ -34,7 +34,7 @@ export function pickFeaturedPblChallenge(rows: FeaturedChallengeRow[]): Featured
   return {
     id: featured.id,
     title: featured.title,
-    summary: summary || '每周开放 · 提交过程记录和作品成果',
+    summary: summary || '每周开放 · 记录探索过程，提交作品',
     imageUrl: featured.image_url || '',
   }
 }

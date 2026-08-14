@@ -30,8 +30,25 @@ export type ShareProjectData = {
   category?: string | null
 }
 
+export type ShareCourseData = {
+  id: number | string
+  title: string
+  description?: string | null
+  image?: string | null
+  lessonCount: number
+}
+
+export type ShareCertificateData = {
+  courseId: number | string
+  courseTitle: string
+  learnerName: string
+  completedAt: string
+  lessonCount: number
+  cover?: string | null
+}
+
 type ShareCardContent = {
-  kind: "work" | "project"
+  kind: "work" | "project" | "course" | "certificate"
   id: number | string
   title: string
   author: string
@@ -107,6 +124,56 @@ function createProjectShareContent(project: ShareProjectData): ShareCardContent 
     shareTitle: `${project.author} 的 STEAM 项目`,
     shareText: `来看看 ${project.author} 分享的项目`,
     copiedToastTitle: "项目链接已复制",
+  }
+}
+
+function createCourseShareContent(course: ShareCourseData): ShareCardContent {
+  return {
+    kind: "course",
+    id: course.id,
+    title: course.title,
+    // 课程没有作者，作者位改放「免费 + 课时数」，这是家长转发时最想让人看到的两件事
+    author: `${course.lessonCount} 节 · 免费`,
+    cover: course.image,
+    sourceLabel: "技能课程",
+    badgeLabel: "免费技能课程",
+    metaLabel: `共 ${course.lessonCount} 节 · 免登录可看`,
+    sharePath: `/courses/${course.id}`,
+    fallbackPath: `courses/${course.id}`,
+    fileName: `STEAM-课程-${course.id}.png`,
+    qrTitle: "课程链接二维码",
+    dialogTitle: "分享这门课程",
+    dialogDescription: "高清课程卡片已配好链接二维码",
+    footerTitle: "扫码打开这门课",
+    footerDescription: ["全部课时免费，", "打开就能跟着一步步做。"],
+    shareTitle: `${course.title} · 免费技能课程`,
+    shareText: course.description || `${course.lessonCount} 节免费课，打开就能跟着做`,
+    copiedToastTitle: "课程链接已复制",
+  }
+}
+
+function createCertificateShareContent(certificate: ShareCertificateData): ShareCardContent {
+  return {
+    kind: "certificate",
+    id: certificate.courseId,
+    title: certificate.courseTitle,
+    author: certificate.learnerName,
+    cover: certificate.cover,
+    sourceLabel: "结课凭证",
+    badgeLabel: `${certificate.learnerName} 学完了这门课`,
+    metaLabel: `${certificate.completedAt} · 完成 ${certificate.lessonCount} 节`,
+    // 二维码指向课程本身：凭证是本人可见的，转发出去要让别人能打开的是这门课
+    sharePath: `/courses/${certificate.courseId}`,
+    fallbackPath: `courses/${certificate.courseId}`,
+    fileName: `STEAM-结课凭证-${certificate.courseId}.png`,
+    qrTitle: "课程链接二维码",
+    dialogTitle: "分享结课凭证",
+    dialogDescription: "保存这张凭证，或转发给家人看看",
+    footerTitle: "扫码看这门课",
+    footerDescription: ["全部课时免费，", "你也可以从第一节开始。"],
+    shareTitle: `${certificate.learnerName} 学完了《${certificate.courseTitle}》`,
+    shareText: `${certificate.completedAt} 完成 ${certificate.lessonCount} 节课`,
+    copiedToastTitle: "课程链接已复制",
   }
 }
 
@@ -482,4 +549,34 @@ export function ShareProjectDialog({
   onOpenChange: (open: boolean) => void
 }) {
   return <ShareCardDialog content={createProjectShareContent(project)} open={open} onOpenChange={onOpenChange} />
+}
+
+export function ShareCourseDialog({
+  course,
+  open,
+  onOpenChange,
+}: {
+  course: ShareCourseData
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return <ShareCardDialog content={createCourseShareContent(course)} open={open} onOpenChange={onOpenChange} />
+}
+
+export function ShareCertificateDialog({
+  certificate,
+  open,
+  onOpenChange,
+}: {
+  certificate: ShareCertificateData
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  return (
+    <ShareCardDialog
+      content={createCertificateShareContent(certificate)}
+      open={open}
+      onOpenChange={onOpenChange}
+    />
+  )
 }

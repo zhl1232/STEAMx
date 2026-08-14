@@ -12,7 +12,7 @@ export const metadata: Metadata = buildPageMetadata({
 })
 
 export default async function ProjectIndex() {
-  await requirePageUser('/login?next=%2Fproject')
+  await requirePageUser()
 
   return <ProjectPublishPage />
 }

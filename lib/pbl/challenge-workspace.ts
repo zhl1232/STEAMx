@@ -56,7 +56,7 @@ function getKindPrompts(kind: ChallengeStageKind | undefined, goal: string) {
       return {
         focus: `对照「${goal}」说明改进前后的差异和你的取舍。`,
         evidencePrompt: '保留前后对比、改动原因和仍想继续优化的地方。',
-        checkpointPrompt: '能把改进证据整理成最终投稿里的一段反思。',
+        checkpointPrompt: '能把改进证据整理成最终作品里的一段反思。',
       }
     default:
       return {

@@ -1,25 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState, type KeyboardEvent } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { useChallenge } from "@/lib/context/challenge-context";
 import { ChallengeBoard } from "@/components/features/pbl/challenge-board";
-import { CourseBoardLoader } from "@/components/features/courses/course-board-loader";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { cn } from "@/lib/utils";
+import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
 
 const createHeroImage = "/assets/community-hero-kids-robot.png";
 const mobileHeaderClassName =
     "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
-
-export type CreateTab = "pbl" | "courses";
-
-const CREATE_TABS = [
-    { value: "courses" as const, label: "技能课程", tabId: "create-tab-courses", panelId: "create-panel-courses" },
-    { value: "pbl" as const, label: "项目挑战", tabId: "create-tab-pbl", panelId: "create-panel-pbl" },
-] as const;
 
 function CreateHero() {
     return (
@@ -41,7 +33,7 @@ function CreateHero() {
                         动手实践，探索创造的乐趣
                     </p>
                     <p className="mt-3 hidden max-w-md text-base font-semibold leading-7 text-[hsl(var(--community-hero-muted))] md:block">
-                        接一个真实项目挑战，或者进入技能课程一步步学本领。
+                        接一个真实项目挑战，用几周时间把一个想法做成作品。
                     </p>
                 </div>
             </div>
@@ -49,80 +41,17 @@ function CreateHero() {
     );
 }
 
-function CreateTabs({
-    activeTab,
-    onChange,
-}: {
-    activeTab: CreateTab;
-    onChange: (tab: CreateTab) => void;
-}) {
-    const focusTab = (tabId: string) => {
-        document.getElementById(tabId)?.focus();
-    };
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
-            return;
-        }
-
-        event.preventDefault();
-        const direction = event.key === "ArrowRight" ? 1 : -1;
-        const nextIndex = (index + direction + CREATE_TABS.length) % CREATE_TABS.length;
-        const nextTab = CREATE_TABS[nextIndex];
-        onChange(nextTab.value);
-        focusTab(nextTab.tabId);
-    };
-
-    return (
-        <div role="tablist" aria-label="创造内容分类" className="flex min-w-0 items-center gap-6 md:gap-8">
-            {CREATE_TABS.map((tab, index) => (
-                <button
-                    key={tab.value}
-                    id={tab.tabId}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === tab.value}
-                    aria-controls={tab.panelId}
-                    tabIndex={activeTab === tab.value ? 0 : -1}
-                    onClick={() => onChange(tab.value)}
-                    onKeyDown={(event) => handleKeyDown(event, index)}
-                    className={cn(
-                        "community-tab",
-                        activeTab === tab.value && "community-tab-active",
-                    )}
-                >
-                    {tab.label}
-                </button>
-            ))}
-        </div>
-    );
-}
-
-export function CreatePageClient({ initialTab }: { initialTab: CreateTab }) {
-    const router = useRouter();
+export function CreatePageClient() {
     const { challenges, challengesError, isLoading, reloadChallenges } = useChallenge();
-    const [activeTab, setActiveTab] = useState<CreateTab>(initialTab);
     const activeTimed = challenges.activeTimed ?? [];
     const evergreen = challenges.evergreen ?? [];
     const ended = challenges.ended ?? [];
-    const activePanel = CREATE_TABS.find((tab) => tab.value === activeTab) ?? CREATE_TABS[0];
-
-    useEffect(() => {
-        setActiveTab(initialTab);
-    }, [initialTab]);
-
-    const handleTabChange = (tab: CreateTab) => {
-        if (tab === activeTab) return;
-
-        setActiveTab(tab);
-        router.push(`/create?tab=${tab}`, { scroll: false });
-    };
 
     return (
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader
                 variant="title"
-                title="创造营"
+                title="项目挑战"
                 showUserButton={true}
                 showNotification={true}
                 className={mobileHeaderClassName}
@@ -130,28 +59,26 @@ export function CreatePageClient({ initialTab }: { initialTab: CreateTab }) {
             <main className="app-shell-wide space-y-4 pb-28 pt-5 md:space-y-6 md:pb-14 md:pt-6">
                 <CreateHero />
 
-                <section aria-label="项目挑战与技能课程">
+                <section aria-label="项目挑战">
                     <div className="flex min-h-[44px] items-center justify-between gap-4 border-b border-[hsl(var(--surface-border)/0.72)] px-3 md:min-h-[58px] md:px-6">
-                        <CreateTabs activeTab={activeTab} onChange={handleTabChange} />
+                        <h2 className="community-tab community-tab-active">项目挑战</h2>
+                        <Link
+                            href={MAINLINE_ENTRY_HREF}
+                            className="inline-flex shrink-0 items-center gap-1 text-[13px] font-semibold text-[hsl(var(--brand-blue))]"
+                        >
+                            想先学本领？去技能课程
+                            <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
                     </div>
-                    <div
-                        role="tabpanel"
-                        id={activePanel.panelId}
-                        aria-labelledby={activePanel.tabId}
-                        className="mt-3 md:mt-5"
-                    >
-                        {activeTab === "pbl" ? (
-                            <ChallengeBoard
-                                activeTimed={activeTimed}
-                                evergreen={evergreen}
-                                ended={ended}
-                                isLoading={isLoading}
-                                challengesError={challengesError}
-                                reloadChallenges={reloadChallenges}
-                            />
-                        ) : (
-                            <CourseBoardLoader />
-                        )}
+                    <div className="mt-3 md:mt-5">
+                        <ChallengeBoard
+                            activeTimed={activeTimed}
+                            evergreen={evergreen}
+                            ended={ended}
+                            isLoading={isLoading}
+                            challengesError={challengesError}
+                            reloadChallenges={reloadChallenges}
+                        />
                     </div>
                 </section>
             </main>

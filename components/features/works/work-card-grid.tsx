@@ -5,27 +5,74 @@ import { OptimizedImage } from "@/components/ui/optimized-image"
 import type { Work } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
 
+/** 四条产出路径的角标配色，与来源类型一一对应 */
+const SOURCE_BADGE_CLASS: Record<string, string> = {
+  course_lesson: "bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
+  project: "bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]",
+  challenge: "bg-[hsl(var(--tone-art)/0.14)] text-[hsl(var(--tone-art))]",
+  observation: "bg-[hsl(var(--tone-math)/0.12)] text-[hsl(var(--tone-math))]",
+}
+
+export function workCardKey(work: Work) {
+  return `${work.source?.type ?? "work"}:${work.id}`
+}
+
 export function WorkCardGrid({ works, className }: { works: Work[]; className?: string }) {
   return (
     <div className={cn("grid grid-cols-2 items-stretch gap-3 md:grid-cols-3 xl:grid-cols-4", className)}>
-      {works.map((work, index) => <WorkCard key={work.id} work={work} priority={index < 4} />)}
+      {works.map((work, index) => <WorkCard key={workCardKey(work)} work={work} priority={index < 4} />)}
     </div>
   )
 }
 
+function describeSource(
+  work: Work,
+  title: string,
+): { typeLabel: string; context: string; href: string; ariaLabel: string } {
+  const source = work.source
+  switch (source?.type) {
+    case "course_lesson":
+      return {
+        typeLabel: "课程",
+        context: source.courseTitle,
+        href: `/works/${work.id}`,
+        ariaLabel: `查看课程作品：${title}`,
+      }
+    case "challenge":
+      return {
+        typeLabel: "挑战",
+        context: source.challengeTitle,
+        href: source.href,
+        ariaLabel: `查看挑战作品：${title}`,
+      }
+    case "observation":
+      return {
+        typeLabel: "观察",
+        context: source.locationName || work.author,
+        href: source.href,
+        ariaLabel: `查看自然观察：${title}`,
+      }
+    default:
+      return {
+        typeLabel: "项目",
+        context: work.author,
+        href: `/works/${work.id}`,
+        ariaLabel: `查看项目作品：${title}`,
+      }
+  }
+}
+
 export function WorkCard({ work, priority = false }: { work: Work; priority?: boolean }) {
   const source = work.source
-  const isCourse = source?.type === "course_lesson"
   const image = work.proofImages[0]
-  const title = source?.title || "探索作品"
-  const typeLabel = isCourse ? "课程" : "项目"
-  const context = isCourse ? source.courseTitle : work.author
+  const title = source?.title || "作品"
+  const { typeLabel, context, href, ariaLabel } = describeSource(work, title)
 
   return (
     <Link
-      href={`/works/${work.id}`}
+      href={href}
       prefetch={false}
-      aria-label={`查看${typeLabel}作品：${title}`}
+      aria-label={ariaLabel}
       className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
@@ -55,9 +102,7 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
           <span
             className={cn(
               "inline-flex shrink-0 items-center rounded-xs px-1.5 py-0.5 text-[10px] font-semibold leading-none",
-              isCourse
-                ? "bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
-                : "bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]",
+              SOURCE_BADGE_CLASS[source?.type ?? "project"] ?? SOURCE_BADGE_CLASS.project,
             )}
           >
             {typeLabel}

@@ -52,7 +52,6 @@ describe('resolveDashScopeConfig', () => {
     expect(resolveDashScopeConfig('moderation').model).toBe('qwen3-vl-flash')
     expect(resolveDashScopeConfig('pbl-text').model).toBe('qwen3.7-plus')
     expect(resolveDashScopeConfig('pbl-vision').model).toBe('qwen3.7-plus')
-    expect(resolveDashScopeConfig('auto-reply').model).toBe('qwen-plus')
   })
 
   it('prefers tutor env overrides before shared fallbacks', () => {
@@ -70,7 +69,6 @@ describe('resolveDashScopeConfig', () => {
     expect(resolveDashScopeConfig('vision').model).toBe('shared-vision')
     expect(resolveDashScopeConfig('moderation').model).toBe('moderation-override')
     expect(resolveDashScopeConfig('pbl-text').model).toBe('shared-text')
-    expect(resolveDashScopeConfig('auto-reply').model).toBe('shared-text')
   })
 
   it('falls back from moderation to the shared vision model', () => {

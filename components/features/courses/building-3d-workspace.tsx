@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     Box,
@@ -23,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
+import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
@@ -1319,8 +1321,7 @@ export function Building3DWorkspace({
             };
             if (!res.ok) throw new Error(data.error || "完成失败");
             setCompleted(true);
-            const feedback = getLessonCompletionFeedback(data);
-            toast({ title: feedback.title, description: feedback.description });
+            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
             onCompleted?.();
         } catch (error) {
             toast({
@@ -1720,6 +1721,13 @@ export function Building3DWorkspace({
                                         <div className="border-t border-border px-3 py-2">
                                             <p className="mb-2 text-xs leading-relaxed text-muted-foreground">
                                                 开始前先照这份清单把零件找齐，搭起来更顺。
+                                                <Link
+                                                    href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
+                                                    prefetch={false}
+                                                    className="ml-1 font-semibold text-[hsl(var(--brand-blue))] hover:underline"
+                                                >
+                                                    单独打开清单页
+                                                </Link>
                                             </p>
                                             <PartLineList id="building-3d-all-parts" lines={allPartLines} />
                                         </div>

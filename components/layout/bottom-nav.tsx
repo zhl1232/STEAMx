@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Compass, Leaf, Home, Sparkles, CircleUser } from "lucide-react";
+import { Blocks, Compass, Leaf, Home, CircleUser } from "lucide-react";
 
 import { LoginDialog } from "@/components/layout/login-dialog";
 import { cn } from "@/lib/utils";
@@ -29,15 +29,17 @@ export function BottomNav() {
             icon: Compass,
             active: pathname === "/explore" || pathname === "/project" || pathname.startsWith("/project/"),
         },
+        // 主线频道。项目挑战是次级入口，从课程页与首页「本周挑战」进入，不再占底栏位
         {
-            href: "/create",
-            label: "创造营",
-            icon: Sparkles,
+            href: "/courses",
+            label: "课程",
+            icon: Blocks,
             active:
+                pathname === "/courses" ||
+                pathname.startsWith("/courses/") ||
                 pathname === "/create" ||
                 pathname.startsWith("/create/") ||
-                pathname.startsWith("/pbl/") ||
-                pathname.startsWith("/courses/"),
+                pathname.startsWith("/pbl/"),
         },
         {
             href: "/nature",

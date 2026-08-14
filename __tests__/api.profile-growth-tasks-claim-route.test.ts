@@ -74,10 +74,10 @@ describe('POST /api/profile/growth-tasks/claim', () => {
 
     callRpcMock.mockResolvedValue({
       data: {
-        projectsPublished: 1,
-        projectsCompleted: 0,
+        lessonsStarted: 1,
+        lessonsCompleted: 0,
+        worksPublished: 0,
         observationsSubmitted: 0,
-        consecutiveDays: 0,
       },
       error: null,
     } as never)
@@ -121,7 +121,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
       new Request('http://localhost/api/profile/growth-tasks/claim', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ taskId: 'publish_first_project' }),
+        body: JSON.stringify({ taskId: 'start_first_lesson' }),
       }) as never,
     )
 
@@ -129,17 +129,17 @@ describe('POST /api/profile/growth-tasks/claim', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       alreadyClaimed: false,
-      taskId: 'publish_first_project',
-      taskLabel: '发布 1 个项目',
-      xpGranted: 20,
+      taskId: 'start_first_lesson',
+      taskLabel: '挑一节积木课打开看看',
+      xpGranted: 10,
       graduated: false,
     })
     expect(rewardUpsert).toHaveBeenCalledWith(
       {
         user_id: 'user-1',
         action_type: 'profile_growth_task',
-        resource_id: 'publish_first_project',
-        xp_amount: 20,
+        resource_id: 'start_first_lesson',
+        xp_amount: 10,
       },
       {
         onConflict: 'user_id,action_type,resource_id',
@@ -148,7 +148,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
     )
     expect(callRpcMock).toHaveBeenCalledWith(supabaseAdminMock, 'increment_user_xp', {
       p_user_id: 'user-1',
-      p_amount: 20,
+      p_amount: 10,
     })
   })
 
@@ -175,7 +175,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
 
     callRpcMock.mockResolvedValue({
       data: {
-        projectsPublished: 1,
+        lessonsStarted: 1,
       },
       error: null,
     } as never)
@@ -208,7 +208,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
       new Request('http://localhost/api/profile/growth-tasks/claim', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ taskId: 'publish_first_project' }),
+        body: JSON.stringify({ taskId: 'start_first_lesson' }),
       }) as never,
     )
 
@@ -216,7 +216,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       alreadyClaimed: true,
-      taskId: 'publish_first_project',
+      taskId: 'start_first_lesson',
       xpGranted: 0,
       graduated: false,
     })
@@ -246,10 +246,10 @@ describe('POST /api/profile/growth-tasks/claim', () => {
 
     callRpcMock.mockResolvedValue({
       data: {
-        projectsPublished: 1,
-        projectsCompleted: 1,
+        lessonsStarted: 1,
+        lessonsCompleted: 1,
+        worksPublished: 1,
         observationsSubmitted: 1,
-        consecutiveDays: 3,
       },
       error: null,
     } as never)
@@ -277,11 +277,11 @@ describe('POST /api/profile/growth-tasks/claim', () => {
     })
 
     const fiveRewardRows = [
+      { resource_id: 'start_first_lesson' },
+      { resource_id: 'complete_first_lesson' },
+      { resource_id: 'publish_first_work' },
       { resource_id: 'write_bio' },
-      { resource_id: 'publish_first_project' },
-      { resource_id: 'complete_first_project' },
       { resource_id: 'submit_first_observation' },
-      { resource_id: 'explore_three_days' },
     ]
 
     supabaseAdminMock.from.mockImplementation((table: string) => {
@@ -318,7 +318,7 @@ describe('POST /api/profile/growth-tasks/claim', () => {
       new Request('http://localhost/api/profile/growth-tasks/claim', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ taskId: 'explore_three_days' }),
+        body: JSON.stringify({ taskId: 'submit_first_observation' }),
       }) as never,
     )
 
@@ -326,9 +326,9 @@ describe('POST /api/profile/growth-tasks/claim', () => {
     await expect(response.json()).resolves.toEqual({
       ok: true,
       alreadyClaimed: false,
-      taskId: 'explore_three_days',
-      taskLabel: '连续探索 3 天',
-      xpGranted: 20,
+      taskId: 'submit_first_observation',
+      taskLabel: '记录 1 条自然观察',
+      xpGranted: 10,
       graduated: true,
     })
 

@@ -16,10 +16,9 @@ import {
   Info,
   Sparkles,
   Trophy,
-  MessageSquare,
+  Blocks,
   Heart,
   Target,
-  FileText,
   Zap,
   Crown,
   Palette,
@@ -40,13 +39,12 @@ type LevelGuideTab = "overview" | "earn" | "levels";
 type BenefitType = "vanity" | "feature" | "power" | "wealth";
 
 const EXPERIENCE_RULE_ICONS: Record<ExperienceRuleId, React.ReactNode> = {
+  publish_course_work: <Blocks className="h-4 w-4 text-blue-500" />,
   publish_project: <Sparkles className="h-4 w-4 text-yellow-500" />,
   complete_project: <Trophy className="h-4 w-4 text-orange-500" />,
   submit_observation: <Sparkles className="h-4 w-4 text-emerald-500" />,
   join_challenge: <Target className="h-4 w-4 text-red-500" />,
   complete_challenge: <Trophy className="h-4 w-4 text-orange-500" />,
-  create_discussion: <MessageSquare className="h-4 w-4 text-blue-500" />,
-  reply_or_comment: <FileText className="h-4 w-4 text-green-500" />,
   like_project: <Heart className="h-4 w-4 text-pink-500" />,
   daily_login: <Zap className="h-4 w-4 text-purple-500" />,
 };
@@ -87,7 +85,6 @@ const levelBenefits: {
     xp: 100,
     benefits: [
       { text: "解锁商店入门头像框 & 昵称颜色兑换", type: "wealth" },
-      { text: "评论区发图特权", type: "feature" },
     ],
   },
   {
@@ -113,7 +110,7 @@ const levelBenefits: {
     benefits: [
       { text: "解锁「赛博故障」高阶头像框兑换权", type: "wealth", highlight: true },
       { text: "解锁「真命暗金」传说昵称颜色兑换权", type: "wealth" },
-      { text: "帖子获得额外曝光加权", type: "power" },
+      { text: "作品在推荐位获得额外曝光加权", type: "power" },
     ],
   },
   {
@@ -121,7 +118,7 @@ const levelBenefits: {
     xp: 84100,
     benefits: [
       { text: "解锁「黄金王冠」传说头像框兑换权", type: "vanity", highlight: true },
-      { text: "商店全场商品 8 折兑换", type: "wealth" },
+      { text: "推荐位曝光加权提升", type: "power" },
     ],
   },
   {
@@ -129,7 +126,7 @@ const levelBenefits: {
     xp: 240100,
     benefits: [
       { text: "「传说元老」专属黑金界面主题", type: "vanity", highlight: true },
-      { text: "社区核心自治提案参与权", type: "power" },
+      { text: "推荐位曝光加权达到最高档", type: "power" },
     ],
   },
 ];

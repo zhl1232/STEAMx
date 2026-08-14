@@ -150,7 +150,7 @@ export async function POST(
     }
 
     if (recordKind === 'progress' && explorationStatus === 'completed') {
-      return NextResponse.json({ error: '已提交最终作品，无法再发布过程记录' }, { status: 400 })
+      return NextResponse.json({ error: '已提交最终作品，无法再发布探索记录' }, { status: 400 })
     }
 
     if (recordKind === 'final') {

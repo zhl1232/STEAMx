@@ -8,7 +8,7 @@ import {
   type ProfileSpotIconName,
 } from '@/components/features/profile/profile-spot-icons'
 import type { GrowthTaskId } from '@/lib/profile/growth-tasks'
-import type { WeeklyPlan, WeeklyPlanStepType } from '@/lib/profile/weekly-plan'
+import type { WeeklyPlan, WeeklyPlanGrowthProgress, WeeklyPlanStepType } from '@/lib/profile/weekly-plan'
 import { cn } from '@/lib/utils'
 
 const STEP_ICONS: Record<WeeklyPlanStepType, ProfileSpotIconName> = {
@@ -44,6 +44,7 @@ export function WeeklyPlanCard({
 }: WeeklyPlanCardProps) {
   const isMobile = variant === 'mobile'
   const totalSteps = plan.steps.length
+  const growthProgress = plan.growthProgress
 
   return (
     <section
@@ -69,6 +70,8 @@ export function WeeklyPlanCard({
           全部轨迹
         </Link>
       </div>
+
+      {growthProgress ? <GrowthProgressRow progress={growthProgress} /> : null}
 
       <div
         className={cn(
@@ -146,6 +149,32 @@ export function WeeklyPlanCard({
         })}
       </div>
     </section>
+  )
+}
+
+/** 引导任务不再单开面板，只在计划卡头部留一行「还剩几步毕业」的进度感 */
+function GrowthProgressRow({ progress }: { progress: WeeklyPlanGrowthProgress }) {
+  const percent = progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0
+
+  return (
+    <div className="mt-3 flex items-center gap-3 rounded-md bg-[hsl(var(--brand-blue)/0.06)] px-3 py-2">
+      <span className="shrink-0 text-xs font-semibold text-foreground">
+        新手引导 {progress.completed}/{progress.total}
+      </span>
+      <div
+        className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-[hsl(var(--surface-muted))]"
+        role="progressbar"
+        aria-label="新手引导进度"
+        aria-valuemin={0}
+        aria-valuemax={progress.total}
+        aria-valuenow={progress.completed}
+      >
+        <div
+          className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--brand-green)),hsl(var(--brand-blue)))]"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+    </div>
   )
 }
 

@@ -57,31 +57,20 @@ export function hasPageOwnedMobileHeader(pathname: string) {
   )
 }
 
-function AppProviders({
-  children,
-  includeGamification,
-  includeNotifications,
-}: {
-  children: React.ReactNode
-  includeGamification: boolean
-  includeNotifications: boolean
-}) {
-  let content = children
+// 这几层必须无条件渲染。之前按登录态增删包装层，登录态从 null 变成用户时整棵子树
+// 在 React 看来换了位置，已经渲染好的页面会被卸载重挂（首屏 1～2 秒后 <main> 整个重建，
+// 页面内的客户端状态全部丢失）。两个 Provider 在匿名态本身就是空转，不需要靠条件渲染省开销。
+function AppProviders({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
 
-  if (includeNotifications) {
-    content = <NotificationProvider>{content}</NotificationProvider>
-  }
-
-  if (includeGamification) {
-    content = (
+  return (
+    <LoginPromptProvider>
       <GamificationProvider>
-        <DailyCheckInSync />
-        {content}
+        {user ? <DailyCheckInSync /> : null}
+        <NotificationProvider>{children}</NotificationProvider>
       </GamificationProvider>
-    )
-  }
-
-  return <LoginPromptProvider>{content}</LoginPromptProvider>
+    </LoginPromptProvider>
+  )
 }
 
 export function shouldShowSiteFooter(pathname: string) {
@@ -105,7 +94,6 @@ export function ConditionalAppShell({
   const { user } = useAuth()
   const smokeMode = isPlaywrightSmokeClient()
   const isAuthPage = pathname === '/login'
-  const isHomePage = pathname === '/'
 
   const isProfilePage = pathname.startsWith('/profile')
   const isCourseLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
@@ -122,18 +110,11 @@ export function ConditionalAppShell({
   const hideGlobalHeader = pathname.startsWith('/share')
   const hideMobileGlobalHeader = hasPageOwnedMobileHeader(pathname)
   const showMobileGlobalHeader = !hideMobileGlobalHeader
-  const isNatureRoute = pathname === '/nature' || pathname.startsWith('/nature/')
-  const needsGamificationOnAnonymousNature =
-    pathname === '/nature/submit' || pathname.startsWith('/nature/submitted/')
   const needsProjectProvider =
     pathname.startsWith('/explore') ||
     pathname.startsWith('/project') ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/users')
-  const skipHeavyProvidersForAnonymousNature =
-    isNatureRoute && !user && !needsGamificationOnAnonymousNature
-  const includeGamificationProvider = Boolean(user) || (!isHomePage && !skipHeavyProvidersForAnonymousNature)
-  const includeNotificationProvider = !skipHeavyProvidersForAnonymousNature
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
   const showSiteFooter = Boolean(footer) && !smokeMode && shouldShowSiteFooter(pathname)
@@ -154,7 +135,7 @@ export function ConditionalAppShell({
 
   if (smokeMode) {
     return (
-      <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
+      <AppProviders>
         <TutorProvider>
         <a href="#main-content" className="skip-link">
           跳到主内容
@@ -174,7 +155,7 @@ export function ConditionalAppShell({
   }
 
   return (
-    <AppProviders includeGamification={includeGamificationProvider} includeNotifications={includeNotificationProvider}>
+    <AppProviders>
       <TutorProvider>
       <a href="#main-content" className="skip-link">
         跳到主内容

@@ -38,11 +38,11 @@ function makeTimelineEvent(overrides: Partial<ProfileTimelineEvent> = {}): Profi
 
 function makeGrowthTask(overrides: Partial<ProfileGrowthTask> = {}): ProfileGrowthTask {
   return {
-    id: 'publish_first_project',
-    label: '发布 1 个项目',
-    href: '/share',
-    rewardXp: 20,
-    reward: '+20 经验',
+    id: 'publish_first_work',
+    label: '拍张照，交出第一件作品',
+    href: '/courses',
+    rewardXp: 30,
+    reward: '+30 经验',
     target: 1,
     currentValue: 0,
     progressLabel: '0/1',
@@ -168,15 +168,15 @@ describe('resolveProfileNextAction', () => {
     })
 
     expect(action.variant).toBe('growth')
-    expect(action.href).toBe('/share')
+    expect(action.href).toBe('/courses')
     expect(action.actionLabel).toBe('去完成')
   })
 
-  it('returns vacuum guidance for new users', () => {
+  it('points new users at the brick-course mainline', () => {
     const action = resolveProfileNextAction(emptyInput)
 
     expect(action.variant).toBe('vacuum')
-    expect(action.href).toBe('/project')
+    expect(action.href).toBe('/courses')
     expect(action.secondaryHref).toBe('/nature/submit')
   })
 

@@ -323,8 +323,8 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   const handleGenerateDraft = useCallback(async () => {
     if (!user) {
       promptLogin(() => router.refresh(), {
-        title: '登录后整理投稿草稿',
-        description: '登录后即可把阶段记录整理成可编辑的挑战投稿草稿。',
+        title: '登录后整理作品草稿',
+        description: '登录后即可把阶段记录整理成可编辑的挑战作品草稿。',
       })
       return
     }
@@ -349,7 +349,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
       }
 
       toast({
-        title: draft?.source === 'ai' ? '投稿草稿已整理' : '已生成本地草稿',
+        title: draft?.source === 'ai' ? '作品草稿已整理' : '已生成本地草稿',
         description: payload.warning || payload.error || '标题、说明、图片和 STEAM 收获已填入表单，可继续修改。',
         variant: response.ok ? 'default' : 'destructive',
       })
@@ -494,7 +494,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
         {!isReadOnly ? (
           <div className="mt-5 flex flex-wrap items-center gap-3 rounded-md border border-primary/20 bg-primary/5 p-4">
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-foreground">从阶段记录整理投稿草稿</p>
+              <p className="text-sm font-semibold text-foreground">从阶段记录整理作品草稿</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">
                 自动汇总工作台里的文字、图片、反馈和 STEAM 收获，生成后仍可手动编辑。
               </p>
@@ -510,7 +510,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
               ) : (
                 <Wand2 className="mr-2 h-4 w-4" />
               )}
-              {isGeneratingDraft ? '整理中...' : '整理投稿草稿'}
+              {isGeneratingDraft ? '整理中...' : '整理作品草稿'}
             </Button>
           </div>
         ) : null}

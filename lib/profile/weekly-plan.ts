@@ -5,6 +5,11 @@ import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { isExploreVacuum } from '@/lib/profile/next-action'
+import {
+  MAINLINE_ENTRY_HREF,
+  MAINLINE_PRIMARY_CTA_LABEL,
+  MAINLINE_SHORT_PITCH,
+} from '@/lib/product/mainline'
 
 export type WeeklyPlanStepType =
   | 'reward'
@@ -57,12 +62,20 @@ export type WeeklyPlanStep = {
   occurredAt?: string
 }
 
+export type WeeklyPlanGrowthProgress = {
+  completed: number
+  total: number
+  graduated: boolean
+}
+
 export type WeeklyPlan = {
   title: string
   subtitle: string
   weekStart: string
   completedCount: number
   steps: WeeklyPlanStep[]
+  /** 未毕业时挂在计划卡头部的「新手引导 N/5」，替代原来单开的引导任务面板 */
+  growthProgress?: WeeklyPlanGrowthProgress
 }
 
 export type BuildWeeklyPlanInput = {
@@ -292,54 +305,68 @@ function buildTodoSteps(input: BuildWeeklyPlanInput): WeeklyPlanStep[] {
   return steps
 }
 
-function buildStarterPlan(weekStart: string): WeeklyPlan {
-  const steps: WeeklyPlanStep[] = [
-    {
-      id: 'starter:project',
-      type: 'project',
-      status: 'todo',
-      title: '发布第一个项目',
-      subtitle: '把一次小实验、小制作或 Scratch 作品记录下来。',
-      href: '/share',
-      actionLabel: '去发布',
-      badgeLabel: '起步',
-    },
-    {
-      id: 'starter:observation',
-      type: 'observation',
-      status: 'todo',
-      title: '记录第一条自然观察',
-      subtitle: '拍下身边的植物、昆虫或鸟类，点亮观察档案。',
-      href: '/nature/submit',
-      actionLabel: '去记录',
-      badgeLabel: '观察',
-    },
-    {
-      id: 'starter:playground',
-      type: 'playground',
-      status: 'todo',
-      title: '逛逛益智游乐场',
-      subtitle: '先玩一个小游戏，让主页拥有第一条探索痕迹。',
-      href: '/playground',
-      actionLabel: '去玩',
-      badgeLabel: '热身',
-    },
-  ]
+/** 引导任务本身就是主线三步 + 两个补充动作，直接拿它生成起步计划， */
+/** 保证「这周要做的事」和「能领的奖励」是同一批对象。 */
+const MAINLINE_FALLBACK_STEP: WeeklyPlanStep = {
+  id: 'starter:mainline',
+  type: 'course',
+  status: 'todo',
+  title: MAINLINE_PRIMARY_CTA_LABEL,
+  subtitle: MAINLINE_SHORT_PITCH,
+  href: MAINLINE_ENTRY_HREF,
+  actionLabel: '去看看',
+  badgeLabel: '起步',
+}
+
+function growthTaskToStep(task: ProfileGrowthTask): WeeklyPlanStep {
+  const claimable = task.status === 'claimable'
+
+  return {
+    id: `starter:${task.id}`,
+    type: claimable ? 'reward' : 'growth',
+    status: 'todo',
+    title: task.label,
+    subtitle: claimable
+      ? `${task.reward} 已达成，先把奖励收入成长档案。`
+      : `完成后获得 ${task.reward}`,
+    href: task.href,
+    actionLabel: claimable ? '领取奖励' : '去完成',
+    badgeLabel: claimable ? '可领取' : '起步',
+    growthTaskId: task.id,
+  }
+}
+
+function buildStarterPlan(weekStart: string, growthTasks?: ProfileGrowthTask[]): WeeklyPlan {
+  const pending = (growthTasks ?? []).filter((task) => task.status !== 'claimed').slice(0, 3)
+  const steps = pending.length > 0 ? pending.map(growthTaskToStep) : [MAINLINE_FALLBACK_STEP]
 
   return {
     title: '本周探索计划',
-    subtitle: '先完成 3 个小动作，点亮你的成长档案。',
+    subtitle: `先走通这条：${MAINLINE_SHORT_PITCH}`,
     weekStart,
     completedCount: 0,
     steps,
+    growthProgress: resolveGrowthProgress(growthTasks),
   }
+}
+
+function resolveGrowthProgress(growthTasks?: ProfileGrowthTask[]): WeeklyPlanGrowthProgress | undefined {
+  if (!growthTasks?.length) return undefined
+
+  const completed = growthTasks.filter((task) => task.done).length
+  const graduated = growthTasks.every((task) => task.claimed)
+
+  // 已毕业就不再占据卡片头部
+  if (graduated) return undefined
+
+  return { completed, total: growthTasks.length, graduated }
 }
 
 export function buildWeeklyPlan(input: BuildWeeklyPlanInput): WeeklyPlan {
   const weekStart = getWeeklyPlanWeekStart(input.now)
 
   if (isExploreVacuum(input)) {
-    return buildStarterPlan(weekStart)
+    return buildStarterPlan(weekStart, input.growthTasks)
   }
 
   const doneSteps = getDoneSteps(input.profileTimelineEvents, weekStart)
@@ -359,6 +386,7 @@ export function buildWeeklyPlan(input: BuildWeeklyPlanInput): WeeklyPlan {
     weekStart,
     completedCount,
     steps,
+    growthProgress: resolveGrowthProgress(input.growthTasks),
   }
 }
 

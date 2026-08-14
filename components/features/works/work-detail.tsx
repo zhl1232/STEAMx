@@ -487,7 +487,7 @@ function WorkJourneyTimeline({
           const isCurrent = record.id === currentWorkId
           const recordLabel = isFinal
             ? "最终作品"
-            : resolveRecordTypeLabel(record) || `过程记录 ${index + 1}`
+            : resolveRecordTypeLabel(record) || `探索记录 ${index + 1}`
           const stageLabel = resolveStageLabel(record)
 
           return (

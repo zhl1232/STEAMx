@@ -111,11 +111,11 @@ describe('LeaderboardContent growth tasks panel', () => {
     mockFetchWithGrowthTasks([
       makeTask({}),
       makeTask({
-        id: 'publish_first_project',
-        label: '发布 1 个项目',
-        href: '/share',
-        rewardXp: 20,
-        reward: '+20 经验',
+        id: 'publish_first_work',
+        label: '拍张照，交出第一件作品',
+        href: '/courses',
+        rewardXp: 30,
+        reward: '+30 经验',
         currentValue: 0,
         progressLabel: '0/1',
         progress: 0,

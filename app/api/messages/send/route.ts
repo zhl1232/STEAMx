@@ -4,6 +4,11 @@ import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUUID, validateContentSafe } from '@/lib/api/validation'
+import {
+  checkMessagePrivacyGate,
+  checkStrangerMessageGate,
+  resolveMessageRelationship,
+} from '@/lib/messages/stranger-gate'
 import { assertUsersNotBlocked, createModerationCase, getContentSnapshot, moderateTextContent } from '@/lib/safety/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 
@@ -42,21 +47,56 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '用户不存在' }, { status: 404 })
     }
 
-    const { data: priorMessages, error: priorMessagesError } = await supabase
-      .from('messages')
-      .select('sender_id, receiver_id')
-      .or(`and(sender_id.eq.${user.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${user.id})`)
-      .order('created_at', { ascending: true })
-      .limit(20)
-    if (priorMessagesError) throw priorMessagesError
+    // 分成「对方回过没有」和「我发了几条」两个查询：条数限制只在对方没回复时才生效，
+    // 此时我发出的总条数就是回复前的条数，不需要再去猜会话的前几条长什么样。
+    const [replyResponse, sentCountResponse, followsResponse] = await Promise.all([
+      supabase
+        .from('messages')
+        .select('id')
+        .eq('sender_id', receiverId)
+        .eq('receiver_id', user.id)
+        .limit(1),
+      supabase
+        .from('messages')
+        .select('id', { count: 'exact', head: true })
+        .eq('sender_id', user.id)
+        .eq('receiver_id', receiverId),
+      supabase
+        .from('follows')
+        .select('follower_id, following_id')
+        .or(`and(follower_id.eq.${user.id},following_id.eq.${receiverId}),and(follower_id.eq.${receiverId},following_id.eq.${user.id})`),
+    ])
 
-    const hasReply = (priorMessages ?? []).some((message) => message.sender_id === receiverId)
-    const sentBeforeReply = (priorMessages ?? []).filter((message) => message.sender_id === user.id).length
-    if (!hasReply && sentBeforeReply >= 3) {
-      return NextResponse.json({ error: '对方回复前最多发送 3 条消息，请等待对方回复' }, { status: 429 })
+    if (replyResponse.error) throw replyResponse.error
+    if (sentCountResponse.error) throw sentCountResponse.error
+    if (followsResponse.error) throw followsResponse.error
+
+    const follows = followsResponse.data ?? []
+    const senderFollowsReceiver = follows.some(
+      (row) => row.follower_id === user.id && row.following_id === receiverId,
+    )
+    const receiverFollowsSender = follows.some(
+      (row) => row.follower_id === receiverId && row.following_id === user.id,
+    )
+
+    const relationship = resolveMessageRelationship({
+      hasReply: (replyResponse.data ?? []).length > 0,
+      isMutualFollow: senderFollowsReceiver && receiverFollowsSender,
+    })
+
+    const privacy = (receiverProfile as { message_privacy: string }).message_privacy
+    const privacyGate = checkMessagePrivacyGate({ privacy, relationship })
+    if (!privacyGate.allowed) {
+      return NextResponse.json({ error: privacyGate.error }, { status: privacyGate.status })
     }
-    if (!hasReply && (/(?:https?:\/\/|www\.)\S+/iu.test(content) || /\b[^\s@]+@[^\s@]+\.[^\s@]+\b/u.test(content) || /(?<!\d)(?:\+?86[-\s]?)?1[3-9]\d{9}(?!\d)/u.test(content))) {
-      return NextResponse.json({ error: '新会话首条消息不能包含外链或联系方式' }, { status: 400 })
+
+    const strangerGate = checkStrangerMessageGate({
+      relationship,
+      sentBeforeReply: sentCountResponse.count ?? 0,
+      content,
+    })
+    if (!strangerGate.allowed) {
+      return NextResponse.json({ error: strangerGate.error }, { status: strangerGate.status })
     }
 
     const moderation = moderateTextContent(content, 'message')
@@ -65,25 +105,6 @@ export async function POST(request: NextRequest) {
     }
     if (!supabaseAdmin) {
       return NextResponse.json({ error: '消息审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' }, { status: 503 })
-    }
-
-    const privacy = (receiverProfile as { message_privacy: string }).message_privacy
-
-    if (privacy === 'nobody') {
-      return NextResponse.json({ error: '对方已关闭私信功能' }, { status: 403 })
-    }
-
-    if (privacy === 'followers_only') {
-      const { data: follow } = await supabase
-        .from('follows')
-        .select('follower_id')
-        .eq('follower_id', user.id)
-        .eq('following_id', receiverId)
-        .maybeSingle()
-
-      if (!follow) {
-        return NextResponse.json({ error: '对方仅允许关注者私信' }, { status: 403 })
-      }
     }
 
     const { data, error } = await supabaseAdmin

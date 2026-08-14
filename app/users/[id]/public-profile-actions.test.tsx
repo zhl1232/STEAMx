@@ -4,6 +4,7 @@ import { PublicProfileActions } from './public-profile-actions'
 
 let mockUser: { id: string } | null = { id: '11111111-1111-1111-1111-111111111111' }
 let mockIsFollowing = false
+let mockIsFollowedBy = false
 let mockIsLoading = false
 let mockBlocked = false
 let mockBlockedByMe = false
@@ -24,6 +25,8 @@ vi.mock('@/components/features/social/follow-button', () => ({
 vi.mock('@/hooks/use-follow', () => ({
   useFollow: () => ({
     isFollowing: mockIsFollowing,
+    isFollowedBy: mockIsFollowedBy,
+    isMutualFollow: mockIsFollowing && mockIsFollowedBy,
     isLoading: mockIsLoading,
   }),
 }))
@@ -48,6 +51,7 @@ describe('PublicProfileActions', () => {
   beforeEach(() => {
     mockUser = { id: '11111111-1111-1111-1111-111111111111' }
     mockIsFollowing = false
+    mockIsFollowedBy = false
     mockIsLoading = false
     mockBlocked = false
     mockBlockedByMe = false
@@ -65,7 +69,7 @@ describe('PublicProfileActions', () => {
     expect(screen.queryByRole('link', { name: /发私信/ })).not.toBeInTheDocument()
   })
 
-  it('asks non-followers to follow before messaging followers-only users', () => {
+  it('asks strangers to wait for a follow back before messaging followers-only users', () => {
     render(
       <PublicProfileActions
         targetUserId="22222222-2222-2222-2222-222222222222"
@@ -73,12 +77,27 @@ describe('PublicProfileActions', () => {
       />,
     )
 
-    expect(screen.getByRole('button', { name: /关注后可私信/ })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /互相关注后可私信/ })).toBeDisabled()
     expect(screen.queryByRole('link', { name: /发私信/ })).not.toBeInTheDocument()
   })
 
-  it('links to the conversation when messaging is allowed', () => {
+  it('keeps followers-only locked when only the current user follows', () => {
     mockIsFollowing = true
+
+    render(
+      <PublicProfileActions
+        targetUserId="22222222-2222-2222-2222-222222222222"
+        messagePrivacy="followers_only"
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: /互相关注后可私信/ })).toBeDisabled()
+    expect(screen.queryByRole('link', { name: /发私信/ })).not.toBeInTheDocument()
+  })
+
+  it('links to the conversation once both sides follow each other', () => {
+    mockIsFollowing = true
+    mockIsFollowedBy = true
 
     render(
       <PublicProfileActions

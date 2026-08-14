@@ -6,8 +6,6 @@ const DEFAULT_TUTOR_PLANNER_MODEL = 'qwen-flash'
 const DEFAULT_VISION_MODEL = 'qwen3.7-plus'
 const DEFAULT_MODERATION_MODEL = 'qwen3-vl-flash'
 const DEFAULT_PBL_TEXT_MODEL = 'qwen3.7-plus'
-const DEFAULT_AUTO_REPLY_MODEL = 'qwen-plus'
-
 /** 非流式调用（planner、审核、摘要等）默认超时 */
 export const DASHSCOPE_COMPLETE_TIMEOUT_MS = 20_000
 /** 流式主对话的总时长上限（连接 + 逐块输出） */
@@ -21,7 +19,6 @@ export type DashScopeModelRole =
   | 'moderation'
   | 'pbl-text'
   | 'pbl-vision'
-  | 'auto-reply'
 
 export type DashScopeErrorCode = 'missing_config' | 'timeout' | 'provider_http_error' | 'network'
 
@@ -89,8 +86,6 @@ function resolveModel(role: DashScopeModelRole) {
       )
     case 'pbl-text':
       return process.env.DASHSCOPE_TEXT_MODEL || process.env.DASHSCOPE_VISION_MODEL || DEFAULT_PBL_TEXT_MODEL
-    case 'auto-reply':
-      return process.env.DASHSCOPE_TEXT_MODEL || process.env.DASHSCOPE_VISION_MODEL || DEFAULT_AUTO_REPLY_MODEL
   }
 }
 

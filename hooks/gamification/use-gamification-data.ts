@@ -152,6 +152,10 @@ export function useGamificationData() {
                 speciesObserved: stats.speciesObserved || 0,
                 observationStreak: stats.observationStreak || 0,
                 growthTasksGraduated: stats.growthTasksGraduated === true,
+                // 主线（积木课）进度
+                lessonsStarted: stats.lessonsStarted || 0,
+                lessonsCompleted: stats.lessonsCompleted || 0,
+                worksPublished: stats.worksPublished || 0,
             };
         },
         enabled,

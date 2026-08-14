@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CheckCircle2, ChevronRight, Clock, Target } from "lucide-react";
+import { ArrowLeft, Award, CheckCircle2, ChevronRight, Clock, Target } from "lucide-react";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
+import { CourseLessonCatalog } from "@/components/features/courses/course-lesson-catalog";
+import { CourseShareButton } from "@/components/features/courses/course-share-button";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseOverview } from "@/lib/api/courses";
+import { LESSON_CATALOG_MIN_SIZE } from "@/lib/courses/lesson-catalog";
+import { buildLessonCatalogItems } from "@/lib/courses/lesson-catalog-builder";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
@@ -29,6 +33,8 @@ export async function generateMetadata({ params }: PageProps) {
         title: course.title,
         description: course.description ?? "按课表系统学习的 STEAM 技能课程",
         path: `/courses/${courseId}`,
+        keywords: [course.title, ...(course.tags ?? [])],
+        image: course.image_url ?? undefined,
     });
 }
 
@@ -62,6 +68,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const allSameLessonType =
         course.lessons.length > 0 &&
         course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
+    // 大课的 sort_order 是拼音序，平铺一列找不到东西；小课的 sort_order 是真的教学顺序，保持原样
+    const useCatalog = course.lessons.length >= LESSON_CATALOG_MIN_SIZE;
+    const catalogLessons = useCatalog
+        ? buildLessonCatalogItems(course.lessons, { showTypeLabel: !allSameLessonType })
+        : [];
     const nextLessonId = course.progress?.next_lesson_id ?? course.lessons[0]?.id ?? null;
     const primaryCta =
         course.progress?.status === "completed"
@@ -75,11 +86,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
             <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 {/* 返回链接 */}
                 <Link
-                    href="/create"
+                    href="/courses"
                     className="mb-3 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground md:mb-4 md:text-sm"
                 >
                     <ArrowLeft className="h-3.5 w-3.5" />
-                    返回技能课程
+                    返回全部课程
                 </Link>
 
                 {/* Hero 卡：左文右图，五子棋课用棋盘 SVG，其它课用位图 */}
@@ -164,17 +175,36 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                 ) : null}
                             </div>
 
-                            {nextLessonId ? (
-                                <Button asChild tone="brand" shape="pill" size="lg" className="mt-6 gap-2 font-bold md:mt-7">
-                                    <Link
-                                        href={`/courses/${course.id}/lessons/${nextLessonId}`}
-                                        prefetch={false}
-                                    >
-                                        {primaryCta}
-                                        <ChevronRight className="h-4 w-4" />
-                                    </Link>
-                                </Button>
-                            ) : null}
+                            <div className="mt-6 flex flex-wrap items-center gap-2 md:mt-7">
+                                {nextLessonId ? (
+                                    <Button asChild tone="brand" shape="pill" size="lg" className="gap-2 font-bold">
+                                        <Link
+                                            href={`/courses/${course.id}/lessons/${nextLessonId}`}
+                                            prefetch={false}
+                                        >
+                                            {primaryCta}
+                                            <ChevronRight className="h-4 w-4" />
+                                        </Link>
+                                    </Button>
+                                ) : null}
+                                {course.progress?.milestone_completed_at ? (
+                                    <Button asChild variant="outline" shape="pill" size="lg" className="gap-2 font-bold">
+                                        <Link href={`/courses/${course.id}/certificate`} prefetch={false}>
+                                            <Award className="h-4 w-4" aria-hidden />
+                                            结课凭证
+                                        </Link>
+                                    </Button>
+                                ) : null}
+                                <CourseShareButton
+                                    course={{
+                                        id: course.id,
+                                        title: course.title,
+                                        description: course.description,
+                                        image: course.image_url,
+                                        lessonCount: course.lessons.length,
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -193,6 +223,13 @@ export default async function CourseDetailPage({ params }: PageProps) {
                         </span>
                     </div>
 
+                    {useCatalog ? (
+                        <CourseLessonCatalog
+                            courseId={course.id}
+                            lessons={catalogLessons}
+                            showProgressFilters={Boolean(user)}
+                        />
+                    ) : (
                     <ol className="space-y-2.5 md:space-y-3">
                         {course.lessons.map((lesson, index) => {
                             const trackLabel = getLessonTrackLabel({
@@ -255,6 +292,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                             );
                         })}
                     </ol>
+                    )}
                 </section>
             </main>
         </div>

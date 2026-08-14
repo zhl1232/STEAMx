@@ -36,7 +36,7 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     math_expert: "数字推演、计算和规则思维的完成记录。",
     social: "讨论、回复和交流形成的社区参与度。",
     popularity: "作品或发言被更多人看见和认可。",
-    milestone: "持续完成终稿项目带来的长期里程碑。",
+    milestone: "持续完成项目作品带来的长期里程碑。",
     level: "等级增长对应的整体成长轨迹。",
     challenge: "参与挑战，进入更明确的目标场景。",
     streak: "连续登录和持续返回形成的习惯强度。",

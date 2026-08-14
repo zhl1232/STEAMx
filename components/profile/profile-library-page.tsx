@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils'
 import { logger } from '@/lib/logger'
 import { useProfileObservations } from '@/hooks/profile/use-profile-observations'
 import { useToast } from '@/hooks/use-toast'
+import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL } from '@/lib/product/mainline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import {
   toDesktopProfileLibraryTab,
@@ -451,7 +452,7 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                 <p className="section-kicker">个人空间</p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">我的内容库</h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                  统一查看作品、收藏、点赞、完成记录和自然观察，把你的探索证据集中保存。
+                  「我的作品」汇总课程、项目、挑战与自然观察的全部成果，另有收藏、点赞和探索中的项目。
                 </p>
               </div>
             </div>
@@ -590,9 +591,9 @@ export function ProfileLibraryPage({ initialTab = 'exploring' }: ProfileLibraryP
                   {activeTab === 'completed' && worksList.length === 0 ? (
                     <DesktopProfileEmptyState
                       title="还没有作品"
-                      description="完成项目或课程后，把成果发布到这里。"
-                      href="/explore"
-                      actionLabel="去探索"
+                      description="课程、项目、挑战和自然观察的成果都会汇总到这里。"
+                      href={MAINLINE_ENTRY_HREF}
+                      actionLabel={MAINLINE_PRIMARY_CTA_LABEL}
                     />
                   ) : null}
                   {activeTab === 'completed' && worksList.length > 0 ? (

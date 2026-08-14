@@ -67,10 +67,10 @@ describe('POST /api/profile/growth-tasks/sync', () => {
 
     callRpcMock.mockResolvedValue({
       data: {
-        projectsPublished: 1,
-        projectsCompleted: 1,
+        lessonsStarted: 1,
+        lessonsCompleted: 1,
+        worksPublished: 1,
         observationsSubmitted: 1,
-        consecutiveDays: 3,
       },
       error: null,
     } as never)
@@ -80,7 +80,7 @@ describe('POST /api/profile/growth-tasks/sync', () => {
       error: null,
     })
     const rewardEqAction = vi.fn().mockResolvedValue({
-      data: [{ resource_id: 'publish_first_project' }],
+      data: [{ resource_id: 'start_first_lesson' }],
       error: null,
     })
     const rewardEqUser = vi.fn().mockReturnValue({
@@ -116,23 +116,23 @@ describe('POST /api/profile/growth-tasks/sync', () => {
     await expect(response.json()).resolves.toEqual({
       tasks: expect.arrayContaining([
         expect.objectContaining({
+          id: 'start_first_lesson',
+          status: 'claimed',
+        }),
+        expect.objectContaining({
+          id: 'complete_first_lesson',
+          status: 'claimable',
+        }),
+        expect.objectContaining({
+          id: 'publish_first_work',
+          status: 'claimable',
+        }),
+        expect.objectContaining({
           id: 'write_bio',
           status: 'claimable',
         }),
         expect.objectContaining({
-          id: 'publish_first_project',
-          status: 'claimed',
-        }),
-        expect.objectContaining({
-          id: 'complete_first_project',
-          status: 'claimable',
-        }),
-        expect.objectContaining({
           id: 'submit_first_observation',
-          status: 'claimable',
-        }),
-        expect.objectContaining({
-          id: 'explore_three_days',
           status: 'claimable',
         }),
       ]),
@@ -164,20 +164,20 @@ describe('POST /api/profile/growth-tasks/sync', () => {
 
     callRpcMock.mockResolvedValue({
       data: {
-        projectsPublished: 1,
-        projectsCompleted: 1,
+        lessonsStarted: 1,
+        lessonsCompleted: 1,
+        worksPublished: 1,
         observationsSubmitted: 1,
-        consecutiveDays: 3,
       },
       error: null,
     } as never)
 
     const allFiveRows = [
+      { resource_id: 'start_first_lesson' },
+      { resource_id: 'complete_first_lesson' },
+      { resource_id: 'publish_first_work' },
       { resource_id: 'write_bio' },
-      { resource_id: 'publish_first_project' },
-      { resource_id: 'complete_first_project' },
       { resource_id: 'submit_first_observation' },
-      { resource_id: 'explore_three_days' },
     ]
 
     const graduationAfterBackfill = vi.fn().mockResolvedValue({

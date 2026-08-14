@@ -6,6 +6,7 @@ import { getAccessibleCompletion } from '@/lib/api/completion-access'
 import { getAccessibleProject } from '@/lib/api/project-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import { assertUsersNotBlocked } from '@/lib/safety/server'
 
 const ALLOWED_TYPES = new Set(['project', 'completion'])
 
@@ -66,6 +67,11 @@ export async function POST(request: NextRequest) {
         if (lessonError) throw lessonError
         projectTitle = (lesson as { title?: string | null } | null)?.title || '课程作品'
       }
+    }
+
+    // 打赏会往对方通知里塞一条带昵称头像的记录，屏蔽后必须和点赞/评论一样走不通。
+    if (recipientUserId) {
+      await assertUsersNotBlocked(supabase, user.id, recipientUserId)
     }
 
     const { data, error } = await supabase.rpc('tip_resource', {

@@ -12,8 +12,18 @@ import { cn } from "@/lib/utils";
 type MessagePrivacy = "everyone" | "followers_only" | "nobody";
 
 const PRIVACY_OPTIONS: { value: MessagePrivacy; label: string; desc: string; icon: typeof Globe }[] = [
-  { value: "everyone", label: "所有人", desc: "任何已登录用户都可以向你发送私信。", icon: Globe },
-  { value: "followers_only", label: "仅关注我的人", desc: "只有已经关注你的用户才能发起私信。", icon: Users },
+  {
+    value: "everyone",
+    label: "所有人",
+    desc: "任何已登录用户都可以向你发送私信。还不认识的人在你回复前只能发 1 条，且不能带外链和联系方式。",
+    icon: Globe,
+  },
+  {
+    value: "followers_only",
+    label: "仅互相关注的人",
+    desc: "只有你也关注了对方，对方才能发起私信。单方面关注你的人不算；你已经回复过的人不受影响。",
+    icon: Users,
+  },
   { value: "nobody", label: "关闭私信", desc: "不接收任何人的私信，减少外部打扰。", icon: MessageSquareOff },
 ];
 

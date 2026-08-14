@@ -54,9 +54,20 @@ describe('getLessonCompletionFeedback', () => {
   })
 
   it('reports the course milestone exactly once', () => {
-    expect(getLessonCompletionFeedback({ courseCompletionState: 'created' })).toEqual({
+    expect(getLessonCompletionFeedback({ courseCompletionState: 'created' })).toMatchObject({
       title: '课程已完成',
-      description: '课程已完成，STEAM 能力已更新',
+      description: '整门课学完了，结课凭证和作品册已经生成',
     })
+  })
+
+  it('points at the certificate only when the course was just finished', () => {
+    expect(
+      getLessonCompletionFeedback({ courseCompletionState: 'created', courseId: 5 }).certificateHref,
+    ).toBe('/courses/5/certificate')
+    expect(
+      getLessonCompletionFeedback({ courseCompletionState: 'already_recorded', courseId: 5 })
+        .certificateHref,
+    ).toBeUndefined()
+    expect(getLessonCompletionFeedback({ courseId: 5 }).certificateHref).toBeUndefined()
   })
 })

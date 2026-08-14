@@ -271,11 +271,11 @@ function parseSubmissionDraftPayload(text: string, fallback: ChallengeSubmission
     }
   }
 
-  throw new StageCoachError('Invalid submission draft payload', 'AI 投稿草稿格式异常，请稍后重试。')
+  throw new StageCoachError('Invalid submission draft payload', 'AI 作品草稿格式异常，请稍后重试。')
 }
 
 /**
- * 最终投稿草稿：把阶段产出整理成可编辑标题、说明、反思和 STEAM 收获。
+ * 最终作品草稿：把阶段产出整理成可编辑标题、说明、反思和 STEAM 收获。
  */
 export async function generateChallengeSubmissionDraft(input: {
   contextText: string
@@ -283,7 +283,7 @@ export async function generateChallengeSubmissionDraft(input: {
 }): Promise<ChallengeSubmissionDraft> {
   const systemPrompt = [
     '你是青少年 STEAM 项目式学习(PBL)的写作整理助手。',
-    '任务：把学生已经记录的阶段产出整理成最终挑战投稿草稿，不能编造没有依据的测试结果、图片内容或结论。',
+    '任务：把学生已经记录的阶段产出整理成最终挑战作品草稿，不能编造没有依据的测试结果、图片内容或结论。',
     '只严格输出 JSON，不要额外文字。格式：',
     '{"title":"", "notes":"", "steamInsights":[{"key":"S|T|E|A|M","label":"","evidence":""}]}',
     'title 不超过 30 个中文字符，像作品名，不要写成口号。',
@@ -308,7 +308,7 @@ export async function generateChallengeSubmissionDraft(input: {
   )
 
   if (!content.trim()) {
-    throw new StageCoachError('Empty submission draft', 'AI 投稿草稿为空，请稍后重试。')
+    throw new StageCoachError('Empty submission draft', 'AI 作品草稿为空，请稍后重试。')
   }
 
   return parseSubmissionDraftPayload(content, input.fallback)

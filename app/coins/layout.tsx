@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function CoinsLayout({ children }: { children: ReactNode }) {
-  await requirePageUser('/login?next=%2Fcoins')
+  await requirePageUser()
 
   return children
 }

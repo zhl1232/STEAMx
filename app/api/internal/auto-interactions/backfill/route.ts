@@ -12,7 +12,6 @@ const BackfillBodySchema = z.object({
   limit: z.number().int().min(1).max(500).default(50),
   scanLimit: z.number().int().min(1).max(2000).optional(),
   sampleRate: z.number().min(0).max(1).default(0.25),
-  replyRate: z.number().min(0).max(1).default(0.35),
   likeRate: z.number().min(0).max(1).default(0.5),
   collectionRate: z.number().min(0).max(1).default(0.2),
 })
@@ -122,7 +121,6 @@ export async function POST(request: NextRequest) {
         selected: selectedProjects.length,
         rates: {
           sampleRate: options.sampleRate,
-          replyRate: options.replyRate,
           likeRate: options.likeRate,
           collectionRate: options.collectionRate,
         },
@@ -144,7 +142,6 @@ export async function POST(request: NextRequest) {
     for (const project of selectedProjects) {
       try {
         const result = await enqueueAutoInteractionsForTarget(options.targetType, Number(project.id), {
-          replyRate: options.replyRate,
           likeRate: options.likeRate,
           collectionRate: options.collectionRate,
         })
@@ -174,7 +171,6 @@ export async function POST(request: NextRequest) {
       errors,
       rates: {
         sampleRate: options.sampleRate,
-        replyRate: options.replyRate,
         likeRate: options.likeRate,
         collectionRate: options.collectionRate,
       },

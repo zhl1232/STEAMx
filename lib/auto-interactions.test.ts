@@ -4,7 +4,6 @@ import {
   sampleAutoInteractionDelayMs,
   sampleCollectionCount,
   sampleLikeCount,
-  sampleReplyCount,
 } from './auto-interactions'
 
 describe('auto interaction sampling', () => {
@@ -28,13 +27,6 @@ describe('auto interaction sampling', () => {
 
     expect(lowBucketDelay).toBe(6 * 60_000)
     expect(highBucketDelay).toBe(8 * 60_000)
-  })
-
-  it('uses AUTO_REPLY_RATE before selecting reply count', () => {
-    vi.stubEnv('AUTO_REPLY_RATE', '0.8')
-
-    expect(sampleReplyCount(() => 0.81)).toBe(0)
-    expect(sampleReplyCount(() => 0.1)).toBe(1)
   })
 
   it('caps sampled like and collection counts to the planned maxima', () => {

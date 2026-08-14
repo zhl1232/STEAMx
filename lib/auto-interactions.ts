@@ -1,5 +1,3 @@
-import { generateAutoReply, type AutoReplyContext } from '@/lib/ai/auto-reply'
-import { validateContentSafe } from '@/lib/api/validation'
 import { logger } from '@/lib/logger'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { supabaseAdmin } from '@/lib/supabase/admin'
@@ -7,7 +5,7 @@ import { callRpc } from '@/lib/supabase/rpc'
 import type { Database } from '@/lib/supabase/types'
 
 export type AutoInteractionTargetType = 'project' | 'completion' | 'observation'
-export type AutoInteractionActionType = 'reply' | 'like' | 'collection'
+export type AutoInteractionActionType = 'like' | 'collection'
 
 type AutoInteractionJob = Database['public']['Tables']['auto_interaction_jobs']['Row']
 type AutoInteractionJobInsert = Database['public']['Tables']['auto_interaction_jobs']['Insert']
@@ -17,7 +15,6 @@ type TargetContext = {
   targetId: number
   sourceAuthorId: string
   projectId?: number
-  replyContext: AutoReplyContext
   notificationTitle?: string | null
 }
 
@@ -28,7 +25,6 @@ type ActorProfile = {
 }
 
 export type AutoInteractionEnqueueOptions = {
-  replyRate?: number
   likeRate?: number
   collectionRate?: number
   random?: () => number
@@ -83,16 +79,6 @@ export function sampleAutoInteractionDelayMs(random = Math.random) {
   const maxMinutes = Math.max(minMinutes, Math.min(maxLimit, defaultBucket[1]))
   const minutes = minMinutes + random() * (maxMinutes - minMinutes)
   return Math.round(minutes * 60_000)
-}
-
-export function sampleReplyCount(random = Math.random, replyRateOverride?: number) {
-  const replyRate = clampRate(replyRateOverride, getNumberEnv('AUTO_REPLY_RATE', 0.8, 0, 1))
-  if (random() >= replyRate) return 0
-
-  const roll = random()
-  if (roll < 0.6875) return 1
-  if (roll < 0.9375) return 2
-  return 3
 }
 
 export function sampleLikeCount(random = Math.random, likeRateOverride?: number) {
@@ -187,7 +173,7 @@ async function resolveTargetContext(
   if (targetType === 'project') {
     const { data, error } = await supabase
       .from('projects')
-      .select('id, title, description, category, author_id, status, moderation_state')
+      .select('id, title, author_id, status, moderation_state')
       .eq('id', targetId)
       .maybeSingle()
 
@@ -195,8 +181,6 @@ async function resolveTargetContext(
     const project = data as {
       id: number
       title?: string | null
-      description?: string | null
-      category?: string | null
       author_id?: string | null
       status?: string | null
       moderation_state?: string | null
@@ -211,19 +195,13 @@ async function resolveTargetContext(
       sourceAuthorId: project.author_id,
       projectId: project.id,
       notificationTitle: project.title,
-      replyContext: {
-        targetType,
-        title: project.title,
-        description: project.description,
-        category: project.category,
-      },
     }
   }
 
   if (targetType === 'completion') {
     const { data, error } = await supabase
       .from('completed_projects')
-      .select('id, user_id, project_id, course_lesson_id, notes, is_public, status, moderation_state, record_type, stage_label')
+      .select('id, user_id, project_id, is_public, status, moderation_state')
       .eq('id', targetId)
       .maybeSingle()
 
@@ -232,13 +210,9 @@ async function resolveTargetContext(
       id: number
       user_id: string
       project_id: number | null
-      course_lesson_id: number | null
-      notes?: string | null
       is_public?: boolean | null
       status?: string | null
       moderation_state?: string | null
-      record_type?: string | null
-      stage_label?: string | null
     } | null
 
     if (!completion || completion.status !== 'approved' || completion.moderation_state !== 'approved' || completion.is_public !== true) return null
@@ -259,14 +233,6 @@ async function resolveTargetContext(
       } | null
       if (sourceProject?.status !== 'approved' || sourceProject.moderation_state !== 'approved') return null
       sourceTitle = sourceProject.title ?? null
-    } else if (completion.course_lesson_id) {
-      const { data: lessonData, error: lessonError } = await supabase
-        .from('course_lessons')
-        .select('title')
-        .eq('id', completion.course_lesson_id)
-        .maybeSingle()
-      if (lessonError) throw lessonError
-      sourceTitle = (lessonData as { title?: string | null } | null)?.title ?? null
     }
 
     return {
@@ -275,19 +241,12 @@ async function resolveTargetContext(
       sourceAuthorId: completion.user_id,
       projectId: completion.project_id ?? undefined,
       notificationTitle: sourceTitle,
-      replyContext: {
-        targetType,
-        title: sourceTitle,
-        notes: completion.notes,
-        recordType: completion.record_type,
-        stageLabel: completion.stage_label,
-      },
     }
   }
 
   const { data, error } = await supabase
     .from('observation_events')
-    .select('id, user_id, nature_topic, location_name, habitat, weather, notes, is_public, status, moderation_state')
+    .select('id, user_id, is_public, status, moderation_state')
     .eq('id', targetId)
     .maybeSingle()
 
@@ -295,11 +254,6 @@ async function resolveTargetContext(
   const observation = data as {
     id: number
     user_id: string
-    nature_topic?: string | null
-    location_name?: string | null
-    habitat?: string | null
-    weather?: string | null
-    notes?: string | null
     is_public?: boolean | null
     status?: string | null
     moderation_state?: string | null
@@ -312,14 +266,6 @@ async function resolveTargetContext(
     targetType,
     targetId,
     sourceAuthorId: observation.user_id,
-    replyContext: {
-      targetType,
-      natureTopic: observation.nature_topic,
-      locationName: observation.location_name,
-      habitat: observation.habitat,
-      weather: observation.weather,
-      notes: observation.notes,
-    },
   }
 }
 
@@ -378,20 +324,18 @@ export async function enqueueAutoInteractionsForTarget(
   }
 
   const random = options.random ?? Math.random
-  const replyCount = sampleReplyCount(random, options.replyRate)
   const likeCount = sampleLikeCount(random, options.likeRate)
   const collectionCount =
     targetType === 'observation' ? 0 : sampleCollectionCount(random, options.collectionRate)
 
   const jobs = [
-    ...pickJobsForAction({ context, actors, actionType: 'reply', count: replyCount, indexOffset: 0 }),
-    ...pickJobsForAction({ context, actors, actionType: 'like', count: likeCount, indexOffset: replyCount }),
+    ...pickJobsForAction({ context, actors, actionType: 'like', count: likeCount, indexOffset: 0 }),
     ...pickJobsForAction({
       context,
       actors,
       actionType: 'collection',
       count: collectionCount,
-      indexOffset: replyCount + likeCount,
+      indexOffset: likeCount,
     }),
   ]
 
@@ -411,13 +355,10 @@ export async function enqueueAutoInteractionsForTarget(
   return { queued: data?.length ?? 0 }
 }
 
-async function insertProjectNotification(params: {
+async function insertProjectLikeNotification(params: {
   projectId: number
   projectAuthorId: string
   actor: ActorProfile
-  type: 'reply' | 'like'
-  relatedType: 'comment' | 'project'
-  relatedId: number
   projectTitle?: string | null
 }) {
   if (params.projectAuthorId === params.actor.id) return
@@ -426,19 +367,15 @@ async function insertProjectNotification(params: {
   const actorName = params.actor.display_name || '用户'
   const actorAvatar = params.actor.avatar_url || getDefaultAvatarPath(params.actor.id)
   const title = params.projectTitle || '项目'
-  const content =
-    params.type === 'like'
-      ? `${actorName} 赞了你的项目「${title}」`
-      : `${actorName} 评论了你的项目《${title}》`
 
   const { error } = await supabase
     .from('notifications')
     .insert({
       user_id: params.projectAuthorId,
-      type: params.type,
-      content,
-      related_type: params.relatedType,
-      related_id: params.relatedId,
+      type: 'like',
+      content: `${actorName} 赞了你的项目「${title}」`,
+      related_type: 'project',
+      related_id: params.projectId,
       project_id: params.projectId,
       from_user_id: params.actor.id,
       from_username: actorName,
@@ -448,87 +385,7 @@ async function insertProjectNotification(params: {
   if (error) throw error
 }
 
-async function performReply(job: AutoInteractionJob, context: TargetContext, actor: ActorProfile) {
-  const supabase = getAdminClient()
-  const generated = job.generated_content || await generateAutoReply(context.replyContext)
-  const content = validateContentSafe(generated, '自动回复内容')
-
-  if (content.length > 60) {
-    throw new Error('Generated auto reply is too long')
-  }
-
-  if (context.targetType === 'project') {
-    const { data, error } = await supabase
-      .from('comments')
-      .insert({
-        project_id: context.targetId,
-        author_id: actor.id,
-        content,
-        parent_id: null,
-        reply_to_user_id: null,
-        reply_to_username: null,
-        image_url: null,
-        moderation_state: 'approved',
-      } as never)
-      .select('id')
-      .single()
-
-    if (error) throw error
-    const commentId = Number((data as { id: number }).id)
-
-    await insertProjectNotification({
-      projectId: context.targetId,
-      projectAuthorId: context.sourceAuthorId,
-      actor,
-      type: 'reply',
-      relatedType: 'comment',
-      relatedId: commentId,
-      projectTitle: context.notificationTitle,
-    })
-
-    return content
-  }
-
-  if (context.targetType === 'completion') {
-    const { error } = await supabase
-      .from('completion_comments')
-      .insert({
-        completed_project_id: context.targetId,
-        author_id: actor.id,
-        content,
-        parent_id: null,
-        reply_to_user_id: null,
-        reply_to_username: null,
-        moderation_state: 'approved',
-      } as never)
-
-    if (error) throw error
-    return content
-  }
-
-  const { error } = await supabase
-    .from('observation_comments')
-    .insert({
-      observation_event_id: context.targetId,
-      author_id: actor.id,
-      content,
-      parent_id: null,
-      reply_to_user_id: null,
-      reply_to_username: null,
-      moderation_state: 'approved',
-    } as never)
-
-  if (error) throw error
-
-  const { error: rpcError } = await callRpc(supabase, 'increment_observation_comments', {
-    target_observation_id: context.targetId,
-  })
-  if (rpcError) throw rpcError
-
-  return content
-}
-
-async function performLike(job: AutoInteractionJob, context: TargetContext, actor: ActorProfile) {
+async function performLike(context: TargetContext, actor: ActorProfile) {
   const supabase = getAdminClient()
 
   if (context.sourceAuthorId === actor.id) return
@@ -550,13 +407,10 @@ async function performLike(job: AutoInteractionJob, context: TargetContext, acto
       })
       if (rpcError) throw rpcError
 
-      await insertProjectNotification({
+      await insertProjectLikeNotification({
         projectId: context.targetId,
         projectAuthorId: context.sourceAuthorId,
         actor,
-        type: 'like',
-        relatedType: 'project',
-        relatedId: context.targetId,
         projectTitle: context.notificationTitle,
       })
     }
@@ -619,15 +473,11 @@ async function claimJob(job: AutoInteractionJob) {
   return data as AutoInteractionJob | null
 }
 
-async function markJobDone(jobId: number, generatedContent?: string | null) {
+async function markJobDone(jobId: number) {
   const supabase = getAdminClient()
   const { error } = await supabase
     .from('auto_interaction_jobs')
-    .update({
-      status: 'done',
-      generated_content: generatedContent ?? null,
-      error_message: null,
-    } as never)
+    .update({ status: 'done', error_message: null } as never)
     .eq('id', jobId)
 
   if (error) throw error
@@ -686,12 +536,8 @@ async function runAutoInteractionJob(job: AutoInteractionJob) {
       return { status: 'skipped' as const, reason: 'actor_not_eligible' }
     }
 
-    let generatedContent: string | null = claimed.generated_content
-
-    if (claimed.action_type === 'reply') {
-      generatedContent = await performReply(claimed, context, actor)
-    } else if (claimed.action_type === 'like') {
-      await performLike(claimed, context, actor)
+    if (claimed.action_type === 'like') {
+      await performLike(context, actor)
     } else if (claimed.action_type === 'collection') {
       await performCollection(context, actor)
     } else {
@@ -699,7 +545,7 @@ async function runAutoInteractionJob(job: AutoInteractionJob) {
       return { status: 'skipped' as const, reason: 'unsupported_action' }
     }
 
-    await markJobDone(claimed.id, generatedContent)
+    await markJobDone(claimed.id)
     return { status: 'done' as const }
   } catch (error) {
     logger.error(error, { context: 'runAutoInteractionJob', jobId: claimed.id })

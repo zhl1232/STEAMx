@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+import { loadObservationSpeciesForEvents } from '@/lib/api/nature-observation-events'
 import { logger } from '@/lib/logger'
 import { mapDbCompletion, type Work, type WorkSource } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
@@ -278,6 +279,99 @@ export async function getWorkJourney(work: Work): Promise<WorkJourneyRecord[]> {
   return (await getWorkJourneyResult(work)).records
 }
 
+type ChallengeSubmissionRow = Database['public']['Tables']['challenge_submissions']['Row'] & {
+  challenges?: { id: number; title: string; image_url: string | null } | null
+}
+
+type ObservationRow = Database['public']['Tables']['observation_events']['Row'] & {
+  likes_count?: number | null
+  comments_count?: number | null
+}
+
+function toWorkStatus(status: string | null | undefined): Work['status'] {
+  return status === 'approved' || status === 'pending' || status === 'rejected' ? status : undefined
+}
+
+/** 与 mapDbCompletion 的展示口径保持一致，合并列表里日期格式才不会两种样子 */
+function authorFields(author: ProfileRow | undefined) {
+  return {
+    author: author?.display_name || 'Unknown',
+    avatar: author?.avatar_url || undefined,
+    avatarFrameId: author?.equipped_avatar_frame_id ?? undefined,
+    nameColorId: author?.equipped_name_color_id ?? undefined,
+    authorLevel: author?.xp != null ? Math.floor(Math.sqrt(Number(author.xp) / 100)) + 1 : undefined,
+  }
+}
+
+function toDisplayDate(iso: string) {
+  return new Date(iso || '').toLocaleDateString('zh-CN')
+}
+
+function challengeSubmissionToWork(row: ChallengeSubmissionRow, author: ProfileRow | undefined): Work {
+  const challenge = row.challenges
+  return {
+    id: row.id,
+    userId: row.user_id,
+    projectId: null,
+    source: {
+      type: 'challenge',
+      id: row.challenge_id,
+      title: row.title,
+      href: `/pbl/${row.challenge_id}`,
+      image: row.proof_images?.[0] || challenge?.image_url || undefined,
+      challengeTitle: challenge?.title || '项目挑战',
+    },
+    ...authorFields(author),
+    completedAt: toDisplayDate(row.created_at),
+    completedAtIso: row.created_at,
+    proofImages: row.proof_images || [],
+    proofCaptions: row.proof_captions || undefined,
+    proofVideoUrl: row.proof_video_url || undefined,
+    notes: row.notes || undefined,
+    isPublic: row.is_public ?? true,
+    likes: 0,
+    coins: 0,
+    status: toWorkStatus(row.status),
+    rejectionReason: row.rejection_reason || undefined,
+    recordKind: 'final',
+  }
+}
+
+function observationToWork(
+  row: ObservationRow,
+  author: ProfileRow | undefined,
+  speciesName: string | undefined,
+): Work {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    projectId: null,
+    source: {
+      type: 'observation',
+      id: row.id,
+      title: speciesName || row.location_name || '自然观察',
+      href: `/nature/observations/${row.id}`,
+      image: row.media_urls?.[0] || undefined,
+      locationName: row.location_name || undefined,
+    },
+    ...authorFields(author),
+    completedAt: toDisplayDate(row.observed_at || row.created_at),
+    completedAtIso: row.created_at,
+    commentsCount: row.comments_count ?? 0,
+    proofImages: row.media_urls || [],
+    notes: row.notes || undefined,
+    isPublic: row.is_public ?? true,
+    likes: row.likes_count ?? 0,
+    coins: 0,
+    status: toWorkStatus(row.status),
+    recordKind: 'final',
+  }
+}
+
+/**
+ * 一个人的全部产出：项目作品、课时作品、挑战作品、自然观察。
+ * 四个来源各取当前页所需的前 N 条，合并后按时间排序再切片。
+ */
 export async function getUserWorks(args: {
   userId: string
   page?: number
@@ -289,24 +383,75 @@ export async function getUserWorks(args: {
   const pageSize = Math.min(24, Math.max(1, args.pageSize ?? 12))
   const from = page * pageSize
   const to = from + pageSize - 1
+  const headSize = to + 1
 
-  let query = client
+  const publicFilters = { status: 'approved', is_public: true, moderation_state: 'approved' }
+
+  let completionsQuery = client
     .from('completed_projects')
     .select('*', { count: 'exact' })
     .eq('user_id', args.userId)
     .eq('record_kind', 'final')
     .order('completed_at', { ascending: false })
-    .range(from, to)
+    .range(0, headSize - 1)
+  let submissionsQuery = client
+    .from('challenge_submissions')
+    .select('*, challenges(id, title, image_url)', { count: 'exact' })
+    .eq('user_id', args.userId)
+    .order('created_at', { ascending: false })
+    .range(0, headSize - 1)
+  let observationsQuery = client
+    .from('observation_events')
+    .select('*', { count: 'exact' })
+    .eq('user_id', args.userId)
+    .order('created_at', { ascending: false })
+    .range(0, headSize - 1)
 
   if (args.publicOnly) {
-    query = query.eq('status', 'approved').eq('is_public', true).eq('moderation_state', 'approved')
+    completionsQuery = completionsQuery.match(publicFilters)
+    submissionsQuery = submissionsQuery.match(publicFilters)
+    observationsQuery = observationsQuery.match(publicFilters)
   }
 
-  const { data, error, count } = await query
-  if (error) throw error
-  const total = count ?? data?.length ?? 0
+  const [completionsResult, submissionsResult, observationsResult] = await Promise.all([
+    completionsQuery,
+    submissionsQuery,
+    observationsQuery,
+  ])
+
+  if (completionsResult.error) throw completionsResult.error
+  if (submissionsResult.error) logger.error('Failed to load challenge submissions for works', { error: submissionsResult.error })
+  if (observationsResult.error) logger.error('Failed to load observations for works', { error: observationsResult.error })
+
+  const submissionRows = (submissionsResult.data || []) as unknown as ChallengeSubmissionRow[]
+  const observationRows = (observationsResult.data || []) as unknown as ObservationRow[]
+
+  const [completions, author, speciesByEvent] = await Promise.all([
+    hydrateWorks(client, (completionsResult.data || []) as WorkRow[]),
+    submissionRows.length || observationRows.length
+      ? client
+          .from('profiles')
+          .select('id, display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, xp')
+          .eq('id', args.userId)
+          .maybeSingle()
+          .then(({ data }) => (data as ProfileRow | null) ?? undefined)
+      : Promise.resolve(undefined),
+    observationRows.length
+      ? loadObservationSpeciesForEvents(observationRows.map((row) => row.id))
+      : Promise.resolve(new Map<number, { commonName: string }[]>()),
+  ])
+
+  const merged = [
+    ...completions,
+    ...submissionRows.map((row) => challengeSubmissionToWork(row, author)),
+    ...observationRows.map((row) =>
+      observationToWork(row, author, speciesByEvent.get(row.id)?.[0]?.commonName),
+    ),
+  ].sort((first, second) => (second.completedAtIso || '').localeCompare(first.completedAtIso || ''))
+
+  const total = (completionsResult.count ?? 0) + (submissionsResult.count ?? 0) + (observationsResult.count ?? 0)
   return {
-    works: await hydrateWorks(client, (data || []) as WorkRow[]),
+    works: merged.slice(from, to + 1),
     total,
     hasMore: total > to + 1,
   }

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ShareLayout({ children }: { children: ReactNode }) {
-  await requirePageUser('/login?next=%2Fshare')
+  await requirePageUser()
 
   return children
 }

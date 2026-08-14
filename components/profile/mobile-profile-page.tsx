@@ -324,7 +324,7 @@ export function MobileProfilePage({
           ) : (
             <div className="surface-subtle px-5 py-10 text-center">
               <h3 className="text-base font-semibold">暂无作品</h3>
-              <p className="mt-2 text-sm text-muted-foreground">完成项目或课程后，把成果发布到这里。</p>
+              <p className="mt-2 text-sm text-muted-foreground">课程、项目、挑战和自然观察的成果都会汇总到这里。</p>
             </div>
           )
         ) : null}

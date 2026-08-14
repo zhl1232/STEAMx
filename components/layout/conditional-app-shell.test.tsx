@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -203,4 +203,38 @@ describe('shouldShowSiteFooter', () => {
     expect(shouldShowSiteFooter('/courses/2/lessons/9')).toBe(false)
     expect(shouldShowSiteFooter('/admin')).toBe(false)
   })
+})
+
+describe('ConditionalAppShell provider tree stability', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockUseAuth.mockReturnValue({ user: null })
+  })
+
+  function MountProbe({ onMount }: { onMount: () => void }) {
+    useEffect(() => {
+      onMount()
+    }, [onMount])
+
+    return <div data-testid="page-content" />
+  }
+
+  // 包装层数量随登录态变化会让 React 把整棵页面子树当成新节点重挂，
+  // 首屏渲染好的页面会在鉴权返回后被整个丢掉重建。
+  it.each(['/', '/nature', '/nature/observations/1', '/explore'])(
+    'keeps the page subtree mounted on %s when auth resolves',
+    (pathname) => {
+      const onMount = vi.fn()
+      mockUsePathname.mockReturnValue(pathname)
+      const children = <MountProbe onMount={onMount} />
+
+      const { rerender } = render(<ConditionalAppShell>{children}</ConditionalAppShell>)
+      expect(onMount).toHaveBeenCalledTimes(1)
+
+      mockUseAuth.mockReturnValue({ user: { id: 'user-1' } })
+      rerender(<ConditionalAppShell>{children}</ConditionalAppShell>)
+
+      expect(onMount).toHaveBeenCalledTimes(1)
+    },
+  )
 })

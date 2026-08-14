@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function MessagesLayout({ children }: { children: ReactNode }) {
-  await requirePageUser('/login?next=%2Fmessages')
+  await requirePageUser()
 
   return children
 }

@@ -562,8 +562,24 @@ export type WorkSource =
         courseId: number
         courseTitle: string
       }
+    | {
+        type: 'challenge'
+        id: number
+        title: string
+        href: string
+        image?: string
+        challengeTitle: string
+      }
+    | {
+        type: 'observation'
+        id: number
+        title: string
+        href: string
+        image?: string
+        locationName?: string
+      }
 
-/** 项目或课程课时产出的统一作品。 */
+/** 项目、课程课时、挑战与自然观察产出的统一作品。 */
 export interface Work {
     id: number
     userId: string

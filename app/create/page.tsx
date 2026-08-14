@@ -10,9 +10,10 @@ export default async function CreatePage({
     const params = await searchParams;
     const requestedTab = Array.isArray(params.tab) ? params.tab[0] : params.tab;
 
-    if (requestedTab !== "courses" && requestedTab !== "pbl") {
-        redirect("/create?tab=courses");
+    // 课程列表只有 /courses 一个入口，历史的 ?tab=courses 链接统一收口过去
+    if (requestedTab === "courses") {
+        redirect("/courses");
     }
 
-    return <CreatePageClient initialTab={requestedTab} />;
+    return <CreatePageClient />;
 }

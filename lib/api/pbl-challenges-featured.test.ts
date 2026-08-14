@@ -43,7 +43,7 @@ describe('pickFeaturedPblChallenge', () => {
     ).toMatchObject({
       id: 8,
       title: '长期积木挑战',
-      summary: '每周开放 · 提交过程记录和作品成果',
+      summary: '每周开放 · 记录探索过程，提交作品',
       imageUrl: '',
     })
   })

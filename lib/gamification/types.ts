@@ -73,6 +73,11 @@ export interface UserStats {
     observationStreak?: number;        // 连续观察天数
     /** 新手引导毕业哨兵（xp_logs profile_growth_task_graduation v1） */
     growthTasksGraduated?: boolean;
+    // 主线（积木课）：新手引导与起步周计划的进度判据
+    lessonsStarted?: number;           // 打开过的课时数（user_lesson_progress 行数）
+    lessonsCompleted?: number;         // 已完成的课时数
+    /** 作品统一口径：项目终稿 + 课时作品，均需审核通过 */
+    worksPublished?: number;
 }
 
 export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";

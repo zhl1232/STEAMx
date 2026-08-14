@@ -67,7 +67,6 @@ async function runBackfillOnce({ url, secret }) {
       MAX_BACKFILL_SCAN_LIMIT,
     ),
     sampleRate: readRate('AUTO_INTERACTION_BACKFILL_SAMPLE_RATE', 0.25),
-    replyRate: readRate('AUTO_INTERACTION_BACKFILL_REPLY_RATE', 0.35),
     likeRate: readRate('AUTO_INTERACTION_BACKFILL_LIKE_RATE', 0.5),
     collectionRate: readRate('AUTO_INTERACTION_BACKFILL_COLLECTION_RATE', 0.2),
   }

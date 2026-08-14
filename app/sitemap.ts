@@ -26,6 +26,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.8,
         },
         {
+            url: buildAbsoluteUrl('/courses'),
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
             url: buildAbsoluteUrl('/nature'),
             lastModified: new Date(),
             changeFrequency: 'daily',
@@ -90,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     try {
         const supabase = await createClient();
 
-        const [projectsResult, speciesResult, observationsResult] = await Promise.all([
+        const [projectsResult, speciesResult, observationsResult, coursesResult] = await Promise.all([
             supabase
                 .from('projects')
                 .select('id, updated_at')
@@ -112,6 +118,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 .eq('moderation_state', 'approved')
                 .order('updated_at', { ascending: false })
                 .limit(500),
+            supabase
+                .from('courses')
+                .select('id, updated_at')
+                .eq('status', 'approved')
+                .order('sort_order', { ascending: true }),
         ]);
 
         if (projectsResult.error) {
@@ -152,6 +163,56 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 priority: 0.7,
             });
         });
+
+        if (coursesResult.error) {
+            throw coursesResult.error;
+        }
+
+        // 300 多节免费课时是站上体量最大的公开内容，之前完全没进 sitemap
+        const courseIds = (coursesResult.data ?? []).map((course: { id: number }) => course.id);
+        coursesResult.data?.forEach((course: { id: number; updated_at: string | null }) => {
+            routes.push({
+                url: buildAbsoluteUrl(`/courses/${course.id}`),
+                lastModified: new Date(course.updated_at || new Date()),
+                changeFrequency: 'weekly',
+                priority: 0.8,
+            });
+        });
+
+        if (courseIds.length > 0) {
+            const { data: lessons, error: lessonsError } = await supabase
+                .from('course_lessons')
+                .select('id, course_id, updated_at, ldraw_model_url:content->building3d->>ldrawModelUrl')
+                .in('course_id', courseIds)
+                .order('sort_order', { ascending: true });
+
+            if (lessonsError) {
+                throw lessonsError;
+            }
+
+            lessons?.forEach((lesson: {
+                id: number;
+                course_id: number;
+                updated_at: string | null;
+                ldraw_model_url?: string | null;
+            }) => {
+                const lastModified = new Date(lesson.updated_at || new Date());
+                routes.push({
+                    url: buildAbsoluteUrl(`/courses/${lesson.course_id}/lessons/${lesson.id}`),
+                    lastModified,
+                    changeFrequency: 'monthly',
+                    priority: 0.7,
+                });
+                if (lesson.ldraw_model_url) {
+                    routes.push({
+                        url: buildAbsoluteUrl(`/courses/${lesson.course_id}/lessons/${lesson.id}/parts`),
+                        lastModified,
+                        changeFrequency: 'monthly',
+                        priority: 0.5,
+                    });
+                }
+            });
+        }
     } catch (error) {
         logger.error('Error generating sitemap', { error });
     }

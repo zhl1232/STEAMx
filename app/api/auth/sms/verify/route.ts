@@ -10,6 +10,7 @@ import {
   isPhoneBasedDisplayName,
 } from '@/lib/auth/default-display-name'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
+import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
 
 const PHONE_EMAIL_PREFIX = 'p_'
 const PHONE_EMAIL_SUFFIX = '@phone.local'
@@ -194,6 +195,8 @@ export async function POST(req: Request) {
     let userId: string
     let loginEmail = phoneToEmail(phone)
     let userMetadata: Record<string, unknown> | null = null
+    // 手机号验证码同时承担登录和注册，落地页要靠这个标记区分老用户和刚建号的人
+    let isNewUser = false
 
     const { data: mapping } = await supabaseAdmin
       .from('phone_to_user')
@@ -213,6 +216,7 @@ export async function POST(req: Request) {
       }
       userMetadata = (authData?.user?.user_metadata as Record<string, unknown> | null) || null
     } else {
+      isNewUser = true
       const username = `user_${Math.random().toString(36).slice(2, 10)}`
       const displayName = createDefaultDisplayName()
       const userPassword = password && password.length >= 6 ? password : undefined
@@ -325,7 +329,8 @@ export async function POST(req: Request) {
       req.headers.get('referer')?.replace(/\/[^/]*$/, '') ||
       process.env.NEXT_PUBLIC_SITE_URL ||
       'http://localhost:3000'
-    const redirectTo = origin.replace(/\/$/, '') + '/'
+    // 新注册的人直接落到主线（积木课），老用户回首页
+    const redirectTo = origin.replace(/\/$/, '') + (isNewUser ? MAINLINE_ENTRY_HREF : '/')
 
     const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'magiclink',
@@ -356,7 +361,7 @@ export async function POST(req: Request) {
       // 若拼链失败则用原链接
     }
 
-    return NextResponse.json({ tokenHash, redirectTo, redirectUrl: actionLink })
+    return NextResponse.json({ tokenHash, redirectTo, redirectUrl: actionLink, isNewUser })
   } catch (e) {
     if (!(e instanceof Error) || e.name !== 'RateLimitError') {
       logger.error('[auth/sms/verify]', { error: e })

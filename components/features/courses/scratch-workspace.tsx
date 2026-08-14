@@ -19,6 +19,7 @@ import {
 } from "@/lib/courses/scratch-hints";
 import { useScratchEditorAvailability } from "@/lib/courses/device";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
+import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
 import {
     getScratchHostUrl,
@@ -603,8 +604,7 @@ export function ScratchWorkspace({
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            const feedback = getLessonCompletionFeedback(data);
-            toast({ title: feedback.title, description: feedback.description });
+            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
             onCompleted?.();
         } catch (e) {
             toast({

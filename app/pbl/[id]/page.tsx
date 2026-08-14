@@ -117,7 +117,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
       : isTimed && challenge.endDate
         ? `截止 ${formatCompactDate(challenge.endDate)}`
         : "长期开放，可持续补充作品",
-    hasSubmission ? "已有终稿" : "终稿待提交",
+    hasSubmission ? "已提交作品" : "作品待提交",
   ]
   const challengeMetaText = [
     challenge.difficultyStars ? `难度 ${"★".repeat(challenge.difficultyStars)}` : null,
@@ -133,7 +133,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
         },
         {
           title: "登录以参与挑战",
-          description: "登录后即可记录过程并提交终稿。",
+          description: "登录后即可记录过程并提交作品。",
         },
       )
       return
@@ -323,7 +323,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
               {!isEnded && (
                 <div className="mt-3.5 space-y-2.5">
                   <Button className="h-10 w-full text-sm font-semibold" onClick={handleSubmit} disabled={!canEditSubmission}>
-                    {hasSubmission ? "更新终稿" : "提交终稿"}
+                    {hasSubmission ? "更新作品" : "提交作品"}
                   </Button>
                   {!challenge.joined ? (
                     <Button
@@ -380,7 +380,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
                 onClick={handleSubmit}
                 disabled={!canEditSubmission}
               >
-                {hasSubmission ? "更新终稿" : "提交终稿"}
+                {hasSubmission ? "更新作品" : "提交作品"}
               </Button>
             </div>
           </div>

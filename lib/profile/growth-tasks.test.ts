@@ -14,31 +14,38 @@ describe('growth tasks', () => {
       toGrowthTaskInput({
         bio: '',
         stats: {
-          projectsPublished: 1,
-          projectsCompleted: 0,
+          lessonsStarted: 1,
+          lessonsCompleted: 0,
+          worksPublished: 0,
           observationsSubmitted: 1,
-          consecutiveDays: 2,
         },
       }),
     )
 
     expect(tasks).toEqual([
       expect.objectContaining({
-        id: 'write_bio',
-        progressLabel: '待填写',
-        status: 'in_progress',
-        done: false,
-      }),
-      expect.objectContaining({
-        id: 'publish_first_project',
-        reward: '+20 经验',
+        id: 'start_first_lesson',
         progressLabel: '1/1',
         status: 'claimable',
         done: true,
       }),
       expect.objectContaining({
-        id: 'complete_first_project',
+        id: 'complete_first_lesson',
+        reward: '+20 经验',
         progressLabel: '0/1',
+        status: 'in_progress',
+        done: false,
+      }),
+      expect.objectContaining({
+        id: 'publish_first_work',
+        reward: '+30 经验',
+        progressLabel: '0/1',
+        status: 'in_progress',
+        done: false,
+      }),
+      expect.objectContaining({
+        id: 'write_bio',
+        progressLabel: '待填写',
         status: 'in_progress',
         done: false,
       }),
@@ -48,12 +55,6 @@ describe('growth tasks', () => {
         status: 'claimable',
         done: true,
       }),
-      expect.objectContaining({
-        id: 'explore_three_days',
-        progressLabel: '2/3',
-        status: 'in_progress',
-        done: false,
-      }),
     ])
   })
 
@@ -62,26 +63,40 @@ describe('growth tasks', () => {
       toGrowthTaskInput({
         bio: '你好，我喜欢做实验',
         stats: {
-          projectsPublished: 2,
-          projectsCompleted: 1,
+          lessonsStarted: 3,
+          lessonsCompleted: 2,
+          worksPublished: 1,
           observationsSubmitted: 1,
-          consecutiveDays: 3,
         },
       }),
-      new Set(['publish_first_project', 'submit_first_observation']),
+      new Set(['start_first_lesson', 'submit_first_observation']),
     )
 
-    expect(tasks.find((task) => task.id === 'publish_first_project')).toMatchObject({
+    expect(tasks.find((task) => task.id === 'start_first_lesson')).toMatchObject({
       claimed: true,
       claimable: false,
       status: 'claimed',
     })
-    expect(tasks.find((task) => task.id === 'complete_first_project')).toMatchObject({
+    expect(tasks.find((task) => task.id === 'publish_first_work')).toMatchObject({
       claimed: false,
       claimable: true,
       status: 'claimable',
     })
     expect(getCompletedGrowthTaskCount(tasks)).toBe(5)
+  })
+
+  it('falls back to projectsCompleted when worksPublished is missing', () => {
+    const tasks = resolveGrowthTasks(
+      toGrowthTaskInput({
+        bio: '',
+        stats: { projectsCompleted: 1 },
+      }),
+    )
+
+    expect(tasks.find((task) => task.id === 'publish_first_work')).toMatchObject({
+      done: true,
+      status: 'claimable',
+    })
   })
 
   it('treats whitespace-only bio as incomplete', () => {
@@ -92,8 +107,7 @@ describe('growth tasks', () => {
       }),
     )
 
-    expect(tasks[0]).toMatchObject({
-      id: 'write_bio',
+    expect(tasks.find((task) => task.id === 'write_bio')).toMatchObject({
       progress: 0,
       done: false,
       status: 'in_progress',
@@ -115,10 +129,10 @@ describe('growth tasks', () => {
     const input = toGrowthTaskInput({
       bio: 'hi',
       stats: {
-        projectsPublished: 1,
-        projectsCompleted: 1,
+        lessonsStarted: 1,
+        lessonsCompleted: 1,
+        worksPublished: 1,
         observationsSubmitted: 1,
-        consecutiveDays: 3,
       },
     })
     const partialClaimed = resolveGrowthTasks(input, new Set(['write_bio']))
@@ -127,11 +141,11 @@ describe('growth tasks', () => {
     const allClaimed = resolveGrowthTasks(
       input,
       new Set([
+        'start_first_lesson',
+        'complete_first_lesson',
+        'publish_first_work',
         'write_bio',
-        'publish_first_project',
-        'complete_first_project',
         'submit_first_observation',
-        'explore_three_days',
       ]),
     )
     expect(isAllGrowthTasksClaimed(allClaimed)).toBe(true)

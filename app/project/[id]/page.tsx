@@ -27,6 +27,7 @@ import { ProjectCourseLink } from '@/components/features/project/project-course-
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStickyBar } from '@/components/features/project/project-detail-sticky-bar'
+import { ProjectHeroGallery } from '@/components/features/project/project-hero-gallery'
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
@@ -46,6 +47,7 @@ import {
   type ProjectFilters,
 } from '@/lib/api/explore-data'
 import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
+import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
 import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
@@ -174,15 +176,6 @@ function formatCount(value: number) {
     return `${Number.isInteger(rounded) ? rounded : rounded.toFixed(1)}k`
   }
   return String(value)
-}
-
-function countHeroGalleryImages(coverImage: string, steps: ProjectStep[]) {
-  const urls = new Set<string>()
-  if (coverImage) urls.add(coverImage)
-  for (const step of steps) {
-    if (step.image_url) urls.add(step.image_url)
-  }
-  return Math.max(1, urls.size)
 }
 
 interface ProjectAuthorSummary {
@@ -828,7 +821,11 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const completedCount = completionCount
   const chip2Label = project.sub_category ?? visibleTags[0] ?? null
   const introTags = project.sub_category ? visibleTags : visibleTags.slice(1)
-  const heroGalleryCount = countHeroGalleryImages(project.image, steps)
+  const heroGallery = collectHeroGalleryImages(project.image, steps, {
+    coverCaption: project.title,
+  })
+  const heroImages = heroGallery.map((item) => item.url)
+  const heroCaptions = heroGallery.map((item) => item.caption)
 
   return (
     <div className="relative overflow-x-hidden bg-[hsl(var(--app-canvas))]">
@@ -919,20 +916,14 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
           <div className="bg-[hsl(var(--app-canvas))]">
             <section className="overflow-hidden rounded-b-lg bg-[hsl(var(--surface-raised))] shadow-[0_24px_64px_-48px_hsl(var(--surface-shadow)/0.42)]">
-              <div className="relative h-[40vh] min-h-[260px] max-h-[360px] overflow-hidden bg-muted">
-                <OptimizedImage
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  variant="cover"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/14" />
-                <div className="absolute bottom-3 right-4 rounded-full bg-black/48 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md">
-                  1/{heroGalleryCount}
-                </div>
-              </div>
+              <ProjectHeroGallery
+                images={heroImages}
+                captions={heroCaptions}
+                alt={project.title}
+                className="h-[40vh] min-h-[260px] max-h-[360px]"
+                sizes="100vw"
+                showGradient
+              />
 
               <div className="space-y-4 px-4 pb-5 pt-4">
                 <h1 className="font-sans text-[26px] font-black leading-tight tracking-tight text-foreground">
@@ -1008,16 +999,13 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           <main className="min-w-0 space-y-6">
             <section className="surface-panel hidden overflow-hidden rounded-lg md:block">
               <div className="lg:flex lg:items-stretch">
-                <div className="relative min-w-0 overflow-hidden bg-muted aspect-video sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none">
-                  <OptimizedImage
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    variant="cover"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+                <ProjectHeroGallery
+                  images={heroImages}
+                  captions={heroCaptions}
+                  alt={project.title}
+                  className="aspect-video sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none"
+                  sizes="(min-width: 1024px) 42vw, 92vw"
+                />
 
                 <div className="flex min-w-0 flex-1 flex-col justify-between p-5 sm:p-6 lg:p-8">
                   <div className="space-y-4">

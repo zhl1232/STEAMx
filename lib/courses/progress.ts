@@ -18,6 +18,8 @@ export interface CourseProgressApiSummary {
 export interface LessonCompletionFeedback {
   title: string
   description?: string
+  /** 整门课刚学完时带上结课凭证入口，否则学员只看到一句 toast 就没了 */
+  certificateHref?: string
 }
 
 function compareLessons(left: ProgressLesson, right: ProgressLesson) {
@@ -89,11 +91,13 @@ export function fromCourseProgressApi(
 export function getLessonCompletionFeedback(args: {
   alreadyCompleted?: boolean
   courseCompletionState?: CourseCompletionState
+  courseId?: number
 }): LessonCompletionFeedback {
   if (args.courseCompletionState === 'created') {
     return {
       title: '课程已完成',
-      description: '课程已完成，STEAM 能力已更新',
+      description: '整门课学完了，结课凭证和作品册已经生成',
+      certificateHref: args.courseId ? `/courses/${args.courseId}/certificate` : undefined,
     }
   }
 

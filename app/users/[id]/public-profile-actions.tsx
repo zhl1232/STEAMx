@@ -28,15 +28,17 @@ export function PublicProfileActions({
   className?: string;
 }) {
   const { user } = useAuth();
-  const { isFollowing, isLoading } = useFollow(targetUserId);
+  const { isMutualFollow, isLoading } = useFollow(targetUserId);
   const { blocked, blockedByMe } = useBlock(targetUserId);
   const privacy = getMessagePrivacy(messagePrivacy);
   const blockMessage = blockedByMe ? "你已屏蔽该用户" : "你已被该用户屏蔽";
+  // followers_only 是互相关注语义：单向关注不解锁，否则陌生人点一下关注就能绕过。
+  // 这个按钮只负责「发起新会话」；已经聊过的会话从消息列表继续，接口那边会放行。
   const canMessage =
     user &&
     user.id !== targetUserId &&
     !blocked &&
-    (privacy === "everyone" || (privacy === "followers_only" && isFollowing));
+    (privacy === "everyone" || (privacy === "followers_only" && isMutualFollow));
   const disabledMessage =
     blocked
       ? "无法私信"
@@ -45,7 +47,7 @@ export function PublicProfileActions({
         : privacy === "followers_only"
           ? isLoading
             ? "确认关系中"
-            : "关注后可私信"
+            : "互相关注后可私信"
           : "发私信";
   const hasFullActionSet = Boolean(user && user.id !== targetUserId);
 

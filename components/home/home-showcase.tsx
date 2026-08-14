@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Blocks,
   Clock3,
   FlaskConical,
   Heart,
@@ -23,6 +24,7 @@ import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/ho
 import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
+import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -129,31 +131,31 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
-              在 STEAM 的世界里发现无限可能
+              300 节免费积木课，搭完就是作品
             </p>
             <p className="mt-3 hidden max-w-[540px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
-              选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
+              {MAINLINE_SHORT_PITCH}再往下走，还有 STEAM 项目、自然观察和社区挑战等着你。
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">
               <Link
-                href="/explore"
+                href={MAINLINE_ENTRY_HREF}
                 className={cn(
                   buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
                   "h-11 gap-2 px-5 text-[14px] font-bold shadow-[0_18px_34px_-24px_hsl(var(--brand-blue)/0.9)]",
                 )}
               >
-                开始探索项目
+                {MAINLINE_PRIMARY_CTA_LABEL}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/create"
+                href="/explore"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
                   "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-5 text-[14px] font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]",
                 )}
               >
-                进入创造营
+                随便逛逛
               </Link>
             </div>
 
@@ -167,16 +169,18 @@ function HomeHero({ image }: { image: string }) {
             </div>
           </div>
 
-          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 max-[379px]:hidden min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
-            {homeHeroFeatures.map((item) => (
-              <div
-                key={item.label}
-                className="flex min-h-[28px] items-center justify-center gap-0.5 px-0.5 py-0.5 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] min-[390px]:gap-1"
-              >
-                <item.icon className="h-[11px] w-[11px] shrink-0 text-white/76 min-[390px]:h-3 min-[390px]:w-3" strokeWidth={2.2} />
-                <span className="whitespace-nowrap text-[10px] font-semibold leading-none tracking-normal text-white/78">{item.label}</span>
-              </div>
-            ))}
+          {/* 移动端首屏唯一主行动，指向主线（积木课）；原先这里只有四个装饰标签，首屏一个按钮都没有 */}
+          <div className="mt-auto pb-3 pt-2 md:hidden">
+            <Link
+              href={MAINLINE_ENTRY_HREF}
+              className={cn(
+                buttonVariants({ tone: "brand", shape: "pill" }),
+                "h-10 w-fit gap-1.5 px-4 text-[13px] font-bold shadow-[0_16px_30px_-20px_hsl(var(--brand-blue)/0.95)]",
+              )}
+            >
+              {MAINLINE_PRIMARY_CTA_LABEL}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
 
@@ -256,6 +260,32 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
   );
 }
 
+/** 主线入口排在分类磁贴之前，让「从这里开始」只有一个明确答案 */
+function MainlineStartCard() {
+  return (
+    <Link
+      href={MAINLINE_ENTRY_HREF}
+      className="group mb-2 flex items-center gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.32)] bg-[linear-gradient(120deg,hsl(var(--brand-blue)/0.12),hsl(var(--surface-raised)/0.86)_58%,hsl(var(--brand-amber)/0.1))] px-3 py-3 transition hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-30px_hsl(var(--brand-blue)/0.9)] md:mb-3 md:gap-4 md:px-5 md:py-4"
+    >
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.14)] transition group-hover:scale-105 md:h-12 md:w-12">
+        <Blocks className="h-5 w-5 text-[hsl(var(--brand-blue))] md:h-6 md:w-6" strokeWidth={2.2} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-[hsl(var(--brand-blue))] md:text-[11px]">
+          新手推荐
+        </p>
+        <h3 className="mt-0.5 truncate text-[14px] font-extrabold text-foreground md:text-[17px]">
+          {MAINLINE_PRIMARY_CTA_LABEL}，搭出第一件作品
+        </h3>
+        <p className="mt-0.5 line-clamp-1 text-[11px] leading-4 text-muted-foreground md:text-[13px] md:leading-5">
+          {MAINLINE_SHORT_PITCH}
+        </p>
+      </div>
+      <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))] transition group-hover:translate-x-0.5 md:h-5 md:w-5" />
+    </Link>
+  );
+}
+
 function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
     <section aria-labelledby="home-start-heading">
@@ -274,6 +304,7 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
+      <MainlineStartCard />
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
     </section>
   );
@@ -427,7 +458,7 @@ function CommunityAndActivity({
 }) {
   const challengeHref = featuredChallenge ? `/pbl/${featuredChallenge.id}` : "/create?tab=pbl";
   const challengeTitle = featuredChallenge?.title ?? "项目挑战";
-  const challengeSummary = featuredChallenge?.summary ?? "每周开放 · 提交过程记录和作品成果";
+  const challengeSummary = featuredChallenge?.summary ?? "每周开放 · 记录探索过程，提交作品";
   const challengeImage = featuredChallenge?.imageUrl || heroImage;
 
   return (
