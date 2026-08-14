@@ -84,7 +84,23 @@ function AppProviders({
   return <LoginPromptProvider>{content}</LoginPromptProvider>
 }
 
-export function ConditionalAppShell({ children }: { children: React.ReactNode }) {
+export function shouldShowSiteFooter(pathname: string) {
+  if (pathname === '/login') return false
+  if (pathname.startsWith('/share')) return false
+  if (pathname.startsWith('/admin')) return false
+  if (pathname === '/nature/submit') return false
+  if (pathname.startsWith('/playground/')) return false
+  if (/^\/courses\/\d+\/lessons\/\d+/.test(pathname)) return false
+  return true
+}
+
+export function ConditionalAppShell({
+  children,
+  footer,
+}: {
+  children: React.ReactNode
+  footer?: React.ReactNode
+}) {
   const pathname = usePathname()
   const { user } = useAuth()
   const smokeMode = isPlaywrightSmokeClient()
@@ -120,6 +136,8 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
   const includeNotificationProvider = !skipHeavyProvidersForAnonymousNature
 
   const pageContent = needsProjectProvider ? <ProjectProvider>{children}</ProjectProvider> : children
+  const showSiteFooter = Boolean(footer) && !smokeMode && shouldShowSiteFooter(pathname)
+  const mainNeedsMobileNavPadding = !hideMobileBottomNav && !showSiteFooter
 
   if (isAuthPage) {
     return (
@@ -201,10 +219,19 @@ export function ConditionalAppShell({ children }: { children: React.ReactNode })
         </header>
         <main
           id="main-content"
-          className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]', 'md:pb-0')}
+          className={cn(
+            'flex-1',
+            mainNeedsMobileNavPadding ? 'pb-[calc(5rem+env(safe-area-inset-bottom))]' : 'pb-0',
+            'md:pb-0',
+          )}
         >
           {pageContent}
         </main>
+        {showSiteFooter ? (
+          <div className={hideMobileBottomNav ? undefined : 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0'}>
+            {footer}
+          </div>
+        ) : null}
         {!hideMobileBottomNav ? <BottomNav /> : null}
         <GlobalTutorMount />
       </div>

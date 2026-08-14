@@ -32,6 +32,7 @@ import { Button } from '@/components/ui/button'
 import { DifficultyStars } from '@/components/ui/difficulty-stars'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { JsonLd } from '@/components/seo/json-ld'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -46,6 +47,7 @@ import {
 } from '@/lib/api/explore-data'
 import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
 import { createClient } from '@/lib/supabase/server'
+import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
 import type { Project, ProjectStep } from '@/lib/mappers/types'
 
@@ -830,6 +832,15 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
   return (
     <div className="relative overflow-x-hidden bg-[hsl(var(--app-canvas))]">
+      <JsonLd
+        data={buildProjectJsonLd({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          image: project.image,
+          steps,
+        })}
+      />
       <ProjectDetailScrollTop />
       <ProjectDetailStickyBar
         title={project.title}

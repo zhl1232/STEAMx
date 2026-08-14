@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { STEAM_PATHNAME_HEADER, STEAM_SEARCH_HEADER } from "@/lib/auth/login-redirect";
 import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
+import { buildApexToWwwRedirectUrl } from "@/lib/seo/canonical-host";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
@@ -15,6 +16,15 @@ function withSteamPathHeaders(request: NextRequest) {
 }
 
 export function proxy(request: NextRequest) {
+  const apexRedirectUrl = buildApexToWwwRedirectUrl({
+    host: request.headers.get("host") ?? request.nextUrl.host,
+    pathname: request.nextUrl.pathname,
+    search: request.nextUrl.search,
+  });
+  if (apexRedirectUrl) {
+    return NextResponse.redirect(apexRedirectUrl, 301);
+  }
+
   if (request.cookies.get(REC_VIEWER_COOKIE)?.value) {
     return NextResponse.next({
       request: { headers: withSteamPathHeaders(request) },

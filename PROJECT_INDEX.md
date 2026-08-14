@@ -57,8 +57,8 @@
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404
 - 游乐场数独/N 皇后/数字华容道棋盘格提供坐标、数字/皇后状态与选中语义；首页轮播分页和汉诺塔速度控件在手机端使用至少 44px 触控区域
-- `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` — PWA & SEO；`robots.ts` 全站拒绝 GPTBot，其他爬虫继续遵循公开页面可抓取、私有/API 路径不可抓取的规则
-- `proxy.ts` — Next.js 16 Proxy 入口：补种匿名推荐 `rec_viewer` cookie（替代已废弃的 `middleware.ts`）；同时把当前 pathname/search 写入 `x-steam-pathname` / `x-steam-search`，供未传 `next` 的 `requirePageUser()` 拼登录回跳
+- `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` / `app/llms.txt/route.ts` — PWA & SEO；`robots.ts` 允许 GPTBot 及其他常见大模型爬虫抓取公开页，并与 `User-Agent: *` 共用 `/api/` `/admin/` `/login` 等私有路径 Disallow；Sitemap 指向 `https://www.steamx.cc/sitemap.xml`；`/llms.txt` 返回 `text/plain` 站点说明
+- `proxy.ts` — Next.js 16 Proxy 入口：仅当 Host 为 `steamx.cc` 时 301 到对应的 `www.steamx.cc` 路径（含 query），不改写 localhost / 预览 / tunnel / 未来第二域名；同时补种匿名推荐 `rec_viewer` cookie（替代已废弃的 `middleware.ts`），并把当前 pathname/search 写入 `x-steam-pathname` / `x-steam-search`，供未传 `next` 的 `requirePageUser()` 拼登录回跳
 - `AGENTS.md` / `.cursor/rules/project-context.mdc` — AI/自动化工具项目约定：先读索引、同步维护索引、禁止恢复 `middleware.ts`
 
 ---
@@ -120,8 +120,9 @@
 - `components/ui/mobile-page-header.tsx` — 统一移动端页头；返回箭头使用固定 44px 触控区并贴近内容左边界，页面不再通过负边距单独调整位置。
 - `components/ui/loading-skeleton.tsx` — 项目/挑战/自然详情骨架屏；`ChallengeCardSkeleton` 支持可选 `className` 供页面局部统一圆角和外观。
 
-### 3.2 布局 (`components/layout/`) — 14 个组件
-- `conditional-app-shell.tsx` — 根据路由条件渲染 Header/BottomNav/Sidebar
+### 3.2 布局 (`components/layout/`) — 15 个组件
+- `conditional-app-shell.tsx` — 根据路由条件渲染 Header/BottomNav/Sidebar；公开页挂载服务端 `SiteFooter`，登录、分享、后台、课时与游乐场对局等沉浸页隐藏
+- `site-footer.tsx` — 全站页脚（服务端组件）：桌面保留栏目链接，全端展示 ICP 备案号 `京ICP备2025129751号-2` 并链到工信部，保证出现在 SSR HTML
 - `bottom-nav.tsx` — 移动端底部导航
 - `main-nav.tsx` — 桌面端顶部导航
 - `mobile-global-header.tsx` — 移动端全局头部；顶部铃铛作为消息中心唯一入口，头像菜单只保留个人中心、按权限显示的管理/审核员入口和退出登录，钱包、内容库、编辑资料和商店从个人中心的快捷入口进入；桌面端头像菜单保持完整入口
@@ -244,7 +245,10 @@
 
 ### 4.6 SEO (`lib/seo/`)
 - `metadata.ts` — 页面元数据构建工具 `buildPageMetadata()`
-- `site.ts` — 站点基础配置（名称、URL、描述）
+- `site.ts` — 站点名称、描述、URL 与 ICP 备案号；`getSiteUrl()` / `buildAbsoluteUrl()` 供 metadata、sitemap、JSON-LD、llms.txt 复用
+- `canonical-host.ts` — 仅把 `steamx.cc` 规范到 `www.steamx.cc`，供 `proxy.ts` 做 301
+- `json-ld.ts` — 首页 WebSite/Organization、项目页 Article（有步骤时再加 HowTo），只使用已有标题/描述/步骤/封面；由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
+- `llms-txt.ts` / `robots-policy.ts` — `/llms.txt` 正文与爬虫 Disallow / 大模型 UA 列表
 
 ### 4.7 首页 (`lib/home/`)
 - `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数、当前精选 PBL）与推荐 API 算法（个性化/热门兜底；供 `/api/home/recommendations` 使用）；捕获数据降级错误前会用 Next `unstable_rethrow` 先交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被业务日志误报
@@ -430,7 +434,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `__tests__/api.playground-race-rooms-route.test.ts` — 竞速加入竞争的前读/条件更新两种交错顺序、同访客重试幂等和等待房间权威超时读取
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，以及联网邀请未登录时 `next` 保留 `room` 参数）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）。例外是纯文本统计：零件清单会直接给家长看数字，`lib/utils/ldraw-bom.test.ts`（含真实 `3-hu-die.mpd` 分步用量断言，并把全部模型的统计总数与其自带的 `0 NumOfBricks` 声明对账，新模型对不上就是统计口径或模型头部有一边没更新）与 `__tests__/api.courses-ldraw-bom-route.test.ts` 只做文本解析、不碰 three.js，跑完不到 1 秒
-- 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的终稿直达作品页、过程记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报
+- 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的终稿直达作品页、过程记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报；SEO 相关覆盖 `lib/seo/*`、`app/robots.ts`、`/llms.txt`、全站页脚 ICP、`proxy.ts` 仅对 `steamx.cc` 做 301，以及 `deploy/nginx.conf` 不再拦截 GPTBot
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置：拆成 `dom` 与 `node` 两个 project，`*.test.tsx` 用 happy-dom + `vitest.setup.ts`，`*.test.ts` 默认跑纯 node（省掉每个文件的 DOM 启动与 React 测试初始化，全量从 ~224s 降到 ~145s）；无 JSX 但需要 DOM/存储/`renderHook`/`Worker` 的 `.ts` 用例登记在配置里的 `domOnlyTsTests`，新写的用例若报 `document is not defined` 就把文件加进该数组
 - `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录
 
@@ -439,12 +443,12 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ## 10. 部署与 CI
 
 - `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口；主站/worker 分别设有可配置的 cgroup 内存上限与 Node heap 上限，主站 heap 默认 512 MB、cgroup 默认 1 GB，避免单个泄漏进程拖垮宿主机
-- `deploy/nginx.conf` — Nginx 反向代理模板；保留线上 `steamx.cc www.steamx.cc`、Certbot include、上传接口大小限制，并为 Scratch GUI/vendor/chunk 加 gzip 和缓存；Release 会用 GitHub Variables 渲染域名/证书路径后同步到服务器，先备份当前站点配置、`nginx -t` 通过后再 reload
+- `deploy/nginx.conf` — Nginx 反向代理模板；保留线上 `steamx.cc www.steamx.cc`、Certbot include、上传接口大小限制，并为 Scratch GUI/vendor/chunk 加 gzip 和缓存；仅当 `$host = steamx.cc` 时 301 到 `https://www.steamx.cc$request_uri`，不再按 UA 拒绝 GPTBot；Release 会用 GitHub Variables 渲染域名/证书路径后同步到服务器，先备份当前站点配置、`nginx -t` 通过后再 reload
 - `deploy/server-init.sh` — 服务器初始化脚本
 - `deploy/auto-interactions-worker.mjs` — 自动互动队列 Docker worker（可在启动时按 `AUTO_INTERACTION_BACKFILL_*` 低比例补偿历史项目；随后按 `AUTO_INTERACTION_WORKER_INTERVAL_SECONDS` 周期 POST `/api/internal/auto-interactions/run`）
 - `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Build + Playwright；本地只在 `pre-commit` 跑 lint 和改动相关的用例，全量单测以此为唯一门槛，推送后用 `pnpm ci:watch` 看结论
-- `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 渲染/同步 Nginx 配置 + 同步 compose 文件 + SSH 部署；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；通用页面代理直接拒绝 GPTBot 请求但保留 `/robots.txt` 可访问，OAI-SearchBot 与其他爬虫继续按 robots 规则访问；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
+- `.github/workflows/release.yml` — Release：构建 Docker 镜像 + 渲染/同步 Nginx 配置 + 同步 compose 文件 + SSH 部署；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；爬虫访问改由 `robots.ts` 约束，不再在 Nginx 层按 UA 拒绝 GPTBot；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
 - `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 和已有 `steam-app:latest` 镜像先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；`ali-oss` 在 Actions runner 上装进包，避免服务器再拉 Docker Hub。不与 Release 共用并发组，避免排队时被取消。
 
 ---
