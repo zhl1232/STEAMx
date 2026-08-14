@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/layout/error-boundary";
 import { ConditionalAppShell } from "@/components/layout/conditional-app-shell";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { ObservationGamificationSync } from "@/components/features/gamification/observation-gamification-sync";
 import { BadgeUnlockOverlayMount } from "@/components/features/gamification/badge-unlock-overlay-mount";
 import QueryProvider from "@/components/providers/query-provider";
@@ -12,7 +13,7 @@ import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { fontClassNames } from "@/lib/fonts";
-import { getMetadataBase } from "@/lib/seo/site";
+import { SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
 
 const metadataBase = getMetadataBase();
 
@@ -24,13 +25,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase,
-  applicationName: "STEAM 探索",
+  applicationName: SITE_NAME,
   title: {
-    template: "%s | STEAM 探索",
-    default: "STEAM 探索",
+    template: `%s | ${SITE_NAME}`,
+    default: SITE_NAME,
   },
-  description:
-    "STEAM 项目式学习与自然观察社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。",
+  description: SITE_DESCRIPTION,
   keywords: [
     "STEAM",
     "STEAM教育",
@@ -50,14 +50,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_CN",
     url: "/",
-    title: "STEAM 探索",
-    description:
-      "STEAM 项目式学习与自然观察社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。",
-    siteName: "STEAM 探索",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary",
-    title: "STEAM 探索",
+    title: SITE_NAME,
     description: "STEAM 项目式学习与自然观察社区",
   },
   robots: {
@@ -92,7 +91,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               disableTransitionOnChange
             >
               <ErrorBoundary>
-                <ConditionalAppShell>{children}</ConditionalAppShell>
+                <ConditionalAppShell footer={<SiteFooter />}>{children}</ConditionalAppShell>
               </ErrorBoundary>
               <BadgeUnlockOverlayMount />
               <Toaster />

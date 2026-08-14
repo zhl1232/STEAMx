@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { SITE_NAME } from "@/lib/seo/site";
+
 export const DEFAULT_SEO_KEYWORDS = [
   "STEAM",
   "STEAM教育",
@@ -10,8 +12,6 @@ export const DEFAULT_SEO_KEYWORDS = [
   "自然观察",
   "鸟类观察",
 ];
-
-const SITE_NAME = "STEAM 探索";
 
 function uniqueKeywords(keywords: Array<string | null | undefined>) {
   return Array.from(

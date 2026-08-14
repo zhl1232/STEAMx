@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { ConditionalAppShell } from './conditional-app-shell'
+import { ConditionalAppShell, shouldShowSiteFooter } from './conditional-app-shell'
 
 const { mockUseAuth, mockUsePathname } = vi.hoisted(() => ({
   mockUseAuth: vi.fn(),
@@ -88,10 +88,14 @@ vi.mock('@/components/layout/logo', () => ({
   SteamLogo: () => <span data-testid="steam-logo" />,
 }))
 
-function renderShell(pathname: string, children: ReactNode = <div data-testid="page-owned-mobile-header" />) {
+function renderShell(
+  pathname: string,
+  children: ReactNode = <div data-testid="page-owned-mobile-header" />,
+  footer: ReactNode = <footer data-testid="site-footer">京ICP备2025129751号-2</footer>,
+) {
   mockUsePathname.mockReturnValue(pathname)
 
-  return render(<ConditionalAppShell>{children}</ConditionalAppShell>)
+  return render(<ConditionalAppShell footer={footer}>{children}</ConditionalAppShell>)
 }
 
 describe('ConditionalAppShell mobile header policy', () => {
@@ -157,6 +161,17 @@ describe('ConditionalAppShell mobile header policy', () => {
     expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
   })
 
+  it('shows the site footer on public pages and hides it on immersive routes', () => {
+    const { unmount } = renderShell('/', <div data-testid="page-content" />)
+
+    expect(screen.getByTestId('site-footer')).toBeInTheDocument()
+
+    unmount()
+    renderShell('/playground/minesweeper', <div data-testid="page-content" />)
+
+    expect(screen.queryByTestId('site-footer')).not.toBeInTheDocument()
+  })
+
   it.each(['/create', '/explore', '/nature', '/profile'])(
     'lets the primary mobile entry route %s own its header',
     (pathname) => {
@@ -176,4 +191,16 @@ describe('ConditionalAppShell mobile header policy', () => {
       expect(screen.getByTestId('page-owned-mobile-header')).toBeInTheDocument()
     },
   )
+})
+
+describe('shouldShowSiteFooter', () => {
+  it('keeps the footer on public pages and hides it on login, games, lessons, and admin', () => {
+    expect(shouldShowSiteFooter('/')).toBe(true)
+    expect(shouldShowSiteFooter('/project/12')).toBe(true)
+    expect(shouldShowSiteFooter('/legal/privacy')).toBe(true)
+    expect(shouldShowSiteFooter('/login')).toBe(false)
+    expect(shouldShowSiteFooter('/playground/minesweeper')).toBe(false)
+    expect(shouldShowSiteFooter('/courses/2/lessons/9')).toBe(false)
+    expect(shouldShowSiteFooter('/admin')).toBe(false)
+  })
 })
