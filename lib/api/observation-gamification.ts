@@ -1,12 +1,20 @@
 import { fetchObservedSpeciesIdsForApprovedEvents } from '@/lib/api/nature-observation-observed-species'
 import { BADGES } from "@/lib/gamification/badges"
+import { buildNatureBadgeStats } from "@/lib/gamification/species-difficulty"
 import type { UserStats } from "@/lib/gamification/types"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { awardXpOnce } from '@/lib/api/server-awards'
 
 const OBSERVATION_XP = 10
 const OBSERVER_THRESHOLDS = [1, 10, 30, 100]
-const OBSERVATION_BADGE_SERIES = new Set(["bird_observer", "species_collector"])
+export const OBSERVATION_BADGE_SERIES = new Set([
+  "bird_observer",
+  "species_collector",
+  "bird_common",
+  "bird_uncommon",
+  "bird_rare",
+  "insect_rank",
+])
 
 function getNextThreshold(count: number) {
   return OBSERVER_THRESHOLDS.find((threshold) => count < threshold) ?? OBSERVER_THRESHOLDS[OBSERVER_THRESHOLDS.length - 1]
@@ -30,6 +38,7 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
 
   const eventIds = (observationRows ?? []).map((row) => row.id)
   let speciesObserved = 0
+  let natureStats = buildNatureBadgeStats([])
 
   if (eventIds.length > 0) {
     const observedSpeciesIds = await fetchObservedSpeciesIdsForApprovedEvents(supabaseAdmin, eventIds, {
@@ -37,6 +46,24 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
       logLabel: 'observation gamification stats',
     })
     speciesObserved = observedSpeciesIds.size
+
+    if (observedSpeciesIds.size > 0) {
+      const { data: speciesRows, error: speciesError } = await supabaseAdmin
+        .from("species")
+        .select("slug, nature_topic")
+        .in("id", [...observedSpeciesIds])
+
+      if (speciesError) {
+        throw speciesError
+      }
+
+      natureStats = buildNatureBadgeStats(
+        (speciesRows ?? []).map((row) => ({
+          slug: row.slug,
+          natureTopic: row.nature_topic,
+        })),
+      )
+    }
   }
 
   const observationDates = Array.from(
@@ -108,6 +135,12 @@ async function fetchObservationStats(userId: string): Promise<UserStats> {
     observationsSubmitted: observationRows?.length ?? 0,
     speciesObserved,
     observationStreak,
+    commonBirdsObserved: natureStats.commonBirdsObserved,
+    uncommonBirdsObserved: natureStats.uncommonBirdsObserved,
+    rareBirdsObserved: natureStats.rareBirdsObserved,
+    insectRank: natureStats.insectRank,
+    observedInsectSlugs: natureStats.observedInsectSlugs,
+    mythicInsectsObserved: natureStats.mythicInsectsObserved,
   }
 }
 
@@ -186,31 +219,45 @@ export async function syncObservationBadges(userId: string) {
 
   const stats = await fetchObservationStats(userId)
   const managedBadgeIds = BADGES.filter((badge) => badge.seriesKey && OBSERVATION_BADGE_SERIES.has(badge.seriesKey)).map((badge) => badge.id)
+  const earnedBadgeIds = BADGES.filter((badge) => {
+    if (!badge.seriesKey || !OBSERVATION_BADGE_SERIES.has(badge.seriesKey)) {
+      return false
+    }
+    return badge.condition(stats)
+  }).map((badge) => badge.id)
+  const earnedSet = new Set(earnedBadgeIds)
 
-  if (managedBadgeIds.length > 0) {
+  const { data: existingRows, error: existingError } = await supabaseAdmin
+    .from("user_badges")
+    .select("badge_id")
+    .eq("user_id", userId)
+    .in("badge_id", managedBadgeIds)
+
+  if (existingError) {
+    throw existingError
+  }
+
+  const existingSet = new Set((existingRows ?? []).map((row) => row.badge_id))
+  const toInsert = earnedBadgeIds.filter((badgeId) => !existingSet.has(badgeId))
+  const toRevoke = [...existingSet].filter((badgeId) => !earnedSet.has(badgeId))
+
+  if (toRevoke.length > 0) {
     const { error: deleteError } = await supabaseAdmin
       .from("user_badges")
       .delete()
       .eq("user_id", userId)
-      .in("badge_id", managedBadgeIds)
+      .in("badge_id", toRevoke)
 
     if (deleteError) {
       throw deleteError
     }
   }
 
-  const unlockedBadgeIds = BADGES.filter((badge) => {
-    if (!badge.seriesKey || !OBSERVATION_BADGE_SERIES.has(badge.seriesKey)) {
-      return false
-    }
-    return badge.condition(stats)
-  }).map((badge) => badge.id)
-
-  if (unlockedBadgeIds.length > 0) {
+  if (toInsert.length > 0) {
     const { error: insertError } = await supabaseAdmin
       .from("user_badges")
       .upsert(
-        unlockedBadgeIds.map((badgeId) => ({
+        toInsert.map((badgeId) => ({
           user_id: userId,
           badge_id: badgeId,
           unlocked_at: new Date().toISOString(),

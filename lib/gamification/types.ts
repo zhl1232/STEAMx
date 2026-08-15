@@ -78,9 +78,19 @@ export interface UserStats {
     lessonsCompleted?: number;         // 已完成的课时数
     /** 作品统一口径：项目终稿 + 课时作品，均需审核通过 */
     worksPublished?: number;
+    /** 常见 / 进阶 / 稀有鸟点亮种数 */
+    commonBirdsObserved?: number;
+    uncommonBirdsObserved?: number;
+    rareBirdsObserved?: number;
+    /** 昆虫手册最高已完成级：0 未入门，1=D … 5=S */
+    insectRank?: number;
+    /** 已点亮的昆虫 slug，图鉴详情用来画九宫格 */
+    observedInsectSlugs?: string[];
+    /** 神物名单已点亮种数；未揭示时 UI 不展示种名 */
+    mythicInsectsObserved?: number;
 }
 
-export type BadgeTier = "bronze" | "silver" | "gold" | "platinum";
+export type BadgeTier = "bronze" | "silver" | "gold" | "platinum" | "diamond";
 
 export type BadgeKind = "tiered" | "single";
 
@@ -90,7 +100,7 @@ export interface Badge {
     description: string;
     icon: string;
     condition: (stats: UserStats) => boolean;
-    /** 仅阶梯徽章：铜/银/金/白金 */
+    /** 仅阶梯徽章：铜/银/金/白金，昆虫观察另有钻石 */
     tier?: BadgeTier;
     /** 系列标识，用于分组展示 */
     seriesKey?: string;

@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { getInsectRankLevel } from "@/lib/gamification/species-difficulty";
 import { UserStats } from "@/lib/gamification/types";
 import { useAuth } from '@/lib/context/auth-context';
 
@@ -121,6 +122,9 @@ export function useGamificationData() {
 
             // Calculate current level based on XP from profile (already fetched in step 1) or pass it in
             const currentLevel = Math.floor(Math.sqrt((xp || 0) / 100)) + 1;
+            const observedInsectSlugs = Array.isArray(stats.observedInsectSlugs)
+                ? stats.observedInsectSlugs.filter((slug): slug is string => typeof slug === "string")
+                : [];
 
             return {
                 projectsPublished: stats.projectsPublished || 0,
@@ -156,6 +160,12 @@ export function useGamificationData() {
                 lessonsStarted: stats.lessonsStarted || 0,
                 lessonsCompleted: stats.lessonsCompleted || 0,
                 worksPublished: stats.worksPublished || 0,
+                commonBirdsObserved: stats.commonBirdsObserved || 0,
+                uncommonBirdsObserved: stats.uncommonBirdsObserved || 0,
+                rareBirdsObserved: stats.rareBirdsObserved || 0,
+                observedInsectSlugs,
+                insectRank: getInsectRankLevel(new Set(observedInsectSlugs)),
+                mythicInsectsObserved: stats.mythicInsectsObserved || 0,
             };
         },
         enabled,

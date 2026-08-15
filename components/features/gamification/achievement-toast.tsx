@@ -8,6 +8,7 @@ const TIER_TOAST_STYLES: Record<BadgeTier, string> = {
     silver: "border-slate-400 bg-linear-to-br from-slate-100 to-slate-200 dark:from-slate-700/40 dark:to-slate-800/30 dark:border-slate-500/50",
     gold: "border-yellow-500 bg-linear-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900/40 dark:to-yellow-800/30 dark:border-yellow-400/50",
     platinum: "border-cyan-400 bg-linear-to-br from-cyan-100 to-cyan-200 dark:from-cyan-900/40 dark:to-cyan-800/30 dark:border-cyan-400/50",
+    diamond: "border-violet-400 bg-linear-to-br from-violet-100 to-indigo-200 dark:from-violet-900/40 dark:to-indigo-800/30 dark:border-violet-400/50",
 };
 
 interface AchievementToastProps {

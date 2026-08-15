@@ -1,8 +1,15 @@
 import { Badge, BadgeTier, UserStats } from "./types";
 
-const TIER_RANK: Record<BadgeTier, number> = { bronze: 0, silver: 1, gold: 2, platinum: 3 };
+export const TIER_RANK: Record<BadgeTier, number> = {
+    bronze: 0,
+    silver: 1,
+    gold: 2,
+    platinum: 3,
+    diamond: 4,
+};
 
 export const BADGE_TIERS: BadgeTier[] = ["bronze", "silver", "gold", "platinum"];
+export const EXTENDED_BADGE_TIERS: BadgeTier[] = ["bronze", "silver", "gold", "platinum", "diamond"];
 
 /** 阶梯徽章档位标签（UI 角标，不拼进成就名） */
 export const BADGE_TIER_LABELS: Record<BadgeTier, string> = {
@@ -10,10 +17,11 @@ export const BADGE_TIER_LABELS: Record<BadgeTier, string> = {
     silver: "银",
     gold: "金",
     platinum: "白金",
+    diamond: "钻石",
 };
 
-type TierThresholds = [number, number, number, number]; // [铜, 银, 金, 白金]
-type TierNames = [string, string, string, string];
+type TierThresholds = readonly number[];
+type TierNames = readonly string[];
 
 interface TieredSeriesConfig {
     seriesKey: string;
@@ -26,22 +34,20 @@ interface TieredSeriesConfig {
 }
 
 function buildTieredBadges(config: TieredSeriesConfig): Badge[] {
-    const badges: Badge[] = [];
-    const tiers: BadgeTier[] = ["bronze", "silver", "gold", "platinum"];
-    tiers.forEach((tier, i) => {
+    const tiers = config.thresholds.length === 5 ? EXTENDED_BADGE_TIERS : BADGE_TIERS;
+    return tiers.map((tier, i) => {
         const value = config.thresholds[i];
-        badges.push({
+        return {
             id: `${config.seriesKey}_${tier}`,
             name: config.tierNames[i],
             description: config.descriptionTemplate(tier, value),
             icon: config.icon,
             tier,
             seriesKey: config.seriesKey,
-            kind: "tiered",
-            condition: (stats) => config.getValue(stats) >= value,
-        });
+            kind: "tiered" as const,
+            condition: (stats: UserStats) => config.getValue(stats) >= value,
+        };
     });
-    return badges;
 }
 
 const TIERED_SERIES: TieredSeriesConfig[] = [
@@ -79,7 +85,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.scienceCompleted,
         thresholds: [3, 10, 20, 50],
         tierNames: ["好奇观察员", "实验室常客", "假说验证者", "真理追寻者"],
-        descriptionTemplate: (_, v) => `完成科学类项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个科学项目或观察`,
     },
     {
         seriesKey: "tech_expert",
@@ -88,7 +94,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.techCompleted,
         thresholds: [3, 10, 20, 50],
         tierNames: ["逻辑启程", "模块搭建师", "算法能手", "数字建筑师"],
-        descriptionTemplate: (_, v) => `完成技术类项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个技术项目或课时`,
     },
     {
         seriesKey: "engineering_expert",
@@ -97,7 +103,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.engineeringCompleted,
         thresholds: [3, 10, 20, 50],
         tierNames: ["图纸初探", "蓝图构建师", "结构驾驭者", "匠心工程师"],
-        descriptionTemplate: (_, v) => `完成工程类项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个工程项目或课时`,
     },
     {
         seriesKey: "art_expert",
@@ -106,7 +112,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.artCompleted,
         thresholds: [3, 10, 20, 50],
         tierNames: ["灵感捕捉者", "色感觉醒", "构图掌舵人", "意境塑造者"],
-        descriptionTemplate: (_, v) => `完成艺术类项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个艺术项目或课时作品`,
     },
     {
         seriesKey: "math_expert",
@@ -115,16 +121,16 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.mathCompleted,
         thresholds: [3, 10, 20, 50],
         tierNames: ["坐标系漫步", "逻辑矩阵", "模型破译者", "万物皆方程"],
-        descriptionTemplate: (_, v) => `完成数学类项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个数学项目或课时`,
     },
     {
         seriesKey: "social",
         label: "留言互动",
         icon: "message_circle",
-        getValue: (s) => s.commentsCount + s.repliesCount + s.discussionsCreated,
+        getValue: (s) => s.commentsCount + s.repliesCount,
         thresholds: [1, 30, 150, 500],
         tierNames: ["初次见面", "常来聊聊", "气氛担当", "讨论引路人"],
-        descriptionTemplate: (_, v) => `评论与回复合计 ${v} 条`,
+        descriptionTemplate: (_, v) => `留言与回复合计 ${v} 条`,
     },
     {
         seriesKey: "popularity",
@@ -142,7 +148,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.projectsCompleted,
         thresholds: [5, 20, 50, 100],
         tierNames: ["起步探索", "探索进阶者", "创造巨匠", "传奇英雄"],
-        descriptionTemplate: (_, v) => `完成项目 ${v} 个`,
+        descriptionTemplate: (_, v) => `完成 ${v} 个项目或课时`,
     },
     {
         seriesKey: "level",
@@ -178,7 +184,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.observationsSubmitted ?? 0,
         thresholds: [1, 10, 30, 100],
         tierNames: ["见习观察员", "田野记录者", "自然追迹者", "自然编目者"],
-        descriptionTemplate: (_, v) => `提交 ${v} 条观察记录`,
+        descriptionTemplate: (_, v) => `审核通过的观察记录达到 ${v} 条`,
     },
     {
         seriesKey: "species_collector",
@@ -187,14 +193,59 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         getValue: (s) => s.speciesObserved ?? 0,
         thresholds: [3, 10, 30, 80],
         tierNames: ["物种初识", "多样发现者", "名录收集者", "物种博学家"],
-        descriptionTemplate: (_, v) => `观察到 ${v} 种不同物种`,
+        descriptionTemplate: (_, v) => `图鉴点亮 ${v} 种不同物种`,
+    },
+    {
+        seriesKey: "bird_common",
+        label: "常见鸟",
+        icon: "bird",
+        getValue: (s) => s.commonBirdsObserved ?? 0,
+        thresholds: [3, 8, 15, 25],
+        tierNames: ["常见新识", "常见常客", "常见能手", "常见达人"],
+        descriptionTemplate: (_, v) => `点亮 ${v} 种常见鸟`,
+    },
+    {
+        seriesKey: "bird_uncommon",
+        label: "进阶鸟",
+        icon: "bird",
+        getValue: (s) => s.uncommonBirdsObserved ?? 0,
+        thresholds: [2, 5, 12, 20],
+        tierNames: ["进阶新识", "进阶常客", "进阶能手", "进阶达人"],
+        descriptionTemplate: (_, v) => `点亮 ${v} 种进阶鸟`,
+    },
+    {
+        seriesKey: "bird_rare",
+        label: "稀有鸟",
+        icon: "bird",
+        getValue: (s) => s.rareBirdsObserved ?? 0,
+        thresholds: [1, 2, 4, 8],
+        tierNames: ["稀有初见", "稀有复见", "稀有能手", "稀有达人"],
+        descriptionTemplate: (_, v) => `点亮 ${v} 种稀有鸟`,
+    },
+    {
+        seriesKey: "insect_rank",
+        label: "昆虫观察",
+        icon: "butterfly",
+        getValue: (s) => s.insectRank ?? 0,
+        thresholds: [1, 2, 3, 4, 5],
+        tierNames: ["D 级", "C 级", "B 级", "A 级", "S 级"],
+        descriptionTemplate: (tier) => {
+            if (tier === "diamond") return "完成手册 S 级任一项挑战";
+            const rankByTier: Record<Exclude<BadgeTier, "diamond">, string> = {
+                bronze: "D",
+                silver: "C",
+                gold: "B",
+                platinum: "A",
+            };
+            return `完成手册 ${rankByTier[tier]} 级任意一套九宫格`;
+        },
     },
     {
         seriesKey: "playground_explorer",
         label: "游乐场探索",
         icon: "compass",
         getValue: (s) => s.playgroundGamesPlayed ?? 0,
-        thresholds: [3, 6, 10, 13],
+        thresholds: [3, 8, 13, 18],
         tierNames: ["游园新客", "多面玩家", "全能体验官", "全图鉴玩家"],
         descriptionTemplate: (_, v) => `玩过 ${v} 个不同游乐场游戏`,
     },
@@ -213,7 +264,7 @@ const TIERED_BADGES: Badge[] = TIERED_SERIES.flatMap(buildTieredBadges);
 
 const SINGLE_BADGES: Badge[] = [
     { id: "first_step", name: "第一步", description: "完成注册账号", icon: "footprints", kind: "single", seriesKey: "first_steps", condition: () => true },
-    { id: "explorer", name: "初级探索者", description: "完成 1 个项目", icon: "compass", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.projectsCompleted >= 1 },
+    { id: "explorer", name: "初级探索者", description: "完成 1 个项目或课时", icon: "compass", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.projectsCompleted >= 1 || (stats.lessonsCompleted ?? 0) >= 1 },
     { id: "challenge_rookie", name: "挑战新人", description: "首次参加挑战", icon: "flag_checkered", kind: "single", seriesKey: "first_steps", condition: (stats) => stats.challengesJoined >= 1 },
     {
         id: "growth_graduate",
@@ -264,19 +315,81 @@ export const SERIES_ORDER: { key: string; label: string }[] = [
     { key: "rare", label: "稀有限定" },
 ];
 
+export const LADDER_SERIES_KEYS = TIERED_SERIES.map((series) => series.seriesKey);
+export const SINGLE_SERIES_KEYS = ["first_steps", "playground_star", "rare"] as const;
+const HIDDEN_DIAMOND_SERIES = new Set(["insect_rank"]);
+
+export function isLadderSeries(seriesKey: string) {
+    return LADDER_SERIES_KEYS.includes(seriesKey);
+}
+
+export function getSeriesLabel(seriesKey: string) {
+    return SERIES_ORDER.find((item) => item.key === seriesKey)?.label ?? seriesKey;
+}
+
+export function getSeriesThresholds(seriesKey: string) {
+    return TIERED_SERIES.find((series) => series.seriesKey === seriesKey)?.thresholds ?? [];
+}
+
+/** 未解锁的钻石档不出现在图鉴时间线，看起来像白金满级。 */
+export function getVisibleSeriesBadges(seriesBadges: Badge[], unlockedIds: Set<string>): Badge[] {
+    return seriesBadges.filter((badge) => {
+        if (badge.tier !== "diamond") return true;
+        if (!badge.seriesKey || !HIDDEN_DIAMOND_SERIES.has(badge.seriesKey)) return true;
+        return unlockedIds.has(badge.id);
+    });
+}
+
+/**
+ * 阶梯系列在图鉴网格里只露一枚：已解锁取最高可见档，未解锁取铜档灰态。
+ */
+export function getSeriesDisplayBadge(seriesBadges: Badge[], unlockedIds: Set<string>): Badge | null {
+    const visible = getVisibleSeriesBadges(seriesBadges, unlockedIds);
+    if (visible.length === 0) return null;
+
+    const unlocked = visible.filter((badge) => badge.tier && unlockedIds.has(badge.id));
+    if (unlocked.length === 0) {
+        return visible.find((badge) => badge.tier === "bronze") ?? visible[0];
+    }
+
+    return unlocked.reduce((highest, badge) =>
+        TIER_RANK[badge.tier as BadgeTier] > TIER_RANK[highest.tier as BadgeTier] ? badge : highest
+    );
+}
+
+export function getSeriesProgressValue(seriesKey: string, stats?: UserStats | null): number | null {
+    const series = TIERED_SERIES.find((item) => item.seriesKey === seriesKey);
+    if (!series || !stats) return null;
+    return series.getValue(stats);
+}
+
+export function getNextSeriesThreshold(seriesKey: string, current: number, unlockedIds: Set<string>): number | null {
+    const thresholds = getSeriesThresholds(seriesKey);
+    if (thresholds.length === 0) return null;
+    const visibleCount = seriesKey === "insect_rank" && !unlockedIds.has("insect_rank_diamond")
+        ? Math.min(4, thresholds.length)
+        : thresholds.length;
+    return thresholds.slice(0, visibleCount).find((threshold) => current < threshold) ?? null;
+}
+
+export function isSeriesAtVisibleMax(seriesKey: string, current: number, unlockedIds: Set<string>) {
+    const next = getNextSeriesThreshold(seriesKey, current, unlockedIds);
+    return next === null && current > 0;
+}
+
 /**
  * 选取用于头像/列表等处展示的徽章：每个阶梯系列只取已解锁的最高档一枚，再补足首步/稀有限定，最多返回 maxCount 枚。
  */
 export function getBadgesForDisplay(badges: Badge[], unlockedIds: Set<string>, maxCount: number): Badge[] {
     const result: Badge[] = [];
-    const tieredSeriesKeys = TIERED_SERIES.map((s) => s.seriesKey);
-    for (const seriesKey of tieredSeriesKeys) {
+    for (const seriesKey of LADDER_SERIES_KEYS) {
         const inSeries = badges.filter((b) => b.seriesKey === seriesKey && b.tier && unlockedIds.has(b.id));
-        if (inSeries.length === 0) continue;
-        const highest = inSeries.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
+        const visible = getVisibleSeriesBadges(inSeries, unlockedIds);
+        if (visible.length === 0) continue;
+        const highest = visible.reduce((a, b) => (TIER_RANK[(b.tier as BadgeTier)] > TIER_RANK[(a.tier as BadgeTier)] ? b : a));
         result.push(highest);
     }
-    const singleSeries = new Set(["first_steps", "playground_star", "rare"]);
+    const singleSeries = new Set<string>(SINGLE_SERIES_KEYS);
     const singleUnlocked = badges.filter((b) => b.seriesKey && singleSeries.has(b.seriesKey) && unlockedIds.has(b.id));
     for (const b of singleUnlocked) {
         if (result.length >= maxCount) break;

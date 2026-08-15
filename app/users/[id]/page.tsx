@@ -5,12 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
 import { CalendarDays, UserRound } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from '@/lib/gamification/badges';
-import { SERIES_ORDER } from "@/lib/gamification/badges";
+import { BadgeSeriesGallery } from "@/components/features/gamification/badge-series-gallery";
 import { PageStatus } from "@/components/ui/page-status";
 import { getPublicUserProfile } from "@/lib/api/public-user-profile";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
@@ -21,51 +19,6 @@ import { PublicProfileWorks } from "./public-profile-works";
 
 interface PublicProfilePageProps {
   params: Promise<{ id?: string }>;
-}
-
-const TIER_ORDER = { bronze: 0, silver: 1, gold: 2, platinum: 3 } as const;
-
-function groupBadgesBySeries() {
-  const grouped = new Map<string, typeof BADGES>();
-  for (const badge of BADGES) {
-    const key = badge.seriesKey ?? "other";
-    const list = grouped.get(key) ?? [];
-    list.push(badge);
-    grouped.set(key, list);
-  }
-
-  for (const [, list] of grouped) {
-    list.sort((a, b) => {
-      if (a.tier && b.tier) return TIER_ORDER[a.tier] - TIER_ORDER[b.tier];
-      return 0;
-    });
-  }
-
-  return grouped;
-}
-
-function getSeriesStatusClass(isComplete: boolean) {
-  if (isComplete) {
-    return "border-emerald-200/80 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/10 dark:text-emerald-200";
-  }
-
-  return "border-border/70 bg-background/70 text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/70";
-}
-
-function getBadgeCardClass(isUnlocked: boolean) {
-  if (isUnlocked) {
-    return "border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--brand-blue)/0.045)]";
-  }
-
-  return "border-border/70 bg-background/72";
-}
-
-function getUnlockBadgeClass(isUnlocked: boolean) {
-  if (isUnlocked) {
-    return "h-5 border-emerald-200/80 bg-emerald-500/10 text-[10px] text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/12 dark:text-emerald-200";
-  }
-
-  return "h-5 border-border/70 bg-background/65 text-[10px] text-muted-foreground dark:border-white/10 dark:bg-white/4 dark:text-white/65";
 }
 
 function formatJoinDate(date: string) {
@@ -135,7 +88,6 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
     { label: "粉丝", value: followerCount },
     { label: "关注", value: followingCount },
   ];
-  const groupedBadges = groupBadgesBySeries();
   const unlockedBadgeIds = new Set(badgeIds);
 
   return (
@@ -245,79 +197,12 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
           </TabsContent>
 
           <TabsContent value="badges">
-            <div className="space-y-5">
-              {SERIES_ORDER.map(({ key, label }) => {
-                const badgesInSeries = groupedBadges.get(key) ?? [];
-                if (badgesInSeries.length === 0) return null;
-                const unlockedCount = badgesInSeries.filter((badge) => unlockedBadgeIds.has(badge.id)).length;
-
-                return (
-                  <section
-                    key={key}
-                    className="rounded-lg border border-border/70 bg-background/72 p-4 shadow-none sm:p-5"
-                  >
-                    <div className="mb-4 flex items-center justify-between gap-3">
-                      <div>
-                        <h3 className="text-sm font-semibold tracking-tight sm:text-base">{label}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {unlockedCount}/{badgesInSeries.length} 枚已解锁
-                        </p>
-                      </div>
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "h-6 rounded-full px-2.5 text-[10px] shadow-xs",
-                          getSeriesStatusClass(unlockedCount === badgesInSeries.length),
-                        )}
-                      >
-                        {unlockedCount === badgesInSeries.length ? "已完成" : "进行中"}
-                      </Badge>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
-                      {badgesInSeries.map((badge) => {
-                        const isUnlocked = unlockedBadgeIds.has(badge.id);
-                        return (
-                          <div
-                            key={badge.id}
-                            className={cn(
-                              "flex flex-col items-center justify-center gap-3 rounded-md border p-4 text-center sm:p-5",
-                              getBadgeCardClass(isUnlocked),
-                            )}
-                          >
-                            <BadgeIcon
-                              icon={badge.icon}
-                              tier={badge.tier}
-                              seriesKey={badge.seriesKey}
-                              size="lg"
-                              locked={!isUnlocked}
-                            />
-                            <div>
-                              <div className="text-sm font-bold">{badge.name}</div>
-                              <div className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-                                {badge.description}
-                              </div>
-                            </div>
-                            {isUnlocked ? (
-                              <Badge
-                                variant="secondary"
-                                className={getUnlockBadgeClass(true)}
-                              >
-                                已解锁
-                              </Badge>
-                            ) : (
-                              <Badge variant="outline" className={getUnlockBadgeClass(false)}>
-                                未解锁
-                              </Badge>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </section>
-                );
-              })}
-            </div>
+            <BadgeSeriesGallery
+              badges={BADGES}
+              unlockedBadges={unlockedBadgeIds}
+              showTabs={false}
+              onlyUnlocked
+            />
           </TabsContent>
         </Tabs>
       </div>

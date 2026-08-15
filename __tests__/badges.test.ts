@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { BADGES, PLAYGROUND_BADGE_COUNT } from '../lib/gamification/badges'
+import { BADGES, PLAYGROUND_BADGE_COUNT, getSeriesDisplayBadge, getVisibleSeriesBadges } from '../lib/gamification/badges'
 import { UserStats } from '../lib/gamification/types'
 
 const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
@@ -55,11 +55,12 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(badge!.condition(createStats())).toBe(true);
     });
 
-    test("explorer badge requires 1 project completion", () => {
+    test("explorer badge requires 1 project or 1 lesson", () => {
         const badge = BADGES.find((b) => b.id === "explorer");
         expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ projectsCompleted: 0 }))).toBe(false);
+        expect(badge!.condition(createStats({ projectsCompleted: 0, lessonsCompleted: 0 }))).toBe(false);
         expect(badge!.condition(createStats({ projectsCompleted: 1 }))).toBe(true);
+        expect(badge!.condition(createStats({ projectsCompleted: 0, lessonsCompleted: 1 }))).toBe(true);
     });
 
     // intro_likes 系列覆盖原 first_like 逻辑
@@ -136,20 +137,20 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(BADGES.find((b) => b.id === "social_butterfly")).toBeUndefined();
     });
 
-    test("social_bronze includes comments, discussions and replies", () => {
+    test("social_bronze counts comments and replies but not discussions", () => {
         const badge = BADGES.find((b) => b.id === "social_bronze");
         expect(badge).toBeDefined();
         expect(badge!.condition(createStats())).toBe(false);
         expect(badge!.condition(createStats({ commentsCount: 1 }))).toBe(true);
-        expect(badge!.condition(createStats({ discussionsCreated: 1 }))).toBe(true);
+        expect(badge!.condition(createStats({ discussionsCreated: 1 }))).toBe(false);
         expect(badge!.condition(createStats({ repliesCount: 1 }))).toBe(true);
     });
 
-    test("social_platinum requires discussions + comments + replies >= 500", () => {
+    test("social_platinum requires comments + replies >= 500", () => {
         const badge = BADGES.find((b) => b.id === "social_platinum");
         expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ discussionsCreated: 1, commentsCount: 250, repliesCount: 248 }))).toBe(false);
-        expect(badge!.condition(createStats({ discussionsCreated: 1, commentsCount: 250, repliesCount: 249 }))).toBe(true);
+        expect(badge!.condition(createStats({ discussionsCreated: 500, commentsCount: 250, repliesCount: 249 }))).toBe(false);
+        expect(badge!.condition(createStats({ commentsCount: 250, repliesCount: 250 }))).toBe(true);
     });
 
     test("level_bronze requires level >= 5", () => {
@@ -183,7 +184,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
 
     test("tiered badge names use achievement titles without legacy dot format", () => {
         const tiered = BADGES.filter((b) => b.kind === "tiered");
-        expect(tiered.length).toBe(72);
+        expect(tiered.length).toBe(89);
         for (const badge of tiered) {
             expect(badge.name).not.toMatch(/·/);
             expect(badge.name.length).toBeGreaterThan(0);
@@ -290,8 +291,8 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         const platinum = BADGES.find((b) => b.id === "playground_explorer_platinum");
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 2 }))).toBe(false);
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 3 }))).toBe(true);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 12 }))).toBe(false);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 13 }))).toBe(true);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 17 }))).toBe(false);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 18 }))).toBe(true);
     });
 
     test("playground_victories tiers require total wins thresholds", () => {
@@ -301,6 +302,29 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(bronze!.condition(createStats({ playgroundWinsTotal: 5 }))).toBe(true);
         expect(platinum!.condition(createStats({ playgroundWinsTotal: 499 }))).toBe(false);
         expect(platinum!.condition(createStats({ playgroundWinsTotal: 500 }))).toBe(true);
+    });
+
+    test("bird and insect ladders use the planned thresholds", () => {
+        expect(BADGES.find((b) => b.id === "bird_common_bronze")!.condition(createStats({ commonBirdsObserved: 2 }))).toBe(false);
+        expect(BADGES.find((b) => b.id === "bird_common_bronze")!.condition(createStats({ commonBirdsObserved: 3 }))).toBe(true);
+        expect(BADGES.find((b) => b.id === "bird_uncommon_gold")!.condition(createStats({ uncommonBirdsObserved: 11 }))).toBe(false);
+        expect(BADGES.find((b) => b.id === "bird_rare_platinum")!.condition(createStats({ rareBirdsObserved: 8 }))).toBe(true);
+        expect(BADGES.find((b) => b.id === "insect_rank_platinum")!.condition(createStats({ insectRank: 4 }))).toBe(true);
+        expect(BADGES.find((b) => b.id === "insect_rank_diamond")!.condition(createStats({ insectRank: 4 }))).toBe(false);
+        expect(BADGES.find((b) => b.id === "insect_rank_diamond")!.condition(createStats({ insectRank: 5 }))).toBe(true);
+    });
+
+    test("getSeriesDisplayBadge returns the highest visible tier and hides locked diamond", () => {
+        const insect = BADGES.filter((badge) => badge.seriesKey === "insect_rank");
+        const withoutDiamond = getSeriesDisplayBadge(
+            insect,
+            new Set(["insect_rank_bronze", "insect_rank_silver", "insect_rank_gold", "insect_rank_platinum"]),
+        );
+        expect(withoutDiamond?.id).toBe("insect_rank_platinum");
+        expect(getVisibleSeriesBadges(insect, new Set(["insect_rank_platinum"])).some((badge) => badge.tier === "diamond")).toBe(false);
+
+        const withDiamond = getSeriesDisplayBadge(insect, new Set(["insect_rank_diamond"]));
+        expect(withDiamond?.id).toBe("insect_rank_diamond");
     });
 
     test("playground badge count follows the active playground badge series", () => {

@@ -629,7 +629,7 @@ function MobileProfilePage({
         <section id="profile-badges-anchor" className="profile-mobile-panel p-4">
           <div className="flex items-center justify-between gap-3">
             <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
-            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats}>
               <button
                 type="button"
                 className="inline-flex min-h-11 shrink-0 items-center gap-0.5 text-xs font-semibold text-muted-foreground transition hover:text-[hsl(var(--brand-blue))]"
@@ -1144,7 +1144,7 @@ function ExperienceBadgesPanel({
       <div className="mt-5 border-t border-[hsl(var(--surface-border))] pt-4">
         <div className="mb-3 flex items-center justify-between gap-3">
           <p className="text-sm font-semibold text-foreground">最近获得的徽章</p>
-          <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+          <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats}>
             <button type="button" className="inline-flex min-h-8 shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)]">
               查看全部
               <ChevronRight className="h-3.5 w-3.5" />

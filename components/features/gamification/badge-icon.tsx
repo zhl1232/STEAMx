@@ -72,6 +72,12 @@ const TIER_COLORS = {
     motif: "text-cyan-50/60",
     ring: "border-cyan-50/25",
   },
+  diamond: {
+    icon: "text-[#f5f3ff] drop-shadow-[0_2px_4px_rgba(76,29,149,0.55)]",
+    glow: "group-hover:drop-shadow-[0_0_16px_rgba(167,139,250,0.95)]",
+    motif: "text-violet-50/70",
+    ring: "border-violet-50/30",
+  },
 };
 
 const LOCKED_COLORS = {
@@ -333,6 +339,48 @@ const SERIES_VISUALS: Partial<Record<string, SeriesVisual>> = {
       "radial-gradient(circle at 34% 28%, rgba(134, 239, 172, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(34, 197, 94, 0.16), transparent 48%)",
     ringClass: "border-lime-100/20",
   },
+  bird_common: {
+    motif: "nature",
+    accentImage:
+      "radial-gradient(circle at 34% 28%, rgba(125, 211, 252, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(14, 165, 233, 0.16), transparent 48%)",
+    ringClass: "border-sky-100/20",
+  },
+  bird_uncommon: {
+    motif: "nature",
+    accentImage:
+      "radial-gradient(circle at 34% 28%, rgba(129, 140, 248, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(79, 70, 229, 0.16), transparent 48%)",
+    ringClass: "border-indigo-100/20",
+  },
+  bird_rare: {
+    motif: "nature",
+    accentImage:
+      "radial-gradient(circle at 34% 28%, rgba(196, 181, 253, 0.3), transparent 40%), radial-gradient(circle at 72% 72%, rgba(139, 92, 246, 0.18), transparent 48%)",
+    ringClass: "border-violet-100/20",
+  },
+  insect_rank: {
+    motif: "nature",
+    accentImage:
+      "radial-gradient(circle at 34% 28%, rgba(52, 211, 153, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(16, 185, 129, 0.16), transparent 48%)",
+    ringClass: "border-emerald-100/20",
+  },
+  playground_explorer: {
+    motif: "speed",
+    accentImage:
+      "radial-gradient(circle at 35% 28%, rgba(103, 232, 249, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(14, 165, 233, 0.16), transparent 48%)",
+    ringClass: "border-cyan-100/20",
+  },
+  playground_victories: {
+    motif: "honor",
+    accentImage:
+      "radial-gradient(circle at 35% 28%, rgba(250, 204, 21, 0.3), transparent 40%), radial-gradient(circle at 72% 70%, rgba(249, 115, 22, 0.14), transparent 48%)",
+    ringClass: "border-yellow-100/20",
+  },
+  playground_star: {
+    motif: "honor",
+    accentImage:
+      "radial-gradient(circle at 35% 28%, rgba(251, 146, 60, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(244, 63, 94, 0.16), transparent 48%)",
+    ringClass: "border-orange-100/20",
+  },
   first_steps: {
     motif: "speed",
     accentImage:
@@ -516,6 +564,33 @@ const PlatinumShape = ({ uid }: { uid: string }) => (
   </svg>
 );
 
+const DiamondShape = ({ uid }: { uid: string }) => (
+  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full drop-shadow-[0_4px_12px_rgba(139,92,246,0.45)] transition-transform duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_8px_20px_rgba(167,139,250,0.6)]">
+    <defs>
+      <linearGradient id={`dia-base-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#f5f3ff" />
+        <stop offset="42%" stopColor="#c4b5fd" />
+        <stop offset="100%" stopColor="#5b21b6" />
+      </linearGradient>
+      <linearGradient id={`dia-rim-${uid}`} x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#ffffff" />
+        <stop offset="48%" stopColor="#ddd6fe" />
+        <stop offset="100%" stopColor="#7c3aed" />
+      </linearGradient>
+      <linearGradient id={`dia-glass-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="white" stopOpacity="0.86" />
+        <stop offset="40%" stopColor="white" stopOpacity="0.14" />
+        <stop offset="100%" stopColor="white" stopOpacity="0" />
+      </linearGradient>
+    </defs>
+    <path d="M50 1 L78 12 L96 34 L99 50 L96 66 L78 88 L50 99 L22 88 L4 66 L1 50 L4 34 L22 12 Z" fill={`url(#dia-rim-${uid})`} />
+    <path d="M50 8 L72 17 L88 36 L91 50 L88 64 L72 83 L50 92 L28 83 L12 64 L9 50 L12 36 L28 17 Z" fill={`url(#dia-base-${uid})`} />
+    <path d="M22 20 L50 10 L78 20 L86 40 C72 48 58 51 50 51 C42 51 28 48 14 40 Z" fill={`url(#dia-glass-${uid})`} opacity="0.82" />
+    <path d="M50 14 L70 22 L82 38 L84 50 L82 62 L70 78 L50 86 L30 78 L18 62 L16 50 L18 38 L30 22 Z" fill="none" stroke="#f5f3ff" strokeWidth="1.1" opacity="0.5" />
+    <path d="M50 18 L54 32 L50 22 L46 32 Z M78 50 L64 46 L72 50 L64 54 Z M22 50 L36 46 L28 50 L36 54 Z M50 82 L54 68 L50 78 L46 68 Z" fill="#e0e7ff" opacity="0.7" />
+  </svg>
+);
+
 const LockedShape = ({ uid }: { uid: string }) => (
   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full grayscale opacity-50 dark:opacity-30">
     <defs>
@@ -538,7 +613,8 @@ const SHAPE_MAP: Record<string, React.FC<{uid: string}>> = {
   bronze: BronzeShape,
   silver: SilverShape,
   gold: GoldShape,
-  platinum: PlatinumShape
+  platinum: PlatinumShape,
+  diamond: DiamondShape,
 };
 
 export function BadgeIcon({ icon, tier, seriesKey, className, size = "md", showGlow = true, locked = false }: BadgeIconProps) {

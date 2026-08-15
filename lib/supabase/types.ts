@@ -1533,6 +1533,7 @@ export interface Database {
           seasonality_notes: string | null
           cover_image_url: string | null
           audio_url: string | null
+          observation_difficulty: "common" | "uncommon" | "rare" | null
           is_active: boolean
           created_at: string
           updated_at: string
@@ -1553,6 +1554,7 @@ export interface Database {
           seasonality_notes?: string | null
           cover_image_url?: string | null
           audio_url?: string | null
+          observation_difficulty?: "common" | "uncommon" | "rare" | null
           is_active?: boolean
           created_at?: string
           updated_at?: string
@@ -1573,6 +1575,7 @@ export interface Database {
           seasonality_notes?: string | null
           cover_image_url?: string | null
           audio_url?: string | null
+          observation_difficulty?: "common" | "uncommon" | "rare" | null
           is_active?: boolean
           created_at?: string
           updated_at?: string
@@ -3263,6 +3266,14 @@ export interface Database {
             speciesObserved: number
             observationStreak: number
             growthTasksGraduated: boolean
+            lessonsStarted: number
+            lessonsCompleted: number
+            worksPublished: number
+            commonBirdsObserved: number
+            uncommonBirdsObserved: number
+            rareBirdsObserved: number
+            mythicInsectsObserved: number
+            observedInsectSlugs: string[]
         }
       }
       get_user_login_stats: {
