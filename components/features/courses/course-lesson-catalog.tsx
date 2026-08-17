@@ -61,7 +61,8 @@ export function CourseLessonCatalog({
             aria-hidden
           />
           <input
-            type="search"
+            type="text"
+            inputMode="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜课时，如「恐龙」「konglong」「kl」"

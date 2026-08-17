@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   Blocks,
+  ChevronRight,
   Clock3,
   FlaskConical,
   Heart,
@@ -354,7 +355,7 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
     <Link
       href={`/nature/observations/${observation.id}?from=${encodeURIComponent("/")}`}
       prefetch={false}
-      className="group grid h-[112px] grid-cols-[112px_minmax(0,1fr)] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]"
+      className="group grid h-[112px] grid-cols-[112px_minmax(0,1fr)_36px] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]"
     >
       <div className="relative aspect-square bg-[hsl(var(--surface-muted))]">
         {image ? (
@@ -373,12 +374,14 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
           </div>
         )}
       </div>
-      <div className="flex min-w-0 flex-col justify-center p-3">
-        <h3 className="truncate text-sm font-bold text-foreground">{title}</h3>
-        <p className="mt-1 truncate text-xs text-muted-foreground">
-          {observation.authorDisplayName || "自然观察者"}
-        </p>
-        <div className="mt-3 space-y-1 text-[11px] text-muted-foreground">
+      <div className="flex min-w-0 flex-col justify-between p-3 pr-2">
+        <div className="min-w-0">
+          <h3 className="truncate text-sm font-bold leading-5 text-foreground">{title}</h3>
+          <p className="mt-0.5 truncate text-xs leading-4 text-muted-foreground">
+            {observation.authorDisplayName || "自然观察者"}
+          </p>
+        </div>
+        <div className="mt-2 space-y-1 text-[11px] leading-4 text-muted-foreground">
           <p className="flex items-center gap-1 truncate">
             <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--brand-green))]" />
             <span className="truncate">{observation.locationName || "未标注地点"}</span>
@@ -388,6 +391,9 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
             {formatRelativeTime(observation.createdAt)}
           </p>
         </div>
+      </div>
+      <div className="flex items-center justify-center bg-[hsl(var(--surface-muted)/0.24)] text-muted-foreground/55 transition-colors group-hover:bg-[hsl(var(--brand-green)/0.07)] group-hover:text-[hsl(var(--brand-green))]">
+        <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2.1} />
       </div>
     </Link>
   );

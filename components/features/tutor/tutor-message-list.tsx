@@ -230,7 +230,7 @@ export function TutorMessageList({
 
       {view === 'chat' &&
         messages.map((message, i) => {
-          const speechKey = `chat-${i}`
+          const speechKey = message.speechKey ?? `chat-${i}`
           return message.role === 'assistant' ? (
             <TutorBubble
               key={i}

@@ -28,6 +28,7 @@ export type TutorChatMessage = {
   images?: string[]
   error?: boolean
   streaming?: boolean
+  speechKey?: string
 }
 
 export type TutorSendMessageOptions = {
@@ -153,16 +154,25 @@ export function useTutorChatStream({
         })
       }
       const willSpeak = Boolean(autoReadReplies || options.forceReadReply)
-      const assistantSpeechKeyRef = { current: 'chat-live' }
+      // Keep a unique stream key stable before the state updater runs. The
+      // updater may execute after beginStreamedSpeech(), so deriving this from
+      // the eventual message index can make every audio frame look stale.
+      const assistantSpeechKeyRef = {
+        current: `chat-live-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      }
       setMessages((current) => {
         const next = [
           ...current,
           userMessage,
-          { role: 'assistant' as const, content: '', streaming: true },
+          { role: 'assistant' as const, content: '', streaming: true, speechKey: assistantSpeechKeyRef.current },
         ]
-        assistantSpeechKeyRef.current = `chat-${next.length - 1}`
         return next
       })
+
+      const withAssistantSpeechKey = (patch: TutorChatMessage): TutorChatMessage =>
+        patch.role === 'assistant' && !patch.speechKey
+          ? { ...patch, speechKey: assistantSpeechKeyRef.current }
+          : patch
 
       // 用「找最后一条 streaming 占位」代替固定索引，避免 loadSession 等并发更新打乱下标。
       const patchStreaming = (patch: TutorChatMessage) => {
@@ -170,11 +180,11 @@ export function useTutorChatStream({
           const next = [...current]
           for (let i = next.length - 1; i >= 0; i -= 1) {
             if (next[i].role === 'assistant' && next[i].streaming) {
-              next[i] = patch
+              next[i] = withAssistantSpeechKey(patch)
               return next
             }
           }
-          next.push(patch)
+          next.push(withAssistantSpeechKey(patch))
           return next
         })
       }
@@ -184,11 +194,11 @@ export function useTutorChatStream({
           const next = [...current]
           for (let i = next.length - 1; i >= 0; i -= 1) {
             if (next[i].role === 'assistant') {
-              next[i] = patch
+              next[i] = withAssistantSpeechKey(patch)
               return next
             }
           }
-          next.push(patch)
+          next.push(withAssistantSpeechKey(patch))
           return next
         })
       }
@@ -284,7 +294,11 @@ export function useTutorChatStream({
         const settleAssistantText = (content: string) => {
           if (settledText) return
           settledText = true
-          const assistantMessage: TutorChatMessage = { role: 'assistant', content: content || '…' }
+          const assistantMessage: TutorChatMessage = {
+            role: 'assistant',
+            content: content || '…',
+            speechKey: assistantSpeechKeyRef.current,
+          }
           patchLastAssistant(assistantMessage)
           releaseBusy()
           if (toolFailed) {
