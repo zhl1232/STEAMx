@@ -282,6 +282,7 @@ export function useTutorChatStream({
         let sawToolCall = false
         let receivedAudio = false
         let speechPlaybackFailed = false
+        let speechStreamWentStale = false
         let settledText = false
 
         const releaseBusy = () => {
@@ -344,6 +345,7 @@ export function useTutorChatStream({
             const accepted = pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current)
             receivedAudio = accepted === true || receivedAudio
             speechPlaybackFailed = speechPlaybackFailed || accepted === false
+            speechStreamWentStale = speechStreamWentStale || accepted === null
           } else if (event.type === 'done' && event.reply) {
             full = event.reply
             settleAssistantText(full)
@@ -382,7 +384,10 @@ export function useTutorChatStream({
         if (!settledText) settleAssistantText(full || '…')
         const shouldSpeak = willSpeak
         const speechResult = shouldSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
-        if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechResult === false) {
+        // null 表示这条语音已被另一条流/场景接管；只有收到过“stale”帧时才重试，
+        // 避免用户主动停止后，旧 SSE 结束时又自动重新播放。
+        const speechNeedsRetry = speechResult === false || speechStreamWentStale
+        if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechNeedsRetry) {
           void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }
       } catch (error) {

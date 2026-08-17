@@ -305,7 +305,9 @@ export function useTutorVoice({
       try {
         const playFallback = async () => {
           // PCM 播放器不可用、实时接口失败或没有产出音频时，回到浏览器原生音频播放。
-          finishStreamedSpeech(speechKey)
+          const streamedResult = finishStreamedSpeech(speechKey)
+          // 用户已经停止朗读，或场景已经切换到另一条语音：不要把旧请求重新播出来。
+          if (streamedResult === null) return
           const fallbackRes = await requestSynthesize(true)
           if (speechRequestIdRef.current !== speechRequestId) return
           if (!fallbackRes.ok) {
@@ -335,15 +337,18 @@ export function useTutorVoice({
             }
           }
           if (speechRequestIdRef.current !== speechRequestId) return
+          const streamedResult = finishStreamedSpeech(speechKey)
+          if (streamedResult === null) return
           if (gotAudio) {
-            finishStreamedSpeech(speechKey)
+            if (streamedResult === true) return
+            await playFallback()
             return
           }
           await playFallback()
           return
         }
 
-        finishStreamedSpeech(speechKey)
+        if (finishStreamedSpeech(speechKey) === null) return
         await playMpegBlob(await res.blob(), speechKey, speechRequestId)
       } catch (error) {
         if (speechRequestIdRef.current !== speechRequestId) return

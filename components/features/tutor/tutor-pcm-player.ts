@@ -81,6 +81,9 @@ export function createTutorPcmPlayer(options: { onEnded?: () => void } = {}): Tu
       if (audioContext.state === 'suspended') {
         await audioContext.resume()
       }
+      if (audioContext.state !== 'running') {
+        throw new Error('当前浏览器暂时无法播放语音。')
+      }
     },
     enqueue(pcm, sampleRate = DEFAULT_SAMPLE_RATE) {
       if (stopped || pcm.byteLength < 2) return

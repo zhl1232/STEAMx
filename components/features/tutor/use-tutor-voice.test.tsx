@@ -104,4 +104,32 @@ describe('useTutorVoice speech fallback', () => {
     expect(mocks.audioPlay).toHaveBeenCalledOnce()
     expect(mocks.toast).not.toHaveBeenCalled()
   })
+
+  it('plays the streamed PCM response when Web Audio is available', async () => {
+    mocks.pcmPlayer.resume.mockResolvedValue(undefined)
+    const contextKeyRef = { current: 'global:' }
+    const busyRef = { current: false }
+    const { result } = renderHook(() =>
+      useTutorVoice({
+        open: true,
+        mounted: true,
+        hideOnMobile: false,
+        contextKey: 'global:',
+        contextKeyRef,
+        quota: null,
+        busyRef,
+        onComposerTranscript: vi.fn(),
+        onLongPressTranscript: vi.fn(),
+      }),
+    )
+
+    await act(async () => {
+      await result.current.playSpeech('这是一段流式测试语音。', 'chat-stream-1')
+    })
+
+    expect(mocks.pcmPlayer.enqueue).toHaveBeenCalledWith(expect.any(ArrayBuffer), 24_000)
+    expect(mocks.pcmPlayer.markStreamComplete).toHaveBeenCalled()
+    expect(mocks.fetch).toHaveBeenCalledOnce()
+    expect(mocks.audioPlay).not.toHaveBeenCalled()
+  })
 })
