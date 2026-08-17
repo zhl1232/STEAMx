@@ -1,93 +1,77 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@/lib/supabase/server';
+import { hasLdrawModelFile } from '@/lib/courses/ldraw-bom-source';
 import { logger } from '@/lib/logger';
 import { buildAbsoluteUrl } from '@/lib/seo/site';
 
 export const dynamic = 'force-dynamic';
 
+function toLastModified(value: string | null | undefined) {
+    if (!value) return undefined;
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const routes: MetadataRoute.Sitemap = [
         {
             url: buildAbsoluteUrl('/'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 1,
         },
         {
             url: buildAbsoluteUrl('/explore'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.9,
         },
         {
             url: buildAbsoluteUrl('/create'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.8,
         },
         {
             url: buildAbsoluteUrl('/courses'),
-            lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.9,
         },
         {
             url: buildAbsoluteUrl('/nature'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.8,
         },
         {
             url: buildAbsoluteUrl('/nature/species'),
-            lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 0.8,
-        },
-        {
-            url: buildAbsoluteUrl('/nature/species?topic=birds'),
-            lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 0.8,
-        },
-        {
-            url: buildAbsoluteUrl('/nature/species?topic=plants'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.8,
         },
         {
             url: buildAbsoluteUrl('/nature/observations'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.8,
         },
         {
             url: buildAbsoluteUrl('/nature/map'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.7,
         },
         {
             url: buildAbsoluteUrl('/leaderboard'),
-            lastModified: new Date(),
             changeFrequency: 'daily',
             priority: 0.7,
         },
         {
             url: buildAbsoluteUrl('/playground'),
-            lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.6,
         },
         {
             url: buildAbsoluteUrl('/legal/privacy'),
-            lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 0.3,
         },
         {
             url: buildAbsoluteUrl('/legal/terms'),
-            lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 0.3,
         },
@@ -137,19 +121,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             throw observationsResult.error;
         }
 
-        projectsResult.data?.forEach((project: { id: number; updated_at: string | null }) => {
-            routes.push({
-                url: buildAbsoluteUrl(`/project/${project.id}`),
-                lastModified: new Date(project.updated_at || new Date()),
-                changeFrequency: 'weekly',
-                priority: 0.8,
-            });
-        });
-
         speciesResult.data?.forEach((species: { slug: string; updated_at: string | null }) => {
             routes.push({
                 url: buildAbsoluteUrl(`/nature/species/${species.slug}`),
-                lastModified: new Date(species.updated_at || new Date()),
+                lastModified: toLastModified(species.updated_at),
                 changeFrequency: 'weekly',
                 priority: 0.7,
             });
@@ -158,9 +133,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         observationsResult.data?.forEach((observation: { id: number; updated_at: string | null }) => {
             routes.push({
                 url: buildAbsoluteUrl(`/nature/observations/${observation.id}`),
-                lastModified: new Date(observation.updated_at || new Date()),
+                lastModified: toLastModified(observation.updated_at),
                 changeFrequency: 'weekly',
                 priority: 0.7,
+            });
+        });
+
+        projectsResult.data?.forEach((project: { id: number; updated_at: string | null }) => {
+            routes.push({
+                url: buildAbsoluteUrl(`/project/${project.id}`),
+                lastModified: toLastModified(project.updated_at),
+                changeFrequency: 'weekly',
+                priority: 0.8,
             });
         });
 
@@ -173,7 +157,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         coursesResult.data?.forEach((course: { id: number; updated_at: string | null }) => {
             routes.push({
                 url: buildAbsoluteUrl(`/courses/${course.id}`),
-                lastModified: new Date(course.updated_at || new Date()),
+                lastModified: toLastModified(course.updated_at),
                 changeFrequency: 'weekly',
                 priority: 0.8,
             });
@@ -190,20 +174,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 throw lessonsError;
             }
 
-            lessons?.forEach((lesson: {
+            const lessonRows = (lessons ?? []) as Array<{
                 id: number;
                 course_id: number;
                 updated_at: string | null;
                 ldraw_model_url?: string | null;
-            }) => {
-                const lastModified = new Date(lesson.updated_at || new Date());
+            }>;
+            const modelAvailability = await Promise.all(
+                lessonRows.map(async (lesson) => ({
+                    lesson,
+                    hasModelFile: Boolean(lesson.ldraw_model_url) && await hasLdrawModelFile(lesson.ldraw_model_url),
+                })),
+            );
+
+            modelAvailability.forEach(({ lesson, hasModelFile }) => {
+                const lastModified = toLastModified(lesson.updated_at);
                 routes.push({
                     url: buildAbsoluteUrl(`/courses/${lesson.course_id}/lessons/${lesson.id}`),
                     lastModified,
                     changeFrequency: 'monthly',
                     priority: 0.7,
                 });
-                if (lesson.ldraw_model_url) {
+                if (hasModelFile) {
                     routes.push({
                         url: buildAbsoluteUrl(`/courses/${lesson.course_id}/lessons/${lesson.id}/parts`),
                         lastModified,
@@ -213,6 +205,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 }
             });
         }
+
     } catch (error) {
         logger.error('Error generating sitemap', { error });
     }

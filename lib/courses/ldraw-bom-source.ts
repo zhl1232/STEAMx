@@ -41,6 +41,19 @@ export function isValidLdrawModelName(model: string): boolean {
   return MODEL_NAME_PATTERN.test(model) && !model.includes('..')
 }
 
+/** Sitemap 用：只把确实随部署产物存在的模型清单页加入索引。 */
+export async function hasLdrawModelFile(modelUrl: string | null | undefined): Promise<boolean> {
+  const model = toLdrawModelFileName(modelUrl)
+  if (!model) return false
+
+  try {
+    const modelStat = await stat(path.join(LDRAW_DIRECTORY, model))
+    return modelStat.isFile()
+  } catch {
+    return false
+  }
+}
+
 function loadColorTable() {
   colorTablePromise ??= readFile(path.join(LDRAW_DIRECTORY, LDRAW_COLOR_FILE), 'utf8')
     .then(parseLdrawColorTable)

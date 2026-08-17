@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildApexToWwwRedirectUrl, getRequestHostname } from "@/lib/seo/canonical-host";
+import { getSiteUrl } from "@/lib/seo/site";
 
 describe("getRequestHostname", () => {
   it("strips port and lowercases the host", () => {
@@ -41,6 +42,23 @@ describe("buildApexToWwwRedirectUrl", () => {
           search: "?q=1",
         }),
       ).toBeNull();
+    }
+  });
+});
+
+describe("getSiteUrl", () => {
+  it("normalizes configured production hosts to https www", () => {
+    const previousAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+    process.env.NEXT_PUBLIC_APP_URL = "http://steamx.cc";
+
+    try {
+      expect(getSiteUrl()).toBe("https://www.steamx.cc");
+    } finally {
+      if (previousAppUrl === undefined) {
+        delete process.env.NEXT_PUBLIC_APP_URL;
+      } else {
+        process.env.NEXT_PUBLIC_APP_URL = previousAppUrl;
+      }
     }
   });
 });

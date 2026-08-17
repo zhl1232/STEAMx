@@ -1,3 +1,5 @@
+import { STEAMX_APEX_HOST, STEAMX_WWW_HOST } from "@/lib/seo/canonical-host";
+
 const LOCAL_SITE_URL = "http://localhost:3000";
 const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
 
@@ -19,6 +21,11 @@ function normalizeSiteUrl(value: string): string | null {
 
   try {
     const url = new URL(withProtocol);
+    const hostname = url.hostname.toLowerCase();
+    if (hostname === STEAMX_APEX_HOST || hostname === STEAMX_WWW_HOST) {
+      return PRODUCTION_FALLBACK_SITE_URL;
+    }
+
     const pathname = url.pathname.replace(/\/+$/, "");
     return `${url.protocol}//${url.host}${pathname}`;
   } catch {

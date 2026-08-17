@@ -5,6 +5,9 @@ import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 
 export const metadata = {
   title: "徽章预览",
+  alternates: {
+    canonical: "/badges-preview",
+  },
   robots: {
     index: false,
     follow: false,

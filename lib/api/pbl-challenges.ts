@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 import { logger } from '@/lib/logger'
 import { mapDbChallenge, type Challenge } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
@@ -57,6 +59,51 @@ export async function getFeaturedPblChallenge(): Promise<FeaturedPblChallenge | 
     return null
   }
 }
+
+export type PublicPblChallenge = {
+  id: number
+  title: string
+  description: string
+  imageUrl: string
+  status: 'active' | 'ended'
+  challengeType: 'timed' | 'evergreen'
+  tags: string[]
+}
+
+/**
+ * 读取公开挑战的稳定摘要，供挑战详情的服务端 metadata 和存在性检查共用。
+ * 用户参与状态仍由详情页 API 在客户端按登录态补充。
+ */
+export const getPublicPblChallenge = cache(async function getPublicPblChallenge(
+  challengeId: number,
+): Promise<PublicPblChallenge | null> {
+  if (!Number.isInteger(challengeId) || challengeId <= 0) return null
+
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('challenges')
+    .select('id, title, description, image_url, status, challenge_type, tags')
+    .eq('id', challengeId)
+    .in('status', ['active', 'ended'])
+    .maybeSingle()
+
+  if (error) {
+    logger.error('Error fetching public PBL challenge', { error, challengeId })
+    return null
+  }
+
+  if (!data) return null
+
+  return {
+    id: data.id,
+    title: data.title,
+    description: data.description || '',
+    imageUrl: data.image_url || '',
+    status: data.status as PublicPblChallenge['status'],
+    challengeType: data.challenge_type as PublicPblChallenge['challengeType'],
+    tags: data.tags || [],
+  }
+})
 
 export const emptyChallengeGroups: ChallengeGroups = {
   activeTimed: [],

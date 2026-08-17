@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -15,9 +14,10 @@ import {
     isLadderSeries,
 } from "@/lib/gamification/badges";
 import { BadgeIcon } from "./badge-icon";
-import { BadgeDetailDialog, SERIES_COPY } from "./badge-detail-dialog";
+import { BadgeDetailDialog } from "./badge-detail-dialog";
 
 type GalleryMode = "all" | "unlocked" | "locked";
+type DetailSelection = { seriesKey: string; badgeId: string };
 
 function groupBadgesBySeries(badges: Badge[]) {
     const map = new Map<string, Badge[]>();
@@ -60,104 +60,110 @@ export function BadgeSeriesGallery({
     className?: string;
 }) {
     const grouped = useMemo(() => groupBadgesBySeries(badges), [badges]);
-    const [detailKey, setDetailKey] = useState<string | null>(null);
+    const [detailSelection, setDetailSelection] = useState<DetailSelection | null>(null);
 
-    const seriesStates = SERIES_ORDER.map(({ key, label }) => {
-        const fullSeries = grouped.get(key) ?? [];
-        if (fullSeries.length === 0) return null;
-        const lit = seriesIsLit(fullSeries, unlockedBadges);
-        return { key, label, fullSeries, lit };
-    }).filter((item): item is NonNullable<typeof item> => item !== null);
+    const seriesStates = useMemo(() => {
+        const orderedKeys = [
+            ...SERIES_ORDER.map(({ key }) => key),
+            ...Array.from(grouped.keys()).filter((key) => !SERIES_ORDER.some((item) => item.key === key)),
+        ];
 
+        return orderedKeys
+            .map((key) => {
+                const fullSeries = grouped.get(key);
+                return fullSeries?.length ? { key, fullSeries, lit: seriesIsLit(fullSeries, unlockedBadges) } : null;
+            })
+            .filter((item): item is NonNullable<typeof item> => item !== null);
+    }, [grouped, unlockedBadges]);
+
+    const flatBadges = useMemo(
+        () =>
+            seriesStates.flatMap(({ key, fullSeries, lit }) => {
+                const cards = isLadderSeries(key)
+                    ? [getSeriesDisplayBadge(fullSeries, unlockedBadges)].filter((badge): badge is Badge => Boolean(badge))
+                    : getVisibleSeriesBadges(fullSeries, unlockedBadges);
+
+                return cards.map((badge) => ({
+                    badge,
+                    seriesKey: key,
+                    lit,
+                    unlocked: unlockedBadges.has(badge.id),
+                }));
+            }),
+        [seriesStates, unlockedBadges],
+    );
     const litCount = seriesStates.filter((item) => item.lit).length;
     const totalCount = seriesStates.length;
-    const detailSeries = detailKey ? seriesStates.find((item) => item.key === detailKey) : null;
-    const detailDisplay = detailSeries
-        ? isLadderSeries(detailSeries.key)
-            ? getSeriesDisplayBadge(detailSeries.fullSeries, unlockedBadges)
-            : detailSeries.fullSeries.find((badge) => unlockedBadges.has(badge.id)) ?? detailSeries.fullSeries[0]
-        : null;
+    const detailSeries = detailSelection ? seriesStates.find((item) => item.key === detailSelection.seriesKey) : null;
+    const detailVisibleBadges = detailSeries ? getVisibleSeriesBadges(detailSeries.fullSeries, unlockedBadges) : [];
+    const detailDisplay = detailSeries && isLadderSeries(detailSeries.key)
+        ? getSeriesDisplayBadge(detailSeries.fullSeries, unlockedBadges)
+        : detailVisibleBadges.find((badge) => badge.id === detailSelection?.badgeId)
+            ?? detailVisibleBadges.find((badge) => unlockedBadges.has(badge.id))
+            ?? detailVisibleBadges[0]
+            ?? null;
 
-    const renderSeries = (mode: GalleryMode) => {
-        const visible = seriesStates.filter((item) => {
-            if (onlyUnlocked || mode === "unlocked") return item.lit;
-            if (mode === "locked") return !item.lit;
+    const renderBadges = (mode: GalleryMode) => {
+        const visible = flatBadges.filter(({ unlocked }) => {
+            if (onlyUnlocked || mode === "unlocked") return unlocked;
+            if (mode === "locked") return !unlocked;
             return true;
         });
 
         if (visible.length === 0) {
             return (
                 <div className="flex h-64 flex-col items-center justify-center text-muted-foreground">
-                    <p className="text-sm">{mode === "unlocked" ? "还没有获得徽章" : "已点亮全部系列"}</p>
+                    <p className="text-sm">{mode === "unlocked" ? "还没有获得徽章" : "已解锁全部徽章"}</p>
                 </div>
             );
         }
 
         return (
-            <div className="divide-y divide-border/60">
-                {visible.map(({ key, label, fullSeries, lit }) => {
-                    const cards = isLadderSeries(key)
-                        ? [getSeriesDisplayBadge(fullSeries, unlockedBadges)].filter((badge): badge is Badge => Boolean(badge))
-                        : fullSeries;
-                    const progress = getCardProgress(key, unlockedBadges, userStats);
+            <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:gap-3">
+                {visible.map(({ badge, seriesKey, unlocked }) => {
+                    const unlockedAt = userBadgeDetails?.get(badge.id)?.unlockedAt;
+                    const unlockedDate = unlockedAt ? new Date(unlockedAt).toLocaleDateString("zh-CN") : null;
+                    const progress = isLadderSeries(seriesKey) ? getCardProgress(seriesKey, unlockedBadges, userStats) : null;
 
                     return (
-                        <section
-                            key={key}
-                            className="grid gap-3 py-4 first:pt-1 last:pb-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
+                        <button
+                            key={badge.id}
+                            type="button"
+                            aria-label={`${badge.name}${unlocked ? "，已获得" : "，未解锁"}`}
+                            title={badge.description}
+                            onClick={() => setDetailSelection({ seriesKey, badgeId: badge.id })}
+                            className={cn(
+                                "group relative flex min-h-[108px] min-w-0 cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-md border p-2 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 sm:min-h-[132px] sm:gap-2 sm:p-3",
+                                unlocked
+                                    ? "border-white/70 bg-white/80 dark:border-white/12 dark:bg-slate-900/94"
+                                    : "border-slate-200/80 bg-white/55 opacity-95 dark:border-white/8 dark:bg-slate-950/82",
+                            )}
                         >
-                            <div className="min-w-0">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <h3 className="text-sm font-semibold tracking-tight sm:text-base">{label}</h3>
-                                    {lit ? (
-                                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
-                                            <CheckCircle2 className="h-3 w-3" />
-                                            已点亮
-                                        </span>
-                                    ) : (
-                                        <span className="rounded-full border border-border/70 px-2 py-0.5 text-[10px] text-muted-foreground">
-                                            未解锁
-                                        </span>
-                                    )}
+                            <div className="relative flex justify-center p-1 sm:p-2">
+                                <BadgeIcon
+                                    icon={badge.icon}
+                                    tier={badge.tier}
+                                    seriesKey={badge.seriesKey}
+                                    size="md"
+                                    locked={!unlocked}
+                                    className="h-10 w-10 sm:h-12 sm:w-12"
+                                />
+                            </div>
+                            <div className={cn("line-clamp-2 text-[10px] font-semibold leading-tight sm:text-sm", unlocked ? "text-foreground" : "text-slate-700 dark:text-slate-300")}>
+                                {badge.name}
+                            </div>
+                            {unlocked && unlockedDate ? (
+                                <div className="mt-auto text-[10px] font-medium leading-none text-emerald-600 dark:text-emerald-400">
+                                    {unlockedDate} 获得
                                 </div>
-                                <p className="mt-1 max-w-2xl text-[11px] leading-5 text-slate-600 dark:text-slate-300 sm:text-xs">
-                                    {SERIES_COPY[key] ?? "这一组徽章记录了同一方向上的进展。"}
-                                </p>
-                            </div>
-                            <div className="flex flex-wrap gap-2.5 sm:justify-end">
-                                {cards.map((badge) => {
-                                    const unlocked = unlockedBadges.has(badge.id);
-                                    return (
-                                        <button
-                                            key={badge.id}
-                                            type="button"
-                                            onClick={() => setDetailKey(key)}
-                                            className={cn(
-                                                "relative flex min-h-[88px] w-[84px] shrink-0 cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-md border p-2 text-center transition-all duration-200 hover:shadow-md sm:min-h-[100px] sm:w-[96px] sm:gap-2 sm:p-3",
-                                                unlocked
-                                                    ? "border-white/70 bg-white/80 dark:border-white/12 dark:bg-slate-900/94"
-                                                    : "border-slate-200/80 bg-white/55 opacity-95 dark:border-white/8 dark:bg-slate-950/82",
-                                            )}
-                                        >
-                                            <BadgeIcon
-                                                icon={badge.icon}
-                                                tier={badge.tier}
-                                                seriesKey={badge.seriesKey}
-                                                size="md"
-                                                locked={!unlocked}
-                                                className="h-10 w-10 sm:h-12 sm:w-12"
-                                            />
-                                            <div className={cn("text-[10px] font-semibold leading-tight sm:text-sm", unlocked ? "text-foreground" : "text-slate-700 dark:text-slate-300")}>
-                                                {badge.name}
-                                            </div>
-                                            {isLadderSeries(key) && progress ? (
-                                                <div className="text-[10px] font-medium text-muted-foreground">{progress}</div>
-                                            ) : null}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </section>
+                            ) : progress ? (
+                                <div className="mt-auto text-[10px] font-medium text-muted-foreground">{progress}</div>
+                            ) : (
+                                <div className="mt-auto hidden line-clamp-2 text-[10px] leading-tight text-slate-600 dark:text-slate-400 sm:block sm:text-xs">
+                                    {badge.description}
+                                </div>
+                            )}
+                        </button>
                     );
                 })}
             </div>
@@ -182,20 +188,20 @@ export function BadgeSeriesGallery({
                         </TabsList>
                     </div>
                     <ScrollArea className="flex-1 bg-muted/10 p-3 sm:p-6">
-                        <TabsContent value="all" className="mt-0">{renderSeries("all")}</TabsContent>
-                        <TabsContent value="unlocked" className="mt-0">{renderSeries("unlocked")}</TabsContent>
-                        <TabsContent value="locked" className="mt-0">{renderSeries("locked")}</TabsContent>
+                        <TabsContent value="all" className="mt-0">{renderBadges("all")}</TabsContent>
+                        <TabsContent value="unlocked" className="mt-0">{renderBadges("unlocked")}</TabsContent>
+                        <TabsContent value="locked" className="mt-0">{renderBadges("locked")}</TabsContent>
                     </ScrollArea>
                 </Tabs>
             ) : (
-                <div className="p-1 sm:p-2">{renderSeries(onlyUnlocked ? "unlocked" : "all")}</div>
+                <div className="p-1 sm:p-2">{renderBadges(onlyUnlocked ? "unlocked" : "all")}</div>
             )}
 
             {detailSeries && detailDisplay ? (
                 <BadgeDetailDialog
-                    open={Boolean(detailKey)}
+                    open={Boolean(detailSelection)}
                     onOpenChange={(open) => {
-                        if (!open) setDetailKey(null);
+                        if (!open) setDetailSelection(null);
                     }}
                     seriesKey={detailSeries.key}
                     seriesBadges={detailSeries.fullSeries}
@@ -211,7 +217,7 @@ export function BadgeSeriesGallery({
 
 export function getLitSeriesCount(badges: Badge[], unlockedBadges: Set<string>) {
     const grouped = groupBadgesBySeries(badges);
-    return SERIES_ORDER.filter(({ key }) => {
+    return getOrderedSeriesKeys(grouped).filter((key) => {
         const series = grouped.get(key) ?? [];
         return series.length > 0 && seriesIsLit(series, unlockedBadges);
     }).length;
@@ -219,5 +225,12 @@ export function getLitSeriesCount(badges: Badge[], unlockedBadges: Set<string>) 
 
 export function getTotalSeriesCount(badges: Badge[]) {
     const grouped = groupBadgesBySeries(badges);
-    return SERIES_ORDER.filter(({ key }) => (grouped.get(key) ?? []).length > 0).length;
+    return getOrderedSeriesKeys(grouped).filter((key) => (grouped.get(key) ?? []).length > 0).length;
+}
+
+function getOrderedSeriesKeys(grouped: Map<string, Badge[]>) {
+    return [
+        ...SERIES_ORDER.map(({ key }) => key),
+        ...Array.from(grouped.keys()).filter((key) => !SERIES_ORDER.some((item) => item.key === key)),
+    ];
 }

@@ -38,7 +38,6 @@ const nextConfig = {
   reactStrictMode: true,
   devIndicators: false,
   allowedDevOrigins: buildAllowedDevOrigins(),
-  skipTrailingSlashRedirect: true,
   turbopack: {
     // Turbopack-specific options can be added here if needed
   },

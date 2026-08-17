@@ -1,15 +1,13 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { cn } from "@/lib/utils";
-import { CalendarDays, UserRound } from "lucide-react";
+import { notFound } from "next/navigation";
+import { CalendarDays } from "lucide-react";
 import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { BADGES } from '@/lib/gamification/badges';
 import { BadgeSeriesGallery } from "@/components/features/gamification/badge-series-gallery";
-import { PageStatus } from "@/components/ui/page-status";
 import { getPublicUserProfile } from "@/lib/api/public-user-profile";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { getNameColorClassName } from "@/lib/shop/items";
@@ -34,37 +32,13 @@ function formatJoinDate(date: string) {
 export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
   const { id: userId } = await params;
   if (!userId) {
-    return (
-      <PageStatus
-        kicker="主页地址"
-        title="链接无效"
-        description="这个用户主页链接不完整，无法继续访问。"
-        icon={<UserRound className="h-8 w-8" />}
-        actions={
-          <Button asChild variant="outline" className="px-5">
-            <Link href="/create">返回创造营</Link>
-          </Button>
-        }
-      />
-    );
+    notFound();
   }
 
   const data = await getPublicUserProfile(userId);
 
   if (!data) {
-    return (
-      <PageStatus
-        kicker="公开主页"
-        title="没有找到这个用户"
-        description="这个主页可能不存在，或者当前不可见。"
-        icon={<UserRound className="h-8 w-8" />}
-        actions={
-          <Button asChild variant="outline" className="px-5">
-            <Link href="/create">返回创造营</Link>
-          </Button>
-        }
-      />
-    );
+    notFound();
   }
 
   const {
