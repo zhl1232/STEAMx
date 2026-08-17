@@ -583,7 +583,7 @@ export default function AdminPage() {
         <MobilePageHeader title="管理员控制台" fallbackHref="/profile" />
       </div>
 
-      <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
+      <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8 max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:backdrop-blur-0">
         <div className="mb-7 overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 items-center gap-4">

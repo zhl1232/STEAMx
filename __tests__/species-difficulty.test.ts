@@ -14,9 +14,9 @@ import {
 
 describe("bird difficulty map", () => {
     test("partitions 133 atlas birds into common / uncommon / rare without overlap", () => {
-        const common = new Set(COMMON_BIRD_SLUGS)
-        const uncommon = new Set(UNCOMMON_BIRD_SLUGS)
-        const rare = new Set(RARE_BIRD_SLUGS)
+        const common = new Set<string>(COMMON_BIRD_SLUGS)
+        const uncommon = new Set<string>(UNCOMMON_BIRD_SLUGS)
+        const rare = new Set<string>(RARE_BIRD_SLUGS)
 
         expect(common.size).toBe(40)
         expect(uncommon.size).toBe(69)

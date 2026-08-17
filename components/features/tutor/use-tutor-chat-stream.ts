@@ -51,7 +51,7 @@ export type UseTutorChatStreamOptions = {
   busyRef: MutableRefObject<boolean>
   autoReadReplies: boolean
   beginStreamedSpeech: (speechKey: string) => Promise<void>
-  pushStreamedPcm: (pcm: string, sampleRate?: number, speechKey?: string) => void
+  pushStreamedPcm: (pcm: string, sampleRate?: number, speechKey?: string) => boolean | null
   finishStreamedSpeech: (speechKey?: string) => boolean | null
   playSpeech: (text: string, speechKey: string) => void | Promise<void>
   setQuota: Dispatch<SetStateAction<AiCreditStatus | null>>
@@ -271,6 +271,7 @@ export function useTutorChatStream({
         let toolFailed = false
         let sawToolCall = false
         let receivedAudio = false
+        let speechPlaybackFailed = false
         let settledText = false
 
         const releaseBusy = () => {
@@ -326,8 +327,9 @@ export function useTutorChatStream({
             full += event.content
             patchStreaming({ role: 'assistant', content: full, streaming: true })
           } else if (event.type === 'audio' && event.pcm) {
-            receivedAudio = true
-            pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current)
+            const accepted = pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current)
+            receivedAudio = accepted === true || receivedAudio
+            speechPlaybackFailed = speechPlaybackFailed || accepted === false
           } else if (event.type === 'done' && event.reply) {
             full = event.reply
             settleAssistantText(full)
@@ -366,7 +368,7 @@ export function useTutorChatStream({
         if (!settledText) settleAssistantText(full || '…')
         const shouldSpeak = willSpeak
         const speechResult = shouldSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
-        if (shouldSpeak && !receivedAudio && speechResult === false) {
+        if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechResult === false) {
           void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }
       } catch (error) {

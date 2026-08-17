@@ -68,6 +68,14 @@ describe('buildTutorSystemPrompt', () => {
     expect(prompt).toContain('不要用「尚未证明」')
   })
 
+  it('keeps personal history out of default knowledge replies', () => {
+    const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
+
+    expect(prompt).toContain('默认不要主动提学生过去做过什么、去过哪里或看过哪些记录')
+    expect(prompt).toContain('不要把后台记录加工成生硬的反问')
+    expect(prompt).not.toContain('学生曾在某地观察过，只能说')
+  })
+
   it('allows course recommendation chips in replies', () => {
     const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
 

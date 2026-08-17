@@ -21,5 +21,6 @@ describe('buildSpeciesHintsSummary', () => {
     expect(summary).toContain('常见环境：喜欢林缘、草地、农田')
     expect(summary).toContain('本站公开观察记录：永定河（3次）')
     expect(summary).toContain('不要把观察地点说成「常见于XX」')
+    expect(summary).not.toContain('你曾在')
   })
 })

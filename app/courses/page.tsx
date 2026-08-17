@@ -5,9 +5,11 @@ import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
 import { listApprovedCourses } from "@/lib/api/courses";
 import type { CourseListItem } from "@/lib/courses/types";
-import { MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
+
+const COURSE_HUB_DESCRIPTION =
+    "积木搭建、Scratch 编程、五子棋等免费课程，按步骤学会一项技能，把过程做成自己的作品。";
 
 export const metadata = buildPageMetadata({
     title: "技能课程",
@@ -33,8 +35,10 @@ export default async function CoursesPage() {
             <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 <header className="mb-5 flex flex-wrap items-end justify-between gap-3 px-1">
                     <div className="min-w-0">
-                        <h1 className="text-2xl font-black text-foreground">技能课程</h1>
-                        <p className="mt-2 text-sm text-muted-foreground">{MAINLINE_SHORT_PITCH}</p>
+                        <h1 className="text-2xl font-black text-foreground">挑一项技能，做一件作品</h1>
+                        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+                            {COURSE_HUB_DESCRIPTION}
+                        </p>
                     </div>
                     <Link
                         href="/create"

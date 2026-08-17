@@ -203,14 +203,30 @@ export function useTutorVoice({
   }, [])
 
   const pushStreamedPcm = useCallback((pcm: string, sampleRate?: number, speechKey?: string) => {
-    if (!streamedSpeechActiveRef.current || !pcm) return
-    if (speechKey && streamedSpeechKeyRef.current !== speechKey) return
+    if (!pcm) return null
+    if (!streamedSpeechActiveRef.current) {
+      // 播放被用户主动停止时忽略余下的流，不要在回复结束后又自动重播。
+      return streamedSpeechKeyRef.current ? false : null
+    }
+    if (speechKey && streamedSpeechKeyRef.current !== speechKey) return null
+
+    try {
+      getPcmPlayer().enqueue(decodeBase64ToArrayBuffer(pcm), sampleRate)
+    } catch {
+      // 某些浏览器/WebView 不支持当前 Web Audio 能力；让调用方切到整段音频，别让文字回复失败。
+      streamedSpeechActiveRef.current = false
+      streamedGotAudioRef.current = false
+      pcmPlayerRef.current?.stop()
+      setSpeechLoadingKey(null)
+      return false
+    }
+
     if (!streamedGotAudioRef.current) {
       streamedGotAudioRef.current = true
       setSpeechLoadingKey(null)
       setPlayingSpeechKey(streamedSpeechKeyRef.current)
     }
-    getPcmPlayer().enqueue(decodeBase64ToArrayBuffer(pcm), sampleRate)
+    return true
   }, [])
 
   const beginStreamedSpeech = useCallback(
@@ -287,10 +303,22 @@ export function useTutorVoice({
         })
 
       try {
+        const playFallback = async () => {
+          // PCM 播放器不可用、实时接口失败或没有产出音频时，回到浏览器原生音频播放。
+          finishStreamedSpeech(speechKey)
+          const fallbackRes = await requestSynthesize(true)
+          if (speechRequestIdRef.current !== speechRequestId) return
+          if (!fallbackRes.ok) {
+            throw new Error(await readTutorSpeechError(fallbackRes, '小迪语音暂时不可用，请稍后再试。'))
+          }
+          await playMpegBlob(await fallbackRes.blob(), speechKey, speechRequestId)
+        }
+
         const res = await requestSynthesize()
         if (speechRequestIdRef.current !== speechRequestId) return
         if (!res.ok) {
-          throw new Error(await readTutorSpeechError(res, '小迪语音暂时不可用，请稍后再试。'))
+          await playFallback()
+          return
         }
 
         const contentType = res.headers.get('Content-Type') || ''
@@ -299,8 +327,9 @@ export function useTutorVoice({
           for await (const event of readTutorStreamEvents(res.body)) {
             if (speechRequestIdRef.current !== speechRequestId) return
             if (event.type === 'audio' && event.pcm) {
-              gotAudio = true
-              pushStreamedPcm(event.pcm, event.sampleRate, speechKey)
+              const accepted = pushStreamedPcm(event.pcm, event.sampleRate, speechKey)
+              if (accepted === false) break
+              gotAudio = accepted === true || gotAudio
             } else if (event.type === 'audio_done' || (event.type === 'error' && !gotAudio)) {
               break
             }
@@ -310,15 +339,11 @@ export function useTutorVoice({
             finishStreamedSpeech(speechKey)
             return
           }
-          const fallbackRes = await requestSynthesize(true)
-          if (speechRequestIdRef.current !== speechRequestId) return
-          if (!fallbackRes.ok) {
-            throw new Error(await readTutorSpeechError(fallbackRes, '小迪语音暂时不可用，请稍后再试。'))
-          }
-          await playMpegBlob(await fallbackRes.blob(), speechKey, speechRequestId)
+          await playFallback()
           return
         }
 
+        finishStreamedSpeech(speechKey)
         await playMpegBlob(await res.blob(), speechKey, speechRequestId)
       } catch (error) {
         if (speechRequestIdRef.current !== speechRequestId) return
