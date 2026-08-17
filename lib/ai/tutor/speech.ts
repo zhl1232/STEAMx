@@ -1,9 +1,14 @@
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
-import { isDashScopeTimeoutError } from '@/lib/ai/dashscope'
+import {
+  getDashScopeModelCandidates,
+  isDashScopeModelAvailabilityError,
+  isDashScopeTimeoutError,
+  markDashScopeModelUnavailable,
+  resolveDashScopeConfig,
+} from '@/lib/ai/dashscope'
 import WebSocket, { type RawData } from 'ws'
 
 const DEFAULT_TTS_URL = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation'
-const DEFAULT_TTS_MODEL = 'qwen3-tts-flash'
 const DEFAULT_TTS_REALTIME_MODEL = 'qwen3-tts-flash-realtime'
 const DEFAULT_TTS_VOICE = 'Ethan'
 const DEFAULT_TTS_LANGUAGE = 'Chinese'
@@ -249,44 +254,56 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
 
   const apiKey = requireDashScopeApiKey()
   const ttsUrl = process.env.DASHSCOPE_TUTOR_TTS_URL || DEFAULT_TTS_URL
-  const model = process.env.DASHSCOPE_TUTOR_TTS_MODEL || DEFAULT_TTS_MODEL
   const voice = process.env.DASHSCOPE_TUTOR_TTS_VOICE || DEFAULT_TTS_VOICE
   const language = process.env.DASHSCOPE_TUTOR_TTS_LANGUAGE || DEFAULT_TTS_LANGUAGE
 
-  let response: Response
-  try {
-    response = await fetch(ttsUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        input: {
-          text: safeText,
-          voice,
-          language_type: language,
+  const models = await getDashScopeModelCandidates('tutor-tts')
+  let lastModelError: TutorSpeechError | null = null
+  let audioUrl: string | null = null
+
+  for (const model of models) {
+    let response: Response
+    try {
+      response = await fetch(ttsUrl, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
         },
-      }),
-      signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
-    })
-  } catch (error) {
-    if (isDashScopeTimeoutError(error)) {
-      throw new TutorSpeechError('DashScope TTS timed out', '小迪语音暂时不可用，请稍后再试。', 504)
+        body: JSON.stringify({
+          model,
+          input: {
+            text: safeText,
+            voice,
+            language_type: language,
+          },
+        }),
+        signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
+      })
+    } catch (error) {
+      if (isDashScopeTimeoutError(error)) {
+        throw new TutorSpeechError('DashScope TTS timed out', '小迪语音暂时不可用，请稍后再试。', 504)
+      }
+      throw error
     }
-    throw error
+
+    const raw = await response.json().catch(() => null)
+    if (!response.ok) {
+      const error = new TutorSpeechError(`DashScope TTS failed (${response.status})`)
+      if (!isDashScopeModelAvailabilityError(response.status, raw)) throw error
+      markDashScopeModelUnavailable('tutor-tts', model)
+      lastModelError = error
+      continue
+    }
+
+    audioUrl = extractDashScopeAudioUrl(raw)
+    if (audioUrl) break
+
+    markDashScopeModelUnavailable('tutor-tts', model)
+    lastModelError = new TutorSpeechError('DashScope TTS response missing audio URL')
   }
 
-  const raw = await response.json().catch(() => null)
-  if (!response.ok) {
-    throw new TutorSpeechError(`DashScope TTS failed (${response.status})`)
-  }
-
-  const audioUrl = extractDashScopeAudioUrl(raw)
-  if (!audioUrl) {
-    throw new TutorSpeechError('DashScope TTS response missing audio URL')
-  }
+  if (!audioUrl) throw lastModelError ?? new TutorSpeechError('No DashScope TTS model candidate is available')
 
   let audioResponse: Response
   try {
@@ -318,13 +335,13 @@ function buildRealtimeWebSocketUrl(model: string, configuredUrl = DEFAULT_ASR_WS
 }
 
 function buildAsrWebSocketUrl() {
-  const model = process.env.DASHSCOPE_TUTOR_ASR_MODEL || DEFAULT_ASR_MODEL
+  const model = resolveDashScopeConfig('tutor-asr').model || DEFAULT_ASR_MODEL
   const configuredUrl = process.env.DASHSCOPE_TUTOR_ASR_WS_URL || DEFAULT_ASR_WS_URL
   return buildRealtimeWebSocketUrl(model, configuredUrl)
 }
 
 function buildTtsRealtimeWebSocketUrl() {
-  const model = process.env.DASHSCOPE_TUTOR_TTS_REALTIME_MODEL || DEFAULT_TTS_REALTIME_MODEL
+  const model = resolveDashScopeConfig('tutor-tts-realtime').model || DEFAULT_TTS_REALTIME_MODEL
   const configuredUrl =
     process.env.DASHSCOPE_TUTOR_TTS_WS_URL || process.env.DASHSCOPE_TUTOR_ASR_WS_URL || DEFAULT_ASR_WS_URL
   return buildRealtimeWebSocketUrl(model, configuredUrl)

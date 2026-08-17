@@ -97,7 +97,7 @@ describe('chatWithTutorComplete image context', () => {
     )
 
     const request = getRequest()
-    expect(request.model).toBe('qwen-flash')
+    expect(request.model).toBe('qwen3.8-max')
     // 降级后不能让模型假装看过图：注明图片加载失败
     expect(request.messages[1]).toEqual({
       role: 'user',
@@ -105,7 +105,7 @@ describe('chatWithTutorComplete image context', () => {
     })
     expect(onVisionFallback).toHaveBeenCalledTimes(1)
     expect(onTelemetry).toHaveBeenCalledWith(
-      expect.objectContaining({ visionFallback: true, model: 'qwen-flash' }),
+      expect.objectContaining({ visionFallback: true, model: 'qwen3.8-max' }),
     )
   })
 
@@ -122,7 +122,7 @@ describe('chatWithTutorComplete image context', () => {
     await chatWithTutorComplete('你是小迪。', [{ role: 'user', content: '你好' }], { onTelemetry })
 
     expect(onTelemetry).toHaveBeenCalledWith({
-      model: 'qwen-flash',
+      model: 'qwen3.8-max',
       usage: { promptTokens: 120, completionTokens: 30, totalTokens: 150 },
       visionFallback: false,
     })

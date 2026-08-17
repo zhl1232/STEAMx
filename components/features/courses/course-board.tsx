@@ -128,12 +128,6 @@ export function CourseBoardError({
 function CourseCard({ course }: { course: CourseListItem }) {
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const progress = course.progress;
-    const progressLabel =
-        progress?.status === "completed"
-            ? "已完成"
-            : progress?.status === "in_progress"
-                ? "进行中"
-                : "未开始";
     const ProgressIcon =
         progress?.status === "completed"
             ? CheckCircle2
@@ -193,7 +187,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                                 )}
                                 aria-hidden
                             />
-                            {progress.completed_lesson_count}/{progress.total_lesson_count} · {progressLabel}
+                            {progress.completed_lesson_count}/{progress.total_lesson_count}
                         </span>
                     ) : null}
                 </div>
@@ -208,7 +202,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                                 )}
                                 aria-hidden
                             />
-                            {progress.completed_lesson_count}/{progress.total_lesson_count} · {progressLabel}
+                            {progress.completed_lesson_count}/{progress.total_lesson_count}
                         </span>
                     ) : null}
                     <span className="ml-auto inline-flex h-8 shrink-0 items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 text-[12px] font-bold text-[hsl(var(--brand-blue))]">

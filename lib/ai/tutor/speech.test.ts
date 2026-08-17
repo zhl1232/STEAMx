@@ -61,9 +61,12 @@ import {
 } from '@/lib/ai/tutor/speech'
 
 const originalApiKey = process.env.DASHSCOPE_API_KEY
+const originalModelDiscovery = process.env.DASHSCOPE_MODEL_DISCOVERY
 
 afterEach(() => {
   process.env.DASHSCOPE_API_KEY = originalApiKey
+  if (originalModelDiscovery === undefined) delete process.env.DASHSCOPE_MODEL_DISCOVERY
+  else process.env.DASHSCOPE_MODEL_DISCOVERY = originalModelDiscovery
   asrSocketMock.instances.length = 0
   vi.restoreAllMocks()
 })
@@ -113,6 +116,7 @@ describe('synthesizeTutorSpeech', () => {
 
   it('maps TTS audio download timeouts to a 504 speech error', async () => {
     process.env.DASHSCOPE_API_KEY = 'test-dashscope-key'
+    process.env.DASHSCOPE_MODEL_DISCOVERY = 'false'
     vi.stubGlobal(
       'fetch',
       vi.fn()
@@ -128,6 +132,31 @@ describe('synthesizeTutorSpeech', () => {
       status: 504,
       message: 'DashScope TTS audio download timed out',
     })
+  })
+
+  it('switches to the next TTS model after a quota error', async () => {
+    process.env.DASHSCOPE_API_KEY = 'test-dashscope-key'
+    process.env.DASHSCOPE_MODEL_DISCOVERY = 'false'
+    vi.stubGlobal(
+      'fetch',
+      vi.fn()
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 429,
+          json: async () => ({ error: { code: 'FreeTierLimitExceeded' } }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({ output: { audio: { url: 'https://example.com/audio.wav' } } }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          headers: new Headers({ 'Content-Type': 'audio/mpeg' }),
+          arrayBuffer: async () => Uint8Array.from([1, 2, 3]).buffer,
+        }),
+    )
+
+    await expect(synthesizeTutorSpeech('你好')).resolves.toMatchObject({ contentType: 'audio/mpeg' })
   })
 })
 

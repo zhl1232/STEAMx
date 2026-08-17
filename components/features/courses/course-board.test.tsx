@@ -85,6 +85,27 @@ describe("course board groups", () => {
         expect(screen.queryByText("其他技能")).not.toBeInTheDocument();
     });
 
+    it("shows the progress count without a redundant status label", () => {
+        render(
+            <CourseBoard
+                courses={[
+                    makeCourse({
+                        progress: {
+                            completed_lesson_count: 2,
+                            total_lesson_count: 100,
+                            status: "in_progress",
+                            next_lesson_id: 3,
+                            milestone_completed_at: null,
+                        },
+                    }),
+                ]}
+            />,
+        );
+
+        expect(screen.getAllByText("2/100")).not.toHaveLength(0);
+        expect(screen.queryByText("进行中")).not.toBeInTheDocument();
+    });
+
     it("keeps the empty state when the approved course list is empty", () => {
         render(<CourseBoard courses={[]} />);
 
