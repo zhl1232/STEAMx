@@ -9,6 +9,7 @@ interface MobileShortcutCarouselProps {
 }
 
 const activeDotClasses = [
+  "bg-[hsl(var(--brand-blue)/0.78)]",
   "bg-[hsl(var(--brand-green)/0.72)]",
   "bg-[hsl(var(--brand-amber)/0.78)]",
 ];

@@ -131,31 +131,31 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
-              300 节免费积木课，搭完就是作品
+              在 STEAM 的世界里发现无限可能
             </p>
             <p className="mt-3 hidden max-w-[540px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
-              {MAINLINE_SHORT_PITCH}再往下走，还有 STEAM 项目、自然观察和社区挑战等着你。
+              选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">
               <Link
-                href={MAINLINE_ENTRY_HREF}
+                href="/explore"
                 className={cn(
                   buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
                   "h-11 gap-2 px-5 text-[14px] font-bold shadow-[0_18px_34px_-24px_hsl(var(--brand-blue)/0.9)]",
                 )}
               >
-                {MAINLINE_PRIMARY_CTA_LABEL}
+                开始探索项目
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/explore"
+                href="/create"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
                   "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-5 text-[14px] font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]",
                 )}
               >
-                随便逛逛
+                进入创造营
               </Link>
             </div>
 
@@ -169,18 +169,16 @@ function HomeHero({ image }: { image: string }) {
             </div>
           </div>
 
-          {/* 移动端首屏唯一主行动，指向主线（积木课）；原先这里只有四个装饰标签，首屏一个按钮都没有 */}
-          <div className="mt-auto pb-3 pt-2 md:hidden">
-            <Link
-              href={MAINLINE_ENTRY_HREF}
-              className={cn(
-                buttonVariants({ tone: "brand", shape: "pill" }),
-                "h-10 w-fit gap-1.5 px-4 text-[13px] font-bold shadow-[0_16px_30px_-20px_hsl(var(--brand-blue)/0.95)]",
-              )}
-            >
-              {MAINLINE_PRIMARY_CTA_LABEL}
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 max-[379px]:hidden min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
+            {homeHeroFeatures.map((item) => (
+              <div
+                key={item.label}
+                className="flex min-h-[28px] items-center justify-center gap-0.5 px-0.5 py-0.5 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] min-[390px]:gap-1"
+              >
+                <item.icon className="h-[11px] w-[11px] shrink-0 text-white/76 min-[390px]:h-3 min-[390px]:w-3" strokeWidth={2.2} />
+                <span className="whitespace-nowrap text-[10px] font-semibold leading-none tracking-normal text-white/78">{item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -261,11 +259,14 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
 }
 
 /** 主线入口排在分类磁贴之前，让「从这里开始」只有一个明确答案 */
-function MainlineStartCard() {
+function MainlineStartCard({ className }: { className?: string }) {
   return (
     <Link
       href={MAINLINE_ENTRY_HREF}
-      className="group mb-2 flex items-center gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.32)] bg-[linear-gradient(120deg,hsl(var(--brand-blue)/0.12),hsl(var(--surface-raised)/0.86)_58%,hsl(var(--brand-amber)/0.1))] px-3 py-3 transition hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-30px_hsl(var(--brand-blue)/0.9)] md:mb-3 md:gap-4 md:px-5 md:py-4"
+      className={cn(
+        "group flex items-center gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.32)] bg-[linear-gradient(120deg,hsl(var(--brand-blue)/0.12),hsl(var(--surface-raised)/0.86)_58%,hsl(var(--brand-amber)/0.1))] px-3 py-3 transition hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-30px_hsl(var(--brand-blue)/0.9)] md:gap-4 md:px-5 md:py-4",
+        className,
+      )}
     >
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.14)] transition group-hover:scale-105 md:h-12 md:w-12">
         <Blocks className="h-5 w-5 text-[hsl(var(--brand-blue))] md:h-6 md:w-6" strokeWidth={2.2} />
@@ -304,7 +305,9 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <MainlineStartCard />
+      <div className="hidden md:block">
+        <MainlineStartCard className="mb-2 md:mb-3" />
+      </div>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
     </section>
   );
@@ -535,6 +538,7 @@ export function HomeShowcase({
       <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-5 md:py-6 lg:gap-5">
         <HomeHero image={heroImage} />
         <MobileShortcutCarousel>
+          <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
           <NatureChannel className="h-full" />
           <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
         </MobileShortcutCarousel>

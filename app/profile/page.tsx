@@ -47,6 +47,7 @@ import { useAuth } from '@/lib/context/auth-context'
 import { BADGES, useGamification } from '@/lib/context/gamification-context'
 import { type Notification, useOptionalNotifications } from '@/lib/context/notification-context'
 import { getBadgesForDisplay } from '@/lib/gamification/badges'
+import type { UserStats } from '@/lib/gamification/types'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
@@ -378,6 +379,7 @@ export default function ProfilePage() {
     featuredBadges,
     unlockedBadges,
     userBadgeDetails,
+    userStats,
     myProjects,
     myWorks,
     steamRadar,
@@ -408,6 +410,7 @@ function DesktopProfilePage({
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
+  userStats,
   myProjects,
   myWorks,
   steamRadar,
@@ -429,6 +432,7 @@ function DesktopProfilePage({
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
+  userStats?: UserStats
   myProjects: Project[]
   myWorks: Work[]
   steamRadar: SteamRadarWithGuidance | null
@@ -516,6 +520,7 @@ function DesktopProfilePage({
                   featuredBadges={featuredBadges}
                   unlockedBadges={unlockedBadges}
                   userBadgeDetails={userBadgeDetails}
+                  userStats={userStats}
                   className="lg:col-span-2 min-[1440px]:col-span-1"
                 />
                 <StudyCheckInPanel
@@ -544,6 +549,7 @@ function MobileProfilePage({
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
+  userStats,
   steamRadar,
   profile,
   naturalObservationProgress,
@@ -559,6 +565,7 @@ function MobileProfilePage({
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
+  userStats?: UserStats
   steamRadar: SteamRadarWithGuidance | null
   profile: ReturnType<typeof useAuth>['profile']
   naturalObservationProgress: NaturalObservationProgressSummary | null
@@ -1088,12 +1095,14 @@ function ExperienceBadgesPanel({
   featuredBadges,
   unlockedBadges,
   userBadgeDetails,
+  userStats,
   className,
 }: {
   profileContext: ProfileContext
   featuredBadges: typeof BADGES
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
+  userStats?: UserStats
   className?: string
 }) {
   const remainingXP = Math.max(0, profileContext.nextLevelXP - profileContext.currentXP)

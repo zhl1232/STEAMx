@@ -19,34 +19,6 @@ import { BadgeDetailDialog, SERIES_COPY } from "./badge-detail-dialog";
 
 type GalleryMode = "all" | "unlocked" | "locked";
 
-const SERIES_THEME: Partial<Record<string, string>> = {
-    intro_likes: "border-amber-200/70",
-    intro_publish: "border-sky-200/70",
-    intro_collections: "border-emerald-200/70",
-    science_expert: "border-cyan-200/70",
-    tech_expert: "border-indigo-200/70",
-    engineering_expert: "border-orange-200/70",
-    art_expert: "border-pink-200/70",
-    math_expert: "border-emerald-200/70",
-    social: "border-fuchsia-200/70",
-    popularity: "border-rose-200/70",
-    milestone: "border-yellow-200/70",
-    level: "border-violet-200/70",
-    challenge: "border-orange-200/70",
-    streak: "border-red-200/70",
-    bird_observer: "border-teal-200/70",
-    species_collector: "border-lime-200/70",
-    bird_common: "border-sky-200/70",
-    bird_uncommon: "border-indigo-200/70",
-    bird_rare: "border-violet-200/70",
-    insect_rank: "border-emerald-200/70",
-    playground_explorer: "border-cyan-200/70",
-    playground_victories: "border-yellow-200/70",
-    first_steps: "border-violet-200/70",
-    playground_star: "border-orange-200/70",
-    rare: "border-pink-200/70",
-};
-
 function groupBadgesBySeries(badges: Badge[]) {
     const map = new Map<string, Badge[]>();
     for (const badge of badges) {
@@ -122,7 +94,7 @@ export function BadgeSeriesGallery({
         }
 
         return (
-            <div className="space-y-4 sm:space-y-5">
+            <div className="divide-y divide-border/60">
                 {visible.map(({ key, label, fullSeries, lit }) => {
                     const cards = isLadderSeries(key)
                         ? [getSeriesDisplayBadge(fullSeries, unlockedBadges)].filter((badge): badge is Badge => Boolean(badge))
@@ -132,32 +104,27 @@ export function BadgeSeriesGallery({
                     return (
                         <section
                             key={key}
-                            className={cn(
-                                "relative rounded-(--radius-lg) border bg-background/95 p-3 shadow-xs sm:p-4",
-                                SERIES_THEME[key] ?? "border-border/70",
-                            )}
+                            className="grid gap-3 py-4 first:pt-1 last:pb-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
                         >
-                            <div className="mb-3 flex items-start justify-between gap-3">
-                                <div className="min-w-0">
-                                    <div className="flex flex-wrap items-center gap-2">
-                                        <h3 className="text-sm font-semibold tracking-tight sm:text-base">{label}</h3>
-                                        {lit ? (
-                                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
-                                                <CheckCircle2 className="h-3 w-3" />
-                                                已点亮
-                                            </span>
-                                        ) : (
-                                            <span className="rounded-full border border-border/70 px-2 py-0.5 text-[10px] text-muted-foreground">
-                                                未解锁
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p className="mt-1 max-w-2xl text-[11px] leading-5 text-slate-600 dark:text-slate-300 sm:text-xs">
-                                        {SERIES_COPY[key] ?? "这一组徽章记录了同一方向上的进展。"}
-                                    </p>
+                            <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <h3 className="text-sm font-semibold tracking-tight sm:text-base">{label}</h3>
+                                    {lit ? (
+                                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                                            <CheckCircle2 className="h-3 w-3" />
+                                            已点亮
+                                        </span>
+                                    ) : (
+                                        <span className="rounded-full border border-border/70 px-2 py-0.5 text-[10px] text-muted-foreground">
+                                            未解锁
+                                        </span>
+                                    )}
                                 </div>
+                                <p className="mt-1 max-w-2xl text-[11px] leading-5 text-slate-600 dark:text-slate-300 sm:text-xs">
+                                    {SERIES_COPY[key] ?? "这一组徽章记录了同一方向上的进展。"}
+                                </p>
                             </div>
-                            <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:gap-3">
+                            <div className="flex flex-wrap gap-2.5 sm:justify-end">
                                 {cards.map((badge) => {
                                     const unlocked = unlockedBadges.has(badge.id);
                                     return (
@@ -166,7 +133,7 @@ export function BadgeSeriesGallery({
                                             type="button"
                                             onClick={() => setDetailKey(key)}
                                             className={cn(
-                                                "relative flex h-full cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-sm border p-2 text-center transition-all duration-200 hover:shadow-md sm:gap-2 sm:p-3",
+                                                "relative flex min-h-[88px] w-[84px] shrink-0 cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-md border p-2 text-center transition-all duration-200 hover:shadow-md sm:min-h-[100px] sm:w-[96px] sm:gap-2 sm:p-3",
                                                 unlocked
                                                     ? "border-white/70 bg-white/80 dark:border-white/12 dark:bg-slate-900/94"
                                                     : "border-slate-200/80 bg-white/55 opacity-95 dark:border-white/8 dark:bg-slate-950/82",
