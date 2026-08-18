@@ -18,7 +18,6 @@ import {
   Info,
   Loader2,
   MapPin,
-  Save,
   Search,
   Send,
   Sparkles,
@@ -132,6 +131,7 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
 type StepStatusTone = "neutral" | "success" | "warning" | "loading"
 type MobilePanelKey = "photo" | "species" | "location"
 type SpeciesCandidate = ObservationMediaAnalysis["speciesCandidates"][number]
+type DraftSaveStatus = "idle" | "saving" | "saved" | "error"
 
 interface SubmitBlocker {
   panel: MobilePanelKey
@@ -142,6 +142,12 @@ interface SubmitBlocker {
 
 interface ObservationDraft {
   version?: number
+  evidenceImages: string[]
+  photoDrafts: Record<string, ObservationPhotoDraft>
+  mediaAnalyses: ObservationMediaAnalysis[]
+}
+
+interface ObservationDraftSnapshot {
   evidenceImages: string[]
   photoDrafts: Record<string, ObservationPhotoDraft>
   mediaAnalyses: ObservationMediaAnalysis[]
@@ -287,7 +293,7 @@ function MobileStepFooter({
       ) : null}
       <Button
         type="button"
-        className="h-11 w-full rounded-full bg-(--obs-accent) text-sm font-semibold text-white hover:bg-(--obs-accent-strong) disabled:border disabled:border-(--obs-border-strong) disabled:bg-(--obs-control) disabled:text-(--obs-muted-2)"
+        className="h-11 w-full rounded-sm bg-(--obs-accent) text-sm font-semibold text-white hover:bg-(--obs-accent-strong) disabled:border disabled:border-(--obs-border-strong) disabled:bg-(--obs-control) disabled:text-(--obs-muted-2)"
         onClick={onNext}
         disabled={disabled}
       >
@@ -483,6 +489,66 @@ function normalizeObservationDraft(value: unknown): ObservationDraft | null {
   }
 }
 
+function persistObservationDraft(snapshot: ObservationDraftSnapshot) {
+  if (typeof window === "undefined") return false
+
+  try {
+    if (snapshot.evidenceImages.length === 0) {
+      window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
+      return true
+    }
+
+    window.localStorage.setItem(
+      OBSERVATION_DRAFT_KEY,
+      JSON.stringify({
+        evidenceImages: snapshot.evidenceImages,
+        photoDrafts: snapshot.photoDrafts,
+        mediaAnalyses: snapshot.mediaAnalyses.filter((item) => snapshot.evidenceImages.includes(item.imageUrl)),
+        version: OBSERVATION_DRAFT_VERSION,
+        savedAt: new Date().toISOString(),
+      }),
+    )
+    return true
+  } catch {
+    return false
+  }
+}
+
+function clearObservationDraft() {
+  if (typeof window === "undefined") return false
+
+  try {
+    window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
+    return true
+  } catch {
+    return false
+  }
+}
+
+function DraftSaveIndicator({ status, className }: { status: DraftSaveStatus; className?: string }) {
+  if (status === "idle") return null
+
+  const statusCopy = {
+    saving: "保存中…",
+    saved: "已自动保存到当前设备",
+    error: "自动保存失败",
+  }[status]
+  const statusClass = {
+    saving: "text-(--obs-muted)",
+    saved: "text-emerald-700 dark:text-emerald-300",
+    error: "text-destructive",
+  }[status]
+
+  return (
+    <p className={cn("inline-flex min-w-0 items-center gap-1.5 text-xs", statusClass, className)} role="status" aria-live="polite">
+      {status === "saving" ? <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" /> : null}
+      {status === "saved" ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : null}
+      {status === "error" ? <Info className="h-3.5 w-3.5 shrink-0" /> : null}
+      <span className="truncate">{statusCopy}</span>
+    </p>
+  )
+}
+
 export function ObservationSubmitForm({
   speciesOptions,
   initialSpeciesId = null,
@@ -505,6 +571,8 @@ export function ObservationSubmitForm({
   const [isSearchingSpecies, setIsSearchingSpecies] = useState(false)
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
+  const [draftReady, setDraftReady] = useState(false)
+  const [draftSaveStatus, setDraftSaveStatus] = useState<DraftSaveStatus>("idle")
   const [isLocating, setIsLocating] = useState(false)
   const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanelKey>("photo")
   const [speciesSheetOpen, setSpeciesSheetOpen] = useState(false)
@@ -525,6 +593,12 @@ export function ObservationSubmitForm({
 
   const draftRestoreTriedRef = useRef(false)
   const draftRestoredSpeciesRef = useRef(false)
+  const draftPersistenceDisabledRef = useRef(false)
+  const draftSnapshotRef = useRef<ObservationDraftSnapshot>({
+    evidenceImages: [],
+    photoDrafts: {},
+    mediaAnalyses: [],
+  })
   const pendingAnalysisImageUrlsRef = useRef(new Set<string>())
   const photoMetadataRef = useRef<Record<string, ObservationPhotoMetadata>>({})
   const placeSearchRequestRef = useRef(0)
@@ -542,6 +616,8 @@ export function ObservationSubmitForm({
     species: activeMobilePanel === "species",
     location: activeMobilePanel === "location",
   }
+
+  draftSnapshotRef.current = { evidenceImages, photoDrafts, mediaAnalyses }
 
   const allSpecies = useMemo(() => {
     const map = new Map<number, SpeciesOption>()
@@ -743,13 +819,13 @@ export function ObservationSubmitForm({
     if (draftRestoreTriedRef.current || typeof window === "undefined") return
     draftRestoreTriedRef.current = true
 
-    const rawDraft = window.localStorage.getItem(OBSERVATION_DRAFT_KEY)
-    if (!rawDraft) return
-
     try {
+      const rawDraft = window.localStorage.getItem(OBSERVATION_DRAFT_KEY)
+      if (!rawDraft) return
+
       const draft = normalizeObservationDraft(JSON.parse(rawDraft))
       if (!draft) {
-        window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
+        clearObservationDraft()
         return
       }
 
@@ -766,9 +842,39 @@ export function ObservationSubmitForm({
 
       toast({ title: "已恢复本地草稿" })
     } catch {
-      window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
+      clearObservationDraft()
+      setDraftSaveStatus("error")
+    } finally {
+      setDraftReady(true)
     }
   }, [speciesOptions, toast])
+
+  useEffect(() => {
+    if (!draftReady || draftPersistenceDisabledRef.current) return
+
+    if (evidenceImages.length === 0) {
+      setDraftSaveStatus(persistObservationDraft(draftSnapshotRef.current) ? "idle" : "error")
+      return
+    }
+
+    setDraftSaveStatus("saving")
+    const timeout = window.setTimeout(() => {
+      if (draftPersistenceDisabledRef.current) return
+      setDraftSaveStatus(persistObservationDraft(draftSnapshotRef.current) ? "saved" : "error")
+    }, 500)
+
+    return () => window.clearTimeout(timeout)
+  }, [draftReady, evidenceImages, mediaAnalyses, photoDrafts])
+
+  useEffect(() => {
+    const handlePageHide = () => {
+      if (!draftReady || draftPersistenceDisabledRef.current) return
+      setDraftSaveStatus(persistObservationDraft(draftSnapshotRef.current) ? "saved" : "error")
+    }
+
+    window.addEventListener("pagehide", handlePageHide)
+    return () => window.removeEventListener("pagehide", handlePageHide)
+  }, [draftReady])
 
   useEffect(() => {
     if (!user || evidenceImages.length === 0) {
@@ -1045,6 +1151,7 @@ export function ObservationSubmitForm({
     photoMetadataRef.current = {}
     speciesAutofillRef.current.clear()
     setSpeciesQuery(initialSpecies?.commonName ?? "")
+    draftPersistenceDisabledRef.current = false
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -1126,9 +1233,8 @@ export function ObservationSubmitForm({
 
       dispatchObservationCreated()
       router.refresh()
-      if (typeof window !== "undefined") {
-        window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
-      }
+      draftPersistenceDisabledRef.current = true
+      clearObservationDraft()
 
       const created = payload.observations?.length ? payload.observations : [payload.observation]
       const firstDraft = photoDrafts[publishableUrls[0]]
@@ -1313,23 +1419,6 @@ export function ObservationSubmitForm({
     toast({ title: "已用到其余未定位的照片" })
   }, [evidenceImages, selectedDraft, selectedImageUrl, toast])
 
-  const handleSaveDraft = () => {
-    if (typeof window === "undefined") return
-
-    window.localStorage.setItem(
-      OBSERVATION_DRAFT_KEY,
-      JSON.stringify({
-        evidenceImages,
-        photoDrafts,
-        mediaAnalyses: mediaAnalyses.filter((item) => evidenceImages.includes(item.imageUrl)),
-        version: OBSERVATION_DRAFT_VERSION,
-        savedAt: new Date().toISOString(),
-      }),
-    )
-
-    toast({ title: "草稿已保存到当前设备" })
-  }
-
   const visibilityLabel = "公开记录 · 准确位置"
   const precisionLabel = "准确位置"
   const previewImage = selectedImageUrl ?? evidenceImages[0] ?? null
@@ -1461,14 +1550,6 @@ export function ObservationSubmitForm({
                 <p className="mb-3 text-sm leading-6 text-(--obs-muted)">
                   {photoSubjectHint}
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setTipsSheetOpen(true)}
-                  className="mb-3 inline-flex h-9 items-center gap-1.5 rounded-full border border-(--obs-border) bg-(--obs-control) px-3 text-xs font-medium text-(--obs-muted) md:hidden"
-                >
-                  <HelpCircle className="h-3.5 w-3.5" />
-                  小贴士
-                </button>
                 <ObservationSubmitPhotoSection
                   evidenceImages={evidenceImages}
                   onEvidenceChange={handleEvidenceChange}
@@ -1477,6 +1558,16 @@ export function ObservationSubmitForm({
                   showHeader={false}
                   onPhotoMetadata={handlePhotoMetadata}
                 />
+                <div className="mt-4 flex justify-end md:hidden">
+                  <button
+                    type="button"
+                    onClick={() => setTipsSheetOpen(true)}
+                    className="inline-flex min-h-9 items-center gap-1.5 px-1 text-xs font-medium text-(--obs-accent-text) transition-colors hover:text-(--obs-accent-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--obs-accent)"
+                  >
+                    <HelpCircle className="h-3.5 w-3.5" />
+                    拍摄建议
+                  </button>
+                </div>
                 <MobileStepFooter
                   actionLabel={evidenceImages.length > 0 ? "继续按张鉴定" : "先上传照片"}
                   disabled={evidenceImages.length === 0}
@@ -1550,7 +1641,7 @@ export function ObservationSubmitForm({
                       <Button
                         type="button"
                         variant="outline"
-                        className="h-10 w-full rounded-full border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
+                        className="h-10 w-full rounded-sm border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
                         onClick={() => setSpeciesSheetOpen(true)}
                       >
                         查看更多候选
@@ -1779,7 +1870,7 @@ export function ObservationSubmitForm({
                     <Button
                       type="button"
                       variant="outline"
-                      className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
+                      className="h-11 w-full rounded-sm border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
                       onClick={handleApplyLocationToUnlocated}
                     >
                       用到其余 {otherUnlocatedCount} 张还没定位的照片
@@ -1793,18 +1884,19 @@ export function ObservationSubmitForm({
                 onNext={() => undefined}
                 helper={
                   locationAndTimeReady
-                    ? "地点和观察时间已保存，使用下方按钮即可发布。"
-                    : "请确认观察日期、时间、地点名称和地图位置。"
+                    ? "地点和时间已确认，可以发布。"
+                    : "还需要确认地点和时间。"
                 }
               />
               </div>
             </section>
 
             <div className="hidden items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-subtle) p-3 md:flex">
+              <DraftSaveIndicator status={draftSaveStatus} className="mr-auto" />
               <Button
                 type="submit"
                 disabled={isSubmitting || !canSubmit}
-                className="h-12 flex-1 rounded-full bg-(--obs-accent) text-base font-semibold text-white hover:bg-(--obs-accent-strong)"
+                className="h-12 flex-1 rounded-sm bg-(--obs-accent) text-base font-semibold text-white hover:bg-(--obs-accent-strong)"
               >
                 {isSubmitting ? (
                   <>
@@ -1817,15 +1909,6 @@ export function ObservationSubmitForm({
                     {submitActionLabel}
                   </>
                 )}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-12 rounded-full border-(--obs-border-strong) bg-(--obs-control) px-8 text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
-                onClick={handleSaveDraft}
-              >
-                <Save className="mr-2 h-4 w-4" />
-                保存草稿
               </Button>
             </div>
           </div>
@@ -1946,22 +2029,14 @@ export function ObservationSubmitForm({
         </div>
 
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-(--obs-border) bg-(--obs-panel) px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_-16px_42px_-34px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
-          <div className="mx-auto flex w-full max-w-md gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 w-12 shrink-0 rounded-full border-(--obs-border-strong) bg-(--obs-control) px-0 text-(--obs-text) hover:bg-(--obs-control-hover) hover:text-(--obs-text)"
-              onClick={handleSaveDraft}
-              aria-label="保存草稿"
-            >
-              <Save className="h-5 w-5" />
-            </Button>
+          <div className="mx-auto w-full max-w-md">
+            <DraftSaveIndicator status={draftSaveStatus} className="mb-2 px-1" />
             <Button
               type="submit"
               data-disabled={!mobileSubmitReady}
               onClick={handleMobileSubmitClick}
               className={cn(
-                "h-12 min-w-0 flex-1 rounded-full text-sm font-semibold transition-colors min-[390px]:text-base",
+                "h-12 w-full min-w-0 rounded-sm text-sm font-semibold transition-colors min-[390px]:text-base",
                 mobileSubmitReady
                   ? "bg-(--obs-accent) text-[#f7fff8] [box-shadow:var(--obs-soft-shadow)] hover:bg-(--obs-accent-strong)"
                   : "border border-gray-200 bg-gray-100 text-gray-500 hover:bg-gray-100 hover:text-gray-500 dark:border-[#37424a] dark:bg-[#252e35] dark:text-[#aeb8b5] dark:hover:bg-[#252e35] dark:hover:text-[#aeb8b5]",

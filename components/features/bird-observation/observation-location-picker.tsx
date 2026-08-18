@@ -86,7 +86,7 @@ export function ObservationLocationPicker({
           </div>
 
           <p className="text-xs leading-5 text-(--obs-muted)">
-            地址只来自照片 GPS 或你的手动选择；AI 只提供物种建议。记录会公开准确位置。
+            地址来自照片 GPS 或地图选点，发布后会公开准确位置。
           </p>
 
           {metadataWarning ? (
@@ -98,7 +98,7 @@ export function ObservationLocationPicker({
           <Button
             type="button"
             variant="outline"
-            className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
+            className="h-11 w-full rounded-sm border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
             onClick={onUseCurrentLocation}
             disabled={isLocating}
           >
@@ -117,7 +117,7 @@ export function ObservationLocationPicker({
       </div>
 
       <p className="text-xs leading-5 text-(--obs-muted-2)">
-        点击地图或拖动标记调整坐标。手动修改地点名称后，需要重新在地图上确认位置。
+        点地图或拖动标记选择位置；修改名称后请重新点地图确认。
       </p>
     </div>
   )

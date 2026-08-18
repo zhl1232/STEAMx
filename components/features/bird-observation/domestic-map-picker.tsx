@@ -204,11 +204,11 @@ export function DomesticMapPicker({
           </div>
         ) : null}
       </div>
-      <p className="text-xs text-muted-foreground">
-        点击地图或拖动标记调整坐标。
-        {!isReady && " 地图加载中..."}
-        {isGeocoding && " 正在查询地点名称..."}
-      </p>
+      {!isReady || isGeocoding ? (
+        <p className="text-xs text-muted-foreground" role="status" aria-live="polite">
+          {!isReady ? "地图加载中..." : "正在查询地点名称..."}
+        </p>
+      ) : null}
     </div>
   )
 }
