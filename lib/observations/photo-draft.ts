@@ -79,6 +79,20 @@ export function copyLocationToDraft(
   }
 }
 
+export function setManualLocationName(
+  draft: ObservationPhotoDraft,
+  locationName: string,
+): ObservationPhotoDraft {
+  return {
+    ...draft,
+    locationName,
+    latitude: '',
+    longitude: '',
+    locationSource: 'map_pin',
+    locationWarning: '',
+  }
+}
+
 export function syncPhotoDrafts(
   imageUrls: string[],
   current: Record<string, ObservationPhotoDraft>,

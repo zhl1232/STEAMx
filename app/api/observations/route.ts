@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import {
-  getObservationAnalysisErrorMessage,
-  isObservationAnalysisPassed,
+  isObservationAnalysisSafetyBlocked,
   parseStoredSpeciesCandidates,
   type ObservationMediaAnalysisRow,
 } from '@/lib/ai/observation-media-analysis'
@@ -130,13 +129,12 @@ export async function POST(request: NextRequest) {
     const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
       analysisRows.map((row) => [row.image_url, row]),
     )
-    const imagesNeedingModeration = uniqueMediaUrls.filter(
-      (url) => !isObservationAnalysisPassed(analysisMap.get(url)),
-    )
-
     const moderation = await moderateUserContent({
       text: payload.items.map((item) => item.location_name).join('\n'),
-      imageSources: imagesNeedingModeration,
+      // The media-analysis result provides species suggestions. Run the
+      // server-side safety check for every image so a missing/failed quality
+      // analysis never weakens the publication safety gate.
+      imageSources: uniqueMediaUrls,
     })
     if (moderation.state === 'rejected') {
       return NextResponse.json(
@@ -153,10 +151,10 @@ export async function POST(request: NextRequest) {
 
     for (const imageUrl of uniqueMediaUrls) {
       const analysis = analysisMap.get(imageUrl)
-      if (moderation.state !== 'pending' && !isObservationAnalysisPassed(analysis)) {
+      if (isObservationAnalysisSafetyBlocked(analysis)) {
         return NextResponse.json(
-          { error: getObservationAnalysisErrorMessage(analysis) },
-          { status: 400 },
+          { error: '图片未通过安全检查，请移除这张照片后再发布', code: 'CONTENT_REJECTED' },
+          { status: 422 },
         )
       }
     }
@@ -207,7 +205,7 @@ export async function POST(request: NextRequest) {
         weather: null,
         notes: null,
         media_urls: [item.media_url],
-        is_public: payload.is_public,
+        is_public: true,
         status: 'pending' as const,
         moderation_state: moderation.state,
         lifecycle_stage: item.lifecycle_stage ?? null,

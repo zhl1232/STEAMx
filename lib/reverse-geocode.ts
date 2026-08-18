@@ -11,6 +11,11 @@ export interface PlaceSearchResult {
   coordinateSystem: 'gcj02'
 }
 
+export interface PlaceSearchResponse {
+  places: PlaceSearchResult[]
+  configured: boolean
+}
+
 /**
  * Reverse-geocode coordinates to a human-readable location name.
  * The browser calls our server route so map service keys stay private.
@@ -51,15 +56,27 @@ export async function convertGpsToAmap(latitude: number, longitude: number): Pro
   }
 }
 
-export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceSearchResult[]> {
+export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceSearchResponse> {
+  return searchPlacesNear(query, undefined, signal)
+}
+
+export async function searchPlacesNear(
+  query: string,
+  center?: { latitude: number; longitude: number },
+  signal?: AbortSignal,
+): Promise<PlaceSearchResponse> {
   try {
     const url = new URL('/api/geo/search', window.location.origin)
     url.searchParams.set('q', query)
+    if (center && Number.isFinite(center.latitude) && Number.isFinite(center.longitude)) {
+      url.searchParams.set('lat', String(center.latitude))
+      url.searchParams.set('lng', String(center.longitude))
+    }
     const response = await fetch(url, { signal })
-    if (!response.ok) return []
-    const data = await response.json() as { places?: PlaceSearchResult[] }
-    return data.places || []
+    if (!response.ok) return { places: [], configured: true }
+    const data = await response.json() as { places?: PlaceSearchResult[]; configured?: boolean }
+    return { places: data.places || [], configured: data.configured !== false }
   } catch {
-    return []
+    return { places: [], configured: true }
   }
 }

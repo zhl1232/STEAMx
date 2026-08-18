@@ -5,6 +5,7 @@ import {
   createEmptyPhotoDraft,
   isPhotoLocated,
   isPhotoPublishReady,
+  setManualLocationName,
   syncPhotoDrafts,
 } from './photo-draft'
 
@@ -61,5 +62,23 @@ describe('observation photo drafts', () => {
     expect(next['/a.jpg']?.locationName).toBe('人民公园')
     expect(next['/b.jpg']?.observedAt).toBe('2026-08-13T12:00')
     expect(next['/gone.jpg']).toBeUndefined()
+  })
+
+  it('clears old coordinates when the place name is manually changed', () => {
+    const draft = {
+      ...createEmptyPhotoDraft('2026-08-13T10:00'),
+      locationName: '人民公园',
+      latitude: '31.231000',
+      longitude: '121.474000',
+      locationSource: 'photo_exif' as const,
+      locationWarning: '旧提示',
+    }
+
+    const changed = setManualLocationName(draft, '新的观察地点')
+    expect(changed.locationName).toBe('新的观察地点')
+    expect(changed.latitude).toBe('')
+    expect(changed.longitude).toBe('')
+    expect(changed.locationSource).toBe('map_pin')
+    expect(changed.locationWarning).toBe('')
   })
 })

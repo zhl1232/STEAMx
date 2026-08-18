@@ -59,6 +59,11 @@ describe('CreateObservationBatchSchema', () => {
     expect(CreateObservationBatchSchema.safeParse({ items }).success).toBe(false)
   })
 
+  it('does not allow new observations to be made private', () => {
+    expect(CreateObservationBatchSchema.safeParse({ is_public: false, items: [sampleItem] }).success).toBe(false)
+    expect(CreateObservationBatchSchema.parse({ items: [sampleItem] }).is_public).toBe(true)
+  })
+
   it('detects duplicate media urls in a batch', () => {
     const unique = CreateObservationBatchSchema.parse({
       items: [

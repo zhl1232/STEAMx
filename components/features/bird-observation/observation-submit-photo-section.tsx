@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
-import { Camera, CheckCircle2, Loader2, Plus, Sparkles, X } from "lucide-react"
+import { Camera, CheckCircle2, Loader2, Plus, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -43,7 +43,6 @@ interface ObservationSubmitPhotoSectionProps {
   isAnalyzing?: boolean
   showHeader?: boolean
   onPhotoMetadata?: (items: Array<ObservationPhotoMetadata & { imageUrl: string }>) => void
-  analyzingMessage?: string
 }
 
 const MAX_IMAGES = 5
@@ -97,7 +96,6 @@ export function ObservationSubmitPhotoSection({
   isAnalyzing = false,
   showHeader = true,
   onPhotoMetadata,
-  analyzingMessage = "正在分析图片质量，并尝试匹配候选。",
 }: ObservationSubmitPhotoSectionProps) {
   const { user, loading: authLoading } = useAuth()
   const { promptLogin } = useLoginPrompt()
@@ -215,6 +213,10 @@ export function ObservationSubmitPhotoSection({
   const heroImage = evidenceImages[0] ?? null
   const galleryImages = evidenceImages.slice(1)
   const heroBadge = heroImage ? getAnalysisBadge(analysisByImage.get(heroImage)?.status) : null
+  const pendingCount = evidenceImages.filter((url) => {
+    const status = analysisByImage.get(url)?.status
+    return !status || status === "pending"
+  }).length
   const photoStepStatus = evidenceImages.length === 0 ? "待上传" : isAnalyzing ? "识别中" : "已上传"
 
   return (
@@ -247,53 +249,38 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      {isAnalyzing && evidenceImages.length > 0 ? (
-        <div className="rounded-md border border-sky-200/80 bg-sky-50/80 px-4 py-3 text-sm text-sky-800 dark:border-sky-900/60 dark:bg-sky-950/20 dark:text-sky-200">
-          {analyzingMessage}
-        </div>
-      ) : null}
-
       <div className="grid gap-3 md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]">
         <div className="overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) [box-shadow:var(--obs-panel-shadow)]">
           {heroImage ? (
-            <div className="relative aspect-16/11 min-h-[180px] sm:min-h-[210px] md:aspect-16/10">
-            <OptimizedImage
-              src={heroImage}
-              alt="观察照片"
-              fill
-              variant="cover"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-stone-950/72 via-stone-950/10 to-transparent" />
-            <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2 sm:left-4 sm:top-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/35 px-3 py-1.5 text-xs font-medium backdrop-blur-md">
-                <Sparkles className="h-3.5 w-3.5" />
-                第 1 张
+            <>
+              <div className="relative aspect-16/11 min-h-[180px] sm:min-h-[210px] md:aspect-16/10">
+                <OptimizedImage
+                  src={heroImage}
+                  alt="观察照片"
+                  fill
+                  variant="cover"
+                  className="object-cover"
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="absolute right-3 top-3 h-9 w-9 rounded-full border border-white/30 bg-black/55 text-white hover:bg-black/70 sm:right-4 sm:top-4"
+                  onClick={() => handleRemove(0)}
+                  aria-label="删除第 1 张照片"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-              {heroBadge ? (
-                <Badge variant="outline" className={heroBadge.className}>
-                  {heroBadge.label}
-                </Badge>
-              ) : null}
-            </div>
-            <Button
-              type="button"
-              variant="secondary"
-              size="icon"
-              className="absolute right-3 top-3 h-9 w-9 rounded-full border border-white/18 bg-black/45 text-white hover:bg-black/60 sm:right-4 sm:top-4"
-              onClick={() => handleRemove(0)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
-              <div className="max-w-[18rem]">
-                <p className="text-sm font-medium">照片已进入识别流程</p>
-                <p className="mt-1 text-xs leading-5 text-white/76">
-                  每张照片会单独成为一条观察，确认物种和地点后即可发布。
-                </p>
+              <div className="flex min-h-11 items-center gap-2 border-t border-(--obs-border) px-3 py-2.5 text-xs">
+                <span className="font-semibold text-(--obs-text)">第 1 张</span>
+                {heroBadge ? (
+                  <Badge variant="outline" className={heroBadge.className}>
+                    {heroBadge.label}
+                  </Badge>
+                ) : null}
               </div>
-            </div>
-          </div>
+            </>
         ) : (
           <button
             type="button"
@@ -365,18 +352,14 @@ export function ObservationSubmitPhotoSection({
                     className="object-cover"
                   />
                 </div>
-                {badge ? (
-                  <Badge
-                    variant="outline"
-                    className={`absolute left-1.5 top-1.5 bg-background/88 backdrop-blur-sm ${badge.className}`}
-                  >
-                    {badge.label}
-                  </Badge>
-                ) : null}
+                <div className="flex min-h-9 items-center gap-1.5 border-t border-(--obs-border) px-2 py-1.5 text-[11px]">
+                  <span className="font-semibold text-(--obs-text)">第 {index + 2} 张</span>
+                  {badge ? <Badge variant="outline" className={badge.className}>{badge.label}</Badge> : null}
+                </div>
                 <button
                   type="button"
                   onClick={() => handleRemove(index + 1)}
-                  className="absolute right-1.5 top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition group-hover:opacity-100"
+                  className="absolute right-1.5 top-1.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/75"
                   aria-label={`删除补充照片 ${index + 2}`}
                 >
                   <X className="h-3.5 w-3.5" />
@@ -384,6 +367,16 @@ export function ObservationSubmitPhotoSection({
               </div>
             )
           })}
+        </div>
+      ) : null}
+
+      {evidenceImages.length > 0 && (isAnalyzing || pendingCount > 0) ? (
+        <div role="status" aria-live="polite" className="flex items-center gap-2 rounded-xs border border-sky-200 bg-sky-50 px-3 py-2.5 text-sm text-sky-800 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]">
+          {isAnalyzing ? <Loader2 className="h-4 w-4 shrink-0 animate-spin" /> : null}
+          <span>
+            {isAnalyzing ? "正在识别照片" : "识别建议暂未返回，可继续发布"}
+            {pendingCount > 0 ? ` · ${pendingCount} 张待完成` : ""}
+          </span>
         </div>
       ) : null}
 

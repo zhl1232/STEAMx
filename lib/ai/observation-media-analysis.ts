@@ -269,6 +269,16 @@ export function isObservationAnalysisPassed(row: ObservationMediaAnalysisRow | n
   return row?.status === 'passed' || row?.status === 'passed_no_identification'
 }
 
+/**
+ * Quality and identification are advisory. Only a failed safety check should
+ * prevent an observation from being submitted.
+ */
+export function isObservationAnalysisSafetyBlocked(
+  row: Pick<ObservationMediaAnalysisRow, 'status' | 'moderation_pass'> | null | undefined,
+): boolean {
+  return row?.status === 'failed_unsafe' || row?.moderation_pass === false
+}
+
 export function getObservationAnalysisErrorMessage(row: ObservationMediaAnalysisRow | null | undefined): string {
   if (!row) return '图片识别未完成，请稍后重试'
 

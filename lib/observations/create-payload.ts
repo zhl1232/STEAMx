@@ -22,7 +22,10 @@ export const ObservationCreateItemSchema = z.object({
 })
 
 export const CreateObservationBatchSchema = z.object({
-  is_public: z.boolean().default(true),
+  // New natural observations are always public and use the exact location
+  // selected for the record. Keep the field for old clients, but do not allow
+  // a private record to be created through this endpoint.
+  is_public: z.literal(true).default(true),
   items: z.array(ObservationCreateItemSchema).min(1).max(5),
 })
 

@@ -205,9 +205,9 @@ export function DomesticMapPicker({
         ) : null}
       </div>
       <p className="text-xs text-muted-foreground">
-        点击地图或拖动标记选点，选点后会自动识别地点名称。
+        点击地图或拖动标记调整坐标。
         {!isReady && " 地图加载中..."}
-        {isGeocoding && " 正在识别地点名称..."}
+        {isGeocoding && " 正在查询地点名称..."}
       </p>
     </div>
   )

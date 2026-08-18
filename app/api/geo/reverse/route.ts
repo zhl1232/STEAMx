@@ -11,7 +11,7 @@ const ReverseGeoQuerySchema = z.object({
 interface AmapNamedLocation {
   name?: string
   type?: string
-  distance?: string
+  distance?: string | number
 }
 
 interface AmapAddressComponent {
@@ -120,12 +120,15 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function pickReadableLocationName(regeocode: AmapRegeoCode) {
-  const aoi = pickBestNamedLocation(regeocode.aois, { allowRoad: false }) ?? pickBestNamedLocation(regeocode.aois, { allowRoad: true })
-  if (aoi) return aoi
-
-  const poi = pickBestNamedLocation(regeocode.pois, { allowRoad: false })
-  if (poi) return poi
+export function pickReadableLocationName(regeocode: AmapRegeoCode) {
+  // AMap returns several nearby POIs/AOIs. Choose across both collections so
+  // a distant landmark (for example, a park several hundred metres away)
+  // cannot win only because its name contains a preferred keyword.
+  const nearbyPlace = pickBestNamedLocation(
+    [...(regeocode.aois ?? []), ...(regeocode.pois ?? [])],
+    { allowRoad: false },
+  )
+  if (nearbyPlace) return nearbyPlace
 
   const componentName = buildAdministrativeName(regeocode.addressComponent)
   if (componentName) return componentName
@@ -150,18 +153,33 @@ function pickBestNamedLocation(
     }))
     .filter((item): item is { name: string; type: string; distance: number } => Boolean(item.name))
     .filter((item) => options.allowRoad || !isRoadLike(item.name))
-    .sort((left, right) => scoreNamedLocation(right) - scoreNamedLocation(left))
+    .sort(compareNamedLocations)
 
   return candidates[0]?.name ?? null
 }
 
-function scoreNamedLocation(item: { name: string; type: string; distance: number }) {
-  let score = 0
-  if (isPlaceLike(`${item.name}${item.type}`)) score += 100
-  if (!isRoadLike(item.name)) score += 35
-  if (item.distance <= 80) score += 20
-  if (item.distance <= 300) score += 10
-  return score - Math.min(item.distance, 1000) / 100
+function compareNamedLocations(
+  left: { name: string; type: string; distance: number },
+  right: { name: string; type: string; distance: number },
+) {
+  const leftHasDistance = Number.isFinite(left.distance)
+  const rightHasDistance = Number.isFinite(right.distance)
+
+  if (leftHasDistance || rightHasDistance) {
+    if (!leftHasDistance) return 1
+    if (!rightHasDistance) return -1
+
+    // Distance is the primary signal. A place-name preference may only break
+    // a close tie, never override a meaningfully nearer result.
+    const distanceDelta = left.distance - right.distance
+    if (Math.abs(distanceDelta) > 120) return distanceDelta
+  }
+
+  const leftPlaceScore = isPlaceLike(`${left.name}${left.type}`) ? 1 : 0
+  const rightPlaceScore = isPlaceLike(`${right.name}${right.type}`) ? 1 : 0
+  if (leftPlaceScore !== rightPlaceScore) return rightPlaceScore - leftPlaceScore
+
+  return left.distance - right.distance
 }
 
 function buildAdministrativeName(component: AmapAddressComponent | undefined) {

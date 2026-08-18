@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { logger } from '@/lib/logger'
+import { wgs84ToGcj02 } from '@/lib/geo/wgs84-gcj02'
 
 const QuerySchema = z.object({
   lat: z.coerce.number().min(-90).max(90),
@@ -16,7 +17,15 @@ export async function GET(request: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: '坐标无效' }, { status: 400 })
 
   const key = process.env.AMAP_WEB_SERVICE_KEY || process.env.GAODE_WEB_SERVICE_KEY
-  if (!key) return NextResponse.json({ error: '地图服务未配置' }, { status: 503 })
+  if (!key) {
+    const converted = wgs84ToGcj02(parsed.data.lat, parsed.data.lng)
+    return NextResponse.json({
+      latitude: converted.latitude,
+      longitude: converted.longitude,
+      coordinateSystem: 'gcj02',
+      provider: 'local',
+    })
+  }
 
   try {
     const url = new URL('https://restapi.amap.com/v3/assistant/coordinate/convert')

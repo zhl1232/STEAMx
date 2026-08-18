@@ -14,22 +14,19 @@ import {
   Clock3,
   Eye,
   Gift,
-  Globe2,
   HelpCircle,
   Info,
   Loader2,
   MapPin,
-  Navigation,
   Save,
   Search,
   Send,
-  ShieldCheck,
   Sparkles,
   Target,
   type LucideIcon,
 } from "lucide-react"
 
-import { DomesticMapPicker } from "@/components/features/bird-observation/domestic-map-picker"
+import { ObservationLocationPicker } from "@/components/features/bird-observation/observation-location-picker"
 import { ObservationSubmitPhotoSection, type ObservationMediaAnalysis } from "@/components/features/bird-observation/observation-submit-photo-section"
 import { ObservationPhotoStrip } from "@/components/features/bird-observation/observation-photo-strip"
 import { ObservationSubmitSuccessDialog } from "@/components/features/bird-observation/observation-submit-success-dialog"
@@ -41,7 +38,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
@@ -59,6 +55,7 @@ import {
   isPhotoPublishReady,
   isPhotoTimeReady,
   nowLocalDateTimeInput,
+  setManualLocationName,
   syncPhotoDrafts,
   type ObservationPhotoDraft,
   type ObservationPhotoLocationSource,
@@ -70,7 +67,7 @@ import {
   type ObservationLifecycleStage,
   type ObservationSex,
 } from "@/lib/observations/traits"
-import { convertGpsToAmap, reverseGeocode, searchPlaces, type PlaceSearchResult } from "@/lib/reverse-geocode"
+import { convertGpsToAmap, reverseGeocode, searchPlacesNear, type PlaceSearchResult } from "@/lib/reverse-geocode"
 import { cn } from "@/lib/utils"
 import {
   getApiErrorMessageFromPayload,
@@ -114,7 +111,6 @@ const NOTE_MAX_LENGTH = 500
 const OBSERVATION_DRAFT_KEY = "steam:nature-observation-draft"
 const OBSERVATION_DRAFT_VERSION = 2
 const OBSERVER_THRESHOLDS = [1, 10, 30, 100]
-const LOCATION_PRECISION_VALUES = ["exact", "approximate", "hidden"] as const
 const MEDIA_ANALYSIS_STATUS_VALUES = [
   "pending",
   "passed",
@@ -133,7 +129,6 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
   "error",
 ])
 
-type LocationPrecision = (typeof LOCATION_PRECISION_VALUES)[number]
 type StepStatusTone = "neutral" | "success" | "warning" | "loading"
 type MobilePanelKey = "photo" | "species" | "location"
 type SpeciesCandidate = ObservationMediaAnalysis["speciesCandidates"][number]
@@ -150,7 +145,6 @@ interface ObservationDraft {
   evidenceImages: string[]
   photoDrafts: Record<string, ObservationPhotoDraft>
   mediaAnalyses: ObservationMediaAnalysis[]
-  isPublic: boolean
 }
 
 const panelClass =
@@ -460,8 +454,6 @@ function normalizeObservationDraft(value: unknown): ObservationDraft | null {
         .map((analysis) => normalizeMediaAnalysis(analysis, allowedImageUrls))
         .filter((analysis): analysis is ObservationMediaAnalysis => Boolean(analysis))
     : []
-  const isPublic = typeof draft.isPublic === "boolean" ? draft.isPublic : true
-
   const photoDrafts: Record<string, ObservationPhotoDraft> = {}
   if (draft.photoDrafts && typeof draft.photoDrafts === "object") {
     for (const url of evidenceImages) {
@@ -482,13 +474,12 @@ function normalizeObservationDraft(value: unknown): ObservationDraft | null {
     }
   }
 
-  if (evidenceImages.length === 0 && isPublic) return null
+  if (evidenceImages.length === 0) return null
 
   return {
     evidenceImages,
     photoDrafts,
     mediaAnalyses,
-    isPublic,
   }
 }
 
@@ -508,18 +499,15 @@ export function ObservationSubmitForm({
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null)
   const [placeResults, setPlaceResults] = useState<PlaceSearchResult[]>([])
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false)
-  const [isPublic, setIsPublic] = useState(true)
-  const [locationDisclosureConfirmed, setLocationDisclosureConfirmed] = useState(false)
+  const [placeSearchUnavailable, setPlaceSearchUnavailable] = useState(false)
   const [speciesQuery, setSpeciesQuery] = useState("")
   const [speciesResults, setSpeciesResults] = useState<SpeciesOption[]>([])
   const [isSearchingSpecies, setIsSearchingSpecies] = useState(false)
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
   const [isLocating, setIsLocating] = useState(false)
-  const locationPrecision: LocationPrecision = "exact"
   const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanelKey>("photo")
   const [speciesSheetOpen, setSpeciesSheetOpen] = useState(false)
-  const [locationSheetOpen, setLocationSheetOpen] = useState(false)
   const [tipsSheetOpen, setTipsSheetOpen] = useState(false)
   const [successState, setSuccessState] = useState<{
     open: boolean
@@ -603,15 +591,6 @@ export function ObservationSubmitForm({
     [analysisMap, evidenceImages],
   )
 
-  const failedAnalyses = useMemo(
-    () =>
-      evidenceImages
-        .map((url) => analysisMap.get(url))
-        .filter((analysis): analysis is ObservationMediaAnalysis => Boolean(
-          analysis && analysis.status !== "passed" && analysis.status !== "passed_no_identification" && analysis.status !== "pending",
-        )),
-    [analysisMap, evidenceImages],
-  )
   const selectedAnalysis = selectedImageUrl ? analysisMap.get(selectedImageUrl) : undefined
   const selectedFailedAnalysis =
     selectedAnalysis
@@ -621,19 +600,24 @@ export function ObservationSubmitForm({
       ? selectedAnalysis
       : null
 
-  const passedImageUrls = useMemo(
+  const safetyFailedAnalyses = useMemo(
     () =>
-      evidenceImages.filter((url) => {
-        const status = analysisMap.get(url)?.status
-        return status === "passed" || status === "passed_no_identification"
-      }),
+      evidenceImages
+        .map((url) => analysisMap.get(url))
+        .filter((analysis): analysis is ObservationMediaAnalysis => Boolean(
+          analysis && (analysis.status === "failed_unsafe" || analysis.moderationPass === false),
+        )),
     [analysisMap, evidenceImages],
   )
-  const analysisReady = passedImageUrls.length > 0 && analysisPendingCount === 0
+  const eligibleImageUrls = useMemo(
+    () => evidenceImages.filter((url) => !safetyFailedAnalyses.some((analysis) => analysis.imageUrl === url)),
+    [evidenceImages, safetyFailedAnalyses],
+  )
+  const analysisFinished = evidenceImages.length > 0 && analysisPendingCount === 0 && !isAnalyzingImages
   const shouldShowSpeciesResults = speciesQuery.trim().length > 0
   const speciesStepLocked = evidenceImages.length === 0
-  const identifiedCount = passedImageUrls.filter((url) => Boolean(photoDrafts[url]?.speciesId)).length
-  const locatedPassedCount = passedImageUrls.filter((url) => {
+  const identifiedCount = eligibleImageUrls.filter((url) => Boolean(photoDrafts[url]?.speciesId)).length
+  const locatedPassedCount = eligibleImageUrls.filter((url) => {
     const draft = photoDrafts[url]
     return Boolean(draft && isPhotoPublishReady(draft))
   }).length
@@ -658,11 +642,11 @@ export function ObservationSubmitForm({
   }, [allSpecies, evidenceImages, photoDrafts])
   const photoSubjectHint = getObservationSubmitTopicCopy("birds").photoSubjectHint
   const speciesStepStatus = identifiedCount > 0
-    ? `${identifiedCount}/${Math.max(passedImageUrls.length, 1)} 已鉴定`
+    ? `${identifiedCount}/${Math.max(eligibleImageUrls.length, 1)} 已鉴定`
     : speciesStepLocked
       ? "待上传"
       : analysisPendingCount > 0 || isAnalyzingImages
-        ? "AI 分析中"
+        ? "识别建议生成中"
         : "可选"
 
   const updatePhotoDraft = useCallback((url: string, patch: Partial<ObservationPhotoDraft>) => {
@@ -682,14 +666,13 @@ export function ObservationSubmitForm({
   }, [])
 
   const locationReady = selectedDraft ? isPhotoLocated(selectedDraft) : false
-  const needsLocationDisclosureConfirmation = isPublic && locationPrecision === "exact"
-  const locationDisclosureReady = !needsLocationDisclosureConfirmation || locationDisclosureConfirmed
-  const unlocatedPassedUrls = passedImageUrls.filter((url) => {
+  const unlocatedPassedUrls = eligibleImageUrls.filter((url) => {
     const draft = photoDrafts[url]
     return !draft || !isPhotoPublishReady(draft)
   })
-  const locationAndTimeReady = unlocatedPassedUrls.length === 0 && passedImageUrls.length > 0
-  const canSubmit = analysisReady && locationAndTimeReady && locationDisclosureReady
+  const locationAndTimeReady = unlocatedPassedUrls.length === 0 && eligibleImageUrls.length > 0
+  const safetyCheckReady = safetyFailedAnalyses.length === 0
+  const canSubmit = locationAndTimeReady && safetyCheckReady
   const observationProgressCount = userStats?.observationsSubmitted
   const displayedObservationCount = observationProgressCount ?? 0
   const nextObserverThreshold = getNextObserverThreshold(displayedObservationCount)
@@ -734,9 +717,9 @@ export function ObservationSubmitForm({
           locationWarning: "",
           ...(name ? { locationName: name } : {}),
         })
-        setLocationDisclosureConfirmed(false)
         placeSearchRequestRef.current += 1
         setPlaceResults([])
+        setPlaceSearchUnavailable(false)
 
         if (withToast) {
           toast({ title: "已更新当前位置" })
@@ -773,7 +756,6 @@ export function ObservationSubmitForm({
       setEvidenceImages(draft.evidenceImages)
       setPhotoDrafts(syncPhotoDrafts(draft.evidenceImages, draft.photoDrafts))
       setSelectedImageUrl(draft.evidenceImages[0] ?? null)
-      setIsPublic(draft.isPublic)
       setMediaAnalyses(draft.mediaAnalyses)
       const firstDraft = draft.evidenceImages[0] ? draft.photoDrafts[draft.evidenceImages[0]] : null
       draftRestoredSpeciesRef.current = Boolean(firstDraft?.speciesId)
@@ -786,7 +768,7 @@ export function ObservationSubmitForm({
     } catch {
       window.localStorage.removeItem(OBSERVATION_DRAFT_KEY)
     }
-  }, [toast])
+  }, [speciesOptions, toast])
 
   useEffect(() => {
     if (!user || evidenceImages.length === 0) {
@@ -874,14 +856,14 @@ export function ObservationSubmitForm({
       setSpeciesQuery("")
       return
     }
-    const draft = photoDrafts[selectedImageUrl]
-    const match = allSpecies.find((option) => String(option.id) === draft?.speciesId)
+    const match = allSpecies.find((option) => String(option.id) === speciesId)
     setSpeciesQuery(match?.commonName ?? "")
-  }, [allSpecies, selectedImageUrl, selectedDraft?.speciesId])
+  }, [allSpecies, selectedImageUrl, speciesId])
 
   useEffect(() => {
     placeSearchRequestRef.current += 1
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
   }, [selectedImageUrl])
 
   useEffect(() => {
@@ -1002,25 +984,12 @@ export function ObservationSubmitForm({
   const toggleMobilePanel = (panel: MobilePanelKey) => openMobilePanel(panel)
 
   const getAnalysisBlockerDescription = () => {
-    if (analysisPendingCount > 0) {
-      return "图片识别尚未完成，请稍后再试"
-    }
-
-    const blockingFailure = failedAnalyses[0]
+    const blockingFailure = safetyFailedAnalyses[0]
     if (blockingFailure) {
-      if (blockingFailure.status === "failed_low_quality") {
-        return blockingFailure.qualityReason || "这张照片不够清晰，请删除或重拍，其余照片仍可发布"
-      }
-      if (blockingFailure.status === "failed_unsafe") {
-        return blockingFailure.moderationReason || "这张照片不适合提交，请删除后继续发布其余照片"
-      }
-      if (blockingFailure.status === "failed_unrecognized") {
-        return "这张照片暂时无法识别，请删除或换更清晰的照片"
-      }
-      return blockingFailure.moderationReason || "图片识别失败，请删除后重新上传。"
+      return blockingFailure.moderationReason || "这张照片未通过安全检查，请移除后再发布"
     }
 
-    return "请先完成图片识别"
+    return "图片识别只提供物种建议，不影响发布；安全审核会在提交时再次检查。"
   }
 
   const getSubmitBlocker = (): SubmitBlocker | null => {
@@ -1028,11 +997,11 @@ export function ObservationSubmitForm({
       return { panel: "photo", label: "照片", title: "请先上传一张照片" }
     }
 
-    if (!analysisReady) {
+    if (!safetyCheckReady) {
       return {
         panel: "photo",
-        label: "图片识别",
-        title: passedImageUrls.length === 0 ? "没有可用于发布的照片" : "请先完成图片识别",
+        label: "安全检查",
+        title: "请移除未通过安全检查的照片",
         description: getAnalysisBlockerDescription(),
       }
     }
@@ -1043,15 +1012,6 @@ export function ObservationSubmitForm({
         label: "地点和时间",
         title: "请为每张可发布的照片确认地点",
         description: "没有 GPS 的照片需要搜索选择地点或在地图上选点。",
-      }
-    }
-
-    if (!locationDisclosureReady) {
-      return {
-        panel: "location",
-        label: "位置确认",
-        title: "请先确认准确位置公开范围",
-        description: "公开记录会展示地点名称和地图坐标，请确认后再发布。",
       }
     }
 
@@ -1080,11 +1040,10 @@ export function ObservationSubmitForm({
     setSelectedImageUrl(null)
     setMediaAnalyses([])
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
     placeSearchRequestRef.current += 1
     photoMetadataRef.current = {}
     speciesAutofillRef.current.clear()
-    setIsPublic(true)
-    setLocationDisclosureConfirmed(false)
     setSpeciesQuery(initialSpecies?.commonName ?? "")
   }
 
@@ -1105,7 +1064,7 @@ export function ObservationSubmitForm({
       return
     }
 
-    const publishableUrls = passedImageUrls.filter((url) => {
+    const publishableUrls = eligibleImageUrls.filter((url) => {
       const draft = photoDrafts[url]
       return draft && isPhotoPublishReady(draft)
     })
@@ -1115,23 +1074,8 @@ export function ObservationSubmitForm({
       return
     }
 
-    if (!analysisReady) {
-      toast({ title: "先完成图片识别", description: getAnalysisBlockerDescription(), variant: "destructive" })
-      return
-    }
-
     if (!locationAndTimeReady) {
       toast({ title: "请确认每张照片的地点和时间", description: "没有 GPS 的照片需要搜索选择地点或在地图上选点。", variant: "destructive" })
-      openMobilePanel("location")
-      return
-    }
-
-    if (!locationDisclosureReady) {
-      toast({
-        title: "请确认准确位置公开范围",
-        description: "公开观察会展示地点名称和地图坐标。",
-        variant: "destructive",
-      })
       openMobilePanel("location")
       return
     }
@@ -1161,7 +1105,7 @@ export function ObservationSubmitForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          is_public: isPublic,
+          is_public: true,
           items,
         }),
       })
@@ -1226,8 +1170,7 @@ export function ObservationSubmitForm({
   const observedTime = observedAt.slice(11, 16)
   const submitBlocker = getSubmitBlocker()
   const submitMissingLabel = submitBlocker?.label ?? "必要信息"
-  const mobileSubmitReady = canSubmit && !isSubmitting && !isAnalyzingImages
-  const showAiAnalysisOverlay = evidenceImages.length > 0 && isAnalyzingImages
+  const mobileSubmitReady = canSubmit && !isSubmitting
 
   const speciesStatusTone =
     selectedSpecies
@@ -1260,21 +1203,21 @@ export function ObservationSubmitForm({
     if (!selectedImageUrl) return
     placeSearchRequestRef.current += 1
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
     updatePhotoDraft(selectedImageUrl, {
       latitude: coords.latitude,
       longitude: coords.longitude,
       locationSource: "map_pin",
       locationWarning: "",
     })
-    setLocationDisclosureConfirmed(false)
   }, [selectedImageUrl, updatePhotoDraft])
 
   const handleLocationNameSuggestion = useCallback((name: string) => {
     if (!selectedImageUrl) return
     placeSearchRequestRef.current += 1
     updatePhotoDraft(selectedImageUrl, { locationName: name, locationWarning: "" })
-    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
   }, [selectedImageUrl, updatePhotoDraft])
 
   const handlePhotoMetadata = useCallback(async (items: Array<ObservationPhotoMetadata & { imageUrl: string }>) => {
@@ -1299,9 +1242,9 @@ export function ObservationSubmitForm({
         locationWarning: result.warning ?? "",
       })
     }
-    setLocationDisclosureConfirmed(false)
     placeSearchRequestRef.current += 1
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
   }, [updatePhotoDraft])
 
   const handleLocationInput = useCallback(async (value: string) => {
@@ -1310,31 +1253,34 @@ export function ObservationSubmitForm({
     placeSearchRequestRef.current = requestId
     setPhotoDrafts((current) => {
       const existing = current[selectedImageUrl] ?? createEmptyPhotoDraft()
-      const keepExifCoordinates = existing.locationSource === "photo_exif" && Boolean(existing.latitude.trim() && existing.longitude.trim())
       return {
         ...current,
-        [selectedImageUrl]: {
-          ...existing,
-          locationName: value,
-          locationWarning: "",
-          ...(keepExifCoordinates ? {} : { latitude: "", longitude: "" }),
-        },
+        // A typed name is a new manual choice. Clear the old GPS so the
+        // submitted name and coordinates can never point to different places.
+        [selectedImageUrl]: setManualLocationName(existing, value),
       }
     })
-    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
     if (value.trim().length < 2) {
       setIsSearchingPlaces(false)
       return
     }
     setIsSearchingPlaces(true)
     try {
-      const results = await searchPlaces(value.trim())
-      if (requestId === placeSearchRequestRef.current) setPlaceResults(results)
+      const existing = photoDrafts[selectedImageUrl] ?? createEmptyPhotoDraft()
+      const center = existing.latitude.trim() && existing.longitude.trim()
+        ? { latitude: Number(existing.latitude), longitude: Number(existing.longitude) }
+        : undefined
+      const result = await searchPlacesNear(value.trim(), center)
+      if (requestId === placeSearchRequestRef.current) {
+        setPlaceResults(result.places)
+        setPlaceSearchUnavailable(!result.configured)
+      }
     } finally {
       if (requestId === placeSearchRequestRef.current) setIsSearchingPlaces(false)
     }
-  }, [selectedImageUrl])
+  }, [photoDrafts, selectedImageUrl])
 
   const handlePlaceSelect = useCallback((place: PlaceSearchResult) => {
     if (!selectedImageUrl) return
@@ -1346,8 +1292,8 @@ export function ObservationSubmitForm({
       locationSource: "place_search",
       locationWarning: "",
     })
-    setLocationDisclosureConfirmed(false)
     setPlaceResults([])
+    setPlaceSearchUnavailable(false)
   }, [selectedImageUrl, updatePhotoDraft])
 
   const handleApplyLocationToUnlocated = useCallback(() => {
@@ -1376,7 +1322,6 @@ export function ObservationSubmitForm({
         evidenceImages,
         photoDrafts,
         mediaAnalyses: mediaAnalyses.filter((item) => evidenceImages.includes(item.imageUrl)),
-        isPublic,
         version: OBSERVATION_DRAFT_VERSION,
         savedAt: new Date().toISOString(),
       }),
@@ -1385,7 +1330,7 @@ export function ObservationSubmitForm({
     toast({ title: "草稿已保存到当前设备" })
   }
 
-  const visibilityLabel = isPublic ? "公开记录，公开准确位置" : "仅自己可见"
+  const visibilityLabel = "公开记录 · 准确位置"
   const precisionLabel = "准确位置"
   const previewImage = selectedImageUrl ?? evidenceImages[0] ?? null
   const previewSpeciesName = selectedSpecies?.commonName || speciesQuery.trim() || "待共同鉴定"
@@ -1394,30 +1339,23 @@ export function ObservationSubmitForm({
     { label: "已提供初步鉴定（可选）", done: identifiedCount > 0 },
     { label: "已上传至少 1 张照片", done: evidenceImages.length > 0 },
     { label: "每张可发布照片已填写时间和地点", done: locationAndTimeReady },
-    { label: "已确认位置公开范围", done: locationDisclosureReady },
+    { label: "图片安全检查通过", done: safetyCheckReady },
   ]
   const requiredChecks = [
-    analysisReady,
+    evidenceImages.length > 0,
+    safetyCheckReady,
     locationAndTimeReady,
-    locationDisclosureReady,
   ]
   const requiredReadyCount = requiredChecks.filter(Boolean).length
   const requiredReadyValue = getProgressValue(requiredReadyCount, requiredChecks.length)
   const trimmedLocationName = locationName.trim()
-  const hasMapPoint = !!latitude.trim() && !!longitude.trim()
   const locationSummary = locationReady
     ? `${trimmedLocationName} · ${precisionLabel}`
     : trimmedLocationName
       ? "还需要地图选点"
       : "填写地点并确认地图"
-  const mobileMapTitle = trimmedLocationName || (hasMapPoint ? "地图位置已确认" : "打开地图选点")
-  const mobileMapDescription = hasMapPoint
-    ? trimmedLocationName
-      ? `${precisionLabel} · 点击可调整位置`
-      : `已保存地图位置 · ${precisionLabel}`
-    : "拖动地图可调整精确位置"
-  const locationStepStatus = passedImageUrls.length > 0
-    ? `${locatedPassedCount}/${passedImageUrls.length} 已定位`
+  const locationStepStatus = eligibleImageUrls.length > 0
+    ? `${locatedPassedCount}/${eligibleImageUrls.length} 已定位`
     : locationReady
       ? "已填写"
       : "待填写"
@@ -1470,32 +1408,6 @@ export function ObservationSubmitForm({
 
   return (
     <>
-      {showAiAnalysisOverlay ? (
-        <div
-          role="status"
-          aria-live="polite"
-          className="observation-submit-theme fixed inset-0 z-70 grid place-items-center bg-black/45 px-6 backdrop-blur-xs"
-        >
-          <div className="flex w-full max-w-sm flex-col items-center gap-5 rounded-sm border border-(--obs-border) bg-(--obs-panel) px-8 py-10 text-center [box-shadow:var(--obs-panel-shadow)]">
-            <div className="relative grid h-16 w-16 place-items-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-(--obs-accent-soft)" />
-              <span className="relative grid h-16 w-16 place-items-center rounded-full bg-(--obs-accent-soft) text-(--obs-accent-text)">
-                <Loader2 className="h-8 w-8 animate-spin" />
-              </span>
-            </div>
-            <div className="space-y-1.5">
-              <p className="text-lg font-semibold text-(--obs-text)">小迪正在识别照片 🌿</p>
-              <p className="text-sm leading-6 text-(--obs-muted)">
-                正在分析图片质量并匹配候选物种，稍等一下就好～
-              </p>
-            </div>
-            {analysisPendingCount > 0 ? (
-              <p className="text-xs text-(--obs-muted-2)">还剩 {analysisPendingCount} 张待识别</p>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
-
       <form onSubmit={handleSubmit} className="observation-submit-theme relative pb-36 md:pb-10">
         <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:-inset-x-8" />
 
@@ -1564,18 +1476,15 @@ export function ObservationSubmitForm({
                   isAnalyzing={isAnalyzingImages}
                   showHeader={false}
                   onPhotoMetadata={handlePhotoMetadata}
-                  analyzingMessage="正在分析图片质量，并尝试匹配候选物种。"
                 />
                 <MobileStepFooter
-                  actionLabel={analysisReady ? "继续按张鉴定" : evidenceImages.length > 0 ? "等待图片识别" : "先上传照片"}
-                  disabled={!analysisReady}
+                  actionLabel={evidenceImages.length > 0 ? "继续按张鉴定" : "先上传照片"}
+                  disabled={evidenceImages.length === 0}
                   onNext={() => openMobilePanel("species")}
                   helper={
-                    analysisReady
-                      ? "每张可用照片会成为一条观察。下一步可以为每张选择物种，也可以发布为待鉴定。"
-                      : evidenceImages.length > 0
-                        ? getAnalysisBlockerDescription()
-                        : "上传照片后会自动尝试读取每张图的拍摄时间和位置信息。"
+                    evidenceImages.length > 0
+                      ? "识别结果只是建议，不确定物种也可以继续填写地点并发布。"
+                      : "上传照片后会自动读取照片拍摄时间和 GPS（如果照片包含这些信息）。"
                   }
                 />
               </div>
@@ -1614,20 +1523,6 @@ export function ObservationSubmitForm({
                   />
                 </div>
               ) : null}
-              {(isAnalyzingImages || analysisPendingCount > 0) ? (
-                <div className="mb-4 flex items-start gap-3 rounded-xs border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-[#365875] dark:bg-[#1d2e3a] dark:text-[#c7dceb]">
-                  <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin" />
-                  <div className="min-w-0">
-                    <div className="font-semibold">AI 分析中…</div>
-                    <div className="mt-0.5 text-xs leading-5 text-sky-700/80 dark:text-[#c7dceb]/80">
-                      {analysisPendingCount > 0
-                        ? `还有 ${analysisPendingCount} 张图片正在识别，完成后会按张填入候选物种。`
-                        : "完成后会按张填入候选物种。"}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
               {selectedFailedAnalysis ? (
                 <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
                   {selectedFailedAnalysis.status === "failed_unsafe"
@@ -1666,7 +1561,7 @@ export function ObservationSubmitForm({
                     {suggestedCandidates.slice(0, 3).map((candidate) => renderCandidateButton(candidate))}
                   </div>
                 </div>
-              ) : analysisReady ? (
+              ) : analysisFinished ? (
                 <div className="mb-4 rounded-xs border border-(--obs-border) bg-(--obs-control) px-4 py-3 text-sm text-(--obs-muted)">
                   当前图片没有匹配到可靠的物种候选。你仍可手动提交鉴定，或发布为待鉴定。
                 </div>
@@ -1801,7 +1696,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={3}
                   title="按张确认地点"
-                  description="每张照片使用自己的拍摄时间和 GPS。没有定位的照片需要搜索或在地图上选点；公开范围对本批观察一起生效。"
+                  description="每张照片都要有自己的观察时间和准确坐标。"
                   icon={MapPin}
                   status={locationStepStatus}
                   statusTone={locationStepTone}
@@ -1832,12 +1727,6 @@ export function ObservationSubmitForm({
                   </p>
                 </div>
               ) : null}
-              {metadataWarning ? (
-                <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                  {metadataWarning}
-                </div>
-              ) : null}
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(300px,1.08fr)]">
                 <div className="space-y-4">
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-2">
@@ -1869,35 +1758,22 @@ export function ObservationSubmitForm({
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <FieldLabel htmlFor="locationName">观察地点</FieldLabel>
-                    <div className="relative">
-                      <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--obs-muted-2)" />
-                      <Input
-                        id="locationName"
-                        value={locationName}
-                        onChange={(event) => void handleLocationInput(event.target.value)}
-                        placeholder="输入地点后从搜索结果选择"
-                        className={cn(controlClass, "pl-10 pr-10")}
-                      />
-                      {isSearchingPlaces ? <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-(--obs-muted-2)" /> : null}
-                    </div>
-                    {placeResults.length > 0 ? (
-                      <div className="overflow-hidden rounded-xs border border-(--obs-border) bg-(--obs-control)">
-                        {placeResults.map((place) => (
-                          <button
-                            key={place.id}
-                            type="button"
-                            onClick={() => handlePlaceSelect(place)}
-                            className="block w-full border-b border-(--obs-border) px-3 py-2 text-left last:border-b-0 hover:bg-(--obs-control-hover)"
-                          >
-                            <span className="block text-sm font-medium text-(--obs-text)">{place.name}</span>
-                            <span className="block truncate text-xs text-(--obs-muted)">{place.address}</span>
-                          </button>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
+                  <ObservationLocationPicker
+                    locationName={locationName}
+                    latitude={latitude}
+                    longitude={longitude}
+                    placeResults={placeResults}
+                    placeSearchUnavailable={placeSearchUnavailable}
+                    isSearchingPlaces={isSearchingPlaces}
+                    isLocating={isLocating}
+                    metadataWarning={metadataWarning}
+                    onLocationInput={(value) => void handleLocationInput(value)}
+                    onPlaceSelect={handlePlaceSelect}
+                    onMapChange={handleMapChange}
+                    onLocationNameSuggestion={handleLocationNameSuggestion}
+                    onUseCurrentLocation={() => void tryLocate(true)}
+                    controlClassName={controlClass}
+                  />
 
                   {selectedDraft && isPhotoLocated(selectedDraft) && otherUnlocatedCount > 0 ? (
                     <Button
@@ -1910,187 +1786,6 @@ export function ObservationSubmitForm({
                     </Button>
                   ) : null}
 
-                  <div className="rounded-xs border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                    发布为公开观察时，地点名称和地图准确坐标将对其他用户可见。
-                  </div>
-
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={isPublic}
-                    onClick={() => {
-                      setIsPublic((current) => !current)
-                      setLocationDisclosureConfirmed(false)
-                    }}
-                    className="flex w-full items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-left md:hidden"
-                  >
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xs bg-(--obs-accent-soft) text-(--obs-accent-text)">
-                      {isPublic ? <Globe2 className="h-4 w-4" /> : <ShieldCheck className="h-4 w-4" />}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-(--obs-text)">
-                        {isPublic ? "公开观察（含准确位置）" : "仅自己可见"}
-                      </span>
-                      <span className="mt-0.5 block truncate text-xs text-(--obs-muted)">
-                        {isPublic ? "其他用户可在自然观察中看到" : "保存在个人观察记录"}
-                      </span>
-                    </span>
-                    <span
-                      className={cn(
-                        "relative h-7 w-12 shrink-0 rounded-full border transition",
-                        isPublic ? "border-(--obs-accent) bg-(--obs-accent)" : "border-(--obs-border-strong) bg-(--obs-subtle)",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "absolute top-1 h-5 w-5 rounded-full bg-white shadow-xs transition-transform",
-                          isPublic ? "translate-x-6" : "translate-x-1",
-                        )}
-                      />
-                    </span>
-                  </button>
-
-                  <div className="hidden gap-3 md:grid md:grid-cols-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsPublic(true)
-                        setLocationDisclosureConfirmed(false)
-                      }}
-                      className={cn(
-                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
-                      )}
-                    >
-                      <Globe2 className="h-5 w-5 shrink-0 text-(--obs-accent)" />
-                      <span>
-                        <span className="block text-sm font-semibold text-(--obs-text)">公开</span>
-                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">所有人可见</span>
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsPublic(false)
-                        setLocationDisclosureConfirmed(false)
-                      }}
-                      className={cn(
-                        "flex items-center gap-3 rounded-xs border px-4 py-3 text-left transition",
-                        !isPublic ? "border-(--obs-accent) bg-(--obs-accent-soft)" : "border-(--obs-border) bg-(--obs-control) hover:border-(--obs-accent)",
-                      )}
-                    >
-                      <ShieldCheck className="h-5 w-5 shrink-0 text-(--obs-accent)" />
-                      <span>
-                        <span className="block text-sm font-semibold text-(--obs-text)">仅自己</span>
-                        <span className="mt-0.5 block text-xs text-(--obs-muted-2)">保存在个人记录</span>
-                      </span>
-                    </button>
-                  </div>
-
-                  {needsLocationDisclosureConfirmation ? (
-                    <button
-                      type="button"
-                      role="checkbox"
-                      aria-checked={locationDisclosureConfirmed}
-                      onClick={() => setLocationDisclosureConfirmed((current) => !current)}
-                      className={cn(
-                        "flex w-full items-start gap-3 rounded-sm border px-3 py-3 text-left transition",
-                        locationDisclosureConfirmed
-                          ? "border-(--obs-accent) bg-(--obs-accent-soft)"
-                          : "border-(--obs-border-strong) bg-(--obs-control) hover:border-(--obs-accent) hover:bg-(--obs-control-hover)",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border",
-                          locationDisclosureConfirmed
-                            ? "border-(--obs-accent) bg-(--obs-accent) text-white"
-                            : "border-(--obs-border-strong) bg-(--obs-panel) text-(--obs-muted-2)",
-                        )}
-                      >
-                        {locationDisclosureConfirmed ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-2.5 w-2.5 fill-current" />}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block text-sm font-semibold text-(--obs-text)">
-                          我了解公开记录会展示准确位置
-                        </span>
-                        <span className="mt-1 block text-xs leading-5 text-(--obs-muted)">
-                          如果不想公开准确位置，可以把这次提交改为仅自己可见。
-                        </span>
-                      </span>
-                    </button>
-                  ) : (
-                    <div className="rounded-sm border border-(--obs-border) bg-(--obs-control) px-3 py-3 text-xs leading-5 text-(--obs-muted)">
-                      当前记录仅自己可见，不会进入公开观察流。
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={() => setLocationSheetOpen(true)}
-                    className="flex w-full items-center gap-3 rounded-xs border border-(--obs-border-strong) bg-(--obs-control) p-3 text-left transition hover:border-(--obs-accent) hover:bg-(--obs-control-hover) md:hidden"
-                  >
-                    <span className="grid h-14 w-16 shrink-0 place-items-center overflow-hidden rounded-xs border border-(--obs-border) [background:var(--obs-map-bg)] text-(--obs-accent)">
-                      <MapPin className="h-6 w-6" />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-(--obs-text)">{mobileMapTitle}</span>
-                      <span className="mt-1 block truncate text-xs text-(--obs-muted)">
-                        {mobileMapDescription}
-                      </span>
-                    </span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-(--obs-muted-2)" />
-                  </button>
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text) md:hidden"
-                    onClick={() => void tryLocate(true)}
-                    disabled={isLocating}
-                  >
-                    {isLocating ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        定位中...
-                      </>
-                    ) : (
-                      <>
-                        <Navigation className="mr-2 h-4 w-4" />
-                        使用当前位置
-                      </>
-                    )}
-                  </Button>
-                </div>
-
-                <div className="hidden space-y-3 md:block">
-                  <DomesticMapPicker
-                    latitude={latitude}
-                    longitude={longitude}
-                    onChange={handleMapChange}
-                    onLocationNameSuggestion={handleLocationNameSuggestion}
-                    mapClassName="nature-mini-map h-52 rounded-xs border-(--obs-border-strong) [background:var(--obs-map-bg)] sm:h-64 lg:h-[312px]"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="h-11 w-full rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
-                    onClick={() => void tryLocate(true)}
-                    disabled={isLocating}
-                  >
-                    {isLocating ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        定位中...
-                      </>
-                    ) : (
-                      <>
-                        <Navigation className="mr-2 h-4 w-4" />
-                        使用当前位置
-                      </>
-                    )}
-                  </Button>
-                </div>
               </div>
               <MobileStepFooter
                 actionLabel={locationAndTimeReady ? "信息已齐全，可发布" : "先完善地点和时间"}
@@ -2098,9 +1793,7 @@ export function ObservationSubmitForm({
                 onNext={() => undefined}
                 helper={
                   locationAndTimeReady
-                    ? needsLocationDisclosureConfirmation && !locationDisclosureConfirmed
-                      ? "请确认准确位置公开范围后，使用下方按钮发布。"
-                      : "地点和观察时间已保存，使用下方按钮即可发布。"
+                    ? "地点和观察时间已保存，使用下方按钮即可发布。"
                     : "请确认观察日期、时间、地点名称和地图位置。"
                 }
               />
@@ -2110,7 +1803,7 @@ export function ObservationSubmitForm({
             <div className="hidden items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-subtle) p-3 md:flex">
               <Button
                 type="submit"
-                disabled={isSubmitting || isAnalyzingImages || !canSubmit}
+                disabled={isSubmitting || !canSubmit}
                 className="h-12 flex-1 rounded-full bg-(--obs-accent) text-base font-semibold text-white hover:bg-(--obs-accent-strong)"
               >
                 {isSubmitting ? (
@@ -2304,55 +1997,6 @@ export function ObservationSubmitForm({
           <div className="space-y-3">
             {suggestedCandidates.map((candidate) => renderCandidateButton(candidate, true))}
           </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={locationSheetOpen} onOpenChange={setLocationSheetOpen}>
-        <SheetContent
-          side="bottom"
-          className="observation-submit-theme flex h-[82dvh] max-h-[760px] flex-col rounded-t-md border-(--obs-border) p-0 [background:var(--obs-panel)]"
-        >
-          <SheetHeader className="shrink-0 px-4 pb-3 pr-12 pt-5 text-left">
-            <SheetTitle className="text-(--obs-text)">地图选点</SheetTitle>
-            <SheetDescription className="text-(--obs-muted)">
-              拖动标记或点击地图，确认观察发生的位置。
-            </SheetDescription>
-          </SheetHeader>
-          <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-            <DomesticMapPicker
-              latitude={latitude}
-              longitude={longitude}
-              onChange={handleMapChange}
-              onLocationNameSuggestion={handleLocationNameSuggestion}
-              mapClassName="nature-mini-map h-[34dvh] min-h-[220px] max-h-[320px] rounded-xs border-(--obs-border-strong) [background:var(--obs-map-bg)]"
-            />
-            <div className="mt-4 rounded-xs border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-              公开记录会展示你确认的准确位置。请只选择适合公开的位置。
-            </div>
-            <div className="mt-4 rounded-xs border border-(--obs-border) bg-(--obs-control) p-3 text-xs leading-5 text-(--obs-muted)">
-              <div className="truncate font-medium text-(--obs-text)">{locationName.trim() || "地点名称待填写"}</div>
-              <div className="mt-1 truncate">{latitude && longitude ? `地图位置已保存 · ${precisionLabel}` : "尚未确认地图位置"}</div>
-            </div>
-          </div>
-          <SheetFooter className="shrink-0 flex-row gap-2 border-t border-(--obs-border) p-4 [background:var(--obs-panel)]">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-11 flex-1 rounded-full border-(--obs-accent) bg-(--obs-accent-soft) text-(--obs-accent-text) hover:bg-(--obs-accent-panel) hover:text-(--obs-accent-text)"
-              onClick={() => void tryLocate(true)}
-              disabled={isLocating}
-            >
-              {isLocating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Navigation className="mr-2 h-4 w-4" />}
-              当前位置
-            </Button>
-            <Button
-              type="button"
-              className="h-11 flex-1 rounded-full bg-(--obs-accent) text-white hover:bg-(--obs-accent-strong)"
-              onClick={() => setLocationSheetOpen(false)}
-            >
-              完成
-            </Button>
-          </SheetFooter>
         </SheetContent>
       </Sheet>
 

@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import {
   mapVisionPayloadToAnalysisResult,
   parseObservationVisionPayload,
+  isObservationAnalysisSafetyBlocked,
 } from '@/lib/ai/observation-media-analysis'
 import type { Database } from '@/lib/supabase/types'
 
@@ -161,6 +162,17 @@ describe('mapVisionPayloadToAnalysisResult', () => {
     expect(result.speciesCandidates).toEqual([])
     expect(result.qualityReason).toBe('主体过远且模糊')
     expect(result.noteSuggestion).toBeNull()
+  })
+
+  it('keeps low-quality analysis advisory while treating failed safety as blocking', () => {
+    expect(isObservationAnalysisSafetyBlocked({
+      status: 'failed_low_quality',
+      moderation_pass: true,
+    })).toBe(false)
+    expect(isObservationAnalysisSafetyBlocked({
+      status: 'failed_unsafe',
+      moderation_pass: false,
+    })).toBe(true)
   })
 
   it('passes usable media without forcing an unmatched identification', () => {
