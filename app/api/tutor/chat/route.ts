@@ -32,6 +32,7 @@ import {
   formatTutorResourceSearch,
   searchTutorResources,
 } from '@/lib/ai/tutor/resource-search'
+import { normalizeTutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import { planTutorResourceSearch } from '@/lib/ai/tutor/resource-search-planner'
 import { diagnoseScratchScreenshot, shouldDiagnoseScratchScreenshot } from '@/lib/ai/tutor/scratch-screenshot-diagnosis'
 import { hasTutorSceneCapability, resolveTutorSceneCapabilities } from '@/lib/ai/tutor/scene-capabilities'
@@ -174,11 +175,29 @@ function parseContextParams(searchParams: URLSearchParams) {
 
 function mapMessage(row: TutorMessageRow) {
   const meta = (row.meta ?? {}) as Record<string, unknown>
+  const clarification = normalizeTutorResourceClarification(meta.clarification)
   return {
     role: row.role as 'user' | 'assistant',
     content: row.content,
     images: row.images ?? undefined,
     stageIndex: typeof meta.stageIndex === 'number' ? meta.stageIndex : undefined,
+    ...(clarification ? { clarification } : {}),
+  }
+}
+
+function mapPlannerHistoryMessage(row: TutorMessageRow) {
+  const meta = (row.meta ?? {}) as Record<string, unknown>
+  const clarification = normalizeTutorResourceClarification(meta.clarification)
+  const content = clarification
+    ? [
+        row.content,
+        `【小迪上一轮给出的选项】${clarification.options.map((option) => option.label).join(' / ')}`,
+      ].filter(Boolean).join('\n')
+    : row.content
+
+  return {
+    role: row.role as 'user' | 'assistant',
+    content,
   }
 }
 
@@ -586,14 +605,11 @@ export async function POST(request: NextRequest) {
     })
 
     const conversationText = history.map((message) => message.content).join('\n')
-    const plannerHistory = history
-      .slice(0, -1)
+    const plannerHistory = ((recentRows.data ?? []) as TutorMessageRow[])
+      .slice()
+      .reverse()
       .slice(-6)
-      .flatMap((message) =>
-        message.role === 'user' || message.role === 'assistant'
-          ? [{ role: message.role, content: message.content }]
-          : [],
-      )
+      .map(mapPlannerHistoryMessage)
     const normalizedScratchBlockTargetItemIndex = scene.scratchBlockTargetItemIndex
     const toolPlannerInput = {
       contextType,
@@ -626,11 +642,16 @@ export async function POST(request: NextRequest) {
       !scratchScreenshotDiagnosisEligible && shouldPlanTutorToolDecision(toolPlannerInput)
         ? runToolPlanner()
         : Promise.resolve(null)
-    const resourcePlanPromise = planTutorResourceSearch(content, { previousMessages: plannerHistory })
+    const resourcePlanPromise = planTutorResourceSearch(content, {
+      previousMessages: plannerHistory,
+      hasImages: images.length > 0,
+      hasCurrentLessonContext: contextType === 'course' && typeof lessonId === 'number',
+    })
     const resourceSearchPromise = resourcePlanPromise.then((plan) =>
-      plan.shouldSearch ? searchTutorResources(supabase, plan) : null,
+      plan.shouldSearch && !plan.clarification ? searchTutorResources(supabase, plan) : null,
     )
-    const [speciesHints, scratchScreenshotDiagnosis, parallelPlannerDecision, resourceSearch] = await Promise.all([
+    const [resourcePlan, speciesHints, scratchScreenshotDiagnosis, parallelPlannerDecision, resourceSearch] = await Promise.all([
+      resourcePlanPromise,
       canUseSpeciesAudio ? findSpeciesHintsForText(supabase, conversationText) : Promise.resolve([]),
       scratchScreenshotDiagnosisPromise ?? Promise.resolve(null),
       parallelToolPlannerPromise,
@@ -640,6 +661,101 @@ export async function POST(request: NextRequest) {
     timing.mark('species_hints')
     timing.mark('scratch_screenshot_diagnosis')
     timing.mark('resource_search')
+
+    if (resourcePlan.clarification) {
+      const clarification = resourcePlan.clarification
+      const clarificationReply = clarification.prompt
+      const clarificationMeta = buildConversationMeta({
+        stageIndex,
+        lessonId,
+        lessonStepIndex,
+        lessonStepCount,
+        scratchBlockTargetItemIndex,
+        surface,
+        gameKey,
+      })
+      const assistantMeta: Record<string, unknown> = {
+        ...clarificationMeta,
+        clarification,
+      }
+      const { error: insertError } = await supabase.from('tutor_messages').insert([
+        {
+          conversation_id: conversation.id,
+          user_id: user.id,
+          context_type: contextType,
+          context_id: contextId,
+          role: 'user',
+          content: content || '请看看我的产出。',
+          images: images.length ? images : null,
+          meta: clarificationMeta,
+        },
+        {
+          conversation_id: conversation.id,
+          user_id: user.id,
+          context_type: contextType,
+          context_id: contextId,
+          role: 'assistant',
+          content: clarificationReply,
+          images: null,
+          meta: assistantMeta,
+        },
+      ] as never)
+
+      let warning: string | null = null
+      if (insertError) {
+        warning = '这次澄清没有保存到历史记录。'
+      } else {
+        const { error: updateConversationError } = await supabase
+          .from('tutor_conversations')
+          .update({ updated_at: new Date().toISOString() } as never)
+          .eq('id', conversation.id)
+          .eq('user_id', user.id)
+        if (updateConversationError) warning = '对话时间未能更新，但澄清问题已保存。'
+        after(async () => {
+          await Promise.all([
+            maybeUpdateTutorNotebook(user.id),
+            maybeUpdateTutorConversationSummary(conversation.id, user.id),
+          ])
+        })
+      }
+
+      // 澄清本身不算一次完整 AI 对话；选项被确认后再为真正的检索回答计费。
+      await refund(cost)
+      pendingRefund = null
+      timing.mark('persist_clarification')
+      timing.log('clarification', {
+        contextType,
+        optionCount: clarification.options.length,
+        replyLength: clarificationReply.length,
+      })
+
+      const encoder = new TextEncoder()
+      const events: Record<string, unknown>[] = []
+      if (TUTOR_TIMING_ENABLED) {
+        events.push({ type: 'perf', phase: 'clarification', timings: timing.snapshot() })
+      }
+      events.push({ type: 'clarification', clarification })
+      if (warning) events.push({ type: 'warning', warning })
+      events.push({ type: 'done', reply: clarificationReply })
+      const readable = new ReadableStream({
+        start(controller) {
+          for (const event of events) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`))
+          }
+          controller.close()
+        },
+      })
+      const serverTiming = timing.serverTiming()
+      return new Response(readable, {
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          'Cache-Control': 'no-cache, no-transform',
+          Connection: 'keep-alive',
+          ...(serverTiming ? { 'Server-Timing': serverTiming } : {}),
+        },
+      })
+    }
+
     let toolCalls: TutorToolCall[] = scratchScreenshotDiagnosis
       ? buildTutorToolCallsFromPlan({
           contextType,

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { normalizeTutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import { validateUUID } from '@/lib/api/validation'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
@@ -10,7 +11,7 @@ const HISTORY_LIMIT = 200
 
 type TutorMessageRow = Pick<
   Database['public']['Tables']['tutor_messages']['Row'],
-  'role' | 'content' | 'images'
+  'role' | 'content' | 'images' | 'meta'
 >
 
 /** 只读回看：返回当前用户某条小迪对话线程的消息 */
@@ -40,18 +41,23 @@ export async function GET(
     // 降序取最新 N 条再反转，与进行中对话的加载逻辑一致
     const { data: messageRows, error: messagesError } = await supabase
       .from('tutor_messages')
-      .select('role, content, images')
+      .select('role, content, images, meta')
       .eq('conversation_id', conversation.id)
       .order('id', { ascending: false })
       .limit(HISTORY_LIMIT)
 
     if (messagesError) throw messagesError
 
-    const messages = ((messageRows ?? []) as TutorMessageRow[]).reverse().map((row) => ({
-      role: row.role as 'user' | 'assistant',
-      content: row.content,
-      images: row.images ?? undefined,
-    }))
+    const messages = ((messageRows ?? []) as TutorMessageRow[]).reverse().map((row) => {
+      const meta = (row.meta ?? {}) as Record<string, unknown>
+      const clarification = normalizeTutorResourceClarification(meta.clarification)
+      return {
+        role: row.role as 'user' | 'assistant',
+        content: row.content,
+        images: row.images ?? undefined,
+        ...(clarification ? { clarification } : {}),
+      }
+    })
 
     return NextResponse.json({
       conversation: {

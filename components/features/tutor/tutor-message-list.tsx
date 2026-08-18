@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
-import { Loader2, Sparkles, Trash2, Volume2, VolumeX } from 'lucide-react'
+import { ChevronRight, Loader2, Sparkles, Trash2, Volume2, VolumeX } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 
@@ -14,6 +14,7 @@ import type {
   TutorPanelView,
 } from '@/components/features/tutor/use-tutor-history'
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
+import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { cn } from '@/lib/utils'
@@ -172,6 +173,9 @@ export function TutorMessageList({
                   }
                 >
                   <TutorMessageContent content={message.content} allowAudio={allowAudioMessages} />
+                  {message.clarification ? (
+                    <TutorClarificationOptions clarification={message.clarification} />
+                  ) : null}
                 </TutorBubble>
               ) : (
                 <UserBubble key={i} message={message} />
@@ -254,6 +258,13 @@ export function TutorMessageList({
                   <TutorMessageContent content={message.content} allowAudio={allowAudioMessages} />
                 )
               ) : null}
+              {message.clarification ? (
+                <TutorClarificationOptions
+                  clarification={message.clarification}
+                  busy={busy}
+                  onSelect={onSendPrompt}
+                />
+              ) : null}
               {message.streaming && !message.content ? <ThinkingIndicator /> : null}
             </TutorBubble>
           ) : (
@@ -301,6 +312,50 @@ function UserBubble({ message }: { message: TutorChatMessage }) {
 
 function ThinkingIndicator() {
   return <span className="text-muted-foreground">小迪正在思考…</span>
+}
+
+function TutorClarificationOptions({
+  clarification,
+  busy = false,
+  onSelect,
+}: {
+  clarification: TutorResourceClarification
+  busy?: boolean
+  onSelect?: (label: string) => void
+}) {
+  return (
+    <div className="mt-2.5 space-y-1.5" aria-label="小迪的澄清选项">
+      <p className="text-[11px] text-muted-foreground">选一个继续</p>
+      <div className="grid gap-1.5">
+        {clarification.options.map((option) => {
+          const content = (
+            <>
+              <span className="min-w-0 flex-1 truncate">{option.label}</span>
+              <ChevronRight className="h-3.5 w-3.5 shrink-0 opacity-55" />
+            </>
+          )
+          const className =
+            'flex min-h-9 w-full items-center gap-2 rounded-md border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.8)] px-2.5 text-left text-[12px] font-medium text-[hsl(var(--brand-blue))] transition-colors hover:border-[hsl(var(--brand-blue)/0.4)] hover:bg-[hsl(var(--status-info-surface)/0.58)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-wait disabled:opacity-50'
+
+          return onSelect ? (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => onSelect(option.label)}
+              disabled={busy}
+              className={className}
+            >
+              {content}
+            </button>
+          ) : (
+            <span key={option.id} className={className} aria-disabled="true">
+              {content}
+            </span>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 function TutorSpeechButton({

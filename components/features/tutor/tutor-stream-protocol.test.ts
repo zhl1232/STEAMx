@@ -71,6 +71,25 @@ describe('readTutorStreamEvents', () => {
     expect(events[0]?.toolCall).toMatchObject({ name: 'highlight_blocks' })
   })
 
+  it('透传资源检索前的澄清选项', async () => {
+    const events = await collect([
+      'data: {"type":"clarification","clarification":{"prompt":"你说的积木更接近哪一种？","options":[{"id":"large-bricks","label":"大颗粒积木"},{"id":"lego-compatible","label":"兼容乐高的积木/零件"}]}}\n',
+    ])
+
+    expect(events).toEqual([
+      {
+        type: 'clarification',
+        clarification: {
+          prompt: '你说的积木更接近哪一种？',
+          options: [
+            { id: 'large-bricks', label: '大颗粒积木' },
+            { id: 'lego-compatible', label: '兼容乐高的积木/零件' },
+          ],
+        },
+      },
+    ])
+  })
+
   it('透传 audio / audio_done 事件的 PCM 负载', async () => {
     const events = await collect([
       'data: {"type":"audio","pcm":"AQIDBA==","sampleRate":24000}\n\ndata: {"type":"audio_done"}\n\n',

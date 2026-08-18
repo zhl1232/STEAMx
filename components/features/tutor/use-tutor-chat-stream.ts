@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { TutorMascotFeedback } from '@/lib/ai/tutor/mascot-state'
+import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus } from '@/lib/ai/tutor/types'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
@@ -29,6 +30,7 @@ export type TutorChatMessage = {
   error?: boolean
   streaming?: boolean
   speechKey?: string
+  clarification?: TutorResourceClarification
 }
 
 export type TutorSendMessageOptions = {
@@ -284,6 +286,7 @@ export function useTutorChatStream({
         let speechPlaybackFailed = false
         let speechStreamWentStale = false
         let settledText = false
+        let clarification: TutorResourceClarification | undefined
 
         const releaseBusy = () => {
           if (releasedBusy || streamAbortRef.current !== abortController) return
@@ -292,13 +295,14 @@ export function useTutorChatStream({
           setBusy(false)
         }
 
-        const settleAssistantText = (content: string) => {
+        const settleAssistantText = (content: string, messageClarification?: TutorResourceClarification) => {
           if (settledText) return
           settledText = true
           const assistantMessage: TutorChatMessage = {
             role: 'assistant',
             content: content || '…',
             speechKey: assistantSpeechKeyRef.current,
+            ...(messageClarification ? { clarification: messageClarification } : {}),
           }
           patchLastAssistant(assistantMessage)
           releaseBusy()
@@ -346,9 +350,11 @@ export function useTutorChatStream({
             receivedAudio = accepted === true || receivedAudio
             speechPlaybackFailed = speechPlaybackFailed || accepted === false
             speechStreamWentStale = speechStreamWentStale || accepted === null
+          } else if (event.type === 'clarification' && event.clarification) {
+            clarification = event.clarification
           } else if (event.type === 'done' && event.reply) {
             full = event.reply
-            settleAssistantText(full)
+            settleAssistantText(full, clarification)
           } else if (event.type === 'audio_done') {
             finishStreamedSpeech(assistantSpeechKeyRef.current)
           } else if (event.type === 'warning') {
@@ -381,7 +387,7 @@ export function useTutorChatStream({
           throw new Error(streamError)
         }
 
-        if (!settledText) settleAssistantText(full || '…')
+        if (!settledText) settleAssistantText(full || '…', clarification)
         const shouldSpeak = willSpeak
         const speechResult = shouldSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
         // null 表示这条语音已被另一条流/场景接管；只有收到过“stale”帧时才重试，

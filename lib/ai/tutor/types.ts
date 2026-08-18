@@ -1,6 +1,7 @@
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { ScratchBlockCategory, ScratchBlockHintItem } from '@/lib/courses/scratch-hints'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
+import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 
 export const TUTOR_CONTEXT_TYPES = ['global', 'challenge', 'project', 'observation', 'course', 'species'] as const
 export type TutorContextType = (typeof TUTOR_CONTEXT_TYPES)[number]
@@ -45,6 +46,7 @@ export type TutorChatMessage = {
   role: 'user' | 'assistant'
   content: string
   images?: string[]
+  clarification?: TutorResourceClarification
 }
 
 export type TutorAudioRef = {

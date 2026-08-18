@@ -83,18 +83,35 @@ describe.skipIf(!RUN_GOLDEN_SET)('tutor golden set — 资源检索 planner', ()
         const { planTutorResourceSearch } = await import('@/lib/ai/tutor/resource-search-planner')
         const plan = await planTutorResourceSearch(goldenCase.message, {
           previousMessages: goldenCase.previousMessages,
+          ...goldenCase.plannerOptions,
         })
 
         // fallback 意味着模型输出解析失败，评估里视为失败而不是静默放过
         expect(plan.status, '资源 planner 走了 fallback').toBe('model')
         expect(plan.shouldSearch, `消息：${goldenCase.message}`).toBe(goldenCase.expectShouldSearch)
 
+        if (goldenCase.expectClarification) {
+          expect(plan.clarification, '应先返回结构化澄清选项').toBeTruthy()
+          expect(plan.clarification?.options.length, '澄清选项应控制在 2-4 个').toBeGreaterThanOrEqual(2)
+          expect(plan.clarification?.options.length, '澄清选项应控制在 2-4 个').toBeLessThanOrEqual(4)
+        } else {
+          expect(plan.clarification, '没有歧义时不应增加澄清轮次').toBeUndefined()
+        }
+
         if (!goldenCase.expectShouldSearch) return
 
-        expect(plan.queries.length, '应产出至少一条检索词').toBeGreaterThan(0)
         for (const type of goldenCase.expectedResourceTypes ?? []) {
           expect(plan.resourceTypes, `资源类型应包含 ${type}`).toContain(type)
         }
+
+        if (goldenCase.expectClarification) {
+          expect(plan.clarification?.options.map((option) => option.label)).toEqual(
+            expect.arrayContaining(['通用积木搭建', '大颗粒积木', '兼容乐高的积木/零件']),
+          )
+          return
+        }
+
+        expect(plan.queries.length, '应产出至少一条检索词').toBeGreaterThan(0)
         for (const pattern of goldenCase.queryMustMatch ?? []) {
           const regex = new RegExp(pattern, 'm')
           expect(

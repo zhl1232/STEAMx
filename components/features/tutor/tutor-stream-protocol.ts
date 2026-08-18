@@ -1,4 +1,5 @@
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
+import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 
 /** 服务端 /api/tutor/chat SSE 事件（data: 行内的 JSON） */
 export type TutorStreamEvent = {
@@ -10,6 +11,7 @@ export type TutorStreamEvent = {
   pcm?: string
   sampleRate?: number
   toolCall?: TutorToolCall
+  clarification?: TutorResourceClarification
   phase?: string
   timings?: Array<{ name: string; elapsedMs: number; deltaMs: number }>
 }

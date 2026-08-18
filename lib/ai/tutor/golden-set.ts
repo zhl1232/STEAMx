@@ -152,6 +152,13 @@ export type TutorResourceGoldenCase = {
   expectedResourceTypes?: Array<'course' | 'project'>
   /** shouldSearch=true 时：每个正则至少命中一条 query */
   queryMustMatch?: string[]
+  /** 资源范围存在歧义时，期望 planner 先给澄清选项 */
+  expectClarification?: boolean
+  /** 仅用于模拟真实页面传入 planner 的非语义上下文信号。 */
+  plannerOptions?: {
+    hasImages?: boolean
+    hasCurrentLessonContext?: boolean
+  }
 }
 
 export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
@@ -173,12 +180,19 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
   },
   {
     id: 'resource-compound-topic',
-    description: '组合词「乐高轮船」→ 拆成可独立检索的主题短语',
+    description: '组合词「乐高轮船」→ 先确认积木规格范围',
     message: '有没有乐高轮船的课程',
     expectShouldSearch: true,
     expectedResourceTypes: ['course'],
-    // 必须出现单独的「轮船」；只给拼接词「乐高轮船」在标题/标签里查不到任何资源
-    queryMustMatch: ['^轮船$'],
+    expectClarification: true,
+  },
+  {
+    id: 'resource-explicit-large-bricks',
+    description: '明确大颗粒积木 → 直接检索，不再追问规格',
+    message: '有没有大颗粒积木轮船课程',
+    expectShouldSearch: true,
+    expectedResourceTypes: ['course'],
+    queryMustMatch: ['大颗粒积木|轮船'],
   },
   {
     id: 'resource-knowledge-question',
@@ -190,6 +204,7 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
     id: 'resource-current-step-help',
     description: '当前步骤操作求助 → 不检索',
     message: '这一步的积木我不会拼，帮帮我',
+    plannerOptions: { hasCurrentLessonContext: true },
     expectShouldSearch: false,
   },
   {

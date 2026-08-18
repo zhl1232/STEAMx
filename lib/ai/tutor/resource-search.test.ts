@@ -31,6 +31,62 @@ describe('tutor resource search planner', () => {
       resourceTypes: ['course', 'project'],
     })
   })
+
+  it('keeps a structured clarification for an ambiguous resource request', () => {
+    expect(
+      parseTutorResourceSearchPlanForTest(
+        '{"shouldSearch":true,"queries":[],"resourceTypes":["course","project"],"clarification":{"prompt":"你说的积木更接近哪一种？","options":[{"id":"general-bricks","label":"通用积木搭建"},{"id":"large-bricks","label":"大颗粒积木"},{"id":"lego-compatible","label":"兼容乐高的积木/零件"}]}}',
+      ),
+    ).toEqual({
+      shouldSearch: true,
+      queries: [],
+      resourceTypes: ['course', 'project'],
+      clarification: {
+        prompt: '你说的积木更接近哪一种？',
+        options: [
+          { id: 'general-bricks', label: '通用积木搭建' },
+          { id: 'large-bricks', label: '大颗粒积木' },
+          { id: 'lego-compatible', label: '兼容乐高的积木/零件' },
+        ],
+      },
+    })
+  })
+
+  it('normalizes common model aliases and string options', () => {
+    expect(
+      parseTutorResourceSearchPlanForTest(
+        '{"needsClarification":true,"shouldSearch":true,"queries":[],"resourceTypes":["course"],"clarification":{"question":"你想找哪种积木？","choices":["通用积木搭建","大颗粒积木","兼容乐高的积木/零件"]}}',
+      ),
+    ).toMatchObject({
+      clarification: {
+        prompt: '你想找哪种积木？',
+        options: [
+          { label: '通用积木搭建' },
+          { label: '大颗粒积木' },
+          { label: '兼容乐高的积木/零件' },
+        ],
+      },
+    })
+  })
+
+  it('也允许非资源问题先澄清，但保留 shouldSearch=false', () => {
+    expect(
+      parseTutorResourceSearchPlanForTest(
+        '{"shouldSearch":false,"queries":[],"resourceTypes":[],"clarification":{"prompt":"你想问哪一部分？","options":[{"id":"concept","label":"概念解释"},{"id":"operation","label":"操作步骤"}]}}',
+      ),
+    ).toEqual({
+      shouldSearch: false,
+      queries: [],
+      resourceTypes: ['course', 'project'],
+      clarification: {
+        prompt: '你想问哪一部分？',
+        options: [
+          { id: 'concept', label: '概念解释' },
+          { id: 'operation', label: '操作步骤' },
+        ],
+      },
+    })
+  })
 })
 
 describe('planTutorResourceSearch', () => {
@@ -239,6 +295,30 @@ describe('searchTutorResources', () => {
         shouldSearch: false,
         queries: [],
         resourceTypes: ['course', 'project'],
+      }),
+    ).resolves.toBeNull()
+  })
+
+  it('does not query before an ambiguous resource request is clarified', async () => {
+    const supabase = {
+      from() {
+        throw new Error('should not query')
+      },
+    }
+
+    await expect(
+      searchTutorResources(supabase as never, {
+        status: 'model',
+        shouldSearch: true,
+        queries: [],
+        resourceTypes: ['course', 'project'],
+        clarification: {
+          prompt: '你说的积木更接近哪一种？',
+          options: [
+            { id: 'general-bricks', label: '通用积木搭建' },
+            { id: 'large-bricks', label: '大颗粒积木' },
+          ],
+        },
       }),
     ).resolves.toBeNull()
   })

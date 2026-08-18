@@ -289,7 +289,8 @@ export async function searchTutorResources(
   supabase: SupabaseClient<Database>,
   plan: TutorResourceSearchPlan,
 ): Promise<TutorResourceSearchResult | null> {
-  if (!plan.shouldSearch) return null
+  // 澄清计划只是让学生先选范围，不能在选择前偷偷扩大检索范围。
+  if (!plan.shouldSearch || plan.clarification) return null
 
   const queries = normalizePlanQueries(plan)
   const scope: ResourceSearchScope = {
