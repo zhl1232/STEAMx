@@ -12,7 +12,7 @@ export function isSafeInternalHref(value: string | null | undefined): value is s
   if (!value.startsWith("/")) return false
   if (value.startsWith("//") || value.startsWith("/\\")) return false
   if (value.includes("\\") || value.includes("://")) return false
-  if (/[\s<>'"\u0000-\u001f]/.test(value)) return false
+  if (/[\s<>'"\p{Control}]/u.test(value)) return false
 
   const pathOnly = value.split(/[?#]/, 1)[0]
   if (pathOnly.split("/").includes("..")) return false

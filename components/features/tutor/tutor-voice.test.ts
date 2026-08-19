@@ -53,8 +53,8 @@ describe('PCM helpers', () => {
 
   it('decodes base64 PCM frames used by the tutor SSE', () => {
     const pcm = Uint8Array.from([1, 2, 3, 4])
-    const encoded = btoa(String.fromCharCode(1, 2, 3, 4))
-    expect(Array.from(new Uint8Array(decodeBase64ToArrayBuffer(encoded)))).toEqual([1, 2, 3, 4])
+    const encoded = btoa(String.fromCharCode(...pcm))
+    expect(Array.from(new Uint8Array(decodeBase64ToArrayBuffer(encoded)))).toEqual(Array.from(pcm))
   })
 })
 

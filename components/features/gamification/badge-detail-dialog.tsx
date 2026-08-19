@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { cn } from "@/lib/utils";
 import type { Badge, BadgeTier, UserStats } from "@/lib/gamification/types";
 import {
-    BADGE_TIER_LABELS,
     getNextSeriesThreshold,
     getSeriesLabel,
     getSeriesProgressValue,
