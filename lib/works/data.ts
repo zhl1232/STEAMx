@@ -228,6 +228,48 @@ function workToJourneyRecord(work: Work): WorkJourneyRecord {
   }
 }
 
+function journeyRowToWorkRecord(
+  row: Database['public']['Tables']['project_journey_records']['Row'],
+  displayId = row.id,
+): WorkJourneyRecord {
+  const data = row.data && typeof row.data === 'object' && !Array.isArray(row.data)
+    ? row.data as Record<string, unknown>
+    : null
+  return {
+    id: displayId,
+    completedAt: new Date(row.created_at).toLocaleDateString('zh-CN'),
+    completedAtIso: row.created_at,
+    proofImages: row.images,
+    proofCaptions: row.image_captions ?? undefined,
+    proofVideoUrl: row.video_url ?? undefined,
+    notes: row.notes ?? undefined,
+    recordKind: row.record_kind === 'progress' ? 'progress' : 'final',
+    recordType: typeof data?.recordType === 'string' ? data.recordType : undefined,
+    stageLabel: typeof data?.stageLabel === 'string' ? data.stageLabel : undefined,
+  }
+}
+
+async function mapPublicJourneyRows(
+  client: DbClient,
+  rows: Database['public']['Tables']['project_journey_records']['Row'][]
+) {
+  if (rows.length === 0) return []
+
+  const journeyRecordIds = rows.map((row) => row.id)
+  const { data: legacyRows, error } = await client
+    .from('completed_projects')
+    .select('id, journey_record_id')
+    .in('journey_record_id', journeyRecordIds)
+  if (error) throw error
+
+  const legacyIdByJourneyRecordId = new Map(
+    ((legacyRows || []) as { id: number; journey_record_id: number | null }[])
+      .filter((row): row is { id: number; journey_record_id: number } => row.journey_record_id != null)
+      .map((row) => [row.journey_record_id, row.id]),
+  )
+  return rows.map((row) => journeyRowToWorkRecord(row, legacyIdByJourneyRecordId.get(row.id) ?? row.id))
+}
+
 function rowToJourneyRecord(row: WorkRow): WorkJourneyRecord {
   return workToJourneyRecord(mapDbCompletion(row))
 }
@@ -238,13 +280,47 @@ export async function getWorkJourneyResult(work: Work): Promise<WorkJourneyResul
     return { records: [], total: 0, hasMore: false }
   }
 
+  const client = await createClient()
+
+  // Journey records are the authoritative session boundary. The legacy
+  // exploration pointer is only a fallback for rows created before migration.
+  if (work.journeyRecordId != null) {
+    const { data: selectedRecord, error: selectedRecordError } = await client
+      .from('project_journey_records')
+      .select('journey_id')
+      .eq('id', work.journeyRecordId)
+      .maybeSingle()
+    if (selectedRecordError) throw selectedRecordError
+
+    if (selectedRecord?.journey_id) {
+      const { data, error, count } = await client
+        .from('project_journey_records')
+        .select('*', { count: 'exact' })
+        .eq('journey_id', selectedRecord.journey_id)
+        .eq('visibility', 'public')
+        .eq('status', 'approved')
+        .eq('moderation_state', 'approved')
+        .order('created_at', { ascending: true })
+        .range(0, WORK_JOURNEY_LIMIT - 1)
+      if (error) throw error
+
+      const journeyRows = (data || []) as Database['public']['Tables']['project_journey_records']['Row'][]
+      const records = await mapPublicJourneyRows(client, journeyRows)
+      if (!journeyRows.some((record) => record.id === work.journeyRecordId)) {
+        records.push(workToJourneyRecord(work))
+        records.sort((first, second) => (first.completedAtIso || '').localeCompare(second.completedAtIso || ''))
+      }
+      const total = Math.max(count ?? 0, records.length)
+      return { records, total, hasMore: total > records.length }
+    }
+  }
+
   // Legacy rows have no reliable session key. Showing only the selected row is
   // safer than joining every historical record for this user/project.
   if (work.explorationId == null) {
     return { records: [workToJourneyRecord(work)], total: 1, hasMore: false }
   }
 
-  const client = await createClient()
   const { data, error, count } = await client
     .from('completed_projects')
     .select('*', { count: 'exact' })

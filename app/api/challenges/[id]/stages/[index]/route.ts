@@ -14,6 +14,8 @@ import {
   getStageDataSummary,
   shouldKeepStageFeedback,
 } from '@/lib/pbl/challenge-stage-progress'
+import { ensureJourney, upsertJourneyRecord } from '@/lib/journeys/service'
+import { queueJourneyRecordModeration } from '@/lib/journeys/moderation'
 import { ChallengeStageProgressSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
@@ -44,11 +46,10 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; index: string }> },
 ) {
-  const supabase = await createClient()
+    const supabase = await createClient()
 
   try {
     const user = await requireAuth(supabase)
-    await requireInteractionAccess(supabase, user, 'save_progress')
     await requireRateLimit(supabase, { key: 'api-challenge-stage-progress', limit: 30, windowMs: 60_000 })
 
     const { id, index } = await params
@@ -89,7 +90,29 @@ export async function PUT(
       })
     }
 
+    const journey = await ensureJourney(supabase, {
+      userId: user.id,
+      sourceType: 'challenge',
+      sourceId: challengeId,
+    })
+
     const existingProgress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
+    const visibility = existingProgress?.journeyRecordVisibility ?? 'private'
+    await requireInteractionAccess(supabase, user, visibility === 'public' ? 'submit' : 'save_progress')
+    let moderationState = 'approved'
+    let moderationSource = 'private_draft'
+    if (visibility === 'public') {
+      const { moderateUserContent } = await import('@/lib/safety/server')
+      const moderation = await moderateUserContent({
+        text: [parsed.data.notes, getStageDataSummary(parsed.data.data)].filter(Boolean).join('\n'),
+        imageSources: parsed.data.images,
+      })
+      if (moderation.state === 'rejected') {
+        return NextResponse.json({ error: moderation.reason || '阶段记录未通过安全检查', code: 'CONTENT_REJECTED' }, { status: 422 })
+      }
+      moderationState = moderation.state
+      moderationSource = moderation.modelName || 'ai'
+    }
     const keepFeedback = existingProgress
       ? shouldKeepStageFeedback({
           existingFeedback: existingProgress.aiFeedback,
@@ -121,6 +144,7 @@ export async function PUT(
           data: (parsed.data.data ?? null) as Json | null,
           video_url: parsed.data.video_url ?? null,
           ai_feedback: keepFeedback ? (existingProgress?.aiFeedback as unknown as Json) : null,
+          journey_id: journey.id,
           updated_at: new Date().toISOString(),
         } as never,
         { onConflict: 'challenge_id,user_id,stage_index' },
@@ -128,8 +152,33 @@ export async function PUT(
 
     if (upsertError) throw upsertError
 
+    const record = await upsertJourneyRecord(supabase, journey.id, user.id, {
+      recordId: existingProgress?.journeyRecordId,
+      recordKind: 'progress',
+      anchorType: 'stage',
+      anchorIndex: stageIndex,
+      title: `阶段 ${stageIndex + 1}记录`,
+      notes: parsed.data.notes ?? null,
+      images: parsed.data.images,
+      videoUrl: parsed.data.video_url ?? null,
+      data: (parsed.data.data ?? null) as Json | null,
+      visibility,
+      moderationState,
+      moderationSource,
+    })
+
+    const { error: journeyRecordLinkError } = await supabase
+      .from('challenge_stage_progress')
+      .update({ journey_record_id: record.id, journey_id: journey.id } as never)
+      .eq('challenge_id', challengeId)
+      .eq('user_id', user.id)
+      .eq('stage_index', stageIndex)
+    if (journeyRecordLinkError) throw journeyRecordLinkError
+
+    await queueJourneyRecordModeration(supabase, journey, record)
+
     const progress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
-    return NextResponse.json({ progress })
+    return NextResponse.json({ progress, journeyRecord: record, journey })
   } catch (error) {
     if (error instanceof ValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 })

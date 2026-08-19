@@ -17,7 +17,7 @@ export async function POST(
   const supabase = await createClient()
 
   try {
-    await requireRole(supabase, ['moderator', 'admin'])
+    const actor = await requireRole(supabase, ['moderator', 'admin'])
 
     const body = await request.json()
 
@@ -56,7 +56,9 @@ export async function POST(
       if (error) {
         throw error
       }
-      await setContentModerationState('completion', completionId, 'approved')
+      await setContentModerationState('completion', completionId, 'approved', {
+        reviewedBy: actor.user.id,
+      })
 
       const rewardResult = data as unknown as { xp_awarded?: boolean }
 
@@ -74,7 +76,10 @@ export async function POST(
       if (error) {
         throw error
       }
-      await setContentModerationState('completion', completionId, 'rejected')
+      await setContentModerationState('completion', completionId, 'rejected', {
+        reviewedBy: actor.user.id,
+        rejectionReason: rejection_reason,
+      })
 
       return NextResponse.json({
         message: 'Completion rejected',

@@ -1,13 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useProjects } from '@/lib/context/project-context'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
-import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 
 interface CompletionCTAProps {
     actionLabel?: string
@@ -18,14 +15,10 @@ interface CompletionCTAProps {
     variant?: "card" | "inline" | "records"
 }
 
-export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "project", variant = "card", actionLabel: actionLabelProp }: CompletionCTAProps) {
+export function CompletionCTA({ projectId, mode = "project", variant = "card", actionLabel: actionLabelProp }: CompletionCTAProps) {
     const router = useRouter()
-    const { isCompleted } = useProjects()
     const { user } = useAuth()
     const { promptLogin } = useLoginPrompt()
-    const [showDialog, setShowDialog] = useState(false)
-
-    if (isCompleted(projectId)) return null
 
     const handleClick = () => {
         if (mode === "observation") {
@@ -41,25 +34,20 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
         }
 
         if (!user) {
-            promptLogin(() => setShowDialog(true), {
-                title: "登录以上传作品",
-                description: "登录后可上传你的作品，获得 XP 和成就徽章",
+            promptLogin(() => router.push(`/project/${projectId}/records`), {
+                title: "登录以开始我的项目",
+                description: "登录后按步骤记录过程，最后提交自己的作品",
             })
             return
         }
-        setShowDialog(true)
+        router.push(`/project/${projectId}/records`)
     }
 
-    const actionLabel = actionLabelProp ?? (mode === "observation" ? "提交这次观察" : "上传我的作品")
-    const handleSuccess = (result: { id: number }) => {
-        router.push(`/works/${result.id}?share=1`)
-    }
-
+    const actionLabel = actionLabelProp ?? (mode === "observation" ? "提交这次观察" : "开始我的项目")
 
     if (variant === "records") {
         return (
-            <>
-                <Button
+            <Button
                     type="button"
                     variant="outline"
                     onClick={handleClick}
@@ -67,52 +55,28 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                 >
                     <Camera className="h-4 w-4" />
                     {actionLabel}
-                </Button>
-                {mode === "project" && (
-                    <CompleteProjectDialog
-                        projectId={projectId}
-                        projectTitle={projectTitle}
-                        challengeId={challengeId}
-                        open={showDialog}
-                        onOpenChange={setShowDialog}
-                        onSuccess={handleSuccess}
-                    />
-                )}
-            </>
+                    </Button>
         )
     }
 
     if (variant === "inline") {
         return (
-            <>
-                <Button onClick={handleClick} className="h-9 gap-2 px-4">
+            <Button onClick={handleClick} className="h-9 gap-2 px-4">
                     <Camera className="h-4 w-4" />
                     {actionLabel}
                 </Button>
-                {mode === "project" && (
-                    <CompleteProjectDialog
-                        projectId={projectId}
-                        projectTitle={projectTitle}
-                        challengeId={challengeId}
-                        open={showDialog}
-                        onOpenChange={setShowDialog}
-                        onSuccess={handleSuccess}
-                    />
-                )}
-            </>
         )
     }
 
     return (
-        <>
-            <div className="rounded-sm border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
+        <div className="rounded-sm border-2 border-dashed border-primary/30 bg-primary/5 p-6 text-center space-y-3">
                 <p className="text-lg font-semibold">
-                    {mode === "observation" ? "准备把这次观察记录下来了吗？" : "你也完成了这个项目吗？"}
+                    {mode === "observation" ? "准备把这次观察记录下来了吗？" : "想把这个项目做成自己的作品吗？"}
                 </p>
                 <p className="text-sm text-muted-foreground">
                     {mode === "observation"
                         ? <>完成一条结构化观察记录，让这次任务真正沉淀成可检索的自然观察内容。</>
-                        : <>上传作品照片或视频，审核通过后可获得 <span className="font-semibold text-primary">20 XP</span> 和社区认可</>
+                        : <>先开始一次自己的项目尝试，按步骤记录过程，最后提交作品并获得 <span className="font-semibold text-primary">20 XP</span></>
                     }
                 </p>
                 <Button onClick={handleClick} className="gap-2">
@@ -120,16 +84,5 @@ export function CompletionCTA({ projectId, projectTitle, challengeId, mode = "pr
                     {actionLabel}
                 </Button>
             </div>
-            {mode === "project" && (
-                <CompleteProjectDialog
-                    projectId={projectId}
-                    projectTitle={projectTitle}
-                    challengeId={challengeId}
-                    open={showDialog}
-                    onOpenChange={setShowDialog}
-                    onSuccess={handleSuccess}
-                />
-            )}
-        </>
     )
 }

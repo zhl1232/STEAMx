@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    const [likesResponse, collectionsResponse, completionsResponse, explorationsResponse] =
+    const [likesResponse, collectionsResponse, completionsResponse, explorationsResponse, journeysResponse] =
       await Promise.all([
         supabase.from('likes').select('project_id').eq('user_id', user.id).in('project_id', projectIds),
         supabase
@@ -56,12 +56,19 @@ export async function GET(request: NextRequest) {
           .select('project_id, status')
           .eq('user_id', user.id)
           .in('project_id', projectIds),
+        supabase
+          .from('project_journeys')
+          .select('project_id, status')
+          .eq('user_id', user.id)
+          .eq('source_type', 'project')
+          .in('project_id', projectIds),
       ])
 
     if (likesResponse.error) throw likesResponse.error
     if (collectionsResponse.error) throw collectionsResponse.error
     if (completionsResponse.error) throw completionsResponse.error
     if (explorationsResponse.error) throw explorationsResponse.error
+    if (journeysResponse.error) throw journeysResponse.error
 
     const liked = ((likesResponse.data as { project_id: number }[] | null) || []).map(
       (row) => row.project_id,
@@ -76,11 +83,17 @@ export async function GET(request: NextRequest) {
         record_kind?: string | null
       }[] | null) || [],
     ).filter((id) => projectIds.includes(id))
-    const exploring = (
+    const legacyExploring = (
       (explorationsResponse.data as { project_id: number; status?: string }[] | null) || []
     )
       .filter((row) => row.status === 'active')
       .map((row) => row.project_id)
+    const exploring = Array.from(new Set([
+      ...legacyExploring,
+      ...(((journeysResponse.data as { project_id: number | null; status?: string }[] | null) || [])
+        .filter((row) => row.status === 'active' && row.project_id)
+        .map((row) => row.project_id as number)),
+    ]))
 
     return NextResponse.json({ liked, collected, completed, exploring })
   } catch (error) {

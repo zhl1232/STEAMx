@@ -475,17 +475,17 @@ function ShareForm() {
         <div className="page-shell pt-4 pb-24 sm:pt-6 md:py-8">
             <div className="md:hidden">
                 <MobilePageHeader
-                    title={editId ? "编辑项目" : "分享项目"}
+                    title={editId ? "编辑项目模板" : "创建项目模板"}
                     fallbackHref="/profile"
                 />
             </div>
 
             <section className="surface-panel overflow-visible rounded-none border-0 bg-transparent px-0 py-4 shadow-none sm:overflow-hidden sm:rounded-xl sm:border sm:bg-card/88 sm:px-7 sm:py-7 sm:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)] lg:px-8">
                 <div className="mb-6 px-1 sm:mb-8 sm:px-0">
-                    <p className="section-kicker">{editId ? "项目修改" : "项目发布"}</p>
-                    <h1 className="mb-2 mt-3 text-[1.9rem] font-semibold tracking-tight sm:text-3xl">{editId ? "编辑项目" : "分享你的创意"}</h1>
+                    <p className="section-kicker">{editId ? "项目模板修改" : "项目模板"}</p>
+                    <h1 className="mb-2 mt-3 text-[1.9rem] font-semibold tracking-tight sm:text-3xl">{editId ? "编辑项目模板" : "创建你的项目模板"}</h1>
                     <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-                        {editId ? "修改已发布或被拒绝的项目内容" : "把你的 STEAM 项目整理成清晰作品，提交到平台中继续展示和审核。"}
+                        {editId ? "修改已发布或被拒绝的项目模板" : "把自己的方法整理成一个可供别人跟着完成的项目模板。发布后，其他人可以开始自己的项目并留下过程记录。"}
                     </p>
                 </div>
 
@@ -855,7 +855,7 @@ function ShareForm() {
                         </Button>
                         <Button type="submit" disabled={isLoading} className="w-full gap-2 sm:w-auto">
                             <Upload className="h-4 w-4" />
-                            {isLoading ? "提交中..." : "提交审核"}
+                            {isLoading ? "提交中..." : "发布项目模板"}
                         </Button>
                     </div>
                 </div>

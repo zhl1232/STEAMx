@@ -119,9 +119,11 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   const [savedProgress, setSavedProgress] = useState<Record<number, StageProgress>>({})
   const [expanded, setExpanded] = useState<number>(0)
   const [savingIndex, setSavingIndex] = useState<number | null>(null)
+  const [publishingIndex, setPublishingIndex] = useState<number | null>(null)
   const [uploadingByStage, setUploadingByStage] = useState<Record<number, UploadingImage[]>>({})
   const [autosaveState, setAutosaveState] = useState<Record<number, "saving" | "saved" | "error">>({})
   const [workspace, setWorkspace] = useState<ChallengeWorkspace | null>(null)
+  const [journeyId, setJourneyId] = useState<number | null>(null)
   const [projectGoalDraft, setProjectGoalDraft] = useState("")
   const [workspaceSaving, setWorkspaceSaving] = useState(false)
   const [reviewingIndex, setReviewingIndex] = useState<number | null>(null)
@@ -151,6 +153,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
     if (!user) {
       setSavedProgress({})
       setWorkspace(null)
+      setJourneyId(null)
       setProjectGoalDraft("")
       setDrafts(() => {
         const next: Record<number, StageDraft> = {}
@@ -171,6 +174,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
       const progressList: StageProgress[] = res.ok ? (await res.json()).progress ?? [] : []
       const workspacePayload = workspaceRes.ok ? await workspaceRes.json().catch(() => ({})) : {}
       const nextWorkspace = (workspacePayload.workspace ?? null) as ChallengeWorkspace | null
+      setJourneyId(Number.isInteger(workspacePayload.journey?.id) ? workspacePayload.journey.id : null)
       const progressMap: Record<number, StageProgress> = {}
       progressList.forEach((item) => {
         progressMap[item.stageIndex] = item
@@ -462,6 +466,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
             if (!res.ok) throw new Error(payload?.error || "保存失败")
             const progress = payload.progress as StageProgress | null
             if (progress) setSavedProgress((current) => ({ ...current, [index]: progress }))
+            if (Number.isInteger(payload.journey?.id)) setJourneyId(payload.journey.id)
             setAutosaveState((current) => ({ ...current, [index]: "saved" }))
           } catch (error) {
             logger.error("Stage autosave failed", { error })
@@ -481,7 +486,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
   }, [dirtyTick, drafts, user, isActive, savedProgress, savingIndex, challengeId, buildStagePayload])
 
   const saveStage = useCallback(async (index: number, nextStatus: StageProgressStatus) => {
-    if (!ensureCanEdit()) return
+    if (!ensureCanEdit()) return null
 
     setSavingIndex(index)
     try {
@@ -503,11 +508,13 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
         setSavedProgress((current) => ({ ...current, [index]: progress }))
         setDraftField(index, "status", progress.status)
       }
+      if (Number.isInteger(payload.journey?.id)) setJourneyId(payload.journey.id)
       if (nextStatus === "completed") {
         toast({ title: "本阶段已完成，下一步解锁啦" })
         const nextIndex = index + 1
         if (nextIndex < stages.length) setExpanded(nextIndex)
       }
+      return progress
     } catch (error) {
       logger.error("Stage progress save failed", { error })
       toast({
@@ -515,10 +522,61 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
         description: error instanceof Error ? error.message : "请稍后重试",
         variant: "destructive",
       })
+      return null
     } finally {
       setSavingIndex(null)
     }
   }, [challengeId, stages, ensureCanEdit, buildStagePayload, setDraftField, toast])
+
+  const toggleStageVisibility = useCallback(async (index: number) => {
+    if (!ensureCanEdit()) return
+
+    let progress: StageProgress | undefined = savedProgress[index]
+    if (!progress?.journeyRecordId) {
+      const saved = await saveStage(index, progress?.status === "completed" ? "completed" : "in_progress")
+      if (saved) progress = saved
+    }
+
+    if (!journeyId || !progress?.journeyRecordId) {
+      toast({ title: "请先保存这一步的产出", variant: "destructive" })
+      return
+    }
+
+    const nextVisibility = progress.journeyRecordVisibility === "public" ? "private" : "public"
+    setPublishingIndex(index)
+    try {
+      const res = await fetch(`/api/journeys/${journeyId}/records/${progress.journeyRecordId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visibility: nextVisibility }),
+      })
+      const payload = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(payload?.error || "公开状态更新失败")
+      const record = payload.record as {
+        visibility?: "private" | "public"
+        status?: "draft" | "pending" | "approved" | "rejected"
+        rejection_reason?: string | null
+      }
+      setSavedProgress((current) => ({
+        ...current,
+        [index]: {
+          ...(current[index] ?? progress),
+          journeyRecordVisibility: record.visibility ?? nextVisibility,
+          journeyRecordStatus: record.status ?? (nextVisibility === "public" ? "pending" : "draft"),
+          journeyRecordRejectionReason: record.rejection_reason ?? null,
+        },
+      }))
+      toast({
+        title: nextVisibility === "public" ? "已提交公开审核" : "已切回私密记录",
+        description: nextVisibility === "public" ? "审核通过后，其他人才能看到这一步。" : "这一步只对你自己可见。",
+      })
+    } catch (error) {
+      logger.error("Stage visibility update failed", { error })
+      toast({ title: "公开状态更新失败", description: error instanceof Error ? error.message : "请稍后重试", variant: "destructive" })
+    } finally {
+      setPublishingIndex(null)
+    }
+  }, [ensureCanEdit, journeyId, saveStage, savedProgress, toast])
 
   const reviewStage = useCallback(async (index: number) => {
     if (!ensureCanEdit()) return
@@ -1100,6 +1158,26 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                                   ? "自动保存失败，继续编辑会重试"
                                   : null}
                           </span>
+                          {saved?.journeyRecordId ? (
+                            <button
+                              type="button"
+                              onClick={() => void toggleStageVisibility(index)}
+                              disabled={publishingIndex === index}
+                              className={cn(
+                                "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60",
+                                saved.journeyRecordVisibility === "public"
+                                  ? "bg-[hsl(var(--status-info-surface)/0.72)] text-[hsl(var(--brand-blue))] hover:bg-[hsl(var(--status-info-surface))]"
+                                  : "bg-[hsl(var(--surface-raised)/0.9)] text-muted-foreground hover:text-foreground",
+                              )}
+                            >
+                              <Lock className="h-3.5 w-3.5" />
+                              {publishingIndex === index
+                                ? "更新中"
+                                : saved.journeyRecordVisibility === "public"
+                                  ? saved.journeyRecordStatus === "pending" ? "公开审核中" : "已公开"
+                                  : "仅自己可见"}
+                            </button>
+                          ) : null}
                           <button
                             type="button"
                             onClick={() => void reviewStage(index)}

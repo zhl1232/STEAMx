@@ -12,6 +12,7 @@ import {
   mergeHighlightCompletion,
 } from "@/lib/api/explore-data"
 import { createClient } from "@/lib/supabase/server"
+import { getActiveJourney, getLatestJourney } from "@/lib/journeys/service"
 import { parseHighlightCompletionId } from "@/lib/project/exploration-record-links"
 import { buildPageMetadata } from "@/lib/seo/metadata"
 
@@ -74,6 +75,13 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
   ])
 
   const completions = mergeHighlightCompletion(rawCompletions, highlightCompletion, RECORDS_PAGE_LIMIT)
+  const [activeJourney, latestJourney] = user
+    ? await Promise.all([
+        getActiveJourney(supabase, user.id, 'project', Number(project.id)),
+        getLatestJourney(supabase, user.id, 'project', Number(project.id)),
+      ])
+    : [null, null]
+  const displayJourney = activeJourney ?? latestJourney
   return (
     <Suspense fallback={<ProjectRecordsPageSkeleton />}>
       <ProjectRecordsClient
@@ -84,6 +92,8 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
         completions={completions}
         totalRecordsCount={totalRecordsCount}
         highlightCompletionId={highlightCompletionId}
+        journeyId={displayJourney?.id ?? null}
+        journeyStatus={displayJourney?.status ?? null}
       />
     </Suspense>
   )

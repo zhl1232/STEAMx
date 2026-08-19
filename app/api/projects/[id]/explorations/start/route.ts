@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { validateNumber } from '@/lib/api/validation'
+import { ensureJourney } from '@/lib/journeys/service'
 import { createClient } from '@/lib/supabase/server'
 
 /**
@@ -31,27 +32,43 @@ export async function POST(
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
     }
 
+    const journey = await ensureJourney(supabase, {
+      userId: user.id,
+      sourceType: 'project',
+      sourceId: projectId,
+    })
     const now = new Date().toISOString()
-    const { data: exploration, error: explorationError } = await supabase
+    const { data: legacyExploration, error: legacyReadError } = await supabase
       .from('project_explorations')
-      .upsert(
-        {
-          user_id: user.id,
-          project_id: projectId,
-          status: 'active',
-          started_at: now,
-          last_activity_at: now,
-          completed_at: null,
-          updated_at: now,
-        } as never,
-        { onConflict: 'user_id,project_id' },
-      )
-      .select('*')
-      .single()
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('project_id', projectId)
+      .maybeSingle()
+    if (legacyReadError) throw legacyReadError
 
-    if (explorationError) throw explorationError
+    const legacyPayload = {
+      status: 'active',
+      started_at: now,
+      last_activity_at: now,
+      completed_at: null,
+      journey_id: journey.id,
+      updated_at: now,
+    }
+    const legacyResponse = legacyExploration
+      ? await supabase
+          .from('project_explorations')
+          .update(legacyPayload as never)
+          .eq('id', legacyExploration.id)
+          .select('*')
+          .single()
+      : await supabase
+          .from('project_explorations')
+          .insert({ ...legacyPayload, user_id: user.id, project_id: projectId } as never)
+          .select('*')
+          .single()
+    if (legacyResponse.error) throw legacyResponse.error
 
-    return NextResponse.json({ exploration })
+    return NextResponse.json({ exploration: legacyResponse.data, journey })
   } catch (error) {
     return handleApiError(error)
   }

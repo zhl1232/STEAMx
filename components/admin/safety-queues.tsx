@@ -64,6 +64,7 @@ const CONTENT_LABELS: Record<string, string> = {
   observation_comment: "观察评论",
   completion: "作品",
   challenge_submission: "挑战作品",
+  journey_record: "项目过程记录",
   observation: "观察记录",
   message: "私信",
 }

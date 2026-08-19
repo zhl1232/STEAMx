@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ListFilter, Sprout } from "lucide-react"
 
@@ -21,6 +21,7 @@ import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { ExplorationRecordGroupCard } from "@/components/features/project/exploration-record-group"
+import { JourneyRecordTimeline } from "@/components/features/project/journey-record-timeline"
 import {
   filterExplorationRecordGroups,
   groupCompletionsByExploration,
@@ -28,6 +29,7 @@ import {
 import { explorationRecordDomId } from "@/lib/project/exploration-record-links"
 import { RECORD_TYPE_OPTIONS, matchesRecordTypeFilter } from "@/lib/project/exploration-record-meta"
 import type { ProjectCompletion } from "@/lib/mappers/types"
+import type { JourneyRecord } from "@/lib/journeys/types"
 
 type DialogMode = "progress" | "final"
 
@@ -39,6 +41,8 @@ interface ProjectRecordsClientProps {
   completions: ProjectCompletion[]
   totalRecordsCount: number
   highlightCompletionId?: number | null
+  journeyId?: number | null
+  journeyStatus?: string | null
 }
 
 export function ProjectRecordsClient({
@@ -49,6 +53,8 @@ export function ProjectRecordsClient({
   completions,
   totalRecordsCount,
   highlightCompletionId = null,
+  journeyId = null,
+  journeyStatus = null,
 }: ProjectRecordsClientProps) {
   const router = useRouter()
   const { toast } = useToast()
@@ -63,9 +69,85 @@ export function ProjectRecordsClient({
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogMode, setDialogMode] = useState<DialogMode>("progress")
   const [selectedRecordType, setSelectedRecordType] = useState<string | undefined>()
+  const [journeyRecords, setJourneyRecords] = useState<JourneyRecord[]>([])
+  const [currentJourneyId, setCurrentJourneyId] = useState<number | null>(journeyId)
+  const [currentJourneyStatus, setCurrentJourneyStatus] = useState<string | null>(journeyStatus)
+  const currentJourneyIdRef = useRef<number | null>(journeyId)
+  const journeyRequestRef = useRef(0)
 
-  const completed = isCompleted(projectId)
+  const applyJourneyState = useCallback((nextId: number | null, nextStatus: string | null, nextRecords: JourneyRecord[]) => {
+    currentJourneyIdRef.current = nextId
+    setCurrentJourneyId(nextId)
+    setCurrentJourneyStatus(nextStatus)
+    setJourneyRecords(nextRecords)
+  }, [])
+
+  const loadJourneyRecords = useCallback(async (
+    preferredJourneyId = currentJourneyIdRef.current,
+    signal?: AbortSignal,
+  ) => {
+    const requestId = ++journeyRequestRef.current
+    const isCurrentRequest = () => !signal?.aborted && journeyRequestRef.current === requestId
+
+    if (!user?.id) {
+      if (isCurrentRequest()) applyJourneyState(null, null, [])
+      return
+    }
+
+    try {
+      const journeyListResponse = await fetch(
+        `/api/journeys?source_type=project&source_id=${projectId}&status=all`,
+        { cache: "no-store", signal },
+      )
+      const journeyListPayload = journeyListResponse.ok
+        ? await journeyListResponse.json().catch(() => ({}))
+        : {}
+      if (!isCurrentRequest()) return
+
+      const journeys = Array.isArray(journeyListPayload.journeys) ? journeyListPayload.journeys : []
+      const activeJourney = journeys.find((item: { status?: string }) => item.status === "active")
+      const preferredJourney = journeys.find((item: { id?: number }) => item.id === preferredJourneyId)
+      const nextJourney = activeJourney ?? preferredJourney ?? journeys[0] ?? null
+      const nextJourneyId = typeof nextJourney?.id === "number" ? nextJourney.id : null
+      if (!nextJourneyId) {
+        applyJourneyState(null, null, [])
+        return
+      }
+
+      const response = await fetch(`/api/journeys/${nextJourneyId}?limit=100`, {
+        cache: "no-store",
+        signal,
+      })
+      if (!response.ok || !isCurrentRequest()) return
+      const payload = await response.json().catch(() => ({}))
+      if (!isCurrentRequest()) return
+      applyJourneyState(
+        nextJourneyId,
+        typeof payload.journey?.status === "string" ? payload.journey.status : null,
+        (payload.records ?? []) as JourneyRecord[],
+      )
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return
+      if (!isCurrentRequest()) return
+      throw error
+    }
+  }, [applyJourneyState, projectId, user?.id])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    void loadJourneyRecords(journeyId, controller.signal).catch(() => {
+      // The page can still render the legacy feed if the Journey read fails.
+    })
+    return () => {
+      controller.abort()
+      journeyRequestRef.current += 1
+    }
+  }, [journeyId, loadJourneyRecords])
+
+  const legacyCompleted = isCompleted(projectId)
   const exploring = isExploring(projectId)
+  const journeyActive = currentJourneyStatus === "active" || (currentJourneyStatus === null && exploring)
+  const journeyCompleted = currentJourneyStatus === "completed" || (currentJourneyStatus === null && legacyCompleted && !exploring)
 
   const filtered = useMemo(() => {
     return completions.filter((item) => matchesRecordTypeFilter(item, typeFilter))
@@ -77,11 +159,36 @@ export function ProjectRecordsClient({
   }, [completions, typeFilter])
 
   const hasOwnProgress = useMemo(() => {
-    if (!user?.id) return false
-    return completions.some(
+    if (!user?.id) return journeyRecords.some((record) => record.record_kind === "progress")
+    return journeyRecords.some((record) => record.record_kind === "progress") || completions.some(
       (item) => item.userId === user.id && item.recordKind === "progress",
     )
-  }, [completions, user?.id])
+  }, [completions, journeyRecords, user?.id])
+
+  const hasRejectedFinal = journeyRecords.some(
+    (record) => record.record_kind === "final" && record.status === "rejected",
+  )
+
+  const handleJourneyVisibilityChange = async (record: JourneyRecord, visibility: "private" | "public") => {
+    if (!currentJourneyId) return
+    // Invalidate an in-flight read before applying this user action; an older
+    // response must not put the record back into its previous visibility.
+    journeyRequestRef.current += 1
+    const response = await fetch(`/api/journeys/${currentJourneyId}/records/${record.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visibility }),
+    })
+    const payload = await response.json().catch(() => ({}))
+    if (!response.ok) throw new Error(payload?.error || "公开状态更新失败")
+    const nextRecord = payload.record as JourneyRecord
+    setJourneyRecords((current) => current.map((item) => item.id === record.id ? nextRecord : item))
+    if (record.record_kind === "final") setCurrentJourneyStatus("active")
+    toast({
+      title: visibility === "public" ? "已提交公开审核" : "已切回私密记录",
+      description: visibility === "public" ? "审核通过后，其他人才能看到这一步。" : "这一步只对你自己可见。",
+    })
+  }
 
   useEffect(() => {
     if (!highlightCompletionId) return
@@ -109,13 +216,14 @@ export function ProjectRecordsClient({
   }, [highlightCompletionId, filtered])
 
   const ensureExploration = async () => {
-    if (exploring || completed) return
+    if (journeyActive) return
     await startExploration(projectId)
+    await loadJourneyRecords()
   }
 
   const showExplorationError = () => {
     toast({
-      title: "无法开始探索",
+      title: "无法开始我的项目",
       description: "请检查网络后重试，或返回项目详情页再试",
       variant: "destructive",
     })
@@ -126,7 +234,7 @@ export function ProjectRecordsClient({
       window.location.href = "/nature/submit"
       return
     }
-    if (completed) return
+    if (journeyCompleted) return
     try {
       await ensureExploration()
     } catch {
@@ -138,13 +246,7 @@ export function ProjectRecordsClient({
   }
 
   const openFinalDialog = async () => {
-    if (!hasOwnProgress) return
-    try {
-      await ensureExploration()
-    } catch {
-      showExplorationError()
-      return
-    }
+    if (!journeyActive || (!hasOwnProgress && !hasRejectedFinal)) return
     setDialogMode("final")
     setSelectedRecordType(undefined)
     setDialogOpen(true)
@@ -153,15 +255,16 @@ export function ProjectRecordsClient({
   const handleStartExploration = async () => {
     if (!user) {
       promptLogin(() => void handleStartExploration(), {
-        title: "登录以开始探索",
+        title: "登录以开始我的项目",
         description: "登录后即可记录探索过程并提交作品",
       })
       return
     }
-    if (exploring || completed) return
+    if (journeyActive) return
     try {
       await startExploration(projectId)
-      toast({ title: "已开始探索", description: "点击右上角「+ 记录」写下第一条探索记录" })
+      await loadJourneyRecords()
+      toast({ title: "已开始我的项目", description: "点击「记录」写下第一条探索记录" })
     } catch {
       showExplorationError()
     }
@@ -181,7 +284,7 @@ export function ProjectRecordsClient({
         fallbackHref={backHref}
         className="border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
         rightSlot={
-          !completed && mode === "project" && exploring ? (
+          mode === "project" && journeyActive ? (
             <Button
               type="button"
               size="sm"
@@ -225,39 +328,43 @@ export function ProjectRecordsClient({
           </Select>
         </RecordsFilterRow>
 
-        {!completed && mode === "project" ? (
+        {mode === "project" ? (
           <section className="exploration-cta-banner">
             <span className="exploration-cta-icon">
               <Sprout className="h-5 w-5" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-bold text-foreground">
-                {!exploring
-                  ? "开始探索这个项目"
-                  : hasOwnProgress
-                    ? "继续记录探索过程"
-                    : "记录你的探索过程"}
+                {!journeyActive
+                  ? "开始我的项目"
+                  : hasRejectedFinal
+                    ? "修改被拒绝的最终作品"
+                    : hasOwnProgress
+                      ? "继续记录我的项目"
+                      : "记录我的项目过程"}
               </p>
               <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
-                {!exploring
-                  ? "探索后可拍照、写心得，沉淀你的制作时间线"
-                  : "拍照、写心得，让每一步成长都被看见"}
+                {!journeyActive
+                  ? "开始后可拍照、写心得，沉淀自己的制作时间线"
+                  : hasRejectedFinal
+                    ? "根据审核意见修改后重新提交，原来的过程记录会保留"
+                    : "拍照、写心得，让每一步成长都被看见"}
               </p>
-              {exploring && !hasOwnProgress ? (
-                <p className="mt-1 text-[11px] text-muted-foreground">先写探索记录，再提交作品</p>
+              {journeyActive && !hasOwnProgress && !hasRejectedFinal ? (
+                <p className="mt-1 text-[11px] text-muted-foreground">先留下过程，再总结最终作品</p>
               ) : null}
             </div>
             <div className="flex shrink-0 flex-col gap-1.5">
-              {!exploring ? (
+              {!journeyActive ? (
                 <Button
                   type="button"
                   size="sm"
                   tone="success"
                   onClick={() => void handleStartExploration()}
                 >
-                  开始探索
+                  开始我的项目
                 </Button>
-              ) : hasOwnProgress ? (
+              ) : hasOwnProgress || hasRejectedFinal ? (
                 <Button
                   type="button"
                   size="sm"
@@ -265,12 +372,17 @@ export function ProjectRecordsClient({
                   onClick={() => void openFinalDialog()}
                   className="text-xs"
                 >
-                  提交作品
+                  {hasRejectedFinal ? "修改后重提" : "总结最终作品"}
                 </Button>
               ) : null}
             </div>
           </section>
         ) : null}
+
+        <JourneyRecordTimeline
+          records={journeyRecords}
+          onVisibilityChange={handleJourneyVisibilityChange}
+        />
 
         {totalRecordsCount > completions.length ? (
           <p className="mb-3 text-xs leading-5 text-muted-foreground">
@@ -314,10 +426,14 @@ export function ProjectRecordsClient({
           open={dialogOpen}
           onOpenChange={setDialogOpen}
           onSuccess={(result) => {
-            if (result.recordKind === "final") {
+            // A newly submitted final is pending (or a private draft), so its
+            // public work page does not exist yet. Keep the user on the
+            // Journey timeline until moderation has approved it.
+            if (result.recordKind === "final" && result.status === "approved") {
               router.push(`/works/${result.id}?share=1`)
               return
             }
+            void loadJourneyRecords()
             router.refresh()
           }}
         />

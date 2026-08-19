@@ -1157,6 +1157,7 @@ export interface Database {
           record_type: string | null
           stage_label: string | null
           exploration_id: number | null
+          journey_record_id: number | null
           moderation_source: string | null
           moderation_state: string
         }
@@ -1181,6 +1182,7 @@ export interface Database {
           record_type?: string | null
           stage_label?: string | null
           exploration_id?: number | null
+          journey_record_id?: number | null
           moderation_source?: string | null
           moderation_state?: string
         }
@@ -1205,6 +1207,7 @@ export interface Database {
           record_type?: string | null
           stage_label?: string | null
           exploration_id?: number | null
+          journey_record_id?: number | null
           moderation_source?: string | null
         }
         Relationships: [
@@ -1265,6 +1268,138 @@ export interface Database {
           },
         ]
       }
+      project_journeys: {
+        Row: {
+          id: number
+          user_id: string
+          source_type: string
+          project_id: number | null
+          challenge_id: number | null
+          title: string | null
+          project_goal: string | null
+          attempt_no: number
+          status: string
+          started_at: string
+          last_activity_at: string
+          completed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          user_id: string
+          source_type: string
+          project_id?: number | null
+          challenge_id?: number | null
+          title?: string | null
+          project_goal?: string | null
+          attempt_no?: number
+          status?: string
+          started_at?: string
+          last_activity_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          user_id?: string
+          source_type?: string
+          project_id?: number | null
+          challenge_id?: number | null
+          title?: string | null
+          project_goal?: string | null
+          attempt_no?: number
+          status?: string
+          started_at?: string
+          last_activity_at?: string
+          completed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      project_journey_records: {
+        Row: {
+          id: number
+          journey_id: number
+          user_id: string
+          record_kind: string
+          anchor_type: string
+          anchor_index: number | null
+          title: string | null
+          notes: string | null
+          images: string[]
+          image_captions: string[] | null
+          video_url: string | null
+          data: Json | null
+          visibility: string
+          status: string
+          moderation_state: string
+          moderation_source: string | null
+          rejection_reason: string | null
+          reviewed_by: string | null
+          reviewed_at: string | null
+          published_at: string | null
+          legacy_source: string | null
+          legacy_source_id: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          journey_id: number
+          user_id: string
+          record_kind?: string
+          anchor_type?: string
+          anchor_index?: number | null
+          title?: string | null
+          notes?: string | null
+          images?: string[]
+          image_captions?: string[] | null
+          video_url?: string | null
+          data?: Json | null
+          visibility?: string
+          status?: string
+          moderation_state?: string
+          moderation_source?: string | null
+          rejection_reason?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          published_at?: string | null
+          legacy_source?: string | null
+          legacy_source_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          journey_id?: number
+          user_id?: string
+          record_kind?: string
+          anchor_type?: string
+          anchor_index?: number | null
+          title?: string | null
+          notes?: string | null
+          images?: string[]
+          image_captions?: string[] | null
+          video_url?: string | null
+          data?: Json | null
+          visibility?: string
+          status?: string
+          moderation_state?: string
+          moderation_source?: string | null
+          rejection_reason?: string | null
+          reviewed_by?: string | null
+          reviewed_at?: string | null
+          published_at?: string | null
+          legacy_source?: string | null
+          legacy_source_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       project_explorations: {
         Row: {
           id: number
@@ -1274,6 +1409,7 @@ export interface Database {
           started_at: string
           last_activity_at: string
           completed_at: string | null
+          journey_id: number | null
           created_at: string
           updated_at: string
         }
@@ -1285,6 +1421,7 @@ export interface Database {
           started_at?: string
           last_activity_at?: string
           completed_at?: string | null
+          journey_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -1296,6 +1433,7 @@ export interface Database {
           started_at?: string
           last_activity_at?: string
           completed_at?: string | null
+          journey_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -1978,6 +2116,8 @@ export interface Database {
           data: Json | null
           video_url: string | null
           ai_feedback: Json | null
+          journey_id: number | null
+          journey_record_id: number | null
           created_at: string
           updated_at: string
         }
@@ -1992,6 +2132,8 @@ export interface Database {
           data?: Json | null
           video_url?: string | null
           ai_feedback?: Json | null
+          journey_id?: number | null
+          journey_record_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -2006,6 +2148,8 @@ export interface Database {
           data?: Json | null
           video_url?: string | null
           ai_feedback?: Json | null
+          journey_id?: number | null
+          journey_record_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -2018,6 +2162,7 @@ export interface Database {
           user_id: string
           project_goal: string
           personal_plan: Json
+          journey_id: number | null
           created_at: string
           updated_at: string
         }
@@ -2027,6 +2172,7 @@ export interface Database {
           user_id: string
           project_goal: string
           personal_plan: Json
+          journey_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -2036,6 +2182,7 @@ export interface Database {
           user_id?: string
           project_goal?: string
           personal_plan?: Json
+          journey_id?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -2512,6 +2659,7 @@ export interface Database {
           created_at: string
           updated_at: string
           moderation_state: string
+          journey_record_id: number | null
         }
         Insert: {
           id?: number
@@ -2530,6 +2678,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           moderation_state?: string
+          journey_record_id?: number | null
         }
         Update: {
           id?: number
@@ -2548,6 +2697,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           moderation_state?: string
+          journey_record_id?: number | null
         }
         Relationships: [
           {

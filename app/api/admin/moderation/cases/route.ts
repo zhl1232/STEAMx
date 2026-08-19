@@ -59,10 +59,17 @@ export async function PATCH(request: NextRequest) {
         moderationCase.content_type,
         moderationCase.content_id,
         action === 'approve' ? 'approved' : 'rejected',
+        {
+          reviewedBy: user.id,
+          rejectionReason: action === 'reject' ? note : null,
+        },
       )
     }
     if (action === 'hide') {
-      await setContentModerationState(moderationCase.content_type, moderationCase.content_id, 'hidden')
+      await setContentModerationState(moderationCase.content_type, moderationCase.content_id, 'hidden', {
+        reviewedBy: user.id,
+        rejectionReason: note,
+      })
     }
 
     const accountActions = new Set(['warning', 'restrict_24h', 'restrict_7d', 'restrict_30d', 'ban'])

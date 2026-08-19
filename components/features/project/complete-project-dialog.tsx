@@ -169,12 +169,16 @@ export function CompleteProjectDialog({
 
     // Step 2 state
     const [notes, setNotes] = useState("");
-    const [isPublic, setIsPublic] = useState(true);
+    const [isPublic, setIsPublic] = useState(mode !== "progress");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         return () => { videoXhrRef.current.xhr?.abort(); };
     }, []);
+
+    useEffect(() => {
+        if (open) setIsPublic(mode !== "progress");
+    }, [mode, open]);
 
     const totalImages = proofImages.length + uploading.length;
     const canAddMore = totalImages < MAX_IMAGES;
@@ -471,7 +475,9 @@ export function CompleteProjectDialog({
                 title: isProgress ? "探索记录已提交" : "最终作品已提交",
                 description: isProgress
                     ? "AI 审核通过后将出现在探索记录流"
-                    : "AI 审核通过后将公开展示并获得 XP 奖励",
+                    : isPublic
+                        ? "审核通过后将公开展示并获得 XP 奖励"
+                        : "已保存为私密最终作品，之后可以从项目时间线公开",
             });
 
             onSuccess(result);
@@ -499,8 +505,8 @@ export function CompleteProjectDialog({
         setVideoUploadStatus("idle");
         setVideoUploadProgress(0);
         setNotes("");
-        setIsPublic(true);
-    }, []);
+        setIsPublic(mode !== "progress");
+    }, [mode]);
 
     // ─── Render ───
 
@@ -812,15 +818,24 @@ export function CompleteProjectDialog({
                         </div>
 
                         {/* 是否公开展示 */}
-                        <div className="flex items-center gap-2">
+                        <div className="rounded-sm border border-border/70 bg-muted/25 p-3">
+                            <div className="flex items-start gap-2">
                             <Checkbox
                                 id="is-public"
                                 checked={isPublic}
                                 onCheckedChange={(checked) => setIsPublic(checked === true)}
                             />
-                            <Label htmlFor="is-public" className="text-sm font-normal cursor-pointer">
-                                公开展示此探索记录（其他用户可在项目探索记录流中看到）
-                            </Label>
+                            <div>
+                                <Label htmlFor="is-public" className="cursor-pointer text-sm font-medium">
+                                    {isProgress ? "公开这条探索记录" : "公开展示最终作品"}
+                                </Label>
+                                <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                                    {isProgress
+                                        ? "默认仅自己可见；公开后会先审核，通过后出现在项目记录流。"
+                                        : "默认公开并进入审核；也可以先保存为私密作品，之后再公开。"}
+                                </p>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 )}

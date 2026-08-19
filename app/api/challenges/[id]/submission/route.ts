@@ -13,6 +13,12 @@ import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
+import {
+  ensureJourney,
+  getJourneyById,
+  syncLegacyChallengeFinal,
+  upsertJourneyRecord,
+} from '@/lib/journeys/service'
 
 async function getActiveChallenge(supabase: Awaited<ReturnType<typeof createClient>>, challengeId: number) {
   const { data, error } = await supabase
@@ -168,6 +174,12 @@ export async function POST(
       parsed.data.reference_project_ids,
     )
 
+    const journey = await ensureJourney(supabase, {
+      userId: user.id,
+      sourceType: 'challenge',
+      sourceId: challengeId,
+    })
+
     const { data: submission, error } = await supabase
       .from('challenge_submissions')
       .insert({
@@ -189,6 +201,21 @@ export async function POST(
     if (error || !submission) {
       throw error || new Error('Failed to create submission')
     }
+
+    const journeyRecord = await upsertJourneyRecord(supabase, journey.id, user.id, {
+      recordKind: 'final',
+      anchorType: 'final',
+      title: parsed.data.title,
+      notes: parsed.data.notes ?? null,
+      images: parsed.data.proof_images,
+      imageCaptions: parsed.data.proof_captions?.length ? parsed.data.proof_captions : null,
+      videoUrl: parsed.data.proof_video_url ?? null,
+      data: { referenceProjectIds },
+      visibility: parsed.data.is_public ? 'public' : 'private',
+      moderationState: moderation.state,
+      moderationSource: moderation.modelName || 'ai',
+    })
+    await syncLegacyChallengeFinal(supabase, journey, journeyRecord)
 
     if (referenceProjectIds.length > 0) {
       const { error: linkError } = await supabase
@@ -226,8 +253,8 @@ export async function POST(
     const mapped = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
     return NextResponse.json(
       moderationCaseId
-        ? { submission: mapped, moderation: { state: 'pending', caseId: moderationCaseId } }
-        : { submission: mapped },
+        ? { submission: mapped, journeyRecord, journey, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { submission: mapped, journeyRecord, journey },
       { status: moderationCaseId ? 202 : 201 },
     )
   } catch (error) {
@@ -299,6 +326,40 @@ export async function PATCH(
       return NextResponse.json({ error: 'Submission not found' }, { status: 404 })
     }
 
+    const { data: currentLink, error: currentLinkError } = await supabase
+      .from('challenge_submissions')
+      .select('journey_record_id')
+      .eq('id', current.id)
+      .eq('user_id', user.id)
+      .maybeSingle()
+    if (currentLinkError) throw currentLinkError
+
+    let journey = null
+    let journeyRecordId: number | undefined
+    if (currentLink?.journey_record_id) {
+      const { data: linkedRecord, error: linkedRecordError } = await supabase
+        .from('project_journey_records')
+        .select('journey_id')
+        .eq('id', currentLink.journey_record_id)
+        .eq('user_id', user.id)
+        .maybeSingle()
+      if (linkedRecordError) throw linkedRecordError
+      if (linkedRecord) {
+        const linkedJourney = await getJourneyById(supabase, linkedRecord.journey_id, user.id)
+        if (linkedJourney?.status === 'active') {
+          journey = linkedJourney
+          journeyRecordId = currentLink.journey_record_id
+        }
+      }
+    }
+    if (!journey) {
+      journey = await ensureJourney(supabase, {
+        userId: user.id,
+        sourceType: 'challenge',
+        sourceId: challengeId,
+      })
+    }
+
     const referenceProjectIds = await validateReferenceProjects(
       supabase,
       challengeId,
@@ -326,6 +387,22 @@ export async function PATCH(
       .eq('user_id', user.id)
 
     if (updateError) throw updateError
+
+    const journeyRecord = await upsertJourneyRecord(supabase, journey.id, user.id, {
+      recordId: journeyRecordId,
+      recordKind: 'final',
+      anchorType: 'final',
+      title: parsed.data.title,
+      notes: parsed.data.notes ?? null,
+      images: parsed.data.proof_images,
+      imageCaptions: parsed.data.proof_captions?.length ? parsed.data.proof_captions : null,
+      videoUrl: parsed.data.proof_video_url ?? null,
+      data: { referenceProjectIds },
+      visibility: parsed.data.is_public ? 'public' : 'private',
+      moderationState: moderation.state,
+      moderationSource: moderation.modelName || 'ai',
+    })
+    await syncLegacyChallengeFinal(supabase, journey, journeyRecord)
 
     const { error: deleteLinksError } = await supabase
       .from('challenge_submission_projects')
@@ -366,8 +443,8 @@ export async function PATCH(
     const mapped = await getChallengeSubmissionByUser(supabase, challengeId, user.id)
     return NextResponse.json(
       moderationCaseId
-        ? { submission: mapped, moderation: { state: 'pending', caseId: moderationCaseId } }
-        : { submission: mapped },
+        ? { submission: mapped, journeyRecord, journey, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { submission: mapped, journeyRecord, journey },
       { status: moderationCaseId ? 202 : 200 },
     )
   } catch (error) {

@@ -825,7 +825,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           imageCaptions: proof.imageCaptions,
           videoUrl: proof.videoUrl || null,
           notes: proof.notes,
-          isPublic: proof.isPublic ?? true,
+          isPublic: proof.isPublic ?? options.kind === "final",
         }),
       });
 

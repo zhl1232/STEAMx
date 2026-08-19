@@ -86,7 +86,9 @@ export function ProjectDetailActions({
   const isOwnProject = Boolean(user?.id && projectOwnerId && user.id === projectOwnerId)
   const recordsHref = isObservation ? "/nature/submit" : `/project/${projectId}/records`
 
-  const hasStartedExploration = isExploring(projectId) || completed
+  // `completed` is a legacy aggregate and may remain true after an earlier
+  // attempt. The active Journey is the source of truth for the current run.
+  const hasStartedExploration = isExploring(projectId)
 
   useEffect(() => {
     if (variant === "cover" || variant === "bottom") {
@@ -122,17 +124,13 @@ export function ProjectDetailActions({
   }
 
   const primaryActionLabel = useMemo(() => {
-    if (completed) return isObservation ? "查看观察记录" : "查看我的作品"
-    if (hasStartedExploration) return isObservation ? "继续观察" : "继续记录"
-    return isObservation ? "开始观察" : "开始探索"
+    if (hasStartedExploration) return isObservation ? "继续观察" : "继续我的项目"
+    if (completed) return isObservation ? "查看观察记录" : "开始新的尝试"
+    return isObservation ? "开始观察" : "开始我的项目"
   }, [completed, hasStartedExploration, isObservation])
 
   const runPrimaryAction = async () => {
-    if (completed) {
-      router.push(recordsHref)
-      return
-    }
-    if (hasStartedExploration) {
+    if (hasStartedExploration || completed) {
       router.push(recordsHref)
       return
     }
@@ -141,10 +139,10 @@ export function ProjectDetailActions({
     }
     scrollToSteps()
     toast({
-      title: isObservation ? "已开始观察" : "已开始探索",
+      title: isObservation ? "已开始观察" : "已开始我的项目",
       description: isObservation
         ? "按步骤记录你的观察发现"
-        : "按步骤动手制作，随时在探索记录里上传照片与心得",
+        : "按步骤动手制作，随时在我的项目记录里上传照片与心得",
     })
   }
 
@@ -153,7 +151,7 @@ export function ProjectDetailActions({
       promptLogin(() => {
         void runPrimaryAction()
       }, {
-        title: isObservation ? "登录以开始观察" : "登录以开始探索",
+        title: isObservation ? "登录以开始观察" : "登录以开始我的项目",
         description: "登录后即可记录探索过程并上传作品",
       })
       return

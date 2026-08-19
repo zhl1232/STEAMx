@@ -6,6 +6,7 @@ import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createModerationCase } from '@/lib/safety/server'
+import { reviewJourneyRecordModeration } from '@/lib/journeys/service'
 
 type CompletionRow = {
   id: number
@@ -17,6 +18,7 @@ type CompletionRow = {
   proof_images: string[] | null
   notes: string | null
   exploration_id: number | null
+  journey_record_id: number | null
   moderation_state: string | null
 }
 
@@ -30,7 +32,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
 
   const { data: completion, error: fetchError } = await supabaseAdmin
     .from('completed_projects')
-    .select('id, user_id, project_id, course_lesson_id, record_kind, status, proof_images, notes, exploration_id, moderation_state')
+    .select('id, user_id, project_id, course_lesson_id, record_kind, status, proof_images, notes, exploration_id, journey_record_id, moderation_state')
     .eq('id', completionId)
     .maybeSingle()
 
@@ -71,6 +73,16 @@ export async function runCompletionModeration(completionId: number): Promise<{
         .from('completed_projects')
         .update({ moderation_state: 'pending' } as never)
         .eq('id', completionId)
+      if (row.journey_record_id) {
+        await reviewJourneyRecordModeration(
+          supabaseAdmin,
+          row.journey_record_id,
+          'pending',
+          null,
+          decision.reason || '等待人工审核',
+          'ai',
+        )
+      }
       const caseId = await createModerationCase({
         contentType: 'completion',
         contentId: completionId,
@@ -104,6 +116,16 @@ export async function runCompletionModeration(completionId: number): Promise<{
         .from('completed_projects')
         .update({ moderation_state: 'rejected' } as never)
         .eq('id', completionId)
+      if (row.journey_record_id) {
+        await reviewJourneyRecordModeration(
+          supabaseAdmin,
+          row.journey_record_id,
+          'rejected',
+          null,
+          decision.reason || '内容未通过审核',
+          'ai',
+        )
+      }
       await supabaseAdmin
         .from('completion_moderation_logs')
         .update({
@@ -133,19 +155,18 @@ export async function runCompletionModeration(completionId: number): Promise<{
       .update({ moderation_state: 'approved' } as never)
       .eq('id', completionId)
 
-    if (recordKind === 'final' && row.project_id) {
-      await supabaseAdmin
-        .from('project_explorations')
-        .update({
-          status: 'completed',
-          completed_at: new Date().toISOString(),
-          last_activity_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        } as never)
-        .eq('user_id', row.user_id)
-        .eq('project_id', row.project_id)
-        .eq('status', 'active')
-    } else if (recordKind !== 'final' && row.exploration_id) {
+    if (row.journey_record_id) {
+      await reviewJourneyRecordModeration(
+        supabaseAdmin,
+        row.journey_record_id,
+        'approved',
+        null,
+        null,
+        'ai',
+      )
+    }
+
+    if (recordKind !== 'final' && row.exploration_id) {
       await supabaseAdmin
         .from('project_explorations')
         .update({ last_activity_at: new Date().toISOString(), updated_at: new Date().toISOString() } as never)

@@ -4,6 +4,7 @@ import { PermissionError } from '@/lib/api/auth'
 import { checkContent } from '@/lib/content-filter'
 import { logger } from '@/lib/logger'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { reviewJourneyRecordModeration } from '@/lib/journeys/service'
 import type { Database } from '@/lib/supabase/types'
 import type {
   ContentSnapshot,
@@ -246,8 +247,25 @@ export async function setContentModerationState(
   contentType: string,
   contentId: number,
   state: 'pending' | 'approved' | 'rejected' | 'hidden',
+  options: {
+    reviewedBy?: string | null
+    rejectionReason?: string | null
+    moderationSource?: 'manual' | 'ai'
+  } = {},
 ) {
   if (!supabaseAdmin) throw new Error('安全审核服务未配置')
+
+  if (contentType === 'journey_record') {
+    await reviewJourneyRecordModeration(
+      supabaseAdmin,
+      contentId,
+      state,
+      options.reviewedBy,
+      options.rejectionReason,
+      options.moderationSource ?? 'manual',
+    )
+    return
+  }
 
   const tableByContentType: Record<string, string> = {
     project: 'projects',
@@ -277,6 +295,26 @@ export async function setContentModerationState(
     .eq('id', contentId)
 
   if (error) throw error
+
+  if (contentType === 'completion' || contentType === 'challenge_submission') {
+    const tableName = contentType === 'completion' ? 'completed_projects' : 'challenge_submissions'
+    const { data: projection, error: projectionError } = await supabaseAdmin
+      .from(tableName)
+      .select('journey_record_id')
+      .eq('id', contentId)
+      .maybeSingle()
+    if (projectionError) throw projectionError
+    if (projection?.journey_record_id) {
+      await reviewJourneyRecordModeration(
+        supabaseAdmin,
+        projection.journey_record_id,
+        state,
+        options.reviewedBy,
+        options.rejectionReason,
+        options.moderationSource ?? 'manual',
+      )
+    }
+  }
 }
 
 export async function applySafetyAction(input: {

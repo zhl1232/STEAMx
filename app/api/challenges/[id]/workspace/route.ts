@@ -11,6 +11,7 @@ import {
   normalizeProjectGoal,
   type ChallengeWorkspaceRow,
 } from '@/lib/pbl/challenge-workspace'
+import { ensureJourney, getActiveJourney } from '@/lib/journeys/service'
 import { ChallengeWorkspaceUpdateSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
@@ -64,8 +65,11 @@ export async function GET(
 
     if (error) throw error
 
+    const journey = await getActiveJourney(supabase, user.id, 'challenge', challengeId)
+
     return NextResponse.json({
       workspace: data ? mapChallengeWorkspace(data as ChallengeWorkspaceRow) : null,
+      journey,
     })
   } catch (error) {
     return handleApiError(error)
@@ -139,6 +143,13 @@ export async function PUT(
       throw new ValidationError('项目目标不能为空')
     }
 
+    const journey = await ensureJourney(supabase, {
+      userId: user.id,
+      sourceType: 'challenge',
+      sourceId: challengeId,
+      projectGoal,
+    })
+
     const { data, error } = await supabase
       .from('challenge_workspaces')
       .upsert(
@@ -147,6 +158,7 @@ export async function PUT(
           user_id: user.id,
           project_goal: projectGoal,
           personal_plan: personalPlan as unknown as Json,
+          journey_id: journey.id,
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'challenge_id,user_id' },
@@ -158,6 +170,7 @@ export async function PUT(
 
     return NextResponse.json({
       workspace: mapChallengeWorkspace(data as ChallengeWorkspaceRow),
+      journey,
     })
   } catch (error) {
     return handleApiError(error)

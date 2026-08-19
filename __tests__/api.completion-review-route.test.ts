@@ -33,7 +33,10 @@ describe('POST /api/admin/completions/[id]/review', () => {
 
     beforeEach(() => {
         vi.clearAllMocks()
-        requireRoleMock.mockResolvedValue(undefined as never)
+        requireRoleMock.mockResolvedValue({
+            user: { id: 'moderator-1' },
+            role: 'moderator',
+        } as never)
     })
 
     it('uses the atomic approval-and-reward RPC', async () => {

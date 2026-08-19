@@ -9,9 +9,13 @@ import {
   validateContentSafeIfPresent,
   validateNumber,
 } from '@/lib/api/validation'
-import { canResubmitCompletion } from '@/lib/completion-records'
 import { scheduleCompletionModeration } from '@/lib/completions/moderate-completion'
 import { getProjectCompletions } from '@/lib/api/explore-data'
+import {
+  ensureJourney,
+  syncLegacyProjectRecord,
+  upsertJourneyRecord,
+} from '@/lib/journeys/service'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
@@ -61,7 +65,6 @@ export async function POST(
 
   try {
     const user = await requireAuth(supabase)
-    await requireInteractionAccess(supabase, user, 'submit')
     const { id } = await params
     const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
 
@@ -76,6 +79,10 @@ export async function POST(
 
     const payload = parsed.data
     const recordKind = payload.kind
+    // Final works default to public review, but a user may keep one as a
+    // private draft and publish it later from the Journey timeline.
+    const isPublic = payload.isPublic ?? (recordKind === 'final')
+    await requireInteractionAccess(supabase, user, recordKind === 'final' || isPublic ? 'submit' : 'save_progress')
 
     validateContentSafeIfPresent(payload.recordType, '记录类型')
     validateContentSafeIfPresent(payload.stageLabel, '阶段名称')
@@ -96,12 +103,20 @@ export async function POST(
       return NextResponse.json({ error: '作品视频必须使用当前账号上传的文件' }, { status: 400 })
     }
 
-    const moderation = await moderateUserContent({
-      text: [payload.notes, ...(payload.imageCaptions || [])]
-        .filter((value): value is string => Boolean(value?.trim()))
-        .join('\n'),
-      imageSources: payload.images,
-    })
+    const moderation = isPublic
+      ? await moderateUserContent({
+          text: [payload.notes, ...(payload.imageCaptions || [])]
+            .filter((value): value is string => Boolean(value?.trim()))
+            .join('\n'),
+          imageSources: payload.images,
+        })
+      : {
+          state: 'approved' as const,
+          reason: undefined,
+          riskLevel: undefined,
+          category: undefined,
+          modelName: 'private_draft',
+        }
     if (moderation.state === 'rejected') {
       return NextResponse.json(
         { error: moderation.reason || '作品未通过安全检查', code: 'CONTENT_REJECTED' },
@@ -115,111 +130,47 @@ export async function POST(
       )
     }
 
-    const { data: exploration, error: explorationError } = await supabase
-      .from('project_explorations')
-      .select('id, status')
-      .eq('user_id', user.id)
-      .eq('project_id', projectId)
-      .maybeSingle()
+    const journey = await ensureJourney(supabase, {
+      userId: user.id,
+      sourceType: 'project',
+      sourceId: projectId,
+    })
+    const record = await upsertJourneyRecord(supabase, journey.id, user.id, {
+      recordKind,
+      anchorType: 'extra',
+      title: recordKind === 'final' ? undefined : '探索记录',
+      notes: payload.notes || null,
+      images: payload.images,
+      imageCaptions: payload.imageCaptions?.length ? payload.imageCaptions : null,
+      videoUrl: payload.videoUrl || null,
+      data: {
+        recordType: payload.recordType || null,
+        stageLabel: payload.stageLabel || null,
+      },
+      visibility: isPublic ? 'public' : 'private',
+      moderationState: moderation.state,
+      moderationSource: moderation.modelName || (isPublic ? 'ai' : 'private_draft'),
+    })
 
-    if (explorationError) throw explorationError
+    const legacyId = await syncLegacyProjectRecord(supabase, journey, record)
 
-    let explorationId = (exploration as { id?: number } | null)?.id ?? null
-    const explorationStatus = (exploration as { status?: string } | null)?.status
-
-    if (!explorationId || explorationStatus !== 'active') {
-      const now = new Date().toISOString()
-      const { data: upserted, error: startError } = await supabase
-        .from('project_explorations')
-        .upsert(
-          {
-            user_id: user.id,
-            project_id: projectId,
-            status: 'active',
-            started_at: now,
-            last_activity_at: now,
-            updated_at: now,
-          } as never,
-          { onConflict: 'user_id,project_id' },
-        )
-        .select('id')
-        .single()
-
-      if (startError) throw startError
-      explorationId = (upserted as { id: number }).id
-    }
-
-    if (recordKind === 'progress' && explorationStatus === 'completed') {
-      return NextResponse.json({ error: '已提交最终作品，无法再发布探索记录' }, { status: 400 })
+    if (!isPublic) {
+      return NextResponse.json(
+        { id: record.id, recordId: record.id, status: record.status, recordKind: record.record_kind, journeyId: journey.id },
+        { status: 201 },
+      )
     }
 
     if (recordKind === 'final') {
-      const { data: existingFinal, error: finalError } = await supabase
-        .from('completed_projects')
-        .select('id, status')
-        .eq('user_id', user.id)
-        .eq('project_id', projectId)
-        .eq('record_kind', 'final')
-        .maybeSingle()
-
-      if (finalError) throw finalError
-
-      const current = existingFinal as { id: number; status?: string | null } | null
-      if (current && !canResubmitCompletion(current.status)) {
-        return NextResponse.json({ error: '你已经提交过该项目的最终作品' }, { status: 400 })
-      }
-
-      const insertData = {
-        proof_images: payload.images,
-        proof_captions: payload.imageCaptions?.length ? payload.imageCaptions : null,
-        proof_video_url: payload.videoUrl || null,
-        notes: payload.notes || null,
-        is_public: payload.isPublic ?? true,
-        status: 'pending',
-        record_kind: 'final',
-        record_type: payload.recordType || null,
-        stage_label: payload.stageLabel || null,
-        exploration_id: explorationId,
-        reviewed_by: null,
-        reviewed_at: null,
-        rejection_reason: null,
-        moderation_source: 'ai',
-        moderation_state: moderation.state,
-      }
-
-      let completionId: number
-      if (current && canResubmitCompletion(current.status)) {
-        const { data: updated, error: updateError } = await supabase
-          .from('completed_projects')
-          .update(insertData as never)
-          .eq('id', current.id)
-          .select('id, status')
-          .single()
-        if (updateError) throw updateError
-        completionId = (updated as { id: number }).id
-      } else {
-        const { data: inserted, error: insertError } = await supabase
-          .from('completed_projects')
-          .insert({
-            ...insertData,
-            user_id: user.id,
-            project_id: projectId,
-          } as never)
-          .select('id, status')
-          .single()
-        if (insertError) throw insertError
-        completionId = (inserted as { id: number }).id
-      }
-
+      if (!legacyId) throw new Error('最终作品兼容记录创建失败')
       await supabase.from('completion_moderation_logs').upsert(
-        { completion_id: completionId, status: 'queued' } as never,
+        { completion_id: legacyId, status: 'queued' } as never,
         { onConflict: 'completion_id' },
       )
-
       const moderationCaseId = moderation.state === 'pending'
         ? await createModerationCase({
             contentType: 'completion',
-            contentId: completionId,
+            contentId: legacyId,
             authorId: user.id,
             riskLevel: moderation.riskLevel,
             category: moderation.category,
@@ -228,59 +179,23 @@ export async function POST(
             snapshot: { authorId: user.id, text: payload.notes || null, metadata: { imageUrls: payload.images } },
           })
         : null
-
-      if (!moderationCaseId) scheduleCompletionModeration(completionId)
-
+      if (!moderationCaseId) scheduleCompletionModeration(legacyId)
       return NextResponse.json(
         moderationCaseId
-          ? { id: completionId, status: 'pending', recordKind: 'final', moderation: { state: 'pending', caseId: moderationCaseId } }
-          : { id: completionId, status: 'pending', recordKind: 'final' },
+          ? { id: legacyId, recordId: record.id, status: 'pending', recordKind: 'final', journeyId: journey.id, moderation: { state: 'pending', caseId: moderationCaseId } }
+          : { id: legacyId, recordId: record.id, status: 'pending', recordKind: 'final', journeyId: journey.id },
         { status: moderationCaseId ? 202 : 201 },
       )
     }
-
-    const { data: inserted, error: insertError } = await supabase
-      .from('completed_projects')
-      .insert({
-        user_id: user.id,
-        project_id: projectId,
-        proof_images: payload.images,
-        proof_captions: payload.imageCaptions?.length ? payload.imageCaptions : null,
-        proof_video_url: payload.videoUrl || null,
-        notes: payload.notes || null,
-        is_public: payload.isPublic ?? true,
-        status: 'pending',
-        record_kind: 'progress',
-        record_type: payload.recordType || null,
-        stage_label: payload.stageLabel || null,
-        exploration_id: explorationId,
-        reviewed_by: null,
-        reviewed_at: null,
-        rejection_reason: null,
-        moderation_source: 'ai',
-        moderation_state: moderation.state,
-      } as never)
-      .select('id, status')
-      .single()
-
-    if (insertError) throw insertError
-
-    const completionId = (inserted as { id: number }).id
-
-    await supabase
-      .from('project_explorations')
-      .update({ last_activity_at: new Date().toISOString(), updated_at: new Date().toISOString() } as never)
-      .eq('id', explorationId)
-
+    if (!legacyId) throw new Error('公开探索记录兼容记录创建失败')
     await supabase.from('completion_moderation_logs').upsert(
-      { completion_id: completionId, status: 'queued' } as never,
+      { completion_id: legacyId, status: 'queued' } as never,
       { onConflict: 'completion_id' },
     )
-
     const moderationCaseId = moderation.state === 'pending'
       ? await createModerationCase({
           contentType: 'completion',
-          contentId: completionId,
+          contentId: legacyId,
           authorId: user.id,
           riskLevel: moderation.riskLevel,
           category: moderation.category,
@@ -290,12 +205,12 @@ export async function POST(
         })
       : null
 
-    if (!moderationCaseId) scheduleCompletionModeration(completionId)
+    if (!moderationCaseId) scheduleCompletionModeration(legacyId)
 
     return NextResponse.json(
       moderationCaseId
-        ? { id: completionId, status: 'pending', recordKind: 'progress', moderation: { state: 'pending', caseId: moderationCaseId } }
-        : { id: completionId, status: 'pending', recordKind: 'progress' },
+        ? { id: legacyId, recordId: record.id, status: 'pending', recordKind: 'progress', journeyId: journey.id, moderation: { state: 'pending', caseId: moderationCaseId } }
+        : { id: legacyId, recordId: record.id, status: 'pending', recordKind: 'progress', journeyId: journey.id },
       { status: moderationCaseId ? 202 : 201 },
     )
   } catch (error) {

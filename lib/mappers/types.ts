@@ -261,6 +261,10 @@ export interface StageProgress {
     videoUrl?: string
     aiFeedback?: StageAiFeedback | null
     updatedAt?: string
+    journeyRecordId?: number
+    journeyRecordVisibility?: 'private' | 'public'
+    journeyRecordStatus?: 'draft' | 'pending' | 'approved' | 'rejected'
+    journeyRecordRejectionReason?: string | null
 }
 
 export interface StageAiFeedback {
@@ -586,6 +590,7 @@ export interface Work {
     projectId: string | number | null
     courseLessonId?: number
     explorationId?: number
+    journeyRecordId?: number
     source?: WorkSource
     author: string
     avatar?: string
@@ -806,6 +811,10 @@ export function mapDbStageProgress(row: {
     video_url: string | null
     ai_feedback: unknown
     updated_at: string | null
+    journey_record_id?: number | null
+    journey_record_visibility?: 'private' | 'public' | null
+    journey_record_status?: 'draft' | 'pending' | 'approved' | 'rejected' | null
+    journey_record_rejection_reason?: string | null
 }): StageProgress {
     const feedback = row.ai_feedback as Record<string, unknown> | null
     const aiFeedback: StageAiFeedback | null = feedback && typeof feedback === 'object'
@@ -826,6 +835,10 @@ export function mapDbStageProgress(row: {
         videoUrl: row.video_url || undefined,
         aiFeedback,
         updatedAt: row.updated_at || undefined,
+        journeyRecordId: row.journey_record_id ?? undefined,
+        journeyRecordVisibility: row.journey_record_visibility ?? undefined,
+        journeyRecordStatus: row.journey_record_status ?? undefined,
+        journeyRecordRejectionReason: row.journey_record_rejection_reason ?? null,
     }
 }
 
@@ -929,6 +942,7 @@ export function mapDbCompletion(
         projectId: dbCompletion.project_id,
         courseLessonId: dbCompletion.course_lesson_id ?? undefined,
         explorationId: dbCompletion.exploration_id ?? undefined,
+        journeyRecordId: dbCompletion.journey_record_id ?? undefined,
         author: dbCompletion.profiles?.display_name || 'Unknown',
         avatar: dbCompletion.profiles?.avatar_url || undefined,
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,

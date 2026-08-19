@@ -30,7 +30,7 @@ export async function POST(
 
     const { data: existing, error: existingError } = await supabase
       .from('challenge_submissions')
-      .select('id, user_id, challenge_id, status')
+      .select('id, user_id, challenge_id, status, journey_record_id')
       .eq('id', submissionId)
       .maybeSingle()
 
@@ -51,8 +51,9 @@ export async function POST(
         .eq('id', submissionId)
 
       if (updateError) throw updateError
-      await setContentModerationState('challenge_submission', submissionId, 'approved')
-
+      await setContentModerationState('challenge_submission', submissionId, 'approved', {
+        reviewedBy: actor.user.id,
+      })
       let evergreenCompletionRecorded = false
       try {
         evergreenCompletionRecorded = await handleEvergreenCompletion(
@@ -80,8 +81,10 @@ export async function POST(
       .eq('id', submissionId)
 
     if (updateError) throw updateError
-    await setContentModerationState('challenge_submission', submissionId, 'rejected')
-
+    await setContentModerationState('challenge_submission', submissionId, 'rejected', {
+      reviewedBy: actor.user.id,
+      rejectionReason,
+    })
     return NextResponse.json({
       message: 'Challenge submission rejected',
       status: 'rejected',
