@@ -1,4 +1,4 @@
-import { Badge, BadgeTier, UserStats } from "./types";
+import { Badge, BadgeDisplay, BadgeTier, UserStats } from "./types";
 
 export const TIER_RANK: Record<BadgeTier, number> = {
     bronze: 0,
@@ -228,16 +228,16 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         icon: "butterfly",
         getValue: (s) => s.insectRank ?? 0,
         thresholds: [1, 2, 3, 4, 5],
-        tierNames: ["D 级", "C 级", "B 级", "A 级", "S 级"],
+        tierNames: ["初识虫趣", "寻虫常客", "寻虫能手", "虫林专家", "昆虫传奇"],
         descriptionTemplate: (tier) => {
-            if (tier === "diamond") return "完成手册 S 级任一项挑战";
-            const rankByTier: Record<Exclude<BadgeTier, "diamond">, string> = {
-                bronze: "D",
-                silver: "C",
-                gold: "B",
-                platinum: "A",
+            if (tier === "diamond") return "完成任一项专属或神物挑战";
+            const rankLabelByTier: Record<Exclude<BadgeTier, "diamond">, string> = {
+                bronze: "初级",
+                silver: "进阶",
+                gold: "高级",
+                platinum: "专家",
             };
-            return `完成手册 ${rankByTier[tier]} 级任意一套九宫格`;
+            return `完成${rankLabelByTier[tier]}任意一套昆虫九宫格`;
         },
     },
     {
@@ -302,6 +302,14 @@ const RARE_BADGES: Badge[] = [
 
 export const BADGES: Badge[] = [...TIERED_BADGES, ...SINGLE_BADGES, ...RARE_BADGES];
 
+/**
+ * 公开徽章图鉴的客户端展示数据。徽章 condition 只用于服务端/客户端业务判定，
+ * 不能随 Server Component props 进入 RSC 序列化边界。
+ */
+export function getBadgeDisplayDefinitions(badges: Badge[]): BadgeDisplay[] {
+    return badges.map(({ condition: _condition, ...displayBadge }) => displayBadge);
+}
+
 export const PLAYGROUND_BADGE_SERIES_KEYS = ["playground_explorer", "playground_victories", "playground_star"] as const;
 export const PLAYGROUND_BADGE_COUNT =
     TIERED_BADGES.filter((badge) => badge.seriesKey === "playground_explorer" || badge.seriesKey === "playground_victories").length +
@@ -332,7 +340,7 @@ export function getSeriesThresholds(seriesKey: string) {
 }
 
 /** 未解锁的钻石档不出现在图鉴时间线，看起来像白金满级。 */
-export function getVisibleSeriesBadges(seriesBadges: Badge[], unlockedIds: Set<string>): Badge[] {
+export function getVisibleSeriesBadges<T extends BadgeDisplay>(seriesBadges: T[], unlockedIds: Set<string>): T[] {
     return seriesBadges.filter((badge) => {
         if (badge.tier !== "diamond") return true;
         if (!badge.seriesKey || !HIDDEN_DIAMOND_SERIES.has(badge.seriesKey)) return true;
@@ -343,7 +351,7 @@ export function getVisibleSeriesBadges(seriesBadges: Badge[], unlockedIds: Set<s
 /**
  * 阶梯系列在图鉴网格里只露一枚：已解锁取最高可见档，未解锁取铜档灰态。
  */
-export function getSeriesDisplayBadge(seriesBadges: Badge[], unlockedIds: Set<string>): Badge | null {
+export function getSeriesDisplayBadge<T extends BadgeDisplay>(seriesBadges: T[], unlockedIds: Set<string>): T | null {
     const visible = getVisibleSeriesBadges(seriesBadges, unlockedIds);
     if (visible.length === 0) return null;
 

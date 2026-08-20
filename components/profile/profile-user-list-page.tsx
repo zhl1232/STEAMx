@@ -6,10 +6,10 @@ import { ChevronLeft, Users } from 'lucide-react'
 
 import { FollowButton } from '@/components/features/social/follow-button'
 import { ProfileUserListSkeleton } from '@/components/features/profile/profile-user-list-skeleton'
-import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Button } from '@/components/ui/button'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { RoleBadge } from '@/components/ui/role-badge'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { logger } from '@/lib/logger'
 import { getNameColorClassName } from '@/lib/shop/items'
 import { cn } from '@/lib/utils'
@@ -117,11 +117,14 @@ export function ProfileUserListPage({
                   className="surface-panel block rounded-(--radius-lg) px-4 py-4 transition-transform hover:-translate-y-0.5"
                 >
                   <div className="flex items-start gap-4">
-                    <AvatarWithFrame
+                    <UserAvatar
+                      userId={profile.id}
+                      name={displayName}
                       src={profile.avatar_url}
                       alt={displayName}
                       fallback={displayName[0]?.toUpperCase() || 'U'}
                       avatarFrameId={profile.equipped_avatar_frame_id}
+                      href={null}
                       className="h-14 w-14"
                       avatarClassName="rounded-full object-cover"
                     />

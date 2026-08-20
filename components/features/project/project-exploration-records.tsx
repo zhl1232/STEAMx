@@ -5,6 +5,7 @@ import { ChevronRight, Heart, MessageCircle } from "lucide-react"
 import Link from "next/link"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import { getExplorationRecordHref } from "@/lib/project/exploration-record-links"
 import { formatCount } from "@/lib/project/format-count"
 import { cn } from "@/lib/utils"
@@ -42,19 +43,14 @@ function ExplorationRecordCard({
       <article>
         <div className="p-2.5">
           <div className="mb-2 flex items-center gap-2">
-            <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-green)/0.1)]">
-              {completion.avatar ? (
-                <OptimizedImage
-                  src={completion.avatar}
-                  alt={completion.author}
-                  fill
-                  variant="avatar"
-                  className="object-cover"
-                />
-              ) : (
-                <ExplorationRecordAvatarFallback author={completion.author} />
-              )}
-            </div>
+            <UserAvatar
+              userId={completion.userId}
+              name={completion.author}
+              src={completion.avatar}
+              avatarFrameId={completion.avatarFrameId}
+              href={null}
+              className="h-7 w-7 bg-[hsl(var(--brand-green)/0.1)]"
+            />
             <div className="min-w-0">
               <p className="truncate text-xs font-bold text-foreground">{completion.author}</p>
               <p className="text-[10px] leading-3 text-muted-foreground">{completion.completedAt}</p>
@@ -89,14 +85,6 @@ function ExplorationRecordCard({
         </div>
       </article>
     </Link>
-  )
-}
-
-function ExplorationRecordAvatarFallback({ author }: { author: string }) {
-  return (
-    <div className="grid h-full w-full place-items-center text-xs font-bold text-[hsl(var(--brand-green))]">
-      {author[0] || "?"}
-    </div>
   )
 }
 

@@ -36,6 +36,7 @@ export const ProfileSettingsUpdateSchema = z
       .nullable(),
     birth_month: z.string().regex(/^(?:[1-9]|1[0-2])$/, '出生月份无效').nullable(),
     avatar_url: avatarUrlSchema,
+    equipped_title: z.string().trim().max(30).nullable().optional(),
   })
   .superRefine((value, ctx) => {
     const hasBirthYear = Boolean(value.birth_year)
@@ -59,6 +60,7 @@ export const PROFILE_SETTINGS_DEFAULTS: ProfileSettingsUpdateInput = {
   birth_year: null,
   birth_month: null,
   avatar_url: DEFAULT_AVATAR_PATHS[0],
+  equipped_title: null,
 }
 
 export function toBirthDate(

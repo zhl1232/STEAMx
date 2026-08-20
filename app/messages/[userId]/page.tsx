@@ -6,12 +6,12 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Flag, X } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { ReportDialog } from "@/components/ui/report-dialog";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useAuth } from '@/lib/context/auth-context';
 import { useConversationMessages, useMarkConversationRead, useSendMessage } from "@/hooks/use-messages";
 import type { Message } from "@/lib/mappers/types";
@@ -192,10 +192,13 @@ export default function ConversationPage() {
     : null;
   const profileLinkLabel = `查看${displayName}的公开主页`;
   const peerAvatar = (
-    <Avatar className="h-9 w-9">
-      <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
-      <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
-    </Avatar>
+    <UserAvatar
+      userId={otherUserId}
+      name={displayName}
+      src={peer?.avatar_url}
+      href={null}
+      className="h-9 w-9"
+    />
   );
 
   return (
@@ -241,10 +244,13 @@ export default function ConversationPage() {
                 aria-label={profileLinkLabel}
                 className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
-                <Avatar className="h-11 w-11 shrink-0">
-                  <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
-                  <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  userId={otherUserId}
+                  name={displayName}
+                  src={peer?.avatar_url}
+                  href={null}
+                  className="h-11 w-11"
+                />
                 <div className="min-w-0">
                   <p className="section-kicker">私信会话</p>
                   <h1 className="mt-1 truncate text-2xl font-semibold tracking-tight">{displayName}</h1>
@@ -252,10 +258,13 @@ export default function ConversationPage() {
               </Link>
             ) : (
               <div className="flex min-w-0 items-center gap-3">
-                <Avatar className="h-11 w-11 shrink-0">
-                  <AvatarImage src={peer?.avatar_url ?? undefined} alt={displayName} />
-                  <AvatarFallback className="bg-primary/10">{displayName[0]}</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+                  userId={otherUserId}
+                  name={displayName}
+                  src={peer?.avatar_url}
+                  href={null}
+                  className="h-11 w-11"
+                />
                 <div className="min-w-0">
                   <p className="section-kicker">私信会话</p>
                   <h1 className="mt-1 truncate text-2xl font-semibold tracking-tight">{displayName}</h1>

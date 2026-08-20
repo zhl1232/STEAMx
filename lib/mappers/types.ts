@@ -546,6 +546,8 @@ export interface Profile {
     coins?: number
     equipped_avatar_frame_id?: string | null
     equipped_name_color_id?: string | null
+    equipped_title?: string | null
+    featured_badge_ids?: string[] | null
     role: 'user' | 'teacher' | 'moderator' | 'admin'
 }
 

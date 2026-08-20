@@ -3,11 +3,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
-import type { Badge, UserStats } from "@/lib/gamification/types";
+import type { BadgeDisplay, UserStats } from "@/lib/gamification/types";
 import { BadgeSeriesGallery, getLitSeriesCount, getTotalSeriesCount } from "./badge-series-gallery";
 
 interface BadgeGalleryDialogProps {
-    badges: Badge[];
+    badges: BadgeDisplay[];
     unlockedBadges: Set<string>;
     userBadgeDetails?: Map<string, { unlockedAt: string }>;
     userStats?: UserStats | null;

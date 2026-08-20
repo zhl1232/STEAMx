@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import type { Badge, UserStats } from "@/lib/gamification/types";
+import type { BadgeDisplay, UserStats } from "@/lib/gamification/types";
 import {
     SERIES_ORDER,
     getNextSeriesThreshold,
@@ -19,8 +19,8 @@ import { BadgeDetailDialog } from "./badge-detail-dialog";
 type GalleryMode = "all" | "unlocked" | "locked";
 type DetailSelection = { seriesKey: string; badgeId: string };
 
-function groupBadgesBySeries(badges: Badge[]) {
-    const map = new Map<string, Badge[]>();
+function groupBadgesBySeries(badges: BadgeDisplay[]) {
+    const map = new Map<string, BadgeDisplay[]>();
     for (const badge of badges) {
         const key = badge.seriesKey ?? "other";
         const list = map.get(key) ?? [];
@@ -30,7 +30,7 @@ function groupBadgesBySeries(badges: Badge[]) {
     return map;
 }
 
-function seriesIsLit(seriesBadges: Badge[], unlockedIds: Set<string>) {
+function seriesIsLit(seriesBadges: BadgeDisplay[], unlockedIds: Set<string>) {
     return getVisibleSeriesBadges(seriesBadges, unlockedIds).some((badge) => unlockedIds.has(badge.id));
 }
 
@@ -51,7 +51,7 @@ export function BadgeSeriesGallery({
     onlyUnlocked = false,
     className,
 }: {
-    badges: Badge[];
+    badges: BadgeDisplay[];
     unlockedBadges: Set<string>;
     userBadgeDetails?: Map<string, { unlockedAt: string }>;
     userStats?: UserStats | null;
@@ -80,7 +80,7 @@ export function BadgeSeriesGallery({
         () =>
             seriesStates.flatMap(({ key, fullSeries, lit }) => {
                 const cards = isLadderSeries(key)
-                    ? [getSeriesDisplayBadge(fullSeries, unlockedBadges)].filter((badge): badge is Badge => Boolean(badge))
+                    ? [getSeriesDisplayBadge(fullSeries, unlockedBadges)].filter((badge): badge is BadgeDisplay => Boolean(badge))
                     : getVisibleSeriesBadges(fullSeries, unlockedBadges);
 
                 return cards.map((badge) => ({
@@ -215,7 +215,7 @@ export function BadgeSeriesGallery({
     );
 }
 
-export function getLitSeriesCount(badges: Badge[], unlockedBadges: Set<string>) {
+export function getLitSeriesCount(badges: BadgeDisplay[], unlockedBadges: Set<string>) {
     const grouped = groupBadgesBySeries(badges);
     return getOrderedSeriesKeys(grouped).filter((key) => {
         const series = grouped.get(key) ?? [];
@@ -223,12 +223,12 @@ export function getLitSeriesCount(badges: Badge[], unlockedBadges: Set<string>) 
     }).length;
 }
 
-export function getTotalSeriesCount(badges: Badge[]) {
+export function getTotalSeriesCount(badges: BadgeDisplay[]) {
     const grouped = groupBadgesBySeries(badges);
     return getOrderedSeriesKeys(grouped).filter((key) => (grouped.get(key) ?? []).length > 0).length;
 }
 
-function getOrderedSeriesKeys(grouped: Map<string, Badge[]>) {
+function getOrderedSeriesKeys(grouped: Map<string, BadgeDisplay[]>) {
     return [
         ...SERIES_ORDER.map(({ key }) => key),
         ...Array.from(grouped.keys()).filter((key) => !SERIES_ORDER.some((item) => item.key === key)),

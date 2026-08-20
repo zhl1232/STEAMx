@@ -54,8 +54,15 @@ vi.mock("@/components/features/project/tip-project-dialog", () => ({
   TipProjectDialog: () => null,
 }))
 
-vi.mock("@/components/ui/avatar-with-frame", () => ({
-  AvatarWithFrame: () => <div />,
+vi.mock("@/components/ui/user-avatar", () => ({
+  UserAvatar: ({ userId, name, alt }: { userId?: string; name?: string; alt?: string }) =>
+    userId ? (
+      <a href={`/users/${userId}`} aria-label={`查看${alt || name || "用户"}的个人主页`}>
+        {name}
+      </a>
+    ) : (
+      <div />
+    ),
 }))
 
 vi.mock("@/lib/context/auth-context", () => ({
@@ -123,6 +130,15 @@ describe("WorkDetail sharing", () => {
 })
 
 describe("WorkDetail content and support actions", () => {
+  it("links the author avatar to the author's public profile", () => {
+    render(<WorkDetail work={work} canShare={false} />)
+
+    expect(screen.getByRole("link", { name: "查看小明的个人主页" })).toHaveAttribute(
+      "href",
+      "/users/owner-1",
+    )
+  })
+
   it("names the actual destination for project work navigation", () => {
     render(<WorkDetail work={work} canShare={false} />)
 

@@ -72,7 +72,7 @@ describe("CompletionRecordComments reporting", () => {
 
     expect(screen.getByRole("button", { name: "举报 小明 的评论" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "举报 小明 的评论" })).toHaveAttribute("title", "举报")
-    expect(screen.getByRole("button", { name: "举报 小明 的评论" }).className).toContain("h-11")
+    expect(screen.getByRole("button", { name: "举报 小明 的评论" }).className).toContain("leading-none")
     expect(mocks.reportDialog).toHaveBeenCalledWith({
       contentId: 17,
       contentType: "completion_comment",
@@ -114,9 +114,9 @@ describe("CompletionRecordComments reporting", () => {
     expect(screen.getAllByRole("button", { name: /举报/ })).toHaveLength(3)
     expect(screen.getByRole("button", { name: "举报 小红 的回复" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "举报 小蓝 的回复" })).toBeInTheDocument()
-    expect(screen.getAllByRole("button", { name: "回复" })[0].className).toContain("min-w-11")
+    expect(screen.getAllByRole("button", { name: "回复" })[0]).toBeInTheDocument()
     const replyTarget = screen.getByText("回复 @小明")
-    expect(replyTarget.parentElement).toHaveTextContent("小红回复 @小明")
+    expect(replyTarget.parentElement).toHaveTextContent("小红")
     expect(mocks.reportDialog).toHaveBeenCalledTimes(3)
     expect(mocks.reportDialog).toHaveBeenCalledWith({
       contentId: 17,

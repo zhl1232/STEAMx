@@ -73,7 +73,7 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
       href={href}
       prefetch={false}
       aria-label={ariaLabel}
-      className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border/80 bg-card shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
         {image ? (
@@ -90,14 +90,14 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
         )}
         {work.status !== "approved" ? (
           <span className={cn(
-            "absolute right-2 top-2 rounded-xs px-2 py-1 text-[10px] font-semibold",
+            "absolute right-2 top-2 rounded-xs px-2 py-1 text-[10px] font-semibold shadow-xs",
             work.status === "rejected" ? "bg-destructive text-destructive-foreground" : "bg-[hsl(var(--brand-amber))] text-[hsl(var(--brand-amber-foreground))]",
           )}>
             {work.status === "rejected" ? "未通过" : "审核中"}
           </span>
         ) : null}
       </div>
-      <div className="flex flex-col gap-1.5 px-3 pt-2 pb-2.5">
+      <div className="flex flex-col gap-1.5 px-3 pt-2.5 pb-2.5">
         <div className="flex min-w-0 items-center gap-1.5">
           <span
             className={cn(
@@ -109,16 +109,16 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
           </span>
           <h3 className="min-w-0 truncate text-sm font-bold leading-5 text-foreground">{title}</h3>
         </div>
-        <div className="flex min-w-0 items-center gap-2">
-          <p className="min-w-0 flex-1 truncate text-[11px] font-medium text-muted-foreground/90">
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <p className="min-w-0 flex-1 truncate text-[11px] font-medium text-muted-foreground/80">
             {context || "\u00a0"}
           </p>
-          <div className="flex shrink-0 items-center gap-2 text-[11px] text-muted-foreground/90">
-            <span className="inline-flex items-center gap-0.5" title="点赞数">
+          <div className="flex shrink-0 items-center gap-2.5 text-[11px] font-medium text-muted-foreground/75">
+            <span className="inline-flex items-center gap-1 transition-colors hover:text-foreground" title="点赞数">
               <Heart className="h-3 w-3" />
               {work.likes}
             </span>
-            <span className="inline-flex items-center gap-0.5" title="留言数">
+            <span className="inline-flex items-center gap-1 transition-colors hover:text-foreground" title="留言数">
               <MessageCircle className="h-3 w-3" />
               {work.commentsCount ?? 0}
             </span>

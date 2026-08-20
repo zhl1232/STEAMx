@@ -191,7 +191,7 @@ function MobileNatureHeader({ submitHref }: { submitHref: string }) {
 
 function NatureHeroPanel({ submitHref }: { submitHref: string }) {
   return (
-    <section className="nature-hero-panel min-h-[220px] md:min-h-[360px] lg:min-h-[374px]">
+    <section className="nature-hero-panel min-h-[148px] min-[390px]:min-h-[160px] md:min-h-[360px] lg:min-h-[374px]">
       <Image
         src={heroImage}
         alt=""
@@ -199,15 +199,18 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
         priority
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
-        className="object-cover object-[center_36%] dark:brightness-75 md:object-center"
+        className="object-cover object-[center_36%] dark:brightness-90 md:object-center"
         sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
       />
-      <div className="relative z-10 flex min-h-[220px] flex-col justify-end p-4 text-white min-[390px]:min-h-[232px] md:min-h-[360px] md:justify-between md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
+      {/* 极轻量底部渐变：保持画面 80% 区域明媚通透，仅底部留有微弱文字保护 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent md:from-black/70 md:via-black/20 md:to-transparent" />
+
+      <div className="relative z-10 flex min-h-[148px] flex-col justify-end p-3.5 text-white min-[390px]:min-h-[160px] min-[390px]:p-4 md:min-h-[360px] md:justify-between md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
         <div>
           <h1 className="hidden text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:block md:text-[58px] lg:text-[62px]">
             自然观察
           </h1>
-          <p className="max-w-md text-[15px] font-semibold leading-6 text-white/96 [text-shadow:0_2px_5px_rgba(0,0,0,0.7)] line-clamp-2 md:mt-4 md:max-w-3xl md:text-[22px] md:leading-7">
+          <p className="text-[13px] font-bold leading-snug text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.85)] min-[390px]:text-[14px] md:mt-4 md:max-w-3xl md:text-[22px] md:font-semibold md:leading-7 md:text-white/96">
             记录身边的生命，和社区一起守护环境
           </p>
           <Button

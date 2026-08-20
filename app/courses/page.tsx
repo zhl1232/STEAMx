@@ -32,8 +32,8 @@ export default async function CoursesPage() {
     return (
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
-            <main className="app-shell-wide pb-28 pt-4 md:py-6">
-                <header className="mb-5 flex flex-wrap items-end justify-between gap-3 px-1">
+            <main className="app-shell-wide pb-28 pt-2 md:py-6">
+                <header className="mb-5 hidden flex-wrap items-end justify-between gap-3 px-1 md:flex">
                     <div className="min-w-0">
                         <h1 className="text-2xl font-black text-foreground">挑一项技能，做一件作品</h1>
                         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
@@ -48,13 +48,11 @@ export default async function CoursesPage() {
                         <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                 </header>
-                <div className="surface-panel overflow-hidden">
-                    {courses ? (
-                        <CourseBoard courses={courses} />
-                    ) : (
-                        <CourseBoardError retryHref="/courses" />
-                    )}
-                </div>
+                {courses ? (
+                    <CourseBoard courses={courses} />
+                ) : (
+                    <CourseBoardError retryHref="/courses" />
+                )}
             </main>
         </div>
     );

@@ -78,6 +78,7 @@ export default function ProfileSettingsClient() {
         birth_year: payload.birth_year,
         birth_month: payload.birth_month,
         avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
+        equipped_title: payload.equipped_title ?? null,
       });
     } catch (error) {
       logger.error(error, { context: "load profile settings" });
@@ -175,6 +176,7 @@ export default function ProfileSettingsClient() {
         birth_year: payload.birth_year,
         birth_month: payload.birth_month,
         avatar_url: payload.avatar_url || PROFILE_SETTINGS_DEFAULTS.avatar_url,
+        equipped_title: payload.equipped_title ?? null,
       });
       await refreshProfile();
       router.refresh();
@@ -291,6 +293,33 @@ export default function ProfileSettingsClient() {
                     {form.bio.length}/30
                   </span>
                 </div>
+              </div>
+
+              <div className="grid gap-2">
+                <div className="flex items-center justify-between gap-3">
+                  <Label htmlFor="equipped_title">主页称号</Label>
+                  <span className="text-xs text-muted-foreground">在公开主页与评论展示</span>
+                </div>
+                <Select
+                  value={form.equipped_title ?? "auto"}
+                  onValueChange={(value) =>
+                    updateField("equipped_title", value === "auto" ? null : value)
+                  }
+                  disabled={isSaving}
+                >
+                  <SelectTrigger id="equipped_title" className="h-11">
+                    <SelectValue placeholder="系统自动推荐" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">系统自动推荐 (按最高成就)</SelectItem>
+                    <SelectItem value="none">隐藏称号</SelectItem>
+                    {form.equipped_title && form.equipped_title !== "none" ? (
+                      <SelectItem value={form.equipped_title}>
+                        {form.equipped_title} (当前佩戴)
+                      </SelectItem>
+                    ) : null}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </section>

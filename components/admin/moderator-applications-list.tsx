@@ -16,7 +16,7 @@ import { createClient } from "@/lib/supabase/client";
 import { getApiErrorMessage } from "@/lib/utils/http";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -370,10 +370,12 @@ export function ModeratorApplicationsList() {
                             >
                                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                                     <div className="flex min-w-0 gap-4">
-                                        <Avatar className="h-14 w-14 shrink-0 border-2 border-background shadow-xs">
-                                            <AvatarImage src={app.profiles?.avatar_url || undefined} />
-                                            <AvatarFallback>{displayName.slice(0, 1)}</AvatarFallback>
-                                        </Avatar>
+                                        <UserAvatar
+                                            userId={app.user_id}
+                                            name={displayName}
+                                            src={app.profiles?.avatar_url}
+                                            className="h-14 w-14 shrink-0 border-2 border-background shadow-xs"
+                                        />
                                         <div className="min-w-0">
                                             <div className="flex flex-wrap items-center gap-2">
                                                 <h3 className="truncate text-xl font-semibold tracking-tight">{displayName}</h3>

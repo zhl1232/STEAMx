@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ChevronRight, Heart, Layers3, MessageCircle } from "lucide-react"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import { useRelativeTimeLabel } from "@/hooks/use-relative-time-label"
 import { formatCount } from "@/lib/project/format-count"
 import type { ExplorationRecordGroup } from "@/lib/project/group-exploration-records"
@@ -78,21 +79,14 @@ export function ExplorationRecordGroupCard({
           className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[hsl(var(--brand-green)/0.48)]"
         >
           <header className="flex items-center gap-2.5 px-3.5 py-3">
-            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-green)/0.1)]">
-              {group.avatar ? (
-                <OptimizedImage
-                  src={group.avatar}
-                  alt={group.author}
-                  fill
-                  variant="avatar"
-                  className="object-cover"
-                />
-              ) : (
-                <div className="grid h-full w-full place-items-center text-sm font-bold text-[hsl(var(--brand-green))]">
-                  {group.author[0] || "?"}
-                </div>
-              )}
-            </div>
+            <UserAvatar
+              userId={group.userId}
+              name={group.author}
+              src={group.avatar}
+              avatarFrameId={group.avatarFrameId}
+              href={null}
+              className="h-9 w-9 bg-[hsl(var(--brand-green)/0.1)]"
+            />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <p className="truncate text-sm font-bold text-foreground">{group.author}</p>

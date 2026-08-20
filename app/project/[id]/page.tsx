@@ -25,6 +25,7 @@ import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
 import { ProjectCourseLink } from '@/components/features/project/project-course-link'
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
 import { ProjectDetailStickyBar } from '@/components/features/project/project-detail-sticky-bar'
 import { ProjectHeroGallery } from '@/components/features/project/project-hero-gallery'
@@ -182,6 +183,7 @@ interface ProjectAuthorSummary {
   id: string
   name: string
   avatarUrl?: string | null
+  avatarFrameId?: string | null
   bio?: string | null
   level: number
   projectsCount: number
@@ -203,7 +205,7 @@ async function getProjectAuthorSummary(
   const [profileResponse, projectsCountResponse, followersResponse, likesResponse] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, display_name, avatar_url, bio, xp')
+      .select('id, display_name, avatar_url, equipped_avatar_frame_id, bio, xp')
       .eq('id', authorId)
       .maybeSingle(),
     supabase
@@ -228,6 +230,7 @@ async function getProjectAuthorSummary(
     id: string
     display_name?: string | null
     avatar_url?: string | null
+    equipped_avatar_frame_id?: string | null
     bio?: string | null
     xp?: number | null
   } | null
@@ -239,6 +242,7 @@ async function getProjectAuthorSummary(
     id: authorId,
     name: profile?.display_name || fallbackName || '项目作者',
     avatarUrl: profile?.avatar_url,
+    avatarFrameId: profile?.equipped_avatar_frame_id,
     bio: profile?.bio,
     level: getLevelFromXp(profile?.xp),
     projectsCount: projectsCountResponse.count || 0,
@@ -511,21 +515,14 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
     return (
       <section className="surface-panel flex items-center justify-between gap-3 rounded-md px-4 py-3">
         <Link href={`/users/${author.id}`} className="flex min-w-0 items-center gap-3">
-          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-blue)/0.1)]">
-            {author.avatarUrl ? (
-              <OptimizedImage
-                src={author.avatarUrl}
-                alt={author.name}
-                fill
-                variant="avatar"
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-sm font-bold text-[hsl(var(--brand-blue))]">
-                {author.name[0] || '作'}
-              </div>
-            )}
-          </div>
+          <UserAvatar
+            userId={author.id}
+            name={author.name}
+            src={author.avatarUrl}
+            avatarFrameId={author.avatarFrameId}
+            href={null}
+            className="h-10 w-10 border-2 border-background bg-[hsl(var(--brand-blue)/0.1)] shadow-xs"
+          />
           <div className="min-w-0">
             <div className="flex min-w-0 items-center gap-2">
               <p className="truncate text-sm font-bold text-foreground">{author.name}</p>
@@ -552,21 +549,14 @@ function ProjectAuthorCard({ author, compact = false }: { author: ProjectAuthorS
 
       <div className="mt-4 flex items-center justify-between gap-3">
         <Link href={`/users/${author.id}`} className="flex min-w-0 items-center gap-3">
-          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-blue)/0.1)]">
-            {author.avatarUrl ? (
-              <OptimizedImage
-                src={author.avatarUrl}
-                alt={author.name}
-                fill
-                variant="avatar"
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-base font-bold text-[hsl(var(--brand-blue))]">
-                {author.name[0] || '作'}
-              </div>
-            )}
-          </div>
+          <UserAvatar
+            userId={author.id}
+            name={author.name}
+            src={author.avatarUrl}
+            avatarFrameId={author.avatarFrameId}
+            href={null}
+            className="h-12 w-12 border-2 border-background bg-[hsl(var(--brand-blue)/0.1)] shadow-xs"
+          />
           <div className="min-w-0">
             <div className="flex min-w-0 items-center gap-2">
               <p className="truncate text-sm font-bold text-foreground">{author.name}</p>
@@ -947,6 +937,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                           id: authorSummary.id,
                           name: authorSummary.name,
                           avatarUrl: authorSummary.avatarUrl,
+                          avatarFrameId: authorSummary.avatarFrameId,
                           level: authorSummary.level,
                         }
                       : null

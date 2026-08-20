@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { OptimizedImage } from '@/components/ui/optimized-image'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { CheckCircle2, Clock3, Eye, ImageIcon, XCircle } from 'lucide-react'
 
@@ -273,9 +274,13 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                       <div>
                         <span className="text-muted-foreground">作者:</span>
                         <div className="flex items-center gap-2 mt-1">
-                          {completion.profiles?.avatar_url && (
-                            <OptimizedImage src={completion.profiles.avatar_url} width={20} height={20} alt="avatar" variant="avatar" className="rounded-full" />
-                          )}
+                          <UserAvatar
+                            userId={completion.user_id}
+                            name={authorName}
+                            src={completion.profiles?.avatar_url}
+                            className="h-5 w-5"
+                            avatarClassName="ring-0"
+                          />
                           <span>{authorName}</span>
                         </div>
                       </div>

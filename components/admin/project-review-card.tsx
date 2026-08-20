@@ -7,12 +7,14 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { OptimizedImage } from '@/components/ui/optimized-image'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { CheckCircle2, Clock3, Eye, XCircle } from 'lucide-react'
 
 // 定义与 page.tsx 对应的接口
 interface Project {
   id: number
+  author_id: string
   title: string
   description: string
   category: string
@@ -279,9 +281,13 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                         <div className="space-y-1">
                           <span className="text-muted-foreground">作者:</span>
                           <div className="flex items-center gap-2">
-                            {project.profiles.avatar_url && (
-                              <OptimizedImage src={project.profiles.avatar_url} width={20} height={20} alt="avatar" variant="avatar" className="rounded-full" />
-                            )}
+                            <UserAvatar
+                              userId={project.author_id}
+                              name={project.profiles.display_name}
+                              src={project.profiles.avatar_url}
+                              className="h-5 w-5"
+                              avatarClassName="ring-0"
+                            />
                             <span>{project.profiles.display_name}</span>
                           </div>
                         </div>

@@ -11,10 +11,10 @@ import {
   Send,
 } from "lucide-react"
 
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import {
   Sheet,
   SheetContent,
@@ -46,7 +46,6 @@ import {
   type CompareSpeciesTarget,
 } from "@/components/features/bird-observation/observation-species-compare-sheet"
 import { natureActionButtonClass } from "@/lib/nature/action-buttons"
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
 import {
@@ -107,12 +106,6 @@ function initials(name: string | null | undefined): string {
   const trimmed = name?.trim()
   if (!trimmed) return "?"
   return trimmed.slice(0, 1).toUpperCase()
-}
-
-function resolveUserAvatarUrl(avatarUrl: string | null | undefined, userId: string | null | undefined): string | undefined {
-  if (avatarUrl) return avatarUrl
-  if (userId) return getDefaultAvatarPath(userId)
-  return undefined
 }
 
 function formatIdentificationTraits(identification: ObservationIdentification): string | null {
@@ -770,8 +763,10 @@ function ActivityTimelineItem({
     return (
       <li className="relative flex gap-3 pb-6 pl-1">
         {!isLast ? <span className="absolute bottom-0 left-[18px] top-11 w-px bg-border/60" aria-hidden /> : null}
-        <AvatarWithFrame
-          src={resolveUserAvatarUrl(comment.avatar, comment.userId)}
+        <UserAvatar
+          userId={comment.userId}
+          name={comment.author}
+          src={comment.avatar}
           alt={comment.author}
           fallback={initials(comment.author)}
           avatarFrameId={comment.avatarFrameId}
@@ -812,8 +807,10 @@ function ActivityTimelineItem({
           />
         </span>
       ) : (
-        <AvatarWithFrame
-          src={resolveUserAvatarUrl(identification.identifierAvatarUrl, identification.identifierUserId)}
+        <UserAvatar
+          userId={identification.identifierUserId}
+          name={identification.identifierDisplayName || (isOwner ? "发布者" : "社区用户")}
+          src={identification.identifierAvatarUrl}
           alt={identification.identifierDisplayName || (isOwner ? "发布者" : "社区用户")}
           fallback={initials(identification.identifierDisplayName)}
           avatarFrameId={identification.identifierAvatarFrameId}

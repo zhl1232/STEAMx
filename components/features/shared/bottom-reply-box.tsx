@@ -5,11 +5,10 @@ import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { ImagePlus, X, Loader2 } from "lucide-react";
 import { uploadCommentImage, CommentImageError } from "@/lib/comment-image";
 import { useToast } from "@/hooks/use-toast";
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { cn } from "@/lib/utils";
 import type { Profile, ReplyTarget } from "@/lib/mappers/types";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -168,8 +167,11 @@ export const BottomReplyBox = React.memo(function BottomReplyBox({
     <div className={wrapperClass}>
       <div className="max-w-4xl mx-auto w-full">
         <div className={cn("flex gap-3", isExpanded ? "items-start" : "items-center")}>
-          <AvatarWithFrame
-            src={profile?.avatar_url || getDefaultAvatarPath(user?.id)}
+          <UserAvatar
+            userId={user?.id}
+            name={profile?.display_name}
+            src={profile?.avatar_url}
+            href={null}
             fallback={profile?.display_name?.[0]?.toUpperCase() || "U"}
             avatarFrameId={profile?.equipped_avatar_frame_id}
             className={cn("border shadow-xs shrink-0", isExpanded ? "h-9 w-9 mt-0.5" : "h-8 w-8")}

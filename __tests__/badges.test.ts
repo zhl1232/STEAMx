@@ -1,5 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import { BADGES, PLAYGROUND_BADGE_COUNT, getSeriesDisplayBadge, getVisibleSeriesBadges } from '../lib/gamification/badges'
+import {
+    BADGES,
+    PLAYGROUND_BADGE_COUNT,
+    getBadgeDisplayDefinitions,
+    getSeriesDisplayBadge,
+    getVisibleSeriesBadges,
+} from '../lib/gamification/badges'
 import { UserStats } from '../lib/gamification/types'
 
 const createStats = (overrides: Partial<UserStats> = {}): UserStats => ({
@@ -325,6 +331,19 @@ describe("Badge System Logic (Dynamic Badges)", () => {
 
         const withDiamond = getSeriesDisplayBadge(insect, new Set(["insect_rank_diamond"]));
         expect(withDiamond?.id).toBe("insect_rank_diamond");
+    });
+
+    test("public badge definitions contain only serializable display fields", () => {
+        const [displayBadge] = getBadgeDisplayDefinitions(BADGES.slice(0, 1));
+
+        expect(displayBadge).toMatchObject({
+            id: expect.any(String),
+            name: expect.any(String),
+            description: expect.any(String),
+            icon: expect.any(String),
+        });
+        expect(displayBadge).not.toHaveProperty("condition");
+        expect(() => JSON.stringify(displayBadge)).not.toThrow();
     });
 
     test("playground badge count follows the active playground badge series", () => {

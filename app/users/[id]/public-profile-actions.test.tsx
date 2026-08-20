@@ -142,4 +142,29 @@ describe('PublicProfileActions', () => {
     expect(screen.getByRole('button', { name: '你已被该用户屏蔽' })).toBeDisabled()
     expect(screen.getByRole('button', { name: '你已被该用户屏蔽，无法发送私信' })).toBeDisabled()
   })
+
+  it('renders edit profile and share buttons when viewing own profile', () => {
+    mockUser = { id: '11111111-1111-1111-1111-111111111111' }
+
+    render(
+      <PublicProfileActions
+        targetUserId="11111111-1111-1111-1111-111111111111"
+        messagePrivacy="everyone"
+      />,
+    )
+
+    expect(screen.getByRole('link', { name: /编辑资料/ })).toHaveAttribute('href', '/settings/profile')
+    expect(screen.getByRole('button', { name: /分享主页/ })).toBeInTheDocument()
+  })
+
+  it('renders more options menu button for other users', () => {
+    render(
+      <PublicProfileActions
+        targetUserId="22222222-2222-2222-2222-222222222222"
+        messagePrivacy="everyone"
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: /更多操作/ })).toBeInTheDocument()
+  })
 })

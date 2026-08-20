@@ -7,6 +7,7 @@ interface DifficultyStarsProps {
     size?: "xs" | "sm" | "md" | "lg"
     showLabel?: boolean
     tone?: "default" | "white"
+    responsive?: boolean
     className?: string
 }
 
@@ -31,24 +32,63 @@ export function DifficultyStars({
     size = "sm",
     showLabel = false,
     tone = "default",
+    responsive = false,
     className
 }: DifficultyStarsProps) {
     // 确保星级在 1-6 范围内
     const validStars = Math.max(1, Math.min(6, stars))
     const isLegendary = validStars === 6
-    const filledClass = tone === "white" ? "text-yellow-400" : "text-yellow-500"
-    const emptyClass = tone === "white" ? "text-white/40" : "text-gray-300 dark:text-gray-600"
+    const filledClass = tone === "white" ? "text-amber-400" : "text-amber-500"
+    const emptyClass = tone === "white" ? "text-white/28" : "text-gray-300 dark:text-gray-600"
 
     if (isLegendary) {
         // 6 星传说级 - 特殊样式
         return (
             <div className={cn("inline-flex items-center", SIZE_CLASSES[size], className)}>
                 <span className={cn("animate-pulse", tone === "white" ? "text-white" : "text-purple-500")} title="传说级">💫</span>
-                {showLabel && (
+                {showLabel ? (
                     <span className={cn("ml-1 font-medium", tone === "white" ? "text-white" : "text-purple-500")}>
                         {DIFFICULTY_LABELS[6]}
                     </span>
-                )}
+                ) : responsive ? (
+                    <span className={cn("ml-0.5 text-[10px] font-bold sm:hidden", tone === "white" ? "text-white" : "text-purple-500")}>
+                        传说
+                    </span>
+                ) : null}
+            </div>
+        )
+    }
+
+    if (responsive) {
+        return (
+            <div className={cn("inline-flex items-center", SIZE_CLASSES[size], className)}>
+                {/* 移动端：极简单星 + 数字，干净利落绝不发脏 */}
+                <span className="flex items-center gap-0.5 leading-none sm:hidden">
+                    <span className={filledClass}>★</span>
+                    <span className={cn("text-[10px] font-bold leading-none tracking-tight", tone === "white" ? "text-white" : "text-foreground")}>
+                        {validStars}
+                    </span>
+                </span>
+
+                {/* 桌面端：完整 5 颗星 */}
+                <span className="hidden items-center gap-0.5 sm:inline-flex">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <span
+                            key={index}
+                            className={cn(
+                                "transition-colors",
+                                index < validStars ? filledClass : emptyClass
+                            )}
+                        >
+                            ★
+                        </span>
+                    ))}
+                    {showLabel && (
+                        <span className={cn("ml-1", tone === "white" ? "text-white/90" : "text-muted-foreground")}>
+                            {DIFFICULTY_LABELS[validStars]}
+                        </span>
+                    )}
+                </span>
             </div>
         )
     }

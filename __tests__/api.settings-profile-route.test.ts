@@ -93,6 +93,7 @@ describe('/api/settings/profile', () => {
         birth_date: '2002-07-01',
         avatar_url: '/avatars/default-3.svg',
         last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/last.png',
+        equipped_title: null,
       },
       error: null,
     })
@@ -121,6 +122,7 @@ describe('/api/settings/profile', () => {
         birth_month: '7',
         avatar_url: '/avatars/default-3.svg',
         last_uploaded_avatar_url: 'https://example.com/storage/v1/object/public/avatars/user-1/last.png',
+        equipped_title: null,
       },
     })
   })

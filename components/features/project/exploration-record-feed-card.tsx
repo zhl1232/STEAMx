@@ -6,6 +6,7 @@ import { ChevronRight, Heart, MessageCircle } from "lucide-react"
 import Link from "next/link"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import {
   CompletionRecordComments,
   CompletionRecordCommentsPreview,
@@ -277,14 +278,12 @@ export function ExplorationRecordFeedCard({
 
 function ExplorationRecordAvatar({ completion }: { completion: ProjectCompletion }) {
   return (
-    <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[hsl(var(--brand-green)/0.1)]">
-      {completion.avatar ? (
-        <OptimizedImage src={completion.avatar} alt={completion.author} fill variant="avatar" className="object-cover" />
-      ) : (
-        <div className="grid h-full w-full place-items-center text-sm font-bold text-[hsl(var(--brand-green))]">
-          {completion.author[0] || "?"}
-        </div>
-      )}
-    </div>
+    <UserAvatar
+      userId={completion.userId}
+      name={completion.author}
+      src={completion.avatar}
+      avatarFrameId={completion.avatarFrameId}
+      className="h-9 w-9 bg-[hsl(var(--brand-green)/0.1)]"
+    />
   )
 }

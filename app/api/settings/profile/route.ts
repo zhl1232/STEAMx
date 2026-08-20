@@ -15,7 +15,7 @@ import type { Database } from '@/lib/supabase/types'
 
 type ProfileSettingsRow = Pick<
   Database['public']['Tables']['profiles']['Row'],
-  'username' | 'display_name' | 'bio' | 'gender' | 'birth_date' | 'avatar_url' | 'last_uploaded_avatar_url'
+  'username' | 'display_name' | 'bio' | 'gender' | 'birth_date' | 'avatar_url' | 'last_uploaded_avatar_url' | 'equipped_title'
 >
 
 type ProfileAvatarOwnershipRow = Pick<
@@ -30,7 +30,7 @@ export async function GET() {
     const user = await requireAuth(supabase)
     const { data, error } = await supabase
       .from('profiles')
-      .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url')
+      .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url, equipped_title')
       .eq('id', user.id)
       .maybeSingle()
 
@@ -55,6 +55,7 @@ export async function GET() {
         birth_month: birthMonth,
         avatar_url: row.avatar_url,
         last_uploaded_avatar_url: row.last_uploaded_avatar_url ?? null,
+        equipped_title: row.equipped_title ?? null,
       },
     })
   } catch (error) {
@@ -131,6 +132,10 @@ export async function PATCH(request: NextRequest) {
       updated_at: new Date().toISOString(),
     }
 
+    if (payload.equipped_title !== undefined) {
+      updatePayload.equipped_title = payload.equipped_title
+    }
+
     if (isCustomUpload) {
       updatePayload.last_uploaded_avatar_url = payload.avatar_url
     }
@@ -139,7 +144,7 @@ export async function PATCH(request: NextRequest) {
       .from('profiles')
       .update(updatePayload)
       .eq('id', user.id)
-      .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url')
+      .select('username, display_name, bio, gender, birth_date, avatar_url, last_uploaded_avatar_url, equipped_title')
       .maybeSingle()
 
     if (error) {
@@ -165,6 +170,7 @@ export async function PATCH(request: NextRequest) {
         birth_month: birthMonth,
         avatar_url: row.avatar_url,
         last_uploaded_avatar_url: row.last_uploaded_avatar_url ?? null,
+        equipped_title: row.equipped_title ?? null,
       },
     })
   } catch (error) {

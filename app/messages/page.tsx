@@ -15,9 +15,9 @@ import {
 } from "lucide-react";
 
 import { FollowButton } from "@/components/features/social/follow-button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useAuth } from '@/lib/context/auth-context';
 import { useNotifications, type Notification } from '@/lib/context/notification-context';
 import { useConversations } from "@/hooks/use-messages";
@@ -305,12 +305,13 @@ function MessagesContent() {
                           onClick={() => handleNotificationClick(notification)}
                         >
                           {notification.from_username ? (
-                            <Avatar className="h-11 w-11 shrink-0">
-                              <AvatarImage src={notification.from_avatar ?? undefined} alt={notification.from_username} />
-                              <AvatarFallback className="bg-primary/10">
-                                {notification.from_username[0]}
-                              </AvatarFallback>
-                            </Avatar>
+                            <UserAvatar
+                              userId={notification.from_user_id}
+                              name={notification.from_username}
+                              src={notification.from_avatar}
+                              href={null}
+                              className="h-11 w-11 shrink-0"
+                            />
                           ) : (
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                               <MessageSquare className="h-5 w-5" />
@@ -391,12 +392,13 @@ function MessagesContent() {
                     href={`/messages/${conversation.peerId}`}
                     className="surface-card flex items-center gap-3 px-4 py-4 transition-colors hover:bg-muted/55 active:bg-muted/75"
                   >
-                    <Avatar className="h-12 w-12 shrink-0">
-                      <AvatarImage src={conversation.avatarUrl ?? undefined} alt={conversation.displayName ?? ""} />
-                      <AvatarFallback className="bg-primary/10">
-                        {(conversation.displayName || conversation.peerId.slice(0, 2))[0]}
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar
+                      userId={conversation.peerId}
+                      name={conversation.displayName || conversation.peerId.slice(0, 2)}
+                      src={conversation.avatarUrl}
+                      href={null}
+                      className="h-12 w-12 shrink-0"
+                    />
                     <div className="min-w-0 flex-1">
                       <div className="flex min-w-0 items-center gap-2">
                         <p className="truncate font-medium text-foreground">{conversation.displayName || "用户"}</p>

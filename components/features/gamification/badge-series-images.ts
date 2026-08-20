@@ -67,13 +67,18 @@ const SINGLE_IMAGE_BY_ICON: Record<string, string> = {
   zap: "single-zap",
 };
 
+// The nature badge artwork was corrected to use transparent PNGs. Keep the
+// asset URL versioned so a long-lived Next image cache cannot serve the old
+// black-background files after deployment.
+const BADGE_ASSET_VERSION = "20260820-transparent";
+
 export function getBadgeSeriesImage(seriesKey?: string, tier?: string, icon?: string) {
   if (!tier && icon) {
     const singleImage = SINGLE_IMAGE_BY_ICON[icon];
-    if (singleImage) return `/assets/badges/series/${singleImage}.png`;
+    if (singleImage) return `/assets/badges/series/${singleImage}.png?v=${BADGE_ASSET_VERSION}`;
   }
 
   if (!seriesKey) return null;
   const image = SERIES_IMAGE_BY_KEY[seriesKey];
-  return image ? `/assets/badges/series/${image}-${tier ?? "bronze"}.png` : null;
+  return image ? `/assets/badges/series/${image}-${tier ?? "bronze"}.png?v=${BADGE_ASSET_VERSION}` : null;
 }

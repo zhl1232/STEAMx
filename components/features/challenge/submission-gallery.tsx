@@ -5,11 +5,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Clock3, ExternalLink, Star, X } from 'lucide-react'
 
 import { RatingStars } from './rating-stars'
-import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { OptimizedImage } from '@/components/ui/optimized-image'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { useAuth } from '@/lib/context/auth-context'
 import type { ChallengeSubmission } from '@/lib/mappers/types'
 
@@ -153,7 +153,9 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
               <div className="space-y-2.5 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2.5">
-                    <AvatarWithFrame
+                    <UserAvatar
+                      userId={submission.userId}
+                      name={submission.author}
                       src={submission.avatar}
                       fallback={submission.author?.[0] || '?'}
                       avatarFrameId={submission.avatarFrameId}
@@ -299,7 +301,9 @@ function SubmissionDetail({
         <div className="rounded-lg bg-background/78 p-3.5 shadow-[0_18px_48px_-42px_rgba(15,23,42,0.14)] sm:p-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <AvatarWithFrame
+              <UserAvatar
+                userId={submission.userId}
+                name={submission.author}
                 src={submission.avatar}
                 fallback={submission.author?.[0] || '?'}
                 avatarFrameId={submission.avatarFrameId}

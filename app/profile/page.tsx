@@ -40,9 +40,9 @@ import { LevelGuideDialog } from '@/components/features/gamification/level-guide
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
-import { AvatarWithFrame } from '@/components/ui/avatar-with-frame'
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { useAuth } from '@/lib/context/auth-context'
 import { BADGES, useGamification } from '@/lib/context/gamification-context'
 import { type Notification, useOptionalNotifications } from '@/lib/context/notification-context'
@@ -52,7 +52,6 @@ import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
 import { getNotificationTargetHref } from '@/lib/notifications/navigation'
-import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import type { GrowthTaskId } from '@/lib/profile/growth-tasks'
 import { resolveGrowthTasks, toGrowthTaskInput } from '@/lib/profile/growth-tasks'
 import {
@@ -84,8 +83,9 @@ const SteamRadarChart = dynamic(
 const weeklyPlanQueryKey = (userId: string | undefined) => ['profile', 'weekly-plan', userId] as const
 
 type ProfileContext = {
+  userId: string
   userName: string
-  userAvatar: string
+  userAvatar?: string | null
   level: number
   levelTitle: string
   currentXP: number
@@ -328,7 +328,7 @@ export default function ProfilePage() {
     email: user.email,
     fallback: '未命名用户',
   })
-  const userAvatar = profile?.avatar_url || getDefaultAvatarPath(user.id)
+  const userAvatar = profile?.avatar_url
   const currentXP = profile?.xp || 0
   const level = Math.floor(Math.sqrt(currentXP / 100)) + 1
   const currentLevelBaseXP = 100 * Math.pow(level - 1, 2)
@@ -356,6 +356,7 @@ export default function ProfilePage() {
   })
 
   const profileContext = {
+    userId: user.id,
     userName,
     userAvatar,
     level,
@@ -757,7 +758,9 @@ function ProfileHero({
       <div className={cn('relative', compact ? 'px-4 pb-4 pt-4' : 'px-7 pb-0 pt-7')}>
         <div className={cn(compact ? 'grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4' : 'flex min-h-[156px] flex-wrap items-start gap-6')}>
           <div className={cn('shrink-0', compact ? 'flex w-full flex-col items-center' : 'relative')}>
-            <AvatarWithFrame
+            <UserAvatar
+              userId={profileContext.userId}
+              name={profileContext.userName}
               src={profileContext.userAvatar}
               alt={profileContext.userName}
               fallback={getInitial(profileContext.userName)}
@@ -1266,10 +1269,13 @@ function CommunityFeedPanel({
 
             return (
               <Link key={notification.id} href={href} className="grid grid-cols-[34px_minmax(0,1fr)_52px] items-center gap-3 rounded-sm p-1.5 transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-                <AvatarWithFrame
+                <UserAvatar
+                  userId={notification.from_user_id}
+                  name={displayName}
                   src={notification.from_avatar || undefined}
                   alt={displayName}
                   fallback={getInitial(displayName)}
+                  href={null}
                   className="h-8 w-8 border-2 border-background"
                   avatarClassName="rounded-full object-cover"
                 />

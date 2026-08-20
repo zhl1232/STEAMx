@@ -16,13 +16,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { getDisplayName } from "@/lib/utils/user";
 import { createClient } from "@/lib/supabase/client";
 import { SHOP_ITEMS, getNameColorClassName, getShopItemById } from "@/lib/shop/items";
@@ -97,6 +96,7 @@ function CategoryIcon({ type, className }: { type: ShopItemType; className?: str
 }
 
 function ShopHero({
+  userId,
   level,
   displayName,
   avatarSrc,
@@ -107,9 +107,10 @@ function ShopHero({
   equippedAvatarFrameId,
   equippedNameColorId,
 }: {
+  userId: string;
   level: number;
   displayName: string;
-  avatarSrc: string;
+  avatarSrc: string | null;
   progress: number;
   levelProgress: number;
   levelTotalNeeded: number;
@@ -134,9 +135,11 @@ function ShopHero({
 
       <div className="relative p-5 sm:p-6 md:p-8">
         <div className="flex min-w-0 items-center gap-4">
-          <AvatarWithFrame
+          <UserAvatar
+            userId={userId}
             avatarFrameId={previewFrameId}
             src={avatarSrc}
+            href={null}
             fallback={displayName[0] ?? "?"}
             className="h-20 w-20 shrink-0 border-4 border-white shadow-lg dark:border-slate-900 sm:h-24 sm:w-24"
             avatarClassName="h-20 w-20 sm:h-24 sm:w-24"
@@ -162,19 +165,23 @@ function ShopHero({
 }
 
 function ShopItemVisual({
+  userId,
   item,
   avatarSrc,
   displayName,
 }: {
+  userId: string;
   item: ShopItem;
-  avatarSrc: string;
+  avatarSrc: string | null;
   displayName: string;
 }) {
   if (item.type === "avatar_frame") {
     return (
-      <AvatarWithFrame
+      <UserAvatar
+        userId={userId}
         avatarFrameId={item.id}
         src={avatarSrc}
+        href={null}
         fallback={displayName[0] ?? "?"}
         className="h-20 w-20 min-[390px]:h-24 min-[390px]:w-24 sm:h-28 sm:w-28"
         avatarClassName="h-20 w-20 min-[390px]:h-24 min-[390px]:w-24 sm:h-28 sm:w-28"
@@ -262,6 +269,7 @@ function ShopItemCard({
   item,
   state,
   selected,
+  userId,
   avatarSrc,
   displayName,
   purchasePending,
@@ -273,7 +281,8 @@ function ShopItemCard({
   item: ShopItem;
   state: ItemState;
   selected: boolean;
-  avatarSrc: string;
+  userId: string;
+  avatarSrc: string | null;
   displayName: string;
   purchasePending: boolean;
   equipPending: boolean;
@@ -317,7 +326,7 @@ function ShopItemCard({
       </div>
 
       <div className="relative mt-2 flex h-[104px] items-center justify-center rounded-md bg-linear-to-b from-blue-50/80 to-white dark:from-blue-400/10 dark:to-white/3 min-[390px]:h-[118px] sm:h-[136px]">
-        <ShopItemVisual item={item} avatarSrc={avatarSrc} displayName={displayName} />
+        <ShopItemVisual userId={userId} item={item} avatarSrc={avatarSrc} displayName={displayName} />
         {state.levelLocked ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-md bg-white/70 text-slate-600 backdrop-blur-[2px] dark:bg-slate-950/70 dark:text-slate-200">
             <Lock className="h-6 w-6" />
@@ -450,7 +459,7 @@ export default function ShopPage() {
     email: user?.email,
     fallback: "探索者",
   });
-  const avatarSrc = typedProfile?.avatar_url || (user ? getDefaultAvatarPath(user.id) : getDefaultAvatarPath("guest"));
+  const avatarSrc = typedProfile?.avatar_url ?? null;
   const avatarItems = SHOP_ITEMS.filter((item) => item.type === "avatar_frame");
   const nameColorItems = SHOP_ITEMS.filter((item) => item.type === "name_color");
   const activeItems = activeType === "avatar_frame" ? avatarItems : nameColorItems;
@@ -533,6 +542,7 @@ export default function ShopPage() {
 
         <section className="min-w-0 space-y-5">
           <ShopHero
+            userId={user.id}
             level={level}
             displayName={displayName}
             avatarSrc={avatarSrc}
@@ -576,6 +586,7 @@ export default function ShopPage() {
                       item={item}
                       state={getState(item)}
                       selected={selectedItem?.id === item.id}
+                      userId={user.id}
                       avatarSrc={avatarSrc}
                       displayName={displayName}
                       purchasePending={purchaseMutation.isPending}

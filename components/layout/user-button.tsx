@@ -23,11 +23,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { LoginDialog } from '@/components/layout/login-dialog'
 import { getMembershipSummary } from '@/lib/membership'
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options"
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
 
 interface UserButtonProps {
@@ -88,16 +87,19 @@ export function UserButton({ compact = false }: UserButtonProps) {
     email: user.email,
     fallback: '用户',
   })
-  const avatarUrl = profile?.avatar_url || getDefaultAvatarPath(user.id)
+  const avatarUrl = profile?.avatar_url
   const membership = getMembershipSummary(profile)
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" shape="square" size="icon" className="relative h-9 w-9">
-          <AvatarWithFrame
+          <UserAvatar
+            userId={user.id}
+            name={displayName}
             src={avatarUrl}
             alt={displayName}
+            href={null}
             fallback={<UserIcon className="h-4 w-4" />}
             avatarFrameId={profile?.equipped_avatar_frame_id}
             className="h-9 w-9"

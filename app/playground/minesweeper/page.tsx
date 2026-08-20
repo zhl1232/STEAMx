@@ -10,6 +10,7 @@ import { findMinesweeperHint, type MinesweeperHint } from "@/lib/playground/mine
 import { Bomb, Flag, Timer, Trophy, RefreshCw, BookOpen, ChevronRight, MousePointerClick, Medal, Star, Lightbulb, CircleHelp, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useQuery } from "@tanstack/react-query"
+import { UserAvatar } from "@/components/ui/user-avatar"
 
 const DIFF_LABELS: Record<string, { label: string; color: string; xp: number }> = {
     beginner: { label: "初级", color: "text-green-500", xp: 10 },
@@ -705,14 +706,12 @@ export default function MinesweeperPage() {
                                                 <span className={`w-5 text-center text-sm font-black tabular-nums ${entry.rank <= 3 ? "text-yellow-600 dark:text-yellow-400" : "text-muted-foreground"}`}>
                                                     {entry.rank}
                                                 </span>
-                                                {entry.avatarUrl ? (
-                                                    // eslint-disable-next-line @next/next/no-img-element
-                                                    <img src={entry.avatarUrl} alt="" className="h-8 w-8 rounded-full object-cover" />
-                                                ) : (
-                                                    <span className="grid h-8 w-8 place-items-center rounded-full bg-primary/10 text-xs font-black text-primary">
-                                                        {entry.name.slice(0, 1)}
-                                                    </span>
-                                                )}
+                                                <UserAvatar
+                                                    userId={entry.userId}
+                                                    name={entry.name}
+                                                    src={entry.avatarUrl}
+                                                    className="h-8 w-8"
+                                                />
                                                 <span className="min-w-0 flex-1 truncate text-sm font-semibold">
                                                     {entry.name}{entry.isCurrentUser ? "（我）" : ""}
                                                 </span>

@@ -10,8 +10,7 @@ import { EditProfileDialog } from "@/components/features/profile/edit-profile-di
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { CoinIcon } from "@/components/icons/coin-icon";
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { useGamification, BADGES } from '@/lib/context/gamification-context';
@@ -47,7 +46,7 @@ export function ProfileHeader({
   const { unreadCount } = useNotifications();
 
   const userName = profile?.display_name || user.user_metadata?.full_name || "未命名用户";
-  const userAvatar = profile?.avatar_url || getDefaultAvatarPath(user.id);
+  const userAvatar = profile?.avatar_url;
   const currentXP = profile?.xp || 0;
   const level = Math.floor(Math.sqrt(currentXP / 100)) + 1;
   const nextLevelXP = 100 * Math.pow(level, 2);
@@ -102,7 +101,9 @@ export function ProfileHeader({
 
           <div className="mt-7 flex flex-col items-center">
             <div className="relative">
-              <AvatarWithFrame
+              <UserAvatar
+                userId={user.id}
+                name={userName}
                 src={userAvatar}
                 alt={userName}
                 fallback={userName[0]?.toUpperCase()}

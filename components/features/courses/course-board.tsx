@@ -80,14 +80,14 @@ function CourseSection({
     return (
         <section
             aria-labelledby={headingId}
-            className={cn("px-2 py-5 md:px-6 md:py-6", separated && "border-t border-[hsl(var(--surface-border)/0.72)]")}
+            className={cn("py-2 md:py-4", separated && "mt-4 border-t border-[hsl(var(--surface-border)/0.6)] pt-6 md:mt-6")}
         >
-            <div className="mb-4 max-w-2xl">
-                <p className="text-[11px] font-bold tracking-[0.14em] text-[hsl(var(--brand-blue))]">{eyebrow}</p>
-                <h2 id={headingId} className="mt-1 text-xl font-black tracking-tight text-foreground md:text-2xl">
+            <div className="mb-3 px-1 md:mb-4">
+                <p className="text-[11px] font-bold tracking-[0.14em] text-[hsl(var(--brand-blue))] uppercase">{eyebrow}</p>
+                <h2 id={headingId} className="mt-0.5 text-lg font-black tracking-tight text-foreground md:mt-1 md:text-2xl">
                     {title}
                 </h2>
-                <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{description}</p>
+                <p className="mt-0.5 text-xs leading-5 text-muted-foreground md:mt-1 md:text-sm md:leading-6">{description}</p>
             </div>
             <div className="grid gap-3 md:grid-cols-2 md:gap-4">
                 {courses.map((course) => (
@@ -100,7 +100,7 @@ function CourseSection({
 
 export function CourseBoardSkeleton() {
     return (
-        <div className="grid gap-3 pt-5 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
+        <div className="grid gap-3 pt-3 pb-5 md:grid-cols-2 md:gap-4 md:p-6">
             {Array.from({ length: 4 }).map((_, i) => (
                 <CompactCardSkeleton key={i} />
             ))}
@@ -128,6 +128,7 @@ export function CourseBoardError({
 function CourseCard({ course }: { course: CourseListItem }) {
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const progress = course.progress;
+    const isBrick = isBrickCourse(course);
     const ProgressIcon =
         progress?.status === "completed"
             ? CheckCircle2
@@ -135,100 +136,112 @@ function CourseCard({ course }: { course: CourseListItem }) {
                 ? PlayCircle
                 : Circle;
 
+    const progressPercent =
+        progress && progress.total_lesson_count > 0
+            ? Math.round((progress.completed_lesson_count / progress.total_lesson_count) * 100)
+            : 0;
+
+    // 根据课程标题提取微年级标签
+    const badgeText = course.title.includes("小班")
+        ? "3+ 启蒙"
+        : course.title.includes("中班")
+            ? "4+ 进阶"
+            : course.title.includes("大班")
+                ? "5+ 创造"
+                : null;
+
     return (
-        <article className="group community-challenge-card md:grid-cols-[132px_minmax(0,1fr)]">
+        <article className="group relative flex flex-col overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] p-3 shadow-2xs transition-all duration-300 hover:border-[hsl(var(--brand-blue)/0.45)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-xs min-[390px]:p-3.5 sm:grid sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-3.5 md:grid-cols-[132px_minmax(0,1fr)] md:p-4">
             <Link
                 href={`/courses/${course.id}`}
                 prefetch={false}
-                className="absolute inset-0 z-10 rounded-sm"
+                className="absolute inset-0 z-10 rounded-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue))] focus-visible:ring-offset-2"
                 aria-label={`进入技能课程：${course.title}`}
             />
-            <div className="relative aspect-square min-h-0 w-full self-start overflow-hidden rounded-xs nature-media-placeholder md:rounded-sm">
+
+            {/* 左侧/顶部 3D 展台封面 */}
+            <div
+                className={cn(
+                    "relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-sm sm:aspect-square sm:w-full",
+                    isBrick
+                        ? "bg-linear-to-br from-amber-500/10 via-orange-500/5 to-amber-500/5 dark:from-amber-400/12 dark:via-orange-400/8 dark:to-transparent"
+                        : "bg-linear-to-br from-sky-500/10 via-blue-500/5 to-transparent dark:from-sky-400/12 dark:via-blue-400/8 dark:to-transparent",
+                )}
+            >
                 <OptimizedImage
                     src={imageSrc}
                     alt={course.title}
                     fill
-                    variant="thumbnail"
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    variant="card"
+                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-108"
+                    sizes="(max-width: 640px) 100vw, 132px"
                 />
+                {badgeText ? (
+                    <div className="absolute left-2 top-2 z-1">
+                        <span className="inline-flex items-center rounded-xs bg-black/45 px-1.5 py-0.5 text-[10px] font-bold text-white/95 backdrop-blur-md">
+                            {badgeText}
+                        </span>
+                    </div>
+                ) : null}
             </div>
-            <div className="pointer-events-none relative z-0 flex min-w-0 flex-col justify-center py-1 pr-1">
-                <h3 className="line-clamp-2 text-[15px] font-black leading-[1.45] text-foreground min-[390px]:text-[16px] md:min-h-[48px] md:text-[17px] md:leading-6">
-                    {course.title}
-                </h3>
-                <p className="mt-1 line-clamp-1 text-[12px] leading-[1.55] text-muted-foreground min-[390px]:text-[13px] md:leading-5">
-                    {course.description}
-                </p>
-                <div className="mt-2 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-muted-foreground">
-                    <span className="inline-flex items-center gap-1">
-                        <BookOpen className="h-4 w-4" />
-                        {course.lesson_count} 课时
-                    </span>
-                    {course.tags?.slice(0, 2).map((tag) => (
-                        <span
-                            key={tag}
-                            className={cn(
-                                "rounded px-1.5 py-0.5 text-[11px] font-semibold",
-                                tag === "Scratch"
-                                    ? "bg-[hsl(var(--tone-tech)/0.12)] text-[hsl(var(--tone-tech))]"
-                                    : "bg-[hsl(var(--surface-muted))] text-muted-foreground",
-                            )}
-                        >
-                            {tag}
+
+            {/* 右侧信息排版 */}
+            <div className="pointer-events-none relative z-0 mt-3 flex min-w-0 flex-1 flex-col justify-between sm:mt-0">
+                <div>
+                    <h3 className="line-clamp-1 text-[15px] font-bold leading-tight text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] min-[390px]:text-[16px] md:text-[17px]">
+                        {course.title}
+                    </h3>
+                    <p className="mt-1 line-clamp-1 text-[12px] leading-5 text-muted-foreground min-[390px]:text-[13px]">
+                        {course.description}
+                    </p>
+
+                    <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1 rounded bg-[hsl(var(--surface-muted))] px-2 py-0.5 text-[11px] font-medium text-foreground/80">
+                            <BookOpen className="h-3 w-3 text-muted-foreground" />
+                            {course.lesson_count} 课时
                         </span>
-                    )) ?? null}
-                    {progress && progress.total_lesson_count > 0 ? (
-                        <span className="hidden items-center gap-1 font-semibold text-foreground md:inline-flex">
-                            <ProgressIcon
-                                className={cn(
-                                    "h-3.5 w-3.5",
-                                    progress.status === "completed" && "text-[hsl(var(--status-success))]",
-                                    progress.status === "in_progress" && "text-[hsl(var(--brand-blue))]",
-                                )}
-                                aria-hidden
-                            />
-                            {progress.completed_lesson_count}/{progress.total_lesson_count}
-                        </span>
-                    ) : null}
+                        {course.tags?.slice(0, 2).map((tag) => (
+                            <span
+                                key={tag}
+                                className="rounded bg-[hsl(var(--surface-muted))] px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
                 </div>
-                <div className="mt-1.5 flex min-w-0 items-center gap-1.5 md:hidden">
+
+                {/* 进度条与行动胶囊 */}
+                <div className="mt-3 border-t border-[hsl(var(--surface-border)/0.5)] pt-2.5">
                     {progress && progress.total_lesson_count > 0 ? (
-                        <span className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap text-[12px] font-semibold text-foreground">
-                            <ProgressIcon
-                                className={cn(
-                                    "h-3.5 w-3.5 shrink-0",
-                                    progress.status === "completed" && "text-[hsl(var(--status-success))]",
-                                    progress.status === "in_progress" && "text-[hsl(var(--brand-blue))]",
-                                )}
-                                aria-hidden
-                            />
-                            {progress.completed_lesson_count}/{progress.total_lesson_count}
-                        </span>
-                    ) : null}
-                    <span className="ml-auto inline-flex h-8 shrink-0 items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 text-[12px] font-bold text-[hsl(var(--brand-blue))]">
-                        {progress?.status === "completed"
-                            ? "回顾课程"
-                            : progress?.status === "in_progress"
-                                ? "继续学习"
-                                : "开始学习"}
-                        <ChevronRight className="h-3.5 w-3.5" />
-                    </span>
+                        <div className="space-y-1.5">
+                            <div className="flex items-center justify-between text-[11px] font-semibold">
+                                <span className="flex items-center gap-1 text-[hsl(var(--brand-blue))]">
+                                    <ProgressIcon className="h-3.5 w-3.5 shrink-0" />
+                                    {progress.completed_lesson_count}/{progress.total_lesson_count}
+                                </span>
+                                <span className="text-muted-foreground">{progressPercent}%</span>
+                            </div>
+                            <div className="h-1.5 w-full overflow-hidden rounded-full bg-[hsl(var(--surface-muted))]">
+                                <div
+                                    className="h-full rounded-full bg-[hsl(var(--brand-blue))] transition-all duration-500"
+                                    style={{ width: `${progressPercent}%` }}
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center justify-between">
+                            <span className="text-[11px] text-muted-foreground/80">
+                                {isBrick ? "3D 分步搭建" : "系统进阶学习"}
+                            </span>
+                            <span className="inline-flex h-7 items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 text-[11px] font-bold text-[hsl(var(--brand-blue))] transition-colors group-hover:bg-[hsl(var(--brand-blue))] group-hover:text-white">
+                                开始学习
+                                <ChevronRight className="h-3 w-3" />
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
-            <span
-                className={cn(
-                    "pointer-events-none absolute bottom-3 right-3 z-0 hidden h-9 items-center gap-1 rounded-sm",
-                    "bg-[hsl(var(--brand-blue))] px-4 text-[13px] font-bold text-[hsl(var(--brand-blue-foreground))]",
-                    "md:inline-flex",
-                )}
-            >
-                {progress?.status === "completed"
-                    ? "回顾课程"
-                    : progress?.status === "in_progress"
-                        ? "继续学习"
-                        : "开始学习"}
-                <ChevronRight className="h-4 w-4" />
-            </span>
         </article>
     );
 }

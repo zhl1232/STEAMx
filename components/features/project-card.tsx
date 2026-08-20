@@ -94,8 +94,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                         {project.difficulty_stars && !isDenseCompact ? (
-                            <div className="absolute bottom-1.5 right-1.5 rounded-full bg-black/45 px-2 py-0.5 backdrop-blur-xs">
-                                <DifficultyStars stars={project.difficulty_stars} size="xs" tone="white" />
+                            <div className="absolute bottom-1.5 right-1.5 flex items-center rounded-full border border-white/10 bg-black/32 px-1.5 py-0.5 backdrop-blur-md sm:px-2">
+                                <DifficultyStars stars={project.difficulty_stars} size="xs" tone="white" responsive />
                             </div>
                         ) : null}
                     </div>
@@ -257,8 +257,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 )}
                             </div>
                             {project.difficulty_stars ? (
-                                <div className="shrink-0 rounded-full border border-white/14 bg-black/30 px-2.5 py-1 backdrop-blur-md">
-                                    <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                                <div className="shrink-0 rounded-full border border-white/14 bg-black/30 px-2 py-0.5 backdrop-blur-md sm:px-2.5 sm:py-1">
+                                    <DifficultyStars stars={project.difficulty_stars} size="sm" tone="white" responsive />
                                 </div>
                             ) : null}
                         </div>
@@ -374,8 +374,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             )}
                         </div>
                         {project.difficulty_stars ? (
-                            <div className="shrink-0 rounded-full border border-white/12 bg-black/26 px-2.5 py-1 backdrop-blur-md">
-                                <DifficultyStars stars={project.difficulty_stars} size="sm" />
+                            <div className="shrink-0 rounded-full border border-white/12 bg-black/26 px-2 py-0.5 backdrop-blur-md sm:px-2.5 sm:py-1">
+                                <DifficultyStars stars={project.difficulty_stars} size="sm" tone="white" responsive />
                             </div>
                         ) : null}
                     </div>

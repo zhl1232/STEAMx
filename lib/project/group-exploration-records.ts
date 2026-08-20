@@ -7,6 +7,7 @@ export type ExplorationRecordGroup = {
   userId: string
   author: string
   avatar?: string
+  avatarFrameId?: string | null
   authorLevel?: number
   /** 组内按时间正序（探索时间线） */
   posts: ProjectCompletion[]
@@ -51,6 +52,7 @@ export function groupCompletionsByExploration(completions: ProjectCompletion[]):
       userId: latest.userId,
       author: latest.author,
       avatar: latest.avatar,
+      avatarFrameId: latest.avatarFrameId,
       authorLevel: latest.authorLevel,
       posts: chronological,
       representative: finalPost ?? latest,

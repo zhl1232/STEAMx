@@ -1,9 +1,11 @@
-"use client";
-
-import { CheckCircle2 } from "lucide-react";
+import { Award, Check, CheckCircle2, Loader2, Star } from "lucide-react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import type { Badge, BadgeTier, UserStats } from "@/lib/gamification/types";
+import type { BadgeDisplay, BadgeTier, UserStats } from "@/lib/gamification/types";
 import {
     getNextSeriesThreshold,
     getSeriesLabel,
@@ -35,7 +37,7 @@ const SERIES_COPY: Partial<Record<string, string>> = {
     bird_common: "点亮常见堆里的鸟，一种只算一次。",
     bird_uncommon: "点亮进阶堆里的鸟，一种只算一次。",
     bird_rare: "点亮稀有堆里的鸟，一种只算一次。",
-    insect_rank: "按《北京自然观察手册：昆虫》的九宫格升级，完成任意一套即升到这一级。",
+    insect_rank: "完成昆虫九宫格挑战，集齐任意一套即可升到对应阶位。",
     playground_explorer: "玩过的不同游乐场游戏数量。",
     playground_victories: "游乐场累计胜利和通关次数。",
     first_steps: "适合新用户的起步徽章，很快就能点亮第一组。",
@@ -55,7 +57,7 @@ function formatUnlockedDate(iso?: string) {
 function getProgressUnit(seriesKey: string) {
     if (BIRD_SERIES.has(seriesKey) || seriesKey === "species_collector") return "种";
     if (seriesKey === "bird_observer") return "条";
-    if (seriesKey === "insect_rank") return "级";
+    if (seriesKey === "insect_rank") return "阶";
     return "";
 }
 
@@ -73,13 +75,17 @@ export function BadgeDetailDialog({
     open: boolean;
     onOpenChange: (open: boolean) => void;
     seriesKey: string;
-    seriesBadges: Badge[];
-    displayBadge: Badge;
+    seriesBadges: BadgeDisplay[];
+    displayBadge: BadgeDisplay;
     unlockedIds: Set<string>;
     userBadgeDetails?: Map<string, { unlockedAt: string }>;
     userStats?: UserStats | null;
     seriesCopy?: Partial<Record<string, string>>;
 }) {
+    const { user, profile, refreshProfile } = useAuth();
+    const { toast } = useToast();
+    const [savingHonor, setSavingHonor] = useState(false);
+
     const visibleBadges = getVisibleSeriesBadges(seriesBadges, unlockedIds);
     const isUnlocked = unlockedIds.has(displayBadge.id);
     const unlockedDate = formatUnlockedDate(userBadgeDetails?.get(displayBadge.id)?.unlockedAt);
@@ -91,6 +97,76 @@ export function BadgeDetailDialog({
     const insectProgress = userStats?.observedInsectSlugs
         ? buildInsectObservationProgress(userStats.observedInsectSlugs)
         : null;
+
+    const isEquippedTitle = profile?.equipped_title === displayBadge.name;
+    const featuredList = (profile?.featured_badge_ids as string[] | undefined) || [];
+    const isFeatured = featuredList.includes(displayBadge.id);
+
+    const handleToggleTitle = async () => {
+        if (!user || savingHonor) return;
+        setSavingHonor(true);
+        try {
+            const nextTitle = isEquippedTitle ? null : displayBadge.name;
+            const res = await fetch("/api/profile/equipped-honor", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ equipped_title: nextTitle }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data?.error || "佩戴失败");
+            await refreshProfile();
+            toast({
+                title: nextTitle ? `已佩戴称号「${nextTitle}」` : "已卸下称号，恢复系统推荐",
+            });
+        } catch (error) {
+            toast({
+                title: "操作失败",
+                description: error instanceof Error ? error.message : "请稍后重试",
+                variant: "destructive",
+            });
+        } finally {
+            setSavingHonor(false);
+        }
+    };
+
+    const handleToggleFeatured = async () => {
+        if (!user || savingHonor) return;
+        setSavingHonor(true);
+        try {
+            let nextFeatured: string[];
+            if (isFeatured) {
+                nextFeatured = featuredList.filter((id) => id !== displayBadge.id);
+            } else {
+                if (featuredList.length >= 3) {
+                    nextFeatured = [displayBadge.id, featuredList[0], featuredList[1]];
+                } else {
+                    nextFeatured = [...featuredList, displayBadge.id];
+                }
+            }
+
+            const res = await fetch("/api/profile/equipped-honor", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ featured_badge_ids: nextFeatured }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data?.error || "设置失败");
+            await refreshProfile();
+            toast({
+                title: isFeatured
+                    ? "已从主页荣誉展台移出"
+                    : `已加入主页荣誉展台 (${nextFeatured.length}/3)`,
+            });
+        } catch (error) {
+            toast({
+                title: "操作失败",
+                description: error instanceof Error ? error.message : "请稍后重试",
+                variant: "destructive",
+            });
+        } finally {
+            setSavingHonor(false);
+        }
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -125,6 +201,47 @@ export function BadgeDetailDialog({
                                     : atMax
                                         ? "已升到最高品质"
                                         : `${current}${unit ? ` ${unit}` : ""}`}
+                            </div>
+                        ) : null}
+
+                        {/* 已解锁徽章的佩戴操作按钮 */}
+                        {isUnlocked && user ? (
+                            <div className="mt-4 flex w-full flex-col gap-2 pt-2 sm:border-t sm:border-border/60">
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant={isEquippedTitle ? "secondary" : "outline"}
+                                    disabled={savingHonor}
+                                    onClick={handleToggleTitle}
+                                    className="h-8 w-full gap-1.5 text-xs font-semibold"
+                                >
+                                    {savingHonor ? (
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                    ) : isEquippedTitle ? (
+                                        <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                    ) : (
+                                        <Award className="h-3.5 w-3.5 text-primary" />
+                                    )}
+                                    {isEquippedTitle ? "已佩戴为称号" : "佩戴为此称号"}
+                                </Button>
+
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant={isFeatured ? "secondary" : "outline"}
+                                    disabled={savingHonor}
+                                    onClick={handleToggleFeatured}
+                                    className="h-8 w-full gap-1.5 text-xs font-semibold"
+                                >
+                                    {savingHonor ? (
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                    ) : isFeatured ? (
+                                        <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                                    ) : (
+                                        <Star className="h-3.5 w-3.5 text-amber-500" />
+                                    )}
+                                    {isFeatured ? "已设为主页展出" : `设为主页展出 (${featuredList.length}/3)`}
+                                </Button>
                             </div>
                         ) : null}
                     </div>
@@ -195,9 +312,9 @@ function InsectDetailProgress({
         <div className="space-y-3">
             {nextRank ? (
                 <div className="text-xs text-muted-foreground">
-                    再集齐一套{grids.map((grid) => grid.title).join("或")}，升到{
-                        { D: "铜档", C: "银档", B: "金档", A: "白金档" }[nextRank]
-                    }
+                    再集齐一套{grids.map((grid) => grid.title).join("或")}，解锁【{
+                        { D: "初识虫趣", C: "寻虫常客", B: "寻虫能手", A: "虫林专家" }[nextRank]
+                    }】
                 </div>
             ) : null}
             <div className="grid gap-3 sm:grid-cols-2">
@@ -228,7 +345,7 @@ function InsectDetailProgress({
                 <div className="space-y-2">
                     {completedChallenges.map((challenge) => (
                         <div key={challenge.id} className="text-xs text-emerald-700 dark:text-emerald-300">
-                            已完成 S 级 · {challenge.title}（{challenge.found}/{challenge.total}）
+                            已完成专属挑战 · {challenge.title}（{challenge.found}/{challenge.total}）
                         </div>
                     ))}
                 </div>

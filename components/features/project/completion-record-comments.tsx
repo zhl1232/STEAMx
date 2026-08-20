@@ -21,6 +21,8 @@ import {
   isAgeConfirmationRequired,
 } from "@/lib/utils/http"
 
+import { UserAvatar } from "@/components/ui/user-avatar"
+
 interface CompletionRecordCommentsProps {
   completionId: number
   enabled?: boolean
@@ -109,59 +111,47 @@ export function CompletionRecordComments({
 
   return (
     <div className={cn("flex min-h-0 flex-col", className)}>
-      <div className="min-h-0 max-h-[50vh] flex-1 space-y-3 overflow-y-auto pr-1">
+      <div className="divide-y divide-border/50">
         {isLoading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-14 rounded-sm" />
-            <Skeleton className="h-14 rounded-sm" />
+          <div className="space-y-3 py-2">
+            <Skeleton className="h-16 rounded-md" />
+            <Skeleton className="h-16 rounded-md" />
           </div>
         ) : comments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">还没有留言，来说说这个作品吧。</p>
+          <div className="rounded-lg border border-dashed border-border/80 p-6 text-center">
+            <p className="text-sm text-muted-foreground">还没有留言，来说说对这个作品的想法或提出你的问题吧。</p>
+          </div>
         ) : (
-          rootComments.map((comment) => (
-            <div key={String(comment.id)}>
-              <CompletionCommentItem
+          rootComments.map((comment) => {
+            const replies = getRepliesUnderRoot(comments, comment.id)
+            return (
+              <CompletionCommentThread
+                key={String(comment.id)}
                 comment={comment}
+                replies={replies}
                 viewerId={user?.id}
                 onReply={(id, name) => {
                   setReplyTo({ id, name })
-                  setContent("")
                   focusEditor()
                 }}
               />
-              {getRepliesUnderRoot(comments, comment.id).map((reply) => (
-                <div
-                  key={String(reply.id)}
-                  className="ml-6 mt-2 border-l-2 border-[hsl(var(--surface-border)/0.8)] pl-3"
-                >
-                  <CompletionCommentItem
-                    comment={reply}
-                    viewerId={user?.id}
-                    onReply={(id, name) => {
-                      setReplyTo({ id, name })
-                      setContent("")
-                      focusEditor()
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          ))
+            )
+          })
         )}
       </div>
 
-      <div className="mt-4 shrink-0 space-y-2 border-t border-[hsl(var(--surface-border)/0.7)] pt-3">
+      <div className="mt-6 shrink-0 space-y-2.5 border-t border-border/70 pt-4">
         {replyTo ? (
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="flex items-center justify-between rounded-sm bg-muted/60 px-3 py-1.5 text-xs text-muted-foreground">
             <span>
-              回复 <span className="font-semibold text-foreground">{replyTo.name}</span>
+              回复 <span className="font-semibold text-foreground">@{replyTo.name}</span>
             </span>
             <button
               type="button"
               onClick={() => setReplyTo(null)}
-              className="text-[hsl(var(--brand-green))] hover:underline"
+              className="text-xs text-[hsl(var(--brand-green))] hover:underline"
             >
-              取消
+              取消回复
             </button>
           </div>
         ) : null}
@@ -169,8 +159,8 @@ export function CompletionRecordComments({
           ref={textareaRef}
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder={replyTo ? `回复 ${replyTo.name}…` : "聊聊这个作品，或提出你的问题…"}
-          rows={2}
+          placeholder={replyTo ? `回复 @${replyTo.name}…` : "聊聊这个作品，或提出你的问题与建议…"}
+          rows={3}
           className="resize-none"
         />
         <div className="flex justify-end">
@@ -186,7 +176,7 @@ export function CompletionRecordComments({
                 发送中
               </>
             ) : (
-              "发送"
+              "发表留言"
             )}
           </Button>
         </div>
@@ -195,53 +185,136 @@ export function CompletionRecordComments({
   )
 }
 
-function CompletionCommentItem({
+function CompletionCommentThread({
   comment,
+  replies,
   viewerId,
   onReply,
 }: {
   comment: Comment
+  replies: Comment[]
   viewerId?: string
   onReply: (id: number, name: string) => void
 }) {
   const displayName = comment.author || "探索者"
   const canReport = Boolean(viewerId && comment.userId && viewerId !== comment.userId)
-  const commentKindLabel = comment.parent_id ? "回复" : "评论"
 
   return (
-    <div className="rounded-sm bg-muted/40 px-3 py-2">
-      <div className="flex items-center justify-between gap-2">
-        <p className="min-w-0 flex-1 truncate text-xs text-foreground">
-          <span className="font-semibold">{displayName}</span>
-          {comment.reply_to_username ? (
-            <span className="ml-1.5 text-[11px] font-normal text-muted-foreground">
-              回复 @{comment.reply_to_username}
-            </span>
-          ) : null}
-        </p>
-        <div className="flex shrink-0 items-center gap-3">
-          <button
-            type="button"
-            onClick={() => onReply(Number(comment.id), displayName)}
-            className="inline-flex h-11 min-w-11 items-center justify-center rounded-full px-2 text-[11px] font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))]"
-          >
-            回复
-          </button>
-          {canReport ? (
-            <ReportDialog contentType="completion_comment" contentId={comment.id}>
-              <button
-                type="button"
-                aria-label={`举报 ${displayName} 的${commentKindLabel}`}
-                title="举报"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground/70 transition-colors hover:bg-muted hover:text-destructive focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-destructive/40"
-              >
-                <Flag className="h-3.5 w-3.5" aria-hidden="true" />
-              </button>
-            </ReportDialog>
-          ) : null}
+    <div className="py-4.5 first:pt-1 last:pb-2 sm:py-5">
+      <div className="flex items-start gap-3">
+        <UserAvatar
+          userId={comment.userId}
+          name={displayName}
+          src={comment.avatar}
+          avatarFrameId={comment.avatarFrameId}
+          fallback={displayName[0] || "?"}
+          className="h-8 w-8 text-xs shrink-0 mt-0.5"
+        />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground">{displayName}</span>
+          </div>
+
+          <p className="mt-1 text-sm leading-relaxed text-foreground whitespace-pre-wrap break-words">
+            {comment.content}
+          </p>
+
+          <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="leading-none">{comment.date || "刚刚"}</span>
+            <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
+            <button
+              type="button"
+              onClick={() => onReply(Number(comment.id), displayName)}
+              className="inline-flex items-center leading-none font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))] transition-colors"
+            >
+              回复
+            </button>
+            {canReport ? (
+              <>
+                <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
+                <ReportDialog contentType="completion_comment" contentId={comment.id}>
+                  <button
+                    type="button"
+                    aria-label={`举报 ${displayName} 的评论`}
+                    title="举报"
+                    className="inline-flex items-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
+                  >
+                    <Flag className="h-3 w-3 shrink-0" aria-hidden="true" />
+                    <span>举报</span>
+                  </button>
+                </ReportDialog>
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
-      <p className="mt-1 text-sm leading-5 text-foreground whitespace-pre-wrap wrap-break-word">{comment.content}</p>
+
+      {replies.length > 0 ? (
+        <div className="mt-3.5 w-full space-y-3.5 rounded-md bg-[hsl(var(--surface-muted)/0.45)] p-3 text-xs sm:mt-4 sm:p-3.5">
+          {replies.map((reply) => {
+            const replyDisplayName = reply.author || "探索者"
+            const canReportReply = Boolean(viewerId && reply.userId && viewerId !== reply.userId)
+
+            return (
+              <div key={String(reply.id)} className="flex items-start gap-2.5">
+                <UserAvatar
+                  userId={reply.userId}
+                  name={replyDisplayName}
+                  src={reply.avatar}
+                  avatarFrameId={reply.avatarFrameId}
+                  fallback={replyDisplayName[0] || "?"}
+                  className="h-5 w-5 text-[10px] shrink-0 mt-0.5"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="leading-relaxed text-foreground">
+                    <span className="font-semibold">{replyDisplayName}</span>
+                    {reply.userId && comment.userId && reply.userId === comment.userId ? (
+                      <span className="ml-1 inline-flex items-center rounded-xs bg-[hsl(var(--brand-green)/0.12)] px-1 py-0.2 text-[10px] font-semibold text-[hsl(var(--brand-green))]">
+                        作者
+                      </span>
+                    ) : null}
+                    {reply.reply_to_username ? (
+                      <span className="ml-1.5 inline-flex items-center rounded-xs bg-[hsl(var(--brand-blue)/0.1)] px-1.5 py-0.5 text-[10px] font-medium text-[hsl(var(--brand-blue))]">
+                        回复 @{reply.reply_to_username}
+                      </span>
+                    ) : null}
+                    <span className="mx-1 text-muted-foreground/60">:</span>
+                    <span className="text-foreground/90 whitespace-pre-wrap break-words">{reply.content}</span>
+                  </p>
+
+                  <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground/80">
+                    <span className="leading-none">{reply.date || "刚刚"}</span>
+                    <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
+                    <button
+                      type="button"
+                      onClick={() => onReply(Number(reply.id), replyDisplayName)}
+                      className="inline-flex items-center leading-none font-medium hover:text-[hsl(var(--brand-green))] transition-colors"
+                    >
+                      回复
+                    </button>
+                    {canReportReply ? (
+                      <>
+                        <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
+                        <ReportDialog contentType="completion_comment" contentId={reply.id}>
+                          <button
+                            type="button"
+                            aria-label={`举报 ${replyDisplayName} 的回复`}
+                            title="举报"
+                            className="inline-flex items-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
+                          >
+                            <Flag className="h-3 w-3 shrink-0" aria-hidden="true" />
+                            <span>举报</span>
+                          </button>
+                        </ReportDialog>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      ) : null}
     </div>
   )
 }

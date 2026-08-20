@@ -32,6 +32,8 @@ export interface Database {
           equipped_avatar_frame_id: string | null
           equipped_name_color_id: string | null
           equipped_theme_id: string | null
+          equipped_title: string | null
+          featured_badge_ids: string[] | null
           birth_date: string | null
           role: string
           notify_followed_creator_updates: boolean
@@ -63,6 +65,8 @@ export interface Database {
           equipped_avatar_frame_id?: string | null
           equipped_name_color_id?: string | null
           equipped_theme_id?: string | null
+          equipped_title?: string | null
+          featured_badge_ids?: string[] | null
           birth_date?: string | null
           role?: string
           notify_followed_creator_updates?: boolean
@@ -94,6 +98,8 @@ export interface Database {
           equipped_avatar_frame_id?: string | null
           equipped_name_color_id?: string | null
           equipped_theme_id?: string | null
+          equipped_title?: string | null
+          featured_badge_ids?: string[] | null
           birth_date?: string | null
           notify_followed_creator_updates?: boolean
           role?: string

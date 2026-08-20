@@ -92,7 +92,7 @@ const homeHeroFeatures = [
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
-      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] lg:min-h-[260px]">
+      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] lg:min-h-[310px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -112,15 +112,15 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-center dark:brightness-90 md:block"
         />
-        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.94)_0%,rgba(248,252,255,0.82)_22%,rgba(248,252,255,0.52)_40%,rgba(248,252,255,0.18)_57%,rgba(248,252,255,0)_72%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.82)_0%,rgba(6,12,22,0.68)_24%,rgba(6,12,22,0.4)_42%,rgba(6,12,22,0.14)_60%,rgba(6,12,22,0)_76%)]" />
+        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.96)_0%,rgba(248,252,255,0.88)_28%,rgba(248,252,255,0.58)_45%,rgba(248,252,255,0.18)_64%,rgba(248,252,255,0)_80%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.88)_0%,rgba(6,12,22,0.76)_28%,rgba(6,12,22,0.46)_48%,rgba(6,12,22,0.14)_66%,rgba(6,12,22,0)_82%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[248px] md:justify-center md:px-10 md:py-7 lg:min-h-[260px]">
-          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[600px] lg:max-w-[680px]">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] md:justify-center md:px-10 md:py-8 lg:min-h-[310px] lg:px-12">
+          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[620px] lg:max-w-[700px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               STEAM 项目式学习社区
             </p>
-            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[36px] md:leading-[1.08] lg:text-[42px]">
+            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[38px] md:leading-[1.12] lg:text-[44px]">
               <span className="md:hidden">
                 <span className="text-[hsl(var(--brand-blue))]">探索</span>
                 <span className="px-1.5 text-foreground">·</span>
@@ -134,7 +134,7 @@ function HomeHero({ image }: { image: string }) {
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
               在 STEAM 的世界里发现无限可能
             </p>
-            <p className="mt-3 hidden max-w-[540px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
+            <p className="mt-3 hidden max-w-[560px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
               选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
             </p>
 
@@ -143,28 +143,28 @@ function HomeHero({ image }: { image: string }) {
                 href="/explore"
                 className={cn(
                   buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
-                  "h-11 gap-2 px-5 text-[14px] font-bold shadow-[0_18px_34px_-24px_hsl(var(--brand-blue)/0.9)]",
+                  "h-11 gap-2 px-6 text-[14px] font-bold shadow-[0_14px_30px_-16px_hsl(var(--brand-blue)/0.85)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-16px_hsl(var(--brand-blue)/0.95)]",
                 )}
               >
                 开始探索项目
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/create"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
-                  "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-5 text-[14px] font-bold text-[hsl(var(--brand-green))] hover:bg-[hsl(var(--brand-green)/0.1)]",
+                  "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-6 text-[14px] font-bold text-[hsl(var(--brand-green))] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--brand-green)/0.1)]",
                 )}
               >
                 进入创造营
               </Link>
             </div>
 
-            <div className="mt-4 hidden max-w-[500px] grid-cols-4 gap-3 text-muted-foreground md:grid">
+            <div className="mt-5 hidden max-w-[560px] grid-cols-4 gap-3 text-muted-foreground md:grid">
               {homeHeroFeatures.map((item) => (
-                <div key={item.label} className="flex flex-col items-start gap-1 text-left md:flex-row md:items-center md:gap-1.5">
+                <div key={item.label} className="flex items-center gap-1.5 text-left">
                   <item.icon className={cn("h-[18px] w-[18px] shrink-0", item.color)} strokeWidth={2.2} />
-                  <span className="text-[12px] font-medium leading-4">{item.label}</span>
+                  <span className="whitespace-nowrap text-[13px] font-medium text-foreground/80">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -240,16 +240,16 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.52)] px-2.5 py-2.5 text-left transition hover:-translate-y-0.5 hover:bg-[hsl(var(--surface-raised)/0.9)] hover:shadow-[0_18px_34px_-30px_hsl(var(--surface-shadow)/0.4)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3 lg:min-h-[84px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] px-2.5 py-2.5 text-left transition-all duration-300 hover:-translate-y-1 hover:bg-[hsl(var(--surface-raised)/0.96)] hover:shadow-[0_16px_32px_-20px_hsl(var(--surface-shadow)/0.35)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               tone.border,
             )}
           >
-            <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition group-hover:scale-105 md:h-10 md:w-10", tone.bg)}>
+            <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition-transform duration-300 group-hover:scale-110 md:h-10 md:w-10", tone.bg)}>
               <Icon className={cn("h-5 w-5 md:h-[22px] md:w-[22px]", tone.text)} strokeWidth={2.2} />
             </span>
-            <div className="min-w-0">
-              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[16px] min-[1480px]:text-[17px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
-              <p className="mt-1.5 hidden text-[12px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
+            <div className="min-w-0 flex-1">
+              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[15px] min-[1480px]:text-[16px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
+              <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
               <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
           </Link>
@@ -265,25 +265,29 @@ function MainlineStartCard({ className }: { className?: string }) {
     <Link
       href={MAINLINE_ENTRY_HREF}
       className={cn(
-        "group flex items-center gap-3 rounded-sm border border-[hsl(var(--brand-blue)/0.32)] bg-[linear-gradient(120deg,hsl(var(--brand-blue)/0.12),hsl(var(--surface-raised)/0.86)_58%,hsl(var(--brand-amber)/0.1))] px-3 py-3 transition hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-30px_hsl(var(--brand-blue)/0.9)] md:gap-4 md:px-5 md:py-4",
+        "group relative flex items-center gap-3 overflow-hidden rounded-sm border border-[hsl(var(--brand-blue)/0.32)] bg-[linear-gradient(120deg,hsl(var(--brand-blue)/0.12),hsl(var(--surface-raised)/0.9)_52%,hsl(var(--brand-amber)/0.1))] px-3 py-3 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-blue)/0.55)] hover:shadow-[0_20px_40px_-24px_hsl(var(--brand-blue)/0.85)] md:gap-4 md:px-5 md:py-3.5",
         className,
       )}
     >
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.14)] transition group-hover:scale-105 md:h-12 md:w-12">
-        <Blocks className="h-5 w-5 text-[hsl(var(--brand-blue))] md:h-6 md:w-6" strokeWidth={2.2} />
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.14)] text-[hsl(var(--brand-blue))] shadow-xs transition duration-300 group-hover:scale-105 group-hover:bg-[hsl(var(--brand-blue)/0.2)] md:h-12 md:w-12">
+        <Blocks className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.2} />
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-[10px] font-bold uppercase tracking-wide text-[hsl(var(--brand-blue))] md:text-[11px]">
           新手推荐
         </p>
-        <h3 className="mt-0.5 truncate text-[14px] font-extrabold text-foreground md:text-[17px]">
+        <h3 className="mt-0.5 truncate text-[14px] font-extrabold text-foreground md:text-[16px] lg:text-[17px]">
           {MAINLINE_PRIMARY_CTA_LABEL}，搭出第一件作品
         </h3>
         <p className="mt-0.5 line-clamp-1 text-[11px] leading-4 text-muted-foreground md:text-[13px] md:leading-5">
           {MAINLINE_SHORT_PITCH}
         </p>
       </div>
-      <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))] transition group-hover:translate-x-0.5 md:h-5 md:w-5" />
+      <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-[12px] font-bold text-white shadow-xs transition duration-300 group-hover:translate-x-0.5 group-hover:bg-[hsl(var(--brand-blue)/0.9)] md:inline-flex">
+        开始学习
+        <ArrowRight className="h-3.5 w-3.5" />
+      </span>
+      <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))] transition group-hover:translate-x-0.5 md:hidden" />
     </Link>
   );
 }
@@ -300,14 +304,14 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
         </div>
         <Link
           href="/explore"
-          className="inline-flex min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:min-h-11"
+          className="inline-flex min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5 md:min-h-11"
         >
           全部项目
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       <div className="hidden md:block">
-        <MainlineStartCard className="mb-2 md:mb-3" />
+        <MainlineStartCard className="mb-2.5 md:mb-3" />
       </div>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
     </section>
@@ -319,28 +323,28 @@ function NatureChannel({ className }: { className?: string }) {
     <Link
       href="/nature"
       className={cn(
-        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[172px] md:rounded-sm lg:min-h-full",
+        "group relative block min-h-[90px] overflow-hidden rounded-sm bg-[hsl(var(--brand-green))] shadow-[0_14px_30px_-24px_hsl(var(--brand-green)/0.65)] min-[390px]:min-h-[94px] md:min-h-[148px] md:rounded-sm lg:min-h-[148px]",
         className,
       )}
     >
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,76,31,0.99)_0%,rgba(13,79,34,0.99)_58%,rgba(19,98,43,0.98)_100%)]" />
       <div className="absolute inset-0 opacity-25 mix-blend-soft-light bg-[linear-gradient(150deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_49%,transparent_58%),repeating-linear-gradient(112deg,rgba(255,255,255,0.07)_0_1px,transparent_1px_18px)]" />
-      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-16px] md:w-[64%] lg:right-[-16px] lg:w-[78%] min-[1640px]:right-[-32px] min-[1640px]:w-[76%]">
+      <div className="pointer-events-none absolute inset-y-[-18%] right-[-46px] w-[72%] min-[390px]:right-[-52px] min-[390px]:w-[68%] md:inset-y-[-10%] md:right-[-12px] md:w-[58%] lg:right-[-10px] lg:w-[62%] min-[1640px]:right-[-20px] min-[1640px]:w-[60%]">
         <Image
           src={natureForegroundImage}
           alt=""
           fill
           sizes="(max-width: 768px) 320px, (min-width: 1640px) 420px, (min-width: 1024px) 320px, 430px"
-          className="object-contain object-right-center drop-shadow-[0_18px_24px_rgba(3,34,12,0.28)] transition duration-500 group-hover:scale-[1.03] dark:brightness-95"
+          className="object-contain object-right-center drop-shadow-[0_18px_24px_rgba(3,34,12,0.28)] transition duration-500 group-hover:scale-[1.04] dark:brightness-95"
         />
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_42%,rgba(11,64,27,0.34)_58%,transparent_76%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_45%,rgba(11,64,27,0.26)_62%,transparent_78%)] min-[1480px]:bg-[linear-gradient(90deg,rgba(11,64,27,0.96)_0%,rgba(11,64,27,0.78)_36%,rgba(11,64,27,0.18)_58%,transparent_74%)]" />
-      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[172px] md:max-w-none md:px-6 md:py-5 md:text-white">
-        <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[20px]">自然观察频道</h2>
-        <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-3 md:text-[13px] md:text-white/92">观察自然 · 记录生命 · 保护环境</p>
-        <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] md:mt-5 md:h-8 md:gap-2 md:px-4 md:text-[13px]">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.9)_42%,rgba(11,64,27,0.34)_58%,transparent_76%)] md:bg-[linear-gradient(90deg,rgba(11,64,27,0.98)_0%,rgba(11,64,27,0.88)_46%,rgba(11,64,27,0.24)_65%,transparent_82%)]" />
+      <div className="relative z-10 flex h-full min-h-[90px] max-w-[186px] flex-col justify-center px-4 py-2 text-white/90 min-[390px]:min-h-[94px] min-[390px]:max-w-[206px] md:min-h-[148px] md:max-w-none md:px-5 md:py-4 md:text-white">
+        <h2 className="font-sans text-[14px] font-extrabold leading-none min-[390px]:text-[15px] md:text-[18px]">自然观察频道</h2>
+        <p className="mt-1 whitespace-nowrap text-[10px] font-medium leading-4 text-white/74 min-[390px]:text-[11px] md:mt-2 md:text-[12px] md:text-white/90">观察自然 · 记录生命 · 保护环境</p>
+        <span className="mt-1.5 inline-flex h-6 w-fit items-center gap-1 rounded-full bg-white px-2.5 text-[10px] font-bold text-[hsl(var(--brand-green))] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.45)] transition duration-300 group-hover:translate-x-0.5 md:mt-3 md:h-7 md:gap-1.5 md:px-3.5 md:text-[12px]">
           立即进入
-          <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+          <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
         </span>
       </div>
     </Link>
@@ -355,7 +359,7 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
     <Link
       href={`/nature/observations/${observation.id}?from=${encodeURIComponent("/")}`}
       prefetch={false}
-      className="group grid h-[112px] grid-cols-[112px_minmax(0,1fr)_36px] overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]"
+      className="group grid h-[112px] grid-cols-[112px_minmax(0,1fr)_36px] overflow-hidden rounded-sm border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-xs"
     >
       <div className="relative aspect-square bg-[hsl(var(--surface-muted))]">
         {image ? (
@@ -366,7 +370,7 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
             variant="thumbnail"
             sizes="112px"
             priority={priority}
-            className="object-cover transition duration-500 group-hover:scale-[1.035]"
+            className="object-cover transition duration-500 group-hover:scale-[1.04]"
           />
         ) : (
           <div className="grid h-full place-items-center text-[hsl(var(--brand-green))]">
@@ -401,38 +405,46 @@ function HomeObservationCard({ observation, priority }: { observation: Observati
 
 function HomeNatureSection({ observations }: { observations: ObservationEvent[] }) {
   return (
-    <section className="min-w-0" aria-labelledby="home-nature-heading">
-      <div className="mb-2 flex items-center justify-between md:mb-3">
-        <div>
-          <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-green))] md:block">身边的真实发现</p>
-          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
-            自然新发现
-          </h2>
-        </div>
-        <Link
-          href="/nature/observations"
-          className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-green))]"
-        >
-          全部观察
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-      {observations.length > 0 ? (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          {observations.slice(0, 3).map((observation, index) => (
-            <HomeObservationCard key={observation.id} observation={observation} priority={index === 0} />
-          ))}
-        </div>
-      ) : (
-        <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
+    <section className="flex min-w-0 flex-col justify-between" aria-labelledby="home-nature-heading">
+      <div>
+        <div className="mb-2 flex items-center justify-between md:mb-3">
           <div>
-            <p className="text-sm font-semibold text-foreground">还没有新的自然记录</p>
-            <Link href="/nature/submit" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-[hsl(var(--brand-green))]">
-              发布一次观察
-            </Link>
+            <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-green))] md:block">身边的真实发现</p>
+            <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
+              自然新发现
+            </h2>
           </div>
+          <Link
+            href="/nature/observations"
+            className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-green))] transition hover:translate-x-0.5"
+          >
+            全部观察
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
-      )}
+
+        {/* 桌面端常驻自然探索频道横幅，平衡双栏高度并强化自然探索主线入口 */}
+        <div className="mb-3 hidden lg:block">
+          <NatureChannel />
+        </div>
+
+        {observations.length > 0 ? (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            {observations.slice(0, 3).map((observation, index) => (
+              <HomeObservationCard key={observation.id} observation={observation} priority={index === 0} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
+            <div>
+              <p className="text-sm font-semibold text-foreground">还没有新的自然记录</p>
+              <Link href="/nature/submit" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-[hsl(var(--brand-green))]">
+                发布一次观察
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
@@ -471,52 +483,80 @@ function CommunityAndActivity({
   const challengeImage = featuredChallenge?.imageUrl || heroImage;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]">
-      <section className="rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.58)] p-4 shadow-none">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-[18px] font-bold text-foreground">社区动态</h2>
-          <Link href="/create" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
-        </div>
-        {communityFeed.length === 0 ? (
-          <p className="py-8 text-center text-[13px] text-muted-foreground">
-            暂无最新动态。
-            <Link href="/create" className="font-medium text-[hsl(var(--brand-blue))]"> 去创造营看看</Link>
-          </p>
-        ) : (
-          <div className="grid gap-3 md:grid-cols-3">
-            {communityFeed.map((item) => {
-              const { wrap, icon } = communityFeedIconWrap(item.kind);
-              return (
-                <Link key={item.key} href={item.href} className="grid grid-cols-[40px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-muted))]">
-                  <span className={cn("grid h-10 w-10 place-items-center rounded-full", wrap)}>{icon}</span>
-                  <div className="min-w-0">
-                    <p className="truncate text-[13px] text-muted-foreground">
-                      <span className="font-semibold text-[hsl(var(--brand-blue))]">{item.actorName}</span> {item.action}
-                    </p>
-                    <h3 className="mt-1 truncate text-[15px] font-semibold text-foreground">{item.title}</h3>
-                    <p className="mt-1 text-[12px] text-muted-foreground">{item.timeLabel}</p>
-                  </div>
-                </Link>
-              );
-            })}
+    <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)]">
+      <section className="flex flex-col justify-between rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.68)] p-4 shadow-none">
+        <div>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-[18px] font-bold text-foreground">社区动态</h2>
+            <Link href="/create" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5">
+              查看全部
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
-        )}
+          {communityFeed.length === 0 ? (
+            <p className="py-8 text-center text-[13px] text-muted-foreground">
+              暂无最新动态。
+              <Link href="/create" className="font-medium text-[hsl(var(--brand-blue))]"> 去创造营看看</Link>
+            </p>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-3">
+              {communityFeed.map((item) => {
+                const { wrap, icon } = communityFeedIconWrap(item.kind);
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className="group grid grid-cols-[40px_minmax(0,1fr)] gap-3 rounded-md border border-[hsl(var(--surface-border)/0.5)] bg-[hsl(var(--surface-raised)/0.5)] p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:bg-[hsl(var(--surface-raised)/0.95)] hover:shadow-xs"
+                  >
+                    <span className={cn("grid h-10 w-10 place-items-center rounded-full transition-transform duration-300 group-hover:scale-105", wrap)}>
+                      {icon}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] text-muted-foreground">
+                        <span className="font-semibold text-[hsl(var(--brand-blue))]">{item.actorName}</span> {item.action}
+                      </p>
+                      <h3 className="mt-1 truncate text-[14px] font-semibold text-foreground group-hover:text-[hsl(var(--brand-blue))]">{item.title}</h3>
+                      <p className="mt-1 text-[11px] text-muted-foreground">{item.timeLabel}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </section>
 
-      <section className="rounded-md border border-[hsl(var(--brand-amber)/0.28)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.1),hsl(var(--surface-raised)/0.76)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
-          <Link href="/create?tab=pbl" className="text-[13px] font-medium text-[hsl(var(--brand-blue))]">查看全部</Link>
+      <section className="flex flex-col justify-between rounded-md border border-[hsl(var(--brand-amber)/0.36)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.12),hsl(var(--surface-raised)/0.88)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
+        <div>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
+            <Link href="/create?tab=pbl" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5">
+              查看全部
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <Link
+            href={challengeHref}
+            className="group grid grid-cols-[96px_minmax(0,1fr)] gap-3.5 rounded-md border border-transparent p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-amber)/0.3)] hover:bg-[hsl(var(--surface-raised)/0.8)] hover:shadow-xs"
+          >
+            <div className="relative h-[76px] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
+              <Image
+                src={challengeImage}
+                alt={challengeTitle}
+                fill
+                sizes="140px"
+                className="object-cover object-[62%_center] transition duration-500 group-hover:scale-105"
+              />
+            </div>
+            <div className="min-w-0">
+              <span className="inline-flex items-center rounded-xs bg-[hsl(var(--brand-amber)/0.15)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
+                PBL 探究挑战
+              </span>
+              <h3 className="mt-1 truncate text-[15px] font-bold text-foreground group-hover:text-[hsl(var(--brand-amber))]">{challengeTitle}</h3>
+              <p className="mt-1.5 line-clamp-2 text-[12px] leading-5 text-muted-foreground">{challengeSummary}</p>
+            </div>
+          </Link>
         </div>
-        <Link href={challengeHref} className="grid grid-cols-[86px_minmax(0,1fr)] gap-3 rounded-sm p-2 transition hover:bg-[hsl(var(--surface-raised)/0.72)]">
-          <div className="relative h-[64px] overflow-hidden rounded-xs bg-[hsl(var(--surface-muted))]">
-            <Image src={challengeImage} alt={challengeTitle} fill sizes="120px" className="object-cover object-[62%_center]" />
-          </div>
-          <div className="min-w-0">
-            <h3 className="truncate text-[15px] font-bold text-foreground">{challengeTitle}</h3>
-            <p className="mt-2 line-clamp-2 text-[12px] leading-5 text-muted-foreground">{challengeSummary}</p>
-          </div>
-        </Link>
       </section>
     </div>
   );

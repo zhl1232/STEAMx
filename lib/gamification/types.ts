@@ -107,3 +107,8 @@ export interface Badge {
     /** tiered = 四档阶梯，single = 单档/手动授予 */
     kind?: BadgeKind;
 }
+
+/**
+ * 徽章图鉴只需要展示字段；不要把用于服务端判定的 condition 函数跨 RSC 边界传给客户端。
+ */
+export type BadgeDisplay = Omit<Badge, "condition">;

@@ -18,7 +18,7 @@ import { ResourceManagement } from '@/components/admin/resource-management'
 import { UserMembershipManagement } from '@/components/admin/user-membership-management'
 import { AiUsageDashboard } from '@/components/admin/ai-usage-dashboard'
 import { SafetyQueues } from '@/components/admin/safety-queues'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { UserAvatar } from '@/components/ui/user-avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
@@ -39,6 +39,7 @@ import {
 // ... Keep existing interfaces if needed, or refine ...
 interface Project {
   id: number
+  author_id: string
   title: string
   description: string
   category: string
@@ -587,12 +588,15 @@ export default function AdminPage() {
         <div className="mb-7 overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.18)] bg-[linear-gradient(135deg,hsl(var(--surface-raised)/0.95),hsl(var(--brand-blue)/0.08))] p-4 shadow-[0_22px_62px_-48px_hsl(var(--surface-shadow)/0.48)] sm:p-5 lg:p-6">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div className="flex min-w-0 items-center gap-4">
-              <Avatar className="h-16 w-16 shrink-0 border-4 border-background shadow-xs sm:h-20 sm:w-20">
-                <AvatarImage src={profile?.avatar_url || undefined} />
-                <AvatarFallback className="bg-[hsl(var(--brand-blue)/0.12)] text-lg font-bold text-[hsl(var(--brand-blue))]">
-                  {adminName.slice(0, 1)}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar
+                userId={profile?.id}
+                name={adminName}
+                src={profile?.avatar_url}
+                href={null}
+                fallback={adminName.slice(0, 1)}
+                className="h-16 w-16 shrink-0 border-4 border-background shadow-xs sm:h-20 sm:w-20"
+                avatarClassName="bg-[hsl(var(--brand-blue)/0.12)] text-lg font-bold text-[hsl(var(--brand-blue))]"
+              />
               <div className="min-w-0">
                 <p className="section-kicker">后台管理</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">

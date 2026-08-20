@@ -19,11 +19,11 @@ import {
     UserRoundPlus,
 } from "lucide-react";
 
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import type { BadgeTier } from "@/lib/gamification/types";
@@ -271,7 +271,9 @@ function PodiumCard({
 
             {user ? (
                 <>
-                    <AvatarWithFrame
+                    <UserAvatar
+                        userId={user.id}
+                        name={user.name}
                         src={user.avatar}
                         fallback={user.name[0] ?? "?"}
                         avatarFrameId={user.avatarFrameId}
@@ -355,7 +357,9 @@ function LeaderboardRow({
             </div>
 
             <div className="flex min-w-0 items-center gap-3 xl:gap-4">
-                <AvatarWithFrame
+                <UserAvatar
+                    userId={user.id}
+                    name={user.name}
                     src={user.avatar}
                     fallback={user.name[0] ?? "?"}
                     avatarFrameId={user.avatarFrameId}
@@ -433,7 +437,9 @@ function CurrentUserStrip({
                     <div className="text-2xl font-black tabular-nums text-blue-700 dark:text-blue-200">{rank}</div>
                 </div>
                 <div className="flex min-w-0 items-center gap-3">
-                    <AvatarWithFrame
+                    <UserAvatar
+                        userId={user.id}
+                        name={user.name}
                         src={user.avatar}
                         fallback={user.name[0] ?? "?"}
                         avatarFrameId={user.avatarFrameId}

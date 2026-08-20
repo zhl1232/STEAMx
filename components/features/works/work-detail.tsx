@@ -10,10 +10,10 @@ import { ArrowLeft, BookOpen, Coins, Flag, Heart, MessageCircle, Share2, Wrench 
 import { CompletionRecordComments } from "@/components/features/project/completion-record-comments"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { WorkImageGallery } from "@/components/features/works/work-image-gallery"
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame"
 import { Button } from "@/components/ui/button"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
@@ -282,7 +282,9 @@ export function WorkDetail({
           <div className="border-b border-border pb-5">
             <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-muted-foreground">作者与支持</p>
             <div className="flex items-center gap-3">
-              <AvatarWithFrame
+              <UserAvatar
+                userId={work.userId}
+                name={work.author}
                 src={work.avatar}
                 alt={work.author}
                 avatarFrameId={work.avatarFrameId}

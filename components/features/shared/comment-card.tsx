@@ -5,11 +5,11 @@ import Link from "next/link";
 
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, MoreHorizontal, Trash2, ThumbsUp, Pencil, Check, Flag, X as XIcon } from "lucide-react";
-import { AvatarWithFrame } from "@/components/ui/avatar-with-frame";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { ReportDialog } from "@/components/ui/report-dialog";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -178,19 +178,20 @@ function CommentCardComponent({
       )}
       id={anchorId}
     >
-      <UserLink className="shrink-0" ariaLabel={`查看 ${comment.author} 的主页`}>
-        <AvatarWithFrame
-          src={comment.avatar}
-          alt={comment.author}
-          fallback={comment.author[0]?.toUpperCase()}
-          avatarFrameId={comment.avatarFrameId}
-          className={cn(
-            "shrink-0 border transition-transform hover:scale-105",
-            compact ? "h-8 w-8" : "h-9 w-9 sm:h-10 sm:w-10",
-          )}
-          avatarClassName={compact ? "h-8 w-8" : undefined}
-        />
-      </UserLink>
+      <UserAvatar
+        userId={comment.userId}
+        name={comment.author}
+        src={comment.avatar}
+        alt={comment.author}
+        fallback={comment.author[0]?.toUpperCase()}
+        avatarFrameId={comment.avatarFrameId}
+        href={enableUserLink && comment.userId ? `/users/${comment.userId}` : null}
+        className={cn(
+          "shrink-0 border transition-transform hover:scale-105",
+          compact ? "h-8 w-8" : "h-9 w-9 sm:h-10 sm:w-10",
+        )}
+        avatarClassName={compact ? "h-8 w-8" : undefined}
+      />
 
       <div className="flex-1 min-w-0 overflow-hidden">
         <div className="mb-0 flex flex-wrap items-center gap-1.5">

@@ -23,6 +23,8 @@ interface Profile {
   equipped_avatar_frame_id: string | null
   equipped_name_color_id: string | null
   equipped_theme_id: string | null
+  equipped_title: string | null
+  featured_badge_ids: string[] | null
   birth_date: string | null
   created_at: string
   membership_tier: string
@@ -69,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data } = await supabase
       .from('profiles')
-      .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, equipped_theme_id, birth_date, created_at, membership_tier, membership_period, membership_started_at, membership_expires_at, age_confirmed_at, interaction_restricted')
+      .select('id, role, username, display_name, avatar_url, bio, gender, xp, coins, equipped_avatar_frame_id, equipped_name_color_id, equipped_theme_id, equipped_title, featured_badge_ids, birth_date, created_at, membership_tier, membership_period, membership_started_at, membership_expires_at, age_confirmed_at, interaction_restricted')
       .eq('id', userId)
       .single()
 

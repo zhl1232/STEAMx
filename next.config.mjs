@@ -52,6 +52,10 @@ const nextConfig = {
         search: "?v=20260522-tech-images",
       },
       {
+        pathname: "/assets/badges/series/**",
+        search: "?v=20260820-transparent",
+      },
+      {
         pathname: "/api/assets/**",
       },
     ],

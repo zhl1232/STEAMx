@@ -4,6 +4,14 @@ import { describe, expect, it, vi } from "vitest";
 import { BadgeGalleryDialog } from "./badge-gallery-dialog";
 import type { Badge, UserStats } from "@/lib/gamification/types";
 
+vi.mock("@/lib/context/auth-context", () => ({
+    useAuth: () => ({
+        user: null,
+        profile: null,
+        refreshProfile: vi.fn(),
+    }),
+}));
+
 vi.mock("@/components/ui/dialog", () => ({
     Dialog: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
     DialogContent: ({ children, className }: { children: React.ReactNode; className?: string }) => <div className={className}>{children}</div>,
@@ -99,8 +107,8 @@ const badges: Badge[] = [
     },
     {
         id: "insect_rank_bronze",
-        name: "D 级",
-        description: "完成手册 D 级任意一套九宫格",
+        name: "初识虫趣",
+        description: "完成初级任意一套昆虫九宫格",
         icon: "butterfly",
         tier: "bronze",
         seriesKey: "insect_rank",
@@ -109,8 +117,8 @@ const badges: Badge[] = [
     },
     {
         id: "insect_rank_silver",
-        name: "C 级",
-        description: "完成手册 C 级任意一套九宫格",
+        name: "寻虫常客",
+        description: "完成进阶任意一套昆虫九宫格",
         icon: "butterfly",
         tier: "silver",
         seriesKey: "insect_rank",
@@ -119,8 +127,8 @@ const badges: Badge[] = [
     },
     {
         id: "insect_rank_gold",
-        name: "B 级",
-        description: "完成手册 B 级任意一套九宫格",
+        name: "寻虫能手",
+        description: "完成高级任意一套昆虫九宫格",
         icon: "butterfly",
         tier: "gold",
         seriesKey: "insect_rank",
@@ -129,8 +137,8 @@ const badges: Badge[] = [
     },
     {
         id: "insect_rank_platinum",
-        name: "A 级",
-        description: "完成手册 A 级任意一套九宫格",
+        name: "虫林专家",
+        description: "完成专家任意一套昆虫九宫格",
         icon: "butterfly",
         tier: "platinum",
         seriesKey: "insect_rank",
@@ -139,8 +147,8 @@ const badges: Badge[] = [
     },
     {
         id: "insect_rank_diamond",
-        name: "S 级",
-        description: "完成手册 S 级任一项挑战",
+        name: "昆虫传奇",
+        description: "完成任一项专属或神物挑战",
         icon: "butterfly",
         tier: "diamond",
         seriesKey: "insect_rank",
@@ -192,7 +200,7 @@ describe("BadgeGalleryDialog", () => {
 
         expect(screen.getByRole("button", { name: /实验室常客/ })).toBeInTheDocument();
         expect(screen.getByRole("button", { name: /全图鉴玩家/ })).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /D 级/ })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /初识虫趣/ })).toBeInTheDocument();
         expect(screen.queryByRole("button", { name: /好奇观察员/ })).not.toBeInTheDocument();
         expect(screen.queryByRole("button", { name: /假说验证者/ })).not.toBeInTheDocument();
         expect(screen.queryByRole("button", { name: /游园新客/ })).not.toBeInTheDocument();
@@ -256,12 +264,12 @@ describe("BadgeGalleryDialog", () => {
             </BadgeGalleryDialog>
         );
 
-        expect(screen.getByText("A 级")).toBeInTheDocument();
-        expect(screen.queryByText("S 级")).not.toBeInTheDocument();
+        expect(screen.getByText("虫林专家")).toBeInTheDocument();
+        expect(screen.queryByText("昆虫传奇")).not.toBeInTheDocument();
 
-        await user.click(screen.getByRole("button", { name: /A 级/ }));
+        await user.click(screen.getByRole("button", { name: /虫林专家/ }));
 
         expect(screen.getByText("已升到最高品质")).toBeInTheDocument();
-        expect(screen.queryByText("S 级")).not.toBeInTheDocument();
+        expect(screen.queryByText("昆虫传奇")).not.toBeInTheDocument();
     });
 });

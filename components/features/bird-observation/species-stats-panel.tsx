@@ -34,7 +34,7 @@ import {
   formatObservationLifecycleStage,
   formatObservationSex,
 } from "@/lib/observations/traits"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/ui/user-avatar"
 
 type StatsTab = "seasonality" | "history" | "lifecycle" | "sex"
 
@@ -100,12 +100,13 @@ function ContributorRanking<T extends { userId: string; displayName: string; ava
                     <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">
                       {index + 1}
                     </span>
-                    <Avatar className="h-7 w-7 shrink-0 border border-border/60">
-                      <AvatarImage src={person.avatarUrl ?? undefined} alt={person.displayName} />
-                      <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
-                        {person.displayName.slice(0, 1)}
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar
+                      userId={person.userId}
+                      name={person.displayName}
+                      src={person.avatarUrl}
+                      href={null}
+                      className="h-7 w-7 shrink-0 border border-border/60"
+                    />
                     <span className="truncate text-foreground/85">{person.displayName}</span>
                   </span>
                   <span className="shrink-0 text-muted-foreground tabular-nums">

@@ -117,8 +117,9 @@ import { Surface } from "@/components/ui/surface"
 <Button tone="danger" shape="pill">拒绝</Button>
 ```
 
-按钮默认圆角为 `--radius-sm`（10px），移动端顶部按钮、工具栏/表单内普通按钮都使用默认或 `shape="soft"`。大号主 CTA、审核操作、底栏固定按钮可使用 `shape="pill"`；紧凑图标按钮可用 `shape="square"`。不要写 `bg-green-600`、`rounded-[12px]`。
+按钮默认圆角为 `--radius-sm`（10px），用于工具栏、表单输入框与次级操作按钮。页面首屏大号主 CTA、引导性主要行动入口（如「开始探索项目」「挑一节积木课」「立即进入」「查看榜单」）、审核操作与底栏固定按钮统一使用 `shape="pill"`（全圆角胶囊），与大面积内容容器卡片（统一为 `--radius-md` / 16px）形成清晰的“容器骨架 vs 触发按键”层级；紧凑图标按钮可用 `shape="square"`。不要写 `bg-green-600`、`rounded-[12px]`。
 链接型按钮优先使用 `<Button asChild>`；如果整张卡片已经是 `Link`，内部右侧的按钮视觉必须复用 `buttonVariants({ tone, shape })`，不要手写 `rounded-*`、`bg-*` 形成局部圆角漂移。
+纯展示性的特性要点（Feature Items）禁止使用实体药丸背景，保持通透自然的图标+文本排版，避免被误判为可点击按钮。
 
 ---
 
