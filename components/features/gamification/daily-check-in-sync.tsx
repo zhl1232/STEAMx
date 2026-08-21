@@ -11,6 +11,7 @@ import type { UserStats } from "@/lib/gamification/types";
 import { logger } from "@/lib/logger";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
 import { createDefaultDisplayName } from "@/lib/auth/default-display-name";
+import { invalidateProfileHomeData } from "@/lib/profile/profile-home-client";
 import { createClient } from "@/lib/supabase/client";
 
 interface CheckInResult {
@@ -145,6 +146,8 @@ export function DailyCheckInSync() {
 
         const refreshRewardState = async () => {
             await refreshProfile();
+            invalidateProfileHomeData(user.id);
+            await queryClient.invalidateQueries({ queryKey: ["profile", "home", user.id] });
             void queryClient.invalidateQueries({ queryKey: ["coin_logs"] });
             void queryClient.invalidateQueries({ queryKey: ["gamification", "stats", user.id] });
         };

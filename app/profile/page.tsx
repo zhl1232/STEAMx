@@ -12,7 +12,6 @@ import {
   CalendarDays,
   ChevronRight,
   Edit3,
-  ExternalLink,
   Eye,
   FolderOpen,
   Heart,
@@ -623,11 +622,6 @@ function MobileProfilePage({
         showUserButton={false}
         rightSlot={
           <div className="flex items-center gap-0.5">
-            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0 text-muted-foreground transition hover:text-foreground" title="查看公开主页">
-              <Link href={`/users/${profileContext.userId}`} aria-label="查看公开主页">
-                <ExternalLink className="h-4 w-4" />
-              </Link>
-            </Button>
             <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0 text-muted-foreground transition hover:text-foreground" title="设置">
               <Link href="/settings" aria-label="设置">
                 <Settings className="h-4.5 w-4.5" />

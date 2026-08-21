@@ -254,6 +254,7 @@ describe("DailyCheckInSync", () => {
 
         expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ["coin_logs"] });
         expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ["gamification", "stats", "user-1"] });
+        expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ["profile", "home", "user-1"] });
         expect(mockCheckBadges).toHaveBeenCalledWith(
             expect.objectContaining({
                 loginDays: 2,

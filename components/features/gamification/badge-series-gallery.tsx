@@ -123,10 +123,10 @@ export function BadgeSeriesGallery({
                             title={badge.description}
                             onClick={() => setDetailSelection({ seriesKey, badgeId: badge.id })}
                             className={cn(
-                                "group relative flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-sm border p-2.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 sm:rounded-md sm:gap-2 sm:p-3.5",
+                                "group relative flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-sm p-2.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 sm:rounded-md sm:gap-2 sm:p-3.5",
                                 unlocked
-                                    ? "border-border/70 bg-card/80 shadow-2xs hover:border-primary/40 dark:bg-card/60"
-                                    : "border-border/40 bg-muted/20 opacity-70 hover:opacity-100 hover:border-border",
+                                    ? "text-foreground"
+                                    : "opacity-70 hover:bg-muted/40 hover:opacity-100",
                             )}
                         >
                             <div className="relative flex justify-center p-1 sm:p-1.5">
