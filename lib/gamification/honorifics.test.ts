@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { deriveFeaturedBadges, deriveUserTitle, getAvailableTitles, getLevelDefaultTitle } from "./honorifics";
+import { deriveFeaturedBadges, deriveUserTitle, getAvailableTitles, getLevelDefaultTitle, resolveFeaturedBadges } from "./honorifics";
 
 describe("honorifics system", () => {
   describe("getLevelDefaultTitle", () => {
@@ -80,14 +80,51 @@ describe("honorifics system", () => {
           "science_expert_gold",
           "tech_expert_silver",
           "intro_publish_platinum",
+          "engineering_expert_bronze",
+          "art_expert_bronze",
         ],
       });
-      // 4 个不同系列全部入选，且按 platinum, gold, silver, bronze 排序
-      expect(featured).toHaveLength(4);
+      // 最多展示 5 个不同系列，且按 platinum, gold, silver, bronze 排序
+      expect(featured).toHaveLength(5);
       expect(featured[0].id).toBe("intro_publish_platinum");
       expect(featured[1].id).toBe("science_expert_gold");
       expect(featured[2].id).toBe("tech_expert_silver");
-      expect(featured[3].id).toBe("intro_likes_bronze");
+      expect(featured.slice(3).map((badge) => badge.id)).toEqual([
+        "intro_likes_bronze",
+        "engineering_expert_bronze",
+      ]);
+    });
+
+    it("keeps up to 5 manually selected badges in the configured order", () => {
+      const featured = deriveFeaturedBadges({
+        featuredBadgeIds: [
+          "intro_likes_bronze",
+          "science_expert_gold",
+          "tech_expert_silver",
+          "intro_publish_platinum",
+          "engineering_expert_bronze",
+          "art_expert_bronze",
+          "math_expert_bronze",
+        ],
+        unlockedBadgeIds: [
+          "intro_likes_bronze",
+          "science_expert_gold",
+          "tech_expert_silver",
+          "intro_publish_platinum",
+          "engineering_expert_bronze",
+          "art_expert_bronze",
+          "math_expert_bronze",
+        ],
+      });
+
+      expect(featured).toHaveLength(5);
+      expect(featured.map((badge) => badge.id)).toEqual([
+        "intro_likes_bronze",
+        "science_expert_gold",
+        "tech_expert_silver",
+        "intro_publish_platinum",
+        "engineering_expert_bronze",
+      ]);
     });
 
     it("deduplicates badges in the same series, keeping only the highest tier", () => {
@@ -114,6 +151,35 @@ describe("honorifics system", () => {
         unlockedBadgeIds: [],
       });
       expect(featured).toEqual([]);
+    });
+
+    it("reports whether the actual selection is manual or default", () => {
+      const defaultSelection = resolveFeaturedBadges({
+        featuredBadgeIds: null,
+        unlockedBadgeIds: ["intro_likes_bronze", "science_expert_gold"],
+      });
+      expect(defaultSelection.source).toBe("default");
+      expect(defaultSelection.badges.map((badge) => badge.id)).toEqual([
+        "science_expert_gold",
+        "intro_likes_bronze",
+      ]);
+
+      const emptySelection = resolveFeaturedBadges({
+        featuredBadgeIds: [],
+        unlockedBadgeIds: ["intro_likes_bronze", "science_expert_gold"],
+      });
+      expect(emptySelection.source).toBe("manual");
+      expect(emptySelection.badges).toEqual([]);
+
+      const manualSelection = resolveFeaturedBadges({
+        featuredBadgeIds: ["intro_likes_bronze", "intro_likes_bronze", "science_expert_gold"],
+        unlockedBadgeIds: ["intro_likes_bronze", "science_expert_gold"],
+      });
+      expect(manualSelection.source).toBe("manual");
+      expect(manualSelection.badges.map((badge) => badge.id)).toEqual([
+        "intro_likes_bronze",
+        "science_expert_gold",
+      ]);
     });
   });
 });

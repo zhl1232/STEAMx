@@ -371,18 +371,34 @@ export function getSeriesProgressValue(seriesKey: string, stats?: UserStats | nu
     return series.getValue(stats);
 }
 
+const SERIES_TIER_KEYS: BadgeTier[] = ["bronze", "silver", "gold", "platinum", "diamond"];
+
 export function getNextSeriesThreshold(seriesKey: string, current: number, unlockedIds: Set<string>): number | null {
     const thresholds = getSeriesThresholds(seriesKey);
     if (thresholds.length === 0) return null;
     const visibleCount = seriesKey === "insect_rank" && !unlockedIds.has("insect_rank_diamond")
         ? Math.min(4, thresholds.length)
         : thresholds.length;
-    return thresholds.slice(0, visibleCount).find((threshold) => current < threshold) ?? null;
+
+    for (let i = 0; i < visibleCount; i++) {
+        const tier = SERIES_TIER_KEYS[i];
+        const badgeId = `${seriesKey}_${tier}`;
+        const isUnlocked = unlockedIds.has(badgeId);
+        const isMet = current >= thresholds[i];
+        if (!isUnlocked && !isMet) {
+            return thresholds[i];
+        }
+    }
+    return null;
 }
 
 export function isSeriesAtVisibleMax(seriesKey: string, current: number, unlockedIds: Set<string>) {
     const next = getNextSeriesThreshold(seriesKey, current, unlockedIds);
-    return next === null && current > 0;
+    if (next !== null) return false;
+    const thresholds = getSeriesThresholds(seriesKey);
+    if (thresholds.length === 0) return false;
+    const hasAnyUnlocked = thresholds.some((_, i) => unlockedIds.has(`${seriesKey}_${SERIES_TIER_KEYS[i]}`));
+    return hasAnyUnlocked || current > 0;
 }
 
 /**

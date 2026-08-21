@@ -15,8 +15,14 @@ import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { useGamification, BADGES } from '@/lib/context/gamification-context';
 import { useNotifications } from '@/lib/context/notification-context';
-import { getBadgesForDisplay } from "@/lib/gamification/badges";
+import { getBadgeDisplayDefinitions } from "@/lib/gamification/badges";
+import {
+  deriveFeaturedBadges,
+  PROFILE_BADGE_VISIBLE_LIMIT,
+} from "@/lib/gamification/honorifics";
 import { Profile } from "@/lib/mappers/types";
+
+const DISPLAY_BADGES = getBadgeDisplayDefinitions(BADGES);
 
 interface ProfileHeaderProps {
   user: User;
@@ -50,8 +56,15 @@ export function ProfileHeader({
   const currentXP = profile?.xp || 0;
   const level = Math.floor(Math.sqrt(currentXP / 100)) + 1;
   const nextLevelXP = 100 * Math.pow(level, 2);
-  const featuredBadges =
-    unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5);
+  const featuredBadges = deriveFeaturedBadges({
+    featuredBadgeIds: profile?.featured_badge_ids,
+    unlockedBadgeIds: unlockedBadges,
+    allBadges: DISPLAY_BADGES,
+  });
+  const visibleFeaturedBadges = featuredBadges.slice(0, PROFILE_BADGE_VISIBLE_LIMIT);
+  const remainingBadgeCount = visibleFeaturedBadges.length > 0
+    ? Math.max(0, unlockedBadges.size - visibleFeaturedBadges.length)
+    : 0;
   const canReview = profile?.role === "admin" || profile?.role === "moderator";
   const canApplyModerator = !canReview && level >= 5;
 
@@ -189,16 +202,23 @@ export function ProfileHeader({
       <div className="px-4 pb-4">
         <div className="surface-subtle p-4">
           <div className="flex items-center justify-between gap-3">
-            <p className="text-sm font-medium text-foreground">最近徽章与成长</p>
-            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails}>
+            <p className="text-sm font-medium text-foreground">
+              {visibleFeaturedBadges.length > 0 ? "主页佩戴与成长" : "徽章图鉴"}
+            </p>
+            <BadgeGalleryDialog
+              badges={BADGES}
+              unlockedBadges={unlockedBadges}
+              userBadgeDetails={userBadgeDetails}
+              featuredBadgeIds={profile?.featured_badge_ids}
+            >
               <button type="button" className="text-xs font-medium text-primary transition-colors hover:text-primary/80">
-                查看全部
+                {visibleFeaturedBadges.length > 0 ? "查看全部" : "打开图鉴"}
               </button>
             </BadgeGalleryDialog>
           </div>
 
           <div className="mt-3 flex items-center gap-2">
-            {featuredBadges.map((badge) => (
+            {visibleFeaturedBadges.map((badge) => (
               <BadgeIcon
                 key={badge.id}
                 icon={badge.icon}
@@ -210,6 +230,22 @@ export function ProfileHeader({
                 locked={!unlockedBadges.has(badge.id)}
               />
             ))}
+            {remainingBadgeCount > 0 ? (
+              <BadgeGalleryDialog
+                badges={BADGES}
+                unlockedBadges={unlockedBadges}
+                userBadgeDetails={userBadgeDetails}
+                featuredBadgeIds={profile?.featured_badge_ids}
+              >
+                <button
+                  type="button"
+                  className="grid h-8 w-8 place-items-center rounded-full border border-border/70 bg-background/70 text-[11px] font-bold text-muted-foreground shadow-2xs transition hover:scale-105 hover:border-primary/50 hover:text-primary focus:outline-none"
+                  title={`查看其余 ${remainingBadgeCount} 枚已解锁徽章`}
+                >
+                  +{remainingBadgeCount}
+                </button>
+              </BadgeGalleryDialog>
+            ) : null}
           </div>
 
           <div className="mt-4 border-t border-border/60 pt-4">

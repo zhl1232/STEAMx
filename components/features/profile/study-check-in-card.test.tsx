@@ -46,4 +46,31 @@ describe('StudyCheckInCard', () => {
     expect(screen.getByText('--')).toBeInTheDocument()
     expect(screen.getByText('暂时无法载入打卡记录，请稍后刷新重试。')).toBeInTheDocument()
   })
+
+  it('shows a compact layout for mobile display', () => {
+    render(
+      <StudyCheckInCard
+        compact
+        state="ready"
+        summary={{
+          streak: 5,
+          todayCompleted: true,
+          streakThroughDate: '2026-05-07',
+          days: [
+            { date: '2026-05-02', label: '5.02', completed: true },
+            { date: '2026-05-03', label: '5.03', completed: true },
+            { date: '2026-05-04', label: '5.04', completed: true },
+            { date: '2026-05-05', label: '5.05', completed: true },
+            { date: '2026-05-06', label: '5.06', completed: true },
+            { date: '2026-05-07', label: '5.07', completed: true },
+          ],
+        }}
+      />,
+    )
+
+    expect(screen.getByText('每日打卡')).toBeInTheDocument()
+    expect(screen.getByText('今天已完成')).toBeInTheDocument()
+    expect(screen.getByText('5')).toBeInTheDocument()
+    expect(screen.getByText('今')).toBeInTheDocument()
+  })
 })

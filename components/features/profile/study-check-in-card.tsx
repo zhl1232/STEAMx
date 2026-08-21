@@ -65,6 +65,70 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
   const hintTone = getHintTone(state, summary)
   const statusTone = getStatusTone(state, summary)
 
+  if (compact) {
+    return (
+      <section className={cn('surface-panel flex flex-col rounded-lg p-3.5', className)}>
+        {/* 顶部标题与今日状态 */}
+        <div className="flex items-center justify-between gap-2">
+          {title || (
+            <div className="flex items-center gap-1.5">
+              <CalendarDays className="h-4 w-4 text-[hsl(var(--brand-amber))]" />
+              <h2 className="text-sm font-semibold text-foreground">每日打卡</h2>
+            </div>
+          )}
+          <span
+            className={cn(
+              'inline-flex min-h-5 items-center rounded-full border px-2 text-[10px] font-bold',
+              statusTone,
+            )}
+          >
+            {statusText}
+          </span>
+        </div>
+
+        {/* 主体：左侧连续天数 + 右侧 6 天点阵横向对齐 */}
+        <div className="mt-2.5 flex items-center justify-between gap-3">
+          <div className="flex items-baseline gap-1 shrink-0">
+            <span className="text-xs font-semibold text-muted-foreground">连续</span>
+            <span className="text-[26px] font-extrabold leading-none text-[hsl(var(--brand-green))]">
+              {metric.value}
+            </span>
+            {metric.suffix ? (
+              <span className="text-xs font-bold text-foreground">{metric.suffix}</span>
+            ) : null}
+          </div>
+
+          {/* 6天打卡状态 */}
+          <div className="flex items-center gap-1.5 min-w-0">
+            {visibleDays.map((day, index) => {
+              const isToday = index === visibleDays.length - 1
+              const completed = state === 'ready' && Boolean(day.completed)
+
+              return (
+                <div key={`${day.date || 'placeholder'}-${day.label}-${index}`} className="flex flex-col items-center">
+                  <span
+                    className={cn(
+                      'grid h-6 w-6 place-items-center rounded-full border text-[10px]',
+                      completed && isToday && 'border-[hsl(var(--brand-green))] bg-[hsl(var(--brand-green))] text-white shadow-2xs',
+                      completed && !isToday && 'border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.12)] text-[hsl(var(--brand-green))]',
+                      !completed && state === 'ready' && 'border-[hsl(var(--surface-border-strong))] bg-[hsl(var(--surface-muted))] text-muted-foreground',
+                      state !== 'ready' && 'border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.82)] text-muted-foreground',
+                    )}
+                  >
+                    {completed ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Circle className="h-3.5 w-3.5" />}
+                  </span>
+                  <span className="mt-0.5 text-[10px] font-medium text-muted-foreground">
+                    {isToday ? '今' : day.label.slice(-2)}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className={cn('surface-panel flex flex-col rounded-lg', compact ? 'p-4' : 'p-6', className)}>
       {title || <h2 className="text-base font-semibold text-foreground">每日打卡</h2>}

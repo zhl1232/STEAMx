@@ -12,6 +12,7 @@ import {
   CalendarDays,
   ChevronRight,
   Edit3,
+  ExternalLink,
   Eye,
   FolderOpen,
   Heart,
@@ -20,10 +21,19 @@ import {
   Radar,
   Rocket,
   Settings,
+  Sparkles,
   Trophy,
   UsersRound,
   type LucideIcon,
 } from 'lucide-react'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
 import { BadgeIcon } from '@/components/features/gamification/badge-icon'
@@ -44,10 +54,16 @@ import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { UserAvatar } from '@/components/ui/user-avatar'
 import { useAuth } from '@/lib/context/auth-context'
-import { BADGES, useGamification } from '@/lib/context/gamification-context'
+import { useGamification } from '@/lib/context/gamification-context'
 import { type Notification, useOptionalNotifications } from '@/lib/context/notification-context'
-import { getBadgesForDisplay } from '@/lib/gamification/badges'
-import type { UserStats } from '@/lib/gamification/types'
+import { PublicProfileBadges } from '@/components/features/gamification/public-profile-badges'
+import { BADGES, getBadgeDisplayDefinitions } from '@/lib/gamification/badges'
+import {
+  deriveFeaturedBadges,
+  deriveUserTitle,
+  PROFILE_BADGE_VISIBLE_LIMIT,
+} from '@/lib/gamification/honorifics'
+import type { BadgeDisplay, UserStats } from '@/lib/gamification/types'
 import { logger } from '@/lib/logger'
 import type { ObservationEvent, Project, Work } from '@/lib/mappers/types'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
@@ -71,6 +87,8 @@ import type { WeeklyPlan } from '@/lib/profile/weekly-plan'
 import { fetchWeeklyPlan, invalidateWeeklyPlan } from '@/lib/profile/weekly-plan-client'
 import { WeeklyPlanCard, WeeklyPlanCardSkeleton } from '@/components/features/profile/weekly-plan-card'
 
+const DISPLAY_BADGES = getBadgeDisplayDefinitions(BADGES)
+
 const SteamRadarChart = dynamic(
   () => import('@/components/features/profile/steam-radar-chart').then((mod) => mod.SteamRadarChart),
   {
@@ -88,6 +106,7 @@ type ProfileContext = {
   userAvatar?: string | null
   level: number
   levelTitle: string
+  userTitle?: string | null
   currentXP: number
   nextLevelXP: number
   xpIntoLevel: number
@@ -335,8 +354,11 @@ export default function ProfilePage() {
   const nextLevelXP = 100 * Math.pow(level, 2)
   const xpIntoLevel = Math.max(0, currentXP - currentLevelBaseXP)
   const xpNeededThisLevel = Math.max(1, nextLevelXP - currentLevelBaseXP)
-  const featuredBadges =
-    unlockedBadges.size > 0 ? getBadgesForDisplay(BADGES, unlockedBadges, 5) : BADGES.slice(0, 5)
+  const featuredBadges = deriveFeaturedBadges({
+    featuredBadgeIds: profile?.featured_badge_ids,
+    unlockedBadgeIds: unlockedBadges,
+    allBadges: DISPLAY_BADGES,
+  })
   const stats: ProfileStat[] = [
     { key: 'works', label: '作品', value: myWorksTotalCount, href: '/profile/library', icon: 'projects' },
     { key: 'followers', label: '粉丝', value: followerCount, href: '/profile/followers', icon: 'followers' },
@@ -355,12 +377,19 @@ export default function ProfilePage() {
     naturalObservationProgress,
   })
 
+  const userTitle = deriveUserTitle({
+    equippedTitle: profile?.equipped_title,
+    unlockedBadgeIds: unlockedBadges,
+    level,
+  })
+
   const profileContext = {
     userId: user.id,
     userName,
     userAvatar,
     level,
     levelTitle: getLevelTitle(level),
+    userTitle,
     currentXP,
     nextLevelXP,
     xpIntoLevel,
@@ -378,6 +407,7 @@ export default function ProfilePage() {
     claimingTaskId,
     onClaimGrowthTask: handleClaimGrowthTask,
     featuredBadges,
+    displayBadges: DISPLAY_BADGES,
     unlockedBadges,
     userBadgeDetails,
     userStats,
@@ -409,6 +439,7 @@ function DesktopProfilePage({
   claimingTaskId,
   onClaimGrowthTask,
   featuredBadges,
+  displayBadges,
   unlockedBadges,
   userBadgeDetails,
   userStats,
@@ -430,7 +461,8 @@ function DesktopProfilePage({
   weeklyPlanError: boolean
   claimingTaskId: GrowthTaskId | null
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
-  featuredBadges: typeof BADGES
+  featuredBadges: BadgeDisplay[]
+  displayBadges: BadgeDisplay[]
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   userStats?: UserStats
@@ -465,6 +497,10 @@ function DesktopProfilePage({
             profileContext={profileContext}
             stats={stats}
             profile={profile}
+            featuredBadges={featuredBadges}
+            displayBadges={displayBadges}
+            unlockedBadges={unlockedBadges}
+            userStats={userStats}
             compact={false}
           />
 
@@ -519,6 +555,7 @@ function DesktopProfilePage({
                 <ExperienceBadgesPanel
                   profileContext={profileContext}
                   featuredBadges={featuredBadges}
+                  featuredBadgeIds={profile?.featured_badge_ids}
                   unlockedBadges={unlockedBadges}
                   userBadgeDetails={userBadgeDetails}
                   userStats={userStats}
@@ -548,12 +585,14 @@ function MobileProfilePage({
   claimingTaskId,
   onClaimGrowthTask,
   featuredBadges,
+  displayBadges,
   unlockedBadges,
-  userBadgeDetails,
   userStats,
   steamRadar,
   profile,
   naturalObservationProgress,
+  studyCheckInSummary,
+  studyCheckInState,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
@@ -563,14 +602,18 @@ function MobileProfilePage({
   weeklyPlanError: boolean
   claimingTaskId: GrowthTaskId | null
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
-  featuredBadges: typeof BADGES
+  featuredBadges: BadgeDisplay[]
+  displayBadges: BadgeDisplay[]
   unlockedBadges: Set<string>
-  userBadgeDetails: Map<string, { unlockedAt: string }>
   userStats?: UserStats
   steamRadar: SteamRadarWithGuidance | null
   profile: ReturnType<typeof useAuth>['profile']
   naturalObservationProgress: NaturalObservationProgressSummary | null
+  studyCheckInSummary: ProfileStudyCheckInSummary | null
+  studyCheckInState: StudyCheckInLoadState
 }) {
+  const hasRadarValue = hasSteamRadarValue(steamRadar)
+
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
       <MobileGlobalHeader
@@ -579,29 +622,96 @@ function MobileProfilePage({
         showNotification={false}
         showUserButton={false}
         rightSlot={
-          <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0">
-            <Link href="/settings" aria-label="设置">
-              <Settings className="h-5 w-5" />
-            </Link>
-          </Button>
+          <div className="flex items-center gap-0.5">
+            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0 text-muted-foreground transition hover:text-foreground" title="查看公开主页">
+              <Link href={`/users/${profileContext.userId}`} aria-label="查看公开主页">
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0 text-muted-foreground transition hover:text-foreground" title="设置">
+              <Link href="/settings" aria-label="设置">
+                <Settings className="h-4.5 w-4.5" />
+              </Link>
+            </Button>
+          </div>
         }
       />
       <div className="space-y-3 px-4 pt-1 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
+        {/* 层级 1：Hero 个人画像与资产中枢（身份 + 荣誉 + 资产 + 快捷入口） */}
         <ProfileHero
           profileContext={profileContext}
           stats={stats}
           profile={profile}
+          featuredBadges={featuredBadges}
+          displayBadges={displayBadges}
+          unlockedBadges={unlockedBadges}
+          userStats={userStats}
           compact
         />
 
-        <MobileActionGrid />
+        {/* 层级 2：探索与成长行动中心（每日打卡 + 本周计划合体） */}
+        <MobileExploreActionHub
+          studyCheckInSummary={studyCheckInSummary}
+          studyCheckInState={studyCheckInState}
+          weeklyPlan={weeklyPlan}
+          weeklyPlanLoading={weeklyPlanLoading}
+          weeklyPlanError={weeklyPlanError}
+          nextAction={nextAction}
+          claimingTaskId={claimingTaskId}
+          onClaimGrowthTask={onClaimGrowthTask}
+        />
 
+        {/* 层级 3：STEAM 成长画像与自然观察 */}
+        <MobileGrowthPortraitCard
+          hasRadarValue={hasRadarValue}
+          steamRadar={steamRadar}
+          naturalObservationProgress={naturalObservationProgress}
+        />
+      </div>
+    </div>
+  )
+}
+
+function MobileExploreActionHub({
+  studyCheckInSummary,
+  studyCheckInState,
+  weeklyPlan,
+  weeklyPlanLoading,
+  weeklyPlanError,
+  nextAction,
+  claimingTaskId,
+  onClaimGrowthTask,
+}: {
+  studyCheckInSummary: ProfileStudyCheckInSummary | null
+  studyCheckInState: StudyCheckInLoadState
+  weeklyPlan: WeeklyPlan | null
+  weeklyPlanLoading: boolean
+  weeklyPlanError: boolean
+  nextAction: ProfileNextAction
+  claimingTaskId: GrowthTaskId | null
+  onClaimGrowthTask: (taskId: GrowthTaskId) => void
+}) {
+  return (
+    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden">
+      {/* 每日打卡模块 */}
+      <div className="p-3.5 pb-3">
+        <StudyCheckInCard
+          summary={studyCheckInSummary}
+          state={studyCheckInState}
+          compact
+          className="border-0 bg-transparent p-0 shadow-none"
+        />
+      </div>
+
+      {/* 本周计划 / 焦点任务模块 */}
+      <div className="p-3.5 pt-3">
         {weeklyPlan ? (
           <WeeklyPlanCard
             plan={weeklyPlan}
             claimPendingTaskId={claimingTaskId}
             onClaim={onClaimGrowthTask}
             variant="mobile"
+            className="border-0 bg-transparent p-0 shadow-none"
           />
         ) : weeklyPlanLoading && !weeklyPlanError ? (
           <WeeklyPlanCardSkeleton variant="mobile" />
@@ -613,45 +723,83 @@ function MobileProfilePage({
             variant="mobile"
           />
         )}
-
-        <section className="profile-mobile-panel p-4">
-          <MobileProfileSectionTitle title="STEAM 能力雷达" />
-          {steamRadar ? (
-            <SteamRadarChart
-              initialRadar={steamRadar}
-              showHeader={false}
-              className="mt-3 min-h-[220px] border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[196px]"
-            />
-          ) : (
-            <div className="mt-4 flex min-h-[220px] flex-col items-center justify-center rounded-md border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-4 py-8 text-center">
-              <p className="text-sm leading-6 text-muted-foreground">完成项目后生成能力图谱。</p>
-              <Link href="/explore" className="profile-action-cta mt-4">
-                去发现
-              </Link>
-            </div>
-          )}
-        </section>
-
-        <NaturalObservationProgressCard progress={naturalObservationProgress} mobile />
-
-        <section id="profile-badges-anchor" className="profile-mobile-panel p-4">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="truncate text-base font-semibold text-foreground">最近获得的徽章</h2>
-            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats}>
-              <button
-                type="button"
-                className="inline-flex min-h-11 shrink-0 items-center gap-0.5 text-xs font-semibold text-muted-foreground transition hover:text-[hsl(var(--brand-blue))]"
-              >
-                全部徽章
-                <ChevronRight className="h-3.5 w-3.5" />
-              </button>
-            </BadgeGalleryDialog>
-          </div>
-          <BadgeShowcase badges={featuredBadges} unlockedBadges={unlockedBadges} compact />
-        </section>
-
       </div>
-    </div>
+    </section>
+  )
+}
+
+function MobileGrowthPortraitCard({
+  hasRadarValue,
+  steamRadar,
+  naturalObservationProgress,
+}: {
+  hasRadarValue: boolean
+  steamRadar: SteamRadarWithGuidance | null
+  naturalObservationProgress: NaturalObservationProgressSummary | null
+}) {
+  const [guidanceOpen, setGuidanceOpen] = useState(false)
+  const activeGuidance = useMemo(() => {
+    if (!steamRadar) return null
+    for (const dim of ['S', 'T', 'E', 'A', 'M'] as const) {
+      const g = steamRadar[dim]?.guidance
+      if (g) return g
+    }
+    return null
+  }, [steamRadar])
+
+  return (
+    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden">
+      {/* STEAM 能力雷达 */}
+      <div className="p-4">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="truncate text-base font-semibold text-foreground">STEAM 能力雷达</h2>
+          {activeGuidance ? (
+            <Dialog open={guidanceOpen} onOpenChange={setGuidanceOpen}>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex h-7 items-center gap-1 rounded-md border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--brand-blue)/0.08)] px-2 text-xs font-semibold text-[hsl(var(--brand-blue))] transition hover:bg-[hsl(var(--brand-blue)/0.15)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+                  aria-label="查看能力突破指南"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-primary" />
+                  <span>突破指南</span>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="rounded-lg p-5 sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2 text-base font-bold">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    STEAM 能力突破指南
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="mt-3 rounded-md bg-[hsl(var(--surface-muted)/0.5)] p-3.5 text-xs leading-relaxed text-foreground/85">
+                  {activeGuidance}
+                </div>
+              </DialogContent>
+            </Dialog>
+          ) : null}
+        </div>
+
+        {hasRadarValue && steamRadar ? (
+          <SteamRadarChart
+            initialRadar={steamRadar}
+            showHeader={false}
+            className="mt-2 min-h-[200px] border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[196px]"
+          />
+        ) : (
+          <SteamRadarEmptyPlaceholder />
+        )}
+      </div>
+
+      {/* 自然观察进度 */}
+      <div className="p-4">
+        <NaturalObservationProgressCard
+          progress={naturalObservationProgress}
+          mobile
+          className="border-0 bg-transparent p-0 shadow-none"
+        />
+      </div>
+    </section>
   )
 }
 
@@ -731,12 +879,20 @@ function ProfileHero({
   profileContext,
   stats,
   profile,
+  featuredBadges,
+  displayBadges,
+  unlockedBadges,
+  userStats,
   compact,
   splitStats = false,
 }: {
   profileContext: ProfileContext
   stats: ProfileStat[]
   profile: ReturnType<typeof useAuth>['profile']
+  featuredBadges: BadgeDisplay[]
+  displayBadges: BadgeDisplay[]
+  unlockedBadges: Set<string>
+  userStats?: UserStats
   compact: boolean
   splitStats?: boolean
 }) {
@@ -786,37 +942,73 @@ function ProfileHero({
             </LevelGuideDialog>
           </div>
 
-          <div className="min-w-0">
-            {compact ? (
-              <span className="inline-flex h-5 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] px-2.5 text-[10px] font-semibold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-sm">
-                {profileContext.levelTitle}
-              </span>
-            ) : null}
-            <div className={cn('flex items-start gap-2', compact && 'mt-1.5')}>
-              <h2
-                className={cn(
-                  'min-w-0 flex-1 truncate font-semibold tracking-normal text-foreground',
-                  compact ? 'text-[19px] leading-7' : 'text-[30px]',
-                  getNameColorClassName(profile?.equipped_name_color_id ?? null),
+          <div className="min-w-0 flex-1">
+            {/* 第一行：名字 + 称号徽标 + 编辑资料按钮 */}
+            <div className="flex items-center justify-between gap-1.5">
+              <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden">
+                <h2
+                  className={cn(
+                    'min-w-0 truncate font-bold tracking-normal text-foreground',
+                    compact ? 'text-[17px] leading-6' : 'text-[30px]',
+                    getNameColorClassName(profile?.equipped_name_color_id ?? null),
+                  )}
+                  title={profileContext.userName}
+                >
+                  {profileContext.userName}
+                </h2>
+                {profileContext.userTitle ? (
+                  <span
+                    className={cn(
+                      'inline-flex shrink-0 items-center gap-1 rounded-full border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--brand-blue)/0.08)] font-semibold text-[hsl(var(--brand-blue))] shadow-2xs backdrop-blur-xs dark:bg-[hsl(var(--brand-blue)/0.18)]',
+                      compact ? 'h-5 max-w-[96px] px-2 text-[10px]' : 'px-2.5 py-0.5 text-xs',
+                    )}
+                    title={profileContext.userTitle}
+                  >
+                    <Award className={cn(compact ? 'h-3 w-3' : 'h-3.5 w-3.5', 'shrink-0 text-primary')} />
+                    <span className="truncate">{profileContext.userTitle}</span>
+                  </span>
+                ) : (
+                  <span
+                    className={cn(
+                      'inline-flex shrink-0 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] font-semibold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-sm',
+                      compact ? 'h-5 max-w-[96px] px-2 text-[10px]' : 'px-2.5 py-0.5 text-xs',
+                    )}
+                    title={profileContext.levelTitle}
+                  >
+                    <span className="truncate">{profileContext.levelTitle}</span>
+                  </span>
                 )}
-              >
-                {profileContext.userName}
-              </h2>
+              </div>
+
               {compact ? (
                 <EditProfileDialog>
                   <button
                     type="button"
-                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition hover:bg-[hsl(var(--surface-muted)/0.72)] hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border/40 bg-background/60 text-muted-foreground shadow-2xs backdrop-blur-xs transition hover:bg-background hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                     aria-label="编辑资料"
+                    title="编辑资料"
                   >
-                    <Edit3 className="h-4 w-4" />
+                    <Edit3 className="h-3.5 w-3.5" />
                   </button>
                 </EditProfileDialog>
               ) : null}
             </div>
-            <p className={cn('text-muted-foreground', compact ? 'mt-1.5 line-clamp-2 text-[12px] leading-5' : 'mt-2 max-w-2xl text-sm leading-7')}>
+
+            {/* 第二行：个人简介 */}
+            <p className={cn('text-muted-foreground', compact ? 'mt-1 line-clamp-1 text-[11px] leading-4' : 'mt-2 max-w-2xl text-sm leading-7')}>
               {profile?.bio || '热爱科学与创造，喜欢用动手实践探索世界的奥秘。'}
             </p>
+
+            {/* 第三行：高光勋章阵列（个人主页最多露出 5 枚 +N，点击打开图鉴） */}
+            <PublicProfileBadges
+              featuredBadges={featuredBadges}
+              allBadges={displayBadges}
+              unlockedBadgeIds={Array.from(unlockedBadges)}
+              userStats={userStats}
+              featuredBadgeIds={profile?.featured_badge_ids}
+              canManageHonors
+              showEmptyPlaceholder={true}
+            />
           </div>
         </div>
 
@@ -853,7 +1045,7 @@ function ProfileHero({
             className={cn(
               'grid grid-cols-4 overflow-hidden',
               compact
-                ? 'mt-4 rounded-md border border-[hsl(var(--surface-border)/0.52)] bg-[hsl(var(--surface-raised)/0.78)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.48)] backdrop-blur-sm'
+                ? 'mt-3.5 rounded-lg border border-[hsl(var(--surface-border)/0.5)] bg-[hsl(var(--surface-raised)/0.7)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.4)] backdrop-blur-sm'
                 : 'profile-stats-bar mt-8',
             )}
           >
@@ -862,9 +1054,50 @@ function ProfileHero({
             ))}
           </div>
         ) : null}
+
+        {/* 移动端：将 4 个高频快捷入口无缝收纳在 Hero 底部 */}
+        {compact ? (
+          <div className="mt-3.5 border-t border-[hsl(var(--surface-border)/0.4)] pt-2.5">
+            <HeroQuickActions />
+          </div>
+        ) : null}
         {!compact ? <div className="h-5 shrink-0" aria-hidden="true" /> : null}
       </div>
     </section>
+  )
+}
+
+function HeroQuickActions() {
+  const { unreadCount } = useOptionalNotifications()
+  const actions = [
+    { label: '我的内容', href: '/profile/library', src: PROFILE_ACTION_GRID_ICONS.content },
+    { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
+    { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
+    { label: '创客商店', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
+  ]
+
+  return (
+    <div className="grid grid-cols-4 gap-1">
+      {actions.map((action) => (
+        <Link
+          key={action.label}
+          href={action.href}
+          className="group flex flex-col items-center justify-center gap-1 rounded-lg py-1.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.6)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+        >
+          <span className="relative block">
+            <ProfileModuleIcon src={action.src} label={action.label} size="md" />
+            {action.href === '/messages' && unreadCount > 0 ? (
+              <span className="absolute -right-1 -top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[9px] font-bold leading-none text-destructive-foreground ring-2 ring-background">
+                {unreadCount > 99 ? '99+' : unreadCount}
+              </span>
+            ) : null}
+          </span>
+          <span className="text-[11px] font-semibold leading-none text-foreground/85 transition group-hover:text-foreground">
+            {action.label}
+          </span>
+        </Link>
+      ))}
+    </div>
   )
 }
 
@@ -1032,63 +1265,82 @@ function SteamRadarEmptyPlaceholder() {
   )
 }
 
-function MobileActionGrid() {
-  const { unreadCount } = useOptionalNotifications()
-  const actions = [
-    { label: '我的内容', href: '/profile/library', src: PROFILE_ACTION_GRID_ICONS.content },
-    { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
-    { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
-    { label: '创客商店', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
-  ]
-
-  return (
-    <section className="profile-mobile-panel grid grid-cols-4 gap-2 p-3">
-      {actions.map((action) => (
-        <Link key={action.label} href={action.href} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center transition hover:bg-[hsl(var(--surface-muted)/0.68)]">
-          <span className="relative block">
-            <ProfileModuleIcon src={action.src} label={action.label} size="lg" />
-            {action.href === '/messages' && unreadCount > 0 ? (
-              <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-destructive-foreground ring-2 ring-background">
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
-            ) : null}
-          </span>
-          <span className="whitespace-nowrap text-[10px] font-semibold leading-none text-foreground min-[390px]:text-[11px]">{action.label}</span>
-        </Link>
-      ))}
-    </section>
-  )
-}
-
 function BadgeShowcase({
   badges,
   unlockedBadges,
+  userBadgeDetails,
+  userStats,
+  featuredBadgeIds,
   compact = false,
 }: {
-  badges: typeof BADGES
+  badges: BadgeDisplay[]
   unlockedBadges: Set<string>
+  userBadgeDetails?: Map<string, { unlockedAt: string }>
+  userStats?: UserStats
+  featuredBadgeIds?: string[] | null
   compact?: boolean
 }) {
+  const displayBadges = badges.slice(0, PROFILE_BADGE_VISIBLE_LIMIT)
+  const remainingCount = displayBadges.length > 0
+    ? Math.max(0, unlockedBadges.size - displayBadges.length)
+    : 0
+
   return (
-    <div className={cn('mt-4 flex', compact ? 'justify-between gap-1.5' : 'flex-wrap gap-3')}>
-      {badges.map((badge) => (
-        <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
-          <span className="grid h-11 w-11 place-items-center overflow-visible">
-            <BadgeIcon
-              icon={badge.icon}
-              tier={badge.tier}
-              seriesKey={badge.seriesKey}
-              size={compact ? 'md' : 'lg'}
-              className={compact ? 'h-11 w-11' : 'h-12 w-12'}
-              showGlow={false}
-              locked={!unlockedBadges.has(badge.id)}
-            />
-          </span>
-          <span className={cn('mt-2 max-w-full text-xs font-semibold leading-4 text-foreground/84', compact ? 'block truncate' : 'line-clamp-2')}>
-            {badge.name}
-          </span>
+    <div>
+      {displayBadges.length > 0 ? (
+        <div className={cn('mt-4 flex', compact ? 'items-center justify-between gap-1.5' : 'flex-wrap gap-3')}>
+        {displayBadges.map((badge) => {
+          const isUnlocked = unlockedBadges.has(badge.id)
+          return (
+            <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
+              <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
+                <button
+                  type="button"
+                  className="group grid h-11 w-11 place-items-center overflow-visible transition-transform duration-200 hover:scale-110 focus:outline-none"
+                  title={`${badge.name}：${badge.description}（点击查看图鉴）`}
+                >
+                  <BadgeIcon
+                    icon={badge.icon}
+                    tier={badge.tier}
+                    seriesKey={badge.seriesKey}
+                    size={compact ? 'md' : 'lg'}
+                    className={compact ? 'h-11 w-11' : 'h-12 w-12'}
+                    showGlow={isUnlocked}
+                    locked={!isUnlocked}
+                  />
+                </button>
+              </BadgeGalleryDialog>
+              <span className={cn('mt-2 max-w-full text-xs font-semibold leading-4 text-foreground/84', compact ? 'block truncate' : 'line-clamp-2')}>
+                {badge.name}
+              </span>
+            </div>
+          )
+        })}
+
+        {remainingCount > 0 ? (
+          <div className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
+            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
+              <button
+                type="button"
+                className="group grid h-11 w-11 place-items-center rounded-full border border-dashed border-[hsl(var(--surface-border-strong))] bg-[hsl(var(--surface-muted)/0.5)] text-xs font-bold text-muted-foreground shadow-2xs backdrop-blur-xs transition hover:scale-105 hover:border-[hsl(var(--brand-blue)/0.5)] hover:text-[hsl(var(--brand-blue))] focus:outline-none"
+                title={`查看其余 ${remainingCount} 枚已解锁徽章`}
+              >
+                <span>+{remainingCount}</span>
+              </button>
+            </BadgeGalleryDialog>
+            <span className="mt-2 block max-w-full truncate text-xs font-semibold leading-4 text-muted-foreground">
+              更多
+            </span>
+          </div>
+        ) : null}
         </div>
-      ))}
+      ) : null}
+
+      {compact && unlockedBadges.size === 0 ? (
+        <p className="mt-3 rounded-md bg-[hsl(var(--surface-muted)/0.4)] px-3 py-2 text-center text-[11px] leading-4 text-muted-foreground">
+          完成第一个探索项目或自然观察，即可点亮你的首枚专属徽章 ✨
+        </p>
+      ) : null}
     </div>
   )
 }
@@ -1096,13 +1348,15 @@ function BadgeShowcase({
 function ExperienceBadgesPanel({
   profileContext,
   featuredBadges,
+  featuredBadgeIds,
   unlockedBadges,
   userBadgeDetails,
   userStats,
   className,
 }: {
   profileContext: ProfileContext
-  featuredBadges: typeof BADGES
+  featuredBadges: BadgeDisplay[]
+  featuredBadgeIds?: string[] | null
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
   userStats?: UserStats
@@ -1155,15 +1409,23 @@ function ExperienceBadgesPanel({
 
       <div className="mt-5 border-t border-[hsl(var(--surface-border))] pt-4">
         <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm font-semibold text-foreground">最近获得的徽章</p>
-          <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats}>
+          <p className="text-sm font-semibold text-foreground">
+            {featuredBadges.length > 0 ? '主页佩戴' : '徽章图鉴'}
+          </p>
+          <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
             <button type="button" className="inline-flex min-h-8 shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)]">
-              查看全部
+              {featuredBadges.length > 0 ? '查看全部' : '打开图鉴'}
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </BadgeGalleryDialog>
         </div>
-        <BadgeShowcase badges={featuredBadges} unlockedBadges={unlockedBadges} />
+        <BadgeShowcase
+          badges={featuredBadges}
+          unlockedBadges={unlockedBadges}
+          userBadgeDetails={userBadgeDetails}
+          userStats={userStats}
+          featuredBadgeIds={featuredBadgeIds}
+        />
       </div>
     </section>
   )
@@ -1182,7 +1444,7 @@ function StudyCheckInPanel({
 }) {
   return (
     <StudyCheckInCard
-      title={<SectionTitle iconName="progress" title="每日打卡" />}
+      title={compact ? undefined : <SectionTitle iconName="progress" title="每日打卡" />}
       summary={studyCheckInSummary}
       state={studyCheckInState}
       className={className}
@@ -1470,10 +1732,6 @@ function NaturalObservationProgressCard({
   const totalSpecies = allProgress?.total ?? 0
   const progressPercent = allProgress?.progressPercent ?? 0
 
-  if (!progress) {
-    return null
-  }
-
   return (
     <section
       className={cn(
@@ -1517,6 +1775,11 @@ function NaturalObservationProgressCard({
             style={{ width: `${progressPercent}%` }}
           />
         </div>
+        {observedCount === 0 ? (
+          <p className="mt-2 text-xs text-muted-foreground">
+            去记录身边的一朵花、一只鸟，开启你的物种图鉴之旅吧 🌿
+          </p>
+        ) : null}
       </div>
     </section>
   )

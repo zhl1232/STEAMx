@@ -3,8 +3,10 @@ import {
     BADGES,
     PLAYGROUND_BADGE_COUNT,
     getBadgeDisplayDefinitions,
+    getNextSeriesThreshold,
     getSeriesDisplayBadge,
     getVisibleSeriesBadges,
+    isSeriesAtVisibleMax,
 } from '../lib/gamification/badges'
 import { UserStats } from '../lib/gamification/types'
 
@@ -355,5 +357,25 @@ describe("Badge System Logic (Dynamic Badges)", () => {
 
         expect(PLAYGROUND_BADGE_COUNT).toBe(16);
         expect(PLAYGROUND_BADGE_COUNT).toBe(count);
+    });
+
+    test("getNextSeriesThreshold correctly skips unlocked tiers even if current stats is lower", () => {
+        // 当用户已解锁铜档（intro_collections_bronze），即使 current 是 0，下一档也应是银档（50）
+        const nextThreshold = getNextSeriesThreshold(
+            "intro_collections",
+            0,
+            new Set(["intro_collections_bronze"]),
+        );
+        expect(nextThreshold).toBe(50);
+
+        // 当用户已解锁全部档位，返回 null 且 isSeriesAtVisibleMax 为 true
+        const allUnlocked = new Set([
+            "intro_collections_bronze",
+            "intro_collections_silver",
+            "intro_collections_gold",
+            "intro_collections_platinum",
+        ]);
+        expect(getNextSeriesThreshold("intro_collections", 0, allUnlocked)).toBeNull();
+        expect(isSeriesAtVisibleMax("intro_collections", 0, allUnlocked)).toBe(true);
     });
 });

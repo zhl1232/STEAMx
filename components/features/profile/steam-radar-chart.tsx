@@ -204,15 +204,6 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
     [data],
   )
 
-  const activeGuidance = useMemo(() => {
-    if (!radarData) return null
-    for (const dim of DIM_ORDER) {
-      const g = guidance[dim]
-      if (g) return g
-    }
-    return null
-  }, [radarData, guidance])
-
   if (loading) {
     return (
       <section className={cn("surface-panel p-5", className)}>
@@ -312,12 +303,6 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
           </div>
         )}
       </div>
-
-      {activeGuidance && (
-        <p className="surface-subtle px-3 py-3 text-xs leading-5 text-muted-foreground">
-          建议：{activeGuidance}
-        </p>
-      )}
     </section>
   )
 }

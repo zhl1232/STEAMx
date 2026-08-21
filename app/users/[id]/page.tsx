@@ -64,7 +64,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   const unlockedBadgeIds = new Set(badgeIds);
   const displayBadges = getBadgeDisplayDefinitions(BADGES);
 
-  // 推导称号与荣誉展台徽章（最多 5 枚）
+  // 推导称号与主页佩戴徽章（默认与手动都最多 5 枚）
   const userTitle = deriveUserTitle({
     equippedTitle: profile.equipped_title,
     unlockedBadgeIds,
@@ -149,11 +149,14 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
                       </div>
                     </div>
 
-                    {/* 高光勋章阵列：等大圆形勋章一字对齐（前4枚 + 1枚圆形 +N 按钮） */}
+                    {/* 高光勋章阵列：公开主页最多露出 5 枚，另有 +N 入口查看其余已解锁徽章 */}
                     <PublicProfileBadges
                       featuredBadges={featuredBadges}
                       allBadges={displayBadges}
                       unlockedBadgeIds={badgeIds}
+                      featuredBadgeIds={profile.featured_badge_ids}
+                      canManageHonors={false}
+                      showEmptyPlaceholder
                     />
                   </div>
 

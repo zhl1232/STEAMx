@@ -3,6 +3,7 @@ import { handleApiError, requireAuth } from "@/lib/api/auth";
 import { requireRateLimit } from "@/lib/api/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
+import { FEATURED_BADGE_LIMIT } from "@/lib/gamification/honorifics";
 
 export async function PATCH(request: NextRequest) {
   const supabase = await createClient();
@@ -43,12 +44,20 @@ export async function PATCH(request: NextRequest) {
 
     if (featured_badge_ids !== undefined) {
       if (featured_badge_ids === null) {
-        updatePayload.featured_badge_ids = [];
+        updatePayload.featured_badge_ids = null;
       } else if (Array.isArray(featured_badge_ids)) {
-        if (featured_badge_ids.length > 6) {
-          return NextResponse.json({ error: "精选徽章最多展示 6 枚" }, { status: 400 });
+        const normalizedIds = Array.from(
+          new Set(
+            featured_badge_ids
+              .filter((id): id is string => typeof id === "string")
+              .map((id) => id.trim())
+              .filter((id) => id !== ""),
+          ),
+        );
+        if (normalizedIds.length > FEATURED_BADGE_LIMIT) {
+          return NextResponse.json({ error: `精选徽章最多展示 ${FEATURED_BADGE_LIMIT} 枚` }, { status: 400 });
         }
-        updatePayload.featured_badge_ids = featured_badge_ids.filter((id) => typeof id === "string" && id.trim() !== "");
+        updatePayload.featured_badge_ids = normalizedIds;
       } else {
         return NextResponse.json({ error: "精选徽章参数格式错误" }, { status: 400 });
       }

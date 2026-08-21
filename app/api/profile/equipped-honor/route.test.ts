@@ -44,17 +44,60 @@ describe('PATCH /api/profile/equipped-honor', () => {
     expect(body.featured_badge_ids).toEqual(['science_expert_gold', 'tech_expert_silver']);
   });
 
-  it('rejects more than 6 featured badges', async () => {
+  it('allows up to 5 featured badges', async () => {
+    mockUpdate.mockClear();
     const req = new NextRequest('http://localhost:3000/api/profile/equipped-honor', {
       method: 'PATCH',
       body: JSON.stringify({
-        featured_badge_ids: ['1', '2', '3', '4', '5', '6', '7'],
+        featured_badge_ids: ['1', '2', '3', '4', '5'],
+      }),
+    });
+
+    const res = await PATCH(req);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.featured_badge_ids).toEqual(['1', '2', '3', '4', '5']);
+  });
+
+  it('keeps null as the default-selection state', async () => {
+    mockUpdate.mockClear();
+    const req = new NextRequest('http://localhost:3000/api/profile/equipped-honor', {
+      method: 'PATCH',
+      body: JSON.stringify({ featured_badge_ids: null }),
+    });
+
+    const res = await PATCH(req);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.featured_badge_ids).toBeNull();
+    expect(mockUpdate).toHaveBeenCalledWith({ featured_badge_ids: null });
+  });
+
+  it('keeps an empty array as an explicitly empty selection', async () => {
+    mockUpdate.mockClear();
+    const req = new NextRequest('http://localhost:3000/api/profile/equipped-honor', {
+      method: 'PATCH',
+      body: JSON.stringify({ featured_badge_ids: [] }),
+    });
+
+    const res = await PATCH(req);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.featured_badge_ids).toEqual([]);
+    expect(mockUpdate).toHaveBeenCalledWith({ featured_badge_ids: [] });
+  });
+
+  it('rejects more than 5 featured badges', async () => {
+    const req = new NextRequest('http://localhost:3000/api/profile/equipped-honor', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        featured_badge_ids: ['1', '2', '3', '4', '5', '6'],
       }),
     });
 
     const res = await PATCH(req);
     expect(res.status).toBe(400);
     const body = await res.json();
-    expect(body.error).toContain('最多展示 6 枚');
+    expect(body.error).toContain('最多展示 5 枚');
   });
 });

@@ -7,9 +7,7 @@ import { cn } from "@/lib/utils";
 import type { BadgeDisplay, UserStats } from "@/lib/gamification/types";
 import {
     SERIES_ORDER,
-    getNextSeriesThreshold,
     getSeriesDisplayBadge,
-    getSeriesProgressValue,
     getVisibleSeriesBadges,
     isLadderSeries,
 } from "@/lib/gamification/badges";
@@ -34,21 +32,15 @@ function seriesIsLit(seriesBadges: BadgeDisplay[], unlockedIds: Set<string>) {
     return getVisibleSeriesBadges(seriesBadges, unlockedIds).some((badge) => unlockedIds.has(badge.id));
 }
 
-function getCardProgress(seriesKey: string, unlockedIds: Set<string>, userStats?: UserStats | null) {
-    const current = getSeriesProgressValue(seriesKey, userStats);
-    if (current === null) return null;
-    const next = getNextSeriesThreshold(seriesKey, current, unlockedIds);
-    if (next === null) return `${current}`;
-    return `${current}/${next}`;
-}
-
 export function BadgeSeriesGallery({
     badges,
     unlockedBadges,
-    userBadgeDetails,
+    userBadgeDetails: _userBadgeDetails,
     userStats,
     showTabs = true,
     onlyUnlocked = false,
+    featuredBadgeIds,
+    canManageHonors = true,
     className,
 }: {
     badges: BadgeDisplay[];
@@ -57,6 +49,8 @@ export function BadgeSeriesGallery({
     userStats?: UserStats | null;
     showTabs?: boolean;
     onlyUnlocked?: boolean;
+    featuredBadgeIds?: string[] | null;
+    canManageHonors?: boolean;
     className?: string;
 }) {
     const grouped = useMemo(() => groupBadgesBySeries(badges), [badges]);
@@ -121,10 +115,6 @@ export function BadgeSeriesGallery({
         return (
             <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:gap-3">
                 {visible.map(({ badge, seriesKey, unlocked }) => {
-                    const unlockedAt = userBadgeDetails?.get(badge.id)?.unlockedAt;
-                    const unlockedDate = unlockedAt ? new Date(unlockedAt).toLocaleDateString("zh-CN") : null;
-                    const progress = isLadderSeries(seriesKey) ? getCardProgress(seriesKey, unlockedBadges, userStats) : null;
-
                     return (
                         <button
                             key={badge.id}
@@ -133,36 +123,28 @@ export function BadgeSeriesGallery({
                             title={badge.description}
                             onClick={() => setDetailSelection({ seriesKey, badgeId: badge.id })}
                             className={cn(
-                                "group relative flex min-h-[108px] min-w-0 cursor-pointer flex-col items-center gap-1.5 overflow-hidden rounded-md border p-2 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 sm:min-h-[132px] sm:gap-2 sm:p-3",
+                                "group relative flex min-w-0 cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-sm border p-2.5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 sm:rounded-md sm:gap-2 sm:p-3.5",
                                 unlocked
-                                    ? "border-white/70 bg-white/80 dark:border-white/12 dark:bg-slate-900/94"
-                                    : "border-slate-200/80 bg-white/55 opacity-95 dark:border-white/8 dark:bg-slate-950/82",
+                                    ? "border-border/70 bg-card/80 shadow-2xs hover:border-primary/40 dark:bg-card/60"
+                                    : "border-border/40 bg-muted/20 opacity-70 hover:opacity-100 hover:border-border",
                             )}
                         >
-                            <div className="relative flex justify-center p-1 sm:p-2">
+                            <div className="relative flex justify-center p-1 sm:p-1.5">
                                 <BadgeIcon
                                     icon={badge.icon}
                                     tier={badge.tier}
                                     seriesKey={badge.seriesKey}
                                     size="md"
                                     locked={!unlocked}
-                                    className="h-10 w-10 sm:h-12 sm:w-12"
+                                    className="h-10 w-10 transition-transform duration-200 group-hover:scale-105 sm:h-12 sm:w-12"
                                 />
                             </div>
-                            <div className={cn("line-clamp-2 text-[10px] font-semibold leading-tight sm:text-sm", unlocked ? "text-foreground" : "text-slate-700 dark:text-slate-300")}>
+                            <div className={cn(
+                                "line-clamp-2 text-xs font-semibold leading-tight sm:text-sm",
+                                unlocked ? "text-foreground" : "text-muted-foreground"
+                            )}>
                                 {badge.name}
                             </div>
-                            {unlocked && unlockedDate ? (
-                                <div className="mt-auto text-[10px] font-medium leading-none text-emerald-600 dark:text-emerald-400">
-                                    {unlockedDate} 获得
-                                </div>
-                            ) : progress ? (
-                                <div className="mt-auto text-[10px] font-medium text-muted-foreground">{progress}</div>
-                            ) : (
-                                <div className="mt-auto hidden line-clamp-2 text-[10px] leading-tight text-slate-600 dark:text-slate-400 sm:block sm:text-xs">
-                                    {badge.description}
-                                </div>
-                            )}
                         </button>
                     );
                 })}
@@ -207,8 +189,10 @@ export function BadgeSeriesGallery({
                     seriesBadges={detailSeries.fullSeries}
                     displayBadge={detailDisplay}
                     unlockedIds={unlockedBadges}
-                    userBadgeDetails={userBadgeDetails}
                     userStats={userStats}
+                    allBadges={badges}
+                    featuredBadgeIds={featuredBadgeIds}
+                    canManageHonors={canManageHonors}
                 />
             ) : null}
         </div>
