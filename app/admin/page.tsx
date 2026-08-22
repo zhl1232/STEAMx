@@ -34,6 +34,7 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
+  Store,
 } from 'lucide-react'
 
 // ... Keep existing interfaces if needed, or refine ...
@@ -613,6 +614,14 @@ export default function AdminPage() {
             </div>
 
             <div className="flex flex-wrap gap-2 lg:justify-end">
+              {isAdmin && (
+                <Button asChild variant="outline">
+                  <Link href="/admin/store">
+                    <Store className="mr-2 h-4 w-4" />
+                    1688 商城
+                  </Link>
+                </Button>
+              )}
               <Button asChild variant="outline">
                 <Link href="/settings/safety">
                   <ShieldCheck className="mr-2 h-4 w-4" />

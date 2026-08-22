@@ -48,6 +48,7 @@
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品；页面采用顶部个人预览 + 全宽商品区，移除重复预览、排行榜和引导说明，商品卡仅保留状态、价格与操作；新增「科学星轨」头像框，采用带蓝紫节点旋转的平面圆 + 视觉居中、上移放大的接近 `/` 方向的前后分层倾斜立体轨道，原子与齿轮以对向错位方式沿同一投影轨道面向用户动态绕行，后半圈被头像遮挡且避免两枚元素同时消失，购买/装备通过商店 RPC 白名单同步 |
 | `/store` | `app/store/page.tsx`、`app/store/orders/` | 实物材料包商城，与 `/shop` 金币虚拟商店完全分离；商品 SKU、数量、加密收货地址、订单报价和待支付订单创建；供应商代发直寄说明，支付通道未配置时不伪造成功 |
+| `/admin/store` | `app/admin/store/page.tsx` | 管理员专用的 1688 商城运营页：查看加密授权连接状态、授权范围/到期时间和供应商/商品/SKU/1688 映射统计；从页面发起 1688 OAuth，回调落点为本页；商品录入、支付和履约同步按后续步骤接入 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；移动端页签下方不重复显示当前分类标题，消息列表外层取消重复面板边框并使用更宽的页面 gutter，通知页签的全部已读收至顶部扫帚图标，私信页签不显示通知清理操作；子路由 `[userId]/` 聊天详情（连续消息不在气泡内重复显示时间，首条或间隔至少 5 小时才显示一次时间分隔；移动/桌面会话头部的头像与昵称进入对应公开主页，屏蔽与取消屏蔽统一在公开主页操作；移动端会话头部提供举报消息入口，可勾选最多 10 条对方消息后统一提交举报，桌面端保留单条悬停举报） |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
@@ -108,7 +109,7 @@
 | health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务；响应附带进程 uptime 与 RSS/heap/external 内存观测值，便于定位 OOM 前的增长趋势 |
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（只有点赞/收藏，拟人化短评已于 2026-08-14 删除）与历史 approved 项目低比例 backfill 入队 |
-| store | `api/store/` | 实物商城商品目录、用户订单/订单详情、支付通道占位与签名 webhook；`alibaba/oauth/*` 仅 admin 发起 OAuth、服务端加密保存 1688 token；`api/internal/store/sync` 由 cron/worker 领取支付后的 1688 下单任务 |
+| store | `api/store/` | 实物商城商品目录、用户订单/订单详情、支付通道占位与签名 webhook；`alibaba/oauth/*` 仅 admin 发起 OAuth、服务端加密保存 1688 token；`api/internal/store/sync` 保留后续自动履约入口，但当前决策采用人工 1688 采购，不启用支付后的自动下单 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息登录即可，仍受账号安全、屏蔽、接收方隐私、频率限制和内容审核约束；**陌生人递进门槛**见 `lib/messages/stranger-gate.ts`；消息读取兼容历史 UUID 形状的测试账号 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
@@ -311,7 +312,7 @@
 | `lib/nature-species-atlas.ts` | `nature-species-atlas.ts` | 图鉴 DTO、专题固定顺序、中文名称稳定排序、客户端搜索/专题/观察状态过滤与筛选 key |
 | `lib/api/challenge-resources.ts` | `challenge-resources.ts` | 挑战 resources 字段服务端校验（title/url 必填、type 三分类枚举） |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格；头像框样式映射包含「科学星轨」 |
-| `lib/store/` | `service.ts`, `http.ts`, `address-crypto.ts`, `secret-crypto.ts`, `alibaba-1688.ts`, `alibaba-order.ts` | 实物商城目录/报价/订单服务（MOQ、库存、单供应商代发和幂等）；AES-256-GCM 地址与 1688 token 密文；1688 OAuth、AOP HMAC-SHA1、HTTPS/超时/有限重试客户端；支付确认后由内部任务解密地址快照、组装 `fastCreateOrder`/可替换订单 API、保存 `outOrderId` 与 1688 订单号，并记录失败事件/退避重试；明文地址和 token 不进入日志或客户端 |
+| `lib/store/` | `service.ts`, `http.ts`, `address-crypto.ts`, `secret-crypto.ts`, `alibaba-1688.ts`, `alibaba-order.ts` | 实物商城目录/报价/订单服务（MOQ、库存、单供应商代发和幂等）；AES-256-GCM 地址与 1688 token 密文；1688 OAuth、AOP HMAC-SHA1、HTTPS/超时/有限重试客户端；自动下单适配器仅作为后续方案保留，当前不启用未经确认的 `fastCreateOrder`；明文地址和 token 不进入日志或客户端 |
 | `lib/ai/` | `dashscope.ts`, `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `completion-moderation.ts`, `completion-proof-vision.ts`, `pbl-stage-coach.ts` | 通义千问/DashScope AI：`dashscope.ts` 是共享 HTTP 客户端（鉴权、非流式 20s / 流式 120s 超时、错误归一、token usage 解析），按角色保留模型 env 链（tutor-text/planner/vision、vision、moderation、pbl-text/vision）。物种识别走 `vision`（默认 `qwen3.7-plus`）；上传图与作品配图审核走 `moderation`（`DASHSCOPE_MODERATION_MODEL` → `DASHSCOPE_VISION_MODEL` → 默认 `qwen3-vl-flash`）。观察提交先读媒体分析，已通过的图片不再二次视觉审核，只审文字；作品异步审核在提交时 `moderation_state=approved` 则跳过配图视觉、只跑文字语义审核，其余多图并行。完成作品文字审核由模型按语义判断，不使用敏感词列表决定 AI 审核结果。TTS/ASR 仍走 `lib/ai/tutor/speech.ts` |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟点赞与项目收藏。**只发弱信号，不再生成拟人化短评**——2026-08-14 删除 `lib/ai/auto-reply.ts` 与 `reply` 动作类型，因为让 15 个机器人账号冒充同龄人写评论（prompt 曾明确要求不得提及 AI）在一个儿童社区里越线；点赞/收藏保留，用来给冷启动内容一点温度 |
 | `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
@@ -333,6 +334,7 @@
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周时间线、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan` |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 | `docs/AI_DEVELOPMENT_GUIDELINES.md` | — | AI 开发规范：意图判断必须交给大模型；结构化输出经服务端白名单/范围/权限校验；关键词和正则仅可用于非语义的格式、协议、元数据候选查询或防御性安全边界，不得作为 Tutor/AI 行为门控 |
+| `docs/STORE_CHANNEL_FULFILLMENT_DECISION.md` | — | 实物商城渠道与履约决策：当前采用 STEAMx 自有商城 + 人工 1688 采购；后续自动化优先使用微信小店/抖店配合平台服务市场 ERP；不申请 1688 铺货分销 ISV，不直接 iframe 嵌入外部店铺 |
 | `docs/product-design-review-2026-08-14.md` | — | 全站产品设计评审：线上真实数据（61 个账号里 15 个是机器人、12 件作品来自 4 个人、96% 点赞来自机器人）、六个结构性问题、按优先级排的调整清单。**加新功能前先读一遍**——这份文档的第一结论是「停止加宽功能面」，P0/P1 已落地；P2 里会员字段保护、观察记进雷达 S、讨论区残留已做，游乐场/全天候/金币与会员产品仍冻结 |
 
 小迪资源检索：`resource-search-planner.ts` 由轻量模型判断是否需要查找站内课程/课时/项目并提取主题短语，不使用固定关键词决定检索，并接收最近对话辅助“这个/那个”指代消解；只有缺少的信息是给出有用回答所必需、且不同理解会导致明显不同答案时才返回 2-4 个结构化澄清选项，清楚的知识问题、明确资源请求和带当前课时上下文的步骤求助直接处理；上一轮澄清的选项会带入下一轮 planner 上下文；prompt 要求短语拆到最小可检索单元（“乐高轮船”→「乐高」「轮船」），拼接长词在标题/标签里查不到；planner 输出协议解析失败时只重试一次，仍失败则保守降级为**不检索**（避免故障放大数据库压力，也不会被说成「站内没有」）；`resource-search.ts` 并行、限量查询已发布课程/课时和已审核项目，只注入标题/标签/描述元数据，并把命中的课时挂回课程 chip；`tags` 是 `text[]`，只能用 `tags.cs.{短语}` 元素包含匹配，**对数组列用 `ilike` 会让整个 `or` 过滤报 42883、整张表零命中**；严格短语一条都没命中时补查一轮派生候选（空白切分 + 纯汉字长词二字滑窗，最多 8 个），命中结果标记为「近似匹配」让小迪自行判断相关性；查询报错会 `logger.warn` 留痕，避免再次被当成「站内没有这门课」；普通对话不加载全量课程目录或首页推荐。
