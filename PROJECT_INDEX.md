@@ -47,6 +47,7 @@
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品；页面采用顶部个人预览 + 全宽商品区，移除重复预览、排行榜和引导说明，商品卡仅保留状态、价格与操作；新增「科学星轨」头像框，采用带蓝紫节点旋转的平面圆 + 视觉居中、上移放大的接近 `/` 方向的前后分层倾斜立体轨道，原子与齿轮以对向错位方式沿同一投影轨道面向用户动态绕行，后半圈被头像遮挡且避免两枚元素同时消失，购买/装备通过商店 RPC 白名单同步 |
+| `/store` | `app/store/page.tsx`、`app/store/orders/` | 实物材料包商城，与 `/shop` 金币虚拟商店完全分离；商品 SKU、数量、加密收货地址、订单报价和待支付订单创建；供应商代发直寄说明，支付通道未配置时不伪造成功 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；移动端页签下方不重复显示当前分类标题，消息列表外层取消重复面板边框并使用更宽的页面 gutter，通知页签的全部已读收至顶部扫帚图标，私信页签不显示通知清理操作；子路由 `[userId]/` 聊天详情（连续消息不在气泡内重复显示时间，首条或间隔至少 5 小时才显示一次时间分隔；移动/桌面会话头部的头像与昵称进入对应公开主页，屏蔽与取消屏蔽统一在公开主页操作；移动端会话头部提供举报消息入口，可勾选最多 10 条对方消息后统一提交举报，桌面端保留单条悬停举报） |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
@@ -87,7 +88,7 @@
 
 ## 2. API 路由 (`app/api/`)
 
-34 个 API 模块，每个目录下含 `route.ts`：
+35 个 API 模块，每个目录下含 `route.ts`：
 
 | 模块 | 路径 | 功能 |
 |------|------|------|
@@ -107,6 +108,7 @@
 | health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务；响应附带进程 uptime 与 RSS/heap/external 内存观测值，便于定位 OOM 前的增长趋势 |
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（只有点赞/收藏，拟人化短评已于 2026-08-14 删除）与历史 approved 项目低比例 backfill 入队 |
+| store | `api/store/` | 实物商城商品目录、用户订单/订单详情、支付通道占位与签名 webhook；`alibaba/oauth/*` 仅 admin 发起 OAuth、服务端加密保存 1688 token；`api/internal/store/sync` 由 cron/worker 领取支付后的 1688 下单任务 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息登录即可，仍受账号安全、屏蔽、接收方隐私、频率限制和内容审核约束；**陌生人递进门槛**见 `lib/messages/stranger-gate.ts`；消息读取兼容历史 UUID 形状的测试账号 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
@@ -309,6 +311,7 @@
 | `lib/nature-species-atlas.ts` | `nature-species-atlas.ts` | 图鉴 DTO、专题固定顺序、中文名称稳定排序、客户端搜索/专题/观察状态过滤与筛选 key |
 | `lib/api/challenge-resources.ts` | `challenge-resources.ts` | 挑战 resources 字段服务端校验（title/url 必填、type 三分类枚举） |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格；头像框样式映射包含「科学星轨」 |
+| `lib/store/` | `service.ts`, `http.ts`, `address-crypto.ts`, `secret-crypto.ts`, `alibaba-1688.ts`, `alibaba-order.ts` | 实物商城目录/报价/订单服务（MOQ、库存、单供应商代发和幂等）；AES-256-GCM 地址与 1688 token 密文；1688 OAuth、AOP HMAC-SHA1、HTTPS/超时/有限重试客户端；支付确认后由内部任务解密地址快照、组装 `fastCreateOrder`/可替换订单 API、保存 `outOrderId` 与 1688 订单号，并记录失败事件/退避重试；明文地址和 token 不进入日志或客户端 |
 | `lib/ai/` | `dashscope.ts`, `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `completion-moderation.ts`, `completion-proof-vision.ts`, `pbl-stage-coach.ts` | 通义千问/DashScope AI：`dashscope.ts` 是共享 HTTP 客户端（鉴权、非流式 20s / 流式 120s 超时、错误归一、token usage 解析），按角色保留模型 env 链（tutor-text/planner/vision、vision、moderation、pbl-text/vision）。物种识别走 `vision`（默认 `qwen3.7-plus`）；上传图与作品配图审核走 `moderation`（`DASHSCOPE_MODERATION_MODEL` → `DASHSCOPE_VISION_MODEL` → 默认 `qwen3-vl-flash`）。观察提交先读媒体分析，已通过的图片不再二次视觉审核，只审文字；作品异步审核在提交时 `moderation_state=approved` 则跳过配图视觉、只跑文字语义审核，其余多图并行。完成作品文字审核由模型按语义判断，不使用敏感词列表决定 AI 审核结果。TTS/ASR 仍走 `lib/ai/tutor/speech.ts` |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟点赞与项目收藏。**只发弱信号，不再生成拟人化短评**——2026-08-14 删除 `lib/ai/auto-reply.ts` 与 `reply` 动作类型，因为让 15 个机器人账号冒充同龄人写评论（prompt 曾明确要求不得提及 AI）在一个儿童社区里越线；点赞/收藏保留，用来给冷启动内容一点温度 |
 | `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
@@ -408,9 +411,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `20260819110000_harden_project_journey_consistency.sql` — 收紧 Journey 元数据读取为本人/工作人员，回滚历史 pending final 造成的错误完成状态，增加状态转换触发器与挑战作品删除策略；应用迁移使用 `pnpm db:push`
 - `20260821100000_allow_empty_featured_badges.sql` — 将历史空的 `featured_badge_ids` 迁回 `NULL` 以保留默认精选，移除空数组默认值并明确 `NULL` / `[]` / 非空手动佩戴三种语义；应用迁移使用 `pnpm db:push -- --dry-run`、`pnpm db:push`、`pnpm db:status`
 - `20260821110000_fix_profile_study_checkin_login_history.sql` — 用 `xp_logs` 每日登录流水补齐个人主页打卡的历史登录日，并在登录同步后刷新个人主页打卡查询，修复连续登录长期显示 1；应用迁移使用 `pnpm db:push`
+- `20260822120000_store_foundation.sql` — 实物商城基础模型：`store_suppliers`、`store_products`、SKU/1688 source 映射、加密地址、订单/明细/事件、同步任务和 service-role-only 1688 OAuth token；`create_store_order` / `mark_store_order_paid` 提供订单幂等与 webhook 支付确认，支付后排入代发任务。迁移尚未自动执行，使用 `pnpm db:push` 应用，不要使用 `supabase db push`
 
 ### 核心数据表
-`profiles`（含 `membership_tier` / …） · **`user_blocks`**（双向用户屏蔽关系） · **`moderation_cases`**（自动审核、举报和人工审核案件） · **`safety_actions`** / **`safety_appeals`**（账号安全处罚与申诉） · **`project_journeys`**（某用户针对普通项目/PBL 挑战的一次 active/completed/abandoned 尝试，区分 `attempt_no`） · **`project_journey_records`**（Journey 的私密草稿、公开审核中/已公开过程记录与最终作品） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`gomoku_matches`**（在线五子棋对局，`board`/`moves` JSONB 快照，落子走 `gomoku_place_stone` RPC） · **`memory_matches`**（在线记忆翻牌对局，`deck`/`scores` JSONB 快照，翻牌走 `memory_flip_card` RPC） · **`playground_race_matches`**（通用联网竞速房间，按 `game_key/settings` 固定规则并保存 host/guest 成绩 JSONB，`deadline_at` / `finish_reason` 记录权威截止和终态原因） · **`tutor_conversations`**（小迪对话线程，active/archived，含会话滚动摘要 `summary` / 锚点 `summary_message_id`） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划，含 Journey 关联） · …
+`profiles`（含 `membership_tier` / …） · **`store_suppliers` / `store_products` / `store_product_variants` / `store_product_sources`**（实物商城商品、SKU、1688 offer/spec 和代发供应商） · **`store_addresses`**（AES-256-GCM 加密地址） · **`store_orders` / `store_order_items` / `store_order_events`**（本站订单及审计快照） · **`store_sync_jobs`**（支付后 1688 下单/订单/物流同步队列） · **`store_alibaba_connections`**（service-role-only 加密 OAuth token） · **`user_blocks`**（双向用户屏蔽关系） · **`moderation_cases`**（自动审核、举报和人工审核案件） · **`safety_actions`** / **`safety_appeals`**（账号安全处罚与申诉） · **`project_journeys`**（某用户针对普通项目/PBL 挑战的一次 active/completed/abandoned 尝试，区分 `attempt_no`） · **`project_journey_records`**（Journey 的私密草稿、公开审核中/已公开过程记录与最终作品） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`gomoku_matches`**（在线五子棋对局，`board`/`moves` JSONB 快照，落子走 `gomoku_place_stone` RPC） · **`memory_matches`**（在线记忆翻牌对局，`deck`/`scores` JSONB 快照，翻牌走 `memory_flip_card` RPC） · **`playground_race_matches`**（通用联网竞速房间，按 `game_key/settings` 固定规则并保存 host/guest 成绩 JSONB，`deadline_at` / `finish_reason` 记录权威截止和终态原因） · **`tutor_conversations`**（小迪对话线程，active/archived，含会话滚动摘要 `summary` / 锚点 `summary_message_id`） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划，含 Journey 关联） · …
 
 完整类型定义：`lib/supabase/types.ts`
 

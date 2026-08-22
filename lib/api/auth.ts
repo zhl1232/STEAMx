@@ -155,6 +155,22 @@ export function handleApiError(error: unknown): NextResponse {
     )
   }
 
+  // 领域服务错误（例如实物商城的库存、起订量和配置错误）。只返回
+  // 预先定义的用户可见消息，不把第三方响应或密文带回客户端。
+  if (
+    error &&
+    typeof error === 'object' &&
+    'statusCode' in error &&
+    typeof (error as { statusCode?: unknown }).statusCode === 'number' &&
+    error instanceof Error
+  ) {
+    const statusCode = Math.max(400, Math.min(599, (error as { statusCode: number }).statusCode))
+    const code = 'code' in error && typeof (error as { code?: unknown }).code === 'string'
+      ? (error as { code: string }).code
+      : undefined
+    return NextResponse.json({ error: error.message, ...(code ? { code } : {}) }, { status: statusCode })
+  }
+
   // 其他错误 - 开发环境尽量透出结构化后端错误，生产环境保持通用消息
   let errorMessage = 'Internal server error'
 

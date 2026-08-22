@@ -3126,11 +3126,470 @@ export interface Database {
         }
         Relationships: []
       }
+      store_suppliers: {
+        Row: {
+          id: string
+          name: string
+          source: string
+          alibaba_member_id: string | null
+          supports_drop_ship: boolean
+          status: string
+          metadata: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          source?: string
+          alibaba_member_id?: string | null
+          supports_drop_ship?: boolean
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          source?: string
+          alibaba_member_id?: string | null
+          supports_drop_ship?: boolean
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_products: {
+        Row: {
+          id: string
+          slug: string
+          name: string
+          description: string | null
+          cover_url: string | null
+          source: string
+          status: string
+          currency: string
+          price_cents: number
+          compare_at_price_cents: number | null
+          stock_quantity: number | null
+          last_synced_at: string | null
+          created_by: string | null
+          metadata: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          name: string
+          description?: string | null
+          cover_url?: string | null
+          source?: string
+          status?: string
+          currency?: string
+          price_cents: number
+          compare_at_price_cents?: number | null
+          stock_quantity?: number | null
+          last_synced_at?: string | null
+          created_by?: string | null
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          name?: string
+          description?: string | null
+          cover_url?: string | null
+          source?: string
+          status?: string
+          currency?: string
+          price_cents?: number
+          compare_at_price_cents?: number | null
+          stock_quantity?: number | null
+          last_synced_at?: string | null
+          created_by?: string | null
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_product_variants: {
+        Row: {
+          id: string
+          product_id: string
+          name: string
+          sku: string
+          price_cents: number | null
+          stock_quantity: number | null
+          min_quantity: number
+          status: string
+          metadata: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          name: string
+          sku: string
+          price_cents?: number | null
+          stock_quantity?: number | null
+          min_quantity?: number
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          name?: string
+          sku?: string
+          price_cents?: number | null
+          stock_quantity?: number | null
+          min_quantity?: number
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_product_sources: {
+        Row: {
+          id: string
+          variant_id: string
+          supplier_id: string
+          offer_id: string
+          spec_id: string | null
+          source_url: string | null
+          source_price_cents: number | null
+          source_stock_quantity: number | null
+          source_min_quantity: number | null
+          is_primary: boolean
+          last_synced_at: string | null
+          payload: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          variant_id: string
+          supplier_id: string
+          offer_id: string
+          spec_id?: string | null
+          source_url?: string | null
+          source_price_cents?: number | null
+          source_stock_quantity?: number | null
+          source_min_quantity?: number | null
+          is_primary?: boolean
+          last_synced_at?: string | null
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          variant_id?: string
+          supplier_id?: string
+          offer_id?: string
+          spec_id?: string | null
+          source_url?: string | null
+          source_price_cents?: number | null
+          source_stock_quantity?: number | null
+          source_min_quantity?: number | null
+          is_primary?: boolean
+          last_synced_at?: string | null
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_addresses: {
+        Row: {
+          id: string
+          user_id: string
+          label: string
+          recipient_name_masked: string
+          phone_last4: string
+          payload_encrypted: string
+          is_default: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          label?: string
+          recipient_name_masked: string
+          phone_last4: string
+          payload_encrypted: string
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          label?: string
+          recipient_name_masked?: string
+          phone_last4?: string
+          payload_encrypted?: string
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_orders: {
+        Row: {
+          id: string
+          user_id: string
+          status: string
+          payment_status: string
+          payment_provider: string | null
+          payment_reference: string | null
+          currency: string
+          subtotal_cents: number
+          shipping_cents: number
+          total_cents: number
+          address_id: string | null
+          address_snapshot_encrypted: string
+          external_order_id: string | null
+          alibaba_order_id: string | null
+          alibaba_status: string | null
+          failure_code: string | null
+          failure_message: string | null
+          paid_at: string | null
+          ordered_at: string | null
+          shipped_at: string | null
+          delivered_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          status?: string
+          payment_status?: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          currency?: string
+          subtotal_cents: number
+          shipping_cents?: number
+          total_cents: number
+          address_id?: string | null
+          address_snapshot_encrypted: string
+          external_order_id?: string | null
+          alibaba_order_id?: string | null
+          alibaba_status?: string | null
+          failure_code?: string | null
+          failure_message?: string | null
+          paid_at?: string | null
+          ordered_at?: string | null
+          shipped_at?: string | null
+          delivered_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          status?: string
+          payment_status?: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          currency?: string
+          subtotal_cents?: number
+          shipping_cents?: number
+          total_cents?: number
+          address_id?: string | null
+          address_snapshot_encrypted?: string
+          external_order_id?: string | null
+          alibaba_order_id?: string | null
+          alibaba_status?: string | null
+          failure_code?: string | null
+          failure_message?: string | null
+          paid_at?: string | null
+          ordered_at?: string | null
+          shipped_at?: string | null
+          delivered_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_order_items: {
+        Row: {
+          id: string
+          order_id: string
+          product_id: string | null
+          variant_id: string | null
+          supplier_id: string | null
+          title_snapshot: string
+          sku_snapshot: string
+          quantity: number
+          unit_price_cents: number
+          offer_id: string | null
+          spec_id: string | null
+          alibaba_order_id: string | null
+          metadata: Json
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          order_id: string
+          product_id?: string | null
+          variant_id?: string | null
+          supplier_id?: string | null
+          title_snapshot: string
+          sku_snapshot: string
+          quantity: number
+          unit_price_cents: number
+          offer_id?: string | null
+          spec_id?: string | null
+          alibaba_order_id?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          order_id?: string
+          product_id?: string | null
+          variant_id?: string | null
+          supplier_id?: string | null
+          title_snapshot?: string
+          sku_snapshot?: string
+          quantity?: number
+          unit_price_cents?: number
+          offer_id?: string | null
+          spec_id?: string | null
+          alibaba_order_id?: string | null
+          metadata?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
+      store_order_events: {
+        Row: { id: number; order_id: string; event_type: string; message: string | null; payload: Json; created_at: string }
+        Insert: { id?: number; order_id: string; event_type: string; message?: string | null; payload?: Json; created_at?: string }
+        Update: { id?: number; order_id?: string; event_type?: string; message?: string | null; payload?: Json; created_at?: string }
+        Relationships: []
+      }
+      store_sync_jobs: {
+        Row: {
+          id: number
+          order_id: string | null
+          job_type: string
+          status: string
+          attempts: number
+          next_run_at: string
+          locked_at: string | null
+          last_error: string | null
+          payload: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          order_id?: string | null
+          job_type: string
+          status?: string
+          attempts?: number
+          next_run_at?: string
+          locked_at?: string | null
+          last_error?: string | null
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          order_id?: string | null
+          job_type?: string
+          status?: string
+          attempts?: number
+          next_run_at?: string
+          locked_at?: string | null
+          last_error?: string | null
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      store_alibaba_connections: {
+        Row: {
+          connection_key: string
+          member_id: string | null
+          access_token_encrypted: string
+          refresh_token_encrypted: string | null
+          expires_at: string | null
+          scopes: string[]
+          status: string
+          metadata: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          connection_key?: string
+          member_id?: string | null
+          access_token_encrypted: string
+          refresh_token_encrypted?: string | null
+          expires_at?: string | null
+          scopes?: string[]
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          connection_key?: string
+          member_id?: string | null
+          access_token_encrypted?: string
+          refresh_token_encrypted?: string | null
+          expires_at?: string | null
+          scopes?: string[]
+          status?: string
+          metadata?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      create_store_order: {
+        Args: {
+          p_user_id: string
+          p_external_order_id: string
+          p_address_id: string
+          p_address_snapshot_encrypted: string
+          p_subtotal_cents: number
+          p_shipping_cents: number
+          p_total_cents: number
+          p_items: Json
+        }
+        Returns: string
+      }
+      mark_store_order_paid: {
+        Args: {
+          p_order_id: string
+          p_provider: string
+          p_reference: string
+        }
+        Returns: boolean
+      }
       get_my_observed_species_ids: {
         Args: Record<string, never>
         Returns: { species_id: number }[]
