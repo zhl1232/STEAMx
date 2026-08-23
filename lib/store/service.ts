@@ -3,8 +3,15 @@ import { randomUUID } from 'node:crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { encryptStoreAddress, maskRecipientName, phoneLast4, type StoreAddressPayload } from '@/lib/store/address-crypto'
+import {
+  isStoreContextKey,
+  normalizeTaobaoUrl,
+  type StoreCheckoutMode,
+  type StoreExternalChannel,
+} from '@/lib/store/external-channel'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database, Json } from '@/lib/supabase/types'
+import { logger } from '@/lib/logger'
 
 type StoreClient = SupabaseClient<Database, 'public'>
 type ProductRow = Database['public']['Tables']['store_products']['Row']
@@ -60,6 +67,78 @@ export type StoreCatalogVariant = VariantRow & {
 
 export type StoreCatalogProduct = ProductRow & {
   variants: StoreCatalogVariant[]
+}
+
+export type PublicStoreVariant = Pick<
+  VariantRow,
+  'id' | 'name' | 'sku' | 'price_cents' | 'min_quantity' | 'stock_quantity'
+>
+
+export type PublicStoreProduct = {
+  id: string
+  slug: string
+  name: string
+  description: string | null
+  cover_url: string | null
+  currency: string
+  price_cents: number
+  compare_at_price_cents: number | null
+  checkout_mode: StoreCheckoutMode
+  external_channel: StoreExternalChannel | null
+  external_url: string | null
+  variants: PublicStoreVariant[]
+}
+
+type PublicProductFields = Pick<
+  ProductRow,
+  | 'id'
+  | 'slug'
+  | 'name'
+  | 'description'
+  | 'cover_url'
+  | 'currency'
+  | 'price_cents'
+  | 'compare_at_price_cents'
+  | 'checkout_mode'
+  | 'external_channel'
+  | 'external_url'
+>
+
+function mapPublicStoreProductFields(product: PublicProductFields, variants: PublicStoreVariant[]): PublicStoreProduct {
+  const checkoutMode: StoreCheckoutMode = product.checkout_mode === 'external' ? 'external' : 'internal'
+  const externalUrl = checkoutMode === 'external' ? normalizeTaobaoUrl(product.external_url) : null
+  const externalChannel: StoreExternalChannel | null =
+    checkoutMode === 'external' && product.external_channel === 'taobao' ? 'taobao' : null
+
+  return {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    description: product.description,
+    cover_url: product.cover_url,
+    currency: product.currency,
+    price_cents: product.price_cents,
+    compare_at_price_cents: product.compare_at_price_cents,
+    checkout_mode: checkoutMode,
+    external_channel: externalChannel,
+    external_url: externalChannel ? externalUrl : null,
+    variants,
+  }
+}
+
+/**
+ * Strip sourcing/metadata fields before a product reaches the browser and
+ * normalize the configured Taobao URL defensively.
+ */
+export function mapPublicStoreProduct(product: StoreCatalogProduct): PublicStoreProduct {
+  return mapPublicStoreProductFields(product, product.variants.map((variant) => ({
+    id: variant.id,
+    name: variant.name,
+    sku: variant.sku,
+    price_cents: variant.price_cents,
+    min_quantity: variant.min_quantity,
+    stock_quantity: variant.stock_quantity,
+  })))
 }
 
 export async function listStoreProducts(
@@ -123,6 +202,71 @@ export async function listStoreProducts(
     ...product,
     variants: variantsByProduct.get(product.id) ?? [],
   }))
+}
+
+/**
+ * Read only the active Taobao products associated with a course/lesson/project.
+ * This deliberately avoids the source/supplier tables because a contextual
+ * recommendation needs no procurement details.
+ */
+export async function listStoreProductsForContext(
+  supabase: StoreClient,
+  contextKey: string,
+  options: { limit?: number } = {},
+): Promise<PublicStoreProduct[]> {
+  if (!isStoreContextKey(contextKey)) return []
+
+  try {
+    const limit = Math.min(6, Math.max(1, options.limit ?? 3))
+    const { data: products, error: productsError } = await supabase
+      .from('store_products')
+      .select('id, slug, name, description, cover_url, currency, price_cents, compare_at_price_cents, checkout_mode, external_channel, external_url, context_keys')
+      .eq('status', 'active')
+      .eq('checkout_mode', 'external')
+      .eq('external_channel', 'taobao')
+      .contains('context_keys', [contextKey])
+      .order('created_at', { ascending: false })
+      .limit(48)
+    if (productsError) throw productsError
+
+    const matched = (products ?? []).slice(0, limit)
+    if (!matched.length) return []
+
+    const { data: variants, error: variantsError } = await supabase
+      .from('store_product_variants')
+      .select('id, product_id, name, sku, price_cents, min_quantity, stock_quantity')
+      .in('product_id', matched.map((product) => product.id))
+      .eq('status', 'active')
+      .order('created_at', { ascending: true })
+    if (variantsError) throw variantsError
+
+    const variantsByProduct = new Map<string, PublicStoreVariant[]>()
+    for (const variant of variants ?? []) {
+      const list = variantsByProduct.get(variant.product_id) ?? []
+      list.push({
+        id: variant.id,
+        name: variant.name,
+        sku: variant.sku,
+        price_cents: variant.price_cents,
+        min_quantity: variant.min_quantity,
+        stock_quantity: variant.stock_quantity,
+      })
+      variantsByProduct.set(variant.product_id, list)
+    }
+
+    return matched.map((product) => mapPublicStoreProductFields(
+      product,
+      variantsByProduct.get(product.id) ?? [],
+    ))
+  } catch (error) {
+    // 商品推荐不是课程/项目页面的硬依赖；迁移尚未执行或目录暂时不可用时，
+    // 隐藏卡片但不要阻断学习内容。
+    logger.warn('Contextual store products unavailable', {
+      contextKey,
+      error: error instanceof Error ? error.message : String(error),
+    })
+    return []
+  }
 }
 
 export type StoreCheckoutItemInput = {
@@ -197,9 +341,15 @@ export async function quoteStoreCheckout(
   const lines: StoreCheckoutLine[] = []
   for (const variant of variants) {
     const product = productById.get(variant.product_id)
+    if (!product) {
+      throw new StoreServiceError('部分商品暂时无法采购，请稍后再试', 'SOURCE_UNAVAILABLE')
+    }
+    if (product.checkout_mode === 'external') {
+      throw new StoreServiceError('该商品请前往淘宝完成购买', 'EXTERNAL_CHECKOUT_REQUIRED', 409)
+    }
     const source = sourceByVariant.get(variant.id)
     const supplier = source ? supplierById.get(source.supplier_id) : undefined
-    if (!product || !source || !supplier) {
+    if (!source || !supplier) {
       throw new StoreServiceError('部分商品暂时无法采购，请稍后再试', 'SOURCE_UNAVAILABLE')
     }
     if (!supplier.supports_drop_ship) {

@@ -124,6 +124,18 @@ describe('planTutorResourceSearch', () => {
     expect(messages[0].content).toContain('我想做一艘轮船')
     expect(messages[0].content).toContain('【当前消息】')
   })
+
+  it('introduces the current platform brand to the planner', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"shouldSearch":false,"queries":[],"resourceTypes":["course","project"]}',
+    )
+
+    await planTutorResourceSearch('你好')
+
+    const [systemPrompt] = vi.mocked(chatWithTutorComplete).mock.calls[0] ?? []
+    expect(systemPrompt).toContain('STEAMX · 史迪姆')
+    expect(systemPrompt).not.toContain('STEAM 探索站')
+  })
 })
 
 type FakeRow = Record<string, unknown>

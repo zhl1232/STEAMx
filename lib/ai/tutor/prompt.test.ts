@@ -37,6 +37,15 @@ const scene: TutorSceneContext = {
 }
 
 describe('buildTutorSystemPrompt', () => {
+  it('identifies the platform brand separately from Xiaodi’s tutor nickname', () => {
+    const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
+
+    expect(prompt).toContain('STEAMX · 史迪姆')
+    expect(prompt).toContain('平台中文名是「史迪姆」')
+    expect(prompt).toContain('导师昵称「小迪」')
+    expect(prompt).not.toContain('吉祥物全名')
+  })
+
   it('teaches Xiaodi to disclose only safe profile summaries', () => {
     const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
 

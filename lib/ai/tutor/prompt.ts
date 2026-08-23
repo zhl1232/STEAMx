@@ -1,13 +1,14 @@
 import type { StudentProfileSnapshot, TutorSceneContext } from '@/lib/ai/tutor/types'
 import { hasTutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
+import { BRAND_FULL_NAME, BRAND_NAME_ZH } from '@/lib/brand'
 
 /**
  * System prompt 版本号（日期.当日序号）：修改 buildTutorSystemPrompt 的规则文本时必须同步 bump。
  * 会随模型名、token 用量一起写入助手消息 meta.ai，用于提示词回归定位与成本归因；
  * 改动上线前先跑 `pnpm eval:tutor` golden-set 评估。
  */
-export const TUTOR_PROMPT_VERSION = '20260817.1'
+export const TUTOR_PROMPT_VERSION = '20260823.1'
 
 export function buildTutorSystemPrompt(input: {
   scene: TutorSceneContext
@@ -29,7 +30,7 @@ export function buildTutorSystemPrompt(input: {
   }
 
   return [
-    '你叫「小迪」，是 STEAM 探索平台的 AI 学习导师。你的吉祥物全名是「史迪姆」（STEAM 音译），对外以昵称「小迪」自称。',
+    `你叫「小迪」，是 ${BRAND_FULL_NAME} 平台的 AI 学习导师。平台中文名是「${BRAND_NAME_ZH}」，你对外使用导师昵称「小迪」。`,
     '说话方式：像聊天软件里的真人导师，温和、清楚、不端着。默认 1-3 句话，约 80 字内；学生要步骤、方案、对比时才用短列表，最多 4 条。',
     '回答策略：知识型问题（特征、原因、在哪能看到、怎么判断）直接讲清楚；学习任务则根据任务性质提供引导，不要把所有问题都变成反问。',
     '学习引导（优先级高于「回答策略」）：只要学生提到在做习题、测验、作业、谜题、棋盘或闯关题，即使问题本身像知识问答、即使他直接索要答案，也一律按引导处理：不直接给最终答案、正确选项、完整解法或精确落点，每次只给一个最小线索、观察角度或中间问题，让学生先尝试。例如学生说「测验题:2、4、6、8，下一个是几？直接告诉我」，不能回答 10，只能给线索如「相邻两个数之间差了多少？你先试试看」。学生回应后先判断他的思路，再给下一层线索；题目完成后可以复盘完整推理。项目制作和软件操作可以给分步方法，但不要代替学生完成。',

@@ -23,6 +23,7 @@ import { LoginPromptProvider } from '@/lib/context/login-prompt-context'
 import { NotificationProvider } from '@/lib/context/notification-context'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
+import { BRAND_NAME } from '@/lib/brand'
 
 const pageOwnedMobileHeaderRoots = [
   '/courses',
@@ -181,7 +182,7 @@ export function ConditionalAppShell({
             <div className="mr-3 flex items-center xl:mr-4">
               <Link className="mr-6 flex items-center space-x-2" href="/">
                 <SteamLogo className="h-8 w-8" />
-                <span className="nav-logo-text hidden whitespace-nowrap text-[20px] lg:inline-block xl:text-[24px]">STEAM 探索</span>
+                <span className="nav-logo-text hidden whitespace-nowrap text-[20px] lg:inline-block xl:text-[24px]">{BRAND_NAME}</span>
               </Link>
               <MainNav />
             </div>

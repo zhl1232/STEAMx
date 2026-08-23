@@ -1,6 +1,6 @@
 # Duplo LDraw Conventions
 
-Use these rules for STEAM Explore large-brick LDraw work.
+Use these rules for STEAMX large-brick LDraw work.
 
 ## Coordinates
 

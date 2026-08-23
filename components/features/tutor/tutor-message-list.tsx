@@ -18,6 +18,7 @@ import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarifi
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { cn } from '@/lib/utils'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 export type TutorMessageListProps = {
   view: TutorPanelView
@@ -187,7 +188,7 @@ export function TutorMessageList({
 
       {view === 'chat' && !isAuthenticated && (
         <TutorBubble>
-          你好呀！我是小迪 👋 STEAM 探索的 AI 学习导师。登录后我就能记住你的进度，陪你做项目、聊挑战、认自然～
+          你好呀！我是小迪 👋 {BRAND_FULL_NAME}的 AI 学习导师。登录后我就能记住你的进度，陪你做项目、聊挑战、认自然～
         </TutorBubble>
       )}
       {view === 'chat' && isAuthenticated && messages.length === 0 && !greeting && sessionFetching && (

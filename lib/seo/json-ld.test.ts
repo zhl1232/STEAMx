@@ -24,11 +24,11 @@ describe("buildWebsiteJsonLd", () => {
 
     expect(types).toEqual(["Organization", "WebSite"]);
     expect(data["@graph"][0]).toMatchObject({
-      name: "STEAM 探索",
+      name: "STEAMX · 史迪姆",
       url: "https://www.steamx.cc",
     });
     expect(data["@graph"][1]).toMatchObject({
-      name: "STEAM 探索",
+      name: "STEAMX · 史迪姆",
       url: "https://www.steamx.cc",
       inLanguage: "zh-CN",
     });

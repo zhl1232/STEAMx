@@ -2,20 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 const PRIVACY_VERSION = "v2026.03";
 const EFFECTIVE_DATE = "2026 年 3 月 20 日";
 
 export const metadata: Metadata = {
   title: "隐私政策",
-  description: "STEAM 探索平台隐私政策，说明我们收集的信息范围、使用方式、共享边界与您的数据权利。",
+  description: `${BRAND_FULL_NAME}平台隐私政策，说明我们收集的信息范围、使用方式、共享边界与您的数据权利。`,
 };
 
 const sections = [
   {
     title: "一、我们收集的信息",
     paragraphs: [
-      "当您注册、登录或使用 STEAM 探索时，我们会收集完成账号识别、内容发布与安全保障所必需的信息，包括手机号、账号标识、基础资料、设备与日志信息。",
+      `当您注册、登录或使用${BRAND_FULL_NAME}时，我们会收集完成账号识别、内容发布与安全保障所必需的信息，包括手机号、账号标识、基础资料、设备与日志信息。`,
       "当您发布项目、评论、回复、参与挑战、发送消息或进行打赏时，平台会记录相关内容、操作时间、互动对象与必要的交易流水，用于展示功能结果、处理纠纷与防范滥用。",
     ],
   },
@@ -78,13 +79,13 @@ export default function PrivacyPage() {
 
           <div className="px-4 py-5 sm:px-6 sm:py-6">
             <div className="rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-4 sm:p-5">
-              <p className="text-sm font-medium text-foreground">STEAM 探索隐私政策</p>
+              <p className="text-sm font-medium text-foreground">{BRAND_FULL_NAME}隐私政策</p>
               <div className="mt-2 space-y-1 text-sm text-muted-foreground md:hidden">
                 <p>版本：{PRIVACY_VERSION}</p>
                 <p>生效日期：{EFFECTIVE_DATE}</p>
               </div>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                本政策说明 STEAM 探索如何收集、使用、存储、共享和保护您的个人信息。与账号、发布、互动、消息、通知和交易相关的处理规则，应与
+                本政策说明 {BRAND_FULL_NAME} 如何收集、使用、存储、共享和保护您的个人信息。与账号、发布、互动、消息、通知和交易相关的处理规则，应与
                 <Link href="/legal/terms" className="mx-1 text-primary hover:underline">
                   《用户协议》
                 </Link>

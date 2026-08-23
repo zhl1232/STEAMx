@@ -12,8 +12,8 @@ describe("buildLlmsTxt", () => {
 
     const text = buildLlmsTxt();
 
-    expect(text).toContain("STEAM 探索（STEAMx）");
-    expect(text).toContain("STEAMx is a Chinese STEAM project-based learning and nature observation community.");
+    expect(text).toContain("# STEAMX · 史迪姆");
+    expect(text).toContain("STEAMX is a Chinese STEAM project-based learning and nature observation community.");
     expect(text).toContain("https://www.steamx.cc/explore");
     expect(text).toContain("https://www.steamx.cc/sitemap.xml");
     expect(text).toContain("/api/");

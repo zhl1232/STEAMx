@@ -246,6 +246,7 @@ export default function ProfileSettingsClient() {
                 onFileSelect={handleFileSelect}
                 onDefaultSelect={handleDefaultAvatarSelect}
                 disabled={isSaving}
+                priority
                 showCameraBadge
               />
               <div className="min-w-0">

@@ -3169,6 +3169,10 @@ export interface Database {
           name: string
           description: string | null
           cover_url: string | null
+          checkout_mode: string
+          external_channel: string | null
+          external_url: string | null
+          context_keys: string[]
           source: string
           status: string
           currency: string
@@ -3187,6 +3191,10 @@ export interface Database {
           name: string
           description?: string | null
           cover_url?: string | null
+          checkout_mode?: string
+          external_channel?: string | null
+          external_url?: string | null
+          context_keys?: string[]
           source?: string
           status?: string
           currency?: string
@@ -3205,6 +3213,10 @@ export interface Database {
           name?: string
           description?: string | null
           cover_url?: string | null
+          checkout_mode?: string
+          external_channel?: string | null
+          external_url?: string | null
+          context_keys?: string[]
           source?: string
           status?: string
           currency?: string

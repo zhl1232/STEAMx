@@ -1,4 +1,5 @@
 import type { StudentProfileSnapshot, TutorGlobalSurface, TutorGreeting, TutorSceneContext } from '@/lib/ai/tutor/types'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 const CHALLENGE_QUICK_PROMPTS: Record<string, string[]> = {
   observe: ['这步我该观察什么？', '怎么把观察写清楚？', '我还缺哪些信息？'],
@@ -111,7 +112,7 @@ export function buildTutorGreeting(
   }
 
   return {
-    message: `你好呀 ${name}！我是小迪 👋 史迪姆平台的 AI 学习导师。探索、项目挑战、自然观察、技能课程，我都能陪你。`,
+    message: `你好呀 ${name}！我是小迪 👋 ${BRAND_FULL_NAME} 的 AI 学习导师。探索、项目挑战、自然观察、技能课程，我都能陪你。`,
     quickPrompts: ['今天做什么好？', '帮我找个项目', '我该怎么开始？'],
   }
 }

@@ -5,11 +5,13 @@ import { ArrowLeft, Award, CheckCircle2, ChevronRight, Clock, Target } from "luc
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseLessonCatalog } from "@/components/features/courses/course-lesson-catalog";
 import { CourseShareButton } from "@/components/features/courses/course-share-button";
+import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseOverview } from "@/lib/api/courses";
+import { listStoreProductsForContext } from "@/lib/store/service";
 import { LESSON_CATALOG_MIN_SIZE } from "@/lib/courses/lesson-catalog";
 import { buildLessonCatalogItems } from "@/lib/courses/lesson-catalog-builder";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
@@ -62,6 +64,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
     } = await supabase.auth.getUser();
     const course = await getCourseOverview(supabase, courseId, { userId: user?.id ?? null });
     if (!course) notFound();
+
+    const contextualStoreProducts = await listStoreProductsForContext(supabase, `course:${course.id}`);
 
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const isGomoku = usesGomokuHero(course);
@@ -208,6 +212,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
                         </div>
                     </div>
                 </section>
+
+                {contextualStoreProducts.length > 0 ? (
+                    <div className="mt-6 md:mt-8">
+                        <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这门课程的" />
+                    </div>
+                ) : null}
 
                 {/* 课时列表 */}
                 <section className="mt-6 md:mt-8" aria-labelledby="course-lessons-heading">

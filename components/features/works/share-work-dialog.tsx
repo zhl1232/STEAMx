@@ -16,6 +16,7 @@ import {
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
 import type { Work } from "@/lib/mappers/types"
+import { BRAND_FULL_NAME } from "@/lib/brand"
 
 const POSTER_WIDTH = 375
 const POSTER_HEIGHT = 500
@@ -71,7 +72,7 @@ type ShareCardContent = {
 }
 
 function createWorkShareContent(work: Work): ShareCardContent {
-  const title = work.source?.title || "我的 STEAM 探索作品"
+  const title = work.source?.title || `我的 ${BRAND_FULL_NAME} 作品`
 
   return {
     kind: "work",
@@ -237,9 +238,9 @@ function ShareCardPoster({
       <header className="flex h-12 items-center justify-between px-5">
         <div className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="" className="h-7 w-7 object-contain" />
+          <img src="/logo.png" alt={BRAND_FULL_NAME} className="h-7 w-7 object-contain" />
           <div>
-            <p className="text-[13px] font-bold leading-none">STEAM 探索</p>
+            <p className="text-[13px] font-bold leading-none">{BRAND_FULL_NAME}</p>
             <p className="mt-1 text-[8px] font-semibold leading-none text-[#5f7683]">创作成长档案</p>
           </div>
         </div>

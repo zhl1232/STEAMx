@@ -1,6 +1,6 @@
 # 2026-08-13 内容分诊：硬删除项目清单
 
-站长（zhl1232）审过线上目录后，决定把一批不适合「孩子 + 家长、以后再做直播课」定位的 STEAMx 项目**永久删除**（不是下架 / 不是改 `status`）。相关行和项目自己的 OSS 图一并清掉。代码留痕见：
+站长（zhl1232）审过线上目录后，决定把一批不适合「孩子 + 家长、以后再做直播课」定位的 STEAMX · 史迪姆项目**永久删除**（不是下架 / 不是改 `status`）。相关行和项目自己的 OSS 图一并清掉。代码留痕见：
 
 - 权威 ID 列表：`scripts/lib/content-triage-2026-08-13.mjs`
 - 库表硬删除：`supabase/migrations/20260813090000_hard_delete_triaged_projects.sql`（`pnpm db:push`，不要 `supabase db push`）

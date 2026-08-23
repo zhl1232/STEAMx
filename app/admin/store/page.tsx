@@ -6,12 +6,12 @@ import {
   CircleAlert,
   ExternalLink,
   Package,
-  RefreshCw,
   ShieldCheck,
   Store,
   Truck,
 } from 'lucide-react'
 
+import { StoreChannelEditor } from '@/components/admin/store-channel-editor'
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
 import { Button } from '@/components/ui/button'
 import { requirePageRole } from '@/lib/auth/server'
@@ -20,7 +20,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: '1688 商城管理',
+  title: '实物商城管理',
   robots: { index: false, follow: false },
 }
 
@@ -55,13 +55,21 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
     status: string
     updated_at: string
   } | null = null
-  let catalogCounts = { suppliers: 0, products: 0, variants: 0, sources: 0 }
+  let catalogCounts = { suppliers: 0, products: 0, variants: 0, sources: 0, externalProducts: 0 }
+  let channelProducts: Array<{
+    id: string
+    name: string
+    checkout_mode: string
+    external_channel: string | null
+    external_url: string | null
+    context_keys: string[]
+  }> = []
   let loadError: string | null = null
 
   if (!supabaseAdmin) {
     loadError = '数据库管理员密钥尚未配置，暂时无法读取商城运营状态。'
   } else {
-    const [connectionResult, suppliersResult, productsResult, variantsResult, sourcesResult] = await Promise.all([
+    const [connectionResult, suppliersResult, productsResult, variantsResult, sourcesResult, externalProductsResult, channelProductsResult] = await Promise.all([
       supabaseAdmin
         .from('store_alibaba_connections')
         .select('member_id, expires_at, scopes, status, updated_at')
@@ -71,12 +79,19 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
       supabaseAdmin.from('store_products').select('id', { count: 'exact', head: true }),
       supabaseAdmin.from('store_product_variants').select('id', { count: 'exact', head: true }),
       supabaseAdmin.from('store_product_sources').select('id', { count: 'exact', head: true }),
+      supabaseAdmin.from('store_products').select('id', { count: 'exact', head: true }).eq('checkout_mode', 'external'),
+      supabaseAdmin
+        .from('store_products')
+        .select('id, name, checkout_mode, external_channel, external_url, context_keys')
+        .in('status', ['active', 'draft'])
+        .order('created_at', { ascending: false })
+        .limit(48),
     ])
 
     if (connectionResult.error) loadError = '商城状态加载失败，请稍后刷新。'
     else connection = connectionResult.data
 
-    const countErrors = [suppliersResult, productsResult, variantsResult, sourcesResult].some((result) => result.error)
+    const countErrors = [suppliersResult, productsResult, variantsResult, sourcesResult, externalProductsResult, channelProductsResult].some((result) => result.error)
     if (countErrors) loadError = '商城目录统计加载失败，请稍后刷新。'
     else {
       catalogCounts = {
@@ -84,7 +99,9 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
         products: productsResult.count ?? 0,
         variants: variantsResult.count ?? 0,
         sources: sourcesResult.count ?? 0,
+        externalProducts: externalProductsResult.count ?? 0,
       }
+      channelProducts = channelProductsResult.data ?? []
     }
   }
 
@@ -98,7 +115,7 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
   return (
     <div className="page-shell pt-6 pb-24 md:py-8">
       <div className="md:hidden">
-        <MobilePageHeader title="1688 商城管理" fallbackHref="/admin" />
+        <MobilePageHeader title="实物商城管理" fallbackHref="/admin" />
       </div>
 
       <section className="surface-panel overflow-hidden px-5 py-6 sm:px-7 sm:py-7 lg:px-8">
@@ -110,9 +127,9 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
                 <Store className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-3xl font-semibold tracking-tight">1688 实物商城</h1>
+                <h1 className="text-3xl font-semibold tracking-tight">实物商城运营</h1>
                 <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
-                  管理 1688 授权、供应商和材料包目录。敏感 token 只保存在服务端，不会展示在页面或浏览器中。
+                  当前以淘宝商品卡片作为购买入口，支付、物流和售后由淘宝负责；1688 连接仅作为未来人工履约研究资料。敏感 token 只保存在服务端，不会展示在页面或浏览器中。
                 </p>
               </div>
             </div>
@@ -136,7 +153,7 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
         {alibabaState === 'connected' ? (
           <div className="mt-6 flex items-start gap-3 rounded-sm border border-[hsl(var(--status-success)/0.26)] bg-[hsl(var(--status-success)/0.08)] px-4 py-3 text-sm text-[hsl(var(--status-success-foreground))]">
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-            <p>1688 授权已完成，凭证已加密保存。请继续核对授权范围和供应商目录。</p>
+            <p>历史 1688 授权仍然存在，凭证已加密保存；当前淘宝外部结算不依赖这条连接。</p>
           </div>
         ) : null}
 
@@ -151,8 +168,8 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
           <section className="rounded-sm border border-border/70 bg-[hsl(var(--surface-raised)/0.64)] p-5 sm:p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold text-foreground">1688 授权连接</p>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">订单提交前必须先完成供应商账号授权。</p>
+                <p className="text-sm font-semibold text-foreground">1688 备用连接</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">当前阶段不需要授权；这里只读显示历史连接状态，避免误启用自动下单。</p>
               </div>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${connectionTone}`}>
                 {isConnected ? <CheckCircle2 className="h-3.5 w-3.5" /> : <CircleAlert className="h-3.5 w-3.5" />}
@@ -184,18 +201,11 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
                 <ShieldCheck className="h-4 w-4 shrink-0 text-[hsl(var(--brand-green))]" />
                 最近更新：{formatDate(connection?.updated_at)}
               </p>
-              <Button asChild tone="brand" size="sm">
-                <Link href="/api/store/alibaba/oauth/start">
-                  <RefreshCw className="mr-2 h-4 w-4" />
-                  {isConnected ? '重新授权' : '连接 1688'}
-                </Link>
-              </Button>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">当前不启用自动下单</span>
             </div>
 
             <p className="mt-4 text-xs leading-5 text-muted-foreground">
-              OAuth 回调地址应配置为{' '}
-              <code className="break-all rounded bg-muted px-1.5 py-0.5 text-[11px] text-foreground">/api/store/alibaba/oauth/callback</code>
-              。授权过程中不会把 access token 返回给浏览器。
+              只有进入后续开放平台评估阶段，才需要重新核对 OAuth 回调、授权范围和接口协议；当前淘宝外部结算不依赖 access token。
             </p>
           </section>
 
@@ -213,7 +223,8 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
                 ['供应商', catalogCounts.suppliers],
                 ['商品', catalogCounts.products],
                 ['SKU', catalogCounts.variants],
-                ['1688 映射', catalogCounts.sources],
+                ['淘宝外部商品', catalogCounts.externalProducts],
+                ['备用货源映射', catalogCounts.sources],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-sm bg-[hsl(var(--surface-sunken)/0.72)] px-3 py-3">
                   <p className="text-xs text-muted-foreground">{label}</p>
@@ -226,23 +237,25 @@ export default async function AdminStorePage({ searchParams }: AdminStorePagePro
               <Truck className="mt-1 h-4 w-4 shrink-0 text-[hsl(var(--brand-amber-foreground))]" />
               <p>
                 {catalogCounts.products === 0
-                  ? '还没有商品数据。完成 1688 授权后，下一步录入供应商、商品、SKU 和 offer/spec 映射。'
-                  : '商品目录已存在。支付接入前请确认每个可售 SKU 都有有效的 1688 映射。'}
+                  ? '还没有商品数据。先录入少量固定材料包，再为需要外部结算的商品配置淘宝链接。'
+                  : `${catalogCounts.externalProducts} 个商品已配置淘宝外部结算。上架前请人工核对商品页、价格、库存、运费和售后说明。`}
               </p>
             </div>
           </section>
         </div>
 
+        <StoreChannelEditor products={channelProducts} />
+
         <section className="mt-6 border-t border-border/70 pt-6">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold tracking-tight">上线前顺序</h2>
-            <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">当前第 1 步</span>
+            <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">当前第 1 阶段</span>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {[
-              ['01', '完成 1688 授权', '确认开放平台凭证、Scope 和回调地址。'],
-              ['02', '录入商品映射', '建立供应商、商品、SKU 与 offer/spec 关系。'],
-              ['03', '接入支付与履约', '支付 webhook 确认后，再启用 1688 下单任务。'],
+              ['01', '准备淘宝商品', '确认店铺主体、类目、收款、发货和售后规则。'],
+              ['02', '配置商品卡片', '为商品填写淘宝链接，人工核对价格、规格和库存。'],
+              ['03', '小流量验证', '验证点击、淘宝下单、发货和售后闭环，再扩大目录。'],
             ].map(([step, title, description]) => (
               <div key={step} className="flex gap-3 rounded-sm border border-border/70 px-4 py-4">
                 <span className="text-sm font-bold tabular-nums text-[hsl(var(--brand-blue))]">{step}</span>

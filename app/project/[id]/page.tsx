@@ -24,6 +24,7 @@ import { ProjectExplorationRecordsBlock } from '@/components/features/project/pr
 import { CompletionCTA } from '@/components/features/project/completion-cta'
 import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
 import { ProjectCourseLink } from '@/components/features/project/project-course-link'
+import { ContextualStoreProducts } from '@/components/store/contextual-store-products'
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
 import { UserAvatar } from '@/components/ui/user-avatar'
 import { ProjectDetailScrollTop } from '@/components/features/project/project-detail-scroll-top'
@@ -48,10 +49,12 @@ import {
   type ProjectFilters,
 } from '@/lib/api/explore-data'
 import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
+import { listStoreProductsForContext } from '@/lib/store/service'
 import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
 import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 import type { Project, ProjectStep } from '@/lib/mappers/types'
 
 interface ProjectDetailPageProps {
@@ -683,7 +686,7 @@ export async function generateMetadata(
       },
     }
   }
-  const description = project.description?.substring(0, 160) || 'STEAM 探索上的实践项目详情页。'
+  const description = project.description?.substring(0, 160) || `${BRAND_FULL_NAME}上的实践项目详情页。`
   const canonicalPath = `/project/${id}`
   const keywords = Array.from(
     new Set(
@@ -703,7 +706,7 @@ export async function generateMetadata(
       title: project.title,
       description,
       url: canonicalPath,
-      siteName: 'STEAM 探索',
+      siteName: BRAND_FULL_NAME,
       ...(project.image
         ? {
             images: [{ url: project.image, width: 1200, height: 630, alt: project.title }],
@@ -772,6 +775,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     relatedProjects,
     authorSummary,
     courseLessonRef,
+    contextualStoreProducts,
   ] = await Promise.all([
     getProjectCompletions(project.id, 8, { onePerUser: true }),
     getProjectCompletionsCount(project.id),
@@ -785,6 +789,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     fromExplore ? Promise.resolve([]) : getRelatedProjects(project.id, project.category, 1),
     getProjectAuthorSummary(project.author_id, project.author),
     Promise.resolve(null as Awaited<ReturnType<typeof getCourseLessonByWorksProjectId>>),
+    listStoreProductsForContext(supabase, `project:${project.id}`),
   ])
 
   const materials = project.materials ?? []
@@ -961,6 +966,10 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
               <MobileProjectIntro summary={projectSummary} tags={introTags} />
 
+              {contextualStoreProducts.length > 0 ? (
+                <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" />
+              ) : null}
+
               <MobileProjectSteps steps={steps} materials={materials} />
 
               <MobileSectionCard title="探索记录">
@@ -1097,6 +1106,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 </p>
               </div>
             </section>
+
+            {contextualStoreProducts.length > 0 ? (
+              <div className="hidden md:block">
+                <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" />
+              </div>
+            ) : null}
 
             <div className="hidden gap-6 md:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)]">
               <div className="min-w-0 space-y-6">

@@ -35,7 +35,7 @@ describe('buildTutorGreeting', () => {
     const scene: TutorSceneContext = {
       contextType: 'global',
       contextId: '',
-      title: 'STEAM 探索',
+      title: 'STEAMX · 史迪姆',
       summary: '',
     }
     const greeting = buildTutorGreeting(baseProfile, scene)
@@ -47,7 +47,7 @@ describe('buildTutorGreeting', () => {
     const buildScene = (surface: TutorSceneContext['surface']): TutorSceneContext => ({
       contextType: 'global',
       contextId: '',
-      title: 'STEAM 探索',
+      title: 'STEAMX · 史迪姆',
       summary: '',
       surface,
     })
@@ -79,7 +79,7 @@ describe('buildTutorGreeting', () => {
     const scene: TutorSceneContext = {
       contextType: 'global',
       contextId: '',
-      title: 'STEAM 探索',
+      title: 'STEAMX · 史迪姆',
       summary: '',
       surface: 'home',
     }

@@ -2,27 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 const TERMS_VERSION = "v2026.03";
 const EFFECTIVE_DATE = "2026 年 3 月 20 日";
 
 export const metadata: Metadata = {
   title: "用户协议",
-  description: "STEAM 探索平台用户协议，说明服务范围、使用规范、内容处理与未成年人保护要求。",
+  description: `${BRAND_FULL_NAME}平台用户协议，说明服务范围、使用规范、内容处理与未成年人保护要求。`,
 };
 
 const sections = [
   {
     title: "一、协议适用范围",
     paragraphs: [
-      "本协议适用于您访问、注册、登录或使用 STEAM 探索平台及其相关服务的全部行为。您在完成注册、勾选同意，或继续使用平台服务时，即视为已阅读并接受本协议与《隐私政策》。",
+      `本协议适用于您访问、注册、登录或使用${BRAND_FULL_NAME}平台及其相关服务的全部行为。您在完成注册、勾选同意，或继续使用平台服务时，即视为已阅读并接受本协议与《隐私政策》。`,
       "如您不同意本协议任一条款，应立即停止注册、登录或继续使用平台服务。",
     ],
   },
   {
     title: "二、服务内容",
     paragraphs: [
-      "STEAM 探索提供项目浏览、发布、互动、评论、挑战、消息和成长记录等功能。平台可根据运营需要调整具体功能、展示方式或服务范围。",
+      `${BRAND_FULL_NAME}提供项目浏览、发布、互动、评论、挑战、消息和成长记录等功能。平台可根据运营需要调整具体功能、展示方式或服务范围。`,
       "平台提供的内容、审核结果、推荐排序与活动安排，会根据安全、合规和产品策略进行更新，不构成对任何结果的保证。",
     ],
   },
@@ -78,13 +79,13 @@ export default function TermsPage() {
 
           <div className="px-4 py-5 sm:px-6 sm:py-6">
             <div className="rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-4 sm:p-5">
-              <p className="text-sm font-medium text-foreground">STEAM 探索用户协议</p>
+              <p className="text-sm font-medium text-foreground">{BRAND_FULL_NAME}用户协议</p>
               <div className="mt-2 space-y-1 text-sm text-muted-foreground md:hidden">
                 <p>版本：{TERMS_VERSION}</p>
                 <p>生效日期：{EFFECTIVE_DATE}</p>
               </div>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                本协议是您与 STEAM 探索之间就平台服务使用、内容发布、互动行为与账号管理所达成的约定。与账号注册、登录、发布、评论、互动等功能相关的处理规则，均以本协议及
+                本协议是您与 {BRAND_FULL_NAME} 之间就平台服务使用、内容发布、互动行为与账号管理所达成的约定。与账号注册、登录、发布、评论、互动等功能相关的处理规则，均以本协议及
                 <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">
                   《隐私政策》
                 </Link>

@@ -10,6 +10,7 @@ import { NotificationBell } from '@/components/layout/notification-bell'
 import { SteamLogo } from '@/components/layout/logo'
 import { UserButton } from '@/components/layout/user-button'
 import { cn } from '@/lib/utils'
+import { BRAND_NAME } from '@/lib/brand'
 
 interface MobileGlobalHeaderProps {
   /** 左侧显示模式：'logo' 显示 Logo+标题，'title' 显示自定义标题文字，'search' 显示内嵌搜索框 */
@@ -108,7 +109,7 @@ export function MobileGlobalHeader({
             >
               <SteamLogo className="h-6 w-6 shrink-0 min-[390px]:h-7 min-[390px]:w-7" />
               <span className="nav-logo-text font-sans text-[17px] font-bold min-[390px]:text-[18px]">
-                STEAM 探索
+                {BRAND_NAME}
               </span>
             </Link>
           ) : variant === 'search' ? (

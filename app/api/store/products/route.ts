@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError } from '@/lib/api/auth'
 import { createClient } from '@/lib/supabase/server'
-import { listStoreProducts } from '@/lib/store/service'
+import { listStoreProducts, mapPublicStoreProduct } from '@/lib/store/service'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,11 +16,8 @@ export async function GET(request: NextRequest) {
       limit,
       search: request.nextUrl.searchParams.get('search') || undefined,
     })
-    // 1688 offer/spec 映射只供服务端报价和下单，不能随商品目录返回浏览器。
-    return NextResponse.json({ products: products.map((product) => ({
-      ...product,
-      variants: product.variants.map(({ source: _source, ...variant }) => variant),
-    })) })
+    // 1688 offer/spec、供应商和 metadata 只供服务端报价和下单，不能随商品目录返回浏览器。
+    return NextResponse.json({ products: products.map(mapPublicStoreProduct) })
   } catch (error) {
     return handleApiError(error)
   }

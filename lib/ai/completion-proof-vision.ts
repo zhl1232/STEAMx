@@ -1,5 +1,6 @@
 import { dashScopeChatComplete } from '@/lib/ai/dashscope'
 import { mapDashScopeErrorToObservationVision, ObservationVisionError } from '@/lib/ai/qwen-vision'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 export type CompletionProofVisionResult = {
   moderationPass: boolean
@@ -10,7 +11,7 @@ export type CompletionProofVisionResult = {
 
 function buildCompletionModerationPrompt() {
   return [
-    '你是青少年 STEAM 探索作品图片审核助手。',
+    `你是 ${BRAND_FULL_NAME} 青少年 STEAM 作品的图片审核助手。`,
     '请严格输出 JSON，不要输出任何额外说明。',
     '判断图片是否包含色情、暴力、血腥、违法、仇恨、未成年人不适宜等内容。',
     '与手工/科学探索无关的纯广告、二维码引流、截图聊天也可判为不通过。',

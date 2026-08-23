@@ -7,7 +7,7 @@ description: Reconstruct or repair Duplo/large-brick LDraw models from reviewed 
 
 ## Overview
 
-Use this skill to turn instruction evidence into reliable, reviewable LDraw source for the STEAM Explore large-brick course pipeline. The instruction sequence is ground truth; an existing LDR is only a hypothesis. Do not infer hidden structure, substitute look-alike parts, or add guessed parts from a single finished photo. If the part ID, geometry, orientation, or step placement is unclear, stop and ask the user.
+Use this skill to turn instruction evidence into reliable, reviewable LDraw source for the STEAMX large-brick course pipeline. The instruction sequence is ground truth; an existing LDR is only a hypothesis. Do not infer hidden structure, substitute look-alike parts, or add guessed parts from a single finished photo. If the part ID, geometry, orientation, or step placement is unclear, stop and ask the user.
 
 ## Workflow
 

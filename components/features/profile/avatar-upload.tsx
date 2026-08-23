@@ -22,6 +22,8 @@ interface AvatarUploadProps {
   /** 选择预设或当前上传头像时回调，url 为预设路径如 /avatars/default-8.svg 或自定义上传的完整 URL；仅做高亮，提交由外层「保存修改」统一提交 */
   onDefaultSelect?: (url: string) => void
   disabled?: boolean
+  /** 设置页首屏头像预览使用 eager，避免把首个可见图片误标为 LCP 懒加载 */
+  priority?: boolean
   /** 在头像右下角显示相机图标，提示可点击更换 */
   showCameraBadge?: boolean
 }
@@ -39,6 +41,7 @@ export function AvatarUpload({
   onFileSelect,
   onDefaultSelect,
   disabled,
+  priority = false,
   showCameraBadge,
 }: AvatarUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -96,6 +99,7 @@ export function AvatarUpload({
                   alt="Avatar"
                   fill
                   variant="avatar"
+                  priority={priority}
                   className="object-cover"
                 />
               ) : (

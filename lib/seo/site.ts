@@ -1,11 +1,13 @@
 import { STEAMX_APEX_HOST, STEAMX_WWW_HOST } from "@/lib/seo/canonical-host";
+import { BRAND_FULL_NAME, BRAND_TAGLINE } from "@/lib/brand";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
 const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
 
-export const SITE_NAME = "STEAM 探索";
+/** The formal site name used in metadata, structured data, and public copy. */
+export const SITE_NAME = BRAND_FULL_NAME;
 export const SITE_DESCRIPTION =
-  "STEAM 项目式学习与自然观察社区，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。";
+  `${BRAND_TAGLINE}，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。`;
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 

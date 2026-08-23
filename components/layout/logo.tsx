@@ -3,12 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 export function SteamLogo({ className }: { className?: string }) {
     return (
         <Image
             src="/logo.png"
-            alt="STEAM 探索"
+            alt={BRAND_FULL_NAME}
             width={64}
             height={64}
             draggable={false}

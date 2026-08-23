@@ -618,7 +618,7 @@ export default function AdminPage() {
                 <Button asChild variant="outline">
                   <Link href="/admin/store">
                     <Store className="mr-2 h-4 w-4" />
-                    1688 商城
+                    实物商城
                   </Link>
                 </Button>
               )}

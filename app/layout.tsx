@@ -12,6 +12,7 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
+import { BRAND_FULL_NAME, BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
 import { SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
 
@@ -32,6 +33,8 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
+    BRAND_NAME,
+    BRAND_NAME_ZH,
     "STEAM",
     "STEAM教育",
     "PBL",
@@ -42,7 +45,7 @@ export const metadata: Metadata = {
     "鸟类观察",
     "项目分享社区",
   ],
-  authors: [{ name: "STEAM 探索团队" }],
+  authors: [{ name: `${BRAND_FULL_NAME}团队` }],
   alternates: {
     canonical: "/",
   },

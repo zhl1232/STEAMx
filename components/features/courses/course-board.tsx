@@ -90,8 +90,8 @@ function CourseSection({
                 <p className="mt-0.5 text-xs leading-5 text-muted-foreground md:mt-1 md:text-sm md:leading-6">{description}</p>
             </div>
             <div className="grid gap-3 md:grid-cols-2 md:gap-4">
-                {courses.map((course) => (
-                    <CourseCard key={course.id} course={course} />
+                {courses.map((course, index) => (
+                    <CourseCard key={course.id} course={course} priority={index === 0 && !separated} />
                 ))}
             </div>
         </section>
@@ -125,7 +125,7 @@ export function CourseBoardError({
     );
 }
 
-function CourseCard({ course }: { course: CourseListItem }) {
+function CourseCard({ course, priority = false }: { course: CourseListItem; priority?: boolean }) {
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const progress = course.progress;
     const isBrick = isBrickCourse(course);
@@ -172,6 +172,7 @@ function CourseCard({ course }: { course: CourseListItem }) {
                     src={imageSrc}
                     alt={course.title}
                     fill
+                    priority={priority}
                     variant="card"
                     className="object-contain p-2 transition-transform duration-500 group-hover:scale-108"
                     sizes="(max-width: 640px) 100vw, 132px"

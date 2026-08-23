@@ -2,6 +2,7 @@ import React from 'react'
 import { Metadata } from 'next'
 import { isUuid } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 interface UserProfileLayoutProps {
     children: React.ReactNode
@@ -35,7 +36,7 @@ export async function generateMetadata(
 
     const displayName = profile.display_name || '匿名用户'
     const title = `${displayName} 的个人主页`
-    const description = profile.bio?.substring(0, 160) || '来看看这个有趣的灵魂吧，在 STEAM 探索里发现更多项目。'
+    const description = profile.bio?.substring(0, 160) || `来看看这个有趣的灵魂吧，在${BRAND_FULL_NAME}里发现更多项目。`
 
     return {
         title,
@@ -48,7 +49,7 @@ export async function generateMetadata(
             title,
             description,
             url: `/users/${id}`,
-            siteName: 'STEAM 探索',
+            siteName: BRAND_FULL_NAME,
             ...(profile.avatar_url
                 ? {
                     images: [{ url: profile.avatar_url, width: 400, height: 400, alt: profile.display_name || '头像' }],

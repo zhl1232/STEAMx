@@ -4,10 +4,11 @@ import { Trophy } from "lucide-react";
 import { LeaderboardContent } from "@/components/features/gamification/leaderboard-content";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 export const metadata: Metadata = buildPageMetadata({
     title: "社区排行榜",
-    description: "查看 STEAM 探索社区中的等级、经验、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。",
+    description: `查看${BRAND_FULL_NAME}社区中的等级、经验、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。`,
     path: "/leaderboard",
     keywords: ["社区排行榜", "STEAM经验榜", "创作排行"],
 });

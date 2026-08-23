@@ -915,6 +915,7 @@ function ProfileHero({
               alt={profileContext.userName}
               fallback={getInitial(profileContext.userName)}
               avatarFrameId={profile?.equipped_avatar_frame_id}
+              loading="eager"
               className={cn(
                 'border-[3px] border-background shadow-[0_12px_28px_-18px_hsl(var(--brand-blue)/0.35)]',
                 compact ? 'h-[78px] w-[78px]' : 'h-[112px] w-[112px]',

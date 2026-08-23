@@ -1,4 +1,4 @@
-# STEAM 探索 — 全局设计规范
+# STEAMX · 史迪姆 — 全局设计规范
 
 > 面向 3–16 岁儿童与青少年、家长与教师。界面应鼓励式、清晰、偏探索感；桌面端优先宽容器，信息分区清楚。
 > 本规范由 [ui-consistency-audit.md](./ui-consistency-audit.md) 落地而来，与 `/design-system` 展示页、`app/globals.css` 及 `components/ui/*` 保持一致。

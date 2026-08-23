@@ -4,6 +4,7 @@ import {
   getGrowthTaskDefinition,
   isGrowthTaskId,
 } from '@/lib/profile/growth-tasks'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 export const PROFILE_TIMELINE_TIME_ZONE = 'Asia/Shanghai'
 
@@ -311,7 +312,7 @@ export function buildProfileTimelineEvents(
       kind: 'account_created',
       occurredAt: input.accountCreatedAt,
       label: '加入探索',
-      detail: '开始记录 STEAM 探索',
+      detail: `开始在 ${BRAND_FULL_NAME} 记录探索`,
       href: '/profile',
       iconName: 'timeline',
       status: 'neutral',

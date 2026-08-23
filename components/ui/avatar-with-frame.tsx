@@ -14,6 +14,7 @@ export interface AvatarWithFrameProps {
   avatarFrameId?: string | null;
   className?: string;
   avatarClassName?: string;
+  loading?: "eager" | "lazy";
 }
 
 function ScienceOrbitLayer({ layer }: { layer: "back" | "front" }) {
@@ -65,6 +66,7 @@ export function AvatarWithFrame({
   avatarFrameId,
   className,
   avatarClassName,
+  loading,
 }: AvatarWithFrameProps) {
   const frameClass = getAvatarFrameClassName(avatarFrameId ?? null);
   const isScienceOrbit = frameClass === "avatar-frame-science-orbit";
@@ -90,7 +92,7 @@ export function AvatarWithFrame({
         </>
       ) : null}
       <Avatar className={cn(avatarClassName, "relative z-[1] h-full! w-full! shrink-0 rounded-full ring-2 ring-background")}>
-        <AvatarImage src={src ?? undefined} alt={alt} />
+        <AvatarImage src={src ?? undefined} alt={alt} loading={loading} />
         <AvatarFallback>{fallback}</AvatarFallback>
       </Avatar>
       {isScienceOrbit ? (

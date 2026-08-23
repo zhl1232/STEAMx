@@ -1,6 +1,7 @@
 import { analyzeCompletionProofImageWithQwen } from '@/lib/ai/completion-proof-vision'
 import { getObservationVisionUserMessage } from '@/lib/ai/qwen-vision'
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 export type CompletionModerationDecision = {
   pass: boolean
@@ -14,7 +15,7 @@ export type CompletionModerationDecision = {
 }
 
 const COMPLETION_TEXT_MODERATION_PROMPT = [
-  '你是青少年 STEAM 探索作品文字审核助手，不负责改写文本。',
+  `你是 ${BRAND_FULL_NAME} 青少年 STEAM 作品的文字审核助手，不负责改写文本。`,
   '根据整段作品说明的语义判断是否适合公开展示给 3-16 岁用户。',
   '需要拒绝色情、裸露、血腥暴力、违法、仇恨、骚扰、毒品、赌博、诈骗引流、未成年人隐私风险等不适宜内容；正常的科学、工程、艺术和自然观察内容应通过。',
   '不要用固定关键词或正则表达式判断，注意上下文、否定、引用和教学语境。',

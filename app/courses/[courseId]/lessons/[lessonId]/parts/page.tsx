@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Blocks, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getLessonInCourse } from "@/lib/api/courses";
 import { lookupLdrawBom } from "@/lib/courses/ldraw-bom-source";
+import { listStoreProductsForContext } from "@/lib/store/service";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
@@ -76,6 +78,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
   }
 
   const bom = lookup.bom;
+  const contextualStoreProducts = await listStoreProductsForContext(supabase, `lesson:${lessonId}`);
 
   return (
     <div className="min-h-screen app-canvas-community">
@@ -114,6 +117,12 @@ export default async function LessonPartsPage({ params }: PageProps) {
             </Link>
           </Button>
         </header>
+
+        {contextualStoreProducts.length > 0 ? (
+          <div className="mt-6">
+            <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这节课的" />
+          </div>
+        ) : null}
 
         <section className="mt-6" aria-labelledby="all-parts-heading">
           <h2 id="all-parts-heading" className="mb-3 text-base font-black tracking-tight text-foreground md:text-lg">

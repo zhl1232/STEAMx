@@ -1,10 +1,13 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next";
+
+import { BRAND_FULL_NAME, BRAND_NAME } from "@/lib/brand";
+import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'STEAM 探索',
-        short_name: 'STEAM 探索',
-        description: '探索社区中最酷的 STEAM 创意与互动体验',
+        name: BRAND_FULL_NAME,
+        short_name: BRAND_NAME,
+        description: SITE_DESCRIPTION,
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',

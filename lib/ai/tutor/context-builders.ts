@@ -40,6 +40,7 @@ import type { ChallengeStage } from '@/lib/mappers/types'
 import { mapChallengeWorkspace, type ChallengeWorkspaceRow } from '@/lib/pbl/challenge-workspace'
 import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import type { Database } from '@/lib/supabase/types'
+import { BRAND_FULL_NAME } from '@/lib/brand'
 
 function compact(value: string | null | undefined, max = 400) {
   const text = typeof value === 'string' ? value.trim() : ''
@@ -249,7 +250,7 @@ async function appendRecommendableCourses(
 /** global 场景按页面给出不同的标题（面板副标题「正在陪你：…」）与给模型的场景描述 */
 const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary: string }> = {
   home: {
-    title: 'STEAM 探索',
+    title: BRAND_FULL_NAME,
     summary: '学生正在浏览首页，可能想寻找下一步学习方向。',
   },
   explore: {

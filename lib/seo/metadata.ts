@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/seo/site";
 
 export const DEFAULT_SEO_KEYWORDS = [
+  "STEAMX",
+  "史迪姆",
   "STEAM",
   "STEAM教育",
   "项目式学习",

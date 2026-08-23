@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Surface } from "@/components/ui/surface";
 import { ToneBadge } from "@/components/ui/tone-badge";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 export default function DesignSystemContent() {
   return (
@@ -13,7 +14,7 @@ export default function DesignSystemContent() {
             只读设计系统展示
           </span>
           <div className="space-y-2">
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">STEAM 探索 UI 基线</h1>
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{BRAND_FULL_NAME} UI 基线</h1>
             <p className="text-sm text-muted-foreground sm:text-base">
               这里沉淀平台真实会用到的字体、表面、按钮与状态层级。完整规范见{" "}
               <code className="rounded bg-muted px-1.5 py-0.5 text-xs">docs/design-system.md</code>
@@ -37,7 +38,7 @@ export default function DesignSystemContent() {
               ].map(([label, className]) => (
                 <div key={label} className="rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.8)] p-4">
                   <p className="text-xs text-muted-foreground">{label}</p>
-                  <p className={`mt-3 ${className}`}>STEAM 探索</p>
+                  <p className={`mt-3 ${className}`}>{BRAND_FULL_NAME}</p>
                 </div>
               ))}
             </div>

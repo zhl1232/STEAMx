@@ -70,4 +70,16 @@ describe('quoteStoreCheckout', () => {
       { data: [supplier(supplierId)], error: null },
     ]), [{ variantId, quantity: 3 }])).rejects.toMatchObject({ code: 'INSUFFICIENT_STOCK' })
   })
+
+  it('forces external-channel products to use their platform checkout', async () => {
+    const productId = id(30)
+    const variantId = id(31)
+    const supplierId = id(32)
+    await expect(quoteStoreCheckout(fakeClient([
+      { data: [variant(variantId, productId)], error: null },
+      { data: [{ ...product(productId), checkout_mode: 'external', external_channel: 'taobao', external_url: 'https://item.taobao.com/item.htm?id=1' }], error: null },
+      { data: [source(variantId, supplierId)], error: null },
+      { data: [supplier(supplierId)], error: null },
+    ]), [{ variantId, quantity: 1 }])).rejects.toMatchObject({ code: 'EXTERNAL_CHECKOUT_REQUIRED', statusCode: 409 })
+  })
 })

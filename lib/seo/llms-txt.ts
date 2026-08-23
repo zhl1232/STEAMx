@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "@/lib/brand";
 import { SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
 
 export function buildLlmsTxt() {
@@ -6,11 +7,11 @@ export function buildLlmsTxt() {
   const robots = buildAbsoluteUrl("/robots.txt");
 
   return [
-    `# ${SITE_NAME}（STEAMx）`,
+    `# ${SITE_NAME}`,
     "",
     SITE_DESCRIPTION,
     "",
-    "STEAMx is a Chinese STEAM project-based learning and nature observation community.",
+    `${BRAND_NAME} is a Chinese STEAM project-based learning and nature observation community.`,
     "",
     "## 主要公开栏目",
     "",
