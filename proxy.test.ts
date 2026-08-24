@@ -26,4 +26,14 @@ describe("proxy apex host redirect", () => {
     expect(local.headers.get("location")).toBeNull();
     expect(www.headers.get("location")).toBeNull();
   });
+
+  it("keeps crawler discovery files free of recommendation cookies", () => {
+    const sitemap = proxy(makeRequest("https://www.steamx.cc/sitemap.xml", "www.steamx.cc"));
+    const robots = proxy(makeRequest("https://www.steamx.cc/robots.txt", "www.steamx.cc"));
+
+    expect(sitemap.status).toBe(200);
+    expect(robots.status).toBe(200);
+    expect(sitemap.headers.get("set-cookie")).toBeNull();
+    expect(robots.headers.get("set-cookie")).toBeNull();
+  });
 });

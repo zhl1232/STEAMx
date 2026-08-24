@@ -1,11 +1,23 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { buildProjectJsonLd, buildWebsiteJsonLd, toAbsoluteMediaUrl } from "@/lib/seo/json-ld";
+import {
+  buildBreadcrumbJsonLd,
+  buildCourseJsonLd,
+  buildLessonJsonLd,
+  buildProjectJsonLd,
+  buildSpeciesProfileJsonLd,
+  buildWebsiteJsonLd,
+  toAbsoluteMediaUrl,
+} from "@/lib/seo/json-ld";
 
 afterEach(() => {
   delete process.env.NEXT_PUBLIC_APP_URL;
   delete process.env.NEXT_PUBLIC_SITE_URL;
   delete process.env.SITE_URL;
+});
+
+beforeEach(() => {
+  process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
 });
 
 describe("toAbsoluteMediaUrl", () => {
@@ -32,6 +44,83 @@ describe("buildWebsiteJsonLd", () => {
       url: "https://www.steamx.cc",
       inLanguage: "zh-CN",
     });
+    expect(data["@graph"][1].potentialAction).toMatchObject({
+      "@type": "SearchAction",
+      "query-input": "required name=search_term_string",
+    });
+  });
+});
+
+describe("page entity JSON-LD", () => {
+  it("builds absolute breadcrumb items", () => {
+    expect(buildBreadcrumbJsonLd([
+      { name: "首页", url: "/" },
+      { name: "课程", url: "/courses" },
+    ])).toMatchObject({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { position: 1, name: "首页", item: "https://www.steamx.cc/" },
+        { position: 2, name: "课程", item: "https://www.steamx.cc/courses" },
+      ],
+    });
+  });
+
+  it("describes a course and its real lesson URLs", () => {
+    const data = buildCourseJsonLd({
+      id: 7,
+      title: "五子棋入门",
+      description: "从规则到实战，学习五子棋的基本思路。",
+      lessons: [
+        { id: 21, title: "认识棋盘", summary: "认识横线、竖线和落子位置。", durationMinutes: 8 },
+      ],
+    });
+
+    expect(data["@graph"][0]).toMatchObject({
+      "@type": "Course",
+      name: "五子棋入门",
+      hasPart: [
+        {
+          "@type": "LearningResource",
+          name: "认识棋盘",
+          url: "https://www.steamx.cc/courses/7/lessons/21",
+          timeRequired: "PT8M",
+        },
+      ],
+    });
+  });
+
+  it("keeps lesson steps and species identity tied to canonical pages", () => {
+    const lesson = buildLessonJsonLd({
+      id: 21,
+      courseId: 7,
+      courseTitle: "五子棋入门",
+      title: "认识棋盘",
+      description: "认识五子棋棋盘和基本落子规则。",
+      steps: [{ title: "观察棋盘", description: "找出横线与竖线的交叉点。" }],
+    });
+    const species = buildSpeciesProfileJsonLd({
+      slug: "passer-montanus",
+      commonName: "麻雀",
+      scientificName: "Passer montanus",
+      aliases: ["树麻雀"],
+      description: "观察麻雀的识别特征和常见环境。",
+      recentObservations: [{ id: 99, title: "校园里的麻雀" }],
+    });
+
+    expect(lesson).toMatchObject({
+      "@type": "LearningResource",
+      url: "https://www.steamx.cc/courses/7/lessons/21",
+      hasPart: [{ "@type": "HowToStep", name: "观察棋盘" }],
+    });
+    expect(species["@graph"][1]).toMatchObject({
+      "@type": "Taxon",
+      name: "麻雀",
+      scientificName: "Passer montanus",
+      alternateName: ["树麻雀"],
+    });
+    expect((species["@graph"][2] as { itemListElement: Array<{ item: { url: string } }> }).itemListElement[0].item.url).toBe(
+      "https://www.steamx.cc/nature/observations/99",
+    );
   });
 });
 

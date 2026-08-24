@@ -175,3 +175,10 @@ jobs:
             fi
             docker compose up -d --force-recreate --no-build
             docker image prune -f
+
+      - name: Push public URLs to Baidu
+        continue-on-error: true
+        env:
+          BAIDU_PUSH_TOKEN: ${{ secrets.BAIDU_PUSH_TOKEN }}
+          BAIDU_PUSH_SITE: https://www.steamx.cc
+        run: node scripts/submit-baidu-urls.mjs

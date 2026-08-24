@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { cookies } from 'next/headers'
 
 import { logger } from '@/lib/logger'
 import { AI_IDENTIFICATION_CONFIDENCE_THRESHOLD } from '@/lib/observations/identifications'
@@ -20,6 +21,17 @@ export type CurrentUserObservedSpeciesLookup =
   | { status: 'unavailable'; userId: string; speciesIds: Set<number> }
 
 async function fetchCurrentUserObservedSpeciesLookup(): Promise<CurrentUserObservedSpeciesLookup> {
+  // Anonymous crawlers and first-time visitors do not have a Supabase auth
+  // cookie. Avoid an unnecessary auth round-trip on the large public atlas;
+  // authenticated requests still use the normal server client below.
+  const cookieStore = await cookies()
+  const hasAuthCookie = cookieStore.getAll().some(({ name }) => (
+    name.startsWith('sb-') && name.includes('-auth-token')
+  ))
+  if (!hasAuthCookie) {
+    return { status: 'anonymous', userId: null, speciesIds: new Set<number>() }
+  }
+
   const supabase = await createClient()
   const {
     data: { user },

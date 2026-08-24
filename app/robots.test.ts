@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 describe("robots", () => {
-  it("allows GPTBot on public pages and keeps private path disallows", () => {
+  it("allows Baiduspider and GPTBot on public pages", () => {
     process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
 
     const result = robots();
@@ -16,7 +16,10 @@ describe("robots", () => {
       const userAgent = rule?.userAgent;
       return Array.isArray(userAgent) ? userAgent.includes("GPTBot") : userAgent === "GPTBot";
     });
+    const baiduRule = rules.find((rule) => rule?.userAgent === "Baiduspider");
 
+    expect(baiduRule?.allow).toBe("/");
+    expect(baiduRule?.disallow).toEqual(expect.arrayContaining(["/api/", "/admin/", "/login"]));
     expect(gptBotRule?.allow).toBe("/");
     expect(gptBotRule?.disallow).toEqual(expect.arrayContaining(["/api/", "/admin/", "/login"]));
     expect(gptBotRule?.disallow).not.toContain("/");

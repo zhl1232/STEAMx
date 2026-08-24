@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/seo/json-ld";
 import { LessonPageClient } from "./lesson-page-client";
 import { createClient } from "@/lib/supabase/server";
 import { getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
+import { buildBreadcrumbJsonLd, buildLessonJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
@@ -19,6 +21,7 @@ export async function generateMetadata({ params }: PageProps) {
             title: "课时",
             description: "技能课程",
             path: `/courses/${courseId}/lessons/${lessonId}`,
+            noIndex: true,
         });
     }
     const content = context.lesson.content as { summary?: unknown; building3d?: { finishedImageUrl?: unknown } } | null;
@@ -27,9 +30,9 @@ export async function generateMetadata({ params }: PageProps) {
         typeof content?.building3d?.finishedImageUrl === "string" ? content.building3d.finishedImageUrl : undefined;
     return buildPageMetadata({
         title: `${context.lesson.title} · ${context.course.title}`,
-        description: summary ?? context.course.description ?? "技能课程课时学习",
+        description: (summary ?? context.course.description ?? "技能课程课时学习").slice(0, 160),
         path: `/courses/${courseId}/lessons/${lessonId}`,
-        keywords: [context.lesson.title, context.course.title],
+        keywords: [context.lesson.title, context.course.title, "STEAM课时", "在线学习"],
         image: finishedImage ?? context.course.image_url ?? undefined,
     });
 }
@@ -56,15 +59,45 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
         ? await getUserLessonProgress(supabase, user.id, lessonId)
         : null;
 
+    const content = context.lesson.content as { summary?: unknown; building3d?: { finishedImageUrl?: unknown } } | null;
+    const summary = typeof content?.summary === "string" ? content.summary : context.course.description;
+    const finishedImage =
+        typeof content?.building3d?.finishedImageUrl === "string" ? content.building3d.finishedImageUrl : context.course.image_url;
+
     return (
-        <LessonPageClient
-            courseId={courseId}
-            courseTitle={context.course.title}
-            lesson={context.lesson}
-            previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
-            initialCompleted={Boolean(progress?.completed_at)}
-            initialStepIndex={initialStepIndex}
-            shouldRecordStart={Boolean(user) && !progress}
-        />
+        <>
+            <JsonLd
+                data={buildLessonJsonLd({
+                    id: context.lesson.id,
+                    courseId: context.course.id,
+                    courseTitle: context.course.title,
+                    title: context.lesson.title,
+                    description: summary,
+                    image: finishedImage,
+                    durationMinutes: context.lesson.duration_minutes,
+                    steps: context.lesson.steps,
+                })}
+            />
+            <JsonLd
+                data={buildBreadcrumbJsonLd([
+                    { name: "首页", url: "/" },
+                    { name: "技能课程", url: "/courses" },
+                    { name: context.course.title, url: `/courses/${context.course.id}` },
+                    {
+                        name: context.lesson.title,
+                        url: `/courses/${context.course.id}/lessons/${context.lesson.id}`,
+                    },
+                ])}
+            />
+            <LessonPageClient
+                courseId={courseId}
+                courseTitle={context.course.title}
+                lesson={context.lesson}
+                previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
+                initialCompleted={Boolean(progress?.completed_at)}
+                initialStepIndex={initialStepIndex}
+                shouldRecordStart={Boolean(user) && !progress}
+            />
+        </>
     );
 }

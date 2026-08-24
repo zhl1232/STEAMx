@@ -46,6 +46,10 @@ export const metadata: Metadata = {
     "项目分享社区",
   ],
   authors: [{ name: `${BRAND_FULL_NAME}团队` }],
+  other: {
+    // 百度对自适应页面的识别仍会参考该标记；本站不区分独立移动域名。
+    "applicable-device": "pc,mobile",
+  },
   alternates: {
     canonical: "/",
   },
@@ -70,7 +74,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh" className={fontClassNames} suppressHydrationWarning>
+    <html lang="zh-CN" className={fontClassNames} suppressHydrationWarning>
       <body className="font-sans antialiased">
         {/* Cloudflare Workers 兼容：补充缺失的 __name helper，避免运行时 ReferenceError */}
         <Script id="bootstrap-runtime-helpers" strategy="beforeInteractive">

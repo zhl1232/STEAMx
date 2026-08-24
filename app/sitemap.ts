@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { createClient } from '@/lib/supabase/server';
+import { createPublicClient } from '@/lib/supabase/server';
 import { hasLdrawModelFile } from '@/lib/courses/ldraw-bom-source';
 import { logger } from '@/lib/logger';
 import { buildAbsoluteUrl } from '@/lib/seo/site';
 
-export const dynamic = 'force-dynamic';
+// Keep the discovery file stable for crawlers and CDNs while still refreshing
+// newly published public content without requiring a full deployment.
+export const revalidate = 3600;
 
 function toLastModified(value: string | null | undefined) {
     if (!value) return undefined;
@@ -78,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     try {
-        const supabase = await createClient();
+        const supabase = createPublicClient();
 
         const [projectsResult, speciesResult, observationsResult, coursesResult] = await Promise.all([
             supabase

@@ -299,6 +299,22 @@ export function SpeciesAtlas({
         fallbackHref="/nature"
       />
 
+      <header className="px-4 pb-4 pt-5 md:px-0 md:pb-6 md:pt-0">
+        <p className="text-xs font-semibold tracking-[0.16em] text-[hsl(var(--brand-green))]">自然观察 · STEAMX</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground md:text-4xl">物种图鉴</h1>
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+          浏览鸟类、昆虫和植物的物种档案，按名称、学名或科属查找识别特征、常见环境与社区观察记录。
+        </p>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
+          <Link href="/nature/observations" className="text-[hsl(var(--brand-green))] hover:underline">
+            查看公开观察记录
+          </Link>
+          <Link href="/nature" className="text-muted-foreground hover:text-foreground hover:underline">
+            返回自然观察首页
+          </Link>
+        </div>
+      </header>
+
       <section className="nature-atlas-toolbar" aria-label="物种筛选">
         <form onSubmit={handleSearchSubmit} className="nature-atlas-search-form">
           <label className="sr-only" htmlFor="species-atlas-search">搜索物种</label>

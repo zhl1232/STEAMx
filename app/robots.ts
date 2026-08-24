@@ -11,6 +11,10 @@ export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
             {
+                userAgent: 'Baiduspider',
+                ...publicCrawlerRule,
+            },
+            {
                 userAgent: [...AI_CRAWLER_USER_AGENTS],
                 ...publicCrawlerRule,
             },

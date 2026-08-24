@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Award, CheckCircle2, ChevronRight, Clock, Target } from "lucide-react";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { CourseLessonCatalog } from "@/components/features/courses/course-lesson-catalog";
 import { CourseShareButton } from "@/components/features/courses/course-share-button";
 import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
@@ -15,6 +16,7 @@ import { listStoreProductsForContext } from "@/lib/store/service";
 import { LESSON_CATALOG_MIN_SIZE } from "@/lib/courses/lesson-catalog";
 import { buildLessonCatalogItems } from "@/lib/courses/lesson-catalog-builder";
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
+import { buildBreadcrumbJsonLd, buildCourseJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
 
@@ -29,13 +31,14 @@ export async function generateMetadata({ params }: PageProps) {
             title: "课程未找到",
             description: "技能课程",
             path: `/courses/${courseId}`,
+            noIndex: true,
         });
     }
     return buildPageMetadata({
         title: course.title,
-        description: course.description ?? "按课表系统学习的 STEAM 技能课程",
+        description: (course.description ?? "按课表系统学习的 STEAM 技能课程").slice(0, 160),
         path: `/courses/${courseId}`,
-        keywords: [course.title, ...(course.tags ?? [])],
+        keywords: [course.title, "STEAM课程", "在线课程", ...(course.tags ?? [])],
         image: course.image_url ?? undefined,
     });
 }
@@ -85,9 +88,31 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 ? "继续学习"
                 : "开始学习";
     return (
-        <div className="min-h-screen app-canvas-community">
-            <MobileGlobalHeader variant="title" title={course.title} />
-            <main className="app-shell-wide pb-28 pt-4 md:py-6">
+        <>
+            <JsonLd
+                data={buildCourseJsonLd({
+                    id: course.id,
+                    title: course.title,
+                    description: course.description,
+                    image: course.image_url,
+                    lessons: course.lessons.map((lesson) => ({
+                        id: lesson.id,
+                        title: lesson.title,
+                        summary: lesson.summary,
+                        durationMinutes: lesson.duration_minutes,
+                    })),
+                })}
+            />
+            <JsonLd
+                data={buildBreadcrumbJsonLd([
+                    { name: "首页", url: "/" },
+                    { name: "技能课程", url: "/courses" },
+                    { name: course.title, url: `/courses/${course.id}` },
+                ])}
+            />
+            <div className="min-h-screen app-canvas-community">
+                <MobileGlobalHeader variant="title" title={course.title} />
+                <main className="app-shell-wide pb-28 pt-4 md:py-6">
                 {/* 返回链接 */}
                 <Link
                     href="/courses"
@@ -304,8 +329,9 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     </ol>
                     )}
                 </section>
-            </main>
-        </div>
+                </main>
+            </div>
+        </>
     );
 }
 

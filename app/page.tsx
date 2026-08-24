@@ -1,12 +1,13 @@
 import { HomeShowcase } from "@/components/home/home-showcase";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getHomepageShowcaseData } from "@/lib/home/recommendations";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 import { buildWebsiteJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 export const metadata = buildPageMetadata({
-  title: "STEAM 项目式学习与自然观察社区",
+  title: `STEAM项目式学习与自然观察 | ${BRAND_FULL_NAME}`,
   description: SITE_DESCRIPTION,
   path: "/",
   keywords: ["STEAM教育平台", "项目式学习平台", "创客社区"],

@@ -5,6 +5,7 @@ import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
 import { buildApexToWwwRedirectUrl } from "@/lib/seo/canonical-host";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
+const SEO_RESOURCE_PATHS = new Set(["/robots.txt", "/sitemap.xml"]);
 
 function withSteamPathHeaders(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -23,6 +24,13 @@ export function proxy(request: NextRequest) {
   });
   if (apexRedirectUrl) {
     return NextResponse.redirect(apexRedirectUrl, 301);
+  }
+
+  // Search-engine discovery files must be deterministic and cookie-free.
+  // Recommendation identity has no meaning for robots.txt or sitemap.xml,
+  // and Set-Cookie can make crawler/CDN fetches look user-specific.
+  if (SEO_RESOURCE_PATHS.has(request.nextUrl.pathname)) {
+    return NextResponse.next();
   }
 
   if (request.cookies.get(REC_VIEWER_COOKIE)?.value) {

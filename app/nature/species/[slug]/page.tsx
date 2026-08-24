@@ -6,8 +6,10 @@ import { AudioLines, Binoculars, CalendarDays, Leaf, MapPin } from "lucide-react
 
 import { SpeciesHotspotPanel } from "@/components/features/bird-observation/species-hotspot-panel";
 import { SpeciesStatsPanel } from "@/components/features/bird-observation/species-stats-panel";
+import { JsonLd } from "@/components/seo/json-ld";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
+import { buildBreadcrumbJsonLd, buildSpeciesProfileJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
 import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
@@ -100,6 +102,12 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   }
 
   const recentObservations = species.recentObservations ?? [];
+  const profileDescription = (
+    species.identificationNotes ||
+    species.habitatNotes ||
+    species.seasonalityNotes ||
+    `${species.commonName} 的物种档案，包含识别特征、常见环境和近期观察线索。`
+  ).slice(0, 160);
   const currentPath = `/nature/species/${species.slug}`;
   const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
   const isBirdSpecies = species.topicKey === "birds";
@@ -332,13 +340,33 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   );
 
   return (
-    <div className="app-shell-wide px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
-      <SpeciesDetailScrollTop />
-      <MobilePageHeader
-        title={species.commonName}
-        fallbackHref={fallbackHref}
-        className="mb-0 md:hidden"
+    <>
+      <JsonLd
+        data={buildSpeciesProfileJsonLd({
+          slug: species.slug,
+          commonName: species.commonName,
+          scientificName: species.scientificName,
+          aliases: species.aliases,
+          description: profileDescription,
+          image: species.coverImageUrl,
+          recentObservations: recentObservations.map((observation) => ({ id: observation.id })),
+        })}
       />
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "首页", url: "/" },
+          { name: "自然观察", url: "/nature" },
+          { name: "物种图鉴", url: "/nature/species" },
+          { name: species.commonName, url: `/nature/species/${species.slug}` },
+        ])}
+      />
+      <div className="app-shell-wide px-0 pb-24 pt-0 md:px-8 md:pb-10 md:pt-8">
+        <SpeciesDetailScrollTop />
+        <MobilePageHeader
+          title={species.commonName}
+          fallbackHref={fallbackHref}
+          className="mb-0 md:hidden"
+        />
 
       <div className="md:surface-panel overflow-hidden md:rounded-(--radius-lg)">
         <div className="px-4 pb-5 pt-2 sm:p-7">
@@ -357,6 +385,7 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -26,6 +26,7 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -118,7 +119,7 @@ function HomeHero({ image }: { image: string }) {
         <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] md:justify-center md:px-10 md:py-8 lg:min-h-[310px] lg:px-12">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[620px] lg:max-w-[700px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
-              STEAM 项目式学习社区
+              {BRAND_FULL_NAME} · STEAM 项目式学习社区
             </p>
             <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[38px] md:leading-[1.12] lg:text-[44px]">
               <span className="md:hidden">
