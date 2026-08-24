@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { permanentRedirect } from 'next/navigation'
 
 import { getSpeciesAtlas } from '@/lib/api/nature-observation-atlas'
 import {
@@ -32,6 +33,16 @@ function normalizeStatus(value: string | undefined): SpeciesAtlasStatusFilter {
 
 export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
   const params = await searchParams
+  const topic = normalizeTopic(params.topic)
+  if (topic !== 'all') {
+    const redirectParams = new URLSearchParams()
+    if (params.q?.trim()) redirectParams.set('q', params.q.trim())
+    const status = normalizeStatus(params.status)
+    if (status !== 'all') redirectParams.set('status', status)
+    const search = redirectParams.toString()
+    permanentRedirect(`/nature/${topic}${search ? `?${search}` : ''}`)
+  }
+
   const atlas = await getSpeciesAtlas()
   const requestedStatus = normalizeStatus(params.status)
   const initialStatus = atlas.viewer.progressState === 'ready' ? requestedStatus : 'all'
@@ -40,7 +51,7 @@ export default async function SpeciesPage({ searchParams }: SpeciesPageProps) {
     <SpeciesAtlas
       initialData={atlas}
       initialQuery={params.q ?? ''}
-      initialTopic={normalizeTopic(params.topic)}
+      initialTopic={topic}
       initialStatus={initialStatus}
       requestedStatus={requestedStatus}
     />

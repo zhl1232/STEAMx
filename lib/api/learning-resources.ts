@@ -1,6 +1,6 @@
 import { cache } from 'react'
 
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/server'
 import { mapLearningResource, type LearningResource } from '@/lib/learning-resources'
 
 const RESOURCE_COLUMNS =
@@ -10,7 +10,7 @@ const RESOURCE_COLUMNS =
 export const getPublishedLearningResource = cache(async function getPublishedLearningResource(
   id: number
 ): Promise<LearningResource | null> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data, error } = await supabase
     .from('learning_resources')

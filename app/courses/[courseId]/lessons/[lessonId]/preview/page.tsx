@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 import { ScratchWorkspace } from "@/components/features/courses/scratch-workspace";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
@@ -11,11 +12,16 @@ type PageProps = {
     params: Promise<{ courseId: string; lessonId: string }>;
 };
 
-export const metadata = buildPageMetadata({
-    title: "作品预览",
-    description: "Scratch 作品预览模式",
-    path: "/courses",
-});
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { courseId, lessonId } = await params;
+
+    return buildPageMetadata({
+        title: "作品预览",
+        description: "Scratch 作品预览模式",
+        path: `/courses/${courseId}/lessons/${lessonId}`,
+        noIndex: true,
+    });
+}
 
 const PREVIEW_HEIGHT = "max-md:h-full md:min-h-[calc(100dvh-4rem)] md:max-h-[calc(100dvh-4rem)]";
 

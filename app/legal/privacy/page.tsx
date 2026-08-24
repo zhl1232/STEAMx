@@ -3,14 +3,17 @@ import Link from "next/link";
 
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { BRAND_FULL_NAME } from "@/lib/brand";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
 const PRIVACY_VERSION = "v2026.03";
 const EFFECTIVE_DATE = "2026 年 3 月 20 日";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "隐私政策",
   description: `${BRAND_FULL_NAME}平台隐私政策，说明我们收集的信息范围、使用方式、共享边界与您的数据权利。`,
-};
+  path: "/legal/privacy",
+  keywords: ["隐私政策", "个人信息保护", "未成年人保护"],
+});
 
 const sections = [
   {
@@ -62,7 +65,7 @@ export default function PrivacyPage() {
     <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title="隐私政策"
-        fallbackHref="/settings/about"
+        fallbackHref="/about"
         className="md:hidden"
       />
 

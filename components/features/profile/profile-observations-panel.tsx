@@ -8,6 +8,12 @@ import type { ObservationEvent } from "@/lib/mappers/types";
 import { formatObservationDateKey } from "@/lib/observations/display";
 import type { NaturalObservationProgressSummary } from "@/lib/observations/progress";
 
+const NATURE_TOPIC_PATHS: Record<string, string> = {
+  birds: "/nature/birds",
+  insects: "/nature/insects",
+  plants: "/nature/plants",
+};
+
 interface ProfileObservationsPanelProps {
   observations: ObservationEvent[];
   observationsTotal: number;
@@ -78,7 +84,7 @@ export function ProfileObservationsPanel({
           {(naturalObservationProgress?.topicProgress || []).slice(1).map((item) => (
             <Link
               key={item.topic}
-              href={`/nature/species?topic=${item.topic}&status=unobserved`}
+              href={`${NATURE_TOPIC_PATHS[item.topic] || "/nature/species"}?status=unobserved`}
               className="group flex flex-col justify-between overflow-hidden rounded-(--radius-lg) border border-border/70 bg-background/72 p-4 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
             >
               <div className="flex items-center justify-between gap-2">

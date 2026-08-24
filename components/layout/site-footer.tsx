@@ -8,31 +8,22 @@ const siteFooterColumns = [
   {
     title: "关于我们",
     links: [
-      { label: "关于我们", href: "/settings/about" },
-      { label: "联系我们", href: "/settings/about" },
-      { label: "加入我们", href: "/settings/about" },
+      { label: "关于我们", href: "/about" },
+      { label: "联系我们", href: "/about#contact" },
     ],
   },
   {
     title: "帮助中心",
     links: [
       { label: "使用指南", href: "/explore" },
-      { label: "常见问题", href: "/settings/about" },
+      { label: "常见问题", href: "/about#faq" },
       { label: "安全与隐私", href: "/legal/privacy" },
-    ],
-  },
-  {
-    title: "合作伙伴",
-    links: [
-      { label: "学校合作", href: "/settings/about" },
-      { label: "机构合作", href: "/settings/about" },
-      { label: "赞助我们", href: "/settings/about" },
     ],
   },
   {
     title: "反馈与支持",
     links: [
-      { label: "提交反馈", href: "/settings/about" },
+      { label: "提交反馈", href: "/about#feedback" },
       { label: "服务条款", href: "/legal/terms" },
       { label: "隐私政策", href: "/legal/privacy" },
     ],
@@ -42,7 +33,7 @@ const siteFooterColumns = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6">
-      <div className="app-shell-wide hidden grid-cols-2 gap-x-10 gap-y-7 px-8 text-[13px] text-muted-foreground md:grid lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+      <div className="app-shell-wide hidden grid-cols-2 gap-x-10 gap-y-7 px-8 text-[13px] text-muted-foreground md:grid lg:grid-cols-[1.5fr_repeat(3,1fr)]">
         <div>
           <Link href="/" className="mb-3 flex items-center gap-2">
             <SteamLogo className="h-8 w-8" />

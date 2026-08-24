@@ -42,6 +42,9 @@ interface SpeciesAtlasProps {
   initialTopic: SpeciesAtlasTopicFilter
   initialStatus: SpeciesAtlasStatusFilter
   requestedStatus: SpeciesAtlasStatusFilter
+  canonicalTopicPath?: string
+  heading?: string
+  introduction?: string
 }
 
 const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, LucideIcon | null> = {
@@ -56,6 +59,12 @@ const STATUS_OPTIONS: Array<{ key: SpeciesAtlasStatusFilter; label: string; icon
   { key: 'observed', label: '已观察', icon: CircleCheck },
   { key: 'unobserved', label: '待观察', icon: CircleDashed },
 ]
+
+const TOPIC_PATHS: Partial<Record<SpeciesAtlasTopicFilter, string>> = {
+  birds: '/nature/birds',
+  insects: '/nature/insects',
+  plants: '/nature/plants',
+}
 
 const SPECIES_ALPHABET = [
   ...Array.from({ length: 26 }, (_, index) => String.fromCharCode(65 + index)),
@@ -120,9 +129,17 @@ function buildSpeciesHref(filters: {
   query?: string
   topic: SpeciesAtlasTopicFilter
   status: SpeciesAtlasStatusFilter
+  canonicalTopicPath?: string
 }) {
   const key = buildSpeciesAtlasFiltersKey(filters)
-  return key ? `/nature/species?${key}` : '/nature/species'
+  const basePath = filters.canonicalTopicPath ?? '/nature/species'
+  if (!filters.canonicalTopicPath) return key ? `${basePath}?${key}` : basePath
+
+  const params = new URLSearchParams()
+  if (filters.query?.trim()) params.set('q', filters.query.trim())
+  if (filters.status !== 'all') params.set('status', filters.status)
+  const search = params.toString()
+  return search ? `${basePath}?${search}` : basePath
 }
 
 function getTopicSummaryLabel(topic: SpeciesAtlasTopicFilter) {
@@ -138,6 +155,9 @@ export function SpeciesAtlas({
   initialTopic,
   initialStatus,
   requestedStatus = initialStatus,
+  canonicalTopicPath,
+  heading = '物种图鉴',
+  introduction = '浏览鸟类、昆虫和植物的物种档案，按名称、学名或科属查找识别特征、常见环境与社区观察记录。',
 }: SpeciesAtlasProps) {
   const router = useRouter()
   const [data, setData] = useState(initialData)
@@ -170,7 +190,13 @@ export function SpeciesAtlas({
     setSearchDraft(nextQuery)
     setTopic(nextTopic)
     setStatus(nextStatus)
-    router.replace(buildSpeciesHref({ query: nextQuery, topic: nextTopic, status: nextStatus }), { scroll: false })
+    const nextCanonicalTopicPath = TOPIC_PATHS[nextTopic]
+    router.replace(buildSpeciesHref({
+      query: nextQuery,
+      topic: nextTopic,
+      status: nextStatus,
+      canonicalTopicPath: nextCanonicalTopicPath,
+    }), { scroll: false })
   }, [progressReady, query, router, status, topic])
 
   function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
@@ -207,7 +233,10 @@ export function SpeciesAtlas({
     [data, progressReady, topic],
   )
   const filtersKey = useMemo(() => buildSpeciesAtlasFiltersKey(filters), [filters])
-  const fromHref = useMemo(() => buildSpeciesHref(filters), [filters])
+  const fromHref = useMemo(
+    () => buildSpeciesHref({ ...filters, canonicalTopicPath: TOPIC_PATHS[topic] ?? canonicalTopicPath }),
+    [canonicalTopicPath, filters, topic],
+  )
   const letterGroups = useMemo(
     () => (isTopicView ? groupSpeciesByInitial(filteredGroups[0]?.items ?? []) : []),
     [filteredGroups, isTopicView],
@@ -301,9 +330,9 @@ export function SpeciesAtlas({
 
       <header className="px-4 pb-4 pt-5 md:px-0 md:pb-6 md:pt-0">
         <p className="text-xs font-semibold tracking-[0.16em] text-[hsl(var(--brand-green))]">自然观察 · STEAMX</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground md:text-4xl">物种图鉴</h1>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground md:text-4xl">{heading}</h1>
         <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          浏览鸟类、昆虫和植物的物种档案，按名称、学名或科属查找识别特征、常见环境与社区观察记录。
+          {introduction}
         </p>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
           <Link href="/nature/observations" className="text-[hsl(var(--brand-green))] hover:underline">
@@ -399,7 +428,7 @@ export function SpeciesAtlas({
         {data.viewer.progressState === 'anonymous' ? (
           <p className="nature-atlas-status-note">
             <Link
-              href={`/login?next=${encodeURIComponent(buildSpeciesHref({ query, topic, status: requestedStatus }))}`}
+              href={`/login?next=${encodeURIComponent(buildSpeciesHref({ query, topic, status: requestedStatus, canonicalTopicPath }))}`}
               className="font-semibold text-primary hover:underline"
             >登录</Link> 后可筛选已观察物种。
           </p>

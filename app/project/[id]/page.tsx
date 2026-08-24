@@ -36,6 +36,7 @@ import { DifficultyStars } from '@/components/ui/difficulty-stars'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
+import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -707,19 +708,19 @@ export async function generateMetadata(
       description,
       url: canonicalPath,
       siteName: BRAND_FULL_NAME,
-      ...(project.image
-        ? {
-            images: [{ url: project.image, width: 1200, height: 630, alt: project.title }],
-          }
-        : {}),
+      images: [{
+        url: project.image || DEFAULT_SOCIAL_IMAGE,
+        ...(project.image ? {} : { width: 1200, height: 630 }),
+        alt: project.title,
+      }],
       type: 'article',
       ...(project.author ? { authors: [project.author] } : {}),
     },
     twitter: {
-      card: project.image ? 'summary_large_image' : 'summary',
+      card: 'summary_large_image',
       title: project.title,
       description,
-      ...(project.image ? { images: [project.image] } : {}),
+      images: [project.image || DEFAULT_SOCIAL_IMAGE],
     },
     ...(project.status !== 'approved'
       ? {

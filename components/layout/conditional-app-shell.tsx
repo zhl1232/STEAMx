@@ -41,6 +41,7 @@ const pageOwnedMobileHeaderRoots = [
   '/pbl',
   '/resources',
   '/leaderboard',
+  '/about',
   '/admin',
   '/moderator',
   '/playground',

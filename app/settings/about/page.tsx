@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { BRAND_FULL_NAME } from "@/lib/brand";
+import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 const FAQ_ITEMS = [
   {
@@ -138,12 +140,17 @@ export default function AboutSettingsPage() {
       description="查看帮助、提交反馈和平台规则。"
     >
       <div className="space-y-6">
-        <section className="space-y-3">
+        <section id="about" className="scroll-mt-24 space-y-2 px-1">
+          <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
+          <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
+        </section>
+
+        <section id="contact" className="scroll-mt-24 space-y-3">
           <div className="px-1">
             <h2 className="settings-section-heading">帮助入口</h2>
           </div>
           <div className="settings-list">
-            <button type="button" className="settings-row" onClick={openFeedback}>
+            <button id="feedback" type="button" className="settings-row scroll-mt-24" onClick={openFeedback}>
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <div className="settings-icon">
                   <MessageSquareHeart className="h-5 w-5" />
@@ -204,7 +211,7 @@ export default function AboutSettingsPage() {
           </div>
         </section>
 
-        <section className="space-y-3">
+        <section id="faq" className="scroll-mt-24 space-y-3">
           <div className="px-1">
             <h2 className="settings-section-heading">常见问题</h2>
           </div>

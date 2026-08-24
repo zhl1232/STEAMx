@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { SITE_NAME } from "@/lib/seo/site";
 
+export const DEFAULT_SOCIAL_IMAGE = "/assets/seo/steamx-social-card.webp";
+
 export const DEFAULT_SEO_KEYWORDS = [
   "STEAMX",
   "史迪姆",
@@ -45,6 +47,7 @@ export function buildPageMetadata({
   noIndex = false,
 }: PageMetadataOptions): Metadata {
   const mergedKeywords = uniqueKeywords([...DEFAULT_SEO_KEYWORDS, ...keywords]);
+  const socialImage = image || DEFAULT_SOCIAL_IMAGE;
 
   return {
     title,
@@ -60,13 +63,17 @@ export function buildPageMetadata({
       siteName: SITE_NAME,
       locale: "zh_CN",
       type,
-      ...(image ? { images: [{ url: image, alt: title }] } : {}),
+      images: [{
+        url: socialImage,
+        ...(!image ? { width: 1200, height: 630 } : {}),
+        alt: title,
+      }],
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title,
       description,
-      ...(image ? { images: [image] } : {}),
+      images: [socialImage],
     },
     ...(noIndex
       ? {

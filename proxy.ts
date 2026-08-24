@@ -6,6 +6,12 @@ import { buildApexToWwwRedirectUrl } from "@/lib/seo/canonical-host";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 const SEO_RESOURCE_PATHS = new Set(["/robots.txt", "/sitemap.xml"]);
+const RECOMMENDATION_IDENTITY_PATHS = new Set([
+  "/explore",
+  "/api/projects",
+  "/api/home/recommendations",
+  "/api/explore/recommendations",
+]);
 
 function withSteamPathHeaders(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -33,7 +39,10 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (request.cookies.get(REC_VIEWER_COOKIE)?.value) {
+  const needsRecommendationIdentity = request.method === "GET"
+    && RECOMMENDATION_IDENTITY_PATHS.has(request.nextUrl.pathname);
+
+  if (!needsRecommendationIdentity || request.cookies.get(REC_VIEWER_COOKIE)?.value) {
     return NextResponse.next({
       request: { headers: withSteamPathHeaders(request) },
     });

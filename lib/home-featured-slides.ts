@@ -17,7 +17,7 @@ export const homeFeaturedSlides: HomeFeaturedSlide[] = [
     title: '记录身边的自然',
     description: '从校园和公园开始，记下你的第一条观察。',
     primaryLabel: '开始第一次观察',
-    primaryHref: '/nature/species?topic=birds',
+    primaryHref: '/nature/birds',
     secondaryLabel: '查看常见鸟种',
     secondaryHref: '/nature/species',
     theme: 'nature',

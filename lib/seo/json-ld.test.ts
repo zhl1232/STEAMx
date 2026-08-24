@@ -3,10 +3,13 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
+  buildLearningResourceJsonLd,
   buildLessonJsonLd,
+  buildObservationJsonLd,
   buildProjectJsonLd,
   buildSpeciesProfileJsonLd,
   buildWebsiteJsonLd,
+  buildWorkJsonLd,
   toAbsoluteMediaUrl,
 } from "@/lib/seo/json-ld";
 
@@ -172,6 +175,68 @@ describe("buildProjectJsonLd", () => {
           image: "https://www.steamx.cc/steps/1.webp",
         },
       ],
+    });
+  });
+});
+
+describe("public content JSON-LD", () => {
+  it("describes a public work as a CreativeWork", () => {
+    expect(buildWorkJsonLd({
+      id: 12,
+      title: "小明的纸杯火箭",
+      description: "记录火箭制作和试飞过程。",
+      images: ["/works/rocket.webp"],
+      author: "小明",
+      dateCreated: "2026-08-20T08:00:00Z",
+    })).toMatchObject({
+      "@type": "CreativeWork",
+      url: "https://www.steamx.cc/works/12",
+      image: ["https://www.steamx.cc/works/rocket.webp"],
+      creator: { "@type": "Person", name: "小明" },
+    });
+  });
+
+  it("ties an observation to its taxon and content location", () => {
+    expect(buildObservationJsonLd({
+      id: 99,
+      title: "麻雀 · 自然观察记录",
+      observedAt: "2026-08-21T09:00:00Z",
+      locationName: "校园操场",
+      latitude: 39.9,
+      longitude: 116.4,
+      species: [{
+        commonName: "麻雀",
+        scientificName: "Passer montanus",
+        slug: "passer-montanus",
+      }],
+    })).toMatchObject({
+      "@type": "CreativeWork",
+      url: "https://www.steamx.cc/nature/observations/99",
+      about: [{
+        "@type": "Taxon",
+        name: "麻雀",
+        url: "https://www.steamx.cc/nature/species/passer-montanus",
+      }],
+      contentLocation: {
+        "@type": "Place",
+        name: "校园操场",
+        geo: { "@type": "GeoCoordinates", latitude: 39.9, longitude: 116.4 },
+      },
+    });
+  });
+
+  it("describes a published resource as a free LearningResource", () => {
+    expect(buildLearningResourceJsonLd({
+      id: 7,
+      title: "如何记录实验变量",
+      description: "学习区分自变量、因变量和控制变量。",
+      category: "方法",
+      datePublished: "2026-08-01T00:00:00Z",
+    })).toMatchObject({
+      "@type": "LearningResource",
+      url: "https://www.steamx.cc/resources/7",
+      learningResourceType: "方法",
+      isAccessibleForFree: true,
     });
   });
 });

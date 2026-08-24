@@ -7,6 +7,7 @@ import { DomesticMiniMap } from "@/components/features/bird-observation/domestic
 import { ObservationDetailActivity } from "@/components/features/bird-observation/observation-detail-activity";
 import { ObservationDetailMoreMenu } from "@/components/features/bird-observation/observation-detail-more-menu";
 import { ObservationMediaCarousel } from "@/components/features/bird-observation/observation-media-carousel";
+import { JsonLd } from "@/components/seo/json-ld";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getObservationById } from "@/lib/api/nature-observation-data";
 import {
@@ -15,6 +16,7 @@ import {
   getObservationTopicLabel,
 } from "@/lib/observations/display";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildObservationJsonLd } from "@/lib/seo/json-ld";
 import { observationSubmitTopicFromNatureTopic } from "@/lib/observations/submit-topic";
 
 import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
@@ -47,6 +49,7 @@ export async function generateMetadata({ params }: ObservationDetailPageProps): 
     description,
     path: `/nature/observations/${observation.id}`,
     image: observation.mediaUrls[0] || undefined,
+    type: "article",
     keywords: [headline.title, observation.locationName, "自然观察记录"],
     noIndex: !observation.isPublic || observation.status !== "approved",
   });
@@ -68,6 +71,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
     observation.identificationStatus,
     submitTopic,
   );
+  const title = `${headline.title} · 自然观察记录`;
   const primarySpecies = observation.species[0];
   const observedAtLabel = formatObservationDateTime(observation.observedAt);
   const submittedAtLabel = formatObservationDateTime(observation.createdAt);
@@ -95,7 +99,24 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
       : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200";
 
   return (
-    <div className="app-shell-wide px-0 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-0 md:px-8 md:pb-[calc(6rem+env(safe-area-inset-bottom))] md:pt-8">
+    <>
+      <JsonLd data={buildObservationJsonLd({
+        id: observation.id,
+        title,
+        description: observation.notes,
+        images: observation.mediaUrls,
+        author: observation.authorDisplayName,
+        observedAt: observation.observedAt,
+        locationName: observation.locationName,
+        latitude: observation.latitude,
+        longitude: observation.longitude,
+        species: observation.species.map((species) => ({
+          commonName: species.commonName,
+          scientificName: species.scientificName,
+          slug: species.speciesSlug,
+        })),
+      })} />
+      <div className="app-shell-wide px-0 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-0 md:px-8 md:pb-[calc(6rem+env(safe-area-inset-bottom))] md:pt-8">
       <MobilePageHeader
         title="观察记录"
         fallbackHref={fallbackHref}
@@ -266,6 +287,7 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
           </section>
         </article>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

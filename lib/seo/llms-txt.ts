@@ -25,7 +25,7 @@ export function buildLlmsTxt() {
     `- 排行榜：${buildAbsoluteUrl("/leaderboard")}`,
     `- 服务条款：${buildAbsoluteUrl("/legal/terms")}`,
     `- 隐私政策：${buildAbsoluteUrl("/legal/privacy")}`,
-    `- 关于与帮助：${buildAbsoluteUrl("/settings/about")}`,
+    `- 关于与帮助：${buildAbsoluteUrl("/about")}`,
     "",
     "## Sitemap",
     "",
@@ -38,7 +38,7 @@ export function buildLlmsTxt() {
     "",
     "## 联系",
     "",
-    `反馈与合作见 ${buildAbsoluteUrl("/settings/about")}。`,
+    `反馈与联系见 ${buildAbsoluteUrl("/about")}。`,
     "",
   ].join("\n");
 }

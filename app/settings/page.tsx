@@ -55,7 +55,7 @@ export default function SettingsPage() {
     {
       title: "支持",
       items: [
-        { icon: HelpCircle, label: "关于与帮助", href: "/settings/about" },
+        { icon: HelpCircle, label: "关于与帮助", href: "/about" },
       ],
     },
   ];

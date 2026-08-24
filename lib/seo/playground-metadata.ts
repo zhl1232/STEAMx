@@ -102,6 +102,8 @@ const PLAYGROUND_METADATA = {
 
 export type PlaygroundMetadataPath = keyof typeof PLAYGROUND_METADATA;
 
+export const PLAYGROUND_METADATA_PATHS = Object.keys(PLAYGROUND_METADATA) as PlaygroundMetadataPath[];
+
 export function buildPlaygroundMetadata(path: PlaygroundMetadataPath): Metadata {
   const page = PLAYGROUND_METADATA[path];
 

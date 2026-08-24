@@ -22,7 +22,7 @@ interface TopicHotspotPanelProps {
   fromHref?: string
 }
 
-export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref = "/nature/species?topic=birds" }: TopicHotspotPanelProps) {
+export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref = "/nature/birds" }: TopicHotspotPanelProps) {
   const validLocations = useMemo(
     () => locations.filter((location) => location.latitude != null && location.longitude != null),
     [locations],

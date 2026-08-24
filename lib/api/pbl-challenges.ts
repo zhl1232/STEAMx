@@ -2,7 +2,7 @@ import { cache } from 'react'
 
 import { logger } from '@/lib/logger'
 import { mapDbChallenge, type Challenge } from '@/lib/mappers/types'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createPublicClient } from '@/lib/supabase/server'
 
 export interface ChallengeGroups {
   activeTimed: Challenge[]
@@ -42,7 +42,7 @@ export function pickFeaturedPblChallenge(rows: FeaturedChallengeRow[]): Featured
 }
 
 export async function getFeaturedPblChallenge(): Promise<FeaturedPblChallenge | null> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   try {
     const { data, error } = await supabase
@@ -79,7 +79,7 @@ export const getPublicPblChallenge = cache(async function getPublicPblChallenge(
 ): Promise<PublicPblChallenge | null> {
   if (!Number.isInteger(challengeId) || challengeId <= 0) return null
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data, error } = await supabase
     .from('challenges')
     .select('id, title, description, image_url, status, challenge_type, tags')

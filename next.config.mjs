@@ -87,6 +87,16 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/settings/about',
+        destination: '/about',
+        permanent: true,
+      },
+      {
+        source: '/nature/trees',
+        destination: '/nature/plants',
+        permanent: true,
+      },
+      {
         source: '/explore/observations',
         destination: '/nature/observations',
         permanent: true,

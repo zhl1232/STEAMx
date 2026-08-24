@@ -4,13 +4,17 @@ import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 
 import { MobilePageHeader } from '@/components/ui/mobile-page-header'
+import { JsonLd } from '@/components/seo/json-ld'
 import { getPublishedLearningResource } from '@/lib/api/learning-resources'
 import { LEARNING_RESOURCE_CATEGORY_LABELS } from '@/lib/learning-resources'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { buildLearningResourceJsonLd } from '@/lib/seo/json-ld'
 
 interface ResourcePageProps {
   params: Promise<{ id: string }>
 }
+
+export const revalidate = 3600
 
 function parseResourceId(raw: string): number | null {
   const id = Number(raw)
@@ -36,6 +40,7 @@ export async function generateMetadata({ params }: ResourcePageProps): Promise<M
     description: resource.summary || `${resource.title} — 学习资料卡`,
     path: `/resources/${resource.id}`,
     type: 'article',
+    image: resource.coverImageUrl,
     keywords: [LEARNING_RESOURCE_CATEGORY_LABELS[resource.category]],
   })
 }
@@ -94,7 +99,17 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
   const categoryLabel = LEARNING_RESOURCE_CATEGORY_LABELS[resource.category] || '资料'
 
   return (
-    <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
+    <>
+      <JsonLd data={buildLearningResourceJsonLd({
+        id: resource.id,
+        title: resource.title,
+        description: resource.summary,
+        image: resource.coverImageUrl,
+        category: categoryLabel,
+        datePublished: resource.createdAt,
+        dateModified: resource.updatedAt,
+      })} />
+      <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title={resource.title}
         fallbackHref="/create"
@@ -120,6 +135,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
           </div>
         </article>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

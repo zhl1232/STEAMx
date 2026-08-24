@@ -6,6 +6,8 @@ import { buildWebsiteJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
+export const revalidate = 300;
+
 export const metadata = buildPageMetadata({
   title: `STEAM项目式学习与自然观察 | ${BRAND_FULL_NAME}`,
   description: SITE_DESCRIPTION,

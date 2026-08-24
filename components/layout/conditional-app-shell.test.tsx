@@ -114,7 +114,7 @@ describe('ConditionalAppShell mobile header policy', () => {
     },
   )
 
-  it.each(['/shop', '/coins', '/settings', '/settings/profile'])(
+  it.each(['/shop', '/coins', '/settings', '/settings/profile', '/about'])(
     'lets the mobile function route %s own its header',
     (pathname) => {
       renderShell(pathname)

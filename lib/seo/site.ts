@@ -11,10 +11,6 @@ export const SITE_DESCRIPTION =
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 
-function isLocalHostname(hostname: string) {
-  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
-}
-
 function normalizeSiteUrl(value: string): string | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
@@ -36,6 +32,11 @@ function normalizeSiteUrl(value: string): string | null {
 }
 
 export function getSiteUrl() {
+  // Canonical SEO URLs must never inherit an internal deployment origin.
+  if (process.env.NODE_ENV === "production") {
+    return PRODUCTION_FALLBACK_SITE_URL;
+  }
+
   const candidates = [
     process.env.NEXT_PUBLIC_APP_URL,
     process.env.NEXT_PUBLIC_SITE_URL,
@@ -49,17 +50,10 @@ export function getSiteUrl() {
     const normalized = normalizeSiteUrl(candidate);
     if (!normalized) continue;
 
-    const hostname = new URL(normalized).hostname;
-    if (process.env.NODE_ENV === "production" && isLocalHostname(hostname)) {
-      continue;
-    }
-
     return normalized;
   }
 
-  return process.env.NODE_ENV === "production"
-    ? PRODUCTION_FALLBACK_SITE_URL
-    : LOCAL_SITE_URL;
+  return LOCAL_SITE_URL;
 }
 
 export function getMetadataBase() {

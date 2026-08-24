@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { isUuid } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 import { BRAND_FULL_NAME } from '@/lib/brand'
+import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
 
 interface UserProfileLayoutProps {
     children: React.ReactNode
@@ -50,18 +51,18 @@ export async function generateMetadata(
             description,
             url: `/users/${id}`,
             siteName: BRAND_FULL_NAME,
-            ...(profile.avatar_url
-                ? {
-                    images: [{ url: profile.avatar_url, width: 400, height: 400, alt: profile.display_name || '头像' }],
-                }
-                : {}),
+            images: [{
+                url: profile.avatar_url || DEFAULT_SOCIAL_IMAGE,
+                ...(profile.avatar_url ? { width: 400, height: 400 } : { width: 1200, height: 630 }),
+                alt: profile.display_name || '头像',
+            }],
             type: 'profile',
         },
         twitter: {
-            card: profile.avatar_url ? 'summary_large_image' : 'summary',
+            card: 'summary_large_image',
             title,
             description,
-            images: profile.avatar_url ? [profile.avatar_url] : [],
+            images: [profile.avatar_url || DEFAULT_SOCIAL_IMAGE],
         },
     }
 }

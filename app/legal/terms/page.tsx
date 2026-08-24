@@ -3,14 +3,17 @@ import Link from "next/link";
 
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { BRAND_FULL_NAME } from "@/lib/brand";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
 const TERMS_VERSION = "v2026.03";
 const EFFECTIVE_DATE = "2026 年 3 月 20 日";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "用户协议",
   description: `${BRAND_FULL_NAME}平台用户协议，说明服务范围、使用规范、内容处理与未成年人保护要求。`,
-};
+  path: "/legal/terms",
+  keywords: ["用户协议", "服务条款", "社区规范"],
+});
 
 const sections = [
   {
@@ -62,7 +65,7 @@ export default function TermsPage() {
     <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title="用户协议"
-        fallbackHref="/settings/about"
+        fallbackHref="/about"
         className="md:hidden"
       />
 

@@ -4,12 +4,16 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const USER_ID = '11111111-1111-1111-1111-111111111111'
 
-const { createClientMock, loadObservationSpeciesForEventsMock } = vi.hoisted(() => ({
+const { createClientMock, createPublicClientMock, loadObservationSpeciesForEventsMock } = vi.hoisted(() => ({
   createClientMock: vi.fn(),
+  createPublicClientMock: vi.fn(),
   loadObservationSpeciesForEventsMock: vi.fn(),
 }))
 
-vi.mock('@/lib/supabase/server', () => ({ createClient: createClientMock }))
+vi.mock('@/lib/supabase/server', () => ({
+  createClient: createClientMock,
+  createPublicClient: createPublicClientMock,
+}))
 vi.mock('@/lib/api/nature-observation-events', () => ({
   loadObservationSpeciesForEvents: loadObservationSpeciesForEventsMock,
 }))
@@ -62,7 +66,9 @@ function mockClient({ completions = [], submissions = [], observations = [] }: R
         return queryFor({ data: [], error: null, count: 0 })
     }
   })
-  createClientMock.mockResolvedValue({ from, rpc: vi.fn(() => queryFor({ data: [], error: null })) })
+  const client = { from, rpc: vi.fn(() => queryFor({ data: [], error: null })) }
+  createClientMock.mockResolvedValue(client)
+  createPublicClientMock.mockReturnValue(client)
 }
 
 function completion(id: number, completedAt: string) {

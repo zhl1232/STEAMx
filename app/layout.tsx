@@ -15,6 +15,7 @@ import { AuthProvider } from "@/lib/context/auth-context";
 import { BRAND_FULL_NAME, BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
 import { SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
 
 const metadataBase = getMetadataBase();
 
@@ -60,11 +61,18 @@ export const metadata: Metadata = {
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
+    images: [{
+      url: DEFAULT_SOCIAL_IMAGE,
+      width: 1200,
+      height: 630,
+      alt: SITE_NAME,
+    }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: SITE_NAME,
     description: "STEAM 项目式学习与自然观察社区",
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   robots: {
     index: true,

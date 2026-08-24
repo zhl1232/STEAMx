@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { buildScratchAssetDestination } from './next.config.mjs'
+import nextConfig, { buildScratchAssetDestination } from './next.config.mjs'
 
 const originalBaseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL
 const originalDisplayMode = process.env.NEXT_PUBLIC_ASSETS_DISPLAY_MODE
@@ -35,5 +35,16 @@ describe('buildScratchAssetDestination', () => {
     expect(buildScratchAssetDestination()).toBe(
       'https://assets.example.com/scratch/assets/:md5ext',
     )
+  })
+})
+
+describe('canonical public redirects', () => {
+  it('keeps legacy help and tree URLs on their indexable replacements', async () => {
+    const redirects = await nextConfig.redirects()
+
+    expect(redirects).toEqual(expect.arrayContaining([
+      { source: '/settings/about', destination: '/about', permanent: true },
+      { source: '/nature/trees', destination: '/nature/plants', permanent: true },
+    ]))
   })
 })

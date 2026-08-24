@@ -341,3 +341,161 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
     ],
   };
 }
+
+interface WorkJsonLdInput {
+  id: string | number;
+  title: string;
+  description?: string | null;
+  images?: string[] | null;
+  author?: string | null;
+  dateCreated?: string | null;
+}
+
+export function buildWorkJsonLd(work: WorkJsonLdInput) {
+  const url = buildAbsoluteUrl(`/works/${work.id}`);
+  const description = work.description?.trim() || undefined;
+  const images = (work.images ?? []).flatMap((image) => {
+    const absolute = toAbsoluteMediaUrl(image);
+    return absolute ? [absolute] : [];
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${url}#creative-work`,
+    name: work.title,
+    headline: work.title,
+    url,
+    mainEntityOfPage: url,
+    inLanguage: "zh-CN",
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${getSiteUrl()}/#website`,
+      name: SITE_NAME,
+      url: getSiteUrl(),
+    },
+    ...(description ? { description } : {}),
+    ...(images.length > 0 ? { image: images } : {}),
+    ...(work.author?.trim()
+      ? { creator: { "@type": "Person", name: work.author.trim() } }
+      : {}),
+    ...(work.dateCreated?.trim() ? { dateCreated: work.dateCreated.trim() } : {}),
+  };
+}
+
+interface ObservationJsonLdSpecies {
+  commonName: string;
+  scientificName?: string | null;
+  slug?: string | null;
+}
+
+interface ObservationJsonLdInput {
+  id: string | number;
+  title: string;
+  description?: string | null;
+  images?: string[] | null;
+  author?: string | null;
+  observedAt?: string | null;
+  locationName?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  species?: ObservationJsonLdSpecies[] | null;
+}
+
+export function buildObservationJsonLd(observation: ObservationJsonLdInput) {
+  const url = buildAbsoluteUrl(`/nature/observations/${observation.id}`);
+  const description = observation.description?.trim() || undefined;
+  const images = (observation.images ?? []).flatMap((image) => {
+    const absolute = toAbsoluteMediaUrl(image);
+    return absolute ? [absolute] : [];
+  });
+  const about = (observation.species ?? []).flatMap((species) => {
+    const name = species.commonName.trim();
+    if (!name) return [];
+
+    return [{
+      "@type": "Taxon",
+      name,
+      ...(species.scientificName?.trim() ? { scientificName: species.scientificName.trim() } : {}),
+      ...(species.slug?.trim()
+        ? { url: buildAbsoluteUrl(`/nature/species/${species.slug.trim()}`) }
+        : {}),
+    }];
+  });
+  const hasCoordinates = typeof observation.latitude === "number"
+    && typeof observation.longitude === "number";
+  const locationName = observation.locationName?.trim() || undefined;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${url}#observation`,
+    name: observation.title,
+    headline: observation.title,
+    url,
+    mainEntityOfPage: url,
+    inLanguage: "zh-CN",
+    ...(description ? { description } : {}),
+    ...(images.length > 0 ? { image: images } : {}),
+    ...(observation.author?.trim()
+      ? { creator: { "@type": "Person", name: observation.author.trim() } }
+      : {}),
+    ...(observation.observedAt?.trim() ? { dateCreated: observation.observedAt.trim() } : {}),
+    ...(about.length > 0 ? { about } : {}),
+    ...(locationName || hasCoordinates
+      ? {
+          contentLocation: {
+            "@type": "Place",
+            ...(locationName ? { name: locationName } : {}),
+            ...(hasCoordinates
+              ? {
+                  geo: {
+                    "@type": "GeoCoordinates",
+                    latitude: observation.latitude,
+                    longitude: observation.longitude,
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
+  };
+}
+
+interface LearningResourceJsonLdInput {
+  id: string | number;
+  title: string;
+  description?: string | null;
+  image?: string | null;
+  category?: string | null;
+  datePublished?: string | null;
+  dateModified?: string | null;
+}
+
+export function buildLearningResourceJsonLd(resource: LearningResourceJsonLdInput) {
+  const url = buildAbsoluteUrl(`/resources/${resource.id}`);
+  const description = resource.description?.trim() || undefined;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "@id": `${url}#learning-resource`,
+    name: resource.title,
+    headline: resource.title,
+    url,
+    mainEntityOfPage: url,
+    inLanguage: "zh-CN",
+    isAccessibleForFree: true,
+    provider: {
+      "@type": "Organization",
+      "@id": `${getSiteUrl()}/#organization`,
+      name: SITE_NAME,
+      url: getSiteUrl(),
+    },
+    ...(description ? { description } : {}),
+    ...(toAbsoluteMediaUrl(resource.image) ? { image: toAbsoluteMediaUrl(resource.image) } : {}),
+    ...(resource.category?.trim() ? { learningResourceType: resource.category.trim() } : {}),
+    ...(resource.datePublished?.trim() ? { datePublished: resource.datePublished.trim() } : {}),
+    ...(resource.dateModified?.trim() ? { dateModified: resource.dateModified.trim() } : {}),
+  };
+}

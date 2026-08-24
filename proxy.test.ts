@@ -2,10 +2,11 @@ import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
 
 import { proxy } from "@/proxy";
+import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
 
-function makeRequest(url: string, host: string) {
+function makeRequest(url: string, host: string, cookie?: string) {
   return new NextRequest(url, {
-    headers: { host },
+    headers: { host, ...(cookie ? { cookie } : {}) },
   });
 }
 
@@ -35,5 +36,37 @@ describe("proxy apex host redirect", () => {
     expect(robots.status).toBe(200);
     expect(sitemap.headers.get("set-cookie")).toBeNull();
     expect(robots.headers.get("set-cookie")).toBeNull();
+  });
+
+  it("only creates recommendation identity on routes that consume it", () => {
+    const ordinaryPage = proxy(makeRequest("https://www.steamx.cc/about", "www.steamx.cc"));
+    const projectDetailApi = proxy(makeRequest("https://www.steamx.cc/api/projects/12", "www.steamx.cc"));
+    const explore = proxy(makeRequest("https://www.steamx.cc/explore", "www.steamx.cc"));
+    const projectsApi = proxy(makeRequest("https://www.steamx.cc/api/projects", "www.steamx.cc"));
+    const homeRecommendations = proxy(makeRequest(
+      "https://www.steamx.cc/api/home/recommendations",
+      "www.steamx.cc",
+    ));
+    const exploreRecommendations = proxy(makeRequest(
+      "https://www.steamx.cc/api/explore/recommendations",
+      "www.steamx.cc",
+    ));
+
+    expect(ordinaryPage.cookies.get(REC_VIEWER_COOKIE)).toBeUndefined();
+    expect(projectDetailApi.cookies.get(REC_VIEWER_COOKIE)).toBeUndefined();
+    expect(explore.cookies.get(REC_VIEWER_COOKIE)?.value).toBeTruthy();
+    expect(projectsApi.cookies.get(REC_VIEWER_COOKIE)?.value).toBeTruthy();
+    expect(homeRecommendations.cookies.get(REC_VIEWER_COOKIE)?.value).toBeTruthy();
+    expect(exploreRecommendations.cookies.get(REC_VIEWER_COOKIE)?.value).toBeTruthy();
+  });
+
+  it("does not rewrite an existing recommendation cookie", () => {
+    const response = proxy(makeRequest(
+      "https://www.steamx.cc/explore",
+      "www.steamx.cc",
+      `${REC_VIEWER_COOKIE}=existing-viewer`,
+    ));
+
+    expect(response.headers.get("set-cookie")).toBeNull();
   });
 });

@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadObservationSpeciesForEvents } from '@/lib/api/nature-observation-events'
 import { logger } from '@/lib/logger'
 import { mapDbCompletion, type Work, type WorkSource } from '@/lib/mappers/types'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createPublicClient } from '@/lib/supabase/server'
 import type { Database, Json } from '@/lib/supabase/types'
 import type { WorkJourneyRecord, WorkJourneyResult } from '@/lib/works/types'
 
@@ -158,7 +158,7 @@ export async function getTrendingWorks(limit = 8, offset = 0): Promise<{
   nextOffset: number
   hasMore: boolean
 }> {
-  const client = await createClient()
+  const client = createPublicClient()
   const fetchLimit = Math.min(24, Math.max(1, limit))
   const { data, error } = await client.rpc('get_trending_works', {
     p_limit: fetchLimit + 1,
