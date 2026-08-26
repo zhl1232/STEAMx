@@ -423,6 +423,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `20260825121949_content_classification_gate.sql` — 内容分级阶段 2 门禁：reviewed 完整性函数、课程/项目/挑战公开状态触发器和带 advisory lock 的原子 rollout；默认关闭，未完成人工复核时不会改变线上发布行为
 - `20260825123613_content_classification_recommendations.sql` — 推荐 RPC v2：阶段一沿用 approved 项目池、阶段二切换为 reviewed 项目，按精确年龄匹配三轴字段；只返回项目 ID，旧 `p_age_group` wrapper 保留兼容且不再用年龄段猜 `difficulty_stars`
 - `20260825130000_content_classification_ranking_visibility.sql` — 热门/本周热门 ranking RPC 与阶段二公开可见性对齐，修正过滤后的总数与分页；四个迁移均只完成 dry-run，数据库尚未实际 push，正式 rollout 仍待预检和全量人工复核
+- `20260826090000_math_worksheet_assets.sql` — 为 358「坐标画图」、373「数字连线画」、381「幻方填数」挂载 18 张固定题面 WebP（每个项目 1 张封面 + 5 张步骤图），并修正 373 点数与 381 题目文案；图片由 `scripts/generate-math-worksheet-assets.mjs` 生成后经 OSS 同步，应用使用 `pnpm db:push`
 - 课程进度与奖励边界：`user_lesson_progress.completion_source` 区分历史/可信完成，`user_course_completions` 保存每用户每课程一次的不可变 STEAM 快照；完成、补偿和审核奖励分别通过 service-role `record_course_lesson_completion`、`reconcile_course_completions`、`approve_completion_with_reward` / `system_approve_completion_with_reward` 原子处理，`repair_completion_rewards(false)` 默认只审计缺失奖励，显式传 `true` 才修复。
 - 本批新增在线记忆翻牌迁移：`20260714190000_memory_matches.sql`（`memory_matches` + `memory_flip_card` RPC，客户端直接 UPDATE/DELETE 禁用，权威写入走 RPC/API service role）、`20260714190100_memory_realtime_publication.sql`、`20260714190200_memory_realtime_channel_policy.sql`（私有 Realtime channel）
 - 本批新增通用竞速房间迁移：`20260714190300_playground_race_matches.sql`（`playground_race_matches`，客户端直接 UPDATE/DELETE 禁用）、`20260714190400_playground_race_realtime_publication.sql`、`20260714190500_playground_race_realtime_channel_policy.sql`（私有 Realtime channel）、`20260715113000_playground_race_game_keys.sql`（扩展 `game_key` 约束以支持 24 点和数字华容道）、`20260715164600_playground_race_lifecycle.sql`（`deadline_at` / `finish_reason`、活跃 deadline 部分索引、等待 15 分钟/开局 30 分钟超时结算 RPC、截止前原子成绩提交 RPC；函数仅授权 service role）
@@ -487,6 +488,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `fetch-tree-images.mjs` | 从 Wikimedia 抓取树木图片 |
 | `fetch-fruit-images.mjs` | 抓取水果/干果**果实图**（优先 iNaturalist 结果期观测 + Wikimedia 果实关键词搜索）；下载后自动压缩至 1280px |
 | `sync-bird-media-to-db.mjs` | 同步鸟类媒体到数据库 |
+| `generate-math-worksheet-assets.mjs` | 用精确 SVG 几何生成 358 / 373 / 381 的固定数学题面，并用 sharp 输出 1600×1000 WebP；`--check` 只校验点数、坐标题面和幻方答案，不写文件 |
 | `migrate-public-to-oss.mjs` | 上传 OSS 静态资源（物种图、项目图、Scratch 素材库等；支持 `--only=fruits`；`--only=project-covers` 只同步 `public/projects` 根层旧项目封面；`--only=courses` 上传前会把课时 `slides/*` 和 `finished.*` PNG/JPG 转 WebP，避免课件大图原样进 OSS） |
 | `apply-content-triage-2026-08-13.mjs` | 2026-08-13 内容分诊线上一次性编排：先 OSS 清理（库行还在才能收集 key），再 `db-push.mjs`；默认 dry-run，`--execute` 才删除 OSS 并执行迁移 |
 | `lib/content-triage-2026-08-13.mjs` | 2026-08-13 内容分诊权威 ID 列表：`TRIAGED_PROJECT_IDS_TO_DELETE`（105 个）与 `TRIAGED_PROJECT_IDS_TO_KEEP`（52、73、119、120、177、352）；并提供 OSS key 过滤，只认 `projects/generated/` 与 `projects/steps/`，跳过共用封面、课件、Scratch、物种图 |
@@ -579,7 +581,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/fruits/` | 水果与干果物种图片（并入植物专题，已纳入 OSS 同步与 `/api/assets` 代理白名单；`images/` 本地目录 gitignore） |
-| `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/*.webp` 根层旧封面、`public/projects/generated/*.webp` 与 `public/projects/steps/` 已迁 OSS，配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer |
+| `public/projects/` | 项目封面图、步骤图（WebP）；`public/projects/generated/project-{0358,0373,0381}-{guide,step-1…step-5}.webp` 是三组可直接使用的固定数学题面，另有 `public/projects/*.webp` 根层旧封面、其余 `generated/*.webp` 与 `steps/` 资源；图片已纳入 OSS 同步，配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer |
 | `public/logo.png` | 品牌 Logo（透明底圆形标，导航/登录等处使用） |
 | `public/icon-192x192.png` / `public/icon-512x512.png` | PWA 图标（与品牌 Logo 同源）；`app/icon.png` / `app/apple-icon.png` 为站点 favicon / Apple Touch Icon |
 | `public/gomoku-rapfi/` | 五子棋大师档 Rapfi 单线程 WASM（`rapfi-single.js/.wasm/.data`，GPL-3；`NOTICE.md` / `COPYING.txt`）；由 `lib/playground/gomoku-rapfi.ts` 以 Worker 加载 |
