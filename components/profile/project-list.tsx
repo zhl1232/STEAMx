@@ -1,19 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 
-import { ContentClassification } from "@/components/ui/content-classification";
-import { OptimizedImage } from "@/components/ui/optimized-image";
+import { ProjectCard } from "@/components/features/project-card";
 import { Button } from "@/components/ui/button";
-import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
-import { cn } from "@/lib/utils";
 
 interface ProjectListProps {
   projects: Project[];
   projectHref?: (projectId: Project["id"]) => string;
   completionStatusMap?: Map<number | string, { status: string; rejectionReason?: string }>;
+  showProjectStatus?: boolean;
   emptyState: {
     title: string;
     desc: string;
@@ -27,6 +25,7 @@ export function ProjectList({
   projects,
   projectHref,
   completionStatusMap,
+  showProjectStatus = false,
   emptyState,
 }: ProjectListProps) {
   if (projects.length === 0) {
@@ -74,65 +73,17 @@ export function ProjectList({
                 </span>
               </div>
             ) : null}
-            <MobileProjectItem
+            <ProjectCard
               project={project}
               href={projectHref ? projectHref(project.id) : undefined}
+              showStatus={showProjectStatus}
+              variant="compact"
+              compactLayout="vertical"
             />
           </div>
         );
       })}
     </div>
-  );
-}
-
-function MobileProjectItem({ project, href }: { project: Project; href?: string }) {
-  const { isLiked, getLikesDelta } = useOptionalProjects();
-  const liked = isLiked(project.id);
-  const likesCount = project.likes + getLikesDelta(project.id);
-
-  return (
-    <Link
-      href={href || `/project/${project.id}`}
-      className="surface-card flex gap-3 p-3 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))]"
-    >
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-muted">
-        <OptimizedImage
-          src={
-            project.image || "/projects/tech_programming.webp"
-          }
-          alt={project.title}
-          fill
-          variant="thumbnail"
-          className="object-cover"
-        />
-      </div>
-
-      <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
-        <div>
-          <div className="flex items-center gap-2">
-            {project.category ? (
-              <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
-                {project.category}
-              </span>
-            ) : null}
-            {project.sub_category ? (
-              <span className="truncate text-[11px] text-muted-foreground">{project.sub_category}</span>
-            ) : null}
-          </div>
-
-          <h3 className="mt-2 line-clamp-1 text-base font-semibold">{project.title}</h3>
-          <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted-foreground">{project.description}</p>
-        </div>
-
-        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <Heart className={cn("h-3.5 w-3.5", liked && "fill-red-500 text-red-500")} />
-            {likesCount}
-          </span>
-          <ContentClassification classification={project.classification} compact />
-        </div>
-      </div>
-    </Link>
   );
 }
 

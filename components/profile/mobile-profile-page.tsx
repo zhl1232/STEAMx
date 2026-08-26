@@ -209,7 +209,7 @@ export function MobileProfilePage({
         <div className="px-4 py-4">
           <p className="sr-only">加载个人主页中...</p>
           <div className="space-y-4">
-            <ProjectListSkeleton />
+            <ProjectListSkeleton compact />
           </div>
         </div>
 
@@ -333,6 +333,7 @@ export function MobileProfilePage({
           <>
             <ProjectList
               projects={visibleMyProjects}
+              showProjectStatus
               emptyState={{
                 icon: <PenBox className="h-10 w-10" />,
                 title: "还没有发布项目",

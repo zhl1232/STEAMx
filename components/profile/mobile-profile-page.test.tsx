@@ -14,6 +14,18 @@ function makeProject(id: number, title: string): Project {
     category: '科学',
     likes: 0,
     views_count: 0,
+    classification: {
+      recommendedMinAge: 6,
+      recommendedMaxAge: null,
+      ageLabel: '6 岁起',
+      difficultyBand: 'beginner',
+      difficultyLabel: '入门',
+      supportLevel: 'guided',
+      supportLabel: '建议成人陪同',
+      educationStage: 'primary',
+      educationStageLabel: '小学',
+      status: 'reviewed',
+    },
   } as Project
 }
 
@@ -60,6 +72,7 @@ describe('MobileProfilePage', () => {
     )
 
     expect(screen.getByRole('link', { name: /太阳能小车/ })).toHaveAttribute('href', '/project/42/records')
+    expect(screen.getByText('6 岁起 · 入门 · 建议成人陪同')).toBeInTheDocument()
     expect(screen.queryByText('暂无作品')).not.toBeInTheDocument()
   })
 })

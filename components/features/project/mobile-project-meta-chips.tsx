@@ -72,7 +72,7 @@ export function MobileProjectMetaChips({
   const chipCount = 1 + (topicLabel ? 1 : 0) + (scaleLabel ? 1 : 0)
 
   return (
-    <div>
+    <div className="space-y-2.5">
       <div
         className={cn(
           'grid gap-2',
@@ -104,7 +104,12 @@ export function MobileProjectMetaChips({
         ) : null}
       </div>
 
-      <ContentClassification classification={classification} compact className="mt-2" />
+      {classification ? (
+        <div className="pt-0.5">
+          <ContentClassification classification={classification} compact />
+        </div>
+      ) : null}
     </div>
   )
 }
+

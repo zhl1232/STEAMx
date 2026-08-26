@@ -55,7 +55,7 @@ export function ProjectCardSkeleton({
                   : "py-0.5 sm:flex-1 sm:p-3.5",
             )}
           >
-            <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : "space-y-2")}>
+            <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
               <Skeleton
                 className={cn(
                   "rounded-xs",
@@ -64,19 +64,25 @@ export function ProjectCardSkeleton({
                     : "h-5 w-[88%] sm:h-6 sm:w-3/4",
                 )}
               />
-              {isVerticalCompact && (
-                <Skeleton className="h-5 w-[65%] rounded-xs sm:hidden" />
-              )}
-              <div className="flex min-w-0 items-center gap-1.5 flex-wrap">
-                <Skeleton className="h-4.5 w-10 shrink-0 rounded-xs" />
-                <span className="text-[10px] text-muted-foreground/30 select-none" aria-hidden="true">•</span>
-                <Skeleton className="h-3 min-w-0 flex-1 max-w-22 rounded-full" />
-              </div>
-              <Skeleton className="h-3 w-full rounded-full" />
-              {!isDenseCompact && (
+              {isVerticalCompact ? (
                 <>
-                  <Skeleton className="h-3 w-[92%] rounded-full" />
-                  <Skeleton className="h-3 w-[70%] rounded-full" />
+                  <Skeleton className="h-4 w-[58%] rounded-xs" />
+                  <Skeleton className="h-3.5 w-[92%] rounded-full" />
+                </>
+              ) : (
+                <>
+                  <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                    <Skeleton className="h-4.5 w-10 shrink-0 rounded-xs" />
+                    <span className="select-none text-[10px] text-muted-foreground/30" aria-hidden="true">•</span>
+                    <Skeleton className="h-3 min-w-0 max-w-22 flex-1 rounded-full" />
+                  </div>
+                  <Skeleton className="h-3 w-full rounded-full" />
+                  {!isDenseCompact && (
+                    <>
+                      <Skeleton className="h-3 w-[92%] rounded-full" />
+                      <Skeleton className="h-3 w-[70%] rounded-full" />
+                    </>
+                  )}
                 </>
               )}
             </div>

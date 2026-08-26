@@ -23,6 +23,8 @@ interface ProjectCardProps {
     href?: string;
     variant?: "default" | "featured" | "compact";
     compactLayout?: "adaptive" | "vertical" | "dense";
+    /** 默认卡片在移动端只展示发现所需的核心信息，桌面端保持完整内容。 */
+    mobileCompact?: boolean;
     className?: string;
 }
 
@@ -30,7 +32,7 @@ function getCategoryTone(category?: string): CategoryTone {
     return CATEGORY_META[category || ""]?.tone ?? "science";
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", compactLayout = "adaptive", className }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", compactLayout = "adaptive", mobileCompact = false, className }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
@@ -39,6 +41,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
     const detailHref = href || `/project/${project.id}`;
     const categoryTone = getCategoryTone(project.category);
+    const categoryLabel = [project.category, project.sub_category].filter(Boolean).join(" · ");
 
     useEffect(() => {
         setImageError(false);
@@ -93,6 +96,25 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </div>
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        {showStatus && project.status && (
+                            <div className="absolute left-2 top-2 z-10">
+                                {project.status === 'pending' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-300 bg-yellow-100 px-2 py-0.5 text-[10px] font-semibold text-yellow-800 shadow-xs dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                        待审核
+                                    </span>
+                                )}
+                                {project.status === 'approved' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-green-300 bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-800 shadow-xs dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                        已发布
+                                    </span>
+                                )}
+                                {project.status === 'rejected' && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-800 shadow-xs dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                        已拒绝
+                                    </span>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <div
@@ -105,7 +127,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     : "py-0.5 sm:flex-1 sm:p-3.5",
                         )}
                     >
-                        <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : "space-y-2")}>
+                        <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
                             <h3
                                 className={cn(
                                     "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
@@ -116,34 +138,48 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 <SearchHighlight text={project.title} query={searchQuery} />
                             </h3>
 
-                            <div className="flex min-w-0 items-center gap-1.5 flex-wrap">
-                                {project.category && (
-                                    <ToneBadge tone={categoryTone} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
-                                        {project.category}
+                            {isVerticalCompact ? (
+                                categoryLabel ? (
+                                    <ToneBadge tone={categoryTone} className="block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
+                                        {categoryLabel}
                                     </ToneBadge>
-                                )}
-                                {project.category && project.sub_category && (
-                                    <span className="text-[10px] text-muted-foreground/40 select-none" aria-hidden="true">•</span>
-                                )}
-                                {project.sub_category && (
-                                    <span className="min-w-0 truncate text-[11px] font-medium text-muted-foreground/90">
-                                        {project.sub_category}
-                                    </span>
-                                )}
-                            </div>
-                            <ContentClassification classification={project.classification} compact />
-                            <p
-                                className={cn(
-                                    "text-[11px] text-muted-foreground/95",
-                                    isDenseCompact ? "line-clamp-1 leading-normal" : "leading-relaxed",
-                                    isVerticalCompact ? "line-clamp-2" : !isDenseCompact && "line-clamp-3",
-                                )}
-                            >
-                                <SearchHighlight
-                                    text={project.description || "适合边做边学的 STEAM 实践项目。"}
-                                    query={searchQuery}
-                                />
-                            </p>
+                                ) : null
+                            ) : (
+                                <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                                    {project.category && (
+                                        <ToneBadge tone={categoryTone} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
+                                            {project.category}
+                                        </ToneBadge>
+                                    )}
+                                    {project.category && project.sub_category && (
+                                        <span className="select-none text-[10px] text-muted-foreground/40" aria-hidden="true">•</span>
+                                    )}
+                                    {project.sub_category && (
+                                        <span className="min-w-0 truncate text-[11px] font-medium text-muted-foreground/90">
+                                            {project.sub_category}
+                                        </span>
+                                    )}
+                                </div>
+                            )}
+                            <ContentClassification
+                                classification={project.classification}
+                                compact
+                                variant={isVerticalCompact ? "summary" : "chips"}
+                            />
+                            {!isVerticalCompact && (
+                                <p
+                                    className={cn(
+                                        "text-[11px] text-muted-foreground/95",
+                                        isDenseCompact ? "line-clamp-1 leading-normal" : "leading-relaxed",
+                                        !isDenseCompact && "line-clamp-3",
+                                    )}
+                                >
+                                    <SearchHighlight
+                                        text={project.description || "适合边做边学的 STEAM 实践项目。"}
+                                        query={searchQuery}
+                                    />
+                                </p>
+                            )}
                         </div>
 
                         {isDenseCompact ? (
@@ -349,7 +385,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     )}
 
                     <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4">
-                        <div className="flex min-w-0 flex-wrap gap-2">
+                        <div className={cn("flex min-w-0 flex-wrap gap-2", mobileCompact && "max-md:hidden")}>
                             {project.category && (
                                 <span className="inline-flex items-center rounded-full border border-white/20 bg-black/30 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
                                     {project.category}
@@ -364,21 +400,29 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     </div>
                 </div>
 
-                <div className="relative flex flex-col gap-4 bg-linear-to-br from-background via-background to-muted/20 p-4 pointer-events-none">
-                    <div className="space-y-2">
-                        <h3 className="flex-1 text-base font-semibold leading-snug transition-colors group-hover:text-primary">
+                <div className={cn("relative flex flex-col gap-4 bg-linear-to-br from-background via-background to-muted/20 p-4 pointer-events-none", mobileCompact && "max-md:gap-3 max-md:p-3")}>
+                    <div className={cn("space-y-2", mobileCompact && "max-md:space-y-1.5")}>
+                        <h3 className={cn("flex-1 text-base font-semibold leading-snug transition-colors group-hover:text-primary", mobileCompact && "max-md:text-[15px] max-md:leading-5")}>
                             <SearchHighlight text={project.title} query={searchQuery} />
                         </h3>
-                        <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+                        {mobileCompact && categoryLabel ? (
+                            <ToneBadge tone={categoryTone} className="hidden w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-[10px] font-medium max-md:block">
+                                {categoryLabel}
+                            </ToneBadge>
+                        ) : null}
+                        <p className={cn("line-clamp-2 text-sm leading-6 text-muted-foreground", mobileCompact && "max-md:hidden")}>
                             <SearchHighlight
                                 text={project.description || "适合边做边学的 STEAM 实践项目。"}
                                 query={searchQuery}
                             />
                         </p>
-                        <ContentClassification classification={project.classification} compact />
+                        <div className="pt-0.5">
+                            <ContentClassification classification={project.classification} compact />
+                        </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2">
+
+                    <div className={cn("flex flex-wrap items-center gap-2", mobileCompact && "max-md:hidden")}>
                         {previewTag ? (
                             <span className="inline-flex max-w-[140px] items-center rounded-full bg-primary/8 px-2.5 py-1 text-[11px] font-medium text-primary">
                                 {previewTag}
@@ -391,7 +435,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         ) : null}
                     </div>
 
-                    <div className="flex items-center gap-4 border-t border-border/60 pt-3 text-xs text-muted-foreground">
+                    <div className={cn("flex items-center gap-4 border-t border-border/60 pt-3 text-xs text-muted-foreground", mobileCompact && "max-md:hidden")}>
                         <span className="flex items-center gap-1.5" title="点赞数">
                             <Heart className={cn("h-3.5 w-3.5 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
                             <span>{likesCount} 喜欢</span>
@@ -405,6 +449,22 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <span>{project.coins_count || 0} 投币</span>
                         </span>
                     </div>
+                    {mobileCompact && (
+                        <div className="hidden items-center gap-3 border-t border-border/60 pt-2.5 text-[11px] text-muted-foreground max-md:flex">
+                            <span className="flex items-center gap-1" title="点赞数">
+                                <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                                {likesCount || 0}
+                            </span>
+                            <span className="flex items-center gap-1" title="作品数">
+                                <Images className="h-3 w-3 text-muted-foreground/80" />
+                                {project.completions_count ?? 0}
+                            </span>
+                            <span className="flex items-center gap-1" title="投币数">
+                                <CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" />
+                                {project.coins_count ?? 0}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

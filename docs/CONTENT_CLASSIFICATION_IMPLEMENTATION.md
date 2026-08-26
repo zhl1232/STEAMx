@@ -1,10 +1,10 @@
 # 课程、项目与挑战内容分级统一开发设计
 
-> 状态：代码与迁移文件已实现；4 个数据库迁移已于 2026-08-25 push，`public_v1_enabled`/`enforcement_enabled` 仍保持 false，正式 rollout 待执行。
-> 最后复核：2026-08-25。
+> 状态：代码、迁移文件和后台审核已完成；6 个内容分级相关迁移已通过 `pnpm db:push` 执行。公开三轴展示已开启，发布门禁仍保持关闭。
+> 最后复核：2026-08-26。
 > 目标发布对象：中国家庭用户；内容覆盖 3–16 岁儿童与青少年。
 >
-> 共享领域层、候选/审核 API、公开三轴 DTO、年龄与三档难度筛选、推荐 v2、排名/SEO/AI 过滤、阶段一/二迁移和运维脚本已经落地。4 个迁移已通过项目 `pnpm db:push` 写入数据库，`pnpm db:status` 显示 327 个迁移全部完成；全量人工复核、Playwright/E2E 全量回归和阶段二 rollout 仍待执行。
+> 共享领域层、候选/审核 API、公开三轴 DTO、年龄与三档难度筛选、推荐 v2、排名/SEO/AI 过滤、阶段一/二迁移和运维脚本已经落地。线上内容已完成首轮人工复核；`public_v1_enabled=true` 负责公开 reviewed 三轴，`enforcement_enabled=false` 继续保留现有发布流程。预检与审核报告是按需运维工具，不会在开发启动、页面请求或每次构建时自动运行。
 >
 > 本文同时作为实施规格和上线 runbook。早期章节中的“拟新增”“建议修改”保留为设计依据；实际入口以当前分支代码、迁移和 `PROJECT_INDEX.md` 为准。
 
@@ -48,15 +48,15 @@
 
 ### 1.4 当前线上基线
 
-本次设计以最近一次只读核查为基线：
+本次设计以 2026-08-26 只读核查为基线：
 
 - 5 门课程、316 节课；
-- 242 个已发布项目；
-- 1 个挑战；
-- 共 248 个需要完成首轮内容分级复核的内容项；
-- 项目星级分布为 1 星 56、2 星 85、3 星 87、4 星 44、5 星 33、6 星 0；
-- 242 个项目中约 107 个命中剪刀、针、热熔胶、切割或热源等潜在成人协助关键词，其中 21 个仍为 1 星；
-- 线上 61 个账号的 birth_date 均为空。
+- 214 个已发布项目；
+- 当前没有已发布挑战；
+- 共 251 个内容项，其中 219 个已发布，全部已完成首轮人工复核；
+- 已发布内容 `published_unreviewed=0`、`published_incomplete=0`、非法内部星级为 0；
+- 规则扫描命中 152 条安全关键词提示，其中 136 条来自已发布内容；这些提示用于复核提醒，不等同于待复核记录，也不自动决定成人支持度；
+- 公开三轴展示开关为 `public_v1_enabled=true`，发布门禁为 `enforcement_enabled=false`。
 
 这些数字用于迁移预检和发布门槛，不写死在业务代码中。
 
@@ -824,7 +824,7 @@ pnpm db:push -- --dry-run
 
 阶段 0 不写数据库。
 
-### 11.2 阶段 1：字段、候选和审核能力
+### 11.2 阶段 1：字段、候选、审核与公开展示（已完成）
 
 迁移内容：
 
@@ -890,17 +890,18 @@ node scripts/content-classification-candidates.mjs --dry-run
 node scripts/content-classification-candidates.mjs --apply-candidates
 ~~~
 
-候选写入后，后台逐项复核 248 个已发布内容项。复核工作未完成前，不部署阶段 2 的前台强制逻辑。
+候选写入后，后台通过 `/admin/content-classifications` 完成已发布内容的逐项复核。规则安全关键词只作为审核提醒，不是必须清零的计数，也不应驱动删除内容。
 
-#### 11.2.1 当前执行记录（2026-08-25）
+#### 11.2.1 当前执行记录（2026-08-26）
 
-- `20260825112933_content_classification_fields.sql`、`20260825121949_content_classification_gate.sql`、`20260825123613_content_classification_recommendations.sql`、`20260825130000_content_classification_ranking_visibility.sql` 已全部成功执行。
-- `pnpm db:status`：已执行 327，待执行 0；`classification_schema_ready=true`。
-- 阶段一设置仍为 `public_v1_enabled=false`、`enforcement_enabled=false`，因此未改变普通用户现有可见性，也未启用阶段二发布门禁。
-- 迁移后只读预检：已发布 248、已发布未复核 248、安全关键词提示 173、非法内部星级 0、不可读项目 0。
-- 规则候选仍未写入数据库；人工复核必须通过后台审核工作台逐条确认。
+- `20260825112933_content_classification_fields.sql`、`20260825121949_content_classification_gate.sql`、`20260825123613_content_classification_recommendations.sql`、`20260825130000_content_classification_ranking_visibility.sql`、`20260825143000_content_classification_admin_self_review.sql`、`20260826161222_content_classification_public_v1.sql` 已全部成功执行。
+- `20260826161222_content_classification_public_v1.sql` 已成功执行，新增受控 `set_content_classification_public_v1` RPC；公开展示和发布门禁可以独立控制。
+- `pnpm db:status`：内容分级迁移已执行，待执行 0；`classification_schema_ready=true`。
+- 当前设置为 `public_v1_enabled=true`、`enforcement_enabled=false`：课程、项目、挑战的 reviewed 内容通过统一 DTO 输出三轴，现有发布流程不变。
+- 只读预检：内容项总数 251，已发布 219，`published_unreviewed=0`、`published_incomplete=0`、`invalid_difficulty=0`；安全关键词提示 152 条，但不产生待审核队列。
+- `/admin/content-classifications` 保留为后台最终审核入口；课程、项目、挑战详情页和卡片使用 `ContentClassification` 展示三轴标签。
 
-### 11.3 阶段 2：发布门禁和公开三轴
+### 11.3 阶段 2：发布门禁（仍按需开启）
 
 上线前置条件：
 
@@ -928,7 +929,7 @@ status IN ('active', 'ended')
 
 1. 增加 approved/active/ended 状态转换门禁；
 2. 把公开查询统一切换为 reviewed 过滤；
-3. 为公开 API、推荐 RPC 和 JSON-LD 开启三轴字段；
+3. 为公开 API、推荐 RPC 和 JSON-LD 保持 reviewed-only 三轴字段；
 4. 把旧 difficulty 查询参数统一归一化；
 5. 保留 difficulty_stars 读取供内部计算和回滚。
 
@@ -946,7 +947,7 @@ BEGIN
 COMMIT
 ~~~
 
-应用发布顺序是：先部署能识别新字段但默认关闭展示的后端，再执行阶段 2 事务，最后部署默认读取三轴的前端。不能先打开前端再补门禁。
+公开三轴展示已经通过独立的阶段 1 受控 RPC 开启。未来若要阻止未复核内容发布，再执行阶段 2 事务；不能把发布门禁当成公开展示的前置条件。
 
 执行：
 
@@ -956,7 +957,7 @@ pnpm db:push
 pnpm db:status
 ~~~
 
-阶段 1 和阶段 2 必须是两次可审计的推送；禁止合并成一个“加字段并立即锁发布”的迁移。
+阶段 1 公开展示和阶段 2 发布门禁必须是两次可审计的操作；禁止合并成一个“加字段并立即锁发布”的迁移。
 
 ### 11.4 回滚
 
@@ -1065,9 +1066,10 @@ content_classification.recommendation_without_age
 4. 内容变更失效和公开 DTO；
 5. 推荐 RPC v2、旧参数兼容和 JSON-LD；
 6. 课程/项目/挑战前台三轴标签；
-7. 全量 248 项人工复核；
-8. 阶段 2 发布门禁；
-9. Playwright 回归、监控和发布复盘。
+7. 全量内容人工复核；
+8. 阶段 1 公开展示受控切换；
+9. 阶段 2 发布门禁（按需）；
+10. Playwright 回归、监控和发布复盘。
 
 功能只有同时满足以下条件才算完成：
 
@@ -1078,7 +1080,7 @@ content_classification.recommendation_without_age
 - 推荐和探索不再用星级猜年龄；
 - 前台、AI、JSON-LD 使用同一三轴语义；
 - K–12 只出现在后台/交换层；
-- 阶段 1/2 迁移均完成 dry-run、push、status 记录；
+- 阶段 1/2 迁移均完成 dry-run、push、status 记录；公开展示与发布门禁的切换均有审计事件；
 - PROJECT_INDEX.md 已同步记录实现入口和本文档。
 
 ## 15. 明确不做的事情
