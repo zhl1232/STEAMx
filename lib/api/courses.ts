@@ -10,6 +10,11 @@ import type {
   UserLessonProgressRow,
 } from '@/lib/courses/types'
 import { deriveCourseProgress } from '@/lib/courses/progress'
+import {
+  getContentClassificationSettings,
+  mapPublicClassification,
+  type ContentClassificationRow,
+} from '@/lib/content-classification'
 
 type DbClient = SupabaseClient<Database>
 
@@ -48,6 +53,30 @@ type CourseMilestoneRow = {
 
 type CourseQueryRow = CourseRow & {
   user_course_completions?: CourseMilestoneRow[]
+}
+
+/** Keep classification columns out of public DTOs; expose only the stable camelCase envelope when enabled. */
+function mapPublicCourseRow(row: CourseRow, includeClassification: boolean): CourseRow {
+  const {
+    recommended_min_age: _recommendedMinAge,
+    recommended_max_age: _recommendedMaxAge,
+    support_level: _supportLevel,
+    classification_status: _classificationStatus,
+    classification_source: _classificationSource,
+    classification_reviewed_at: _classificationReviewedAt,
+    classification_reviewed_by: _classificationReviewedBy,
+    classification_revision: _classificationRevision,
+    classification: _classification,
+    difficulty_stars: _difficultyStars,
+    ...publicRow
+  } = row
+
+  return {
+    ...publicRow,
+    ...(includeClassification
+      ? { classification: mapPublicClassification(row as CourseRow & ContentClassificationRow) }
+      : {}),
+  }
 }
 
 function groupLessonsByCourse(rows: CourseLessonIndexRow[]) {
@@ -115,8 +144,10 @@ async function loadCourseProgress(
 
 export async function listApprovedCourses(
   supabase: DbClient,
-  options?: { userId?: string | null },
+  options?: { userId?: string | null; includeClassification?: boolean },
 ): Promise<CourseListItem[]> {
+  const classificationSettings = await getContentClassificationSettings()
+  const includeClassification = options?.includeClassification === true && classificationSettings.publicV1Enabled
   const courseSelect = options?.userId
     ? '*, user_course_completions(course_id, completed_at)'
     : '*'
@@ -126,6 +157,9 @@ export async function listApprovedCourses(
     .eq('status', 'approved')
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
+  if (classificationSettings.enforcementEnabled) {
+    courseQuery = courseQuery.eq('classification_status', 'reviewed')
+  }
   if (options?.userId) {
     courseQuery = courseQuery.eq('user_course_completions.user_id', options.userId)
   }
@@ -158,7 +192,7 @@ export async function listApprovedCourses(
   const lessonsByCourse = groupLessonsByCourse(typedLessonRows)
 
   return courseRows.map(({ user_course_completions: _milestones, ...course }) => ({
-    ...course,
+    ...mapPublicCourseRow(course, includeClassification),
     lesson_count: lessonsByCourse.get(course.id)?.length ?? 0,
     progress: options?.userId
       ? deriveCourseProgress(
@@ -173,8 +207,10 @@ export async function listApprovedCourses(
 export async function getCourseOverview(
   supabase: DbClient,
   courseId: number,
-  options?: { includeDraftForStaff?: boolean; userId?: string | null }
+  options?: { includeDraftForStaff?: boolean; userId?: string | null; includeClassification?: boolean }
 ): Promise<CourseOverview | null> {
+  const classificationSettings = await getContentClassificationSettings()
+  const includeClassification = options?.includeClassification === true && classificationSettings.publicV1Enabled
   const courseSelect = options?.userId
     ? '*, user_course_completions(course_id, completed_at)'
     : '*'
@@ -182,6 +218,9 @@ export async function getCourseOverview(
 
   if (!options?.includeDraftForStaff) {
     query = query.eq('status', 'approved')
+    if (classificationSettings.enforcementEnabled) {
+      query = query.eq('classification_status', 'reviewed')
+    }
   }
   if (options?.userId) {
     query = query.eq('user_course_completions.user_id', options.userId)
@@ -228,7 +267,7 @@ export async function getCourseOverview(
   const milestoneCompletedAt = progress.milestoneByCourse.get(courseId) ?? null
 
   return {
-    ...courseRow,
+    ...mapPublicCourseRow(courseRow, includeClassification),
     lessons: summaryRows.map((lesson) => ({
       ...lesson,
       is_completed: completedIds.has(lesson.id),
@@ -243,15 +282,22 @@ export async function getCourseOverview(
 export async function getLessonInCourse(
   supabase: DbClient,
   courseId: number,
-  lessonId: number
+  lessonId: number,
+  options?: { includeClassification?: boolean },
 ): Promise<{ course: CourseRow; lesson: CourseLessonRow } | null> {
+  const classificationSettings = await getContentClassificationSettings()
+  const includeClassification = options?.includeClassification === true && classificationSettings.publicV1Enabled
+  let courseQuery = supabase
+    .from('courses')
+    .select('*')
+    .eq('id', courseId)
+    .eq('status', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    courseQuery = courseQuery.eq('classification_status', 'reviewed')
+  }
+
   const [courseResult, lessonResult] = await Promise.all([
-    supabase
-      .from('courses')
-      .select('*')
-      .eq('id', courseId)
-      .eq('status', 'approved')
-      .maybeSingle(),
+    courseQuery.maybeSingle(),
     supabase
       .from('course_lessons')
       .select('*')
@@ -265,7 +311,7 @@ export async function getLessonInCourse(
   if (!courseResult.data || !lessonResult.data) return null
 
   return {
-    course: courseResult.data as CourseRow,
+    course: mapPublicCourseRow(courseResult.data as CourseRow, includeClassification),
     lesson: mapLessonRow(lessonResult.data as Record<string, unknown>),
   }
 }
@@ -295,11 +341,15 @@ export async function getCourseLessonByWorksProjectId(
   if (error || !lessonRow) return null
   const lesson = lessonRow as { id: number; course_id: number; title: string }
 
-  const { data: courseRow } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  let courseQuery = supabase
     .from('courses')
     .select('id, title, status')
     .eq('id', lesson.course_id)
-    .maybeSingle()
+  if (classificationSettings.enforcementEnabled) {
+    courseQuery = courseQuery.eq('classification_status', 'reviewed')
+  }
+  const { data: courseRow } = await courseQuery.maybeSingle()
 
   const course = courseRow as { id: number; title: string; status: string } | null
   if (!course || course.status !== 'approved') return null

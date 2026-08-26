@@ -3,7 +3,7 @@ import { ArrowRight, Compass } from 'lucide-react'
 
 import type { Project } from '@/lib/mappers/types'
 import { Button } from '@/components/ui/button'
-import { DifficultyStars } from '@/components/ui/difficulty-stars'
+import { ContentClassification } from '@/components/ui/content-classification'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { cn } from '@/lib/utils'
 
@@ -80,7 +80,7 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
                       {project.sub_category}
                     </span>
                   ) : null}
-                  {project.difficulty_stars ? <DifficultyStars stars={project.difficulty_stars} size="sm" /> : null}
+                  <ContentClassification classification={project.classification} compact />
                 </div>
 
                 <div>

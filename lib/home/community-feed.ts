@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 
 import { getBirdObservationRecentObservations } from "@/lib/api/nature-observation-homepage";
+import { getContentClassificationSettings } from "@/lib/content-classification";
 import { formatRelativeTime } from "@/lib/date-utils";
 import { logger } from "@/lib/logger";
 import { type ObservationEvent } from "@/lib/mappers/types";
@@ -68,7 +69,7 @@ function pickTopCandidates(candidates: Candidate[], limit: number): HomeCommunit
   return picked;
 }
 
-async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
+async function buildHomepageCommunityFeed(enforceReviewed: boolean): Promise<HomeCommunityFeedItem[]> {
   if (isPlaywrightSmoke()) {
     return [];
   }
@@ -76,14 +77,19 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
   const supabase = createPublicClient();
   const candidates: Candidate[] = [];
 
-  const [projRes, likeRes, observations] = await Promise.all([
-    supabase
+  let projectQuery = supabase
       .from("projects")
       .select("id, title, created_at, profiles:author_id (display_name, username)")
       .eq("status", "approved")
       .eq("moderation_state", "approved")
       .order("created_at", { ascending: false })
-      .limit(8),
+      .limit(8);
+  if (enforceReviewed) {
+    projectQuery = projectQuery.eq("classification_status", "reviewed");
+  }
+
+  const [projRes, likeRes, observations] = await Promise.all([
+    projectQuery,
     supabase.from("likes").select("user_id, project_id, created_at").order("created_at", { ascending: false }).limit(14),
     getBirdObservationRecentObservations(8).catch((error) => {
       logger.error("homepage community feed: observations failed", { error });
@@ -118,12 +124,17 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
     const projectIds = [...new Set(likeRows.map((row) => row.project_id))];
     const userIds = [...new Set(likeRows.map((row) => row.user_id))];
 
-    const [{ data: likeProjects, error: lpErr }, { data: likeProfiles, error: lprofErr }] = await Promise.all([
-      supabase
+    let likeProjectQuery = supabase
         .from("projects")
         .select("id, title, status, moderation_state")
+        .eq("status", "approved")
         .eq("moderation_state", "approved")
-        .in("id", projectIds),
+        .in("id", projectIds);
+    if (enforceReviewed) {
+      likeProjectQuery = likeProjectQuery.eq("classification_status", "reviewed");
+    }
+    const [{ data: likeProjects, error: lpErr }, { data: likeProfiles, error: lprofErr }] = await Promise.all([
+      likeProjectQuery,
       supabase.from("profiles").select("id, display_name, username").in("id", userIds),
     ]);
 
@@ -180,14 +191,15 @@ async function buildHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
 }
 
 const getHomepageCommunityFeedCached = unstable_cache(
-  async () => buildHomepageCommunityFeed(),
-  ["homepage-community-feed-v3-observation-created-at"],
+  async (enforceReviewed: boolean) => buildHomepageCommunityFeed(enforceReviewed),
+  ["homepage-community-feed-v4-observation-created-at"],
   { revalidate: 120 },
 );
 
 export async function getHomepageCommunityFeed(): Promise<HomeCommunityFeedItem[]> {
   try {
-    return await getHomepageCommunityFeedCached();
+    const settings = await getContentClassificationSettings();
+    return await getHomepageCommunityFeedCached(settings.enforcementEnabled);
   } catch (error) {
     logger.error("getHomepageCommunityFeed failed", { error });
     return [];

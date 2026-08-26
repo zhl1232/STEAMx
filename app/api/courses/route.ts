@@ -5,6 +5,7 @@ import { handleApiError } from '@/lib/api/auth'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
 import { toCourseProgressApi } from '@/lib/courses/progress'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 
 export async function GET() {
   const supabase = await createClient()
@@ -13,7 +14,11 @@ export async function GET() {
     const {
       data: { user },
     } = await supabase.auth.getUser()
-    const courses = await listApprovedCourses(supabase, { userId: user?.id ?? null })
+    const classificationSettings = await getContentClassificationSettings()
+    const courses = await listApprovedCourses(supabase, {
+      userId: user?.id ?? null,
+      includeClassification: classificationSettings.publicV1Enabled,
+    })
     const apiCourses = courses.map((course) => ({
       ...course,
       progress: course.progress ? toCourseProgressApi(course.progress) : null,

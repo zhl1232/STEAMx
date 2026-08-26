@@ -39,6 +39,7 @@ import {
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
+import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { useAuth } from '@/lib/context/auth-context'
 import { useGamification } from '@/lib/context/gamification-context'
 import { logger } from '@/lib/logger'
@@ -93,12 +94,9 @@ import { categoryToneClasses } from '@/components/ui/tone-badge'
 // 难度选项
 const DIFFICULTY_OPTIONS = [
     { value: "all", label: "全部" },
-    { value: "1-2", label: "1-2星" },
-    { value: "1", label: "1星" },
-    { value: "2", label: "2星" },
-    { value: "3", label: "3星" },
-    { value: "4", label: "4星" },
-    { value: "5", label: "5星" },
+    { value: "beginner", label: "入门" },
+    { value: "intermediate", label: "进阶" },
+    { value: "challenge", label: "挑战" },
 ]
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
@@ -267,7 +265,8 @@ export function ExploreClient({
     const initialQuery = searchParams.get("q") || ""
     const initialCategory = searchParams.get("category") || "全部"
     const initialSubCategory = searchParams.get("subCategory") || ""
-    const initialDifficulty = searchParams.get("difficulty") || "all"
+    const initialDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
+    const initialAge = parseAgeParam(searchParams.get("age"))
     const initialTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
     const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
@@ -295,6 +294,7 @@ export function ExploreClient({
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
     const [selectedDifficulty, setSelectedDifficulty] = useState(initialDifficulty)
+    const [selectedAge, setSelectedAge] = useState<number | null>(initialAge)
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
     const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
@@ -304,6 +304,7 @@ export function ExploreClient({
     const [draftCategory, setDraftCategory] = useState(selectedCategory)
     const [draftSubCategory, setDraftSubCategory] = useState(selectedSubCategory)
     const [draftDifficulty, setDraftDifficulty] = useState(selectedDifficulty)
+    const [draftAge, setDraftAge] = useState<number | null>(selectedAge)
     const [draftTags, setDraftTags] = useState<string[]>(selectedTags)
     const [sheetView, setSheetView] = useState<'filters' | 'tags'>('filters')
     const [tagSearchQuery, setTagSearchQuery] = useState('')
@@ -319,7 +320,8 @@ export function ExploreClient({
         const nextQuery = searchParams.get("q") || ""
         const nextCategory = searchParams.get("category") || "全部"
         const nextSubCategory = searchParams.get("subCategory") || ""
-        const nextDifficulty = searchParams.get("difficulty") || "all"
+        const nextDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
+        const nextAge = parseAgeParam(searchParams.get("age"))
         const nextTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
         const nextSortBy = sortFromSearchParam(searchParams.get("sortBy"))
 
@@ -327,6 +329,7 @@ export function ExploreClient({
         setSelectedCategory(nextCategory)
         setSelectedSubCategory(nextSubCategory)
         setSelectedDifficulty(nextDifficulty)
+        setSelectedAge(nextAge)
         setSelectedTags(nextTags)
         setSelectedSortBy(nextSortBy)
     }, [searchParams])
@@ -400,10 +403,11 @@ export function ExploreClient({
         category: selectedCategory,
         subCategory: selectedSubCategory,
         difficulty: selectedDifficulty,
+        age: selectedAge,
         tags: selectedTags,
         searchQuery,
         sortBy: selectedSortBy,
-    }), [selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, searchQuery, selectedSortBy])
+    }), [selectedCategory, selectedSubCategory, selectedDifficulty, selectedAge, selectedTags, searchQuery, selectedSortBy])
 
     useEffect(() => {
         const scopedTagSet = new Set(scopedAvailableTags)
@@ -415,6 +419,7 @@ export function ExploreClient({
         category?: string
         subCategory?: string
         difficulty?: string
+        age?: number | null
         tags?: string[]
         sortBy?: SortBy
     } = {}) => {
@@ -423,6 +428,7 @@ export function ExploreClient({
         const category = overrides.category ?? selectedCategory
         const subCategory = overrides.subCategory ?? selectedSubCategory
         const difficulty = overrides.difficulty ?? selectedDifficulty
+        const age = overrides.age !== undefined ? overrides.age : selectedAge
         const tags = overrides.tags ?? selectedTags
         const sortBy = overrides.sortBy ?? selectedSortBy
 
@@ -430,11 +436,12 @@ export function ExploreClient({
         if (category !== '全部') params.set('category', category)
         if (subCategory) params.set('subCategory', subCategory)
         if (difficulty !== 'all') params.set('difficulty', difficulty)
+        if (age !== null && Number.isInteger(age) && age >= 3 && age <= 16) params.set('age', String(age))
         if (tags.length > 0) params.set('tags', tags.join(','))
         if (sortBy !== 'popular') params.set('sortBy', sortBy)
 
         return params
-    }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedTags, selectedSortBy])
+    }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedAge, selectedTags, selectedSortBy])
 
     const saveExploreScrollPosition = useCallback(() => {
         if (typeof window === 'undefined') return
@@ -745,10 +752,12 @@ export function ExploreClient({
         setSelectedCategory("全部")
         setSelectedSubCategory("")
         setSelectedDifficulty("all")
+        setSelectedAge(null)
         setSelectedTags([])
         setSelectedSortBy("popular")
         setDraftSubCategory("")
         setDraftDifficulty("all")
+        setDraftAge(null)
         setDraftTags([])
         setResultTotal(0)
         executeFilter(new URLSearchParams())
@@ -792,6 +801,13 @@ export function ExploreClient({
         executeFilter(params)
     }
 
+    const handleRemoveAge = () => {
+        setSelectedAge(null)
+        setDraftAge(null)
+        const params = buildSearchParams({ age: null })
+        executeFilter(params)
+    }
+
     const handleRemoveTag = (tag: string) => {
         const newTags = selectedTags.filter(t => t !== tag)
         setSelectedTags(newTags)
@@ -804,6 +820,7 @@ export function ExploreClient({
         setDraftCategory(selectedCategory)
         setDraftSubCategory(selectedSubCategory)
         setDraftDifficulty(selectedDifficulty)
+        setDraftAge(selectedAge)
         setDraftTags([...selectedTags])
         setSheetView('filters')
         setTagSearchQuery('')
@@ -853,6 +870,7 @@ export function ExploreClient({
         setDraftCategory("全部")
         setDraftSubCategory("")
         setDraftDifficulty("all")
+        setDraftAge(null)
         setDraftTags([])
     }
 
@@ -868,6 +886,7 @@ export function ExploreClient({
         setSelectedCategory(draftCategory)
         setSelectedSubCategory(draftSubCategory)
         setSelectedDifficulty(draftDifficulty)
+        setSelectedAge(draftAge)
         setSelectedTags(draftTags)
         setSheetView('filters')
         setTagSearchQuery('')
@@ -877,6 +896,7 @@ export function ExploreClient({
             category: draftCategory,
             subCategory: draftSubCategory,
             difficulty: draftDifficulty,
+            age: draftAge,
             tags: draftTags,
         })
         executeFilter(params)
@@ -889,11 +909,11 @@ export function ExploreClient({
         ? activePresetId
         : null
     const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
-    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedTags.length > 0
-    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + selectedTags.length
+    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || selectedTags.length > 0
+    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + selectedTags.length
     const isResultsMode = isExploreResultsMode(getFilterState())
-    const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftTags.length > 0
-    const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + draftTags.length
+    const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null || draftTags.length > 0
+    const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
 
     const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
@@ -1069,6 +1089,16 @@ export function ExploreClient({
                                                     shape="pill"
                                                 >
                                                     {getDifficultyLabel(selectedDifficulty)}
+                                                    <X className="h-3 w-3" />
+                                                </FilterChip>
+                                            )}
+                                            {selectedAge !== null && (
+                                                <FilterChip
+                                                    onClick={handleRemoveAge}
+                                                    active
+                                                    shape="pill"
+                                                >
+                                                    适合 {selectedAge} 岁
                                                     <X className="h-3 w-3" />
                                                 </FilterChip>
                                             )}
@@ -1426,7 +1456,7 @@ export function ExploreClient({
                                     <div className="space-y-3 text-xs leading-5 text-muted-foreground">
                                         <p className="flex gap-2">
                                             <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
-                                            先从 1星、2星项目开始，循序渐进。
+                                            先从入门项目开始，循序渐进。
                                         </p>
                                         <p className="flex gap-2">
                                             <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
@@ -1537,6 +1567,37 @@ export function ExploreClient({
                                                     {option.label}
                                                 </FilterChip>
                                             ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <span className="text-sm font-medium">适合年龄</span>
+                                            <span className="text-xs text-muted-foreground">只改变排序，不排除其它项目</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Input
+                                                type="number"
+                                                inputMode="numeric"
+                                                min={3}
+                                                max={16}
+                                                step={1}
+                                                value={draftAge ?? ''}
+                                                onChange={(event) => setDraftAge(parseAgeParam(event.target.value))}
+                                                placeholder="3–16"
+                                                aria-label="适合年龄"
+                                                className="h-11 w-32 rounded-sm"
+                                            />
+                                            <span className="text-sm text-muted-foreground">岁</span>
+                                            {draftAge !== null ? (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setDraftAge(null)}
+                                                    className="min-h-11 px-2 text-sm font-medium text-[hsl(var(--brand-blue))]"
+                                                >
+                                                    清除
+                                                </button>
+                                            ) : null}
                                         </div>
                                     </div>
 

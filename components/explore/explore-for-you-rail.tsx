@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { Flame, ImageOff, Repeat2, Star } from "lucide-react";
+import { Flame, ImageOff, Repeat2 } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
@@ -10,6 +10,7 @@ import { CATEGORY_META } from "@/lib/config/categories";
 import { type HomepageRecommendationMode } from "@/lib/home/recommendations";
 import { type Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
+import { ContentClassification } from "@/components/ui/content-classification";
 
 export type ExploreForYouRailState = {
   projects: Project[];
@@ -52,10 +53,6 @@ function ExploreRecommendationCard({
 }) {
   const imageSrc = typeof project.image === "string" ? project.image.trim() : "";
   const [imageError, setImageError] = useState(false);
-  const difficultyStars = project.difficulty_stars
-    ? Math.max(1, Math.min(6, project.difficulty_stars))
-    : null;
-
   useEffect(() => {
     setImageError(false);
   }, [imageSrc]);
@@ -104,10 +101,7 @@ function ExploreRecommendationCard({
                 </span>
               ) : null}
             </div>
-            <span className="flex shrink-0 items-center gap-1 text-[11px] font-bold text-[hsl(var(--brand-amber))]">
-              <Star className="h-3.5 w-3.5 fill-current" aria-hidden />
-              {difficultyStars ? `${difficultyStars}星` : "精选"}
-            </span>
+            <ContentClassification classification={project.classification} compact />
           </div>
         </div>
 

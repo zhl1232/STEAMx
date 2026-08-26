@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { hasLdrawModelFile } from "@/lib/courses/ldraw-bom-source";
+import { getContentClassificationSettings } from "@/lib/content-classification";
 import { logger } from "@/lib/logger";
 import { PLAYGROUND_METADATA_PATHS } from "@/lib/seo/playground-metadata";
 import { fetchAllSitemapRows } from "@/lib/seo/sitemap-pagination";
@@ -24,6 +25,8 @@ interface SpeciesRow {
 interface WorkRow {
   id: number;
   completed_at: string | null;
+  project_id?: number | null;
+  course_lesson_id?: number | null;
 }
 
 interface ChallengeRow {
@@ -176,13 +179,42 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const supabase = createPublicClient();
+    const classificationSettings = await getContentClassificationSettings();
 
-    const [projects, species, observations, courses, works, resources, challenges] = await Promise.all([
-      fetchAllSitemapRows<TimestampedIdRow>(() => supabase
+    const createProjectsQuery = () => {
+      let query = supabase
         .from("projects")
         .select("id, updated_at")
         .eq("status", "approved")
-        .eq("moderation_state", "approved")),
+        .eq("moderation_state", "approved");
+      if (classificationSettings.enforcementEnabled) {
+        query = query.eq("classification_status", "reviewed");
+      }
+      return query;
+    };
+    const createCoursesQuery = () => {
+      let query = supabase
+        .from("courses")
+        .select("id, updated_at")
+        .eq("status", "approved");
+      if (classificationSettings.enforcementEnabled) {
+        query = query.eq("classification_status", "reviewed");
+      }
+      return query;
+    };
+    const createChallengesQuery = () => {
+      let query = supabase
+        .from("challenges")
+        .select("id, created_at")
+        .in("status", ["active", "ended"]);
+      if (classificationSettings.enforcementEnabled) {
+        query = query.eq("classification_status", "reviewed");
+      }
+      return query;
+    };
+
+    const [projects, species, observations, courses, works, resources, challenges] = await Promise.all([
+      fetchAllSitemapRows<TimestampedIdRow>(createProjectsQuery),
       fetchAllSitemapRows<SpeciesRow>(() => supabase
         .from("species")
         .select("slug, updated_at")
@@ -193,13 +225,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .eq("status", "approved")
         .eq("is_public", true)
         .eq("moderation_state", "approved")),
-      fetchAllSitemapRows<TimestampedIdRow>(() => supabase
-        .from("courses")
-        .select("id, updated_at")
-        .eq("status", "approved")),
+      fetchAllSitemapRows<TimestampedIdRow>(createCoursesQuery),
       fetchAllSitemapRows<WorkRow>(() => supabase
         .from("completed_projects")
-        .select("id, completed_at")
+        .select("id, completed_at, project_id, course_lesson_id")
         .eq("record_kind", "final")
         .eq("status", "approved")
         .eq("is_public", true)
@@ -208,10 +237,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .from("learning_resources")
         .select("id, updated_at")
         .eq("status", "published")),
-      fetchAllSitemapRows<ChallengeRow>(() => supabase
-        .from("challenges")
-        .select("id, created_at")
-        .in("status", ["active", "ended"])),
+      fetchAllSitemapRows<ChallengeRow>(createChallengesQuery),
     ]);
 
     const courseIds = courses.map((course) => course.id);
@@ -227,13 +253,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         && await hasLdrawModelFile(lesson.ldraw_model_url),
     })));
 
+    const visibleWorks = classificationSettings.enforcementEnabled
+      ? (() => {
+          const visibleProjectIds = new Set(projects.map((project) => project.id));
+          const visibleLessonIds = new Set(lessonRows.map((lesson) => lesson.id));
+          return works.filter((work) => {
+            if (work.project_id != null) return visibleProjectIds.has(work.project_id);
+            if (work.course_lesson_id != null) return visibleLessonIds.has(work.course_lesson_id);
+            return true;
+          });
+        })()
+      : works;
+
     return buildSitemapEntries({
       projects,
       species,
       observations,
       courses,
       lessons,
-      works,
+      works: visibleWorks,
       resources,
       challenges,
     });

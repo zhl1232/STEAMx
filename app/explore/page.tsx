@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
+import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { parseExploreSortBy } from '@/lib/explore/presets'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -12,6 +13,7 @@ interface ExplorePageProps {
     category?: string
     subCategory?: string
     difficulty?: string
+    age?: string
     tags?: string
     page?: string
     sortBy?: string | string[]
@@ -40,7 +42,8 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     searchQuery: params.q,
     category: params.category,
     subCategory: params.subCategory,
-    difficulty: params.difficulty as ProjectFilters['difficulty'],
+    difficulty: normalizeDifficultyParam(params.difficulty) ?? 'all',
+    age: parseAgeParam(params.age) ?? undefined,
     tags: params.tags?.split(',').filter(Boolean),
   }
   const sortBy = parseExploreSortBy(firstParam(params.sortBy))

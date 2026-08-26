@@ -14,6 +14,7 @@ import { StatusBadge } from "@/components/ui/status-badge"
 import { CountdownTimer } from "@/components/ui/countdown-timer"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { ContentClassification } from "@/components/ui/content-classification"
 import { useAuth } from '@/lib/context/auth-context'
 import { useChallenge } from '@/lib/context/challenge-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
@@ -120,7 +121,6 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
     hasSubmission ? "已提交作品" : "作品待提交",
   ]
   const challengeMetaText = [
-    challenge.difficultyStars ? `难度 ${"★".repeat(challenge.difficultyStars)}` : null,
     ...challenge.tags.filter((tag) => tag.toLowerCase() !== "pbl"),
   ]
     .filter(Boolean)
@@ -238,6 +238,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
                       {challengeMetaText}
                     </p>
                   )}
+                  <ContentClassification classification={challenge.classification} compact className="mt-2" />
                 </div>
               </div>
             </div>

@@ -7,6 +7,8 @@ import { logger } from '@/lib/logger'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { awardXpOnce } from '@/lib/api/server-awards'
 import { assertUsersNotBlocked } from '@/lib/safety/server'
+import { getContentClassificationSettings } from '@/lib/content-classification'
+import { getAccessibleProject } from '@/lib/api/project-access'
 
 async function sendProjectLikeNotification(params: {
   supabase: Awaited<ReturnType<typeof createClient>>
@@ -64,10 +66,11 @@ export async function POST(
     // 检查用户认证
     const user = await requireAuth(supabase)
     await requireInteractionAccess(supabase, user, 'engage')
+    const classificationSettings = await getContentClassificationSettings()
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, title, status, moderation_state')
+      .select('author_id, title, status, moderation_state, classification_status')
       .eq('id', projectId)
       .maybeSingle()
 
@@ -80,12 +83,17 @@ export async function POST(
       title?: string | null
       status?: string | null
       moderation_state?: string | null
+      classification_status?: string | null
     } | null
 
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
-    if ((project.status && project.status !== 'approved') || project.moderation_state !== 'approved') {
+    if (
+      (project.status && project.status !== 'approved')
+      || project.moderation_state !== 'approved'
+      || (classificationSettings.enforcementEnabled && project.classification_status !== 'reviewed')
+    ) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 
@@ -194,6 +202,11 @@ export async function GET(
   
   if (!user) {
     return NextResponse.json({ liked: false })
+  }
+
+  const accessibleProject = await getAccessibleProject(supabase, projectId, user.id)
+  if (!accessibleProject) {
+    return NextResponse.json({ error: 'Project not found' }, { status: 404 })
   }
   
   const { data, error } = await supabase

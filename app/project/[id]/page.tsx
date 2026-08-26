@@ -32,7 +32,7 @@ import { ProjectDetailStickyBar } from '@/components/features/project/project-de
 import { ProjectHeroGallery } from '@/components/features/project/project-hero-gallery'
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
-import { DifficultyStars } from '@/components/ui/difficulty-stars'
+import { ContentClassification } from '@/components/ui/content-classification'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -50,6 +50,7 @@ import {
   type ProjectFilters,
 } from '@/lib/api/explore-data'
 import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { listStoreProductsForContext } from '@/lib/store/service'
 import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
 import { createClient } from '@/lib/supabase/server'
@@ -161,16 +162,6 @@ function getCategoryTone(category?: string): CategoryTone {
   return CATEGORY_META[category || '']?.tone ?? 'science'
 }
 
-function getDifficultyLabel(stars?: number) {
-  const value = Math.max(1, Math.min(6, stars ?? 1))
-  if (value === 1) return '入门'
-  if (value === 2) return '简单'
-  if (value === 3) return '中等'
-  if (value === 4) return '进阶'
-  if (value === 5) return '挑战'
-  return '传说'
-}
-
 function formatCount(value: number) {
   if (value >= 10000) {
     const rounded = value / 10000
@@ -206,28 +197,36 @@ async function getProjectAuthorSummary(
   if (!authorId) return null
 
   const supabase = await createClient()
+  const classificationSettings = await getContentClassificationSettings()
+  let projectsCountQuery = supabase
+    .from('projects')
+    .select('id', { count: 'exact', head: true })
+    .eq('author_id', authorId)
+    .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
+  let likesQuery = supabase
+    .from('projects')
+    .select('likes_count')
+    .eq('author_id', authorId)
+    .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    projectsCountQuery = projectsCountQuery.eq('classification_status', 'reviewed')
+    likesQuery = likesQuery.eq('classification_status', 'reviewed')
+  }
+
   const [profileResponse, projectsCountResponse, followersResponse, likesResponse] = await Promise.all([
     supabase
       .from('profiles')
       .select('id, display_name, avatar_url, equipped_avatar_frame_id, bio, xp')
       .eq('id', authorId)
       .maybeSingle(),
-    supabase
-      .from('projects')
-      .select('id', { count: 'exact', head: true })
-      .eq('author_id', authorId)
-      .eq('status', 'approved')
-      .eq('moderation_state', 'approved'),
+    projectsCountQuery,
     supabase
       .from('follows')
       .select('follower_id', { count: 'exact', head: true })
       .eq('following_id', authorId),
-    supabase
-      .from('projects')
-      .select('likes_count')
-      .eq('author_id', authorId)
-      .eq('status', 'approved')
-      .eq('moderation_state', 'approved'),
+    likesQuery,
   ])
 
   const profile = profileResponse.data as {
@@ -468,7 +467,7 @@ function MobileRelatedProjects({
             {project.description || '继续探索一个相关项目。'}
           </p>
           <div className="mt-2 flex items-center gap-1 text-[11px] text-muted-foreground">
-            {project.difficulty_stars ? <DifficultyStars stars={project.difficulty_stars} size="sm" /> : null}
+            <ContentClassification classification={project.classification} compact />
             {project.category ? <span>{project.category}</span> : null}
           </div>
         </div>
@@ -812,7 +811,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const visibleTags = tags
     .filter((tag) => tag !== project.category && tag !== project.sub_category)
     .slice(0, 4)
-  const difficultyLabel = getDifficultyLabel(project.difficulty_stars)
   const mode = isObservationProject ? 'observation' : 'project'
   const completedCount = completionCount
   const chip2Label = project.sub_category ?? visibleTags[0] ?? null
@@ -831,6 +829,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           title: project.title,
           description: project.description,
           image: project.image,
+          classification: project.classification,
           steps,
         })}
       />
@@ -933,7 +932,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   stepsCount={steps.length}
                   materialsCount={materials.length}
                   completionCount={completionCount}
-                  difficultyStars={project.difficulty_stars ?? 1}
+                  classification={project.classification}
                 />
 
                 <MobileProjectAuthorRow
@@ -1024,10 +1023,11 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                           {project.sub_category}
                         </span>
                       ) : null}
-                      <span className="ml-auto mt-1 inline-flex items-center gap-1.5 rounded-xs bg-[hsl(var(--tone-tech-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--tone-tech))]">
-                        <DifficultyStars stars={project.difficulty_stars ?? 1} size="sm" />
-                        {difficultyLabel}
-                      </span>
+                      <ContentClassification
+                        classification={project.classification}
+                        compact
+                        className="ml-auto mt-1"
+                      />
                     </div>
 
                     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">

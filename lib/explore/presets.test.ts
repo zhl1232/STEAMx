@@ -25,6 +25,7 @@ describe('explore presets', () => {
             category: '全部',
             subCategory: '',
             difficulty: 'all',
+            age: null,
             tags: [],
             searchQuery: '',
             sortBy: 'latest',
@@ -33,7 +34,8 @@ describe('explore presets', () => {
         expect(detectActivePreset({
             category: '全部',
             subCategory: '',
-            difficulty: '1-2',
+            difficulty: 'beginner',
+            age: null,
             tags: [],
             searchQuery: '',
             sortBy: 'popular',
@@ -43,6 +45,7 @@ describe('explore presets', () => {
             category: '全部',
             subCategory: '',
             difficulty: 'all',
+            age: null,
             tags: [],
             searchQuery: '',
             sortBy: 'popular',
@@ -56,7 +59,7 @@ describe('explore presets', () => {
 
         expect(popular.toString()).toBe('')
         expect(latest.get('sortBy')).toBe('latest')
-        expect(beginner.get('difficulty')).toBe('1-2')
+        expect(beginner.get('difficulty')).toBe('beginner')
         expect(beginner.get('sortBy')).toBeNull()
         expect(new Set([
             serializeExploreFilterParams(popular),
@@ -88,7 +91,8 @@ describe('explore presets', () => {
         const exploreState = {
             category: '全部',
             subCategory: '',
-            difficulty: '1-2',
+            difficulty: 'beginner',
+            age: null,
             tags: [],
             searchQuery: '',
             sortBy: 'popular' as const,

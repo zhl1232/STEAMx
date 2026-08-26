@@ -23,6 +23,14 @@ import {
   buildRecommendationShuffleSeed,
   sortByRecommendationShuffleSeed,
 } from "@/lib/recommendations/seed";
+import {
+  applyPublicClassificationVisibility,
+  getContentClassificationSettings,
+  normalizeDifficultyParam,
+  sortByAgeMatch,
+  withoutPublicClassification,
+  type PublicClassificationSettings,
+} from "@/lib/content-classification";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
 type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
@@ -122,9 +130,11 @@ const SMOKE_PROJECTS: SmokeProject[] = [
 const SMOKE_TAGS = Array.from(new Set(SMOKE_PROJECTS.flatMap((project) => project.tags || []))).sort();
 const EXPLORE_FILTER_OPTIONS_TTL_MS = 5 * 60 * 1000;
 let cachedExploreFilterOptions:
-  | { data: ExploreFilterOptions; expiresAt: number }
+  | { key: string; data: ExploreFilterOptions; expiresAt: number }
   | null = null;
-let exploreFilterOptionsPromise: Promise<ExploreFilterOptions> | null = null;
+let exploreFilterOptionsPromise:
+  | { key: string; promise: Promise<ExploreFilterOptions> }
+  | null = null;
 
 function sortLabels(labels: Iterable<string>): string[] {
   return Array.from(new Set(labels)).sort((left, right) =>
@@ -201,7 +211,9 @@ function buildTagScope(
 export interface ProjectFilters {
   category?: string;
   subCategory?: string; // 按子分类筛选（单选）
-  difficulty?: "easy" | "medium" | "hard" | "all" | "1" | "2" | "3" | "4" | "5" | "1-2" | "3-4" | "5-6";
+  difficulty?: "easy" | "medium" | "hard" | "beginner" | "intermediate" | "challenge" | "all" | "1" | "2" | "3" | "4" | "5" | "6" | "1-2" | "3-4" | "5-6";
+  /** 精确年龄只影响 reviewed 内容的排序，不排除超出建议年龄的项目。 */
+  age?: number;
   materials?: string[];
   tags?: string[]; // 标签筛选（多选）
   searchQuery?: string;
@@ -344,7 +356,10 @@ function getSmokePopularScore(project: SmokeProject): number {
   return 0.75 * decayed + 0.25 * weekly;
 }
 
-function buildExploreSelectStatement(filters: Pick<ProjectFilters, "materials" | "subCategory">): string {
+function buildExploreSelectStatement(
+  filters: Pick<ProjectFilters, "materials" | "subCategory">,
+  includeClassification = false,
+): string {
   const subCategoriesJoin = filters.subCategory
     ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT
     : PROJECT_LIST_SUB_CATEGORIES_SELECT;
@@ -352,7 +367,15 @@ function buildExploreSelectStatement(filters: Pick<ProjectFilters, "materials" |
     ? `,\n      ${PROJECT_LIST_MATERIALS_FILTER_SELECT}`
     : "";
   return `
-      ${PROJECT_LIST_BASE_SELECT},
+      ${PROJECT_LIST_BASE_SELECT}${includeClassification ? `,
+      recommended_min_age,
+      recommended_max_age,
+      support_level,
+      classification_status,
+      classification_source,
+      classification_reviewed_at,
+      classification_reviewed_by,
+      classification_revision` : ""},
       ${PROJECT_LIST_PROFILE_SELECT},
       ${subCategoriesJoin}${materialsFilterJoin}
     `;
@@ -423,18 +446,25 @@ async function hydrateExploreProjectsByIds(
   projectIds: number[],
   filters: ProjectFilters,
   starsRange: ReturnType<typeof resolveDifficultyStarsRange>,
+  settings: PublicClassificationSettings,
 ): Promise<Project[]> {
   if (projectIds.length === 0) {
     return [];
   }
 
-  const selectStatement = buildExploreSelectStatement(filters);
-  const { data: rows, error: hydrateError } = await supabase
+  const includeClassification = settings.publicV1Enabled || settings.enforcementEnabled;
+  let projectQuery = supabase
     .from("projects")
-    .select(selectStatement)
+    .select(buildExploreSelectStatement(filters, includeClassification))
     .eq("status", "approved")
     .eq("moderation_state", "approved")
     .in("id", projectIds);
+
+  if (settings.enforcementEnabled) {
+    projectQuery = projectQuery.eq("classification_status", "reviewed");
+  }
+
+  const { data: rows, error: hydrateError } = await projectQuery;
 
   if (hydrateError) {
     logger.error("Error hydrating explore projects", { error: hydrateError });
@@ -444,7 +474,7 @@ async function hydrateExploreProjectsByIds(
   const idOrder = new Map(projectIds.map((id, index) => [id, index]));
   let projects = await enrichProjectsWithCompletionCounts(
     supabase,
-    ((rows || []) as unknown as ProjectRowForMapper[]).map(mapDbProject),
+    ((rows || []) as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
   );
   projects = projects.sort(
       (left, right) =>
@@ -462,6 +492,7 @@ async function fetchPopularProjects(
   supabase: Awaited<ReturnType<typeof createClient>>,
   filters: ProjectFilters,
   pagination: PaginationOptions,
+  settings: PublicClassificationSettings,
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   const { page = 0, pageSize = 12, shuffleSeed, shuffleBatch = 0 } = pagination;
   const from = page * pageSize;
@@ -532,6 +563,7 @@ async function fetchPopularProjects(
       orderedIds,
       filters,
       starsRange,
+      settings,
     );
     // shuffle 必须在 diversify 之前：先按 seed 打乱决定「每类挑哪些项目」，
     // 再做类别 round-robin 才能保证前几位类别交错。反过来会被全局 hash 打散，
@@ -570,6 +602,7 @@ async function fetchPopularProjects(
     projectIds,
     filters,
     starsRange,
+    settings,
   );
 
   // 在 RPC 分页返回的当页结果里做稳定打乱：保留完整可翻页性，避免把热门排序压缩到固定池里
@@ -614,16 +647,10 @@ function resolveDifficultyStarsRange(difficulty: string | undefined): {
   if (!difficulty || difficulty === "all") {
     return { min: null, max: null, legacy: null };
   }
-  if (["1", "2", "3", "4", "5"].includes(difficulty)) {
-    const stars = Number(difficulty);
-    return { min: stars, max: stars, legacy: null };
-  }
-  if (difficulty === "1-2") return { min: 1, max: 2, legacy: null };
-  if (difficulty === "3-4") return { min: 3, max: 4, legacy: null };
-  if (difficulty === "5-6") return { min: 5, max: 6, legacy: null };
-  if (["easy", "medium", "hard"].includes(difficulty)) {
-    return { min: null, max: null, legacy: difficulty };
-  }
+  const band = normalizeDifficultyParam(difficulty);
+  if (band === "beginner") return { min: 1, max: 2, legacy: null };
+  if (band === "intermediate") return { min: 3, max: 4, legacy: null };
+  if (band === "challenge") return { min: 5, max: 6, legacy: null };
   return { min: null, max: null, legacy: null };
 }
 
@@ -635,6 +662,7 @@ async function fetchWeeklyHotProjects(
   supabase: Awaited<ReturnType<typeof createClient>>,
   filters: ProjectFilters,
   pagination: PaginationOptions,
+  settings: PublicClassificationSettings,
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   const { page = 0, pageSize = 12 } = pagination;
   const from = page * pageSize;
@@ -661,6 +689,7 @@ async function fetchWeeklyHotProjects(
     projectIds,
     filters,
     starsRange,
+    settings,
   );
 
   const hasMore = from + projects.length < total;
@@ -685,13 +714,8 @@ function getSmokeProjects(
 
     if (filters.difficulty && filters.difficulty !== "all") {
       const stars = project.difficulty_stars || 0;
-      if (["1", "2", "3", "4", "5"].includes(filters.difficulty) && stars !== Number(filters.difficulty)) return false;
-      if (filters.difficulty === "1-2" && (stars < 1 || stars > 2)) return false;
-      if (filters.difficulty === "3-4" && (stars < 3 || stars > 4)) return false;
-      if (filters.difficulty === "5-6" && (stars < 5 || stars > 6)) return false;
-      if (["easy", "medium", "hard"].includes(filters.difficulty) && project.difficulty !== filters.difficulty) {
-        return false;
-      }
+      const starsRange = resolveDifficultyStarsRange(filters.difficulty);
+      if (starsRange.min !== null && (stars < starsRange.min || stars > (starsRange.max ?? starsRange.min))) return false;
     }
 
     if (filters.materials?.length) {
@@ -772,7 +796,7 @@ function getSmokeProjects(
     pageSlice = sortedProjects.slice(from, to);
   }
 
-  const projects = pageSlice.map(({ createdAt: _createdAt, ...project }) => project);
+  const projects = pageSlice.map(({ createdAt: _createdAt, difficulty_stars: _difficultyStars, ...project }) => project);
 
   return {
     projects,
@@ -805,26 +829,37 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
     };
   }
 
+  const classificationSettings = await getContentClassificationSettings();
+  const cacheKey = `classification:${classificationSettings.publicV1Enabled ? "v1" : "legacy"}:${classificationSettings.enforcementEnabled ? "reviewed" : "all"}`;
   const now = Date.now();
-  if (cachedExploreFilterOptions && cachedExploreFilterOptions.expiresAt > now) {
+  if (
+    cachedExploreFilterOptions
+    && cachedExploreFilterOptions.key === cacheKey
+    && cachedExploreFilterOptions.expiresAt > now
+  ) {
     return cachedExploreFilterOptions.data;
   }
 
-  if (exploreFilterOptionsPromise) {
-    return exploreFilterOptionsPromise;
+  if (exploreFilterOptionsPromise?.key === cacheKey) {
+    return exploreFilterOptionsPromise.promise;
   }
 
-  exploreFilterOptionsPromise = (async () => {
+  const promise = (async () => {
     const supabase = await createClient();
+    let projectTagsQuery = supabase
+      .from("projects")
+      .select("category, tags, sub_categories (name)")
+      .eq("status", "approved")
+      .eq("moderation_state", "approved")
+      .not("tags", "is", null);
+    if (classificationSettings.enforcementEnabled) {
+      projectTagsQuery = projectTagsQuery.eq("classification_status", "reviewed");
+    }
+
     const [{ data: categoriesData }, { data: subCategoriesData }, { data: tagsData }] = await Promise.all([
       supabase.from("categories").select("name").order("sort_order"),
       supabase.from("sub_categories").select("name"),
-      supabase
-        .from("projects")
-        .select("category, tags, sub_categories (name)")
-        .eq("status", "approved")
-        .eq("moderation_state", "approved")
-        .not("tags", "is", null),
+      projectTagsQuery,
     ]);
 
     const categories = ["全部", ...((categoriesData as { name: string }[] | null)?.map((category) => category.name) || [])];
@@ -857,16 +892,20 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
 
     const data = { categories, availableTags: tagScope.all, popularTags, tagScope };
     cachedExploreFilterOptions = {
+      key: cacheKey,
       data,
       expiresAt: Date.now() + EXPLORE_FILTER_OPTIONS_TTL_MS,
     };
     return data;
   })();
+  exploreFilterOptionsPromise = { key: cacheKey, promise };
 
   try {
-    return await exploreFilterOptionsPromise;
+    return await promise;
   } finally {
-    exploreFilterOptionsPromise = null;
+    if (exploreFilterOptionsPromise?.promise === promise) {
+      exploreFilterOptionsPromise = null;
+    }
   }
 }
 
@@ -886,6 +925,8 @@ export async function getProjects(
   }
 
   const supabase = await createClient();
+  const classificationSettings = await getContentClassificationSettings();
+  const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled;
 
   const {
     category,
@@ -894,6 +935,7 @@ export async function getProjects(
     materials,
     tags,
     searchQuery,
+    age,
   } = filters;
   const sanitizedSearch = searchQuery ? sanitizeSearch(searchQuery) : "";
 
@@ -903,14 +945,28 @@ export async function getProjects(
   const to = from + pageSize - 1;
 
   if (sortBy === "weekly") {
-    return fetchWeeklyHotProjects(supabase, filters, pagination);
+    const result = await fetchWeeklyHotProjects(supabase, filters, pagination, classificationSettings);
+    const visibleProjects = applyPublicClassificationVisibility(result.projects, classificationSettings);
+    return {
+      ...result,
+      projects: classificationSettings.publicV1Enabled
+        ? sortByAgeMatch(visibleProjects, Number.isInteger(age) ? age! : null)
+        : visibleProjects,
+    };
   }
 
   if (sortBy === "popular") {
-    return fetchPopularProjects(supabase, filters, pagination);
+    const result = await fetchPopularProjects(supabase, filters, pagination, classificationSettings);
+    const visibleProjects = applyPublicClassificationVisibility(result.projects, classificationSettings);
+    return {
+      ...result,
+      projects: classificationSettings.publicV1Enabled
+        ? sortByAgeMatch(visibleProjects, Number.isInteger(age) ? age! : null)
+        : visibleProjects,
+    };
   }
 
-  const selectStatement = buildExploreSelectStatement({ materials, subCategory });
+  const selectStatement = buildExploreSelectStatement({ materials, subCategory }, includeClassification);
 
   let query = supabase
     .from("projects")
@@ -919,6 +975,10 @@ export async function getProjects(
     .eq("moderation_state", "approved")
     .order("created_at", { ascending: false })
     .order("id", { ascending: false });
+
+  if (classificationSettings.enforcementEnabled) {
+    query = query.eq("classification_status", "reviewed");
+  }
 
   if (sanitizedSearch) {
     query = query.or(`title.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%`);
@@ -933,16 +993,9 @@ export async function getProjects(
   }
 
   if (difficulty && difficulty !== "all") {
-    if (["1", "2", "3", "4", "5"].includes(difficulty)) {
-      query = query.eq("difficulty_stars", Number(difficulty));
-    } else if (difficulty === "1-2") {
-      query = query.gte("difficulty_stars", 1).lte("difficulty_stars", 2);
-    } else if (difficulty === "3-4") {
-      query = query.gte("difficulty_stars", 3).lte("difficulty_stars", 4);
-    } else if (difficulty === "5-6") {
-      query = query.gte("difficulty_stars", 5).lte("difficulty_stars", 6);
-    } else {
-      query = query.eq("difficulty", difficulty);
+    const starsRange = resolveDifficultyStarsRange(difficulty);
+    if (starsRange.min !== null) {
+      query = query.gte("difficulty_stars", starsRange.min).lte("difficulty_stars", starsRange.max ?? starsRange.min);
     }
   }
 
@@ -964,11 +1017,18 @@ export async function getProjects(
   }
 
   const rows = (data || []) as unknown as ProjectRowForMapper[];
-  const projects = await enrichProjectsWithCompletionCounts(supabase, rows.map(mapDbProject));
+  const projects = await enrichProjectsWithCompletionCounts(supabase, rows.map((row) => mapDbProject(row)));
   const total = count || 0;
   const hasMore = total > to + 1;
+  const visibleProjects = applyPublicClassificationVisibility(projects, classificationSettings);
 
-  return { projects, total, hasMore };
+  return {
+    projects: classificationSettings.publicV1Enabled
+      ? sortByAgeMatch(visibleProjects, Number.isInteger(age) ? age! : null)
+      : visibleProjects,
+    total,
+    hasMore,
+  };
 }
 
 export async function getProjectAtIndex(
@@ -995,26 +1055,50 @@ export async function getProjectAtIndex(
  */
 export async function getRecommendedProjects(
   userSteam: Record<string, number> | null,
-  ageGroup: string | null,
+  age: number | null,
   pagination: { limit?: number; offset?: number } = {},
   options: {
     fallbackToPopular?: boolean;
     shuffleSeed?: string;
     shuffleBatch?: number;
+    userId?: string | null;
   } = {},
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   const supabase = await createClient();
+  const classificationSettings = await getContentClassificationSettings();
+  const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled;
   const { limit = 6, offset = 0 } = pagination;
-  const { fallbackToPopular = true, shuffleSeed, shuffleBatch = 0 } = options;
+  const {
+    fallbackToPopular = true,
+    shuffleSeed,
+    shuffleBatch = 0,
+    userId = null,
+  } = options;
 
-  const { data, error } = await callRpc(supabase, "get_recommended_projects", {
-    p_user_steam: userSteam,
-    p_age_group: ageGroup,
+  const { data, error } = await callRpc(supabase, "get_recommended_projects_v2", {
+    p_user_id: userId,
+    p_age: Number.isInteger(age) && age! >= 3 && age! <= 16 ? age : null,
+    p_steam: userSteam,
     p_limit: limit,
     p_offset: offset,
   });
 
-  if (error) {
+  const payload = data && typeof data === "object" && !Array.isArray(data)
+    ? data as {
+        projects?: unknown;
+        total?: unknown;
+        hasMore?: unknown;
+      }
+    : null;
+  const rows = payload && Array.isArray(payload.projects)
+    ? payload.projects.filter((row): row is { id: number } => (
+        typeof row === "object" &&
+        row !== null &&
+        Number.isInteger((row as { id?: unknown }).id)
+      ))
+    : [];
+
+  if (error || !payload) {
     logger.error("Error fetching recommended projects", { error, fallbackToPopular });
 
     if (!fallbackToPopular) {
@@ -1032,22 +1116,46 @@ export async function getRecommendedProjects(
     });
   }
 
-  const rows = data || [];
   const rankedProjectIds = rows.map((row) => row.id);
 
   if (rankedProjectIds.length === 0) {
-    return { projects: [], total: 0, hasMore: false };
+    return {
+      projects: [],
+      total: typeof payload.total === "number" ? payload.total : 0,
+      hasMore: payload.hasMore === true,
+    };
   }
 
-  const { data: projectData, error: projectError } = await supabase
+  /*
+   * The v2 RPC deliberately returns only ranked ids and scores. Hydration
+   * still uses the normal public query, so moderation and classification
+   * visibility cannot be bypassed by a stale ranking result.
+   */
+  let recommendedProjectQuery = supabase
     .from("projects")
     .select(`
-      ${PROJECT_LIST_BASE_SELECT},
+      ${PROJECT_LIST_BASE_SELECT}${includeClassification ? `,
+      recommended_min_age,
+      recommended_max_age,
+      support_level,
+      classification_status,
+      classification_source,
+      classification_reviewed_at,
+      classification_reviewed_by,
+      classification_revision` : ""},
       ${PROJECT_LIST_PROFILE_SELECT},
       ${PROJECT_LIST_SUB_CATEGORIES_SELECT}
     `)
+    .eq("status", "approved")
     .eq("moderation_state", "approved")
     .in("id", rankedProjectIds);
+
+  let hydratedQuery = recommendedProjectQuery;
+  if (classificationSettings.enforcementEnabled) {
+    hydratedQuery = hydratedQuery.eq("classification_status", "reviewed");
+  }
+
+  const { data: projectData, error: projectError } = await hydratedQuery;
 
   if (projectError) {
     logger.error("Error hydrating recommended projects", { error: projectError });
@@ -1061,19 +1169,21 @@ export async function getRecommendedProjects(
     if (hydratedRow) {
       return [mapDbProject(hydratedRow)];
     }
-    // A ranking RPC can return an id that was hidden after ranking. Never
-    // hydrate a fallback row from the RPC payload, because that would bypass
-    // the moderation_state filter above.
     return [];
   });
 
   projects = await enrichProjectsWithCompletionCounts(supabase, projects);
+  projects = applyPublicClassificationVisibility(projects, classificationSettings);
 
   if (shuffleSeed) {
     projects = applyPopularListShuffle(projects, { shuffleSeed, shuffleBatch });
   }
 
-  return { projects, total: rows.length, hasMore: rows.length >= limit };
+  return {
+    projects,
+    total: typeof payload.total === "number" ? payload.total : rows.length,
+    hasMore: payload.hasMore === true,
+  };
 }
 
 /**
@@ -1089,8 +1199,9 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
   }
 
   const supabase = await createClient();
+  const classificationSettings = await getContentClassificationSettings();
 
-  const { data, error } = await supabase
+  let projectQuery = supabase
     .from("projects")
     .select(`
       *,
@@ -1100,7 +1211,12 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
       sub_categories (name)
     `)
     .eq("id", numericId)
-    .maybeSingle();
+    .eq("status", "approved")
+    .eq("moderation_state", "approved");
+  if (classificationSettings.enforcementEnabled) {
+    projectQuery = projectQuery.eq("classification_status", "reviewed");
+  }
+  const { data, error } = await projectQuery.maybeSingle();
 
   if (error) {
     logger.error("Error fetching project", { error, projectId: numericId });
@@ -1111,7 +1227,8 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
-  return mapDbProject(data as unknown as ProjectRowForMapper);
+  const project = mapDbProject(data as unknown as ProjectRowForMapper);
+  return classificationSettings.publicV1Enabled ? project : (withoutPublicClassification(project) as Project);
 });
 
 export async function getProjectTotalCoinsReceived(
@@ -1330,8 +1447,9 @@ export async function getRelatedProjects(
   limit: number = 3,
 ): Promise<Project[]> {
   const supabase = await createClient();
+  const classificationSettings = await getContentClassificationSettings();
 
-  const { data, error } = await supabase
+  let projectQuery = supabase
     .from("projects")
     .select(`
       *,
@@ -1344,17 +1462,21 @@ export async function getRelatedProjects(
     .eq("status", "approved")
     .eq("moderation_state", "approved")
     .neq("id", Number(projectId))
-    .limit(limit);
+  if (classificationSettings.enforcementEnabled) {
+    projectQuery = projectQuery.eq("classification_status", "reviewed");
+  }
+  const { data, error } = await projectQuery.limit(limit);
 
   if (error || !data) {
     logger.error("Error fetching related projects", { error });
     return [];
   }
 
-  return enrichProjectsWithCompletionCounts(
+  const projects = await enrichProjectsWithCompletionCounts(
     supabase,
-    (data as unknown as ProjectRowForMapper[]).map(mapDbProject),
+    (data as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
   );
+  return applyPublicClassificationVisibility(projects, classificationSettings);
 }
 
 export type ProjectCompletionSort = "latest" | "featured"

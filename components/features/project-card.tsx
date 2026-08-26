@@ -9,7 +9,7 @@ import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
 
-import { DifficultyStars } from "@/components/ui/difficulty-stars";
+import { ContentClassification } from "@/components/ui/content-classification";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
@@ -93,11 +93,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </div>
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        {project.difficulty_stars && !isDenseCompact ? (
-                            <div className="absolute bottom-1.5 right-1.5 flex items-center rounded-full border border-white/10 bg-black/32 px-1.5 py-0.5 backdrop-blur-md sm:px-2">
-                                <DifficultyStars stars={project.difficulty_stars} size="xs" tone="white" responsive />
-                            </div>
-                        ) : null}
                     </div>
 
                     <div
@@ -136,6 +131,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     </span>
                                 )}
                             </div>
+                            <ContentClassification classification={project.classification} compact />
                             <p
                                 className={cn(
                                     "text-[11px] text-muted-foreground/95",
@@ -152,11 +148,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                         {isDenseCompact ? (
                             <div className="flex items-center justify-between gap-2 pt-1 text-[11px] text-muted-foreground/90 sm:mt-auto">
-                                {project.difficulty_stars ? (
-                                    <DifficultyStars stars={project.difficulty_stars} size="xs" className="shrink-0" />
-                                ) : (
-                                    <span aria-hidden className="h-3 shrink-0" />
-                                )}
+                                <span aria-hidden className="h-3 shrink-0" />
                                 <div className="ml-auto flex items-center justify-end gap-2.5">
                                     <span className="flex items-center gap-1" title="点赞数">
                                         <Heart className={cn("h-3 w-3 transition-colors", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} />
@@ -256,11 +248,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     </span>
                                 )}
                             </div>
-                            {project.difficulty_stars ? (
-                                <div className="shrink-0 rounded-full border border-white/14 bg-black/30 px-2 py-0.5 backdrop-blur-md sm:px-2.5 sm:py-1">
-                                    <DifficultyStars stars={project.difficulty_stars} size="sm" tone="white" responsive />
-                                </div>
-                            ) : null}
                         </div>
                     </div>
 
@@ -275,6 +262,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     query={searchQuery}
                                 />
                             </p>
+                            <ContentClassification classification={project.classification} compact />
                         </div>
 
                         <div className="flex flex-wrap items-center gap-2">
@@ -373,11 +361,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 </span>
                             )}
                         </div>
-                        {project.difficulty_stars ? (
-                            <div className="shrink-0 rounded-full border border-white/12 bg-black/26 px-2 py-0.5 backdrop-blur-md sm:px-2.5 sm:py-1">
-                                <DifficultyStars stars={project.difficulty_stars} size="sm" tone="white" responsive />
-                            </div>
-                        ) : null}
                     </div>
                 </div>
 
@@ -392,6 +375,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 query={searchQuery}
                             />
                         </p>
+                        <ContentClassification classification={project.classification} compact />
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">

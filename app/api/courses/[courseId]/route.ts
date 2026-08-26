@@ -5,6 +5,7 @@ import { handleApiError } from '@/lib/api/auth'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
 import { toCourseProgressApi } from '@/lib/courses/progress'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 
 type RouteParams = { params: Promise<{ courseId: string }> }
 
@@ -21,7 +22,11 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
     const {
       data: { user },
     } = await supabase.auth.getUser()
-    const course = await getCourseOverview(supabase, courseId, { userId: user?.id ?? null })
+    const classificationSettings = await getContentClassificationSettings()
+    const course = await getCourseOverview(supabase, courseId, {
+      userId: user?.id ?? null,
+      includeClassification: classificationSettings.publicV1Enabled,
+    })
     if (!course) {
       return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     }

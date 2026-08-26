@@ -27,6 +27,7 @@ import { logger } from '@/lib/logger'
 import {
   Archive,
   CheckCircle2,
+  ClipboardCheck,
   FileClock,
   Flag,
   Leaf,
@@ -626,6 +627,12 @@ export default function AdminPage() {
                 <Link href="/settings/safety">
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   安全中心
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/admin/content-classifications">
+                  <ClipboardCheck className="mr-2 h-4 w-4" />
+                  内容分级
                 </Link>
               </Button>
               <Button variant="outline" onClick={() => void loadData()}>

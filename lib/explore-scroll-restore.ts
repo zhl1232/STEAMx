@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'explore-scroll-restore-v1'
+const STORAGE_KEY = 'explore-scroll-restore-v2'
 
 export type ExploreScrollRestoreState = {
   filtersKey: string
@@ -7,7 +7,7 @@ export type ExploreScrollRestoreState = {
   nextPage: number
 }
 
-const FILTER_PARAM_KEYS = ['q', 'category', 'subCategory', 'difficulty', 'tags', 'sortBy'] as const
+const FILTER_PARAM_KEYS = ['q', 'category', 'subCategory', 'difficulty', 'age', 'tags', 'sortBy'] as const
 
 export function buildExploreFiltersKey(params: URLSearchParams): string {
   const normalized = new URLSearchParams()

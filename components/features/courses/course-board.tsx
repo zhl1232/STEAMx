@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CompactCardSkeleton } from "@/components/ui/loading-skeleton";
 import type { CourseListItem } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
+import { ContentClassification } from "@/components/ui/content-classification";
 
 const BRICK_COURSE_TAGS = new Set(["积木", "乐高", "得宝", "building_3d"]);
 
@@ -141,15 +142,6 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
             ? Math.round((progress.completed_lesson_count / progress.total_lesson_count) * 100)
             : 0;
 
-    // 根据课程标题提取微年级标签
-    const badgeText = course.title.includes("小班")
-        ? "3+ 启蒙"
-        : course.title.includes("中班")
-            ? "4+ 进阶"
-            : course.title.includes("大班")
-                ? "5+ 创造"
-                : null;
-
     return (
         <article className="group relative flex flex-col overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] p-3 shadow-2xs transition-all duration-300 hover:border-[hsl(var(--brand-blue)/0.45)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-xs min-[390px]:p-3.5 sm:grid sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-3.5 md:grid-cols-[132px_minmax(0,1fr)] md:p-4">
             <Link
@@ -177,13 +169,6 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
                     className="object-contain p-2 transition-transform duration-500 group-hover:scale-108"
                     sizes="(max-width: 640px) 100vw, 132px"
                 />
-                {badgeText ? (
-                    <div className="absolute left-2 top-2 z-1">
-                        <span className="inline-flex items-center rounded-xs bg-black/45 px-1.5 py-0.5 text-[10px] font-bold text-white/95 backdrop-blur-md">
-                            {badgeText}
-                        </span>
-                    </div>
-                ) : null}
             </div>
 
             {/* 右侧信息排版 */}
@@ -195,6 +180,8 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
                     <p className="mt-1 line-clamp-1 text-[12px] leading-5 text-muted-foreground min-[390px]:text-[13px]">
                         {course.description}
                     </p>
+
+                    <ContentClassification classification={course.classification} compact className="mt-2" />
 
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
                         <span className="inline-flex items-center gap-1 rounded bg-[hsl(var(--surface-muted))] px-2 py-0.5 text-[11px] font-medium text-foreground/80">

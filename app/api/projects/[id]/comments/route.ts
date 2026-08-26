@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getProjectComments } from '@/lib/api/explore-data'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
 
@@ -9,9 +10,22 @@ function parseNumber(value: string | null, fallback: number) {
   return Math.max(0, parsed)
 }
 
-function canAccessProject(project: { author_id: string; status: string | null; moderation_state?: string | null } | null, viewerId?: string) {
+function canAccessProject(
+  project: {
+    author_id: string
+    status: string | null
+    moderation_state?: string | null
+    classification_status?: string | null
+  } | null,
+  viewerId?: string,
+  requireReviewed = false,
+) {
   if (!project) return false
-  if ((!project.status || project.status === 'approved') && project.moderation_state === 'approved') return true
+  if (
+    (!project.status || project.status === 'approved')
+    && project.moderation_state === 'approved'
+    && (!requireReviewed || project.classification_status === 'reviewed')
+  ) return true
   return project.author_id === viewerId
 }
 
@@ -32,15 +46,25 @@ export async function GET(
 
     const { data: authData } = await supabase.auth.getUser()
     const viewerId = authData.user?.id
+    const classificationSettings = await getContentClassificationSettings()
 
     const { data: projectRow, error: projectError } = await supabase
       .from('projects')
-      .select('author_id, status, moderation_state')
+      .select('author_id, status, moderation_state, classification_status')
       .eq('id', projectId)
       .maybeSingle()
 
     if (projectError) throw projectError
-    if (!projectRow || !canAccessProject(projectRow as { author_id: string; status: string | null; moderation_state?: string | null }, viewerId)) {
+    if (!projectRow || !canAccessProject(
+      projectRow as {
+        author_id: string
+        status: string | null
+        moderation_state?: string | null
+        classification_status?: string | null
+      },
+      viewerId,
+      classificationSettings.enforcementEnabled,
+    )) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     }
 

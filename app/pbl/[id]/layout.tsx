@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { JsonLd } from '@/components/seo/json-ld'
 import { getPublicPblChallenge } from '@/lib/api/pbl-challenges'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { buildChallengeJsonLd } from '@/lib/seo/json-ld'
 
 type PblDetailLayoutProps = {
   children: React.ReactNode
@@ -40,10 +42,24 @@ export async function generateMetadata({ params }: PblDetailLayoutProps): Promis
 export default async function PblDetailLayout({ children, params }: PblDetailLayoutProps) {
   const { id: rawId } = await params
   const challengeId = parseChallengeId(rawId)
+  const challenge = challengeId ? await getPublicPblChallenge(challengeId) : null
 
-  if (!challengeId || !(await getPublicPblChallenge(challengeId))) {
+  if (!challengeId || !challenge) {
     notFound()
   }
 
-  return children
+  return (
+    <>
+      <JsonLd
+        data={buildChallengeJsonLd({
+          id: challenge.id,
+          title: challenge.title,
+          description: challenge.description,
+          image: challenge.imageUrl,
+          classification: challenge.classification,
+        })}
+      />
+      {children}
+    </>
+  )
 }

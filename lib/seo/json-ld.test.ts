@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   buildBreadcrumbJsonLd,
+  buildChallengeJsonLd,
   buildCourseJsonLd,
   buildLearningResourceJsonLd,
   buildLessonJsonLd,
@@ -55,6 +56,19 @@ describe("buildWebsiteJsonLd", () => {
 });
 
 describe("page entity JSON-LD", () => {
+  const reviewedClassification = {
+    recommendedMinAge: 6,
+    recommendedMaxAge: 9,
+    ageLabel: "6-9 岁",
+    difficultyBand: "beginner" as const,
+    difficultyLabel: "入门",
+    supportLevel: "guided" as const,
+    supportLabel: "建议成人陪同",
+    educationStage: "primary" as const,
+    educationStageLabel: "小学",
+    status: "reviewed" as const,
+  };
+
   it("builds absolute breadcrumb items", () => {
     expect(buildBreadcrumbJsonLd([
       { name: "首页", url: "/" },
@@ -90,6 +104,46 @@ describe("page entity JSON-LD", () => {
         },
       ],
     });
+  });
+
+  it("emits reviewed classification fields and omits unreviewed fields", () => {
+    const reviewed = buildCourseJsonLd({
+      id: 7,
+      title: "五子棋入门",
+      classification: reviewedClassification,
+    });
+    const course = reviewed["@graph"][0];
+    expect(course).toMatchObject({
+      typicalAgeRange: "6-9",
+      educationalLevel: "小学",
+    });
+
+    const unreviewed = buildProjectJsonLd({
+      id: 12,
+      title: "纸杯火箭",
+      classification: null,
+    });
+    expect(unreviewed).not.toHaveProperty("typicalAgeRange");
+    expect(unreviewed).not.toHaveProperty("educationalLevel");
+  });
+
+  it("describes a reviewed project challenge without exposing internal stars", () => {
+    const data = buildChallengeJsonLd({
+      id: 42,
+      title: "校园节水挑战",
+      description: "观察用水并设计一个节水方案。",
+      image: "/challenges/water.webp",
+      classification: reviewedClassification,
+    });
+
+    expect(data).toMatchObject({
+      "@type": "LearningResource",
+      url: "https://www.steamx.cc/pbl/42",
+      typicalAgeRange: "6-9",
+      educationalLevel: "小学",
+      learningResourceType: "项目挑战",
+    });
+    expect(data).not.toHaveProperty("difficulty_stars");
   });
 
   it("keeps lesson steps and species identity tied to canonical pages", () => {

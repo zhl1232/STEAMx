@@ -40,6 +40,7 @@ function summarizeRatings(rows: RatingRow[]): ChallengeSubmissionRatingSummary {
 async function loadReferenceProjects(
   supabase: ServerSupabase,
   submissionIds: number[],
+  options: { requireReviewedParents?: boolean } = {},
 ): Promise<Map<number, ObservationLinkedItem[]>> {
   if (submissionIds.length === 0) {
     return new Map()
@@ -56,12 +57,17 @@ async function loadReferenceProjects(
 
   const links = data as { submission_id: number; project_id: number; sort_order: number }[]
   const projectIds = [...new Set(links.map((link) => link.project_id))]
-  const { data: projects, error: projectsError } = await supabase
+  let projectsQuery = supabase
     .from('projects')
     .select('id, title')
     .in('id', projectIds)
     .eq('status', 'approved')
     .eq('moderation_state', 'approved')
+  if (options.requireReviewedParents) {
+    projectsQuery = projectsQuery.eq('classification_status', 'reviewed')
+  }
+
+  const { data: projects, error: projectsError } = await projectsQuery
 
   if (projectsError || !projects) {
     return new Map()
@@ -190,6 +196,7 @@ export async function getChallengeSubmissionByUser(
 export async function getChallengeSubmissions(
   supabase: ServerSupabase,
   challengeId: number,
+  options: { requireReviewedParents?: boolean } = {},
 ): Promise<ChallengeSubmission[]> {
   const { data, error } = await supabase
     .from('challenge_submissions')
@@ -206,7 +213,7 @@ export async function getChallengeSubmissions(
   const submissions = data as SubmissionRow[]
   const [profilesMap, referenceProjectsMap, ratingsMap] = await Promise.all([
     loadProfilesMap(supabase, [...new Set(submissions.map((submission) => submission.user_id))]),
-    loadReferenceProjects(supabase, submissions.map((submission) => submission.id)),
+    loadReferenceProjects(supabase, submissions.map((submission) => submission.id), options),
     loadRatingsMap(supabase, submissions.map((submission) => submission.id)),
   ])
 

@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         status: row.status,
         startedAt: row.started_at,
         lastActivityAt: row.last_activity_at,
-        project: project ? mapDbProject(project) : null,
+        project: project ? mapDbProject(project, { includeInternalDifficulty: true }) : null,
       }
     })
 

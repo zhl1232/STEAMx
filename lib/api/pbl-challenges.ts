@@ -3,6 +3,7 @@ import { cache } from 'react'
 import { logger } from '@/lib/logger'
 import { mapDbChallenge, type Challenge } from '@/lib/mappers/types'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
+import { getContentClassificationSettings, withoutPublicClassification } from '@/lib/content-classification'
 
 export interface ChallengeGroups {
   activeTimed: Challenge[]
@@ -43,14 +44,18 @@ export function pickFeaturedPblChallenge(rows: FeaturedChallengeRow[]): Featured
 
 export async function getFeaturedPblChallenge(): Promise<FeaturedPblChallenge | null> {
   const supabase = createPublicClient()
+  const classificationSettings = await getContentClassificationSettings()
 
   try {
-    const { data, error } = await supabase
+    let challengeQuery = supabase
       .from('challenges')
       .select('id, title, description, image_url, challenge_type')
       .eq('status', 'active')
       .order('created_at', { ascending: false })
-      .limit(20)
+    if (classificationSettings.enforcementEnabled) {
+      challengeQuery = challengeQuery.eq('classification_status', 'reviewed')
+    }
+    const { data, error } = await challengeQuery.limit(20)
 
     if (error) throw error
     return pickFeaturedPblChallenge((data || []) as FeaturedChallengeRow[])
@@ -68,6 +73,7 @@ export type PublicPblChallenge = {
   status: 'active' | 'ended'
   challengeType: 'timed' | 'evergreen'
   tags: string[]
+  classification?: Challenge['classification']
 }
 
 /**
@@ -80,12 +86,17 @@ export const getPublicPblChallenge = cache(async function getPublicPblChallenge(
   if (!Number.isInteger(challengeId) || challengeId <= 0) return null
 
   const supabase = createPublicClient()
-  const { data, error } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled
+  let challengeQuery = supabase
     .from('challenges')
-    .select('id, title, description, image_url, status, challenge_type, tags')
+    .select(`id, title, description, image_url, status, challenge_type, tags${includeClassification ? ', recommended_min_age, recommended_max_age, support_level, classification_status, classification_source, classification_reviewed_at, classification_reviewed_by, classification_revision' : ''}`)
     .eq('id', challengeId)
     .in('status', ['active', 'ended'])
-    .maybeSingle()
+  if (classificationSettings.enforcementEnabled) {
+    challengeQuery = challengeQuery.eq('classification_status', 'reviewed')
+  }
+  const { data, error } = await challengeQuery.maybeSingle()
 
   if (error) {
     logger.error('Error fetching public PBL challenge', { error, challengeId })
@@ -94,14 +105,28 @@ export const getPublicPblChallenge = cache(async function getPublicPblChallenge(
 
   if (!data) return null
 
+  // Dynamic selects are useful while the phase-1 columns are still optional,
+  // but PostgREST's type parser cannot represent the interpolated string.
+  // Keep the boundary explicit and let the mapper validate the optional fields.
+  const row = data as unknown as {
+    id: number
+    title: string
+    description: string | null
+    image_url: string | null
+    status: string
+    challenge_type: string
+    tags: string[] | null
+  }
+  const mapped = mapDbChallenge(data as never)
   return {
-    id: data.id,
-    title: data.title,
-    description: data.description || '',
-    imageUrl: data.image_url || '',
-    status: data.status as PublicPblChallenge['status'],
-    challengeType: data.challenge_type as PublicPblChallenge['challengeType'],
-    tags: data.tags || [],
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    imageUrl: row.image_url || '',
+    status: row.status as PublicPblChallenge['status'],
+    challengeType: row.challenge_type as PublicPblChallenge['challengeType'],
+    tags: row.tags || [],
+    ...(classificationSettings.publicV1Enabled ? { classification: mapped.classification } : {}),
   }
 })
 
@@ -134,13 +159,23 @@ export async function getPblChallengeGroups(): Promise<{
   const supabase = await createClient()
 
   try {
+    const classificationSettings = await getContentClassificationSettings()
+    const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled
+    const challengeSelect = includeClassification
+      ? `${PBL_CHALLENGE_SELECT}, recommended_min_age, recommended_max_age, support_level, classification_status, classification_source, classification_reviewed_at, classification_reviewed_by, classification_revision`
+      : PBL_CHALLENGE_SELECT
+    let challengeQuery = supabase
+      .from('challenges')
+      .select(challengeSelect)
+      .in('status', ['active', 'ended'])
+      .order('created_at', { ascending: false })
+      .limit(50)
+    if (classificationSettings.enforcementEnabled) {
+      challengeQuery = challengeQuery.eq('classification_status', 'reviewed')
+    }
+
     const [{ data: challengeRows, error: challengeError }, { data: { user } }] = await Promise.all([
-      supabase
-        .from('challenges')
-        .select(PBL_CHALLENGE_SELECT)
-        .in('status', ['active', 'ended'])
-        .order('created_at', { ascending: false })
-        .limit(50),
+      challengeQuery,
       supabase.auth.getUser(),
     ])
 
@@ -201,11 +236,17 @@ export async function getPblChallengeGroups(): Promise<{
     }
 
     const rows = ((challengeRows || []) as unknown) as Record<string, unknown>[]
-    const mapChallenge = (row: Record<string, unknown>) => mapDbChallenge({
-      ...row,
-      submissions_count: submissionsCountByChallenge.get(row.id as number) || 0,
-      my_submission_status: mySubmissionStatusByChallenge.get(row.id as number),
-    } as never, joinedIds.has(row.id as number), approvedSubmissionIds.has(row.id as number))
+    const mapChallenge = (row: Record<string, unknown>) => {
+      const mapped = mapDbChallenge({
+        ...row,
+        submissions_count: submissionsCountByChallenge.get(row.id as number) || 0,
+        my_submission_status: mySubmissionStatusByChallenge.get(row.id as number),
+      } as never, joinedIds.has(row.id as number), approvedSubmissionIds.has(row.id as number))
+
+      return classificationSettings.publicV1Enabled
+        ? mapped
+        : (withoutPublicClassification(mapped) as Challenge)
+    }
 
     return {
       challenges: {

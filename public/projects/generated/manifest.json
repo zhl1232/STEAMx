@@ -368,14 +368,6 @@
     "imageUrl": "/projects/generated/project-0056.webp"
   },
   {
-    "index": 57,
-    "title": "小区鸟类图鉴",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0057.webp",
-    "imageUrl": "/projects/generated/project-0057.webp"
-  },
-  {
     "index": 58,
     "title": "蚂蚁王国观察记",
     "sourceFile": "20260324200002_seed_science_animals.sql",
@@ -384,52 +376,12 @@
     "imageUrl": "/projects/generated/project-0058.webp"
   },
   {
-    "index": 59,
-    "title": "蚯蚓与土壤实验",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0059.webp",
-    "imageUrl": "/projects/generated/project-0059.webp"
-  },
-  {
-    "index": 60,
-    "title": "鱼鳃开合频率记录",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0060.webp",
-    "imageUrl": "/projects/generated/project-0060.webp"
-  },
-  {
-    "index": 61,
-    "title": "蜘蛛织网观察",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0061.webp",
-    "imageUrl": "/projects/generated/project-0061.webp"
-  },
-  {
     "index": 62,
     "title": "螃蟹行为观察",
     "sourceFile": "20260324200002_seed_science_animals.sql",
     "generated": true,
     "filename": "project-0062.webp",
     "imageUrl": "/projects/generated/project-0062.webp"
-  },
-  {
-    "index": 63,
-    "title": "贝壳形状分类卡",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0063.webp",
-    "imageUrl": "/projects/generated/project-0063.webp"
-  },
-  {
-    "index": 64,
-    "title": "蝴蝶生命周期记录",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0064.webp",
-    "imageUrl": "/projects/generated/project-0064.webp"
   },
   {
     "index": 65,
@@ -454,14 +406,6 @@
     "generated": true,
     "filename": "project-0067.webp",
     "imageUrl": "/projects/generated/project-0067.webp"
-  },
-  {
-    "index": 68,
-    "title": "水生生物观察",
-    "sourceFile": "20260324200002_seed_science_animals.sql",
-    "generated": true,
-    "filename": "project-0068.webp",
-    "imageUrl": "/projects/generated/project-0068.webp"
   },
   {
     "index": 69,
@@ -512,44 +456,12 @@
     "imageUrl": "/projects/generated/project-0074.webp"
   },
   {
-    "index": 75,
-    "title": "绿豆发芽对照实验",
-    "sourceFile": "20260324200003_seed_science_plants.sql",
-    "generated": true,
-    "filename": "project-0075.webp",
-    "imageUrl": "/projects/generated/project-0075.webp"
-  },
-  {
     "index": 76,
     "title": "树叶分类标本卡",
     "sourceFile": "20260324200003_seed_science_plants.sql",
     "generated": true,
     "filename": "project-0076.webp",
     "imageUrl": "/projects/generated/project-0076.webp"
-  },
-  {
-    "index": 77,
-    "title": "制作干花书签",
-    "sourceFile": "20260324200003_seed_science_plants.sql",
-    "generated": true,
-    "filename": "project-0077.webp",
-    "imageUrl": "/projects/generated/project-0077.webp"
-  },
-  {
-    "index": 78,
-    "title": "蔬菜水培实验",
-    "sourceFile": "20260324200003_seed_science_plants.sql",
-    "generated": true,
-    "filename": "project-0078.webp",
-    "imageUrl": "/projects/generated/project-0078.webp"
-  },
-  {
-    "index": 79,
-    "title": "花瓣染色实验",
-    "sourceFile": "20260324200003_seed_science_plants.sql",
-    "generated": true,
-    "filename": "project-0079.webp",
-    "imageUrl": "/projects/generated/project-0079.webp"
   },
   {
     "index": 81,
@@ -704,14 +616,6 @@
     "imageUrl": "/projects/generated/project-0099.webp"
   },
   {
-    "index": 101,
-    "title": "自制雨量筒测雨",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0101.webp",
-    "imageUrl": "/projects/generated/project-0101.webp"
-  },
-  {
     "index": 102,
     "title": "沙中寻宝",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
@@ -720,28 +624,12 @@
     "imageUrl": "/projects/generated/project-0102.webp"
   },
   {
-    "index": 104,
-    "title": "岩石硬度分类实验",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0104.webp",
-    "imageUrl": "/projects/generated/project-0104.webp"
-  },
-  {
     "index": 105,
     "title": "月相观察日记",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
     "generated": true,
     "filename": "project-0105.webp",
     "imageUrl": "/projects/generated/project-0105.webp"
-  },
-  {
-    "index": 106,
-    "title": "土壤分层实验",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0106.webp",
-    "imageUrl": "/projects/generated/project-0106.webp"
   },
   {
     "index": 107,
@@ -808,14 +696,6 @@
     "imageUrl": "/projects/generated/project-0114.webp"
   },
   {
-    "index": 115,
-    "title": "河流侵蚀模拟实验",
-    "sourceFile": "20260324200004_seed_science_earth_sky.sql",
-    "generated": true,
-    "filename": "project-0115.webp",
-    "imageUrl": "/projects/generated/project-0115.webp"
-  },
-  {
     "index": 116,
     "title": "地震模拟与建筑抗震",
     "sourceFile": "20260324200004_seed_science_earth_sky.sql",
@@ -864,14 +744,6 @@
     "imageUrl": "/projects/generated/project-0121.webp"
   },
   {
-    "index": 122,
-    "title": "Scratch 动画故事",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0122.webp",
-    "imageUrl": "/projects/generated/project-0122.webp"
-  },
-  {
     "index": 124,
     "title": "Scratch 弹球游戏",
     "sourceFile": "20260324300000_seed_tech_programming.sql",
@@ -886,62 +758,6 @@
     "generated": true,
     "filename": "project-0125.webp",
     "imageUrl": "/projects/generated/project-0125.webp"
-  },
-  {
-    "index": 126,
-    "title": "Scratch 音乐创作",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0126.webp",
-    "imageUrl": "/projects/generated/project-0126.webp"
-  },
-  {
-    "index": 127,
-    "title": "Scratch 画笔绘图",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0127.webp",
-    "imageUrl": "/projects/generated/project-0127.webp"
-  },
-  {
-    "index": 128,
-    "title": "不插电编程：排序体验",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0128.webp",
-    "imageUrl": "/projects/generated/project-0128.webp"
-  },
-  {
-    "index": 129,
-    "title": "Python 绘图小海龟",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0129.webp",
-    "imageUrl": "/projects/generated/project-0129.webp"
-  },
-  {
-    "index": 132,
-    "title": "Python 猜数字游戏",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0132.webp",
-    "imageUrl": "/projects/generated/project-0132.webp"
-  },
-  {
-    "index": 133,
-    "title": "Scratch 迷宫游戏",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0133.webp",
-    "imageUrl": "/projects/generated/project-0133.webp"
-  },
-  {
-    "index": 134,
-    "title": "Python 自动化小工具",
-    "sourceFile": "20260324300000_seed_tech_programming.sql",
-    "generated": true,
-    "filename": "project-0134.webp",
-    "imageUrl": "/projects/generated/project-0134.webp"
   },
   {
     "index": 150,
@@ -1120,30 +936,6 @@
     "imageUrl": "/projects/generated/project-0184.webp"
   },
   {
-    "index": 187,
-    "title": "3D打印钥匙扣",
-    "sourceFile": "20260324300003_seed_tech_3dprint.sql",
-    "generated": true,
-    "filename": "project-0187.webp",
-    "imageUrl": "/projects/generated/project-0187.webp"
-  },
-  {
-    "index": 205,
-    "title": "简易纸弹簧",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0205.webp",
-    "imageUrl": "/projects/generated/project-0205.webp"
-  },
-  {
-    "index": 208,
-    "title": "纸板齿轮联动",
-    "sourceFile": "20260324400000_seed_eng_mechanical.sql",
-    "generated": true,
-    "filename": "project-0208.webp",
-    "imageUrl": "/projects/generated/project-0208.webp"
-  },
-  {
     "index": 209,
     "title": "双坡弹珠轨道搭建",
     "sourceFile": "20260324400000_seed_eng_mechanical.sql",
@@ -1296,30 +1088,6 @@
     "imageUrl": "/projects/generated/project-0228.webp"
   },
   {
-    "index": 229,
-    "title": "意大利面桥",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0229.webp",
-    "imageUrl": "/projects/generated/project-0229.webp"
-  },
-  {
-    "index": 231,
-    "title": "冰棍棒桁架桥",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0231.webp",
-    "imageUrl": "/projects/generated/project-0231.webp"
-  },
-  {
-    "index": 232,
-    "title": "悬索桥模型",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0232.webp",
-    "imageUrl": "/projects/generated/project-0232.webp"
-  },
-  {
     "index": 233,
     "title": "竹签桥梁",
     "sourceFile": "20260324400001_seed_eng_bridges.sql",
@@ -1328,60 +1096,12 @@
     "imageUrl": "/projects/generated/project-0233.webp"
   },
   {
-    "index": 235,
-    "title": "开合桥模型",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0235.webp",
-    "imageUrl": "/projects/generated/project-0235.webp"
-  },
-  {
-    "index": 237,
-    "title": "承重优化挑战",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0237.webp",
-    "imageUrl": "/projects/generated/project-0237.webp"
-  },
-  {
-    "index": 240,
-    "title": "大跨度桥梁设计",
-    "sourceFile": "20260324400001_seed_eng_bridges.sql",
-    "generated": true,
-    "filename": "project-0240.webp",
-    "imageUrl": "/projects/generated/project-0240.webp"
-  },
-  {
     "index": 243,
     "title": "纸风车",
     "sourceFile": "20260324400002_seed_eng_machines.sql",
     "generated": true,
     "filename": "project-0243.webp",
     "imageUrl": "/projects/generated/project-0243.webp"
-  },
-  {
-    "index": 245,
-    "title": "斜面滚球实验",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0245.webp",
-    "imageUrl": "/projects/generated/project-0245.webp"
-  },
-  {
-    "index": 246,
-    "title": "弹弓制作",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0246.webp",
-    "imageUrl": "/projects/generated/project-0246.webp"
-  },
-  {
-    "index": 247,
-    "title": "杠杆投石机",
-    "sourceFile": "20260324400002_seed_eng_machines.sql",
-    "generated": true,
-    "filename": "project-0247.webp",
-    "imageUrl": "/projects/generated/project-0247.webp"
   },
   {
     "index": 249,
@@ -1536,14 +1256,6 @@
     "imageUrl": "/projects/generated/project-0269.webp"
   },
   {
-    "index": 270,
-    "title": "恐龙模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0270.webp",
-    "imageUrl": "/projects/generated/project-0270.webp"
-  },
-  {
     "index": 271,
     "title": "人体器官模型",
     "sourceFile": "20260324400003_seed_eng_models.sql",
@@ -1592,76 +1304,12 @@
     "imageUrl": "/projects/generated/project-0277.webp"
   },
   {
-    "index": 278,
-    "title": "比例建筑模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0278.webp",
-    "imageUrl": "/projects/generated/project-0278.webp"
-  },
-  {
-    "index": 279,
-    "title": "可活动人体骨骼模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0279.webp",
-    "imageUrl": "/projects/generated/project-0279.webp"
-  },
-  {
-    "index": 280,
-    "title": "生态系统微缩模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0280.webp",
-    "imageUrl": "/projects/generated/project-0280.webp"
-  },
-  {
-    "index": 281,
-    "title": "机械钟表模型",
-    "sourceFile": "20260324400003_seed_eng_models.sql",
-    "generated": true,
-    "filename": "project-0281.webp",
-    "imageUrl": "/projects/generated/project-0281.webp"
-  },
-  {
-    "index": 283,
-    "title": "蔬菜印章画",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0283.webp",
-    "imageUrl": "/projects/generated/project-0283.webp"
-  },
-  {
-    "index": 284,
-    "title": "手指画创作",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0284.webp",
-    "imageUrl": "/projects/generated/project-0284.webp"
-  },
-  {
-    "index": 285,
-    "title": "树叶拓印画",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0285.webp",
-    "imageUrl": "/projects/generated/project-0285.webp"
-  },
-  {
     "index": 286,
     "title": "吹画艺术",
     "sourceFile": "20260324500000_seed_art_painting.sql",
     "generated": true,
     "filename": "project-0286.webp",
     "imageUrl": "/projects/generated/project-0286.webp"
-  },
-  {
-    "index": 288,
-    "title": "对称蝴蝶画",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0288.webp",
-    "imageUrl": "/projects/generated/project-0288.webp"
   },
   {
     "index": 289,
@@ -1728,14 +1376,6 @@
     "imageUrl": "/projects/generated/project-0296.webp"
   },
   {
-    "index": 297,
-    "title": "色彩搭配与情绪表达",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0297.webp",
-    "imageUrl": "/projects/generated/project-0297.webp"
-  },
-  {
     "index": 298,
     "title": "动物解剖素描",
     "sourceFile": "20260324500000_seed_art_painting.sql",
@@ -1760,14 +1400,6 @@
     "imageUrl": "/projects/generated/project-0300.webp"
   },
   {
-    "index": 301,
-    "title": "综合材料拼贴画",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0301.webp",
-    "imageUrl": "/projects/generated/project-0301.webp"
-  },
-  {
     "index": 302,
     "title": "连环画创作",
     "sourceFile": "20260324500000_seed_art_painting.sql",
@@ -1790,14 +1422,6 @@
     "generated": true,
     "filename": "project-0307.webp",
     "imageUrl": "/projects/generated/project-0307.webp"
-  },
-  {
-    "index": 308,
-    "title": "风筝制作与放飞",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0308.webp",
-    "imageUrl": "/projects/generated/project-0308.webp"
   },
   {
     "index": 309,
@@ -1968,14 +1592,6 @@
     "imageUrl": "/projects/generated/project-0334.webp"
   },
   {
-    "index": 335,
-    "title": "纸浆立体雕塑",
-    "sourceFile": "20260324500002_seed_art_sculpture.sql",
-    "generated": true,
-    "filename": "project-0335.webp",
-    "imageUrl": "/projects/generated/project-0335.webp"
-  },
-  {
     "index": 336,
     "title": "黏土浮雕创作",
     "sourceFile": "20260324500002_seed_art_sculpture.sql",
@@ -2040,14 +1656,6 @@
     "imageUrl": "/projects/generated/project-0343.webp"
   },
   {
-    "index": 345,
-    "title": "对称剪纸图案",
-    "sourceFile": "20260324600000_seed_math_geometry.sql",
-    "generated": true,
-    "filename": "project-0345.webp",
-    "imageUrl": "/projects/generated/project-0345.webp"
-  },
-  {
     "index": 346,
     "title": "七巧板拼图",
     "sourceFile": "20260324600000_seed_math_geometry.sql",
@@ -2062,22 +1670,6 @@
     "generated": true,
     "filename": "project-0348.webp",
     "imageUrl": "/projects/generated/project-0348.webp"
-  },
-  {
-    "index": 349,
-    "title": "正多面体纸模型",
-    "sourceFile": "20260324600000_seed_math_geometry.sql",
-    "generated": true,
-    "filename": "project-0349.webp",
-    "imageUrl": "/projects/generated/project-0349.webp"
-  },
-  {
-    "index": 350,
-    "title": "莫比乌斯带探索",
-    "sourceFile": "20260324600000_seed_math_geometry.sql",
-    "generated": true,
-    "filename": "project-0350.webp",
-    "imageUrl": "/projects/generated/project-0350.webp"
   },
   {
     "index": 351,
@@ -2304,36 +1896,12 @@
     "imageUrl": "/projects/generated/project-0386.webp"
   },
   {
-    "index": 387,
-    "title": "找规律填数",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0387.webp",
-    "imageUrl": "/projects/generated/project-0387.webp"
-  },
-  {
-    "index": 388,
-    "title": "图形推理游戏",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0388.webp",
-    "imageUrl": "/projects/generated/project-0388.webp"
-  },
-  {
     "index": 389,
     "title": "火柴棍谜题",
     "sourceFile": "20260324600002_seed_math_logic.sql",
     "generated": true,
     "filename": "project-0389.webp",
     "imageUrl": "/projects/generated/project-0389.webp"
-  },
-  {
-    "index": 390,
-    "title": "逻辑推理破案",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0390.webp",
-    "imageUrl": "/projects/generated/project-0390.webp"
   },
   {
     "index": 392,
@@ -2358,14 +1926,6 @@
     "generated": true,
     "filename": "project-0400.webp",
     "imageUrl": "/projects/generated/project-0400.webp"
-  },
-  {
-    "index": 401,
-    "title": "自制密室逃脱谜题",
-    "sourceFile": "20260324600002_seed_math_logic.sql",
-    "generated": true,
-    "filename": "project-0401.webp",
-    "imageUrl": "/projects/generated/project-0401.webp"
   },
   {
     "index": 402,

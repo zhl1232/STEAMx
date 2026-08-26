@@ -405,7 +405,7 @@ describe('ExploreClient', () => {
 
         await user.click(screen.getByRole('button', { name: '筛选' }))
 
-        expect(screen.getByRole('button', { name: '1星' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '入门' })).toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '编织' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '折射' })).not.toBeInTheDocument()
 

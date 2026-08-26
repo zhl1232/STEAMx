@@ -1,4 +1,6 @@
 import { SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
+import { buildClassificationJsonLd } from "@/lib/content-classification/json-ld";
+import type { PublicClassification } from "@/lib/content-classification/types";
 
 export function toAbsoluteMediaUrl(value: string | null | undefined): string | undefined {
   const trimmed = value?.trim();
@@ -75,6 +77,7 @@ interface CourseJsonLdInput {
   title: string;
   description?: string | null;
   image?: string | null;
+  classification?: PublicClassification | null;
   lessons?: CourseJsonLdLesson[] | null;
 }
 
@@ -82,6 +85,7 @@ export function buildCourseJsonLd(course: CourseJsonLdInput) {
   const url = buildAbsoluteUrl(`/courses/${course.id}`);
   const siteUrl = getSiteUrl();
   const description = course.description?.trim() || undefined;
+  const classificationFields = buildClassificationJsonLd(course.classification);
   const parts = (course.lessons ?? []).flatMap((lesson) => {
     const name = lesson.title.trim();
     if (!name) return [];
@@ -101,6 +105,7 @@ export function buildCourseJsonLd(course: CourseJsonLdInput) {
         url: lessonUrl,
         ...(summary ? { description: summary } : {}),
         ...(duration ? { timeRequired: duration } : {}),
+        ...(classificationFields ?? {}),
       },
     ];
   });
@@ -116,6 +121,7 @@ export function buildCourseJsonLd(course: CourseJsonLdInput) {
         inLanguage: "zh-CN",
         ...(description ? { description } : {}),
         ...(toAbsoluteMediaUrl(course.image) ? { image: toAbsoluteMediaUrl(course.image) } : {}),
+        ...(classificationFields ?? {}),
         provider: {
           "@type": "Organization",
           "@id": `${siteUrl}/#organization`,
@@ -140,6 +146,7 @@ interface LessonJsonLdInput {
   title: string;
   description?: string | null;
   image?: string | null;
+  classification?: PublicClassification | null;
   durationMinutes?: number | null;
   steps?: LessonJsonLdStep[] | null;
 }
@@ -148,6 +155,7 @@ export function buildLessonJsonLd(lesson: LessonJsonLdInput) {
   const url = buildAbsoluteUrl(`/courses/${lesson.courseId}/lessons/${lesson.id}`);
   const courseUrl = buildAbsoluteUrl(`/courses/${lesson.courseId}`);
   const description = lesson.description?.trim() || undefined;
+  const classificationFields = buildClassificationJsonLd(lesson.classification);
   const duration =
     typeof lesson.durationMinutes === "number" && lesson.durationMinutes > 0
       ? `PT${lesson.durationMinutes}M`
@@ -176,6 +184,7 @@ export function buildLessonJsonLd(lesson: LessonJsonLdInput) {
     url,
     inLanguage: "zh-CN",
     learningResourceType: "在线课程课时",
+    ...(classificationFields ?? {}),
     isPartOf: {
       "@type": "Course",
       name: lesson.courseTitle,
@@ -277,6 +286,7 @@ interface ProjectJsonLdInput {
   title: string;
   description?: string | null;
   image?: string | null;
+  classification?: PublicClassification | null;
   steps?: Array<{
     title?: string | null;
     description?: string | null;
@@ -288,6 +298,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
   const url = buildAbsoluteUrl(`/project/${project.id}`);
   const image = toAbsoluteMediaUrl(project.image);
   const description = project.description?.trim() || undefined;
+  const classificationFields = buildClassificationJsonLd(project.classification);
   const howToSteps = (project.steps ?? []).flatMap((step, index) => {
     const name = step.title?.trim();
     const text = step.description?.trim();
@@ -310,6 +321,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
     mainEntityOfPage: url,
     url,
     inLanguage: "zh-CN",
+    learningResourceType: "项目",
     isPartOf: {
       "@type": "WebSite",
       name: SITE_NAME,
@@ -317,6 +329,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
     },
     ...(description ? { description } : {}),
     ...(image ? { image } : {}),
+    ...(classificationFields ?? {}),
   };
 
   if (howToSteps.length === 0) {
@@ -339,6 +352,37 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
         step: howToSteps,
       },
     ],
+  };
+}
+
+interface ChallengeJsonLdInput {
+  id: string | number;
+  title: string;
+  description?: string | null;
+  image?: string | null;
+  classification?: PublicClassification | null;
+}
+
+/** Public challenge JSON-LD uses the same reviewed-only classification helper. */
+export function buildChallengeJsonLd(challenge: ChallengeJsonLdInput) {
+  const url = buildAbsoluteUrl(`/pbl/${challenge.id}`);
+  const description = challenge.description?.trim() || undefined;
+  const image = toAbsoluteMediaUrl(challenge.image);
+  const classificationFields = buildClassificationJsonLd(challenge.classification);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "@id": `${url}#learning-resource`,
+    name: challenge.title,
+    headline: challenge.title,
+    url,
+    mainEntityOfPage: url,
+    inLanguage: "zh-CN",
+    learningResourceType: "项目挑战",
+    ...(description ? { description } : {}),
+    ...(image ? { image } : {}),
+    ...(classificationFields ?? {}),
   };
 }
 

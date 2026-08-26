@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { validateNumber } from '@/lib/api/validation'
+import { getAccessibleProject } from '@/lib/api/project-access'
 import { ensureJourney } from '@/lib/journeys/service'
 import { createClient } from '@/lib/supabase/server'
 
@@ -21,13 +22,7 @@ export async function POST(
     const { id } = await params
     const projectId = validateNumber(id, 'Project id', { min: 1, integer: true })
 
-    const { data: project, error: projectError } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('id', projectId)
-      .maybeSingle()
-
-    if (projectError) throw projectError
+    const project = await getAccessibleProject(supabase, projectId, user.id)
     if (!project) {
       return NextResponse.json({ error: '项目不存在' }, { status: 404 })
     }

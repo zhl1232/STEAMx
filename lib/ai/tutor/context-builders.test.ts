@@ -94,6 +94,9 @@ describe('buildTutorSceneContext playground capabilities', () => {
           eq() {
             return this
           },
+          in() {
+            return this
+          },
           order() {
             return this
           },
@@ -456,6 +459,9 @@ describe('buildTutorSceneContext challenge capability defaults', () => {
               return this
             },
             eq() {
+              return this
+            },
+            in() {
               return this
             },
             maybeSingle: async () => ({ data: challenge }),

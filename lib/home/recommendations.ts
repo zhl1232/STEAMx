@@ -32,8 +32,9 @@ export interface HomepageShowcaseData {
 }
 
 type HomepagePreferenceContext = {
+  userId: string;
   steam: Record<string, number> | null;
-  ageGroup: string | null;
+  age: number | null;
   hasPreferences: boolean;
 };
 
@@ -49,22 +50,36 @@ const RECENT_HOT_LIMIT = 6;
 const SIDEBAR_RECOMMENDATION_LIMIT = 8;
 const MAX_SCAN_ROUNDS = 6;
 
-function birthDateToAgeGroup(birthDate: string | null): string | null {
-  if (!birthDate) return null;
+/**
+ * Convert a profile birth date to the exact recommendation age without
+ * retaining or logging the original date. Ages outside the product's
+ * 3–16-year content range intentionally produce no preference.
+ */
+export function birthDateToExactAge(
+  birthDate: string | null,
+  now: Date = new Date(),
+): number | null {
+  if (!birthDate || !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) return null;
 
-  const birth = new Date(birthDate);
-  const now = new Date();
-  let age = now.getFullYear() - birth.getFullYear();
-
-  if (now.getMonth() < birth.getMonth() || (now.getMonth() === birth.getMonth() && now.getDate() < birth.getDate())) {
-    age--;
+  const [year, month, day] = birthDate.split("-").map(Number);
+  const parsedBirthDate = new Date(Date.UTC(year, month - 1, day));
+  if (
+    parsedBirthDate.getUTCFullYear() !== year ||
+    parsedBirthDate.getUTCMonth() !== month - 1 ||
+    parsedBirthDate.getUTCDate() !== day
+  ) {
+    return null;
   }
 
-  if (age >= 16) return "16+";
-  if (age >= 13) return "13-15";
-  if (age >= 10) return "10-12";
-  if (age >= 6) return "6-9";
-  return null;
+  let age = now.getFullYear() - year;
+  if (
+    now.getMonth() + 1 < month ||
+    (now.getMonth() + 1 === month && now.getDate() < day)
+  ) {
+    age -= 1;
+  }
+
+  return age >= 3 && age <= 16 ? age : null;
 }
 
 function normalizeOffset(offset: number | undefined): number {
@@ -147,7 +162,7 @@ async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> 
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return { steam: null, ageGroup: null, hasPreferences: false };
+      return { userId: "", steam: null, age: null, hasPreferences: false };
     }
 
     const [profileRes, radarRes] = await Promise.all([
@@ -156,7 +171,7 @@ async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> 
     ]);
 
     const birthDate = (profileRes.data as { birth_date: string | null } | null)?.birth_date ?? null;
-    const ageGroup = birthDateToAgeGroup(birthDate);
+    const age = birthDateToExactAge(birthDate);
 
     const radarData = radarRes.data as Record<string, { display: number }> | null;
     let steam: Record<string, number> | null = null;
@@ -170,12 +185,12 @@ async function getHomepageUserPreferences(): Promise<HomepagePreferenceContext> 
       steam = Object.values(scores).some((score) => score > 0) ? scores : null;
     }
 
-    const hasPreferences = steam !== null || ageGroup !== null;
-    return { steam, ageGroup, hasPreferences };
+    const hasPreferences = steam !== null || age !== null;
+    return { userId: user.id, steam, age, hasPreferences };
   } catch (error) {
     unstable_rethrow(error);
     logger.error("Failed to get user preferences for homepage recommendations", { error });
-    return { steam: null, ageGroup: null, hasPreferences: false };
+    return { userId: "", steam: null, age: null, hasPreferences: false };
   }
 }
 
@@ -186,9 +201,14 @@ async function fetchPersonalizedBatch(
 ): Promise<RecommendationBatch> {
   const result = await getRecommendedProjects(
     context.steam,
-    context.ageGroup,
+    context.age,
     { limit: args.limit, offset: args.offset },
-    { fallbackToPopular: false, shuffleSeed, shuffleBatch: 0 },
+    {
+      fallbackToPopular: false,
+      shuffleSeed,
+      shuffleBatch: 0,
+      userId: context.userId,
+    },
   );
 
   return {

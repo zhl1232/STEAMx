@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
 import { buildBreadcrumbJsonLd, buildLessonJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { getContentClassificationSettings } from "@/lib/content-classification";
+import { ContentClassification } from "@/components/ui/content-classification";
 
 type PageProps = {
     params: Promise<{ courseId: string; lessonId: string }>;
@@ -49,7 +51,10 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
     if (!Number.isFinite(courseId) || !Number.isFinite(lessonId)) notFound();
 
     const supabase = await createClient();
-    const context = await getLessonInCourse(supabase, courseId, lessonId);
+    const classificationSettings = await getContentClassificationSettings();
+    const context = await getLessonInCourse(supabase, courseId, lessonId, {
+        includeClassification: classificationSettings.publicV1Enabled,
+    });
     if (!context) notFound();
 
     const {
@@ -74,6 +79,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                     title: context.lesson.title,
                     description: summary,
                     image: finishedImage,
+                    classification: context.course.classification,
                     durationMinutes: context.lesson.duration_minutes,
                     steps: context.lesson.steps,
                 })}
@@ -89,6 +95,12 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                     },
                 ])}
             />
+            {context.course.classification ? (
+                <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-3 pt-1 text-xs text-muted-foreground md:px-6">
+                    <span className="shrink-0 font-semibold">本课继承课程分级</span>
+                    <ContentClassification classification={context.course.classification} compact />
+                </div>
+            ) : null}
             <LessonPageClient
                 courseId={courseId}
                 courseTitle={context.course.title}

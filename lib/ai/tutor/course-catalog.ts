@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import type { Database } from '@/lib/supabase/types'
 
 export type TutorCourseRef = {
@@ -19,10 +20,15 @@ export async function fetchTutorRecommendableCourses(
   supabase: SupabaseClient<Database>,
   limit = 20,
 ): Promise<TutorCourseRef[]> {
-  const { data, error } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  let query = supabase
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    query = query.eq('classification_status', 'reviewed')
+  }
+  const { data, error } = await query
     .order('sort_order', { ascending: true })
     .limit(limit)
 

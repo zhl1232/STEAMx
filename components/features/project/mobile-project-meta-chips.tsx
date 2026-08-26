@@ -5,16 +5,8 @@ import { categoryToneClasses, type CategoryTone } from '@/components/ui/tone-bad
 import { CATEGORY_META } from '@/lib/config/categories'
 import { formatCount } from '@/lib/project/format-count'
 import { cn } from '@/lib/utils'
-
-function getDifficultyLabel(stars?: number) {
-  const value = Math.max(1, Math.min(6, stars ?? 1))
-  if (value === 1) return '入门'
-  if (value === 2) return '简单'
-  if (value === 3) return '中等'
-  if (value === 4) return '进阶'
-  if (value === 5) return '挑战'
-  return '传说'
-}
+import { ContentClassification } from '@/components/ui/content-classification'
+import type { PublicClassification } from '@/lib/content-classification/types'
 
 function MobileMetaChip({
   icon: Icon,
@@ -40,37 +32,6 @@ function MobileMetaChip({
   )
 }
 
-function MobileDifficultyChip({ stars }: { stars: number }) {
-  const validStars = Math.max(1, Math.min(6, stars))
-  const label = getDifficultyLabel(validStars)
-
-  if (validStars === 6) {
-    return (
-      <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
-        <span className="text-[10px] leading-none" aria-hidden>
-          💫
-        </span>
-        <span className="w-full truncate text-center text-[10px] font-semibold leading-tight text-amber-900 dark:text-amber-100">
-          {label}
-        </span>
-      </div>
-    )
-  }
-
-  const filledCount = Math.min(5, validStars)
-
-  return (
-    <div className="flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs bg-amber-50 px-1.5 py-1.5 dark:bg-amber-950/40">
-      <span className="text-[10px] leading-none text-amber-500" aria-hidden>
-        {'★'.repeat(filledCount)}
-      </span>
-      <span className="w-full truncate text-center text-[10px] font-semibold leading-tight text-amber-900 dark:text-amber-100">
-        {label}
-      </span>
-    </div>
-  )
-}
-
 export interface MobileProjectMetaChipsProps {
   category?: string | null
   categoryTone: CategoryTone
@@ -78,7 +39,7 @@ export interface MobileProjectMetaChipsProps {
   stepsCount: number
   materialsCount: number
   completionCount: number
-  difficultyStars?: number
+  classification?: PublicClassification | null
 }
 
 export function MobileProjectMetaChips({
@@ -88,7 +49,7 @@ export function MobileProjectMetaChips({
   stepsCount,
   materialsCount,
   completionCount,
-  difficultyStars = 1,
+  classification,
 }: MobileProjectMetaChipsProps) {
   const categoryMeta = CATEGORY_META[category || ''] ?? CATEGORY_META['科学']
   const CategoryIcon = categoryMeta.icon
@@ -108,40 +69,42 @@ export function MobileProjectMetaChips({
     scaleLabel = `${formatCount(completionCount)} 次探索`
   }
 
-  const chipCount = 2 + (topicLabel ? 1 : 0) + (scaleLabel ? 1 : 0)
+  const chipCount = 1 + (topicLabel ? 1 : 0) + (scaleLabel ? 1 : 0)
 
   return (
-    <div
-      className={cn(
-        'grid gap-2',
-        chipCount >= 4 ? 'grid-cols-4' : chipCount === 3 ? 'grid-cols-3' : 'grid-cols-2',
-      )}
-    >
-      <MobileMetaChip
-        icon={CategoryIcon}
-        label={category || '探索'}
-        className={categoryToneClasses[tone].bg}
-        iconClassName={categoryToneClasses[tone].text}
-      />
-
-      {topicLabel ? (
+    <div>
+      <div
+        className={cn(
+          'grid gap-2',
+          chipCount >= 3 ? 'grid-cols-3' : chipCount === 2 ? 'grid-cols-2' : 'grid-cols-1',
+        )}
+      >
         <MobileMetaChip
-          icon={Tag}
-          label={topicLabel}
-          className="bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]"
-          iconClassName="text-[hsl(var(--brand-blue))]"
+          icon={CategoryIcon}
+          label={category || '探索'}
+          className={categoryToneClasses[tone].bg}
+          iconClassName={categoryToneClasses[tone].text}
         />
-      ) : null}
 
-      {scaleLabel ? (
-        <MobileMetaChip
-          icon={scaleIcon}
-          label={scaleLabel}
-          className={scaleClassName}
-        />
-      ) : null}
+        {topicLabel ? (
+          <MobileMetaChip
+            icon={Tag}
+            label={topicLabel}
+            className="bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]"
+            iconClassName="text-[hsl(var(--brand-blue))]"
+          />
+        ) : null}
 
-      <MobileDifficultyChip stars={difficultyStars} />
+        {scaleLabel ? (
+          <MobileMetaChip
+            icon={scaleIcon}
+            label={scaleLabel}
+            className={scaleClassName}
+          />
+        ) : null}
+      </div>
+
+      <ContentClassification classification={classification} compact className="mt-2" />
     </div>
   )
 }

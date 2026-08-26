@@ -13,6 +13,8 @@ import type {
 } from '@/lib/observations/plant-attributes'
 import type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
 import { formatRelativeTime } from '@/lib/date-utils'
+import { mapPublicClassification } from '@/lib/content-classification/mapping'
+import type { PublicClassification } from '@/lib/content-classification/types'
 
 export type { ObservationLifecycleStage, ObservationSex } from '@/lib/observations/traits'
 
@@ -113,6 +115,8 @@ export interface Project {
     problem_statement?: string
     iterations?: Iteration[]
     steam_weights?: SteamWeights | null
+    /** 公开三轴；未复核内容为 null。 */
+    classification?: PublicClassification | null
 }
 
 /**
@@ -305,6 +309,8 @@ export interface Challenge {
     mySubmissionId?: number
     mySubmissionStatus?: 'pending' | 'approved' | 'rejected'
     canEditSubmission?: boolean
+    /** 公开三轴；未复核内容为 null。 */
+    classification?: PublicClassification | null
 }
 
 export interface ChallengeSubmissionRatingSummary {
@@ -636,11 +642,12 @@ export function mapDbProject(
         sub_categories?: Pick<DbSubCategory, 'name'> | null
         comments?: DbCommentWithProfile[]
         tags?: string[]
-    }
+    },
+    options: { includeInternalDifficulty?: boolean } = {},
 ): Project {
     const tags = normalizeTagList(dbProject.tags)
 
-    return {
+    const mapped: Project = {
         id: dbProject.id,
         title: dbProject.title,
         author: dbProject.profiles?.display_name || 'Unknown',
@@ -667,7 +674,6 @@ export function mapDbProject(
             })) || [],
         comments: dbProject.comments?.map(c => mapDbComment(c)) || [],
         difficulty: (dbProject.difficulty as 'easy' | 'medium' | 'hard') || undefined,
-        difficulty_stars: dbProject.difficulty_stars ?? 3,
         tags,
         status: (dbProject.status as 'draft' | 'pending' | 'approved' | 'rejected') || 'pending',
         moderation_state: ('moderation_state' in dbProject
@@ -679,7 +685,14 @@ export function mapDbProject(
         problem_statement: ('problem_statement' in dbProject ? (dbProject as Record<string, unknown>).problem_statement as string | undefined : undefined),
         iterations: ('iterations' in dbProject ? (dbProject as Record<string, unknown>).iterations as Iteration[] | undefined : undefined),
         steam_weights: ('steam_weights' in dbProject ? (dbProject as Record<string, unknown>).steam_weights as SteamWeights | null : null),
+        classification: mapPublicClassification(dbProject),
     }
+
+    if (options.includeInternalDifficulty) {
+        mapped.difficulty_stars = dbProject.difficulty_stars ?? 3
+    }
+
+    return mapped
 }
 
 /**
@@ -767,14 +780,15 @@ export function mapDiscussionFromRow(row: DbDiscussionWithProfile, replies: Comm
 export function mapDbChallenge(
     dbChallenge: DbChallenge & Record<string, unknown>,
     joined: boolean = false,
-    completed: boolean = false
+    completed: boolean = false,
+    options: { includeInternalDifficulty?: boolean } = {},
 ): Challenge {
     const endDate = dbChallenge.end_date ? new Date(dbChallenge.end_date) : null
     const daysLeft = endDate
         ? Math.max(0, Math.ceil((endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
         : 0
 
-    return {
+    const mapped: Challenge = {
         id: dbChallenge.id,
         title: dbChallenge.title,
         description: dbChallenge.description || '',
@@ -787,7 +801,6 @@ export function mapDbChallenge(
         tags: dbChallenge.tags || [],
         challengeType: ((dbChallenge.challenge_type as string) || 'timed') as ChallengeType,
         status: ((dbChallenge.status as string) || 'active') as ChallengeStatus,
-        difficultyStars: (dbChallenge.difficulty_stars as number) ?? 3,
         scenario: (dbChallenge.scenario as string) || undefined,
         drivingQuestion: (dbChallenge.driving_question as string) || undefined,
         expectedOutcome: (dbChallenge.expected_outcome as string) || undefined,
@@ -801,7 +814,14 @@ export function mapDbChallenge(
         mySubmissionId: (dbChallenge.my_submission_id as number) ?? undefined,
         mySubmissionStatus: (dbChallenge.my_submission_status as 'pending' | 'approved' | 'rejected') ?? undefined,
         canEditSubmission: (dbChallenge.can_edit_submission as boolean) ?? undefined,
+        classification: mapPublicClassification(dbChallenge),
     }
+
+    if (options.includeInternalDifficulty) {
+        mapped.difficultyStars = (dbChallenge.difficulty_stars as number) ?? 3
+    }
+
+    return mapped
 }
 
 export function mapDbStageProgress(row: {

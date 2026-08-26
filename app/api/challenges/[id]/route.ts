@@ -4,6 +4,7 @@ import { mapDbChallenge } from '@/lib/mappers/types'
 import { getCuratedChallengeProjects } from '@/lib/api/nature-observation-data'
 import { getMyChallengeSubmissionStatus } from '@/lib/api/challenge-submissions'
 import { logger } from '@/lib/logger'
+import { getContentClassificationSettings, withoutPublicClassification } from '@/lib/content-classification'
 
 export async function GET(
   _request: NextRequest,
@@ -18,11 +19,16 @@ export async function GET(
       return NextResponse.json({ error: 'Challenge not found' }, { status: 404 })
     }
 
-    const { data: challenge, error } = await supabase
+    const classificationSettings = await getContentClassificationSettings()
+    let challengeQuery = supabase
       .from('challenges')
       .select('*')
       .eq('id', challengeId)
-      .single()
+      .in('status', ['active', 'ended'])
+    if (classificationSettings.enforcementEnabled) {
+      challengeQuery = challengeQuery.eq('classification_status', 'reviewed')
+    }
+    const { data: challenge, error } = await challengeQuery.single()
 
     if (error || !challenge) {
       return NextResponse.json({ error: 'Challenge not found' }, { status: 404 })
@@ -73,7 +79,11 @@ export async function GET(
       recommendedProjects,
     }
 
-    return NextResponse.json({ challenge: mapped })
+    return NextResponse.json({
+      challenge: classificationSettings.publicV1Enabled
+        ? mapped
+        : withoutPublicClassification(mapped),
+    })
   } catch (error) {
     logger.error('Error in GET /api/challenges/[id]', { error })
     return NextResponse.json({ error: 'Failed to fetch challenge' }, { status: 500 })

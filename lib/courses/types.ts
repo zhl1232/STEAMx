@@ -1,4 +1,5 @@
 import type { LessonTypeSlug } from '@/lib/courses/lesson-types'
+import type { PublicClassification } from '@/lib/content-classification/types'
 
 export type CourseStatus = 'draft' | 'approved' | 'archived'
 export type LessonType = LessonTypeSlug
@@ -204,12 +205,22 @@ export interface CourseRow {
   description: string | null
   image_url: string | null
   tags: string[] | null
-  difficulty_stars: number
+  /** Internal calibration field; public course DTOs omit it. */
+  difficulty_stars?: number
   status: CourseStatus
   sort_order: number
   steam_weights: Record<string, number> | null
   created_at: string
   updated_at: string
+  recommended_min_age?: number | null
+  recommended_max_age?: number | null
+  support_level?: string | null
+  classification_status?: string
+  classification_source?: string | null
+  classification_reviewed_at?: string | null
+  classification_reviewed_by?: string | null
+  classification_revision?: number
+  classification?: PublicClassification | null
 }
 
 export interface CourseLessonRow {

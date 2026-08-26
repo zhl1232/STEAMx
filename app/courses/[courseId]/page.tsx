@@ -19,6 +19,8 @@ import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { buildBreadcrumbJsonLd, buildCourseJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
+import { getContentClassificationSettings } from "@/lib/content-classification";
+import { ContentClassification } from "@/components/ui/content-classification";
 
 type PageProps = { params: Promise<{ courseId: string }> };
 
@@ -65,7 +67,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
     const {
         data: { user },
     } = await supabase.auth.getUser();
-    const course = await getCourseOverview(supabase, courseId, { userId: user?.id ?? null });
+    const classificationSettings = await getContentClassificationSettings();
+    const course = await getCourseOverview(supabase, courseId, {
+        userId: user?.id ?? null,
+        includeClassification: classificationSettings.publicV1Enabled,
+    });
     if (!course) notFound();
 
     const contextualStoreProducts = await listStoreProductsForContext(supabase, `course:${course.id}`);
@@ -95,6 +101,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     title: course.title,
                     description: course.description,
                     image: course.image_url,
+                    classification: course.classification,
                     lessons: course.lessons.map((lesson) => ({
                         id: lesson.id,
                         title: lesson.title,
@@ -167,23 +174,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--surface-muted))] px-3 py-1.5 text-xs font-bold text-foreground">
                                     共 {course.lessons.length} 课时
                                 </span>
-                                <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--surface-muted))] px-3 py-1.5 text-xs font-bold text-foreground">
-                                    难度
-                                    <span className="flex items-center gap-0.5 text-[hsl(var(--brand-amber))]">
-                                        {Array.from({ length: 6 }).map((_, i) => (
-                                            <span
-                                                key={i}
-                                                aria-hidden
-                                                className={cn(
-                                                    "inline-block h-2.5 w-2.5 rounded-[2px]",
-                                                    i < course.difficulty_stars
-                                                        ? "bg-[hsl(var(--brand-amber))]"
-                                                        : "bg-[hsl(var(--surface-border))]",
-                                                )}
-                                            />
-                                        ))}
-                                    </span>
-                                </span>
+                                <ContentClassification classification={course.classification} compact />
                                 {course.tags?.length ? (
                                     <span className="inline-flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
                                         {course.tags.slice(0, 4).map((tag) => (

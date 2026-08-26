@@ -136,7 +136,7 @@ describe('POST /api/projects/[id]/like', () => {
 
         expect(response.status).toBe(200)
         await expect(response.json()).resolves.toEqual({ liked: true, action: 'liked' })
-        expect(projectsSelect).toHaveBeenCalledWith('author_id, title, status, moderation_state')
+        expect(projectsSelect).toHaveBeenCalledWith('author_id, title, status, moderation_state, classification_status')
         expect(likesInsert).toHaveBeenCalledWith({ user_id: 'user-2', project_id: 123 })
         expect(callRpcMock).toHaveBeenCalledWith(expect.anything(), 'increment_project_likes', {
             project_id: 123,
@@ -156,6 +156,18 @@ describe('POST /api/projects/[id]/like', () => {
     })
 
     it('treats an existing like row as liked using the composite-key table shape', async () => {
+        const projectMaybeSingle = vi.fn().mockResolvedValue({
+            data: {
+                author_id: 'author-1',
+                status: 'approved',
+                moderation_state: 'approved',
+                classification_status: 'reviewed',
+            },
+            error: null,
+        })
+        const projectsSelect = vi.fn(() => ({
+            eq: vi.fn(() => ({ maybeSingle: projectMaybeSingle })),
+        }))
         const likeMaybeSingle = vi.fn().mockResolvedValue({
             data: { user_id: 'user-2' },
             error: null,
@@ -171,6 +183,9 @@ describe('POST /api/projects/[id]/like', () => {
             data: { user: { id: 'user-2' } },
         })
         const from = vi.fn((table: string) => {
+            if (table === 'projects') {
+                return { select: projectsSelect }
+            }
             if (table === 'likes') {
                 return { select: likesSelect }
             }

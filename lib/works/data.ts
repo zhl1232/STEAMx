@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { loadObservationSpeciesForEvents } from '@/lib/api/nature-observation-events'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import { mapDbCompletion, type Work, type WorkSource } from '@/lib/mappers/types'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
@@ -25,6 +26,17 @@ type ProjectSourceRow = {
   id: number
   title: string
   image_url: string | null
+  status?: string | null
+  moderation_state?: string | null
+  classification_status?: string | null
+}
+
+type CourseSourceRow = {
+  id: number
+  title: string
+  image_url: string | null
+  status?: string | null
+  classification_status?: string | null
 }
 
 type LessonSourceRow = {
@@ -32,7 +44,7 @@ type LessonSourceRow = {
   course_id: number
   title: string
   content: Json | null
-  courses?: { id: number; title: string; image_url: string | null } | null
+  courses?: CourseSourceRow | null
 }
 
 function lessonFinishedImage(content: Json | null): string | undefined {
@@ -43,31 +55,44 @@ function lessonFinishedImage(content: Json | null): string | undefined {
   return typeof image === 'string' && image.trim() ? image : undefined
 }
 
-async function hydrateWorks(client: DbClient, rows: WorkRow[]): Promise<Work[]> {
+async function hydrateWorks(
+  client: DbClient,
+  rows: WorkRow[],
+  options: { requireReviewedParents?: boolean } = {},
+): Promise<Work[]> {
   if (rows.length === 0) return []
+
+  const requireReviewedParents = options.requireReviewedParents === true
 
   const userIds = [...new Set(rows.map((row) => row.user_id))]
   const projectIds = [...new Set(rows.flatMap((row) => row.project_id ? [row.project_id] : []))]
   const lessonIds = [...new Set(rows.flatMap((row) => row.course_lesson_id ? [row.course_lesson_id] : []))]
   const workIds = rows.map((row) => row.id)
 
+  let projectsQuery = projectIds.length
+    ? client
+        .from('projects')
+        .select('id, title, image_url, status, moderation_state, classification_status')
+        .eq('status', 'approved')
+        .eq('moderation_state', 'approved')
+        .in('id', projectIds)
+    : null
+  if (projectsQuery && requireReviewedParents) {
+    projectsQuery = projectsQuery.eq('classification_status', 'reviewed')
+  }
+
   const [profilesResult, projectsResult, lessonsResult, commentsResult] = await Promise.all([
     client
       .from('profiles')
       .select('id, display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, xp')
       .in('id', userIds),
-    projectIds.length
-      ? client
-          .from('projects')
-          .select('id, title, image_url')
-          .eq('status', 'approved')
-          .eq('moderation_state', 'approved')
-          .in('id', projectIds)
+    projectsQuery
+      ? projectsQuery
       : Promise.resolve({ data: [] as ProjectSourceRow[], error: null }),
     lessonIds.length
       ? client
           .from('course_lessons')
-          .select('id, course_id, title, content, courses(id, title, image_url)')
+          .select('id, course_id, title, content, courses(id, title, image_url, status, classification_status)')
           .in('id', lessonIds)
       : Promise.resolve({ data: [] as LessonSourceRow[], error: null }),
     client.rpc('get_completion_comments_count_batch', { p_completion_ids: workIds }),
@@ -92,7 +117,21 @@ async function hydrateWorks(client: DbClient, rows: WorkRow[]): Promise<Work[]> 
       .map((row) => [Number(row.completed_project_id), Number(row.comment_count)]),
   )
 
-  return rows.map((row) => {
+  const visibleRows = requireReviewedParents
+    ? rows.filter((row) => {
+        if (row.project_id != null) return projects.has(row.project_id)
+        if (row.course_lesson_id != null) {
+          const lesson = lessons.get(row.course_lesson_id)
+          return lesson?.courses?.status === 'approved'
+            && lesson.courses.classification_status === 'reviewed'
+        }
+        // Historical rows without a source are not attributable to a hidden
+        // course/project and keep the existing public visibility behavior.
+        return true
+      })
+    : rows
+
+  return visibleRows.map((row) => {
     const profile = profiles.get(row.user_id)
     let source: WorkSource | undefined
 
@@ -134,7 +173,11 @@ async function hydrateWorks(client: DbClient, rows: WorkRow[]): Promise<Work[]> 
   })
 }
 
-export async function getWorksByIds(client: DbClient, ids: number[]): Promise<Work[]> {
+export async function getWorksByIds(
+  client: DbClient,
+  ids: number[],
+  options: { requireReviewedParents?: boolean } = {},
+): Promise<Work[]> {
   if (ids.length === 0) return []
   const { data, error } = await client
     .from('completed_projects')
@@ -150,7 +193,7 @@ export async function getWorksByIds(client: DbClient, ids: number[]): Promise<Wo
     const row = byId.get(id)
     return row ? [row] : []
   })
-  return hydrateWorks(client, ordered)
+  return hydrateWorks(client, ordered, options)
 }
 
 export async function getTrendingWorks(limit = 8, offset = 0): Promise<{
@@ -159,20 +202,40 @@ export async function getTrendingWorks(limit = 8, offset = 0): Promise<{
   hasMore: boolean
 }> {
   const client = createPublicClient()
+  const classificationSettings = await getContentClassificationSettings()
   const fetchLimit = Math.min(24, Math.max(1, limit))
-  const { data, error } = await client.rpc('get_trending_works', {
-    p_limit: fetchLimit + 1,
-    p_offset: Math.max(0, offset),
-  })
-  if (error) throw error
+  const requireReviewedParents = classificationSettings.enforcementEnabled
+  const works: Work[] = []
+  let scanOffset = Math.max(0, offset)
+  let rankingHasMore = false
 
-  const rankedIds = ((data || []) as { work_id: number }[]).map((row) => Number(row.work_id))
-  const hasMore = rankedIds.length > fetchLimit
-  const ids = rankedIds.slice(0, fetchLimit)
+  // A trending RPC predates content classification and can still rank a work
+  // whose parent course/project was just invalidated. Scan past those ids so
+  // a hidden parent does not create short pages or a false end-of-feed.
+  while (works.length < fetchLimit) {
+    const { data, error } = await client.rpc('get_trending_works', {
+      p_limit: fetchLimit + 1,
+      p_offset: scanOffset,
+    })
+    if (error) throw error
+
+    const rankedIds = ((data || []) as { work_id: number }[]).map((row) => Number(row.work_id))
+    if (rankedIds.length === 0) break
+
+    rankingHasMore = rankedIds.length > fetchLimit
+    const batchWorks = await getWorksByIds(client, rankedIds, {
+      requireReviewedParents,
+    })
+    works.push(...batchWorks)
+    scanOffset += rankedIds.length
+
+    if (!rankingHasMore) break
+  }
+
   return {
-    works: await getWorksByIds(client, ids),
-    nextOffset: Math.max(0, offset) + ids.length,
-    hasMore,
+    works: works.slice(0, fetchLimit),
+    nextOffset: scanOffset,
+    hasMore: rankingHasMore || works.length > fetchLimit,
   }
 }
 
@@ -181,6 +244,7 @@ export async function getLessonWorks(
   limit = 24,
 ): Promise<Work[]> {
   const client = await createClient()
+  const classificationSettings = await getContentClassificationSettings()
   const { data, error } = await client
     .from('completed_projects')
     .select('*')
@@ -194,11 +258,14 @@ export async function getLessonWorks(
     .limit(limit)
 
   if (error) throw error
-  return hydrateWorks(client, (data || []) as WorkRow[])
+  return hydrateWorks(client, (data || []) as WorkRow[], {
+    requireReviewedParents: classificationSettings.enforcementEnabled,
+  })
 }
 
 export async function getWorkById(id: number): Promise<Work | null> {
   const client = await createClient()
+  const classificationSettings = await getContentClassificationSettings()
   const { data, error } = await client
     .from('completed_projects')
     .select('*')
@@ -210,7 +277,9 @@ export async function getWorkById(id: number): Promise<Work | null> {
 
   if (error) throw error
   if (!data) return null
-  return (await hydrateWorks(client, [data as WorkRow]))[0] ?? null
+  return (await hydrateWorks(client, [data as WorkRow], {
+    requireReviewedParents: classificationSettings.enforcementEnabled,
+  }))[0] ?? null
 }
 
 function workToJourneyRecord(work: Work): WorkJourneyRecord {
@@ -356,7 +425,13 @@ export async function getWorkJourney(work: Work): Promise<WorkJourneyRecord[]> {
 }
 
 type ChallengeSubmissionRow = Database['public']['Tables']['challenge_submissions']['Row'] & {
-  challenges?: { id: number; title: string; image_url: string | null } | null
+  challenges?: {
+    id: number
+    title: string
+    image_url: string | null
+    status?: string | null
+    classification_status?: string | null
+  } | null
 }
 
 type ObservationRow = Database['public']['Tables']['observation_events']['Row'] & {
@@ -455,6 +530,10 @@ export async function getUserWorks(args: {
   publicOnly?: boolean
 }): Promise<{ works: Work[]; total: number; hasMore: boolean }> {
   const client = await createClient()
+  const classificationSettings = args.publicOnly
+    ? await getContentClassificationSettings()
+    : null
+  const requireReviewedParents = args.publicOnly === true && classificationSettings?.enforcementEnabled === true
   const page = Math.max(0, args.page ?? 0)
   const pageSize = Math.min(24, Math.max(1, args.pageSize ?? 12))
   const from = page * pageSize
@@ -472,7 +551,7 @@ export async function getUserWorks(args: {
     .range(0, headSize - 1)
   let submissionsQuery = client
     .from('challenge_submissions')
-    .select('*, challenges(id, title, image_url)', { count: 'exact' })
+    .select('*, challenges(id, title, image_url, status, classification_status)', { count: 'exact' })
     .eq('user_id', args.userId)
     .order('created_at', { ascending: false })
     .range(0, headSize - 1)
@@ -499,11 +578,18 @@ export async function getUserWorks(args: {
   if (submissionsResult.error) logger.error('Failed to load challenge submissions for works', { error: submissionsResult.error })
   if (observationsResult.error) logger.error('Failed to load observations for works', { error: observationsResult.error })
 
-  const submissionRows = (submissionsResult.data || []) as unknown as ChallengeSubmissionRow[]
+  const submissionRows = ((submissionsResult.data || []) as unknown as ChallengeSubmissionRow[])
+    .filter((row) => !requireReviewedParents || (
+      row.challenges?.status != null
+      && ['active', 'ended'].includes(row.challenges.status)
+      && row.challenges.classification_status === 'reviewed'
+    ))
   const observationRows = (observationsResult.data || []) as unknown as ObservationRow[]
 
   const [completions, author, speciesByEvent] = await Promise.all([
-    hydrateWorks(client, (completionsResult.data || []) as WorkRow[]),
+    hydrateWorks(client, (completionsResult.data || []) as WorkRow[], {
+      requireReviewedParents,
+    }),
     submissionRows.length || observationRows.length
       ? client
           .from('profiles')
@@ -525,7 +611,9 @@ export async function getUserWorks(args: {
     ),
   ].sort((first, second) => (second.completedAtIso || '').localeCompare(first.completedAtIso || ''))
 
-  const total = (completionsResult.count ?? 0) + (submissionsResult.count ?? 0) + (observationsResult.count ?? 0)
+  const total = requireReviewedParents
+    ? completions.length + submissionRows.length + observationRows.length
+    : (completionsResult.count ?? 0) + (submissionsResult.count ?? 0) + (observationsResult.count ?? 0)
   return {
     works: merged.slice(from, to + 1),
     total,

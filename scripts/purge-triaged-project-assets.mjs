@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * 清理 2026-08-13 分诊硬删除项目在 Aliyun OSS 上的对象，以及本地
+ * 清理项目目录硬删除批次在 Aliyun OSS 上的对象，以及本地
  * public/projects/generated 与 public/projects/steps 下的对应文件。
  *
- * 按 scripts/lib/content-triage-2026-08-13.mjs 的 ID 收集对象：
+ * 按选定批次的 ID 收集对象：
  *   1. 库里 projects / project_steps / comments 的 image_url（行还在时）
  *   2. 列举 OSS `projects/generated/` 与 `projects/steps/`，按文件名里的项目 ID 匹配
  *   3. 库行已删时仍按约定封面名 + 历史迁移里的步骤图名兜底
@@ -14,6 +14,7 @@
  * 用法：
  *   node scripts/purge-triaged-project-assets.mjs
  *   node scripts/purge-triaged-project-assets.mjs --execute
+ *   node scripts/purge-triaged-project-assets.mjs --scope=2026-08-25 --dry-run
  *
  * 默认 dry-run。不要打印密钥。
  *
@@ -36,6 +37,10 @@ import {
   ossKeyFromImageUrl,
   sqlIntegerList,
 } from './lib/content-triage-2026-08-13.mjs'
+import {
+  PROJECT_CONTENT_CLEANUP_DATE,
+  PROJECT_CONTENT_CLEANUP_PROJECT_IDS,
+} from './lib/project-content-cleanup-2026-08-25.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
@@ -46,7 +51,16 @@ const LOCAL_PROJECT_DIRS = Object.freeze([
 const OSS_LIST_PREFIXES = Object.freeze(['projects/generated/', 'projects/steps/'])
 const GENERATED_MANIFEST_PATH = path.join(ROOT, 'public/projects/generated/manifest.json')
 const PROJECTS_MANIFEST_PATH = path.join(ROOT, 'public/manifests/projects.json')
-const DELETE_ID_SET = new Set(TRIAGED_PROJECT_IDS_TO_DELETE)
+const CLEANUP_SCOPES = Object.freeze({
+  '2026-08-13': {
+    label: '2026-08-13 内容分诊',
+    projectIds: TRIAGED_PROJECT_IDS_TO_DELETE,
+  },
+  [PROJECT_CONTENT_CLEANUP_DATE]: {
+    label: '2026-08-25 项目目录清理',
+    projectIds: PROJECT_CONTENT_CLEANUP_PROJECT_IDS,
+  },
+})
 
 async function loadEnv() {
   for (const filename of ['.env.local', '.env']) {
@@ -66,12 +80,18 @@ async function loadEnv() {
 }
 
 function parseArgs(argv) {
-  const args = { execute: false, skipLocal: false, skipManifest: false }
+  const args = {
+    execute: false,
+    skipLocal: false,
+    skipManifest: false,
+    scope: '2026-08-13',
+  }
   for (const token of argv) {
     if (token === '--execute') args.execute = true
     else if (token === '--dry-run') args.execute = false
     else if (token === '--no-local') args.skipLocal = true
     else if (token === '--no-manifest') args.skipManifest = true
+    else if (token.startsWith('--scope=')) args.scope = token.slice('--scope='.length)
   }
   return args
 }
@@ -318,15 +338,21 @@ async function pruneManifestFile(absPath, label) {
 
 await loadEnv()
 const args = parseArgs(process.argv.slice(2))
-const idListSql = sqlIntegerList(TRIAGED_PROJECT_IDS_TO_DELETE)
+const cleanupScope = CLEANUP_SCOPES[args.scope]
+if (!cleanupScope) {
+  throw new Error(`未知资源清理 scope: ${args.scope}；可选值：${Object.keys(CLEANUP_SCOPES).join(', ')}`)
+}
+const DELETE_PROJECT_IDS = cleanupScope.projectIds
+const DELETE_ID_SET = new Set(DELETE_PROJECT_IDS)
+const idListSql = sqlIntegerList(DELETE_PROJECT_IDS)
 const assetsBaseUrl = (
   process.env.NEXT_PUBLIC_ASSETS_BASE_URL ||
   process.env.ASSETS_BASE_URL ||
   ''
 ).trim()
 
-console.info(`内容分诊 OSS 清理（${args.execute ? 'EXECUTE' : 'dry-run'}）`)
-console.info(`  项目 ID 数：${TRIAGED_PROJECT_IDS_TO_DELETE.length}`)
+console.info(`${cleanupScope.label} OSS 清理（${args.execute ? 'EXECUTE' : 'dry-run'}）`)
+console.info(`  项目 ID 数：${DELETE_PROJECT_IDS.length}`)
 
 const remainingProjects = await countRemainingProjects(idListSql)
 console.info(`  库中仍存在的分诊项目：${remainingProjects}`)
@@ -387,7 +413,7 @@ if (hasOssEnv()) {
 }
 
 if (!ossListSucceeded) {
-  for (const key of conventionalGeneratedCoverKeys(TRIAGED_PROJECT_IDS_TO_DELETE)) {
+  for (const key of conventionalGeneratedCoverKeys(DELETE_PROJECT_IDS)) {
     if (addOwnedKey(keysToDelete, key, 'convention', reasons)) classified.fromConvention += 1
   }
   for (const key of await collectStepKeysFromMigrations()) {

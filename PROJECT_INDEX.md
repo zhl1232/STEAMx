@@ -10,6 +10,7 @@
 > - 本项目使用 Next.js 16，根级请求拦截入口必须使用 `proxy.ts` 并导出 `proxy`；不要新建或恢复已废弃的 `middleware.ts`。
 > - DashScope 共享客户端按角色从 `/models` 缓存可见模型目录，默认小迪文本优先 `qwen3.8-max`；遇到额度耗尽、限流、模型不可用或上游暂时错误会冷却失败模型并切换候选，`DASHSCOPE_MODEL_AUTO_SWITCH=false` 可关闭。候选列表由 `DASHSCOPE_*_MODELS` 的逗号分隔环境变量覆盖，目录查询失败回退静态候选。
 > - 资源检索 planner 的优先级规则：明确的当前课时/当前步骤积木操作求助不检索站内资源，只有明确寻找其它课程或项目时才覆盖这一判断；其余模糊资源意图仍交给模型判断。
+> - 课程、项目与挑战的内容适配统一采用“推荐起始年龄 + 三档难度 + 成人支持度”三轴；K–12 仅作后台/交换映射，公开星级保留为内部兼容字段。审核候选会优先识别明确年龄，并按内容类型、课时/步骤/阶段结构和复杂概念给出可解释的建议年龄；启发式年龄最高为中等置信度，仍需人工确认。详细开发设计、两阶段迁移、审核门禁和旧参数兼容见 docs/CONTENT_CLASSIFICATION_IMPLEMENTATION.md；实现落地时继续同步维护对应路由、API、共享库、迁移和脚本条目。
 
 ### 品牌命名规范
 
@@ -39,7 +40,7 @@
 | `/project/[id]/records` | `app/project/[id]/records/page.tsx` + `components/features/project/project-records-client.tsx` | 当前用户的项目 Journey 工作台与公开记录流：一次只保持一个 active Journey，普通项目完成一次后可重新开始新的尝试；私密过程记录只在本人时间线展示，单条公开后进入审核；最终作品默认公开审核，审核拒绝后可按意见修改并重提；旧 `completed_projects` / `project_explorations` 仅作兼容投影 |
 | `/pbl/[id]/submit` | `app/pbl/[id]/submit/page.tsx` | PBL 命题项目的最终作品入口；阶段过程留在 `/pbl/[id]` 工作台，最终作品与阶段记录共用同一次 Journey |
 | `/` | `app/page.tsx` | 首页 — Hero 使用统一 STEAMX · 史迪姆品牌，并保留 `/explore`、`/create` 入口，桌面端采用通透呼吸感高度（310px）、多段平滑光影蒙版与微胶囊特性标签；移动端 Hero 下方快捷入口的第一页为「新手推荐 / 挑一节积木课」，其后保持自然观察与排行榜；桌面端在「从这里开始」保留新手推荐（带独立探索行动胶囊）并展示 6 大学科分类入口（带主题微光与 hover 浮起动效）；主体不再重复探索页热门项目，改为统一作品「大家的新作品」与最近公开观察「自然新发现」，桌面双栏、移动端顺序滚动，桌面端在自然板块置顶常驻生态探索横幅，实现与左侧 2×2 作品网格等高平衡；继续保留移动端自然观察/排行榜快捷入口、桌面等高对齐的社区动态与本周挑战（挑战卡读取当前 `active` PBL，优先限时挑战，卡片进入 `/pbl/[id]`，「查看全部」进入 `/create`） |
-| `/explore` | `app/explore/page.tsx` | 探索页 — 专注项目发现，项目列表默认「热门推荐」，并提供「最新上架」「新手推荐」，支持搜索、分类/子分类筛选；移动端项目网格使用左右对称的页面 gutter；项目卡不再查询或展示已停用的项目评论数，统一展示项目点赞、公开最终作品数和投币三个互补指标，其中作品数通过批量 RPC 获取，避免逐卡查询；作品预览已移到首页，不在此重复展示；自然观察列表/物种图鉴规范入口为 `/nature/observations`、`/nature/species`，旧 `/explore/observations`、`/explore/species` 及详情地址由 `next.config.mjs` 直接永久重定向并保留查询参数，对应的旧页面壳已删除 |
+| `/explore` | `app/explore/page.tsx` | 探索页 — 专注项目发现，项目列表默认「热门推荐」，并提供「最新上架」「新手推荐」，支持搜索、分类/子分类筛选、精确年龄排序和 `beginner/intermediate/challenge` 三档难度筛选（兼容旧星级/英文参数）；移动端项目网格使用左右对称的页面 gutter；项目卡不再查询或展示已停用的项目评论数，统一展示项目点赞、公开最终作品数和投币三个互补指标，其中作品数通过批量 RPC 获取，避免逐卡查询；作品预览已移到首页，不在此重复展示；自然观察列表/物种图鉴规范入口为 `/nature/observations`、`/nature/species`，旧 `/explore/observations`、`/explore/species` 及详情地址由 `next.config.mjs` 直接永久重定向并保留查询参数，对应的旧页面壳已删除 |
 | `/project/[id]` | `app/project/[id]/page.tsx` | 项目详情 — 步骤、材料清单、点赞/收藏、作品与探索记录、打赏、项目举报；不再提供项目评论，留言、提问和建议统一进入具体作品；项目详情预览中的最终作品卡直接进入作品详情并显示「查看作品并留言」，没有作品时引导先上传；探索记录空状态只保留记录说明与一次主行动，有记录时才显示「查看全部探索记录」；「全部探索记录」页按 `exploration_id` 将同次探索合并为堆叠卡片，每组只加载一张代表图并汇总步骤/互动数，顶部类型筛选收拢为带语义标签的轻量工具栏，默认按最新动态展示并取消无效的排序 Tab；记录类型筛选只隐藏展示帖子但保留完成状态，超过 48 条时明确标注当前列表统计；完成组优先进入最终作品，未完成组也可从最新步骤进入完整探索详情，作者可继续选择任一步作为完成作品；移动端顶部操作区为已登录的非作者提供举报入口，桌面端项目操作移到详情头部；封面 Hero 把封面图与去重后的步骤图收成可左右滑动的画廊（移动端滑动、桌面左右按钮、点击进入全屏看图），页码随当前图更新；项目分享入口按需加载与作品相同的高清分享卡片，使用项目图、作者、二维码和 `/project/[id]` 规范链接，并支持系统分享、保存图片和复制链接；历史课程背书项目会重定向到对应课时作品区 |
 | `/works/[id]` | `app/works/[id]/page.tsx` | 统一作品/探索详情 — 展示项目完成作品、尚未设最终作品的项目探索或课程课时作品的媒体、来源、作者、点赞、留言与提问、打赏；项目记录按 `exploration_id` 将同次探索的公开审核记录按时间串成过程时间线，即使还没有最终作品也可进入详情；详情时间线最多展示最近 50 条，并在截断时显示完整记录总数；无 `exploration_id` 的历史记录只展示当前记录，避免串入同项目其他探索；未完成探索的作者可在任一步使用「把这一步设为完成作品」，原子完成最终作品标记、奖励和探索状态更新，无需重新上传；作为项目相关留言、问题和建议的统一入口，作品评论和回复都可单独举报（仅登录用户可举报他人内容），举报使用次级图标入口，回复的「@对象」与作者名保持同一行；课程作品返回文案为「返回课程课时」并可回到对应课时；项目作品返回文案为「返回探索记录」；无来源时显示「返回探索」；点赞与投币紧凑排列在作者信息同一行，已投币作品显示琥珀色选中态，不再提供评论计数快捷按钮，没有创作说明时整段隐藏；仅完成作品作者可使用分享入口和 `?share=1` 自动打开能力，入口按需加载 `modern-screenshot` + `qrcode.react`，生成带作品主图、作者/来源和链接二维码的 750×1000 PNG 卡片，支持系统分享（移动端可选择微信）、保存图片和复制链接；项目、课程等公共内容仍由各自详情页开放分享；作品主图与探索时间线照片改为满宽预览，点击进入全屏看图（左右滑动、双指缩放、双击放大、下滑关闭），不再把小缩略图当作唯一查看方式 |
 | `/nature` | `app/nature/page.tsx` | 自然观察首页 — Hero 下方专题分类（鸟类/昆虫/植物/真菌；各专题入口卡使用 `public/assets/nature-topic-*.webp` 独立背景图，左侧留白叠文字、右侧为主体插画；植物专题覆盖树木与水果干果），其后为最近观察地图流（观察记录列表按发布时间 `created_at` 倒序）；桌面端侧栏保留社区贡献与观察概览，移动端在地图流下方以紧凑四格统计条展示社区贡献；地图预览与选点器统一使用本站打包的 Leaflet + 国内高德栅格瓦片，支持移动端双指缩放、惯性拖动、桌面滚轮/双击缩放和键盘操作，热点弹窗、列表联动及可拖拽选点保持业务定制；专题卡补充图鉴总数与当前用户点亮进度，点亮口径与物种图鉴共用本人 RPC；子路由 `observations/`（列表按发布时间倒序，移动端扁平卡片流并隐藏全局 AI FAB 避免遮挡内容）、`observations/[id]/`（详情：已通过记录显示社群共识条 + 动态时间轴 + 物种比较 Bottom Sheet + 底部评论/建议鉴定，可选补充生命阶段与性别；`from` 允许站内相对路径含首页 `/`，拒绝 `//` 与 `..` 穿越；缺失记录在 generateMetadata 即 `notFound()`；共识确认后仍可继续认同或提交不同鉴定；待审/拒绝记录仅作者可见审核状态；`...` 菜单含删除/举报）、`species/`（全量物种图鉴矩阵：固定专题/名称顺序，客户端过滤 `q/topic/status`，页面首屏补充 `物种图鉴` H1 与自然语言导语，匿名/爬虫请求不再额外认证；客户端过滤 `q/topic/status`，已观察彩色、未观察/匿名灰度、仅缺图问号；匿名登录回跳保留当前 `q/topic/status`；专题页按中文拼音首字母分组并提供右侧索引，移动端三列 4:3 缩略卡；按实际渲染顺序（专题视图为首字母分组后的顺序）取前 3 张缩略图使用 priority 预加载，其余保持懒加载；全部视图保留专题分组，专题视图隐藏重复分组标题；卡片进入公开物种详情，详情轮播合并公开观察照片并显示观察者昵称及观察记录链接；热点地图不再重复渲染地点列表，marker 弹窗展示匹配观察的首张照片、观察者和观察记录链接；观测统计中的观察/鉴定用户排行默认折叠并可展开；返回通过 `lib/nature-species-scroll-restore.ts` 的 v2 锚点恢复视口）、`submit/`（相册可多选；每张照片单独成为一条观察，按张鉴定物种/性别/阶段与地点；地点来自照片 EXIF GPS 或手动搜索/地图选点，输入和地图同屏；AI 识别只提供物种建议，低质量/未识别可继续提交；新记录始终公开并使用准确位置，不再提供私密开关或重复确认；草稿自动保存到当前设备，离开页面无需确认是否保存）、`map/` |
@@ -71,7 +72,8 @@
 | `/courses/.../preview` | `app/courses/.../lessons/[lessonId]/preview/` | Scratch 课时手机端作品预览（player 模式；积木搭建课不使用此页） |
 | `/resources/[id]` | `app/resources/[id]/page.tsx` | 学习资料卡详情页（服务端渲染，react-markdown 正文；PBL 挑战「相关资料」三分类脚手架中「资料卡」的落点） |
 | `/users/[id]` | `app/users/[id]/` | 其他用户的公开主页，下方 Tab 栏聚焦公开创作内容（区分「作品」与「项目」两个 Tab）；公开主页头像统一使用 `UserAvatar` 并展示用户已装备的头像框与昵称颜色，等级徽章贴角整合于头像正下方；用户名旁展示佩戴/自动推导的个性化成就称号微胶囊，个人信息区最多露出 5 枚 32px 主页徽章，另以「+N」入口查看其余已解锁徽章，自动精选最多 5 枚并按系列去重只取各系列最高品质，手动佩戴也最多 5 枚；点击即可呼出全量「徽章图鉴」大弹窗浏览全部系列与进阶进度；徽章图鉴网格默认无边框，hover 仅用轻底色与位移反馈，让徽章主体保持视觉焦点；徽章详情弹窗采用聚焦当前徽章与晋升路线的双栏/流动布局，支持在弹窗内点击路线项实时切换档位，支持一键“设为称号 / 已戴称号”与“佩戴到主页 / 已佩戴（可卸下）/ 替换佩戴”（仅自己的主页显示操作），公开主页只读；空数组表示明确不佩戴时仅保留“徽章图鉴”入口；首屏使用资料页探索背景素材配柔和渐变遮罩，统计栏采用独立微卡片半透明质感，移动端使用透明页头保留返回与标题，操作区采用关注+私信双主按钮并由右上角下拉菜单收纳屏蔽与分享，Tab 选中态统一使用品牌蓝，移动端隐藏全局小迪入口避免遮挡公开内容；非法 UUID 在查库前按未找到处理，避免 Postgres `22P02` 打成 500 |
-| `/admin` | `app/admin/page.tsx` + `components/admin/safety-queues.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/**技能课程**管理；安全审核页处理自动审核案件与处罚申诉，私信安全案件展示目标消息前后上下文；子路由 `projects/`、`moderator-applications/` |
+| `/admin` | `app/admin/page.tsx` + `components/admin/safety-queues.tsx` | 管理后台 — 项目审核、探索记录审核、自然观察审核、挑战作品审核、举报/挑战/**技能课程**管理；安全审核页处理自动审核案件与处罚申诉，私信安全案件展示目标消息前后上下文；首页提供内容分级审核入口；子路由 `projects/`、`moderator-applications/` |
+| `/admin/content-classifications` | `app/admin/content-classifications/page.tsx` + `components/admin/content-classification-review.tsx` | 内容分级审核工作台：按内容类型、复核状态和安全提示筛选队列；详情页展示课程课时继承、项目材料/步骤、挑战结构、规则候选与审核历史；支持保存候选、approve/return、并发 revision 校验、幂等提交；审核员禁止自审，管理员自审必须填写原因并写入 `self_review_override` 审计标记 |
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
 | `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款）；法律文档使用单层低对比度容器与无边框导读区，移动端页头完整占位并支持从顶部正常滚动阅读 |
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
@@ -104,7 +106,7 @@
 | 模块 | 路径 | 功能 |
 |------|------|------|
 | journeys | `api/journeys/` | 普通项目与 PBL 共用的 Journey：`GET/POST /api/journeys` 按来源列出或开启一次用户尝试；`[id]` 仅本人读取并只允许修改目标或放弃 active 尝试；`[id]/records` 写入阶段/过程/最终作品记录；`[id]/records/[recordId]` 切换私密或公开并重新进入审核、删除时撤销旧兼容投影；记录默认私密，公开过程与最终作品均通过审核后才进入公共内容，只有公开且审核通过的最终作品才能完成 Journey，审核员 ID/拒绝意见会回写权威 Journey 记录 |
-| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（服务端同步 `status` / `moderation_state` 并校验实际更新，通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、用户创建与会员状态手动开通；`admin/moderation/cases` 处理自动审核案件，`admin/safety/appeals` 处理处罚申诉 |
+| admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（服务端同步 `status` / `moderation_state` 并校验实际更新，通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、**内容分级审核队列**（`admin/content-classifications/`，候选、详情、审计历史和 approve/return 受控 RPC）、用户创建与会员状态手动开通；`admin/moderation/cases` 处理自动审核案件，`admin/safety/appeals` 处理处罚申诉 |
 | assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）和 `/scratch/assets` 资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），包括生产环境 `/internalapi/asset/*` 的 Scratch rewrite；自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**，本地文件以 Node stream 输出并支持单段 Range/HEAD，视频、PDF 等不再整文件读入进程内存；切换 Referer 或回退前会取消旧上游响应体；上游连接超时/中止且无本地回退时返回 504/502，不再重新抛出以免并发导航时变成 500 与 unhandledRejection；LDraw 打包 MPD 本地更完整时优先本地；白名单 OSS/代理图片与 Supabase Render Transform 图片会绕过重复的 Next/Sharp 转码；仅设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 时绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
 | courses | `api/courses/` | 技能课程列表/瘦身概览/单课详情；登录态从服务端用户身份附加课程/课时进度，匿名响应不泄露个人进度并使用公共缓存；`ldraw-step` 从本地打包 MPD 提取单一步骤及递归依赖，并剔除 LDrawLoader 忽略的 type 2-5 非标准尾字段（16 MiB 源文件上限、同一步骤同飞去重、最多 4 个不同步骤并发转换、浏览器/CDN 短缓存）；`ldraw-bom` 从同一份 MPD 算出整课零件清单（每步新增零件 + 全模型总数，按 `model=<name>.mpd` 取，进程内按 mtime/size 缓存 10 分钟、同飞去重、最多 4 个并发转换、浏览器/CDN 短缓存，缺 `LDConfig.ldr` 只丢颜色名不影响数量；读取逻辑在 `lib/courses/ldraw-bom-source.ts`，与服务端渲染的零件清单页共用）；课时 `.sb3` 保存与 signed URL；`[courseId]/lessons/[lessonId]/start` 在已登录学员**第一次打开**课时时建一行 `completed_at IS NULL` 的进度（在这之前只有点「完成课时」或保存 Scratch 作品才会建行，积木课等于没有「开始」信号，新手引导的「开始第一节课」和「学完第一节课」会同时触发）；课程进度统计一律跳过未完成行，页面只在服务端确认「已登录且这节课还没有进度行」时才发这一次请求；完成课时不发 XP，首次有效完成通过 service-role 原子 RPC 写可信来源并按需生成一次性课程 STEAM 里程碑；作品提交仍只进入 pending/final，审核通过后由原子 RPC 幂等发放 `+20 XP`；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调；`sms/verify` 手机号在 `phone_to_user` 里查不到时直接建号，所以它同时是登录和注册入口——响应里的 `isNewUser` 和魔法链接的 `redirect_to` 据此区分：新注册落到主线 `MAINLINE_ENTRY_HREF`，老用户回首页或来处（`?next=` 优先） |
@@ -205,8 +207,8 @@
 
 > 小迪行为更新（2026-08-17）：默认不主动把学生过去做过的项目、去过的地点或观察记录拿来做知识回答的收尾；只有用户主动询问个人记录，或回答确实依赖该经历时才自然引用。语音播放遇到浏览器 Web Audio/实时 PCM 失败时自动回退到整段音频，不能因为播放器故障打断文字回复。
 
-### 3.5 管理后台 (`components/admin/`) — 13 个组件
-项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、私信举报上下文 `message-context`、自动审核/处罚申诉队列 `safety-queues`、全部项目管理、用户会员管理 `user-membership-management`
+### 3.5 管理后台 (`components/admin/`) — 14 个组件
+项目审核卡片、探索记录审核、自然观察审核卡片、挑战管理（资源行支持三分类选择 + 描述，「资料卡」类型可从已发布资料卡库选取自动填链接）、**技能课程管理** `course-management`、**资料卡管理** `resource-management`（Markdown 正文编辑、草稿/发布切换）、完成审核、审核员申请列表、举报列表、私信举报上下文 `message-context`、自动审核/处罚申诉队列 `safety-queues`、全部项目管理、用户会员管理 `user-membership-management`、**内容分级审核工作台** `content-classification-review`
 
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 完整登录/注册流程（手机号 + 验证码）
@@ -242,7 +244,7 @@
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
 服务端 API 的核心业务逻辑，被 `app/api/` 路由调用：
 - `auth.ts` / `auth-rate-limit.ts` — 认证与频率限制
-- `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）
+- `explore-data.ts` — 探索页数据查询（搜索、筛选、排序）；年龄参数只改变 reviewed 项目排序，difficulty 统一归一为 beginner/intermediate/challenge 并兼容旧参数，推荐 RPC v2 传精确年龄后再按公开查询 hydration
 - `categories.ts` — 分类与子分类
 - `challenge-submissions.ts` / `challenge-settlement.ts` — 挑战提交与结算
 - `pbl-challenges.ts` — 项目挑战分组与首页精选 PBL（优先 `timed` active）
@@ -290,12 +292,12 @@
 - `metadata.ts` — 页面元数据构建工具 `buildPageMetadata()`；默认补全 `summary_large_image`、1200×630 社交图、OG URL/siteName 与 Twitter 图片
 - `site.ts` — 站点名称、描述、URL 与 ICP 备案号；`getSiteUrl()` / `buildAbsoluteUrl()` 供 metadata、sitemap、JSON-LD、llms.txt 复用，生产环境即使误配 HTTP 或 apex 也统一归一到 `https://www.steamx.cc`
 - `canonical-host.ts` — 仅把 `steamx.cc` 规范到 `www.steamx.cc`，供 `proxy.ts` 做 301
-- `json-ld.ts` — 首页 WebSite/Organization/SearchAction、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
+- `json-ld.ts` — 首页 WebSite/Organization/SearchAction、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；已复核内容才写入 `typicalAgeRange` / `educationalLevel`，不暴露内部星级、候选值或审核元数据；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
 - `llms-txt.ts` / `robots-policy.ts` — `/llms.txt` 正文与爬虫 Disallow / 大模型 UA 列表
 - 公开 SEO 路由规则：`/about` 与鸟类/昆虫/植物专题使用独立 metadata；`/playground` 首页、18 个游戏页及扫雷课程页使用独立 metadata；PBL 详情服务端校验 active/ended 挑战，不存在或不可见挑战返回真正 404；挑战提交页及 Scratch 预览页明确 `noindex`，预览 canonical 指向正式课时；sitemap 不提交筛选 query，静态 URL 不伪造 `lastmod`，零件清单仅在部署产物存在对应 LDraw 模型时收录
 
 ### 4.7 首页 (`lib/home/`)
-- `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数、当前精选 PBL）与推荐 API 算法（个性化/热门兜底；供 `/api/home/recommendations` 使用）；趋势作品与精选 PBL 使用无请求 Cookie 的公开 Supabase 客户端，首页声明 5 分钟 ISR，实际路由会按社区动态的 2 分钟子缓存采用更短周期；捕获数据降级错误前会用 Next `unstable_rethrow` 先交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被业务日志误报
+- `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数、当前精选 PBL）与推荐 API 算法（基于 birth_date 即时计算精确年龄、传入 recommendation v2，热门兜底；供 `/api/home/recommendations` 使用）；趋势作品与精选 PBL 使用无请求 Cookie 的公开 Supabase 客户端，首页声明 5 分钟 ISR，实际路由会按社区动态的 2 分钟子缓存采用更短周期；捕获数据降级错误前会用 Next `unstable_rethrow` 先交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被业务日志误报
 - `community-feed.ts` — 社区动态 Feed 数据
 - `category-tiles.ts` — 分类磁贴数据
 
@@ -312,6 +314,8 @@
 ### 4.9 其他模块
 | 模块 | 文件 | 职责 |
 |------|------|------|
+| `lib/content-classification/` | `types.ts`, `constants.ts`, `labels.ts`, `mapping.ts`, `rules.ts`, `validation.ts`, `queries.ts`, `json-ld.ts` | 课程、项目、挑战共用内容分级领域层：推荐起始年龄、三档难度、成人支持度、国内学段/K–12 交换映射、候选规则、公开 DTO、年龄排序和失效字段校验；`difficulty_stars` 只在 mapper 中派生公开难度，未复核内容统一返回 `classification: null` |
+| `lib/content-classification/admin.ts` | — | 管理队列读取、候选生成、内容类型/发布状态判断、候选与公开/后台 DTO 适配；`app/api/admin/content-classifications/` 只通过受控 candidate/review RPC 写入审核字段 |
 | `lib/project/` | `hero-gallery.ts`, `group-exploration-records.ts`, `exploration-record-meta.ts`, `material-meta.ts` | 项目详情辅助：封面+步骤图去重画廊、探索记录分组/类型、材料名称解析 |
 | `lib/journeys/` | `types.ts`, `service.ts`, `moderation.ts` | 普通项目与 PBL 共用 Journey 领域层：来源/尝试/记录类型与状态、一次 active 尝试的幂等开启、阶段/过程/最终作品记录写入、旧项目/PBL 表兼容投影、审核结果同步、最终作品通过后完成 Journey、拒绝后重开 |
 | `lib/mappers/` | `project.ts`, `types.ts` | 数据库行 → 前端模型映射；`ChallengeResource` 三分类（`project`/`skill`/`reference`）+ 可选 `description`，`normalizeChallengeResources` 对历史旧 type 归一化并剔除 CTA 条目 |
@@ -415,6 +419,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - 大颗粒课程的面向用户名称与课程卡文案：`20260722185000_rename_courseware_courses.sql`、`20260723100500_refresh_courseware_descriptions.sql`、`20260723101500_clarify_courseware_age_descriptions.sql`；三档课程统一使用“适合 N 岁以上”的明确年龄表达，强调 100 个主题、课件/动画与分步引导，不再在课程介绍中暴露后台保留的 PDF 资源。
 - 本批课程数据修复：`20260728141000_fix_roller_skates_ldraw_steps.sql` 将「溜冰鞋」同步为用户确认的 150 件 Studio 模型和 13 项课程步骤；`20260728143000_fix_butterfly_ldraw_steps.sql` 删除「蝴蝶」BOM/成品页造成的伪步骤，将侧栏与 3D 模型统一为 10 个实际搭建步骤；`20260728144000_restore_lesson_32_animation.sql` 恢复 lesson 32「长颈龙」在课件第 5 页的 `animation.mp4`，对应课程流 `?step=3`。
 - `supabase/seed.sql` — 种子数据入口
+- `20260825112933_content_classification_fields.sql` — 内容分级阶段 1：三张内容表的可空三轴字段、审核历史、发布开关、索引、内容/课时变更失效触发器与候选/复核 RPC；默认不改变线上公开可见性，应用使用 `pnpm db:push -- --dry-run`、`pnpm db:push`、`pnpm db:status`
+- `20260825121949_content_classification_gate.sql` — 内容分级阶段 2 门禁：reviewed 完整性函数、课程/项目/挑战公开状态触发器和带 advisory lock 的原子 rollout；默认关闭，未完成人工复核时不会改变线上发布行为
+- `20260825123613_content_classification_recommendations.sql` — 推荐 RPC v2：阶段一沿用 approved 项目池、阶段二切换为 reviewed 项目，按精确年龄匹配三轴字段；只返回项目 ID，旧 `p_age_group` wrapper 保留兼容且不再用年龄段猜 `difficulty_stars`
+- `20260825130000_content_classification_ranking_visibility.sql` — 热门/本周热门 ranking RPC 与阶段二公开可见性对齐，修正过滤后的总数与分页；四个迁移均只完成 dry-run，数据库尚未实际 push，正式 rollout 仍待预检和全量人工复核
 - 课程进度与奖励边界：`user_lesson_progress.completion_source` 区分历史/可信完成，`user_course_completions` 保存每用户每课程一次的不可变 STEAM 快照；完成、补偿和审核奖励分别通过 service-role `record_course_lesson_completion`、`reconcile_course_completions`、`approve_completion_with_reward` / `system_approve_completion_with_reward` 原子处理，`repair_completion_rewards(false)` 默认只审计缺失奖励，显式传 `true` 才修复。
 - 本批新增在线记忆翻牌迁移：`20260714190000_memory_matches.sql`（`memory_matches` + `memory_flip_card` RPC，客户端直接 UPDATE/DELETE 禁用，权威写入走 RPC/API service role）、`20260714190100_memory_realtime_publication.sql`、`20260714190200_memory_realtime_channel_policy.sql`（私有 Realtime channel）
 - 本批新增通用竞速房间迁移：`20260714190300_playground_race_matches.sql`（`playground_race_matches`，客户端直接 UPDATE/DELETE 禁用）、`20260714190400_playground_race_realtime_publication.sql`、`20260714190500_playground_race_realtime_channel_policy.sql`（私有 Realtime channel）、`20260715113000_playground_race_game_keys.sql`（扩展 `game_key` 约束以支持 24 点和数字华容道）、`20260715164600_playground_race_lifecycle.sql`（`deadline_at` / `finish_reason`、活跃 deadline 部分索引、等待 15 分钟/开局 30 分钟超时结算 RPC、截止前原子成绩提交 RPC；函数仅授权 service role）
@@ -430,6 +438,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `20260823120000_hide_store_preview_fixture.sql` — 将明确标记为 `test_fixture` 的商城样式预览商品改为草稿，避免测试商品和无效淘宝链接进入公开目录；应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
 
 ### 核心数据表
+
+- `20260825160000_project_content_cleanup.sql` — 按确认名单硬删除 59 个项目和挑战 4，清理项目/挑战的 Journey、作品、评论、互动、审核与分级历史；桥梁项目收敛为 233 / 243，模型只保留 120，并为 358 / 373 / 381 写入固定题面；图片对象另由 `scripts/purge-triaged-project-assets.mjs` dry-run 检查后处理。应用使用 `pnpm db:push`。
+- `20260825161000_project_content_cleanup_format.sql` — 修正固定题面步骤的缩进与幻方题换行格式。
+- `20260825162000_project_content_cleanup_whitespace.sql` — 清理合并项目和固定题面的首尾换行与缩进空白。
 `profiles`（含 `membership_tier` / …） · **`store_suppliers` / `store_products` / `store_product_variants` / `store_product_sources`**（实物商城商品、SKU、1688 offer/spec、淘宝外部结算字段、`context_keys` 上下文关联和代发供应商） · **`store_addresses`**（AES-256-GCM 加密地址） · **`store_orders` / `store_order_items` / `store_order_events`**（本站订单及审计快照） · **`store_sync_jobs`**（未来的 1688 下单/订单/物流同步队列，当前不启用自动下单） · **`store_alibaba_connections`**（service-role-only 加密 OAuth token） · **`user_blocks`**（双向用户屏蔽关系） · **`moderation_cases`**（自动审核、举报和人工审核案件） · **`safety_actions`** / **`safety_appeals`**（账号安全处罚与申诉） · **`project_journeys`**（某用户针对普通项目/PBL 挑战的一次 active/completed/abandoned 尝试，区分 `attempt_no`） · **`project_journey_records`**（Journey 的私密草稿、公开审核中/已公开过程记录与最终作品） · … · **`species`**（自然观察物种，含 `nature_topic` 与植物属性 `life_form` / `cultivation_status` / `plant_uses`） · **`gomoku_matches`**（在线五子棋对局，`board`/`moves` JSONB 快照，落子走 `gomoku_place_stone` RPC） · **`memory_matches`**（在线记忆翻牌对局，`deck`/`scores` JSONB 快照，翻牌走 `memory_flip_card` RPC） · **`playground_race_matches`**（通用联网竞速房间，按 `game_key/settings` 固定规则并保存 host/guest 成绩 JSONB，`deadline_at` / `finish_reason` 记录权威截止和终态原因） · **`tutor_conversations`**（小迪对话线程，active/archived，含会话滚动摘要 `summary` / 锚点 `summary_message_id`） · **`tutor_messages`**（小迪统一对话消息，归属 conversation） · **`tutor_notebooks`**（小迪长期记忆摘要） · **`ai_credit_wallets`** / **`ai_credit_logs`**（AI 代币钱包与流水） · **`challenge_stage_progress`** · **`challenge_workspaces`**（PBL 个人项目方向与个人化计划，含 Journey 关联） · …
 
 完整类型定义：`lib/supabase/types.ts`
@@ -461,8 +473,13 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | 脚本 | 功能 |
 |------|------|
 | `db-push.mjs` | 数据库迁移推送工具（push/status/baseline） |
+| `purge-triaged-project-assets.mjs --scope=2026-08-25` | 本次项目目录清理的 59 个项目资源 dry-run / 清理；默认仍是 2026-08-13 旧分诊名单，确认后才加 `--execute` |
 | `submit-baidu-urls.mjs` | 读取生产 `sitemap.xml`，按百度主动推送接口分批提交公开规范 URL；未配置 `BAIDU_PUSH_TOKEN` 时安全跳过，Release workflow 配置该 secret 后每次发布自动执行 |
 | `course-config-preflight.mjs` | 只读检查已发布课程的 STEAM 权重/难度配置；`--validate` 在结果为空后显式验证迁移中的 `NOT VALID` 约束 |
+| `content-classification-preflight.mjs` | 内容分级阶段 0 只读预检：统计三类内容的发布/未复核/非法星级/年龄边界/安全关键词/低置信候选；支持 `--type`、`--json`，不写库 |
+| `content-classification-candidates.mjs` | 生成 `rules_v1` 候选；默认 dry-run，`--apply-candidates` 通过受控 RPC 幂等写入候选，不写 reviewed 元数据 |
+| `content-classification-review-report.mjs` | 导出后台复核队列，支持 `--status`、`--type`、`--format=json|csv`；只输出内容标识和候选规则结果，不输出个人资料 |
+| `content-classification-watchdog.mjs` | 检查紧急发布门禁 TTL；默认只读，`--apply` 在 advisory lock 事务中自动恢复 enforcement 并写 rollout 事件 |
 | `audit-function-search-path.mjs` | 只读审计 public schema 所有 routine 的 `search_path` 现状与函数体内未全限定表/视图引用，评估改成 `search_path = ''` 的安全性（配合 `20260627150000` 迁移） |
 | `compress-project-images.mjs` | 压缩目录图片（`COMPRESS_IMAGES_DIR` / `COMPRESS_MAX_SIDE` / `COMPRESS_JPEG_QUALITY`）；`pnpm compress:fruit-images` 压缩水果图集至 1280px |
 | `profile-icons-remove-bg.mjs` | 去除 `public/assets/profile-icons/` WebP 烘焙底色并写入透明通道 |

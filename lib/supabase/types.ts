@@ -648,6 +648,14 @@ export interface Database {
           steam_weights: Json | null
           tags: string[] | null
           moderation_state: string
+          recommended_min_age: number | null
+          recommended_max_age: number | null
+          support_level: string | null
+          classification_status: string
+          classification_source: string | null
+          classification_reviewed_at: string | null
+          classification_reviewed_by: string | null
+          classification_revision: number
         }
         Insert: {
           id?: number
@@ -673,6 +681,14 @@ export interface Database {
           steam_weights?: Json | null
           tags?: string[] | null
           moderation_state?: string
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Update: {
           id?: number
@@ -698,6 +714,14 @@ export interface Database {
           steam_weights?: Json | null
           tags?: string[] | null
           moderation_state?: string
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Relationships: []
       }
@@ -2284,6 +2308,14 @@ export interface Database {
           difficulty_stars: number
           start_date: string | null
           completions_count: number
+          recommended_min_age: number | null
+          recommended_max_age: number | null
+          support_level: string | null
+          classification_status: string
+          classification_source: string | null
+          classification_reviewed_at: string | null
+          classification_reviewed_by: string | null
+          classification_revision: number
         }
         Insert: {
           id?: number
@@ -2306,6 +2338,14 @@ export interface Database {
           difficulty_stars?: number
           start_date?: string | null
           completions_count?: number
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Update: {
           id?: number
@@ -2328,6 +2368,14 @@ export interface Database {
           difficulty_stars?: number
           start_date?: string | null
           completions_count?: number
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Relationships: []
       }
@@ -2367,6 +2415,114 @@ export interface Database {
         }
         Relationships: []
       }
+      content_classification_reviews: {
+        Row: {
+          id: number
+          content_type: string
+          content_id: number
+          decision: string
+          previous_value: Json | null
+          new_value: Json | null
+          reason: string | null
+          actor_type: string
+          actor_id: string | null
+          actor_label: string | null
+          idempotency_key: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          content_type: string
+          content_id: number
+          decision: string
+          previous_value?: Json | null
+          new_value?: Json | null
+          reason?: string | null
+          actor_type: string
+          actor_id?: string | null
+          actor_label?: string | null
+          idempotency_key?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          content_type?: string
+          content_id?: number
+          decision?: string
+          previous_value?: Json | null
+          new_value?: Json | null
+          reason?: string | null
+          actor_type?: string
+          actor_id?: string | null
+          actor_label?: string | null
+          idempotency_key?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      content_classification_settings: {
+        Row: {
+          id: boolean
+          public_v1_enabled: boolean
+          enforcement_enabled: boolean
+          emergency_reason: string | null
+          emergency_actor_id: string | null
+          enforcement_expires_at: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          id?: boolean
+          public_v1_enabled?: boolean
+          enforcement_enabled?: boolean
+          emergency_reason?: string | null
+          emergency_actor_id?: string | null
+          enforcement_expires_at?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          id?: boolean
+          public_v1_enabled?: boolean
+          enforcement_enabled?: boolean
+          emergency_reason?: string | null
+          emergency_actor_id?: string | null
+          enforcement_expires_at?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      content_classification_rollout_events: {
+        Row: {
+          id: number
+          event_type: string
+          actor_type: string
+          actor_id: string | null
+          reason: string | null
+          expires_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          event_type: string
+          actor_type: string
+          actor_id?: string | null
+          reason?: string | null
+          expires_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          event_type?: string
+          actor_type?: string
+          actor_id?: string | null
+          reason?: string | null
+          expires_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           id: number
@@ -2380,6 +2536,14 @@ export interface Database {
           steam_weights: Json | null
           created_at: string
           updated_at: string
+          recommended_min_age: number | null
+          recommended_max_age: number | null
+          support_level: string | null
+          classification_status: string
+          classification_source: string | null
+          classification_reviewed_at: string | null
+          classification_reviewed_by: string | null
+          classification_revision: number
         }
         Insert: {
           id?: number
@@ -2393,6 +2557,14 @@ export interface Database {
           steam_weights?: Json | null
           created_at?: string
           updated_at?: string
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Update: {
           id?: number
@@ -2406,6 +2578,14 @@ export interface Database {
           steam_weights?: Json | null
           created_at?: string
           updated_at?: string
+          recommended_min_age?: number | null
+          recommended_max_age?: number | null
+          support_level?: string | null
+          classification_status?: string
+          classification_source?: string | null
+          classification_reviewed_at?: string | null
+          classification_reviewed_by?: string | null
+          classification_revision?: number
         }
         Relationships: []
       }
@@ -4109,6 +4289,42 @@ export interface Database {
       calculate_steam_radar: {
         Args: { target_user_id: string }
         Returns: Record<string, { display: number }>
+      }
+      set_content_classification_candidate: {
+        Args: {
+          p_content_type: string
+          p_content_id: number
+          p_min_age: number | null
+          p_max_age: number | null
+          p_support_level: string | null
+        }
+        Returns: Json
+      }
+      review_content_classification: {
+        Args: {
+          p_content_type: string
+          p_content_id: number
+          p_expected_revision: number
+          p_decision: string
+          p_min_age: number
+          p_max_age: number | null
+          p_support_level: string
+          p_difficulty_stars: number
+          p_note: string | null
+          p_idempotency_key: string
+          p_reviewer_id: string
+        }
+        Returns: Json
+      }
+      get_recommended_projects_v2: {
+        Args: {
+          p_user_id?: string | null
+          p_age?: number | null
+          p_steam?: unknown
+          p_limit?: number
+          p_offset?: number
+        }
+        Returns: Json
       }
       get_recommended_projects: {
         Args: {

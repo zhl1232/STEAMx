@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Heart, Settings } from "lucide-react";
 
-import { DifficultyStars } from "@/components/ui/difficulty-stars";
+import { ContentClassification } from "@/components/ui/content-classification";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
 import { useOptionalProjects } from '@/lib/context/project-context';
@@ -129,7 +129,7 @@ function MobileProjectItem({ project, href }: { project: Project; href?: string 
             <Heart className={cn("h-3.5 w-3.5", liked && "fill-red-500 text-red-500")} />
             {likesCount}
           </span>
-          {project.difficulty_stars ? <DifficultyStars stars={project.difficulty_stars} size="sm" /> : null}
+          <ContentClassification classification={project.classification} compact />
         </div>
       </div>
     </Link>

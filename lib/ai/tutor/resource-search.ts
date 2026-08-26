@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { TutorResourceSearchPlan } from '@/lib/ai/tutor/resource-search-planner'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import type { Database } from '@/lib/supabase/types'
 
@@ -119,11 +120,16 @@ function asTags(value: unknown) {
   return Array.isArray(value) ? value.filter((tag): tag is string => typeof tag === 'string') : null
 }
 
-async function loadCourses(supabase: SupabaseClient<Database>, queries: string[]): Promise<SearchQueryResult> {
+async function loadCourses(
+  supabase: SupabaseClient<Database>,
+  queries: string[],
+  enforceReviewed: boolean,
+): Promise<SearchQueryResult> {
   let query = supabase
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
+  if (enforceReviewed) query = query.eq('classification_status', 'reviewed')
 
   if (queries.length) query = query.or(buildResourceOrFilter({ text: ['title'], array: ['tags'] }, queries))
 
@@ -136,14 +142,16 @@ async function loadCourses(supabase: SupabaseClient<Database>, queries: string[]
 async function loadCoursesByIds(
   supabase: SupabaseClient<Database>,
   ids: number[],
+  enforceReviewed: boolean,
 ): Promise<SearchQueryResult> {
   if (!ids.length) return { data: [], error: null }
-  const { data, error } = await supabase
+  let query = supabase
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
     .in('id', ids)
-    .limit(RESOURCE_SEARCH_LIMIT)
+  if (enforceReviewed) query = query.eq('classification_status', 'reviewed')
+  const { data, error } = await query.limit(RESOURCE_SEARCH_LIMIT)
   return { data: (data ?? []) as unknown as SearchRow[], error }
 }
 
@@ -157,12 +165,17 @@ async function loadLessons(supabase: SupabaseClient<Database>, queries: string[]
   return { data: (data ?? []) as unknown as SearchRow[], error }
 }
 
-async function loadProjects(supabase: SupabaseClient<Database>, queries: string[]): Promise<SearchQueryResult> {
+async function loadProjects(
+  supabase: SupabaseClient<Database>,
+  queries: string[],
+  enforceReviewed: boolean,
+): Promise<SearchQueryResult> {
   let query = supabase
     .from('projects')
     .select('id, title, description, tags')
     .eq('status', 'approved')
     .eq('moderation_state', 'approved')
+  if (enforceReviewed) query = query.eq('classification_status', 'reviewed')
 
   if (queries.length) {
     query = query.or(buildResourceOrFilter({ text: ['title', 'description'], array: ['tags'] }, queries))
@@ -251,11 +264,12 @@ async function runResourceSearchPass(
   supabase: SupabaseClient<Database>,
   queries: string[],
   scope: ResourceSearchScope,
+  enforceReviewed: boolean,
 ): Promise<ResourceSearchPass> {
   const [courseResult, lessonResult, projectResult] = await Promise.all([
-    scope.includeCourses ? loadCourses(supabase, queries) : Promise.resolve(emptyQueryResult()),
+    scope.includeCourses ? loadCourses(supabase, queries, enforceReviewed) : Promise.resolve(emptyQueryResult()),
     scope.includeCourses && queries.length ? loadLessons(supabase, queries) : Promise.resolve(emptyQueryResult()),
-    scope.includeProjects ? loadProjects(supabase, queries) : Promise.resolve(emptyQueryResult()),
+    scope.includeProjects ? loadProjects(supabase, queries, enforceReviewed) : Promise.resolve(emptyQueryResult()),
   ])
 
   const lessonCourseIds = [
@@ -266,7 +280,7 @@ async function runResourceSearchPass(
     ),
   ]
   const lessonCoursesResult = scope.includeCourses
-    ? await loadCoursesByIds(supabase, lessonCourseIds)
+    ? await loadCoursesByIds(supabase, lessonCourseIds, enforceReviewed)
     : emptyQueryResult()
 
   const courses = mergeCourseMatches(courseResult.data, lessonResult.data, lessonCoursesResult.data)
@@ -297,15 +311,21 @@ export async function searchTutorResources(
     includeCourses: plan.resourceTypes.includes('course') || plan.resourceTypes.length === 0,
     includeProjects: plan.resourceTypes.includes('project') || plan.resourceTypes.length === 0,
   }
+  const classificationSettings = await getContentClassificationSettings()
 
-  let pass = await runResourceSearchPass(supabase, queries, scope)
+  let pass = await runResourceSearchPass(supabase, queries, scope, classificationSettings.enforcementEnabled)
   const errors = [...pass.errors]
   let broadenedQueries: string[] = []
 
   if (!pass.hasMatches && queries.length) {
     const candidates = broadenResourceQueries(queries)
     if (candidates.length) {
-      const broadenedPass = await runResourceSearchPass(supabase, candidates, scope)
+      const broadenedPass = await runResourceSearchPass(
+        supabase,
+        candidates,
+        scope,
+        classificationSettings.enforcementEnabled,
+      )
       errors.push(...broadenedPass.errors)
       if (broadenedPass.hasMatches) {
         pass = broadenedPass

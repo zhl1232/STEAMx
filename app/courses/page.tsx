@@ -7,6 +7,7 @@ import { listApprovedCourses } from "@/lib/api/courses";
 import type { CourseListItem } from "@/lib/courses/types";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
+import { getContentClassificationSettings } from "@/lib/content-classification";
 
 const COURSE_HUB_DESCRIPTION =
     "积木搭建、Scratch 编程、五子棋等免费课程，按步骤学会一项技能，把过程做成自己的作品。";
@@ -24,7 +25,11 @@ export default async function CoursesPage() {
         const {
             data: { user },
         } = await supabase.auth.getUser();
-        courses = await listApprovedCourses(supabase, { userId: user?.id ?? null });
+        const classificationSettings = await getContentClassificationSettings();
+        courses = await listApprovedCourses(supabase, {
+            userId: user?.id ?? null,
+            includeClassification: classificationSettings.publicV1Enabled,
+        });
     } catch {
         courses = null;
     }

@@ -40,7 +40,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
 };
 
 export const DIFFICULTY_LEVELS = [
-    { value: "easy", label: "入门 (1-2星)", stars: 2, description: "适合新手，简单易懂" },
-    { value: "medium", label: "进阶 (3-4星)", stars: 4, description: "需要一定基础，稍有挑战" },
-    { value: "hard", label: "挑战 (5-6星)", stars: 6, description: "复杂项目，考验综合能力" }
+    { value: "beginner", label: "入门", stars: 2, description: "适合新手，简单易懂" },
+    { value: "intermediate", label: "进阶", stars: 4, description: "需要一定基础，稍有挑战" },
+    { value: "challenge", label: "挑战", stars: 6, description: "复杂项目，考验综合能力" }
 ];

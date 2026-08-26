@@ -2,7 +2,11 @@
 
 import { describe, expect, it, vi } from "vitest";
 
-import { collectHomepageRecommendations, selectCategoryBalancedProjects } from "@/lib/home/recommendations";
+import {
+  birthDateToExactAge,
+  collectHomepageRecommendations,
+  selectCategoryBalancedProjects,
+} from "@/lib/home/recommendations";
 import { type Project } from "@/lib/mappers/types";
 
 function createProject(id: number, title = `项目 ${id}`, category = "科学"): Project {
@@ -133,5 +137,24 @@ describe("collectHomepageRecommendations", () => {
     expect(result.projects.map((project) => project.id)).toEqual([6, 7, 8, 9, 1, 2, 3, 4]);
     expect(fetchPopular).toHaveBeenCalledTimes(3);
     expect(fetchPopular).toHaveBeenNthCalledWith(3, { limit: 8, offset: 0 });
+  });
+});
+
+describe("birthDateToExactAge", () => {
+  const today = new Date(2026, 7, 25);
+
+  it("returns the exact age at the birthday boundary", () => {
+    expect(birthDateToExactAge("2020-08-25", today)).toBe(6);
+    expect(birthDateToExactAge("2020-08-26", today)).toBe(5);
+    expect(birthDateToExactAge("2023-08-25", today)).toBe(3);
+    expect(birthDateToExactAge("2010-08-25", today)).toBe(16);
+  });
+
+  it("does not guess ages outside the supported range", () => {
+    expect(birthDateToExactAge(null, today)).toBeNull();
+    expect(birthDateToExactAge("2024-08-25", today)).toBeNull();
+    expect(birthDateToExactAge("2009-08-25", today)).toBeNull();
+    expect(birthDateToExactAge("not-a-date", today)).toBeNull();
+    expect(birthDateToExactAge("2026-02-30", today)).toBeNull();
   });
 });

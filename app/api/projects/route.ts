@@ -15,6 +15,7 @@ import { awardXpOnce } from '@/lib/api/server-awards'
 import { getSubCategoryNameById, resolveSubCategoryId } from '@/lib/subcategories'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { parseAgeParam } from '@/lib/content-classification'
 
 type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 type ProjectRow = Database['public']['Tables']['projects']['Row']
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
 
   const difficultyParam = searchParams.get('difficulty');
-  const validDifficulties = ['easy', 'medium', 'hard', 'all', '1', '2', '3', '4', '5', '1-2', '3-4', '5-6'] as const;
+  const validDifficulties = ['easy', 'medium', 'hard', 'beginner', 'intermediate', 'challenge', 'all', '1', '2', '3', '4', '5', '6', '1-2', '3-4', '5-6'] as const;
   
   // Type predicate or just check
   const difficulty: ProjectFilters['difficulty'] = (validDifficulties as readonly string[]).includes(difficultyParam || '')
@@ -40,6 +41,7 @@ export async function GET(request: NextRequest) {
     category: searchParams.get('category') || undefined,
     subCategory: searchParams.get('subCategory') || undefined,
     difficulty,
+    age: parseAgeParam(searchParams.get('age')) ?? undefined,
     tags: searchParams.get('tags')?.split(',').filter(Boolean) || undefined,
     searchQuery: searchParams.get('q') || undefined,
   }

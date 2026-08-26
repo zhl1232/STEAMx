@@ -37,6 +37,8 @@ import {
 import type { CourseLessonStep, LessonContent } from '@/lib/courses/types'
 import { getHomepageRecommendations } from '@/lib/home/recommendations'
 import type { ChallengeStage } from '@/lib/mappers/types'
+import { getContentClassificationSettings, mapPublicClassification } from '@/lib/content-classification'
+import type { ContentClassificationRow } from '@/lib/content-classification/types'
 import { mapChallengeWorkspace, type ChallengeWorkspaceRow } from '@/lib/pbl/challenge-workspace'
 import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import type { Database } from '@/lib/supabase/types'
@@ -439,7 +441,10 @@ async function buildGlobalContext(
 
     const lines = projects
       .map((project) => {
-        const detail = [project.category, project.difficulty_stars ? `${project.difficulty_stars}星` : '']
+        const detail = [
+          project.category,
+          project.classification?.difficultyLabel ?? '',
+        ]
           .filter(Boolean)
           .join('·')
         // 社区项目标题是不可信文本：清洗后再放进芯片标记，防止伪造额外芯片
@@ -474,11 +479,16 @@ async function buildChallengeContext(
     return { contextType: 'challenge', contextId, title: '项目挑战', summary: '' }
   }
 
-  const { data: challenge } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  let challengeQuery = supabase
     .from('challenges')
     .select('title, driving_question, constraints, stages')
     .eq('id', challengeId)
-    .maybeSingle()
+    .in('status', ['active', 'ended'])
+  if (classificationSettings.enforcementEnabled) {
+    challengeQuery = challengeQuery.eq('classification_status', 'reviewed')
+  }
+  const { data: challenge } = await challengeQuery.maybeSingle()
 
   if (!challenge) {
     return { contextType: 'challenge', contextId, title: '项目挑战', summary: '挑战不存在或已下架。' }
@@ -573,11 +583,17 @@ async function buildProjectContext(
     return { contextType: 'project', contextId, title: '探索项目', summary: '' }
   }
 
-  const { data: project } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  let projectQuery = supabase
     .from('projects')
-    .select('title, description, category, difficulty_stars, problem_statement, reflection, tags')
+    .select('title, description, category, difficulty_stars, recommended_min_age, recommended_max_age, support_level, classification_status, classification_source, classification_reviewed_at, classification_reviewed_by, classification_revision, problem_statement, reflection, tags, status, moderation_state')
     .eq('id', projectId)
-    .maybeSingle()
+    .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    projectQuery = projectQuery.eq('classification_status', 'reviewed')
+  }
+  const { data: project } = await projectQuery.maybeSingle()
 
   if (!project) {
     return { contextType: 'project', contextId, title: '探索项目', summary: '项目不存在。' }
@@ -603,10 +619,13 @@ async function buildProjectContext(
     .filter(Boolean)
     .join('、')
 
+  const classification = mapPublicClassification(project as unknown as ContentClassificationRow)
   const summary = [
     `项目：${sanitizeTutorUGC(project.title, 120)}`,
     project.category ? `分类：${project.category}` : '',
-    project.difficulty_stars ? `难度：${project.difficulty_stars} 星` : '',
+    classification?.ageLabel ? `适龄：${classification.ageLabel}` : '',
+    classification?.supportLabel ? `成人支持：${classification.supportLabel}` : '',
+    classification?.difficultyLabel ? `难度：${classification.difficultyLabel}` : '',
     project.description ? `简介：${sanitizeTutorUGC(project.description, 300)}` : '',
     project.problem_statement ? `问题：${sanitizeTutorUGC(project.problem_statement, 200)}` : '',
     materialText ? `材料：${materialText}` : '',
@@ -812,8 +831,18 @@ async function buildCourseContext(
     return { contextType: 'course', contextId, title: '技能课程', summary: '' }
   }
 
+  const classificationSettings = await getContentClassificationSettings()
+  let courseQuery = supabase
+    .from('courses')
+    .select('title, description, tags, status, recommended_min_age, recommended_max_age, support_level, classification_status, classification_source, classification_reviewed_at, classification_reviewed_by, classification_revision, difficulty_stars')
+    .eq('id', courseId)
+    .eq('status', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    courseQuery = courseQuery.eq('classification_status', 'reviewed')
+  }
+
   const [{ data: course }, { data: lessons }, { data: progress }, currentLessonResult] = await Promise.all([
-    supabase.from('courses').select('title, description, tags').eq('id', courseId).maybeSingle(),
+    courseQuery.maybeSingle(),
     supabase
       .from('course_lessons')
       .select('id, title, lesson_type')
@@ -841,7 +870,7 @@ async function buildCourseContext(
     (progress ?? []).filter((p) => p.completed_at).map((p) => p.lesson_id),
   )
 
-  const lessonLines = (lessons ?? [])
+  const lessonLines = (course ? lessons ?? [] : [])
     .map((lesson, i) => {
       const done = completedSet.has(lesson.id)
       const marker = lesson.id === lessonId ? '👉 ' : ''
@@ -850,9 +879,9 @@ async function buildCourseContext(
     .join('\n')
 
   // 课时学习页：注入当前课时目标与步骤，让小迪能按步骤点拨 Scratch 操作
-  const currentLesson = currentLessonResult?.data as
+  const currentLesson = course ? currentLessonResult?.data as
     | { id: number; title: string; content: LessonContent | null; steps: unknown }
-    | null
+    | null : null
   let currentLessonText = ''
   let scratchBlockKeywords: string[] = []
   let scratchBlockItems: ScratchBlockHintItem[] = []
@@ -922,6 +951,14 @@ async function buildCourseContext(
 
   const summary = [
     course ? `课程：${compact(course.title, 120)}` : '',
+    (() => {
+      const classification = course
+        ? mapPublicClassification(course as unknown as ContentClassificationRow)
+        : null
+      return classification
+        ? `适龄：${classification.ageLabel}\n难度：${classification.difficultyLabel}\n成人支持：${classification.supportLabel}`
+        : ''
+    })(),
     course?.description ? `简介：${compact(course.description, 300)}` : '',
     shouldInjectGomokuFacts({
       courseTitle: course?.title,

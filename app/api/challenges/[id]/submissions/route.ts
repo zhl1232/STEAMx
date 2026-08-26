@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { getChallengeSubmissions } from '@/lib/api/challenge-submissions'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 
@@ -19,16 +20,23 @@ export async function GET(
 
     const { data: challenge, error: challengeError } = await supabase
       .from('challenges')
-      .select('id')
+      .select('id, status, classification_status')
       .eq('id', challengeId)
       .maybeSingle()
 
     if (challengeError) throw challengeError
-    if (!challenge) {
+    const classificationSettings = await getContentClassificationSettings()
+    if (
+      !challenge
+      || !['active', 'ended'].includes(challenge.status)
+      || (classificationSettings.enforcementEnabled && challenge.classification_status !== 'reviewed')
+    ) {
       return NextResponse.json({ error: 'Challenge not found' }, { status: 404 })
     }
 
-    const submissions = await getChallengeSubmissions(supabase, challengeId)
+    const submissions = await getChallengeSubmissions(supabase, challengeId, {
+      requireReviewedParents: classificationSettings.enforcementEnabled,
+    })
     return NextResponse.json({ submissions })
   } catch (error) {
     logger.error('Error in GET /api/challenges/[id]/submissions', { error })

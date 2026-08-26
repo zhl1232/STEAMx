@@ -1,3 +1,5 @@
+import { normalizeDifficultyParam } from '@/lib/content-classification/validation'
+
 export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
@@ -14,13 +16,14 @@ export type ExplorePreset = {
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'latest', label: '最新上架', sortBy: 'latest', difficulty: 'all' },
-    { id: 'beginner-friendly', label: '新手推荐', sortBy: 'popular', difficulty: '1-2' },
+    { id: 'beginner-friendly', label: '新手推荐', sortBy: 'popular', difficulty: 'beginner' },
 ]
 
 export type ExploreFilterState = {
     category: string
     subCategory: string
     difficulty: string
+    age: number | null
     tags: string[]
     searchQuery: string
     sortBy: SortBy
@@ -47,6 +50,7 @@ export function isExploreResultsMode(state: ExploreFilterState): boolean {
     const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
     const hasActiveAdvancedFilters = !!state.subCategory
         || (!difficultyBelongsToListTab && state.difficulty !== 'all')
+        || state.age !== null
         || state.tags.length > 0
 
     return state.category !== '全部'
@@ -64,7 +68,7 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
         return 'latest'
     }
 
-    if (difficulty === '1-2' && sortBy === 'popular') {
+    if (normalizeDifficultyParam(difficulty) === 'beginner' && sortBy === 'popular') {
         return 'beginner-friendly'
     }
 

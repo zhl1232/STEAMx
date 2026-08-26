@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache'
 import { unstable_rethrow } from 'next/navigation'
 
 import { logger } from '@/lib/logger'
+import { getContentClassificationSettings } from '@/lib/content-classification'
 import { natureTopicKeys, type NatureTopicKey } from '@/lib/config/nature-topics'
 import {
   mapDbObservationEvent,
@@ -633,13 +634,17 @@ export interface BirdHomepageData {
 
 export async function getCuratedChallengeProjects(challengeId: number): Promise<ObservationLinkedItem[]> {
   const supabase = await createClient()
-  const { data, error } = await supabase
+  const classificationSettings = await getContentClassificationSettings()
+  let projectQuery = supabase
     .from('projects')
     .select('id, title')
     .eq('challenge_id', challengeId)
     .eq('status', 'approved')
     .eq('moderation_state', 'approved')
-    .order('created_at', { ascending: true })
+  if (classificationSettings.enforcementEnabled) {
+    projectQuery = projectQuery.eq('classification_status', 'reviewed')
+  }
+  const { data, error } = await projectQuery.order('created_at', { ascending: true })
 
   if (error) {
     logger.error('Error fetching curated challenge projects', { error, challengeId })

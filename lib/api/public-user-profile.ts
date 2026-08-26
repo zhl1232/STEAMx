@@ -1,4 +1,8 @@
 import { isUuid } from '@/lib/api/validation'
+import {
+  applyPublicClassificationVisibility,
+  getContentClassificationSettings,
+} from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import { mapDbProject, type Project, type Work } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
@@ -57,6 +61,20 @@ const PUBLIC_PROFILE_PROJECT_SELECT = `
   sub_categories (name)
 `
 
+function buildPublicProfileProjectSelect(includeClassification: boolean): string {
+  if (!includeClassification) return PUBLIC_PROFILE_PROJECT_SELECT
+
+  return `${PUBLIC_PROFILE_PROJECT_SELECT},
+  recommended_min_age,
+  recommended_max_age,
+  support_level,
+  classification_status,
+  classification_source,
+  classification_reviewed_at,
+  classification_reviewed_by,
+  classification_revision`
+}
+
 export async function getPublicUserProfile(
   userId: string,
   options: { page?: number; pageSize?: number } = {},
@@ -68,6 +86,21 @@ export async function getPublicUserProfile(
   const pageSize = Math.min(24, Math.max(1, options.pageSize ?? PUBLIC_PROFILE_PROJECTS_PAGE_SIZE))
   const from = page * pageSize
   const to = from + pageSize - 1
+  const classificationSettings = await getContentClassificationSettings()
+  const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled
+
+  let projectsQuery = supabase
+    .from('projects')
+    .select(buildPublicProfileProjectSelect(includeClassification), { count: 'exact' })
+    .eq('author_id', userId)
+    .eq('status', 'approved')
+    .eq('moderation_state', 'approved')
+  if (classificationSettings.enforcementEnabled) {
+    projectsQuery = projectsQuery.eq('classification_status', 'reviewed')
+  }
+  projectsQuery = projectsQuery
+    .order('created_at', { ascending: false })
+    .range(from, to)
 
   const [
     profileResult,
@@ -82,14 +115,7 @@ export async function getPublicUserProfile(
       .select('id, display_name, avatar_url, equipped_avatar_frame_id, equipped_name_color_id, equipped_title, featured_badge_ids, bio, xp, role, message_privacy, created_at')
       .eq('id', userId)
       .maybeSingle(),
-    supabase
-      .from('projects')
-      .select(PUBLIC_PROFILE_PROJECT_SELECT, { count: 'exact' })
-      .eq('author_id', userId)
-      .eq('status', 'approved')
-      .eq('moderation_state', 'approved')
-      .order('created_at', { ascending: false })
-      .range(from, to),
+    projectsQuery,
     supabase
       .from('follows')
       .select('follower_id', { count: 'exact', head: true })
@@ -130,8 +156,10 @@ export async function getPublicUserProfile(
     logger.error('Error fetching public profile badges', { error: badgeResult.error, userId })
   }
 
-  const projects = ((projectsResult.data || []) as unknown as Parameters<typeof mapDbProject>[0][])
-    .map(mapDbProject)
+  const projects = applyPublicClassificationVisibility(
+    ((projectsResult.data || []) as unknown as Parameters<typeof mapDbProject>[0][]).map((row) => mapDbProject(row)),
+    classificationSettings,
+  )
   const projectsTotalCount = projectsResult.count || projects.length
 
   return {
