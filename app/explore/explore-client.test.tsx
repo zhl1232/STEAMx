@@ -356,6 +356,56 @@ describe('ExploreClient', () => {
         expect(screen.queryByText('第三页项目')).not.toBeInTheDocument()
     })
 
+    it('keeps a full-page loading placeholder outside the project grid', async () => {
+        const fetchMock = vi.mocked(fetch)
+        let resolveLoadMore: ((response: Response) => void) | undefined
+        fetchMock.mockImplementation((input) => {
+            const url = String(input)
+            if (url.includes('page=1')) {
+                return new Promise<Response>((resolve) => {
+                    resolveLoadMore = resolve
+                })
+            }
+
+            return Promise.resolve({
+                ok: true,
+                json: async () => ({ projects: [], hasMore: false, total: 1 }),
+            } as Response)
+        })
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore
+                categories={['全部', '科学']}
+            />,
+        )
+
+        await waitFor(() => expect(latestIntersectionCallback).not.toBeNull())
+
+        await act(async () => {
+            triggerIntersection()
+            await Promise.resolve()
+        })
+
+        const placeholder = await screen.findByTestId('explore-load-more-placeholder')
+        expect(placeholder).toHaveAttribute('aria-busy', 'true')
+        expect(placeholder.querySelectorAll('[data-testid="explore-project-grid"]').length).toBe(0)
+        expect(screen.getByTestId('explore-project-grid')).not.toContainElement(placeholder)
+        expect(screen.getAllByText('loading')).toHaveLength(12)
+
+        await act(async () => {
+            resolveLoadMore?.({
+                ok: true,
+                json: async () => ({ projects: [makeProject(2, '下一页项目')], hasMore: false, total: 2 }),
+            } as Response)
+            await Promise.resolve()
+        })
+
+        await waitFor(() => expect(screen.getByText('下一页项目')).toBeInTheDocument())
+        expect(screen.queryByTestId('explore-load-more-placeholder')).not.toBeInTheDocument()
+    })
+
     it('scopes tags by category and opens the tag picker for the full list', async () => {
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({

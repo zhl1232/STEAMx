@@ -63,6 +63,8 @@ import {
     type SortBy,
 } from '@/lib/explore/presets'
 
+const EXPLORE_LOAD_MORE_PLACEHOLDER_COUNT = 12
+
 function mergeUniqueProjectsById(existing: Project[], incoming: Project[]): Project[] {
     if (incoming.length === 0) {
         return existing
@@ -1297,6 +1299,7 @@ export function ExploreClient({
                                     ) : null}
 
                                     <div
+                                        data-testid="explore-project-grid"
                                         className={cn(
                                             COMPACT_VERTICAL_PROJECT_GRID_CLASS,
                                             "transition-opacity duration-300",
@@ -1335,14 +1338,27 @@ export function ExploreClient({
                                             )
                                         })}
 
-                                        {isLoadingMore && (
-                                            <>
-                                                {[1, 2, 3, 4].map((i) => (
-                                                    <ProjectCardSkeleton key={`skeleton-${i}`} variant="compact" compactLayout="vertical" className={COMPACT_VERTICAL_PROJECT_CARD_CLASS} />
-                                                ))}
-                                            </>
-                                        )}
                                     </div>
+
+                                    {isLoadingMore && (
+                                        <div
+                                            data-testid="explore-load-more-placeholder"
+                                            aria-busy="true"
+                                            aria-live="polite"
+                                            className="mt-3"
+                                        >
+                                            <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
+                                                {Array.from({ length: EXPLORE_LOAD_MORE_PLACEHOLDER_COUNT }, (_, index) => (
+                                                    <ProjectCardSkeleton
+                                                        key={`skeleton-${index}`}
+                                                        variant="compact"
+                                                        compactLayout="vertical"
+                                                        className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {!isLoadingMore && !isFiltering && projects.length === 0 && (
                                         <div className="mt-8 flex flex-col items-center justify-center rounded-lg border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
