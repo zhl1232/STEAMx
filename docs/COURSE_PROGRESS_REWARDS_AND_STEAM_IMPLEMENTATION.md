@@ -1,8 +1,8 @@
 # 积木课程进度、作品奖励与 STEAM 结算开发设计
 
-> 状态：应用代码与迁移已实现，数据库迁移待执行。最后复核：2026-07-31。
+> 状态：应用代码、数据库迁移、回归矩阵与只读审计已实现；目标数据库迁移已执行。最后复核：2026-08-26。
 >
-> 本文承接 [`next-step.md`](./next-step.md) 的“积木课程：完成、作品奖励与能力成长”。本文只定义实现，不表示功能已经上线。
+> 本文承接 [`next-step.md`](./next-step.md) 的“积木课程：完成、作品奖励与能力成长”，同时记录已落地的测试与观测约定。
 
 ## 1. 目标与不变量
 
@@ -317,7 +317,7 @@ WHERE cp.user_id = target_user_id
 
 Admin create/update API 使用同一 schema，不能只在组件校验。
 
-## 10. 预计文件清单
+## 10. 实现文件清单
 
 **数据库**
 
@@ -396,13 +396,12 @@ Admin create/update API 使用同一 schema，不能只在组件校验。
 
 ## 12. 发布、观测与回滚
 
-1. 部署支持 `completion_source`、但暂不创建 milestone 的受控 progress 保存/完成入口；入口先兼容旧表结构，migration 完成后开始写可信来源。此时不开放历史回填、reconcile 或雷达新来源。
-2. 确认所有合法写入已迁移后，在维护窗口执行同一个来源标记/RLS 硬化 migration；使用 `pnpm db:push -- --dry-run`、`pnpm db:push`、`pnpm db:status`，禁止 `supabase db push`。
-3. 验证普通 authenticated 无法写 progress 或伪造来源，再开启完成入口的 `server_v1` 写入，同时上线原子审批和 Admin 能力配置。
-4. 运行 STEAM 配置预检并修复/验证约束，然后才开启 milestone 创建、可信来源 reconcile 和雷达新来源；不自动回填 legacy completion。
-5. 部署 DTO、列表/详情 UI，确认历史进度仍显示正确。
-6. 观测 `complete_lesson` 新流水数应为 0、每 `(user,course)` milestone 最大为 1、legacy 排除数、配置延迟结算数以及已批准终稿与奖励流水缺口。
-7. 记录 `courseCompletionState`、奖励 duplicate/no-op 和 reconcile 补偿数量，但不记录 Scratch 文件内容。
+截至 2026-08-26，课程闭环迁移已通过 `pnpm db:push` 执行，`pnpm db:status` 无待执行迁移，`pnpm db:course-config` 通过；应用已启用可信完成、原子奖励和课程里程碑路径，但不自动回填 legacy completion。
+
+1. 每次课程结构、课程配置或奖励逻辑发布后运行 `pnpm course:audit`；需要机器采集时使用 `pnpm course:audit -- --json`。
+2. 默认审计只阻断 P1 完整性问题；发布验收或人工排障时可使用 `--strict`，将历史孤立流水等 P2 advisory 一并显式暴露。当前已知的 3 条历史 `complete_project` 孤立流水不自动删除、冲正或重发。
+3. 课程配置修复后，先运行 `pnpm db:course-config` 确认配置有效，再按需使用 service-role reconcile；不要把 legacy completion 直接升级为可信能力来源。
+4. 后续将审计 JSON 接入定时任务/告警，重点监测 `courseCompletionState`、duplicate/no-op 奖励、里程碑缺口、配置延迟结算和 reconcile 延迟；不记录 Scratch 文件内容。
 
 回滚只切回应用读取或暂时移除雷达新来源，不删除 milestone、历史 progress 或 XP 流水，也不恢复 `+15 XP`，除非产品另行决策。
 

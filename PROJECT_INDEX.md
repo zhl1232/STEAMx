@@ -478,6 +478,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `purge-triaged-project-assets.mjs --scope=2026-08-25` | 本次项目目录清理的 59 个项目资源 dry-run / 清理；默认仍是 2026-08-13 旧分诊名单，确认后才加 `--execute` |
 | `submit-baidu-urls.mjs` | 读取生产 `sitemap.xml`，按百度主动推送接口分批提交公开规范 URL；未配置 `BAIDU_PUSH_TOKEN` 时安全跳过，Release workflow 配置该 secret 后每次发布自动执行 |
 | `course-config-preflight.mjs` | 只读检查已发布课程的 STEAM 权重/难度配置；`--validate` 在结果为空后显式验证迁移中的 `NOT VALID` 约束 |
+| `course-closure-audit.mjs` | 只读检查课程闭环的迁移、配置/约束、可信进度与里程碑、作品奖励幂等性、迁移后 `complete_lesson` XP 和数据库死锁；支持 `--json` 与 `--strict`，不写库；`lib/course-closure-audit.mjs` 提供汇总逻辑 |
 | `content-classification-preflight.mjs` | 内容分级阶段 0 只读预检：统计三类内容的发布/未复核/非法星级/年龄边界/安全关键词/低置信候选；支持 `--type`、`--json`，不写库 |
 | `content-classification-candidates.mjs` | 生成 `rules_v1` 候选；默认 dry-run，`--apply-candidates` 通过受控 RPC 幂等写入候选，不写 reviewed 元数据 |
 | `content-classification-review-report.mjs` | 导出后台复核队列，支持 `--status`、`--type`、`--format=json|csv`；只输出内容标识和候选规则结果，不输出个人资料 |
@@ -515,11 +516,15 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `__tests__/` — **50+ 个** API 路由单元测试 + 组件测试
 - `lib/journeys/types.test.ts` / `lib/journeys/service.test.ts` — Journey 类型约束、一次 active 尝试幂等开启、过程/最终记录状态与重新开始边界
 - `__tests__/api.playground-race-rooms-route.test.ts` — 竞速加入竞争的前读/条件更新两种交错顺序、同访客重试幂等和等待房间权威超时读取
+- `lib/api/courses.test.ts` / `__tests__/api.courses-route.test.ts` — 课程服务与列表/详情 API 的匿名/登录态进度隔离、公共/私有缓存、空课程和增课时后的当前进度
+- `__tests__/api.courses-lesson-complete-route.test.ts` / `__tests__/api.completion-review-route.test.ts` — 课时完成与审核奖励的原子 RPC、幂等、legacy Scratch 校验和配置异常反馈
+- `scripts/course-closure-audit.test.ts` — 课程闭环审计摘要的 P1 阻断、P2 advisory 与计数归一化
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，联网邀请未登录时 `next` 保留 `room` 参数，受保护分区深链接未登录时 `next` 保留完整子路径与查询串，以及详情页不存在时返回真正的 404 状态码）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）。例外是纯文本统计：零件清单会直接给家长看数字，`lib/utils/ldraw-bom.test.ts`（含真实 `3-hu-die.mpd` 分步用量断言，并把全部模型的统计总数与其自带的 `0 NumOfBricks` 声明对账，新模型对不上就是统计口径或模型头部有一边没更新）与 `__tests__/api.courses-ldraw-bom-route.test.ts` 只做文本解析、不碰 three.js，跑完不到 1 秒
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的最终作品直达作品页、探索记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报；SEO 相关覆盖默认社交图、JSON-LD、sitemap 全量分页/内容路由、专题 canonical、课时预览 noindex、页脚规范链接、推荐 Cookie 精确作用域、`app/robots.ts`、`/llms.txt`、apex 301 与 Nginx 爬虫策略
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置：拆成 `dom` 与 `node` 两个 project，`*.test.tsx` 用 happy-dom + `vitest.setup.ts`，`*.test.ts` 默认跑纯 node（省掉每个文件的 DOM 启动与 React 测试初始化，全量从 ~224s 降到 ~145s）；无 JSX 但需要 DOM/存储/`renderHook`/`Worker` 的 `.ts` 用例登记在配置里的 `domOnlyTsTests`，新写的用例若报 `document is not defined` 就把文件加进该数组
 - `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录
+- 课程闭环观测：`pnpm course:audit` 只读核对课程配置、可信进度、STEAM 里程碑、作品奖励和迁移后 legacy XP；默认只阻断 P1，`--strict` 将 P2 advisory 作为失败。
 
 ---
 
@@ -560,6 +565,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `pnpm type-check` | TypeScript 类型检查（TypeScript 7 自带的 `tsc --noEmit`）；CI 使用此命令 |
 | `pnpm lint` | Oxlint 快速检查产品源码（显式启用 React / Next.js 插件，覆盖 Hooks、Next、TypeScript 常用规则；检查 `app`/`components`/`hooks`/`lib`/Scratch 源码/根配置，跳过脚本与 agent 模板） |
 | `pnpm test` / `pnpm test:e2e` / `pnpm test:e2e:integration` / `pnpm test:e2e:scratch` | Vitest 单元测试 / 主站 Playwright smoke / 真实 Supabase 集成测试 / 独立 Scratch host Playwright E2E |
+| `pnpm course:audit` | 只读检查课程闭环完整性；追加 `-- --json` 输出机器可采集报告，追加 `-- --strict` 将 P2 advisory 也视为失败 |
 | `pnpm test:related <files>` | 只跑 import 了指定文件的 Vitest 用例（`vitest related --run --passWithNoTests`）；`pre-commit` 就是跑 `lint` + 暂存文件的 related 测试（通常几秒）。不要在 `pre-commit` 用 `vitest --changed`：改动 `package.json` 等配置文件时它会退化成全量跑 |
 | `pnpm push` / `pnpm ci:watch` / `pnpm ci:status` | 全量单测只在 CI 跑（没有 `pre-push` 钩子）。`pnpm push` = `git push` 后阻塞等 CI 结论，失败时列出失败 job/step 与运行链接；`ci:watch` 单独盯当前 HEAD（`--sha=`/`--timeout=` 可覆盖），`ci:status` 只看一眼当前状态。token 取自 `GITHUB_TOKEN`/`GH_TOKEN`（环境变量、`.env.local` 或 `gh auth token`），仓库私有所以必须有 token；没有 token 时脚本会打印申请指引，GitHub 也仍会在 workflow 失败时发邮件 |
 | `pnpm eval:tutor` | 小迪 golden-set 真实模型评估（`TUTOR_GOLDEN_SET=1` 调 DashScope，普通 `pnpm test` 自动跳过）；提示词 / planner 规则改动先跑此评估再上线 |

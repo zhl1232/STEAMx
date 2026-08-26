@@ -34,6 +34,7 @@
     "db:status": "node scripts/db-push.mjs status",
     "db:baseline": "node scripts/db-push.mjs baseline",
     "db:course-config": "node scripts/course-config-preflight.mjs",
+    "course:audit": "node scripts/course-closure-audit.mjs",
     "content-classification:public": "node scripts/set-content-classification-public-v1.mjs",
     "seo:baidu-push": "node scripts/submit-baidu-urls.mjs"
   },

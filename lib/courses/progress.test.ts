@@ -46,6 +46,35 @@ describe('deriveCourseProgress', () => {
     })
     expect(fromCourseProgressApi(toCourseProgressApi(progress))).toEqual(progress)
   })
+
+  it('reopens current progress when a new lesson is added after the milestone', () => {
+    expect(
+      deriveCourseProgress(
+        [
+          { id: 10, sort_order: 1 },
+          { id: 11, sort_order: 2 },
+          { id: 12, sort_order: 3 },
+        ],
+        [10, 11],
+        '2026-07-30T10:00:00.000Z',
+      ),
+    ).toEqual({
+      completed_lesson_count: 2,
+      total_lesson_count: 3,
+      status: 'in_progress',
+      next_lesson_id: 12,
+      milestone_completed_at: '2026-07-30T10:00:00.000Z',
+    })
+  })
+
+  it('ignores completed rows for lessons that no longer belong to the course', () => {
+    expect(deriveCourseProgress([{ id: 10, sort_order: 1 }], [10, 999])).toMatchObject({
+      completed_lesson_count: 1,
+      total_lesson_count: 1,
+      status: 'completed',
+      next_lesson_id: null,
+    })
+  })
 })
 
 describe('getLessonCompletionFeedback', () => {
@@ -69,5 +98,17 @@ describe('getLessonCompletionFeedback', () => {
         .certificateHref,
     ).toBeUndefined()
     expect(getLessonCompletionFeedback({ courseId: 5 }).certificateHref).toBeUndefined()
+  })
+
+  it('keeps configuration failures user-safe and does not expose a false milestone', () => {
+    expect(getLessonCompletionFeedback({ courseCompletionState: 'configuration_error' })).toEqual({
+      title: '课时进度已保存',
+    })
+  })
+
+  it('does not show a second completion celebration for an existing milestone', () => {
+    expect(getLessonCompletionFeedback({ courseCompletionState: 'already_recorded' })).toEqual({
+      title: '本课已完成',
+    })
   })
 })

@@ -118,4 +118,81 @@ describe('POST /api/admin/completions/[id]/review', () => {
         await expect(response.json()).resolves.toEqual({ error: 'Completion not found' })
         expect(callRpcMock).not.toHaveBeenCalled()
     })
+
+    it('returns an idempotent approval when the reward already exists', async () => {
+        const completionMaybeSingle = vi.fn().mockResolvedValue({
+            data: { id: 123 },
+            error: null,
+        })
+        const completionSelect = vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+                maybeSingle: completionMaybeSingle,
+            }),
+        })
+
+        const routeSupabase = {
+            from: vi.fn((table: string) => {
+                if (table === 'completed_projects') return { select: completionSelect }
+                throw new Error(`Unexpected table: ${table}`)
+            }),
+        }
+        createClientMock.mockResolvedValue(routeSupabase as never)
+        callRpcMock.mockResolvedValue({ data: { xp_awarded: false }, error: null } as never)
+
+        const response = await POST(new Request('http://localhost/api/admin/completions/123/review', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ action: 'approve' }),
+        }) as never, {
+            params: Promise.resolve({ id: '123' }),
+        })
+
+        expect(response.status).toBe(200)
+        await expect(response.json()).resolves.toMatchObject({
+            status: 'approved',
+            xpAwarded: false,
+        })
+        expect(callRpcMock).toHaveBeenCalledWith(routeSupabase, 'approve_completion_with_reward', {
+            p_completion_id: 123,
+        })
+    })
+
+    it('routes rejection through the rejection RPC without awarding XP', async () => {
+        const completionMaybeSingle = vi.fn().mockResolvedValue({
+            data: { id: 123 },
+            error: null,
+        })
+        const completionSelect = vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+                maybeSingle: completionMaybeSingle,
+            }),
+        })
+
+        const routeSupabase = {
+            from: vi.fn((table: string) => {
+                if (table === 'completed_projects') return { select: completionSelect }
+                throw new Error(`Unexpected table: ${table}`)
+            }),
+        }
+        createClientMock.mockResolvedValue(routeSupabase as never)
+        callRpcMock.mockResolvedValue({ data: null, error: null } as never)
+
+        const response = await POST(new Request('http://localhost/api/admin/completions/123/review', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ action: 'reject', rejection_reason: '请补充作品说明' }),
+        }) as never, {
+            params: Promise.resolve({ id: '123' }),
+        })
+
+        expect(response.status).toBe(200)
+        await expect(response.json()).resolves.toEqual({
+            message: 'Completion rejected',
+            status: 'rejected',
+        })
+        expect(callRpcMock).toHaveBeenCalledWith(routeSupabase, 'reject_completion', {
+            completion_id: 123,
+            reason: '请补充作品说明',
+        })
+    })
 })
