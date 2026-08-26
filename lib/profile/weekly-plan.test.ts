@@ -215,6 +215,87 @@ describe('buildWeeklyPlan', () => {
     expect(plan.steps[3].status).toBe('todo')
   })
 
+  it('does not let daily check-ins fill the completed plan slots', () => {
+    const plan = buildWeeklyPlan({
+      ...baseInput,
+      myProjects: [makeProject(1, '已有作品')],
+      profileTimelineEvents: [
+        makeTimelineEvent({
+          id: 'login-1',
+          kind: 'xp_gained',
+          occurredAt: '2026-06-11T08:00:00.000Z',
+          label: '经验提升',
+          detail: '每日探索签到',
+        }),
+        makeTimelineEvent({
+          id: 'login-2',
+          kind: 'xp_gained',
+          occurredAt: '2026-06-10T08:00:00.000Z',
+          label: '经验提升',
+          detail: '每日探索签到',
+        }),
+        makeTimelineEvent({
+          id: 'project-1',
+          occurredAt: '2026-06-09T08:00:00.000Z',
+          label: '完成真实项目',
+        }),
+      ],
+    })
+
+    expect(plan.completedCount).toBe(1)
+    expect(plan.steps[0]).toMatchObject({ status: 'done', type: 'project', title: '完成真实项目' })
+    expect(plan.steps.some((step) => step.subtitle === '每日探索签到')).toBe(false)
+  })
+
+  it('does not let badge unlocks fill the completed plan slots', () => {
+    const plan = buildWeeklyPlan({
+      ...baseInput,
+      myProjects: [makeProject(1, '已有作品')],
+      profileTimelineEvents: [
+        makeTimelineEvent({
+          id: 'badge-1',
+          kind: 'badge_unlocked',
+          occurredAt: '2026-06-11T08:00:00.000Z',
+          label: '获得徽章',
+          detail: '探索新星',
+        }),
+        makeTimelineEvent({
+          id: 'challenge-1',
+          kind: 'challenge_completed',
+          occurredAt: '2026-06-10T08:00:00.000Z',
+          label: '完成节水挑战',
+        }),
+      ],
+    })
+
+    expect(plan.completedCount).toBe(1)
+    expect(plan.steps[0]).toMatchObject({ status: 'done', type: 'challenge', title: '完成节水挑战' })
+    expect(plan.steps.some((step) => step.subtitle === '探索新星')).toBe(false)
+  })
+
+  it('only counts milestones from the current Shanghai week', () => {
+    const plan = buildWeeklyPlan({
+      ...baseInput,
+      myProjects: [makeProject(1, '已有作品')],
+      profileTimelineEvents: [
+        makeTimelineEvent({
+          id: 'this-week',
+          occurredAt: '2026-06-07T16:00:00.000Z',
+          label: '本周完成',
+        }),
+        makeTimelineEvent({
+          id: 'last-week',
+          occurredAt: '2026-06-07T15:59:59.999Z',
+          label: '上周完成',
+        }),
+      ],
+    })
+
+    expect(plan.completedCount).toBe(1)
+    expect(plan.steps[0].title).toBe('本周完成')
+    expect(plan.steps[1]?.status).toBe('todo')
+  })
+
   it('formats tutor summary with project chips', () => {
     const plan = buildWeeklyPlan({
       ...baseInput,

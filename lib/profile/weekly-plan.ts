@@ -164,15 +164,7 @@ function doneStepFromTimelineEvent(event: ProfileTimelineEvent): WeeklyPlanStep 
     }
   }
 
-  if (event.kind === 'badge_unlocked' || event.kind === 'xp_gained') {
-    return {
-      ...base,
-      id: `done:${event.id}`,
-      type: 'timeline',
-      badgeLabel: event.kind === 'badge_unlocked' ? '徽章' : '经验',
-    }
-  }
-
+  // 签到、经验流水和徽章解锁属于成长足迹/每日打卡，不占用周计划的完成名额。
   return null
 }
 

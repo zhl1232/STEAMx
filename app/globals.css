@@ -63,10 +63,10 @@
   --color-chart-5: hsl(var(--chart-5));
 
   --radius-xs: var(--radius);
-  --radius-sm: 0.625rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 
   --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Songti SC", "Noto Serif CJK SC", STSong, ui-serif, serif;
@@ -619,7 +619,7 @@
     --input: var(--border);
     --ring: var(--brand-blue);
 
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
     /* 图表配色:chart-1 与品牌主色对齐 */
     --chart-1: var(--brand-blue);
@@ -684,10 +684,10 @@
 
     /* Radius scale — radius-xs 与 shadcn 默认 --radius 同值,做别名 */
     --radius-xs: var(--radius);
-    --radius-sm: 0.625rem;
-    --radius-md: 1rem;
-    --radius-lg: 1.25rem;
-    --radius-xl: 1.75rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
 
     /* Navigation — active/hover/logo 与 brand-blue 同色,做别名 */
     --nav-muted: 220 26% 18%;

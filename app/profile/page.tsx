@@ -213,6 +213,10 @@ export default function ProfilePage() {
     queryKey: weeklyPlanQueryKey(user?.id),
     queryFn: () => fetchWeeklyPlan(user!.id),
     enabled: !!user?.id,
+    // 周计划由当前数据实时计算；进入个人页或从其他页面回来时都应看到最新进展。
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   })
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null)
   const [claimingTaskId, setClaimingTaskId] = useState<GrowthTaskId | null>(null)

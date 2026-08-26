@@ -21,13 +21,11 @@ import {
 import { getSteamRadarWithGuidanceSafe } from '@/lib/profile/steam-radar'
 import {
   buildProfileTimelineEvents,
-  type BadgeTimelineRow,
   type ChallengeSubmissionTimelineRow,
   type CompletedProjectTimelineRow,
   type ObservationTimelineRow,
   type ProfileTimelineEvent,
   type ProjectTimelineRow,
-  type XpLogTimelineRow,
 } from '@/lib/profile/timeline'
 import {
   buildWeeklyPlan,
@@ -192,8 +190,6 @@ async function loadWeeklyTimelineEvents(supabase: DbClient, userId: string, week
     completionsResponse,
     challengeSubmissionsResponse,
     observationsResponse,
-    badgesResponse,
-    xpLogsResponse,
   ] = await Promise.all([
     supabase
       .from('projects')
@@ -224,29 +220,12 @@ async function loadWeeklyTimelineEvents(supabase: DbClient, userId: string, week
       .gte('created_at', weekStart)
       .order('created_at', { ascending: false })
       .limit(TIMELINE_SOURCE_LIMIT),
-    supabase
-      .from('user_badges')
-      .select('badge_id, unlocked_at')
-      .eq('user_id', userId)
-      .gte('unlocked_at', weekStart)
-      .order('unlocked_at', { ascending: false })
-      .limit(TIMELINE_SOURCE_LIMIT),
-    supabase
-      .from('xp_logs')
-      .select('id, action_type, resource_id, xp_amount, created_at')
-      .eq('user_id', userId)
-      .gt('xp_amount', 0)
-      .gte('created_at', weekStart)
-      .order('created_at', { ascending: false })
-      .limit(TIMELINE_SOURCE_LIMIT),
   ])
 
   if (projectsResponse.error) throw projectsResponse.error
   if (completionsResponse.error) throw completionsResponse.error
   if (challengeSubmissionsResponse.error) throw challengeSubmissionsResponse.error
   if (observationsResponse.error) throw observationsResponse.error
-  if (badgesResponse.error) throw badgesResponse.error
-  if (xpLogsResponse.error) throw xpLogsResponse.error
 
   const completionRows = ((completionsResponse.data || []) as {
     id?: number | null
@@ -310,25 +289,6 @@ async function loadWeeklyTimelineEvents(supabase: DbClient, userId: string, week
         observedAt: row.observed_at,
         createdAt: row.created_at,
         status: row.status,
-      })),
-      badges: ((badgesResponse.data || []) as { badge_id: string; unlocked_at: string | null }[]).map(
-        (row): BadgeTimelineRow => ({
-          badgeId: row.badge_id,
-          unlockedAt: row.unlocked_at,
-        }),
-      ),
-      xpLogs: ((xpLogsResponse.data || []) as {
-        id: string | number
-        action_type: string
-        resource_id: string | null
-        xp_amount: number
-        created_at: string | null
-      }[]).map((row): XpLogTimelineRow => ({
-        id: row.id,
-        actionType: row.action_type,
-        resourceId: row.resource_id,
-        xpAmount: row.xp_amount,
-        createdAt: row.created_at,
       })),
     },
     { limit: 12 },
