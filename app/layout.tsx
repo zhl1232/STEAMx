@@ -16,6 +16,8 @@ import { BRAND_FULL_NAME, BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
 import { SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
+import { PwaInstallPrompt } from "@/components/pwa/install-prompt";
+import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 
 const metadataBase = getMetadataBase();
 
@@ -23,6 +25,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#09090b",
 };
 
 export const metadata: Metadata = {
@@ -78,6 +81,14 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    apple: "/icon-192x192.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -110,6 +121,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </ErrorBoundary>
               <BadgeUnlockOverlayMount />
               <Toaster />
+              <ServiceWorkerRegister />
+              <PwaInstallPrompt />
             </ThemeProvider>
           </AuthProvider>
         </QueryProvider>

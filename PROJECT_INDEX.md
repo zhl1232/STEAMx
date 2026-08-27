@@ -85,12 +85,12 @@
 
 ### 全局文件
 - `lib/brand.ts` — 用户可见品牌常量（`STEAMX`、`史迪姆`、正式全名与品类副标题）；导航、metadata、PWA、AI 文案和分享卡优先复用，避免品牌大小写/中英文漂移
-- `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）
+- `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）；挂载 PWA Service Worker 注册与安装提示
 - `app/globals.css` — 全局样式与 CSS 变量；Tailwind CSS 4 CSS-first 配置入口（`@theme` / `@utility` / `@plugin`）；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404；详情页要返回真正的 404 状态码，就不能让 `loading.tsx` 的 Suspense 先把外壳冲出去：`/nature/observations/[id]` 与 `/nature/species/[slug]` 只有一次查询，直接不设 `loading.tsx`；`/project/[id]` 查询较多，改由 `layout.tsx` 先做存在性判断（`getProjectById` 走 React cache，不额外查库），页面重查询继续流式渲染
 - 游乐场数独/N 皇后/数字华容道棋盘格提供坐标、数字/皇后状态与选中语义；首页轮播分页和汉诺塔速度控件在手机端使用至少 44px 触控区域
-- `app/manifest.ts` / `app/robots.ts` / `app/sitemap.ts` / `app/llms.txt/route.ts` — PWA & SEO；`robots.ts` 为 Baiduspider、GPTBot 及其他常见大模型爬虫明确放行公开页，并与 `User-Agent: *` 共用 `/api/` `/admin/` `/login` 等私有路径 Disallow；Sitemap 使用无请求 Cookie 的公开 Supabase 客户端并按小时 ISR 刷新，动态表统一按 `id` + `range` 每页 500 全量读取，覆盖规范静态页、全部游乐场详情、项目、物种、观察、课程/课时/可用零件清单、公开最终作品、已发布资料卡及 active/ended PBL 挑战；根布局标记 `lang=zh-CN` 与 `applicable-device=pc,mobile`，默认社交图为 `public/assets/seo/steamx-social-card.webp`（1200×630），具体内容图优先；`/llms.txt` 返回 `text/plain` 站点说明
+- `app/manifest.ts` / `public/sw.js` / `components/pwa/*` / `lib/pwa/install.ts` / `app/robots.ts` / `app/sitemap.ts` / `app/llms.txt/route.ts` — PWA & SEO；根布局含 `appleWebApp`/`themeColor`，生产环境注册根作用域 Service Worker，并提供中文「安装到桌面」/ iOS / 微信引导；`robots.ts` 为 Baiduspider、GPTBot 及其他常见大模型爬虫明确放行公开页，并与 `User-Agent: *` 共用 `/api/` `/admin/` `/login` 等私有路径 Disallow；Sitemap 使用无请求 Cookie 的公开 Supabase 客户端并按小时 ISR 刷新，动态表统一按 `id` + `range` 每页 500 全量读取，覆盖规范静态页、全部游乐场详情、项目、物种、观察、课程/课时/可用零件清单、公开最终作品、已发布资料卡及 active/ended PBL 挑战；根布局标记 `lang=zh-CN` 与 `applicable-device=pc,mobile`，默认社交图为 `public/assets/seo/steamx-social-card.webp`（1200×630），具体内容图优先；`/llms.txt` 返回 `text/plain` 站点说明
 - `proxy.ts` — Next.js 16 Proxy 入口：仅当 Host 为 `steamx.cc` 时 301 到对应的 `www.steamx.cc` 路径（含 query），不改写 localhost / 预览 / tunnel / 未来第二域名；所有页面继续转发 pathname/search 登录回跳头；匿名推荐 `rec_viewer` Cookie 仅在 `GET /explore`、`GET /api/projects`、`GET /api/home/recommendations`、`GET /api/explore/recommendations` 首次访问时写入，普通公开页、详情 API、`robots.txt` 与 `sitemap.xml` 保持无推荐 Cookie
 - `AGENTS.md` / `.cursor/rules/project-context.mdc` — AI/自动化工具项目约定：先读索引、同步维护索引、禁止恢复 `middleware.ts`
 
