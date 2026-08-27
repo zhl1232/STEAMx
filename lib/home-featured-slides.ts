@@ -22,15 +22,4 @@ export const homeFeaturedSlides: HomeFeaturedSlide[] = [
     secondaryHref: '/nature/species',
     theme: 'nature',
   },
-  {
-    id: 'create-camp',
-    eyebrow: '创造营',
-    title: '动手做项目',
-    description: '在创造营里接项目挑战、学技能课程，把想法变成作品。',
-    primaryLabel: '进入创造营',
-    primaryHref: '/create',
-    secondaryLabel: '浏览观察记录',
-    secondaryHref: '/nature/observations',
-    theme: 'nature',
-  },
 ]

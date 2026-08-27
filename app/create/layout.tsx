@@ -6,10 +6,10 @@ import { getPblChallengeGroups } from "@/lib/api/pbl-challenges";
 import { CreateProviderShell } from "./create-provider";
 
 export const metadata: Metadata = buildPageMetadata({
-    title: "STEAM 创造营",
-    description: "参与项目挑战，学习技能课程，动手创造科学、技术、工程、艺术、数学作品，在做中学，在创造中成长。",
+    title: "项目挑战",
+    description: "参与项目挑战，动手把一个想法做成作品。",
     path: "/create",
-    keywords: ["项目挑战", "技能课程", "STEAM创造", "项目式学习", "创客挑战"],
+    keywords: ["项目挑战", "项目式学习"],
 });
 
 export default async function CreateLayout({ children }: { children: React.ReactNode }) {

@@ -112,7 +112,7 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
       <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title={resource.title}
-        fallbackHref="/create"
+        fallbackHref="/explore"
         className="md:hidden"
       />
 

@@ -17,7 +17,7 @@ export function buildLlmsTxt() {
     "",
     `- 首页：${home}`,
     `- 探索项目：${buildAbsoluteUrl("/explore")}`,
-    `- 创造营（技能课程与项目挑战）：${buildAbsoluteUrl("/create")}`,
+    `- 技能课程：${buildAbsoluteUrl("/courses")}`,
     `- 自然观察：${buildAbsoluteUrl("/nature")}`,
     `- 物种图鉴：${buildAbsoluteUrl("/nature/species")}`,
     `- 观察记录：${buildAbsoluteUrl("/nature/observations")}`,

@@ -12,7 +12,7 @@ export function MainNav() {
             label: "探索",
             active: pathname === "/explore" || pathname === "/project" || pathname?.startsWith("/project/"),
         },
-        // 主线频道。项目挑战是次级入口，从课程页与首页「本周挑战」进入，不再占导航位
+        // 主线频道。/create 与 /pbl 书签仍高亮课程，不再从导航或首页推广创造营
         {
             href: "/courses",
             label: "技能课程",

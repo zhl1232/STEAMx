@@ -12,7 +12,6 @@ import {
     Search,
     Sparkles,
     Target,
-    Trophy,
     UserCircle,
     X,
 } from 'lucide-react'
@@ -1434,38 +1433,6 @@ export function ExploreClient({
 
                                 <Surface className="p-4">
                                     <div className="mb-3 flex items-center justify-between">
-                                        <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
-                                            <Trophy className="h-[18px] w-[18px] text-[hsl(var(--brand-amber))]" />
-                                            本周挑战
-                                        </h2>
-                                        <span className="text-xs text-muted-foreground">挑战进行中</span>
-                                    </div>
-                                    <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-                                        <div className="relative overflow-hidden rounded-sm bg-linear-to-br from-[#0b68c9] to-[#9fd4ff]">
-                                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.72),transparent_20%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.34),transparent_24%)]" />
-                                            <div className="relative flex h-full min-h-[92px] items-center justify-center">
-                                                <div className="h-0 w-0 rotate-[-16deg] border-b-18 border-l-52 border-t-18 border-b-transparent border-l-white border-t-transparent drop-shadow-[0_10px_18px_rgba(11,62,122,0.32)]" />
-                                            </div>
-                                        </div>
-                                        <div className="min-w-0">
-                                            <h3 className="line-clamp-2 text-sm font-bold leading-5 text-foreground">
-                                                纸飞机飞行距离挑战赛
-                                            </h3>
-                                            <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
-                                                设计并制作一架纸飞机，测试飞行距离并分享你的设计思路。
-                                            </p>
-                                            <div className="mt-3 flex items-center justify-between gap-2">
-                                                <span className="text-xs font-semibold text-muted-foreground">1,258 人参与</span>
-                                                <Link href="/create" className="rounded-sm bg-[hsl(var(--brand-blue))] px-3 py-2 text-xs font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-blue)/0.78)]">
-                                                    参与挑战
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Surface>
-
-                                <Surface className="p-4">
-                                    <div className="mb-3 flex items-center justify-between">
                                         <h2 className="text-base font-bold text-foreground">探索小贴士</h2>
                                         <Lightbulb className="h-5 w-5 text-[hsl(var(--brand-amber))]" />
                                     </div>
@@ -1483,7 +1450,7 @@ export function ExploreClient({
                                             动手实践后记录并分享你的成果。
                                         </p>
                                     </div>
-                                    <Link href="/create" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
+                                    <Link href="/courses" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
                                         了解更多使用指南 →
                                     </Link>
                                 </Surface>

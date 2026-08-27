@@ -179,7 +179,7 @@ describe('LeaderboardContent growth tasks panel', () => {
     render(<LeaderboardContent />)
 
     expect(await screen.findByText('新手引导已完成')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /前往挑战中心/ })).toHaveAttribute('href', '/create')
+    expect(screen.getByRole('link', { name: /去技能课程/ })).toHaveAttribute('href', '/courses')
     expect(screen.queryByText('记录 1 条自然观察')).not.toBeInTheDocument()
   })
 

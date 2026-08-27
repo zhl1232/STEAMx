@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
 import { listApprovedCourses } from "@/lib/api/courses";
@@ -46,13 +43,6 @@ export default async function CoursesPage() {
                             {COURSE_HUB_DESCRIPTION}
                         </p>
                     </div>
-                    <Link
-                        href="/create"
-                        className="inline-flex shrink-0 items-center gap-1 text-[13px] font-semibold text-[hsl(var(--brand-blue))]"
-                    >
-                        想挑战更难的？看项目挑战
-                        <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
                 </header>
                 {courses ? (
                     <CourseBoard courses={courses} />

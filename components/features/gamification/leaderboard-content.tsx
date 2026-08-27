@@ -104,13 +104,13 @@ function LeaderboardGrowthGraduatedCard() {
                 <div className="min-w-0">
                     <div className="font-semibold text-slate-900 dark:text-slate-100">新手引导已完成</div>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        新手引导全部完成，来挑战下一阶段，把作品带到更大的舞台吧。
+                        新手引导全部完成，去技能课程里挑下一节课，继续把作品做出来。
                     </p>
                     <Link
-                        href="/create"
+                        href="/courses"
                         className="mt-3 inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-700 dark:text-blue-300"
                     >
-                        前往挑战中心
+                        去技能课程
                         <ChevronRight className="ml-1 h-4 w-4" />
                     </Link>
                 </div>

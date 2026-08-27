@@ -265,7 +265,7 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   },
   create: {
     title: '项目挑战与技能课程',
-    summary: '学生正在创造营浏览项目挑战和技能课程，可以帮他挑一个合适的开始。',
+    summary: '学生正在浏览项目挑战，可以帮他挑一个合适的开始，或引导去技能课程。',
   },
   courses: {
     title: '技能课程',
@@ -273,7 +273,7 @@ const GLOBAL_SURFACE_SCENES: Record<TutorGlobalSurface, { title: string; summary
   },
   community: {
     title: '项目挑战与技能课程',
-    summary: '学生正在创造营浏览项目挑战和技能课程，可以帮他挑一个合适的开始。',
+    summary: '学生正在浏览项目挑战，可以帮他挑一个合适的开始，或引导去技能课程。',
   },
   playground: {
     title: '益智游乐场',

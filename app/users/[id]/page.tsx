@@ -82,7 +82,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
       <div className="md:hidden">
         <MobilePageHeader
           title="公开主页"
-          fallbackHref="/create"
+          fallbackHref="/explore"
           borderless
           className="mb-3"
         />

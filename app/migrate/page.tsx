@@ -61,7 +61,7 @@ pnpm db:push`}</code>
               <Link href="/explore">查看探索页</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="/create">查看创造营</Link>
+              <Link href="/courses">查看技能课程</Link>
             </Button>
           </div>
           <p className="text-sm leading-6 text-muted-foreground">

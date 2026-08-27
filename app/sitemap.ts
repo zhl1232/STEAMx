@@ -59,7 +59,6 @@ interface StaticSitemapRoute {
 export const STATIC_SITEMAP_ROUTES: StaticSitemapRoute[] = [
   { path: "/", changeFrequency: "daily", priority: 1 },
   { path: "/explore", changeFrequency: "daily", priority: 0.9 },
-  { path: "/create", changeFrequency: "daily", priority: 0.8 },
   { path: "/courses", changeFrequency: "weekly", priority: 0.9 },
   { path: "/nature", changeFrequency: "daily", priority: 0.8 },
   { path: "/nature/birds", changeFrequency: "weekly", priority: 0.8 },

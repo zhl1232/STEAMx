@@ -150,15 +150,6 @@ function HomeHero({ image }: { image: string }) {
                 开始探索项目
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
-              <Link
-                href="/create"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
-                  "h-11 gap-2 border-[hsl(var(--brand-green)/0.36)] bg-[hsl(var(--surface-raised)/0.82)] px-6 text-[14px] font-bold text-[hsl(var(--brand-green))] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--brand-green)/0.1)]",
-                )}
-              >
-                进入创造营
-              </Link>
             </div>
 
             <div className="mt-5 hidden max-w-[560px] grid-cols-4 gap-3 text-muted-foreground md:grid">
@@ -478,18 +469,18 @@ function CommunityAndActivity({
   communityFeed: HomeCommunityFeedItem[];
   featuredChallenge: FeaturedPblChallenge | null;
 }) {
-  const challengeHref = featuredChallenge ? `/pbl/${featuredChallenge.id}` : "/create?tab=pbl";
-  const challengeTitle = featuredChallenge?.title ?? "项目挑战";
-  const challengeSummary = featuredChallenge?.summary ?? "每周开放 · 记录探索过程，提交作品";
-  const challengeImage = featuredChallenge?.imageUrl || heroImage;
-
   return (
-    <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)]">
+    <div
+      className={cn(
+        "grid items-stretch gap-4",
+        featuredChallenge && "lg:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)]",
+      )}
+    >
       <section className="flex flex-col justify-between rounded-md border border-[hsl(var(--surface-border)/0.72)] bg-[hsl(var(--surface-raised)/0.68)] p-4 shadow-none">
         <div>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-[18px] font-bold text-foreground">社区动态</h2>
-            <Link href="/create" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5">
+            <Link href="/explore" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5">
               查看全部
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -497,7 +488,7 @@ function CommunityAndActivity({
           {communityFeed.length === 0 ? (
             <p className="py-8 text-center text-[13px] text-muted-foreground">
               暂无最新动态。
-              <Link href="/create" className="font-medium text-[hsl(var(--brand-blue))]"> 去创造营看看</Link>
+              <Link href="/explore" className="font-medium text-[hsl(var(--brand-blue))]"> 去探索看看</Link>
             </p>
           ) : (
             <div className="grid gap-3 md:grid-cols-3">
@@ -527,38 +518,36 @@ function CommunityAndActivity({
         </div>
       </section>
 
-      <section className="flex flex-col justify-between rounded-md border border-[hsl(var(--brand-amber)/0.36)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.12),hsl(var(--surface-raised)/0.88)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
-        <div>
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
-            <Link href="/create?tab=pbl" className="inline-flex items-center gap-1 text-[13px] font-medium text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5">
-              查看全部
-              <ArrowRight className="h-3.5 w-3.5" />
+      {featuredChallenge ? (
+        <section className="flex flex-col justify-between rounded-md border border-[hsl(var(--brand-amber)/0.36)] bg-[linear-gradient(135deg,hsl(var(--brand-amber)/0.12),hsl(var(--surface-raised)/0.88)_46%,hsl(var(--brand-green)/0.08))] p-4 shadow-none">
+          <div>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-[18px] font-bold text-foreground">本周挑战</h2>
+            </div>
+            <Link
+              href={`/pbl/${featuredChallenge.id}`}
+              className="group grid grid-cols-[96px_minmax(0,1fr)] gap-3.5 rounded-md border border-transparent p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-amber)/0.3)] hover:bg-[hsl(var(--surface-raised)/0.8)] hover:shadow-xs"
+            >
+              <div className="relative h-[76px] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
+                <Image
+                  src={featuredChallenge.imageUrl || heroImage}
+                  alt={featuredChallenge.title}
+                  fill
+                  sizes="140px"
+                  className="object-cover object-[62%_center] transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="min-w-0">
+                <span className="inline-flex items-center rounded-xs bg-[hsl(var(--brand-amber)/0.15)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
+                  PBL 探究挑战
+                </span>
+                <h3 className="mt-1 truncate text-[15px] font-bold text-foreground group-hover:text-[hsl(var(--brand-amber))]">{featuredChallenge.title}</h3>
+                <p className="mt-1.5 line-clamp-2 text-[12px] leading-5 text-muted-foreground">{featuredChallenge.summary}</p>
+              </div>
             </Link>
           </div>
-          <Link
-            href={challengeHref}
-            className="group grid grid-cols-[96px_minmax(0,1fr)] gap-3.5 rounded-md border border-transparent p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-amber)/0.3)] hover:bg-[hsl(var(--surface-raised)/0.8)] hover:shadow-xs"
-          >
-            <div className="relative h-[76px] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
-              <Image
-                src={challengeImage}
-                alt={challengeTitle}
-                fill
-                sizes="140px"
-                className="object-cover object-[62%_center] transition duration-500 group-hover:scale-105"
-              />
-            </div>
-            <div className="min-w-0">
-              <span className="inline-flex items-center rounded-xs bg-[hsl(var(--brand-amber)/0.15)] px-1.5 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-amber))]">
-                PBL 探究挑战
-              </span>
-              <h3 className="mt-1 truncate text-[15px] font-bold text-foreground group-hover:text-[hsl(var(--brand-amber))]">{challengeTitle}</h3>
-              <p className="mt-1.5 line-clamp-2 text-[12px] leading-5 text-muted-foreground">{challengeSummary}</p>
-            </div>
-          </Link>
-        </div>
-      </section>
+        </section>
+      ) : null}
     </div>
   );
 }
