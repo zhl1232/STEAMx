@@ -30,9 +30,9 @@
 }
 
 @utility nature-hero-panel {
-  border-color: hsl(var(--surface-border) / 0.4);
-  background-color: hsl(var(--background));
-  @apply relative isolate overflow-hidden rounded-(--radius-sm) border shadow-[0_24px_70px_-42px_hsl(var(--primary)/0.35)];
+  border-color: hsl(var(--surface-border) / 0.45);
+  background-color: hsl(var(--surface-raised));
+  @apply relative isolate overflow-hidden md:rounded-(--radius-sm) md:border md:shadow-[0_20px_60px_-35px_hsl(var(--primary)/0.28)];
 }
 
 @utility nature-segment-track {

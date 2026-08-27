@@ -165,33 +165,13 @@ function getTopicCardImageProps(image: ImageSource) {
   };
 }
 
-const mobileHeaderClassName =
-  "border-b border-[hsl(var(--surface-border)/0.42)] bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--app-canvas)/0.78)_100%)] backdrop-blur-xl";
-
-function MobileNatureHeader({ submitHref }: { submitHref: string }) {
+function NatureHeroSection({ submitHref }: { submitHref: string }) {
   return (
-    <MobileGlobalHeader
-      variant="title"
-      title={<span className="font-sans">自然观察</span>}
-      showSearch={false}
-      showNotification={false}
-      showUserButton={false}
-      className={mobileHeaderClassName}
-      rightSlot={
-        <Button asChild tone="brand" size="sm" className="h-8! min-h-8! gap-1 px-2.5 text-xs font-semibold min-[390px]:h-9! min-[390px]:min-h-9! min-[390px]:px-3 min-[390px]:text-sm">
-          <Link href={submitHref}>
-            <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
-            发布观察
-          </Link>
-        </Button>
-      }
-    />
-  );
-}
-
-function NatureHeroPanel({ submitHref }: { submitHref: string }) {
-  return (
-    <section className="nature-hero-panel min-h-[148px] min-[390px]:min-h-[160px] md:min-h-[360px] lg:min-h-[374px]">
+    <section
+      aria-label="自然观察频道"
+      className="relative isolate w-full overflow-hidden bg-[hsl(var(--surface-raised))] md:rounded-(--radius-sm) md:border md:border-[hsl(var(--surface-border)/0.5)] md:shadow-[0_20px_60px_-35px_hsl(var(--primary)/0.28)]"
+    >
+      {/* 原汁原味沉浸大图背景：不加多余压暗与底部雾状遮罩 */}
       <Image
         src={heroImage}
         alt=""
@@ -199,32 +179,73 @@ function NatureHeroPanel({ submitHref }: { submitHref: string }) {
         priority
         placeholder="blur"
         blurDataURL={natureBlurDataUrl}
-        className="object-cover object-[center_36%] dark:brightness-90 md:object-center"
-        sizes="(max-width: 1024px) 100vw, calc(100vw - 520px)"
+        className="pointer-events-none select-none object-cover object-[center_36%] md:object-center"
+        sizes="(max-width: 1024px) 100vw, 1400px"
       />
-      {/* 极轻量底部渐变：保持画面 80% 区域明媚通透，仅底部留有微弱文字保护 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent md:from-black/70 md:via-black/20 md:to-transparent" />
 
-      <div className="relative z-10 flex min-h-[148px] flex-col justify-end p-3.5 text-white min-[390px]:min-h-[160px] min-[390px]:p-4 md:min-h-[360px] md:justify-between md:px-8 md:py-9 lg:min-h-[374px] lg:px-10">
-        <div>
-          <h1 className="hidden text-[44px] font-black leading-none [text-shadow:0_2px_6px_rgba(0,0,0,0.78)] md:block md:text-[58px] lg:text-[62px]">
-            自然观察
-          </h1>
-          <p className="text-[13px] font-bold leading-snug text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.85)] min-[390px]:text-[14px] md:mt-4 md:max-w-3xl md:text-[22px] md:font-semibold md:leading-7 md:text-white/96">
+      {/* 桌面端极轻微左侧渐变保护文字，移动端完全通透展现原图色彩 */}
+      <div className="hidden md:block absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.48)_36%,rgba(0,0,0,0.12)_65%,transparent_100%)]" />
+
+      {/* 移动端专属通透 Header：直接融入背景大图顶端 */}
+      <div className="relative z-20 md:hidden">
+        <MobileGlobalHeader
+          variant="title"
+          title={
+            <span className="font-sans font-bold text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.65)]">
+              自然观察
+            </span>
+          }
+          showSearch={false}
+          showNotification={false}
+          showUserButton={false}
+          className="border-none bg-transparent shadow-none"
+          rightSlot={
+            <Button
+              asChild
+              tone="brand"
+              size="sm"
+              className="h-8! min-h-8! gap-1 px-3 text-xs font-semibold shadow-md min-[390px]:h-8.5! min-[390px]:min-h-8.5! min-[390px]:px-3.5 min-[390px]:text-sm"
+            >
+              <Link href={submitHref}>
+                <Camera className="h-3.5 w-3.5 min-[390px]:h-4 min-[390px]:w-4" />
+                发布观察
+              </Link>
+            </Button>
+          }
+        />
+      </div>
+
+      {/* Hero 导语与排版：加大高度以展现更开阔的湖光水色与探索装备 */}
+      <div className="relative z-10 flex min-h-[140px] flex-col justify-end px-4 pb-5 pt-2 min-[390px]:min-h-[160px] min-[390px]:pb-6 min-[430px]:min-h-[175px] md:min-h-[300px] md:justify-center md:px-10 md:py-8 lg:min-h-[330px] lg:px-12">
+        <div className="max-w-2xl">
+          {/* 移动端导语 */}
+          <p className="text-[13.5px] font-bold leading-relaxed text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.75)] min-[390px]:text-[14.5px] md:hidden">
             记录身边的生命，和社区一起守护环境
           </p>
-          <Button
-            asChild
-            tone="brand"
-            shape="pill"
-            size="lg"
-            className="mt-7 hidden gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--background))] md:inline-flex"
-          >
-            <Link href={submitHref}>
-              <Camera className="h-5 w-5" />
-              发布观察
-            </Link>
-          </Button>
+
+          {/* 桌面端大标题与导语 */}
+          <h1 className="hidden text-[38px] font-black leading-none text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.8)] md:block md:text-[46px] lg:text-[50px]">
+            自然观察
+          </h1>
+
+          <p className="mt-3 hidden text-[18px] font-semibold leading-7 text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.85)] md:block">
+            记录身边的生命，和社区一起守护环境
+          </p>
+
+          <div className="mt-6 hidden items-center gap-4 md:flex">
+            <Button
+              asChild
+              tone="brand"
+              shape="pill"
+              size="lg"
+              className="gap-2 font-extrabold focus-visible:ring-white/70 focus-visible:ring-offset-[hsl(var(--background))]"
+            >
+              <Link href={submitHref}>
+                <Camera className="h-5 w-5" />
+                发布观察
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
@@ -460,17 +481,24 @@ export default async function NaturePage() {
 
   return (
     <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
-      <MobileNatureHeader submitHref={submitHref} />
+      {/* 沉浸式 Hero 头部：移动端通顶满宽渲染（内置透明 Header），桌面端在 app-shell-wide 容器内居中 */}
+      <div className="md:app-shell-wide md:pt-6">
+        <NatureHeroSection submitHref={submitHref} />
+      </div>
 
-      <div className="app-shell-wide grid gap-5 pb-28 pt-5 md:pb-14 md:pt-6 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
-        <main className="min-w-0 space-y-4 md:space-y-6">
-          <NatureHeroPanel submitHref={submitHref} />
+      <div className="app-shell-wide pb-28 pt-4 md:pb-14 md:pt-6">
+        <div className="space-y-4 md:space-y-6">
           <TopicCardsSection topicCards={topicCards} />
-          <NatureHomeMapPair observations={homepage.mapObservations} />
-          <MobileStatsBar stats={homepage.stats} />
-        </main>
 
-        <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-6">
+            <main className="min-w-0 space-y-4 md:space-y-6">
+              <NatureHomeMapPair observations={homepage.mapObservations} />
+              <MobileStatsBar stats={homepage.stats} />
+            </main>
+
+            <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
+          </div>
+        </div>
       </div>
     </div>
   );
