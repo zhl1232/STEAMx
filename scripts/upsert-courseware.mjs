@@ -113,7 +113,7 @@ function sqlJsonb(value) {
   return `$${tag}$${json}$${tag}$::jsonb`;
 }
 
-function listManifests() {
+function listManifests({ applyOnly = true } = {}) {
   return readdirSync(COURSEWARE_DIR)
     .filter((f) => f.endsWith(".json") && f !== "batch-slide-export-report.json")
     .map((f) => {
@@ -124,11 +124,29 @@ function listManifests() {
     .filter(({ slug, json }) => {
       if (SKIP_SLUGS.has(slug)) return false;
       if (!json.courseTitle || !COURSE_META[json.courseTitle]) return false;
-      if (onlyMatchers.length === 0) return true;
+      if (!applyOnly || onlyMatchers.length === 0) return true;
       const hay = [slug, json.lessonTitle, json.courseTitle].join("\n").toLowerCase();
       return onlyMatchers.some((m) => hay.includes(m));
     })
     .sort((a, b) => a.slug.localeCompare(b.slug, "zh-CN"));
+}
+
+/** Stable per-course sort_order from the FULL course manifest list (ignores --only). */
+function buildSortOrderIndex(allManifests) {
+  const byCourse = new Map();
+  for (const item of allManifests) {
+    const list = byCourse.get(item.json.courseTitle) || [];
+    list.push(item);
+    byCourse.set(item.json.courseTitle, list);
+  }
+  const index = new Map();
+  for (const [courseTitle, lessons] of byCourse) {
+    lessons.sort((a, b) => a.slug.localeCompare(b.slug, "zh-CN"));
+    for (let i = 0; i < lessons.length; i++) {
+      index.set(`${courseTitle}::${lessons[i].slug}`, i + 1);
+    }
+  }
+  return index;
 }
 
 function findPptx(sourceDir) {
@@ -472,14 +490,21 @@ async function runUpsert(manifests, assetsBase) {
     byCourse.set(json.courseTitle, list);
   }
 
+  // Derive sort_order from the full course list so `--only=...` cannot
+  // collapse multiple lessons onto sort_order=1 (the course_id=5 collision).
+  const sortIndex = buildSortOrderIndex(listManifests({ applyOnly: false }));
+
   let done = 0;
   for (const [courseTitle, lessons] of byCourse) {
     lessons.sort((a, b) => a.slug.localeCompare(b.slug, "zh-CN"));
-    for (let i = 0; i < lessons.length; i++) {
-      const lesson = lessons[i];
-      const sql = upsertLessonSql(courseTitle, lesson, i + 1, assetsBase);
+    for (const lesson of lessons) {
+      const sortOrder = sortIndex.get(`${courseTitle}::${lesson.slug}`);
+      if (!sortOrder) {
+        throw new Error(`missing sort_order for ${courseTitle} / ${lesson.slug}`);
+      }
+      const sql = upsertLessonSql(courseTitle, lesson, sortOrder, assetsBase);
       if (dryRun) {
-        console.log(`[dry-run] ${courseTitle} / ${lesson.lessonTitle} (#${i + 1})`);
+        console.log(`[dry-run] ${courseTitle} / ${lesson.lessonTitle} (#${sortOrder})`);
       } else {
         await execSQL(sql);
         done += 1;
