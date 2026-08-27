@@ -44,7 +44,7 @@
 
 ### 仍需推进
 
-1. **定期告警**：将 `pnpm course:audit -- --json` 接入定时任务或发布后核对，并对 P1 失败、奖励/里程碑缺口和 reconcile 延迟发送告警；当前脚本仍是手动/外部调度入口。
+1. **定期告警（暂缓）**：后续可将 `pnpm course:audit -- --json` 接入 GitHub Actions 定时任务，并支持手动触发；P1 失败时使用 GitHub 原生 Actions 失败通知，P2 继续保留审计报告供查看。暂不接入飞书、企业微信、钉钉或 Slack 等第三方 webhook，也不使用 `--strict`（现有 3 条历史 P2 孤立 `complete_project` XP 会令其持续失败）；落地前需配置 `NEXT_PUBLIC_SUPABASE_URL` 与 `SUPABASE_SERVICE_ROLE_KEY`，当前脚本仍是手动/外部调度入口。
 2. **人工课件收尾**：继续按上方大颗粒课件清单审核样板课、LDraw 模型和缺失动画；这些质量判断不能由数据库审计替代。
 
 ## AI Tutor Agent（后置能力）
