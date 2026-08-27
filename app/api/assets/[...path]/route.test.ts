@@ -49,6 +49,54 @@ describe("asset proxy", () => {
         expect(retryHeaders.get("Referer")).toBe("https://steamx.cc");
     });
 
+    it("uses the known CDN's HTTP emergency path when its TLS certificate is expired", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.steamx.cc";
+        const certificateError = Object.assign(new TypeError("fetch failed"), {
+            cause: Object.assign(new Error("certificate has expired"), { code: "CERT_HAS_EXPIRED" }),
+        });
+        const fetchMock = vi
+            .fn<typeof fetch>()
+            .mockRejectedValueOnce(certificateError)
+            .mockResolvedValueOnce(
+                new Response(new Uint8Array([82, 73, 70, 70]), {
+                    status: 200,
+                    headers: { "Content-Type": "image/webp" },
+                }),
+            );
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/courses/example.webp"),
+            { params: Promise.resolve({ path: ["courses", "example.webp"] }) },
+        );
+
+        expect(response.status).toBe(200);
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(fetchMock.mock.calls[0]?.[0]).toBe(
+            "https://assets.steamx.cc/courses/example.webp",
+        );
+        expect(fetchMock.mock.calls[1]?.[0]).toBe(
+            "http://assets.steamx.cc/courses/example.webp",
+        );
+    });
+
+    it("does not downgrade an arbitrary configured asset origin after a TLS error", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        const certificateError = Object.assign(new TypeError("fetch failed"), {
+            cause: Object.assign(new Error("certificate has expired"), { code: "CERT_HAS_EXPIRED" }),
+        });
+        const fetchMock = vi.fn<typeof fetch>().mockRejectedValue(certificateError);
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/courses/example.webp"),
+            { params: Promise.resolve({ path: ["courses", "example.webp"] }) },
+        );
+
+        expect(response.status).toBe(502);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
     it("streams byte ranges from the local public fallback", async () => {
         delete process.env.ASSETS_BASE_URL;
         const request = new NextRequest(

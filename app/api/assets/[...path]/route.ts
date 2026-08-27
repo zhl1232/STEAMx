@@ -33,7 +33,37 @@ const PASS_THROUGH_HEADERS = [
 
 const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
 const CANONICAL_ASSET_REFERER = 'https://steamx.cc'
+const KNOWN_ASSETS_CDN_HOST = 'assets.steamx.cc'
 const DEFAULT_ASSET_CONNECT_TIMEOUT_MS = 10_000
+
+function isExpiredCertificateError(error: unknown): boolean {
+  let current: unknown = error
+
+  for (let depth = 0; depth < 4; depth += 1) {
+    if (!current || typeof current !== 'object') return false
+    const code = (current as { code?: unknown }).code
+    if (code === 'CERT_HAS_EXPIRED') return true
+    current = (current as { cause?: unknown }).cause
+  }
+
+  return false
+}
+
+/**
+ * The CDN certificate can briefly expire before its managed renewal completes.
+ * Keep this emergency path limited to our public asset hostname; never silently
+ * downgrade an arbitrary configured origin from HTTPS to HTTP.
+ */
+function getExpiredCertificateFallbackUrl(upstreamUrl: string): string | null {
+  try {
+    const url = new URL(upstreamUrl)
+    if (url.protocol !== 'https:' || url.hostname !== KNOWN_ASSETS_CDN_HOST) return null
+    url.protocol = 'http:'
+    return url.toString()
+  } catch {
+    return null
+  }
+}
 
 function getAssetConnectTimeoutMs() {
   const configured = Number(process.env.ASSET_CONNECT_TIMEOUT_MS)
@@ -79,7 +109,7 @@ async function fetchUpstreamAsset(
   requestHeaders: Headers,
 ) {
   const referer = getAssetReferer()
-  const fetchWithReferer = async (value: string) => {
+  const fetchWithReferer = async (url: string, value: string) => {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), getAssetConnectTimeoutMs())
     const headers = new Headers({ Referer: value })
@@ -91,7 +121,7 @@ async function fetchUpstreamAsset(
     try {
       // Clear the timer once headers arrive so long video/audio streams are not
       // aborted midway through a healthy download.
-      return await fetch(upstreamUrl, {
+      return await fetch(url, {
         method,
         cache: isScratchAsset && !headers.has('Range') ? 'force-cache' : 'no-store',
         headers,
@@ -102,10 +132,21 @@ async function fetchUpstreamAsset(
     }
   }
 
-  const upstream = await fetchWithReferer(referer)
+  const fallbackUrl = getExpiredCertificateFallbackUrl(upstreamUrl)
+  let requestUrl = upstreamUrl
+  let upstream: Response
+  try {
+    upstream = await fetchWithReferer(requestUrl, referer)
+  } catch (error) {
+    const emergencyUrl = fallbackUrl && isExpiredCertificateError(error) ? fallbackUrl : null
+    if (!emergencyUrl) throw error
+    requestUrl = emergencyUrl
+    upstream = await fetchWithReferer(requestUrl, referer)
+  }
+
   if (upstream.status !== 403 || referer === CANONICAL_ASSET_REFERER) return upstream
   await upstream.body?.cancel().catch(() => undefined)
-  return fetchWithReferer(CANONICAL_ASSET_REFERER)
+  return fetchWithReferer(requestUrl, CANONICAL_ASSET_REFERER)
 }
 
 function inferContentType(filePath: string) {
