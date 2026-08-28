@@ -30,6 +30,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: false
+          swap-storage: false
+
       - name: Validate required secrets
         shell: bash
         run: |
@@ -53,8 +64,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          load: true
           tags: steam-app:latest
-          outputs: type=docker,dest=/tmp/steam-app.tar
           build-args: |
             NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -64,14 +75,8 @@ jobs:
 
       - name: Package Docker image
         run: |
-          if command -v pigz >/dev/null 2>&1; then
-            pigz -3 -c /tmp/steam-app.tar > steam-app.tar.gz
-          else
-            gzip -3 -c /tmp/steam-app.tar > steam-app.tar.gz
-          fi
-          rm -f /tmp/steam-app.tar
+          docker save steam-app:latest | gzip -3 > steam-app.tar.gz
           chmod 644 steam-app.tar.gz
-          cp deploy/docker-compose.yml docker-compose.yml
           ls -lh steam-app.tar.gz
           df -h /
 
@@ -90,14 +95,35 @@ jobs:
           fi
           chmod 644 nginx.conf
 
-      - name: Copy deployment bundle to server
+      - name: Copy image to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          source: steam-app.tar.gz,docker-compose.yml,nginx.conf
+          source: steam-app.tar.gz
+          target: /tmp/
+
+      - name: Copy compose file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: deploy/docker-compose.yml
+          target: /tmp/
+          strip_components: 1
+
+      - name: Copy Nginx config to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: nginx.conf
           target: /tmp/
 
       - name: Deploy on server
