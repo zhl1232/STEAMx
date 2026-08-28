@@ -7,13 +7,10 @@ COPY packages/scratch-host/package.json ./packages/scratch-host/
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Stage 2: Build
-FROM node:22-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@10.22.0 --activate
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Keep the dependency layer (including the activated pnpm) so Docker can reuse it
+# across builds instead of initializing pnpm and copying node_modules again.
+FROM deps AS builder
 COPY . .
-# scratch-host webpack lives in the workspace package's node_modules/.bin (not hoisted to root PATH)
-COPY --from=deps /app/packages/scratch-host/node_modules ./packages/scratch-host/node_modules
 
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY

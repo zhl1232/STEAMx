@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
@@ -41,6 +45,7 @@ jobs:
         run: pnpm exec vitest run
 
       - name: Build app
+        if: github.event_name == 'pull_request'
         run: pnpm run build
 
       - name: Install Playwright Chromium
