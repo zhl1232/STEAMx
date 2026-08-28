@@ -81,8 +81,8 @@ describe('ShareWorkDialog', () => {
 
     await waitFor(() => {
       expect(writeText).toHaveBeenCalledWith('http://localhost:3000/works/42')
+      expect(screen.getByRole('button', { name: '已复制' })).toBeInTheDocument()
     })
-    expect(screen.getByRole('button', { name: '已复制' })).toBeInTheDocument()
   })
 })
 
