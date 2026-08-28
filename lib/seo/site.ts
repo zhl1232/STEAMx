@@ -1,13 +1,14 @@
 import { STEAMX_APEX_HOST, STEAMX_WWW_HOST } from "@/lib/seo/canonical-host";
-import { BRAND_FULL_NAME, BRAND_TAGLINE } from "@/lib/brand";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
 const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
 
 /** The formal site name used in metadata, structured data, and public copy. */
 export const SITE_NAME = BRAND_FULL_NAME;
+export const HOME_PAGE_TITLE = "少儿STEAM社区 · 项目式学习与科创";
 export const SITE_DESCRIPTION =
-  `${BRAND_TAGLINE}，围绕科学实验、技术制作、工程搭建、艺术创作、数学思维和鸟类观察，发现、分享并完成真实项目。`;
+  "STEAMX（史迪姆）是少儿STEAM社区，做项目式学习和科创。上积木课、做自然观察和鸟类观察，把真实项目做成作品。";
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 

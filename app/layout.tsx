@@ -40,7 +40,9 @@ export const metadata: Metadata = {
     BRAND_NAME,
     BRAND_NAME_ZH,
     "STEAM",
-    "STEAM教育",
+    "少儿STEAM社区",
+    "科创",
+    "积木课",
     "PBL",
     "项目式学习",
     "科学实验",
@@ -74,7 +76,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "STEAM 项目式学习与自然观察社区",
+    description: SITE_DESCRIPTION,
     images: [DEFAULT_SOCIAL_IMAGE],
   },
   robots: {

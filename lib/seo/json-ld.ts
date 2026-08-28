@@ -20,6 +20,7 @@ export function buildWebsiteJsonLd() {
         "@id": `${siteUrl}/#organization`,
         name: SITE_NAME,
         url: siteUrl,
+        description: SITE_DESCRIPTION,
         logo: buildAbsoluteUrl("/logo.png"),
       },
       {

@@ -119,7 +119,7 @@ function HomeHero({ image }: { image: string }) {
         <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] md:justify-center md:px-10 md:py-8 lg:min-h-[310px] lg:px-12">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[620px] lg:max-w-[700px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
-              {BRAND_FULL_NAME} · STEAM 项目式学习社区
+              {BRAND_FULL_NAME} · 少儿STEAM社区
             </p>
             <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[38px] md:leading-[1.12] lg:text-[44px]">
               <span className="md:hidden">
@@ -133,10 +133,10 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
-              在 STEAM 的世界里发现无限可能
+              少儿STEAM · 项目式学习与科创
             </p>
             <p className="mt-3 hidden max-w-[560px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
-              选一个真实项目，记录实验过程，和同伴一起把科学、编程、工程、艺术与自然观察变成可展示的成果。
+              做项目式学习和科创：上积木课，去自然观察、鸟类观察。
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">

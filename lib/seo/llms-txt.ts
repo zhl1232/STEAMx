@@ -11,7 +11,7 @@ export function buildLlmsTxt() {
     "",
     SITE_DESCRIPTION,
     "",
-    `${BRAND_NAME} is a Chinese STEAM project-based learning and nature observation community.`,
+    `${BRAND_NAME} is a Chinese children's STEAM community for project-based learning and scientific innovation, with brick-building courses and nature observation.`,
     "",
     "## 主要公开栏目",
     "",

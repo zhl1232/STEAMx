@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { buildAbsoluteUrl, getMetadataBase, getSiteUrl } from "@/lib/seo/site";
+import { buildAbsoluteUrl, getMetadataBase, getSiteUrl, HOME_PAGE_TITLE, SITE_DESCRIPTION } from "@/lib/seo/site";
 
 const SITE_ENV_KEYS = [
   "NEXT_PUBLIC_APP_URL",
@@ -57,5 +57,15 @@ describe("getSiteUrl", () => {
     vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://preview.example.com/");
 
     expect(getSiteUrl()).toBe("https://preview.example.com");
+  });
+});
+
+describe("site SEO copy", () => {
+  it("uses the approved children STEAM community blurb", () => {
+    expect(HOME_PAGE_TITLE).toBe("少儿STEAM社区 · 项目式学习与科创");
+    expect(SITE_DESCRIPTION).toBe(
+      "STEAMX（史迪姆）是少儿STEAM社区，做项目式学习和科创。上积木课、做自然观察和鸟类观察，把真实项目做成作品。",
+    );
+    expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
   });
 });
