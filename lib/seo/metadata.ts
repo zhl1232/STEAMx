@@ -37,6 +37,8 @@ interface PageMetadataOptions {
   image?: string;
   type?: "website" | "article" | "profile";
   noIndex?: boolean;
+  /** Skip the root layout title template. Needed on the `/` segment, which does not inherit it. */
+  absoluteTitle?: boolean;
 }
 
 export function buildPageMetadata({
@@ -47,12 +49,13 @@ export function buildPageMetadata({
   image,
   type = "website",
   noIndex = false,
+  absoluteTitle = false,
 }: PageMetadataOptions): Metadata {
   const mergedKeywords = uniqueKeywords([...DEFAULT_SEO_KEYWORDS, ...keywords]);
   const socialImage = image || DEFAULT_SOCIAL_IMAGE;
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     keywords: mergedKeywords,
     alternates: {
