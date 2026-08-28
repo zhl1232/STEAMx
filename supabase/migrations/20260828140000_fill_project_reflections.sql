@@ -10,6 +10,9 @@
 
 BEGIN;
 
+SET LOCAL statement_timeout = '60s';
+SET LOCAL request.jwt.claim.role = 'service_role';
+
 
 -- ----- 科学 -----
 -- [12] 静电章鱼
