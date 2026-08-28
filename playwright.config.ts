@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 const baseURL = 'http://127.0.0.1:3000'
 const supabaseUrl = `${baseURL}/__playwright_supabase__`
 const supabaseAnonKey = 'playwright-placeholder-anon-key'
+const browserChannel = process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === '1' ? 'chrome' : undefined
 
 export default defineConfig({
   testDir: './e2e',
@@ -15,6 +16,7 @@ export default defineConfig({
   use: {
     baseURL,
     trace: 'on-first-retry',
+    ...(browserChannel ? { channel: browserChannel } : {}),
   },
   projects: [
     {

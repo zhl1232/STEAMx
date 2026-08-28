@@ -16,6 +16,7 @@ jobs:
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://example.com
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+      PLAYWRIGHT_USE_SYSTEM_CHROME: '1'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,20 +48,6 @@ jobs:
       - name: Build app
         if: github.event_name == 'pull_request'
         run: pnpm run build
-
-      - name: Cache Playwright Chromium
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-chromium-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Install Playwright system dependencies
-        run: pnpm exec playwright install-deps chromium
-
-      - name: Install Playwright Chromium
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install chromium
 
       - name: Run smoke E2E
         run: pnpm exec playwright test e2e/smoke.spec.ts --project=chromium
