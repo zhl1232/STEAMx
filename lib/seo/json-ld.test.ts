@@ -257,6 +257,31 @@ describe("buildProjectJsonLd", () => {
       ]),
     });
   });
+
+  it("adds a project conclusion to FAQ JSON-LD even without steps", () => {
+    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+
+    const data = buildProjectJsonLd({
+      id: 12,
+      title: "静电章鱼",
+      reflection: "同种电荷相互排斥，摩擦起电后章鱼会飘起来。",
+    });
+
+    expect(data["@graph"]).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        "@type": "FAQPage",
+        mainEntity: expect.arrayContaining([
+          expect.objectContaining({
+            name: "静电章鱼的结论是什么？",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "同种电荷相互排斥，摩擦起电后章鱼会飘起来。",
+            },
+          }),
+        ]),
+      }),
+    ]));
+  });
 });
 
 describe("public content JSON-LD", () => {
