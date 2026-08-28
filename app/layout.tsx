@@ -47,6 +47,7 @@ export const metadata: Metadata = {
     "积木课",
     "PBL",
     "科学实验",
+    "科学小实验",
     "创客教育",
     "项目分享社区",
   ],

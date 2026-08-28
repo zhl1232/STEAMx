@@ -38,7 +38,7 @@ describe("buildPageMetadata", () => {
 
   it("leads with high-volume search terms and avoids Valve steam教育", () => {
     expect(DEFAULT_SEO_KEYWORDS).toEqual(
-      expect.arrayContaining(["少儿编程", "免费少儿编程", "积木", "自然观察"]),
+      expect.arrayContaining(["少儿编程", "免费少儿编程", "积木", "自然观察", "科学小实验"]),
     );
     expect(DEFAULT_SEO_KEYWORDS).not.toEqual(expect.arrayContaining(["科创", "项目式学习", "少儿STEAM社区"]));
     expect(DEFAULT_SEO_KEYWORDS).not.toEqual(expect.arrayContaining(["观鸟"]));
@@ -47,15 +47,15 @@ describe("buildPageMetadata", () => {
 
     const metadata = buildPageMetadata({
       title: "少儿编程 · 积木 · 自然观察",
-      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课和自然观察。动手搭、去观察，把项目做成作品。",
+      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。",
       path: "/",
     });
 
     expect(metadata.title).toBe("少儿编程 · 积木 · 自然观察");
-    expect(metadata.description).toContain("STEAMX（史迪姆）免费给孩子做少儿编程、积木课和自然观察");
+    expect(metadata.description).toContain("STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验");
     expect(metadata.openGraph).toMatchObject({
       title: "少儿编程 · 积木 · 自然观察",
-      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课和自然观察。动手搭、去观察，把项目做成作品。",
+      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。",
     });
   });
 });
