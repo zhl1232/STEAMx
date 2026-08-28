@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { buildAbsoluteUrl, getMetadataBase, getSiteUrl } from "@/lib/seo/site";
+import { buildAbsoluteUrl, getMetadataBase, getSiteUrl, HOME_PAGE_TITLE, SITE_DESCRIPTION } from "@/lib/seo/site";
 
 const SITE_ENV_KEYS = [
   "NEXT_PUBLIC_APP_URL",
@@ -57,5 +57,19 @@ describe("getSiteUrl", () => {
     vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://preview.example.com/");
 
     expect(getSiteUrl()).toBe("https://preview.example.com");
+  });
+});
+
+describe("site SEO copy", () => {
+  it("uses high-volume search terms instead of jargon keywords", () => {
+    expect(HOME_PAGE_TITLE).toBe("少儿编程 · 积木 · 自然观察");
+    expect(HOME_PAGE_TITLE).not.toContain("项目式学习");
+    expect(HOME_PAGE_TITLE).not.toContain("观鸟");
+    expect(HOME_PAGE_TITLE).not.toContain("免费");
+    expect(SITE_DESCRIPTION).toBe(
+      "STEAMX（史迪姆）免费给孩子做少儿编程、积木课和自然观察。动手搭、去观察，把项目做成作品。",
+    );
+    expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
+    expect(SITE_DESCRIPTION).not.toContain("STEAM教育");
   });
 });

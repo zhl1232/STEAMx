@@ -1,18 +1,17 @@
 import { HomeShowcase } from "@/components/home/home-showcase";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getHomepageShowcaseData } from "@/lib/home/recommendations";
-import { BRAND_FULL_NAME } from "@/lib/brand";
+import { HOME_PAGE_TITLE, SITE_DESCRIPTION } from "@/lib/seo/site";
 import { buildWebsiteJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 export const revalidate = 300;
 
 export const metadata = buildPageMetadata({
-  title: `STEAM项目式学习与自然观察 | ${BRAND_FULL_NAME}`,
+  title: HOME_PAGE_TITLE,
   description: SITE_DESCRIPTION,
   path: "/",
-  keywords: ["STEAM教育平台", "项目式学习平台", "创客社区"],
+  keywords: ["少儿编程", "免费少儿编程", "积木", "自然观察"],
 });
 
 export default async function Home() {
