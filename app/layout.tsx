@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     BRAND_NAME_ZH,
     "STEAM",
     "少儿编程",
+    "免费少儿编程",
     "积木",
     "自然观察",
     "积木课",

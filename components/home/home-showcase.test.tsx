@@ -35,7 +35,7 @@ describe("HomeShowcase hero", () => {
     expect(screen.getByText("STEAMX · 史迪姆")).toBeInTheDocument();
     expect(screen.getByText("把好奇心做成作品")).toBeInTheDocument();
     expect(screen.getByText("少儿编程 · 积木 · 自然观察")).toBeInTheDocument();
-    expect(screen.getByText("给孩子做少儿编程、积木和自然观察。动手搭、去观察。")).toBeInTheDocument();
+    expect(screen.getByText("免费给孩子做少儿编程、积木和自然观察。动手搭、去观察。")).toBeInTheDocument();
     expect(screen.queryByText(/项目式学习/)).not.toBeInTheDocument();
     expect(screen.queryByText(/乐高/)).not.toBeInTheDocument();
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();

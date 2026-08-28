@@ -9,6 +9,7 @@ export const DEFAULT_SEO_KEYWORDS = [
   "史迪姆",
   "STEAM",
   "少儿编程",
+  "免费少儿编程",
   "积木",
   "自然观察",
   "积木课",
