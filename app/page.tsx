@@ -11,7 +11,7 @@ export const metadata = buildPageMetadata({
   title: HOME_PAGE_TITLE,
   description: SITE_DESCRIPTION,
   path: "/",
-  keywords: ["少儿STEAM", "积木课", "科创"],
+  keywords: ["少儿编程", "积木", "观鸟"],
 });
 
 export default async function Home() {

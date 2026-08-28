@@ -61,11 +61,13 @@ describe("getSiteUrl", () => {
 });
 
 describe("site SEO copy", () => {
-  it("uses the approved children STEAM community blurb", () => {
-    expect(HOME_PAGE_TITLE).toBe("少儿STEAM社区 · 项目式学习与科创");
+  it("uses high-volume search terms instead of jargon keywords", () => {
+    expect(HOME_PAGE_TITLE).toBe("少儿编程 · 积木 · 观鸟");
+    expect(HOME_PAGE_TITLE).not.toContain("项目式学习");
     expect(SITE_DESCRIPTION).toBe(
-      "STEAMX（史迪姆）是少儿STEAM社区，做项目式学习和科创。上积木课、做自然观察和鸟类观察，把真实项目做成作品。",
+      "STEAMX（史迪姆）给孩子做少儿编程、积木课和观鸟。动手搭、去观察，把项目做成作品。",
     );
     expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
+    expect(SITE_DESCRIPTION).not.toContain("STEAM教育");
   });
 });

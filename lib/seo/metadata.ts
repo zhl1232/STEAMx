@@ -8,15 +8,13 @@ export const DEFAULT_SEO_KEYWORDS = [
   "STEAMX",
   "史迪姆",
   "STEAM",
-  "少儿STEAM社区",
-  "科创",
+  "少儿编程",
+  "积木",
+  "观鸟",
   "积木课",
-  "项目式学习",
   "PBL",
   "科学实验",
   "创客教育",
-  "自然观察",
-  "鸟类观察",
 ];
 
 function uniqueKeywords(keywords: Array<string | null | undefined>) {

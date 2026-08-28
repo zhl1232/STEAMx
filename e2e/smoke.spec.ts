@@ -19,7 +19,7 @@ async function expectHealthyPage(page: Page, path: string) {
 
 test('首页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/')
-  await expect(page).toHaveTitle(/少儿STEAM社区 · 项目式学习与科创/)
+  await expect(page).toHaveTitle(/少儿编程 · 积木 · 观鸟 \| STEAMX · 史迪姆/)
 })
 
 test('探索页 smoke', async ({ page }) => {

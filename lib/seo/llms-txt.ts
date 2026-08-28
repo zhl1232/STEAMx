@@ -11,7 +11,7 @@ export function buildLlmsTxt() {
     "",
     SITE_DESCRIPTION,
     "",
-    `${BRAND_NAME} is a Chinese children's STEAM community for project-based learning and scientific innovation, with brick-building courses and nature observation.`,
+    `${BRAND_NAME} is a Chinese children's platform for coding, brick building, and birdwatching. Kids build with their hands, go observe, and turn projects into works.`,
     "",
     "## 主要公开栏目",
     "",

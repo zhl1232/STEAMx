@@ -19,7 +19,7 @@ const emptyCategoryCounts = {
 };
 
 describe("HomeShowcase hero", () => {
-  it("weaves approved SEO terms into mobile and desktop copy", () => {
+  it("mentions 少儿编程, 积木, and 观鸟 without jargon stuffing", () => {
     render(
       <HomeShowcase
         works={[]}
@@ -32,9 +32,11 @@ describe("HomeShowcase hero", () => {
       />,
     );
 
-    expect(screen.getByText("STEAMX · 史迪姆 · 少儿STEAM社区")).toBeInTheDocument();
+    expect(screen.getByText("STEAMX · 史迪姆")).toBeInTheDocument();
     expect(screen.getByText("把好奇心做成作品")).toBeInTheDocument();
-    expect(screen.getByText("少儿STEAM · 项目式学习与科创")).toBeInTheDocument();
-    expect(screen.getByText("做项目式学习和科创：上积木课，去自然观察、鸟类观察。")).toBeInTheDocument();
+    expect(screen.getByText("少儿编程 · 积木 · 观鸟")).toBeInTheDocument();
+    expect(screen.getByText("给孩子做少儿编程、积木和观鸟。动手搭、去观察。")).toBeInTheDocument();
+    expect(screen.queryByText(/项目式学习/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/乐高/)).not.toBeInTheDocument();
   });
 });
