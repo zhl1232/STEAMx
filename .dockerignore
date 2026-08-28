@@ -10,7 +10,7 @@ node_modules
 .codex
 .kiro
 .antigravitycli
-.env*.local
+.env*
 *.log
 docs
 __tests__
