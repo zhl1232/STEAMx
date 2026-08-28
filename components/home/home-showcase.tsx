@@ -133,10 +133,10 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
-              少儿编程 · 积木 · 观鸟
+              少儿编程 · 积木 · 自然观察
             </p>
             <p className="mt-3 hidden max-w-[560px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
-              给孩子做少儿编程、积木和观鸟。动手搭、去观察。
+              给孩子做少儿编程、积木和自然观察。动手搭、去观察。
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">

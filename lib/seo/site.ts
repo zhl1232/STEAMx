@@ -6,9 +6,9 @@ const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
 
 /** The formal site name used in metadata, structured data, and public copy. */
 export const SITE_NAME = BRAND_FULL_NAME;
-export const HOME_PAGE_TITLE = "少儿编程 · 积木 · 观鸟";
+export const HOME_PAGE_TITLE = "少儿编程 · 积木 · 自然观察";
 export const SITE_DESCRIPTION =
-  "STEAMX（史迪姆）给孩子做少儿编程、积木课和观鸟。动手搭、去观察，把项目做成作品。";
+  "STEAMX（史迪姆）给孩子做少儿编程、积木课和自然观察。动手搭、去观察，把项目做成作品。";
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 

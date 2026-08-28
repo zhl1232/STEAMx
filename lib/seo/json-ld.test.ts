@@ -41,12 +41,12 @@ describe("buildWebsiteJsonLd", () => {
     expect(types).toEqual(["Organization", "WebSite"]);
     expect(data["@graph"][0]).toMatchObject({
       name: "STEAMX · 史迪姆",
-      description: expect.stringContaining("STEAMX（史迪姆）给孩子做少儿编程、积木课和观鸟"),
+      description: expect.stringContaining("STEAMX（史迪姆）给孩子做少儿编程、积木课和自然观察"),
       url: "https://www.steamx.cc",
     });
     expect(data["@graph"][1]).toMatchObject({
       name: "STEAMX · 史迪姆",
-      description: expect.stringContaining("STEAMX（史迪姆）给孩子做少儿编程、积木课和观鸟"),
+      description: expect.stringContaining("STEAMX（史迪姆）给孩子做少儿编程、积木课和自然观察"),
       url: "https://www.steamx.cc",
       inLanguage: "zh-CN",
     });

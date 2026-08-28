@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "STEAM",
     "少儿编程",
     "积木",
-    "观鸟",
+    "自然观察",
     "积木课",
     "PBL",
     "科学实验",

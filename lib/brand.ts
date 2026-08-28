@@ -7,4 +7,4 @@
 export const BRAND_NAME = "STEAMX";
 export const BRAND_NAME_ZH = "史迪姆";
 export const BRAND_FULL_NAME = `${BRAND_NAME} · ${BRAND_NAME_ZH}`;
-export const BRAND_TAGLINE = "少儿编程 · 积木 · 观鸟";
+export const BRAND_TAGLINE = "少儿编程 · 积木 · 自然观察";
