@@ -59,6 +59,7 @@ import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
 import type { Project, ProjectStep } from '@/lib/mappers/types'
+import type { PublicClassification } from '@/lib/content-classification/types'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>
@@ -272,6 +273,35 @@ function getMaterialMeta(material: string) {
     amount,
     note,
   }
+}
+
+
+function ProjectCiteTakeaway({
+  category,
+  classification,
+  reflection,
+  className,
+}: {
+  category?: string | null
+  classification?: PublicClassification | null
+  reflection?: string | null
+  className?: string
+}) {
+  const conclusion = reflection?.trim()
+  if (!conclusion) return null
+
+  const heading = category === '科学' ? '实验结论' : '项目结论'
+  const ageLine = classification?.status === 'reviewed'
+    ? `适合${classification.ageLabel.replace(/\s+/g, '')}，${classification.supportLabel}`
+    : null
+
+  return (
+    <section className={className}>
+      {ageLine ? <p className="mb-2 text-sm text-muted-foreground">{ageLine}</p> : null}
+      <h2 className="font-sans text-xl font-bold tracking-tight">{heading}</h2>
+      <p className="mt-2 text-sm leading-6 text-foreground">{conclusion}</p>
+    </section>
+  )
 }
 
 function MaterialsList({ materials, compact = false }: { materials: string[]; compact?: boolean }) {
@@ -694,6 +724,7 @@ export async function generateMetadata(
     description: project.description,
     category: project.category,
     classification: project.classification,
+    reflection: project.reflection,
   }) || `${BRAND_FULL_NAME}上的实践项目详情页。`
   const canonicalPath = `/project/${id}`
   const keywords = buildProjectCiteKeywords({
@@ -840,6 +871,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           classification: project.classification,
           materials,
           steps,
+          reflection: project.reflection,
         })}
       />
       <ProjectDetailScrollTop />
@@ -974,6 +1006,13 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
               ) : null}
 
               <MobileProjectIntro summary={projectSummary} tags={introTags} />
+
+              <ProjectCiteTakeaway
+                category={project.category}
+                classification={project.classification}
+                reflection={project.reflection}
+                className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4"
+              />
 
               {contextualStoreProducts.length > 0 ? (
                 <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" />
@@ -1125,6 +1164,13 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
 
             <div className="hidden gap-6 md:grid lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] 2xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)]">
               <div className="min-w-0 space-y-6">
+                <ProjectCiteTakeaway
+                  category={project.category}
+                  classification={project.classification}
+                  reflection={project.reflection}
+                  className="surface-panel rounded-lg px-5 py-5 sm:px-6"
+                />
+
                 <div id="project-materials" className="scroll-mt-24 lg:scroll-mt-28">
                   <SectionCard title={`所需材料${materials.length > 0 ? `（${materials.length}）` : ''}`}>
                     <MaterialsList materials={materials} compact />

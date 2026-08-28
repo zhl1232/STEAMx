@@ -294,6 +294,7 @@ interface ProjectJsonLdInput {
     image_url?: string | null;
   }> | null;
   materials?: string[] | null;
+  reflection?: string | null;
 }
 
 export function buildProjectJsonLd(project: ProjectJsonLdInput) {
@@ -335,7 +336,24 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
     ...(classificationFields ?? {}),
   };
 
-  if (howToSteps.length === 0) {
+  const faqGraph = buildProjectFaqGraph(project, url);
+  const howTo = howToSteps.length === 0
+    ? []
+    : [
+        {
+          "@type": "HowTo",
+          name: project.title,
+          url,
+          ...(description ? { description } : {}),
+          ...(image ? { image } : {}),
+          ...(supplies.length > 0
+            ? { supply: supplies.map((name) => ({ "@type": "HowToSupply", name })) }
+            : {}),
+          step: howToSteps,
+        },
+      ];
+
+  if (howTo.length === 0 && faqGraph.length === 0) {
     return {
       "@context": "https://schema.org",
       ...article,
@@ -344,21 +362,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
 
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      article,
-      {
-        "@type": "HowTo",
-        name: project.title,
-        url,
-        ...(description ? { description } : {}),
-        ...(image ? { image } : {}),
-        ...(supplies.length > 0
-          ? { supply: supplies.map((name) => ({ "@type": "HowToSupply", name })) }
-          : {}),
-        step: howToSteps,
-      },
-      ...buildProjectFaqGraph(project, url),
-    ],
+    "@graph": [article, ...howTo, ...faqGraph],
   };
 }
 
@@ -389,6 +393,13 @@ function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
       answer: stepText
         ? `${title}可以按步骤做。第一步：${stepText}`
         : `${title}可以按页面上的步骤完成。`,
+    });
+  }
+  const reflection = project.reflection?.trim();
+  if (reflection) {
+    questions.push({
+      question: `${title}的结论是什么？`,
+      answer: reflection,
     });
   }
   if (questions.length === 0) return [];

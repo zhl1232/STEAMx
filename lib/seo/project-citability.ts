@@ -21,13 +21,15 @@ export function buildProjectCiteDescription(input: {
   description?: string | null;
   category?: string | null;
   classification?: PublicClassification | null;
+  reflection?: string | null;
 }): string {
   const title = input.title.trim();
   const kind = projectKindLabel(input.category);
   const age = compactAgeLabel(input.classification);
   const lead = age ? `${title}是适合${age}的${kind}。` : `${title}是${kind}。`;
+  const conclusion = (input.reflection ?? "").replace(/\s+/g, " ").trim();
   const body = (input.description ?? "").replace(/\s+/g, " ").trim();
-  const combined = body && !body.startsWith(lead) ? `${lead}${body}` : lead;
+  const combined = [lead, conclusion || body].filter((part) => part).join("");
   if (combined.length <= DESCRIPTION_MAX) return combined;
   return `${combined.slice(0, DESCRIPTION_MAX - 1)}…`;
 }

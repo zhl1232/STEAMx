@@ -42,4 +42,15 @@ describe("project citability copy", () => {
     expect(keywords).toEqual(expect.arrayContaining(["静电章鱼", "科学", "科学小实验", "STEAM项目"]));
     expect(keywords).not.toContain("项目式学习");
   });
+  it("prefers a one-sentence reflection over the long description", () => {
+    expect(
+      buildProjectCiteDescription({
+        title: "静电章鱼",
+        description: "用塑料袋制作一只可爱的章鱼，通过摩擦产生静电让它飘浮在空中。",
+        category: "科学",
+        classification: reviewed,
+        reflection: "同种电荷相互排斥，摩擦起电后章鱼会飘起来。",
+      }),
+    ).toBe("静电章鱼是适合6岁起的科学小实验。同种电荷相互排斥，摩擦起电后章鱼会飘起来。");
+  });
 });
