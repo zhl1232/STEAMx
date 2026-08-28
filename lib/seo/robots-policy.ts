@@ -18,3 +18,9 @@ export const AI_CRAWLER_USER_AGENTS = [
   "PerplexityBot",
   "Google-Extended",
 ] as const;
+
+/** 头条/抖音索引 → 豆包；神马索引 → 通义。文心走 Baiduspider。 */
+export const CN_INDEX_CRAWLER_USER_AGENTS = [
+  "Bytespider",
+  "YisouSpider",
+] as const;

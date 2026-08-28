@@ -293,6 +293,7 @@ interface ProjectJsonLdInput {
     description?: string | null;
     image_url?: string | null;
   }> | null;
+  materials?: string[] | null;
 }
 
 export function buildProjectJsonLd(project: ProjectJsonLdInput) {
@@ -300,6 +301,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
   const image = toAbsoluteMediaUrl(project.image);
   const description = project.description?.trim() || undefined;
   const classificationFields = buildClassificationJsonLd(project.classification);
+  const supplies = (project.materials ?? []).map((material) => material.trim()).filter(Boolean);
   const howToSteps = (project.steps ?? []).flatMap((step, index) => {
     const name = step.title?.trim();
     const text = step.description?.trim();
@@ -350,10 +352,61 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
         url,
         ...(description ? { description } : {}),
         ...(image ? { image } : {}),
+        ...(supplies.length > 0
+          ? { supply: supplies.map((name) => ({ "@type": "HowToSupply", name })) }
+          : {}),
         step: howToSteps,
       },
+      ...buildProjectFaqGraph(project, url),
     ],
   };
+}
+
+function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
+  const title = project.title.trim();
+  const questions: Array<{ question: string; answer: string }> = [];
+  const ageLabel = project.classification?.status === "reviewed"
+    ? project.classification.ageLabel.replace(/\s+/g, "")
+    : "";
+  if (ageLabel) {
+    questions.push({
+      question: `${title}适合几岁？`,
+      answer: `${title}适合${ageLabel}，在 STEAMX（史迪姆）上可以按步骤完成。`,
+    });
+  }
+  const materials = (project.materials ?? []).map((item) => item.trim()).filter(Boolean);
+  if (materials.length > 0) {
+    questions.push({
+      question: `${title}需要哪些材料？`,
+      answer: `${title}需要：${materials.join("、")}。`,
+    });
+  }
+  const firstStep = (project.steps ?? []).find((step) => step.title?.trim() || step.description?.trim());
+  if (firstStep) {
+    const stepText = (firstStep.description?.trim() || firstStep.title?.trim() || "");
+    questions.push({
+      question: `${title}怎么做？`,
+      answer: stepText
+        ? `${title}可以按步骤做。第一步：${stepText}`
+        : `${title}可以按页面上的步骤完成。`,
+    });
+  }
+  if (questions.length === 0) return [];
+
+  return [
+    {
+      "@type": "FAQPage",
+      url,
+      mainEntity: questions.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ];
 }
 
 interface ChallengeJsonLdInput {

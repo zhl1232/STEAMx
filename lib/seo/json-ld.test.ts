@@ -213,6 +213,19 @@ describe("buildProjectJsonLd", () => {
       title: "纸杯火箭",
       description: "用纸杯做一枚小火箭",
       image: "/covers/rocket.webp",
+      materials: ["纸杯", "苏打粉"],
+      classification: {
+        recommendedMinAge: 6,
+        recommendedMaxAge: 9,
+        ageLabel: "6-9 岁",
+        difficultyBand: "beginner",
+        difficultyLabel: "入门",
+        supportLevel: "guided",
+        supportLabel: "建议成人陪同",
+        educationStage: "primary",
+        educationStageLabel: "小学",
+        status: "reviewed",
+      },
       steps: [
         { title: "准备纸杯", description: "选一个干净纸杯", image_url: "/steps/1.webp" },
         { title: "", description: "" },
@@ -222,6 +235,10 @@ describe("buildProjectJsonLd", () => {
     expect(data["@graph"]?.[1]).toMatchObject({
       "@type": "HowTo",
       name: "纸杯火箭",
+      supply: [
+        { "@type": "HowToSupply", name: "纸杯" },
+        { "@type": "HowToSupply", name: "苏打粉" },
+      ],
       step: [
         {
           "@type": "HowToStep",
@@ -231,6 +248,13 @@ describe("buildProjectJsonLd", () => {
           image: "https://www.steamx.cc/steps/1.webp",
         },
       ],
+    });
+    expect(data["@graph"]?.[2]).toMatchObject({
+      "@type": "FAQPage",
+      mainEntity: expect.arrayContaining([
+        expect.objectContaining({ name: "纸杯火箭适合几岁？" }),
+        expect.objectContaining({ name: "纸杯火箭需要哪些材料？" }),
+      ]),
     });
   });
 });

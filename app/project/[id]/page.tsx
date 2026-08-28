@@ -37,6 +37,7 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
 import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
+import { buildProjectCiteDescription, buildProjectCiteKeywords } from '@/lib/seo/project-citability'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -279,12 +280,14 @@ function MaterialsList({ materials, compact = false }: { materials: string[]; co
   }
 
   return (
-    <div className={compact ? "grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]" : "grid gap-3 sm:grid-cols-2 xl:grid-cols-1"}>
+    <ul className={compact ? "grid list-none grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))] xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]" : "grid list-none gap-3 sm:grid-cols-2 xl:grid-cols-1"}>
       {materials.map((material, index) => (
         compact ? (
-          <MaterialTile key={`${material}-${index}`} material={material} index={index} />
+          <li key={`${material}-${index}`}>
+            <MaterialTile material={material} index={index} />
+          </li>
         ) : (
-          <div
+          <li
             key={`${material}-${index}`}
             className="flex items-center gap-3 rounded-sm border border-[hsl(var(--surface-border))] bg-background/72 px-4 py-3"
           >
@@ -292,10 +295,10 @@ function MaterialsList({ materials, compact = false }: { materials: string[]; co
               {index + 1}
             </span>
             <span className="text-sm leading-6">{material}</span>
-          </div>
+          </li>
         )
       ))}
-    </div>
+    </ul>
   )
 }
 
@@ -686,14 +689,19 @@ export async function generateMetadata(
       },
     }
   }
-  const description = project.description?.substring(0, 160) || `${BRAND_FULL_NAME}上的实践项目详情页。`
+  const description = buildProjectCiteDescription({
+    title: project.title,
+    description: project.description,
+    category: project.category,
+    classification: project.classification,
+  }) || `${BRAND_FULL_NAME}上的实践项目详情页。`
   const canonicalPath = `/project/${id}`
-  const keywords = Array.from(
-    new Set(
-      [project.title, project.category, project.sub_category, ...(project.tags || []), 'STEAM项目', '项目式学习']
-        .filter((value): value is string => Boolean(value)),
-    ),
-  )
+  const keywords = buildProjectCiteKeywords({
+    title: project.title,
+    category: project.category,
+    subCategory: project.sub_category,
+    tags: project.tags,
+  })
 
   return {
     title: project.title,
@@ -830,6 +838,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           description: project.description,
           image: project.image,
           classification: project.classification,
+          materials,
           steps,
         })}
       />

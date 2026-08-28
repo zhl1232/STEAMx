@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { AI_CRAWLER_USER_AGENTS, PRIVATE_CRAWLER_DISALLOW } from '@/lib/seo/robots-policy';
+import { AI_CRAWLER_USER_AGENTS, CN_INDEX_CRAWLER_USER_AGENTS, PRIVATE_CRAWLER_DISALLOW } from '@/lib/seo/robots-policy';
 import { buildAbsoluteUrl } from '@/lib/seo/site';
 
 const publicCrawlerRule = {
@@ -12,6 +12,10 @@ export default function robots(): MetadataRoute.Robots {
         rules: [
             {
                 userAgent: 'Baiduspider',
+                ...publicCrawlerRule,
+            },
+            {
+                userAgent: [...CN_INDEX_CRAWLER_USER_AGENTS],
                 ...publicCrawlerRule,
             },
             {
