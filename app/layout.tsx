@@ -56,6 +56,11 @@ export const metadata: Metadata = {
     // 百度对自适应页面的识别仍会参考该标记；本站不区分独立移动域名。
     "applicable-device": "pc,mobile",
   },
+  verification: {
+    other: {
+      "shenma-site-verification": "0a369998178eeb11b680c60e4cfb19c5_1788321740",
+    },
+  },
   alternates: {
     canonical: "/",
   },
