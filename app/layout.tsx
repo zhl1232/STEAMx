@@ -59,6 +59,7 @@ export const metadata: Metadata = {
   verification: {
     other: {
       "shenma-site-verification": "0a369998178eeb11b680c60e4cfb19c5_1788321740",
+      "bytedance-verification-code": "QhQxrClFv1UxcRI2mUkd",
     },
   },
   alternates: {
