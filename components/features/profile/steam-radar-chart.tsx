@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useEffect, useId, useState } from "react"
+import { useTheme } from "next-themes"
 import { Info } from "lucide-react"
 import {
   Radar,
@@ -19,6 +20,7 @@ type SteamRadarChartProps = {
   className?: string
   initialRadar?: SteamRadarWithGuidance | null
   showHeader?: boolean
+  embedded?: boolean
   /** @deprecated Use userId prop instead. Kept for backward compatibility. */
   stats?: {
     scienceCompleted?: number
@@ -43,12 +45,21 @@ const DIM_ORDER = ['S', 'T', 'E', 'A', 'M'] as const
 type DimKey = (typeof DIM_ORDER)[number]
 
 const DIM_LABELS: Record<DimKey, string> = { S: '科学', T: '技术', E: '工程', A: '艺术', M: '数学' }
-const DIM_COLORS: Record<DimKey, string> = {
-  S: '#2F80ED',
-  T: '#7C5CFF',
-  E: '#F97316',
-  A: '#EC4899',
-  M: '#10B981',
+
+const DIM_COLORS_LIGHT: Record<DimKey, string> = {
+  S: '#1D4ED8', // 科学: 纯正蓝
+  T: '#6D28D9', // 技术: 纯正紫
+  E: '#C2410C', // 工程: 鲜明橙
+  A: '#BE185D', // 艺术: 玫红
+  M: '#047857', // 数学: 翡翠绿
+}
+
+const DIM_COLORS_DARK: Record<DimKey, string> = {
+  S: '#60A5FA', // 科学: 荧光亮天蓝 (亮度 ~70%, 告别深黑发暗)
+  T: '#C084FC', // 技术: 荧光浅紫罗兰 (亮度 ~75%, 极为明亮)
+  E: '#FB923C', // 工程: 鲜明亮橙 (亮度 ~65%)
+  A: '#F472B6', // 艺术: 柔亮洋红粉 (亮度 ~70%)
+  M: '#34D399', // 数学: 清透荧光绿 (亮度 ~65%)
 }
 
 function getDimKey(subject?: string): DimKey | null {
@@ -66,24 +77,27 @@ type CustomAxisTickProps = {
   y?: number | string
   textAnchor?: React.SVGProps<SVGTextElement>["textAnchor"]
   levels: Record<string, number>
+  isDark?: boolean
 }
 
-function CustomAxisTick({ payload, x, y, textAnchor, levels }: CustomAxisTickProps) {
+function CustomAxisTick({ payload, x, y, textAnchor, levels, isDark = false }: CustomAxisTickProps) {
   const subject = payload?.value ?? ''
   const dimKey = getDimKey(subject)
-  const color = dimKey ? DIM_COLORS[dimKey] : 'currentColor'
+  const colors = isDark ? DIM_COLORS_DARK : DIM_COLORS_LIGHT
+  const color = dimKey ? colors[dimKey] : (isDark ? '#E2E8F0' : '#1E293B')
   const level = levels[subject] ?? 0
   const numericX = Number(x) || 0
   const numericY = Number(y) || 0
   const verticalOffset = dimKey === 'S' ? -8 : dimKey === 'A' || dimKey === 'E' ? 10 : 0
+  const levelColor = level > 0 ? color : (isDark ? '#94A3B8' : '#64748B')
 
   return (
     <g transform={`translate(${numericX}, ${numericY + verticalOffset})`}>
       <text textAnchor={textAnchor} dominantBaseline="central">
-        <tspan x={0} dy="-0.35em" fill={color} fontSize={12} fontWeight={800}>
+        <tspan x={0} dy="-0.35em" fill={color} fontSize={12.5} fontWeight={800}>
           {subject}
         </tspan>
-        <tspan x={0} dy="1.35em" fill={color} fillOpacity={0.82} fontSize={10} fontWeight={700}>
+        <tspan x={0} dy="1.35em" fill={levelColor} fontSize={10.5} fontWeight={700}>
           Lv.{level}
         </tspan>
       </text>
@@ -95,23 +109,40 @@ type CustomRadarDotProps = {
   cx?: number
   cy?: number
   payload?: RadarDimData
+  isDark?: boolean
 }
 
-function CustomRadarDot({ cx, cy, payload }: CustomRadarDotProps) {
+function CustomRadarDot({ cx, cy, payload, isDark = false }: CustomRadarDotProps) {
   if (typeof cx !== 'number' || typeof cy !== 'number') return null
 
   const dimKey = getDimKey(payload?.subject)
-  const color = dimKey ? DIM_COLORS[dimKey] : '#7C5CFF'
+  const colors = isDark ? DIM_COLORS_DARK : DIM_COLORS_LIGHT
+  const color = dimKey ? colors[dimKey] : (isDark ? '#C084FC' : '#7C5CFF')
 
   return (
     <g>
-      <circle cx={cx} cy={cy} r={4.4} fill={color} fillOpacity={0.12} />
-      <circle cx={cx} cy={cy} r={2.4} fill={color} stroke="hsl(var(--background))" strokeWidth={1.25} />
+      <circle cx={cx} cy={cy} r={isDark ? 5.5 : 4.4} fill={color} fillOpacity={isDark ? 0.28 : 0.15} />
+      <circle cx={cx} cy={cy} r={2.8} fill={color} stroke={isDark ? '#0F172A' : '#FFFFFF'} strokeWidth={1.5} />
     </g>
   )
 }
 
-export function SteamRadarChart({ userId, stats, className, initialRadar = null, showHeader = true }: SteamRadarChartProps) {
+export function SteamRadarChart({
+  userId,
+  stats,
+  className,
+  initialRadar = null,
+  showHeader = true,
+  embedded = false,
+}: SteamRadarChartProps) {
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const isDark = mounted ? resolvedTheme === 'dark' : false
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const chartDomId = useId().replace(/[^a-zA-Z0-9_-]/g, '')
   const glowId = `${chartDomId}-steam-radar-glow`
   const fillId = `${chartDomId}-steam-radar-fill`
@@ -120,6 +151,7 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
   const [guidance, setGuidance] = useState<Record<string, string | null>>({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
 
   useEffect(() => {
     if (initialRadar) {
@@ -205,6 +237,13 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
   )
 
   if (loading) {
+    if (isEmbedded) {
+      return (
+        <div className={cn("p-4 text-center", className)}>
+          <p className="text-sm text-muted-foreground py-8">加载 STEAM 图谱...</p>
+        </div>
+      )
+    }
     return (
       <section className={cn("surface-panel p-5", className)}>
         <p className="text-sm text-muted-foreground text-center py-8">加载 STEAM 图谱...</p>
@@ -213,6 +252,13 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
   }
 
   if (error) {
+    if (isEmbedded) {
+      return (
+        <div className={cn("p-4 text-center", className)}>
+          <p className="text-sm text-destructive py-8">{error}</p>
+        </div>
+      )
+    }
     return (
       <section className={cn("surface-panel p-5", className)}>
         <p className="text-sm text-destructive text-center py-8">{error}</p>
@@ -220,8 +266,10 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
     )
   }
 
+  const Container = isEmbedded ? 'div' : 'section'
+
   return (
-    <section className={cn("surface-panel space-y-4 overflow-hidden p-5", className)}>
+    <Container className={cn(!isEmbedded && "surface-panel p-5", "space-y-4 overflow-hidden", className)}>
       {showHeader ? (
         <div className="flex items-center gap-2">
           <span className="h-4 w-1 rounded-full bg-[#2F80ED]" aria-hidden />
@@ -236,31 +284,31 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
             <RadarChart data={data} cx="50%" cy="50%" outerRadius="74%" margin={{ top: 18, right: 24, bottom: 18, left: 24 }}>
               <defs>
                 <filter id={glowId} x="-35%" y="-35%" width="170%" height="170%">
-                  <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#2F80ED" floodOpacity="0.18" />
-                  <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#7C5CFF" floodOpacity="0.22" />
+                  <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor={isDark ? '#60A5FA' : '#2F80ED'} floodOpacity={isDark ? 0.3 : 0.18} />
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor={isDark ? '#C084FC' : '#7C5CFF'} floodOpacity={isDark ? 0.35 : 0.22} />
                 </filter>
                 <linearGradient id={fillId} x1="8%" y1="18%" x2="92%" y2="88%">
-                  <stop offset="0%" stopColor="#21C7F3" stopOpacity={0.5} />
-                  <stop offset="36%" stopColor="#2F80ED" stopOpacity={0.34} />
-                  <stop offset="68%" stopColor="#7C5CFF" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#EC4899" stopOpacity={0.18} />
+                  <stop offset="0%" stopColor={isDark ? '#38BDF8' : '#21C7F3'} stopOpacity={isDark ? 0.55 : 0.5} />
+                  <stop offset="36%" stopColor={isDark ? '#60A5FA' : '#2F80ED'} stopOpacity={isDark ? 0.42 : 0.34} />
+                  <stop offset="68%" stopColor={isDark ? '#C084FC' : '#7C5CFF'} stopOpacity={isDark ? 0.45 : 0.4} />
+                  <stop offset="100%" stopColor={isDark ? '#F472B6' : '#EC4899'} stopOpacity={isDark ? 0.28 : 0.18} />
                 </linearGradient>
                 <linearGradient id={strokeId} x1="10%" y1="0%" x2="90%" y2="100%">
-                  <stop offset="0%" stopColor="#2F80ED" />
-                  <stop offset="46%" stopColor="#22C55E" />
-                  <stop offset="76%" stopColor="#7C5CFF" />
-                  <stop offset="100%" stopColor="#F97316" />
+                  <stop offset="0%" stopColor={isDark ? '#38BDF8' : '#2F80ED'} />
+                  <stop offset="36%" stopColor={isDark ? '#34D399' : '#22C55E'} />
+                  <stop offset="68%" stopColor={isDark ? '#C084FC' : '#7C5CFF'} />
+                  <stop offset="100%" stopColor={isDark ? '#FB923C' : '#F97316'} />
                 </linearGradient>
               </defs>
               <PolarGrid
                 gridType="polygon"
-                stroke="hsl(var(--border))"
-                strokeOpacity={0.52}
-                strokeWidth={1}
+                stroke={isDark ? '#475569' : 'hsl(var(--border))'}
+                strokeOpacity={isDark ? 0.85 : 0.55}
+                strokeWidth={isDark ? 1.2 : 1}
               />
               <PolarAngleAxis
                 dataKey="subject"
-                tick={(props) => <CustomAxisTick {...props} levels={levelBySubject} />}
+                tick={(props) => <CustomAxisTick {...props} levels={levelBySubject} isDark={isDark} />}
               />
               <PolarRadiusAxis
                 tick={false}
@@ -272,22 +320,22 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
                 name="STEAM"
                 dataKey="value"
                 fill="none"
-                stroke="#7C5CFF"
+                stroke={isDark ? '#C084FC' : '#7C5CFF'}
                 strokeWidth={6}
-                strokeOpacity={0.06}
+                strokeOpacity={isDark ? 0.12 : 0.06}
                 dot={false}
               />
               <Radar
                 name="STEAM"
                 dataKey="value"
                 stroke={`url(#${strokeId})`}
-                strokeWidth={2.2}
-                strokeOpacity={0.95}
+                strokeWidth={2.4}
+                strokeOpacity={1}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill={`url(#${fillId})`}
                 fillOpacity={1}
-                dot={(props) => <CustomRadarDot {...(props as CustomRadarDotProps)} />}
+                dot={(props) => <CustomRadarDot {...(props as CustomRadarDotProps)} isDark={isDark} />}
                 filter={`url(#${glowId})`}
               />
             </RadarChart>
@@ -303,6 +351,6 @@ export function SteamRadarChart({ userId, stats, className, initialRadar = null,
           </div>
         )}
       </div>
-    </section>
+    </Container>
   )
 }

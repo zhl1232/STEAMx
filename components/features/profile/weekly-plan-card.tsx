@@ -34,6 +34,7 @@ type WeeklyPlanCardProps = {
   onClaim?: (taskId: GrowthTaskId) => void
   className?: string
   variant?: 'default' | 'mobile'
+  embedded?: boolean
 }
 
 export function WeeklyPlanCard({
@@ -42,8 +43,10 @@ export function WeeklyPlanCard({
   onClaim,
   className,
   variant = 'default',
+  embedded = false,
 }: WeeklyPlanCardProps) {
   const isMobile = variant === 'mobile'
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
   const totalSteps = plan.steps.length
   const growthProgress = plan.growthProgress
   const [isExpanded, setIsExpanded] = useState(false)
@@ -60,10 +63,12 @@ export function WeeklyPlanCard({
   const visibleSteps =
     isMobile && !isExpanded && totalSteps > 1 ? [plan.steps[activeIndex]] : plan.steps
 
+  const Container = isEmbedded ? 'div' : 'section'
+
   return (
-    <section
+    <Container
       className={cn(
-        isMobile ? 'profile-mobile-panel p-4' : 'surface-panel overflow-hidden p-4',
+        !isEmbedded && (isMobile ? 'profile-mobile-panel p-4' : 'surface-panel overflow-hidden p-4'),
         className,
       )}
     >
@@ -208,7 +213,7 @@ export function WeeklyPlanCard({
           </Link>
         </div>
       ) : null}
-    </section>
+    </Container>
   )
 }
 
@@ -238,11 +243,21 @@ function GrowthProgressRow({ progress }: { progress: WeeklyPlanGrowthProgress })
   )
 }
 
-export function WeeklyPlanCardSkeleton({ className, variant = 'default' }: { className?: string; variant?: 'default' | 'mobile' }) {
+export function WeeklyPlanCardSkeleton({
+  className,
+  variant = 'default',
+  embedded = false,
+}: {
+  className?: string
+  variant?: 'default' | 'mobile'
+  embedded?: boolean
+}) {
   const isMobile = variant === 'mobile'
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
+  const Container = isEmbedded ? 'div' : 'section'
 
   return (
-    <section className={cn(isMobile ? 'profile-mobile-panel p-4' : 'surface-panel p-4', className)}>
+    <Container className={cn(!isEmbedded && (isMobile ? 'profile-mobile-panel p-4' : 'surface-panel p-4'), className)}>
       <div className="animate-pulse space-y-3">
         <div className="h-4 w-36 rounded-full bg-[hsl(var(--surface-muted))]" />
         <div className="h-3 w-56 rounded-full bg-[hsl(var(--surface-muted))]" />
@@ -259,6 +274,6 @@ export function WeeklyPlanCardSkeleton({ className, variant = 'default' }: { cla
           ))}
         </div>
       </div>
-    </section>
+    </Container>
   )
 }

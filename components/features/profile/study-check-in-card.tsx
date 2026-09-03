@@ -19,6 +19,7 @@ type StudyCheckInCardProps = {
   state: StudyCheckInLoadState
   className?: string
   compact?: boolean
+  embedded?: boolean
 }
 
 function getStatusTone(state: StudyCheckInLoadState, summary: ProfileStudyCheckInSummary | null) {
@@ -57,17 +58,19 @@ function getHintTone(state: StudyCheckInLoadState, summary: ProfileStudyCheckInS
   return 'border-[hsl(var(--brand-blue)/0.16)] bg-[hsl(var(--brand-blue)/0.07)] text-[hsl(var(--brand-blue))]'
 }
 
-export function StudyCheckInCard({ title, summary, state, className, compact = false }: StudyCheckInCardProps) {
+export function StudyCheckInCard({ title, summary, state, className, compact = false, embedded = false }: StudyCheckInCardProps) {
   const visibleDays = state === 'ready' && summary?.days.length ? summary.days : getPlaceholderStudyCheckInDays()
   const metric = getStudyCheckInMetricValue(state, summary)
   const statusText = getStudyCheckInStatusText(state, summary)
   const hint = getStudyCheckInHint(state, summary)
   const hintTone = getHintTone(state, summary)
   const statusTone = getStatusTone(state, summary)
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
+  const Container = isEmbedded ? 'div' : 'section'
 
   if (compact) {
     return (
-      <section className={cn('surface-panel flex flex-col rounded-lg p-3.5', className)}>
+      <Container className={cn(!isEmbedded && 'surface-panel rounded-lg p-3.5', 'flex flex-col', className)}>
         {/* 顶部标题与今日状态 */}
         <div className="flex items-center justify-between gap-2">
           {title || (
@@ -125,12 +128,12 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
             })}
           </div>
         </div>
-      </section>
+      </Container>
     )
   }
 
   return (
-    <section className={cn('surface-panel flex flex-col rounded-lg', compact ? 'p-4' : 'p-6', className)}>
+    <Container className={cn(!isEmbedded && 'surface-panel rounded-lg', 'flex flex-col', compact ? 'p-4' : 'p-6', className)}>
       {title || <h2 className="text-base font-semibold text-foreground">每日打卡</h2>}
 
       <div className={cn('rounded-lg bg-[linear-gradient(135deg,#f4fbf7,#eef7ff)] dark:bg-[linear-gradient(135deg,hsl(var(--surface-muted)),hsl(var(--surface-raised)))]', compact ? 'mt-3 p-3' : 'mt-4 p-4')}>
@@ -198,6 +201,6 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
           <p className="mt-1 text-xs leading-5 text-muted-foreground">{hint}</p>
         </div>
       </div>
-    </section>
+    </Container>
   )
 }

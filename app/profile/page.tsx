@@ -91,7 +91,7 @@ const DISPLAY_BADGES = getBadgeDisplayDefinitions(BADGES)
 const SteamRadarChart = dynamic(
   () => import('@/components/features/profile/steam-radar-chart').then((mod) => mod.SteamRadarChart),
   {
-    loading: () => <div className="surface-panel min-h-[320px] rounded-xl" />,
+    loading: () => <div className="min-h-[200px] rounded-xl bg-transparent animate-pulse" />,
   },
 )
 
@@ -522,6 +522,7 @@ function DesktopProfilePage({
                   <SteamRadarChart
                     initialRadar={steamRadar}
                     showHeader={false}
+                    embedded
                     className="mt-3 flex-1 border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[190px] [&>p]:line-clamp-2"
                   />
                 ) : (
@@ -690,13 +691,14 @@ function MobileExploreActionHub({
   onClaimGrowthTask: (taskId: GrowthTaskId) => void
 }) {
   return (
-    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden">
+    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden dark:divide-[hsl(var(--surface-border-strong)/0.45)]">
       {/* 每日打卡模块 */}
       <div className="p-3.5 pb-3">
         <StudyCheckInCard
           summary={studyCheckInSummary}
           state={studyCheckInState}
           compact
+          embedded
           className="border-0 bg-transparent p-0 shadow-none"
         />
       </div>
@@ -709,16 +711,19 @@ function MobileExploreActionHub({
             claimPendingTaskId={claimingTaskId}
             onClaim={onClaimGrowthTask}
             variant="mobile"
+            embedded
             className="border-0 bg-transparent p-0 shadow-none"
           />
         ) : weeklyPlanLoading && !weeklyPlanError ? (
-          <WeeklyPlanCardSkeleton variant="mobile" />
+          <WeeklyPlanCardSkeleton variant="mobile" embedded className="border-0 bg-transparent p-0 shadow-none" />
         ) : (
           <ProfileNextActionCard
             action={nextAction}
             claimPending={claimingTaskId === nextAction.growthTaskId}
             onClaim={onClaimGrowthTask}
             variant="mobile"
+            embedded
+            className="border-0 bg-transparent p-0 shadow-none"
           />
         )}
       </div>
@@ -746,7 +751,7 @@ function MobileGrowthPortraitCard({
   }, [steamRadar])
 
   return (
-    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden">
+    <section className="profile-mobile-panel divide-y divide-[hsl(var(--surface-border)/0.55)] overflow-hidden dark:divide-[hsl(var(--surface-border-strong)/0.45)]">
       {/* STEAM 能力雷达 */}
       <div className="p-4">
         <div className="flex items-center justify-between gap-3">
@@ -756,10 +761,10 @@ function MobileGrowthPortraitCard({
               <DialogTrigger asChild>
                 <button
                   type="button"
-                  className="inline-flex h-7 items-center gap-1 rounded-md border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--brand-blue)/0.08)] px-2 text-xs font-semibold text-[hsl(var(--brand-blue))] transition hover:bg-[hsl(var(--brand-blue)/0.15)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="inline-flex h-7 items-center gap-1 rounded-full border border-blue-200/80 bg-background/90 px-2.5 text-xs font-bold text-blue-700 shadow-2xs transition hover:bg-blue-50 dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.35)] dark:hover:bg-slate-800 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                   aria-label="查看能力突破指南"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-primary" />
+                  <Sparkles className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
                   <span>突破指南</span>
                 </button>
               </DialogTrigger>
@@ -782,6 +787,7 @@ function MobileGrowthPortraitCard({
           <SteamRadarChart
             initialRadar={steamRadar}
             showHeader={false}
+            embedded
             className="mt-2 min-h-[200px] border-0 bg-transparent p-0 shadow-none [&>div:first-of-type]:min-h-[196px]"
           />
         ) : (
@@ -794,6 +800,7 @@ function MobileGrowthPortraitCard({
         <NaturalObservationProgressCard
           progress={naturalObservationProgress}
           mobile
+          embedded
           className="border-0 bg-transparent p-0 shadow-none"
         />
       </div>
@@ -849,10 +856,11 @@ function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
           fill
           priority
           variant="cover"
-          className="object-cover object-[88%_4%] opacity-100"
+          className="object-cover object-[88%_4%] opacity-100 dark:opacity-30 dark:mix-blend-luminosity"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.84)_0%,hsl(var(--surface-raised)/0.46)_54%,hsl(var(--surface-raised)/0.02)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)/0.44))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.84)_0%,hsl(var(--surface-raised)/0.46)_54%,hsl(var(--surface-raised)/0.02)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.88)_54%,hsl(var(--surface-raised)/0.65)_100%)]" />
+        <div className="absolute inset-0 dark:bg-[linear-gradient(180deg,transparent_0%,hsl(var(--surface-raised)/0.6)_50%,hsl(var(--surface-raised)/0.96)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)/0.44))] dark:bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)))]" />
       </div>
     )
   }
@@ -958,19 +966,19 @@ function ProfileHero({
                 {profileContext.userTitle ? (
                   <span
                     className={cn(
-                      'inline-flex shrink-0 items-center gap-1 rounded-full border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--brand-blue)/0.08)] font-semibold text-[hsl(var(--brand-blue))] shadow-2xs backdrop-blur-xs dark:bg-[hsl(var(--brand-blue)/0.18)]',
-                      compact ? 'h-5 max-w-[96px] px-2 text-[10px]' : 'px-2.5 py-0.5 text-xs',
+                      'inline-flex shrink-0 items-center gap-1 rounded-full border border-blue-200/80 bg-background/90 font-bold text-blue-700 shadow-2xs backdrop-blur-md dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.4)]',
+                      compact ? 'h-5.5 max-w-[110px] px-2 text-[11px]' : 'px-2.5 py-0.5 text-xs',
                     )}
                     title={profileContext.userTitle}
                   >
-                    <Award className={cn(compact ? 'h-3 w-3' : 'h-3.5 w-3.5', 'shrink-0 text-primary')} />
+                    <Award className={cn(compact ? 'h-3.5 w-3.5' : 'h-3.5 w-3.5', 'shrink-0 text-blue-600 dark:text-blue-400')} />
                     <span className="truncate">{profileContext.userTitle}</span>
                   </span>
                 ) : (
                   <span
                     className={cn(
-                      'inline-flex shrink-0 items-center rounded-full border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--surface-raised)/0.74)] font-semibold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-sm',
-                      compact ? 'h-5 max-w-[96px] px-2 text-[10px]' : 'px-2.5 py-0.5 text-xs',
+                      'inline-flex shrink-0 items-center rounded-full border border-blue-200/80 bg-background/90 font-bold text-blue-700 shadow-2xs backdrop-blur-md dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.4)]',
+                      compact ? 'h-5.5 max-w-[110px] px-2 text-[11px]' : 'px-2.5 py-0.5 text-xs',
                     )}
                     title={profileContext.levelTitle}
                   >
@@ -1044,7 +1052,7 @@ function ProfileHero({
             className={cn(
               'grid grid-cols-4 overflow-hidden',
               compact
-                ? 'mt-3.5 rounded-lg border border-[hsl(var(--surface-border)/0.5)] bg-[hsl(var(--surface-raised)/0.7)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.4)] backdrop-blur-sm'
+                ? 'mt-3.5 rounded-lg border border-[hsl(var(--surface-border)/0.5)] bg-[hsl(var(--surface-raised)/0.7)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.4)] backdrop-blur-sm dark:border-[hsl(var(--surface-border-strong)/0.55)] dark:bg-[hsl(var(--surface-raised)/0.55)] dark:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.06)]'
                 : 'profile-stats-bar mt-8',
             )}
           >
@@ -1056,7 +1064,7 @@ function ProfileHero({
 
         {/* 移动端：将 4 个高频快捷入口无缝收纳在 Hero 底部 */}
         {compact ? (
-          <div className="mt-3.5 border-t border-[hsl(var(--surface-border)/0.4)] pt-2.5">
+          <div className="mt-3.5 border-t border-[hsl(var(--surface-border)/0.4)] pt-2.5 dark:border-[hsl(var(--surface-border-strong)/0.45)]">
             <HeroQuickActions />
           </div>
         ) : null}
@@ -1720,22 +1728,26 @@ function NaturalObservationProgressCard({
   className,
   mobile = false,
   compact = false,
+  embedded = false,
 }: {
   progress: NaturalObservationProgressSummary | null
   className?: string
   mobile?: boolean
   compact?: boolean
+  embedded?: boolean
 }) {
   const allProgress = progress?.topicProgress.find((item) => item.topic === 'all') ?? null
   const observedCount = allProgress?.observedCount ?? progress?.uniqueSpeciesCount ?? 0
   const totalSpecies = allProgress?.total ?? 0
   const progressPercent = allProgress?.progressPercent ?? 0
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
+  const Container = isEmbedded ? 'div' : 'section'
 
   return (
-    <section
+    <Container
       className={cn(
-        mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg',
-        !mobile && compact ? 'p-5' : !mobile && 'p-6',
+        !isEmbedded && (mobile ? 'profile-mobile-panel p-4' : 'surface-panel rounded-lg'),
+        !isEmbedded && !mobile && compact ? 'p-5' : !isEmbedded && !mobile && 'p-6',
         className,
       )}
     >
@@ -1780,7 +1792,7 @@ function NaturalObservationProgressCard({
           </p>
         ) : null}
       </div>
-    </section>
+    </Container>
   )
 }
 

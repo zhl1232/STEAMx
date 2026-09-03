@@ -32,6 +32,7 @@ type ProfileNextActionCardProps = {
   onClaim?: (taskId: GrowthTaskId) => void
   className?: string
   variant?: 'default' | 'mobile'
+  embedded?: boolean
 }
 
 export function ProfileNextActionCard({
@@ -40,6 +41,7 @@ export function ProfileNextActionCard({
   onClaim,
   className,
   variant = 'default',
+  embedded = false,
 }: ProfileNextActionCardProps) {
   const Icon = VARIANT_ICONS[action.variant]
   const projectImage = action.project?.image
@@ -48,11 +50,13 @@ export function ProfileNextActionCard({
 
   const isMobile = variant === 'mobile'
   const spotIcon = spotIconForVariant(action.variant)
+  const isEmbedded = embedded || Boolean(className?.includes('border-0'))
+  const Container = isEmbedded ? 'div' : 'section'
 
   return (
-    <section
+    <Container
       className={cn(
-        isMobile ? 'profile-mobile-panel p-4' : 'surface-panel overflow-hidden p-4',
+        !isEmbedded && (isMobile ? 'profile-mobile-panel p-4' : 'surface-panel overflow-hidden p-4'),
         className,
       )}
     >
@@ -119,6 +123,6 @@ export function ProfileNextActionCard({
           </Link>
         )}
       </div>
-    </section>
+    </Container>
   )
 }
