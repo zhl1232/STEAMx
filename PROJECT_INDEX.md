@@ -572,7 +572,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `pnpm push` / `pnpm ci:watch` / `pnpm ci:status` | 全量单测只在 CI 跑（没有 `pre-push` 钩子）。`pnpm push` = `git push` 后阻塞等 CI 结论，失败时列出失败 job/step 与运行链接；`ci:watch` 单独盯当前 HEAD（`--sha=`/`--timeout=` 可覆盖），`ci:status` 只看一眼当前状态。token 取自 `GITHUB_TOKEN`/`GH_TOKEN`（环境变量、`.env.local` 或 `gh auth token`），仓库私有所以必须有 token；没有 token 时脚本会打印申请指引，GitHub 也仍会在 workflow 失败时发邮件 |
 | `pnpm eval:tutor` | 小迪 golden-set 真实模型评估（`TUTOR_GOLDEN_SET=1` 调 DashScope，普通 `pnpm test` 自动跳过）；提示词 / planner 规则改动先跑此评估再上线 |
 
-> TypeScript 7 兼容说明：Next.js 16.2.10 仍硬编码检测 `typescript/lib/typescript.js`，而 TypeScript 7 不再提供该旧 API 文件。项目暂时保留 `@typescript/native-preview` 作为 Next 开发服务器的兼容标记，实际类型检查仍由 `typescript@7` 自带的 `tsc` 执行。待稳定版 Next.js 支持 `experimental.useTypeScriptCli`（或默认使用 TypeScript CLI）后，可删除该兼容依赖。
+> TypeScript 7 兼容说明：Next.js 16.3.4 仍硬编码检测 `typescript/lib/typescript.js`，而 TypeScript 7 不再提供该旧 API 文件。项目暂时保留 `@typescript/native-preview` 作为 Next 开发服务器的兼容标记，实际类型检查仍由 `typescript@7` 自带的 `tsc` 执行。待稳定版 Next.js 支持 `experimental.useTypeScriptCli`（或默认使用 TypeScript CLI）后，可删除该兼容依赖。
 
 ---
 
