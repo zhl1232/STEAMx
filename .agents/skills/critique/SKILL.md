@@ -10,7 +10,7 @@ argument-hint: "[area (feature, page, component...)]"
 
 ### Step 1: Preparation
 
-Invoke /impeccable, which contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding. If no design context exists yet, you MUST run /impeccable teach first. Additionally gather: what the interface is trying to accomplish.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather what the interface is trying to accomplish when not already known.
 
 ### Step 2: Gather Assessments
 
@@ -178,9 +178,9 @@ Provocative questions that might unlock better solutions:
 
 ### Step 4: Ask the User
 
-**After presenting findings**, use targeted questions based on what was actually found. ask the user directly to clarify what you cannot infer. These answers will shape the action plan.
+**After presenting the full findings, default priorities, and a concrete action plan**, ask targeted questions only where the findings expose a material decision. Existing scope and authorization remain in force; review-only critique makes no modifications. If fixes are already authorized, continue with the suitable skill without repeating discovery.
 
-Ask questions along these lines (adapt to the specific findings; do NOT ask generic questions):
+Possible questions when a material decision is still open (skip anything already specified; do NOT ask generic questions):
 
 1. **Priority direction**: Based on the issues found, ask which category matters most to the user right now. For example: "I found problems with visual hierarchy, color usage, and information overload. Which area should we tackle first?" Offer the top 2-3 issue categories as options.
 
@@ -192,17 +192,19 @@ Ask questions along these lines (adapt to the specific findings; do NOT ask gene
 
 **Rules for questions**:
 - Every question must reference specific findings from the report. Never ask generic "who is your audience?" questions.
-- Keep it to 2-4 questions maximum. Respect the user's time.
+- Ask only the necessary questions, at most four; zero is appropriate when the scope and direction are clear.
 - Offer concrete options, not open-ended prompts.
 - If findings are straightforward (e.g., only 1-2 clear issues), skip questions and go directly to Step 5.
 
 ### Step 5: Recommended Actions
 
-**After receiving the user's answers**, present a prioritized action summary reflecting the user's priorities and scope from Step 4.
+Present a prioritized action summary using the user's established scope and priorities, or severity and user impact as defaults. If optional answers arrive, refine the summary accordingly.
 
 #### Action Summary
 
-List recommended commands in priority order, based on the user's answers:
+The report must include a default prioritized action summary before any optional questions. Use the questions only to refine priorities or scope; do not withhold the actionable baseline while waiting for answers.
+
+List recommended commands in priority order, based on the established scope and findings:
 
 1. **`/command-name`**: Brief description of what to fix (specific context from critique findings)
 2. **`/command-name`**: Brief description (specific context)
@@ -218,7 +220,7 @@ List recommended commands in priority order, based on the user's answers:
 - If the user marked areas as off-limits, exclude commands that would touch those areas
 - End with `/polish` as the final step if any fixes were recommended
 
-After presenting the summary, tell the user:
+For a review-only request, optionally explain how the user can request follow-up work. If fixes are already authorized, continue that work instead of asking for authorization again:
 
 > You can ask me to run these one at a time, all at once, or in any order you prefer.
 >

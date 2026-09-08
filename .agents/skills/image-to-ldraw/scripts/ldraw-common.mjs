@@ -614,6 +614,26 @@ function metadataPoint(point, fallback = { x: 0, y: 0, z: 0 }) {
   ]
 }
 
+function segmentIntersectsExpandedBox(start, end, box, radius) {
+  let enter = 0
+  let exit = 1
+  for (const axis of ['x', 'y', 'z']) {
+    const minimum = box[`${axis}Min`] - radius - EPS
+    const maximum = box[`${axis}Max`] + radius + EPS
+    const delta = end[axis] - start[axis]
+    if (Math.abs(delta) < EPS) {
+      if (start[axis] < minimum || start[axis] > maximum) return false
+      continue
+    }
+    const first = (minimum - start[axis]) / delta
+    const last = (maximum - start[axis]) / delta
+    enter = Math.max(enter, Math.min(first, last))
+    exit = Math.min(exit, Math.max(first, last))
+    if (enter > exit) return false
+  }
+  return true
+}
+
 function checkTubeOpeningAlignment(tubeItem, openingItem) {
   const path = tubeItem.part.tubePath
   const openings = openingItem.part.tubeOpenings
@@ -621,6 +641,10 @@ function checkTubeOpeningAlignment(tubeItem, openingItem) {
 
   const start = transformPoint(metadataPoint(path.start), tubeItem.matrix, tubeItem.origin)
   const end = transformPoint(metadataPoint(path.end), tubeItem.matrix, tubeItem.origin)
+  const tubeRadius = path.outerRadiusLdu ?? path.radiusLdu ?? 0
+  // An opening plane is infinite; only check tubes that can reach the finite frame.
+  // Expand by the tube radius so a centerline outside the frame still catches a rim hit.
+  if (!segmentIntersectsExpandedBox(start, end, openingItem.bounds.bbox, tubeRadius)) return []
   const messages = []
 
   for (const opening of openings) {
@@ -658,7 +682,6 @@ function checkTubeOpeningAlignment(tubeItem, openingItem) {
     const u = dot(delta, uAxis)
     const v = dot(delta, vAxis)
     const centerOffset = Math.hypot(u, v)
-    const tubeRadius = path.outerRadiusLdu ?? path.radiusLdu ?? 0
     const allowedOffset = (opening.innerRadiusLdu ?? Infinity) - tubeRadius + (opening.toleranceLdu ?? 0)
     if (centerOffset > allowedOffset + EPS) {
       messages.push(
@@ -939,7 +962,7 @@ export function ldrawHeader(assembly, outName) {
     '0 Author: Image to LDraw Skill',
     '0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt',
     '0 BFC CERTIFY CCW',
-    '0 // Generated from reviewed assembly JSON. Each 0 STEP follows one source step.',
+    '0 // Generated draft from assembly JSON; human acceptance and publication approval are tracked separately. Each 0 STEP follows one source step.',
   ]
 }
 

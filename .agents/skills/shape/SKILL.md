@@ -8,7 +8,7 @@ argument-hint: "[feature to shape]"
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable, which contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding. If no design context exists yet, you MUST run /impeccable teach first.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and established conventions; run `/impeccable teach` only when explicitly requested or a material unresolved gap makes planning unsafe.
 
 ---
 
@@ -26,7 +26,7 @@ Most AI-generated UIs fail not because of bad code, but because of skipped think
 
 **Do NOT write any code or make any design decisions during this phase.** Your only job is to understand the feature deeply enough to make excellent design decisions later.
 
-Ask these questions in conversation, adapting based on answers. Don't dump them all at once; have a natural dialogue. ask the user directly to clarify what you cannot infer.
+Ask only questions needed for materially consequential unknowns, adapting based on answers. Don't dump them all at once; have a natural dialogue. Reuse what is already clear from the conversation, docs, and current design.
 
 ### Purpose & Context
 - What is this feature for? What problem does it solve?
@@ -91,6 +91,6 @@ Anything unresolved that the implementer should resolve during build.
 
 ---
 
-ask the user directly to clarify what you cannot infer. Get explicit confirmation of the brief before finishing. If the user disagrees with any part, revisit the relevant discovery questions.
+Get explicit confirmation of the brief before finishing. If the user disagrees with any part, revisit only the relevant questions. A confirmed brief for the same version may be reused without repeating this flow.
 
 Once confirmed, the brief is complete. The user can now hand it to /impeccable, or use it to guide any other implementation approach. (If the user wants the full discovery-then-build flow in one step, they should use /impeccable craft instead, which runs this skill internally.)

@@ -11,21 +11,24 @@ This skill guides creation of distinctive, production-grade frontend interfaces 
 
 ## Context Gathering Protocol
 
-Design skills produce generic output without project context. You MUST have confirmed design context before doing any design work.
+Design work needs enough context to avoid generic output. Use the proportional protocol below before making consequential design decisions.
 
-**Required context** (every design skill needs at minimum):
+**Context for consequential design choices** (gather only what the current task needs; local repairs and technical audits can follow existing conventions):
 - **Target audience**: Who uses this product and in what context?
 - **Use cases**: What jobs are they trying to get done?
 - **Brand personality/tone**: How should the interface feel?
 
 Individual skills may require additional context. Check the skill's preparation section for specifics.
 
-**CRITICAL**: You cannot infer this context by reading the codebase. Code tells you what was built, not who it's for or what it should feel like. Only the creator can provide this context.
-
 **Gathering order:**
 1. **Check current instructions (instant)**: If your loaded instructions already contain a **Design Context** section, proceed immediately.
 2. **Check .impeccable.md (fast)**: If not in instructions, read `.impeccable.md` from the project root. If it exists and contains the required context, proceed.
-3. **Run impeccable teach (REQUIRED)**: If neither source has context, you MUST run /impeccable teach NOW before doing anything else. Do NOT skip this step. Do NOT attempt to infer context from the codebase instead.
+3. **Reuse available context**: Use the current conversation, an existing confirmed brief, relevant project docs, and established product conventions to fill what is already clear. For local repairs, implementation, and technical audits, existing conventions may be sufficient.
+4. **Run teach when warranted**: Run `/impeccable teach` when the user explicitly requests it, or when a materially consequential design choice remains unresolved and cannot be safely inferred. Ask only the smallest questions needed; do not turn routine work into a discovery interview.
+
+Once context is confirmed for a project, reuse it across design skills and briefs. Re-run teach only when the context materially changes or a critical gap remains.
+
+Choose one primary design workflow for a task. Other design skills supply specialist guidance without restarting discovery. For review-only requests, gather needed context without writing `.impeccable.md` or other project files; persistent context setup requires an authorized writing task.
 
 ---
 
@@ -293,7 +296,7 @@ Note what you've learned and what remains unclear.
 
 ### Step 2: Ask UX-Focused Questions
 
-ask the user directly to clarify what you cannot infer. Focus only on what you couldn't infer from the codebase:
+After checking the conversation, relevant docs, and current conventions, ask only the smallest targeted questions for material unknowns that remain:
 
 #### Users & Purpose
 - Who uses this? What's their context when using it?
@@ -314,7 +317,7 @@ ask the user directly to clarify what you cannot infer. Focus only on what you c
 - Specific accessibility requirements? (WCAG level, known user needs)
 - Considerations for reduced motion, color blindness, or other accommodations?
 
-Skip questions where the answer is already clear from the codebase exploration.
+Skip questions where the answer is already clear from the available context. Teach is optional unless explicitly requested or needed to resolve a consequential gap.
 
 ### Step 3: Write Design Context
 
@@ -338,7 +341,7 @@ Synthesize your findings and the user's answers into a `## Design Context` secti
 
 Write this section to `.impeccable.md` in the project root. If the file already exists, update the Design Context section in place.
 
-Then ask the user directly to clarify what you cannot infer. whether they'd also like the Design Context appended to .github/copilot-instructions.md. If yes, append or update the section there as well.
+Offer (but do not require) adding the Design Context to `.github/copilot-instructions.md`. This opt-in copilot guidance must not block completion of the teach task. Preserve any approval and write-scope requirements for that file.
 
 Confirm completion and summarize the key design principles that will now guide all future work.
 

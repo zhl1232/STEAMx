@@ -10,7 +10,7 @@ Identify and improve unclear, confusing, or poorly written interface text to mak
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first. Additionally gather: audience technical level and users' mental state in context.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current copy conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather audience technical level and users' mental state when not already known.
 
 ---
 

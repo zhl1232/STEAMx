@@ -10,7 +10,7 @@ Strategically introduce color to designs that are too monochromatic, gray, or la
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first. Additionally gather: existing brand colors.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current palette conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather existing brand colors when not already known.
 
 ---
 
@@ -32,7 +32,7 @@ Analyze the current state and identify opportunities:
    - **Wayfinding**: Helping users navigate and understand structure
    - **Delight**: Moments of visual interest and personality
 
-If any of these are unclear from the codebase, ask the user directly to clarify what you cannot infer.
+If a consequential requirement remains unclear after checking the conversation, docs, and current conventions, ask the smallest targeted question needed.
 
 **CRITICAL**: More color ≠ better. Strategic color beats rainbow vomit every time. Every color should have a purpose.
 

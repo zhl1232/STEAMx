@@ -4,9 +4,9 @@ Build a feature with impeccable UX and UI quality through a structured process: 
 
 ## Step 1: Shape the Design
 
-Run /shape, passing along whatever feature description the user provided.
+Use /shape as the planning flow, passing along whatever feature description the user provided. If another skill already produced a confirmed brief for this same version of the feature, reuse it instead of repeating discovery.
 
-Wait for the design brief to be fully confirmed before proceeding. The brief is your blueprint, and every implementation decision should trace back to it.
+Wait for the design brief to be explicitly confirmed before proceeding. The brief is your blueprint, and every implementation decision should trace back to it.
 
 If the user has already run /shape and has a confirmed design brief, skip this step and use the existing brief.
 
@@ -39,7 +39,7 @@ Implement the feature following the design brief. Work in this order:
 ### During Build
 - Test with real (or realistic) data at every step, not placeholder text
 - Check each state as you build it, not all at the end
-- If you discover a design question, stop and ask rather than guessing
+- If you discover a material design question or a deviation that changes the confirmed brief, pause the dependent work and ask. Routine implementation details should follow the approved brief and existing conventions.
 - Every visual choice should trace back to something in the design brief
 
 ## Step 4: Visual Iteration
@@ -57,7 +57,7 @@ Iterate through these checks visually:
 5. **Check responsive.** Resize the viewport. Does it adapt well or just shrink?
 6. **Check the details.** Spacing consistency, type hierarchy clarity, color contrast, interactive feedback, motion timing.
 
-After each round of fixes, visually verify again. **Repeat until you would be proud to show this to the user.** The bar is not "it works"; the bar is "this delights."
+After each round of fixes, visually verify again. Complete the requested scope when key states, supported responsive contexts, and proportionate checks pass; call out any material unresolved issue. Do not create endless polish or delight loops after the objective is met.
 
 ## Step 5: Present
 

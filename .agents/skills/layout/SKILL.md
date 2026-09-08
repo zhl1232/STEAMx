@@ -10,7 +10,7 @@ Assess and improve layout and spacing that feels monotonous, crowded, or structu
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current layout conventions; run `/impeccable teach` only when explicitly requested or a material gap remains.
 
 ---
 

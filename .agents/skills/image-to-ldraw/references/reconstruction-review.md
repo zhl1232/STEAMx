@@ -1,116 +1,44 @@
-# Source-First Reconstruction And Review
+# Reconstruction, Evidence, Verification, And Acceptance
 
-Use this checklist when rebuilding a course model from an instruction sequence or repairing an inaccurate LDR. It complements `assembly-json.md`, `duplo-ldraw-conventions.md`, and `thickness-review.md`; those project-specific metadata rules take precedence over generic assumptions about part height or origin.
+This is the authoritative review workflow for rebuilding a model from instruction pages, a finished photo, a Studio file, or an inaccurate LDR. It covers exploratory drafts and publishable assets separately. `assembly-json.md`, `duplo-ldraw-conventions.md`, and `thickness-review.md` provide field and geometry details.
 
-## Evidence Order
+## Evidence and unresolved items
 
-1. Per-step instruction pages are ground truth for visible additions and step boundaries.
-2. The finished-model image confirms the final silhouette and features hidden by later steps.
-3. A reviewed physical kit, Studio file, or explicit user correction can resolve part IDs and hidden connections.
-4. An existing LDR is only a hypothesis. Reuse a placement only after it agrees with stronger evidence.
+Use evidence in this order:
 
-Never force the printed count when doing so requires a collision or impossible placement. Record the discrepancy and prefer the geometry demonstrated by consecutive pages.
+1. Instruction pages establish visible additions and step boundaries.
+2. The finished image confirms final silhouette and features hidden by later steps.
+3. A reviewed physical kit, Studio file, or explicit user correction may resolve IDs and hidden connections.
+4. An existing LDR is a hypothesis until it agrees with stronger evidence.
 
-## Step Inventory
+For each step record source page, additions and cumulative placements, ID (or unresolved description), color/count, footprint and thickness, orientation, support/hidden connection, and confidence (`visible`, `inferred`, or `unresolved`). Record unknown IDs and partial geometry explicitly. Never guess an ID, force a printed count through a collision, or invent a simplified/custom part. An unresolved or partial draft is not publishable; pause only the affected placement/model while continuing independent checks.
 
-Before editing, compare each page with the previous page and record:
+Maintain a compact occupancy and landmark ledger for changed steps: occupied stud cells, holes/cavities, intentional overhangs, axis extents, and landmarks such as wheel centers, openings, corners, handles, and roof tiers. Counts and collision checks do not prove visual correctness. Resolve the earliest divergent step first.
 
-- source page and model step;
-- added part ID or unresolved description;
-- color and quantity;
-- footprint, brick/plate thickness, and orientation;
-- visible anchor/support and any hidden or inferred connection;
-- confidence: visible, inferred from continuity, or unresolved.
+## Draft and local preview
 
-For each step, keep two counts: additions on that page and cumulative placements through that page. A correct addition count can still hide a wrong earlier layer or a misplaced part.
+Generate a local draft as soon as the evidence permits; do not require a fully accepted JSON document before exploring geometry. A small direct repair may use a reviewed table and edit an LDR directly. Use `assembly.json` when support graphs, hidden connections, tubes, complex placement, or machine validation materially help; it is an optional representation, not a mandatory gate.
 
-## Occupancy And Landmark Ledger
+Drafts may contain unresolved entries and assumptions, but must carry source/model identity and verification status and must remain outside public course assets. Preview them in the existing `/ldraw-preview` workspace. The preview API accepts an in-memory model with `GET /api/ldraw-preview?model=...` or a `POST` source payload; use it to inspect a draft without packing it into `public/`. Studio is optional and reserved for complex or unclear connections, custom parts, or a user-supplied Studio source.
 
-Before placing coordinates, draw a stud-grid occupancy sketch for every changed step. For a normal upright model, use a top-view grid; for a side-built model, use its `u`/`v` source plane. Mark:
+Use stable axes and origin, 40 LDU per Duplo stud, exact orthonormal transforms for axis-aligned rotations, and metadata-derived part dimensions. Preserve instruction boundaries (`0 // STEP n - ...`, `0 STEP`) and build in the source's actual assembly direction. Every new part must be supported or intentionally bridged/angled; document manual supports and source-confirmed overlaps.
 
-- occupied cells by part ID/color and orientation;
-- intentional holes, cavities, and unsupported overhangs;
-- the model's min/max extents on each axis;
-- named visual landmarks visible in the source, such as wheel centers, basket corners, handle ends, window openings, roof tiers, and light bars.
+## Temporary instruction cache
 
-Counts and collision checks do not prove this ledger. A model with the right parts can arrange them into the wrong object and still pass both. If the source perspective hides exact cells, mark the cells unresolved and use the next page, finished image, or a reviewed Studio export to resolve them before claiming visual verification.
+For repeated work, a temporary review record may be reused only when it is bound to the same source identity, model/version, relevant metadata version, and validator/script versions. Reuse unchanged records; when a source, placement, part metadata, or validator changes, recheck that item and all dependent downstream steps. New models require a complete record. This is a documentation convention, not an instruction to invent caching automation. Scripts should load the full metadata needed for correctness while exposing or reporting only the selected records relevant to the current model.
 
-Resolve the earliest divergent step first. Later geometry often hides an earlier wrong footprint, layer height, or rotation.
+## Verification and acceptance
 
-## Coordinate And Part Rules
-
-- Use 40 LDU per Duplo stud and the axes declared in the model header. In normal upright models, +Y points downward and more-negative Y is higher.
-- Ordinary full-height Duplo bricks are commonly 48 LDU, but always read `part-metadata.json`; plates, chassis, tubes, decorated parts, and custom geometry can differ.
-- Keep one stable origin and facing throughout the model.
-- Use exact orthonormal matrices for axis-aligned rotations. Document intentional angled transforms.
-- Resolve exact official/local part geometry before substituting. Follow `missing-part-workflow.md` for unavailable parts and label every approved approximation.
-
-## Incremental Reconstruction
-
-1. Add a header naming the source, axes/grid convention, verification status, and all approximations.
-2. Preserve the source sequence with `0 // STEP n - ...` and `0 STEP` boundaries.
-3. Build bottom-up or along the instruction's actual assembly direction.
-4. After each step, verify new parts are supported or intentionally bridged/angled and do not intersect earlier rigid parts.
-5. For complex or uncertain builds, encode supports, confidence, assumptions, and accepted overlaps in `assembly.json` so `validate-assembly.mjs` can check them.
-
-Do not leave a part floating unless the source shows a valid axle, tube, hinge, bridge, or documented hidden support. Do not use a generic brick to imitate an unavailable chassis, doorway, tube, wheel, frame, or decorated part without explicit approval and an approximation note.
-
-## Validation Gates
-
-These are separate gates; passing one does not imply the next.
-
-### 1. Structural And Static Checks
-
-For reviewed assembly JSON:
+Run checks appropriate to the representation:
 
 ```bash
 node .agents/skills/image-to-ldraw/scripts/resolve-parts.mjs path/to/assembly.json
 node .agents/skills/image-to-ldraw/scripts/validate-assembly.mjs path/to/assembly.json
-```
-
-For a direct LDR repair:
-
-```bash
 node .agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs scripts/ldraw-models/model.ldr
-node scripts/pack-ldraw-model.mjs scripts/ldraw-models/model.ldr model
 ```
 
-The raw-LDR checker validates metadata, transforms, and collisions. Because raw type-1 lines do not contain a reviewed support graph, manually inspect every new step for contact/support or migrate the model to `assembly.json` before claiming structural support validation.
+Render every changed step and the final state from a source-matching view. Add top/front/rear/left/right views only when hidden geometry or an informative comparison requires them; six views are not a universal requirement. Compare additions, cumulative occupancy, extents, thickness, support/contact, orientation, landmarks, silhouette, and visible face order. Correct the earliest failed item and repeat. A Studio file, when used, must actually be opened and checked for nonblank content, resolved custom parts, step loading, and sensible framing; renderer output is not Studio verification.
 
-### 2. Renderer Review
+Acceptance happens in `/ldraw-preview` after these checks. Record the accepted specific model version, source references, unresolved warnings, unavailable parts, approved approximations, and verification level. Publishing is a separate release gate: pack only that accepted version, and only after explicit publish authorization. Do not pack a draft or use a stale public MPD as evidence.
 
-Render every changed step and the final model. Use a source-matching isometric view plus fixed views where hidden geometry matters:
-
-```bash
-node .agents/skills/image-to-ldraw/scripts/preview-model.mjs public/courses/ldraw/model.mpd --step 4 --view iso --out .tmp/model-step-4.png
-node .agents/skills/image-to-ldraw/scripts/preview-model.mjs public/courses/ldraw/model.mpd --view top --out .tmp/model-top.png
-```
-
-For each changed step, render from a view that matches the source page closely enough to compare the same visible faces. Fixed views are additional evidence, not a replacement for the source-matching view.
-
-Use a written pass/fail checklist for each changed page:
-
-- added BOM and cumulative BOM;
-- stud-grid occupancy, openings, and overhangs;
-- axis extents and total height;
-- part orientation and stagger/interlock pattern;
-- support/contact points;
-- named silhouette landmarks and visible face order.
-
-Correct the earliest failed item, repack, and repeat. Inspect at least `iso`, `front`, `rear`, `left`, `right`, and `top` for complex models. Do not label a model `renderer-verified only` from six-view renders or bounding-box similarity when the per-page checklist is missing.
-
-When a user supplies a corrected Studio export, treat its transforms and step boundaries as higher-confidence evidence than an AI reconstruction. Diff placements by step, part/color, transform, occupancy, and extents; do not reduce the comparison to total counts.
-
-### 3. Studio Review
-
-When BrickLink Studio is available, open the delivered source and confirm it is nonblank, custom parts resolve, steps load, and orientation/framing are sensible. Static or renderer checks are not Studio verification.
-
-## Delivery Wording
-
-Report one of:
-
-- `Studio-verified`: actually opened and inspected in BrickLink Studio.
-- `renderer-verified only`: structural/static checks and source-comparison renders passed, but Studio was not used.
-- `structurally checked only`: static checks passed, but visual rendering or Studio review was unavailable.
-
-List unresolved warnings, unavailable parts, approved approximations, and hidden-connection assumptions explicitly.
+Report exactly one level: `Studio-verified`, `renderer-verified only`, or `structurally checked only`, with warnings and assumptions listed.

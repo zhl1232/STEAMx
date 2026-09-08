@@ -11,7 +11,7 @@ description: >-
 
 把 `C:\Users\Administrator\Documents` 这类课件文件夹批量转成线上 `building_3d` 课时。
 
-核心分工：**确定性资源管线（脚本全自动）+ 教学内容创作（LLM 起草，人审）+ LDraw 建模（最重，半自动）**。不要指望一条命令端到端。
+默认流程：资源与文案准备 → LDraw 本地草稿和自动检查 → 预览页集中验收 → 获得发布授权后上传、入库并核验。复用同课已确认的资源和文案，不为每个内部步骤重新请求确认。
 
 ## 前置依赖（一次性）
 
@@ -28,8 +28,8 @@ sudo apt install -y libreoffice poppler-utils fonts-noto-cjk fonts-wqy-zenhei
 ```
 - [ ] 1. 资源管线：import-courseware.mjs 转换+压缩+(可选)上传，产出 content 草稿
 - [ ] 2. 教学文案：读 PDF/PPT 起草 steps + steps3d，人审
-- [ ] 3. LDraw 模型：按搭建说明建模 + 几何自检 + 打包
-- [ ] 4. 入库：幂等 upsert 写 content（迁移只管 schema）
+- [ ] 3. LDraw 模型：本地草稿 + 几何自检 + /ldraw-preview 集中验收
+- [ ] 4. 获得发布授权后打包、上传、幂等 upsert 写 content 并核验（迁移只管 schema）
 - [ ] 5. 作品墙：为有明确产出的课时启用 `content.workSubmission.enabled`（孩子可直接晒作品）
 ```
 
@@ -37,7 +37,7 @@ sudo apt install -y libreoffice poppler-utils fonts-noto-cjk fonts-wqy-zenhei
 
 ```bash
 node scripts/import-courseware.mjs "<课件文件夹>" --slug=<slug> \
-  --course="<课程标题>" --lesson="<课时标题>" --upload
+  --course="<课程标题>" --lesson="<课时标题>"
 ```
 
 它会：按扩展名+关键词识别 PPT/视频/PDF/成品图 → PPT 转逐页图（或 `--slides-dir` 用现成图；加 `--build-slides-from-source` 会先输出到临时目录，成功后再替换旧 `slide-*`，失败不动旧文件；默认导入时自动切图失败但 `slides/` 已有多张图会沿用现有图继续产出草稿）→ 幻灯片转 WebP（省 ~80%）→ 视频/PDF/成品图归一化到 `public/courses/<slug>/` →（`--upload` 时）推到 `oss:courses/<slug>/` → 产出 `scripts/courseware/<slug>.json` 草稿（含 `slideImageUrls`/`videoUrl`/`videoSlideIndex`/`slidesPdfUrl`/`finishedImageUrl`，其中 `videoSlideIndex` 可直接从 PPTX 关系文件探测）。
@@ -58,9 +58,11 @@ node scripts/import-courseware.mjs "<课件文件夹>" --slug=<slug> \
 
 类型定义见 `lib/courses/types.ts` 的 `Building3DLessonContent`。
 
-### 步骤 3 — LDraw 3D 模型（人工核验）
+### 步骤 3 — LDraw 草稿与集中验收
 
-把图片转 LDraw 无可靠自动工具，需按搭建说明在 Studio 中建模并人工核验。仓库只保留最终 `.ldr` 源文件，不为单个课件保留 generator、assembly/BOM/report sidecar 或生成产物专项测试。
+按 `image-to-ldraw/SKILL.md` 生成本地草稿，无需先审 JSON；简单修复直接改 LDR，复杂连接可用临时 assembly。自动检查后在本地 `/ldraw-preview` 统一对照源图、分步模型和疑点，教学文案可一并验收。Studio 只用于复杂或有争议的连接，不再每次强制。近似零件仍须事先明确批准；验收及发布授权绑定同一模型、零件依赖和目标课时版本。
+
+草稿预览使用预览页的内存打包，不运行下面的正式打包命令。只有模型验收通过且已有明确发布授权时，才执行正式打包、所需的 `--upload` 和内容入库。详细检查及证据复用只按 `image-to-ldraw/references/reconstruction-review.md` 执行一次。
 
 ```bash
 node .agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs scripts/ldraw-models/<slug>.ldr
@@ -68,7 +70,7 @@ node scripts/pack-ldraw-model.mjs scripts/ldraw-models/<slug>.ldr <slug>
 # → public/courses/ldraw/<slug>.mpd（模型内 0 STEP 驱动分步显隐）
 ```
 
-模型未就绪时可先留 `steps3d` 为图文步骤、`ldrawModelUrl` 暂缺，工作区会回退占位。
+临时 assembly/BOM/report 放在 scratch 目录并保留至验收；最终模型源为 `.ldr`，不提交单课 generator 或生成产物专项测试。模型未就绪时可在草稿中保留图文步骤、暂缺 `ldrawModelUrl`；发布图文降级版本须在获批范围内，不得把缺模型的课时报告为 3D 已完成。
 
 ### 步骤 4 — 入库（幂等，别每课一条迁移）
 

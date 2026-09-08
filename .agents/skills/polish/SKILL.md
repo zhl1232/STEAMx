@@ -8,7 +8,7 @@ argument-hint: "[target]"
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first. Additionally gather: quality bar (MVP vs flagship).
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather the quality bar when not already known.
 
 ---
 
@@ -203,6 +203,8 @@ Go through systematically:
 - Hard-code values that should use design tokens
 
 ## Final Verification
+
+Before marking the requested scope done, verify key states, supported responsive contexts, and proportionate checks; report any material unresolved issue. Do not extend the task with open-ended review loops.
 
 Before marking as done:
 

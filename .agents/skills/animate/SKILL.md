@@ -10,7 +10,7 @@ Analyze a feature and strategically add animations and micro-interactions that e
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first. Additionally gather: performance constraints.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current motion conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather performance constraints when not already known.
 
 ---
 
@@ -31,7 +31,7 @@ Analyze where motion would improve the experience:
    - Who's the audience? (Motion-sensitive users? Power users who want speed?)
    - What matters most? (One hero animation vs many micro-interactions?)
 
-If any of these are unclear from the codebase, ask the user directly to clarify what you cannot infer.
+If a consequential requirement remains unclear after checking the conversation, docs, and current conventions, ask the smallest targeted question needed.
 
 **CRITICAL**: Respect `prefers-reduced-motion`. Always provide non-animated alternatives for users who need them.
 

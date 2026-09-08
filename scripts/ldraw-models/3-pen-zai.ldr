@@ -1,44 +1,143 @@
-0 3+ 盆栽 (Potted Plant) - DUPLO draft for manual repair
+0 3+ 盆栽 (Potted Plant) - source reconstruction, awaiting visual review
 0 Name: 3-pen-zai.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+盆栽 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Leaf and petal curves are stepped-brick approximations.
-
-0 // STEP 1 - square pot base
-1 14 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // Source: instructions.pdf pages 1-17. +Y down; 40 LDU/stud.
+0 // Metadata: bricks 48 LDU, plates 24 LDU. No approximate parts.
+0 // Page 7 outer leaf cubes are temporarily unsupported until page 9 bridges them.
+0 // Verification: structurally checked only; source-render comparison pending.
+0 // STEP 1 - two 6x12 green plates and ten yellow 2x4 base-wall bricks
+1 2 0 -24 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 0 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - pot walls and soil opening
-1 14 -160 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -160 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 160 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 2 - ten bright-yellow 2x4 bricks, interlocked second wall course
+1 226 -200 -120 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -200 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -200 -120 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 200 -120 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 200 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 200 -120 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -80 -120 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 80 -120 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 -80 -120 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 80 -120 200 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - green stem
-1 2 0 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 0 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 0 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 0 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - twelve 2x4 rim bricks; 14x14 outside and 10x10 opening
+1 14 -200 -168 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -168 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -168 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -168 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -168 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -168 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -168 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -168 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -168 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -168 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -168 -120 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 4 - leaves
-1 2 -240 -216 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
-1 2 240 -216 0 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
-1 2 -160 -264 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
-1 2 160 -264 0 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat
+0 // STEP 4 - twelve 2x4 rim bricks; 14x14 outside and 10x10 opening
+1 226 200 -216 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 40 -216 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 -120 -216 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 240 -216 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 240 -216 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 240 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -200 -216 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 -40 -216 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 120 -216 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 226 -240 -216 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -240 -216 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 226 -240 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 5 - red flower petals
-1 4 0 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -384 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 5 - six lime 2x2 stem bricks and one green 2x4 plate
+1 27 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 0 -336 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 6 - two green leaf roots and one lime stem brick
+1 2 -80 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 80 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 7 - four green leaf cubes and one lime stem cube
+1 2 -160 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -80 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 80 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 160 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 8 - four lime 2x2 stem bricks
+1 27 0 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -576 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 0 -624 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - six green cubes complete stepped leaves
+1 2 -180 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -100 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 100 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 180 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 -140 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 140 -528 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 10 - two red 2x4 bricks, eight-stud flower bottom
+1 4 -80 -672 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -672 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 11 - red ends, blue 2x4 and blue 2x2; ten-stud row
+1 4 -160 -720 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -720 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -720 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -720 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 12 - red ends, blue inner cubes and yellow 2x4; twelve-stud row
+1 4 -200 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -768 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 13 - seven cubes; fourteen-stud widest row
+1 4 -240 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 226 0 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 14 - twelve-stud flower row
+1 4 -200 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 120 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -864 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 15 - ten-stud flower row
+1 4 -160 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 160 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -912 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 16 - three red 2x4 bricks; eight-stud then four-stud crown
+1 4 -80 -960 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -960 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -1008 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 17 - finished plant, no additions

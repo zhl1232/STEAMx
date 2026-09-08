@@ -1,87 +1,51 @@
 ---
 name: image-to-ldraw
-description: Reconstruct or repair Duplo/large-brick LDraw models from reviewed instruction images, PDFs, finished photos, or an inaccurate draft, or generate exploratory models from text descriptions. Use when Codex needs to inventory step additions, identify supported Duplo parts, create a human-reviewable assembly JSON, generate .ldr/.mpd models, validate brick placement for overlap, unsupported parts, incorrect dimensions, floating assemblies, or visual mismatch, or turn a natural-language building description into a valid Duplo LDraw assembly.
+description: Generate or repair Duplo/large-brick LDraw drafts from instruction images, PDFs, photos, or exploratory text, validate geometry, and prepare local 3D previews for acceptance and authorized publication.
 ---
 
 # Image To LDraw
 
-## Overview
+## Default flow
 
-Use this skill to turn instruction evidence into reliable, reviewable LDraw source for the STEAMX large-brick course pipeline. The instruction sequence is ground truth; an existing LDR is only a hypothesis. Do not infer hidden structure, substitute look-alike parts, or add guessed parts from a single finished photo. If the part ID, geometry, orientation, or step placement is unclear, stop and ask the user.
+Read evidence → build local draft → validate and preview → human acceptance → authorized publication. Draft generation does not require prior JSON review. Studio is optional for complex or disputed connections; the local `/ldraw-preview` page is the normal acceptance surface.
 
-## Workflow
+1. **Scope evidence.** For course reconstruction, source steps define additions and order; finished photos clarify the final shape. Existing LDRs are hypotheses unless already accepted against the same source. Read only the relevant source pages and metadata entries for parts used in this model; scripts load the complete catalog. Never paste the whole metadata catalog into context.
+2. **Build a draft.** Direct LDR edits are appropriate for small repairs; use temporary `assembly.json` for complex support/transform work. Preserve source step boundaries. Unknown IDs or connections stay explicitly unresolved; do not invent parts or silently substitute similar geometry. An incomplete local preview may omit unresolved parts if clearly labeled; it is not publishable.
+3. **Check once, then review visually.** With assembly JSON, resolve parts and validate before conversion; direct LDRs use the raw-LDR checker. Consolidate source matching, BOM, thickness, openings, orientation, and support into the single checklist in [reconstruction-review.md](references/reconstruction-review.md). Scripts checking collisions do not prove source fidelity or physical support.
+4. **Present one acceptance package.** Provide the local preview link, changed steps, check summary, and unresolved items. Human acceptance covers the exact model/source/dependency version. Reuse unchanged evidence; revisions require review of affected steps and downstream dependencies. Studio is supplementary, never claim it was used when it was not.
+5. **Publish only after acceptance and explicit publication authorization.** These may be given together. Match the accepted version and target course before writing public MPD assets, uploading, or updating lesson content. Then verify the published model, dependencies, step count, and lesson mapping. A draft request is complete with a checked preview and honest status; an authorized publish task continues through verification.
 
-1. Read `references/reconstruction-review.md`, then read the source images/PDF and identify the build steps. Prefer per-step instruction images over a single final photo. Inventory each step's additions before editing geometry.
-2. Load `references/part-metadata.json` before selecting part IDs. Only use part IDs that are confirmed by the course source, a finished-photo/physical-kit review, or the user. If a part is missing from metadata, add metadata only after the exact part ID and geometry source are confirmed.
-3. If the part metadata exists but the `.dat` model is missing, follow `references/missing-part-workflow.md`: resolve local/official sources first and commit redistributable real models locally. If no redistributable real model is found, ask the user before creating or using any simplified local geometry.
-4. Draft an `assembly.json` using `references/assembly-json.md`. Record each placement with source step, confidence, assumptions, anchor, support relationship, and part ID.
-5. Run `node .agents/skills/image-to-ldraw/scripts/resolve-parts.mjs <assembly.json>` to verify every part has a local or cached LDraw source.
-6. Run `node .agents/skills/image-to-ldraw/scripts/validate-assembly.mjs <assembly.json>`. Fix all errors before generating LDraw.
-7. After human review of the JSON, run `node .agents/skills/image-to-ldraw/scripts/assembly-to-ldraw.mjs <assembly.json> --out scripts/ldraw-models/<slug>.ldr`.
-8. Use the project packer to produce an MPD: `node scripts/pack-ldraw-model.mjs scripts/ldraw-models/<slug>.ldr <slug>`.
+## Commands and artifact boundaries
 
-## Repairing an Existing LDR
+- Assembly drafts: `resolve-parts.mjs <assembly.json>` → `validate-assembly.mjs <assembly.json>` → `assembly-to-ldraw.mjs <assembly.json> --out .tmp/<slug>/model.ldr`. These scripts live in this skill's `scripts/` directory. Conversion refuses validation errors and emits temporary BOM/report files.
+- Direct drafts: `node .agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs <explicit-model.ldr>`. Inspect support separately because raw LDR has no support graph.
+- Preview: use the local app's `/ldraw-preview?model=<filename.ldr>` for sources in `scripts/ldraw-models/`, or paste a scratch draft into its custom-source editor. Its local `POST /api/ldraw-preview` accepts `{ldrText, modelName}` and returns an in-memory MPD; this does not publish assets. Do not deploy the preview app as part of preparing a draft.
+- Publication: `node scripts/pack-ldraw-model.mjs <accepted-source.ldr> <slug>` writes `public/courses/ldraw/<slug>.mpd`; it is not the draft-preview command. Upload/content updates remain limited to the authorized lesson and assets.
+- Keep draft assembly/BOM/review records in scratch space, accessible until acceptance. Final model sources are `.ldr`; do not add per-model generators or generated-output tests.
 
-1. Treat the draft as a placement/part-ID hint, not as evidence. Compare consecutive source pages and find the earliest divergent step.
-2. Record each step's added part, count, color, footprint, thickness, orientation, support, and confidence. Also record a stud-grid occupancy sketch for that step (top view for stacked models, source-plane view for side-built models), including deliberate holes and overhangs. A compact review table is sufficient for a small direct repair; use `assembly.json` when support or hidden geometry needs machine review.
-3. Rebuild from the earliest wrong step forward. Do not translate or reshape the completed model until its final silhouette merely looks plausible.
-4. Run the targeted raw-LDR check: `node .agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs scripts/ldraw-models/<slug>.ldr`. This validates parseable type-1 lines, known metadata, transforms, and collisions; it does not prove source fidelity or automatically prove support for a raw LDR.
-5. Pack the current source, then render every changed step with `preview-model.mjs --step <n>`. Render the final state from `iso`, `front`, `rear`, `left`, `right`, and `top` views when shape or hidden connections are material.
-6. Compare each render directly with its source page. For every changed step, check both the newly added BOM and cumulative BOM, the occupied stud cells, deliberate openings, outer extents, height, and named silhouette landmarks (for example handle end, wheel row, cabin opening, light bar). Record the result; "looks plausible" is not a pass. Correct the earliest remaining mismatch and repeat; a correct final silhouette does not excuse incorrect intermediate steps.
-7. Open the result in BrickLink Studio when Studio is available. Report exactly one verification level: `Studio-verified`, `renderer-verified only`, or `structurally checked only`. Never imply Studio verification from parser or renderer output.
+## Non-negotiable geometry rules
 
-Do not report `renderer-verified only` unless every changed source page has a source-matching render and a written pass for inventory, occupancy/openings, extents/height, orientation, support, and silhouette landmarks. Fixed six-view renders alone are insufficient because a wrong layout can still have a plausible bounding box.
+- Use confirmed catalog parts and their actual dimensions/origins; never assume every brick is 48 LDU. Duplo stud pitch is 40 LDU, and normal upright LDraw +Y points down.
+- Reject unexplained floating parts, rigid intersections, and invalid transforms. Document source-backed support and overlap exceptions; do not silence checks to make a draft pass.
+- Exact-transform assembly placements must declare support. Side-built spacing derives from the placed parts' `heightLdu`, not hard-coded offsets.
+- Missing geometry: search allowed local/official sources first. Simplified/custom geometry still requires a confirmed real part ID and explicit approval of that approximation; unresolved geometry does not become approved merely because a draft is requested.
+- Text-only exploration may choose confirmed catalog parts creatively, but must not replace source-based reconstruction of a course model.
 
-## Important Rules
+## Read only when needed
 
-- Treat `part-metadata.json` as the source of placement geometry. Do not hard-code brick height or assume every layer is 48 LDU.
-- Reject unexplained floating parts and rigid-volume intersections. If the source requires a hidden support, bridge, axle, hinge, or coarse-validator overlap exception, document that exact connection; do not silently accept it.
-- Use LDraw coordinates from `references/duplo-ldraw-conventions.md`: +Y points downward; stacking upward makes Y more negative.
-- Express vertical placement through support relationships (`ground` or `placements`) wherever possible. The scripts compute Y by aligning the current part bottom connection plane to the supporter top connection plane.
-- Use `originLdu` only for unusual parts that cannot be expressed by a regular stud-grid anchor.
-- For a picture drawn from a single fixed side/isometric angle (not a ground-up stack — a sword, a silhouette), use the side-built `u`/`v`/`depth` `ldrawLine` pattern in `references/duplo-ldraw-conventions.md` ("Side-Built Models") instead of forcing it into `anchor`/`support`. Derive any front/center/back sandwich spacing from `heightLdu`, never a literal `±48`/`±24` — that exact mismatch previously made a sword model's blade render as thick bricks instead of thin plates.
-- Every `ldrawLine` (exact-transform) placement must declare `support` explicitly, including `{type:"manual", reason:"..."}` for side-built grids with no single stacking plane. `validate-assembly.mjs` errors on a missing `support` and on any collision not covered by the placement's `acceptedOverlaps` or the part's `collisionPolicy` — exact transforms are validated, not skipped.
-- Before trusting a color/step as "brick" vs "plate" (or any two similar-looking parts), measure it against the instruction image per `references/thickness-review.md` rather than assuming the previous step's part carries over.
-- If a visual model is unsure, set lower `confidence`, add `assumptions`, leave `needsReview: true`, and ask before replacing uncertain parts or placements in a course `.ldr`.
-- Do not use raw web search for part facts until local project sources and `resolve-parts.mjs` have failed. When a redistributable real model is found online, store it in the local LDraw search path and record source/license details in `part-metadata.json`; course builds should not depend on live web fetches.
-- Do not create or use local simplified/custom `.dat` geometry unless the exact part number is confirmed and the user explicitly approves the approximation for that lesson. Mark the approximation in `ldrawStatus`, `supportPolicy`/`collisionPolicy`, and metadata notes.
-- Do not create generator scripts that invent course models or substitute parts from descriptions. New course `.ldr` work should come from reviewed instruction images/PDF pages, Studio exports, or human-reviewed `assembly.json` data.
-- `validate-assembly.mjs` checks straight-tube (`31452.dat`) alignment through arch openings, tube path interference, and tube port connections from `part-metadata.json`. For `31195.dat` elbow chains, add placement-level `tubeChecks` when the instruction step requires a specific bend direction or adjacent port connection.
+- [reconstruction-review.md](references/reconstruction-review.md): consolidated review, evidence reuse, acceptance, and publication.
+- [assembly-json.md](references/assembly-json.md): when using assembly JSON, not required for direct repairs.
+- [duplo-ldraw-conventions.md](references/duplo-ldraw-conventions.md): unfamiliar axes, origins, side-built transforms, or support.
+- [thickness-review.md](references/thickness-review.md): new or ambiguous brick/plate identification; reuse confirmed same-source part evidence.
+- [missing-part-workflow.md](references/missing-part-workflow.md): unavailable parts or proposed approximations.
+- [text-to-assembly-guide.md](references/text-to-assembly-guide.md) and [duplo-parts-cheatsheet.md](references/duplo-parts-cheatsheet.md): text-only exploratory builds.
 
-## Text-to-Assembly Workflow
+## Token budget discipline
 
-For exploratory generation from a natural-language description (not for repairing courseware against fixed instructions):
+Query only used IDs from `references/part-metadata.json`, for example:
+`node -e 'const m=require("./.agents/skills/image-to-ldraw/references/part-metadata.json"); console.log(JSON.stringify({grid:m.grid,part:m.parts[process.argv[1]]}))' 3011.dat`.
+Read orientation matrices only if needed. Preserve useful geometry fields in the selected records.
 
-1. Read `references/text-to-assembly-guide.md` for the full workflow, coordinate rules, color codes, and few-shot examples.
-2. Read `references/duplo-parts-cheatsheet.md` to select parts by category (brick, plate, slope, arch, etc.).
-3. Plan the build bottom-to-top: ground layer first, then stacking layers.
-4. Draft `assembly.json` following `references/assembly-json.md`. Use `centerStud` anchors with **integer** stud coordinates.
-5. Run `validate-assembly.mjs` → fix errors → run `assembly-to-ldraw.mjs` → `pack-ldraw-model.mjs`.
+Keep one temporary review record tied to source images, model, used part geometry/metadata, and validator versions or hashes. Reuse only unchanged inputs; recheck changed steps and their downstream dependencies. New models need a complete step review. This is a work-record convention, not an implemented automatic cache.
 
-Key differences from the image workflow:
-- No source images or confidence scores needed — set `confidence: 1.0` and omit `sourceStep`.
-- The AI must respect `part-metadata.json`: only use confirmed parts that exist in the catalog. For courseware repair, do not use this workflow as a substitute for PDF/step-image review.
-- Stud grid alignment is enforced: non-integer centerStud coordinates produce warnings.
-
-## References
-
-- Read `references/assembly-json.md` when drafting or reviewing `assembly.json`.
-- Read `references/reconstruction-review.md` before rebuilding or repairing an existing LDR from PDFs, page images, or finished-model evidence.
-- Read `references/duplo-ldraw-conventions.md` when changing coordinate, orientation, or support behavior, and especially before building a side-built (non-ground-up) model.
-- Read `references/thickness-review.md` before finalizing part choices and before final visual review — it covers measuring brick-vs-plate thickness from instruction images and the step-by-step-render comparison pass.
-- Read `references/missing-part-workflow.md` before adding a new local/custom part or using a simplified placeholder.
-- Read `references/text-to-assembly-guide.md` for the text-to-assembly workflow, coordinate rules, color codes, and few-shot examples.
-- Read `references/duplo-parts-cheatsheet.md` for a categorized quick-reference of commonly used Duplo parts.
-- Edit `references/part-metadata.json` before using a new part. The scripts intentionally fail on unknown or metadata-less parts.
-
-## Scripts
-
-- `scripts/resolve-parts.mjs`: verify/cache LDraw `.dat` sources for all parts in an assembly.
-- `scripts/validate-assembly.mjs`: validate schema, part metadata, support, collision, and generated LDraw transforms.
-- `scripts/assembly-to-ldraw.mjs`: emit `.ldr`, `.bom.json`, and `.report.json` from a reviewed assembly.
-- `scripts/ldraw-common.mjs`: shared geometry and validation module (AABB + OBB collision, stud grid alignment) used by the command scripts.
-- `scripts/measure-thickness.mjs`: classify a measured instruction-icon front face as brick-thick or plate-thin (see `references/thickness-review.md`).
-- `scripts/check-ldr-collision.mjs`: run metadata/transform/collision checks across unpacked LDRs, or target one or more explicit `.ldr` paths even when a matching MPD already exists.
-- `scripts/preview-model.mjs`: render a packed LDR/MPD by step and fixed view (`iso`, `iso-rear`, `front`, `rear`, `left`, `right`, `top`) for source comparison.
-- `scripts/fetch-duplo-parts.mjs`: download official LDraw library and extract all Duplo parts into `references/duplo-parts-index.json`.
-- `scripts/generate-metadata.mjs`: auto-generate `part-metadata.json` entries from the Duplo parts index.
+Store full logs/screenshots locally; report summary counts, failures, ambiguities, and the preview link. Reuse the same visual pass for thickness and source matching. Add views only when they reveal relevant geometry; do not repeat full six-view/per-step reviews after unrelated edits.

@@ -25,17 +25,17 @@
 ```
 文字描述
     ↓
-Step 1: 理解意图 → 分解为"从下到上"的层次
+Step 1: 理解意图 → 分解为可验证的结构与步骤
     ↓
-Step 2: 选零件 → 从零件速查表中选可用件
+Step 2: 选零件 → 从零件速查表/元数据中选已确认件
     ↓
-Step 3: 计算坐标 → stud 网格对齐（整数坐标）
+Step 3: 计算坐标 → stud 网格对齐（整数坐标）或记录未决项
     ↓
-Step 4: 生成 assembly.json
+Step 4: 生成本地草稿（复杂结构可用 assembly.json）
     ↓
-Step 5: 运行 validate-assembly.mjs 验证
+Step 5: 按需运行验证并在 /ldraw-preview 检查
     ↓
-Step 6: 运行 assembly-to-ldraw.mjs 生成 .ldr
+Step 6: 接受具体版本后，获明确发布授权才打包
 ```
 
 ---
@@ -212,12 +212,14 @@ Step 6: 运行 assembly-to-ldraw.mjs 生成 .ldr
 
 ## 约束检查清单
 
-生成 assembly.json 后，务必核对：
+使用 assembly.json 时核对：
 
-1. ✅ 所有 `partId` 都在 `part-metadata.json` 中存在
+1. ✅ 已解析的 `partId` 都在 `part-metadata.json` 中存在；未决项明确记录且草稿不可发布
 2. ✅ 所有 `anchor` 坐标是整数（stud 对齐）
 3. ✅ 每层的 `support.ids` 指向正确的下层零件
 4. ✅ 相邻零件不穿模（足够间距或 acceptedOverlaps）
 5. ✅ `colorCode` 使用合法的 LDraw 颜色号
-6. ✅ step 顺序从下往上（先地面件，后叠加件）
+6. ✅ step 顺序符合来源的组装方向（不强制从下往上）
 7. ✅ 每个 placement 的 `id` 全局唯一
+
+小型直接修复不必强制创建 assembly.json。未知零件 ID 不得从外形猜测；缺少真实模型时也不要自行制作简化件，除非用户明确批准。草稿可先在本地预览，不得写入 public；发布流程以 `reconstruction-review.md` 的证据、验收和发布闸门为准。

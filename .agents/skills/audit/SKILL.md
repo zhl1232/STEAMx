@@ -8,7 +8,7 @@ argument-hint: "[area (feature, page, component...)]"
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current conventions; run `/impeccable teach` only when explicitly requested or a material gap is required for a consequential judgment. Audits are review-only unless the user separately authorizes fixes.
 
 ---
 
@@ -130,7 +130,7 @@ List recommended commands in priority order (P0 first, then P1, then P2):
 
 **Rules**: Only recommend commands from: /animate, /quieter, /shape, /optimize, /adapt, /clarify, /layout, /distill, /delight, /audit, /harden, /polish, /bolder, /typeset, /critique, /colorize, /overdrive. Map findings to the most appropriate command. End with `/polish` as the final step if any fixes were recommended.
 
-After presenting the summary, tell the user:
+After presenting the full findings and prioritized action plan, tell the user:
 
 > You can ask me to run these one at a time, all at once, or in any order you prefer.
 >

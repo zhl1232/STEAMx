@@ -1,46 +1,86 @@
-0 3+ 洒水壶 (Watering Can) - DUPLO draft for manual repair
+0 3+ 洒水壶 (Watering Can) - source reconstruction
 0 Name: 3-sa-shui-hu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+洒水壶 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Flowers, handle curve and spout are simplified.
+0 // Source: 3+洒水壶 instructions.pdf, pages 1-7.
+0 // +Y down, +Z spout/front; 40 LDU per stud. Base top Y=-24.
+0 // Frames and perimeter overhang the inset 8x8 plate by one stud, as on page 1.
+0 // Review pending: exact source rendering and connection validation.
 
-0 // STEP 1 - green garden strip and can base
-1 2 -360 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 120 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 600 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 1 - gray 8x8 plate and two yellow round doorway frames
+1 7 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 // Front doorway rotated 180 degrees around Y per user review (2026-09-08).
+1 14 0 -264 160 -1 0 0 0 1 0 0 0 -1 31191.dat
+1 14 0 -264 -160 0 0 1 0 1 0 -1 0 0 31191.dat
 0 STEP
 
-0 // STEP 2 - watering can body stripes
-1 1 120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 280 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 120 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 280 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 7 200 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 200 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - six blue 2x4 bricks; 10x10 perimeter around the frames
+1 1 -160 -72 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 -72 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -72 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -72 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 3 - red spout
-1 4 -80 -96 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
-1 4 -160 -144 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
-1 4 -240 -192 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 3437.dat
+0 // STEP 3 - one red elbow + two straight tubes. Ports are exactly chained.
+0 // Frame hole center (0,-154,160); elbow bends upward toward +Z.
+1 4 0 -154 160 0 -1 0 1 0 0 0 0 1 31195.dat
+1 4 0 -189.148 244.852 0 -1 0 0.707106781 0 -0.707106781 0.707106781 0 0.707106781 31452.dat
+1 4 0 -274.000814 329.704814 0 -1 0 0.707106781 0 -0.707106781 0.707106781 0 0.707106781 31452.dat
 0 STEP
 
-0 // STEP 4 - blue side handle
-1 1 480 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 520 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 520 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 440 -216 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 // STEP 4 - four striped courses: 8 yellow 2x2, 8 yellow 2x4, 12 blue 2x4
+1 14 -160 -120 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -120 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -120 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -120 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -120 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -120 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -120 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -120 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -168 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 -168 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -168 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -168 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -216 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -216 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -216 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -216 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -216 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -216 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -264 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 -264 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -264 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -264 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 5 - red and yellow flowers
-1 2 -480 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -480 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -540 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -420 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 -320 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -320 -120 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -380 -168 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -168 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 5 - eight yellow 2x4; stepped rim with a central 4x4 opening
+1 14 -120 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -312 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -312 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -312 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -312 200 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 6 - seven yellow 2x4; centered arch handle over the opening
+1 14 0 -360 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -360 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -456 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -456 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -504 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 7 - finished model; opposite-side comparison, no new parts

@@ -4,7 +4,7 @@ Use this workflow whenever a course model needs a part that is not already avail
 
 ## Resolution Order
 
-1. Confirm the exact part number from the course source, finished photo, physical kit, or user correction. Do not infer special Duplo/Toolo parts from shape alone. If the exact ID is unclear, ask the user before editing the `.ldr`.
+1. Confirm the exact part number from the course source, finished photo, physical kit, or user correction. Do not infer special Duplo/Toolo parts from shape alone. If the exact ID is unclear, exhaust those allowed evidence sources, record the item as unresolved rather than guessing, and pause only the affected `.ldr` edit/replacement/delivery while continuing independent analysis and resource checks.
 2. Check existing local sources first:
    - `scripts/ldraw-models/parts/`
    - `scripts/ldraw-models/p/`
@@ -15,11 +15,11 @@ Use this workflow whenever a course model needs a part that is not already avail
 4. If the fixed mirror does not have the part, search only reputable model sources that can be redistributed or committed under a clear license. Good candidates are the official LDraw library/tracker, Studio/BrickLink-exported LDraw-compatible custom parts with known provenance, or a maintained Duplo/Toolo parts pack with explicit redistribution terms.
 5. If a real model is found and the license allows repository use, store the `.dat` and any required subparts locally under `scripts/ldraw-models/parts/` or `scripts/ldraw-models/p/`. Do not leave course builds dependent on a live web download.
 6. Record the source in the part metadata notes: source URL or package name, retrieval date, original filename, license/provenance, and any local simplification or orientation adjustment.
-7. Re-run `resolve-parts.mjs`, `validate-assembly.mjs` when assembly JSON exists, and the course-level collision/render checks before packing.
+7. Re-run `resolve-parts.mjs`, `validate-assembly.mjs` when assembly JSON exists, and the course-level collision/render checks. Packing belongs only to the accepted-version release gate in `reconstruction-review.md`, after explicit publish authorization.
 
 ## When No Real Model Exists
 
-Do not create a local simplified `.dat` automatically. Stop and ask the user, including the confirmed part ID, where you searched, and what tradeoff the placeholder would introduce.
+Do not create a local simplified `.dat` automatically. After the allowed source search is exhausted, stop the affected generation/replacement and ask the user, including the confirmed part ID (or unresolved status), where you searched, and what tradeoff the placeholder would introduce. Independent analysis and resource work may continue.
 
 Only after the user explicitly approves a simplified local model:
 

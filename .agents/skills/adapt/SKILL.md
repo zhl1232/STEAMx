@@ -10,7 +10,7 @@ Adapt existing designs to work effectively across different contexts - different
 
 ## MANDATORY PREPARATION
 
-Invoke /impeccable — it contains design principles, anti-patterns, and the **Context Gathering Protocol**. Follow the protocol before proceeding — if no design context exists yet, you MUST run /impeccable teach first. Additionally gather: target platforms/devices and usage contexts.
+Use `/impeccable` and its **Context Gathering Protocol** first. Reuse confirmed context, briefs, conversation, docs, and current responsive conventions; run `/impeccable teach` only when explicitly requested or a material gap remains. Additionally gather target platforms/devices and usage contexts when not already known.
 
 ---
 
