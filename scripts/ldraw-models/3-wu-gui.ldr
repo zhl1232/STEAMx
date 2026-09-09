@@ -1,40 +1,95 @@
-0 3+ 乌龟 (Turtle) - DUPLO draft for manual repair
+0 3+ 乌龟 - source reconstructed local draft
 0 Name: 3-wu-gui.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+乌龟 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Shell slope and flippers are simplified.
-
-0 // STEP 1 - yellow belly and flippers
-1 14 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -580 -48 -120 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
-1 14 580 -48 -120 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
-1 14 -580 -48 120 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
-1 14 580 -48 120 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
+0 NumOfBricks: 61
+0 // Source: local 3+乌龟搭建说明 pages 1-12.
+0 // REPAIRED 2026-09-09: diagonal limb end caps moved to the outer connection studs;
+0 // Four raw checker contacts are coplanar limb/cap end faces, analytically reviewed.
+0 // Cap bottoms at Y=0 engage four studs on each lower limb plate; curved ends point outward.
+0 // Hidden underside support positions and head/tail joints are source-inferred.
+0 // STEP 1 - 16x16 base and four underside support plates; hidden layout inferred
+1 2 -160 0 0 0 0 1 0 1 0 -1 0 0 6490.dat
+1 2 160 0 0 0 0 1 0 1 0 -1 0 0 6490.dat
+1 2 0 24 -240 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 0 24 240 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -240 24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 2 240 24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 2 - green lower shell
-1 2 -240 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 2 240 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 2 -240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -80 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 80 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - four yellow thin spacers
+1 14 -320 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 320 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -24 -240 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -24 240 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 3 - raised shell tiers
-1 27 -160 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 160 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -80 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 80 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 3 - extend head and tail; upper neck bridges two lower plates
+1 14 480 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 400 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -480 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 520 -72 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
 0 STEP
-
-0 // STEP 4 - head and tail
-1 14 -600 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 -640 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 600 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 4 - two tail reinforcement plates
+1 14 -400 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -560 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 5 - two diagonal limbs, single corner-stud pivot inferred
+1 27 -356.568542 -24 328.284271 -0.707107 0 -0.707107 0 1 0 0.707107 0 -0.707107 40666.dat
+1 27 -413.137085 0 384.852814 -0.707107 0 -0.707107 0 1 0 0.707107 0 -0.707107 40666.dat
+1 14 -441.421365 -48 413.137094 -0.707107 0 0.707107 0 1 0 -0.707107 0 -0.707107 2302b.dat
+1 27 328.284271 -24 356.568542 0.707107 0 -0.707107 0 1 0 0.707107 0 0.707107 40666.dat
+1 27 384.852814 0 413.137085 0.707107 0 -0.707107 0 1 0 0.707107 0 0.707107 40666.dat
+1 14 413.137094 -48 441.421365 -0.707107 0 -0.707107 0 1 0 0.707107 0 -0.707107 2302b.dat
+0 STEP
+0 // STEP 6 - two diagonal limbs, single corner-stud pivot inferred
+1 27 -328.284271 -24 -356.568542 -0.707107 0 0.707107 0 1 0 -0.707107 0 -0.707107 40666.dat
+1 27 -384.852814 0 -413.137085 -0.707107 0 0.707107 0 1 0 -0.707107 0 -0.707107 40666.dat
+1 14 -413.137094 -48 -441.421365 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 2302b.dat
+1 27 356.568542 -24 -328.284271 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 40666.dat
+1 27 413.137085 0 -384.852814 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 40666.dat
+1 14 441.421365 -48 -413.137094 0.707107 0 -0.707107 0 1 0 0.707107 0 0.707107 2302b.dat
+0 STEP
+0 // STEP 7 - upper 16x16 plate sandwich; verify rotated stud clamping
+1 2 0 -48 -160 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 0 -48 160 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // STEP 8 - 14x14 shell ring with 10x10 opening
+1 2 -200 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 120 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -96 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -96 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -96 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 200 -96 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -96 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -96 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -240 -96 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -240 -96 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -240 -96 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 9 - 12x12 shell ring with 8x8 opening
+1 2 -80 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 80 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 200 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 200 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 80 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -80 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -200 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -200 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -200 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 10 - 10x10 shell ring with 6x6 opening
+1 2 -120 -192 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -192 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -192 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 160 -192 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 120 -192 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -192 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -160 -192 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -160 -192 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 11 - 8x8 lime lid
+1 27 0 -216 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // STEP 12 - finished comparison, no new parts

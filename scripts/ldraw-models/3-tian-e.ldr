@@ -1,40 +1,70 @@
-0 3+ 天鹅 (Swan) - DUPLO draft for manual repair
+0 3+ 天鹅 - local source reconstruction
 0 Name: 3-tian-e.ldr
 0 Author: OpenAI
-0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+天鹅 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Curved neck, wings and head detail are simplified.
-
-0 // STEP 1 - blue water base
-1 1 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 NumOfBricks 40
+0 // INCOMPLETE: connected tail still requires rear frame clearance correction.
+0 // Source: /mnt/d/pdf预览/3+天鹅搭建说明_pdf (12 local JPG pages).
+0 // STEP 1 - base and paired frames
+1 1 -80 0 0 0 0 1 0 1 0 -1 0 0 10199.dat
+1 1 80 0 0 0 0 1 0 1 0 -1 0 0 10199.dat
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 31191.dat
+1 14 0 -240 40 1 0 0 0 1 0 0 0 1 31191.dat
 0 STEP
-
-0 // STEP 2 - yellow body
-1 14 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 -80 0.866 0 -0.5 0 1 0 0.5 0 0.866 3011.dat
-1 4 -320 -96 80 0.866 0 0.5 0 1 0 -0.5 0 0.866 3011.dat
+0 // STEP 2 - reverse-built tail; rear frame clearance unresolved
+1 14 0 -165.146035452 -44.852813742 0 -1 0 0.707106781 0 0.707106781 -0.707106781 0 0.707106781 31195.dat
+1 4 0 -249.998035452 -80.000813742 0 -1 0 0 0 1 -1 0 0 31195.dat
+1 14 0 -369.998035452 -80.000813742 0 -1 0 0 0 1 -1 0 0 31452.dat
+1 4 0 -454.850849194 -44.854778290 0 -1 0 -0.707106781 0 0.707106781 -0.707106781 0 -0.707106781 31195.dat
 0 STEP
-
-0 // STEP 3 - red belly and wings
-1 4 -40 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -180 -168 -80 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
-1 4 140 -168 160 0.866 0 -0.5 0 1 0 0.5 0 0.866 40666.dat
+0 // STEP 3 - front two elbows
+1 4 0 -130 40 0 -1 0 1 0 0 0 0 1 31195.dat
+1 14 0 -165.148 124.852 0 -1 0 0.707106781 0 -0.707106781 0.707106781 0 0.707106781 31195.dat
 0 STEP
-
-0 // STEP 4 - red/yellow neck stack
-1 4 180 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 180 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 180 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 180 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - orange shoulders and ring holder
+1 25 -120 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 120 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -240 129.3765 -1 0 0 0 1 0 0 0 -1 42029.dat
 0 STEP
-
-0 // STEP 5 - head, beak and tail
-1 14 120 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 120 -408 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -408 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -380 -168 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 2302.dat
+0 // STEP 5 - upright neck and head bend
+1 4 0 -250.000813742 159.998035452 0 -1 0 0 0 -1 1 0 0 31452.dat
+1 14 0 -370.000813742 159.998035452 0 -1 0 0 0 -1 1 0 0 31452.dat
+1 4 0 -490.000813742 159.998035452 0 1 0 0 0 -1 -1 0 0 31195.dat
+1 14 0 -574.852813742 195.146035452 0 1 0 -0.707106781 0 -0.707106781 -0.707106781 0 0.707106781 31195.dat
+0 STEP
+0 // STEP 6 - head ring and beak
+1 4 0 -640.838849194 255.998849194 -1 0 0 0 0 -1 0 -1 0 42029.dat
+1 4 0 -609.998849194 279.998849194 0 1 0 -1 0 0 0 0 1 31195.dat
+0 STEP
+0 // STEP 7 - eyes and two crest slopes
+1 14 -40 -730.215349194 351.998849194 0 0 1 -1 0 0 0 -1 0 3437pe1.dat
+1 14 40 -730.215349194 351.998849194 0 0 1 -1 0 0 0 -1 0 3437pe1.dat
+1 14 0 -730.215349194 255.998849194 1 0 0 0 0 1 0 -1 0 2302b.dat
+1 14 0 -770.215349194 207.998849194 1 0 0 0 0 1 0 -1 0 2302b.dat
+0 STEP
+0 // STEP 8 - back cap
+1 25 0 -312 0 1 0 0 0 1 0 0 0 1 10199.dat
+0 STEP
+0 // STEP 9 - two thin-plate shoulder layers
+1 25 -120 -336 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 25 120 -336 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -120 -360 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 120 -360 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // STEP 10 - four curved shoulder bricks
+1 14 -40 -408 -40 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 40 -408 -40 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 -40 -408 40 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 40 -408 40 0 0 -1 0 1 0 1 0 0 2302b.dat
+0 STEP
+0 // STEP 11 - stepped thin-plate wings
+1 25 -160 -384 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -200 -408 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 25 -240 -432 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -280 -456 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 25 160 -384 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 200 -408 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 25 240 -432 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 280 -456 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // STEP 12 - finished comparison

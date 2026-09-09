@@ -1,40 +1,85 @@
-0 3+ 照相机 (Camera) - DUPLO draft for manual repair
+0 3+ 照相机 - source reconstructed local draft
 0 Name: 3-zhao-xiang-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+照相机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Lens barrel, flash and shutter are simplified.
-
-0 // STEP 1 - striped camera body
-1 1 -160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 NumOfBricks: 56
+0 // Source: /mnt/d/pdf预览/3+照相机搭建说明_pdf, pages 1-11
+0 // Tube holder seating and eye orientation require final visual acceptance.
+0 // STEP 1 - 8x16 green plate and yellow round doorway
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 40 -240 -120 1 0 0 0 1 0 0 0 1 31191.dat
 0 STEP
-
-0 // STEP 2 - top green deck
-1 2 -160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 0 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - three blue straight tubes on the doorway axis
+1 1 40 -130 -120 -1 0 0 0 1 0 0 0 -1 31452.dat
+1 1 40 -130 -240 -1 0 0 0 1 0 0 0 -1 31452.dat
+1 1 40 -130 -360 -1 0 0 0 1 0 0 0 -1 31452.dat
 0 STEP
-
-0 // STEP 3 - blue lens barrel
-1 1 -80 -120 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -80 -120 -240 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -80 -120 -360 0 0 1 0 1 0 -1 0 0 42029.dat
-1 1 -80 -120 -480 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 3 - offset perimeter: eight 2x4 and one 2x2
+1 1 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - red flash and shutter
-1 4 160 -240 -40 1 0 0 0 1 0 0 0 1 42029.dat
-1 4 200 -312 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
-1 14 -160 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -288 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -180 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - offset perimeter: eight 2x4 and one 2x2
+1 14 -280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 5 - offset perimeter: eight 2x4 and one 2x2
+1 1 -240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 6 - offset perimeter: eight 2x4 and one 2x2
+1 14 -280 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 7 - offset perimeter: eight 2x4 and one 2x2
+1 1 -240 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 8 - green 8x16 roof plate
+1 2 0 -264 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // STEP 9 - red horizontal tube holder and two connected elbows
+1 4 200 -264 -49.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 200 -288 -80.2165 0 -1 0 0 0 -1 1 0 0 31195.dat
+1 4 200 -372.853 -115.3635 0 -1 0 -0.70710678 0 -0.70710678 0.70710678 0 -0.70710678 31195.dat
+0 STEP
+0 // STEP 10 - yellow thin head mount and movable-eye brick
+1 14 -160 -288 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -160 -384 40 1 0 0 0 1 0 0 0 1 73162p01.dat
+0 STEP
+0 // STEP 11 - completed comparison view

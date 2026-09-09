@@ -1,52 +1,135 @@
-0 3+ 圣诞老人 (Santa) - DUPLO draft for manual repair
+0 3+ 圣诞老人 - source reconstructed local draft
 0 Name: 3-sheng-dan-lao-ren.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+圣诞老人 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Sleigh curves, tree ornaments and Santa figure are simplified with supported DUPLO parts.
-
-0 // STEP 1 - green winter base
-1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 NumOfBricks: 93
+0 // Source: local 3+圣诞老人搭建说明 pages 1-17.
+0 // Car underside variant is obscured: official 10715p02 used, chassis seated at body bottom48, wheels hang freely.
+0 // Figure/tree spacing and hidden branch seams are source-inferred.
+0 // STEP 1 - 24x24 base, curved shoes and red legs
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -200 -48 -160 1 0 0 0 1 0 0 0 1 2302b.dat
+1 4 -200 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -48 -160 1 0 0 0 1 0 0 0 1 2302b.dat
+1 4 -40 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -144 -160 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 2 - red sleigh runners and seat
-1 4 -260 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -100 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -260 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -100 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -180 -120 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 2 - blue belt with yellow buckle
+1 1 -200 -192 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -192 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -40 -192 -160 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 3 - Santa body and hat
-1 4 -180 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -180 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -180 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -180 -312 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -140 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - fourteen-stud lower arm beam; ends temporarily held until next course
+1 4 -320 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -240 -160 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 4 - gift blocks
-1 1 -540 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -460 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -500 -144 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 // STEP 4 - upper arm beam, white neck and outward curved hand
+1 4 -400 -288 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -288 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -120 -288 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -288 -160 0 0 -1 0 1 0 1 0 0 2302b.dat
 0 STEP
-
-0 // STEP 5 - Christmas tree trunk and branches
-1 14 260 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 27 260 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 260 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 260 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 180 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 27 340 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 27 140 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 27 380 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 260 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 5 - white chin, two thin spacer plates, red chassis with yellow wheel eyes
+1 15 -120 -336 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -120 -360 -160 1 0 0 0 1 0 0 0 1 40666.dat
+1 7 -120 -384 -160 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -120 -432 -160 0 0 1 0 1 0 -1 0 0 10715p02.dat
 0 STEP
-
-0 // STEP 6 - ornaments and star
-1 14 180 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 340 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 260 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 6 - white hat brim and stepped red hat with white bobble
+1 15 -160 -480 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 -40 -480 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -528 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -528 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -576 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -40 -576 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -624 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 0 -672 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 40 -720 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 7 - gift: two thin blue ribbons, six thick blocks and opposed blue slopes
+1 1 -360 -312 -160 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -440 -360 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -360 -360 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -360 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -440 -408 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -360 -408 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -408 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -360 -432 -160 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -420 -504 -160 0 0 -1 0 1 0 1 0 0 6474.dat
+1 1 -300 -504 -160 0 0 1 0 1 0 -1 0 0 6474.dat
+0 STEP
+0 // STEP 8 - four-brick yellow tree trunk
+1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - green branch course, source-inferred hidden seams
+1 2 200 -240 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 320 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 280 -240 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 160 -240 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 10 - green branch course, source-inferred hidden seams
+1 2 240 -288 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -288 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 120 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 360 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 11 - green branch course, source-inferred hidden seams
+1 2 80 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 400 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -336 240 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 12 - green branch course, source-inferred hidden seams
+1 2 240 -384 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -384 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -384 280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 120 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 360 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 13 - green branch course, source-inferred hidden seams
+1 2 160 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 320 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -432 240 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 14 - green branch course, source-inferred hidden seams
+1 2 240 -480 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 240 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 240 -480 240 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 160 -480 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 320 -480 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 15 - three narrowing tip courses: 4x4, 4x2, 2x2
+1 2 240 -528 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 160 -528 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 320 -528 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 240 -576 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 240 -624 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 16 - fifteen yellow ornaments; hidden-side positions inferred
+1 14 200 -672 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -672 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -720 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -576 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -576 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -528 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -384 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -384 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -432 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -432 360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -288 240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -480 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 400 -480 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 17 - finished comparison, no additions

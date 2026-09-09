@@ -1,46 +1,88 @@
-0 3+ 浴缸 (Bathtub) - DUPLO draft for manual repair
+0 3+ 浴缸 - INCOMPLETE: reclining figure pose unresolved
 0 Name: 3-yu-gang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+浴缸 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tub basin, duck and shower pipe are simplified.
-
-0 // STEP 1 - tub floor
-1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -160 -48 80 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 160 -48 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 NumOfBricks: 57
+0 // Source: /mnt/d/pdf预览/3+浴缸搭建说明_pdf pages 1-11
+0 // Accurate basin prefix pages 1-8. Pages 9-10 nine figure parts omitted: inclined support unresolved.
+0 // Tube flange seating is source-inferred; manual physical fit still needs confirmation.
+0 // STEP 1 - green 8x16 base and yellow 16x8 outer ring / 12x4 opening
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 -240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - yellow/red tub walls
-1 14 -240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - yellow 18x10 outer ring / 14x6 opening; one-stud outward offset
+1 14 -280 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -96 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -96 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 320 -96 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 320 -96 40 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - inner blue water and pillow
-1 1 -160 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 220 -144 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 320 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - red 20x12 outer ring / 16x8 opening
+1 4 -320 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -144 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -144 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -144 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -144 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 4 - shower pipe
-1 4 -360 -144 40 1 0 0 0 1 0 0 0 1 31452.dat
-1 1 -360 -264 40 1 0 0 0 1 0 0 0 1 31452.dat
-1 4 -300 -384 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
-1 1 -200 -432 40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 -60 -432 40 0 0 1 0 1 0 -1 0 0 31195.dat
+0 // STEP 4 - orange pillow with outward rounded ends and central 2x2
+1 25 360 -192 -80 1 0 0 0 1 0 0 0 1 2302b.dat
+1 25 360 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 360 -192 80 -1 0 0 0 1 0 0 0 -1 2302b.dat
 0 STEP
-
-0 // STEP 5 - small duck
-1 14 -40 -168 20 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 40 -168 20 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -60 -216 -20 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 5 - two yellow bricks and red round tube holder
+1 14 -360 -192 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -192 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -449.3765 -144 0 0 0 1 0 1 0 -1 0 0 42029.dat
+0 STEP
+0 // STEP 6 - two yellow thin 2x4 plates lock holder between end bricks
+1 14 -360 -216 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -360 -216 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // STEP 7 - blue/red straight tubes and four alternating connected elbows
+1 1 -480.2165 -168 0 -1 0 0 0 0 -1 0 -1 0 31452.dat
+1 4 -480.2165 -288 0 -1 0 0 0 0 -1 0 -1 0 31452.dat
+1 1 -480.2165 -408 0 -1 0 0 0 0 -1 0 -1 0 31195.dat
+1 4 -445.0695 -492.853 0 -0.70710678 0 0.70710678 -0.70710678 0 -0.70710678 0 -1 0 31195.dat
+1 1 -360.21668626 -528.00044967 0 0 0 1 -1 0 0 0 -1 0 31195.dat
+1 4 -275.36368626 -492.85344967 0 0.70710678 0 0.70710678 -0.70710678 0 0.70710678 0 -1 0 31195.dat
+0 STEP
+0 // STEP 8 - six blue 2x4 bricks fill the exposed 12x4 floor
+1 1 -160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 9 - UNRESOLVED: two 2301b green feet and two yellow 3011 torso bricks omitted
+0 // Whole figure leans freely between blue floor and orange pillow; exact pitch/contact unresolved.
+0 STEP
+0 // STEP 10 - UNRESOLVED: two 3011 arms, 73162 eyes, green 3011 and 3437 hat omitted
+0 STEP
+0 // STEP 11 - INCOMPLETE comparison view: nine figure parts absent

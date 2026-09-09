@@ -1,37 +1,141 @@
-0 3+ 吸尘器 (Vacuum Cleaner) - DUPLO draft for manual repair
+0 3+ 吸尘器 (Vacuum Cleaner) - local reconstruction draft
 0 Name: 3-xi-chen-qi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+吸尘器 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Flexible hose is approximated with straight/elbow DUPLO ball-tube pieces.
+0 // Source: /mnt/d/pdf预览/3+吸尘器搭建说明_pdf/3+吸尘器搭建说明-1.jpg .. -15.jpg
+0 // Rebuilt from page additions; old four-step approximation discarded.
+0 // Page-12 smooth red cylinder remains unresolved; confirmed 42029 loop bases and tube parts are included.
 
-0 // STEP 1 - wheeled vacuum body
-1 25 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 25 40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 1 - green baseplate and four red-wheel chassis
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 31074.dat
+1 4 -200 24 -200 1 0 0 0 1 0 0 0 1 10715p01.dat
+1 4 200 24 -200 1 0 0 0 1 0 0 0 1 10715p01.dat
+1 4 -200 24 200 1 0 0 0 1 0 0 0 1 10715p01.dat
+1 4 200 24 200 1 0 0 0 1 0 0 0 1 10715p01.dat
 0 STEP
 
-0 // STEP 2 - top dust chamber and handle
-1 14 -40 -192 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 -40 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -40 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 40 -336 0 0 0 1 0 1 0 -1 0 0 3437.dat
+0 // STEP 2 - yellow perimeter course, source count 10
+0 // 2x4x2 bricks arranged as four sides; corner/side overlap is source-inferred.
+1 14 -240 -96 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -96 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -96 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -96 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -240 -96 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -96 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -96 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -96 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -280 -96 0 0 0 1 0 1 0 1 0 0 31111.dat
+1 14 280 -96 0 0 0 1 0 1 0 1 0 0 31111.dat
 0 STEP
 
-0 // STEP 3 - red/yellow hose
-1 4 180 -216 0 0 0 1 0 1 0 -1 0 0 31195.dat
-1 14 280 -216 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 400 -216 0 0 0 1 0 1 0 -1 0 0 31195.dat
-1 14 480 -168 0 1 0 0 0 1 0 0 0 1 31452.dat
-1 4 560 -120 0 0 0 1 0 1 0 -1 0 0 31195.dat
+0 // STEP 3 - yellow perimeter course, source count 10
+1 14 -240 -192 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -192 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -192 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -192 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -240 -192 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -192 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -192 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -192 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -280 -192 0 0 0 1 0 1 0 1 0 0 31111.dat
+1 14 280 -192 0 0 0 1 0 1 0 1 0 0 31111.dat
 0 STEP
 
-0 // STEP 4 - red floor nozzle
-1 4 640 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 560 -96 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 720 -96 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - yellow perimeter course, source count 9
+1 14 -240 -288 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -288 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -288 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -288 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -240 -288 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -288 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -288 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -280 -288 0 0 0 1 0 1 0 1 0 0 31111.dat
+1 14 280 -288 0 0 0 1 0 1 0 1 0 0 31111.dat
+0 STEP
+
+0 // STEP 5 - unresolved red looped handle, source count 1
+0 // Confirmed local Studio-aligned 42029 round tube-holder/loop base; orientation follows accepted first-aid case usage.
+1 4 -520 -384 0 -1 0 0 0 0 1 0 1 0 42029.dat
+0 STEP
+
+0 // STEP 6 - yellow course, source count 10
+1 14 -240 -384 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -384 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -384 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -384 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -240 -384 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -384 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -384 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -384 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -280 -384 0 0 0 1 0 1 0 1 0 0 31111.dat
+1 14 280 -384 0 0 0 1 0 1 0 1 0 0 31111.dat
+0 STEP
+
+0 // STEP 7 - yellow course, source count 8
+1 14 -240 -480 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -480 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -480 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -480 -200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -240 -480 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -80 -480 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 80 -480 200 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 240 -480 200 1 0 0 0 1 0 0 0 1 31111.dat
+0 STEP
+
+0 // STEP 8 - yellow course, source count 6
+1 14 -160 -576 -120 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 0 -576 -120 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 160 -576 -120 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 -160 -576 120 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 0 -576 120 1 0 0 0 1 0 0 0 1 31111.dat
+1 14 160 -576 120 1 0 0 0 1 0 0 0 1 31111.dat
+0 STEP
+
+0 // STEP 9 - blue stepped upper body, source count 7
+1 1 -160 -672 -80 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 0 -672 -80 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 160 -672 -80 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 -80 -768 0 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 80 -768 0 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 0 -864 80 1 0 0 0 1 0 0 0 1 31111.dat
+1 1 160 -864 80 1 0 0 0 1 0 0 0 1 31111.dat
+0 STEP
+
+0 // STEP 10 - tube assembly, red/yellow sequence from page 10
+1 4 -520 -560 0 1 0 0 0 1 0 0 0 1 31191.dat
+1 14 -520 -800 0 1 0 0 0 1 0 0 0 1 31195.dat
+1 4 -520 -800 170 1 0 0 0 1 0 0 0 1 31452.dat
+1 14 -520 -800 290 1 0 0 0 1 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 11 - tube continuation, page 11
+1 14 -900 -800 290 1 0 0 0 1 0 0 0 1 31195.dat
+1 4 -900 -800 410 1 0 0 0 1 0 0 0 1 31452.dat
+1 4 -900 -800 530 1 0 0 0 1 0 0 0 1 31195.dat
+1 14 -900 -800 650 1 0 0 0 1 0 0 0 1 31452.dat
+0 STEP
+
+0 // STEP 12 - tube outlet, page 12; smooth red cylinder unresolved
+0 // Confirmed loop/base geometry is 42029; source smooth red cylinder has no confirmed matching local/official Duplo ID.
+1 4 -520 -32 0 -1 0 0 0 0 1 0 1 0 42029.dat
+0 STEP
+
+0 // STEP 13 - yellow side support bricks, source count 6
+1 14 -520 -320 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -320 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -320 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -520 -224 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -224 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -224 300 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 14 - red side support bricks, source count 5
+1 4 -520 -128 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -128 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -128 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -520 -32 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -32 300 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 15 - finished comparison page; no new parts

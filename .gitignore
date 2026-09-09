@@ -58,6 +58,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # local env files
+.codex/auth.json
 .env
 .env*.local
 .env.production
@@ -75,6 +76,7 @@ cloudflare-secrets*.json
 deploy-*.log
 
 # temp / one-off artifacts
+.tmp/
 .tmp-imagegen-venv/
 missing_project_covers.json
 *-backup-before-regenerate/

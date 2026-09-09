@@ -1,48 +1,57 @@
-0 3+ 平衡大师 (Balance Masters) - DUPLO draft for manual repair
+0 3+ 平衡大师 (Balance Masters) - INCOMPLETE draft, missing confirmed 31453
 0 Name: 3-ping-heng-da-shi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+平衡大师 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Two balancing figures are simplified; round balance boards are represented by plates.
-
-0 // STEP 1 - red figure balance base
-1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // Source: .tmp/batch-b/pdf/3-ping-heng-da-shi.pdf; pages 1-13 ground truth.
+0 // NOT source-verified: generic substitutes and incorrect placements remain.
+0 // User confirmed rocker 31453; real geometry is not available locally. Do not publish.
+0 // STEP 1 - blue balance plate and orange underside
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 25 0 24 0 1 0 0 0 1 0 0 0 1 29304.dat
 0 STEP
-
-0 // STEP 2 - striped legs
-1 4 -300 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -300 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -180 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -180 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 180 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 180 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 300 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 300 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - four red/yellow striped legs
+1 4 -300 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -300 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -180 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -180 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 3 - bodies and arms
-1 4 -240 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 240 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -420 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -60 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 60 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 420 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 3 - lower torsos
+1 4 -240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - heads and eyes
-1 14 -240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -260 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 220 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - yellow shoulders
+1 14 -240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 5 - hats
-1 4 -240 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -408 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 240 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 240 -408 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 5 - heads
+1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 6 - outstretched arms
+1 4 -420 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -60 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 7 - second blue balance plate
+1 1 480 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 25 480 0 0 1 0 0 0 1 0 0 0 1 29304.dat
+0 STEP
+0 // STEP 8 - blue/yellow striped legs
+1 1 420 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 420 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 540 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 540 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - blue torso and shoulders
+1 1 480 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 10 - blue head
+1 1 480 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 11 - blue hat
+1 1 480 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 480 -360 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 12 - blue arms
+1 1 120 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 840 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 13 - finished view; no additional parts

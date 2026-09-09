@@ -1,44 +1,184 @@
-0 3+ 潜水镜 (Diving Goggles) - DUPLO draft for manual repair
-0 Name: 3-qian-shui-jing.ldr
-0 Author: OpenAI
-0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+潜水镜 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Mask holes, snorkel curves and underwater animals are simplified.
-
-0 // STEP 1 - sea base
-1 1 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 Diving goggles - source-reviewed pages 1-12; draft remains INCOMPLETE pending final acceptance
+0 // 148 placements in 12 source steps. Not published or Studio-verified.
+0 // Source: 3-qian-shui-jing.pdf pages 1-12; review: .tmp/batch-b/goggles-review-ledger.md
+0 // Pages 10-11 are reconstructed from the source inventory and visual landmarks.
+0 // Review warnings: hidden reef stud offsets and exact page-11 grid anchors need final human confirmation.
+0 // Page 12 is the finished arrangement and adds no parts.
+0 // Pages 1-9 have the completed per-page renderer review; full-scene acceptance remains incomplete.
+0 // +X source right, +Y down, -Z front. Frame ground bottom y=0.
+0 // Page 1: one red frame below two yellow frames. 3 cumulative pieces.
+1 4 240 -240 540 1 0 0 0 1 0 0 0 1 31191.dat
+1 14 120 -480 540 1 0 0 0 1 0 0 0 1 31191.dat
+1 14 360 -480 540 1 0 0 0 1 0 0 0 1 31191.dat
 0 STEP
-
-0 // STEP 2 - yellow mask frame
-1 14 0 -72 40 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Page 2: red 2x4 plates bridge top; curved yellow ends. 10 cumulative.
+1 4 80 -504 540 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 240 -504 540 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -504 540 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 80 -552 540 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 160 -552 540 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -552 540 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -552 540 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
-
-0 // STEP 3 - white lens openings and blue nose
-1 15 -100 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 100 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 0 -192 -60 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Page 3: four port-connected elbows. First pair bends left in XZ,
+0 // second pair bends up in XY. Official metadata chainLocal used.
+1 1 240 -130 540 1 0 0 0 -1 0 0 0 -1 31195.dat
+1 14 204.853 -130 455.147 0.70710678 0 -0.70710678 0 -1 0 -0.70710678 0 -0.70710678 31195.dat
+1 4 120 -130 420 0 0 -1 1 0 0 0 1 0 31195.dat
+1 1 35.14699999999999 -165.147 420 -0.70710678 0 -0.70710678 0.70710678 0 -0.70710678 0 1 0 31195.dat
 0 STEP
+0 // Page 4: upright straight column yellow/red/blue/red. 18 cumulative.
+1 14 0 -250 420 1 0 0 0 0 -1 0 1 0 31452.dat
+1 4 0 -370 420 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 0 -490 420 1 0 0 0 0 -1 0 1 0 31452.dat
+1 4 0 -610 420 1 0 0 0 0 -1 0 1 0 31452.dat
 
-0 // STEP 4 - red and blue snorkel
-1 4 260 -216 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 260 -264 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 260 -312 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 260 -360 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 200 -432 80 0 0 1 0 1 0 -1 0 0 3437.dat
 0 STEP
-
-0 // STEP 5 - underwater plants and fish
-1 2 -420 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 -420 -120 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 -500 -96 160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 -120 -72 260 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 120 -72 260 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 4 420 -72 180 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Page 5: yellow fish;8 new parts
+1 14 120 -24 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 120 -72 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 120 -72 160 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 120 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 120 -120 -40 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+1 14 120 -168 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 120 -168 160 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 120 -192 80 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+0 // Page 6: orange fish;8 new parts
+1 25 360 -24 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 25 360 -72 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 360 -72 160 0 0 -1 0 1 0 1 0 0 2302.dat
+1 25 360 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 360 -120 -40 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+1 25 360 -168 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 27 360 -168 160 0 0 -1 0 1 0 1 0 0 2302.dat
+1 25 360 -192 80 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+0 // Page 7: long-neck turtle;7 plates,4 feet,1 head
+1 27 -320 -48 200 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 27 -320 -48 360 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 27 -160 -48 200 1 0 0 0 1 0 0 0 1 2302.dat
+1 27 -160 -48 360 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 -280 -72 280 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -200 -72 280 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -240 -96 240 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -240 -96 320 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -240 -120 200 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -240 -120 360 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -240 -144 280 0 0 -1 0 1 0 1 0 0 40666.dat
+1 27 -240 -168 160 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+0 STEP
+0 // Page 8: short-neck turtle;6 plates,4 feet,1 head
+1 27 -280 -48 -120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 27 -280 -48 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 27 -120 -48 -120 1 0 0 0 1 0 0 0 1 2302.dat
+1 27 -120 -48 40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 -240 -72 -40 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -160 -72 -40 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -200 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -200 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -200 -120 -40 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -200 -144 40 0 0 -1 0 1 0 1 0 0 40666.dat
+1 27 -200 -168 -80 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+0 STEP
+0 // Page 9: starfish;8 plain and2 eye bricks
+1 14 0 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 120 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 80 -240 -360 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Page 10: two four-plate green reef clusters; 8 new, 75 cumulative.
+0 // Two 2x4 plates form each lower layer and two perpendicular plates interlock above.
+0 // Hidden stud offsets are inferred from the source silhouette and remain review warnings.
+1 2 -400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -320 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 -400 -48 -280 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 -320 -48 -360 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 280 -24 -400 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 360 -24 -320 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 280 -48 -240 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 360 -48 -320 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+0 // Page 11: 24x24 seabed and 72 alternating blue/light-blue plates; 73 new, 148 cumulative.
+0 // The 4268 base is tiled six plates across by twelve rows; animals remain on the tile top.
+1 2 0 24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Page 12: finished arrangement; no additional parts.

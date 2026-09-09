@@ -1,23 +1,37 @@
-0 3+ 潜水艇 (Submarine) - DUPLO draft for manual repair
+0 3+ 潜水艇 (Submarine) - INCOMPLETE draft, missing cockpit geometry
 0 Name: 3-qian-shui-ting.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+潜水艇 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Periscope curve and propellers are simplified.
+0 // Source: .tmp/batch-b/pdf/3-qian-shui-ting.pdf; pages 1-12 are ground truth.
+0 // NOT source-verified: generic substitutions and incorrect tube transforms remain.
+0 // User confirmed cockpit 31196c01 and yellow canopy 17562; real geometry not yet resolved.
 
-0 // STEP 1 - blue sea base
-1 1 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 // STEP 1 - twenty yellow 2x4 foundation bricks
+1 14 -320 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 0 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 0 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 0 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 0 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 0 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 0 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 2 - yellow submarine hull
-1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 240 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -240 -120 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 320 -120 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 2 - green 6x12 deck plate
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
 0 // STEP 3 - red cabin and windows
@@ -30,10 +44,10 @@
 0 // STEP 4 - roof and periscope stem
 1 14 -80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 80 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -408 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 140 -456 0 0 0 1 0 1 0 -1 0 0 3437.dat
+1 4 80 -312 0 1 0 0 0 1 0 0 0 1 31195.dat
+1 1 80 -312 220 1 0 0 0 1 0 0 0 1 31452.dat
+1 4 80 -312 440 1 0 0 0 1 0 0 0 1 31195.dat
+1 1 140 -312 660 0 0 1 0 1 0 -1 0 0 31195.dat
 0 STEP
 
 0 // STEP 5 - blue propeller and nose glass

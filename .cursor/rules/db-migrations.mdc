@@ -18,9 +18,9 @@ alwaysApply: false
 | 命令 | 说明 |
 |------|------|
 | `pnpm db:push` | 应用所有待执行的迁移（通过 Supabase pg-meta API，非直连 Postgres） |
-| `pnpm db:status` | 查看迁移状态（已执行 / 待执行） |
+| `pnpm db:status` | 查看迁移状态（已执行 / 待执行）；会先尝试创建追踪表 |
 | `pnpm db:baseline` | 首次接入时，将所有现有迁移标记为「已执行」 |
-| `pnpm db:push -- --dry-run` | 仅预览，不实际执行 |
+| `pnpm db:push -- --dry-run` | 不执行迁移 SQL，但会先尝试创建追踪表 |
 
 ## 环境变量
 
@@ -33,4 +33,6 @@ alwaysApply: false
 
 1. **禁止使用** `supabase db push`，在第三方托管环境下无法工作。
 2. 迁移追踪表：`public._schema_migrations`
-3. 创建新的迁移 SQL 文件后，**提醒用户执行** `pnpm db:push` 以应用迁移。
+3. 创建迁移后，先检查目标环境、迁移状态和全部待执行迁移。用户已授权向该环境应用迁移，且全部待执行迁移均在授权范围内时，执行 `pnpm db:push` 并验证结果；同一授权无需重复确认。
+4. 用户仅要求生成迁移时，交付 SQL 和执行说明，不自动应用迁移。目标环境或执行范围不明时，先检查本地目标配置和迁移文件；如需远端状态，仅在已确定的任务范围内使用真正只读的查询，再就具体缺口提问。不得把未执行的迁移报告为已生效。
+5. 当前 `status` 和 `push --dry-run` 都会调用 `ensureTrackingTable()`，执行 `CREATE TABLE IF NOT EXISTS`，不能作为未获写授权时的只读检查。已有授权覆盖目标及该初始化写入后才使用这些命令；不要仅凭 `dry-run` 名称推断无副作用。

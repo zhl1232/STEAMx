@@ -1,39 +1,32 @@
-0 3+ 手电筒 (Flashlight) - DUPLO draft for manual repair
+0 3+ 手电筒 - local source reconstruction pending review
 0 Name: 3-shou-dian-tong.ldr
 0 Author: OpenAI
-0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+手电筒 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Cylinder body uses supported DUPLO ball-tube parts as a coarse visual stand-in.
-
-0 // STEP 1 - yellow lens frame
-1 14 -300 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -300 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -380 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -220 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 NumOfBricks 16
+0 // Source: /mnt/d/pdf预览/3+手电筒搭建说明_pdf (5 pages)
+0 // Tube holder axis from local geometry: x=0, z=-30.84, parallel local Y.
+0 // STEP 1 - two sandwich supports: tall front/rear bricks, upper core, lower ring
+1 4 0 -30.84 96 -1 0 0 0 0 -1 0 -1 0 42029.dat
+1 14 0 -160.2165 96 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 14 0 -160.2165 192 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 14 0 -200.2165 144 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 4 0 -30.84 384 -1 0 0 0 0 -1 0 -1 0 42029.dat
+1 14 0 -160.2165 384 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 14 0 -160.2165 480 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 14 0 -200.2165 432 0 0 1 -1 0 0 0 -1 0 3437.dat
 0 STEP
-
-0 // STEP 2 - blue tube barrel
-1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 40 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 200 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 2 - four joined 120-LDU blue tube runs
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 0 120 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 0 240 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 0 360 1 0 0 0 1 0 0 0 1 31452.dat
 0 STEP
-
-0 // STEP 3 - red retaining rings
-1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 42029.dat
-1 4 120 -96 0 0 0 1 0 1 0 -1 0 0 42029.dat
+0 // STEP 3 - three side-built 48-LDU handle bridge bricks
+1 14 0 -200.2165 240 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -200.2165 288 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -200.2165 336 0 0 1 -1 0 0 0 -1 0 3437.dat
 0 STEP
-
-0 // STEP 4 - yellow rear cap and handle columns
-1 14 360 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 520 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -120 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 120 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - yellow round opening frame
+1 14 0 -110 0 1 0 0 0 1 0 0 0 1 31191.dat
 0 STEP
-
-0 // STEP 5 - bottom red grip
-1 4 -240 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 5 - finished comparison; no additions

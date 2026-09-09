@@ -14,7 +14,9 @@
 
 ### Agent 与 Skill 工作流
 
+- 全局 `~/.codex/AGENTS.md` 维护授权复用、仅暂停依赖澄清的工作、完整交付和明确审批边界；项目 `AGENTS.md` 保留索引、Next.js 16 `proxy.ts` 与迁移工具约定。
 - `.agents/skills/impeccable/SKILL.md` 统一设计背景协议：复用对话、设计文档及现有界面约定，局部修复和技术审计不强制访谈；专项设计 Skill 引用同一协议。明确的简报批准节点保留，审阅报告先交付完整发现和默认行动建议。
+- `.cursor/rules/db-migrations.mdc` 区分生成 SQL 与应用迁移：执行前核对目标及全部待执行迁移，已有执行授权时用 `pnpm db:push` 并验证；范围不明先检查本地配置及真正只读的状态查询。现有 status/dry-run 都会尝试创建追踪表，不能当成无写入预检。
 - `.agents/skills/image-to-ldraw/` 与 `import-courseware/` 采用本地草稿 → 自动检查和预览页集中验收 → 明确授权后发布；取消生成前 JSON 人审，Studio 改为复杂/争议连接的补充。元数据只读取所用零件，检查记录绑定输入版本并复用未变证据；临时 assembly/BOM/report 不作为最终交付物。近似零件批准、模型验收与发布授权仍有效。
 
 ### 品牌命名规范
@@ -477,7 +479,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 8. 脚本 (`scripts/`)
 
-> `lib/courses/ldraw-review.ts` 维护已完成修复的待验收候选，确认按模型写入 `scripts/ldraw-reviews/<模型文件名>.json`；记录绑定完整预览 MPD 的 SHA-256（含零件依赖），变更后需重新确认。页面确认不授予课程发布权限。
+> `lib/courses/ldraw-review.ts` 维护已完成修复的待验收候选，新增室外咖啡桌和座椅；未完成的漱口杯不加入可确认名单。确认按模型写入 `scripts/ldraw-reviews/<模型文件名>.json`；记录绑定完整预览 MPD 的 SHA-256（含零件依赖），变更后需重新确认。页面确认不授予课程发布权限。
 
 > 2026-09-08 已确认的七个模型已生成对应 `public/courses/ldraw/*.mpd`，输出哈希逐个匹配 `scripts/ldraw-reviews/` 中的验收版本；交付清单见 `docs/ldraw-confirmed-2026-09-08.md`。本次仅生成并提交资产，未执行课程入库、OSS 上传或部署。
 
@@ -486,6 +488,12 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 > **LDraw 草稿与发布门槛**：允许先生成本地 `.ldr` 草稿，无需人工预审 JSON；本地 `/ldraw-preview` 可即时内存打包用于集中验收，不写正式课程 MPD、不上传或挂载课时。自动校验不能证明源图一致性，须由人工在预览页对照源图验收具体模型及零件依赖版本；Studio 仅作复杂/争议连接的补充。只有验收通过且获得该版本及目标课时的明确发布授权后，才写 `public/courses/ldraw`、上传或入库，并核验线上模型与课时映射。验收与发布批准可一次给出；版本发生影响模型的变化时复核受影响步骤。近似零件仍需单独明确批准。
 >
 > **哪些课时有 3D 模型**：不维护手写清单，三处事实来源即可——已发布模型看 `public/courses/ldraw/*.mpd`，课时挂载看 `content.building3d.ldrawModelUrl`（`upsert-courseware.mjs` 的 `hasLdrawModel()` 按文件存在与否写入），运行时由 `lib/courses/building-lesson-flow.ts` 的 `hasRealModel()` 决定是否用 3D 步骤替换图片构建区。
+
+> 第四批本地源图修复见 `docs/ldraw-repair-batch-04.md`：礼盒按 `D:\pdf预览` 10页重建为130件，保留两盒四层实体、十字带、薄板与中空蝴蝶结，加入本地待确认；图书架架体与五本书276件/12步完成主体重建，6件印花连接未明而省略，不加入待确认；未发布课程资产。
+
+> 第五批本地源图修复见 `docs/ldraw-repair-batch-05.md`：垃圾桶168件/10步、邮箱99件/11步、手电筒16件/5步，使用 `D:\pdf预览` 已有JPG重建，碰撞检查、全部分步渲染及独立复核通过，加入本地“修复完待确认”；宝剑已完成而排除。未发布课程资产。
+> 第六批本地源图修复见 `docs/ldraw-repair-batch-06.md`：小提灯61件/9步、洗手台95件/15步、花轿87件/8步，直接读取 `D:\pdf预览` 已有JPG；碰撞检查和浏览器逐步渲染通过，已加入 `/ldraw-preview` 的“修复完待确认”候选，未发布课程资产。
+> 第七批本地源图修复见 `docs/ldraw-repair-batch-07.md`：先排除已有 MPD 的模型（柜子、奖杯跳过）；直接使用 `D:\pdf预览` JPG，照相机56件/11步、熨斗112件/9步加入本地待确认，浴缸57件/11步仅完成前8步，斜躺人物9件连接未明而省略，保留 INCOMPLETE。熨斗垫板遮挡布局为推断且摆放角度有偏差。修正63871/2302b元数据原生轴向，新增官方73162p01印花眼睛；2302b使用独立命名的2025子件，保留旧模型依赖的2014子件。未生成或改写公共MPD。
 
 > 首批10个模型修复进度见 `docs/ldraw-repair-batch-01.md`；预览不等于发布。`ldraw-common.mjs` 的圆孔校验先检查有限管段与按管半径扩大的有限框体相交，避免远处管道与门框无限平面的误报。`part-metadata.json` 已按真实几何修正2301b弯檐轴向、92094门框240LDU高度、89849门片及90265窗片铰链原点（窗片Y=-60..60），并补齐10715p01红轮车底。
 
@@ -520,6 +528,12 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `build-species-atlas-thumbnails.mjs` | 只读检查或显式 `--write` 生成 160x160、内容哈希 WebP 图鉴缩略图；从 active 物种与现有鸟/虫/树/水果 manifest 取首张有效图，写入 `species-atlas-thumbnails.json`，支持专题/slug 过滤与并发控制；缩略图经独立 `*-atlas` 组上传 OSS |
 | `fetch-scratch-assets.mjs` | 镜像 Scratch 素材库到本地，再经 migrate 脚本上传 OSS |
 | `ldraw-models/` | 大颗粒 LDraw 源模型目录：允许本地 `.ldr` 草稿，正式模型源须经过预览页人工验收；临时 assembly/BOM/report 放 scratch，不保留单课 generator 或生成产物专项测试。改动后先检查及预览，验收并获发布授权后才用 `pack-ldraw-model.mjs` 写课程 MPD；缺件须确认真实零件号，近似件仍需明确批准。历史逐课验收记录见 `docs/ldraw-model-audit.md` |
+| `ldraw-models/3-wang-yuan-jing.ldr`, `3-xi-chen-qi.ldr`, `3-xiao-niao-gui-chao.ldr` | 第十二批复用 `D:\pdf预览` JPG：望远镜62件/10步碰撞与浏览器渲染通过，吸尘器81件/15步碰撞通过但缺少若干未确认软管/环件，均未验收；小鸟归巢70件/13步有23组巢边/鸟体重叠，保留INCOMPLETE。见 `docs/ldraw-repair-batch-12.md`；未发布 |
+| `ldraw-models/3-zu-qiu-chang.ldr`, `3-tui-tu-ji.ldr` | 第十一批直接读取 `D:\pdf预览` JPG：足球场120件/12步完成结构修复并通过碰撞与逐步渲染，中央场线形状仍需用户确认；推土机后续按第5、8–10页源图修复铲斗与三组门窗位置，94件通过碰撞检查，门窗朝向仍需人工预览确认。双层巴士和树屋仅完成源图证据核对，未改模型。见 `docs/ldraw-repair-batch-11.md`、`docs/ldraw-repair-batch-13-tui-tu.md` |
+| `ldraw-models/3-wo-niu.ldr`, `3-tao-quan-quan.ldr`, `3-tian-e.ldr` | 第十批复用 `D:\pdf预览` JPG：蜗牛39件/12步、套圈圈258件/11步已通过逐步渲染及独立复核，加入待确认；天鹅40件/12步，第2步尾管已反向构建，四接头均为出口接入口并通过端点核验；外侧直管与后框净空仍有1处报警，保留INCOMPLETE，见 `.tmp/swan-geometry/`。套圈圈15种官方动物印花及共享子件从本地 `D:\CustomParts.zip` 原样补齐，元数据采用31111本体96高度。见 `docs/ldraw-repair-batch-10.md`；未发布 |
+| `ldraw-models/3-shu-zhuang-tai.ldr`, `3-sheng-dan-lao-ren.ldr`, `3-zhang-yu.ldr` | 第九批继续跳过已有MPD、复用本地JPG：梳妆台179件/14步、圣诞老人93件/17步加入待确认；章鱼156件/11步，隐藏绿岛厚度/位置待核定，保留INCOMPLETE。6474元数据按官方DAT修正为72高与偏心底面；圣诞车架保留1处已解析的包络报警。见 `docs/ldraw-repair-batch-09.md`；未发布 |
+| `ldraw-models/3-tai-qiu.ldr`, `3-wan-sheng-jie-nan-gua-tou.ldr`, `3-wu-gui.ldr` | 第八批续修跳过已有MPD、复用本地说明JPG：台球118件/8步、南瓜与骷髅129件/18步加入待确认；乌龟61件/12步按用户反馈重新将四爪扣回下层腿板四凸点，第5–12步渲染通过；保留4处端面接触报警，经独立解析复核无实体交叠，上盖夹持仍为源图推断；未发布。见 `docs/ldraw-repair-batch-08.md` |
+| `ldraw-models/3-shi-wai-ka-fei-zhuo.ldr`, `3-zuo-yi.ldr`, `3-shu-kou-bei.ldr` | 第三批续修直接读取 `D:\pdf预览`（WSL `/mnt/d/pdf预览`）已有步骤 JPG：咖啡桌 61 件/9 步、座椅 116 件/10 步；漱口杯主体与托盘 115 件/12 步，斑马面板固定和牙刷仍未解决，保留 INCOMPLETE。`parts/2300.dat` 从本地官方缓存补齐真实 2×6 把手砖。检查与验收状态见 `docs/ldraw-repair-batch-03.md`；不代表已发布 |
 | `.agents/skills/image-to-ldraw/` | 图纸/照片或探索描述→本地 LDR 草稿（assembly 可选）→检查/预览→验收→授权发布；`reconstruction-review.md` 是统一检查与证据复用流程，缺件/侧搭/砖板厚度参考按需读取。`part-metadata.json` 只向模型输出本课零件条目；通用校验脚本仍读取完整库。预览使用本地 `/ldraw-preview` 内存打包，Studio 非强制 |
 | `export-courseware-slides.mjs` | 批量把 `C:\Users\Administrator\Documents`（WSL 路径 `/mnt/c/Users/Administrator/Documents`）下的 3+/4+/5+ 课件 PPTX 导出到 `public/courses/<grade-pinyin-slug>/slides/slide-*`：先从 PPTX 包统计真实页数，跳过已完整目录，渲染到临时目录成功后再替换目标 `slide-*`，默认把 PNG/JPG 转 WebP 并刷新已有 `scripts/courseware/<slug>.json` 的 `slideImageUrls`；支持 `--dry-run`、`--force`、`--only=`、`--limit=`、`--upload`（只上传 WebP slides 到 `oss:courses/<slug>/slides/`，默认覆盖旧对象以修复早期单页导出）、`--skip-existing-upload`、`--no-webp`；LibreOffice 在沙箱/无图形后端环境可能失败，需在可用图形后端或沙箱外执行 |
 | `import-courseware.mjs` | 课件文件夹→线上课程「资源管线」：按扩展名+关键词识别 PPT/视频/PDF/成品图 → 调 `pptx-to-slides.mjs` 切图（或 `--slides-dir`/`--build-slides-from-source`；后者会先生成到临时目录，成功后再替换已有 `slide-*.png/webp`，失败不动旧文件；默认导入时如自动切图失败但 `slides/` 已有多张图，会沿用现有幻灯片继续产出草稿）→ 幻灯片转 WebP → 视频/PDF/成品图归一化到 `public/courses/<slug>/` → 可选 `--upload` 推 OSS → 产出 `scripts/courseware/<slug>.json`（building3d 内容草稿默认写入 `content.workSubmission.enabled=true`，steps/steps3d/LDraw 留空待人工/LLM 补；`videoSlideIndex` 可直接从 PPTX 关系文件探测，不依赖 LibreOffice 成功渲染）；不再创建背书项目或生成每课迁移；用法 `node scripts/import-courseware.mjs <课件文件夹> --slug=<slug> [--course= --lesson= --upload --no-webp --build-slides-from-source --dry-run]`；编排见 `.agents/skills/import-courseware` |
@@ -575,7 +589,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `commitlint.config.js` | Git 提交信息规范 |
 | `components.json` | shadcn/ui 组件配置 |
 | `renovate.json` | Renovate 自动依赖更新 |
-| `.codex/config.toml` | Codex 仓库级配置；使用 `freemodel` provider 的 Responses API，默认模型为 `gpt-5.6-luna`，推理强度为 `max` |
+| `.codex/config.toml` | Codex 仓库级配置；使用 `freemodel` provider 的 Responses API，默认模型为 `gpt-6-astra`，推理强度为 `low` |
 | `.env.example` | 环境变量模板；支持 `SUPABASE_FETCH_TIMEOUT_MS`（默认 12000ms）与 `ASSET_CONNECT_TIMEOUT_MS`（默认 10000ms）控制外部请求超时 |
 | `.impeccable.md` | 设计上下文（用户画像、品牌调性、设计原则） |
 

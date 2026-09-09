@@ -1,35 +1,111 @@
-0 3+ 蜗牛 (Snail) - DUPLO draft for manual repair
+0 3+ 蜗牛 (Snail) - local source reconstruction draft
 0 Name: 3-wo-niu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+蜗牛 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Spiral shell is approximated with DUPLO tube pieces.
-
-0 // STEP 1 - red/yellow body
-1 4 -240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 240 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 NumOfBricks: 39
+0 // Source: /mnt/d/pdf预览/3+蜗牛搭建说明_pdf/3+蜗牛搭建说明-{1..12}.jpg
+0 // LOCAL DRAFT: renderer-verified only; awaiting human acceptance; not published.
+0 // Side-built orthonormal transforms; stud direction +Z; 48 LDU brick courses.
+0 // Head upper subassembly is hand-held during steps 6-7 and locked by the front cross-brick at step 8.
+0 // STEP 1 - Six-piece side-built sandwich; all studs point +Z
+0 // rear-yellow--40
+1 14 -40 0 -96 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // rear-yellow-40
+1 14 40 0 -96 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // middle-red
+1 4 0 40 -48 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // holder
+1 4 0 -129.3765 -96 1 0 0 0 0 1 0 -1 0 42029.dat
+0 // front-yellow--40
+1 14 -40 0 0 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // front-yellow-40
+1 14 40 0 0 0 0 -1 1 0 0 0 -1 0 3011.dat
 0 STEP
-
-0 // STEP 2 - red head and face
-1 4 -320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -360 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -360 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -360 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - Eight alternating elbows form the closed shell through the holder
+0 // shell-1
+1 14 0 -169.350956099 -117.922011884 0 -1 0 0.923879533 0 0.382683432 -0.382683432 0 0.923879533 31195.dat
+0 // shell-2
+1 1 0 -169.350712741 -26.077887314 0 -1 0 0.923879533 0 -0.382683432 0.382683432 0 0.923879533 31195.dat
+0 // shell-3
+1 14 0 -234.294143957 38.865888061 0 -1 0 0.382683432 0 -0.923879533 0.923879533 0 0.382683432 31195.dat
+0 // shell-4
+1 1 0 -326.138268527 38.866131418 0 -1 0 -0.382683432 0 -0.923879533 0.923879533 0 -0.382683432 31195.dat
+0 // shell-5
+1 14 0 -391.082043901 -26.077299798 0 -1 0 -0.923879533 0 -0.382683432 0.382683432 0 -0.923879533 31195.dat
+0 // shell-6
+1 1 0 -391.082287259 -117.921424367 0 -1 0 -0.923879533 0 0.382683432 -0.382683432 0 -0.923879533 31195.dat
+0 // shell-7
+1 14 0 -326.138856043 -182.865199742 0 -1 0 -0.382683432 0 0.923879533 -0.923879533 0 -0.382683432 31195.dat
+0 // shell-8
+1 1 0 -234.294731473 -182.865443099 0 -1 0 0.382683432 0 0.923879533 -0.923879533 0 0.382683432 31195.dat
 0 STEP
-
-0 // STEP 3 - shell ring approximation
-1 14 120 -144 0 0 0 1 0 1 0 -1 0 0 31195.dat
-1 1 220 -144 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 220 -144 120 0 0 1 0 1 0 -1 0 0 31195.dat
-1 1 220 -240 0 1 0 0 0 1 0 0 0 1 31452.dat
+0 // STEP 3 - Extend rear with alternating horizontal red and vertical yellow courses
+0 // rear-red-upper
+1 4 0 -40 -144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // rear-red-lower
+1 4 0 40 -144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // rear-outer-yellow--40
+1 14 -40 0 -192 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // rear-outer-yellow-40
+1 14 40 0 -192 0 0 -1 1 0 0 0 -1 0 3011.dat
 0 STEP
-
-0 // STEP 4 - shell color caps and tail
-1 14 120 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 220 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 320 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 420 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 4 - Three narrowing low tail courses
+0 // tail-red-wide
+1 4 0 40 -240 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // tail-yellow-wide
+1 14 0 40 -288 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // tail-red-tip
+1 4 0 40 -336 1 0 0 0 0 1 0 -1 0 3437.dat
+0 STEP
+0 // STEP 5 - Extend front with two red and two yellow bricks
+0 // front-red-upper
+1 4 0 -40 48 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // front-red-lower
+1 4 0 40 48 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // front-outer-yellow--40
+1 14 -40 0 96 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // front-outer-yellow-40
+1 14 40 0 96 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 STEP
+0 // STEP 6 - Three transverse red bricks form the rising head backing
+0 // head-red-back-0
+1 4 0 40 144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // head-red-back-1
+1 4 0 -40 144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // head-red-back-2
+1 4 0 -120 144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 STEP
+0 // STEP 7 - Two vertical yellow bricks and two curved caps cross the red backing
+0 // head-yellow--40
+1 14 -40 0 192 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // head-yellow-40
+1 14 40 0 192 0 0 -1 1 0 0 0 -1 0 3011.dat
+0 // head-cap--40
+1 14 -40 -120 192 1 0 0 0 0 1 0 -1 0 2302b.dat
+0 // head-cap-40
+1 14 40 -120 192 1 0 0 0 0 1 0 -1 0 2302b.dat
+0 STEP
+0 // STEP 8 - Two red bricks across the lower front face
+0 // face-red-lower
+1 4 0 0 240 1 0 0 0 0 1 0 -1 0 3011.dat
+0 // face-red-upper
+1 4 0 -80 240 1 0 0 0 0 1 0 -1 0 3011.dat
+0 STEP
+0 // STEP 9 - Two outward-facing printed eyes across the top of the face
+0 // eye--40
+1 14 -40 -160 240 0 0 -1 1 0 0 0 -1 0 3437pe1.dat
+0 // eye-40
+1 14 40 -160 240 0 0 -1 1 0 0 0 -1 0 3437pe1.dat
+0 STEP
+0 // STEP 10 - Centered orange nose bridges lower eye row and upper red face row
+0 // nose
+1 25 0 -120 288 1 0 0 0 0 1 0 -1 0 3437.dat
+0 STEP
+0 // STEP 11 - Two striped fences pivot on the outer upper eye studs
+0 // antenna--1
+1 15 -102.261826174 -270.630778704 336 -0.422618262 0 0.906307787 -0.906307787 0 -0.422618262 0 -1 0 31021p01.dat
+0 // antenna-1
+1 15 102.261826174 -270.630778704 336 0.422618262 0 0.906307787 -0.906307787 0 0.422618262 0 -1 0 31021p01.dat
+0 STEP
+0 // STEP 12 - Finished model; no additional parts
