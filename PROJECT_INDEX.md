@@ -468,7 +468,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ## 7. Scratch 编辑器子包 (`packages/scratch-host/`)
 
 - 基于 **`@scratch/scratch-gui` 11.x**（官方 scratch-editor 生态）独立 Webpack 构建，与 Next.js 主站 React 19 隔离
-- 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore，CI/Docker 的 `pnpm build` 会自动构建）
+- 构建：`pnpm --filter scratch-host build` → `pnpm --filter scratch-host copy-to-public` → 输出到 `public/scratch/`（整目录 gitignore；本地 `pnpm build` 仍完整构建，Docker 使用独立 Scratch 阶段，源码及依赖输入不变时复用缓存）
 - Scratch 素材库 `public/scratch/assets/` 已迁 OSS（`scratch/assets/` 前缀）；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后，各环境 `/internalapi/asset/*` 默认 rewrite 到 `/api/assets/scratch/assets/*` 同源代理（带生产 Referer绕过防盗链并支持本地回退），仅显式 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 才直连 OSS；未配置 base URL 时仍走本地 `public/scratch/assets/`
 - **素材加载加速**：`scratch-storage` 的 FetchWorker 默认请求 `/chunks/fetch-worker-*.js`，实际在 `/scratch/chunks/`——`next.config.mjs` rewrite + `copy-to-public` 修正嵌套 webpack `publicPath` 为 `/scratch/`，恢复 worker 并行拉造型/声音；`storage-patch` 仅给 worker.get 加超时回退，不再拆掉 worker。素材响应 `Cache-Control: immutable`；host/`index.html` 只在编辑器实际启动时预取默认工程常用 md5；`copy-to-public` 还会补入受版本控制的官方空白舞台 SVG，防止干净部署缺少默认资产；课程介绍页不再预载 18MB GUI/vendor。`deploy/nginx.conf` 对经 `proxy_pass` 的响应启用 gzip，Scratch GUI/vendor/chunk 采用 1 天缓存加后台重验证，避免固定文件名长期滞留旧版本
 - 本地开发编辑器：`pnpm --filter scratch-host dev`（:8601），学习页 iframe 默认加载 `/scratch/index.html`
@@ -567,11 +567,12 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口；主站/worker 分别设有可配置的 cgroup 内存上限与 Node heap 上限，主站 heap 默认 512 MB、cgroup 默认 1 GB，避免单个泄漏进程拖垮宿主机
 - `deploy/nginx.conf` — Nginx 反向代理模板；保留线上 `steamx.cc www.steamx.cc`、Certbot include、上传接口大小限制，并为 Scratch GUI/vendor/chunk 加 gzip 和缓存；仅当 `$host = steamx.cc` 时 301 到 `https://www.steamx.cc$request_uri`，不再按 UA 拒绝 GPTBot；Release 会用 GitHub Variables 渲染域名/证书路径后同步到服务器，先备份当前站点配置、`nginx -t` 通过后再 reload
+- `deploy/registry-deploy.sh` — 使用 Actions 临时令牌从 GHCR 按摘要拉取镜像，健康检查通过后记录版本，失败时恢复旧镜像；仓库登录信息仅保留在临时目录。操作与首次切换说明见 `docs/deployment.md`。
 - `deploy/server-init.sh` — 服务器初始化脚本
 - `deploy/auto-interactions-worker.mjs` — 自动互动队列 Docker worker（可在启动时按 `AUTO_INTERACTION_BACKFILL_*` 低比例补偿历史项目；随后按 `AUTO_INTERACTION_WORKER_INTERVAL_SECONDS` 周期 POST `/api/internal/auto-interactions/run`）。`AUTO_REPLY_RATE` / `AUTO_INTERACTION_BACKFILL_REPLY_RATE` 随拟人化短评一起删除，只剩点赞与收藏比例
-- `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本；builder 复用 deps 阶段的 pnpm 与 `node_modules`，避免重复初始化和复制依赖
+- `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本；builder 复用 deps 阶段的 pnpm 与 `node_modules`；Scratch 独立构建并在应用文件前复制为稳定镜像层，主站调用 `pnpm exec next build`，避免主站改动触发 Scratch 编译和重复传输
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Playwright；PR 仍跑完整 `pnpm build`，主分支 push 由 Release 的 Docker 构建覆盖，避免同一次提交重复打包；GitHub runner 使用预装 Chrome，不再每次下载 Playwright 浏览器或安装系统依赖；同一分支连续 push 会取消过时 CI 以节省分钟；本地只在 `pre-commit` 跑 lint 和改动相关的用例，全量单测以此为唯一门槛，推送后用 `pnpm ci:watch` 看结论
-- `.github/workflows/release.yml` — Release：用 Docker Buildx 的 GitHub Actions 缓存构建 Docker 镜像（复用依赖层，避免每次从零安装），再渲染/同步 Nginx 配置、同步 compose 文件并 SSH 部署；`.dockerignore` 排除本地工具缓存、测试/文档和构建临时目录，减少 Docker 构建上下文；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；部署后可用 `BAIDU_PUSH_TOKEN` secret 调 `scripts/submit-baidu-urls.mjs` 主动推送 sitemap 中的公开 URL（未配置时跳过且不阻塞发布）；爬虫访问改由 `robots.ts` 约束，不再在 Nginx 层按 UA 拒绝 GPTBot；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
+- `.github/workflows/release.yml` — Release：用 Docker Buildx 的 GitHub Actions 缓存构建 Docker 镜像（复用依赖层，避免每次从零安装），推送 GHCR 后让服务器按摘要增量拉取，再同步 Nginx/compose 并等待服务健康（详见 `docs/deployment.md`）；`.dockerignore` 排除本地工具缓存、测试/文档和构建临时目录，减少 Docker 构建上下文；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；部署后可用 `BAIDU_PUSH_TOKEN` secret 调 `scripts/submit-baidu-urls.mjs` 主动推送 sitemap 中的公开 URL（未配置时跳过且不阻塞发布）；爬虫访问改由 `robots.ts` 约束，不再在 Nginx 层按 UA 拒绝 GPTBot；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
 - `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 和已有 `steam-app:latest` 镜像先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；`ali-oss` 在 Actions runner 上装进包，避免服务器再拉 Docker Hub。不与 Release 共用并发组，避免排队时被取消。
 
 ---

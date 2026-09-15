@@ -24,6 +24,7 @@ tmp
 .tmp-img-audit-venv
 scratch
 public/scratch
+packages/*/dist
 public/birds/images
 public/birds/audio
 public/birds/atlas

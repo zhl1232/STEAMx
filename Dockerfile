@@ -6,7 +6,12 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/scratch-host/package.json ./packages/scratch-host/
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Stage 2: Build
+# Stage 2: Build Scratch separately so changes to the application do not rebuild
+# the expensive Scratch GUI bundle.
+FROM deps AS scratch-builder
+COPY packages/scratch-host ./packages/scratch-host
+RUN pnpm run build:scratch
+
 # Keep the dependency layer (including the activated pnpm) so Docker can reuse it
 # across builds instead of initializing pnpm and copying node_modules again.
 FROM deps AS builder
@@ -21,7 +26,11 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_ASSETS_BASE_URL=$NEXT_PUBLIC_ASSETS_BASE_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN pnpm build
+RUN pnpm exec next build
+
+# Keep the Scratch output in its own runtime copy layer. It is excluded from the
+# application build context, so the public directory below does not duplicate it.
+FROM scratch-builder AS scratch-runtime
 
 # Stage 3: Production runner
 FROM node:22-alpine AS runner
@@ -34,6 +43,7 @@ RUN apk add --no-cache ffmpeg && \
     adduser --system --uid 1001 nextjs && \
     mkdir -p /tmp/video-processing && chown nextjs:nodejs /tmp/video-processing
 
+COPY --from=scratch-runtime /app/public/scratch ./public/scratch
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static

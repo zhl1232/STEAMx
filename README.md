@@ -97,7 +97,7 @@ pnpm dev
 
 ## ☁️ 部署
 
-- **生产发布**：Docker 部署，GitHub Actions 构建镜像后通过 SSH 发布到服务器
+- **生产发布**：GitHub Actions 将镜像推送 GHCR，服务器按摘要增量拉取；Scratch 使用独立缓存层。操作见 [部署说明](docs/deployment.md)
 - **CI**：Oxlint、TypeScript、Vitest、Next build、Playwright smoke
 
 ## 📝 开发规范
