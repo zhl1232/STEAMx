@@ -1,38 +1,161 @@
-0 4+ 风车房 (Windmill House) - DUPLO draft for manual repair
+0 4+ 风车房 - INCOMPLETE source reconstruction
 0 Name: 4-feng-che-fang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+风车房 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // House, roof and four windmill blades are simplified.
-
-0 // STEP 1 - green base and house walls
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -120 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 40 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -120 -168 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source: /mnt/d/pdf预览/4+风车房搭建说明_pdf, 18 source pages.
+0 // INCOMPLETE: source 1-7 base, table, walls and window only; roof and fan omitted.
+0 // House footprint 14x12 studs, 4-stud doorway five bricks high, window occupies layers 5-7.
+0 // Hidden wall seams, base anchors and table placement inferred from source outline/BOM.
+0 // Window insert uses local 61649/90265 hinge placement; strict mesh hinge crossing remains subject to review.
+0 // Source page 1
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 280 -48 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -48 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -96 360 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -48 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 440 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -48 320 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -48 320 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 2 - roof
-1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source page 2
+1 1 -360 -48 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -48 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -48 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -96 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -96 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -96 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -96 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - windmill hub
-1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -360 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 3
+1 1 -360 -144 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -144 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -144 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -144 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -144 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -192 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -192 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -192 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -192 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -192 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 4 - windmill blades
-1 25 0 -456 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 0 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 -160 -360 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 25 160 -360 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 220 -72 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 340 -72 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 4
+1 4 -360 -336 -80 0 0 1 0 1 0 -1 0 0 61649.dat
+1 15 -403.5 -264 -145.5 0 0 1 0 1 0 -1 0 0 90265.dat
+0 STEP
+0 // Source page 5
+1 1 -360 -240 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -240 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -240 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -240 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -240 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -240 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -288 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -288 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -288 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -320 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -288 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -288 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -288 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -288 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -336 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -336 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -336 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -336 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6
+1 4 -320 -384 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -384 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -384 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -384 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -384 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -384 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 7
+1 1 -360 -432 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -432 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -360 -432 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -432 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -432 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -432 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -432 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 8
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 9
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 10
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 11
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 12
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 13
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 14
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 15
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 16
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 17
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
+0 STEP
+0 // Source page 18
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.

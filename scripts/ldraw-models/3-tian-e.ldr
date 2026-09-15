@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 NumOfBricks 40
-0 // INCOMPLETE: connected tail still requires rear frame clearance correction.
+0 // REPAIR CANDIDATE: eleven connected tubes, horizontal through-frame section; pending human preview.
 0 // Source: /mnt/d/pdf预览/3+天鹅搭建说明_pdf (12 local JPG pages).
 0 // STEP 1 - base and paired frames
 1 1 -80 0 0 0 0 1 0 1 0 -1 0 0 10199.dat
@@ -11,11 +11,11 @@
 1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 31191.dat
 1 14 0 -240 40 1 0 0 0 1 0 0 0 1 31191.dat
 0 STEP
-0 // STEP 2 - reverse-built tail; rear frame clearance unresolved
-1 14 0 -165.146035452 -44.852813742 0 -1 0 0.707106781 0 0.707106781 -0.707106781 0 0.707106781 31195.dat
-1 4 0 -249.998035452 -80.000813742 0 -1 0 0 0 1 -1 0 0 31195.dat
-1 14 0 -369.998035452 -80.000813742 0 -1 0 0 0 1 -1 0 0 31452.dat
-1 4 0 -454.850849194 -44.854778290 0 -1 0 -0.707106781 0 0.707106781 -0.707106781 0 -0.707106781 31195.dat
+0 // STEP 2 - horizontal yellow tube through both frames, then red/yellow/red tail elbows
+1 14 0 -130 40 0 1 0 1 0 0 0 0 -1 31452.dat
+1 4 0 -130 -80 0 1 0 1 0 0 0 0 -1 31195.dat
+1 14 0 -165.147 -164.853 0 1 0 0.707106781 0 -0.707106781 -0.707106781 0 -0.707106781 31195.dat
+1 4 0 -249.999813742 -200.000449666 0 -1 0 0 0 -1 1 0 0 31195.dat
 0 STEP
 0 // STEP 3 - front two elbows
 1 4 0 -130 40 0 -1 0 1 0 0 0 0 1 31195.dat

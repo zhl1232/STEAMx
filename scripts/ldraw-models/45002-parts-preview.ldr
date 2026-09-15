@@ -1,0 +1,34 @@
+0 45002 local simplified parts - review display only
+0 Name: 45002-parts-preview.ldr
+0 Author: STEAMX
+0 // Ten user-approved local simplified parts; not a course model or physical assembly.
+0 // Each step adds one isolated part. Interfaces and image-based dimensions need manual review.
+0 // 1: 76395.dat
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+0 STEP
+0 // 2: 76057.dat
+1 14 420 0 0 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // 3: 60535.dat
+1 0 840 0 0 1 0 0 0 1 0 0 0 1 60535.dat
+0 STEP
+0 // 4: 74957.dat
+1 72 1260 0 0 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+0 // 5: 28331.dat
+1 72 0 0 420 1 0 0 0 1 0 0 0 1 28331.dat
+0 STEP
+0 // 6: 28334.dat
+1 72 420 0 420 1 0 0 0 1 0 0 0 1 28334.dat
+0 STEP
+0 // 7: 28336.dat
+1 72 840 0 420 1 0 0 0 1 0 0 0 1 28336.dat
+0 STEP
+0 // 8: 99565.dat
+1 72 1260 0 420 1 0 0 0 1 0 0 0 1 99565.dat
+0 STEP
+0 // 9: 44970.dat
+1 0 0 0 840 1 0 0 0 1 0 0 0 1 44970.dat
+0 STEP
+0 // 10: 71981.dat
+1 0 420 0 840 1 0 0 0 1 0 0 0 1 71981.dat

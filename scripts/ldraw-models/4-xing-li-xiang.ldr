@@ -1,38 +1,100 @@
-0 4+ 行李箱 (Suitcase) - DUPLO draft for manual repair
+0 4+ 行李箱 (Suitcase) - source-faithful standard wall draft
 0 Name: 4-xing-li-xiang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+行李箱 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Hinged lid, pull handle, wheels and hollow interior are simplified.
-
-0 // STEP 1 - red/yellow suitcase box
-1 4 -120 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -144 -40 1 0 0 0 1 0 0 0 1 4196.dat
+0 // Source: 4+行李箱搭建说明 (13 source JPG pages).
+0 // Confirmed standard geometry only: two 6490 plates and five wall layers.
+0 // Toolo side-hole blocks, hinge beams, side-hole platforms, wheels and handle are intentionally unresolved.
+0 // Front is -Z. All emitted placement matrices have determinant +1.
+0 // SOURCE PAGE 1
+1 2 0 0 -160 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 0 0 160 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 2 - green open lid
-1 2 -80 -220 -240 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 2 80 -220 -240 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 2 240 -220 -240 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 2 80 -268 -280 0.707 0.707 0 -0.707 0.707 0 0 0 1 4196.dat
+0 // SOURCE PAGE 2
 0 STEP
-
-0 // STEP 3 - black wheels and pull handle
-1 0 -160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 200 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 360 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 480 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 600 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 3
 0 STEP
-
-0 // STEP 4 - inner lip and latch
-1 14 -80 -168 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 80 -168 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 0 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4
+1 4 -240 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -48 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -48 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -48 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -48 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -48 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -48 160 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 5
+0 STEP
+0 // SOURCE PAGE 6
+1 14 -280 -96 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -96 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -96 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -96 240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -96 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -96 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -96 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -96 240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -96 -280 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 200 -96 -280 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 4 -240 -144 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -144 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -144 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -144 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -144 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -144 160 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 8
+0 // Rear-center yellow brick needs missing source7 Toolo support at this step; source9 caps reconnect it in the final stud graph.
+1 14 -280 -192 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -192 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -192 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -192 240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -192 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -192 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -192 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -192 240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -192 -280 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 200 -192 -280 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 4 -240 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -240 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 -280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -240 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -280 -240 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -240 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -240 160 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 10
+0 STEP
+0 // SOURCE PAGE 11
+0 // Source page 11: two thin 40666 plates belong at the unresolved Toolo pull-handle end; deferred, not placed in this LDR.
+0 STEP
+0 // SOURCE PAGE 12
+0 STEP
+0 // SOURCE PAGE 13
+0 // SOURCE PAGE 13 is finished reference only; no additions.
+0 // INCOMPLETE: Toolo/hinge/platform/wheel/handle geometry and support remain unresolved.

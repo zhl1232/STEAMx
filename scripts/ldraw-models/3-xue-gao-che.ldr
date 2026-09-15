@@ -1,108 +1,155 @@
-0 3+ 雪糕车 (Ice Cream Truck) - source-backed DUPLO draft
-0 Name: 3-xue-gao-che.ldr
-0 Author: OpenAI
-0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: /mnt/d/pdf预览/3+雪糕车搭建说明_pdf, pages 1-13.
-0 // LDraw +Y points down; each STEP follows one instruction page.
-0 // Printed animal bricks are unresolved; plain confirmed bricks are used only where source geometry is the same.
-
-0 // STEP 1 - four wheeled bases and green 6x12 platform
-1 4 -240 0 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -80 0 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 80 0 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 240 0 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 0 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 3+ Ice Cream Cart - review candidate (printed bricks intentionally omitted)
+0 // Source /mnt/d/pdf预览/3+雪糕车搭建说明_pdf pages1-13.
+0 // User-requested review variant: four source 31111 patterned bricks intentionally omitted.
+0 // This version does not claim the printed front-wall panels are reconstructed.
+0 // Step8 shelf joins underside of roof; step12 blue slopes restored from footprint/height evidence.
+0 // Hidden display pedestals and2302 roof identification inferred; local draft, not accepted/published.
+0 // STEP 1 - four wheel bases and8x16 floor
+1 4 -200 24 -80 0 0 1 0 1 0 -1 0 0 10715p02.dat
+1 4 -200 24 80 0 0 1 0 1 0 -1 0 0 10715p02.dat
+1 4 200 24 -80 0 0 1 0 1 0 -1 0 0 10715p02.dat
+1 4 200 24 80 0 0 1 0 1 0 -1 0 0 10715p02.dat
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 2 - alternating yellow/lime lower perimeter walls
-1 14 -240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 -80 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 240 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 -240 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 80 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - 39 interlocking wall bricks,10/10/10/9; top right corners reserved for rails
+1 10 -240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 10 280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 10 -240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 10 -280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 10 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - red rear counter rails, two long source beams represented by 2x4 bricks
-1 4 320 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 480 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 480 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 3 - two2x10 rails,2x2 root rests on third wall course
+1 4 440 -192 -120 1 0 0 0 1 0 0 0 1 2291.dat
+1 4 440 -192 120 1 0 0 0 1 0 0 0 1 2291.dat
 0 STEP
-
-0 // STEP 4 - upper lime frame around service opening
-1 10 -240 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 -80 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 80 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 240 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 -240 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 -80 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 80 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 10 240 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - ten lime plates cap perimeter
+1 10 -240 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 -80 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 80 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 240 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 -240 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 -80 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 80 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 240 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 10 -280 -216 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 10 280 -216 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 5 - source printed tiger/crocodile panels (unresolved; intentionally omitted)
-0 // BOM evidence: four printed 2x2x2 panels, including one tiger and one crocodile.
+0 // STEP 5 - four printed 2x4x2 animal bricks: tiger and crocodile panels
+0 // Pattern face is the local Z=-40 face; z=-200 puts it against the front wall.
 0 STEP
-
-0 // STEP 6 - two vertical side posts, source uses yellow/lime 2x2 bricks
-1 14 -240 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 10 -240 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 10 240 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -288 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 10 -240 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -288 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 10 240 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 6 - four six-course corner posts,12 yellow and12 lime
+1 14 -280 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -264 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -264 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -312 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -312 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -360 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -360 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -408 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -408 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -408 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -408 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -456 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -456 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -456 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -456 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -504 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 -280 -504 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -504 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 10 280 -504 120 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 7 - large green roof plate
-1 2 0 -384 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 7 - 8x16 roof plate rests on four posts
+1 2 0 -528 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 8 - smaller green awning plate
-1 2 0 -432 -80 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 8 -6x12 shelf: rear2stud rows plug into roof underside, front4rows overhang
+0 // Shelf topY=-504 equals roof undersideY=-504; attachment from above, not lower posts.
+1 2 0 -504 -200 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
-
-0 // STEP 9 - lime roof course and yellow stripe course
-1 10 -240 -456 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 -80 -456 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 80 -456 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 10 240 -456 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 9 - sixteen2x3 curved roof bricks and four yellow2x4 stripe bricks
+1 10 -280 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 -280 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 -200 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 -200 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 -120 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 -120 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 -40 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 -40 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 40 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 40 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 120 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 120 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 200 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 200 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 10 280 -576 -80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 10 280 -576 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 -240 -576 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -576 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -576 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -576 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 10 - orange rounded service display
-1 25 0 -288 -160 1 0 0 0 1 0 0 0 1 4198.dat
-1 25 0 -336 -160 1 0 0 0 1 0 0 0 1 4198.dat
+0 // STEP 10 - orange rounded display; hidden central pedestal inferred from three yellow bricks
+1 14 -160 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -336 0 1 0 0 0 1 0 0 0 1 4198.dat
 0 STEP
-
-0 // STEP 11 - white arched service hatch
-1 15 80 -336 -160 1 0 0 0 1 0 0 0 1 11198.dat
+0 // STEP 11 - white curved2x2 top on orange display; hidden pedestal inferred
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 0 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 15 0 -264 0 1 0 0 0 1 0 0 0 1 3664.dat
 0 STEP
-
-0 // STEP 12 - blue freezer blocks and slopes
-1 1 80 -288 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 80 -336 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 160 -288 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 160 -336 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 240 -288 -160 1 0 0 0 1 0 0 0 1 49570.dat
-1 1 240 -336 -160 1 0 0 0 1 0 0 0 1 49570.dat
+0 // STEP 12 - blue display pedestal and two opposed63871 slopes; hidden stud anchors inferred
+1 14 160 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Two3-stud slopes span6studs above4-stud pedestal; each overhangs1stud.
+1 1 140 -336 0 0 0 1 0 1 0 -1 0 0 63871.dat
+1 1 180 -336 0 0 0 -1 0 1 0 1 0 0 63871.dat
 0 STEP
-
-0 // STEP 13 - completed display cart; no new parts
-0 // Unresolved source-dependent items: four printed 2x2x2 animal panels and exact orange scoop element.
+0 // STEP 13 - completed source view

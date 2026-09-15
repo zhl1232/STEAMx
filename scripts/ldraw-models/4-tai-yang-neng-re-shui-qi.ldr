@@ -1,42 +1,112 @@
-0 4+ 太阳能热水器 (Solar Water Heater) - DUPLO draft for manual repair
+0 4+ 太阳能热水器 (Solar Water Heater) - source-matched incomplete draft
 0 Name: 4-tai-yang-neng-re-shui-qi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+太阳能热水器 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Sloped collector, water tank, roof plate and support columns are simplified.
+0 // Source: 4+太阳能热水器搭建说明-1..11.jpg (11 pages, 10 construction steps)
+0 // INCOMPLETE: Toolo side-hole plates, hinges and supports in source steps 3/6/7/8 have no approved geometry.
+0 // INCOMPLETE: collector panel angle is a 60-degree display estimate; its Toolo supports are unresolved.
 
-0 // STEP 1 - green floor and striped supports
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -120 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -120 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -120 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 160 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 160 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 1 - 24 x 24 green baseplate (source BOM 1x)
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 0 STEP
 
-0 // STEP 2 - upper tank box and green roof
-1 14 -40 -216 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 120 -216 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -40 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 120 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 40 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 2 - two 4 x 4 columns, twenty 2 x 4 bricks per column (20 blue, 20 red total)
+0 // Brick top origins: Y=-48..-480; lower layers blue, upper layers red; adjacent layers rotate 90 degrees.
+1 1 -240 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -240 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -240 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -240 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -240 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 240 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 240 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 240 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 240 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 240 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 280 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 3 - cylindrical tank approximation
-1 1 -80 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 40 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 160 -240 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 25 280 -240 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+0 // STEP 3 - Toolo black side-hole platforms: missing approved geometry (source BOM 3x)
+0 // Deliberately omitted; do not substitute ordinary plates or local 74844/74847.
 0 STEP
 
-0 // STEP 4 - sloped red/yellow collector
-1 4 -180 -120 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 14 -320 -40 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 4 -460 40 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 14 -600 120 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 4 -740 200 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 14 -880 280 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+0 // STEP 4 - two yellow round-door frames and five continuous tube segments
+1 14 -240 -720 0 0 0 -1 0 1 0 1 0 0 31191.dat
+1 14 240 -720 0 0 0 1 0 1 0 -1 0 0 31191.dat
+1 4 -300 -610 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 -180 -610 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 -60 -610 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 1 60 -610 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 4 180 -610 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+
+0 // STEP 5 - green 8 x 16 roof plate
+1 2 0 -744 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+
+0 // STEP 6 - Toolo black side-hole platforms: missing approved geometry (source BOM 2x)
+0 // Deliberately omitted; do not substitute ordinary plates or local 74844/74847.
+0 STEP
+
+0 // STEP 7 - Toolo side-hole hinge/foot assemblies: missing approved geometry (source BOM 2x + 2x)
+0 // Deliberately omitted; do not substitute ordinary plates or local 74844/74847.
+0 STEP
+
+0 // STEP 8 - Toolo black side-hole platforms: missing approved geometry (source BOM 2x)
+0 // Deliberately omitted; do not substitute ordinary plates or local 74844/74847.
+0 STEP
+
+0 // STEP 9 - green 8 x 16 collector panel; 60-degree display estimate, unresolved Toolo supports
+1 2 0 -290 240 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 6490.dat
+0 STEP
+
+0 // STEP 10 - 8 red + 8 yellow thin 2 x 4 plates on collector panel
+0 // Red local x=+-120,z=-240,-80,80,240 with RY; yellow local x=0,z=-280..280 with I.
+0 // Plate top planes use local y=-24. Slope/position are display estimates, not Toolo connections.
+1 4 -120.000000000 -509.846096908 140.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 -120.000000000 -371.282032303 220.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 -120.000000000 -232.717967697 300.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 -120.000000000 -94.153903092 380.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 120.000000000 -509.846096908 140.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 120.000000000 -371.282032303 220.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 120.000000000 -232.717967697 300.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 4 120.000000000 -94.153903092 380.784609691 0 0 1 -0.866025403784 0.5 0 -0.5 -0.866025403784 0 40666.dat
+1 14 0.000000000 -544.487113060 120.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -475.205080757 160.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -405.923048454 200.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -336.641016151 240.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -267.358983849 280.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -198.076951546 320.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -128.794919243 360.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+1 14 0.000000000 -59.512886940 400.784609691 1 0 0 0 0.5 0.866025403784 0 -0.866025403784 0.5 40666.dat
+0 STEP
+0 // SOURCE 11 - finished reference only; missing Toolo supports remain INCOMPLETE

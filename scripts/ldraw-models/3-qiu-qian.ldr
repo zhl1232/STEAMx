@@ -1,11 +1,11 @@
-0 3+ 秋千 - INCOMPLETE source reconstruction, pages1-6 only
+0 3+ 秋千 - local 103-piece source candidate; pending human review
 0 Name: 3-qiu-qian.ldr
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 NumOfBricks: 63
-0 // INCOMPLETE: pages7-10 (40 pieces) await exact ring-holder/sideways-seat support reconstruction.
+0 NumOfBricks: 103
+0 // All source pieces included; hidden hanger axial slide and endpoint engagement inferred.
 0 // Source pages .tmp/batch-c/pages/3-qiu-qian-01..11.png; 40 LDU/stud; +Y down.
-0 // Replaces rejected26-piece draft. Not accepted or Studio verified. See scratch review ledger.
+0 // Review: .tmp/swing-seat-0910/review.md. Not accepted or Studio verified.
 0 // Tower centers Z=+-400, depth4 studs; frames occupy inward2stud row. Base24x24.
 0 // STEP1: four alternating foot courses, 8blue and8yellow bricks
 1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
@@ -81,3 +81,59 @@
 1 1 0 -538 -280 1 0 0 0 1 0 0 0 1 31452.dat
 1 1 0 -538 400 -1 0 0 0 1 0 0 0 -1 31452.dat
 1 1 0 -538 280 -1 0 0 0 1 0 0 0 -1 31452.dat
+0 STEP
+0 // STEP7: both ring-holder stud faces point +Z; coaxial slide inferred from seat closure.
+0 // Measured local ring axis (0,Y,-30.84) maps to world Y=-538.
+1 4 0 -507.16 -264 1 0 0 0 0 1 0 -1 0 42029.dat
+1 4 0 -507.16 216 1 0 0 0 0 1 0 -1 0 42029.dat
+0 STEP
+0 // STEP8: front and rear red plates bridge holder lower half and red arm upper half.
+0 // User-requested symmetric color variant: upper plates red, lower arm bricks yellow.
+0 // Four colors changed from source; all positions and connections retained.
+1 4 0 -377.7835 -264 0 0 1 1 0 0 0 -1 0 40666.dat
+1 14 0 -297.7835 -216 0 0 1 1 0 0 0 -1 0 3011.dat
+1 4 0 -377.7835 -192 0 0 1 1 0 0 0 -1 0 40666.dat
+1 4 0 -377.7835 216 0 0 1 1 0 0 0 -1 0 40666.dat
+1 14 0 -297.7835 264 0 0 1 1 0 0 0 -1 0 3011.dat
+1 4 0 -377.7835 288 0 0 1 1 0 0 0 -1 0 40666.dat
+0 STEP
+0 // STEP9: eleven sideways 2x2 bricks BELOW the red arms, all studs toward +Z.
+0 // End plates bridge lower arm half and seat end: near front / far rear.
+0 // Chain spans Z=-264..264 (11x48); plates extend total span to -288..288.
+1 14 0 -177.7835 -216 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -168 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -120 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -72 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -24 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 24 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 72 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 120 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 168 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 216 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 264 0 0 1 1 0 0 0 -1 0 3437.dat
+1 14 0 -217.7835 -264 0 0 1 1 0 0 0 -1 0 40666.dat
+1 14 0 -217.7835 288 0 0 1 1 0 0 0 -1 0 40666.dat
+0 STEP
+0 // STEP10: fourteen blue and four yellow full 2x4 bricks form the stepped overhead arch;
+0 // the printed movable-eyes brick is the confirmed 73162p01 source part.
+1 1 -40 -696 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -696 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -696 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -696 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -744 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -744 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -744 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -744 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -792 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -792 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -792 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -792 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -840 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -840 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -840 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -840 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -888 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -888 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -984 0 0 0 -1 0 1 0 1 0 0 73162p01.dat
+0 STEP
+0 // STEP11: final alternate source view; no new parts.

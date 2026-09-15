@@ -1,39 +1,70 @@
-0 4+ 中国结 (Chinese Knot) - DUPLO draft for manual repair
+0 4+ 中国结 (Chinese Knot) - incomplete DUPLO draft
 0 Name: 4-zhong-guo-jie.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+中国结 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Diamond knot panel, yellow border, center disc and side tassels are simplified.
+0 // Source: 4+中国结搭建说明-1.jpg through -11.jpg.
+0 // Recovered:20 red plates plus6 core76395, central60535 and4 side76057; local simplified parts approved.
+0 // INCOMPLETE: source6-11 hinge placement, cord and pulley assemblies remain unresolved.
+0 // Source1 six black4x6 Toolo76395 panels recovered; long side5 holes, short side3 holes.
+0 // Core gap48LDU inferred from source proportions, not confirmed missing-part geometry.
+0 // Core topY=-48 and baseY=0; original upper plates bottomY=-48. Local threaded interfaces remain manual.
 
-0 // STEP 1 - red diamond body
-1 4 -120 -96 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 4 20 -216 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 4 160 -336 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 4 0 -96 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 4 -140 -216 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 4 -300 -336 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+0 // SOURCE STEP 1 - two red 6 x 12 base plates; top Y=0; centers Z +/-120
+1 4 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+0 // Six core plates tile12x12 studs; bottomY=0 rests on the red base.
+1 0 -120 -48 -160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -48 -160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -120 -48 160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -48 160 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 2 - yellow border and center
-1 14 -260 -96 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 260 -288 -40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 120 -96 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -260 -288 200 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 0 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -240 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE STEP 2 - two red 6 x 12 top plates; top Y=-72; centers Z +/-120
+1 4 0 -72 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 -72 120 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
-0 // STEP 3 - black side tassels
-1 0 -420 -192 40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 -540 -192 40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 300 -192 40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 420 -192 40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE STEP 3 - sixteen red 2 x 4 plates; 12 x 12 perimeter, 4 x 4 center opening; top Y=-96
+1 4 -160 -96 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -96 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -160 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -160 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -160 -96 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -96 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -96 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -200 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -120 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 120 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 200 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
 
-0 // STEP 4 - hanging points
-1 14 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -408 -160 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 -620 -192 -20 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 500 -192 -20 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE STEP 4 - local60535 at center. Estimated lower boss rests atY=-72 inside the 4x4 recess.
+0 // Rotation/boss fit is approximate, not verified screw engagement.
+1 0 0 -112 0 1 0 0 0 1 0 0 0 1 60535.dat
+0 STEP
+0 // SOURCE STEP 5 - four outward-facing76057 at opposite corners.
+0 // Underside interface at core planesX/Z=+/-240; threaded mounting remains approximate.
+1 14 288 -24 -160 0 -1 0 0 0 -1 1 0 0 76057.dat
+1 14 -288 -24 160 0 1 0 0 0 -1 -1 0 0 76057.dat
+1 14 160 -24 -288 -1 0 0 0 0 1 0 1 0 76057.dat
+1 14 -160 -24 288 1 0 0 0 0 1 0 -1 0 76057.dat
+0 STEP
+0 // SOURCE STEP 6 - two unavailable gray Toolo hinge assemblies (omitted)
+0 STEP
+0 // SOURCE STEP 7 - two unavailable gray Toolo long hinge beams (omitted)
+0 STEP
+0 // SOURCE STEP 8 - one unresolved cord/diagonal element (omitted)
+0 STEP
+0 // SOURCE STEP 9 - two unavailable pulley/hook assemblies (omitted)
+0 STEP
+0 // SOURCE STEP 10 - cord connections shown; no new recoverable standard geometry
+0 STEP
+0 // SOURCE STEP 11 - final source view, no added geometry

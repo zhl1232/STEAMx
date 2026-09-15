@@ -3,10 +3,10 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 NumOfBricks: 115
+0 NumOfBricks: 118
 0 // Source: /mnt/d/pdf预览/3+漱口杯搭建说明_pdf (12 pages).
-0 // INCOMPLETE: step 8 zebra mounting unresolved; step 9 white brush geometry unresolved.
-0 // Omitted 3 zebra bricks and entire 3-part toothbrush; not publishable.
+0 // INCOMPLETE: step 8 zebra mounting unresolved.
+0 // Omitted 3 zebra bricks; not publishable. Toothbrush restored from source page 9.
 0 // Cup handle is source 2x6 brick 2300; tray expands from 10x10 to 12x12.
 0 // STEP 1 - eight yellow 2x4 ring bricks over inset grey 8x8 plate
 1 8 0 0 0 1 0 0 0 1 0 0 0 1 51262.dat
@@ -111,7 +111,12 @@
 0 // STEP 8 - INCOMPLETE: three zebra picture bricks omitted; hidden wall fixing unresolved
 0 // Source IDs 31111p0e/f/g confirmed; no invented side connection or floating panel.
 0 STEP
-0 // STEP 9 - INCOMPLETE: complete toothbrush omitted while white curved part is unresolved
+0 // STEP 9 - three-part toothbrush, separate tilted / hand-held display as in source
+0 // 3664 bottom local Y=24 meets yellow plate top; yellow bottom meets blue studs.
+0 // Display translation keeps brush clear of cup and tray; no invented cup connection.
+1 1 340 -200 -300 0.5 -0.866025 0 0.866025 0.5 0 0 0 1 2291.dat
+1 14 300.78461 -315.923048 -300 0.5 -0.866025 0 0.866025 0.5 0 0 0 1 40666.dat
+1 15 321.569219 -327.923048 -300 0.5 -0.866025 0 0.866025 0.5 0 0 0 1 3664.dat
 0 STEP
 0 // STEP 10 - independent tray on ground: grey plate and eight red base ring bricks
 1 8 640 0 0 1 0 0 0 1 0 0 0 1 51262.dat
@@ -146,4 +151,4 @@
 1 4 560 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
 1 4 720 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 12 - finished comparison; omitted accessories remain unresolved
+0 // STEP 12 - finished comparison; zebra mounting remains unresolved

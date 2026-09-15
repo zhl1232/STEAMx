@@ -1,41 +1,135 @@
-0 5+ 车库门 (Garage Door) - DUPLO draft for manual repair
+0 5+ 车库门 - source-reviewed partial local draft
 0 Name: 5-che-ku-men.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+车库门 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Sliding door, garage shell, roof and small car are simplified.
+0 // SOURCE: /mnt/d/pdf预览/5+车库门搭建说明_pdf; 14 original instruction pages.
+0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.
+0 // Local draft only. Geometry and source assumptions: .tmp/ldr-next-fiveplus-20260912/FINAL-REVIEW.md
 
-0 // STEP 1 - green driveway base
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 // STEP 1 - source page 1
+0 // 16x14-stud U wall: X[-320,320], Z[-240,320]; opening faces -Z. Placement on 24x24 base is source-grid inference.
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -240 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 2 - blue/yellow garage walls
-1 1 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 40 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -120 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 200 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - source page 2
+0 // 9 long and 2 square yellow bricks reverse the rear-corner bond; front short bricks preserve the same footprint.
+1 14 -160 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -96 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -96 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 -200 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
-0 // STEP 3 - red door and green roof
-1 4 -120 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -200 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 2 280 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 3 - source page 3
+1 1 -240 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 4 - small orange car and side post
-1 25 -360 -72 -80 1 0 0 0 1 0 0 0 1 41989.dat
-1 25 -480 -120 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -280 -120 -120 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 15 360 -96 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 360 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - source page 4
+1 14 -160 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -192 -200 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 5 - source page 5
+0 // Two red side-hole Toolo bricks at X=+/-280,Z=-160, top=-240 are unresolved and omitted.
+1 1 -240 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -240 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -240 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 6 - source page 6
+0 // Toolo pivot bricks, axles, gears and crank/rollers unresolved; no additions in this partial draft.
+0 STEP
+
+0 // STEP 7 - source page 7
+0 // Toolo pivot bricks, axles, gears and crank/rollers unresolved; no additions in this partial draft.
+0 STEP
+
+0 // STEP 8 - source page 8
+0 // White mechanical unit, blue drum, gear and axle unresolved. Two identifiable blue support bricks depend on its unverified placement and are also omitted.
+0 STEP
+
+0 // STEP 9 - source page 9
+0 // Toolo pivot bricks, axles, gears and crank/rollers unresolved; no additions in this partial draft.
+0 STEP
+
+0 // STEP 10 - source page 10
+0 // Red hinged door plate is omitted: true pivot geometry and tilted contact are not yet confirmed; no horizontal stand-in.
+0 STEP
+
+0 // STEP 11 - source page 11
+0 // Adds yellow 9 long + 2 square then blue 10 long. Two front yellow squares lack direct support where the source has missing Toolo; the upper blue course reconnects them. No claim of complete load bearing.
+1 14 -160 -288 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -288 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -288 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -288 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -288 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -288 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -288 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -288 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -288 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -288 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -288 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -336 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -336 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -336 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -336 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -336 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 12 - source page 12
+0 // Two 8x16 plates form a 16x16 roof, seam Z=0. Each plate rests on both side walls; rear plate also rests on rear wall.
+1 2 0 -360 -160 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 0 -360 160 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+
+0 // STEP 13 - source page 13
+0 // Source vehicle chassis, wheels and seat are unresolved and omitted.
+0 STEP
+
+0 // STEP 14 - source page 14
+0 // Final cumulative partial shell; opening mechanism, door and vehicle remain INCOMPLETE.

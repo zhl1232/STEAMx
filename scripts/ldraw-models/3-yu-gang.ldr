@@ -1,11 +1,13 @@
-0 3+ 浴缸 - INCOMPLETE: reclining figure pose unresolved
+0 3+ 浴缸 - reclining figure restored; local review draft
 0 Name: 3-yu-gang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 NumOfBricks: 57
+0 NumOfBricks: 66
 0 // Source: /mnt/d/pdf预览/3+浴缸搭建说明_pdf pages 1-11
-0 // Accurate basin prefix pages 1-8. Pages 9-10 nine figure parts omitted: inclined support unresolved.
+0 // Basin pages 1-8 retained; nine-piece figure restored in source steps 9-10.
+0 // Loose reclining pose inferred from source and heel/pillow contact; no basin stud connection.
+0 // STEP9 figure needs temporary hand support until head is added in STEP10.
 0 // Tube flange seating is source-inferred; manual physical fit still needs confirmation.
 0 // STEP 1 - green 8x16 base and yellow 16x8 outer ring / 12x4 opening
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
@@ -80,9 +82,17 @@
 1 1 160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 9 - UNRESOLVED: two 2301b green feet and two yellow 3011 torso bricks omitted
-0 // Whole figure leans freely between blue floor and orange pillow; exact pitch/contact unresolved.
+0 // STEP 9 - two lime curved feet and two yellow torso bricks
+1 27 135.099408623 -122.056156119 40 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 2301b.dat
+1 27 135.099408623 -122.056156119 -40 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 2301b.dat
+1 14 167.915956928 -162.393163412 0 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3011.dat
+1 14 210.198817245 -185.112312239 0 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3011.dat
 0 STEP
-0 // STEP 10 - UNRESOLVED: two 3011 arms, 73162 eyes, green 3011 and 3437 hat omitted
+0 // STEP 10 - yellow arms and eyes, lime brim and crown
+1 14 252.481677562 -207.831461066 80 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3011.dat
+1 14 252.481677562 -207.831461066 -80 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3011.dat
+1 14 337.047398196 -253.26975872 0 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 73162p01.dat
+1 27 379.330258513 -275.988907547 0 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3011.dat
+1 27 421.613118829 -298.708056374 0 0 -0.880892923 0.473315601 0 0.473315601 0.880892923 -1 0 0 3437.dat
 0 STEP
-0 // STEP 11 - INCOMPLETE comparison view: nine figure parts absent
+0 // STEP 11 - finished comparison; loose resting figure, physical stability needs review

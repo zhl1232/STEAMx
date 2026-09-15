@@ -1,34 +1,51 @@
-0 4+ 篮球架 (Basketball Hoop) - DUPLO draft for manual repair
+0 4+ 篮球架 - source-restricted standard-parts draft
 0 Name: 4-lan-qiu-jia.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+篮球架 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Backboard, post, rim and court border are simplified.
-
-0 // STEP 1 - court base
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 -120 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source: /mnt/d/pdf预览/4+篮球架搭建说明_pdf pages 1-9.
+0 // INCOMPLETE: Toolo side-hole beams/panels/blocks and red hoop omitted; no approved geometry.
+0 // Standard-only BOM: 4x 40666, 1x blue 22119, 19x yellow 3437, 1x green 4268 (25 instances).
+0 // Hoop height/orientation is an estimate without missing Toolo backboard support.
+0 // STEP 1 - Toolo subassembly omitted
 0 STEP
-
-0 // STEP 2 - post
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - Toolo backboard omitted
 0 STEP
-
-0 // STEP 3 - backboard
-1 0 -120 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 40 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 200 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - Toolo backboard omitted
 0 STEP
-
-0 // STEP 4 - rim and ball
-1 4 40 -240 -160 0 0 1 0 1 0 -1 0 0 42029.dat
-1 1 -120 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - Toolo side-hole blocks omitted
+0 STEP
+0 // STEP 5 - Toolo side-hole panels omitted
+0 STEP
+0 // STEP 6 - Toolo support and red hoop omitted
+0 STEP
+0 // STEP 7 - four 40666 plates: 6x6 outer / 2x2 opening, edge contacts only
+1 14 -40 -880 -240 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 80 -840 -240 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 14 40 -720 -240 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 -80 -760 -240 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 1 0 -620 -80 1 0 0 0 1 0 0 0 1 22119.dat
+0 STEP
+0 // STEP 8 - 4268 base; 19x3437 U path, ends open toward the top
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -360 -48 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -360 -48 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -48 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -48 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -48 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -48 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - finished source view; height/ball position inferred; Toolo support and red hoop remain INCOMPLETE

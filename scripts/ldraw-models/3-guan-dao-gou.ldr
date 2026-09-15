@@ -1,0 +1,71 @@
+0 DUPLO Pipe Dog - PDF-aligned source draft
+0 Name: 3-guan-dao-gou.ldr
+0 Author: OpenAI
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 !LDRAW_ORG Model
+0 // Source: C:\Users\arron\Downloads\pdf预览\3+管道狗搭建说明_pdf, pages 1-10.
+0 // Uses confirmed DUPLO/LDraw parts only. Page 10 is the finished view with no new parts.
+0 // Coordinates: +Y down; ordinary DUPLO bricks use top-centered origins.
+0 // Draft evidence: /mnt/d/pdf预览/3+管道狗搭建说明_pdf, pages 1-10 (page 10 finished view).
+0 // Validation note: page 7 top plates touch previously built head/shoulder geometry in four
+0 // checker reports; retained as source-faithful assembly overlap for visual acceptance.
+
+0 // STEP 1 - source: four forward-facing feet, four green bricks and eight yellow bricks.
+1 2 -40 -48 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -80 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -48 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 280 -48 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 280 -48 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 2 - green 6 x 12 body plate
+1 2 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // STEP 3 - two yellow 31191 round doorway frames
+1 14 -200 -456 0 0 0 1 0 1 0 -1 0 0 31191.dat
+1 14 120 -456 0 0 0 1 0 1 0 -1 0 0 31191.dat
+0 STEP
+0 // STEP 4 - three yellow straight tube sections through the doorway frames
+1 14 -240.0 -346 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 -120.0 -346 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 0.0 -346 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 STEP
+0 // STEP 5 - source-corrected head / shoulder assembly
+1 14 200 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -360 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -312 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // STEP 6 - source-corrected head / shoulder assembly
+1 14 200 -408 -40 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 14 200 -408 40 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 14 200 -456 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 7 - source-corrected head / shoulder assembly
+1 14 120 -480 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 120 -480 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 120 -504 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 200 -480 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // STEP 8 - source-corrected head / shoulder assembly
+1 25 120 -456 -160 0 0 1 0 1 0 -1 0 0 2302.dat
+1 25 120 -408 -160 0 0 1 0 1 0 -1 0 0 2302.dat
+1 25 120 -456 160 0 0 -1 0 1 0 1 0 0 2302.dat
+1 25 120 -408 160 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+0 // STEP 9 - exact tail chain, assembled from top downward to the frame.
+1 14 -360.0 -346 0 0 0 1 0 1 0 -1 0 0 31452.dat
+1 14 -480.0 -466 0 -1 0 0 0 0 1 0 1 0 31195.dat
+1 14 -444.853 -381.147 0 -0.707106781187 0 0.707106781187 0.707106781187 0 0.707106781187 0 1 0 31195.dat
+1 14 -480.0 -586 0 -1 0 0 0 0 1 0 1 0 31452.dat

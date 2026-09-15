@@ -1,10 +1,10 @@
-0 Diving goggles - source-reviewed pages 1-12; draft remains INCOMPLETE pending final acceptance
+0 Diving goggles - source-reviewed pages 1-12; local candidate pending human acceptance
 0 // 148 placements in 12 source steps. Not published or Studio-verified.
-0 // Source: 3-qian-shui-jing.pdf pages 1-12; review: .tmp/batch-b/goggles-review-ledger.md
+0 // Source: 3-qian-shui-jing.pdf pages 1-12; review: .tmp/goggles-repair-0910/review.md; prior pages 1-9: .tmp/batch-b/goggles-review-ledger.md
 0 // Pages 10-11 are reconstructed from the source inventory and visual landmarks.
 0 // Review warnings: hidden reef stud offsets and exact page-11 grid anchors need final human confirmation.
 0 // Page 12 is the finished arrangement and adds no parts.
-0 // Pages 1-9 have the completed per-page renderer review; full-scene acceptance remains incomplete.
+0 // Pages 1-9 have the completed per-page renderer review; full-scene acceptance remains pending.
 0 // +X source right, +Y down, -Z front. Frame ground bottom y=0.
 0 // Page 1: one red frame below two yellow frames. 3 cumulative pieces.
 1 4 240 -240 540 1 0 0 0 1 0 0 0 1 31191.dat
@@ -82,31 +82,35 @@
 1 27 -200 -168 -80 0 0 -1 0 1 0 1 0 0 3437pe1.dat
 0 STEP
 0 // Page 9: starfish;8 plain and2 eye bricks
-1 14 0 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 40 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 40 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
-1 14 120 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
-1 14 80 -240 -360 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 12: shifted +280 X (7 studs); right foot reaches the +X board edge.
+1 14 280 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -48 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 400 -96 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -144 -360 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 400 -192 -360 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 360 -240 -360 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 0 // Page 10: two four-plate green reef clusters; 8 new, 75 cumulative.
 0 // Two 2x4 plates form each lower layer and two perpendicular plates interlock above.
 0 // Hidden stud offsets are inferred from the source silhouette and remain review warnings.
+0 // Each rear upper reef plate has only one supporting stud (seven cantilevered); physical stability unverified.
+0 // Right reef shifted +200 Z (5 studs) behind the starfish; exact anchor remains inferred.
 1 2 -400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 2 -320 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
 1 2 -400 -48 -280 0 0 -1 0 1 0 1 0 0 40666.dat
 1 2 -320 -48 -360 0 0 -1 0 1 0 1 0 0 40666.dat
-1 2 280 -24 -400 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 360 -24 -320 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 280 -48 -240 0 0 -1 0 1 0 1 0 0 40666.dat
-1 2 360 -48 -320 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 280 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 360 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 280 -48 -40 0 0 -1 0 1 0 1 0 0 40666.dat
+1 2 360 -48 -120 0 0 -1 0 1 0 1 0 0 40666.dat
 0 STEP
 0 // Page 11: 24x24 seabed and 72 alternating blue/light-blue plates; 73 new, 148 cumulative.
 0 // The 4268 base is tiled six plates across by twelve rows; animals remain on the tile top.
+0 // Each 4x4-stud color square uses two 2x4 plates; alternate color every two plate rows.
 1 2 0 24 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 1 -400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
@@ -114,18 +118,18 @@
 1 9 80 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -400 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 -240 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -80 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
@@ -138,18 +142,18 @@
 1 9 80 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 240 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 400 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -400 0 120 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 -240 0 120 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -80 0 120 1 0 0 0 1 0 0 0 1 40666.dat
@@ -162,18 +166,18 @@
 1 9 80 0 200 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 240 0 200 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 400 0 200 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 -240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
-1 9 400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 -80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 9 240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -400 0 440 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 -240 0 440 1 0 0 0 1 0 0 0 1 40666.dat
 1 9 -80 0 440 1 0 0 0 1 0 0 0 1 40666.dat

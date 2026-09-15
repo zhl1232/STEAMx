@@ -1,12 +1,14 @@
 0 3+ 章鱼 - source reconstructed local draft
+0 // Review: rear hidden green plate coordinates remain inferred from the adjacent visible island; pending human acceptance.
 0 Name: 3-zhang-yu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 NumOfBricks: 156
 0 // Source: local 3+章鱼搭建说明 pages 1-11.
-0 // INCOMPLETE verification: P9 two hidden green pieces thickness and position are unresolved.
-0 // Green islands are a provisional five-island arrangement; eight red legs support the body.
+0 // Source review 2026-09-09: P9 green 2x4 pair is placed as a rear island at z=360/440;
+0 // the front member is occluded by the body in the source view. P10 adds the ten green 2x8 plates.
+0 // Green island locations follow the source's five-island arrangement; eight red legs support the body.
 0 // STEP 1 - eight yellow thin radial plates sandwiched by two grey 8x8 plates
 1 7 0 0 0 1 0 0 0 1 0 0 0 1 51262.dat
 1 14 -200 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat

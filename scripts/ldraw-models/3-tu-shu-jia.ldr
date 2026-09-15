@@ -1,15 +1,15 @@
-0 3+ 图书架 (Bookshelf) - partial local PDF reconstruction
+0 3+ 图书架 (Bookshelf) - review variant: printed decorations omitted by user
 0 Name: 3-tu-shu-jia.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 NumOfBricks: 276
 0 // Source: /mnt/d/pdf预览/3+图书架搭建说明_pdf pages 1-12
-0 // INCOMPLETE: six printed animal panels omitted; source depicts thin panels on vertical book faces.
-0 // Actual 31111 printed bricks are thick; attachment/orientation unresolved. Not an acceptance candidate.
+0 // User-requested variant: all six printed animal decorations omitted.
+0 // 276 physical placements remain; omitted decorations are not included in this count.
 0 // STEP 1 - Six feet and two 8x16 shelf plates
-1 10 -320 0 0 1 0 0 0 1 0 0 0 1 6490.dat
-1 10 320 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 -320 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 320 0 0 1 0 0 0 1 0 0 0 1 6490.dat
 1 14 -600 24 -80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -600 24 80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 0 24 -80 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -86,8 +86,8 @@
 1 14 600 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // STEP 3 - Two supported upper plates
-1 10 -320 -552 0 1 0 0 0 1 0 0 0 1 6490.dat
-1 10 320 -552 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 -320 -552 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 320 -552 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
 0 // STEP 4 - Blue book alternating spine and front halves
 1 1 -360 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat

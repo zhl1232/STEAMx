@@ -1,38 +1,63 @@
-0 4+ 电话机 (Telephone) - DUPLO draft for manual repair
+0 4+ 电话机 (Telephone) - source-reconstruction draft
 0 Name: 4-dian-hua-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+电话机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Receiver tube, cradle and rotary dial are simplified.
+0 // INCOMPLETE: Toolo dial/cradle/upper plates and tube receiver omitted pending support/port checks.
+0 // Source: /mnt/d/pdf预览/4+电话机搭建说明_pdf pages 1,2,4 and duplicate-folder page 3.
+0 // Source page 3 is absent from the primary folder; duplicate page is retained in scratch evidence.
+0 // Steps 5-8 Toolo/special geometry intentionally unresolved; no substitute geometry is inserted.
+0 // Steps 1-4 rebuilt from confirmed 4196/3011 geometry on the 40 LDU grid.
 
-0 // STEP 1 - red base
-1 4 -480 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 480 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 1 - two red 6 x 12 plates form the 12 x 12 base
+1 4 0 -24 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
-0 // STEP 2 - orange phone body
-1 25 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -160 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 0 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 160 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 2 - ten red 2 x 4 bricks, square outer wall/ring
+1 4 -160 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 3 - dial and posts
-1 14 120 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -120 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 240 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - first orange 2 x 4 ring layer (eight interleaved bricks)
+1 25 -120 -120 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 40 -120 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 120 -120 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -40 -120 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -120 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -160 -120 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -160 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 160 -120 40 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 4 - blue receiver tube
-1 1 -220 -264 -80 0 0 1 0 1 0 -1 0 0 31195.dat
-1 1 -100 -264 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 40 -264 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 180 -264 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 320 -264 -80 0 0 1 0 1 0 -1 0 0 31195.dat
+0 // STEP 4 - second orange 2 x 4 ring layer (eight interleaved bricks)
+1 25 120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -40 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -120 -168 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 40 -168 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -168 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -160 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 160 -168 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 160 -168 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEPS 5-8 intentionally empty pending confirmed Toolo geometry.
+0 // STEP 5 unresolved black side-hole pieces x4
+0 STEP
+0 // STEP 6 unresolved dial/backing x1
+0 STEP
+0 // STEP 7 unresolved black side-hole pieces x2
+0 STEP
+0 // STEP 8 unresolved gray cradle assemblies x4
+0 STEP
+0 // STEP 9 tube chain pending port placement/support review: 31452 x3, 31195 x4
+0 STEP
+0 // STEP 10 finished view has no additions

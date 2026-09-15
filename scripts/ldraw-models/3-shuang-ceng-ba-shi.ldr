@@ -1,99 +1,86 @@
-0 3+ 双层巴士 (Double-Decker Bus) - DUPLO reconstruction draft
-0 Name: 3-shuang-ceng-ba-shi.ldr
-0 Author: OpenAI
-0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: /mnt/d/pdf预览/3+双层巴士搭建说明_pdf/3+双层巴士搭建说明-1..10.jpg
-0 // Confirmed source order and quantities are preserved. Y is LDraw down axis.
-0 // INCOMPLETE: source red round door, tan curved windshield, and red seats have no
-0 // confirmed local part IDs; intentionally omitted rather than substituted.
-
-0 // STEP 1 - four wheeled chassis and green 8 x 16 plate
-1 4 -240 24 0 1 0 0 0 1 0 0 0 1 10715p02.dat
-1 4 -80 24 0 1 0 0 0 1 0 0 0 1 10715p02.dat
-1 4 80 24 0 1 0 0 0 1 0 0 0 1 10715p02.dat
-1 4 240 24 0 1 0 0 0 1 0 0 0 1 10715p02.dat
+0 3+ Double-Decker Bus - INCOMPLETE local source reconstruction
+0 // 2026-09-11 correction: canopy convex face forward, opening rear; front rim rests on simplified console. Snap fit unverified.
+0 // Source: /mnt/d/pdf预览/3+双层巴士搭建说明_pdf pages1-10.
+0 // User confirmed: round door 31193; cockpit base 31196c01; canopy 17562 = official6345.
+0 // INCOMPLETE: historical local 31193 added as a provisional closed-door preview; exact hinge fit and provenance unresolved.
+0 // User-authorized LOCAL SIMPLIFIED31196c01 cockpit; revised height 2026-09-11.
+0 // INCOMPLETE: official6345 canopy flipped to front connector; local approximate fit, real snap retention unverified.
+0 // Hidden anchors are inferred. Page10 is final view without additions; not accepted.
+0 // Source page 1
+1 4 -200 24 -80 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 -200 24 80 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 200 24 -80 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 200 24 80 0 0 -1 0 1 0 1 0 0 10715p02.dat
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 2 - yellow rear round-door frame and unresolved door/windshield
-1 14 -240 -240 0 1 0 0 0 1 0 0 0 1 31191.dat
-0 // INCOMPLETE: red round door, 1x; no confirmed local LDraw ID
-0 // INCOMPLETE: tan curved windshield, 1x; no confirmed local LDraw ID
+0 // Source page 2
+0 // 2026-09-11 source correction: cockpit rear deck X=-320..-240 rests on front two floor rows; nose projects outside to X=-481.
+1 14 -200 -240 -120 1 0 0 0 1 0 0 0 1 31191.dat
+0 // 31193 circle aligned to frame Y=110; door back at frame Z=-15. Hinge engagement NOT verified.
+1 4 -200 -31.551 -137.5 1 0 0 0 1 0 0 0 1 31193.dat
+1 4 -320 -24 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -468 -58 0 0 1 0 0 0 1 1 0 0 6345.dat
 0 STEP
-
-0 // STEP 3 - yellow lower deck perimeter (one 2x2 and seven 2x4 bricks)
-1 14 -240 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source page 3
+1 14 0 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
-
-0 // STEP 4 - red window frames and closed white panes (five each)
-1 4 -80 -192 120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 -14.5 -120 80 1 0 0 0 1 0 0 0 1 90265.dat
-1 4 80 -192 120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 145.5 -120 80 1 0 0 0 1 0 0 0 1 90265.dat
-1 4 240 -192 120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 305.5 -120 80 1 0 0 0 1 0 0 0 1 90265.dat
-1 4 -80 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 -14.5 -120 -160 1 0 0 0 1 0 0 0 1 90265.dat
-1 4 80 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 145.5 -120 -160 1 0 0 0 1 0 0 0 1 90265.dat
-0 // Pane placements use the confirmed frame-relative offset (+65.5,+72,-40).
-0 // INCOMPLETE: closed panes are hinge-origin parts and require manual visual review.
+0 // Source page 4
+1 4 0 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 65.5 -120 -160 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 160 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 225.5 -120 -160 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -160 -192 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -225.5 -120 160 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 0 -192 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -65.5 -120 160 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 160 -192 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 94.5 -120 160 -1 0 0 0 1 0 0 0 -1 90265.dat
 0 STEP
-
-0 // STEP 5 - yellow side and front wall course (three 2x2 and six 2x4)
-1 14 -240 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -192 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source page 5
+1 14 -280 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -96 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -96 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -144 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -144 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -280 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -192 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 280 -192 80 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
-
-0 // STEP 6 - yellow upper wall course (one 2x2 and seven 2x4)
-1 14 -240 -240 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 6
+1 14 0 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 -80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 80 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 240 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
-
-0 // STEP 7 - green upper-deck plate
-1 2 0 -288 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 // Source page 7
+1 2 0 -264 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 8 - six white posts with red-striped rails
-1 15 -120 -384 -120 1 0 0 0 1 0 0 0 1 31021p01.dat
-1 15 120 -384 -120 1 0 0 0 1 0 0 0 1 31021p01.dat
-1 15 -120 -384 120 1 0 0 0 1 0 0 0 1 31021p01.dat
-1 15 120 -384 120 1 0 0 0 1 0 0 0 1 31021p01.dat
-1 15 -280 -384 0 0 0 1 0 1 0 -1 0 0 31021p01.dat
-1 15 280 -384 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
+0 // Source page 8
+1 15 -120 -360 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -360 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 -360 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -360 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -300 -360 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 300 -360 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
 0 STEP
-
-0 // STEP 9 - six coloured curved-top passenger seats
-1 1 -200 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-1 1 -120 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-1 4 -40 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-1 4 40 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-1 14 120 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-1 14 200 -337 0 1 0 0 0 1 0 0 0 1 2302b.dat
-0 // INCOMPLETE: source red seat variant is unresolved and omitted.
+0 // Source page 9
+1 4 -120 -312 -80 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 4 -120 -312 80 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 40 -312 -80 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 40 -312 80 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 200 -312 -80 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 200 -312 80 0 0 1 0 1 0 -1 0 0 2302b.dat
 0 STEP
-
-0 // STEP 10 - finished double-decker bus; no new parts
-0 // INCOMPLETE: red round door, tan windshield, and red seats remain unresolved.
-0 NOFILE
+0 // Source page 10

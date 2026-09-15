@@ -1,36 +1,102 @@
-0 4+ 照相机 (Camera) - DUPLO draft for manual repair
+0 4+ 照相机 (Camera) - DUPLO source reconstruction draft
 0 Name: 4-zhao-xiang-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+照相机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tripod, lens barrel, flash and body stripes are simplified.
+0 // Source: /mnt/d/pdf预览/4+照相机搭建说明_pdf/ (17 pages, 3508x2483 each)
+0 // 16 STEP boundaries follow source pages 1-16; page 17 is the finished view.
+0 // Confirmed standard BOM: 4268x1, 6490x2, 3011x40, 3437x5, 31191x1,
+0 // 31452x3, 40666x1, 73162p01x1 = 54 instances.
+0 // INCOMPLETE: source tripod/mechanical supports and red 31195 elbow assembly
+0 // are unresolved. 31195 remains excluded pending interface review.
 
-0 // STEP 1 - tripod legs
-1 0 -140 -48 120 0.866 0 0.500 0 1 0 -0.500 0 0.866 31452.dat
-1 0 140 -48 120 0.866 0 -0.500 0 1 0 0.500 0 0.866 31452.dat
-1 0 0 -48 -120 1 0 0 0 1 0 0 0 1 31452.dat
-1 8 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 1 / source page 1 - confirmed 24x24 base
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 0 STEP
-
-0 // STEP 2 - striped camera body
-1 1 -120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 200 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 40 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 / source page 2 - tripod leg geometry unresolved (INCOMPLETE)
 0 STEP
-
-0 // STEP 3 - blue front lens
-1 1 -260 -216 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -380 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
-1 0 -460 -216 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // STEP 3 / source page 3 - tripod head geometry unresolved (INCOMPLETE)
 0 STEP
-
-0 // STEP 4 - top finder and red flash
-1 14 -60 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 60 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -312 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 240 -416 -80 1 0 0 0 1 0 0 0 1 42029.dat
+0 // STEP 4 / source page 4 - tripod platform geometry unresolved (INCOMPLETE)
+0 STEP
+0 // STEP 5 / source page 5 - tripod platform geometry unresolved (INCOMPLETE)
+0 STEP
+0 // STEP 6 / source page 6 - confirmed 6490 upper support plate; tripod support remains missing
+1 2 0 -800 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // STEP 7 / source page 7 - official yellow round doorway frame; front +Z view gap is [-160,80] (screen-left +X, 6/4 studs).
+1 14 -40 -1040 120 -1 0 0 0 1 0 0 0 -1 31191.dat
+0 STEP
+0 // STEP 8 / source page 8 - three blue straight tube sections
+1 1 -40 -930 120 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 -40 -930 240 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 -40 -930 360 1 0 0 0 1 0 0 0 1 31452.dat
+0 // Tube/frame fit is a manual review item; ports alone do not prove physical support.
+0 STEP
+0 // STEP 9 / source page 9 - blue wall layer A: 8 long + 1 short
+1 1 240 -848 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -848 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -848 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -848 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -848 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -848 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -848 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -848 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -848 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 10 / source page 10 - yellow wall layer B, staggered corners
+1 14 280 -896 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -896 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -896 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -896 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -896 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -896 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -896 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -896 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -896 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 11 / source page 11 - blue wall layer A
+1 1 240 -944 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -944 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -944 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -944 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -944 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -944 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -944 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -944 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -944 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 12 / source page 12 - yellow wall layer B
+1 14 280 -992 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -992 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -992 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -992 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -992 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -992 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -992 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -992 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -992 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 13 / source page 13 - blue wall layer A
+1 1 240 -1040 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -1040 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -1040 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -1040 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -1040 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -1040 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -1040 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -1040 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -1040 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 14 / source page 14 - green top plate
+1 2 0 -1064 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // STEP 15 / source page 15 - yellow rear upper detail
+1 14 240 -1088 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 240 -1184 -120 -1 0 0 0 1 0 0 0 -1 73162p01.dat
+0 // Eye orientation selected toward +Z; verify printed face in preview.
+0 STEP
+0 // Display height: body bottom top surface Y=-800, inferred from source tripod height.
+0 // STEP 16 / source page 16 - red 31195 elbow assembly omitted unresolved
+0 STEP
+0 // SOURCE PAGE 17 - finished reference image only; no new parts.

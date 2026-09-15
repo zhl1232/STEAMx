@@ -1,45 +1,75 @@
-0 4+ 安检机 (Security Scanner) - DUPLO draft for manual repair
+0 4+ Security Scanner - source reconstruction draft
 0 Name: 4-an-jian-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+安检机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Conveyor, scanner box and sloped ramp are simplified.
-
-0 // STEP 1 - green floor and conveyor base
-1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -240 -72 40 1 0 0 0 1 0 0 0 1 4196.dat
-1 0 240 -72 40 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STATUS: INCOMPLETE. Toolo conveyor deck/rollers/belts/ramp and figure omitted.
+0 // Source: /mnt/d/pdf预览/4+安检机搭建说明_pdf/4+安检机搭建说明-1.jpg ... -10.jpg
+0 // Source 1 raised plate is 8x16 (6490), not 4x8: counted source stud rows.
+0 // +Y down; conveyor runs Z, front +Z. Toolo deck 48 LDU thickness inferred only.
+0 // SOURCE 1: green 24x24 base and raised 8x16 plate
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 2 0 -24 -80 0 0 1 0 1 0 -1 0 0 6490.dat
 0 STEP
-
-0 // STEP 2 - yellow scanner bed
-1 14 -220 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -60 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 100 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 260 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE 2: two 12x2 rails, each THREE bricks per layer and TWO layers; one low rear crosspiece
+1 14 -120 -72 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -72 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -120 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -120 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -72 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -72 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -120 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -120 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 -360 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - red scanner tunnel
-1 4 -180 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -20 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -180 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -20 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -180 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -20 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE 3: two yellow crosswise bricks at rail centers; four black Toolo side-hole panels omitted
+1 14 -120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - grey roof and right control box
-1 8 -100 -288 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 260 -168 20 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 260 -216 20 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 260 -264 20 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE 4: eight axle/rollers and four black conveyor pieces unresolved
 0 STEP
-
-0 // STEP 5 - exit ramp and small figure marker
-1 8 560 -144 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 8 680 -96 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 14 360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 360 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE 5: two 8x2 four-course red walls; lower bricks partly depend on omitted deck
+1 4 -120 -216 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -216 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -216 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -216 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -264 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -264 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -264 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -264 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -264 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -264 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -312 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -312 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -360 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -360 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -360 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -360 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE 6: gray 8x8 roof, thickness24; orange3437 cargo omitted: hidden position/belt support unresolved
+1 72 0 -384 -160 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // SOURCE 7: two red bricks with four curves ABOVE; two yellow side-hole supports underneath omitted
+1 4 -80 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 -40 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 40 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 120 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // Entry six-part component is unsupported until missing yellow Toolo blocks are resolved.
+0 STEP
+0 // SOURCE 8: two hinge blocks and two sloped Toolo ramp arms unresolved
+0 STEP
+0 // SOURCE 9: 4x4 yellow figure stand, two parallel bricks and upper crosswise brick; figure unresolved
+1 14 -320 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -96 200 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE 10: finished reference only; mechanical reconstruction remains incomplete

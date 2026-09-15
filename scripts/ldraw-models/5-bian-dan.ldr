@@ -1,41 +1,77 @@
-0 5+ 扁担 (Shoulder Pole) - DUPLO draft for manual repair
+0 5+ 扁担 - source-matched partial bucket subassemblies
 0 Name: 5-bian-dan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+扁担 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long Technic beam, hanging cords, pulleys and basket details are simplified.
-
-0 // STEP 1 - long shoulder pole
-1 14 -360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -40 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 120 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 280 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // SOURCE: /mnt/d/pdf预览/5+扁担搭建说明_pdf/5+扁担搭建说明-{1..13}.jpg
+0 // STATUS: INCOMPLETE. Mechanical shoulder beam, axles, wheels, strings, hooks and side-hole bricks omitted.
+0 // Source 7/8 and 10/11 restore two standard bucket bodies; display separation is inferred, not beam length.
+0 // STEP 1 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP
-
-0 // STEP 2 - red/yellow rollers along the pole
-1 14 -420 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -260 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -100 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 60 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 220 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 380 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP
-
-0 // STEP 3 - hanging cords
-1 0 -360 -144 0 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 -360 -48 0 1 0 0 0 0 -1 0 1 0 40666.dat
-1 0 360 -144 0 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 360 -48 0 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // STEP 3 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP
-
-0 // STEP 4 - blue carrying baskets
-1 1 -420 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -260 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -340 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 300 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 460 -24 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 380 -72 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 STEP
+0 // STEP 5 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 STEP
+0 // STEP 6 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 STEP
+0 // STEP 7 - gray 8x8 base + twelve blue 3011, two bonded open 8x8 rings
+1 7 -640 0 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -720 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -720 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -560 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -560 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -760 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -760 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -520 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -760 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -520 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 8 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
+1 4 -760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -720 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -560 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -760 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -520 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+0 STEP
+0 // STEP 9 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 STEP
+0 // STEP 10 - gray 8x8 base + twelve blue 3011, two bonded open 8x8 rings
+1 7 640 0 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 560 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 560 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 720 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 720 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 760 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 520 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 760 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 520 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 760 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 11 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
+1 4 520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 560 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 720 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 520 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 760 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+0 STEP
+0 // STEP 12 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 STEP
+0 // STEP 13 - finished source reference; no additions, no functional hanging assembly claimed

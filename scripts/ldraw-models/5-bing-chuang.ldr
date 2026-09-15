@@ -1,39 +1,68 @@
-0 5+ 病床 (Hospital Bed) - DUPLO draft for manual repair
+0 5+ 病床 (Hospital Bed) - source-grounded local draft
 0 Name: 5-bing-chuang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+病床 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Adjustable back rest, railings, patient figure and wheels are simplified.
+0 // Source: /mnt/d/pdf预览/5+病床搭建说明_pdf, pages 1-11.
+0 // Status: INCOMPLETE - unresolved Toolo/axle/gear/figure geometry is intentionally omitted.
+0 // Geometry: standard confirmed local LDraw parts only; 40 LDU stud pitch.
+0 // Support: platform is connected at the supplemented end only; missing side-hole beams must support its far end.
 
-0 // STEP 1 - green floor and red bed frame
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 1 - green 24x24 base and four red three-brick legs (12 + 1)
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 4 -160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 2 - mattress and gray side rails
-1 15 -160 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 0 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 160 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 -200 -168 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 200 -168 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 2 - red short end beams and red 2x10 hole side beams (4)
+1 4 -160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // UNRESOLVED source page 2: two long Toolo beams; no substitute placed.
 0 STEP
 
-0 // STEP 3 - raised backrest and pillow
-1 1 260 -216 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 1 360 -288 -160 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 14 440 -336 -200 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 15 300 -264 -280 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - green 6x12 platform and two striped safety barriers (3)
+1 2 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 15 -80 -312 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -80 -312 100 1 0 0 0 1 0 0 0 1 31021p01.dat
 0 STEP
 
-0 // STEP 4 - patient and bed accessories
-1 25 40 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -40 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -260 -120 80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 8 -260 -216 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -240 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 240 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - yellow raised back-rest slopes; axle/round details unresolved (2)
+0 // No placement: source slope-to-axle angle and support are not confirmed.
+0 STEP
+
+0 // STEP 5 - red side blocks; rods and four round details unresolved (2)
+0 // No placement: rods/round pieces lack confirmed IDs and support.
+0 STEP
+
+0 // STEP 6 - blue body plates shown as standard 2x4 bricks (3)
+0 // No placement: source pieces are plates in a tilted mechanism; angle/support unresolved.
+0 STEP
+
+0 // STEP 7 - Toolo/gear/holder mechanism unresolved; source boundary retained
+0 // UNRESOLVED source page 7: two rods, blue hub, red gear and white holder. No guessed IDs.
+0 STEP
+
+0 // STEP 8 - confirmed black 25/53 x 19 tyre; yellow round pieces unresolved (1)
+0 // No placement: tyre mounting axis and two yellow round pieces are unresolved.
+0 STEP
+
+0 // STEP 9 - Toolo hinge details unresolved; source boundary retained
+0 // UNRESOLVED source page 9: four yellow Toolo hinge pieces. No guessed IDs.
+0 STEP
+
+0 // STEP 10 - confirmed colored standard bricks; figure and printed eyes unresolved (5)
+0 // No placement: red/blue/orange pieces and patient depend on unresolved back assembly.
+0 STEP
+
+0 // STEP 11 - finished view, no additions
+0 // INCOMPLETE: unresolved source components remain intentionally visible in the ledger.

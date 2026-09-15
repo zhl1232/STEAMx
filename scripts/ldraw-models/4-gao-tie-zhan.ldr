@@ -1,44 +1,149 @@
-0 4+ 高铁站 (High-Speed Rail Station) - DUPLO draft for manual repair
+0 4+ 高铁站 source reconstruction draft
 0 Name: 4-gao-tie-zhan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+高铁站 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Station platforms, train and shelters are simplified.
-
-0 // STEP 1 - long station base
-1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 // Source: 4+高铁站搭建说明_pdf; steps 1-7 visually reconstructed.
+0 // INCOMPLETE: source 8-18 train/figures omitted; Toolo base, wheel mounts and cab geometry unresolved.
+0 // Source directory: /mnt/d/pdf预览/4+高铁站搭建说明_pdf (18 pages).
+0 // Base anchors, hidden support brick seams and sleeper spacing are source-outline inferences.
+0 // STEP 1 - three 24 x 24 green baseplates
+1 2 -960 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 2 960 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 0 STEP
-
-0 // STEP 2 - yellow platforms
-1 14 -480 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -320 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 320 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 480 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - two orange 17-brick rails
+1 25 -1280 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -960 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -640 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -480 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -320 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 480 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 640 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 800 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 960 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1280 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1280 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1120 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -960 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -640 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -480 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -320 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -160 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 0 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 480 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 640 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 800 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 960 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1280 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - train cars
-1 4 -320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -220 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 20 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 260 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 3 - eight pairs of yellow cross plates
+1 14 -1120 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -1120 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -800 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -800 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -480 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -480 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -160 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -160 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 160 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 160 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 480 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 480 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 800 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 800 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 1120 -24 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 1120 -24 120 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 4 - station shelters
-1 15 -520 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -520 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -520 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 520 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 520 -168 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 520 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 4 - left station orange lower supports and red floor
+1 25 -1120 -48 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1120 -96 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1120 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -1120 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -48 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -96 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -800 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -960 -120 -320 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // STEP 5 - left station yellow upper columns and red roof
+1 14 -1160 -168 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -216 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -264 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -312 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -168 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -216 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -264 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -1160 -312 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -168 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -216 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -264 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -312 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -168 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -216 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -264 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -760 -312 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -960 -336 -320 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // STEP 6 - right shelter orange lower supports and green floor
+1 25 800 -48 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 800 -96 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 800 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 800 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -48 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -96 -400 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 1120 -96 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 960 -120 -320 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // STEP 7 - right shelter yellow upper columns and green roof
+1 14 760 -168 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -216 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -264 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -312 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -168 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -216 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -264 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 760 -312 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -168 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -216 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -264 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -312 -400 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -168 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -216 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -264 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -312 -240 1 0 0 0 1 0 0 0 1 3437.dat
+1 2 960 -336 -320 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // STEP 8 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 9 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 10 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 11 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 12 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 13 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 14 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 15 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 16 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 17 - Toolo/vehicle-specific geometry pending
+0 STEP
+0 // STEP 18 - Toolo/vehicle-specific geometry pending

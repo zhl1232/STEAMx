@@ -1,38 +1,126 @@
-0 5+ 布谷鸟 (Cuckoo Bird) - DUPLO draft for manual repair
+0 5+ 布谷鸟 - source-reviewed partial local draft
 0 Name: 5-bu-gu-niao.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+布谷鸟 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Bird body, nest box, crank, eye and layered feathers are simplified.
+0 // SOURCE: /mnt/d/pdf预览/5+布谷鸟搭建说明_pdf; 13 original instruction pages.
+0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.
+0 // Local draft only. Geometry and source assumptions: .tmp/ldr-next-fiveplus-20260912/FINAL-REVIEW.md
 
-0 // STEP 1 - red/green base box
-1 2 -120 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 1 - source page 1
+0 // Green 8x16 base; red 8x8 well centered X=-160, three courses of six ordinary 3011 bricks. Middle course rotated 90 degrees for bond. No side-hole substitutions.
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 -240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 2 - green feathered body
-1 2 -40 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 120 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -40 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 120 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 40 -240 -120 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 2 - source page 2
+0 // One yellow 3011 under front mechanical tower. Three red Toolo side-hole bricks omitted. Rear assembly absolute grid anchors are inferred from the source.
+1 14 80 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 3 - head and beak
-1 1 -180 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -300 -216 -160 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -360 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // STEP 3 - source page 3
+0 // Six yellow long and two yellow square bricks: three-layer rear column and two two-layer side feet. Visible front foot has two short top bricks; hidden rear-foot seam is inferred. Rear red Toolo cap omitted.
+1 14 240 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
-0 // STEP 4 - yellow foot and rear crank
-1 14 240 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 320 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 360 -144 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 440 -192 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // STEP 4 - source page 4
+0 // Source blue gear, axle and crank/coupler are unresolved; modern studded gear bricks are NOT replacements.
+0 STEP
+
+0 // STEP 5 - source page 5
+0 // Gray 8x8 plate bottom=-144 rests on red ring top=-144.
+1 7 -160 -168 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 6 - source page 6
+0 // Toolo lever, gear, crank, pulley, axle and long red side-hole carrier unresolved and omitted.
+0 STEP
+
+0 // STEP 7 - source page 7
+0 // Toolo lever, gear, crank, pulley, axle and long red side-hole carrier unresolved and omitted.
+0 STEP
+
+0 // STEP 8 - source page 8
+0 // Separate 3-piece bird subassembly, facing -X: two inverted inside curves and inverted yellow eye head. Head studs at X=-380/-340,Z=-60/-20/20/60 enter the blue underside sockets at Y=-312. Missing carrier anchor/connection at Y=-216 is inferred, not verified; no direct attachment to the well claimed.
+1 1 -300 -216 -40 0 0 1 0 -1 0 1 0 0 2301b.dat
+1 1 -300 -216 40 0 0 1 0 -1 0 1 0 0 2301b.dat
+1 14 -360 -312 0 0 0 1 0 -1 0 1 0 0 73162p01.dat
+0 STEP
+
+0 // STEP 9 - source page 9
+0 // Six lime long + four lime square bricks, two courses per side. One-stud transverse zigzag offsets and hidden seams are source-constrained grid inference; every shifted course overlaps its support by at least one stud row.
+1 27 -240 -216 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -216 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -240 -216 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -216 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -160 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -264 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -264 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -160 -264 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -264 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -264 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 10 - source page 10
+0 // Six lime long + four lime square bricks, two courses per side. One-stud transverse zigzag offsets and hidden seams are source-constrained grid inference; every shifted course overlaps its support by at least one stud row.
+1 27 -160 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -312 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -312 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -160 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -312 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -312 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -240 -360 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -360 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -240 -360 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -360 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 11 - source page 11
+0 // Six lime long + four lime square bricks, two courses per side. One-stud transverse zigzag offsets and hidden seams are source-constrained grid inference; every shifted course overlaps its support by at least one stud row.
+1 27 -240 -408 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -408 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -240 -408 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -408 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -160 -456 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -456 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -456 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -160 -456 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 -456 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -40 -456 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 12 - source page 12
+0 // Four lime long bricks complete the seventh side course; gray 8x8 roof overlaps each outer-offset wall by one stud row. Top=-528, bottom=-504. No mechanical load-bearing conclusion.
+1 27 -240 -504 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -504 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -240 -504 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -80 -504 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 -160 -528 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+
+0 // STEP 13 - source page 13
+0 // Final partial shell plus separate bird. Missing Toolo towers/drive/carrier prevent full mechanical assembly.

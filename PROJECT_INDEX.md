@@ -2,7 +2,7 @@
 
 > 小迪对话前置澄清补充：只有当学生的对象、目标或关键范围不清楚、继续回答可能答非所问时，才用结构化选项确认；清楚的知识问题直接回答，清楚的课程/项目请求直接检索。积木三选一（「通用积木搭建 / 大颗粒积木 / 兼容乐高的积木或零件」）只是示例，不是唯一规则。`lib/ai/tutor/resource-clarification.ts` 负责跨 SSE、活动会话和历史回看的类型与归一化。
 
-> 本文档为 AI 阅读代码时的导航索引。按功能模块组织，标注每个模块的职责与关键文件位置。
+> 本文档为 AI 阅读代码时的导航索引。按功能模块组织，标注每个模块的职责与关键文件位置。当前规范与维护说明从 [文档导航](docs/README.md) 进入，历史方案与验收过程保存在 `docs/archive/`。
 >
 > 开发约定：
 > - AI/自动化工具开始改动前，先阅读本文档对应模块；不确定文件归属时，先补充索引再改代码。
@@ -86,7 +86,7 @@
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
 | `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用 AI sprite，并可切回原版 sprite 对比） |
 | `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
-| `/ldraw-preview` | `app/ldraw-preview/page.tsx` + `components/features/ldraw/ldraw-preview-workspace.tsx` | LDraw 3D 预览工作台：收录全部 `.ldr` 模型并标注 MPD 存在/未打包状态，支持按分类检索、分步搭建回放、多视角、辅助线及自定义源码即时渲染；`?model=<文件名.ldr>` 直达单模型，`?models=<逗号分隔文件名>` 限定待验收批次并提供上一个/下一个模型及显示全部；提供“修复完待确认 / 已确认”筛选和当前版本确认按钮，确认记录仅用于本地验收，模型或依赖变化后重新待确认；预览草稿不代表模型已验收或课程已挂载。首批进度见 `docs/ldraw-repair-batch-01.md` |
+| `/ldraw-preview` | `app/ldraw-preview/page.tsx` + `components/features/ldraw/ldraw-preview-workspace.tsx` | LDraw 3D 预览工作台：收录全部 `.ldr` 模型并标注 MPD 存在/未打包状态，支持按分类检索、分步搭建回放、多视角、辅助线及自定义源码即时渲染；`?model=<文件名.ldr>` 直达单模型，`?models=<逗号分隔文件名>` 限定待验收批次并提供上一个/下一个模型及显示全部；提供“修复完待确认 / 已确认”筛选和当前版本确认按钮，确认记录仅用于本地验收，模型或依赖变化后重新待确认；预览草稿不代表模型已验收或课程已挂载。当前状态与批次证据见 `docs/ldraw-status.md`；`3-hua-lan.ldr` 把手沿前后轴居中至 Z=264（第 7、12–14 步），第 5–7、12–14 步按原图恢复同宽篮壁、嵌入式红色把手根部及跨缝黄色侧片，顶部横梁齐平；第 1、3 步消除篮内凸台，按现有 16 钉底板改为每层 7 块直立侧壁排布（原图 8 块标注与此宽度不符） |
 | `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（只引导使用项目封装的 `pnpm db:push`；长命令在手机端限制于代码块内部横向滚动） |
 
 > `/works/[id]` 移动端详情页使用页面自有的单一返回/标题页头，隐藏全局 Logo 页头与底部导航；完成作品不再单独显示状态胶囊，进行中探索仅在标题栏显示弱状态提示，来源信息由详情中的来源卡承载，桌面端继续保留完整全局导航。
@@ -116,8 +116,8 @@
 | journeys | `api/journeys/` | 普通项目与 PBL 共用的 Journey：`GET/POST /api/journeys` 按来源列出或开启一次用户尝试；`[id]` 仅本人读取并只允许修改目标或放弃 active 尝试；`[id]/records` 写入阶段/过程/最终作品记录；`[id]/records/[recordId]` 切换私密或公开并重新进入审核、删除时撤销旧兼容投影；记录默认私密，公开过程与最终作品均通过审核后才进入公共内容，只有公开且审核通过的最终作品才能完成 Journey，审核员 ID/拒绝意见会回写权威 Journey 记录 |
 | admin | `api/admin/` | 项目审核、完成记录审核、自然观察审核（服务端同步 `status` / `moderation_state` 并校验实际更新，通过后发放观察 XP/徽章并入公开互动队列）、标签管理、举报处理、审核员申请审批、挑战 CRUD（resources 字段经 `lib/api/challenge-resources.ts` 三分类校验）、**技能课程 CRUD**（`admin/courses/`）、**资料卡 CRUD**（`admin/resources/`，草稿/发布，仅草稿可删）、**内容分级审核队列**（`admin/content-classifications/`，候选、详情、审计历史和 approve/return 受控 RPC）、用户创建与会员状态手动开通；`admin/moderation/cases` 处理自动审核案件，`admin/safety/appeals` 处理处罚申诉 |
 | assets | `api/assets/` | 受限静态资源代理；代理已迁移到 OSS 的 `/birds`、`/insects`、`/trees`、`/fruits`、`/projects`、**`/courses`**（课件 slides/PDF/视频/成品图/LDraw）和 `/scratch/assets` 资源。各环境默认经代理带 Referer 拉取 OSS（CDN 防盗链，直连会 403），包括生产环境 `/internalapi/asset/*` 的 Scratch rewrite；自定义/环境站点 Referer 被 CDN 拒绝时用公开站点 Referer 重试；已知 `assets.steamx.cc` 证书过期时仅针对该公开静态资源 CDN 临时用同路径 HTTP 重试，证书正常时仍优先 HTTPS，其它配置域名不降级；**OSS 非 2xx 或代理 fetch 失败时回退 `public/` 同名路径**，本地文件以 Node stream 输出并支持单段 Range/HEAD，视频、PDF 等不再整文件读入进程内存；切换 Referer 或回退前会取消旧上游响应体；上游连接超时/中止且无本地回退时返回 504/502，不再重新抛出以免并发导航时变成 500 与 unhandledRejection；LDraw 打包 MPD 本地更完整时优先本地；白名单 OSS/代理图片与 Supabase Render Transform 图片会绕过重复的 Next/Sharp 转码；仅设置 `NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct` 时绕过代理直连排查；服务端可读 `ASSETS_BASE_URL` 或 `NEXT_PUBLIC_ASSETS_BASE_URL` |
-| courses | `api/courses/` | 技能课程列表/瘦身概览/单课详情；登录态从服务端用户身份附加课程/课时进度，匿名响应不泄露个人进度并使用公共缓存；`ldraw-step` 从本地打包 MPD 提取单一步骤及递归依赖，并剔除 LDrawLoader 忽略的 type 2-5 非标准尾字段（16 MiB 源文件上限、同一步骤同飞去重、最多 4 个不同步骤并发转换、浏览器/CDN 短缓存）；`ldraw-bom` 从同一份 MPD 算出整课零件清单（每步新增零件 + 全模型总数，按 `model=<name>.mpd` 取，进程内按 mtime/size 缓存 10 分钟、同飞去重、最多 4 个并发转换、浏览器/CDN 短缓存，缺 `LDConfig.ldr` 只丢颜色名不影响数量；读取逻辑在 `lib/courses/ldraw-bom-source.ts`，与服务端渲染的零件清单页共用）；课时 `.sb3` 保存与 signed URL；`[courseId]/lessons/[lessonId]/start` 在已登录学员**第一次打开**课时时建一行 `completed_at IS NULL` 的进度（在这之前只有点「完成课时」或保存 Scratch 作品才会建行，积木课等于没有「开始」信号，新手引导的「开始第一节课」和「学完第一节课」会同时触发）；课程进度统计一律跳过未完成行，页面只在服务端确认「已登录且这节课还没有进度行」时才发这一次请求；完成课时不发 XP，首次有效完成通过 service-role 原子 RPC 写可信来源并按需生成一次性课程 STEAM 里程碑；作品提交仍只进入 pending/final，审核通过后由原子 RPC 幂等发放 `+20 XP`；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
-| ldraw-preview | `api/ldraw-preview/` | LDraw 模型预览即时打包接口：`GET` 检索全部模型清单或按 `?model=` 即时打包单模型 MPD，`POST` 接收自定义 LDR 源码并利用本地零件库及已发布 MPD 缓存即时组装返回自托管 MPD 字符串与步骤信息，拒绝越界路径与逃逸零件目录的符号链接，自定义/模型加载共用请求取消和过期响应保护；`PATCH` 仅允许开发环境本机同源请求确认修复候选，校验实际预览 MPD（含依赖）的版本哈希，拒绝旧版本和缺件模型，不触发发布 |
+| courses | `api/courses/` | 技能课程列表/瘦身概览/单课详情；登录态从服务端用户身份附加课程/课时进度，匿名响应不泄露个人进度并使用公共缓存；`ldraw-step` 经共享 `lib/courses/ldraw-model-source.ts` 优先从配置的 OSS 资源域名读取并缓存完整 MPD，远端不可用时回退本地；从 MPD 提取单一步骤及递归依赖，并剔除 LDrawLoader 忽略的 type 2-5 非标准尾字段（16 MiB 源文件上限、同一步骤同飞去重、最多 4 个不同步骤并发转换、浏览器/CDN 短缓存）；`ldraw-bom` 从同一份 MPD 算出整课零件清单（每步新增零件 + 全模型总数，按 `model=<name>.mpd` 取，进程内按模型内容 SHA-256 缓存 10 分钟、同飞去重、最多 4 个并发转换、浏览器/CDN 短缓存，缺 `LDConfig.ldr` 只丢颜色名不影响数量；读取逻辑在 `lib/courses/ldraw-bom-source.ts`，与服务端渲染的零件清单页共用）；课时 `.sb3` 保存与 signed URL；`[courseId]/lessons/[lessonId]/start` 在已登录学员**第一次打开**课时时建一行 `completed_at IS NULL` 的进度（在这之前只有点「完成课时」或保存 Scratch 作品才会建行，积木课等于没有「开始」信号，新手引导的「开始第一节课」和「学完第一节课」会同时触发）；课程进度统计一律跳过未完成行，页面只在服务端确认「已登录且这节课还没有进度行」时才发这一次请求；完成课时不发 XP，首次有效完成通过 service-role 原子 RPC 写可信来源并按需生成一次性课程 STEAM 里程碑；作品提交仍只进入 pending/final，审核通过后由原子 RPC 幂等发放 `+20 XP`；`[courseId]/lessons/[lessonId]/works` 读取课时公开作品与提交当前学员作品 |
+| ldraw-preview | `api/ldraw-preview/` | LDraw 模型预览即时打包接口：`GET` 检索全部模型清单或按 `?model=` 即时打包单模型 MPD；清单审核校验在单次请求内共用新鲜 MPD 依赖库和零件读取结果，避免逐模型重复扫描，跨请求重新校验依赖版本；`POST` 接收自定义 LDR 源码并利用本地零件库及已发布 MPD 缓存即时组装返回自托管 MPD 字符串与步骤信息，拒绝越界路径与逃逸零件目录的符号链接，自定义/模型加载共用请求取消和过期响应保护；`PATCH` 仅允许开发环境本机同源请求确认修复候选，校验实际预览 MPD（含依赖）的版本哈希，拒绝旧版本和缺件模型，不触发发布 |
 | auth | `api/auth/` | 短信发送/验证、OAuth 回调；`sms/verify` 手机号在 `phone_to_user` 里查不到时直接建号，所以它同时是登录和注册入口——响应里的 `isNewUser` 和魔法链接的 `redirect_to` 据此区分：新注册落到主线 `MAINLINE_ENTRY_HREF`，老用户回首页或来处（`?next=` 优先） |
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；作品草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑作品草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
 | tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 只读历史+配额+本地开场白（无线程时返回 `conversation: null`，不再自动建空线程；`contextType` 白名单校验，非法值回退 global），`quotaOnly=1` 只刷代币；POST SSE 流式（首条消息才惰性创建线程），global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，同时把当前登录用户的有限个人中心摘要（昵称、年龄段、等级/XP、STEAM 能力雷达、累计统计、近期活动、成长任务、课程/PBL 进度、徽章、游乐场战绩、作品反馈、AI 额度）作为服务端只读上下文传入并明确不可见隐私边界，`/playground/*` 游戏页归入 playground surface 并携带具体 `gameKey/contextId` 生成小游戏专属上下文与独立线程；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；开发环境或 `TUTOR_DEBUG_TIMING=1` 下输出服务端阶段耗时、`Server-Timing` 与 SSE `perf` 事件，用于定位响应头/首事件/首 chunk 延迟；DELETE 只归档当前有消息的线程（空线程保留复用，避免堆空归档），新线程由下一条 POST 创建）；POST 计费生命周期：扣费后任何失败路径（场景构建/planner/流式/空回复/落库）统一退款，按剩余可退额度封顶防止重复退；带图对话视觉模型失败降级纯文本时发 `warning`、按文字价计费并退差价，prompt 同步注明图片不可用；模型名、token usage 与 prompt 版本（`TUTOR_PROMPT_VERSION`）写入助手消息 `meta.ai`，客户端 meta 直通字段已移除；送模型历史按字符预算截断（6000 字符、图片按 400 计）；资源检索 planner 与工具 planner 并行执行且均携带最近 6 条对话辅助指代消解；语音辅助 `speech/transcribe`（登录后接收 30 秒内 16k PCM 录音，经 DashScope Qwen-ASR-Realtime 仅转写文本、不落库音频）与 `speech/synthesize`（登录后优先走 Qwen3-TTS-Flash-Realtime 流式 PCM SSE，失败可 `fallback` 回 HTTP 整段合成；chat POST `speak=true` 时在同一条 SSE 里夹带 `audio`/`audio_done`，手动/自动朗读均不扣 AI 对话代币）；历史对话 `conversations`（GET 按场景列归档线程+首条用户消息预览，最近一张聊天图片在上下文窗口内作为活跃附件持续发送并保持视觉模型，上传新图时替换旧图）与 `conversations/[id]`（GET 线程消息，DELETE 删除已归档线程，均做归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
@@ -304,7 +304,7 @@
 - `json-ld.ts` — 首页 WebSite/Organization/SearchAction、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；已复核内容才写入 `typicalAgeRange` / `educationalLevel`，不暴露内部星级、候选值或审核元数据；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
 - `project-citability.ts` — 项目页面向豆包、文心、通义的引用摘要：按项目类型组合年龄、reflection 或描述与关键词；项目 JSON-LD 同时输出材料/步骤 HowTo 和 reflection 结论 FAQ，页面移动端与桌面端都显示结论区块
 - `llms-txt.ts` / `robots-policy.ts` — `/llms.txt` 正文与爬虫 Disallow / 大模型 UA 列表
-- 公开 SEO 路由规则：`/about` 与鸟类/昆虫/植物专题使用独立 metadata；`/playground` 首页、18 个游戏页及扫雷课程页使用独立 metadata；PBL 详情服务端校验 active/ended 挑战，不存在或不可见挑战返回真正 404；挑战提交页及 Scratch 预览页明确 `noindex`，预览 canonical 指向正式课时；sitemap 不提交筛选 query，静态 URL 不伪造 `lastmod`，零件清单仅在部署产物存在对应 LDraw 模型时收录
+- 公开 SEO 路由规则：`/about` 与鸟类/昆虫/植物专题使用独立 metadata；`/playground` 首页、18 个游戏页及扫雷课程页使用独立 metadata；PBL 详情服务端校验 active/ended 挑战，不存在或不可见挑战返回真正 404；挑战提交页及 Scratch 预览页明确 `noindex`，预览 canonical 指向正式课时；sitemap 不提交筛选 query，静态 URL 不伪造 `lastmod`，零件清单支持本地模型及已发布 OSS 模型；哈希命名的可信 OSS 引用无需在 sitemap 中下载完整模型
 
 ### 4.7 首页 (`lib/home/`)
 - `recommendations.ts` — 首页数据聚合（趋势统一作品、最近公开自然观察、社区动态、分类计数、当前精选 PBL）与推荐 API 算法（基于 birth_date 即时计算精确年龄、传入 recommendation v2，热门兜底；供 `/api/home/recommendations` 使用）；趋势作品与精选 PBL 使用无请求 Cookie 的公开 Supabase 客户端，首页声明 5 分钟 ISR，实际路由会按社区动态的 2 分钟子缓存采用更短周期；捕获数据降级错误前会用 Next `unstable_rethrow` 先交还动态渲染/重定向等框架控制流，避免构建期动态路由信号被业务日志误报
@@ -360,7 +360,7 @@
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 封装 |
 | `docs/AI_DEVELOPMENT_GUIDELINES.md` | — | AI 开发规范：意图判断必须交给大模型；结构化输出经服务端白名单/范围/权限校验；关键词和正则仅可用于非语义的格式、协议、元数据候选查询或防御性安全边界，不得作为 Tutor/AI 行为门控 |
 | `docs/STORE_CHANNEL_FULFILLMENT_DECISION.md` | — | 实物商城渠道与履约决策：当前采用 STEAMX 商品卡片 + 淘宝外部结算（淘宝负责支付、物流、售后），保留少量人工采购兜底；达到主体、订单量和平台资质门槛后再评估开放平台/合规 ERP；不申请 1688 铺货分销 ISV，不直接 iframe 嵌入外部收银台 |
-| `docs/product-design-review-2026-08-14.md` | — | 全站产品设计评审：线上真实数据（61 个账号里 15 个是机器人、12 件作品来自 4 个人、96% 点赞来自机器人）、六个结构性问题、按优先级排的调整清单。**加新功能前先读一遍**——这份文档的第一结论是「停止加宽功能面」，P0/P1 已落地；P2 里会员字段保护、观察记进雷达 S、讨论区残留已做，游乐场/全天候/金币与会员产品仍冻结 |
+| `docs/product-direction.md` | — | 当前产品方向与暂缓边界；新增功能前先读。历史评审数据及改版过程见 `docs/archive/product-design-review-2026-08-14.md`，不作为实时运营数据 |
 
 小迪资源检索：`resource-search-planner.ts` 由轻量模型判断是否需要查找站内课程/课时/项目并提取主题短语，不使用固定关键词决定检索，并接收最近对话辅助“这个/那个”指代消解；只有缺少的信息是给出有用回答所必需、且不同理解会导致明显不同答案时才返回 2-4 个结构化澄清选项，清楚的知识问题、明确资源请求和带当前课时上下文的步骤求助直接处理；上一轮澄清的选项会带入下一轮 planner 上下文；prompt 要求短语拆到最小可检索单元（“乐高轮船”→「乐高」「轮船」），拼接长词在标题/标签里查不到；planner 输出协议解析失败时只重试一次，仍失败则保守降级为**不检索**（避免故障放大数据库压力，也不会被说成「站内没有」）；`resource-search.ts` 并行、限量查询已发布课程/课时和已审核项目，只注入标题/标签/描述元数据，并把命中的课时挂回课程 chip；`tags` 是 `text[]`，只能用 `tags.cs.{短语}` 元素包含匹配，**对数组列用 `ilike` 会让整个 `or` 过滤报 42883、整张表零命中**；严格短语一条都没命中时补查一轮派生候选（空白切分 + 纯汉字长词二字滑窗，最多 8 个），命中结果标记为「近似匹配」让小迪自行判断相关性；查询报错会 `logger.warn` 留痕，避免再次被当成「站内没有这门课」；普通对话不加载全量课程目录或首页推荐。
 
@@ -479,27 +479,60 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 8. 脚本 (`scripts/`)
 
-> `lib/courses/ldraw-review.ts` 维护已完成修复的待验收候选，新增室外咖啡桌和座椅；未完成的漱口杯不加入可确认名单。确认按模型写入 `scripts/ldraw-reviews/<模型文件名>.json`；记录绑定完整预览 MPD 的 SHA-256（含零件依赖），变更后需重新确认。页面确认不授予课程发布权限。
+> 2026-09-12无MPD续修：篮球架25件/9步、太阳能热水器66件/11步、照相机54件/17步标准几何已重建；按文件预留和唯一owner修改，未接管其他agent文件。相机正面左右镜像已交原owner纠正。Toolo仍缺，热水器倾斜接触告警与实际网格/几何证据复用见 `docs/ldraw-status.md`；均INCOMPLETE，71份公共MPD未改。
 
-> 2026-09-08 已确认的七个模型已生成对应 `public/courses/ldraw/*.mpd`，输出哈希逐个匹配 `scripts/ldraw-reviews/` 中的验收版本；交付清单见 `docs/ldraw-confirmed-2026-09-08.md`。本次仅生成并提交资产，未执行课程入库、OSS 上传或部署。
+> 2026-09-12无MPD续修：安检机47件/10步、办公椅29件/12步靠背、画板54件/9步标准画面与调色盘已重建。Toolo结构仍缺，均INCOMPLETE；画板倾角/摆位推断与raw接触告警及真实网格复核见 `docs/ldraw-status.md`，71份公共MPD未改。
 
-> 第二批新选模型「山羊」「神秘的金字塔」的本地修复、逐页验证及预览入口见 `docs/ldraw-repair-batch-02.md`。
+> 2026-09-12无MPD续修：书包27件/9步标准袋体、中国结20件/11步红板结构、行李箱62件/13步底与五层墙已重建，均INCOMPLETE。Toolo/背带/箱盖等缺项、中国结夹芯及行李箱第8步支撑限制见 `docs/ldraw-status.md`；71份公共MPD未改。
+
+> 2026-09-12无MPD续修：电话机28件/10步底座、录音机84件/11步箱体、垃圾分类117件/12步三桶体已按源图重建；Toolo结构、电话管接口及翻盖仍未解，保持INCOMPLETE。碰撞/连接/预览证据见 `docs/ldraw-status.md`；71份既有公共MPD未改。
+
+> 2026-09-12无MPD续修：高铁站105件/18步（轨道和两站台）、风车房105件/18步（砖墙门窗）、灯笼54件/13步（标准外壳）已重建。保留Toolo/列车/屋顶缺项及风车房窗卡扣接触限制，均为INCOMPLETE；验证与源步骤见 `docs/ldraw-status.md`。
+
+> 2026-09-12无MPD三路续批：鸵鸟28件/14步（尾和三蛋）、圣诞雪橇22件/15步（标准座椅）、东方明珠132件/18步（底板围栏与上部塔身）已按源图重建；Toolo结构缺失，均保留INCOMPLETE。碰撞、分组支撑与实际网格证据见 `docs/ldraw-status.md`；既有71份公共MPD未改。
+
+> 2026-09-12 后续LDR修复按用户要求排除已有MPD模型；无同名MPD清单和检查边界见 `docs/ldraw-status.md`。二胡（4-er-hu）已按源1–6重建39件琴筒与夹层长柄，原始碰撞、逐步连接和预览通过，Toolo琴轴/琴弓仍缺，保持未完成。舞龙弧形头砖后移、栏杆采用错层凸点锚点，仍保留一处真实脚座穿插；完整证据见同一状态索引。
+
+
+> 洗车场2026-09-12按13页重建111件并加入待确认，恢复双车位、圆门弯管、错缝墙体、阶梯与二层桌椅护栏；车轮/凸点及弯管/圆门接触已核对，保留实物保持力限制，详见 `docs/ldraw-status.md`。
+
+> 油罐车2026-09-12按11页重建97个实例，恢复阶梯罐体、驾驶室和六轮架；两处车钩同轴，窗片铰链仍有网格穿插，保持未完成。同期修正坦克四轮架至X±200并按源图反转车钩朝向，详见 `docs/ldraw-status.md`。
+
+> 坦克2026-09-12按14页重建73件，恢复轮架、错缝车身、曲顶端部、炮塔与连续管道；弯管接口网格和管道支撑仍待解决，保留未完成，详见 `docs/ldraw-status.md`。
+
+> 小球接力赛2026-09-11按6页重建140件，恢复交错立柱和四组弯管；管道与42029承接处仍有网格穿插，保持未完成，详见 `docs/ldraw-status.md`。
+
+> 跳水池2026-09-11续修为242件/16步，导入官方儿童人偶组件并完成泳圈水面接触检查；圈内人物手臂仍穿插，保持未完成，详见 `docs/ldraw-status.md`。
+
+> 下水道2026-09-11按12页重建133件并加入待确认，修正底板/错缝槽墙/条纹柱、480 LDU管框间距及上下管口朝向；实际网格检查与投球瞬间姿态说明见 `docs/ldraw-status.md`。
+
+> 水上乐园2026-09-11重建143件/11步并加入待确认；官方旗帜导入、管道接口及实际网格间隙完成本地验证，保留旗杆套接包络说明和实物保持力限制，详见 `docs/ldraw-status.md`。
+
+> 用户授权近似31453摇摆座已导入，平衡大师补齐50件/13步；尺寸来自用户、弧面/空腔为照片近似，网络证据及验证见状态索引。
+
+> 最新装配照修正：31196c01高围墙方案已撤回，改为低前槽、外展鼻翼与降低后的官方6345罩；双层巴士/潜水艇/救护车均需复核新版，详见状态索引最新记录。
+
+> 2026-09-11 用户纠正三载具罩子反装：双层巴士、潜水艇、救护车现为弧面朝前、开口朝后，仍待确认。后续按用户正面/侧面照片补齐31196c01两侧承接台面与斜面，修正仅中央接触而两侧悬空的问题；实际罩面裁剪零穿插，保守包络报警保留，双层巴士随后按说明第2/10页将驾驶舱和罩整体前移4排凸点，修正车头收进车身的问题；详见 `docs/ldraw-status.md` 最新纠正记录。
+
+> 雪糕车2026-09-11已重建为121件/13步，底盘、墙体、推杆、立柱、屋顶、小绿板上挂连接及63871蓝色顶部完成本地检查；四块动物面板连接仍未解，保留未完成状态，详见 `docs/ldraw-status.md`。
+
+> LDraw 各模型的未完成项、待验收限制及历史批次入口统一维护在 `docs/ldraw-status.md`，本索引不重复记录逐批过程。 `98252b.dat` 及专用子件、缺失 primitive 已从官方库补入本地，元数据按官方 b 版本的偏心 2×3 朝向修正；望远镜、推土机续修以该状态索引的最新记录为准。 望远镜、章鱼、推土机、吸尘器、天鹅已纳入预览工作台修复候选白名单（推土机两侧窗朝向、窗上顶梁及屋顶方向与U形围栏已复核，第12步散堆仍为示意摆位）；小鸟归巢旧稿撤回后已按源图重建底板、交叉树干、两层巢框、三雏鸟与成年鸟，70件/13步重新进入待确认候选，状态以 `docs/ldraw-status.md` 为准。 推土机铲斗依据用户确认改用官方 `2301`（旧编号旋转已校正）；吸尘器 `31074/31111/98225` 及递归依赖已补齐；后续源图复核纠正了这些零件在旧稿中的误用，现以6490底板、3011普通砖、9段连续管链及倒装吸头完成87件/15步候选，等待用户验收。本次确认的27个3+模型已挂载至小班课程（course_id=5）对应building_3d课时，课时内容含ldrawModelUrl/steps3d，MPD同步至OSS；本地分步接口已验证，生产应用需同步MPD文件后才可用，课时ID与验收哈希见 `docs/archive/ldraw/ldraw-mounted-2026-09-09.md`。
+
+> 管道狗于2026-09-15按源图纠正四脚向前、错层搭接及6×12底板/后框位置，删除4块多余连接砖，现42件/9步，保持待确认；详见 `docs/ldraw-status.md`。
+
+> 2026-09-15 用户要求将新增批次剩余九模型加入外观待确认，当前 100 个 `3-*.ldr` 均已列入候选范围；接口限制见 `docs/ldraw-status.md`，未代替人工确认或发布。
+
+> `lib/courses/ldraw-review.ts` 维护已完成修复的待验收候选，新增室外咖啡桌和座椅；漱口杯已恢复第9步三件牙刷（3664官方圆顶及真实原点已补齐），用户已同意保留省略斑马面板的118件版本，已加入修复完待确认；源文件保留不完整还原说明，尚未最终验收或发布。浴缸已补回第9–10步九件斜躺人物，66件/11步加入待确认，脚跟与枕头接触已复核，实物斜靠稳定性待验收。山羊已按源图重建130件/15步并加入待确认，绿植隐藏搭接为推断、羊角圆座实际卡合待验收，详见状态索引。潜水镜148件/12步已修复海底4×4凸点配色、海星与右礁石相对摆位，加入待确认；礁石隐藏搭接和精确锚点仍为推断，详见 `docs/ldraw-status.md`。确认按模型写入 `scripts/ldraw-reviews/<模型文件名>.json`；记录绑定完整预览 MPD 的 SHA-256（含零件依赖），变更后需重新确认。页面确认不授予课程发布权限。
+
+> 树屋2026-09-10已按用户要求改为墙砖交错互锁的212件/24搭建步（源第25页无新增件），屋顶5朵花的锚点仍未解，按用户要求加入修复完待确认，保留INCOMPLETE缺省说明；6510递归底管高度为48 LDU，未改官方几何，详情见 `docs/ldraw-status.md`。
+
+> 2026-09-08 已确认的七个模型已生成对应 `public/courses/ldraw/*.mpd`，输出哈希逐个匹配 `scripts/ldraw-reviews/` 中的验收版本；交付清单见 `docs/archive/ldraw/ldraw-confirmed-2026-09-08.md`。本次仅生成并提交资产，未执行课程入库、OSS 上传或部署。
+
+> 秋千2026-09-10已补齐103件/11步并加入待确认：修正两侧吊环为同向，黄色上连接板上移，第9步11砖座位位于吊臂下方、两块端板跨接；碰撞和渲染通过，吊环轴向位置、转动间隙及实物保持力仍需验收；按用户圈图将吊臂4件配色调整为两侧上红下黄，几何不变，当前配色版需重新验收。潜水艇17562舱罩对应官方6345.dat，31196c01已有授权简化几何，但在潜水艇中的装配仍未解；主体已重建139件/12步。当前证据见 `docs/ldraw-status.md`。
 
 > **LDraw 草稿与发布门槛**：允许先生成本地 `.ldr` 草稿，无需人工预审 JSON；本地 `/ldraw-preview` 可即时内存打包用于集中验收，不写正式课程 MPD、不上传或挂载课时。自动校验不能证明源图一致性，须由人工在预览页对照源图验收具体模型及零件依赖版本；Studio 仅作复杂/争议连接的补充。只有验收通过且获得该版本及目标课时的明确发布授权后，才写 `public/courses/ldraw`、上传或入库，并核验线上模型与课时映射。验收与发布批准可一次给出；版本发生影响模型的变化时复核受影响步骤。近似零件仍需单独明确批准。
 >
 > **哪些课时有 3D 模型**：不维护手写清单，三处事实来源即可——已发布模型看 `public/courses/ldraw/*.mpd`，课时挂载看 `content.building3d.ldrawModelUrl`（`upsert-courseware.mjs` 的 `hasLdrawModel()` 按文件存在与否写入），运行时由 `lib/courses/building-lesson-flow.ts` 的 `hasRealModel()` 决定是否用 3D 步骤替换图片构建区。
-
-> 第四批本地源图修复见 `docs/ldraw-repair-batch-04.md`：礼盒按 `D:\pdf预览` 10页重建为130件，保留两盒四层实体、十字带、薄板与中空蝴蝶结，加入本地待确认；图书架架体与五本书276件/12步完成主体重建，6件印花连接未明而省略，不加入待确认；未发布课程资产。
-
-> 第五批本地源图修复见 `docs/ldraw-repair-batch-05.md`：垃圾桶168件/10步、邮箱99件/11步、手电筒16件/5步，使用 `D:\pdf预览` 已有JPG重建，碰撞检查、全部分步渲染及独立复核通过，加入本地“修复完待确认”；宝剑已完成而排除。未发布课程资产。
-> 第六批本地源图修复见 `docs/ldraw-repair-batch-06.md`：小提灯61件/9步、洗手台95件/15步、花轿87件/8步，直接读取 `D:\pdf预览` 已有JPG；碰撞检查和浏览器逐步渲染通过，已加入 `/ldraw-preview` 的“修复完待确认”候选，未发布课程资产。
-> 第七批本地源图修复见 `docs/ldraw-repair-batch-07.md`：先排除已有 MPD 的模型（柜子、奖杯跳过）；直接使用 `D:\pdf预览` JPG，照相机56件/11步、熨斗112件/9步加入本地待确认，浴缸57件/11步仅完成前8步，斜躺人物9件连接未明而省略，保留 INCOMPLETE。熨斗垫板遮挡布局为推断且摆放角度有偏差。修正63871/2302b元数据原生轴向，新增官方73162p01印花眼睛；2302b使用独立命名的2025子件，保留旧模型依赖的2014子件。未生成或改写公共MPD。
-
-> 首批10个模型修复进度见 `docs/ldraw-repair-batch-01.md`；预览不等于发布。`ldraw-common.mjs` 的圆孔校验先检查有限管段与按管半径扩大的有限框体相交，避免远处管道与门框无限平面的误报。`part-metadata.json` 已按真实几何修正2301b弯檐轴向、92094门框240LDU高度、89849门片及90265窗片铰链原点（窗片Y=-60..60），并补齐10715p01红轮车底。
-
-> `3-sa-shui-hu.ldr` 于 2026-09-08 按用户要求将壶嘴侧 `31191.dat` 圆孔框绕 Y 轴旋转 180°，保留位置、55 件与 7 步。原始 LDR 检查通过；局部渲染仍见壶嘴与上方提手/口沿交叠，前后翻转不改变孔中心和管道位置，不能视为该重叠已修复。
-
-> `3-mei-li-de-xiao-qu.ldr` 本地修复稿保留30步、275件：重排墙体、屋顶和树木支撑，12组窗框/窗片与2组门框/门片按真实铰链配对；第24步按用户要求将二楼窗组旋转180°朝外，两侧各内移40 LDU，使单排凸点继续扣接第25步顶板。该版本已通过本地预览确认，并按本次授权生成对应 MPD，记录见 `docs/ldraw-confirmed-2026-09-08.md`。
 
 | 脚本 | 功能 |
 |------|------|
@@ -527,13 +560,9 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `purge-triaged-project-assets.mjs` | 2026-08-13 内容分诊：按 `scripts/lib/content-triage-2026-08-13.mjs` 的 105 个项目 ID 清理 Aliyun OSS 上该项目自己的 `projects/generated/` 与 `projects/steps/` 对象，并删除本地对应文件、从封面清单去掉已删 ID；库行还在时从 `projects` / `project_steps` / `comments` 收集 URL，库行已删时列举 OSS 前缀按文件名里的项目 ID 匹配；默认 dry-run，`--execute` 才删除 |
 | `build-species-atlas-thumbnails.mjs` | 只读检查或显式 `--write` 生成 160x160、内容哈希 WebP 图鉴缩略图；从 active 物种与现有鸟/虫/树/水果 manifest 取首张有效图，写入 `species-atlas-thumbnails.json`，支持专题/slug 过滤与并发控制；缩略图经独立 `*-atlas` 组上传 OSS |
 | `fetch-scratch-assets.mjs` | 镜像 Scratch 素材库到本地，再经 migrate 脚本上传 OSS |
-| `ldraw-models/` | 大颗粒 LDraw 源模型目录：允许本地 `.ldr` 草稿，正式模型源须经过预览页人工验收；临时 assembly/BOM/report 放 scratch，不保留单课 generator 或生成产物专项测试。改动后先检查及预览，验收并获发布授权后才用 `pack-ldraw-model.mjs` 写课程 MPD；缺件须确认真实零件号，近似件仍需明确批准。历史逐课验收记录见 `docs/ldraw-model-audit.md` |
-| `ldraw-models/3-wang-yuan-jing.ldr`, `3-xi-chen-qi.ldr`, `3-xiao-niao-gui-chao.ldr` | 第十二批复用 `D:\pdf预览` JPG：望远镜62件/10步碰撞与浏览器渲染通过，吸尘器81件/15步碰撞通过但缺少若干未确认软管/环件，均未验收；小鸟归巢70件/13步有23组巢边/鸟体重叠，保留INCOMPLETE。见 `docs/ldraw-repair-batch-12.md`；未发布 |
-| `ldraw-models/3-zu-qiu-chang.ldr`, `3-tui-tu-ji.ldr` | 第十一批直接读取 `D:\pdf预览` JPG：足球场120件/12步完成结构修复并通过碰撞与逐步渲染，中央场线形状仍需用户确认；推土机后续按第5、8–10页源图修复铲斗与三组门窗位置，94件通过碰撞检查，门窗朝向仍需人工预览确认。双层巴士和树屋仅完成源图证据核对，未改模型。见 `docs/ldraw-repair-batch-11.md`、`docs/ldraw-repair-batch-13-tui-tu.md` |
-| `ldraw-models/3-wo-niu.ldr`, `3-tao-quan-quan.ldr`, `3-tian-e.ldr` | 第十批复用 `D:\pdf预览` JPG：蜗牛39件/12步、套圈圈258件/11步已通过逐步渲染及独立复核，加入待确认；天鹅40件/12步，第2步尾管已反向构建，四接头均为出口接入口并通过端点核验；外侧直管与后框净空仍有1处报警，保留INCOMPLETE，见 `.tmp/swan-geometry/`。套圈圈15种官方动物印花及共享子件从本地 `D:\CustomParts.zip` 原样补齐，元数据采用31111本体96高度。见 `docs/ldraw-repair-batch-10.md`；未发布 |
-| `ldraw-models/3-shu-zhuang-tai.ldr`, `3-sheng-dan-lao-ren.ldr`, `3-zhang-yu.ldr` | 第九批继续跳过已有MPD、复用本地JPG：梳妆台179件/14步、圣诞老人93件/17步加入待确认；章鱼156件/11步，隐藏绿岛厚度/位置待核定，保留INCOMPLETE。6474元数据按官方DAT修正为72高与偏心底面；圣诞车架保留1处已解析的包络报警。见 `docs/ldraw-repair-batch-09.md`；未发布 |
-| `ldraw-models/3-tai-qiu.ldr`, `3-wan-sheng-jie-nan-gua-tou.ldr`, `3-wu-gui.ldr` | 第八批续修跳过已有MPD、复用本地说明JPG：台球118件/8步、南瓜与骷髅129件/18步加入待确认；乌龟61件/12步按用户反馈重新将四爪扣回下层腿板四凸点，第5–12步渲染通过；保留4处端面接触报警，经独立解析复核无实体交叠，上盖夹持仍为源图推断；未发布。见 `docs/ldraw-repair-batch-08.md` |
-| `ldraw-models/3-shi-wai-ka-fei-zhuo.ldr`, `3-zuo-yi.ldr`, `3-shu-kou-bei.ldr` | 第三批续修直接读取 `D:\pdf预览`（WSL `/mnt/d/pdf预览`）已有步骤 JPG：咖啡桌 61 件/9 步、座椅 116 件/10 步；漱口杯主体与托盘 115 件/12 步，斑马面板固定和牙刷仍未解决，保留 INCOMPLETE。`parts/2300.dat` 从本地官方缓存补齐真实 2×6 把手砖。检查与验收状态见 `docs/ldraw-repair-batch-03.md`；不代表已发布 |
+| `ldraw-models/` | 大颗粒 LDraw 源模型目录：允许本地 `.ldr` 草稿，正式模型源须经过预览页人工验收；临时 assembly/BOM/report 放 scratch，不保留单课 generator 或生成产物专项测试。改动后先检查及预览，验收并获发布授权后才用 `pack-ldraw-model.mjs` 写课程 MPD；缺件须确认真实零件号，近似件仍需明确批准。历史逐课验收记录见 `docs/archive/ldraw/ldraw-model-audit.md` |
+| `ldraw-models/parts/{76395,76057,60535,74957,28331,28334,28336,99565,44970,71981}.dat` | 用户批准的 45002 本地简化零件，含螺纹砖、转盘、连接件、叉臂、轮组与固定形态履带；真实网格孔洞、估算尺寸与手动连接策略记录在 `part-metadata.json`。`45002-parts-preview.ldr` 是十件隔离展示草稿，非课程装配；详情见 `docs/ldraw-status.md` 的“45002 本地简化零件”。 |
+| `ldraw-models/4-shu-bao.ldr`、`4-zhong-guo-jie.ldr`、`4-la-ji-fen-lei.ldr` | 使用批准的 45002 简化件补入书包六背板、中国结六夹芯/转盘/四侧砖、分类桶六螺纹砖/六臂底座；33/31/129 件、9/11/12 源步骤，保留原标准件，仍为部分草稿。未完成机构及验证边界见 `docs/ldraw-status.md` 的“45002 零件首批装入 4+ 草稿”。 |
 | `.agents/skills/image-to-ldraw/` | 图纸/照片或探索描述→本地 LDR 草稿（assembly 可选）→检查/预览→验收→授权发布；`reconstruction-review.md` 是统一检查与证据复用流程，缺件/侧搭/砖板厚度参考按需读取。`part-metadata.json` 只向模型输出本课零件条目；通用校验脚本仍读取完整库。预览使用本地 `/ldraw-preview` 内存打包，Studio 非强制 |
 | `export-courseware-slides.mjs` | 批量把 `C:\Users\Administrator\Documents`（WSL 路径 `/mnt/c/Users/Administrator/Documents`）下的 3+/4+/5+ 课件 PPTX 导出到 `public/courses/<grade-pinyin-slug>/slides/slide-*`：先从 PPTX 包统计真实页数，跳过已完整目录，渲染到临时目录成功后再替换目标 `slide-*`，默认把 PNG/JPG 转 WebP 并刷新已有 `scripts/courseware/<slug>.json` 的 `slideImageUrls`；支持 `--dry-run`、`--force`、`--only=`、`--limit=`、`--upload`（只上传 WebP slides 到 `oss:courses/<slug>/slides/`，默认覆盖旧对象以修复早期单页导出）、`--skip-existing-upload`、`--no-webp`；LibreOffice 在沙箱/无图形后端环境可能失败，需在可用图形后端或沙箱外执行 |
 | `import-courseware.mjs` | 课件文件夹→线上课程「资源管线」：按扩展名+关键词识别 PPT/视频/PDF/成品图 → 调 `pptx-to-slides.mjs` 切图（或 `--slides-dir`/`--build-slides-from-source`；后者会先生成到临时目录，成功后再替换已有 `slide-*.png/webp`，失败不动旧文件；默认导入时如自动切图失败但 `slides/` 已有多张图，会沿用现有幻灯片继续产出草稿）→ 幻灯片转 WebP → 视频/PDF/成品图归一化到 `public/courses/<slug>/` → 可选 `--upload` 推 OSS → 产出 `scripts/courseware/<slug>.json`（building3d 内容草稿默认写入 `content.workSubmission.enabled=true`，steps/steps3d/LDraw 留空待人工/LLM 补；`videoSlideIndex` 可直接从 PPTX 关系文件探测，不依赖 LibreOffice 成功渲染）；不再创建背书项目或生成每课迁移；用法 `node scripts/import-courseware.mjs <课件文件夹> --slug=<slug> [--course= --lesson= --upload --no-webp --build-slides-from-source --dry-run]`；编排见 `.agents/skills/import-courseware` |
@@ -542,6 +571,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `check-courseware-oss.mjs` | 用 OSS `headObject` 核对 300 课 WebP slides / PDF / video / WebP finished 是否已上传（图片检查 WebP，迁移前兼容旧 PNG 作为 legacy fallback；绕过 CDN 防盗链）；输出汇总 stats |
 | `pptx-to-slides.mjs` | 一键把授课 `.pptx` 导成课件翻页器用的 `slide-01.png …`：LibreOffice(`soffice`) 转 PDF → poppler(`pdftoppm`) 切页 → 规范命名拷到课时 slides 目录，并探测内嵌视频在第几页提示设 `videoSlideIndex`。在部分环境无可用显示/图形后端时（常见于无桌面的容器/最小 WSL）会直接失败并提示补齐 `Xvfb/虚拟显示`；如仅已有 `slide-01.png` 会按占位图告警并提示补齐。需 `sudo apt install -y libreoffice poppler-utils fonts-noto-cjk fonts-wqy-zenhei`（中文字体必装，否则中文渲染成「□」豆腐块，脚本会预警）；用法 `node scripts/pptx-to-slides.mjs <input.pptx> [输出目录] [--dpi=150]` |
 | `normalize-slides.mjs` | 当已有现成幻灯片图（如手动从 PowerPoint 导出的 PNG）时，按文件名数字自然排序规范成 `slide-01.png …` 拷到课时 `public/courses/<lesson>/slides/`；用法 `node scripts/normalize-slides.mjs <源目录> [输出目录]` |
+| `publish-ldraw-assets.mjs` | 已确认 MPD 的独立 OSS 发布：显式 `--only=<slug,...>` 或 `--prefix=3-`，默认 dry-run；全量预检确认哈希，`--upload` 后按 `<slug>-<SHA256>.mpd` 不可变命名上传并回读验证，输出可供课时更新的 manifest；不写数据库，不改确认状态 |
 | `pack-ldraw-model.mjs` | 把 `scripts/ldraw-models/*.ldr` 递归抓取依赖打包成单个自托管 `.mpd` + `LDConfig.ldr` 到 `public/courses/ldraw/`（大颗粒积木 3D 课用，零件库 CC BY / CCAL）；打包时优先使用 `scripts/ldraw-models/parts|p|models/` 本地自定义件，再复用已提交 `.mpd` 内联依赖作为缓存，最后联网抓取；会规范输入 LDraw 文本的 LF/行尾空白，并移除 Studio 导出的外层 `0 FILE ...` / 末尾 `0 NOFILE` 包装，由输出名统一生成 MPD 主模型块，避免 `0 NOFILE` 被课程步骤解析为额外空步骤；用法 `node scripts/pack-ldraw-model.mjs <source.ldr> <outName>` |
 
 ---
@@ -555,7 +585,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `__tests__/api.courses-lesson-complete-route.test.ts` / `__tests__/api.completion-review-route.test.ts` — 课时完成与审核奖励的原子 RPC、幂等、legacy Scratch 校验和配置异常反馈
 - `scripts/course-closure-audit.test.ts` — 课程闭环审计摘要的 P1 阻断、P2 advisory 与计数归一化
 - `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，联网邀请未登录时 `next` 保留 `room` 参数，受保护分区深链接未登录时 `next` 保留完整子路径与查询串，以及详情页不存在时返回真正的 404 状态码）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
-- LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）。例外是纯文本统计：零件清单会直接给家长看数字，`lib/utils/ldraw-bom.test.ts`（含真实 `3-hu-die.mpd` 分步用量断言，并把全部模型的统计总数与其自带的 `0 NumOfBricks` 声明对账，新模型对不上就是统计口径或模型头部有一边没更新）与 `__tests__/api.courses-ldraw-bom-route.test.ts` 只做文本解析、不碰 three.js，跑完不到 1 秒
+- LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/archive/ldraw/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）。例外是纯文本统计：零件清单会直接给家长看数字，`lib/utils/ldraw-bom.test.ts`（含真实 `3-hu-die.mpd` 分步用量断言，并把全部模型的统计总数与其自带的 `0 NumOfBricks` 声明对账，新模型对不上就是统计口径或模型头部有一边没更新）与 `__tests__/api.courses-ldraw-bom-route.test.ts` 只做文本解析、不碰 three.js，跑完不到 1 秒
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的最终作品直达作品页、探索记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报；SEO 相关覆盖默认社交图、JSON-LD、sitemap 全量分页/内容路由、专题 canonical、课时预览 noindex、页脚规范链接、推荐 Cookie 精确作用域、`app/robots.ts`、`/llms.txt`、apex 301 与 Nginx 爬虫策略
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置：拆成 `dom` 与 `node` 两个 project，`*.test.tsx` 用 happy-dom + `vitest.setup.ts`，`*.test.ts` 默认跑纯 node（省掉每个文件的 DOM 启动与 React 测试初始化，全量从 ~224s 降到 ~145s）；无 JSX 但需要 DOM/存储/`renderHook`/`Worker` 的 `.ts` 用例登记在配置里的 `domOnlyTsTests`，新写的用例若报 `document is not defined` 就把文件加进该数组
 - `playwright.config.ts` / `playwright.integration.config.ts` / `playwright.scratch-host.config.ts` — Playwright 配置；Scratch host 套件与主站 E2E 隔离，避免依赖 Next、数据库或登录；GitHub CI 通过 `PLAYWRIGHT_USE_SYSTEM_CHROME=1` 使用 runner 预装的 Chrome，开发机默认仍使用 Playwright Chromium
@@ -565,14 +595,15 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 10. 部署与 CI
 
-- `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口；主站/worker 分别设有可配置的 cgroup 内存上限与 Node heap 上限，主站 heap 默认 512 MB、cgroup 默认 1 GB，避免单个泄漏进程拖垮宿主机
+- `deploy/docker-compose.yml` — Docker 部署编排；含 `auto-interactions-worker` 后台服务，主站健康后循环调用内部自动互动队列执行接口；主站/worker 分别设有可配置的 cgroup 内存上限与 Node heap 上限，主站 heap 默认 512 MB、cgroup 默认 1 GB，避免单个泄漏进程拖垮宿主机；两个服务共用可由 `STEAM_APP_IMAGE` 覆盖的镜像引用
 - `deploy/nginx.conf` — Nginx 反向代理模板；保留线上 `steamx.cc www.steamx.cc`、Certbot include、上传接口大小限制，并为 Scratch GUI/vendor/chunk 加 gzip 和缓存；仅当 `$host = steamx.cc` 时 301 到 `https://www.steamx.cc$request_uri`，不再按 UA 拒绝 GPTBot；Release 会用 GitHub Variables 渲染域名/证书路径后同步到服务器，先备份当前站点配置、`nginx -t` 通过后再 reload
 - `deploy/registry-deploy.sh` — 使用 Actions 临时令牌从 GHCR 按摘要拉取镜像，健康检查通过后记录版本，失败时恢复旧镜像；仓库登录信息仅保留在临时目录。操作与首次切换说明见 `docs/deployment.md`。
 - `deploy/server-init.sh` — 服务器初始化脚本
 - `deploy/auto-interactions-worker.mjs` — 自动互动队列 Docker worker（可在启动时按 `AUTO_INTERACTION_BACKFILL_*` 低比例补偿历史项目；随后按 `AUTO_INTERACTION_WORKER_INTERVAL_SECONDS` 周期 POST `/api/internal/auto-interactions/run`）。`AUTO_REPLY_RATE` / `AUTO_INTERACTION_BACKFILL_REPLY_RATE` 随拟人化短评一起删除，只剩点赞与收藏比例
 - `Dockerfile` — 生产镜像构建；基于 Node 22 构建并运行 Next standalone 与自动互动 worker 脚本；builder 复用 deps 阶段的 pnpm 与 `node_modules`；Scratch 独立构建并在应用文件前复制为稳定镜像层，主站调用 `pnpm exec next build`，避免主站改动触发 Scratch 编译和重复传输
 - `.github/workflows/ci.yml` — CI：Lint + TypeScript + Vitest + Playwright；PR 仍跑完整 `pnpm build`，主分支 push 由 Release 的 Docker 构建覆盖，避免同一次提交重复打包；GitHub runner 使用预装 Chrome，不再每次下载 Playwright 浏览器或安装系统依赖；同一分支连续 push 会取消过时 CI 以节省分钟；本地只在 `pre-commit` 跑 lint 和改动相关的用例，全量单测以此为唯一门槛，推送后用 `pnpm ci:watch` 看结论
-- `.github/workflows/release.yml` — Release：用 Docker Buildx 的 GitHub Actions 缓存构建 Docker 镜像（复用依赖层，避免每次从零安装），推送 GHCR 后让服务器按摘要增量拉取，再同步 Nginx/compose 并等待服务健康（详见 `docs/deployment.md`）；`.dockerignore` 排除本地工具缓存、测试/文档和构建临时目录，减少 Docker 构建上下文；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；部署后可用 `BAIDU_PUSH_TOKEN` secret 调 `scripts/submit-baidu-urls.mjs` 主动推送 sitemap 中的公开 URL（未配置时跳过且不阻塞发布）；爬虫访问改由 `robots.ts` 约束，不再在 Nginx 层按 UA 拒绝 GPTBot；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
+- `scripts/release-scope.mjs` — 比较 push 前后路径：纯课程模型/确认/课件内容及文档跳过应用镜像；代码、混合变更、手动发布和版本标签继续构建，比较失败则保守发布。
+- `.github/workflows/release.yml` — Release：先运行上述范围判断，再用 Docker Buildx 的 GitHub Actions 缓存构建并推送 GHCR 的 SHA 标签镜像，服务器经临时 Docker 凭据拉取不可变 digest 后用 compose 健康检查切换；失败时由 `deploy/registry-deploy.sh` 恢复此前运行镜像，不清理回滚镜像；发布时同步 Nginx 配置和 compose 文件；`.dockerignore` 排除本地工具缓存、测试/文档和构建临时目录，减少 Docker 构建上下文；Nginx 默认写入 `/etc/nginx/sites-available/steam-app` 并维护 `/etc/nginx/sites-enabled/steam-app`，默认域名 `steamx.cc www.steamx.cc`；部署后可用 `BAIDU_PUSH_TOKEN` secret 调 `scripts/submit-baidu-urls.mjs` 主动推送 sitemap 中的公开 URL（未配置时跳过且不阻塞发布）；爬虫访问改由 `robots.ts` 约束，不再在 Nginx 层按 UA 拒绝 GPTBot；站点参数可用 `NGINX_SERVER_NAME`、`NGINX_SSL_CERTIFICATE`、`NGINX_SSL_CERTIFICATE_KEY`、`NGINX_SITE_PATH`、`NGINX_SITE_ENABLED_PATH` 覆盖，若线上使用 `/etc/nginx/conf.d/*.conf` 可将两个 path 变量设为同一路径以跳过 `sites-enabled` symlink
 - `.github/workflows/apply-content-triage-2026-08-13.yml` — 2026-08-13 内容分诊一次性线上应用：SSH 到生产机，用 `/opt/steam-app/.env.production` 和已有 `steam-app:latest` 镜像先跑 OSS 清理（库行还在才能收集 key），再 `scripts/db-push.mjs push`；`ali-oss` 在 Actions runner 上装进包，避免服务器再拉 Docker Hub。不与 Release 共用并发组，避免排队时被取消。
 
 ---
@@ -630,4 +661,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `public/icon-192x192.png` / `public/icon-512x512.png` | PWA 图标（与品牌 Logo 同源）；`app/icon.png` / `app/apple-icon.png` 为站点 favicon / Apple Touch Icon |
 | `public/gomoku-rapfi/` | 五子棋大师档 Rapfi 单线程 WASM（`rapfi-single.js/.wasm/.data`，GPL-3；`NOTICE.md` / `COPYING.txt`）；由 `lib/playground/gomoku-rapfi.ts` 以 Worker 加载 |
 
-- 2026-09-15：发布已人工确认的全部 100 个 3+ 模型 MPD，对应小班课程 100 课时；精确确认哈希、课时映射及先部署资源后切换数据库的步骤见 `docs/ldraw-published-2026-09-15.md`。
+## 13. LDraw 课程状态
+
+- 3+ 的 100 个模型与小班课程 100 个课时已确认并完成生产发布，当前入口见 `docs/ldraw-status.md`，精确哈希与发布校验见 `docs/ldraw-published-2026-09-15.md`。
+- 4+/5+ 草稿继续保留独立状态。2026-09-10 至 09-15 的逐次修复过程已迁至 `docs/archive/ldraw/project-index-ldraw-history-2026-09-15.md`，不再把过期“待确认”结论留在当前导航。
+- 课程模型发布走已确认 MPD → 哈希命名 OSS 资产 → 课时字段更新，详见 `docs/ldraw-publishing.md`；首次启用 OSS 运行时读取需要应用部署，后续纯模型/文档变更跳过 Docker 镜像。

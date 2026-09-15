@@ -1,42 +1,74 @@
-0 3+ 舞龙 (Dragon Dance) - DUPLO draft for manual repair
+0 3+ Dragon Dance - INCOMPLETE source reconstruction
 0 Name: 3-wu-long.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+舞龙 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Dragon body waves, poles and small figures are simplified.
-
-0 // STEP 1 - parade base and poles
-1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 320 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 -320 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 400 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source: 3+舞龙搭建说明_pdf pages1-11.
+0 // INCOMPLETE: fence foot/curve intersections and full support unresolved; ball supports do not prove lateral stability.
+0 // Three inline chassis and one transverse head chassis; exact head attachment is inferred.
+0 // Source step 1
+1 4 0 -358.6 0 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 280 -358.6 0 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 560 -358.6 0 0 0 -1 0 1 0 1 0 0 10715p02.dat
+1 4 -80 -406.6 0 1 0 0 0 1 0 0 0 1 10715p02.dat
 0 STEP
-
-0 // STEP 2 - dragon body wave
-1 14 -360 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -200 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -40 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 120 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 280 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 440 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source step 2
+1 14 -160 -430.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -120 -454.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -502.6 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -160 -310.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -200 -286.6 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 3 - head and tail
-1 14 560 -192 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 640 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -620 -168 0 0.866 0 0.5 0 1 0 -0.5 0 0.866 40666.dat
+0 // Source step 3
+0 // User-selected staggered-foot alternative: 31021 feet at (-140,-454.6,20) and (-180,-454.6,-20), yaw +35/-35 degrees. This follows the source-facing spread while avoiding the original rigid intersections; exact visible foot anchors remain an approximation.
+1 14 -221.9152044288992 -550.6 77.35764363510461 0.8191520442889918 0 0.573576436351046 0 1 0 -0.573576436351046 0 0.8191520442889918 31021.dat
+1 14 -261.9152044288992 -550.6 -77.35764363510461 0.8191520442889918 0 -0.573576436351046 0 1 0 0.573576436351046 0 0.8191520442889918 31021.dat
 0 STEP
-
-0 // STEP 4 - legs and performers
-1 14 -280 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -40 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 200 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 440 -120 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 160 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 480 -72 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source step 4
+1 14 680 -382.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 600 -406.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 760 -406.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 800 -382.6 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // Source step 5
+1 25 80 -382.6 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 25 80 -382.6 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 80 -358.6 -140 1 0 0 0 1 0 0 0 1 63871.dat
+1 14 80 -358.6 140 -1 0 0 0 1 0 0 0 -1 63871.dat
+1 14 80 -406.6 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 40 -430.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source step 6
+1 25 240 -382.6 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 25 240 -382.6 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 240 -358.6 -140 1 0 0 0 1 0 0 0 1 63871.dat
+1 14 240 -358.6 140 -1 0 0 0 1 0 0 0 -1 63871.dat
+1 14 240 -406.6 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 200 -430.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source step 7
+1 25 400 -382.6 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 25 400 -382.6 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 400 -358.6 -140 1 0 0 0 1 0 0 0 1 63871.dat
+1 14 400 -358.6 140 -1 0 0 0 1 0 0 0 -1 63871.dat
+1 14 400 -406.6 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 360 -430.6 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source step 8
+1 25 560 -382.6 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 25 560 -382.6 80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 560 -358.6 -140 1 0 0 0 1 0 0 0 1 63871.dat
+1 14 560 -358.6 140 -1 0 0 0 1 0 0 0 -1 63871.dat
+0 STEP
+0 // Source step 9
+1 6 0 -40 0 1 0 0 0 1 0 0 0 1 51708.dat
+1 6 280 -40 0 1 0 0 0 1 0 0 0 1 51708.dat
+1 6 560 -40 0 1 0 0 0 1 0 0 0 1 51708.dat
+0 STEP
+0 // Source step 10
+1 2 20 -24 20 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 660 -24 20 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 340 -48 -100 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 340 -48 140 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source step 11

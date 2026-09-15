@@ -119,6 +119,54 @@ function ldrToAssembly(ldrFile, text) {
     ]
   }
 
+  // The official 10715 shortcuts contain the same 2312 chassis. Its hook is
+  // centered at local z=-140 and its hitch at local z=+140, so adjacent
+  // upright chassis mate at a 280 LDU local-Z separation. Their coarse
+  // collision boxes overlap around the coupling geometry even though the
+  // official mesh has zero material crossing there. Keep this certificate
+  // deliberately limited to the four upright cardinal rotations and exact
+  // finite transforms; all other placements remain collision checked.
+  const chassisIds = new Set(['10715p01.dat', '10715p02.dat'])
+  const cardinalMatrices = [
+    [1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 1, 0, -1, 0, 0],
+    [-1, 0, 0, 0, 1, 0, 0, 0, -1],
+    [0, 0, -1, 0, 1, 0, 1, 0, 0],
+  ]
+  const close = (a, b) => Math.abs(a - b) <= 1e-6
+  const isCardinal = (matrix) => cardinalMatrices.some((candidate) =>
+    candidate.every((value, index) => close(value, matrix[index])))
+  const transformFor = (placement) => placement.ldrawLine.split(/\s+/).slice(2, 14).map(Number)
+  for (let i = 0; i < allPlacements.length; i += 1) {
+    const first = allPlacements[i]
+    if (!chassisIds.has(first.partId)) continue
+    const firstTransform = transformFor(first)
+    const firstMatrix = firstTransform.slice(3)
+    if (!isCardinal(firstMatrix)) continue
+    for (let j = i + 1; j < allPlacements.length; j += 1) {
+      const second = allPlacements[j]
+      if (!chassisIds.has(second.partId)) continue
+      const secondTransform = transformFor(second)
+      const secondMatrix = secondTransform.slice(3)
+      if (!isCardinal(secondMatrix) || !secondMatrix.every((value, index) => close(value, firstMatrix[index]))) continue
+      const delta = secondTransform.slice(0, 3).map((value, index) => value - firstTransform[index])
+      if (!close(delta[1], 0)) continue
+      const localDelta = [
+        firstMatrix[0] * delta[0] + firstMatrix[3] * delta[1] + firstMatrix[6] * delta[2],
+        firstMatrix[1] * delta[0] + firstMatrix[4] * delta[1] + firstMatrix[7] * delta[2],
+        firstMatrix[2] * delta[0] + firstMatrix[5] * delta[1] + firstMatrix[8] * delta[2],
+      ]
+      if (!close(localDelta[0], 0) || !close(localDelta[1], 0) || !close(Math.abs(localDelta[2]), 280)) continue
+      first.acceptedOverlaps = [
+        ...(first.acceptedOverlaps ?? []),
+        {
+          id: second.id,
+          reason: 'Official 10715p01.dat/10715p02.dat 2312 chassis coupling: local hook z=-140 and hitch z=+140 mate at an exact 280 LDU upright cardinal separation with zero mesh crossing.',
+        },
+      ]
+    }
+  }
+
   return { assembly: { model: ldrFile, steps }, errors }
 }
 

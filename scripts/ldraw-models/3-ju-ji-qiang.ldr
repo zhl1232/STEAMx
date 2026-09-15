@@ -1,58 +1,66 @@
-0 3+ 狙击枪 (Toy Rifle) - DUPLO draft for manual repair
+0 3+ Toy Rifle - INCOMPLETE source reconstruction
 0 Name: 3-ju-ji-qiang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 3+狙击枪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Known simplifications: cylinder barrel/scope are block tubes made from repeated DUPLO bricks.
-
-0 // STEP 1 - blue and yellow support stand
-1 1 -120 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -120 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 120 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 120 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source: /mnt/d/pdf预览/3+狙击枪搭建说明_pdf pages1-10. Decorative brick toy.
+0 // INCOMPLETE:42029 pair geometry and tube retention unresolved; holder anchors inferred.
+0 // Nine authentic toy tubes replace old ordinary-brick stand-ins. No firing mechanism.
+0 // Source step 1
+1 1 -160 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - sloped foot rails
-1 1 -160 -168 -220 0.94 -0.342 0 0.342 0.94 0 0 0 1 3011.dat
-1 1 -80 -216 -220 0.94 -0.342 0 0.342 0.94 0 0 0 1 3011.dat
-1 1 160 -168 -220 0.94 0.342 0 -0.342 0.94 0 0 0 1 3011.dat
-1 1 80 -216 -220 0.94 0.342 0 -0.342 0.94 0 0 0 1 3011.dat
+0 // Source step 2
+1 1 320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - red central receiver
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 -80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source step 3
+1 4 0 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
-
-0 // STEP 4 - long barrel sections
-1 1 340 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 500 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 660 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 820 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source step 4
+1 14 -120 -552 0 0 0 1 0 1 0 -1 0 0 31191.dat
+1 14 120 -552 0 0 0 1 0 1 0 -1 0 0 31191.dat
 0 STEP
-
-0 // STEP 5 - blue muzzle and rear stock
-1 1 980 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 1060 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -380 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -500 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source step 5
+1 14 -120 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 4 0 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 1 120 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 14 240 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
 0 STEP
-
-0 // STEP 6 - top handle/scope
-1 4 -160 -336 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Source step 6
+1 1 0 -576 0 1 0 0 0 1 0 0 0 1 4672b.dat
 0 STEP
-
-0 // STEP 7 - trigger guard and lower rail
-1 14 -40 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 40 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -360 -80 0 0 1 0 1 0 -1 0 0 3437.dat
-1 4 0 -288 -200 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source step 7
+1 14 -480 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 4 -360 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 1 -240 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+0 STEP
+0 // Source step 8
+1 4 360 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+1 1 480 -442 0 0 0 -1 0 1 0 1 0 0 31452.dat
+0 STEP
+0 // Source step 9
+1 4 280 -471.3720070092773 0 0 -1 0 0 0 -1 1 0 0 42029.dat
+1 4 328.116 -650.1250070092773 0 0 -1 0 0 0 1 -1 0 0 42029.dat
+0 STEP
+0 // Source step 10

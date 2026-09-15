@@ -256,14 +256,17 @@ function obbOverlaps(a, b) {
 }
 
 function satAxisSeparates(a, b, axis, T) {
-  const projT = Math.abs(dotV(T, axis))
+  const axisLength = Math.hypot(axis.x, axis.y, axis.z)
+  if (axisLength < EPS) return false
+  const unitAxis = { x: axis.x / axisLength, y: axis.y / axisLength, z: axis.z / axisLength }
+  const projT = Math.abs(dotV(T, unitAxis))
   let projA = 0
   let projB = 0
   for (let i = 0; i < 3; i++) {
-    projA += a.halfExtents[i] * Math.abs(dotV(a.axes[i], axis))
-    projB += b.halfExtents[i] * Math.abs(dotV(b.axes[i], axis))
+    projA += a.halfExtents[i] * Math.abs(dotV(a.axes[i], unitAxis))
+    projB += b.halfExtents[i] * Math.abs(dotV(b.axes[i], unitAxis))
   }
-  return projT > projA + projB + EPS
+  return projT >= projA + projB - EPS
 }
 
 function dotV(a, b) {
@@ -516,10 +519,33 @@ function checkTubePathInterference(item, prior) {
   return []
 }
 
+function tubeCrossesOpeningPlane(tubeItem, openingItem) {
+  const path = tubeItem.part.tubePath
+  const openings = openingItem.part.tubeOpenings
+  if (path?.type !== 'straight' || !Array.isArray(openings) || openings.length === 0) return false
+
+  const start = transformPoint(metadataPoint(path.start), tubeItem.matrix, tubeItem.origin)
+  const end = transformPoint(metadataPoint(path.end), tubeItem.matrix, tubeItem.origin)
+  const tubeRadius = path.outerRadiusLdu ?? path.radiusLdu ?? 0
+  if (!segmentIntersectsExpandedBox(start, end, openingItem.bounds.bbox, tubeRadius)) return false
+
+  for (const opening of openings) {
+    const normalAxis = opening.axis ?? 'z'
+    const normal = normalizeVector(transformVector(vectorForAxis(normalAxis), openingItem.matrix))
+    if (!normal) continue
+    const center = transformPoint(metadataPoint(opening.center), openingItem.matrix, openingItem.origin)
+    const denominator = dot(subtract(start, center), normal) - dot(subtract(end, center), normal)
+    if (Math.abs(denominator) < EPS) continue
+    const t = dot(subtract(start, center), normal) / denominator
+    if (t >= -EPS && t <= 1 + EPS) return true
+  }
+  return false
+}
+
 function shouldSkipCoarseCollision(item, prior) {
   // Arch frames are checked with tube opening alignment; coarse boxes false-positive passages.
-  if (item.isExactTransform && hasTubeOpenings(prior.part)) return true
-  if (prior.isExactTransform && hasTubeOpenings(item.part)) return true
+  if (item.isExactTransform && hasTubeOpenings(prior.part) && tubeCrossesOpeningPlane(item, prior)) return true
+  if (prior.isExactTransform && hasTubeOpenings(item.part) && tubeCrossesOpeningPlane(prior, item)) return true
   // Tube pairs are checked by tubePorts above; coarse boxes false-positive valid flanges.
   if (
     isTubePart(item.part) &&
@@ -533,6 +559,128 @@ function shouldSkipCoarseCollision(item, prior) {
   // checking. Use a placement-level `acceptedOverlaps` entry (see `findOverlapExemption`) or
   // part-level `collisionPolicy: 'manual'` to document and accept a *specific* known overlap
   // instead of disabling the check for the whole part class.
+  return false
+}
+
+function isRigidTransform(matrix) {
+  if (!Array.isArray(matrix) || matrix.length !== 9 || matrix.some((value) => !Number.isFinite(value))) return false
+  const rows = [
+    { x: matrix[0], y: matrix[1], z: matrix[2] },
+    { x: matrix[3], y: matrix[4], z: matrix[5] },
+    { x: matrix[6], y: matrix[7], z: matrix[8] },
+  ]
+  for (const row of rows) {
+    if (Math.abs(dot(row, row) - 1) > 1e-8) return false
+  }
+  for (let i = 0; i < rows.length; i += 1) {
+    for (let j = i + 1; j < rows.length; j += 1) {
+      if (Math.abs(dot(rows[i], rows[j])) > 1e-8) return false
+    }
+  }
+  const determinant =
+    matrix[0] * (matrix[4] * matrix[8] - matrix[5] * matrix[7]) -
+    matrix[1] * (matrix[3] * matrix[8] - matrix[5] * matrix[6]) +
+    matrix[2] * (matrix[3] * matrix[7] - matrix[4] * matrix[6])
+  return Math.abs(determinant - 1) <= 1e-8
+}
+
+function validBoundingSphere(sphere) {
+  return Boolean(
+    sphere &&
+    validFinitePoint(sphere.center) &&
+    Number.isFinite(sphere.radiusLdu) &&
+    sphere.radiusLdu >= 0
+  )
+}
+
+// A rigid transform preserves a certified local sphere exactly.  This is only
+// a rejection test: intersecting or unverified spheres must continue through
+// the ordinary volume/OBB collision checks.
+function spheresDisjointOrTangent(item, prior) {
+  if (!isRigidTransform(item.matrix) || !isRigidTransform(prior.matrix)) return false
+  const first = item.part.boundingSphere
+  const second = prior.part.boundingSphere
+  if (!validBoundingSphere(first) || !validBoundingSphere(second)) return false
+  const firstCenter = transformPoint(metadataPoint(first.center), item.matrix, item.origin)
+  const secondCenter = transformPoint(metadataPoint(second.center), prior.matrix, prior.origin)
+  if (!validFinitePoint(firstCenter) || !validFinitePoint(secondCenter)) return false
+  return distance(firstCenter, secondCenter) >= first.radiusLdu + second.radiusLdu
+}
+
+function validFinitePoint(point) {
+  return point && typeof point === 'object' && ['x', 'y', 'z'].every((axis) => Number.isFinite(point[axis]))
+}
+
+function validCylinder(definition, requireRange = false) {
+  if (!definition || (!requireRange && definition.type !== 'cylinder') || !['x', 'y', 'z'].includes(definition.axis)) return false
+  if (!validFinitePoint(definition.center) || !Number.isFinite(definition.radiusLdu) || definition.radiusLdu <= 0) return false
+  if (requireRange) {
+    if (!Number.isFinite(definition.minLdu) || !Number.isFinite(definition.maxLdu) || definition.minLdu >= definition.maxLdu) return false
+  }
+  return true
+}
+
+function transformedAxis(item, axis) {
+  return normalizeVector(transformVector(vectorForAxis(axis), item.matrix))
+}
+
+function bboxProjectionOnAxis(bounds, center, axis) {
+  const corners = [
+    [bounds.xMin, bounds.yMin, bounds.zMin], [bounds.xMin, bounds.yMin, bounds.zMax],
+    [bounds.xMin, bounds.yMax, bounds.zMin], [bounds.xMin, bounds.yMax, bounds.zMax],
+    [bounds.xMax, bounds.yMin, bounds.zMin], [bounds.xMax, bounds.yMin, bounds.zMax],
+    [bounds.xMax, bounds.yMax, bounds.zMin], [bounds.xMax, bounds.yMax, bounds.zMax],
+  ]
+  if (![bounds.xMin, bounds.xMax, bounds.yMin, bounds.yMax, bounds.zMin, bounds.zMax].every(Number.isFinite)) return undefined
+  const projections = corners.map(([x, y, z]) => dot({ x: x - center.x, y: y - center.y, z: z - center.z }, axis))
+  return { min: Math.min(...projections), max: Math.max(...projections) }
+}
+
+/**
+ * Prove pair clearance from whole-part geometry certificates. A collisionVoid
+ * excludes material along an infinite cylinder; a collisionShaft bounds ALL
+ * material of its owner inside its axial interval, relative to its center.
+ * Merely declaring a local hole or one of several shafts is not sufficient.
+ */
+function hasAnalyticCylinderClearance(voidItem, shaftItem) {
+  try {
+    if (!voidItem?.part || !shaftItem?.part || !isRigidTransform(voidItem.matrix) || !isRigidTransform(shaftItem.matrix)) return false
+    const voids = voidItem.part.collisionVoids
+    const shafts = shaftItem.part.collisionShafts
+    if (!Array.isArray(voids) || !Array.isArray(shafts)) return false
+    for (const voidDefinition of voids) {
+      if (!validCylinder(voidDefinition)) continue
+      const voidAxis = transformedAxis(voidItem, voidDefinition.axis)
+      const voidCenter = transformPoint(metadataPoint(voidDefinition.center), voidItem.matrix, voidItem.origin)
+      if (!voidAxis || !validFinitePoint(voidCenter)) continue
+      for (const shaftDefinition of shafts) {
+        if (!validCylinder(shaftDefinition, true)) continue
+        const shaftAxis = transformedAxis(shaftItem, shaftDefinition.axis)
+        const shaftCenter = transformPoint(metadataPoint(shaftDefinition.center), shaftItem.matrix, shaftItem.origin)
+        if (!shaftAxis || !validFinitePoint(shaftCenter)) continue
+        const parallel = Math.hypot(
+          voidAxis.y * shaftAxis.z - voidAxis.z * shaftAxis.y,
+          voidAxis.z * shaftAxis.x - voidAxis.x * shaftAxis.z,
+          voidAxis.x * shaftAxis.y - voidAxis.y * shaftAxis.x,
+        )
+        if (parallel > 1e-8) continue
+        const centerDelta = subtract(shaftCenter, voidCenter)
+        const axialDelta = dot(centerDelta, shaftAxis)
+        const radialOffset = Math.hypot(
+          centerDelta.x - axialDelta * shaftAxis.x,
+          centerDelta.y - axialDelta * shaftAxis.y,
+          centerDelta.z - axialDelta * shaftAxis.z,
+        )
+        if (radialOffset + shaftDefinition.radiusLdu > voidDefinition.radiusLdu + EPS) continue
+        const projection = bboxProjectionOnAxis(voidItem.bounds?.bbox, shaftCenter, shaftAxis)
+        if (!projection) continue
+        if (projection.min < shaftDefinition.minLdu - EPS || projection.max > shaftDefinition.maxLdu + EPS) continue
+        return true
+      }
+    }
+  } catch {
+    // Invalid declarations never grant a collision exemption.
+  }
   return false
 }
 
@@ -556,6 +704,11 @@ function findOverlapExemption(placementA, placementB) {
 
 function checkTubeStraightPenetration(tubeItem, straightItem) {
   if (!isTubePart(tubeItem.part) || normalizePartId(straightItem.placement.partId) !== '31452.dat') return []
+  // Opening-bearing frames are tube-category parts for historical metadata
+  // purposes. When a straight tube actually crosses their opening plane, the
+  // opening alignment check owns the result; do not classify a valid passage
+  // as penetration of the frame's nominal run.
+  if (hasTubeOpenings(tubeItem.part) && tubeCrossesOpeningPlane(straightItem, tubeItem)) return []
 
   let overlaps = false
   for (const volume of tubeItem.bounds.collisionVolumes) {
@@ -655,18 +808,16 @@ function checkTubeOpeningAlignment(tubeItem, openingItem) {
     const center = transformPoint(metadataPoint(opening.center), openingItem.matrix, openingItem.origin)
     const startDistance = dot(subtract(start, center), normal)
     const endDistance = dot(subtract(end, center), normal)
-    const halfThickness = (opening.thicknessLdu ?? 0) / 2
     const denominator = startDistance - endDistance
 
-    let t
-    if (Math.abs(denominator) < EPS) {
-      if (Math.abs(startDistance) > halfThickness + EPS) continue
-      t = 0
-    } else {
-      t = startDistance / denominator
-      if (t < -EPS || t > 1 + EPS) continue
-      t = Math.min(1, Math.max(0, t))
-    }
+    // A tube parallel to the opening plane has no crossing point.  In
+    // particular, do not use an arbitrary endpoint (t=0) as its crossing;
+    // ordinary collision checks below still handle a tube lying in the frame.
+    if (Math.abs(denominator) < EPS) continue
+
+    let t = startDistance / denominator
+    if (t < -EPS || t > 1 + EPS) continue
+    t = Math.min(1, Math.max(0, t))
 
     const point = {
       x: start.x + (end.x - start.x) * t,
@@ -767,6 +918,10 @@ export function resolveAssembly(assembly, partMetadata) {
   const warnings = []
   const resolved = []
   const resolvedById = new Map()
+  // Keep geometrically constructed placements separate from the resolved set.
+  // A placement that fails validation still needs to participate in later
+  // collision checks, but must not become a support or BOM/resolved entry.
+  const collisionCandidates = []
   const seenIds = new Set()
 
   for (const [stepIndex, step] of (assembly.steps ?? []).entries()) {
@@ -829,12 +984,12 @@ export function resolveAssembly(assembly, partMetadata) {
           isExactTransform: Boolean(exactTransform),
           ldrawLine: ldrawLineForPlacement(placement, { origin, matrix }),
         }
+        collisionCandidates.push(item)
 
-        for (const message of checkPlacementTubeConstraints(item, resolvedById)) {
-          throw new Error(message)
-        }
+        const placementValidationErrors = checkPlacementTubeConstraints(item, resolvedById)
 
         if (part.supportPolicy !== 'decorative' && !part.decorative && !placement.decorative) {
+          try {
           // Exact ldrawLine transforms used to silently skip this whole block whenever
           // placement.support was omitted (the common case for side-built models), so they never
           // got any structural validation at all. Now every non-decorative placement must declare
@@ -891,8 +1046,17 @@ export function resolveAssembly(assembly, partMetadata) {
             throw new Error(`${placement.id} has unknown support.type: ${support.type}`)
           }
 
+          } catch (error) {
+            placementValidationErrors.push(error.message)
+          }
+        }
+
+        if (part.supportPolicy !== 'decorative' && !part.decorative && !placement.decorative) {
           const collisionErrors = []
-          for (const prior of resolved) {
+          const collisionMessages = new Set()
+          const collisionWarnings = new Set()
+          for (const prior of collisionCandidates) {
+            if (prior === item) continue
             if (prior.part.decorative || prior.part.supportPolicy === 'decorative' || prior.placement.decorative) continue
             for (const message of [
               ...checkTubePathInterference(item, prior),
@@ -901,8 +1065,10 @@ export function resolveAssembly(assembly, partMetadata) {
               ...checkTubeStraightPenetration(item, prior),
               ...checkTubeStraightPenetration(prior, item),
             ]) {
-              throw new Error(message)
+              if (!collisionMessages.has(message)) collisionMessages.add(message)
             }
+            if (hasAnalyticCylinderClearance(item, prior) || hasAnalyticCylinderClearance(prior, item)) continue
+            if (spheresDisjointOrTangent(item, prior)) continue
             if (shouldSkipCoarseCollision(item, prior)) continue
             for (let vi = 0; vi < bounds.collisionVolumes.length; vi++) {
               for (let pi = 0; pi < prior.bounds.collisionVolumes.length; pi++) {
@@ -915,20 +1081,35 @@ export function resolveAssembly(assembly, partMetadata) {
                 const overlapReason = findOverlapExemption(placement, prior.placement)
                 const manualOverlap = part.collisionPolicy === 'manual' || prior.part.collisionPolicy === 'manual'
                 if (overlapReason) {
-                  warnings.push(`${placement.id} overlaps ${prior.placement.id}; manually accepted: ${overlapReason}`)
+                  const warningKey = `${placement.id}\0${prior.placement.id}`
+                  if (!collisionWarnings.has(warningKey)) {
+                    collisionWarnings.add(warningKey)
+                    warnings.push(`${placement.id} overlaps ${prior.placement.id}; manually accepted: ${overlapReason}`)
+                  }
                 } else if (manualOverlap) {
-                  warnings.push(`${placement.id} overlaps ${prior.placement.id}; manual collision accepted`)
+                  const warningKey = `${placement.id}\0${prior.placement.id}`
+                  if (!collisionWarnings.has(warningKey)) {
+                    collisionWarnings.add(warningKey)
+                    warnings.push(`${placement.id} overlaps ${prior.placement.id}; manual collision accepted`)
+                  }
                 } else {
                   // Collect rather than throw immediately: a single placement can overlap several
                   // priors at once (e.g. a plate spanning two support columns), and fail-fast would
                   // hide every overlap after the first, forcing a slow one-at-a-time discovery loop.
-                  collisionErrors.push(`${placement.id} overlaps ${prior.placement.id}`)
+                  const message = `${placement.id} overlaps ${prior.placement.id}`
+                  if (!collisionMessages.has(message)) {
+                    collisionMessages.add(message)
+                    collisionErrors.push(message)
+                  }
                 }
               }
             }
           }
-          if (collisionErrors.length > 0) throw new Error(collisionErrors.join('; '))
+          collisionErrors.push(...[...collisionMessages].filter((message) => !collisionErrors.includes(message)))
+          placementValidationErrors.push(...collisionErrors)
         }
+
+        if (placementValidationErrors.length > 0) throw new Error(placementValidationErrors.join('; '))
 
         if (placement.needsReview) warnings.push(`${placement.id} is marked needsReview`)
         if ((placement.confidence ?? 1) < 0.8) warnings.push(`${placement.id} has low confidence`)

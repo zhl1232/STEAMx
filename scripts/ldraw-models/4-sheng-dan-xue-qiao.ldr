@@ -1,43 +1,75 @@
-0 4+ 圣诞雪橇 (Christmas Sleigh) - DUPLO draft for manual repair
+0 4+ 圣诞雪橇 - INCOMPLETE source reconstruction
 0 Name: 4-sheng-dan-xue-qiao.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+圣诞雪橇 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Reindeer, runners, gifts and minifigure details are simplified.
-
-0 // STEP 1 - sleigh base and runners
-1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 7 120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 7 120 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 7 340 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 7 340 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // Source: /mnt/d/pdf预览/4+圣诞雪橇搭建说明_pdf, 15 pages.
+0 // INCOMPLETE: only standard seat steps 11-13 reconstructed, separate manual-support subassembly.
+0 // Bottom plane Y=0 is a local display reference, not ground or a solved Toolo mount.
+0 // U-shape 12x8 studs and hidden seam anchors inferred from source outline/BOM.
+0 // Step 13 top uses 24 LDU 40666 thin plates, not 48 LDU bricks.
+0 // Source page 1
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
 0 STEP
-
-0 // STEP 2 - red and yellow cargo box
-1 4 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 120 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -216 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Source page 2
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 // Standard head/nose and source eye print also deferred with unresolved Toolo head mounts.
 0 STEP
-
-0 // STEP 3 - front reindeer pair
-1 14 -240 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -360 -120 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -360 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 -240 -24 -140 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -240 -24 140 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 // Two 2301 antlers per reindeer identified; deferred with unresolved head assembly, not replaced by seat bricks.
 0 STEP
-
-0 // STEP 4 - passengers and antlers
-1 4 0 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 80 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -420 -240 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 -420 -240 -40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -420 -240 40 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 -420 -240 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // Source page 4
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 5
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 6
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 7
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 8
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 9
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 10
+0 // OMITTED: Toolo reindeer/runner joints and support platforms unavailable; no substitute geometry.
+0 STEP
+0 // Source page 11
+1 4 -200 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 12
+1 4 -200 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -96 -120 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -200 -96 120 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 200 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -96 -120 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 200 -96 120 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 -120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 13
+1 4 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -192 120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 120 -192 120 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 -80 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 80 -216 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 14
+0 // OMITTED: source two articulated passengers; correct figure variants and mechanical foot mounts unresolved.
+0 STEP
+0 // Source page 15
+0 // Final view: seat only, no Toolo running frame/reindeer/passengers. INCOMPLETE.

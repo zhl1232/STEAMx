@@ -1,40 +1,67 @@
-0 4+ 办公椅 (Office Chair) - DUPLO draft for manual repair
+0 4+ 办公椅 (Office Chair) - evidence-limited LDraw draft
 0 Name: 4-ban-gong-yi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+办公椅 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Rolling base, seat and tall back are simplified.
+0 // Source: /mnt/d/pdf预览/4+办公椅搭建说明_pdf/4+办公椅搭建说明-{1..12}.jpg
+0 // STATUS: INCOMPLETE. Toolo base/side-hole plates, wheels, arms and rear
+0 // support IDs are unresolved and intentionally omitted; no substitutions.
+0 // Source 8-10 only: 4196x2, 3011x12, 40666x15 (29 standard pieces).
+0 // Red plate topZ=0/body+24; red brick topZ=24/body+48; yellow plate
+0 // topZ=72/body+24. Local +Y maps to world +Z; local top/studs face -Z.
 
-0 // STEP 1 - wheeled star base
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -72 -160 0 0 1 0 1 0 -1 0 0 41989.dat
-1 0 0 -72 160 0 0 1 0 1 0 -1 0 0 41989.dat
+0 // STEP 1 - source Toolo base, unresolved
+0 STEP
+0 // STEP 2 - source Toolo base/side-hole bricks, unresolved
+0 STEP
+0 // STEP 3 - source wheels/hubs, unresolved
+0 STEP
+0 // STEP 4 - source Toolo turntable/plates, unresolved
+0 STEP
+0 // STEP 5 - source Toolo plates, unresolved
+0 STEP
+0 // STEP 6 - source Toolo plates, unresolved
+0 STEP
+0 // STEP 7 - source Toolo rear side-built plates, unresolved
 0 STEP
 
-0 // STEP 2 - central post
-1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 8 - red 6 x 12 plates, 2x; local XY face, normal +Z
+1 4 -120 -240 0 0 0 -1 -1 0 0 0 1 0 4196.dat
+1 4 120 -240 0 0 0 -1 -1 0 0 0 1 0 4196.dat
 0 STEP
 
-0 // STEP 3 - seat and arm rests
-1 0 -240 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 0 240 -264 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 0 -260 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 0 260 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 9 - red 2 x 4 bricks, 3 columns x 4 rows, 12x; face toward seat
+1 4 -160 -440 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 0 -440 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 160 -440 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 -160 -360 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 0 -360 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 160 -360 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 -160 -280 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 0 -280 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 160 -280 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 -160 -200 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 0 -200 24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 160 -200 24 1 0 0 0 0 -1 0 1 0 3011.dat
 0 STEP
 
-0 // STEP 4 - yellow back panel
-1 14 -160 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -360 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -408 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -408 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -408 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 10 - yellow 2 x 4 plates, 15x: 3 top horizontal + 6 columns x 2 vertical
+1 14 -160 -440 72 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 0 -440 72 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 160 -440 72 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 -200 -320 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 -120 -320 72 0 0  -1 -1 0 0 0 1 0 40666.dat
+1 14 -40 -320 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 40 -320 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 120 -320 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 200 -320 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 -200 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 -120 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 -40 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 40 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 120 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+1 14 200 -160 72 0 0 -1 -1 0 0 0 1 0 40666.dat
+0 STEP
+0 // STEP 11 - source arm/person accessories unresolved
+0 STEP
+0 // STEP 12 - finished source reference only
