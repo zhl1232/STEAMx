@@ -1,7 +1,7 @@
 # STEAMX · 史迪姆 — 全局设计规范
 
 > 面向 3–16 岁儿童与青少年、家长与教师。界面应鼓励式、清晰、偏探索感；桌面端优先宽容器，信息分区清楚。
-> 本规范由 [ui-consistency-audit.md](./ui-consistency-audit.md) 落地而来，与 `/design-system` 展示页、`app/globals.css` 及 `components/ui/*` 保持一致。
+> 本规范与 [`/design-system`](../app/design-system/page.tsx) 展示页、`app/globals.css` 及 `components/ui/*` 保持一致。
 
 ## 设计原则
 
@@ -134,7 +134,7 @@ import { Surface } from "@/components/ui/surface"
 | `text-label` | 辅助标签 |
 | `section-kicker` | 分区英文/小标签 |
 
-标题默认衬线（`.font-heading` / `h1–h3`，Noto Serif SC），正文无衬线（Noto Sans SC）；等宽为 JetBrains Mono。均通过 `next/font` 加载（SIL OFL 1.1，可商用）。
+标题与正文使用项目全局字体变量；等宽字体为 JetBrains Mono，用于游乐场分数、管理端 ID 等场景。当前 `lib/fonts.ts` 仅通过 `next/font/google` 加载 JetBrains Mono；新增字体前需先在实现中落地并同步本节。
 
 ---
 
@@ -228,4 +228,4 @@ import { Surface } from "@/components/ui/surface"
 | `components/ui/surface.tsx` | 表面组件 |
 | `components/ui/status-badge.tsx` | 状态徽章/提示 |
 | `components/features/design-system-content.tsx` | `/design-system` 展示 |
-| `docs/ui-ux-backlog.md` | 待讨论 UX 改进（探索筛选、个人页首屏等） |
+| `docs/next-step.md` | 当前待推进事项与维护顺序 |

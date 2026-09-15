@@ -1,0 +1,47 @@
+{
+  "date": "2026-09-15T07:42:23.585791+00:00",
+  "archiveRoot": "/home/arron/archives/steamx/ldraw-3plus-2026-09-15",
+  "items": [
+    {
+      "original": ".tmp/rifle-venv",
+      "bytes": 81647882,
+      "action": "Removed after tar --compare succeeded",
+      "restoreFrom": "rebuildable-python-environments.tar.gz"
+    },
+    {
+      "original": ".tmp/missing-final-audit/venv",
+      "bytes": 169580854,
+      "action": "Removed after tar --compare succeeded",
+      "restoreFrom": "rebuildable-python-environments.tar.gz"
+    },
+    {
+      "original": ".tmp/45002/ldraw/complete.zip",
+      "bytes": 145316175,
+      "action": "Moved to archive; extracted shared library retained",
+      "archive": "/home/arron/archives/steamx/ldraw-3plus-2026-09-15/library-downloads/complete.zip",
+      "sha256": "d2a695868ed2b3957c45b022a6451908edab22cc043179dd61d18dd382b35e11"
+    },
+    {
+      "original": ".tmp/45002/ldraw/unofficial.zip",
+      "bytes": 87955545,
+      "action": "Moved to archive; extracted shared library retained",
+      "archive": "/home/arron/archives/steamx/ldraw-3plus-2026-09-15/library-downloads/unofficial.zip",
+      "sha256": "e8e3fb85f25ebee78cf5d770e4c25de2551f8e722315ad750ff8f144de889496"
+    }
+  ],
+  "releaseEvidence": "/home/arron/archives/steamx/ldraw-3plus-2026-09-15/publish-3-20260915",
+  "removedWorktree": {
+    "path": "/home/arron/steam-publish-3-20260915",
+    "commit": "f4d3f584cc0bb0d6899d40031c171fedde1484e0",
+    "clean": true,
+    "commitRetainedOnOriginMain": true
+  },
+  "preserved": [
+    "source LDR",
+    "shared parts",
+    "review records",
+    "published MPD",
+    "4+/5+ work",
+    "source images and review/acceptance evidence"
+  ]
+}

@@ -1,6 +1,8 @@
-# PBL 阶段引导 + 阶段提交 重构方案
+# PBL 阶段引导 + 阶段提交 重构方案（历史归档）
 
-> 本文承接 [PBL_CHALLENGE_SYSTEM.md](/home/arron/work/docs/PBL_CHALLENGE_SYSTEM.md) 与 [PBL_CHALLENGE_CONTENT_MODEL.md](/home/arron/work/docs/PBL_CHALLENGE_CONTENT_MODEL.md)。
+> 归档于 2026-09-09。当前阶段工作流请以 [`PBL_CHALLENGE_GUIDE.md`](../PBL_CHALLENGE_GUIDE.md) 和代码入口为准。
+
+> 本文承接 [PBL_CHALLENGE_GUIDE.md](../PBL_CHALLENGE_GUIDE.md) 的当前内容模型与系统设计。
 >
 > 目标：把当前"静态阶段列表 + 末端一次性提交"的 PBL 详情页，重构为"分步引导 + 每阶段产出 + AI 指导"三位一体的学习流程，同时不违背"挑战是任务书、不是菜谱"的内容原则。
 >
@@ -12,8 +14,8 @@
 
 当前路由 `/pbl/[id]`（示例：`校园遮阳休息站挑战`）的实现：
 
-- 页面 [app/pbl/[id]/page.tsx](/home/arron/work/app/pbl/[id]/page.tsx) 是一个**纯展示型长页面**：封面 → 任务说明 → 阶段引导 → 相关项目 → 作品墙 → 侧栏提交。
-- 阶段引导组件 [components/features/challenge/stage-guide.tsx](/home/arron/work/components/features/challenge/stage-guide.tsx) 把 `stages` 数组里的所有步骤**一次性平铺**，每步仅 `title + description + hint`，纯文字、不可操作、无状态。
+- 页面 `app/pbl/[id]/page.tsx` 当时是一个**纯展示型长页面**：封面 → 任务说明 → 阶段引导 → 相关项目 → 作品墙 → 侧栏提交。
+- 阶段引导组件 `components/features/challenge/stage-guide.tsx`（历史组件，现已移除） 把 `stages` 数组里的所有步骤**一次性平铺**，每步仅 `title + description + hint`，纯文字、不可操作、无状态。
 - 提交流程 [app/pbl/[id]/submit/page.tsx](/home/arron/work/app/pbl/[id]/submit/page.tsx) → [challenge-submission-form.tsx](/home/arron/work/components/features/challenge/challenge-submission-form.tsx) 是**末端一次性整体表单**（标题 + 图片 + 视频 + 反思 + 参考项目）。
 - 数据层（见 [seed 迁移](/home/arron/work/supabase/migrations/20260609183000_seed_school_shade_pbl_project.sql)）：`challenges.stages` 是 `jsonb` 的 `{title,description,hint}[]`；`challenge_submissions` 是**单条整体作品**，没有"阶段进度 / 阶段产出"的概念。
 - PBL 流程里**完全没有 AI 指导**。仓库已有 AI 能力（[lib/ai/](/home/arron/work/lib/ai/) 下的 Qwen 视觉、文本自动回复、内容审核），但没有面向学习过程的答疑/反馈。
@@ -31,7 +33,7 @@
 
 ## 二、设计原则（与内容模型对齐）
 
-复用 [PBL_CHALLENGE_CONTENT_MODEL.md](/home/arron/work/docs/PBL_CHALLENGE_CONTENT_MODEL.md) 已确立的原则，避免重构跑偏：
+复用 [PBL_CHALLENGE_GUIDE.md](../PBL_CHALLENGE_GUIDE.md) 已确立的原则，避免重构跑偏：
 
 1. **任务书，不是菜谱**：阶段引导分步，但每步给的是"目标 + 要交什么 + 分层提示"，不是标准答案。
 2. **阶段是工作台，不是唯一路径**：分步推进默认是"建议节奏"。采用**软解锁**（建议顺序但允许跳步/回改），不强制线性锁死，保留探究空间（呼应内容模型第五节"脚手架是支撑，不是路线图"）。
@@ -78,7 +80,7 @@ stateDiagram-v2
 
 ## 四、信息架构（详情页重构）
 
-保持 [内容模型文档第六节](/home/arron/work/docs/PBL_CHALLENGE_CONTENT_MODEL.md) 的模块顺序，仅把"静态阶段引导 + 独立提交页"替换为"阶段推进工作台"，并新增 AI 指导：
+保持内容模型第六节的模块顺序，仅把"静态阶段引导 + 独立提交页"替换为"阶段推进工作台"，并新增 AI 指导：
 
 ```
 1. Hero 区（标题/摘要/难度/类型/主 CTA）            —— 保留
@@ -214,7 +216,7 @@ AI 指导**复用同一套调用骨架**，新增一个 PBL 专用模块即可�
 ## 七、与现有系统的集成
 
 - **最终提交**：沿用 [challenge-submission-form.tsx](/home/arron/work/components/features/challenge/challenge-submission-form.tsx) 与 `challenge_submissions`；区别是表单从"空白"变为"由阶段产出预填"。
-- **结算/STEAM**：限时与长期挑战的结算、STEAM 雷达逻辑完全不变（见 [PBL_CHALLENGE_SYSTEM.md](/home/arron/work/docs/PBL_CHALLENGE_SYSTEM.md) 结算章节）。
+- **结算/STEAM**：限时与长期挑战的结算、STEAM 雷达逻辑完全不变（见 [PBL_CHALLENGE_GUIDE.md](../PBL_CHALLENGE_GUIDE.md) 结算章节）。
 - **管理后台**：挑战编辑处增加每个阶段的 `kind` 选择（可选），不影响旧挑战。
 - **PROJECT_INDEX.md**：实施阶段需同步更新 `challenge/` 组件数量与新 API、新表条目（遵循项目规则）。
 

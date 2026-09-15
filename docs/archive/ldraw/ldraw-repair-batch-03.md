@@ -1,5 +1,7 @@
 # LDraw 修复第三批（2026-09-08）
 
+> 历史验收记录；当前状态见 [LDraw 状态索引](../../ldraw-status.md)。文中的代码路径与命令以仓库根目录为基准；检查结论仅适用于记录中的模型版本。
+
 直接使用 `D:\pdf预览`（WSL `/mnt/d/pdf预览`）下已有步骤 JPG，未重新下载 PDF 或图片。本轮处理前两批之外的室外咖啡桌、座椅和漱口杯。
 
 本地预览：<http://localhost:3000/ldraw-preview?models=3-shi-wai-ka-fei-zhuo.ldr,3-zuo-yi.ldr,3-shu-kou-bei.ldr>。

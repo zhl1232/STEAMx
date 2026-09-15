@@ -1,5 +1,7 @@
 # LDraw 修复第四批（2026-09-08）
 
+> 历史验收记录；当前状态见 [LDraw 状态索引](../../ldraw-status.md)。文中的代码路径与命令以仓库根目录为基准；检查结论仅适用于记录中的模型版本。
+
 全部使用 `D:\pdf预览`（WSL `/mnt/d/pdf预览`）已有步骤 JPG，未下载 PDF 或图片。保留工作区其它模型已有修改。
 
 本地预览：<http://localhost:3000/ldraw-preview?models=3-li-he.ldr,3-tu-shu-jia.ldr>。

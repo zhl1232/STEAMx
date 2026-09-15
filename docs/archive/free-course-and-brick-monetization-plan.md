@@ -1,4 +1,6 @@
-# 免费课主食 + 积木变现：产品方向与实施方案（暂不实施）
+# 免费课主食 + 积木变现：产品方向与实施方案（历史归档）
+
+> 这是 2026-08-13 的方案记录。当前产品约束和商城履约路线请以 [`../product-direction.md`](../product-direction.md) 与 [`../STORE_CHANNEL_FULFILLMENT_DECISION.md`](../STORE_CHANNEL_FULFILLMENT_DECISION.md) 为准。
 
 > 状态：**方案记录，暂不实施**。2026-08-13 定稿。
 >

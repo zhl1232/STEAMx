@@ -1,0 +1,7 @@
+{
+  "models": 100,
+  "colorFiles": 1,
+  "hashesVerified": 101,
+  "verifiedAt": "2026-09-15T07:18:28.401Z",
+  "note": "前11项通过CDN回读，其余通过OSS GetObject回读；CDN网络不稳定，模型实际分步由生产容器读取"
+}

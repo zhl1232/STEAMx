@@ -6,7 +6,7 @@
 
 通用 CLI 打包器曾为漱口杯选取不同精度的依赖，哈希核验拒绝该产物；本批使用预览确认时完整 MPD，逐文件匹配下表确认哈希。
 
-准备记录、数据库快照、事务补丁和校验证据：工作区 `.tmp/publish-3-20260915/`。
+发布 manifest 和公开校验证据已归档到 [`archive/ldraw/releases/2026-09-15/`](archive/ldraw/releases/2026-09-15/)。完整数据库快照、操作脚本及资产包保存在本机 `/home/arron/archives/steamx/ldraw-3plus-2026-09-15/publish-3-20260915/`；重复 accepted MPD 已在与资产包逐文件核对哈希后移除。
 
 课程步骤采用生产分步解析器口径：排除末尾空白 STEP。预览接口的 partCount 表示依赖文件数量，表中块数按主模型放置行统计并与 BOM 接口逐项核对。
 
@@ -112,3 +112,9 @@
 |127|照相机|3-zhao-xiang-ji|11|56|6e88a1b31f43f34516de75cd7a973ac7f867814221e2370009b7f3842b7c4dd2|
 |128|足球场|3-zu-qiu-chang|12|120|b332cd5c6e9600d9692c3fe2c13dbdc4cecd898f54589f879bbcf89d41fa4075|
 |129|座椅|3-zuo-yi|10|116|408826ec58e55b568642fdef9ad19b3fcc806344537f6992f8c115746829a052|
+
+## 发布完成核验
+
+2026-09-15：资源提交 `f4d3f584` 通过 GitHub Actions 发布至生产。100 个生产 MPD 的 SHA-256、首末步接口、BOM 步数及块数全部通过；100 个模型与 LDConfig 已上传 OSS 并回读校验。随后事务更新 course_id=5 的 100 个既有课时，仅修改模型地址、配色地址与匹配实际模型的 steps3d。数据库逐字段回读通过，其他课程不变；公开 `/api/courses/5` 返回 100 个课时且全部 `has_model=true`。
+
+本次全应用镜像传输耗时较长；模型独立压缩包仅 3.7 MB。后续模型更新可考虑独立资源发布，当前分步/BOM 接口仍依赖生产容器本地文件。完整结果见上述仓库证据归档中的 `production-verification.json`、`database-verified.json` 与 `oss-summary.json`。后续发布流程见 [LDraw 课程资源发布](ldraw-publishing.md)。

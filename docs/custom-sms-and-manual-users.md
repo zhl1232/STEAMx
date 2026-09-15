@@ -51,8 +51,6 @@ POST 请求体为：
 
 ```bash
 pnpm db:push
-# 或
-npx supabase migration up
 ```
 
 涉及表：`phone_otps`、`phone_to_user`（仅 service_role 可访问）。
@@ -60,7 +58,7 @@ npx supabase migration up
 ### 3. 流程说明
 
 - **发验证码**：前端请求 `POST /api/auth/sms/send`，服务端生成 6 位验证码、写入 `phone_otps`、调用你配置的短信接口。
-- **验证并登录**：前端请求 `POST /api/auth/sms/verify`，服务端校验 OTP，若用户不存在则用 Admin API 创建用户（占位邮箱 + 可选密码），再生成 Magic Link 并返回 `redirectUrl`，前端跳转即完成登录。
+- **验证并登录**：前端请求 `POST /api/auth/sms/verify`，服务端校验 OTP，若用户不存在则用 Admin API 创建用户（占位邮箱 + 可选密码），再生成 Magic Link。响应同时可能包含 `redirectUrl` 和 `tokenHash`：前端优先跳转 `redirectUrl`；没有可用链接时，使用 Supabase `auth.verifyOtp({ type: 'email', token_hash: tokenHash })` 完成会话建立，再跳转响应中的 `redirectTo`。这样兼容 pg-meta 返回 action link 或仅返回 hashed token 的两种格式。
 - **绑定手机号**：已登录用户请求 `POST /api/auth/sms/send`（`type=phone_change`）发送验证码，再调用 `POST /api/auth/sms/verify`（`type=phone_change`）完成绑定。
 
 手机号用户在本系统中以「占位邮箱」形式存在于 Supabase Auth（如 `p_8613800138000@phone.local`），`phone_to_user` 表维护手机号与用户 ID 的对应关系。

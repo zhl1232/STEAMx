@@ -1,5 +1,7 @@
 # LDraw 修复第二批（2026-09-08）
 
+> 历史验收记录；当前状态见 [LDraw 状态索引](../../ldraw-status.md)。文中的代码路径与命令以仓库根目录为基准；检查结论仅适用于记录中的模型版本。
+
 本批选择昨天第一批之外的两个模型：山羊、神秘的金字塔。目标是按原搭建说明替换旧简化草稿，完成本地检查与预览，供用户验收。
 
 本地预览：<http://localhost:3000/ldraw-preview?models=3-shan-yang.ldr,3-shen-mi-de-jin-zi-ta.ldr>。

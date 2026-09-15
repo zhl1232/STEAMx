@@ -1,5 +1,7 @@
 # LDraw 修复第五批（2026-09-08）
 
+> 历史验收记录；当前状态见 [LDraw 状态索引](../../ldraw-status.md)。文中的代码路径与命令以仓库根目录为基准；检查结论仅适用于记录中的模型版本。
+
 直接使用 `D:\pdf预览`（WSL `/mnt/d/pdf预览`）已有26页JPG，未下载。并行检查三个新模型，根代理重建并整合，独立复核后加入“修复完待确认”。宝剑已有历史修复和正式MPD，经用户提醒排除，本轮未改动。
 
 预览：<http://localhost:3000/ldraw-preview?models=3-la-ji-tong.ldr,3-you-xiang.ldr,3-shou-dian-tong.ldr>。

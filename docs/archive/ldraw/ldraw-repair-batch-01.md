@@ -1,5 +1,7 @@
 # LDraw 修复第一批（2026-09-07）
 
+> 历史验收记录；当前状态见 [LDraw 状态索引](../../ldraw-status.md)。文中的代码路径与命令以仓库根目录为基准；检查结论仅适用于记录中的模型版本。
+
 本批共 10 个模型，**尚未全部修复**，未写课程数据库或发布 MPD。
 
 查看入口：[/ldraw-preview](/ldraw-preview?models=3-tui-la-men.ldr,3-mei-li-de-xiao-qu.ldr,3-pang-xie.ldr,3-pen-zai.ldr,3-ping-heng-da-shi.ldr,3-qian-shui-jing.ldr,3-qian-shui-ting.ldr,3-qiu-qian.ldr,3-ren-xing-tian-qiao.ldr,3-sa-shui-hu.ldr)。支持前后切换模型、分步回放和显示全部。
@@ -14,7 +16,7 @@
 | 潜水镜 `3-qian-shui-jing.ldr` | 已补到148块、源第1–12页：镜框和管道、两条鱼、两只乌龟、海星、两组四板礁石及24×24海底。碰撞检查通过，逐页记录见 `.tmp/batch-b/goggles-review-ledger.md`；第10页礁石隐藏错位和第11页精确底板锚点仍待人工确认，源文件保留 INCOMPLETE，不作为已验收/可发布课程模型。 |
 | 潜水艇 `3-qian-shui-ting.ldr` | 未完成，已标注 INCOMPLETE。用户确认驾驶舱31196c01、黄色舱罩17562；尚未取得真实DAT，现有底座和管道草稿未通过源图验收。 |
 | 秋千 `3-qiu-qian.ldr` | 已替换为63块、第1–6页的明确未完成模型：24×24底板、交错双色塔、2圆框、4直管。碰撞检查通过；已测得42029孔轴为局部X=0、Z约-30.84且平行Y。第7–10页约40块仍待确认座椅黄色薄板的隐藏连接及轴向位置。 |
-| 人行天桥 `3-ren-xing-tian-qiao.ldr` | 已重建100块、8个新增步骤（源第9页为成品对照）；四组逐层内缩楼梯、两辆车、中央护栏、8×20桥面及6桥上护栏。碰撞检查通过，分步渲染记录见.tmp/batch-c/3-ren-xing-tian-qiao-review.md。structurally checked only。 |
+| 人行天桥 `3-ren-xing-tian-qiao.ldr` | 已重建100块、8个新增步骤（源第9页为成品对照）；四组逐层内缩楼梯、两辆车、中央护栏、8×20桥面及6桥上护栏。碰撞检查通过，分步渲染记录见 `.tmp/batch-c/3-ren-xing-tian-qiao-review.md`。structurally checked only。 |
 | 洒水壶 `3-sa-shui-hu.ldr` | 已重建55块、7页步骤；两个真实31191圆框、5层交错壶身、精确连接的弯管+2直管、4×4开口阶梯壶口和7砖拱形提手。碰撞检查及独立坐标/支撑/端口复核通过；步骤1–6已渲染对照，保守标注 structurally checked only。 |
 
 图纸来源为现有课件 `https://assets.steamx.cc/courses/<slug>/instructions.pdf`，使用站点 Referer 访问。暂存资料位于 `.tmp/batch-a/`、`.tmp/batch-b/`、`.tmp/batch-c/`，不作为发布产物。

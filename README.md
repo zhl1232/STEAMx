@@ -44,7 +44,7 @@ steam-explore-share/
 ├── supabase/               # 数据库迁移与种子数据
 ├── scripts/                # 数据脚本（图片抓取/压缩/DB推送）
 ├── deploy/                 # Docker/Nginx 部署配置
-├── docs/                   # 设计文档
+├── docs/                   # 当前规范、维护说明与历史归档
 ├── __tests__/              # 单元测试
 ├── e2e/                    # Playwright E2E 测试
 └── public/                 # 静态资源（图片/图标/头像）
@@ -98,6 +98,7 @@ pnpm dev
 ## ☁️ 部署
 
 - **生产发布**：GitHub Actions 将镜像推送 GHCR，服务器按摘要增量拉取；Scratch 使用独立缓存层。操作见 [部署说明](docs/deployment.md)
+- **课程模型发布**：已确认 MPD 单独上传 OSS、回读后更新课时；纯模型/文档提交跳过应用镜像。首次启用需部署 OSS 读取层，操作见 [LDraw 发布流程](docs/ldraw-publishing.md)
 - **CI**：Oxlint、TypeScript、Vitest、Next build、Playwright smoke
 
 ## 📝 开发规范
@@ -108,13 +109,14 @@ pnpm dev
 
 ## 📚 相关文档
 
+- [docs/README.md](./docs/README.md) — 文档导航：当前规则、维护说明、待办与归档
+
 - [PROJECT_INDEX.md](./PROJECT_INDEX.md) — 完整功能索引与代码定位
 - [docs/AI_DEVELOPMENT_GUIDELINES.md](./docs/AI_DEVELOPMENT_GUIDELINES.md) — AI 意图判断与模型决策开发规范
-- [docs/database-psql.md](./docs/database-psql.md) — psql 迁移与重置说明
+- [docs/database-psql.md](./docs/database-psql.md) — 数据库连接与正式迁移流程
 - [docs/custom-sms-and-manual-users.md](./docs/custom-sms-and-manual-users.md) — 自建短信登录方案
-- [docs/PBL_CHALLENGE_SYSTEM.md](./docs/PBL_CHALLENGE_SYSTEM.md) — PBL 挑战系统设计
-- [docs/PBL_CHALLENGE_CONTENT_MODEL.md](./docs/PBL_CHALLENGE_CONTENT_MODEL.md) — PBL 内容模型
+- [docs/PBL_CHALLENGE_GUIDE.md](./docs/PBL_CHALLENGE_GUIDE.md) — PBL 内容与系统指南
 
 ## 📄 许可证
 
-[MIT License](LICENSE)
+MIT License

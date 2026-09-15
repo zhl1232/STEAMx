@@ -1,6 +1,6 @@
 # 使用 psql 直连数据库（阿里云 AnalyticDB PostgreSQL 版）
 
-本项目若使用 **阿里云 AnalyticDB PostgreSQL 版的 Supabase 项目**，底层为托管服务，与标准 Supabase 开源版存在差异，**不支持官方 Supabase CLI**（如 `supabase db reset`）。数据库变更需通过 **标准 PostgreSQL 直连** 完成。
+本项目使用第三方托管的 Supabase 兼容服务。迁移主流程是 `pnpm db:push`，由 `scripts/db-push.mjs` 通过 Supabase **pg-meta `/pg/query` API** 执行 SQL，不是直连 PostgreSQL，也不支持官方 Supabase CLI。
 
 ## 直连步骤
 
@@ -42,50 +42,20 @@ PGPASSWORD=你的密码 psql -h <IP> -p 5432 -U postgres -d postgres
 
 ## 使用 psql 执行迁移与种子数据
 
-- **执行单个 SQL 文件**（如某次迁移或 seed）：
-
-  ```bash
-  psql -h <IP> -p 5432 -U postgres -d postgres -f supabase/migrations/20260130000001_seed_init.sql
-  ```
-
-- **按顺序执行所有迁移文件**（等价于「重新应用全部 migration」）：
-
-  ```bash
-  for f in supabase/migrations/*.sql; do psql -h <IP> -p 5432 -U postgres -d postgres -f "$f"; done
-  ```
-
-  请确保在项目根目录执行，且迁移文件名排序与预期顺序一致。
-
 - **执行种子说明/脚本**（若存在 `supabase/seed.sql`）：
 
   ```bash
   psql -h <IP> -p 5432 -U postgres -d postgres -f supabase/seed.sql
   ```
 
-## 等价于「supabase db reset」的操作（慎用）
+## 迁移命令与边界
 
-Supabase CLI 的 `supabase db reset` 会清空后重新跑所有 migration 并执行 seed。用 psql 可做**等价操作**，但会**清空指定 schema 内所有对象**，仅建议在开发/测试环境使用：
+```bash
+pnpm db:status
+pnpm db:push
+pnpm db:push -- --dry-run
+```
 
-1. **清理 public schema**（会删除该 schema 下所有表、函数等）：
+工具在 `public._schema_migrations` 追踪已执行版本，并只通过 pg-meta API 应用待执行迁移。`db:status` 与 `--dry-run` 都会先执行 `CREATE TABLE IF NOT EXISTS` 初始化追踪表，因此不是无副作用的只读预检；必须已有目标环境写入授权才能运行。执行前核对目标环境、全部待执行文件及授权范围。
 
-   ```sql
-   DROP SCHEMA public CASCADE;
-   CREATE SCHEMA public;
-   ```
-
-   若阿里云 AnalyticDB 上还有 `auth`、`storage` 等 schema，是否一并清理需根据实际环境与运维要求决定；通常只重置 `public` 用于应用表结构。
-
-2. **重新创建扩展与基础对象**（若迁移中依赖的扩展在 `public` 被删后需重新启用，按你们迁移的第一条或运维文档执行，例如）：
-
-   ```sql
-   CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-   -- 其他项目需要的 extension
-   ```
-
-3. **按顺序执行所有迁移文件**（见上一节 for 循环命令）。
-
-4. **（可选）执行 seed**：`psql ... -f supabase/seed.sql`。
-
----
-
-其他图形化客户端（如 DBeaver、DataGrip）同样使用上述主机、端口、用户名、密码连接即可；自动化与脚本推荐使用 **psql**。
+日常部署不要清空 schema、逐个重跑历史迁移、直接用 `psql -f` 执行迁移或 seed，也不要使用 `supabase db push`。若确有数据库运维需要直连，可使用 DBeaver/DataGrip/psql 做经授权的诊断或单次运维操作，但不得替代项目迁移追踪流程。
