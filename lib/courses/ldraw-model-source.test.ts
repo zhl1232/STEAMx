@@ -110,9 +110,9 @@ describe('LDraw model source', () => {
     }))
     vi.stubGlobal('fetch', fetchMock)
 
-    const pending = readLdrawModel('timeout-unique.mpd')
+    const pending = expect(readLdrawModel('timeout-unique.mpd')).rejects.toBeInstanceOf(LdrawModelUnavailableError)
     await vi.advanceTimersByTimeAsync(12_000)
-    await expect(pending).rejects.toBeInstanceOf(LdrawModelUnavailableError)
+    await pending
     expect(fetchMock).toHaveBeenCalled()
   })
 
