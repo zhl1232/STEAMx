@@ -1,15 +1,18 @@
-import { readFile, stat } from 'node:fs/promises'
-import path from 'node:path'
-
 import { NextRequest, NextResponse } from 'next/server'
 
+import {
+  LdrawModelInvalidError,
+  LdrawModelMissingError,
+  LdrawModelTooLargeError,
+  LdrawModelUnavailableError,
+  LdrawModelBusyError,
+  readLdrawModel,
+  isValidLdrawModelName,
+} from '@/lib/courses/ldraw-model-source'
 import { createPackedLdrawStep } from '@/lib/utils/ldraw-mpd'
 
 export const runtime = 'nodejs'
 
-const MODEL_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*\.mpd$/
-const LDRAW_DIRECTORY = path.resolve(process.cwd(), 'public/courses/ldraw')
-const MAX_LDRAW_MODEL_BYTES = 16 * 1024 * 1024
 const MAX_CONCURRENT_LDRAW_TRANSFORMS = 4
 type PackedStep = ReturnType<typeof createPackedLdrawStep>
 const packedStepInFlight = new Map<string, Promise<PackedStep>>()
@@ -25,14 +28,8 @@ function loadPackedStep(model: string, step: number): Promise<PackedStep> {
   }
 
   const promise = (async () => {
-    const modelPath = path.join(LDRAW_DIRECTORY, model)
-    const modelStat = await stat(modelPath)
-    if (!modelStat.isFile() || modelStat.size > MAX_LDRAW_MODEL_BYTES) {
-      throw new RangeError('LDraw model is too large')
-    }
-
-    const sourceMpd = await readFile(modelPath, 'utf8')
-    return createPackedLdrawStep(sourceMpd, step)
+    const source = await readLdrawModel(model)
+    return createPackedLdrawStep(source.text, step)
   })().finally(() => {
     if (packedStepInFlight.get(cacheKey) === promise) packedStepInFlight.delete(cacheKey)
   })
@@ -46,7 +43,7 @@ export async function GET(request: NextRequest) {
   const rawStep = request.nextUrl.searchParams.get('step') ?? ''
   const step = Number(rawStep)
 
-  if (!MODEL_NAME_PATTERN.test(model) || model.includes('..')) {
+  if (!isValidLdrawModelName(model)) {
     return NextResponse.json({ error: 'Invalid LDraw model name' }, { status: 400 })
   }
   if (!/^\d+$/.test(rawStep) || !Number.isSafeInteger(step)) {
@@ -71,15 +68,21 @@ export async function GET(request: NextRequest) {
       )
     }
     const code = (error as NodeJS.ErrnoException).code
-    if (code === 'ENOENT') {
+    if (error instanceof LdrawModelMissingError || code === 'ENOENT') {
       return NextResponse.json({ error: 'LDraw model not found' }, { status: 404 })
     }
-    if (error instanceof RangeError) {
-      if (error.message === 'LDraw model is too large') {
+    if (error instanceof LdrawModelTooLargeError) {
         return NextResponse.json({ error: error.message }, { status: 413 })
-      }
+    }
+    if (error instanceof RangeError) {
       return NextResponse.json({ error: error.message }, { status: 416 })
     }
-    return NextResponse.json({ error: 'Unable to build LDraw step' }, { status: 500 })
+    if (error instanceof LdrawModelInvalidError) {
+      return NextResponse.json({ error: error.message }, { status: 416 })
+    }
+    if (error instanceof LdrawModelUnavailableError || error instanceof LdrawModelBusyError) {
+      return NextResponse.json({ error: error.message }, { status: 503, headers: { 'Retry-After': '1' } })
+    }
+    return NextResponse.json({ error: 'Unable to build LDraw step' }, { status: 503 })
   }
 }

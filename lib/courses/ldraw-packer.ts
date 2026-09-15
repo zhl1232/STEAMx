@@ -173,6 +173,21 @@ async function resolvePartContent(
   return null
 }
 
+interface LdrawPackingContext {
+  localMpdCache: Map<string, string>
+  resolvedParts: Map<string, Promise<string | null>>
+}
+
+function resolvePartContentWithContext(ref: string, context: LdrawPackingContext): Promise<string | null> {
+  const key = normalizeRef(ref)
+  const cached = context.resolvedParts.get(key)
+  if (cached) return cached
+
+  const promise = resolvePartContent(ref, context.localMpdCache)
+  context.resolvedParts.set(key, promise)
+  return promise
+}
+
 export interface PackResult {
   mpdText: string
   partCount: number
@@ -189,8 +204,19 @@ export async function packLdrawTextToMpd(
   modelName = 'preview-model',
   options?: { forceFreshDependencies?: boolean },
 ): Promise<PackResult> {
-  const normalizedModel = normalizeSourceModelText(ldrSource)
   const localMpdCache = await loadLocalMpdCache(options?.forceFreshDependencies)
+  return packLdrawTextToMpdWithContext(ldrSource, modelName, {
+    localMpdCache,
+    resolvedParts: new Map(),
+  })
+}
+
+async function packLdrawTextToMpdWithContext(
+  ldrSource: string,
+  modelName: string,
+  context: LdrawPackingContext,
+): Promise<PackResult> {
+  const normalizedModel = normalizeSourceModelText(ldrSource)
 
   const collected = new Map<string, string>()
   const visited = new Set<string>()
@@ -208,7 +234,7 @@ export async function packLdrawTextToMpd(
       if (visited.has(key)) continue
       visited.add(key)
 
-      const content = await resolvePartContent(ref, localMpdCache)
+      const content = await resolvePartContentWithContext(ref, context)
       if (content !== null) {
         collected.set(loaderKey(ref), content)
         await walk(content)
@@ -297,13 +323,21 @@ export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
     })
   }
 
+  const hasStoredRecords = results.some((item) => reviewRecordFor(item.name, reviewRecords))
+  const context: LdrawPackingContext = {
+    // Confirmation is tied to the complete packed output, so source or dependency edits
+    // immediately move a previously confirmed model back to pending.
+    localMpdCache: hasStoredRecords ? await loadLocalMpdCache(true) : new Map(),
+    resolvedParts: new Map(),
+  }
+
   // Confirmation is tied to the complete packed output, so source or dependency edits
   // immediately move a previously confirmed model back to pending.
   await Promise.all(results.map(async (item) => {
     try {
       const stored = reviewRecordFor(item.name, reviewRecords)
       if (stored) {
-        const packed = await packLocalLdrawModel(item.name, { forceFreshDependencies: true })
+        const packed = await packLocalLdrawModelWithContext(item.name, context)
         item.reviewStatus = reviewStatusFor(item.name, reviewRecords, packed.revision)
       } else {
         item.reviewStatus = reviewStatusFor(item.name, reviewRecords)
@@ -326,6 +360,17 @@ export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
  * 直接从本地读取指定 LDR 文件并打包返回
  */
 export async function packLocalLdrawModel(fileName: string, options?: { forceFreshDependencies?: boolean }): Promise<PackResult> {
+  const localMpdCache = await loadLocalMpdCache(options?.forceFreshDependencies)
+  return packLocalLdrawModelWithContext(fileName, {
+    localMpdCache,
+    resolvedParts: new Map(),
+  })
+}
+
+async function packLocalLdrawModelWithContext(
+  fileName: string,
+  context: LdrawPackingContext,
+): Promise<PackResult> {
   const sanitized = fileName.replace(/[^a-zA-Z0-9._-]/g, '')
   if (!sanitized.endsWith('.ldr')) {
     throw new Error('文件名必须以 .ldr 结尾')
@@ -339,5 +384,5 @@ export async function packLocalLdrawModel(fileName: string, options?: { forceFre
   const ldrSource = await readFile(filePath, 'utf8')
   const baseName = sanitized.replace(/\.ldr$/, '')
 
-  return packLdrawTextToMpd(ldrSource, baseName, options)
+  return packLdrawTextToMpdWithContext(ldrSource, baseName, context)
 }

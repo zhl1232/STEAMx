@@ -16,7 +16,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  release-scope:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.scope.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decide whether the application image changed
+        id: scope
+        env:
+          RELEASE_BEFORE: ${{ github.event.before }}
+        run: node scripts/release-scope.mjs
+
   deploy-production:
+    needs: release-scope
+    if: needs.release-scope.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     environment: production
     env:

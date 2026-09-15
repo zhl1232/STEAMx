@@ -5,6 +5,7 @@ import {
   LdrawBomBusyError,
   loadLdrawBom,
 } from '@/lib/courses/ldraw-bom-source'
+import { LdrawModelTooLargeError, LdrawModelUnavailableError } from '@/lib/courses/ldraw-model-source'
 
 export const runtime = 'nodejs'
 
@@ -34,9 +35,12 @@ export async function GET(request: NextRequest) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
       return NextResponse.json({ error: 'LDraw model not found' }, { status: 404 })
     }
-    if (error instanceof RangeError) {
+    if (error instanceof LdrawModelTooLargeError || error instanceof RangeError) {
       return NextResponse.json({ error: error.message }, { status: 413 })
     }
-    return NextResponse.json({ error: 'Unable to build LDraw part list' }, { status: 500 })
+    if (error instanceof LdrawModelUnavailableError) {
+      return NextResponse.json({ error: error.message }, { status: 503, headers: { 'Retry-After': '1' } })
+    }
+    return NextResponse.json({ error: 'Unable to build LDraw part list' }, { status: 503 })
   }
 }

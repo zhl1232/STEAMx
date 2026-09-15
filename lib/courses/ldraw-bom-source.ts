@@ -1,6 +1,4 @@
-import { readFile, stat } from 'node:fs/promises'
-import path from 'node:path'
-
+import { readFile } from 'node:fs/promises'
 import { logger } from '@/lib/logger'
 import { BoundedTtlMap } from '@/lib/utils/bounded-ttl-map'
 import {
@@ -9,53 +7,51 @@ import {
   type LdrawBom,
   type LdrawColorInfo,
 } from '@/lib/utils/ldraw-bom'
+import {
+  LdrawModelMissingError,
+  isValidLdrawModelName as isValidModelName,
+  readLdrawModel,
+  hasLdrawModelFile as hasLdrawModelSourceFile,
+  LdrawModelBusyError,
+} from '@/lib/courses/ldraw-model-source'
 
 /**
  * 服务端读取打包好的 LDraw 模型并算出零件清单。
  * 同时服务 `/api/courses/ldraw-bom`（搭建工作区按需取）和零件清单页（服务端直出给家长看）。
  */
 
-const MODEL_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*\.mpd$/
-const LDRAW_DIRECTORY = path.resolve(process.cwd(), 'public/courses/ldraw')
 const LDRAW_COLOR_FILE = 'LDConfig.ldr'
-const MAX_LDRAW_MODEL_BYTES = 16 * 1024 * 1024
 const MAX_CONCURRENT_BOM_TRANSFORMS = 4
 const CACHE_TTL_MS = 10 * 60 * 1000
 
-// 模型是随构建产物发布的静态文件，缓存键带上 mtime/size，开发期改模型也不会读到旧清单。
 const bomCache = new BoundedTtlMap<string, LdrawBom>(64)
 const bomInFlight = new Map<string, Promise<LdrawBom>>()
 let colorTablePromise: Promise<Map<number, LdrawColorInfo>> | null = null
 
 export class LdrawBomBusyError extends Error {}
 
-/** 课时里的模型地址可能是站内相对路径或 OSS 绝对地址，清单只按文件名取本地打包模型。 */
+/** 课时地址可以是站内或 OSS 地址，分步和清单共用同一个模型文件名。 */
 export function toLdrawModelFileName(modelUrl: string | null | undefined): string | null {
   if (!modelUrl) return null
   const withoutQuery = modelUrl.split(/[?#]/)[0]
   const fileName = withoutQuery.split('/').pop() ?? ''
-  return MODEL_NAME_PATTERN.test(fileName) && !fileName.includes('..') ? fileName : null
+  return isValidModelName(fileName) ? fileName : null
 }
 
 export function isValidLdrawModelName(model: string): boolean {
-  return MODEL_NAME_PATTERN.test(model) && !model.includes('..')
+  return isValidModelName(model)
 }
 
-/** Sitemap 用：只把确实随部署产物存在的模型清单页加入索引。 */
+/** Sitemap 支持本地模型及已验证上传的 OSS 模型引用。 */
 export async function hasLdrawModelFile(modelUrl: string | null | undefined): Promise<boolean> {
   const model = toLdrawModelFileName(modelUrl)
   if (!model) return false
 
-  try {
-    const modelStat = await stat(path.join(LDRAW_DIRECTORY, model))
-    return modelStat.isFile()
-  } catch {
-    return false
-  }
+  return hasLdrawModelSourceFile(modelUrl)
 }
 
 function loadColorTable() {
-  colorTablePromise ??= readFile(path.join(LDRAW_DIRECTORY, LDRAW_COLOR_FILE), 'utf8')
+  colorTablePromise ??= readFile(`${process.cwd()}/public/courses/ldraw/${LDRAW_COLOR_FILE}`, 'utf8')
     .then(parseLdrawColorTable)
     .catch(() => {
       colorTablePromise = null
@@ -66,13 +62,12 @@ function loadColorTable() {
 }
 
 export async function loadLdrawBom(model: string): Promise<LdrawBom> {
-  const modelPath = path.join(LDRAW_DIRECTORY, model)
-  const modelStat = await stat(modelPath)
-  if (!modelStat.isFile() || modelStat.size > MAX_LDRAW_MODEL_BYTES) {
-    throw new RangeError('LDraw model is too large')
+  let source
+  try { source = await readLdrawModel(model) } catch (error) {
+    if (error instanceof LdrawModelBusyError) throw new LdrawBomBusyError(error.message)
+    throw error
   }
-
-  const cacheKey = `${model}:${modelStat.mtimeMs}:${modelStat.size}`
+  const cacheKey = `${model}:${source.sha256}`
   const cached = bomCache.get(cacheKey)
   if (cached) return cached
 
@@ -84,7 +79,7 @@ export async function loadLdrawBom(model: string): Promise<LdrawBom> {
 
   const promise = (async () => {
     const [sourceMpd, colorTable] = await Promise.all([
-      readFile(modelPath, 'utf8'),
+      Promise.resolve(source.text),
       loadColorTable(),
     ])
     const bom = summarizePackedLdrawBom(sourceMpd, colorTable)
@@ -103,10 +98,6 @@ export type LdrawBomLookup =
   | { status: 'missing' }
   | { status: 'unavailable' }
 
-function isMissingModelFile(error: unknown): boolean {
-  return (error as { code?: string } | null)?.code === 'ENOENT'
-}
-
 /**
  * 「这节课没有模型」和「清单一时算不出来」要分开：
  * 前者永远不会有内容，后者只是并发超限或读文件失败，重试就好。
@@ -119,7 +110,7 @@ export async function lookupLdrawBom(modelUrl: string | null | undefined): Promi
   try {
     return { status: 'ok', bom: await loadLdrawBom(model) }
   } catch (error) {
-    if (isMissingModelFile(error)) return { status: 'missing' }
+    if (error instanceof LdrawModelMissingError) return { status: 'missing' }
     logger.warn('Failed to build LDraw part list', { model, error })
     return { status: 'unavailable' }
   }
