@@ -1320,14 +1320,6 @@
     "imageUrl": "/projects/generated/project-0289.webp"
   },
   {
-    "index": 290,
-    "title": "水彩渐变天空",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0290.webp",
-    "imageUrl": "/projects/generated/project-0290.webp"
-  },
-  {
     "index": 291,
     "title": "透视法画街景",
     "sourceFile": "20260324500000_seed_art_painting.sql",
@@ -1352,28 +1344,12 @@
     "imageUrl": "/projects/generated/project-0293.webp"
   },
   {
-    "index": 294,
-    "title": "球体明暗素描",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0294.webp",
-    "imageUrl": "/projects/generated/project-0294.webp"
-  },
-  {
     "index": 295,
     "title": "一点透视建筑画",
     "sourceFile": "20260324500000_seed_art_painting.sql",
     "generated": true,
     "filename": "project-0295.webp",
     "imageUrl": "/projects/generated/project-0295.webp"
-  },
-  {
-    "index": 296,
-    "title": "油画棒风景创作",
-    "sourceFile": "20260324500000_seed_art_painting.sql",
-    "generated": true,
-    "filename": "project-0296.webp",
-    "imageUrl": "/projects/generated/project-0296.webp"
   },
   {
     "index": 298,
@@ -1470,14 +1446,6 @@
     "generated": true,
     "filename": "project-0314.webp",
     "imageUrl": "/projects/generated/project-0314.webp"
-  },
-  {
-    "index": 315,
-    "title": "叶片针法刺绣",
-    "sourceFile": "20260324500001_seed_art_crafts.sql",
-    "generated": true,
-    "filename": "project-0315.webp",
-    "imageUrl": "/projects/generated/project-0315.webp"
   },
   {
     "index": 316,
@@ -1680,14 +1648,6 @@
     "imageUrl": "/projects/generated/project-0351.webp"
   },
   {
-    "index": 352,
-    "title": "坐标画图",
-    "sourceFile": "20260324600000_seed_math_geometry.sql",
-    "generated": true,
-    "filename": "project-0352.webp",
-    "imageUrl": "/projects/generated/project-0352.webp"
-  },
-  {
     "index": 353,
     "title": "黄金比例寻找",
     "sourceFile": "20260324600000_seed_math_geometry.sql",
@@ -1822,14 +1782,6 @@
     "generated": true,
     "filename": "project-0374.webp",
     "imageUrl": "/projects/generated/project-0374.webp"
-  },
-  {
-    "index": 375,
-    "title": "幻方填数",
-    "sourceFile": "20260324600001_seed_math_games.sql",
-    "generated": true,
-    "filename": "project-0375.webp",
-    "imageUrl": "/projects/generated/project-0375.webp"
   },
   {
     "index": 376,
