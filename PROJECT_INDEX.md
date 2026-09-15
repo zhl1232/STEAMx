@@ -628,3 +628,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `public/logo.png` | 品牌 Logo（透明底圆形标，导航/登录等处使用） |
 | `public/icon-192x192.png` / `public/icon-512x512.png` | PWA 图标（与品牌 Logo 同源）；`app/icon.png` / `app/apple-icon.png` 为站点 favicon / Apple Touch Icon |
 | `public/gomoku-rapfi/` | 五子棋大师档 Rapfi 单线程 WASM（`rapfi-single.js/.wasm/.data`，GPL-3；`NOTICE.md` / `COPYING.txt`）；由 `lib/playground/gomoku-rapfi.ts` 以 Worker 加载 |
+
+- 2026-09-15：发布已人工确认的全部 100 个 3+ 模型 MPD，对应小班课程 100 课时；精确确认哈希、课时映射及先部署资源后切换数据库的步骤见 `docs/ldraw-published-2026-09-15.md`。
