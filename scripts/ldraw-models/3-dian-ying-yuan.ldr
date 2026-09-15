@@ -5,7 +5,7 @@
 0 Author: OpenAI
 0 CustomBrick
 0 FlexibleBrickControlPointUnitLength -1
-0 FlexibleBrickLockedControlPoint 
+0 FlexibleBrickLockedControlPoint
 1 2 -480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 2 480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 14 -800 -48 -440 1 0 0 0 1 0 0 0 1 3011.dat

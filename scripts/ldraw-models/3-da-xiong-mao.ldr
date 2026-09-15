@@ -4,7 +4,7 @@
 0 Author: OpenAI
 0 CustomBrick
 0 FlexibleBrickControlPointUnitLength -1
-0 FlexibleBrickLockedControlPoint 
+0 FlexibleBrickLockedControlPoint
 0 NumOfBricks 51
 1 1 -160.7425 51.6 60 -1 0 0 0 0 1 0 1 0 31452.dat
 1 1 -160.7425 -68.4 60 0 -1 0 0 0 1 -1 0 0 31452.dat
