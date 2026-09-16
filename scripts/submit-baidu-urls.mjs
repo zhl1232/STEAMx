@@ -10,7 +10,7 @@
  * 未配置 token 时安全跳过，方便本地开发和没有百度站长平台权限的环境继续发布。
  */
 
-const DEFAULT_SITE = "https://www.steamx.cc";
+const DEFAULT_SITE = "https://steam.bj.cn";
 const DEFAULT_PUSH_ENDPOINT = "http://data.zz.baidu.com/urls";
 const DEFAULT_CHUNK_SIZE = 1000;
 
@@ -26,8 +26,8 @@ function getSite() {
   url.search = "";
   url.hash = "";
 
-  if (url.protocol !== "https:" || url.hostname !== "www.steamx.cc") {
-    throw new Error("BAIDU_PUSH_SITE 必须是 https://www.steamx.cc");
+  if (url.protocol !== "https:" || url.hostname !== "steam.bj.cn") {
+    throw new Error("BAIDU_PUSH_SITE 必须是 https://steam.bj.cn");
   }
 
   return url;

@@ -132,7 +132,8 @@ function HomeHero({ image }: { image: string }) {
               <span className="hidden md:block">把好奇心做成作品</span>
             </h1>
 
-            <p className="mt-2 max-w-[560px] text-[11px] leading-5 text-muted-foreground min-[390px]:text-[12px] md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
+            {/* 手机端叠在实景图上对比度差、显得乱，仅桌面保留介绍文案 */}
+            <p className="mt-3 hidden max-w-[560px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
               {BRAND_DESCRIPTION}
             </p>
 

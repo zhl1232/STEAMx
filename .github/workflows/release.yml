@@ -37,9 +37,9 @@ jobs:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_ASSETS_BASE_URL: ${{ secrets.NEXT_PUBLIC_ASSETS_BASE_URL }}
-      NGINX_SERVER_NAME: ${{ vars.NGINX_SERVER_NAME || 'steamx.cc www.steamx.cc' }}
-      NGINX_SSL_CERTIFICATE: ${{ vars.NGINX_SSL_CERTIFICATE || '/etc/letsencrypt/live/steamx.cc/fullchain.pem' }}
-      NGINX_SSL_CERTIFICATE_KEY: ${{ vars.NGINX_SSL_CERTIFICATE_KEY || '/etc/letsencrypt/live/steamx.cc/privkey.pem' }}
+      NGINX_SERVER_NAME: ${{ vars.NGINX_SERVER_NAME || 'steam.bj.cn www.steam.bj.cn steamx.cc www.steamx.cc' }}
+      NGINX_SSL_CERTIFICATE: ${{ vars.NGINX_SSL_CERTIFICATE || '/etc/letsencrypt/live/steam.bj.cn/fullchain.pem' }}
+      NGINX_SSL_CERTIFICATE_KEY: ${{ vars.NGINX_SSL_CERTIFICATE_KEY || '/etc/letsencrypt/live/steam.bj.cn/privkey.pem' }}
       NGINX_SITE_PATH: ${{ vars.NGINX_SITE_PATH || '/etc/nginx/sites-available/steam-app' }}
       NGINX_SITE_ENABLED_PATH: ${{ vars.NGINX_SITE_ENABLED_PATH || '/etc/nginx/sites-enabled/steam-app' }}
     steps:
@@ -223,5 +223,5 @@ jobs:
         continue-on-error: true
         env:
           BAIDU_PUSH_TOKEN: ${{ secrets.BAIDU_PUSH_TOKEN }}
-          BAIDU_PUSH_SITE: https://www.steamx.cc
+          BAIDU_PUSH_SITE: https://steam.bj.cn
         run: node scripts/submit-baidu-urls.mjs

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { buildApexToWwwRedirectUrl, getRequestHostname } from "@/lib/seo/canonical-host";
+import {
+  buildCanonicalHostRedirectUrl,
+  getRequestHostname,
+  PRIMARY_ORIGIN,
+} from "@/lib/seo/canonical-host";
 import { getSiteUrl } from "@/lib/seo/site";
 
 describe("getRequestHostname", () => {
@@ -13,30 +17,46 @@ describe("getRequestHostname", () => {
   });
 });
 
-describe("buildApexToWwwRedirectUrl", () => {
-  it("permanently maps only steamx.cc to the matching www path and query", () => {
+describe("buildCanonicalHostRedirectUrl", () => {
+  it("maps legacy steamx hosts and www.bj to steam.bj.cn with path and query", () => {
     expect(
-      buildApexToWwwRedirectUrl({
+      buildCanonicalHostRedirectUrl({
         host: "steamx.cc",
         pathname: "/explore",
         search: "?q=bird&sortBy=latest",
       }),
-    ).toBe("https://www.steamx.cc/explore?q=bird&sortBy=latest");
+    ).toBe("https://steam.bj.cn/explore?q=bird&sortBy=latest");
+
+    expect(
+      buildCanonicalHostRedirectUrl({
+        host: "www.steamx.cc",
+        pathname: "/project/123",
+        search: "?share=1",
+      }),
+    ).toBe("https://steam.bj.cn/project/123?share=1");
+
+    expect(
+      buildCanonicalHostRedirectUrl({
+        host: "www.steam.bj.cn",
+        pathname: "/",
+        search: "",
+      }),
+    ).toBe("https://steam.bj.cn/");
   });
 
-  it("does not rewrite www, localhost, preview, tunnel, or a future second domain", () => {
+  it("does not rewrite the primary host, localhost, preview, or unrelated domains", () => {
     const ignoredHosts = [
-      "www.steamx.cc",
+      "steam.bj.cn",
       "localhost:3000",
       "127.0.0.1:3000",
       "steamx-preview.vercel.app",
       "random-name.trycloudflare.com",
-      "future-second-domain.example",
+      "dev.steamx.cc",
     ];
 
     for (const host of ignoredHosts) {
       expect(
-        buildApexToWwwRedirectUrl({
+        buildCanonicalHostRedirectUrl({
           host,
           pathname: "/explore",
           search: "?q=1",
@@ -47,12 +67,12 @@ describe("buildApexToWwwRedirectUrl", () => {
 });
 
 describe("getSiteUrl", () => {
-  it("normalizes configured production hosts to https www", () => {
+  it("normalizes configured production hosts to the primary origin", () => {
     const previousAppUrl = process.env.NEXT_PUBLIC_APP_URL;
     process.env.NEXT_PUBLIC_APP_URL = "http://steamx.cc";
 
     try {
-      expect(getSiteUrl()).toBe("https://www.steamx.cc");
+      expect(getSiteUrl()).toBe(PRIMARY_ORIGIN);
     } finally {
       if (previousAppUrl === undefined) {
         delete process.env.NEXT_PUBLIC_APP_URL;

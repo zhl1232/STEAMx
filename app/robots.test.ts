@@ -8,7 +8,7 @@ afterEach(() => {
 
 describe("robots", () => {
   it("allows Baiduspider, Bytespider, YisouSpider and GPTBot on public pages", () => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const result = robots();
     const rules = Array.isArray(result.rules) ? result.rules : [result.rules];
@@ -31,6 +31,6 @@ describe("robots", () => {
     expect(gptBotRule?.allow).toBe("/");
     expect(gptBotRule?.disallow).toEqual(expect.arrayContaining(["/api/", "/admin/", "/login"]));
     expect(gptBotRule?.disallow).not.toContain("/");
-    expect(result.sitemap).toBe("https://www.steamx.cc/sitemap.xml");
+    expect(result.sitemap).toBe("https://steam.bj.cn/sitemap.xml");
   });
 });

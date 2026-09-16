@@ -1,4 +1,4 @@
-import { STEAMX_APEX_HOST, STEAMX_WWW_HOST } from "@/lib/seo/canonical-host";
+import { isProductionSiteHost } from "@/lib/seo/canonical-host";
 import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
@@ -21,7 +21,7 @@ function normalizeSiteUrl(value: string): string | null {
   try {
     const url = new URL(withProtocol);
     const hostname = url.hostname.toLowerCase();
-    if (hostname === STEAMX_APEX_HOST || hostname === STEAMX_WWW_HOST) {
+    if (isProductionSiteHost(hostname)) {
       return PRODUCTION_FALLBACK_SITE_URL;
     }
 

@@ -24,16 +24,16 @@ describe("getSiteUrl", () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://10.32.10.214:3000/internal/path");
     vi.stubEnv("NEXT_PUBLIC_SITE_URL", "http://steamx.cc");
 
-    expect(getSiteUrl()).toBe("https://www.steamx.cc");
-    expect(getMetadataBase().toString()).toBe("https://www.steamx.cc/");
-    expect(buildAbsoluteUrl("/nature/birds")).toBe("https://www.steamx.cc/nature/birds");
+    expect(getSiteUrl()).toBe("https://steam.bj.cn");
+    expect(getMetadataBase().toString()).toBe("https://steam.bj.cn/");
+    expect(buildAbsoluteUrl("/nature/birds")).toBe("https://steam.bj.cn/nature/birds");
   });
 
   it("normalizes official host variants outside production", () => {
     vi.stubEnv("NODE_ENV", "development");
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://steamx.cc/unexpected/path");
 
-    expect(getSiteUrl()).toBe("https://www.steamx.cc");
+    expect(getSiteUrl()).toBe("https://steam.bj.cn");
   });
 
   it("keeps custom development origins without trailing slashes", () => {

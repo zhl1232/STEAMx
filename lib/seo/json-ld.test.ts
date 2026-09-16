@@ -21,7 +21,7 @@ afterEach(() => {
 });
 
 beforeEach(() => {
-  process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+  process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 });
 
 describe("toAbsoluteMediaUrl", () => {
@@ -33,7 +33,7 @@ describe("toAbsoluteMediaUrl", () => {
 
 describe("buildWebsiteJsonLd", () => {
   it("emits WebSite and Organization using the shared site URL", () => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildWebsiteJsonLd();
     const types = data["@graph"].map((item) => item["@type"]);
@@ -42,12 +42,12 @@ describe("buildWebsiteJsonLd", () => {
     expect(data["@graph"][0]).toMatchObject({
       name: "STEAMX · 史迪姆",
       description: expect.stringContaining("STEAM 教育与自然探索平台"),
-      url: "https://www.steamx.cc",
+      url: "https://steam.bj.cn",
     });
     expect(data["@graph"][1]).toMatchObject({
       name: "STEAMX · 史迪姆",
       description: expect.stringContaining("STEAM 教育与自然探索平台"),
-      url: "https://www.steamx.cc",
+      url: "https://steam.bj.cn",
       inLanguage: "zh-CN",
     });
     expect(data["@graph"][1].potentialAction).toMatchObject({
@@ -78,8 +78,8 @@ describe("page entity JSON-LD", () => {
     ])).toMatchObject({
       "@type": "BreadcrumbList",
       itemListElement: [
-        { position: 1, name: "首页", item: "https://www.steamx.cc/" },
-        { position: 2, name: "课程", item: "https://www.steamx.cc/courses" },
+        { position: 1, name: "首页", item: "https://steam.bj.cn/" },
+        { position: 2, name: "课程", item: "https://steam.bj.cn/courses" },
       ],
     });
   });
@@ -101,7 +101,7 @@ describe("page entity JSON-LD", () => {
         {
           "@type": "LearningResource",
           name: "认识棋盘",
-          url: "https://www.steamx.cc/courses/7/lessons/21",
+          url: "https://steam.bj.cn/courses/7/lessons/21",
           timeRequired: "PT8M",
         },
       ],
@@ -140,7 +140,7 @@ describe("page entity JSON-LD", () => {
 
     expect(data).toMatchObject({
       "@type": "LearningResource",
-      url: "https://www.steamx.cc/pbl/42",
+      url: "https://steam.bj.cn/pbl/42",
       typicalAgeRange: "6-9",
       educationalLevel: "小学",
       learningResourceType: "项目挑战",
@@ -168,7 +168,7 @@ describe("page entity JSON-LD", () => {
 
     expect(lesson).toMatchObject({
       "@type": "LearningResource",
-      url: "https://www.steamx.cc/courses/7/lessons/21",
+      url: "https://steam.bj.cn/courses/7/lessons/21",
       hasPart: [{ "@type": "HowToStep", name: "观察棋盘" }],
     });
     expect(species["@graph"][1]).toMatchObject({
@@ -178,14 +178,14 @@ describe("page entity JSON-LD", () => {
       alternateName: ["树麻雀"],
     });
     expect((species["@graph"][2] as { itemListElement: Array<{ item: { url: string } }> }).itemListElement[0].item.url).toBe(
-      "https://www.steamx.cc/nature/observations/99",
+      "https://steam.bj.cn/nature/observations/99",
     );
   });
 });
 
 describe("buildProjectJsonLd", () => {
   it("emits Article only when there are no usable steps", () => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildProjectJsonLd({
       id: 12,
@@ -199,14 +199,14 @@ describe("buildProjectJsonLd", () => {
       "@type": "Article",
       headline: "纸杯火箭",
       description: "用纸杯做一枚小火箭",
-      url: "https://www.steamx.cc/project/12",
+      url: "https://steam.bj.cn/project/12",
       image: "https://cdn.example/rocket.webp",
     });
     expect(data).not.toHaveProperty("@graph");
   });
 
   it("adds HowTo only from real step titles or descriptions", () => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildProjectJsonLd({
       id: 12,
@@ -245,7 +245,7 @@ describe("buildProjectJsonLd", () => {
           position: 1,
           name: "准备纸杯",
           text: "选一个干净纸杯",
-          image: "https://www.steamx.cc/steps/1.webp",
+          image: "https://steam.bj.cn/steps/1.webp",
         },
       ],
     });
@@ -259,7 +259,7 @@ describe("buildProjectJsonLd", () => {
   });
 
   it("adds a project conclusion to FAQ JSON-LD even without steps", () => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://www.steamx.cc";
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildProjectJsonLd({
       id: 12,
@@ -295,8 +295,8 @@ describe("public content JSON-LD", () => {
       dateCreated: "2026-08-20T08:00:00Z",
     })).toMatchObject({
       "@type": "CreativeWork",
-      url: "https://www.steamx.cc/works/12",
-      image: ["https://www.steamx.cc/works/rocket.webp"],
+      url: "https://steam.bj.cn/works/12",
+      image: ["https://steam.bj.cn/works/rocket.webp"],
       creator: { "@type": "Person", name: "小明" },
     });
   });
@@ -316,11 +316,11 @@ describe("public content JSON-LD", () => {
       }],
     })).toMatchObject({
       "@type": "CreativeWork",
-      url: "https://www.steamx.cc/nature/observations/99",
+      url: "https://steam.bj.cn/nature/observations/99",
       about: [{
         "@type": "Taxon",
         name: "麻雀",
-        url: "https://www.steamx.cc/nature/species/passer-montanus",
+        url: "https://steam.bj.cn/nature/species/passer-montanus",
       }],
       contentLocation: {
         "@type": "Place",
@@ -339,7 +339,7 @@ describe("public content JSON-LD", () => {
       datePublished: "2026-08-01T00:00:00Z",
     })).toMatchObject({
       "@type": "LearningResource",
-      url: "https://www.steamx.cc/resources/7",
+      url: "https://steam.bj.cn/resources/7",
       learningResourceType: "方法",
       isAccessibleForFree: true,
     });
