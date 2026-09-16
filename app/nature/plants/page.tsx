@@ -5,7 +5,7 @@ const definition = {
   slug: "plants" as const,
   title: "植物图鉴与观察",
   description: "浏览树木、花草和食用植物图鉴，学习叶片、花果、种子与生长环境等识别线索，并查看社区公开植物观察记录。",
-  keywords: ["植物图鉴", "植物观察", "树木识别", "花草识别", "自然观察"],
+  keywords: ["STEAMX 植物", "植物图鉴", "植物观察", "树木识别", "花草识别", "自然观察"],
   image: "/assets/nature-topic-plants.webp",
 };
 

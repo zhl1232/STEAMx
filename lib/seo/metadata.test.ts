@@ -38,7 +38,21 @@ describe("buildPageMetadata", () => {
 
   it("leads with high-volume search terms and avoids Valve steam教育", () => {
     expect(DEFAULT_SEO_KEYWORDS).toEqual(
-      expect.arrayContaining(["少儿编程", "免费少儿编程", "积木", "自然观察", "科学小实验"]),
+      expect.arrayContaining([
+        "STEAMX",
+        "史迪姆",
+        "STEAMX 史迪姆",
+        "少儿STEAM",
+        "少儿编程",
+        "免费少儿编程",
+        "积木",
+        "积木课程",
+        "科学实践",
+        "自然观察",
+        "科学小实验",
+        "PBL",
+        "3-16岁",
+      ]),
     );
     expect(DEFAULT_SEO_KEYWORDS).not.toEqual(expect.arrayContaining(["科创", "项目式学习", "少儿STEAM社区"]));
     expect(DEFAULT_SEO_KEYWORDS).not.toEqual(expect.arrayContaining(["观鸟"]));
@@ -46,20 +60,21 @@ describe("buildPageMetadata", () => {
     expect(DEFAULT_SEO_KEYWORDS.join(" ").toLowerCase()).not.toContain("steam教育");
 
     const metadata = buildPageMetadata({
-      title: "少儿编程 · 积木 · 自然观察 | STEAMX · 史迪姆",
-      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。",
+      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      description: "STEAMX · 史迪姆是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 教育与自然探索平台（非游戏平台），提供积木课程、科学实践、自然观察、少儿编程与 PBL，帮助孩子在动手实践中学习、创造和分享。",
       path: "/",
       absoluteTitle: true,
     });
 
-    expect(metadata.title).toEqual({ absolute: "少儿编程 · 积木 · 自然观察 | STEAMX · 史迪姆" });
-    expect(metadata.description).toContain("STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验");
+    expect(metadata.title).toEqual({ absolute: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察" });
+    expect(metadata.description).toContain("非游戏平台");
+    expect(metadata.description).toContain("积木课程");
     expect(metadata.openGraph).toMatchObject({
-      title: "少儿编程 · 积木 · 自然观察 | STEAMX · 史迪姆",
-      description: "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。",
+      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      description: expect.stringContaining("非游戏平台"),
     });
     expect(metadata.twitter).toMatchObject({
-      title: "少儿编程 · 积木 · 自然观察 | STEAMX · 史迪姆",
+      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
     });
   });
 });

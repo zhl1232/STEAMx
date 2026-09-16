@@ -12,10 +12,11 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
-import { BRAND_FULL_NAME, BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
+import { BRAND_FULL_NAME } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
-import { SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
-import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
+import { HOME_DOCUMENT_TITLE, SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
+import { DEFAULT_SEO_KEYWORDS, DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
+import { buildSiteVerificationMetadata } from "@/lib/seo/site-verification";
 import { PwaInstallPrompt } from "@/components/pwa/install-prompt";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 
@@ -33,35 +34,16 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     template: `%s | ${SITE_NAME}`,
-    default: SITE_NAME,
+    default: HOME_DOCUMENT_TITLE,
   },
   description: SITE_DESCRIPTION,
-  keywords: [
-    BRAND_NAME,
-    BRAND_NAME_ZH,
-    "STEAM",
-    "少儿编程",
-    "免费少儿编程",
-    "积木",
-    "自然观察",
-    "积木课",
-    "PBL",
-    "科学实验",
-    "科学小实验",
-    "创客教育",
-    "项目分享社区",
-  ],
+  keywords: [...DEFAULT_SEO_KEYWORDS, "项目分享社区"],
   authors: [{ name: `${BRAND_FULL_NAME}团队` }],
   other: {
     // 百度对自适应页面的识别仍会参考该标记；本站不区分独立移动域名。
     "applicable-device": "pc,mobile",
   },
-  verification: {
-    other: {
-      "shenma-site-verification": "0a369998178eeb11b680c60e4cfb19c5_1788321740",
-      "bytedance-verification-code": "QhQxrClFv1UxcRI2mUkd",
-    },
-  },
+  verification: buildSiteVerificationMetadata(),
   alternates: {
     canonical: "/",
   },
@@ -69,19 +51,19 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_CN",
     url: "/",
-    title: SITE_NAME,
+    title: HOME_DOCUMENT_TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
     images: [{
       url: DEFAULT_SOCIAL_IMAGE,
       width: 1200,
       height: 630,
-      alt: SITE_NAME,
+      alt: HOME_DOCUMENT_TITLE,
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_NAME,
+    title: HOME_DOCUMENT_TITLE,
     description: SITE_DESCRIPTION,
     images: [DEFAULT_SOCIAL_IMAGE],
   },
@@ -96,11 +78,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "48x48" },
       { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
       { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon-32.png",
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],

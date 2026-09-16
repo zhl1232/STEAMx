@@ -1,5 +1,6 @@
-import { BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
-import { SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
+import { BRAND_ALTERNATE_NAMES } from "@/lib/brand";
+import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
+import { SITE_NAME, SITE_STRUCTURED_DESCRIPTION, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
 import { buildClassificationJsonLd } from "@/lib/content-classification/json-ld";
 import type { PublicClassification } from "@/lib/content-classification/types";
 
@@ -12,26 +13,27 @@ export function toAbsoluteMediaUrl(value: string | null | undefined): string | u
 
 export function buildWebsiteJsonLd() {
   const siteUrl = getSiteUrl();
+  const alternateName = [...BRAND_ALTERNATE_NAMES];
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["Organization", "EducationalOrganization"],
         "@id": `${siteUrl}/#organization`,
         name: SITE_NAME,
-        alternateName: [BRAND_NAME, BRAND_NAME_ZH],
+        alternateName,
         url: siteUrl,
-        description: SITE_DESCRIPTION,
+        description: SITE_STRUCTURED_DESCRIPTION,
         logo: buildAbsoluteUrl("/logo.png"),
       },
       {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         name: SITE_NAME,
-        alternateName: [BRAND_NAME, BRAND_NAME_ZH],
+        alternateName,
         url: siteUrl,
-        description: SITE_DESCRIPTION,
+        description: SITE_STRUCTURED_DESCRIPTION,
         inLanguage: "zh-CN",
         publisher: {
           "@id": `${siteUrl}/#organization`,
@@ -52,6 +54,53 @@ export function buildWebsiteJsonLd() {
 interface BreadcrumbJsonLdItem {
   name: string;
   url: string;
+}
+
+export function buildAboutPageJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": `${siteUrl}/about#webpage`,
+    name: `关于 ${SITE_NAME}`,
+    description: SITE_STRUCTURED_DESCRIPTION,
+    url: buildAbsoluteUrl("/about"),
+    inLanguage: "zh-CN",
+    isPartOf: {
+      "@id": `${siteUrl}/#website`,
+    },
+    about: {
+      "@id": `${siteUrl}/#organization`,
+    },
+    mainEntity: {
+      "@id": `${siteUrl}/#organization`,
+    },
+  };
+}
+
+
+export function buildBrandFaqPageJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteUrl}/about#faq`,
+    url: buildAbsoluteUrl("/about"),
+    inLanguage: "zh-CN",
+    isPartOf: {
+      "@id": `${siteUrl}/#website`,
+    },
+    mainEntity: BRAND_FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 }
 
 export function buildBreadcrumbJsonLd(items: BreadcrumbJsonLdItem[]) {

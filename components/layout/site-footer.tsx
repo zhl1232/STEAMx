@@ -59,7 +59,7 @@ export function SiteFooter() {
       <p className="mt-0 px-4 text-center text-[12px] text-muted-foreground md:mt-4">
         © 2026 {BRAND_FULL_NAME}
         <span aria-hidden="true"> · </span>
-        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:underline">steamx.cc</a>
+        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:underline">steam.bj.cn</a>
         <span aria-hidden="true"> · </span>
         <a
           href={ICP_FILING_URL}

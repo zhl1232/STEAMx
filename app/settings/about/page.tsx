@@ -18,10 +18,20 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { BRAND_FULL_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
+import {
+  BRAND_CORE_STATEMENT,
+  BRAND_CORE_TAGLINE,
+  BRAND_DISAMBIGUATION,
+  BRAND_FULL_NAME,
+  BRAND_NAME,
+  BRAND_NAME_ZH,
+  BRAND_OFFICIAL_URL,
+} from "@/lib/brand";
+import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 const FAQ_ITEMS = [
+  ...BRAND_FAQ_ITEMS.map((item) => ({ q: item.question, a: item.answer })),
   {
     q: "如何修改密码？",
     a: "已登录时请进入「设置」→「账号与安全」直接修改密码；如果忘记密码，请在登录页使用“忘记密码”发送重置邮件。",
@@ -137,15 +147,26 @@ export default function AboutSettingsPage() {
       title="关于与帮助"
       fallbackHref={user ? "/settings" : "/"}
       kicker="支持与规则"
-      description="查看帮助、提交反馈和平台规则。"
+      description="了解 STEAMX · 史迪姆是什么，以及如何联系反馈与查阅规则。"
     >
       <div className="space-y-6">
         <section id="about" className="scroll-mt-24 space-y-2 px-1">
           <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
+          <p className="text-sm font-medium leading-7 text-foreground">{BRAND_CORE_TAGLINE}</p>
+          <p className="text-sm leading-7 text-muted-foreground">{BRAND_CORE_STATEMENT}</p>
+          <p className="text-sm leading-7 text-muted-foreground">{BRAND_DISAMBIGUATION}</p>
           <p className="text-sm leading-7 text-muted-foreground">
-            STEAMX 的中文品牌名为「史迪姆」，官方网站：
-            <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">steamx.cc</a>。
+            {BRAND_NAME} 的中文品牌名为「{BRAND_NAME_ZH}」。可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
+            <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">
+              steam.bj.cn
+            </a>
+            。
+          </p>
+          <p className="text-sm leading-7">
+            <Link href="/" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
+              返回 {BRAND_FULL_NAME} 官网首页
+            </Link>
           </p>
         </section>
 

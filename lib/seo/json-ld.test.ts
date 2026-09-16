@@ -12,6 +12,8 @@ import {
   buildWebsiteJsonLd,
   buildWorkJsonLd,
   toAbsoluteMediaUrl,
+  buildAboutPageJsonLd,
+  buildBrandFaqPageJsonLd,
 } from "@/lib/seo/json-ld";
 
 afterEach(() => {
@@ -32,21 +34,25 @@ describe("toAbsoluteMediaUrl", () => {
 });
 
 describe("buildWebsiteJsonLd", () => {
-  it("emits WebSite and Organization using the shared site URL", () => {
+  it("emits WebSite and EducationalOrganization using the shared site URL", () => {
     process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildWebsiteJsonLd();
     const types = data["@graph"].map((item) => item["@type"]);
 
-    expect(types).toEqual(["Organization", "WebSite"]);
+    expect(types).toEqual([["Organization", "EducationalOrganization"], "WebSite"]);
     expect(data["@graph"][0]).toMatchObject({
       name: "STEAMX · 史迪姆",
-      description: expect.stringContaining("STEAM 教育与自然探索平台"),
+      alternateName: expect.arrayContaining(["STEAMX", "史迪姆", "STEAMX 史迪姆"]),
+      description: expect.stringContaining("少儿 STEAM 教育与自然探索平台"),
       url: "https://steam.bj.cn",
     });
+    expect(data["@graph"][0].description).toContain("非游戏平台");
+    expect(data["@graph"][0].description).toContain("Valve Steam");
     expect(data["@graph"][1]).toMatchObject({
       name: "STEAMX · 史迪姆",
-      description: expect.stringContaining("STEAM 教育与自然探索平台"),
+      alternateName: expect.arrayContaining(["STEAMX", "史迪姆"]),
+      description: expect.stringContaining("少儿 STEAM 教育与自然探索平台"),
       url: "https://steam.bj.cn",
       inLanguage: "zh-CN",
     });
@@ -343,5 +349,39 @@ describe("public content JSON-LD", () => {
       learningResourceType: "方法",
       isAccessibleForFree: true,
     });
+  });
+});
+
+describe("buildAboutPageJsonLd", () => {
+  it("describes STEAMX · 史迪姆 as an EducationalOrganization AboutPage", () => {
+    const data = buildAboutPageJsonLd();
+
+    expect(data["@type"]).toBe("AboutPage");
+    expect(data.url).toBe("https://steam.bj.cn/about");
+    expect(data.description).toContain("非游戏平台");
+    expect(data.description).toContain("Valve Steam");
+    expect(data.about).toEqual({ "@id": "https://steam.bj.cn/#organization" });
+    expect(data.mainEntity).toEqual({ "@id": "https://steam.bj.cn/#organization" });
+  });
+});
+
+
+describe("buildBrandFaqPageJsonLd", () => {
+  it("emits FAQPage with GEO brand disambiguation questions", () => {
+    const data = buildBrandFaqPageJsonLd();
+
+    expect(data["@type"]).toBe("FAQPage");
+    expect(data.url).toBe("https://steam.bj.cn/about");
+    expect(data.mainEntity).toHaveLength(5);
+    expect(data.mainEntity.map((item: { name: string }) => item.name)).toEqual([
+      "STEAMX / 史迪姆是什么？",
+      "STEAMX 是 Steam 游戏商店吗？",
+      "STEAMX 适合谁？",
+      "STEAMX 提供哪些内容？",
+      "STEAMX 的官网是哪里？",
+    ]);
+    expect(data.mainEntity[1].acceptedAnswer.text).toContain("不是");
+    expect(data.mainEntity[1].acceptedAnswer.text).toContain("Valve Steam");
+    expect(data.mainEntity[4].acceptedAnswer.text).toContain("https://steam.bj.cn");
   });
 });

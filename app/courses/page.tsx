@@ -2,17 +2,20 @@ import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
 import { listApprovedCourses } from "@/lib/api/courses";
 import type { CourseListItem } from "@/lib/courses/types";
+import { JsonLd } from "@/components/seo/json-ld";
+import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
 import { getContentClassificationSettings } from "@/lib/content-classification";
 
 const COURSE_HUB_DESCRIPTION =
-    "积木搭建、Scratch 编程、五子棋等免费课程，按步骤学会一项技能，把过程做成自己的作品。";
+    "STEAMX · 史迪姆提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
 
 export const metadata = buildPageMetadata({
-    title: "技能课程",
-    description: "按课表系统学习 Scratch 编程、积木搭建等 STEAM 技能，支持在线练习与保存作品。",
+    title: "积木与编程课程",
+    description: COURSE_HUB_DESCRIPTION,
     path: "/courses",
+    keywords: ["STEAMX 课程", "积木课程", "少儿编程", "Scratch 课程", "技能课程"],
 });
 
 export default async function CoursesPage() {
@@ -32,6 +35,13 @@ export default async function CoursesPage() {
     }
 
     return (
+        <>
+            <JsonLd
+                data={buildBreadcrumbJsonLd([
+                    { name: "首页", url: "/" },
+                    { name: "技能课程", url: "/courses" },
+                ])}
+            />
         <div className="min-h-screen app-canvas-community">
             <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
             <main className="app-shell-wide pb-28 pt-2 md:py-6">
@@ -51,5 +61,6 @@ export default async function CoursesPage() {
                 )}
             </main>
         </div>
+        </>
     );
 }

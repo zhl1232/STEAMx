@@ -27,6 +27,7 @@
 | [LDraw 当前状态](ldraw-status.md) | 3+ 100 个模型的当前完成状态，以及 4+/5+ 后续范围 |
 | [LDraw 课程资源发布](ldraw-publishing.md) | 模型独立 OSS 发布、应用发布范围、首次启用与版本缓存规则 |
 | [LDraw 发布记录](ldraw-published-2026-09-15.md) | 2026-09-15 的 3+ 生产发布与校验证据入口 |
+| [SEO / GEO 索引清单](seo-indexing-checklist.md) | Sitemap、站长验证、百度推送与高价值 URL |
 
 ## 待办与历史
 

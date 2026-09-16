@@ -67,10 +67,16 @@ describe("site SEO copy", () => {
     expect(HOME_PAGE_TITLE).not.toContain("观鸟");
     expect(HOME_PAGE_TITLE).not.toContain("免费");
     expect(HOME_DOCUMENT_TITLE).toBe("STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察");
-    expect(SITE_DESCRIPTION).toBe(
-      "STEAMX · 史迪姆是面向孩子、家长和教育者的 STEAM 教育与自然探索平台，提供积木课程、少儿编程、科学实验与自然观察，帮助孩子在动手实践中学习、创造和分享。",
-    );
+    expect(SITE_DESCRIPTION).toContain("STEAMX · 史迪姆");
+    expect(SITE_DESCRIPTION).toContain("3–16 岁");
+    expect(SITE_DESCRIPTION).toContain("少儿 STEAM 教育与自然探索平台");
+    expect(SITE_DESCRIPTION).toContain("非游戏平台");
+    expect(SITE_DESCRIPTION).toContain("积木课程");
+    expect(SITE_DESCRIPTION).toContain("科学实践");
+    expect(SITE_DESCRIPTION).toContain("自然观察");
+    expect(SITE_DESCRIPTION).toContain("PBL");
     expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
     expect(SITE_DESCRIPTION).not.toContain("STEAM教育");
+    expect(SITE_DESCRIPTION).not.toContain("项目式学习");
   });
 });

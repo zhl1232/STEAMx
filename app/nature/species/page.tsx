@@ -16,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: '物种图鉴',
   description: '浏览鸟类、昆虫和植物物种图鉴，查看自然观察记录。',
   path: '/nature/species',
-  keywords: ['物种图鉴', '自然观察', '物种识别', '观察进度'],
+  keywords: ['STEAMX 物种图鉴', '物种图鉴', '自然观察', '物种识别', '观察进度'],
 })
 
 interface SpeciesPageProps {

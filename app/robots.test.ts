@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 describe("robots", () => {
-  it("allows Baiduspider, Bytespider, YisouSpider and GPTBot on public pages", () => {
+  it("allows Baiduspider, Googlebot, Bytespider, YisouSpider and GPTBot on public pages", () => {
     process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const result = robots();
@@ -17,12 +17,15 @@ describe("robots", () => {
       return Array.isArray(userAgent) ? userAgent.includes("GPTBot") : userAgent === "GPTBot";
     });
     const baiduRule = rules.find((rule) => rule?.userAgent === "Baiduspider");
+    const googleRule = rules.find((rule) => rule?.userAgent === "Googlebot");
     const cnIndexRule = rules.find((rule) => {
       const userAgent = rule?.userAgent;
       return Array.isArray(userAgent) ? userAgent.includes("Bytespider") : userAgent === "Bytespider";
     });
 
     expect(baiduRule?.allow).toBe("/");
+    expect(googleRule?.allow).toBe("/");
+    expect(googleRule?.disallow).toEqual(expect.arrayContaining(["/api/", "/admin/", "/login"]));
     expect(cnIndexRule?.allow).toBe("/");
     expect(Array.isArray(cnIndexRule?.userAgent) ? cnIndexRule.userAgent : [cnIndexRule?.userAgent]).toEqual(
       expect.arrayContaining(["Bytespider", "YisouSpider"]),

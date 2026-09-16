@@ -28,6 +28,8 @@ import type {
   ObservationHotspotSummary,
 } from "@/lib/api/nature-observation-data";
 import type { ObservationEvent } from "@/lib/mappers/types";
+import { JsonLd } from "@/components/seo/json-ld";
+import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getAssetDisplayUrl, rewriteAssetUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
 import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
@@ -44,9 +46,9 @@ const topicCardImages: Record<NatureTopicKey, string> = {
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
   description:
-    "记录鸟类、植物、昆虫和真菌等真实自然观察，查看社区热点、物种档案和公开观察记录，把身边生态变化积累成可追踪的数据。",
+    "在 STEAMX · 史迪姆记录鸟类、植物、昆虫和真菌等真实自然观察，查看社区热点、物种档案和公开观察记录，把身边生态变化积累成可追踪的数据。",
   path: "/nature",
-  keywords: ["自然观察", "鸟类观察", "物种识别", "观察记录", "校园自然"],
+  keywords: ["STEAMX 自然观察", "自然观察", "鸟类观察", "物种识别", "观察记录", "校园自然"],
 });
 
 type ImageSource = string | StaticImageData;
@@ -480,6 +482,13 @@ export default async function NaturePage() {
   });
 
   return (
+    <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "首页", url: "/" },
+          { name: "自然观察", url: "/nature" },
+        ])}
+      />
     <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))]">
       {/* 沉浸式 Hero 头部：移动端通顶满宽渲染（内置透明 Header），桌面端在 app-shell-wide 容器内居中 */}
       <div className="md:app-shell-wide md:pt-6">
@@ -501,5 +510,6 @@ export default async function NaturePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

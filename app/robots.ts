@@ -15,6 +15,10 @@ export default function robots(): MetadataRoute.Robots {
                 ...publicCrawlerRule,
             },
             {
+                userAgent: 'Googlebot',
+                ...publicCrawlerRule,
+            },
+            {
                 userAgent: [...CN_INDEX_CRAWLER_USER_AGENTS],
                 ...publicCrawlerRule,
             },

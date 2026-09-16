@@ -21,13 +21,14 @@
 
 ### 品牌命名规范
 
-- 品牌定位统一为「STEAM 教育与自然探索平台」，官网显示 `steamx.cc` 并链接规范地址 `https://www.steamx.cc`；首页首屏与关于页使用可抓取正文说明受众、积木课程、编程、科学实验与自然观察。首页标题为「STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察」，WebSite/Organization 结构化数据包含中英文别名。外部账号介绍统一复用下列文案，并附官网链接。
-- 对外简介：STEAMX · 史迪姆是面向孩子、家长和教育者的 STEAM 教育与自然探索平台，提供积木课程、少儿编程、科学实验与自然观察。官网：https://www.steamx.cc 。
+- 品牌定位统一为「少儿 STEAM 教育与自然探索平台（非游戏平台）」，规范官网 `https://steam.bj.cn`（旧域 `steamx.cc` / `www.steamx.cc` 301 到主域）；首页首屏与关于页使用可抓取正文说明 3–16 岁受众、积木课程、科学实践、自然观察与 PBL。首页标题为「STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察」，WebSite / Organization+EducationalOrganization 结构化数据含中英文别名，并写明与 Valve Steam 无关。外部账号介绍统一复用下列文案，并附官网链接。
+- 对外简介：STEAMX · 史迪姆是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 教育与自然探索平台（非游戏平台），提供积木课程、科学实践、自然观察、少儿编程与 PBL。官网：https://steam.bj.cn 。不是 Valve Steam 游戏平台。
 
 - 正式品牌名：`STEAMX · 史迪姆`；导航、页脚与关于页统一使用 `STEAMX · 史迪姆`，中文品牌名为「史迪姆」。
 - 「小迪」仍是 AI 学习导师的对外昵称，不再把「史迪姆」写成小迪的吉祥物全名，避免与平台中文品牌混淆。
-- `STEAM` 仍表示科学、技术、工程、艺术、数学这一教育/能力概念，保留在课程、雷达、分类、SEO 关键词和数据库字段中；不要把它机械替换成品牌名。
+- `STEAM` 仍表示科学、技术、工程、艺术、数学这一教育/能力概念，保留在课程、雷达、分类、SEO 关键词和数据库字段中；不要把它机械替换成品牌名。SEO 优先赢组合查询（STEAMX、STEAMX 史迪姆、史迪姆+品类），不赌裸搜「史迪姆」。
 - 用户可见品牌常量集中在 `lib/brand.ts`；站点 metadata、JSON-LD、PWA 与 llms.txt 通过 `lib/seo/site.ts` 等共享出口使用。域名、路由、环境变量、`x-steam-*` 请求头、包名和历史 LDraw 作者/迁移注释属于内部或历史标识，不因品牌改名而重命名。
+- 核心教育定位（非 SEO 标题滥写）：短句 `BRAND_CORE_TAGLINE`「兴趣是最好的老师。在动手中，让孩子学会解决问题的能力。」；完整 `BRAND_CORE_STATEMENT` 见同文件，并在 `/about` 与 README 品牌定位段引用。
 
 ### 面向用户的产出词汇：只有三个词
 
@@ -58,7 +59,7 @@
 | `/playground` | `app/playground/page.tsx` + `layout.tsx` | 益智游乐场 — 18 个互动游戏（2048、24点、五子棋、扫雷、汉诺塔、数独、N皇后、生命游戏默认挑战、数字华容道、记忆翻牌（萌宠/自然/宇宙/美食/科学五套图案可选与 3D 翻牌）、速算闪电战、迷宫探险、七巧板、数织、球排序、天平称重、像素对称、函数战争）；在线能力覆盖五子棋实时对弈、记忆翻牌实时对战、函数战争回合制 1v1、扫雷云端榜单，以及 24 点/速算/汉诺塔/N 皇后/数字华容道/数织/球排序/天平/像素对称/七巧板通用竞速房间（6 位邀请码、邀请链接、共享牌面/初始棋盘或固定关卡，双方成绩提交后判胜负）；球排序扩展为 10 关，后段提升到 6-8 色复杂周转，并采用实验台式试管架，包含选中上浮、可倒目标提示、无效轻震与倒球/落球动效，移动端保持稳定触控尺寸并隐藏小迪悬浮入口避免遮挡高级关试管；天平称重采用实体天平盘面、当前投放托盘分段控件、硬币台一键入盘/移除、称量合法性提示、结果倾斜反馈、通关结果条和称量记录，移动端隐藏小迪悬浮入口以优先露出盘面；像素对称改为半图镜像挑战，样本半边锁定、挑战半边手动补图，提供误点、步数、连击、星级与最佳成绩反馈，并扩展到左右/上下 10 关；数织 28 关（3×3 至 15×15），含船锚/蘑菇/螃蟹/幽灵/外星/骷髅/火箭/猫头鹰/小龙/神殿/飞船/火鸟/迷宫/星系等进阶图案，须按顺序解锁；通关后以答案轮廓生成清晰的分层像素作品（主题配色、边缘明暗、少量关卡细节），替代被剪影切碎的细腻 SVG，并用紧凑收藏结果条展示作品名、用时、失误与下一关；数织移动端点格不再聚焦滚动，线索栏加宽并 sticky，避免行列提示数字被顶栏或格子盖住；生命游戏默认进入关卡挑战，强调细胞预算、演化代数、三星条件与挑战完成口径，不再把单纯运行次数当胜利；迷宫页只保留俯视迷雾探索地图，移除体验不佳的沉浸视角；方向键、WASD 与手机紧贴地图的四向箭头统一为地图绝对上下左右，撞墙时只转向并给出反馈，移动端确保地图和箭头在同一屏内；探索地图用高对比探险者朝向、手电视野、当前可见区/历史记忆区、足迹与迷雾揭开强化方向感和探索感，闯关中继续隐藏理论最短步数与全图，通关后隐藏方向控制、揭图并在地图区上移展示 BFS / DFS / A* 探索对比与回放；`layout.tsx` 统一 `surface-panel` / `--tone-*` 侧栏与本局提示条，并为全部小游戏在移动端顶栏提供统一玩法说明入口（目标、操作、快捷方式、挑战目标）；移动端游戏内页保留紧凑顶栏并隐藏横向全游戏导航/本局提示以优先露出游戏本体，且移动端去掉 playground 外层 `app-shell-wide` 横向 gutter，由各游戏页自行保留触控安全边距，避免 `100dvw` 游戏区被父级裁切；扫雷页桌面端采用更清爽的单行控制台、轻量棋盘舞台和低遮挡胜负结果浮层，普通桌面收窄右侧课程面板以增加主游戏区宽度；游乐场用户可见战绩口径统一为云端/在线记录，登录后由 `playground_stats` 同步；移动/平板工具栏持续到 `lg` 断点，游戏区在手机端使用居中的 `100dvw` 容器突破通用 gutter，不依赖负边距，并保留至少 12px 且兼容 `safe-area-inset-left/right` 的安全边距，避免移动 Safari 裁掉页面左右；初级棋盘按容器等分完整显示并使用实体按键式格子材质，中高难度保留横向滑动，状态/重开在左中，移动端挖掘/插旗模式使用工具栏最右侧的分段外观控件（挖掘 | 插旗），整块点按任意位置即切换，选中态高亮；棋盘长按改用 Pointer 事件并容忍 12px 内手指抖动，明显滑动才取消插旗；旗子不受雷数上限限制，超额标记时剩余雷数显示为负数，避免长按被静默忽略；高度不超过 480px 的手机横屏隐藏小迪悬浮入口，避免遮挡最右模式按钮；云端/会话战绩挂载后读取以避免 SSR hydration mismatch；扫雷页还会注册小迪 `playground.hint_minesweeper` 场景工具，收到提示动作后仅在浏览器内存态把已翻开的数字、旗子和隐藏格交给确定性推理器，不向服务端发送棋盘或读取 `isMine` 雷图；页面只用静态高对比描边常亮产生推理依据的数字格并给一个递进问题，关闭移动端聊天面板后仍可见，棋盘发生下一次变化时才清除，不直接标出安全格/雷格，暂无确定结论时引导继续探索；扫雷、五子棋、数独、N 皇后在手机端采用更大的触控棋盘并允许横向滑动；`/playground/*` 游戏内页隐藏全局移动底部导航避免遮挡棋盘/画布，并继承小迪 `playground` surface 且按具体小游戏传递 `gameKey/contextId`，避免迷宫、扫雷等小游戏串场景；首页推荐支持轮换，移动端先展示单个今日推荐并避免与全部游戏列表重复，且不展示数据统计与 STEAM 能力维度进度；游戏卡片均有独立图形 fallback |
 | `/playground/functionwars` | `app/playground/functionwars/page.tsx` + `renderer.ts` | 函数战争：无 `eval` 表达式 AST 驱动纯函数弹道；3 主题 10 个战役关 + 5 个挑战关，含可破坏/不可破坏障碍、所有单位的可碰撞前景支撑（贴图落脚线按最近支撑单独做视觉对齐，不改变弹道碰撞几何）、太空后段无地面空岛关与易碎承重坠落结算（敌方失去承重造成一次坠落伤害，己方失去承重本关失败）、表达式必用函数/常量、有效射击函数/武器、信号中继、射击上限和平台保护等任务目标、5 种配置化武器、曲线拾取道具、Canvas 地形破坏/弹道特效/坐标网格、分层 WebP 背景与透明 WebP 单位贴图的超裁切视差及草原云影/峡谷沙雾/太空星闪环境动效（低动态偏好下冻结；无射击/爆炸时环境重绘降到 250ms 一帧，活动特效仍走 rAF）、主题化前景地面/平台材质（可破坏物使用暖色、颗粒与边缘缺口；不可破坏支撑/墙体使用冷灰硬质、斜纹与螺栓）、从实际炮口过渡到函数曲线首点的出膛动画（不改变弹道碰撞几何）、星级与 `function_wars_stats` 战绩；`NODE_ENV=development` 下关卡栏显示开发模式并解锁全部 15 关用于预览；单人/真人弹道纵向出屏后可继续采样并重入，横向越界、断点、发散或采样上限才终止，陡峭采样段按连续线段判定碰撞；真人模式使用 6 位邀请码的共享地图 1v1 回合制房间，100 HP 且单回合伤害封顶 80，避免镜像双中满血秒杀；客户端开火只提交武器、表达式和预期 `shot_seq`，认证 API 用共享确定性模拟器重算命中后调用 service-role RPC；单人/真人切换均保留本局，隐藏的单人计时暂停，在线活跃对局在页签标记；Canvas 提供屏幕阅读器战场摘要，错误/结算自动聚焦，320px 控制台不遮挡画布，短横屏采用战场/控制台双栏并可收起数学键盘；移动端隐藏小迪悬浮入口，避免遮挡函数输入与发射按钮 |
 | `/profile` | `app/profile/page.tsx` | 个人主页 — 桌面首屏按「个人 Hero → 本周计划 / 今日行动 → 能力雷达与作品观察摘要」组织，普通桌面主体摘要在宽版卡片内左右并列，大桌面再将经验等级与学习打卡（每日登录流水与学习行为统一计算）放入 400px 右栏（新手引导不再单开面板，已并进本周探索计划，见 `lib/profile/weekly-plan.ts`）；移动端采用现代 Bento 便当盒美学重构为三大高凝聚层级：1.「Hero 个人画像中枢」融合身份称号、徽章阵列、经验条、4 项资产统计与 4 个高频快捷入口（内容/消息/钱包/商店），暗色模式下背景图与遮罩自适应消除泛白漏光，资产条去除了刺眼亮白内高光；2.「探索与成长行动中心」将每日打卡紧凑条与本周探索计划无缝合体（标题栏集成手风琴折叠切换器，任务顺序绝对稳定不跳变）；3.「成长画像与观察成果」将 STEAM 五维能力雷达与自然观察图鉴进度合二为一，突破指南转为标题右上角轻量弹窗，彻底消灭碎片化孤岛卡片堆叠；雷达图、计划卡、打卡与观察卡均支持 `embedded` 容器模式，嵌入大卡片时不重复挂载 `surface-panel` / `profile-mobile-panel`，并在暗色模式下将 `inset 0 1px 0` 硬顶线降为细腻微光（0.06~0.08），消除多重嵌套矩形框与边框断层；移动端标题栏只保留设置，公开主页入口由头像/资料区承担，避免与资料编辑重复；首页作品统计与摘要读取统一作品，内容库区分「我的作品」与用户创建的「发布的项目」；子路由 `library/`、`timeline/`、`likes/`、`followers/`、`following/` |
-| `/about` | `app/about/page.tsx` + `app/settings/about/page.tsx` | 公开、可索引的关于与帮助页：平台简介、联系反馈、FAQ、用户协议与隐私政策；反馈仍需登录并发送到站内客服，旧 `/settings/about` 永久重定向到此规范 URL，页脚只链接真实存在的内容锚点 |
+| `/about` | `app/about/page.tsx` + `app/settings/about/page.tsx` | 公开、可索引的关于与帮助页：STEAMX · 史迪姆品牌定义与 Valve 消歧、AboutPage JSON-LD、联系反馈、FAQ、用户协议与隐私政策；反馈仍需登录并发送到站内客服，旧 `/settings/about` 永久重定向到此规范 URL，页脚只链接真实存在的内容锚点 |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`xiaodi/`（小迪语音：自动朗读、移动端长按语音、语音提问播报、提示气泡本设备偏好）、`notifications/`、`privacy/`、`security/`、`safety/`；关于与帮助统一进入公开 `/about`；其余设置页未登录会带 `next` 回到原路径；设置首页菜单使用单层列表与轻分隔，子页由 `app/settings/_components/settings-subpage-shell.tsx` 统一承载，主内容保留单层面板，资料/安全内容使用低对比边界的浅色分组，减少嵌套卡片与边框噪音 |
 | `/settings/profile` | `app/settings/profile/page.tsx` + `profile-settings-client.tsx` | 个人资料 — 头像、昵称、简介、性别和出生年月编辑；首屏头像预览优先加载，分组表单使用单层面板与无边框浅色区块，保存后刷新认证资料 |
 | `/settings/security` | `app/settings/security/page.tsx` | 账号与安全 — 社区互动确认、密码修改和首次手机号绑定；内容以单一列表和轻分隔组织，密码/短信表单通过整行折叠交互展开，具备可访问状态关联，手机号验证流程支持重新填写与加载/错误反馈 |
@@ -95,14 +96,14 @@
 > `/works/[id]` 移动端详情页使用页面自有的单一返回/标题页头，隐藏全局 Logo 页头与底部导航；完成作品不再单独显示状态胶囊，进行中探索仅在标题栏显示弱状态提示，来源信息由详情中的来源卡承载，桌面端继续保留完整全局导航。
 
 ### 全局文件
-- `lib/brand.ts` — 用户可见品牌常量（`STEAMX`、`史迪姆`、正式全名与品类副标题）；导航、metadata、PWA、AI 文案和分享卡优先复用，避免品牌大小写/中英文漂移
+- `lib/brand.ts` — 用户可见品牌常量（`STEAMX`、`史迪姆`、正式全名、品类副标题、`BRAND_CORE_TAGLINE` / `BRAND_CORE_STATEMENT` 核心定位）；导航、metadata、PWA、AI 文案和分享卡优先复用，避免品牌大小写/中英文漂移
 - `app/layout.tsx` — 根布局：Provider 嵌套顺序（QueryProvider → AuthProvider → ThemeProvider）；挂载 PWA Service Worker 注册与安装提示
 - `app/globals.css` — 全局样式与 CSS 变量；Tailwind CSS 4 CSS-first 配置入口（`@theme` / `@utility` / `@plugin`）；统一页面 shell 移动端横向 gutter：16px，桌面按各 shell 规则放大；自然频道不再定义独立 `--nature-*` 主题色，使用全站通用 token
 - `app/template.tsx` — 页面过渡模板
 - `app/error.tsx` / `app/not-found.tsx` — 全局错误与 404；详情页要返回真正的 404 状态码，就不能让 `loading.tsx` 的 Suspense 先把外壳冲出去：`/nature/observations/[id]` 与 `/nature/species/[slug]` 只有一次查询，直接不设 `loading.tsx`；`/project/[id]` 查询较多，改由 `layout.tsx` 先做存在性判断（`getProjectById` 走 React cache，不额外查库），页面重查询继续流式渲染
 - 游乐场数独/N 皇后/数字华容道棋盘格提供坐标、数字/皇后状态与选中语义；首页轮播分页和汉诺塔速度控件在手机端使用至少 44px 触控区域
-- `app/manifest.ts` / `public/sw.js` / `components/pwa/*` / `lib/pwa/install.ts` / `app/robots.ts` / `app/sitemap.ts` / `app/llms.txt/route.ts` — PWA & SEO；根布局含 `appleWebApp`/`themeColor`，生产环境注册根作用域 Service Worker，并提供中文「安装到桌面」/ iOS / 微信引导；`robots.ts` 为 Baiduspider、GPTBot 及其他常见大模型爬虫明确放行公开页，并与 `User-Agent: *` 共用 `/api/` `/admin/` `/login` 等私有路径 Disallow；Sitemap 使用无请求 Cookie 的公开 Supabase 客户端并按小时 ISR 刷新，动态表统一按 `id` + `range` 每页 500 全量读取，覆盖规范静态页（不含空的 `/create` 列表页）、全部游乐场详情、项目、物种、观察、课程/课时/可用零件清单、公开最终作品、已发布资料卡及 active/ended PBL 挑战；根布局标记 `lang=zh-CN` 与 `applicable-device=pc,mobile`，默认社交图为 `public/assets/seo/steamx-social-card.webp`（1200×630），具体内容图优先；`/llms.txt` 返回 `text/plain` 站点说明
-- `proxy.ts` — Next.js 16 Proxy 入口：仅当 Host 为 `steamx.cc` 时 301 到对应的 `www.steamx.cc` 路径（含 query），不改写 localhost / 预览 / tunnel / 未来第二域名；所有页面继续转发 pathname/search 登录回跳头；匿名推荐 `rec_viewer` Cookie 仅在 `GET /explore`、`GET /api/projects`、`GET /api/home/recommendations`、`GET /api/explore/recommendations` 首次访问时写入，普通公开页、详情 API、`robots.txt` 与 `sitemap.xml` 保持无推荐 Cookie
+- `app/manifest.ts` / `public/sw.js` / `components/pwa/*` / `lib/pwa/install.ts` / `app/robots.ts` / `app/sitemap.ts` / `app/llms.txt/route.ts` — PWA & SEO；根布局含 `appleWebApp`/`themeColor`，生产环境注册根作用域 Service Worker，并提供中文「安装到桌面」/ iOS / 微信引导；`robots.ts` 为 Baiduspider、Googlebot、GPTBot 及其他常见大模型爬虫明确放行公开页，并与 `User-Agent: *` 共用 `/api/` `/admin/` `/login` 等私有路径 Disallow；Sitemap 使用无请求 Cookie 的公开 Supabase 客户端并按小时 ISR 刷新，动态表统一按 `id` + `range` 每页 500 全量读取，覆盖规范静态页（不含空的 `/create` 列表页）、全部游乐场详情、项目、物种、观察、课程/课时/可用零件清单、公开最终作品、已发布资料卡及 active/ended PBL 挑战；根布局标记 `lang=zh-CN` 与 `applicable-device=pc,mobile`，可选 `GOOGLE_SITE_VERIFICATION` / `BAIDU_SITE_VERIFICATION` 经 `lib/seo/site-verification.ts` 写入 verification meta，默认社交图为 `public/assets/seo/steamx-social-card.webp`（1200×630），具体内容图优先；`/llms.txt` 返回 `text/plain` 站点说明；运营核对见 `docs/seo-indexing-checklist.md`
+- `proxy.ts` — Next.js 16 Proxy 入口：Host 为 `steamx.cc` / `www.steamx.cc` / `www.steam.bj.cn` 时 301 到 `https://steam.bj.cn`（保留 path/query），不改写 localhost / 预览 / tunnel；所有页面继续转发 pathname/search 登录回跳头；匿名推荐 `rec_viewer` Cookie 仅在 `GET /explore`、`GET /api/projects`、`GET /api/home/recommendations`、`GET /api/explore/recommendations` 首次访问时写入，普通公开页、详情 API、`robots.txt` 与 `sitemap.xml` 保持无推荐 Cookie
 - `AGENTS.md` / `.cursor/rules/project-context.mdc` — AI/自动化工具项目约定：先读索引、同步维护索引、禁止恢复 `middleware.ts`
 
 ---
@@ -302,9 +303,10 @@
 
 ### 4.6 SEO (`lib/seo/`)
 - `metadata.ts` — 页面元数据构建工具 `buildPageMetadata()`；默认补全 `summary_large_image`、1200×630 社交图、OG URL/siteName 与 Twitter 图片
-- `site.ts` — 站点名称、描述、URL 与 ICP 备案号；`getSiteUrl()` / `buildAbsoluteUrl()` 供 metadata、sitemap、JSON-LD、llms.txt 复用，生产环境即使误配 HTTP 或 apex 也统一归一到 `https://www.steamx.cc`
-- `canonical-host.ts` — 仅把 `steamx.cc` 规范到 `www.steamx.cc`，供 `proxy.ts` 做 301
-- `json-ld.ts` — 首页 WebSite/Organization/SearchAction、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；已复核内容才写入 `typicalAgeRange` / `educationalLevel`，不暴露内部星级、候选值或审核元数据；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
+- `site.ts` — 站点名称、描述、URL 与 ICP 备案号；`getSiteUrl()` / `buildAbsoluteUrl()` 供 metadata、sitemap、JSON-LD、llms.txt 复用，生产环境即使误配 HTTP 或旧域也统一归一到 `https://steam.bj.cn`
+- `canonical-host.ts` — 旧域与 `www.steam.bj.cn` 301 到 `https://steam.bj.cn`，供 `proxy.ts` 使用
+- `site-verification.ts` — 根布局 verification meta：神马/字节硬编码 + 可选 `GOOGLE_SITE_VERIFICATION` / `BAIDU_SITE_VERIFICATION`
+- `json-ld.ts` — 首页 WebSite/Organization/SearchAction、`/about` AboutPage、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；已复核内容才写入 `typicalAgeRange` / `educationalLevel`，不暴露内部星级、候选值或审核元数据；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
 - `project-citability.ts` — 项目页面向豆包、文心、通义的引用摘要：按项目类型组合年龄、reflection 或描述与关键词；项目 JSON-LD 同时输出材料/步骤 HowTo 和 reflection 结论 FAQ，页面移动端与桌面端都显示结论区块
 - `llms-txt.ts` / `robots-policy.ts` — `/llms.txt` 正文与爬虫 Disallow / 大模型 UA 列表
 - 公开 SEO 路由规则：`/about` 与鸟类/昆虫/植物专题使用独立 metadata；`/playground` 首页、18 个游戏页及扫雷课程页使用独立 metadata；PBL 详情服务端校验 active/ended 挑战，不存在或不可见挑战返回真正 404；挑战提交页及 Scratch 预览页明确 `noindex`，预览 canonical 指向正式课时；sitemap 不提交筛选 query，静态 URL 不伪造 `lastmod`，零件清单支持本地模型及已发布 OSS 模型；哈希命名的可信 OSS 引用无需在 sitemap 中下载完整模型
@@ -545,7 +547,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 |------|------|
 | `db-push.mjs` | 数据库迁移推送工具（push/status/baseline） |
 | `purge-triaged-project-assets.mjs --scope=2026-08-25` | 本次项目目录清理的 59 个项目资源 dry-run / 清理；默认仍是 2026-08-13 旧分诊名单，确认后才加 `--execute` |
-| `submit-baidu-urls.mjs` | 读取生产 `sitemap.xml`，按百度主动推送接口分批提交公开规范 URL；未配置 `BAIDU_PUSH_TOKEN` 时安全跳过，Release workflow 配置该 secret 后每次发布自动执行 |
+| `submit-baidu-urls.mjs` | 读取生产 `sitemap.xml`，按百度主动推送接口分批提交公开规范 URL；默认站点 `https://steam.bj.cn`（拒绝非主域）；未配置 `BAIDU_PUSH_TOKEN` 时安全跳过，Release workflow 配置该 secret 后每次发布自动执行；操作清单见 `docs/seo-indexing-checklist.md` |
 | `course-config-preflight.mjs` | 只读检查已发布课程的 STEAM 权重/难度配置；`--validate` 在结果为空后显式验证迁移中的 `NOT VALID` 约束 |
 | `course-closure-audit.mjs` | 只读检查课程闭环的迁移、配置/约束、可信进度与里程碑、作品奖励幂等性、迁移后 `complete_lesson` XP 和数据库死锁；支持 `--json` 与 `--strict`，不写库；`lib/course-closure-audit.mjs` 提供汇总逻辑 |
 | `content-classification-preflight.mjs` | 内容分级阶段 0 只读预检：统计三类内容的发布/未复核/非法星级/年龄边界/安全关键词/低置信候选；支持 `--type`、`--json`，不写库 |

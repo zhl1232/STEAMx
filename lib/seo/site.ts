@@ -1,5 +1,10 @@
 import { isProductionSiteHost } from "@/lib/seo/canonical-host";
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
+import {
+  BRAND_DESCRIPTION,
+  BRAND_DISAMBIGUATION,
+  BRAND_FULL_NAME,
+  BRAND_OFFICIAL_URL,
+} from "@/lib/brand";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
 const PRODUCTION_FALLBACK_SITE_URL = BRAND_OFFICIAL_URL;
@@ -8,7 +13,10 @@ const PRODUCTION_FALLBACK_SITE_URL = BRAND_OFFICIAL_URL;
 export const SITE_NAME = BRAND_FULL_NAME;
 export const HOME_PAGE_TITLE = "积木课程、科学实践与自然观察";
 export const HOME_DOCUMENT_TITLE = `STEAMX 史迪姆官网 | ${HOME_PAGE_TITLE}`;
+/** Default meta / Open Graph / Twitter description (also used on about & PWA). */
 export const SITE_DESCRIPTION = BRAND_DESCRIPTION;
+/** Structured-data / llms.txt description with explicit non-Valve identity. */
+export const SITE_STRUCTURED_DESCRIPTION = `${BRAND_DESCRIPTION} ${BRAND_DISAMBIGUATION}`;
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 

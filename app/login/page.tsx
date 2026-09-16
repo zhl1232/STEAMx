@@ -7,7 +7,7 @@ import { ArrowRight, BookOpenCheck, FolderOpen, Leaf, Sparkles } from 'lucide-re
 
 import { AuthFlow } from '@/components/auth/auth-flow'
 import { SteamLogo } from '@/components/layout/logo'
-import { BRAND_FULL_NAME } from '@/lib/brand'
+import { BRAND_NAME } from '@/lib/brand'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -17,7 +17,7 @@ export default function LoginPage() {
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
         <Link href="/" className="inline-flex items-center gap-2">
           <SteamLogo className="h-9 w-9" />
-          <span className="font-heading text-xl font-semibold tracking-tight text-foreground">{BRAND_FULL_NAME}</span>
+          <span className="font-heading text-xl font-semibold tracking-tight text-foreground">{BRAND_NAME}</span>
         </Link>
         <Link
           href="/explore"

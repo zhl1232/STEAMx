@@ -32,7 +32,8 @@ if ! grep -q -- '--wait' <<<"$compose_help" || ! grep -q -- '--wait-timeout' <<<
 fi
 
 printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
-docker pull "$image_ref" >/dev/null
+echo "Pulling $image_ref ..."
+docker pull "$image_ref"
 
 # Compose's implicit .env is also used for interpolation. Copy it into the
 # candidate env file so --env-file preserves the existing interpolation settings.

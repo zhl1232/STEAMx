@@ -11,7 +11,7 @@ export const metadata = buildPageMetadata({
   title: HOME_DOCUMENT_TITLE,
   description: SITE_DESCRIPTION,
   path: "/",
-  keywords: ["少儿编程", "免费少儿编程", "积木", "自然观察"],
+  keywords: ["STEAMX 史迪姆", "积木课程", "科学实践", "少儿STEAM", "3-16岁", "PBL"],
   absoluteTitle: true,
 });
 
