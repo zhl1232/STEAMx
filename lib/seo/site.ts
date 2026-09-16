@@ -1,15 +1,14 @@
 import { STEAMX_APEX_HOST, STEAMX_WWW_HOST } from "@/lib/seo/canonical-host";
-import { BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
 
 const LOCAL_SITE_URL = "http://localhost:3000";
-const PRODUCTION_FALLBACK_SITE_URL = "https://www.steamx.cc";
+const PRODUCTION_FALLBACK_SITE_URL = BRAND_OFFICIAL_URL;
 
 /** The formal site name used in metadata, structured data, and public copy. */
 export const SITE_NAME = BRAND_FULL_NAME;
-export const HOME_PAGE_TITLE = "少儿编程 · 积木 · 自然观察";
-export const HOME_DOCUMENT_TITLE = `${HOME_PAGE_TITLE} | ${SITE_NAME}`;
-export const SITE_DESCRIPTION =
-  "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。";
+export const HOME_PAGE_TITLE = "积木课程、科学实践与自然观察";
+export const HOME_DOCUMENT_TITLE = `STEAMX 史迪姆官网 | ${HOME_PAGE_TITLE}`;
+export const SITE_DESCRIPTION = BRAND_DESCRIPTION;
 export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 

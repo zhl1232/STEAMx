@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Award, CheckCircle2, ChevronRight, Clock, Target } from "lucide-react";
+import { ArrowLeft, Award, CheckCircle2, ChevronRight, Clock } from "lucide-react";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -9,13 +9,13 @@ import { CourseShareButton } from "@/components/features/courses/course-share-bu
 import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
 import { getCourseOverview } from "@/lib/api/courses";
 import { listStoreProductsForContext } from "@/lib/store/service";
 import { LESSON_CATALOG_MIN_SIZE } from "@/lib/courses/lesson-catalog";
 import { buildLessonCatalogItems } from "@/lib/courses/lesson-catalog-builder";
-import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { buildBreadcrumbJsonLd, buildCourseJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
@@ -87,12 +87,14 @@ export default async function CourseDetailPage({ params }: PageProps) {
         ? buildLessonCatalogItems(course.lessons, { showTypeLabel: !allSameLessonType })
         : [];
     const nextLessonId = course.progress?.next_lesson_id ?? course.lessons[0]?.id ?? null;
+    const nextLessonIndex = course.lessons.findIndex((l) => l.id === nextLessonId);
+    const nextLessonNumber = nextLessonIndex >= 0 ? nextLessonIndex + 1 : 1;
     const primaryCta =
         course.progress?.status === "completed"
             ? "回顾课程"
             : course.progress?.status === "in_progress"
-                ? "继续学习"
-                : "开始学习";
+                ? `继续 第 ${nextLessonNumber} 课`
+                : `开始 第 1 课`;
     return (
         <>
             <JsonLd
@@ -148,73 +150,106 @@ export default async function CourseDetailPage({ params }: PageProps) {
                         </div>
 
                         <div className="order-2 flex flex-col justify-center p-5 md:order-1 md:p-8 lg:p-10">
-                            <div className="flex flex-wrap items-center gap-2">
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(var(--brand-blue)/0.12)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[hsl(var(--brand-blue))]">
-                                    <Target className="h-3 w-3" />
-                                    技能课程
-                                </span>
-                                {isGomoku ? (
-                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-math)/0.12)] px-2.5 py-1 text-[11px] font-bold text-[hsl(var(--tone-math))]">
-                                        博弈论 · 算法
-                                    </span>
-                                ) : null}
-                            </div>
+                            {course.classification || isGomoku ? (
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <ContentClassification classification={course.classification} compact />
+                                    {isGomoku ? (
+                                        <span className="inline-flex items-center rounded-lg bg-[hsl(var(--tone-math)/0.12)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--tone-math))]">
+                                            博弈论 · 算法
+                                        </span>
+                                    ) : null}
+                                </div>
+                            ) : null}
 
-                            <h1 className="mt-3 text-2xl font-black leading-tight tracking-tight text-foreground md:mt-4 md:text-[2rem] md:leading-[1.15]">
+                            <h1 className="mt-3 font-sans text-2xl font-black leading-tight tracking-tight text-foreground md:mt-4 md:text-[2.15rem] md:leading-[1.18]">
                                 {course.title}
                             </h1>
 
                             {course.description ? (
-                                <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-[15px] md:leading-7">
+                                <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground md:mt-3.5 md:text-[15px] md:leading-7">
                                     {course.description}
                                 </p>
                             ) : null}
 
-                            <div className="mt-5 flex flex-wrap items-center gap-2 md:mt-6">
-                                <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--surface-muted))] px-3 py-1.5 text-xs font-bold text-foreground">
-                                    共 {course.lessons.length} 课时
-                                </span>
-                                <ContentClassification classification={course.classification} compact />
-                                {course.tags?.length ? (
-                                    <span className="inline-flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                                        {course.tags.slice(0, 4).map((tag) => (
+                            {course.tags?.length ? (
+                                <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                                    {course.tags
+                                        .filter((tag) => tag !== "3+" && !/^\d+\+?$/.test(tag) && !tag.endsWith("岁"))
+                                        .slice(0, 5)
+                                        .map((tag) => (
                                             <span
                                                 key={tag}
-                                                className="rounded-full bg-[hsl(var(--surface-muted))] px-2.5 py-1 font-medium"
+                                                className="rounded-md border border-border/40 bg-secondary/60 px-2 py-0.5 font-medium transition-colors hover:bg-secondary"
                                             >
-                                                {tag}
+                                                #{tag}
                                             </span>
                                         ))}
-                                    </span>
-                                ) : null}
-                                {course.progress && course.progress.total_lesson_count > 0 ? (
-                                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-3 py-1.5 text-xs font-bold text-[hsl(var(--brand-blue))]">
-                                        <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
-                                        已完成 {course.progress.completed_lesson_count}/{course.progress.total_lesson_count}
-                                    </span>
-                                ) : null}
-                            </div>
+                                </div>
+                            ) : null}
 
-                            <div className="mt-6 flex flex-wrap items-center gap-2 md:mt-7">
+                            {course.progress && course.progress.completed_lesson_count > 0 ? (
+                                <div className="mt-4.5 rounded-xl border border-border/60 bg-secondary/40 p-3.5 backdrop-blur-xs md:mt-5">
+                                    <div className="flex items-center justify-between text-xs">
+                                        <span className="flex items-center gap-1.5 font-bold text-foreground">
+                                            <CheckCircle2 className="h-4 w-4 text-[hsl(var(--brand-blue))]" aria-hidden />
+                                            已完成 {course.progress.completed_lesson_count} / {course.progress.total_lesson_count || course.lessons.length} 课时
+                                        </span>
+                                        <span className="font-black tabular-nums text-[hsl(var(--brand-blue))]">
+                                            {Math.min(
+                                                100,
+                                                Math.round(
+                                                    (course.progress.completed_lesson_count /
+                                                        (course.progress.total_lesson_count || course.lessons.length)) *
+                                                        100,
+                                                ),
+                                            )}%
+                                        </span>
+                                    </div>
+                                    <Progress
+                                        value={Math.min(
+                                            100,
+                                            Math.round(
+                                                (course.progress.completed_lesson_count /
+                                                    (course.progress.total_lesson_count || course.lessons.length)) *
+                                                    100,
+                                            ),
+                                        )}
+                                        className="mt-2.5 h-2 bg-secondary"
+                                    />
+                                </div>
+                            ) : null}
+
+                            <div className="mt-6 flex items-center gap-2.5 md:mt-7">
                                 {nextLessonId ? (
-                                    <Button asChild tone="brand" shape="pill" size="lg" className="gap-2 font-bold">
+                                    <Button
+                                        asChild
+                                        size="lg"
+                                        className="group flex-1 gap-2 rounded-xl bg-[hsl(var(--brand-blue))] px-6 font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_4px_16px_-4px_hsl(var(--brand-blue)/0.4)] transition-all hover:bg-[hsl(var(--brand-blue)/0.9)] hover:shadow-[0_6px_20px_-4px_hsl(var(--brand-blue)/0.5)] active:scale-[0.98] sm:flex-initial"
+                                    >
                                         <Link
                                             href={`/courses/${course.id}/lessons/${nextLessonId}`}
                                             prefetch={false}
                                         >
                                             {primaryCta}
-                                            <ChevronRight className="h-4 w-4" />
+                                            <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                                         </Link>
                                     </Button>
                                 ) : null}
+
                                 {course.progress?.milestone_completed_at ? (
-                                    <Button asChild variant="outline" shape="pill" size="lg" className="gap-2 font-bold">
+                                    <Button
+                                        asChild
+                                        variant="secondary"
+                                        size="lg"
+                                        className="gap-2 rounded-xl border border-border/70 bg-secondary/80 font-bold text-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98]"
+                                    >
                                         <Link href={`/courses/${course.id}/certificate`} prefetch={false}>
-                                            <Award className="h-4 w-4" aria-hidden />
+                                            <Award className="h-4 w-4 text-amber-500" aria-hidden />
                                             结课凭证
                                         </Link>
                                     </Button>
                                 ) : null}
+
                                 <CourseShareButton
                                     course={{
                                         id: course.id,
@@ -244,9 +279,11 @@ export default async function CourseDetailPage({ params }: PageProps) {
                         >
                             课时列表
                         </h2>
-                        <span className="text-xs font-semibold text-muted-foreground">
-                            {course.lessons.length} 节
-                        </span>
+                        {!useCatalog ? (
+                            <span className="text-xs font-semibold text-muted-foreground">
+                                {course.lessons.length} 节
+                            </span>
+                        ) : null}
                     </div>
 
                     {useCatalog ? (
@@ -256,63 +293,38 @@ export default async function CourseDetailPage({ params }: PageProps) {
                             showProgressFilters={Boolean(user)}
                         />
                     ) : (
-                    <ol className="space-y-2.5 md:space-y-3">
+                    <ol className="space-y-2 md:space-y-2.5">
                         {course.lessons.map((lesson, index) => {
-                            const trackLabel = getLessonTrackLabel({
-                                track: lesson.track ?? undefined,
-                                levelLabel: lesson.level_label ?? undefined,
-                            });
                             return (
                                 <li key={lesson.id}>
                                     <Link
                                         href={`/courses/${course.id}/lessons/${lesson.id}`}
                                         prefetch={false}
-                                        className="surface-card surface-card-interactive group flex items-center gap-3 rounded-md p-3.5 md:gap-4 md:p-4"
+                                        className="surface-card surface-card-interactive group flex items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 transition-all hover:border-[hsl(var(--brand-blue)/0.4)] md:px-4 md:py-3"
                                     >
-                                        <LessonIndexBadge
-                                            index={index}
-                                            isPlayground={lesson.lesson_type === "playground"}
-                                        />
-                                        <div className="min-w-0 flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <span className="truncate text-[15px] font-bold leading-snug text-foreground md:text-base">
-                                                    {lesson.title}
+                                        <div className="flex min-w-0 items-center gap-2.5">
+                                            <LessonIndexBadge
+                                                index={index}
+                                                isPlayground={lesson.lesson_type === "playground"}
+                                            />
+                                            <span className="truncate text-sm font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] md:text-[15px]">
+                                                {lesson.title}
+                                            </span>
+                                            {lesson.is_completed ? (
+                                                <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[hsl(var(--status-success)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--status-success))]">
+                                                    <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
+                                                    已完成
                                                 </span>
-                                                {lesson.is_completed ? (
-                                                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--status-success))]">
-                                                        <CheckCircle2 className="h-4 w-4" aria-hidden />
-                                                        已完成
-                                                    </span>
-                                                ) : null}
-                                            </div>
-                                            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                                                {lesson.duration_minutes ? (
-                                                    <span className="inline-flex items-center gap-1">
-                                                        <Clock className="h-3 w-3" />
-                                                        约 {lesson.duration_minutes} 分钟
-                                                    </span>
-                                                ) : null}
-                                                {!allSameLessonType && (lesson.lesson_type === "playground" ? (
-                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-playground)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-playground))]">
-                                                        实战
-                                                    </span>
-                                                ) : lesson.lesson_type === "scratch" ? (
-                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-tech)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-tech))]">
-                                                        Scratch
-                                                    </span>
-                                                ) : lesson.lesson_type === "building_3d" ? (
-                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-engineering))]">
-                                                        搭建
-                                                    </span>
-                                                ) : null)}
-                                                {trackLabel ? (
-                                                    <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
-                                                        {trackLabel}
-                                                    </span>
-                                                ) : null}
-                                            </div>
+                                            ) : null}
                                         </div>
-                                        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]" />
+                                        <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
+                                            {lesson.duration_minutes ? (
+                                                <span className="tabular-nums">
+                                                    约 {lesson.duration_minutes} 分钟
+                                                </span>
+                                            ) : null}
+                                            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]" />
+                                        </div>
                                     </Link>
                                 </li>
                             );

@@ -39,6 +39,7 @@ export function CourseLessonCatalog({
   const deferredQuery = useDeferredValue(query);
 
   const modelCount = useMemo(() => lessons.filter((lesson) => lesson.hasModel).length, [lessons]);
+  const hasMixedModels = modelCount > 0 && modelCount < lessons.length;
   const visible = useMemo(
     () => filterLessonCatalog(lessons, { query: deferredQuery, filter }),
     [lessons, deferredQuery, filter],
@@ -46,9 +47,11 @@ export function CourseLessonCatalog({
   const groups = useMemo(() => groupLessonCatalog(visible), [visible]);
   const initials = useMemo(() => collectLessonInitials(visible), [visible]);
 
-  const options = showProgressFilters
-    ? FILTER_OPTIONS
-    : FILTER_OPTIONS.filter((option) => option.key === "all" || option.key === "model");
+  const options = (
+    showProgressFilters
+      ? FILTER_OPTIONS
+      : FILTER_OPTIONS.filter((option) => option.key === "all" || option.key === "model")
+  ).filter((option) => option.key !== "model" || hasMixedModels);
   const isFiltered = Boolean(query.trim()) || filter !== "all";
 
   return (
@@ -107,9 +110,11 @@ export function CourseLessonCatalog({
         </div>
       </div>
 
-      <p className="mt-3 text-xs text-muted-foreground" aria-live="polite">
-        {isFiltered ? `筛出 ${visible.length} 节` : `共 ${lessons.length} 节，按名称首字母排列`}
-      </p>
+      {isFiltered ? (
+        <p className="mt-2 text-xs text-muted-foreground" aria-live="polite">
+          找到 {visible.length} 节课时
+        </p>
+      ) : null}
 
       {visible.length === 0 ? (
         <div className="surface-card mt-4 flex flex-col items-center gap-3 rounded-md px-6 py-12 text-center">
@@ -142,7 +147,7 @@ export function CourseLessonCatalog({
                 >
                   {group.initial}
                 </h3>
-                <ul className="space-y-2.5">
+                <ul className="space-y-2">
                   {group.items.map((lesson) => (
                     <li key={lesson.id}>
                       <LessonRow courseId={courseId} lesson={lesson} />
@@ -175,56 +180,35 @@ export function CourseLessonCatalog({
 
 function LessonRow({ courseId, lesson }: { courseId: number; lesson: LessonCatalogItem }) {
   return (
-    <div className="surface-card surface-card-interactive group relative flex items-center gap-3 rounded-md p-3.5 md:gap-4 md:p-4">
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          {/* 整张卡可点：标题链接铺满卡片，零件清单入口叠在它上层 */}
-          <Link
-            href={`/courses/${courseId}/lessons/${lesson.id}`}
-            prefetch={false}
-            className="truncate text-[15px] font-bold leading-snug text-foreground outline-none after:absolute after:inset-0 after:content-[''] focus-visible:underline md:text-base"
-          >
-            {lesson.title}
-          </Link>
-          {lesson.isCompleted ? (
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--status-success))]">
-              <CheckCircle2 className="h-4 w-4" aria-hidden />
-              已完成
-            </span>
-          ) : null}
-        </div>
-        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-          {lesson.durationMinutes ? (
-            <span className="inline-flex items-center gap-1">
-              <Clock className="h-3 w-3" />约 {lesson.durationMinutes} 分钟
-            </span>
-          ) : null}
-          {lesson.hasModel ? (
-            <Link
-              href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
-              prefetch={false}
-              className="relative z-10 inline-flex items-center gap-1 rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--tone-engineering))] transition hover:bg-[hsl(var(--tone-engineering)/0.2)]"
-            >
-              <Blocks className="h-3 w-3" aria-hidden />
-              零件清单
-            </Link>
-          ) : null}
-          {lesson.typeLabel ? (
-            <span className="inline-flex items-center rounded-full bg-[hsl(var(--surface-muted))] px-2 py-0.5 text-[11px] font-bold text-muted-foreground">
-              {lesson.typeLabel}
-            </span>
-          ) : null}
-          {lesson.trackLabel ? (
-            <span className="inline-flex items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
-              {lesson.trackLabel}
-            </span>
-          ) : null}
-        </div>
+    <Link
+      href={`/courses/${courseId}/lessons/${lesson.id}`}
+      prefetch={false}
+      className="surface-card surface-card-interactive group flex items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 transition-all hover:border-[hsl(var(--brand-blue)/0.4)] md:px-4 md:py-3"
+    >
+      <div className="flex min-w-0 items-center gap-2.5">
+        <span className="truncate text-sm font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] md:text-[15px]">
+          {lesson.title}
+        </span>
+        {lesson.isCompleted ? (
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[hsl(var(--status-success)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--status-success))]">
+            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
+            已完成
+          </span>
+        ) : null}
       </div>
-      <ChevronRight
-        aria-hidden
-        className="h-5 w-5 shrink-0 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]"
-      />
-    </div>
+
+      <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
+        {lesson.durationMinutes ? (
+          <span className="inline-flex items-center gap-1 tabular-nums">
+            <Clock className="h-3 w-3" aria-hidden />
+            约 {lesson.durationMinutes} 分钟
+          </span>
+        ) : null}
+        <ChevronRight
+          aria-hidden
+          className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-[hsl(var(--brand-blue))]"
+        />
+      </div>
+    </Link>
   );
 }

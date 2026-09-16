@@ -11,7 +11,7 @@ export function buildLlmsTxt() {
     "",
     SITE_DESCRIPTION,
     "",
-    `${BRAND_NAME} is a free Chinese children's platform for coding, brick building, nature observation, and science experiments. Kids build with their hands, go observe, and turn projects into works.`,
+    `${BRAND_NAME} (史迪姆) is a Chinese STEAM education and nature exploration platform for children, parents, and educators, offering brick-building courses, coding, science experiments, and nature observation. Kids build with their hands, go observe, and turn projects into works.`,
     "",
     "## 主要公开栏目",
     "",

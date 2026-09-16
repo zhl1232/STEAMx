@@ -13,8 +13,8 @@ describe("buildLlmsTxt", () => {
     const text = buildLlmsTxt();
 
     expect(text).toContain("# STEAMX · 史迪姆");
-    expect(text).toContain("STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验");
-    expect(text).toContain("STEAMX is a free Chinese children's platform for coding, brick building, nature observation, and science experiments. Kids build with their hands, go observe, and turn projects into works.");
+    expect(text).toContain("STEAM 教育与自然探索平台");
+    expect(text).toContain("STEAMX (史迪姆) is a Chinese STEAM education and nature exploration platform");
     expect(text).toContain("https://www.steamx.cc/explore");
     expect(text).toContain("https://www.steamx.cc/sitemap.xml");
     expect(text).toContain("/api/");

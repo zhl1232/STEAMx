@@ -62,13 +62,13 @@ describe("getSiteUrl", () => {
 
 describe("site SEO copy", () => {
   it("uses high-volume search terms instead of jargon keywords", () => {
-    expect(HOME_PAGE_TITLE).toBe("少儿编程 · 积木 · 自然观察");
+    expect(HOME_PAGE_TITLE).toBe("积木课程、科学实践与自然观察");
     expect(HOME_PAGE_TITLE).not.toContain("项目式学习");
     expect(HOME_PAGE_TITLE).not.toContain("观鸟");
     expect(HOME_PAGE_TITLE).not.toContain("免费");
-    expect(HOME_DOCUMENT_TITLE).toBe("少儿编程 · 积木 · 自然观察 | STEAMX · 史迪姆");
+    expect(HOME_DOCUMENT_TITLE).toBe("STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察");
     expect(SITE_DESCRIPTION).toBe(
-      "STEAMX（史迪姆）免费给孩子做少儿编程、积木课、自然观察和科学小实验。动手搭、去观察，把项目做成作品。",
+      "STEAMX · 史迪姆是面向孩子、家长和教育者的 STEAM 教育与自然探索平台，提供积木课程、少儿编程、科学实验与自然观察，帮助孩子在动手实践中学习、创造和分享。",
     );
     expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
     expect(SITE_DESCRIPTION).not.toContain("STEAM教育");

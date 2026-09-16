@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_FULL_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
 
 const FAQ_ITEMS = [
@@ -143,6 +143,10 @@ export default function AboutSettingsPage() {
         <section id="about" className="scroll-mt-24 space-y-2 px-1">
           <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
+          <p className="text-sm leading-7 text-muted-foreground">
+            STEAMX 的中文品牌名为「史迪姆」，官方网站：
+            <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">steamx.cc</a>。
+          </p>
         </section>
 
         <section id="contact" className="scroll-mt-24 space-y-3">

@@ -229,24 +229,24 @@ function toPartLines(entries: LdrawBom["entries"]): PartLine[] {
 
 function PartLineList({ id, lines }: { id?: string; lines: PartLine[] }) {
     return (
-        <ul id={id} className="space-y-2">
+        <ul id={id} className="space-y-1.5">
             {lines.map((line) => (
                 <li
                     key={line.key}
-                    className="flex items-center justify-between gap-3 rounded-sm border border-border bg-background px-3 py-2"
+                    className="flex items-center justify-between gap-2.5 rounded-sm border border-border bg-background px-2.5 py-1.5"
                     title={line.title}
                 >
                     <span className="flex min-w-0 items-center gap-2">
                         <span
-                            className="h-4 w-4 shrink-0 rounded-sm border border-black/15 dark:border-white/25"
+                            className="h-3.5 w-3.5 shrink-0 rounded-sm border border-black/15 dark:border-white/25"
                             style={{ backgroundColor: line.colorHex }}
                         />
                         {/* 零件名较长（如「白色2×2 积木（眼睛）」），换行比截断更有用 */}
-                        <span className="min-w-0 text-sm font-medium leading-snug text-foreground">
+                        <span className="min-w-0 text-[13px] font-medium leading-tight text-foreground">
                             {line.label}
                         </span>
                     </span>
-                    <span className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground">
+                    <span className="shrink-0 text-xs font-bold tabular-nums text-muted-foreground">
                         ×{line.count}
                     </span>
                 </li>
@@ -1384,7 +1384,7 @@ export function Building3DWorkspace({
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
     const flowControls = (
         <div className={cn(
-            "space-y-2 border-t border-border bg-card p-3",
+            "sticky bottom-0 z-30 space-y-2 border-t border-border bg-card/95 p-2.5 backdrop-blur-xs shadow-[0_-4px_16px_-4px_rgba(0,0,0,0.15)] md:p-3",
             isImmersive && "p-2",
         )}>
             <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
@@ -1598,7 +1598,7 @@ export function Building3DWorkspace({
             ) : null}
 
             <div className={cn(
-                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[44dvh_auto] lg:grid-cols-[minmax(0,1fr)_280px] lg:grid-rows-1",
+                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[38dvh_auto] lg:grid-cols-[minmax(0,1fr)_280px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
@@ -1654,24 +1654,34 @@ export function Building3DWorkspace({
                     isImmersive && "overflow-hidden border-l border-t-0",
                 )}>
                     <div className="flex h-full flex-col">
-                        <div className="border-b border-border px-4 py-3">
-                            <div className="flex items-center justify-between gap-2">
-                                <p className="text-xs font-semibold text-[hsl(var(--brand-blue))]">
-                                    搭建步骤 {activeBuildStepIndex + 1}/{content.steps3d.length}
-                                </p>
-                                {completed ? (
-                                    <span className="rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-xs font-semibold text-[hsl(var(--status-success))]">
-                                        已完成
-                                    </span>
-                                ) : null}
-                            </div>
-                            <h3 className="mt-1 text-base font-bold text-foreground">
-                                {activeStep?.title}
-                            </h3>
-                            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                                {activeStep?.description}
-                            </p>
-                        </div>
+                        {(() => {
+                            const desc = activeStep?.description?.trim();
+                            const isGeneric = !desc || desc.includes("按照三维示范") || desc.includes("添加本步零件") || desc === activeStep?.title;
+                            return (
+                                <div className="border-b border-border px-3.5 py-2.5">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-baseline gap-2">
+                                            <h3 className="text-sm font-bold text-foreground">
+                                                {activeStep?.title || `搭建第 ${activeBuildStepIndex + 1} 步`}
+                                            </h3>
+                                            <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+                                                {activeBuildStepIndex + 1} / {content.steps3d.length}
+                                            </span>
+                                        </div>
+                                        {completed ? (
+                                            <span className="rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-xs font-semibold text-[hsl(var(--status-success))]">
+                                                已完成
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                    {!isGeneric ? (
+                                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                            {desc}
+                                        </p>
+                                    ) : null}
+                                </div>
+                            );
+                        })()}
                         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
                             <div className="mb-2 flex items-center justify-between gap-2">
                                 <h4 className="flex items-center gap-1 text-xs font-bold text-muted-foreground">

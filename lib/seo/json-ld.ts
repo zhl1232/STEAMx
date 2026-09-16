@@ -1,3 +1,4 @@
+import { BRAND_NAME, BRAND_NAME_ZH } from "@/lib/brand";
 import { SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
 import { buildClassificationJsonLd } from "@/lib/content-classification/json-ld";
 import type { PublicClassification } from "@/lib/content-classification/types";
@@ -19,6 +20,7 @@ export function buildWebsiteJsonLd() {
         "@type": "Organization",
         "@id": `${siteUrl}/#organization`,
         name: SITE_NAME,
+        alternateName: [BRAND_NAME, BRAND_NAME_ZH],
         url: siteUrl,
         description: SITE_DESCRIPTION,
         logo: buildAbsoluteUrl("/logo.png"),
@@ -27,6 +29,7 @@ export function buildWebsiteJsonLd() {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         name: SITE_NAME,
+        alternateName: [BRAND_NAME, BRAND_NAME_ZH],
         url: siteUrl,
         description: SITE_DESCRIPTION,
         inLanguage: "zh-CN",

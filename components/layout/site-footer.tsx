@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { SteamLogo } from "@/components/layout/logo";
 import { ICP_FILING_NUMBER, ICP_FILING_URL } from "@/lib/seo/site";
-import { BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_FULL_NAME, BRAND_OFFICIAL_URL, BRAND_POSITIONING } from "@/lib/brand";
 
 const siteFooterColumns = [
   {
@@ -39,7 +39,7 @@ export function SiteFooter() {
             <SteamLogo className="h-8 w-8" />
             <span className="text-[22px] font-extrabold text-[hsl(var(--brand-blue))]">{BRAND_FULL_NAME}</span>
           </Link>
-          <p>连接全球青少年，探索 STEAM 的无限可能</p>
+          <p>{BRAND_POSITIONING}</p>
         </div>
         {siteFooterColumns.map((column) => (
           <div key={column.title}>
@@ -58,6 +58,8 @@ export function SiteFooter() {
       </div>
       <p className="mt-0 px-4 text-center text-[12px] text-muted-foreground md:mt-4">
         © 2026 {BRAND_FULL_NAME}
+        <span aria-hidden="true"> · </span>
+        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:underline">steamx.cc</a>
         <span aria-hidden="true"> · </span>
         <a
           href={ICP_FILING_URL}

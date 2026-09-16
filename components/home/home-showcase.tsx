@@ -26,7 +26,7 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
-import { BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -132,11 +132,8 @@ function HomeHero({ image }: { image: string }) {
               <span className="hidden md:block">把好奇心做成作品</span>
             </h1>
 
-            <p className="mt-1.5 inline-flex whitespace-nowrap text-[11px] font-normal leading-4 tracking-normal text-muted-foreground min-[390px]:text-[12px] md:hidden">
-              少儿编程 · 积木 · 自然观察
-            </p>
-            <p className="mt-3 hidden max-w-[560px] text-[15px] font-medium leading-7 tracking-normal text-muted-foreground md:block lg:text-[16px]">
-              免费给孩子做少儿编程、积木和自然观察。动手搭、去观察。
+            <p className="mt-2 max-w-[560px] text-[11px] leading-5 text-muted-foreground min-[390px]:text-[12px] md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
+              {BRAND_DESCRIPTION}
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">
