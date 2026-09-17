@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildPageMetadata, DEFAULT_SEO_KEYWORDS, DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
+import { buildAbsoluteUrl } from "@/lib/seo/site";
 
 describe("buildPageMetadata", () => {
   it("provides a large default social image", () => {
@@ -73,6 +74,9 @@ describe("buildPageMetadata", () => {
       title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
       description: expect.stringContaining("非游戏平台"),
     });
+    expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl("/"));
+    expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl("/"));
+    expect(String(metadata.alternates?.canonical).endsWith("/")).toBe(true);
     expect(metadata.twitter).toMatchObject({
       title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
     });

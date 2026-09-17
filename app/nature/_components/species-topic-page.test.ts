@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildSpeciesTopicMetadata } from "@/app/nature/_components/species-topic-page";
+import { buildAbsoluteUrl } from "@/lib/seo/site";
 
 describe("buildSpeciesTopicMetadata", () => {
   it("gives each nature topic a canonical route and topical image", () => {
@@ -13,9 +14,9 @@ describe("buildSpeciesTopicMetadata", () => {
       image: "/assets/nature-topic-birds.webp",
     });
 
-    expect(metadata.alternates).toEqual({ canonical: "/nature/birds" });
+    expect(metadata.alternates).toEqual({ canonical: buildAbsoluteUrl("/nature/birds") });
     expect(metadata.openGraph).toMatchObject({
-      url: "/nature/birds",
+      url: buildAbsoluteUrl("/nature/birds"),
       images: [{ url: "/assets/nature-topic-birds.webp", alt: "鸟类图鉴与观察" }],
     });
   });

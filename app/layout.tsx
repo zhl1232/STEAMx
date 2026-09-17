@@ -14,7 +14,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { BRAND_FULL_NAME } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
-import { HOME_DOCUMENT_TITLE, SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
+import { HOME_DOCUMENT_TITLE, SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl, getMetadataBase } from "@/lib/seo/site";
 import { DEFAULT_SEO_KEYWORDS, DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
 import { buildSiteVerificationMetadata } from "@/lib/seo/site-verification";
 import { PwaInstallPrompt } from "@/components/pwa/install-prompt";
@@ -45,12 +45,12 @@ export const metadata: Metadata = {
   },
   verification: buildSiteVerificationMetadata(),
   alternates: {
-    canonical: "/",
+    canonical: buildAbsoluteUrl("/"),
   },
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    url: "/",
+    url: buildAbsoluteUrl("/"),
     title: HOME_DOCUMENT_TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { SITE_NAME } from "@/lib/seo/site";
+import { SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
 
 export const DEFAULT_SOCIAL_IMAGE = "/assets/seo/steamx-social-card.webp";
 
@@ -64,12 +64,12 @@ export function buildPageMetadata({
     description,
     keywords: mergedKeywords,
     alternates: {
-      canonical: path,
+      canonical: buildAbsoluteUrl(path),
     },
     openGraph: {
       title,
       description,
-      url: path,
+      url: buildAbsoluteUrl(path),
       siteName: SITE_NAME,
       locale: "zh_CN",
       type,
