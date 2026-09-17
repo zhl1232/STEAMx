@@ -62,6 +62,8 @@ import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { SecureUploadError, getSecureUploadErrorMessage, uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
 
+import dockStyles from './tutor-fab-dock.module.css'
+
 export type { TutorChatMessage } from '@/components/features/tutor/use-tutor-chat-stream'
 
 function getTutorUploadToast(error: unknown): { title: string; description: string } {
@@ -114,7 +116,7 @@ function formatQuota(quota: AiCreditStatus | null) {
  * - useTutorChatStream：消息状态、SSE 流式发送、AbortController、工具调用
  * - useTutorVoice：录音/转写、TTS、语音偏好、长按说话
  * - useTutorHistory：历史列表/详情/删除、开启新对话
- * - useTutorFabDrag：悬浮球拖拽、位置持久化、长按计时仲裁
+ * - useTutorFabDrag：悬浮球拖拽、位置持久化、长按计时仲裁、移动端闲置趴边
  * - TutorMessageList / TutorComposer：消息区与输入区展示
  * 这里只保留共享状态（quota、开场白、待发图片、吉祥物）与各模块间的接线。
  */
@@ -339,6 +341,7 @@ export function GlobalTutorFab({
     contextKey,
     onToggle,
     longPress: voice.longPress,
+    recording: voice.recordingVoice,
   })
 
   useEffect(() => {
@@ -644,7 +647,10 @@ export function GlobalTutorFab({
           <VoiceFeedbackBar feedback={voice.voiceFeedback} compact onStopSpeech={voice.stopSpeechPlayback} />
           <span
             aria-hidden
-            className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]"
+            className={cn(
+              'absolute -bottom-1.5 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]',
+              drag.fabDocked && drag.fabDockEdge === 'left' ? 'left-6' : 'right-10',
+            )}
           />
         </div>
       )}
@@ -665,7 +671,10 @@ export function GlobalTutorFab({
           长按小迪直接说话
           <span
             aria-hidden
-            className="absolute -bottom-1.5 right-10 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]"
+            className={cn(
+              'absolute -bottom-1.5 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]',
+              drag.fabDocked && drag.fabDockEdge === 'left' ? 'left-6' : 'right-10',
+            )}
           />
         </div>
       )}
@@ -679,8 +688,15 @@ export function GlobalTutorFab({
         onPointerCancel={drag.handleFabPointerEnd}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
         className={cn(
-          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
-          drag.fabDragging ? 'cursor-grabbing transition-none' : 'cursor-grab transition-transform hover:scale-105 active:scale-95',
+          'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center overflow-visible focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
+          dockStyles.host,
+          drag.fabDragging
+            ? cn('cursor-grabbing', dockStyles.dragging)
+            : cn(
+                'cursor-grab',
+                drag.fabEdgeDockEnabled ? dockStyles.motion : 'transition-transform',
+                !drag.fabDocked && 'hover:scale-105 active:scale-95',
+              ),
           open
             ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
             : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',

@@ -1,14 +1,29 @@
 export const TUTOR_FAB_POSITION_STORAGE_KEY = 'xiaodi:fab-position:v1'
 export const TUTOR_FAB_DRAG_THRESHOLD_PX = 10
+export const TUTOR_FAB_MOBILE_BREAKPOINT_PX = 768
+export const TUTOR_FAB_CLOSED_SIZE_PX = 80
+export const TUTOR_FAB_DOCK_IDLE_MS = 3000
+/** Half-body peek, within 42–55% of the closed FAB size. */
+export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.48
+/** Clockwise on the right edge, counterclockwise on the left; within 12–18deg. */
+export const TUTOR_FAB_DOCK_ROTATE_DEG = 15
+export const TUTOR_FAB_DOCK_SCALE = 0.92
 
 export type TutorFabPlacement = 'default' | 'compact'
+export type TutorFabDockEdge = 'left' | 'right'
 
 export type TutorFabPosition = {
   right: number
   bottom: number
 }
 
+export type TutorFabBubbleOffset = {
+  right: number | 'auto'
+  left?: number
+}
+
 const EDGE_PADDING_PX = 8
+const BUBBLE_MIN_INSET_PX = 12
 
 export function getDefaultTutorFabPosition(
   placement: TutorFabPlacement,
@@ -57,4 +72,52 @@ export function writeTutorFabPosition(position: TutorFabPosition) {
   } catch {
     // ignore quota / private mode
   }
+}
+
+export function canTutorFabEdgeDock(open: boolean, viewportWidth: number) {
+  return !open && viewportWidth < TUTOR_FAB_MOBILE_BREAKPOINT_PX
+}
+
+/** Nearer horizontal distance wins; a tie prefers the default right edge. */
+export function resolveTutorFabDockEdge(
+  position: TutorFabPosition,
+  fabSizePx: number,
+  viewportWidth: number,
+): TutorFabDockEdge {
+  const left = viewportWidth - position.right - fabSizePx
+  return left < position.right ? 'left' : 'right'
+}
+
+export function getTutorFabDockTransform(edge: TutorFabDockEdge): string {
+  const dir = edge === 'right' ? 1 : -1
+  const translatePercent = Math.round(TUTOR_FAB_DOCK_TRANSLATE_RATIO * 100)
+  return `translateX(${dir * translatePercent}%) rotate(${dir * TUTOR_FAB_DOCK_ROTATE_DEG}deg) scale(${TUTOR_FAB_DOCK_SCALE})`
+}
+
+/**
+ * Voice-hint / feedback bubble stays aligned with the visible stub.
+ * Dock translate is visual-only and must not be written to storage.
+ */
+export function getTutorFabBubbleOffset(
+  position: TutorFabPosition,
+  fabSizePx: number,
+  options: {
+    docked: boolean
+    edge: TutorFabDockEdge
+    viewportWidth: number
+  },
+): TutorFabBubbleOffset {
+  const baseRight = Math.max(BUBBLE_MIN_INSET_PX, position.right - 4)
+
+  if (options.docked && options.edge === 'left') {
+    const peekPx = Math.round(fabSizePx * TUTOR_FAB_DOCK_TRANSLATE_RATIO)
+    const visiblePx = Math.max(0, fabSizePx - peekPx)
+    return {
+      left: Math.max(EDGE_PADDING_PX, Math.round(visiblePx * 0.28)),
+      right: 'auto',
+    }
+  }
+
+  const extra = options.docked && options.edge === 'right' ? Math.round(fabSizePx * 0.2) : 0
+  return { right: baseRight + extra }
 }
