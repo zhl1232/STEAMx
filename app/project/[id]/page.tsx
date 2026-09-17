@@ -56,11 +56,13 @@ import { listStoreProductsForContext } from '@/lib/store/service'
 import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
 import {
   formatProjectDescriptionForDisplay,
+  formatProjectReflectionForDisplay,
   formatProjectStepDescriptionForDisplay,
   mergeBrokenParenMaterials,
+  shouldShowProjectReflection,
 } from '@/lib/project/presentation'
+import { visibleProjectTags } from '@/lib/project/tags'
 import { resolveProjectVideoPlaybackSrc } from '@/lib/project/video-url'
-import { ProjectDemoVideo } from '@/components/features/project/project-demo-video'
 import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
@@ -287,15 +289,17 @@ function ProjectCiteTakeaway({
   category,
   classification,
   reflection,
+  description,
   className,
 }: {
   category?: string | null
   classification?: PublicClassification | null
   reflection?: string | null
+  description?: string | null
   className?: string
 }) {
-  const conclusion = reflection?.trim()
-  if (!conclusion) return null
+  const conclusion = formatProjectReflectionForDisplay(reflection)
+  if (!shouldShowProjectReflection(conclusion, description)) return null
 
   const heading = category === '科学' ? '实验结论' : '项目结论'
   const ageLine = classification?.status === 'reviewed'
@@ -867,7 +871,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
       )
     : exploreBackHref
   const categoryTone = getCategoryTone(project.category)
-  const visibleTags = tags
+  const visibleTags = visibleProjectTags(tags)
     .filter((tag) => tag !== project.category && tag !== project.sub_category)
     .slice(0, 4)
   const mode = isObservationProject ? 'observation' : 'project'
@@ -976,20 +980,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 images={heroImages}
                 captions={heroCaptions}
                 alt={project.title}
+                videoSrc={videoPlaybackSrc}
+                videoPoster={project.image || null}
                 className="h-[40vh] min-h-[260px] max-h-[360px]"
                 sizes="100vw"
                 showGradient
               />
-
-              {videoPlaybackSrc ? (
-                <div className="px-4 pt-3">
-                  <ProjectDemoVideo
-                    src={videoPlaybackSrc}
-                    title={project.title}
-                    poster={project.image || null}
-                  />
-                </div>
-              ) : null}
 
               <div className="space-y-4 px-4 pb-5 pt-4">
                 <h1 className="font-sans text-[26px] font-black leading-tight tracking-tight text-foreground">
@@ -1041,6 +1037,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 category={project.category}
                 classification={project.classification}
                 reflection={project.reflection}
+                description={projectSummary}
                 className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-4"
               />
 
@@ -1081,6 +1078,8 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   images={heroImages}
                   captions={heroCaptions}
                   alt={project.title}
+                  videoSrc={videoPlaybackSrc}
+                  videoPoster={project.image || null}
                   className="aspect-video sm:aspect-[16/8.6] lg:aspect-auto lg:h-auto lg:min-h-[318px] lg:w-[42%] lg:max-w-[540px] lg:flex-none"
                   sizes="(min-width: 1024px) 42vw, 92vw"
                 />
@@ -1198,20 +1197,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   category={project.category}
                   classification={project.classification}
                   reflection={project.reflection}
+                  description={projectSummary}
                   className="surface-panel rounded-lg px-5 py-5 sm:px-6"
                 />
-
-                {videoPlaybackSrc ? (
-                  <div id="project-video" className="scroll-mt-24 lg:scroll-mt-28">
-                    <SectionCard title="演示视频">
-                      <ProjectDemoVideo
-                        src={videoPlaybackSrc}
-                        title={project.title}
-                        poster={project.image || null}
-                      />
-                    </SectionCard>
-                  </div>
-                ) : null}
 
                 <div id="project-materials" className="scroll-mt-24 lg:scroll-mt-28">
                   <SectionCard title={`所需材料${materials.length > 0 ? `（${materials.length}）` : ''}`}>

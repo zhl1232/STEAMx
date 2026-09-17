@@ -15,12 +15,11 @@
  * Does NOT print secrets. Idempotent via tag `qimeng-src:{sourceId}`.
  *
  * Covers → Supabase storage `project-images` (same as explore projects).
- * Videos → OSS under qimeng-preview/; HTTPS CDN URL stored on projects.video_url
- * (also mirrored into description + first step as fallback for older clients).
+ * Videos → OSS under qimeng-preview/; HTTPS CDN URL stored on projects.video_url.
  * CDN may require site Referer — detail page prefers /api/assets proxy.
  *
- * Keeps tags: 启蒙版 + 预览 + qimeng-src:* and title prefix 【预览】 for consistency
- * with the first preview batch.
+ * Tags: 启蒙版 + qimeng-src:{sourceId} (plus topical tags). Do not write 预览,
+ * 【预览】 titles, or preview boilerplate in description / steps.
  */
 
 import { readFile, access, writeFile, mkdir } from 'node:fs/promises'
@@ -29,15 +28,16 @@ import { fileURLToPath } from 'node:url'
 import { randomUUID } from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 import { createOssClient } from '../lib/utils/oss-client.mjs'
+import {
+  isDuplicateQimengReflection,
+  TAG_SOURCE,
+  TITLE_PREFIX,
+} from './lib/qimeng-preview-copy.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.join(__dirname, '..')
 const DEFAULT_SOURCE = '/workspace/zwlhome-save/启蒙版'
 
-const TAG_SOURCE = '启蒙版'
-const TAG_PREVIEW = '预览'
-const DESC_PREFIX = '【启蒙版·预览】'
-const TITLE_PREFIX = '【预览】'
 const CATEGORY = '科学'
 const OSS_PREFIX = 'qimeng-preview'
 const PROGRESS_EVERY = 5
@@ -217,26 +217,17 @@ function parseContentTxt(text) {
   return { materials, steps, principle, materialsLine }
 }
 
-function buildDescription({ principle, digest, videoUrl, sourceUrl }) {
-  const parts = [DESC_PREFIX]
+function buildDescription({ principle, digest }) {
   const science = (principle || '').trim()
   const summary = (digest || '').trim()
+  let text
   if (science) {
-    parts.push(`科学原理：${science}`)
+    text = science.startsWith('科学原理') ? science : `科学原理：${science}`
   } else if (summary) {
-    parts.push(summary)
+    text = summary
   } else {
-    parts.push('启蒙版合作实验预览条目，材料与步骤见正文。')
+    text = '材料与步骤见正文。'
   }
-  if (videoUrl) {
-    parts.push(`演示视频（外链）：${videoUrl}`)
-  } else {
-    parts.push('演示视频：本次预览未挂载可播视频（详情页暂无 video 字段）。')
-  }
-  if (sourceUrl) {
-    parts.push(`来源：伙伴启蒙版实验（预览导入，可搜索标签「${TAG_PREVIEW}」「${TAG_SOURCE}」后删除）。`)
-  }
-  let text = parts.join('\n')
   if (text.length > 2000) text = `${text.slice(0, 1997)}...`
   return text
 }
@@ -292,15 +283,18 @@ async function findExisting(supabase, sourceId, title) {
   if (byTag.error) throw byTag.error
   if (byTag.data?.length) return byTag.data[0]
 
-  const previewTitle = `${TITLE_PREFIX}${title}`
-  const byTitle = await supabase
-    .from('projects')
-    .select('id,title,status,tags,image_url')
-    .eq('title', previewTitle)
-    .contains('tags', [TAG_SOURCE, TAG_PREVIEW])
-    .limit(5)
-  if (byTitle.error) throw byTitle.error
-  return byTitle.data?.[0] || null
+  const titles = Array.from(new Set([title, `${TITLE_PREFIX}${title}`].filter(Boolean)))
+  for (const candidate of titles) {
+    const byTitle = await supabase
+      .from('projects')
+      .select('id,title,status,tags,image_url')
+      .eq('title', candidate)
+      .contains('tags', [TAG_SOURCE])
+      .limit(5)
+    if (byTitle.error) throw byTitle.error
+    if (byTitle.data?.length) return byTitle.data[0]
+  }
+  return null
 }
 
 async function insertProject(supabase, payload) {
@@ -542,8 +536,8 @@ async function main() {
       const contentText = await readFile(contentPath, 'utf8')
       const parsed = parseContentTxt(contentText)
       const rawTitle = (metadata.title || item.title || '').trim()
-      const title = `${TITLE_PREFIX}${rawTitle}`
-      if (!title || title === TITLE_PREFIX) throw new Error('empty title')
+      const title = rawTitle
+      if (!title) throw new Error('empty title')
       entry.title = rawTitle
 
       const existing = await findExisting(supabase, sourceId, rawTitle)
@@ -593,13 +587,14 @@ async function main() {
       const description = buildDescription({
         principle: parsed.principle,
         digest: metadata.digest,
-        videoUrl,
-        sourceUrl: metadata.url || item.url,
       })
+      const principleText = (parsed.principle || '').trim()
+      const reflection = principleText && !isDuplicateQimengReflection(principleText, description)
+        ? principleText.slice(0, 5000)
+        : null
 
       const tags = [
         TAG_SOURCE,
-        TAG_PREVIEW,
         sourceTag(sourceId),
         '科学实验',
         '幼儿科学',
@@ -618,24 +613,15 @@ async function main() {
         status: 'approved',
         moderation_state: 'approved',
         tags,
-        reflection: parsed.principle
-          ? `${DESC_PREFIX}科学原理补充：${parsed.principle}`.slice(0, 5000)
-          : null,
-        problem_statement: `${DESC_PREFIX}伙伴启蒙版实验预览导入；sourceId=${sourceId}; folder=${folder}`.slice(0, 5000),
+        reflection,
+        problem_statement: `sourceId=${sourceId}; folder=${folder}`.slice(0, 5000),
         steam_weights: { S: 40, T: 5, E: 10, A: 10, M: 5 },
         // Age/support/difficulty reviewed via review_content_classification RPC
         // (direct classification_* writes are blocked by CLASSIFICATION_WRITE_FORBIDDEN).
         materials: parsed.materials.length ? parsed.materials : ['（见实验说明）'],
         steps: parsed.steps.length
           ? parsed.steps
-          : [{ title: '步骤 1', description: '请按材料准备后动手尝试（预览条目步骤解析为空）。', sort_order: 0 }],
-      }
-
-      // Put video URL note into first step when present
-      if (videoUrl && projectPayload.steps[0]) {
-        const note = `【演示视频】${videoUrl}`
-        const desc = projectPayload.steps[0].description || ''
-        projectPayload.steps[0].description = `${note}\n${desc}`.slice(0, 1000)
+          : [{ title: '步骤 1', description: '请按材料准备后动手尝试。', sort_order: 0 }],
       }
 
       if (args.dryRun) {
@@ -730,7 +716,6 @@ async function main() {
     tips: {
       exploreSearch: `${appUrl}/explore?q=${encodeURIComponent('启蒙版')}`,
       exploreTags: `${appUrl}/explore?tags=${encodeURIComponent(TAG_SOURCE)}`,
-      explorePreviewTag: `${appUrl}/explore?tags=${encodeURIComponent(TAG_PREVIEW)}`,
       projectLinks: [...skipped, ...imported].slice(0, 5).map((r) => `${appUrl}/project/${r.projectId}`),
     },
   }

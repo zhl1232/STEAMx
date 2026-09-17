@@ -36,6 +36,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import { DIFFICULTY_BAND_LABELS, SUPPORT_LEVEL_LABELS } from '@/lib/content-classification/constants'
+import { visibleProjectTags } from '@/lib/project/tags'
 import type {
   AdminClassification,
   ClassificationCandidate,
@@ -309,7 +310,7 @@ function ContentSection({ title, eyebrow, children, icon: Icon = FileText }: { t
 
 function ContentDossier({ detail }: { detail: DetailResponse }) {
   const content = detail.content
-  const tags = readStringArray(content.tags)
+  const tags = visibleProjectTags(readStringArray(content.tags))
   const lessons = readRecords(content.course_lessons)
   const materials = readRecords(content.project_materials)
   const steps = readRecords(content.project_steps)

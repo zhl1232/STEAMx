@@ -1,5 +1,6 @@
 import { formatStartingAge } from "@/lib/content-classification/labels";
 import type { PublicClassification } from "@/lib/content-classification/types";
+import { visibleProjectTags } from "@/lib/project/tags";
 
 const DESCRIPTION_MAX = 120;
 
@@ -43,7 +44,7 @@ export function buildProjectCiteKeywords(input: {
   const extras = input.category === "科学" ? ["科学小实验", "科学实验"] : [];
   return Array.from(
     new Set(
-      [input.title, input.category, input.subCategory, ...(input.tags ?? []), ...extras, "STEAM项目"]
+      [input.title, input.category, input.subCategory, ...visibleProjectTags(input.tags), ...extras, "STEAM项目"]
         .map((value) => value?.trim())
         .filter((value): value is string => Boolean(value)),
     ),

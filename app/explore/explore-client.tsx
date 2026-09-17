@@ -38,6 +38,7 @@ import {
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
+import { visibleProjectTags } from '@/lib/project/tags'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { useAuth } from '@/lib/context/auth-context'
 import { useGamification } from '@/lib/context/gamification-context'
@@ -217,13 +218,7 @@ function sortFromSearchParam(raw: string | null): SortBy {
 }
 
 function normalizeTagList(tags: string[]) {
-    return Array.from(
-        new Set(
-            tags
-                .map((tag) => tag.trim())
-                .filter(Boolean)
-        )
-    )
+    return visibleProjectTags(tags)
 }
 
 interface ExploreClientProps {

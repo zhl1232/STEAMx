@@ -42,6 +42,15 @@ describe("project citability copy", () => {
     expect(keywords).toEqual(expect.arrayContaining(["静电章鱼", "科学", "科学小实验", "STEAM项目"]));
     expect(keywords).not.toContain("项目式学习");
   });
+  it("omits qimeng-src tracking tags from keywords", () => {
+    const keywords = buildProjectCiteKeywords({
+      title: "调色大师",
+      category: "科学",
+      tags: ["启蒙版", "qimeng-src:1071409", "科学实验"],
+    });
+    expect(keywords).toEqual(expect.arrayContaining(["调色大师", "启蒙版", "科学实验"]));
+    expect(keywords.some((keyword) => keyword.startsWith("qimeng-src:"))).toBe(false);
+  });
   it("prefers a one-sentence reflection over the long description", () => {
     expect(
       buildProjectCiteDescription({

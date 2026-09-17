@@ -13,6 +13,7 @@ import { ContentClassification } from "@/components/ui/content-classification";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
+import { visibleProjectTags } from "@/lib/project/tags";
 
 interface ProjectCardProps {
     project: Project;
@@ -38,7 +39,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
     const imageSrc = typeof project.image === "string" ? project.image.trim() : "";
     const [imageError, setImageError] = useState(false);
-    const previewTag = project.tags?.find((tag) => tag !== project.category && tag !== project.sub_category);
+    const visibleTags = visibleProjectTags(project.tags)
+    const previewTag = visibleTags.find((tag) => tag !== project.category && tag !== project.sub_category);
     const detailHref = href || `/project/${project.id}`;
     const categoryTone = getCategoryTone(project.category);
     const categoryLabel = [project.category, project.sub_category].filter(Boolean).join(" · ");
@@ -307,9 +309,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     {previewTag}
                                 </span>
                             ) : null}
-                            {project.tags?.length && !previewTag ? (
+                            {visibleTags.length && !previewTag ? (
                                 <span className="inline-flex max-w-[160px] truncate rounded-xs bg-[hsl(var(--surface-muted))] px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                                    {project.tags[0]}
+                                    {visibleTags[0]}
                                 </span>
                             ) : null}
                         </div>
@@ -428,9 +430,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 {previewTag}
                             </span>
                         ) : null}
-                        {project.tags?.length && !previewTag ? (
+                        {visibleTags.length && !previewTag ? (
                             <span className="inline-flex max-w-[160px] items-center rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
-                                {project.tags[0]}
+                                {visibleTags[0]}
                             </span>
                         ) : null}
                     </div>

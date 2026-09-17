@@ -3,6 +3,10 @@ import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_NAME, SITE_STRUCTURED_DESCRIPTION, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
 import { buildClassificationJsonLd } from "@/lib/content-classification/json-ld";
 import type { PublicClassification } from "@/lib/content-classification/types";
+import {
+  formatProjectReflectionForDisplay,
+  shouldShowProjectReflection,
+} from "@/lib/project/presentation";
 
 export function toAbsoluteMediaUrl(value: string | null | undefined): string | undefined {
   const trimmed = value?.trim();
@@ -447,8 +451,8 @@ function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
         : `${title}可以按页面上的步骤完成。`,
     });
   }
-  const reflection = project.reflection?.trim();
-  if (reflection) {
+  const reflection = formatProjectReflectionForDisplay(project.reflection);
+  if (shouldShowProjectReflection(reflection, project.description)) {
     questions.push({
       question: `${title}的结论是什么？`,
       answer: reflection,

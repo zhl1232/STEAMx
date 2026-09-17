@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { callRpc } from "@/lib/supabase/rpc";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
+import { isInternalProjectTag } from "@/lib/project/tags";
 import {
   mapDbProject,
   mapDbCompletion,
@@ -150,7 +151,7 @@ function rankTagsByPopularity(
   const counts = new Map<string, number>();
   for (const entry of entries) {
     for (const tag of entry.tags || []) {
-      if (!tag || excludedNames.has(tag)) continue;
+      if (!tag || excludedNames.has(tag) || isInternalProjectTag(tag)) continue;
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
   }
@@ -172,7 +173,7 @@ function buildTagScope(
   const subCategoryTags = new Map<string, Set<string>>();
 
   for (const entry of entries) {
-    const tags = (entry.tags || []).filter((tag) => tag && !excludedNames.has(tag));
+    const tags = (entry.tags || []).filter((tag) => tag && !excludedNames.has(tag) && !isInternalProjectTag(tag));
     if (tags.length === 0) continue;
 
     for (const tag of tags) {

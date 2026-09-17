@@ -1,15 +1,18 @@
 /**
  * Detail-page presentation helpers for imported experiment projects:
- * strip raw demo-video URLs when a player is shown, soften 启蒙 prefixes,
- * and repair materials split on 、 inside （…）.
+ * strip raw demo-video URLs when a player is shown, omit leftover 启蒙
+ * preview chrome, hide duplicate 结论, and repair materials split on 、
+ * inside （…）.
  */
 
 const VIDEO_LINE_RE =
   /^(?:演示视频(?:（外链）)?|【演示视频】)\s*[:：]?\s*(?:https:\/\/\S+\.mp4)?\s*$/u
+const VIDEO_MISSING_RE = /^演示视频：本次预览未挂载.*$/u
 const BARE_MP4_LINE_RE = /^https:\/\/\S+\.mp4\s*$/i
 const VIDEO_INLINE_PREFIX_RE = /^【演示视频】\s*https:\/\/\S+\.mp4\s*/u
 const DESC_BANNER_RE = /^【启蒙版[·・]?预览】\s*$/u
 const SOURCE_LINE_RE = /^来源：伙伴启蒙版实验.*/u
+const PREVIEW_ENTRY_RE = /启蒙版合作实验预览条目/
 
 function normalizeNewlines(text: string): string {
   return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
@@ -41,18 +44,16 @@ export function formatProjectDescriptionForDisplay(
       kept.push('')
       continue
     }
-    if (DESC_BANNER_RE.test(trimmed)) {
-      // Soften noisy import banner — omit rather than show 【启蒙版·预览】.
+    if (DESC_BANNER_RE.test(trimmed) || PREVIEW_ENTRY_RE.test(trimmed) || SOURCE_LINE_RE.test(trimmed)) {
+      continue
+    }
+    if (VIDEO_MISSING_RE.test(trimmed)) {
       continue
     }
     if (options.hasVideoPlayer && (VIDEO_LINE_RE.test(trimmed) || BARE_MP4_LINE_RE.test(trimmed))) {
       continue
     }
     if (options.hasVideoPlayer && /https:\/\/\S+\.mp4/i.test(trimmed) && /演示视频/.test(trimmed)) {
-      continue
-    }
-    if (SOURCE_LINE_RE.test(trimmed)) {
-      kept.push('来源：启蒙科学实验（预览）')
       continue
     }
     kept.push(line.trimEnd())
@@ -83,6 +84,42 @@ export function formatProjectStepDescriptionForDisplay(
   }
 
   return collapseBlankLines(text)
+}
+
+function normalizeCopyForCompare(text: string): string {
+  return text
+    .replace(/【启蒙版[·・]?预览】/gu, '')
+    .replace(/【预览】/gu, '')
+    .replace(/科学原理补充[：:]/gu, '')
+    .replace(/科学原理[：:]/gu, '')
+    .replace(/(?:演示视频(?:（外链）)?|【演示视频】)\s*[:：]?\s*(?:https:\/\/\S+\.mp4)?/gu, '')
+    .replace(/https:\/\/\S+\.mp4/gi, '')
+    .replace(/来源：伙伴启蒙版实验[^\n]*/gu, '')
+    .replace(/\s+/g, '')
+    .trim()
+}
+
+/** Strip leftover 启蒙 preview prefixes from a stored reflection. */
+export function formatProjectReflectionForDisplay(
+  reflection: string | null | undefined,
+): string {
+  let text = normalizeNewlines(reflection ?? '').trim()
+  if (!text) return ''
+  text = text.replace(/^【启蒙版[·・]?预览】\s*/u, '')
+  text = text.replace(/^科学原理补充[：:]\s*/u, '')
+  return collapseBlankLines(text)
+}
+
+/** Hide 结论 when it repeats the visible description (after prefix stripping). */
+export function shouldShowProjectReflection(
+  reflection: string | null | undefined,
+  description: string | null | undefined,
+): boolean {
+  const formatted = formatProjectReflectionForDisplay(reflection)
+  const normalizedReflection = normalizeCopyForCompare(formatted)
+  if (!normalizedReflection) return false
+  const normalizedDescription = normalizeCopyForCompare(description ?? '')
+  return normalizedReflection !== normalizedDescription
 }
 
 /**

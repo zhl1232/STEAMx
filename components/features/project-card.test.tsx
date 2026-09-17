@@ -53,6 +53,24 @@ describe.each([
   })
 })
 
+describe("ProjectCard tags", () => {
+  it("does not render qimeng-src tracking tags", () => {
+    render(
+      <ProjectCard
+        project={{
+          ...classifiedProject,
+          category: "科学",
+          sub_category: undefined,
+          tags: ["启蒙版", "qimeng-src:1071409", "科学实验"],
+        }}
+      />,
+    )
+
+    expect(screen.getByText("启蒙版")).toBeInTheDocument()
+    expect(screen.queryByText("qimeng-src:1071409")).not.toBeInTheDocument()
+  })
+})
+
 describe("ProjectCard compact vertical variant", () => {
   it("keeps the scan essentials and removes secondary copy", () => {
     render(

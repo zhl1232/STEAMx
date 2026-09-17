@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
+import { ProjectDemoVideo } from "@/components/features/project/project-demo-video"
 import { ImageLightbox } from "@/components/features/shared/image-lightbox"
 import { SwipeablePhotoViewer } from "@/components/features/shared/swipeable-photo-viewer"
 import { cn } from "@/lib/utils"
@@ -11,6 +12,8 @@ export function ProjectHeroGallery({
   images,
   captions,
   alt,
+  videoSrc,
+  videoPoster,
   className,
   sizes = "100vw",
   showGradient = false,
@@ -19,6 +22,8 @@ export function ProjectHeroGallery({
   images: string[]
   captions?: Array<string | undefined | null>
   alt: string
+  videoSrc?: string | null
+  videoPoster?: string | null
   className?: string
   sizes?: string
   showGradient?: boolean
@@ -27,11 +32,26 @@ export function ProjectHeroGallery({
   const [activeIndex, setActiveIndex] = useState(0)
   const [previewOpen, setPreviewOpen] = useState(false)
   const count = images.length
+  const playbackSrc = videoSrc?.trim() || ""
 
   const goToIndex = useCallback((nextIndex: number) => {
     if (count <= 0) return
     setActiveIndex(((nextIndex % count) + count) % count)
   }, [count])
+
+  if (playbackSrc) {
+    const poster = videoPoster?.trim() || images[0] || undefined
+    return (
+      <div className={cn("relative min-w-0 overflow-hidden bg-black", className)}>
+        <ProjectDemoVideo
+          src={playbackSrc}
+          title={alt}
+          poster={poster}
+          fill
+        />
+      </div>
+    )
+  }
 
   if (count === 0) {
     return <div className={cn("relative min-w-0 overflow-hidden bg-muted", className)} />

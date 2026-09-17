@@ -73,4 +73,26 @@ describe("ProjectHeroGallery", () => {
     expect(screen.queryByText("1/1")).not.toBeInTheDocument()
     expect(screen.queryByRole("button", { name: "下一张" })).not.toBeInTheDocument()
   })
+
+  it("renders a playable video with the cover as poster instead of the photo gallery", () => {
+    const { container } = render(
+      <ProjectHeroGallery
+        images={["/cover.webp", "/step-1.webp"]}
+        videoSrc="/api/assets/qimeng-preview/001_demo/video_1.mp4"
+        videoPoster="/cover.webp"
+        alt="奇妙潜水艇"
+      />,
+    )
+
+    const video = container.querySelector("video")
+    expect(video).not.toBeNull()
+    expect(video).toHaveAttribute("poster", "/cover.webp")
+    expect(video?.querySelector("source")).toHaveAttribute(
+      "src",
+      "/api/assets/qimeng-preview/001_demo/video_1.mp4",
+    )
+    expect(screen.getByLabelText("奇妙潜水艇 演示视频")).toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "奇妙潜水艇，点击查看大图" })).not.toBeInTheDocument()
+    expect(screen.queryByText("1/2")).not.toBeInTheDocument()
+  })
 })
