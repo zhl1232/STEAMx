@@ -150,6 +150,9 @@ describe('resolveAssetDisplayUrl', () => {
     expect(resolveAssetDisplayUrl('https://assets.example.com/courses/3-bao-jian/animation.mp4')).toBe(
       '/api/assets/courses/3-bao-jian/animation.mp4',
     )
+    expect(resolveAssetDisplayUrl('https://assets.example.com/qimeng-preview/001_demo/video_1.mp4')).toBe(
+      '/api/assets/qimeng-preview/001_demo/video_1.mp4',
+    )
   })
 
   it('rewrites relative bird assets and proxies them in development', () => {

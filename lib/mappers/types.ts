@@ -101,6 +101,8 @@ export interface Project {
     comments_count?: number
     completions_count?: number
     description?: string
+    /** Optional demo video (HTTPS mp4 or same-origin /api/assets path). */
+    videoUrl?: string | null
     materials?: string[]
     steps?: ProjectStep[]
     comments?: Comment[]
@@ -662,6 +664,7 @@ export function mapDbProject(
         comments_count: ('comments_count' in dbProject ? Number((dbProject as Record<string, unknown>).comments_count) : 0),
         completions_count: ('completions_count' in dbProject ? Number((dbProject as Record<string, unknown>).completions_count) : 0),
         description: dbProject.description || '',
+        videoUrl: dbProject.video_url ?? null,
         materials: dbProject.project_materials
             ?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
             .map(m => m.material) || [],

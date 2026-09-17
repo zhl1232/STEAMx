@@ -630,6 +630,7 @@ export interface Database {
           description: string | null
           author_id: string | null
           image_url: string | null
+          video_url: string | null
           category: string | null
           sub_category_id: number | null
           difficulty: string | null
@@ -663,6 +664,7 @@ export interface Database {
           description?: string | null
           author_id?: string | null
           image_url?: string | null
+          video_url?: string | null
           category?: string | null
           sub_category_id?: number | null
           difficulty?: string | null
@@ -696,6 +698,7 @@ export interface Database {
           description?: string | null
           author_id?: string | null
           image_url?: string | null
+          video_url?: string | null
           category?: string | null
           sub_category_id?: number | null
           difficulty?: string | null

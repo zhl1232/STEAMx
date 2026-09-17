@@ -17,6 +17,7 @@ const REMOTE_ASSET_PREFIXES = [
   '/fruits/',
   '/projects/',
   '/courses/',
+  '/qimeng-preview/',
 ] as const
 
 export function getAssetsBaseUrl(): string | null {

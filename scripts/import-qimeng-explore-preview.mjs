@@ -15,9 +15,9 @@
  * Does NOT print secrets. Idempotent via tag `qimeng-src:{sourceId}`.
  *
  * Covers → Supabase storage `project-images` (same as explore projects).
- * Videos → OSS under qimeng-preview/; HTTPS CDN URL written into description + first step.
- * Projects have no video_url column, so detail pages do not embed a player.
- * CDN may require site Referer (hotlink protection).
+ * Videos → OSS under qimeng-preview/; HTTPS CDN URL stored on projects.video_url
+ * (also mirrored into description + first step as fallback for older clients).
+ * CDN may require site Referer — detail page prefers /api/assets proxy.
  *
  * Keeps tags: 启蒙版 + 预览 + qimeng-src:* and title prefix 【预览】 for consistency
  * with the first preview batch.
@@ -608,6 +608,7 @@ async function main() {
       const projectPayload = {
         title,
         description,
+        video_url: videoUrl,
         category: CATEGORY,
         sub_category_id: null,
         difficulty: 'easy',

@@ -39,7 +39,7 @@ export function MobileProjectIntro({
       ) : null}
       <p
         className={cn(
-          "text-sm leading-6 text-muted-foreground",
+          "whitespace-pre-line text-sm leading-6 text-muted-foreground",
           !expanded && needsExpand && "line-clamp-3",
         )}
       >

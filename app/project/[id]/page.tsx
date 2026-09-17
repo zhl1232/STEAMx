@@ -54,6 +54,13 @@ import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
 import { getContentClassificationSettings } from '@/lib/content-classification'
 import { listStoreProductsForContext } from '@/lib/store/service'
 import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
+import {
+  formatProjectDescriptionForDisplay,
+  formatProjectStepDescriptionForDisplay,
+  mergeBrokenParenMaterials,
+} from '@/lib/project/presentation'
+import { resolveProjectVideoPlaybackSrc } from '@/lib/project/video-url'
+import { ProjectDemoVideo } from '@/components/features/project/project-demo-video'
 import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
@@ -831,11 +838,24 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     listStoreProductsForContext(supabase, `project:${project.id}`),
   ])
 
-  const materials = project.materials ?? []
-  const steps = project.steps ?? []
+  const rawMaterials = project.materials ?? []
+  const rawSteps = project.steps ?? []
+  const videoPlaybackSrc = resolveProjectVideoPlaybackSrc({
+    videoUrl: project.videoUrl,
+    description: project.description,
+    steps: rawSteps,
+  })
+  const hasVideoPlayer = Boolean(videoPlaybackSrc)
+  const materials = mergeBrokenParenMaterials(rawMaterials)
+  const steps = rawSteps.map((step) => ({
+    ...step,
+    description: formatProjectStepDescriptionForDisplay(step.description, { hasVideoPlayer }),
+  }))
   const tags = project.tags ?? []
   const isObservationProject = tags.includes('鸟类')
-  const projectSummary = project.description || '一个适合边做边学、逐步完成的实践项目。'
+  const projectSummary =
+    formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer })
+    || '一个适合边做边学、逐步完成的实践项目。'
   const continuationProject = nextProject && Number(nextProject.id) !== Number(project.id)
     ? nextProject
     : (!fromExplore ? relatedProjects[0] ?? null : null)
@@ -961,6 +981,16 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 showGradient
               />
 
+              {videoPlaybackSrc ? (
+                <div className="px-4 pt-3">
+                  <ProjectDemoVideo
+                    src={videoPlaybackSrc}
+                    title={project.title}
+                    poster={project.image || null}
+                  />
+                </div>
+              ) : null}
+
               <div className="space-y-4 px-4 pb-5 pt-4">
                 <h1 className="font-sans text-[26px] font-black leading-tight tracking-tight text-foreground">
                   {project.title}
@@ -1079,7 +1109,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                     </div>
 
                     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
-                      <p className="max-w-4xl text-[15px] leading-7 text-muted-foreground">
+                      <p className="max-w-4xl whitespace-pre-line text-[15px] leading-7 text-muted-foreground">
                         {projectSummary}
                       </p>
                       <div className="flex justify-start md:justify-end">
@@ -1170,6 +1200,18 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   reflection={project.reflection}
                   className="surface-panel rounded-lg px-5 py-5 sm:px-6"
                 />
+
+                {videoPlaybackSrc ? (
+                  <div id="project-video" className="scroll-mt-24 lg:scroll-mt-28">
+                    <SectionCard title="演示视频">
+                      <ProjectDemoVideo
+                        src={videoPlaybackSrc}
+                        title={project.title}
+                        poster={project.image || null}
+                      />
+                    </SectionCard>
+                  </div>
+                ) : null}
 
                 <div id="project-materials" className="scroll-mt-24 lg:scroll-mt-28">
                   <SectionCard title={`所需材料${materials.length > 0 ? `（${materials.length}）` : ''}`}>
