@@ -94,3 +94,6 @@ docs/ui-design-mockups/
 supabase/.temp/
 tmp
 .tmp-img-audit-venv
+
+# Local import run reports (may include environment URLs)
+scripts/.import-reports/
