@@ -55,6 +55,7 @@ import {
     EXPLORE_RESULTS_SORT_OPTIONS,
     detectActivePreset,
     getPresetHintLabel,
+    isExploreListTabPreset,
     isExploreResultsMode,
     parseExploreSortBy,
     serializeExploreFilterParams,
@@ -774,9 +775,11 @@ export function ExploreClient({
         const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
         if (!preset) return
 
+        const presetTags = preset.tags ?? []
         const params = buildSearchParams({
             difficulty: preset.difficulty,
             sortBy: preset.sortBy,
+            tags: presetTags,
         })
         if (serializeExploreFilterParams(params) === activeFiltersKeyRef.current) {
             return
@@ -785,6 +788,8 @@ export function ExploreClient({
         setSelectedDifficulty(preset.difficulty)
         setSelectedSortBy(preset.sortBy)
         setDraftDifficulty(preset.difficulty)
+        setSelectedTags(presetTags)
+        setDraftTags(presetTags)
 
         executeFilter(params)
     }
@@ -904,14 +909,16 @@ export function ExploreClient({
     }
 
     const activePresetId = detectActivePreset(getFilterState())
-    const activeListTabId = activePresetId === 'browse'
-        || activePresetId === 'latest'
-        || activePresetId === 'beginner-friendly'
-        ? activePresetId
-        : null
+    const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
+    const activeListPreset = activeListTabId
+        ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
+        : undefined
     const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
-    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || selectedTags.length > 0
-    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + selectedTags.length
+    const tagsBelongToListTab = !!activeListPreset?.tags?.length
+        && selectedTags.length === activeListPreset.tags.length
+        && activeListPreset.tags.every((tag) => selectedTags.includes(tag))
+    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || (!tagsBelongToListTab && selectedTags.length > 0)
+    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + (tagsBelongToListTab ? 0 : selectedTags.length)
     const isResultsMode = isExploreResultsMode(getFilterState())
     const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length

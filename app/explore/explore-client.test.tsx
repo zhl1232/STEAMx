@@ -288,7 +288,7 @@ describe('ExploreClient', () => {
             />,
         )
 
-        await user.click(screen.getByRole('button', { name: /科学/ }))
+        await user.click(screen.getByRole('button', { name: '科学' }))
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
 
         await act(async () => {
@@ -348,7 +348,7 @@ describe('ExploreClient', () => {
         })
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        await user.click(screen.getByRole('button', { name: /科学/ }))
+        await user.click(screen.getByRole('button', { name: '科学' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2))
         await waitFor(() => expect(loadMoreSignal?.aborted).toBe(true))
@@ -492,7 +492,7 @@ describe('ExploreClient', () => {
 
         expect(screen.getByRole('button', { name: '最新上架' })).toBeInTheDocument()
 
-        await user.click(screen.getByRole('button', { name: /科学/ }))
+        await user.click(screen.getByRole('button', { name: '科学' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
@@ -516,6 +516,39 @@ describe('ExploreClient', () => {
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
         expect(screen.getByRole('button', { name: '最新上架' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'false')
+    })
+
+    it('activates fun-science preset via tags=启蒙版 and stays in explore mode', async () => {
+        currentSearchParams = new URLSearchParams('tags=%E5%90%AF%E8%92%99%E7%89%88')
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                projects: [makeProject(3, '启蒙项目')],
+                hasMore: false,
+                total: 3,
+            }),
+        } as Response)
+
+        const user = userEvent.setup()
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+
+        await user.click(screen.getByRole('button', { name: '热门推荐' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+        const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
+        expect(requestUrl).not.toContain('tags=')
     })
 
     it('keeps preset tabs available in explore mode when beginner-friendly is active', async () => {

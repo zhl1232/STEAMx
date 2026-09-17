@@ -12,15 +12,22 @@ import {
 } from '@/lib/explore/presets'
 
 describe('explore presets', () => {
-    it('exposes popular, latest, and beginner project tabs', () => {
+    it('exposes popular, latest, beginner, and fun-science project tabs', () => {
         expect(EXPLORE_PRESETS.map((preset) => preset.id)).toEqual([
             'browse',
             'latest',
             'beginner-friendly',
+            'fun-science',
         ])
+        expect(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')).toMatchObject({
+            label: '趣味科学（启蒙）',
+            tags: ['启蒙版'],
+            sortBy: 'popular',
+            difficulty: 'all',
+        })
     })
 
-    it('detects latest, beginner-friendly, and legacy browse states', () => {
+    it('detects latest, beginner-friendly, fun-science, and legacy browse states', () => {
         expect(detectActivePreset({
             category: '全部',
             subCategory: '',
@@ -46,6 +53,16 @@ describe('explore presets', () => {
             subCategory: '',
             difficulty: 'all',
             age: null,
+            tags: ['启蒙版'],
+            searchQuery: '',
+            sortBy: 'popular',
+        })).toBe('fun-science')
+
+        expect(detectActivePreset({
+            category: '全部',
+            subCategory: '',
+            difficulty: 'all',
+            age: null,
             tags: [],
             searchQuery: '',
             sortBy: 'popular',
@@ -56,21 +73,27 @@ describe('explore presets', () => {
         const popular = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'browse')!)
         const latest = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'latest')!)
         const beginner = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'beginner-friendly')!)
+        const funScience = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')!)
 
         expect(popular.toString()).toBe('')
         expect(latest.get('sortBy')).toBe('latest')
         expect(beginner.get('difficulty')).toBe('beginner')
         expect(beginner.get('sortBy')).toBeNull()
+        expect(funScience.get('tags')).toBe('启蒙版')
+        expect(funScience.get('sortBy')).toBeNull()
+        expect(funScience.get('difficulty')).toBeNull()
         expect(new Set([
             serializeExploreFilterParams(popular),
             serializeExploreFilterParams(latest),
             serializeExploreFilterParams(beginner),
-        ]).size).toBe(3)
+            serializeExploreFilterParams(funScience),
+        ]).size).toBe(4)
     })
 
     it('highlights the default popular project tab', () => {
         expect(resolveHighlightedPresetId('browse')).toBe('browse')
         expect(resolveHighlightedPresetId('latest')).toBe('latest')
+        expect(resolveHighlightedPresetId('fun-science')).toBe('fun-science')
     })
 
     it('always suggests beginner-friendly as the fallback helper', () => {
@@ -99,6 +122,12 @@ describe('explore presets', () => {
         }
 
         expect(isExploreResultsMode(exploreState)).toBe(false)
+
+        expect(isExploreResultsMode({
+            ...exploreState,
+            difficulty: 'all',
+            tags: ['启蒙版'],
+        })).toBe(false)
 
         expect(isExploreResultsMode({
             ...exploreState,
