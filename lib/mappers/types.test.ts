@@ -10,6 +10,7 @@ describe('mapDbProject', () => {
       description: '用塑料袋制作一只章鱼。',
       author_id: 'author-1',
       image_url: null,
+      video_url: null,
       category: '科学',
       sub_category_id: null,
       difficulty: 'easy',
