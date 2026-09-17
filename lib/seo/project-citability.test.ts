@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { isInternalProjectTag } from "@/lib/project/tags";
 import {
   buildProjectCiteDescription,
   buildProjectCiteKeywords,
@@ -42,14 +43,27 @@ describe("project citability copy", () => {
     expect(keywords).toEqual(expect.arrayContaining(["静电章鱼", "科学", "科学小实验", "STEAM项目"]));
     expect(keywords).not.toContain("项目式学习");
   });
-  it("omits qimeng-src and wanzhuan-src tracking tags from keywords", () => {
+  it("omits *-src tracking tags from keywords", () => {
     const keywords = buildProjectCiteKeywords({
       title: "调色大师",
       category: "科学",
-      tags: ["启蒙版", "qimeng-src:1071409", "玩转一", "进阶款", "wanzhuan-src:123", "科学实验"],
+      tags: [
+        "启蒙版",
+        "qimeng-src:1071409",
+        "玩转一",
+        "进阶款",
+        "wanzhuan-src:123",
+        "基础款",
+        "豪华款",
+        "jichuhaohua-src:456",
+        "gaopei-src:789",
+        "科学实验",
+      ],
     });
-    expect(keywords).toEqual(expect.arrayContaining(["调色大师", "启蒙版", "玩转一", "进阶款", "科学实验"]));
-    expect(keywords.some((keyword) => /^(?:qimeng|wanzhuan)-src:/i.test(keyword))).toBe(false);
+    expect(keywords).toEqual(
+      expect.arrayContaining(["调色大师", "启蒙版", "玩转一", "进阶款", "基础款", "豪华款", "科学实验"]),
+    );
+    expect(keywords.some((keyword) => isInternalProjectTag(keyword))).toBe(false);
   });
   it("prefers a one-sentence reflection over the long description", () => {
     expect(

@@ -3,7 +3,7 @@
  * idempotent imports but must not appear as chips or filter options.
  */
 
-const INTERNAL_PROJECT_TAG_RE = /^(?:qimeng|wanzhuan)-src:/i
+const INTERNAL_PROJECT_TAG_RE = /^[a-z][a-z0-9-]*-src:/i
 
 export function isInternalProjectTag(tag: string | null | undefined): boolean {
   return Boolean(tag && INTERNAL_PROJECT_TAG_RE.test(tag.trim()))
