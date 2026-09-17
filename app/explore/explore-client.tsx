@@ -913,7 +913,7 @@ export function ExploreClient({
     const activeListPreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
         : undefined
-    const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
+    const difficultyBelongsToListTab = false
     const tagsBelongToListTab = !!activeListPreset?.tags?.length
         && selectedTags.length === activeListPreset.tags.length
         && activeListPreset.tags.every((tag) => selectedTags.includes(tag))
@@ -924,7 +924,7 @@ export function ExploreClient({
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
 
-    const suggestedPresetId: Exclude<ExplorePresetId, 'browse'> = 'beginner-friendly'
+    const suggestedPresetId: Exclude<ExplorePresetId, 'browse' | 'beginner-friendly' | 'latest'> = 'fun-science'
 
     return (
         <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-20 md:min-h-[calc(100vh-4rem)] md:pb-8">
@@ -1376,12 +1376,12 @@ export function ExploreClient({
                                                 换个关键词、类别或减少筛选条件再试试看。
                                             </p>
                                             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                                                {!isResultsMode && activeListTabId !== 'beginner-friendly' ? (
+                                                {!isResultsMode && activeListTabId !== 'fun-science' ? (
                                                     <Button
                                                         variant="outline"
-                                                        onClick={() => handlePresetClick('beginner-friendly')}
+                                                        onClick={() => handlePresetClick('fun-science')}
                                                     >
-                                                        试试新手推荐
+                                                        试试趣味科学（启蒙）
                                                     </Button>
                                                 ) : null}
                                                 <Button

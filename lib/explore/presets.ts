@@ -3,6 +3,7 @@ import { normalizeDifficultyParam } from '@/lib/content-classification/validatio
 export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
+/** beginner-friendly / latest 保留为遗留 id，旧 URL 可解析但不在 UI pills 中展示 */
 export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'fun-science'
 
 export type ExplorePreset = {
@@ -14,11 +15,9 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 项目内容列表与上方作品墙分工：推荐、最新、新手与启蒙趣味科学入口都保留。 */
+/** 项目内容列表 pills：仅保留热门推荐与趣味科学（启蒙）。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
-    { id: 'latest', label: '最新上架', sortBy: 'latest', difficulty: 'all' },
-    { id: 'beginner-friendly', label: '新手推荐', sortBy: 'popular', difficulty: 'beginner' },
     { id: 'fun-science', label: '趣味科学（启蒙）', sortBy: 'popular', difficulty: 'all', tags: ['启蒙版'] },
 ]
 
@@ -54,10 +53,7 @@ function presetTags(preset: ExplorePreset): string[] {
 
 /** List-tab presets shown in explore mode (not results mode). */
 export function isExploreListTabPreset(id: ExplorePresetId | null): id is ExplorePresetId {
-    return id === 'browse'
-        || id === 'latest'
-        || id === 'beginner-friendly'
-        || id === 'fun-science'
+    return id === 'browse' || id === 'fun-science'
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
@@ -67,7 +63,7 @@ export function isExploreResultsMode(state: ExploreFilterState): boolean {
     const activePreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
         : undefined
-    const difficultyBelongsToListTab = activeListTabId === 'beginner-friendly'
+    const difficultyBelongsToListTab = false
     const tagsBelongToListTab = !!activePreset
         && presetTags(activePreset).length > 0
         && sameTagSet(state.tags, presetTags(activePreset))
@@ -102,12 +98,13 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
         return null
     }
 
+    // 遗留 latest / beginner-friendly：不再高亮 pill，交由 resolveHighlightedPresetId 降级
     if (sortBy === 'latest' && difficulty === 'all') {
-        return 'latest'
+        return null
     }
 
     if (normalizeDifficultyParam(difficulty) === 'beginner' && sortBy === 'popular') {
-        return 'beginner-friendly'
+        return null
     }
 
     if (difficulty === 'all' && sortBy === 'popular') {
@@ -117,7 +114,14 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
     return null
 }
 
+/** 旧 URL preset=latest|beginner-friendly 忽略高亮，避免无效 pill / 500。 */
 export function resolveHighlightedPresetId(urlPreset: ExplorePresetId | null): ExplorePresetId | null {
+    if (urlPreset === 'latest' || urlPreset === 'beginner-friendly') {
+        return null
+    }
+    if (urlPreset && !isExploreListTabPreset(urlPreset)) {
+        return null
+    }
     return urlPreset
 }
 
@@ -125,16 +129,17 @@ export function resolveSuggestedPresetId(args: {
     isLoggedIn: boolean
     level: number
     projectsCompleted: number | undefined
-}): Exclude<ExplorePresetId, 'browse'> {
+}): Exclude<ExplorePresetId, 'browse' | 'beginner-friendly' | 'latest'> {
     void args
-    return 'beginner-friendly'
+    return 'fun-science'
 }
 
 export function getPresetHintLabel(presetId: ExplorePresetId): string {
     const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
     if (preset) return preset.label
     if (presetId === 'browse') return '热门推荐'
-    return '新手推荐'
+    if (presetId === 'fun-science') return '趣味科学（启蒙）'
+    return '趣味科学（启蒙）'
 }
 
 export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams {

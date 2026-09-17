@@ -200,7 +200,7 @@ describe('ExploreClient', () => {
 
         expect(screen.getByText('保存你的探索进度')).toBeInTheDocument()
         expect(screen.getByText('登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。')).toBeInTheDocument()
-        expect(screen.getByText(/不知道从哪开始？试试「新手推荐」/)).toBeInTheDocument()
+        expect(screen.getByText(/不知道从哪开始？试试「趣味科学（启蒙）」/)).toBeInTheDocument()
         expect(screen.getByRole('link', { name: '登录保存进度' })).toHaveAttribute('href', '/login')
     })
 
@@ -490,12 +490,14 @@ describe('ExploreClient', () => {
             />,
         )
 
-        expect(screen.getByRole('button', { name: '最新上架' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '热门推荐' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toBeInTheDocument()
 
         await user.click(screen.getByRole('button', { name: '科学' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '趣味科学（启蒙）' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
         expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '推荐' })).toBeInTheDocument()
@@ -513,9 +515,9 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.queryByRole('button', { name: '本周热门' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
-        expect(screen.getByRole('button', { name: '最新上架' })).toHaveAttribute('aria-pressed', 'false')
-        expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'false')
     })
 
@@ -551,19 +553,8 @@ describe('ExploreClient', () => {
         expect(requestUrl).not.toContain('tags=')
     })
 
-    it('keeps preset tabs available in explore mode when beginner-friendly is active', async () => {
+    it('degrades legacy beginner URL into results mode without removed pills', async () => {
         currentSearchParams = new URLSearchParams('difficulty=1-2&sortBy=popular')
-        const fetchMock = vi.mocked(fetch)
-        fetchMock.mockResolvedValue({
-            ok: true,
-            json: async () => ({
-                projects: [makeProject(2, '最新项目')],
-                hasMore: false,
-                total: 2,
-            }),
-        } as Response)
-
-        const user = userEvent.setup()
 
         render(
             <ExploreClient
@@ -573,11 +564,26 @@ describe('ExploreClient', () => {
             />,
         )
 
-        expect(screen.getByRole('button', { name: '新手推荐' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
+        // difficulty filter puts explore into results mode (no list-tab pills)
+        expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
+    })
 
-        await user.click(screen.getByRole('button', { name: '最新上架' }))
+    it('ignores legacy latest sort highlight and keeps remaining pills', () => {
+        currentSearchParams = new URLSearchParams('sortBy=latest')
 
-        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-        expect(await screen.findByText('最新项目')).toBeInTheDocument()
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'false')
     })
 })
