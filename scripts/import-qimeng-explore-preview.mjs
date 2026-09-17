@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 /**
- * Import a small preview batch of 启蒙版 partner experiments into STEAMx explore projects.
+ * Import 启蒙版 partner experiments into STEAMx explore projects.
  *
  * Usage:
  *   node scripts/import-qimeng-explore-preview.mjs --limit=10
- *   node scripts/import-qimeng-explore-preview.mjs --limit=10 --dry-run
- *   node scripts/import-qimeng-explore-preview.mjs --source=/path/to/启蒙版 --limit=10
+ *   node scripts/import-qimeng-explore-preview.mjs --limit=248
+ *   node scripts/import-qimeng-explore-preview.mjs --limit=248 --dry-run
+ *   node scripts/import-qimeng-explore-preview.mjs --source=/path/to/启蒙版 --limit=248
  *
  * Requires .env.local (or env):
  *   NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SUPPORT_USER_ID
@@ -13,9 +14,13 @@
  *
  * Does NOT print secrets. Idempotent via tag `qimeng-src:{sourceId}`.
  *
- * Videos upload to OSS under qimeng-preview/ and the HTTPS CDN URL is written into
- * description + first step. Projects have no video_url column, so detail pages do not
- * embed a player. CDN may require site Referer (hotlink protection).
+ * Covers → Supabase storage `project-images` (same as explore projects).
+ * Videos → OSS under qimeng-preview/; HTTPS CDN URL written into description + first step.
+ * Projects have no video_url column, so detail pages do not embed a player.
+ * CDN may require site Referer (hotlink protection).
+ *
+ * Keeps tags: 启蒙版 + 预览 + qimeng-src:* and title prefix 【预览】 for consistency
+ * with the first preview batch.
  */
 
 import { readFile, access, writeFile, mkdir } from 'node:fs/promises'
@@ -35,6 +40,7 @@ const DESC_PREFIX = '【启蒙版·预览】'
 const TITLE_PREFIX = '【预览】'
 const CATEGORY = '科学'
 const OSS_PREFIX = 'qimeng-preview'
+const PROGRESS_EVERY = 5
 
 function parseArgs(argv) {
   const args = {
@@ -138,6 +144,12 @@ function assetsBaseUrl() {
 
 function sourceTag(sourceId) {
   return `qimeng-src:${sourceId}`
+}
+
+function expectedVideoUrl(folder) {
+  const base = assetsBaseUrl()
+  if (!base || !folder) return null
+  return `${base}/${OSS_PREFIX}/${folder}/video_1.mp4`
 }
 
 async function exists(filePath) {
@@ -274,7 +286,7 @@ async function findExisting(supabase, sourceId, title) {
   const tag = sourceTag(sourceId)
   const byTag = await supabase
     .from('projects')
-    .select('id,title,status,tags')
+    .select('id,title,status,tags,image_url')
     .contains('tags', [tag])
     .limit(5)
   if (byTag.error) throw byTag.error
@@ -283,7 +295,7 @@ async function findExisting(supabase, sourceId, title) {
   const previewTitle = `${TITLE_PREFIX}${title}`
   const byTitle = await supabase
     .from('projects')
-    .select('id,title,status,tags')
+    .select('id,title,status,tags,image_url')
     .eq('title', previewTitle)
     .contains('tags', [TAG_SOURCE, TAG_PREVIEW])
     .limit(5)
@@ -334,6 +346,128 @@ async function insertProject(supabase, payload) {
   return row
 }
 
+function csvEscape(value) {
+  const s = value == null ? '' : String(value)
+  if (/[",\n\r]/.test(s)) return `"${s.replaceAll('"', '""')}"`
+  return s
+}
+
+function enrichEntry(entry, { appUrl, category }) {
+  entry.category = category
+  entry.exploreUrl = entry.projectId ? `${appUrl}/project/${entry.projectId}` : null
+  entry.status = entry.ok ? (entry.skipped ? 'skipped' : 'success') : 'fail'
+  return entry
+}
+
+function buildCsv(results) {
+  const headers = [
+    'source_id',
+    'title',
+    'category',
+    'local_path',
+    'folder',
+    'oss_cover_url',
+    'oss_video_url',
+    'project_id',
+    'explore_url',
+    'status',
+    'classification',
+    'error',
+  ]
+  const lines = [headers.join(',')]
+  for (const r of results) {
+    lines.push(
+      [
+        r.sourceId,
+        r.title,
+        r.category,
+        r.localPath,
+        r.folder,
+        r.imageUrl,
+        r.videoUrl,
+        r.projectId,
+        r.exploreUrl,
+        r.status,
+        r.classification || '',
+        r.error || '',
+      ]
+        .map(csvEscape)
+        .join(','),
+    )
+  }
+  return `${lines.join('\n')}\n`
+}
+
+async function writeReports({ sourceRoot, results, reportMeta, stamp }) {
+  const scriptReportDir = path.join(ROOT, 'scripts', '.import-reports')
+  const sourceReportDir = path.join(sourceRoot, '_import_report')
+  await mkdir(scriptReportDir, { recursive: true })
+  await mkdir(sourceReportDir, { recursive: true })
+
+  const jsonName = `qimeng-full-${stamp}.json`
+  const csvName = `qimeng-full-${stamp}.csv`
+  const progressName = 'qimeng-full-progress.json'
+  const latestJson = 'qimeng-full-latest.json'
+  const latestCsv = 'qimeng-full-latest.csv'
+
+  const jsonBody = JSON.stringify(reportMeta, null, 2)
+  const csvBody = buildCsv(results)
+
+  const targets = [scriptReportDir, sourceReportDir]
+  for (const dir of targets) {
+    await writeFile(path.join(dir, jsonName), jsonBody)
+    await writeFile(path.join(dir, csvName), csvBody)
+    await writeFile(path.join(dir, latestJson), jsonBody)
+    await writeFile(path.join(dir, latestCsv), csvBody)
+    await writeFile(
+      path.join(dir, progressName),
+      JSON.stringify(
+        {
+          at: new Date().toISOString(),
+          done: results.length,
+          counts: reportMeta.counts,
+          last: results[results.length - 1] || null,
+        },
+        null,
+        2,
+      ),
+    )
+  }
+
+  return {
+    json: path.join(scriptReportDir, jsonName),
+    csv: path.join(scriptReportDir, csvName),
+    sourceJson: path.join(sourceReportDir, jsonName),
+    sourceCsv: path.join(sourceReportDir, csvName),
+    progress: path.join(scriptReportDir, progressName),
+  }
+}
+
+async function writeProgressPartial({ sourceRoot, results, appUrl, args, total }) {
+  const imported = results.filter((r) => r.ok && !r.skipped && r.projectId)
+  const skipped = results.filter((r) => r.skipped)
+  const failed = results.filter((r) => !r.ok)
+  const reportMeta = {
+    at: new Date().toISOString(),
+    partial: true,
+    appUrl,
+    dryRun: args.dryRun,
+    limit: args.limit,
+    source: args.source,
+    totalPlanned: total,
+    counts: {
+      attempted: results.length,
+      imported: imported.length,
+      skipped: skipped.length,
+      failed: failed.length,
+      remaining: Math.max(0, total - results.length),
+    },
+    results,
+  }
+  const stamp = `partial-${Date.now()}`
+  return writeReports({ sourceRoot: args.source, results, reportMeta, stamp })
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   await loadEnv()
@@ -366,10 +500,15 @@ async function main() {
   console.log(`Source: ${args.source}`)
   console.log(`Author: ${authorId}`)
   console.log(`Limit: ${args.limit} | dryRun=${args.dryRun} | skipVideo=${args.skipVideo}`)
-  console.log(`Batch: ${batch.map((b) => b.title).join('、')}`)
+  console.log(`Batch size: ${batch.length}`)
+  console.log(`OSS prefix: ${OSS_PREFIX}/ → ${assetsBaseUrl() || '(no assets base)'}/${OSS_PREFIX}/...`)
 
   const results = []
-  for (const item of batch) {
+  const startedAt = Date.now()
+  let reportPaths = null
+
+  for (let i = 0; i < batch.length; i++) {
+    const item = batch[i]
     const localPath = item.local_path
     const folder = item.folder || path.basename(localPath)
     const sourceId = String(item.id)
@@ -382,11 +521,16 @@ async function main() {
       sourceId,
       title: item.title,
       folder,
+      localPath,
+      category: CATEGORY,
       ok: false,
       skipped: false,
       projectId: null,
       imageUrl: null,
       videoUrl: null,
+      exploreUrl: null,
+      status: 'fail',
+      classification: null,
       error: null,
     }
 
@@ -397,17 +541,31 @@ async function main() {
       const metadata = JSON.parse(await readFile(metaPath, 'utf8'))
       const contentText = await readFile(contentPath, 'utf8')
       const parsed = parseContentTxt(contentText)
-      const title = `${TITLE_PREFIX}${(metadata.title || item.title || '').trim()}`
+      const rawTitle = (metadata.title || item.title || '').trim()
+      const title = `${TITLE_PREFIX}${rawTitle}`
       if (!title || title === TITLE_PREFIX) throw new Error('empty title')
+      entry.title = rawTitle
 
-      const existing = await findExisting(supabase, sourceId, metadata.title || item.title)
+      const existing = await findExisting(supabase, sourceId, rawTitle)
       if (existing && !args.force) {
         entry.ok = true
         entry.skipped = true
         entry.projectId = existing.id
-        entry.note = 'already imported'
+        entry.imageUrl = existing.image_url || null
+        entry.videoUrl = expectedVideoUrl(folder)
+        enrichEntry(entry, { appUrl, category: CATEGORY })
         results.push(entry)
-        console.log(`SKIP existing #${existing.id} ${existing.title}`)
+        console.log(`[${i + 1}/${batch.length}] SKIP existing #${existing.id} ${existing.title}`)
+        if ((i + 1) % PROGRESS_EVERY === 0 || i === batch.length - 1) {
+          reportPaths = await writeProgressPartial({
+            sourceRoot: args.source,
+            results,
+            appUrl,
+            args,
+            total: batch.length,
+          })
+          console.log(`  progress → ${reportPaths.progress}`)
+        }
         continue
       }
 
@@ -417,7 +575,7 @@ async function main() {
       if (args.dryRun) {
         imageUrl = `(dry-run) covers/${authorId}/qimeng-preview-${sourceId}.jpg`
         if (!args.skipVideo && (await exists(videoPath))) {
-          videoUrl = `${assetsBaseUrl() || 'https://assets.example'}/${OSS_PREFIX}/${folder}/video_1.mp4`
+          videoUrl = expectedVideoUrl(folder)
         }
       } else {
         if (await exists(coverPath)) {
@@ -487,7 +645,10 @@ async function main() {
         entry.materials = projectPayload.materials.length
         entry.steps = projectPayload.steps.length
         entry.descriptionLength = description.length
-        console.log(`DRY ${title} materials=${entry.materials} steps=${entry.steps} video=${Boolean(videoUrl)}`)
+        enrichEntry(entry, { appUrl, category: CATEGORY })
+        console.log(
+          `[${i + 1}/${batch.length}] DRY ${title} materials=${entry.materials} steps=${entry.steps} video=${Boolean(videoUrl)}`,
+        )
       } else {
         const row = await insertProject(supabase, projectPayload)
         const { data: revisionRow, error: revErr } = await supabase
@@ -515,49 +676,79 @@ async function main() {
         entry.projectId = row.id
         entry.imageUrl = imageUrl
         entry.videoUrl = videoUrl
-        console.log(`OK #${row.id} ${row.title} classification=${entry.classification}`)
+        enrichEntry(entry, { appUrl, category: CATEGORY })
+        console.log(
+          `[${i + 1}/${batch.length}] OK #${row.id} ${row.title} classification=${entry.classification}`,
+        )
       }
     } catch (err) {
       entry.error = err?.message || String(err)
-      console.error(`FAIL ${item.title}: ${entry.error}`)
+      enrichEntry(entry, { appUrl, category: CATEGORY })
+      console.error(`[${i + 1}/${batch.length}] FAIL ${item.title}: ${entry.error}`)
     }
 
     results.push(entry)
+
+    if ((i + 1) % PROGRESS_EVERY === 0 || i === batch.length - 1) {
+      const elapsedSec = ((Date.now() - startedAt) / 1000).toFixed(1)
+      reportPaths = await writeProgressPartial({
+        sourceRoot: args.source,
+        results,
+        appUrl,
+        args,
+        total: batch.length,
+      })
+      console.log(`  progress ${i + 1}/${batch.length} in ${elapsedSec}s → ${reportPaths.progress}`)
+    }
   }
 
   const imported = results.filter((r) => r.ok && !r.skipped && r.projectId)
   const skipped = results.filter((r) => r.skipped)
   const failed = results.filter((r) => !r.ok)
+  const stamp = Date.now()
 
   const report = {
     at: new Date().toISOString(),
+    partial: false,
     appUrl,
     dryRun: args.dryRun,
     limit: args.limit,
     source: args.source,
+    ossPrefix: `${OSS_PREFIX}/`,
+    assetsBase: assetsBaseUrl(),
+    elapsedMs: Date.now() - startedAt,
     counts: {
       attempted: results.length,
       imported: imported.length,
       skipped: skipped.length,
       failed: failed.length,
+      successOrSkipped: imported.length + skipped.length,
     },
-    projectIds: imported.map((r) => r.projectId),
+    projectIds: [...skipped, ...imported].map((r) => r.projectId).filter(Boolean),
     results,
     tips: {
       exploreSearch: `${appUrl}/explore?q=${encodeURIComponent('启蒙版')}`,
-      exploreTags: `${appUrl}/explore?tags=${encodeURIComponent(TAG_PREVIEW)}`,
-      projectLinks: imported.slice(0, 5).map((r) => `${appUrl}/project/${r.projectId}`),
+      exploreTags: `${appUrl}/explore?tags=${encodeURIComponent(TAG_SOURCE)}`,
+      explorePreviewTag: `${appUrl}/explore?tags=${encodeURIComponent(TAG_PREVIEW)}`,
+      projectLinks: [...skipped, ...imported].slice(0, 5).map((r) => `${appUrl}/project/${r.projectId}`),
     },
   }
 
-  const outDir = path.join(ROOT, 'scripts', '.import-reports')
-  await mkdir(outDir, { recursive: true })
-  const outPath = path.join(outDir, `qimeng-preview-${Date.now()}.json`)
-  await writeFile(outPath, JSON.stringify(report, null, 2))
+  reportPaths = await writeReports({
+    sourceRoot: args.source,
+    results,
+    reportMeta: report,
+    stamp,
+  })
+
   console.log('\n=== Summary ===')
   console.log(JSON.stringify(report.counts, null, 2))
-  console.log('Project IDs:', report.projectIds.join(', ') || '(none)')
-  console.log('Report:', outPath)
+  console.log('Project IDs count:', report.projectIds.length)
+  console.log('JSON report:', reportPaths.json)
+  console.log('CSV report:', reportPaths.csv)
+  console.log('Source JSON:', reportPaths.sourceJson)
+  console.log('Source CSV:', reportPaths.sourceCsv)
+  console.log('Explore:', report.tips.exploreSearch)
   if (failed.length) process.exitCode = 1
 }
 
