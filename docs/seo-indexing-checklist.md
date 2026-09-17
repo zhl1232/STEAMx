@@ -7,6 +7,8 @@
 | 资源 | URL |
 |------|-----|
 | Sitemap | https://steam.bj.cn/sitemap.xml |
+| 首页 canonical / og:url | 必须为 `https://steam.bj.cn/`（含尾斜杠）；部署后 `curl -sL https://steam.bj.cn/ | rg -o 'rel="canonical" href="[^"]+"|property="og:url" content="[^"]+"'` 核对 |
+
 | robots.txt | https://steam.bj.cn/robots.txt |
 | llms.txt | https://steam.bj.cn/llms.txt |
 

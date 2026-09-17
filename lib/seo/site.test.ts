@@ -27,6 +27,7 @@ describe("getSiteUrl", () => {
     expect(getSiteUrl()).toBe("https://steam.bj.cn");
     expect(getMetadataBase().toString()).toBe("https://steam.bj.cn/");
     expect(buildAbsoluteUrl("/nature/birds")).toBe("https://steam.bj.cn/nature/birds");
+    expect(buildAbsoluteUrl("/")).toBe("https://steam.bj.cn/");
   });
 
   it("normalizes official host variants outside production", () => {

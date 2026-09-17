@@ -81,4 +81,18 @@ describe("buildPageMetadata", () => {
       title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
     });
   });
+
+  it("can omit metadata canonical/og:url for handwritten homepage tags", () => {
+    const metadata = buildPageMetadata({
+      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      description: "desc",
+      path: "/",
+      absoluteTitle: true,
+      omitCanonical: true,
+    });
+
+    expect(metadata.alternates?.canonical).toBeUndefined();
+    expect(metadata.openGraph?.url).toBeUndefined();
+    expect(String(buildAbsoluteUrl("/")).endsWith("/")).toBe(true);
+  });
 });

@@ -44,6 +44,11 @@ interface PageMetadataOptions {
   noIndex?: boolean;
   /** Skip the root layout title template. Needed on the `/` segment, which does not inherit it. */
   absoluteTitle?: boolean;
+  /**
+   * Omit metadata-driven canonical / openGraph.url.
+   * Use on `/` with {@link HomepageCanonicalTags}: Next Metadata strips the trailing slash on `/`.
+   */
+  omitCanonical?: boolean;
 }
 
 export function buildPageMetadata({
@@ -55,21 +60,27 @@ export function buildPageMetadata({
   type = "website",
   noIndex = false,
   absoluteTitle = false,
+  omitCanonical = false,
 }: PageMetadataOptions): Metadata {
   const mergedKeywords = uniqueKeywords([...DEFAULT_SEO_KEYWORDS, ...keywords]);
   const socialImage = image || DEFAULT_SOCIAL_IMAGE;
+  const absoluteUrl = buildAbsoluteUrl(path);
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
     keywords: mergedKeywords,
-    alternates: {
-      canonical: buildAbsoluteUrl(path),
-    },
+    ...(omitCanonical
+      ? {}
+      : {
+          alternates: {
+            canonical: absoluteUrl,
+          },
+        }),
     openGraph: {
       title,
       description,
-      url: buildAbsoluteUrl(path),
+      ...(omitCanonical ? {} : { url: absoluteUrl }),
       siteName: SITE_NAME,
       locale: "zh_CN",
       type,
