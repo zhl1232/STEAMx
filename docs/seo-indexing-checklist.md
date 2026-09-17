@@ -39,7 +39,7 @@
 8. https://steam.bj.cn/nature/plants
 9. https://steam.bj.cn/playground
 
-其余课程/项目/物种/观察等由 sitemap 全量覆盖；发布后可用主动推送补刷。
+其余课程/项目/物种/观察等由 sitemap 全量覆盖（搜索引擎定期抓取）；Release 主动推送默认只刷上表高价值 URL，全量推送需显式 `BAIDU_PUSH_MODE=sitemap`。
 
 ## Google Search Console
 
@@ -55,10 +55,11 @@
    - **文件验证**：详见上方「站点验证文件清单」；若平台下发新文件名，替换/新增对应静态文件，勿手写假验证码。
    - **Meta 验证**：把验证码写入 `BAIDU_SITE_VERIFICATION`，根布局输出 `baidu-site-verification` meta。
 3. 提交 sitemap，并对上表高价值 URL 做「普通收录」或主动推送。
-4. 主动推送：
-   - GitHub Release secret：`BAIDU_PUSH_TOKEN`（可选）；workflow 固定 `BAIDU_PUSH_SITE=https://steam.bj.cn`。
-   - 本地：`BAIDU_PUSH_TOKEN=... pnpm seo:baidu-push`
-   - 未配置 token 时脚本安全跳过，不阻塞发布。
+4. 主动推送（**默认只推高价值 URL**，不扫全量 sitemap）：
+   - GitHub Release secret：`BAIDU_PUSH_TOKEN`（可选）；workflow 固定 `BAIDU_PUSH_SITE=https://steam.bj.cn`，`BAIDU_PUSH_CHUNK_SIZE=10`；默认 high-value 模式。
+   - 本地默认高价值：`BAIDU_PUSH_TOKEN=... pnpm seo:baidu-push`
+   - 本地全量 sitemap：`BAIDU_PUSH_TOKEN=... BAIDU_PUSH_MODE=sitemap pnpm seo:baidu-push`（或 `BAIDU_PUSH_ALL=1`）
+   - 未配置 token 时脚本安全跳过，不阻塞发布；接口 `remain=0` 时停止，下一批超过 remain 会截断。
 
 ## 相关环境变量
 
@@ -68,6 +69,8 @@
 | `BAIDU_SITE_VERIFICATION` | 百度站长 meta（可选；文件验证可替代） |
 | `BAIDU_PUSH_TOKEN` | 百度主动推送 token（勿提交仓库） |
 | `BAIDU_PUSH_SITE` | 必须为 `https://steam.bj.cn`（默认即此） |
+| `BAIDU_PUSH_MODE` / `BAIDU_PUSH_ALL` | 默认 high-value；`sitemap` / `1` 才推全量 sitemap |
+| `BAIDU_PUSH_CHUNK_SIZE` | 分批大小（默认 10） |
 | `NEXT_PUBLIC_APP_URL` | 生产建议 `https://steam.bj.cn`；SEO 生产环境强制归一到该主域 |
 
 神马 / 字节跳动验证码已写在根布局（不依赖上述 env）。轮换 Google/百度 meta 时只改 env，无需改代码。

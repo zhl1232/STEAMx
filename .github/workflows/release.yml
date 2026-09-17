@@ -224,4 +224,5 @@ jobs:
         env:
           BAIDU_PUSH_TOKEN: ${{ secrets.BAIDU_PUSH_TOKEN }}
           BAIDU_PUSH_SITE: https://steam.bj.cn
+          BAIDU_PUSH_CHUNK_SIZE: "10"
         run: node scripts/submit-baidu-urls.mjs
