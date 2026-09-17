@@ -28,6 +28,14 @@ describe('formatProjectDescriptionForDisplay', () => {
     expect(formatted).not.toContain('【启蒙版·预览】')
     expect(formatted).not.toContain('来源：')
   })
+
+  it('strips WeChat CTA from mashed digest copy', () => {
+    const mashed =
+      '点击上方蓝色字体关注我们实验材料橡皮筋、色素、自备（塑料瓶）实验步骤011、首先我们'
+    const formatted = formatProjectDescriptionForDisplay(mashed)
+    expect(formatted).not.toContain('点击上方蓝色字体关注我们')
+    expect(formatted).toContain('实验材料橡皮筋')
+  })
 })
 
 describe('shouldShowProjectReflection', () => {

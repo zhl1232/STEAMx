@@ -29,7 +29,11 @@ import { randomUUID } from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 import { createOssClient } from '../lib/utils/oss-client.mjs'
 import {
+  buildQimengDescription,
   isDuplicateQimengReflection,
+  parseQimengContentTxt,
+  qimengMaterialsOrFallback,
+  qimengStepsOrFallback,
   TAG_SOURCE,
   TITLE_PREFIX,
 } from './lib/qimeng-preview-copy.mjs'
@@ -162,74 +166,11 @@ async function exists(filePath) {
 }
 
 function parseContentTxt(text) {
-  const normalized = String(text || '').replace(/\r\n/g, '\n').trim()
-  let materialsLine = ''
-  let principle = ''
-  const steps = []
-
-  const materialsMatch = normalized.match(/实验材料[：:]\s*(.+?)(?:\n|$)/)
-  if (materialsMatch) materialsLine = materialsMatch[1].trim()
-
-  const principleMatch = normalized.match(/科学原理[：:]\s*([\s\S]+)$/)
-  if (principleMatch) principle = principleMatch[1].trim()
-
-  const stepsBlockMatch = normalized.match(/实验步骤[：:]\s*\n([\s\S]*?)(?=\n科学原理[：:]|$)/)
-  const stepsBlock = stepsBlockMatch ? stepsBlockMatch[1] : ''
-  const stepRegex = /^\s*(\d+)[、.．]\s*(.+)$/gm
-  let m
-  while ((m = stepRegex.exec(stepsBlock)) !== null) {
-    const body = m[2].trim()
-    if (body) {
-      steps.push({
-        title: `步骤 ${m[1]}`,
-        description: body.slice(0, 1000),
-        sort_order: Number(m[1]) - 1,
-      })
-    }
-  }
-
-  // Fallback: sometimes steps are inline after 实验步骤：
-  if (steps.length === 0) {
-    const inline = normalized.match(/实验步骤[：:]\s*(.+?)(?:科学原理[：:]|$)/s)
-    if (inline) {
-      const inlineRegex = /(\d+)[、.．]\s*([^0-9]+?)(?=\d+[、.．]|科学原理|$)/g
-      let im
-      while ((im = inlineRegex.exec(inline[1])) !== null) {
-        const body = im[2].trim()
-        if (body) {
-          steps.push({
-            title: `步骤 ${im[1]}`,
-            description: body.slice(0, 1000),
-            sort_order: Number(im[1]) - 1,
-          })
-        }
-      }
-    }
-  }
-
-  const materials = materialsLine
-    .split(/[、,，]/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .map((s) => s.slice(0, 200))
-    .slice(0, 50)
-
-  return { materials, steps, principle, materialsLine }
+  return parseQimengContentTxt(text)
 }
 
 function buildDescription({ principle, digest }) {
-  const science = (principle || '').trim()
-  const summary = (digest || '').trim()
-  let text
-  if (science) {
-    text = science.startsWith('科学原理') ? science : `科学原理：${science}`
-  } else if (summary) {
-    text = summary
-  } else {
-    text = '材料与步骤见正文。'
-  }
-  if (text.length > 2000) text = `${text.slice(0, 1997)}...`
-  return text
+  return buildQimengDescription({ principle, digest })
 }
 
 async function loadIndex(sourceRoot) {
@@ -618,10 +559,8 @@ async function main() {
         steam_weights: { S: 40, T: 5, E: 10, A: 10, M: 5 },
         // Age/support/difficulty reviewed via review_content_classification RPC
         // (direct classification_* writes are blocked by CLASSIFICATION_WRITE_FORBIDDEN).
-        materials: parsed.materials.length ? parsed.materials : ['（见实验说明）'],
-        steps: parsed.steps.length
-          ? parsed.steps
-          : [{ title: '步骤 1', description: '请按材料准备后动手尝试。', sort_order: 0 }],
+        materials: qimengMaterialsOrFallback(parsed.materials),
+        steps: qimengStepsOrFallback(parsed.steps),
       }
 
       if (args.dryRun) {

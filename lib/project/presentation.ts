@@ -13,6 +13,7 @@ const VIDEO_INLINE_PREFIX_RE = /^【演示视频】\s*https:\/\/\S+\.mp4\s*/u
 const DESC_BANNER_RE = /^【启蒙版[·・]?预览】\s*$/u
 const SOURCE_LINE_RE = /^来源：伙伴启蒙版实验.*/u
 const PREVIEW_ENTRY_RE = /启蒙版合作实验预览条目/
+const WECHAT_CTA_RE = /请?点击上方?蓝(?:色字体|字)关注我们[！!。．…]*|点击蓝色字体关注我们[！!。．…]*/g
 
 function normalizeNewlines(text: string): string {
   return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
@@ -32,7 +33,7 @@ export function formatProjectDescriptionForDisplay(
   description: string | null | undefined,
   options: { hasVideoPlayer?: boolean } = {},
 ): string {
-  const raw = normalizeNewlines(description ?? '').trim()
+  const raw = normalizeNewlines(description ?? '').replace(WECHAT_CTA_RE, '').trim()
   if (!raw) return ''
 
   const lines = raw.split('\n')
