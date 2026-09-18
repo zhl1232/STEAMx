@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { GET, HEAD } from "./route";
 
 const originalAssetsBaseUrl = process.env.ASSETS_BASE_URL;
+const originalPublicAssetsBaseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL;
 const originalProxyReferer = process.env.ASSETS_PROXY_REFERER;
 
 function restoreEnv(key: string, value: string | undefined) {
@@ -17,6 +18,7 @@ function restoreEnv(key: string, value: string | undefined) {
 afterEach(() => {
     vi.unstubAllGlobals();
     restoreEnv("ASSETS_BASE_URL", originalAssetsBaseUrl);
+    restoreEnv("NEXT_PUBLIC_ASSETS_BASE_URL", originalPublicAssetsBaseUrl);
     restoreEnv("ASSETS_PROXY_REFERER", originalProxyReferer);
 });
 
@@ -151,6 +153,7 @@ describe("asset proxy", () => {
 
     it("rejects non-whitelist paths when ASSETS_BASE_URL is not configured", async () => {
         delete process.env.ASSETS_BASE_URL;
+        delete process.env.NEXT_PUBLIC_ASSETS_BASE_URL;
         const response = await GET(
             new NextRequest("http://localhost/api/assets/kejiao16a/demo/video_1.mp4"),
             { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
