@@ -66,4 +66,12 @@ describe('resolveProjectVideoPlaybackSrc', () => {
       }),
     ).toBe('/api/assets/qimeng-preview/001_%E5%A5%87%E5%A6%99%E6%BD%9C%E6%B0%B4%E8%89%87/video_1.mp4')
   })
+
+  it('rewrites kejiao16a CDN mp4 through /api/assets (outside rewrite whitelist)', () => {
+    expect(
+      resolveProjectVideoPlaybackSrc({
+        videoUrl: 'https://assets.steamx.cc/kejiao16a/some_project/video_1.mp4',
+      }),
+    ).toBe('/api/assets/kejiao16a/some_project/video_1.mp4')
+  })
 })

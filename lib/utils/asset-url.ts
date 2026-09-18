@@ -2,9 +2,10 @@
  * 统一把仓库历史保留的本地资源路径（如 /birds/images/xxx.jpg、/birds/audio/xxx.ogg）重写为对象存储 URL。
  *
  * 设计原则：
- * - 只重写白名单前缀，避免误伤 /assets、/scratch、用户上传等路径
- * - 已是 http(s) 完整 URL 的直接放行
- * - 配置 base URL 后各环境先统一解析为同一资源域名
+ * - REMOTE_ASSET_PREFIXES 白名单只用于「本地相对路径 → CDN」重写，避免误伤 /assets、/scratch 等
+ * - 已配置 ASSETS_BASE_URL / NEXT_PUBLIC_ASSETS_BASE_URL 的同源绝对 URL（任意路径，含 /kejiao16a/、/jichu-haohua/）
+ *   一律可经 /api/assets 代理；不依赖白名单
+ * - 未配置 base 时，仍可按白名单前缀把绝对 CDN URL 代理到 /api/assets
  * - 配置 CDN 防盗链时，各环境默认经 /api/assets 代理并附带 Referer；直连 CDN 会 403
  * - LDraw（.mpd/.ldr）始终走 /api/assets（FileLoader 不带 Referer）
  * - 排查 CDN 原文件时可显式设置 NEXT_PUBLIC_ASSETS_DISPLAY_MODE=direct
@@ -39,8 +40,10 @@ function splitPathAndQuery(input: string): { pathname: string; search: string } 
 }
 
 /**
- * 从相对路径或绝对 URL 提取 OSS 对象路径（如 `/courses/foo.png`）。
- * 不依赖 build 时是否注入 NEXT_PUBLIC_ASSETS_BASE_URL，避免生产客户端漏配 env 时无法代理。
+ * 从相对路径或绝对 URL 提取可代理的 OSS 对象路径（如 `/courses/foo.png`、`/kejiao16a/...`）。
+ * - 本地相对路径：仍需白名单前缀
+ * - 已配置 base 的同源绝对 URL：任意对象路径均可代理（不依赖白名单）
+ * - 其它绝对 URL：仅白名单前缀（兼容客户端漏配 NEXT_PUBLIC_ASSETS_BASE_URL）
  */
 function parseWhitelistedAssetPath(input: string): { pathname: string; search: string } | null {
   const trimmed = input.trim()
@@ -92,7 +95,9 @@ function getConfiguredAssetPath(input: string): string | null {
         : null
       : sourceUrl.pathname
 
-    if (!assetPath || !shouldRewrite(assetPath)) return null
+    // Same-origin under the configured CDN base: any object key is proxyable.
+    // Do not gate on REMOTE_ASSET_PREFIXES (that whitelist is only for local→CDN rewrite).
+    if (!assetPath || assetPath === '/') return null
 
     return assetPath
   } catch {

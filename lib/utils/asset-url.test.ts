@@ -81,12 +81,16 @@ describe('rewriteAssetUrl', () => {
     expect(rewriteAssetUrl('   ')).toBe('   ')
   })
 
-  it('recognizes configured static asset URLs only for whitelisted paths', () => {
+  it('recognizes any same-origin configured CDN URL; other origins need whitelist prefixes', () => {
     expect(isConfiguredAssetUrl('https://assets.example.com/birds/images/x.jpg')).toBe(true)
     expect(shouldBypassAssetImageOptimization('https://assets.example.com/birds/images/x.jpg')).toBe(true)
     expect(isConfiguredAssetUrl('https://assets.example.com/fruits/images/x.jpg')).toBe(true)
-    expect(isConfiguredAssetUrl('https://assets.example.com/assets/hero.png')).toBe(false)
+    // Same-origin under ASSETS_BASE_URL: proxyable even outside rewrite whitelist
+    expect(isConfiguredAssetUrl('https://assets.example.com/assets/hero.png')).toBe(true)
+    expect(isConfiguredAssetUrl('https://assets.example.com/kejiao16a/demo/video_1.mp4')).toBe(true)
+    // Different origin: only whitelist prefixes
     expect(isConfiguredAssetUrl('https://cdn.example.com/birds/images/x.jpg')).toBe(true)
+    expect(isConfiguredAssetUrl('https://cdn.example.com/kejiao16a/demo/video_1.mp4')).toBe(false)
   })
 
   it('uses the local asset proxy for configured assets by default', () => {
@@ -109,6 +113,17 @@ describe('rewriteAssetUrl', () => {
     expect(getAssetDisplayUrl('https://assets.example.com/courses/3-bao-jian/finished.png')).toBe(
       '/api/assets/courses/3-bao-jian/finished.png',
     )
+  })
+
+  it('proxies same-origin non-whitelist CDN paths through /api/assets', () => {
+    expect(getAssetDisplayUrl('https://assets.example.com/kejiao16a/demo/video_1.mp4')).toBe(
+      '/api/assets/kejiao16a/demo/video_1.mp4',
+    )
+    expect(getAssetDisplayUrl('https://assets.example.com/jichu-haohua/demo/video_1.mp4')).toBe(
+      '/api/assets/jichu-haohua/demo/video_1.mp4',
+    )
+    // Relative non-whitelist paths are NOT rewritten/proxied (whitelist is local→CDN only)
+    expect(getAssetDisplayUrl('/kejiao16a/demo/video_1.mp4')).toBe('/kejiao16a/demo/video_1.mp4')
   })
 
   it('recognizes whitelisted CDN URLs even without NEXT_PUBLIC_ASSETS_BASE_URL', () => {

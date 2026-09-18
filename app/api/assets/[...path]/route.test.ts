@@ -127,6 +127,37 @@ describe("asset proxy", () => {
         expect(response.body).toBeNull();
     });
 
+    it("proxies non-whitelist CDN paths when ASSETS_BASE_URL is configured", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+            new Response(new Uint8Array([0, 0, 0, 0]), {
+                status: 200,
+                headers: { "Content-Type": "video/mp4" },
+            }),
+        );
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/kejiao16a/demo/video_1.mp4"),
+            { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
+        );
+
+        expect(response.status).toBe(200);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock.mock.calls[0]?.[0]).toBe(
+            "https://assets.example.com/kejiao16a/demo/video_1.mp4",
+        );
+    });
+
+    it("rejects non-whitelist paths when ASSETS_BASE_URL is not configured", async () => {
+        delete process.env.ASSETS_BASE_URL;
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/kejiao16a/demo/video_1.mp4"),
+            { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
+        );
+        expect(response.status).toBe(404);
+    });
+
     it("returns 504 instead of throwing when the upstream connect times out", async () => {
         process.env.ASSETS_BASE_URL = "https://assets.example.com";
         const abortError = new Error("The operation was aborted");

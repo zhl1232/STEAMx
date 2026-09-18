@@ -86,11 +86,24 @@ function isUpstreamTimeoutError(error: unknown): boolean {
   )
 }
 
-function isAllowedAssetPath(pathname: string) {
-  return (
+function isSafeAssetPathname(pathname: string) {
+  return pathname.startsWith('/') && !pathname.includes('..') && pathname.length > 1
+}
+
+/**
+ * Allow scratch + rewrite-whitelist always (local public/ fallback).
+ * When ASSETS_BASE_URL is configured, also allow any same-origin CDN object path
+ * (e.g. /kejiao16a/, /jichu-haohua/) — proxy only ever hits the configured base.
+ */
+function isAllowedAssetPath(pathname: string, allowConfiguredCdnPath = false) {
+  if (!isSafeAssetPathname(pathname)) return false
+  if (
     pathname.startsWith(SCRATCH_ASSET_PREFIX) ||
     REWRITTEN_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix))
-  )
+  ) {
+    return true
+  }
+  return allowConfiguredCdnPath
 }
 
 function getAssetReferer() {
@@ -267,11 +280,11 @@ async function proxyAsset(
 ) {
   const { path } = await params
   const pathname = `/${path.map((part) => encodeURIComponent(part)).join('/')}`
-  if (!isAllowedAssetPath(pathname)) {
+  const baseUrl = getAssetsBaseUrl()
+  if (!isAllowedAssetPath(pathname, Boolean(baseUrl))) {
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
   }
 
-  const baseUrl = getAssetsBaseUrl()
   if (!baseUrl) {
     // 开发环境未配置 ASSETS_BASE_URL 时，回退到 public/ 本地文件
     const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
