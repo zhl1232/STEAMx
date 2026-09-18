@@ -5,6 +5,11 @@ import { Readable } from 'node:stream'
 
 import { NextRequest, NextResponse } from 'next/server'
 
+import {
+  isSignatureRequiredAssetPath,
+  stripAssetSignatureSearch,
+  verifyAssetSignature,
+} from '@/lib/assets/signed-asset-url'
 import { getAssetsBaseUrl, REWRITTEN_ASSET_PREFIXES } from '@/lib/utils/asset-url'
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public')
@@ -17,6 +22,7 @@ const CONTENT_TYPE_BY_EXT: Record<string, string> = {
   '.gif': 'image/gif',
   '.pdf': 'application/pdf',
   '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.mpd': 'model/mpd',
   '.ldr': 'model/ldr',
 }
@@ -285,6 +291,18 @@ async function proxyAsset(
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
   }
 
+  // Videos require a short-lived HMAC when ASSETS_URL_SIGNING_SECRET is set.
+  if (isSignatureRequiredAssetPath(pathname)) {
+    const exp = request.nextUrl.searchParams.get('exp')
+    const sig = request.nextUrl.searchParams.get('sig')
+    const check = verifyAssetSignature(pathname, exp, sig)
+    if (!check.ok) {
+      return NextResponse.json({ error: 'Invalid or expired asset signature' }, { status: 403 })
+    }
+  }
+
+  const upstreamSearch = stripAssetSignatureSearch(request.nextUrl.search)
+
   if (!baseUrl) {
     // 开发环境未配置 ASSETS_BASE_URL 时，回退到 public/ 本地文件
     const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
@@ -298,7 +316,7 @@ async function proxyAsset(
     if (localResponse) return localResponse
   }
 
-  const upstreamUrl = `${baseUrl}${pathname}${request.nextUrl.search}`
+  const upstreamUrl = `${baseUrl}${pathname}${upstreamSearch}`
   const isScratchAsset = pathname.startsWith(SCRATCH_ASSET_PREFIX)
   let upstream: Response
   try {

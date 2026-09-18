@@ -1,9 +1,11 @@
 /**
  * Project demo video helpers: extract CDN mp4 URLs and resolve a same-origin
- * playable src (via /api/assets) so Referer-protected OSS/CDN videos can play.
+ * playable src (via signed /api/assets) so Referer-protected OSS/CDN videos can
+ * play without embedding permanent CDN URLs in <video src>.
  */
 
-import { resolveAssetDisplayUrl } from '@/lib/utils/asset-url'
+import { signAssetProxyUrl } from '@/lib/assets/signed-asset-url'
+import { toForcedAssetProxyUrl } from '@/lib/utils/asset-url'
 
 const HTTPS_MP4_RE = /https:\/\/[^\s<>"')\]]+?\.mp4/gi
 
@@ -51,14 +53,16 @@ export function resolveProjectVideoUrl(source: ProjectVideoSource): string | nul
 }
 
 /**
- * URL suitable for <video src>. Prefer /api/assets proxy for configured CDN
- * paths (Referer hotlink protection); otherwise return the absolute HTTPS URL.
+ * URL suitable for <video src>. Always prefer signed same-origin /api/assets
+ * (never permanent CDN URLs). Falls back to absolute HTTPS only when the asset
+ * cannot be proxied.
  */
 export function resolveProjectVideoPlaybackSrc(source: ProjectVideoSource): string | null {
   const absolute = resolveProjectVideoUrl(source)
   if (!absolute) return null
 
-  const display = resolveAssetDisplayUrl(absolute)
-  if (typeof display === 'string' && display.length > 0) return display
+  const proxied = toForcedAssetProxyUrl(absolute)
+  if (proxied) return signAssetProxyUrl(proxied)
+
   return absolute
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 
 type ProjectDemoVideoProps = {
@@ -10,8 +12,9 @@ type ProjectDemoVideoProps = {
 }
 
 /**
- * Inline HTML5 demo player for project detail. Prefer same-origin /api/assets
- * src so CDN Referer protection does not block playback.
+ * Inline HTML5 demo player for project detail. Prefer same-origin signed
+ * /api/assets src so CDN Referer protection does not block playback.
+ * Soft UI guards (not DRM): hide download control, block context menu / long-press.
  */
 export function ProjectDemoVideo({ src, title, poster, className, fill = false }: ProjectDemoVideoProps) {
   return (
@@ -24,12 +27,22 @@ export function ProjectDemoVideo({ src, title, poster, className, fill = false }
         }
       >
         <video
-          className={fill ? "h-full w-full bg-black object-contain" : "aspect-video w-full bg-black"}
+          className={
+            fill
+              ? "h-full w-full bg-black object-contain select-none"
+              : "aspect-video w-full bg-black select-none"
+          }
           controls
+          controlsList="nodownload noremoteplayback"
+          disablePictureInPicture
+          disableRemotePlayback
           playsInline
           preload="metadata"
           poster={poster || undefined}
           aria-label={`${title} 演示视频`}
+          onContextMenu={(event) => event.preventDefault()}
+          onDragStart={(event) => event.preventDefault()}
+          style={{ WebkitTouchCallout: "none" }}
         >
           <source src={src} type="video/mp4" />
           当前浏览器不支持内嵌视频播放。

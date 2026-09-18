@@ -135,6 +135,30 @@ function shouldProxyAssetPath(pathname: string): boolean {
   return shouldProxyConfiguredAssets()
 }
 
+
+/**
+ * Always map an eligible CDN/local asset URL to `/api/assets/...` (ignores
+ * NEXT_PUBLIC_ASSETS_DISPLAY_MODE). Used for video playback so permanent CDN
+ * URLs are never embedded in <video src>.
+ */
+export function toForcedAssetProxyUrl(input: string | null | undefined): string | null {
+  if (input == null || typeof input !== 'string') return null
+  const trimmed = input.trim()
+  if (!trimmed) return null
+
+  if (trimmed.startsWith('/api/assets/')) {
+    return trimmed
+  }
+
+  const tryOne = (value: string): string | null => {
+    const parsed = parseWhitelistedAssetPath(value)
+    if (!parsed) return null
+    return `/api/assets${parsed.pathname}${parsed.search}`
+  }
+
+  return tryOne(trimmed) ?? tryOne(String(rewriteAssetUrl(trimmed) ?? ''))
+}
+
 export function getAssetDisplayUrl(input: string | null | undefined): string | null | undefined {
   if (input == null) return input
   if (typeof input !== 'string') return input

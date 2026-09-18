@@ -1,11 +1,14 @@
 import { NextRequest } from "next/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { signAssetProxyUrl } from "@/lib/assets/signed-asset-url";
+
 import { GET, HEAD } from "./route";
 
 const originalAssetsBaseUrl = process.env.ASSETS_BASE_URL;
 const originalPublicAssetsBaseUrl = process.env.NEXT_PUBLIC_ASSETS_BASE_URL;
 const originalProxyReferer = process.env.ASSETS_PROXY_REFERER;
+const originalSigningSecret = process.env.ASSETS_URL_SIGNING_SECRET;
 
 function restoreEnv(key: string, value: string | undefined) {
     if (value === undefined) {
@@ -20,6 +23,7 @@ afterEach(() => {
     restoreEnv("ASSETS_BASE_URL", originalAssetsBaseUrl);
     restoreEnv("NEXT_PUBLIC_ASSETS_BASE_URL", originalPublicAssetsBaseUrl);
     restoreEnv("ASSETS_PROXY_REFERER", originalProxyReferer);
+    restoreEnv("ASSETS_URL_SIGNING_SECRET", originalSigningSecret);
 });
 
 describe("asset proxy", () => {
@@ -177,4 +181,93 @@ describe("asset proxy", () => {
         await expect(response.json()).resolves.toEqual({ error: "Asset upstream timeout" });
         expect(fetchMock).toHaveBeenCalledTimes(1);
     });
+
+    it("allows unsigned images when signing secret is configured", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        process.env.ASSETS_URL_SIGNING_SECRET = "test-assets-signing-secret";
+        const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+            new Response(new Uint8Array([1, 2, 3]), {
+                status: 200,
+                headers: { "Content-Type": "image/webp" },
+            }),
+        );
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/projects/example.webp"),
+            { params: Promise.resolve({ path: ["projects", "example.webp"] }) },
+        );
+
+        expect(response.status).toBe(200);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("rejects unsigned mp4 with 403 when signing secret is configured", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        process.env.ASSETS_URL_SIGNING_SECRET = "test-assets-signing-secret";
+        const fetchMock = vi.fn<typeof fetch>();
+        vi.stubGlobal("fetch", fetchMock);
+
+        const response = await GET(
+            new NextRequest("http://localhost/api/assets/kejiao16a/demo/video_1.mp4"),
+            { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
+        );
+
+        expect(response.status).toBe(403);
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("rejects expired mp4 signatures with 403", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        process.env.ASSETS_URL_SIGNING_SECRET = "test-assets-signing-secret";
+        const fetchMock = vi.fn<typeof fetch>();
+        vi.stubGlobal("fetch", fetchMock);
+
+        const signed = signAssetProxyUrl("/api/assets/kejiao16a/demo/video_1.mp4", {
+            nowMs: Date.now(),
+            exp: Math.floor(Date.now() / 1000) - 30,
+        });
+        const response = await GET(
+            new NextRequest(`http://localhost${signed}`),
+            { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
+        );
+
+        expect(response.status).toBe(403);
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("proxies signed mp4 with Range as 206 and strips sig from upstream URL", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        process.env.ASSETS_URL_SIGNING_SECRET = "test-assets-signing-secret";
+        const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+            new Response(new Uint8Array([0, 1, 2, 3]), {
+                status: 206,
+                headers: {
+                    "Content-Type": "video/mp4",
+                    "Content-Range": "bytes 0-3/100",
+                    "Accept-Ranges": "bytes",
+                    "Content-Length": "4",
+                },
+            }),
+        );
+        vi.stubGlobal("fetch", fetchMock);
+
+        const signed = signAssetProxyUrl("/api/assets/kejiao16a/demo/video_1.mp4");
+        const response = await GET(
+            new NextRequest(`http://localhost${signed}`, {
+                headers: { Range: "bytes=0-3" },
+            }),
+            { params: Promise.resolve({ path: ["kejiao16a", "demo", "video_1.mp4"] }) },
+        );
+
+        expect(response.status).toBe(206);
+        expect(response.headers.get("content-range")).toBe("bytes 0-3/100");
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock.mock.calls[0]?.[0]).toBe(
+            "https://assets.example.com/kejiao16a/demo/video_1.mp4",
+        );
+        const upstreamHeaders = fetchMock.mock.calls[0]?.[1]?.headers as Headers;
+        expect(upstreamHeaders.get("Range")).toBe("bytes=0-3");
+    });
+
 });
