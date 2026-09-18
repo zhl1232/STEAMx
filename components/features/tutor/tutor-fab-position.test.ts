@@ -6,6 +6,7 @@ import {
   getDefaultTutorFabPosition,
   getTutorFabBubbleOffset,
   getTutorFabDockTransform,
+  getTutorFabDockTransformOrigin,
   resolveTutorFabDockEdge,
   TUTOR_FAB_DOCK_TRANSLATE_RATIO,
 } from '@/components/features/tutor/tutor-fab-position'
@@ -64,9 +65,13 @@ describe('tutor fab position', () => {
     expect(leakedLeft.bottom).toBe(136)
   })
 
-  it('leans the mascot half-off the nearer edge', () => {
-    expect(getTutorFabDockTransform('right')).toBe('translateX(48%) rotate(15deg) scale(0.92)')
-    expect(getTutorFabDockTransform('left')).toBe('translateX(-48%) rotate(-15deg) scale(0.92)')
+  it('perches the mascot head-in on the nearer edge', () => {
+    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeGreaterThanOrEqual(0.62)
+    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeLessThanOrEqual(0.72)
+    expect(getTutorFabDockTransform('right')).toBe('translateX(70%) rotate(15deg) scale(0.92)')
+    expect(getTutorFabDockTransform('left')).toBe('translateX(-70%) rotate(-15deg) scale(0.92)')
+    expect(getTutorFabDockTransformOrigin('right')).toBe('72% 18%')
+    expect(getTutorFabDockTransformOrigin('left')).toBe('28% 18%')
   })
 
   it('keeps a left-docked voice bubble on-screen over the visible stub', () => {
@@ -76,6 +81,26 @@ describe('tutor fab position', () => {
         edge: 'left',
         viewportWidth: 390,
       }),
-    ).toEqual({ left: 12, right: 'auto' })
+    ).toEqual({ left: 8, right: 'auto' })
+  })
+
+  it('keeps a right-docked voice bubble aligned with the visible stub', () => {
+    expect(
+      getTutorFabBubbleOffset({ right: 16, bottom: 136 }, 80, {
+        docked: true,
+        edge: 'right',
+        viewportWidth: 390,
+      }),
+    ).toEqual({ right: 22 })
+  })
+
+  it('does not shift the bubble when the fab is not docked', () => {
+    expect(
+      getTutorFabBubbleOffset({ right: 16, bottom: 136 }, 80, {
+        docked: false,
+        edge: 'right',
+        viewportWidth: 390,
+      }),
+    ).toEqual({ right: 12 })
   })
 })

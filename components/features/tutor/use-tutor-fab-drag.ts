@@ -8,6 +8,7 @@ import {
   getDefaultTutorFabPosition,
   getTutorFabBubbleOffset,
   getTutorFabDockTransform,
+  getTutorFabDockTransformOrigin,
   readTutorFabPosition,
   resolveTutorFabDockEdge,
   TUTOR_FAB_CLOSED_SIZE_PX,
@@ -254,7 +255,11 @@ export function useTutorFabDrag({
       }
     : undefined
   const fabStyle: CSSProperties | undefined = dockedVisual
-    ? { ...positionStyle, transform: getTutorFabDockTransform(fabDockEdge) }
+    ? {
+        ...positionStyle,
+        transform: getTutorFabDockTransform(fabDockEdge),
+        transformOrigin: getTutorFabDockTransformOrigin(fabDockEdge),
+      }
     : positionStyle
   const bubbleOffset = getTutorFabBubbleOffset(resolvedFabPosition, fabSizePx, {
     docked: dockedVisual,

@@ -3,11 +3,14 @@ export const TUTOR_FAB_DRAG_THRESHOLD_PX = 10
 export const TUTOR_FAB_MOBILE_BREAKPOINT_PX = 768
 export const TUTOR_FAB_CLOSED_SIZE_PX = 80
 export const TUTOR_FAB_DOCK_IDLE_MS = 3000
-/** Half-body peek, within 42–55% of the closed FAB size. */
-export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.48
+/** Head-in perch: ~30% of the closed FAB stays in view; body sits mostly off-screen. */
+export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.7
 /** Clockwise on the right edge, counterclockwise on the left; within 12–18deg. */
 export const TUTOR_FAB_DOCK_ROTATE_DEG = 15
 export const TUTOR_FAB_DOCK_SCALE = 0.92
+/** Pivot on the edge-adjacent head / upper body so rotation peeks the head in. */
+export const TUTOR_FAB_DOCK_ORIGIN_RIGHT = '72% 18%'
+export const TUTOR_FAB_DOCK_ORIGIN_LEFT = '28% 18%'
 
 export type TutorFabPlacement = 'default' | 'compact'
 export type TutorFabDockEdge = 'left' | 'right'
@@ -94,6 +97,15 @@ export function getTutorFabDockTransform(edge: TutorFabDockEdge): string {
   return `translateX(${dir * translatePercent}%) rotate(${dir * TUTOR_FAB_DOCK_ROTATE_DEG}deg) scale(${TUTOR_FAB_DOCK_SCALE})`
 }
 
+export function getTutorFabDockTransformOrigin(edge: TutorFabDockEdge): string {
+  return edge === 'right' ? TUTOR_FAB_DOCK_ORIGIN_RIGHT : TUTOR_FAB_DOCK_ORIGIN_LEFT
+}
+
+function dockVisibleStubPx(fabSizePx: number) {
+  const peekPx = Math.round(fabSizePx * TUTOR_FAB_DOCK_TRANSLATE_RATIO)
+  return Math.max(0, fabSizePx - peekPx)
+}
+
 /**
  * Voice-hint / feedback bubble stays aligned with the visible stub.
  * Dock translate is visual-only and must not be written to storage.
@@ -110,14 +122,13 @@ export function getTutorFabBubbleOffset(
   const baseRight = Math.max(BUBBLE_MIN_INSET_PX, position.right - 4)
 
   if (options.docked && options.edge === 'left') {
-    const peekPx = Math.round(fabSizePx * TUTOR_FAB_DOCK_TRANSLATE_RATIO)
-    const visiblePx = Math.max(0, fabSizePx - peekPx)
+    const visiblePx = dockVisibleStubPx(fabSizePx)
     return {
       left: Math.max(EDGE_PADDING_PX, Math.round(visiblePx * 0.28)),
       right: 'auto',
     }
   }
 
-  const extra = options.docked && options.edge === 'right' ? Math.round(fabSizePx * 0.2) : 0
+  const extra = options.docked && options.edge === 'right' ? Math.round(dockVisibleStubPx(fabSizePx) * 0.4) : 0
   return { right: baseRight + extra }
 }

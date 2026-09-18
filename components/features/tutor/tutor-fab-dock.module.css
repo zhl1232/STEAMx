@@ -1,4 +1,5 @@
-/* Mobile idle edge-perch: transform/opacity only so the hit target moves with the mascot. */
+/* Mobile idle edge-perch: transform/opacity only so the hit target moves with the mascot.
+   Docked origin is set inline to the edge-adjacent head so rotation peeks the head in. */
 
 .host {
   transform-origin: 50% 82%;
