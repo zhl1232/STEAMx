@@ -492,12 +492,14 @@ describe('ExploreClient', () => {
 
         expect(screen.getByRole('button', { name: '热门推荐' })).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '趣味实验' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '科教版' })).toBeInTheDocument()
 
         await user.click(screen.getByRole('button', { name: '科学' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '趣味实验' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '科教版' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
         expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '推荐' })).toBeInTheDocument()
@@ -519,6 +521,7 @@ describe('ExploreClient', () => {
         expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
     })
 
     it('activates fun-science preset via tags=趣味实验 and stays in explore mode', async () => {
@@ -545,12 +548,77 @@ describe('ExploreClient', () => {
 
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'true')
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
 
         await user.click(screen.getByRole('button', { name: '热门推荐' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
         expect(requestUrl).not.toContain('tags=')
+    })
+
+    it('activates science-edu preset via tags=科教版 and stays in explore mode', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '科教版' })
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                projects: [makeProject(4, '科教项目')],
+                hasMore: false,
+                total: 4,
+            }),
+        } as Response)
+
+        const user = userEvent.setup()
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
+
+        await user.click(screen.getByRole('button', { name: '热门推荐' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+        const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
+        expect(requestUrl).not.toContain('tags=')
+    })
+
+    it('filters explore list by 科教版 when the science-edu pill is clicked', async () => {
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                projects: [makeProject(4, '科教项目')],
+                hasMore: false,
+                total: 4,
+            }),
+        } as Response)
+
+        const user = userEvent.setup()
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '初始项目')]}
+                initialHasMore={false}
+                categories={['全部', '科学']}
+            />,
+        )
+
+        await user.click(screen.getByRole('button', { name: '科教版' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+        const requestUrl = decodeURIComponent(String(fetchMock.mock.calls[0]?.[0] ?? ''))
+        expect(requestUrl).toContain('tags=科教版')
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
     })
 
     it('degrades legacy beginner URL into results mode without removed pills', async () => {
@@ -585,5 +653,6 @@ describe('ExploreClient', () => {
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
     })
 })

@@ -4,7 +4,7 @@ export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
 /** beginner-friendly / latest 保留为遗留 id，旧 URL 可解析但不在 UI pills 中展示 */
-export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'fun-science'
+export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'fun-science' | 'science-edu'
 
 export type ExplorePreset = {
     id: ExplorePresetId
@@ -15,10 +15,11 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 项目内容列表 pills：仅保留热门推荐与趣味实验。 */
+/** 项目内容列表 pills：热门推荐、趣味实验、科教版。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'fun-science', label: '趣味实验', sortBy: 'popular', difficulty: 'all', tags: ['趣味实验'] },
+    { id: 'science-edu', label: '科教版', sortBy: 'popular', difficulty: 'all', tags: ['科教版'] },
 ]
 
 export type ExploreFilterState = {
@@ -53,7 +54,7 @@ function presetTags(preset: ExplorePreset): string[] {
 
 /** List-tab presets shown in explore mode (not results mode). */
 export function isExploreListTabPreset(id: ExplorePresetId | null): id is ExplorePresetId {
-    return id === 'browse' || id === 'fun-science'
+    return id === 'browse' || id === 'fun-science' || id === 'science-edu'
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
@@ -84,14 +85,15 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
         tags,
     } = state
 
-    const funScience = EXPLORE_PRESETS.find((item) => item.id === 'fun-science')
-    if (
-        funScience
-        && sameTagSet(tags, presetTags(funScience))
-        && difficulty === 'all'
-        && sortBy === 'popular'
-    ) {
-        return 'fun-science'
+    const taggedListTabs = EXPLORE_PRESETS.filter((item) => presetTags(item).length > 0)
+    for (const preset of taggedListTabs) {
+        if (
+            sameTagSet(tags, presetTags(preset))
+            && difficulty === preset.difficulty
+            && sortBy === preset.sortBy
+        ) {
+            return preset.id
+        }
     }
 
     if (tags.length > 0) {
@@ -139,6 +141,7 @@ export function getPresetHintLabel(presetId: ExplorePresetId): string {
     if (preset) return preset.label
     if (presetId === 'browse') return '热门推荐'
     if (presetId === 'fun-science') return '趣味实验'
+    if (presetId === 'science-edu') return '科教版'
     return '趣味实验'
 }
 
