@@ -66,12 +66,12 @@ describe('tutor fab position', () => {
   })
 
   it('perches the mascot head-in on the nearer edge', () => {
-    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeGreaterThanOrEqual(0.62)
-    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeLessThanOrEqual(0.72)
-    expect(getTutorFabDockTransform('right')).toBe('translateX(70%) rotate(15deg) scale(0.92)')
-    expect(getTutorFabDockTransform('left')).toBe('translateX(-70%) rotate(-15deg) scale(0.92)')
-    expect(getTutorFabDockTransformOrigin('right')).toBe('72% 18%')
-    expect(getTutorFabDockTransformOrigin('left')).toBe('28% 18%')
+    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeGreaterThanOrEqual(0.42)
+    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeLessThanOrEqual(0.52)
+    expect(getTutorFabDockTransform('right')).toBe('translateX(48%) rotate(-15deg) scale(0.92)')
+    expect(getTutorFabDockTransform('left')).toBe('translateX(-48%) rotate(15deg) scale(0.92)')
+    expect(getTutorFabDockTransformOrigin('right')).toBe('68% 18%')
+    expect(getTutorFabDockTransformOrigin('left')).toBe('32% 18%')
   })
 
   it('keeps a left-docked voice bubble on-screen over the visible stub', () => {
@@ -81,7 +81,7 @@ describe('tutor fab position', () => {
         edge: 'left',
         viewportWidth: 390,
       }),
-    ).toEqual({ left: 8, right: 'auto' })
+    ).toEqual({ left: 12, right: 'auto' })
   })
 
   it('keeps a right-docked voice bubble aligned with the visible stub', () => {
@@ -91,7 +91,7 @@ describe('tutor fab position', () => {
         edge: 'right',
         viewportWidth: 390,
       }),
-    ).toEqual({ right: 22 })
+    ).toEqual({ right: 29 })
   })
 
   it('does not shift the bubble when the fab is not docked', () => {

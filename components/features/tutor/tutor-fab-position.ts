@@ -3,14 +3,14 @@ export const TUTOR_FAB_DRAG_THRESHOLD_PX = 10
 export const TUTOR_FAB_MOBILE_BREAKPOINT_PX = 768
 export const TUTOR_FAB_CLOSED_SIZE_PX = 80
 export const TUTOR_FAB_DOCK_IDLE_MS = 3000
-/** Head-in perch: ~30% of the closed FAB stays in view; body sits mostly off-screen. */
-export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.7
-/** Clockwise on the right edge, counterclockwise on the left; within 12–18deg. */
+/** Head-in perch: ~52% of the closed FAB stays in view so the head and a hint of shoulder remain. */
+export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.48
+/** Counterclockwise on the right edge, clockwise on the left; head leans into the viewport. */
 export const TUTOR_FAB_DOCK_ROTATE_DEG = 15
 export const TUTOR_FAB_DOCK_SCALE = 0.92
-/** Pivot on the edge-adjacent head / upper body so rotation peeks the head in. */
-export const TUTOR_FAB_DOCK_ORIGIN_RIGHT = '72% 18%'
-export const TUTOR_FAB_DOCK_ORIGIN_LEFT = '28% 18%'
+/** Edge-adjacent head pivot, nudged slightly toward the viewport so the helmet is not clipped. */
+export const TUTOR_FAB_DOCK_ORIGIN_RIGHT = '68% 18%'
+export const TUTOR_FAB_DOCK_ORIGIN_LEFT = '32% 18%'
 
 export type TutorFabPlacement = 'default' | 'compact'
 export type TutorFabDockEdge = 'left' | 'right'
@@ -92,9 +92,11 @@ export function resolveTutorFabDockEdge(
 }
 
 export function getTutorFabDockTransform(edge: TutorFabDockEdge): string {
-  const dir = edge === 'right' ? 1 : -1
+  const translateDir = edge === 'right' ? 1 : -1
   const translatePercent = Math.round(TUTOR_FAB_DOCK_TRANSLATE_RATIO * 100)
-  return `translateX(${dir * translatePercent}%) rotate(${dir * TUTOR_FAB_DOCK_ROTATE_DEG}deg) scale(${TUTOR_FAB_DOCK_SCALE})`
+  // Opposite of the slide direction: right edge leans CCW so the head tips in and the body goes out.
+  const rotateDeg = -translateDir * TUTOR_FAB_DOCK_ROTATE_DEG
+  return `translateX(${translateDir * translatePercent}%) rotate(${rotateDeg}deg) scale(${TUTOR_FAB_DOCK_SCALE})`
 }
 
 export function getTutorFabDockTransformOrigin(edge: TutorFabDockEdge): string {
