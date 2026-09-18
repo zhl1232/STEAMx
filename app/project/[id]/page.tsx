@@ -54,6 +54,7 @@ import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
 import { getContentClassificationSettings } from '@/lib/content-classification'
 import { listStoreProductsForContext } from '@/lib/store/service'
 import { collectHeroGalleryImages } from '@/lib/project/hero-gallery'
+import { getMaterialMeta } from '@/lib/project/material-meta'
 import {
   formatProjectDescriptionForDisplay,
   formatProjectReflectionForDisplay,
@@ -265,26 +266,6 @@ async function getProjectAuthorSummary(
   }
 }
 
-function getMaterialMeta(material: string) {
-  const normalized = material.trim()
-  const amountMatch = normalized.match(/(?:[x×*]\s*)?(\d+(?:\.\d+)?\s*(?:个|只|张|根|支|套|瓶|块|枚|片|条|卷|米|cm|厘米|ml|毫升|g|克))/i)
-  const amount = amountMatch?.[1] ?? (/水|胶|颜料|纸|线/.test(normalized) ? '适量' : '1 个')
-  const rawName = normalized
-    .replace(/(?:[x×*]\s*)?\d+(?:\.\d+)?\s*(?:个|只|张|根|支|套|瓶|块|枚|片|条|卷|米|cm|厘米|ml|毫升|g|克)/gi, '')
-    .replace(/[，,、:：-]+$/g, '')
-    .trim()
-  const noteMatch = rawName.match(/^(.*?)[（(]([^）)]+)[）)]$/)
-  const name = noteMatch?.[1]?.trim() || rawName
-  const note = noteMatch?.[2]?.trim()
-
-  return {
-    name: name || normalized,
-    amount,
-    note,
-  }
-}
-
-
 function ProjectCiteTakeaway({
   category,
   classification,
@@ -345,6 +326,7 @@ function MaterialsList({ materials, compact = false }: { materials: string[]; co
 
 function MaterialTile({ material, index }: { material: string; index: number }) {
   const meta = getMaterialMeta(material)
+  const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
   const tones = [
     'bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]',
     'bg-[hsl(var(--tone-engineering-soft))] text-[hsl(var(--tone-engineering))]',
@@ -362,15 +344,17 @@ function MaterialTile({ material, index }: { material: string; index: number }) 
       <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
         <div className="min-w-0 flex-1">
           <p className="line-clamp-2 wrap-break-word text-xs font-semibold leading-tight wrap-anywhere sm:text-sm">{meta.name}</p>
-          {meta.note ? (
+          {showNote ? (
             <p className="mt-0.5 line-clamp-2 text-[11px] leading-3.5 text-muted-foreground wrap-anywhere sm:truncate sm:text-xs sm:leading-4">
               {meta.note}
             </p>
           ) : null}
         </div>
-        <span className={`w-fit shrink-0 rounded-xs px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
-          {meta.amount}
-        </span>
+        {meta.amount ? (
+          <span className={`w-fit shrink-0 rounded-xs px-1.5 py-0.5 text-[11px] font-semibold ${tones[index % tones.length]}`}>
+            {meta.amount}
+          </span>
+        ) : null}
       </div>
     </div>
   )

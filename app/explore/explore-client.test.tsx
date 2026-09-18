@@ -200,7 +200,7 @@ describe('ExploreClient', () => {
 
         expect(screen.getByText('保存你的探索进度')).toBeInTheDocument()
         expect(screen.getByText('登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。')).toBeInTheDocument()
-        expect(screen.getByText(/不知道从哪开始？试试「趣味科学（启蒙）」/)).toBeInTheDocument()
+        expect(screen.getByText(/不知道从哪开始？试试「趣味实验」/)).toBeInTheDocument()
         expect(screen.getByRole('link', { name: '登录保存进度' })).toHaveAttribute('href', '/login')
     })
 
@@ -491,13 +491,13 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.getByRole('button', { name: '热门推荐' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '趣味实验' })).toBeInTheDocument()
 
         await user.click(screen.getByRole('button', { name: '科学' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
-        expect(screen.queryByRole('button', { name: '趣味科学（启蒙）' })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '趣味实验' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
         expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '推荐' })).toBeInTheDocument()
@@ -518,11 +518,11 @@ describe('ExploreClient', () => {
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
-        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
     })
 
-    it('activates fun-science preset via tags=启蒙版 and stays in explore mode', async () => {
-        currentSearchParams = new URLSearchParams('tags=%E5%90%AF%E8%92%99%E7%89%88')
+    it('activates fun-science preset via tags=趣味实验 and stays in explore mode', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '趣味实验' })
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({
             ok: true,
@@ -543,7 +543,7 @@ describe('ExploreClient', () => {
             />,
         )
 
-        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'true')
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
 
         await user.click(screen.getByRole('button', { name: '热门推荐' }))
@@ -584,6 +584,6 @@ describe('ExploreClient', () => {
 
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
-        expect(screen.getByRole('button', { name: '趣味科学（启蒙）' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
     })
 })

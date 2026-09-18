@@ -85,12 +85,18 @@ export function MobileProjectSteps({ steps, materials }: { steps: ProjectStep[];
                   <div className="flex flex-wrap gap-1.5">
                     {materials.map((material, index) => {
                       const meta = getMaterialMeta(material)
+                      const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
                       return (
                         <span
                           key={`${material}-${index}`}
                           className="inline-flex max-w-full items-center gap-1.5 rounded-xs border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-muted)/0.55)] px-2.5 py-1.5"
                         >
                           <span className="truncate text-xs font-medium text-foreground">{meta.name}</span>
+                          {showNote ? (
+                            <span className="min-w-0 truncate text-[10px] font-medium text-muted-foreground">
+                              {meta.note}
+                            </span>
+                          ) : null}
                           {meta.amount ? (
                             <span className="shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground">
                               {meta.amount}

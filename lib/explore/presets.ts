@@ -15,10 +15,10 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 项目内容列表 pills：仅保留热门推荐与趣味科学（启蒙）。 */
+/** 项目内容列表 pills：仅保留热门推荐与趣味实验。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
-    { id: 'fun-science', label: '趣味科学（启蒙）', sortBy: 'popular', difficulty: 'all', tags: ['启蒙版'] },
+    { id: 'fun-science', label: '趣味实验', sortBy: 'popular', difficulty: 'all', tags: ['趣味实验'] },
 ]
 
 export type ExploreFilterState = {
@@ -138,8 +138,8 @@ export function getPresetHintLabel(presetId: ExplorePresetId): string {
     const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
     if (preset) return preset.label
     if (presetId === 'browse') return '热门推荐'
-    if (presetId === 'fun-science') return '趣味科学（启蒙）'
-    return '趣味科学（启蒙）'
+    if (presetId === 'fun-science') return '趣味实验'
+    return '趣味实验'
 }
 
 export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams {

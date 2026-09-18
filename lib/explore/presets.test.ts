@@ -4,6 +4,7 @@ import {
     EXPLORE_PRESETS,
     buildPresetSearchParams,
     detectActivePreset,
+    getPresetHintLabel,
     isExploreResultsMode,
     parseExploreSortBy,
     resolveHighlightedPresetId,
@@ -18,11 +19,12 @@ describe('explore presets', () => {
             'fun-science',
         ])
         expect(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')).toMatchObject({
-            label: '趣味科学（启蒙）',
-            tags: ['启蒙版'],
+            label: '趣味实验',
+            tags: ['趣味实验'],
             sortBy: 'popular',
             difficulty: 'all',
         })
+        expect(getPresetHintLabel('fun-science')).toBe('趣味实验')
         expect(EXPLORE_PRESETS.find((preset) => preset.id === 'browse')).toMatchObject({
             label: '热门推荐',
             sortBy: 'popular',
@@ -56,7 +58,7 @@ describe('explore presets', () => {
             subCategory: '',
             difficulty: 'all',
             age: null,
-            tags: ['启蒙版'],
+            tags: ['趣味实验'],
             searchQuery: '',
             sortBy: 'popular',
         })).toBe('fun-science')
@@ -77,7 +79,7 @@ describe('explore presets', () => {
         const funScience = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')!)
 
         expect(popular.toString()).toBe('')
-        expect(funScience.get('tags')).toBe('启蒙版')
+        expect(funScience.get('tags')).toBe('趣味实验')
         expect(funScience.get('sortBy')).toBeNull()
         expect(funScience.get('difficulty')).toBeNull()
         expect(new Set([
@@ -123,7 +125,7 @@ describe('explore presets', () => {
 
         expect(isExploreResultsMode({
             ...exploreState,
-            tags: ['启蒙版'],
+            tags: ['趣味实验'],
         })).toBe(false)
 
         // Legacy beginner filter: no pill, but results mode via difficulty

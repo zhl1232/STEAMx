@@ -1376,7 +1376,7 @@ export function ExploreClient({
                                                         variant="outline"
                                                         onClick={() => handlePresetClick('fun-science')}
                                                     >
-                                                        试试趣味科学（启蒙）
+                                                        试试趣味实验
                                                     </Button>
                                                 ) : null}
                                                 <Button
