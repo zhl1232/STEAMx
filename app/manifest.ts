@@ -13,7 +13,7 @@ export default function manifest(): MetadataRoute.Manifest {
         start_url: "/",
         scope: "/",
         display: "standalone",
-        background_color: "#ffffff",
+        background_color: "#008da1",
         theme_color: "#09090b",
         icons: [
             {
@@ -29,8 +29,13 @@ export default function manifest(): MetadataRoute.Manifest {
                 purpose: "any",
             },
             {
-                // Same assets; Chromium install prefers an explicit maskable entry.
-                src: "/icon-512x512.png",
+                src: "/icon-192x192-maskable.png",
+                sizes: "192x192",
+                type: "image/png",
+                purpose: "maskable",
+            },
+            {
+                src: "/icon-512x512-maskable.png",
                 sizes: "512x512",
                 type: "image/png",
                 purpose: "maskable",
