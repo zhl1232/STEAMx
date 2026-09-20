@@ -94,7 +94,7 @@ export function MobileGlobalHeader({
     <header
       className={cn('app-mobile-header', className)}
     >
-      <div className="flex min-h-12 items-center px-4 py-1">
+      <div className="flex min-h-12 items-center px-4 py-2">
         {/* 左侧 */}
         <div
           className={cn(
@@ -140,7 +140,7 @@ export function MobileGlobalHeader({
                 onChange={(event) => handleChange(event.target.value)}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-11 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-hidden focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-10 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-hidden focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
               />
               {currentValue ? (
                 <button
@@ -159,7 +159,7 @@ export function MobileGlobalHeader({
         {/* 右侧操作区 */}
         <nav
           className={cn(
-            'flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2 max-md:[&_a]:min-h-11 max-md:[&_a]:min-w-11 max-md:[&_button]:min-h-11 max-md:[&_button]:min-w-11',
+            'flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2 max-md:[&_a]:min-h-11 max-md:[&_a]:min-w-11 max-md:[&_button[data-header-icon]]:min-h-11 max-md:[&_button[data-header-icon]]:min-w-11',
             variant === 'search' ? 'ml-2' : 'shrink-0',
           )}
         >

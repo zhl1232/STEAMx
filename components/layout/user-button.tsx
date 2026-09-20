@@ -62,6 +62,11 @@ export function UserButton({ compact = false }: UserButtonProps) {
           variant="default"
           size="sm"
           onClick={() => setLoginOpen(true)}
+          className={
+            compact
+              ? 'h-8 min-h-8 px-2.5 text-[13px] font-semibold leading-none'
+              : 'h-8 px-3 text-[13px] font-semibold leading-none'
+          }
         >
           登录
         </Button>
