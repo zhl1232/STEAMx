@@ -1,5 +1,3 @@
-import { isSafeInternalHref } from '@/lib/utils/safe-internal-href'
-
 export interface ApiErrorDetails {
   redirectTo?: string
   capability?: string
@@ -45,21 +43,6 @@ export function getApiErrorMessageFromPayload(payload: ApiErrorPayload, fallback
     return payload.message
   }
   return fallback
-}
-
-export function isAgeConfirmationRequired(payload: ApiErrorPayload) {
-  return payload.code === 'AGE_CONFIRMATION_REQUIRED'
-}
-
-export function getInteractionAccessRedirect(payload: ApiErrorPayload) {
-  if (!isAgeConfirmationRequired(payload)) return null
-
-  const redirectTo = payload.details?.redirectTo
-  if (isSafeInternalHref(redirectTo)) {
-    return redirectTo
-  }
-
-  return '/settings/security?section=age-confirmation'
 }
 
 export async function getApiErrorMessage(response: Response, fallback = 'Request failed') {

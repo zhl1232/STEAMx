@@ -19,8 +19,6 @@ import { logger } from '@/lib/logger'
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from '@/lib/utils/http'
 import type { Challenge, ChallengeStage, ChallengeSubmission, StageProgress } from '@/lib/mappers/types'
 import type { ChallengeSubmissionDraft } from '@/lib/pbl/challenge-submission-draft'
@@ -117,7 +115,7 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
   const router = useRouter()
   const { toast } = useToast()
   const { user, loading } = useAuth()
-  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
+  const { promptLogin } = useLoginPrompt()
 
   const [challenge, setChallenge] = useState<Challenge | null>(null)
   const [submission, setSubmission] = useState<ChallengeSubmission | null>(null)
@@ -403,14 +401,8 @@ export function ChallengeSubmissionForm({ challengeId }: ChallengeSubmissionForm
         body: JSON.stringify(payload),
       })
 
-      let response = await submitRequest()
-      let errorPayload = await getApiErrorPayload(response)
-      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-        response = await runAfterAgeConfirmation(submitRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        })
-        errorPayload = await getApiErrorPayload(response)
-      }
+      const response = await submitRequest()
+      const errorPayload = await getApiErrorPayload(response)
 
       if (!response.ok) {
         throw new Error(getApiErrorMessageFromPayload(errorPayload, '提交失败'))

@@ -795,7 +795,7 @@ export function AuthFlow({
                     <Link href="/legal/terms" className="mx-1 text-primary hover:underline">《服务条款》</Link>
                     和
                     <Link href="/legal/privacy" className="mx-1 text-primary hover:underline">《隐私政策》</Link>
-                    。首次发布或互动前需完成社区互动确认。
+                    。
                   </label>
                 </div>
                 {consentError && (

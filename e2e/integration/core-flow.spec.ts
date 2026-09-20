@@ -31,15 +31,7 @@ test.describe('核心业务链路', () => {
       await page.locator('#step-desc-0').fill('这是自动化测试步骤。')
       await page.getByRole('button', { name: '提交审核' }).click()
 
-      const interactionConfirmation = page.getByRole('dialog').filter({ hasText: '互动前安全确认' })
-      const firstStep = await Promise.race([
-        page.waitForURL('**/profile', { timeout: 15000 }).then(() => 'profile' as const),
-        interactionConfirmation.waitFor({ state: 'visible', timeout: 15000 }).then(() => 'confirmation' as const),
-      ])
-      if (firstStep === 'confirmation') {
-        await interactionConfirmation.getByRole('button', { name: '完成确认' }).click()
-        await page.waitForURL('**/profile', { timeout: 15000 })
-      }
+      await page.waitForURL('**/profile', { timeout: 15000 })
       const projectPlanItem = page.getByText(projectTitle, { exact: true }).locator('..').locator('..')
       const projectLink = projectPlanItem.locator('a[href^="/project/"]').first()
       await expect(projectLink).toBeVisible({ timeout: 10000 })

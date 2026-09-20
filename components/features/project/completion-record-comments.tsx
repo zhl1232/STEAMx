@@ -17,8 +17,6 @@ import { cn } from "@/lib/utils"
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from "@/lib/utils/http"
 
 import { UserAvatar } from "@/components/ui/user-avatar"
@@ -35,7 +33,7 @@ export function CompletionRecordComments({
   className,
 }: CompletionRecordCommentsProps) {
   const { user } = useAuth()
-  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
+  const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [content, setContent] = useState("")
@@ -67,14 +65,8 @@ export function CompletionRecordComments({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
-      let response = await submitCommentRequest()
-      let errorPayload = await getApiErrorPayload(response)
-      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-        response = await runAfterAgeConfirmation(submitCommentRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        })
-        errorPayload = await getApiErrorPayload(response)
-      }
+      const response = await submitCommentRequest()
+      const errorPayload = await getApiErrorPayload(response)
       if (!response.ok) {
         throw new Error(getApiErrorMessageFromPayload(errorPayload, "评论失败"))
       }

@@ -49,7 +49,7 @@ async function ensureProfileRow(params: {
         display_name: params.fullName,
         avatar_url: existingProfile.data.avatar_url || avatarUrl,
         role,
-        age_confirmed_at: new Date().toISOString(),
+        age_confirmed_at: null,
       })
       .eq('id', params.userId)
 
@@ -63,7 +63,7 @@ async function ensureProfileRow(params: {
     display_name: params.fullName,
     avatar_url: avatarUrl,
     role,
-    age_confirmed_at: new Date().toISOString(),
+    age_confirmed_at: null,
   })
 
   if (error) throw error

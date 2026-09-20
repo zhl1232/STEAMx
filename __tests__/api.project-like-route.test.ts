@@ -32,13 +32,23 @@ describe('POST /api/projects/[id]/like', () => {
     })
 
     it('rejects liking your own project on the server', async () => {
+        const profileMaybeSingle = vi.fn().mockResolvedValue({
+            data: { interaction_restricted: false, safety_status: 'active', safety_restricted_until: null },
+            error: null,
+        })
         const maybeSingle = vi.fn().mockResolvedValue({
             data: { author_id: 'user-1', status: 'approved', moderation_state: 'approved' },
             error: null,
         })
         const eq = vi.fn().mockReturnValue({ maybeSingle })
         const select = vi.fn().mockReturnValue({ eq })
-        const from = vi.fn().mockReturnValue({ select })
+        const from = vi.fn((table: string) => {
+            if (table === 'profiles') {
+                return { select: vi.fn(() => ({ eq: vi.fn(() => ({ maybeSingle: profileMaybeSingle })) })) }
+            }
+            if (table === 'projects') return { select }
+            throw new Error(`Unexpected table: ${table}`)
+        })
 
         createClientMock.mockResolvedValue({ from } as never)
         requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
@@ -54,13 +64,23 @@ describe('POST /api/projects/[id]/like', () => {
     })
 
     it('returns 404 when the project does not exist', async () => {
+        const profileMaybeSingle = vi.fn().mockResolvedValue({
+            data: { interaction_restricted: false, safety_status: 'active', safety_restricted_until: null },
+            error: null,
+        })
         const maybeSingle = vi.fn().mockResolvedValue({
             data: null,
             error: null,
         })
         const eq = vi.fn().mockReturnValue({ maybeSingle })
         const select = vi.fn().mockReturnValue({ eq })
-        const from = vi.fn().mockReturnValue({ select })
+        const from = vi.fn((table: string) => {
+            if (table === 'profiles') {
+                return { select: vi.fn(() => ({ eq: vi.fn(() => ({ maybeSingle: profileMaybeSingle })) })) }
+            }
+            if (table === 'projects') return { select }
+            throw new Error(`Unexpected table: ${table}`)
+        })
 
         createClientMock.mockResolvedValue({ from } as never)
         requireAuthMock.mockResolvedValue({ id: 'user-2' } as never)
