@@ -62,14 +62,39 @@ test('联网竞速登录链接保留邀请房间码', async ({ page }) => {
 
 test('登录页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/login')
-  await expect(page.getByRole('heading', { name: '登录 / 注册' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '手机号登录' })).toBeVisible()
 })
 
 test('登录页移动端聚焦表单', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await expectHealthyPage(page, '/login')
-  await expect(page.getByRole('heading', { name: '登录 / 注册' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '手机号登录' })).toBeVisible()
   await expect(page.getByRole('heading', { name: '回到你的探索档案' })).toBeHidden()
+})
+
+test('手机验证码登录保持两步表单和重发倒计时', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  let sentCount = 0
+  await page.route('**/api/auth/sms/send', (route) => {
+    sentCount += 1
+    return route.fulfill({ json: { ok: true } })
+  })
+  await page.goto('/login')
+  await page.getByLabel('手机号', { exact: true }).fill('13800138000')
+  await page.getByRole('checkbox').check()
+  await page.getByRole('button', { name: '获取验证码', exact: true }).click()
+  await expect(page.getByRole('heading', { name: '输入验证码' })).toBeVisible()
+  await expect(page.getByRole('checkbox')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /s 后重发/ })).toBeDisabled()
+  await expect(page.getByRole('button', { name: '验证并继续' })).toBeDisabled()
+  await page.getByLabel('验证码', { exact: true }).fill('123456')
+  await expect(page.getByRole('button', { name: '验证并继续' })).toBeEnabled()
+  await page.getByRole('button', { name: '修改手机号' }).click()
+  await expect(page.getByLabel('手机号', { exact: true })).toHaveValue('13800138000')
+  await expect(page.getByRole('checkbox')).toBeChecked()
+  await expect(page.getByRole('button', { name: /s 后重新获取/ })).toBeDisabled()
+  expect(sentCount).toBe(1)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 
 test('移动端自然观察页 smoke', async ({ page }) => {

@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
 import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
+import { isSupabasePhoneProvider } from '@/lib/auth/phone-provider'
 
 const OTP_EXPIRY_MINUTES = 10
 const OTP_LENGTH = 6
@@ -63,6 +64,47 @@ export async function POST(req: Request) {
       windowMs: 10 * 60_000,
       suffix: phone,
     })
+
+    if (isSupabasePhoneProvider()) {
+      const supabase = await createClient()
+
+      if (type === 'phone_change') {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (!user) return jsonError('绑定手机号需要登录', 401)
+        if (user.phone) return jsonError('手机号已绑定，暂不支持换绑', 409)
+
+        const { data: existingForUser } = await supabaseAdmin
+          .from('phone_to_user')
+          .select('phone')
+          .eq('user_id', user.id)
+          .limit(1)
+        if (existingForUser?.some((row) => row.phone && row.phone !== phone)) {
+          return jsonError('手机号已绑定，暂不支持换绑', 409)
+        }
+
+        const { data: existingForPhone } = await supabaseAdmin
+          .from('phone_to_user')
+          .select('user_id')
+          .eq('phone', phone)
+          .limit(1)
+        if (existingForPhone?.some((row) => row.user_id !== user.id)) {
+          return jsonError('该手机号已被绑定', 409)
+        }
+
+        const { error } = await supabase.auth.updateUser({ phone })
+        if (error) return jsonError(error.message || '发送验证码失败', error.status && error.status >= 400 && error.status <= 599 ? error.status : 400)
+        return NextResponse.json({ ok: true })
+      }
+
+      const { error } = await supabase.auth.signInWithOtp({
+        phone,
+        options: { shouldCreateUser: true },
+      })
+      if (error) return jsonError(error.message || '发送验证码失败', error.status && error.status >= 400 && error.status <= 599 ? error.status : 400)
+      return NextResponse.json({ ok: true })
+    }
 
     let userId: string | null = null
     if (type === 'phone_change') {

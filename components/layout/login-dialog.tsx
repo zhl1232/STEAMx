@@ -17,7 +17,7 @@ export function LoginDialog({
   open,
   onOpenChange,
   onSuccess,
-  title = '登录以继续',
+  title,
   description
 }: LoginDialogProps) {
   const [mounted, setMounted] = useState(false)
@@ -55,6 +55,7 @@ export function LoginDialog({
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="auth-layer-title"
           className="w-full md:max-w-md"
           onClick={(event) => event.stopPropagation()}
         >

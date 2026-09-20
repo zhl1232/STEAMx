@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createPublicClient } from '@/lib/supabase/server'
 import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
 import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
@@ -11,6 +11,7 @@ import {
 } from '@/lib/auth/default-display-name'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
+import { isSupabasePhoneProvider } from '@/lib/auth/phone-provider'
 
 const PHONE_EMAIL_PREFIX = 'p_'
 const PHONE_EMAIL_SUFFIX = '@phone.local'
@@ -57,6 +58,141 @@ export async function POST(req: Request) {
       windowMs: 10 * 60_000,
       suffix: phone,
     })
+
+    if (isSupabasePhoneProvider()) {
+      const verificationClient = createPublicClient()
+
+      if (type === 'phone_change') {
+        const supabase = await createClient()
+        const {
+          data: { user: currentUser },
+        } = await supabase.auth.getUser()
+        if (!currentUser) {
+          return NextResponse.json({ error: '绑定手机号需要登录' }, { status: 401 })
+        }
+        if (currentUser.phone_confirmed_at) {
+          return NextResponse.json({ error: '手机号已绑定，暂不支持换绑' }, { status: 409 })
+        }
+
+        const { data: existingForUser, error: userMappingError } = await supabaseAdmin
+          .from('phone_to_user')
+          .select('phone')
+          .eq('user_id', currentUser.id)
+          .limit(1)
+        if (userMappingError) {
+          return NextResponse.json({ error: '手机号绑定状态读取失败，请稍后重试' }, { status: 500 })
+        }
+        if (existingForUser?.some((row) => row.phone && row.phone !== phone)) {
+          return NextResponse.json({ error: '手机号已绑定，暂不支持换绑' }, { status: 409 })
+        }
+        const { data: existingForPhone, error: phoneMappingError } = await supabaseAdmin
+          .from('phone_to_user')
+          .select('user_id')
+          .eq('phone', phone)
+          .limit(1)
+        if (phoneMappingError) {
+          return NextResponse.json({ error: '手机号绑定状态读取失败，请稍后重试' }, { status: 500 })
+        }
+        if (existingForPhone?.some((row) => row.user_id !== currentUser.id)) {
+          return NextResponse.json({ error: '该手机号已被绑定' }, { status: 409 })
+        }
+
+        const { data, error } = await verificationClient.auth.verifyOtp({
+          phone,
+          token,
+          type: 'phone_change',
+        })
+        if (error || !data.user) {
+          return NextResponse.json(
+            { error: error?.message || '验证码错误或已过期，请重新获取' },
+            { status: 400 },
+          )
+        }
+        if (data.user.id !== currentUser.id) {
+          return NextResponse.json({ error: '手机号绑定身份校验失败' }, { status: 409 })
+        }
+        if (toE164(data.user.phone || '') !== phone || !data.user.phone_confirmed_at) {
+          return NextResponse.json({ error: '手机号验证未完成，请重新获取验证码' }, { status: 400 })
+        }
+
+        const { error: mapError } = await supabaseAdmin
+          .from('phone_to_user')
+          .upsert({ phone, user_id: currentUser.id }, { onConflict: 'phone', ignoreDuplicates: true })
+        if (mapError) {
+          return NextResponse.json({ error: mapError.message || '绑定失败，请稍后重试' }, { status: 400 })
+        }
+        const { data: finalMapping, error: finalMappingError } = await supabaseAdmin
+          .from('phone_to_user')
+          .select('user_id')
+          .eq('phone', phone)
+          .limit(1)
+        if (finalMappingError || finalMapping?.[0]?.user_id !== currentUser.id) {
+          return NextResponse.json({ error: '手机号已被绑定，请稍后重试' }, { status: 409 })
+        }
+        return NextResponse.json({ ok: true })
+      }
+
+      const { data, error } = await verificationClient.auth.verifyOtp({
+        phone,
+        token,
+        type: 'sms',
+      })
+      if (error || !data.user) {
+        return NextResponse.json(
+          { error: error?.message || '验证码错误或已过期，请重新获取' },
+          { status: 400 },
+        )
+      }
+      if (!data.session) {
+        return NextResponse.json({ error: '登录会话建立失败，请稍后重试' }, { status: 500 })
+      }
+
+      const { data: mapping, error: mappingError } = await supabaseAdmin
+        .from('phone_to_user')
+        .select('user_id')
+        .eq('phone', phone)
+        .limit(1)
+      if (mappingError) {
+        return NextResponse.json({ error: '登录账号映射读取失败，请稍后重试' }, { status: 500 })
+      }
+      if (mapping?.[0] && mapping[0].user_id !== data.user.id) {
+        return NextResponse.json({ error: '手机号已绑定其他账号，请联系管理员处理' }, { status: 409 })
+      }
+      const isNewUser = !mapping?.[0]
+
+      const { error: mapError } = await supabaseAdmin
+        .from('phone_to_user')
+        .upsert({ phone, user_id: data.user.id }, { onConflict: 'phone', ignoreDuplicates: true })
+      if (mapError) {
+        return NextResponse.json({ error: mapError.message || '登录账号映射保存失败，请稍后重试' }, { status: 500 })
+      }
+
+      const { data: finalMapping, error: finalMappingError } = await supabaseAdmin
+        .from('phone_to_user')
+        .select('user_id')
+        .eq('phone', phone)
+        .limit(1)
+      if (finalMappingError || finalMapping?.[0]?.user_id !== data.user.id) {
+        return NextResponse.json({ error: '手机号已绑定其他账号，请联系管理员处理' }, { status: 409 })
+      }
+
+      const sessionClient = await createClient()
+      const { error: sessionError } = await sessionClient.auth.setSession(data.session)
+      if (sessionError) {
+        return NextResponse.json({ error: sessionError.message || '登录会话建立失败，请稍后重试' }, { status: 500 })
+      }
+      return NextResponse.json(
+        {
+          ok: true,
+          isNewUser,
+          session: {
+            access_token: data.session.access_token,
+            refresh_token: data.session.refresh_token,
+          },
+        },
+        { headers: { 'Cache-Control': 'no-store' } },
+      )
+    }
 
     const now = new Date().toISOString()
     let otpValid = false

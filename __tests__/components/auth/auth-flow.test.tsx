@@ -9,6 +9,7 @@ const signInWithPasswordMock = vi.fn()
 const signUpMock = vi.fn()
 const getSessionMock = vi.fn()
 const resetPasswordForEmailMock = vi.fn()
+const setSessionMock = vi.fn()
 const toastMock = vi.fn()
 
 vi.mock('@/lib/supabase/client', () => ({
@@ -19,6 +20,7 @@ vi.mock('@/lib/supabase/client', () => ({
       signUp: signUpMock,
       getSession: getSessionMock,
       resetPasswordForEmail: resetPasswordForEmailMock,
+      setSession: setSessionMock,
     },
   }),
 }))
@@ -37,12 +39,36 @@ describe('AuthFlow', () => {
   it('defaults to phone SMS login without email prompts', () => {
     render(<AuthFlow presentation="page" />)
 
-    expect(screen.getByRole('heading', { name: '登录 / 注册' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '手机号登录' })).toBeInTheDocument()
+    expect(screen.getByText('未注册手机号验证后自动注册')).toBeInTheDocument()
     expect(screen.getByLabelText('手机号')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('请输入手机号')).toBeInTheDocument()
     expect(screen.queryByLabelText('密码')).not.toBeInTheDocument()
     expect(screen.queryByText(/邮箱/)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: '获取验证码' })).toBeInTheDocument()
+  })
+
+  it('installs the native phone session before completing a modal login', async () => {
+    const user = userEvent.setup()
+    const onSuccess = vi.fn()
+    const session = { access_token: 'access-token', refresh_token: 'refresh-token' }
+    setSessionMock.mockResolvedValue({ error: null })
+    vi.mocked(global.fetch).mockImplementation(async (input) => {
+      if (String(input).endsWith('/send')) return Response.json({ ok: true })
+      return Response.json({ ok: true, isNewUser: false, session })
+    })
+    render(<AuthFlow presentation="layer" title="登录后继续" description="原场景说明" onSuccess={onSuccess} />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('checkbox'))
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(await screen.findByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
+    expect(screen.queryByText('原场景说明')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '验证并继续' })).toBeDisabled()
+    await user.type(screen.getByLabelText('验证码'), '123456')
+    await user.click(screen.getByRole('button', { name: '验证并继续' }))
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledOnce())
+    expect(setSessionMock).toHaveBeenCalledWith(session)
+    expect(setSessionMock.mock.invocationCallOrder[0]).toBeLessThan(onSuccess.mock.invocationCallOrder[0])
   })
 
   it('keeps legacy email password login behind the phone field', async () => {
@@ -83,8 +109,25 @@ describe('AuthFlow', () => {
         method: 'POST',
       }))
     })
-    expect(screen.getByText('输入短信验证码')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '确认并继续' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
+    expect(screen.getByText('已发送到 13800138000')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '验证并继续' })).toBeInTheDocument()
+  })
+
+  it('explains a provider timeout without entering verification or retrying SMS', async () => {
+    const user = userEvent.setup()
+    const sendCalls: string[] = []
+    vi.mocked(global.fetch).mockImplementation(async (input) => {
+      sendCalls.push(String(input))
+      return Response.json({ error: 'Processing this request timed out, please retry after a moment.' }, { status: 504 })
+    })
+    render(<AuthFlow presentation="page" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('checkbox'))
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('验证码服务暂时繁忙或网络超时，请稍后重试。')
+    expect(screen.queryByLabelText('验证码')).not.toBeInTheDocument()
+    expect(sendCalls).toEqual(['/api/auth/sms/send'])
   })
 
   it('rejects email registration', async () => {
@@ -97,7 +140,7 @@ describe('AuthFlow', () => {
     await user.click(screen.getByRole('button', { name: '获取验证码' }))
 
     expect(signUpMock).not.toHaveBeenCalled()
-    expect(global.fetch).not.toHaveBeenCalled()
+    expect(global.fetch).not.toHaveBeenCalledWith('/api/auth/sms/send', expect.anything())
     expect(screen.getByText('注册请使用手机号。')).toBeInTheDocument()
   })
 
@@ -121,8 +164,8 @@ describe('AuthFlow', () => {
         method: 'POST',
       }))
     })
-    expect(screen.getByText('输入短信验证码')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: '确认并继续' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '验证并继续' })).toBeInTheDocument()
   })
 
   it('blocks phone registration until terms are accepted', async () => {
@@ -133,7 +176,7 @@ describe('AuthFlow', () => {
     await user.type(screen.getByLabelText('手机号'), '13800138000')
     await user.click(screen.getByRole('button', { name: '获取验证码' }))
 
-    expect(global.fetch).not.toHaveBeenCalled()
+    expect(global.fetch).not.toHaveBeenCalledWith('/api/auth/sms/send', expect.anything())
     expect(toastMock).toHaveBeenCalledWith(expect.objectContaining({
       title: '请先确认使用授权',
     }))
@@ -202,7 +245,7 @@ describe('AuthFlow', () => {
       await user.click(screen.getByRole('checkbox'))
       await user.click(screen.getByRole('button', { name: '获取验证码' }))
       fireEvent.change(await screen.findByLabelText('验证码'), { target: { value: '123456' } })
-      await user.click(screen.getByRole('button', { name: '确认并继续' }))
+      await user.click(screen.getByRole('button', { name: '验证并继续' }))
     }
 
     it('sends a newly registered phone user to the brick course mainline', async () => {
