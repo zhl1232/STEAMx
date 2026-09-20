@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { TutorMessageContent } from './tutor-message-content'
+import { validateTutorResourceTags } from '@/lib/ai/tutor/resource-links'
 
 describe('TutorMessageContent', () => {
   it('renders Scratch rich text markers as colored lesson chips', () => {
@@ -57,5 +58,34 @@ describe('TutorMessageContent', () => {
 
     const link = screen.getByRole('link', { name: /纸桥挑战/ })
     expect(link).toHaveAttribute('href', '/project/12')
+  })
+
+  it('renders new resource tags as safe internal links', () => {
+    render(<TutorMessageContent content="看 [lesson:12:3|纸桥课时]、[species:黑头鸦|黑头鸦] 和 [game:maze|迷宫]。" />)
+
+    expect(screen.getByRole('link', { name: /纸桥课时/ })).toHaveAttribute('href', '/courses/12/lessons/3')
+    expect(screen.getByRole('link', { name: /黑头鸦/ })).toHaveAttribute('href', '/nature/species/%E9%BB%91%E5%A4%B4%E9%B8%A6')
+    expect(screen.getByRole('link', { name: /迷宫/ })).toHaveAttribute('href', '/playground/maze')
+  })
+
+  it('does not turn external markdown links into anchors', () => {
+    render(<TutorMessageContent content="[危险](https://example.com)" />)
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
+    expect(screen.getByText('危险')).toBeInTheDocument()
+  })
+
+  it.each([
+    '[假入口](/resources/999)',
+    '[假入口][r]\n\n[r]: /resources/999',
+    '[假入口][]\n\n[假入口]: /resources/999',
+    '[假入口]\n\n[假入口]: /resources/999',
+  ])('keeps unverified Markdown destinations inert: %s', (markdown) => {
+    const content = validateTutorResourceTags(`[resource:2|资料] [resource:999|编造的资料]\n\n${markdown}`, ['[resource:2|材料对比]'])
+    render(<TutorMessageContent content={content} />)
+
+    expect(screen.getAllByRole('link')).toHaveLength(1)
+    expect(screen.getByRole('link', { name: '材料对比' })).toHaveAttribute('href', '/resources/2')
+    expect(screen.getByText('假入口')).toBeInTheDocument()
   })
 })

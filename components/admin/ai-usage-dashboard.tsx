@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
 import { getApiErrorMessage } from '@/lib/utils/http'
+import { formatTutorCredits } from '@/lib/ai/tutor/billing'
 
 type UsageDaily = {
   day: string
@@ -77,7 +78,7 @@ export function AiUsageDashboard() {
       <CardContent className="space-y-6">
         <div className="grid gap-3 sm:grid-cols-4">
           <Stat label="总对话" value={totals.chats} />
-          <Stat label="代币消耗" value={totals.creditsUsed} />
+          <Stat label="代币消耗" value={formatTutorCredits(totals.creditsUsed)} />
           <Stat label="免费次数" value={totals.freeChats} />
           <Stat label="会员钱包扣减" value={totals.memberChats} />
         </div>
@@ -107,7 +108,7 @@ export function AiUsageDashboard() {
                     <TableRow key={row.day}>
                       <TableCell>{row.day}</TableCell>
                       <TableCell className="text-right tabular-nums">{row.chats}</TableCell>
-                      <TableCell className="text-right tabular-nums">{row.creditsUsed}</TableCell>
+                      <TableCell className="text-right tabular-nums">{formatTutorCredits(row.creditsUsed)}</TableCell>
                       <TableCell className="text-right tabular-nums">{row.freeChats}</TableCell>
                       <TableCell className="text-right tabular-nums">{row.memberChats}</TableCell>
                     </TableRow>
@@ -141,7 +142,7 @@ export function AiUsageDashboard() {
                     <TableRow key={user.userId}>
                       <TableCell>{user.displayName}</TableCell>
                       <TableCell className="text-right tabular-nums">{user.chats}</TableCell>
-                      <TableCell className="text-right tabular-nums">{user.creditsUsed}</TableCell>
+                      <TableCell className="text-right tabular-nums">{formatTutorCredits(user.creditsUsed)}</TableCell>
                     </TableRow>
                   ))
                 )}
@@ -154,7 +155,7 @@ export function AiUsageDashboard() {
   )
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="rounded-sm border bg-[hsl(var(--surface-muted)/0.4)] px-3 py-2">
       <p className="text-xs text-muted-foreground">{label}</p>

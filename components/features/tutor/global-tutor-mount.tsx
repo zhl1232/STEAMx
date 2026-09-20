@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -40,6 +40,14 @@ export function GlobalTutorMount() {
   const [TutorFab, setTutorFab] = useState<GlobalTutorFabComponent | null>(null)
   const open = tutorCtx?.open ?? false
   const setOpen = tutorCtx?.setOpen ?? (() => undefined)
+  const previousUserRef = useRef(user?.id)
+  useEffect(() => {
+    if (previousUserRef.current && previousUserRef.current !== user?.id) {
+      tutorCtx?.consumePendingSend()
+      queryClient.removeQueries({ queryKey: ['tutor-session', previousUserRef.current] })
+    }
+    previousUserRef.current = user?.id
+  }, [user?.id, queryClient, tutorCtx])
 
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
   const hideTutorOnMobile = pathname === '/nature/observations'
@@ -160,6 +168,7 @@ export function GlobalTutorMount() {
 
   return (
     <TutorFab
+      key={user?.id ?? 'anonymous'}
       open={open}
       onToggle={() => setOpen(!open)}
       context={baseContext}

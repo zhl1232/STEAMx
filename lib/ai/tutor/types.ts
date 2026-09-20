@@ -44,6 +44,7 @@ export type TutorPlaygroundGameKey = (typeof TUTOR_PLAYGROUND_GAME_KEYS)[number]
 
 export type TutorChatMessage = {
   role: 'user' | 'assistant'
+  requestId?: string
   content: string
   images?: string[]
   clarification?: TutorResourceClarification
@@ -126,4 +127,13 @@ export type AiCreditConsumeResult = {
   resetAt?: number
   freeUsedToday?: number
   freeDaily?: number
+  receiptId?: number
+}
+
+export type TutorBilling = {
+  source: 'wallet' | 'free'
+  chargedCredits: number
+  outputTokens: number | null
+  usageMissing: boolean
+  receiptId: number
 }

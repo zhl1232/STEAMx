@@ -93,11 +93,24 @@ describe('buildTutorSystemPrompt', () => {
     expect(prompt).toContain('[project:ID|标题]')
   })
 
+  it('preserves the current lesson and tool focus independently of long resource results', () => {
+    const prompt = buildTutorSystemPrompt({
+      scene: { ...scene, summary: '当前步骤：调整角色旋转方向。' }, profile, notebook: null,
+      resourceSummary: '资源说明'.repeat(500) + '\n[lesson:5:70|轮船]',
+      replyFocusSummary: '本轮高亮当前步骤中的旋转积木。',
+    })
+    expect(prompt).toContain('当前步骤：调整角色旋转方向。')
+    expect(prompt).toContain('[lesson:5:70|轮船]')
+    expect(prompt).toContain('本轮高亮当前步骤中的旋转积木。')
+    expect(prompt).toContain('[challenge:ID|标题]')
+    expect(prompt).toContain('[resource:ID|标题]')
+  })
+
   it('keeps resource lookup independent from the current page and avoids false negatives', () => {
     const prompt = buildTutorSystemPrompt({ scene, profile, notebook: null })
 
     expect(prompt).toContain('当前页面场景不是检索范围')
-    expect(prompt).toContain('检索结果为空或检索不完整时，只能说「我暂时没查到」')
+    expect(prompt).toContain('检索完成但结果为空时，只能说「我暂时没查到」')
     expect(prompt).toContain('用户说“项目”但命中的是课程中的课时时')
   })
 })

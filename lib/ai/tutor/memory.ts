@@ -71,6 +71,7 @@ export async function maybeUpdateTutorNotebook(userId: string) {
       newMessages.map((m) => ({ role: m.role, content: m.content })),
       charLimit,
     )
+    if (!summary?.trim()) return
     const updatedAt = new Date().toISOString()
 
     if (notebook) {
@@ -144,7 +145,7 @@ export async function maybeUpdateTutorConversationSummary(conversationId: string
       conversation.summary ?? '',
       toFold.map((m) => ({ role: m.role, content: m.content })),
     )
-    if (!summary.trim()) return
+    if (!summary?.trim()) return
 
     // 乐观并发：锚点变了说明别的请求已经折叠过，放弃本次写入。
     const update = supabaseAdmin

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
-const PLAYGROUND_METADATA = {
+export const PLAYGROUND_METADATA = {
   "/playground/minesweeper": {
     title: "扫雷",
     description: "在线玩扫雷，用数字线索和确定性推理找出安全格与地雷。",

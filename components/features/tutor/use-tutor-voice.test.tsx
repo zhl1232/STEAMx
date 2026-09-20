@@ -105,6 +105,23 @@ describe('useTutorVoice speech fallback', () => {
     expect(mocks.toast).not.toHaveBeenCalled()
   })
 
+  it('does not request speech after unmounting while audio activation is pending', async () => {
+    let resume!: () => void
+    mocks.pcmPlayer.resume.mockImplementationOnce(() => new Promise<void>((resolve) => { resume = resolve }))
+    const opts = {
+      open: true, mounted: true, hideOnMobile: false, contextKey: 'global:',
+      contextKeyRef: { current: 'global:' }, busyRef: { current: false }, quota: null,
+      onComposerTranscript: vi.fn(), onLongPressTranscript: vi.fn(),
+    }
+    const { result, unmount } = renderHook(() => useTutorVoice(opts))
+    let playback!: Promise<void>
+    act(() => { playback = result.current.playSpeech('私人回复', 'private') })
+    unmount()
+    await act(async () => { resume(); await playback })
+    expect(mocks.fetch).not.toHaveBeenCalled()
+    expect(mocks.audioPlay).not.toHaveBeenCalled()
+  })
+
   it('plays the streamed PCM response when Web Audio is available', async () => {
     mocks.pcmPlayer.resume.mockResolvedValue(undefined)
     const contextKeyRef = { current: 'global:' }

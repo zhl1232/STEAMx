@@ -157,7 +157,7 @@ export async function POST(
     if (workspaceResponse.error) throw workspaceResponse.error
 
     const cost = getAiChatCreditCost(images.length > 0)
-    const creditResult = await consumeAiCredit(supabase, profile, cost)
+    const creditResult = await consumeAiCredit(supabase, profile, cost, user.id)
     if (!creditResult.ok) {
       const progress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
       return NextResponse.json(
@@ -204,8 +204,8 @@ export async function POST(
       const progress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
       return NextResponse.json({ feedback, progress })
     } catch (error) {
-      if (creditResult.source) {
-        await refundAiCredit(supabase, cost, creditResult.source).catch(() => undefined)
+      if (creditResult.source && creditResult.receiptId !== undefined) {
+        await refundAiCredit(supabase, cost, creditResult.source, creditResult.receiptId, user.id).catch(() => undefined)
       }
       const progress = await getStageProgressForStage(supabase, challengeId, user.id, stageIndex)
       return NextResponse.json({ error: getStageCoachUserMessage(error), progress }, { status: 502 })

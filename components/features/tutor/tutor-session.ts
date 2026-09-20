@@ -21,6 +21,7 @@ export type TutorSessionQueryInput = {
 }
 
 export type TutorSessionPayload = {
+  epoch?: number
   messages?: TutorChatMessage[]
   quota?: AiCreditStatus | null
   greeting?: TutorGreeting | null

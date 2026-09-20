@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import { parseTutorBilling } from '@/lib/ai/tutor/billing'
+import { sanitizeTutorReply } from '@/lib/ai/tutor/reasoning-output'
 import { normalizeTutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import { validateUUID } from '@/lib/api/validation'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { deleteTutorConversation } from '@/lib/ai/tutor/requests'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 
@@ -53,9 +55,11 @@ export async function GET(
       const clarification = normalizeTutorResourceClarification(meta.clarification)
       return {
         role: row.role as 'user' | 'assistant',
-        content: row.content,
+        ...(typeof meta.requestId === 'string' ? { requestId: meta.requestId } : {}),
+        content: row.role === 'assistant' ? sanitizeTutorReply(row.content) : row.content,
         images: row.images ?? undefined,
         ...(clarification ? { clarification } : {}),
+        ...(row.role === 'assistant' && parseTutorBilling(meta.billing) ? { billing: parseTutorBilling(meta.billing) } : {}),
       }
     })
 
@@ -100,17 +104,9 @@ export async function DELETE(
     if (conversation.status !== 'archived') {
       return NextResponse.json({ error: '只能删除已归档的历史对话' }, { status: 400 })
     }
-    if (!supabaseAdmin) {
-      return NextResponse.json({ error: '历史对话删除服务暂不可用' }, { status: 503 })
-    }
-
-    const { error: deleteError } = await supabaseAdmin
-      .from('tutor_conversations')
-      .delete()
-      .eq('id', conversation.id)
-      .eq('user_id', user.id)
-
-    if (deleteError) throw deleteError
+    const deleted = await deleteTutorConversation(user.id, conversation.id)
+    if (deleted.status === 'active') return NextResponse.json({ error: '只能删除已归档的历史对话' }, { status: 400 })
+    if (deleted.status !== 'deleted' && deleted.status !== 'unavailable') throw new Error('History deletion failed')
 
     return NextResponse.json({ ok: true })
   } catch (error) {

@@ -6,7 +6,6 @@ import { Loader2, Mic, Plus, Send, Sparkles, Square, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { VoiceFeedbackBar, type TutorVoiceFeedback } from '@/components/features/tutor/tutor-voice-feedback'
-import { AI_CREDIT_COST_VISION } from '@/lib/membership'
 import { cn } from '@/lib/utils'
 
 /** 单条消息最多携带的图片数（与服务端引擎一致） */
@@ -15,9 +14,9 @@ export const MAX_CHAT_IMAGES = 4
 const COMPOSER_MIN_HEIGHT_PX = 56
 const COMPOSER_MAX_HEIGHT_PX = 128
 const composerToolButtonClass =
-  'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-transparent text-foreground/80 transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] hover:text-[hsl(var(--brand-blue))] active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-transparent text-foreground/80 transition-[background-color,border-color,box-shadow,transform] hover:border-[hsl(var(--brand-blue)/0.2)] hover:bg-[hsl(var(--status-info-surface)/0.68)] hover:text-[hsl(var(--brand-blue))] active:scale-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-not-allowed disabled:opacity-45'
 const composerSendButtonClass =
-  'h-10 w-10 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
+  'h-11 w-11 shrink-0 rounded-full bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_14px_26px_-14px_hsl(var(--brand-blue)/0.95)] transition-[background-color,box-shadow,transform] hover:bg-[hsl(var(--brand-blue)/0.92)] hover:shadow-[0_16px_30px_-14px_hsl(var(--brand-blue)/0.85)] active:scale-95 disabled:bg-[hsl(var(--surface-muted))] disabled:text-muted-foreground disabled:shadow-none disabled:opacity-70'
 
 export type TutorComposerProps = {
   input: string
@@ -37,6 +36,7 @@ export type TutorComposerProps = {
   onToggleVoiceRecording: () => void
   voiceFeedback: TutorVoiceFeedback | null
   onStopSpeech: () => void
+  onStopGeneration?: () => void
   showReviewAction: boolean
   onReview?: () => void
 }
@@ -59,6 +59,7 @@ export function TutorComposer({
   onToggleVoiceRecording,
   voiceFeedback,
   onStopSpeech,
+  onStopGeneration,
   showReviewAction,
   onReview,
 }: TutorComposerProps) {
@@ -91,7 +92,7 @@ export function TutorComposer({
   }
 
   return (
-    <div className="space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.82)] px-3.5 py-3 shadow-[inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.5)]">
+    <div className="shrink-0 space-y-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.82)] px-3.5 py-3 shadow-[inset_0_1px_0_hsl(var(--brand-blue-foreground)/0.5)]">
       {pendingImages.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5">
           {pendingImages.map((image) => (
@@ -101,13 +102,13 @@ export function TutorComposer({
                 type="button"
                 onClick={() => onRemovePendingImage(image)}
                 aria-label="移除图片"
-                className="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-bl-xs bg-black/55 text-white"
+                className="absolute right-0 top-0 inline-flex h-8 w-8 items-center justify-center rounded-bl-xs bg-black/65 text-white focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           ))}
-          <span className="text-[10px] text-muted-foreground">带图提问消耗 {AI_CREDIT_COST_VISION} 代币</span>
+          <span className="text-[10px] text-muted-foreground">图片不另收费</span>
         </div>
       )}
       {suggestedImages.some((image) => !pendingImages.includes(image)) && (
@@ -122,7 +123,7 @@ export function TutorComposer({
                 onClick={() => onAddSuggestedImage(image)}
                 disabled={busy}
                 aria-label="把这张照片发给小迪"
-                className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xs bg-muted ring-1 ring-[hsl(var(--brand-blue)/0.2)] transition-transform hover:scale-105 disabled:opacity-50"
+                className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xs bg-muted ring-1 ring-[hsl(var(--brand-blue)/0.2)] transition-transform hover:scale-105 disabled:opacity-50"
               >
                 <OptimizedImage src={image} alt="场景照片" fill variant="thumbnail" className="object-cover" />
               </button>
@@ -145,8 +146,9 @@ export function TutorComposer({
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
           rows={1}
+          aria-label="向小迪提问"
           placeholder={recordingVoice ? '小迪正在听…' : transcribingVoice ? '小迪正在整理语音…' : '问小迪一个问题…'}
-          className="min-h-9 max-h-[128px] w-full resize-none border-0 bg-transparent px-1.5 py-1 text-sm leading-5 text-foreground outline-hidden placeholder:text-muted-foreground/55 focus-visible:outline-hidden disabled:bg-transparent disabled:opacity-50"
+          className="min-h-9 max-h-[128px] w-full resize-none border-0 bg-transparent px-1.5 py-1 text-base md:text-sm leading-5 text-foreground outline-hidden placeholder:text-muted-foreground/55 focus-visible:outline-hidden disabled:bg-transparent disabled:opacity-50"
           disabled={busy || recordingVoice || transcribingVoice || quotaExhausted}
         />
         <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
@@ -180,7 +182,19 @@ export function TutorComposer({
                 <Mic className="h-4 w-4" />
               )}
             </button>
-            <Button
+            {busy && onStopGeneration ? (
+              <Button
+                type="button"
+                size="icon"
+                shape="pill"
+                onClick={onStopGeneration}
+                aria-label="停止接收回复"
+                title="停止接收回复"
+                className={composerSendButtonClass}
+              >
+                <Square className="h-4 w-4 fill-current" />
+              </Button>
+            ) : <Button
               type="button"
               size="icon"
               shape="pill"
@@ -191,10 +205,13 @@ export function TutorComposer({
               className={composerSendButtonClass}
             >
               <Send className="h-4 w-4" />
-            </Button>
+            </Button>}
           </div>
         </div>
       </div>
+      <p className="px-1 text-[10px] leading-4 text-muted-foreground">
+        每 1,000 回答 token = 1 代币；输入、历史与图片不另收费
+      </p>
       {showReviewAction && onReview ? (
         <button
           type="button"
