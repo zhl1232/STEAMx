@@ -71,8 +71,6 @@ import { cn } from "@/lib/utils"
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from "@/lib/utils/http"
 
 export interface SpeciesOption {
@@ -556,7 +554,7 @@ export function ObservationSubmitForm({
   const router = useRouter()
   const { toast } = useToast()
   const { user } = useAuth()
-  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
+  const { promptLogin } = useLoginPrompt()
   const { userStats } = useGamification()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -1217,14 +1215,8 @@ export function ObservationSubmitForm({
         }),
       })
 
-      let response = await submitObservationRequest()
-      let errorPayload = await getApiErrorPayload(response)
-      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-        response = await runAfterAgeConfirmation(submitObservationRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        })
-        errorPayload = await getApiErrorPayload(response)
-      }
+      const response = await submitObservationRequest()
+      const errorPayload = await getApiErrorPayload(response)
 
       const payload = (await response.json().catch(() => ({}))) as Partial<SubmitResponse> & { error?: string }
       if (!response.ok || !payload.observation) {

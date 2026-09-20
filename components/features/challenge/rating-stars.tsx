@@ -5,13 +5,10 @@ import { Star } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { cn } from '@/lib/utils'
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from '@/lib/utils/http'
 
 interface RatingStarsProps {
@@ -51,7 +48,6 @@ export function RatingStars({ submissionId, initialRating, disabled, onRated }: 
   const [hovering, setHovering] = useState<Record<string, number>>({})
   const [submitting, setSubmitting] = useState(false)
   const { toast } = useToast()
-  const { runAfterAgeConfirmation } = useLoginPrompt()
 
   const allFilled = Object.values(ratings).every(v => v > 0)
   const filledCount = Object.values(ratings).filter(v => v > 0).length
@@ -65,14 +61,8 @@ export function RatingStars({ submissionId, initialRating, disabled, onRated }: 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ submissionId, ...ratings }),
     })
-    let res = await submitRatingRequest()
-    let errorPayload = await getApiErrorPayload(res)
-    if (!res.ok && isAgeConfirmationRequired(errorPayload)) {
-      res = await runAfterAgeConfirmation(submitRatingRequest, {
-        redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-      })
-      errorPayload = await getApiErrorPayload(res)
-    }
+    const res = await submitRatingRequest()
+    const errorPayload = await getApiErrorPayload(res)
 
     setSubmitting(false)
 

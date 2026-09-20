@@ -91,7 +91,7 @@
 | `/about` | `app/about/page.tsx` + `app/settings/about/page.tsx` | 公开、可索引的关于与帮助页：创探空间品牌定义与学习问答、AboutPage JSON-LD、联系反馈、FAQ、用户协议与隐私政策；反馈仍需登录并发送到站内客服，旧 `/settings/about` 永久重定向到此规范 URL，页脚只链接真实存在的内容锚点 |
 | `/settings` | `app/settings/page.tsx` | 用户设置 — 子路由 `profile/`、`appearance/`、`xiaodi/`（小迪语音：自动朗读、移动端长按语音、语音提问播报、提示气泡本设备偏好）、`notifications/`、`privacy/`、`security/`、`safety/`；关于与帮助统一进入公开 `/about`；其余设置页未登录会带 `next` 回到原路径；设置首页菜单使用单层列表与轻分隔，子页由 `app/settings/_components/settings-subpage-shell.tsx` 统一承载，主内容保留单层面板，资料/安全内容使用低对比边界的浅色分组，减少嵌套卡片与边框噪音 |
 | `/settings/profile` | `app/settings/profile/page.tsx` + `profile-settings-client.tsx` | 个人资料 — 头像、昵称、简介、性别和出生年月编辑；首屏头像预览优先加载，分组表单使用单层面板与无边框浅色区块，保存后刷新认证资料 |
-| `/settings/security` | `app/settings/security/page.tsx` | 账号与安全 — 社区互动确认、密码修改和首次手机号绑定；内容以单一列表和轻分隔组织，密码/短信表单通过整行折叠交互展开，具备可访问状态关联，手机号验证流程支持重新填写与加载/错误反馈 |
+| `/settings/security` | `app/settings/security/page.tsx` | 账号与安全 — 密码修改和首次手机号绑定；内容以单一列表和轻分隔组织，密码/短信表单通过整行折叠交互展开，具备可访问状态关联，手机号验证流程支持重新填写与加载/错误反馈 |
 | `/settings/safety` | `app/settings/safety/page.tsx` | 社区安全中心 — 查看账号安全状态（含当前互动限制）、举报处理、屏蔽关系和安全处罚；列表按单一浅色容器分组，支持取消屏蔽、有效处罚申诉、加载失败重试 |
 | `/login` | `app/login/page.tsx` | 登录页 — 手机号 + 短信验证码登录/注册；移动端表单位于页头下方剩余空间中央，使用精简标题/说明并隐藏档案介绍区，桌面端保留辅助价值说明；新注册用户使用不含手机号的随机昵称 `新用户XXXX`，历史手机号昵称在再次登录时自动替换；前台文案只提示手机号，邮箱注册入口已移除，旧邮箱账号仍可在手机号输入框中输入原邮箱后用密码登录 |
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
@@ -156,7 +156,7 @@
 | challenges | `api/challenges/` | 挑战列表与评分；作品提交 `[id]/submission`；作品草稿 `[id]/submission/draft` 汇总阶段产出、图片、反馈与 STEAM 收获生成可编辑作品草稿（AI 不可用时回退本地规则草稿）；阶段产出 `[id]/stages`（GET 全部）与 `[id]/stages/[index]`（PUT 落库）；阶段导师反馈 `[id]/stages/[index]/review`（保存当前产出、消耗 AI 配额、生成结构化反馈并写回 `ai_feedback`）；阶段导师工具 `[id]/stages/[index]/coach`（保存当前草稿后生成拆题/提示/总结受控 JSON，仅返回前端展示不写库）；PBL 工作台 `[id]/workspace` 保存个人项目方向并返回受控个人化计划 |
 | tutor | `api/tutor/` | **AI 导师小迪**统一对话 `chat`（GET 历史+配额+本地开场白（配额查询会释放过期预留）（无线程时返回 `conversation: null`，不再自动建空线程；`contextType` 白名单校验，非法值回退 global），`quotaOnly=1` 只刷代币；POST SSE 流式（首条消息才惰性创建线程），global 场景按 `surface` 页面标识（home/explore/nature/create/courses/community/playground/profile/users）差异化场景与开场白并注入个性化推荐项目候选，同时把当前登录用户的有限个人中心摘要（昵称、年龄段、等级/XP、STEAM 能力雷达、累计统计、近期活动、成长任务、课程/PBL 进度、徽章、游乐场战绩、作品反馈、AI 额度）作为服务端只读上下文传入并明确不可见隐私边界，`/playground/*` 游戏页归入 playground surface 并携带具体 `gameKey/contextId` 生成小游戏专属上下文与独立线程；course 场景支持 `lessonId` 课时上下文、species 场景按物种 slug 注入档案（识别/生境/季节），并可在回复流中发送白名单 `tool_call` 结构化事件；开发环境或 `TUTOR_DEBUG_TIMING=1` 下输出服务端阶段耗时、`Server-Timing` 与 SSE `perf` 事件，用于定位响应头/首事件/首 chunk 延迟；DELETE 只归档当前有消息的线程（空线程保留复用，避免堆空归档），新线程由下一条 POST 创建）；POST 计费生命周期：扣费后任何失败路径（场景构建/planner/流式/空回复/落库）统一退款，按剩余可退额度封顶防止重复退；带图对话视觉模型失败降级纯文本时发 `warning`、按文字价计费并退差价，prompt 同步注明图片不可用；模型名、token usage 与 prompt 版本（`TUTOR_PROMPT_VERSION`）写入助手消息 `meta.ai`，客户端 meta 直通字段已移除；送模型历史按字符预算截断（6000 字符、图片按 400 计）；资源检索 planner 与工具 planner 并行执行且均携带最近 6 条对话辅助指代消解；语音辅助 `speech/transcribe`（登录后接收 30 秒内 16k PCM 录音，经 DashScope Qwen-ASR-Realtime 仅转写文本、不落库音频）与 `speech/synthesize`（登录后优先走 Qwen3-TTS-Flash-Realtime 流式 PCM SSE，失败可 `fallback` 回 HTTP 整段合成；chat POST `speak=true` 时在同一条 SSE 里夹带 `audio`/`audio_done`，手动/自动朗读均不扣 AI 对话代币）；历史对话 `conversations`（GET 按场景列归档线程+首条用户消息预览，最近一张聊天图片在上下文窗口内作为活跃附件持续发送并保持视觉模型，上传新图时替换旧图）与 `conversations/[id]`（GET 线程消息，DELETE 删除已归档线程，均做归属校验）；图片接受三类来源（PBL 阶段产出 / 本人观察照片 / 聊天直传 `project-images/tutor-chat`）；落库失败发 `warning` 事件并退代币；代币门禁 `consume_ai_credit`（免费退款按当日 refund 流水抵扣）；Admin `admin/users/[id]/credits`、`admin/ai-usage` |
 | comments | `api/comments/` | 历史项目评论读取、编辑/删除与点赞；新增项目评论已停用（`POST` 返回 410），留言统一进入具体作品 |
-| completions | `api/completions/` | 完成记录、作品评论、点赞、审核；`[id]/promote` 通过作者专用事务 RPC 将已审核项目探索记录设为完成作品，拒绝旧的最终作品可重提，并将并发唯一冲突返回 409；发表评论/回复需要社区互动确认和双向屏蔽检查，评论可按 `completion_comment` 举报 |
+| completions | `api/completions/` | 完成记录、作品评论、点赞、审核；`[id]/promote` 通过作者专用事务 RPC 将已审核项目探索记录设为完成作品，拒绝旧的最终作品可重提，并将并发唯一冲突返回 409；发表评论/回复需要登录、账号限制和双向屏蔽检查，评论可按 `completion_comment` 举报 |
 | discussions | `api/discussions/` | 社区讨论 CRUD、点赞 |
 | follows | `api/follows/` | 关注/取关、关注状态查询 |
 | blocks | `api/blocks/` | 双向屏蔽关系查询、创建、解除；屏蔽后禁止私信/关注/点赞/收藏/评论/打赏等社区互动，凡是会给对方生成通知的入口都要走 `assertUsersNotBlocked` |
@@ -170,13 +170,13 @@
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
 | notifications | `api/notifications/` | 通知列表、标记已读、通知未读计数；全局入口汇总通知 + 私信未读 |
 | playground | `api/playground/` | 游乐场云端战绩徽章同步；`badges/sync` 读取 `playground_stats` 并补发已达成的游乐场徽章；`minesweeper/leaderboard` 通过受限 RPC 按难度返回云端最佳成绩全服前十，仅暴露昵称、头像和用时；在线五子棋 `gomoku-rooms`、记忆翻牌 `memory-rooms`、函数战争 `functionwars-rooms` 和通用竞速 `race-rooms` 创建/加入/读取/离开房间；函数战争 `[id]/fire` 认证 API 在服务端重算弹道并通过 service-role RPC 原子校验 `shot_seq`/轮次后结算，`[id]` 权威读取会推进超时并在同一玩家连续错过两回合时判负，邀请链接保留 `room` 参数；竞速加入按 6 位邀请码用 service role 查询并以 `waiting + guest IS NULL` 条件更新，竞争失败返回 409 并记录不含用户/邀请码的结构化指标；`race-rooms/[id]` GET 在读取前调用受限 RPC 结算截止房间，`[id]/result` 校验成绩后由 RPC 原子检查截止时间，双方到齐再计算胜负；邀请链接会等前端 auth 初始化完成后再自动加入，未登录时登录链接用 `next` 保留 `room` 参数 |
-| observations | `api/observations/` | 自然观察 CRUD；提交、评论、鉴定和图片分析写入需要社区互动确认，提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录。`POST /api/observations` 一次创建 1～5 条观察（`items[]`，每张照片一条，`media_urls` 长度为 1），鉴定/AI 票按张写入，失败则回滚整批 |
+| observations | `api/observations/` | 自然观察 CRUD；提交、评论、鉴定和图片分析写入需要登录并检查账号限制，提交先进入待审核，公开列表/点赞/评论/鉴定仅开放已通过记录。`POST /api/observations` 一次创建 1～5 条观察（`items[]`，每张照片一条，`media_urls` 长度为 1），鉴定/AI 票按张写入，失败则回滚整批 |
 | profile | `api/profile/` | 个人资料摘要、新手引导、学习打卡、本周探索计划（每日打卡汇总统一读取登录流水、项目/观察/挑战行为）；`equipped-honor` 支持一键佩戴/卸下称号（`equipped_title`）与配置主页徽章佩戴列表（`featured_badge_ids`）：`NULL` 表示未手动配置并使用默认精选，空数组表示明确不佩戴，非空数组表示按顺序手动佩戴且最多 5 枚；公开主页和个人主页首屏都露出最多 5 枚，超出部分以 `+N` 查看其余已解锁徽章；满 5 枚后佩戴新徽章必须在替换框中选择被替换的位置，替换后保持其余顺序，移出最后一枚会保存空数组；空数组主页只保留“徽章图鉴”入口，公开主页只读；图鉴详情会列出实际佩戴成员和默认/手动来源；`works` 返回当前用户的四类作品（项目 / 课时 / 挑战 / 自然观察）；`growth-tasks/sync` 与 `weekly-plan` 都会读取 `profiles.bio` 并调用 `get_user_stats_summary` 计算成长任务进度 |
-| projects | `api/projects/` | 项目 CRUD、编辑；创建项目需要社区互动确认；`[id]/like` 处理项目点赞，`[id]/collection` 处理收藏/取消收藏，均要求登录且受 `interaction_restricted` 门禁；点赞 XP 由服务端固定事件奖励并写入作者通知 |
+| projects | `api/projects/` | 项目 CRUD、编辑；创建项目需要登录并检查账号限制；`[id]/like` 处理项目点赞，`[id]/collection` 处理收藏/取消收藏，均要求登录且受 `interaction_restricted` 门禁；点赞 XP 由服务端固定事件奖励并写入作者通知 |
 | replies | `api/replies/` | 回复 CRUD |
 | resources | `api/resources/` | 学习资料卡公开读取（仅 published） |
 | reports | `api/reports/` | 举报提交；举报命中高风险内容时自动隐藏并创建安全审核案件 |
-| settings | `api/settings/` | 用户设置更新；`age-confirmation` 提供 GET 状态和 POST 社区互动确认，确认通过 `confirm_my_age()` RPC 写入，短信验证不自动完成确认；`feedback` 将设置页反馈发送到配置的官方管理员账号，管理员通过现有站内私信回复；`safety` 返回屏蔽、举报、处罚与申诉状态，`safety/appeals` 只接受当前有效处罚的申诉 |
+| settings | `api/settings/` | 用户设置更新；重复的社区互动确认接口已移除；`feedback` 将设置页反馈发送到配置的官方管理员账号，管理员通过现有站内私信回复；`safety` 返回屏蔽、举报、处罚与申诉状态，`safety/appeals` 只接受当前有效处罚的申诉 |
 | species | `api/species/` | 旧物种分页查询（过渡保留）；`api/species/atlas/` 返回不含详情大字段的全量图鉴 DTO，响应按当前 Cookie `private, no-store`，点亮查询失败时显式返回 `unavailable` |
 | tips | `api/tips/` | 打赏；打赏会给对方推一条带昵称头像的通知，所以和点赞/评论一样先做双向屏蔽检查，屏蔽关系下直接 403 且不扣币；`tips/my` 匿名直接返回 `myTipped: 0`，不走需登录的限流桶（否则 F12 会看到 429） |
 | upload | `api/upload/` | 图片上传（Supabase Storage）：魔数/大小校验 + 通义千问图片安全审核，不通过或审核不可用时删除已上传对象；审核拒绝返回 `code=image_content_rejected` 并透传安全原因给前端 toast，同时打结构化 warning 便于管理员查服务日志（当前不入 admin 后台列表） |
@@ -188,7 +188,7 @@
 
 函数战争房间创建/加入会拒绝用户进入第二个 `waiting/playing` 活跃对局；API 前置检查返回可读的 409，数据库用参与者 advisory lock 触发器封住并发竞态。房主重开自己的等待邀请会恢复到 `waiting`，不会停留在 `joining`。
 
-互动资格边界：课程完成、Scratch/积木项目保存、PBL 阶段与工作区保存、项目探索和私信发送登录即可；项目/课程/挑战作品提交、自然观察提交、评论/鉴定/评分需要社区互动确认，内部由 `age_confirmed_at` 记录；私信另受接收方隐私设置、双向屏蔽、频率限制、内容审核和 `interaction_restricted` 控制；项目/作品/自然观察点赞、收藏、关注和打赏属于 `engage`，登录即可，但都另受双向屏蔽约束。项目上下文的收藏写入统一经 `POST /api/projects/[id]/collection`，不再由浏览器直接写 `collections` 表。
+互动资格边界：保存进度、项目/课程/挑战作品提交、自然观察提交、评论/鉴定/评分、私信和点赞/收藏/关注/打赏均需登录，不再要求额外的社区互动确认；仍保留账号限制、各业务内容审核、频率限制和双向屏蔽，私信另受接收方隐私设置约束。项目上下文的收藏写入统一经 `POST /api/projects/[id]/collection`，不由浏览器直接写 `collections` 表。
 
 ---
 
@@ -214,7 +214,6 @@
 - `notification-bell.tsx` — 通知铃铛
 - `share-button.tsx` — 分享按钮
 - `login-dialog.tsx` — 登录引导弹窗
-- `interaction-confirmation-dialog.tsx` — 发布作品、评论或私信前的社区互动确认弹窗；确认成功后由 `login-prompt-context` 重试原操作
 - `logo.tsx` — 品牌 Logo（`public/logo.png` 透明圆形标）
 - `theme-provider.tsx` / `theme-toggle.tsx` — 主题切换
 - `error-boundary.tsx` — 错误边界
@@ -282,7 +281,7 @@
 - `challenge-context.tsx` — PBL 挑战列表与报名；`joinChallenge` 不依赖列表缓存或 React `user` 是否已刷新，首页深链到 `/pbl/[id]` 后仍会请求报名接口；详情页 `autoLoad={false}` 避免再拉全量列表
 - `gamification-context.tsx` — 游戏化（XP 增减、徽章检查、等级计算）；`checkBadges` 同批多徽章乐观更新基于最新 ref，失败只回滚当前徽章
 - `notification-context.tsx` — 通知（获取、标记已读、通知未读 + 私信未读汇总计数；未读数请求有 1.5s 模块级短缓存/同飞去重以压住 StrictMode 与多入口刷新；生产可经 Supabase Realtime 私有通道 `unread-counts:<user_id>` 订阅 `notifications`/`messages` 表变更刷新，通道访问由 `realtime.messages` RLS 限定为本人，本地开发默认跳过 Realtime WebSocket；Realtime 失败后自动断开并保留 HTTP 兜底，页面回到前台兜底刷一次）
-- `login-prompt-context.tsx` — 未登录操作引导弹窗；互动 API 返回 `AGE_CONFIRMATION_REQUIRED` 时保存原请求并打开社区互动确认弹窗，确认成功后自动重试原操作；设置页仍可提前完成确认
+- `login-prompt-context.tsx` — 未登录操作引导弹窗，登录成功后继续原操作；不再包含社区互动确认和确认后请求重试
 
 ### 4.3 API 服务层 (`lib/api/`) — 24 个模块
 服务端 API 的核心业务逻辑，被 `app/api/` 路由调用：
@@ -307,7 +306,7 @@
 - `lib/geo/wgs84-gcj02.ts` — 高德 Key 缺失时为照片 EXIF GPS 做本地 WGS-84→GCJ-02 转换，地图名称仍由逆地理编码服务或用户手动选择提供
 - `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`brand` / `outline` / `destructive`，默认 10px 圆角）
 - `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验
-- `interaction-access.ts` — 统一互动资格判定：匿名/已注册/已确认/restricted；保存进度和私信发送登录即可，作品提交、评论等公开内容写入需要社区互动确认
+- `interaction-access.ts` — 统一互动资格判定：匿名/已注册/restricted；登录后不再按 `age_confirmed_at` 限制能力，保存进度和互动写入仍受账号安全状态控制
 - `challenge-submission-validation.ts` — 挑战作品标题/说明/图片说明敏感词校验，证明图片/视频必须来自当前账号上传
 - `completion-access.ts` — 完成记录权限
 - `safety/` — 社区安全服务层：屏蔽关系、审核案件、内容 `moderation_state` 投影、举报处罚、账号限制同步与证据保留；私信安全案件在证据快照中保留目标消息前后各 3 条可见上下文
@@ -497,6 +496,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `20260823110000_store_context_keys.sql` — 为商品增加 `context_keys`，把淘宝材料包挂到课程/课时/项目详情页；应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
 - `20260823120000_hide_store_preview_fixture.sql` — 将明确标记为 `test_fixture` 的商城样式预览商品改为草稿，避免测试商品和无效淘宝链接进入公开目录；应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
 
+- `20260920180000_remove_interaction_confirmation_gate.sql` — 移除数据库互动资格对历史确认时间的依赖，保留登录、能力白名单、账号限制、有效处罚、触发器和函数权限；需与移除确认 UI/API 的应用代码配套发布。已于 2026-09-20 使用 `pnpm db:push` 单独应用到当前配置的远端数据库，并核验函数定义、执行权限和迁移记录；其余既有待执行迁移保持不变。
+
 ### 核心数据表
 
 - `20260825160000_project_content_cleanup.sql` — 按确认名单硬删除 59 个项目和挑战 4，清理项目/挑战的 Journey、作品、评论、互动、审核与分级历史；桥梁项目收敛为 233 / 243，模型只保留 120，并为 358 / 373 / 381 写入固定题面；图片对象另由 `scripts/purge-triaged-project-assets.mjs` dry-run 检查后处理。应用使用 `pnpm db:push`。
@@ -507,7 +508,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 完整类型定义：`lib/supabase/types.ts`
 
-`profiles.age_confirmed_at` 仅由社区互动确认流程写入，当前只控制公开作品/评论等内容写入；私信仍通过同一 `current_user_can_interact()` 触发器检查账号限制，但不要求该字段。`profiles.interaction_restricted` 由后台限制流程使用；固定 XP 事件通过 service-role-only `award_xp_once()` 原子写入 `xp_logs` 与 `profiles.xp`，项目评论每日最多计入 50 XP。
+`profiles.age_confirmed_at` 与 `confirm_my_age()` 作为历史兼容字段/函数保留，不再参与互动资格判定，应用端确认界面与 API 已移除。`current_user_can_interact()` 触发器仍检查登录、能力类型、账号限制和有效处罚；`profiles.interaction_restricted` 由后台限制流程使用。固定 XP 事件通过 service-role-only `award_xp_once()` 原子写入 `xp_logs` 与 `profiles.xp`，项目评论每日最多计入 50 XP。
 
 函数战争新增 **`function_wars_matches`**：保存对称地图种子、双方 HP/弹药/增益、共享弹坑/道具、当前回合、连续超时数与单调 `shot_seq`；参与者 advisory lock 触发器保证每个用户最多出现在一个 `waiting/playing` 对局。浏览器不能直接执行内部 `function_wars_fire`，认证 `/fire` API 先用共享模拟器重算摘要，再由 service-role-only `function_wars_fire_authoritative` 在行锁内校验参与者和预期序号后原子换手或结算。**`function_wars_match_results`** 保存不可变的每局赛果，触发器按参与者 UUID 固定顺序派生 `playground_stats.function_wars_stats.onlineGames/onlineWins`，避免并发赛果反序锁行。
 
@@ -633,7 +634,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `lib/api/courses.test.ts` / `__tests__/api.courses-route.test.ts` — 课程服务与列表/详情 API 的匿名/登录态进度隔离、公共/私有缓存、空课程和增课时后的当前进度
 - `__tests__/api.courses-lesson-complete-route.test.ts` / `__tests__/api.completion-review-route.test.ts` — 课时完成与审核奖励的原子 RPC、幂等、legacy Scratch 校验和配置异常反馈
 - `scripts/course-closure-audit.test.ts` — 课程闭环审计摘要的 P1 阻断、P2 advisory 与计数归一化
-- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，联网邀请未登录时 `next` 保留 `room` 参数，受保护分区深链接未登录时 `next` 保留完整子路径与查询串，以及详情页不存在时返回真正的 404 状态码）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
+- `e2e/` — Playwright 冒烟测试（`smoke.spec.ts` 覆盖主要公共页、登录，联网邀请未登录时 `next` 保留 `room` 参数，受保护分区深链接未登录时 `next` 保留完整子路径与查询串，以及详情页不存在时返回真正的 404 状态码）、真实 Supabase 集成测试（`core-flow.spec.ts` 覆盖无需额外确认直接创建项目及项目页不再出现评论入口，结束时按显式项目 ID 和临时作者兜底清理项目/账号；作品评论与屏蔽由邻近组件/API 测试覆盖；`authenticated-routes.spec.ts` 覆盖登录态路由/权限，`safety-governance.spec.ts` 用三账号覆盖敏感内容拒绝、屏蔽后的私信/关注/点赞/收藏阻断、项目评论停用、高风险举报自动隐藏、公开读取过滤、管理员安全队列、互动限制与处罚申诉，helper 会清理临时用户、测试项目及审核/处罚记录；`playground-online.spec.ts` 用三账号覆盖 24 点 UI 建房/邀请加入/双方提交与胜负、并发加入、等待过期、单方提交超时判胜和双方未提交超时取消；`function-wars-online.spec.ts` 用双账号覆盖函数战争 UI 建房/邀请加入、权威开火、活跃对局冲突、刷新重连、回合超时推进、认输结算与可信在线战绩，helper 会清理临时对局/用户）与 `scratch-host/block-highlight.spec.ts`（独立启动 Scratch host，验证 10 个课程核心 opcode 在真实 flyout 中打开并高亮；选中舞台时的运动积木提示会自动切换至角色）
 - LDraw 模型链路刻意不做单元测试：模型是一次性人工验收产物（见 `docs/archive/ldraw/ldraw-model-audit.md`），`lib/utils/ldraw-mpd.ts` 的解析/分步打包与 `/api/courses/ldraw-step` 改动请手动在某个 `building_3d` 课时逐步翻页验证，别为了覆盖率把 three.js `LDrawLoader` 真加载塞进单测（曾占全量套件近一半耗时）。例外是纯文本统计：零件清单会直接给家长看数字，`lib/utils/ldraw-bom.test.ts`（含真实 `3-hu-die.mpd` 分步用量断言，并把全部模型的统计总数与其自带的 `0 NumOfBricks` 声明对账，新模型对不上就是统计口径或模型头部有一边没更新）与 `__tests__/api.courses-ldraw-bom-route.test.ts` 只做文本解析、不碰 three.js，跑完不到 1 秒
 - 各目录内 `*.test.ts(x)` — 就近放置的单元测试；项目探索记录组件覆盖作品详情留言引导、预览卡和完整记录流的最终作品直达作品页、探索记录不误显作品入口，以及作品留言/多级回复的独立举报与自有内容隐藏举报；SEO 相关覆盖默认社交图、JSON-LD、sitemap 全量分页/内容路由及查询失败不降级、专题 canonical、课时预览 noindex、页脚规范链接、推荐 Cookie 精确作用域、`app/robots.ts`、`/llms.txt`、apex 301 与 Nginx 爬虫策略
 - `vitest.config.ts` / `vitest.setup.ts` — Vitest 配置：拆成 `dom` 与 `node` 两个 project，`*.test.tsx` 用 happy-dom + `vitest.setup.ts`，`*.test.ts` 默认跑纯 node（省掉每个文件的 DOM 启动与 React 测试初始化，全量从 ~224s 降到 ~145s）；无 JSX 但需要 DOM/存储/`renderHook`/`Worker` 的 `.ts` 用例登记在配置里的 `domOnlyTsTests`，新写的用例若报 `document is not defined` 就把文件加进该数组

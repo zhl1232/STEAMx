@@ -23,12 +23,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
-import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import {
     getApiErrorMessageFromPayload,
     getApiErrorPayload,
-    getInteractionAccessRedirect,
-    isAgeConfirmationRequired,
 } from "@/lib/utils/http";
 
 const MAX_IMAGES = 9;
@@ -145,7 +142,6 @@ export function CompleteProjectDialog({
     onSuccess,
 }: CompleteProjectDialogProps) {
     const { user } = useAuth();
-    const { runAfterAgeConfirmation } = useLoginPrompt();
     const { toast } = useToast();
     const { submitExplorationPost } = useOptionalProjects();
     const isProgress = mode === "progress";
@@ -428,14 +424,8 @@ export function CompleteProjectDialog({
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(proof),
                 });
-                let response = await submitRequest();
-                let errorPayload = await getApiErrorPayload(response);
-                if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-                    response = await runAfterAgeConfirmation(submitRequest, {
-                        redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-                    });
-                    errorPayload = await getApiErrorPayload(response);
-                }
+                const response = await submitRequest();
+                const errorPayload = await getApiErrorPayload(response);
                 const payload = await response.json().catch(() => ({}));
                 if (!response.ok) throw new Error(getApiErrorMessageFromPayload(errorPayload, "提交失败"));
                 if (!Number.isInteger(payload?.id) || payload.id <= 0) {

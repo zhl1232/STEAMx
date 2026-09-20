@@ -21,12 +21,9 @@ import { Project, Comment } from "@/lib/mappers/types";
 import { logger } from "@/lib/logger";
 import { isClean } from "@/lib/content-filter";
 import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
-import { useLoginPrompt } from '@/lib/context/login-prompt-context';
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from '@/lib/utils/http';
 
 export interface ProjectCompletionProof {
@@ -135,7 +132,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const { addXp, checkBadges } = useGamification();
   const { createNotification } = useNotifications();
   const { toast } = useToast();
-  const { runAfterAgeConfirmation } = useLoginPrompt();
 
   // Refs for stable callbacks
   const likedProjectsRef = useRef(likedProjects);
@@ -400,14 +396,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(insertData),
       });
-      let response = await createProjectRequest();
-      let errorPayload = await getApiErrorPayload(response);
-      if (!response.ok && isAgeConfirmationRequired(errorPayload)) {
-        response = await runAfterAgeConfirmation(createProjectRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        });
-        errorPayload = await getApiErrorPayload(response);
-      }
+      const response = await createProjectRequest();
+      const errorPayload = await getApiErrorPayload(response);
 
       if (!response.ok) {
         const message = getApiErrorMessageFromPayload(errorPayload, "Failed to create project");
@@ -471,7 +461,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return true;
     },
-    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, runAfterAgeConfirmation, toast],
+    [supabase, user, profile, addXp, checkBadges, getUserStats, createNotification, toast],
   );
 
   const updateProject = useCallback(
@@ -553,14 +543,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           image_url: comment.image_url || null,
         }),
       });
-      let res = await sendCommentRequest();
-      let errorPayload = await getApiErrorPayload(res);
-      if (!res.ok && isAgeConfirmationRequired(errorPayload)) {
-        res = await runAfterAgeConfirmation(sendCommentRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        });
-        errorPayload = await getApiErrorPayload(res);
-      }
+      const res = await sendCommentRequest();
+      const errorPayload = await getApiErrorPayload(res);
 
       if (!res.ok) {
         const msg = getApiErrorMessageFromPayload(errorPayload, "发送评论失败");
@@ -601,7 +585,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return mapComment(newComment as unknown as DbComment);
     },
-    [user, profile, createNotification, addXp, runAfterAgeConfirmation, toast],
+    [user, profile, createNotification, addXp, toast],
   );
 
   const toggleLike = useCallback(
@@ -829,14 +813,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         }),
       });
 
-      let response = await submitExplorationRequest();
-      let payload = await getApiErrorPayload(response);
-      if (!response.ok && isAgeConfirmationRequired(payload)) {
-        response = await runAfterAgeConfirmation(submitExplorationRequest, {
-          redirectTo: getInteractionAccessRedirect(payload) ?? undefined,
-        });
-        payload = await getApiErrorPayload(response);
-      }
+      const response = await submitExplorationRequest();
+      const payload = await getApiErrorPayload(response);
       if (!response.ok) {
         throw new Error(getApiErrorMessageFromPayload(payload, "提交失败"));
       }
@@ -859,7 +837,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
 
       return payload as { id: number; status: string; recordKind: string };
     },
-    [runAfterAgeConfirmation, user],
+    [user],
   );
 
   const completeProject = useCallback(
