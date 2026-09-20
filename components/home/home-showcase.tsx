@@ -132,7 +132,7 @@ function HomeHero({ image }: { image: string }) {
               <span className="hidden md:block">{BRAND_HERO_TITLE}</span>
             </h1>
 
-            <p className="mt-2 w-fit rounded-sm bg-background/85 px-2 py-1 text-xs font-medium text-foreground md:hidden">
+            <p className="mt-2 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
               {BRAND_POSITIONING}
             </p>
             <p className="mt-3 hidden max-w-[560px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
