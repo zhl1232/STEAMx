@@ -137,7 +137,7 @@ export default function StorePage() {
             </div>
           </div>
           <div className="rounded-xl bg-muted/50 p-5"><p className="text-sm text-muted-foreground">本站购物车</p><p className="mt-2 text-3xl font-black">¥{(totalCents / 100).toFixed(2)}</p><p className="mt-2 text-xs leading-5 text-muted-foreground">支付通道尚未接入，创建后只会生成待支付记录，不代表订单已付款。</p><Button className="mt-5 w-full" tone="brand" disabled={!selectedLines.length || createOrder.isPending} onClick={() => { setMessage(null); createOrder.mutate() }}>{createOrder.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}创建待支付订单</Button>{message ? <p className="mt-3 text-sm text-muted-foreground">{message}</p> : null}</div>
-        </section> : hasProducts ? <section className="mt-8 flex items-start gap-3 rounded-2xl border border-[hsl(var(--brand-green)/0.25)] bg-[hsl(var(--brand-green)/0.08)] p-5 text-sm leading-6 text-foreground shadow-sm lg:p-7"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--brand-green))]" /><div><p className="font-semibold">支付、物流和售后在淘宝完成</p><p className="mt-1 text-muted-foreground">STEAMX 只负责帮助你找到适合课程和项目的材料包。点击商品卡片的「去淘宝购买」后，按淘宝页面确认规格、运费和收货地址。</p></div></section> : null}
+        </section> : hasProducts ? <section className="mt-8 flex items-start gap-3 rounded-2xl border border-[hsl(var(--brand-green)/0.25)] bg-[hsl(var(--brand-green)/0.08)] p-5 text-sm leading-6 text-foreground shadow-sm lg:p-7"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--brand-green))]" /><div><p className="font-semibold">支付、物流和售后在淘宝完成</p><p className="mt-1 text-muted-foreground">创探空间只负责帮助你找到适合课程和项目的材料包。点击商品卡片的「去淘宝购买」后，按淘宝页面确认规格、运费和收货地址。</p></div></section> : null}
       </div>
     </main>
   )

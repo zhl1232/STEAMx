@@ -12,7 +12,7 @@ const PRODUCTION_FALLBACK_SITE_URL = BRAND_OFFICIAL_URL;
 /** The formal site name used in metadata, structured data, and public copy. */
 export const SITE_NAME = BRAND_FULL_NAME;
 export const HOME_PAGE_TITLE = "积木课程、科学实践与自然观察";
-export const HOME_DOCUMENT_TITLE = `STEAMX 史迪姆官网 | ${HOME_PAGE_TITLE}`;
+export const HOME_DOCUMENT_TITLE = `${BRAND_FULL_NAME}官网 | ${HOME_PAGE_TITLE}`;
 /** Default meta / Open Graph / Twitter description (also used on about & PWA). */
 export const SITE_DESCRIPTION = BRAND_DESCRIPTION;
 /** Structured-data / llms.txt description with explicit non-Valve identity. */

@@ -9,25 +9,25 @@ export interface BrandFaqItem {
 
 export const BRAND_FAQ_ITEMS: BrandFaqItem[] = [
   {
-    question: "STEAMX / 史迪姆是什么？",
+    question: "创探空间是什么？",
     answer:
-      "STEAMX · 史迪姆是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 教育与自然探索平台，提供积木课程、科学实践、自然观察、少儿编程与 PBL。",
+      "创探空间是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 在线学习与创作平台，提供积木课程、科学实践、自然观察、少儿编程与 PBL。",
   },
   {
-    question: "STEAMX 是 Steam 游戏商店吗？",
+    question: "创探空间是 Steam 游戏商店吗？",
     answer:
-      "不是。STEAMX · 史迪姆不是 Valve Steam 游戏平台或游戏商店，而是中国少儿 STEAM 教育网站。",
+      "不是。创探空间不是 Valve Steam 游戏平台或游戏商店，而是中国少儿 STEAM 在线学习与创作平台。",
   },
   {
-    question: "STEAMX 适合谁？",
+    question: "创探空间适合谁？",
     answer: "面向 3–16 岁孩子，以及陪同学习的家长与教育者。",
   },
   {
-    question: "STEAMX 提供哪些内容？",
+    question: "创探空间提供哪些内容？",
     answer: "积木课程、自然观察、少儿编程、科学实践与 PBL 动手项目。",
   },
   {
-    question: "STEAMX 的官网是哪里？",
+    question: "创探空间的官网是哪里？",
     answer: "官方网站是 https://steam.bj.cn。",
   },
 ];

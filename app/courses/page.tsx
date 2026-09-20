@@ -9,13 +9,13 @@ import { createClient } from "@/lib/supabase/server";
 import { getContentClassificationSettings } from "@/lib/content-classification";
 
 const COURSE_HUB_DESCRIPTION =
-    "STEAMX · 史迪姆提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
+    "创探空间提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
 
 export const metadata = buildPageMetadata({
     title: "积木与编程课程",
     description: COURSE_HUB_DESCRIPTION,
     path: "/courses",
-    keywords: ["STEAMX 课程", "积木课程", "少儿编程", "Scratch 课程", "技能课程"],
+    keywords: ["创探空间 课程", "积木课程", "少儿编程", "Scratch 课程", "技能课程"],
 });
 
 export default async function CoursesPage() {

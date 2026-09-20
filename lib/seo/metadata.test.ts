@@ -40,9 +40,7 @@ describe("buildPageMetadata", () => {
   it("leads with high-volume search terms and avoids Valve steam教育", () => {
     expect(DEFAULT_SEO_KEYWORDS).toEqual(
       expect.arrayContaining([
-        "STEAMX",
-        "史迪姆",
-        "STEAMX 史迪姆",
+        "创探空间",
         "少儿STEAM",
         "少儿编程",
         "免费少儿编程",
@@ -61,30 +59,30 @@ describe("buildPageMetadata", () => {
     expect(DEFAULT_SEO_KEYWORDS.join(" ").toLowerCase()).not.toContain("steam教育");
 
     const metadata = buildPageMetadata({
-      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
-      description: "STEAMX · 史迪姆是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 教育与自然探索平台（非游戏平台），提供积木课程、科学实践、自然观察、少儿编程与 PBL，帮助孩子在动手实践中学习、创造和分享。",
+      title: "创探空间官网 | 积木课程、科学实践与自然观察",
+      description: "创探空间是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 在线学习与创作平台（非游戏平台），提供积木课程、科学实践、自然观察、少儿编程与 PBL，帮助孩子在动手实践中学习、创造和分享。",
       path: "/",
       absoluteTitle: true,
     });
 
-    expect(metadata.title).toEqual({ absolute: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察" });
+    expect(metadata.title).toEqual({ absolute: "创探空间官网 | 积木课程、科学实践与自然观察" });
     expect(metadata.description).toContain("非游戏平台");
     expect(metadata.description).toContain("积木课程");
     expect(metadata.openGraph).toMatchObject({
-      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      title: "创探空间官网 | 积木课程、科学实践与自然观察",
       description: expect.stringContaining("非游戏平台"),
     });
     expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl("/"));
     expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl("/"));
     expect(String(metadata.alternates?.canonical).endsWith("/")).toBe(true);
     expect(metadata.twitter).toMatchObject({
-      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      title: "创探空间官网 | 积木课程、科学实践与自然观察",
     });
   });
 
   it("can omit metadata canonical/og:url for handwritten homepage tags", () => {
     const metadata = buildPageMetadata({
-      title: "STEAMX 史迪姆官网 | 积木课程、科学实践与自然观察",
+      title: "创探空间官网 | 积木课程、科学实践与自然观察",
       description: "desc",
       path: "/",
       absoluteTitle: true,

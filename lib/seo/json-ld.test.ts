@@ -42,17 +42,17 @@ describe("buildWebsiteJsonLd", () => {
 
     expect(types).toEqual([["Organization", "EducationalOrganization"], "WebSite"]);
     expect(data["@graph"][0]).toMatchObject({
-      name: "STEAMX · 史迪姆",
-      alternateName: expect.arrayContaining(["STEAMX", "史迪姆", "STEAMX 史迪姆"]),
-      description: expect.stringContaining("少儿 STEAM 教育与自然探索平台"),
+      name: "创探空间",
+      alternateName: expect.arrayContaining(["创探空间"]),
+      description: expect.stringContaining("少儿 STEAM 在线学习与创作平台"),
       url: "https://steam.bj.cn",
     });
     expect(data["@graph"][0].description).toContain("非游戏平台");
     expect(data["@graph"][0].description).toContain("Valve Steam");
     expect(data["@graph"][1]).toMatchObject({
-      name: "STEAMX · 史迪姆",
-      alternateName: expect.arrayContaining(["STEAMX", "史迪姆"]),
-      description: expect.stringContaining("少儿 STEAM 教育与自然探索平台"),
+      name: "创探空间",
+      alternateName: expect.arrayContaining(["创探空间"]),
+      description: expect.stringContaining("少儿 STEAM 在线学习与创作平台"),
       url: "https://steam.bj.cn",
       inLanguage: "zh-CN",
     });
@@ -353,7 +353,7 @@ describe("public content JSON-LD", () => {
 });
 
 describe("buildAboutPageJsonLd", () => {
-  it("describes STEAMX · 史迪姆 as an EducationalOrganization AboutPage", () => {
+  it("describes 创探空间 as an EducationalOrganization AboutPage", () => {
     const data = buildAboutPageJsonLd();
 
     expect(data["@type"]).toBe("AboutPage");
@@ -374,11 +374,11 @@ describe("buildBrandFaqPageJsonLd", () => {
     expect(data.url).toBe("https://steam.bj.cn/about");
     expect(data.mainEntity).toHaveLength(5);
     expect(data.mainEntity.map((item: { name: string }) => item.name)).toEqual([
-      "STEAMX / 史迪姆是什么？",
-      "STEAMX 是 Steam 游戏商店吗？",
-      "STEAMX 适合谁？",
-      "STEAMX 提供哪些内容？",
-      "STEAMX 的官网是哪里？",
+      "创探空间是什么？",
+      "创探空间是 Steam 游戏商店吗？",
+      "创探空间适合谁？",
+      "创探空间提供哪些内容？",
+      "创探空间的官网是哪里？",
     ]);
     expect(data.mainEntity[1].acceptedAnswer.text).toContain("不是");
     expect(data.mainEntity[1].acceptedAnswer.text).toContain("Valve Steam");

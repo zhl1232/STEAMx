@@ -23,8 +23,6 @@ import {
   BRAND_CORE_TAGLINE,
   BRAND_DISAMBIGUATION,
   BRAND_FULL_NAME,
-  BRAND_NAME,
-  BRAND_NAME_ZH,
   BRAND_OFFICIAL_URL,
 } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
@@ -147,7 +145,7 @@ export default function AboutSettingsPage() {
       title="关于与帮助"
       fallbackHref={user ? "/settings" : "/"}
       kicker="支持与规则"
-      description="了解 STEAMX · 史迪姆是什么，以及如何联系反馈与查阅规则。"
+      description="了解创探空间是什么，以及如何联系反馈与查阅规则。"
     >
       <div className="space-y-6">
         <section id="about" className="scroll-mt-24 space-y-2 px-1">
@@ -157,7 +155,7 @@ export default function AboutSettingsPage() {
           <p className="text-sm leading-7 text-muted-foreground">{BRAND_CORE_STATEMENT}</p>
           <p className="text-sm leading-7 text-muted-foreground">{BRAND_DISAMBIGUATION}</p>
           <p className="text-sm leading-7 text-muted-foreground">
-            {BRAND_NAME} 的中文品牌名为「{BRAND_NAME_ZH}」。可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
+            可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
             <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">
               steam.bj.cn
             </a>

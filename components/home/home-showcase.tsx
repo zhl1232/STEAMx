@@ -26,7 +26,7 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_TAGLINE } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -122,14 +122,14 @@ function HomeHero({ image }: { image: string }) {
               {BRAND_FULL_NAME}
             </p>
             <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[38px] md:leading-[1.12] lg:text-[44px]">
-              <span className="md:hidden">
+              <span className="md:hidden" aria-label={BRAND_TAGLINE}>
                 <span className="text-[hsl(var(--brand-blue))]">探索</span>
                 <span className="px-1.5 text-foreground">·</span>
                 <span className="text-[hsl(var(--brand-green))]">创造</span>
                 <span className="px-1.5 text-foreground">·</span>
                 <span className="text-[hsl(var(--brand-amber))]">成长</span>
               </span>
-              <span className="hidden md:block">把好奇心做成作品</span>
+              <span className="hidden md:block">{BRAND_HERO_TITLE}</span>
             </h1>
 
             {/* 手机端叠在实景图上对比度差、显得乱，仅桌面保留介绍文案 */}

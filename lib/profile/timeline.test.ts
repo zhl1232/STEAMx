@@ -45,7 +45,7 @@ describe('profile timeline', () => {
       expect.objectContaining({
         id: 'account:created',
         label: '加入探索',
-        detail: '开始在 STEAMX · 史迪姆 记录探索',
+        detail: '开始在 创探空间 记录探索',
       }),
     ])
   })

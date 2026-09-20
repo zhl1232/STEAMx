@@ -11,7 +11,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: "观察记录",
   description: "查看社区公开的自然观察记录，了解大家在什么时间、什么地点观察到了哪些物种与生态现象。",
   path: "/nature/observations",
-  keywords: ["STEAMX 观察记录", "观察记录", "自然观察记录", "观鸟记录", "社区观察"],
+  keywords: ["创探空间 观察记录", "观察记录", "自然观察记录", "观鸟记录", "社区观察"],
 });
 
 interface ObservationsPageProps {

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE } from "@/lib/brand";
 
 import { HomeShowcase } from "./home-showcase";
 
@@ -35,7 +35,7 @@ describe("HomeShowcase hero", () => {
     );
 
     expect(screen.getByText(BRAND_FULL_NAME)).toBeInTheDocument();
-    expect(screen.getByText("把好奇心做成作品")).toBeInTheDocument();
+    expect(screen.getByText(BRAND_HERO_TITLE)).toBeInTheDocument();
     expect(screen.getByText(BRAND_DESCRIPTION)).toBeInTheDocument();
     expect(screen.queryByText(/项目式学习/)).not.toBeInTheDocument();
     expect(screen.queryByText(/乐高/)).not.toBeInTheDocument();

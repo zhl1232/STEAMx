@@ -329,7 +329,7 @@ export function SpeciesAtlas({
       />
 
       <header className="px-4 pb-4 pt-5 md:px-0 md:pb-6 md:pt-0">
-        <p className="text-xs font-semibold tracking-[0.16em] text-[hsl(var(--brand-green))]">自然观察 · STEAMX</p>
+        <p className="text-xs font-semibold tracking-[0.16em] text-[hsl(var(--brand-green))]">自然观察 · 创探空间</p>
         <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground md:text-4xl">{heading}</h1>
         <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
           {introduction}

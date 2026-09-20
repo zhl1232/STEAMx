@@ -5,7 +5,7 @@ const definition = {
   slug: "birds" as const,
   title: "鸟类图鉴与观察",
   description: "浏览常见鸟类图鉴，学习羽色、体型、鸣声与栖息环境等识别线索，并查看社区公开鸟类观察记录。",
-  keywords: ["STEAMX 鸟类", "鸟类图鉴", "鸟类观察", "观鸟", "常见鸟类", "鸟类识别"],
+  keywords: ["创探空间 鸟类", "鸟类图鉴", "鸟类观察", "观鸟", "常见鸟类", "鸟类识别"],
   image: "/assets/nature-topic-birds.webp",
 };
 

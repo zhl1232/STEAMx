@@ -25,9 +25,9 @@ interface ExplorePageProps {
 export const metadata: Metadata = buildPageMetadata({
   title: "STEAM 项目探索",
   description:
-    "在 STEAMX · 史迪姆浏览科学、技术、工程、艺术、数学项目，按关键词、分类、难度和标签筛选真实可做的动手实践内容。",
+    "在创探空间浏览科学、技术、工程、艺术、数学项目，按关键词、分类、难度和标签筛选真实可做的动手实践内容。",
   path: "/explore",
-  keywords: ["STEAMX 项目", "STEAM项目", "科学实验项目", "创客项目", "积木项目"],
+  keywords: ["创探空间 项目", "STEAM项目", "科学实验项目", "创客项目", "积木项目"],
 });
 
 function firstParam(value: string | string[] | undefined): string | undefined {

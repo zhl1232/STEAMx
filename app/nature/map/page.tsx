@@ -12,7 +12,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: "观察地图",
   description: "基于公开自然观察记录生成社区热点地图，查看哪些地点近期更活跃、积累了更多真实观察数据。",
   path: "/nature/map",
-  keywords: ["STEAMX 观察地图", "观察地图", "自然观察热点", "观鸟地图", "热点地点"],
+  keywords: ["创探空间 观察地图", "观察地图", "自然观察热点", "观鸟地图", "热点地点"],
 });
 
 function formatDate(dateString: string) {

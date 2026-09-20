@@ -431,7 +431,7 @@ function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
   if (ageLabel) {
     questions.push({
       question: `${title}适合几岁？`,
-      answer: `${title}适合${ageLabel}，在 STEAMX（史迪姆）上可以按步骤完成。`,
+      answer: `${title}适合${ageLabel}，在 ${SITE_NAME} 上可以按步骤完成。`,
     });
   }
   const materials = (project.materials ?? []).map((item) => item.trim()).filter(Boolean);

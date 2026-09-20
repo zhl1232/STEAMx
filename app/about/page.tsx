@@ -16,9 +16,9 @@ export const metadata: Metadata = buildPageMetadata({
   description: SITE_STRUCTURED_DESCRIPTION,
   path: "/about",
   keywords: [
-    "关于STEAMX",
-    "STEAMX是什么",
-    "史迪姆是什么",
+    "关于创探空间",
+    "创探空间是什么",
+    "少儿STEAM平台",
     "少儿STEAM",
     "帮助中心",
     "联系我们",

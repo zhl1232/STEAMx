@@ -133,7 +133,7 @@ describe('planTutorResourceSearch', () => {
     await planTutorResourceSearch('你好')
 
     const [systemPrompt] = vi.mocked(chatWithTutorComplete).mock.calls[0] ?? []
-    expect(systemPrompt).toContain('STEAMX · 史迪姆')
+    expect(systemPrompt).toContain('创探空间')
     expect(systemPrompt).not.toContain('STEAM 探索站')
   })
 })

@@ -10,7 +10,7 @@ export const metadata: Metadata = buildPageMetadata({
     title: "社区排行榜",
     description: `查看${BRAND_FULL_NAME}社区中的等级、经验、徽章和项目活跃度排行榜，了解谁在持续创作、分享与完成项目。`,
     path: "/leaderboard",
-    keywords: ["STEAMX 排行榜", "社区排行榜", "STEAM经验榜", "创作排行"],
+    keywords: ["创探空间 排行榜", "社区排行榜", "STEAM经验榜", "创作排行"],
 });
 
 export default function LeaderboardPage() {

@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { LdrawPreviewWorkspace } from '@/components/features/ldraw/ldraw-preview-workspace'
 
 export const metadata: Metadata = {
-  title: 'LDraw 3D 预览工作台 · STEAMX',
+  title: 'LDraw 3D 预览工作台 · 创探空间',
   description: '大颗粒积木 LDraw 源模型与搭建步骤实时 3D 预览及装配调试工作台',
   robots: {
     index: false,

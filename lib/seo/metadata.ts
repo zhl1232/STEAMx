@@ -5,9 +5,7 @@ import { SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
 export const DEFAULT_SOCIAL_IMAGE = "/assets/seo/steamx-social-card.webp";
 
 export const DEFAULT_SEO_KEYWORDS = [
-  "STEAMX",
-  "史迪姆",
-  "STEAMX 史迪姆",
+  "创探空间",
   "STEAM",
   "少儿STEAM",
   "少儿编程",

@@ -1,4 +1,4 @@
-import { BRAND_DISAMBIGUATION, BRAND_NAME, BRAND_NAME_ZH, BRAND_OFFICIAL_URL } from "@/lib/brand";
+import { BRAND_DISAMBIGUATION, BRAND_NAME, BRAND_OFFICIAL_URL } from "@/lib/brand";
 import { SITE_DESCRIPTION, SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
 
 export function buildLlmsTxt() {
@@ -15,7 +15,7 @@ export function buildLlmsTxt() {
     "",
     "## What it is",
     "",
-    `${BRAND_NAME} (${BRAND_NAME_ZH}) is a Chinese kids STEAM education and nature exploration platform for ages 3–16 (children, parents, and educators). It offers brick-building courses (积木课程), science practice (科学实践), nature observation (自然观察), coding, and PBL project work — not PC games.`,
+    `${BRAND_NAME} is a Chinese kids STEAM online learning and creation platform for ages 3–16 (children, parents, and educators). It offers brick-building courses (积木课程), science practice (科学实践), nature observation (自然观察), coding, and PBL project work — not PC games.`,
     "",
     "## What it is not",
     "",
@@ -43,7 +43,7 @@ export function buildLlmsTxt() {
     "## 抓取说明",
     "",
     `请遵循 ${robots}。公开栏目可以抓取；不要抓取 /api/、/admin/、/login、/messages/、/settings/、/share/、/coins/、/shop/、/profile、/migrate 等账号、支付与后台路径。`,
-    "引用公开内容时请保留来源链接。优先使用品牌组合词（STEAMX、STEAMX 史迪姆、史迪姆+积木/科学/自然）指代本站。",
+    "引用公开内容时请保留来源链接。优先使用品牌名「创探空间」及品类组合词（创探空间+积木/科学/自然）指代本站。",
     "",
     "## 联系",
     "",

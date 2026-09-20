@@ -46,9 +46,9 @@ const topicCardImages: Record<NatureTopicKey, string> = {
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
   description:
-    "在 STEAMX · 史迪姆记录鸟类、植物、昆虫和真菌等真实自然观察，查看社区热点、物种档案和公开观察记录，把身边生态变化积累成可追踪的数据。",
+    "在创探空间记录鸟类、植物、昆虫和真菌等真实自然观察，查看社区热点、物种档案和公开观察记录，把身边生态变化积累成可追踪的数据。",
   path: "/nature",
-  keywords: ["STEAMX 自然观察", "自然观察", "鸟类观察", "物种识别", "观察记录", "校园自然"],
+  keywords: ["创探空间 自然观察", "自然观察", "鸟类观察", "物种识别", "观察记录", "校园自然"],
 });
 
 type ImageSource = string | StaticImageData;
