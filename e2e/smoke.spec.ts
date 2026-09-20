@@ -80,8 +80,11 @@ test('手机验证码登录保持两步表单和重发倒计时', async ({ page 
     return route.fulfill({ json: { ok: true } })
   })
   await page.goto('/login')
-  await page.getByLabel('手机号', { exact: true }).fill('13800138000')
+  // The controlled Radix checkbox confirms hydration before typing into SSR inputs.
   await page.getByRole('checkbox').check()
+  await expect(page.getByRole('checkbox')).toBeChecked()
+  await page.getByLabel('手机号', { exact: true }).fill('13800138000')
+  await expect(page.getByLabel('手机号', { exact: true })).toHaveValue('13800138000')
   await page.getByRole('button', { name: '获取验证码', exact: true }).click()
   await expect(page.getByRole('heading', { name: '输入验证码' })).toBeVisible()
   await expect(page.getByRole('checkbox')).toHaveCount(0)
