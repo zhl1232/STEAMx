@@ -95,7 +95,7 @@ export function CourseLessonCatalog({
                 className={cn(
                   "inline-flex min-h-[34px] items-center gap-1 rounded-full px-3 text-xs font-bold transition",
                   active
-                    ? "bg-foreground text-background"
+                    ? "bg-[hsl(var(--brand-blue))] text-[hsl(var(--brand-blue-foreground))] shadow-[0_8px_18px_-14px_hsl(var(--brand-blue)/0.9)]"
                     : "bg-[hsl(var(--surface-muted))] text-muted-foreground hover:text-foreground",
                 )}
               >
