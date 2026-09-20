@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
-import { ChevronRight, Loader2, Sparkles, Trash2, Volume2, VolumeX } from 'lucide-react'
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
+import { ArrowDown, ChevronRight, Loader2, Sparkles, Trash2, Volume2, VolumeX } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 
@@ -16,6 +16,8 @@ import type {
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
+import type { TutorBilling } from '@/lib/ai/tutor/types'
+import { formatTutorCredits } from '@/lib/ai/tutor/billing'
 import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
@@ -26,6 +28,8 @@ export type TutorMessageListProps = {
   messages: TutorChatMessage[]
   greeting: TutorGreeting | null
   busy: boolean
+  streamPhase?: 'preparing' | 'generating' | null
+  recoveryAction?: { label: string; onClick: () => void }
   quota: AiCreditStatus | null
   sessionFetching: boolean
   sessionError: boolean
@@ -50,6 +54,15 @@ export type TutorMessageListProps = {
   ) => void
 }
 
+export function formatTutorBillingCaption(billing?: TutorBilling): string | null {
+  if (!billing) return null
+  const usage = typeof billing.outputTokens === 'number' && !billing.usageMissing
+    ? ` · ${billing.outputTokens} token`
+    : ''
+  if (billing.source === 'free') return `本次免费${usage}`
+  return `本次 ${formatTutorCredits(billing.chargedCredits)} 代币${usage}`
+}
+
 /** 小迪面板滚动消息区：聊天 / 历史列表 / 历史详情三个视图 */
 export function TutorMessageList({
   view,
@@ -57,6 +70,8 @@ export function TutorMessageList({
   messages,
   greeting,
   busy,
+  streamPhase,
+  recoveryAction,
   quota,
   sessionFetching,
   sessionError,
@@ -78,10 +93,27 @@ export function TutorMessageList({
   onDeleteHistoryConversation,
 }: TutorMessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const followLatestRef = useRef(true)
+  const previousUserCountRef = useRef(0)
+  const [showLatest, setShowLatest] = useState(false)
+  const scrollToLatest = () => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+    followLatestRef.current = true
+    setShowLatest(false)
+  }
 
   useEffect(() => {
     if (!scrollRef.current || view !== 'chat') return
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    const userCount = messages.filter((message) => message.role === 'user').length
+    if (userCount !== previousUserCountRef.current) followLatestRef.current = true
+    previousUserCountRef.current = userCount
+    if (followLatestRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      setShowLatest(false)
+    } else {
+      setShowLatest(true)
+    }
   }, [messages, busy, view])
 
   // 历史视图从顶部开始阅读
@@ -91,8 +123,23 @@ export function TutorMessageList({
   }, [view, historyDetail])
 
   return (
-    <div ref={scrollRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-3.5 py-4">
-      {view === 'history' && (
+    <div className="relative flex min-h-0 flex-1 flex-col">
+    <div
+      ref={scrollRef}
+      role="log"
+      aria-label="小迪对话记录"
+      aria-live="polite"
+      aria-relevant="additions"
+      aria-busy={busy}
+      onScroll={() => {
+        const el = scrollRef.current
+        if (!el || view !== 'chat') return
+        followLatestRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 48
+        setShowLatest(!followLatestRef.current)
+      }}
+      className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-3"
+    >
+      {isAuthenticated && view === 'history' && (
         <>
           {historyLoading ? (
             <div className="space-y-2">
@@ -147,7 +194,7 @@ export function TutorMessageList({
         </>
       )}
 
-      {view === 'historyDetail' && (
+      {isAuthenticated && view === 'historyDetail' && (
         <>
           {historyDetailLoading ? (
             <div className="flex justify-center py-6">
@@ -177,6 +224,7 @@ export function TutorMessageList({
                   {message.clarification ? (
                     <TutorClarificationOptions clarification={message.clarification} />
                   ) : null}
+                  {message.billing ? <BillingCaption billing={message.billing} /> : null}
                 </TutorBubble>
               ) : (
                 <UserBubble key={i} message={message} />
@@ -199,7 +247,7 @@ export function TutorMessageList({
       {view === 'chat' && isAuthenticated && messages.length === 0 && !greeting && sessionError && (
         <TutorBubble error>小迪场景加载失败，可以直接提问，我会在发送时重新连接。</TutorBubble>
       )}
-      {view === 'chat' && messages.length === 0 && greeting && (
+      {isAuthenticated && view === 'chat' && messages.length === 0 && greeting && (
         <>
           <TutorBubble>{greeting.message}</TutorBubble>
           {isAuthenticated && contextType === 'challenge' && stageIndex != null && (
@@ -233,7 +281,7 @@ export function TutorMessageList({
         </>
       )}
 
-      {view === 'chat' &&
+      {isAuthenticated && view === 'chat' &&
         messages.map((message, i) => {
           const speechKey = message.speechKey ?? `chat-${i}`
           return message.role === 'assistant' ? (
@@ -266,26 +314,46 @@ export function TutorMessageList({
                   onSelect={onSendPrompt}
                 />
               ) : null}
-              {message.streaming && !message.content ? <ThinkingIndicator /> : null}
+              {message.billing ? <BillingCaption billing={message.billing} /> : null}
+              {message.stopped ? <p className="text-xs text-muted-foreground">已停止接收。回复可能仍会保存，可稍后重新打开对话查看。</p> : null}
+              {message.streaming && !message.content ? <ThinkingIndicator phase={streamPhase} /> : null}
             </TutorBubble>
           ) : (
             <UserBubble key={i} message={message} />
           )
         })}
 
-      {view === 'chat' && busy && messages[messages.length - 1]?.role !== 'assistant' && (
+      {isAuthenticated && view === 'chat' && busy && messages[messages.length - 1]?.role !== 'assistant' && (
         <TutorBubble>
-          <ThinkingIndicator />
+          <ThinkingIndicator phase={streamPhase} />
         </TutorBubble>
       )}
 
-      {view === 'chat' && quota && !quota.canChat && (
+      {isAuthenticated && view === 'chat' && quota && !quota.canChat && (
         <div className="rounded-sm border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
           今日免费次数或本月代币已用完。开通会员每月可获 {MEMBER_AI_MONTHLY_CREDITS} 代币，绝大多数时间够用～
         </div>
       )}
+      {isAuthenticated && view === 'chat' && recoveryAction && (
+        <button type="button" onClick={recoveryAction.onClick} disabled={busy}
+          className="min-h-11 rounded-md px-3 text-sm font-medium text-[hsl(var(--brand-blue))] hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50">
+          {recoveryAction.label}
+        </button>
+      )}
+    </div>
+    {showLatest && view === 'chat' && (
+      <button type="button" onClick={scrollToLatest}
+        className="absolute bottom-2 right-3 inline-flex min-h-11 items-center gap-1 rounded-full border bg-background px-3 text-xs shadow-sm focus-visible:ring-2 focus-visible:ring-ring">
+        <ArrowDown className="h-4 w-4" />回到最新消息
+      </button>
+    )}
     </div>
   )
+}
+
+function BillingCaption({ billing }: { billing: TutorBilling }) {
+  const caption = formatTutorBillingCaption(billing)
+  return caption ? <p className="mt-1 text-[10px] leading-4 text-muted-foreground">{caption}</p> : null
 }
 
 function UserBubble({ message }: { message: TutorChatMessage }) {
@@ -311,8 +379,8 @@ function UserBubble({ message }: { message: TutorChatMessage }) {
   )
 }
 
-function ThinkingIndicator() {
-  return <span className="text-muted-foreground">小迪正在思考…</span>
+function ThinkingIndicator({ phase }: { phase?: 'preparing' | 'generating' | null }) {
+  return <span role="status" className="text-muted-foreground">{phase === 'preparing' ? '正在准备资料…' : '小迪正在组织回答…'}</span>
 }
 
 function TutorClarificationOptions({
@@ -336,7 +404,7 @@ function TutorClarificationOptions({
             </>
           )
           const className =
-            'flex min-h-9 w-full items-center gap-2 rounded-md border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.8)] px-2.5 text-left text-[12px] font-medium text-[hsl(var(--brand-blue))] transition-colors hover:border-[hsl(var(--brand-blue)/0.4)] hover:bg-[hsl(var(--status-info-surface)/0.58)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-wait disabled:opacity-50'
+            'flex min-h-11 w-full items-center gap-2 rounded-md border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.8)] px-2.5 text-left text-[12px] font-medium text-[hsl(var(--brand-blue))] transition-colors hover:border-[hsl(var(--brand-blue)/0.4)] hover:bg-[hsl(var(--status-info-surface)/0.58)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.28)] disabled:cursor-wait disabled:opacity-50'
 
           return onSelect ? (
             <button
@@ -379,7 +447,7 @@ function TutorSpeechButton({
       disabled={loading}
       aria-label={playing ? '停止朗读' : '朗读这条回复'}
       title={playing ? '停止朗读' : '朗读这条回复'}
-      className="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised))] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.55)] disabled:opacity-50"
+      className="mt-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised))] text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--status-info-surface)/0.55)] disabled:opacity-50"
     >
       {loading ? (
         <Loader2 className="h-3.5 w-3.5 animate-spin" />

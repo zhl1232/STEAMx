@@ -1,5 +1,6 @@
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
+import type { TutorBilling } from '@/lib/ai/tutor/types'
 
 /** 服务端 /api/tutor/chat SSE 事件（data: 行内的 JSON） */
 export type TutorStreamEvent = {
@@ -14,6 +15,9 @@ export type TutorStreamEvent = {
   clarification?: TutorResourceClarification
   phase?: string
   timings?: Array<{ name: string; elapsedMs: number; deltaMs: number }>
+  requestState?: string
+  replayed?: boolean
+  billing?: TutorBilling
 }
 
 /**
@@ -26,26 +30,33 @@ export async function* readTutorStreamEvents(
   const reader = body.getReader()
   const decoder = new TextDecoder()
   let buffer = ''
-
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    buffer += decoder.decode(value, { stream: true })
-    const lines = buffer.split('\n')
-    buffer = lines.pop() ?? ''
-
-    for (const line of lines) {
-      const trimmed = line.trim()
-      if (!trimmed.startsWith('data:')) continue
-      const json = trimmed.slice(5).trim()
-      if (!json) continue
-      let event: TutorStreamEvent
-      try {
-        event = JSON.parse(json)
-      } catch {
-        continue
+  let completed = false
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      buffer += done ? decoder.decode() : decoder.decode(value, { stream: true })
+      const lines = buffer.split('\n')
+      buffer = done ? '' : lines.pop() ?? ''
+      for (const line of lines) {
+        const trimmed = line.trim()
+        if (!trimmed.startsWith('data:')) continue
+        const json = trimmed.slice(5).trim()
+        if (!json) continue
+        let event: TutorStreamEvent
+        try {
+          event = JSON.parse(json)
+        } catch {
+          continue
+        }
+        yield event
       }
-      yield event
+      if (done) {
+        completed = true
+        break
+      }
     }
+  } finally {
+    if (!completed) await reader.cancel().catch(() => undefined)
+    reader.releaseLock()
   }
 }

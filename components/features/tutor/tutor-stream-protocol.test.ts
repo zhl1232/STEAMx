@@ -34,10 +34,41 @@ describe('readTutorStreamEvents', () => {
     ])
   })
 
+  it('透传完成回复的代币计费信息', async () => {
+    const billing = {
+      source: 'wallet' as const,
+      chargedCredits: 0.123,
+      outputTokens: 123,
+      usageMissing: false,
+      receiptId: 42,
+    }
+    await expect(collect([
+      `data: ${JSON.stringify({ type: 'done', reply: '你好', billing })}\n`,
+    ])).resolves.toEqual([{ type: 'done', reply: '你好', billing }])
+  })
+
   it('拼接跨 chunk 边界拆开的事件', async () => {
     const events = await collect(['data: {"type":"chunk","con', 'tent":"好"}\n'])
 
     expect(events).toEqual([{ type: 'chunk', content: '好' }])
+  })
+
+  it('keeps the terminal event when the stream ends without a newline', async () => {
+    expect(await collect(['data: {"type":"done","reply":"完整回复"}'])).toEqual([{ type: 'done', reply: '完整回复' }])
+  })
+
+  it('cancels and releases the reader when consumption stops early', async () => {
+    let cancelled = false
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) { controller.enqueue(new TextEncoder().encode('data: {"type":"chunk","content":"一"}\n')) },
+      cancel() { cancelled = true },
+    })
+    for await (const event of readTutorStreamEvents(body)) {
+      expect(event.content).toBe('一')
+      break
+    }
+    expect(cancelled).toBe(true)
+    expect(body.locked).toBe(false)
   })
 
   it('处理多字节字符在字节层被拆开的情况', async () => {

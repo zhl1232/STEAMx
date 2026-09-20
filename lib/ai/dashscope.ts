@@ -57,6 +57,7 @@ export type DashScopeTokenUsage = {
   promptTokens?: number
   completionTokens?: number
   totalTokens?: number
+  reasoningTokens?: number
 }
 
 export class DashScopeError extends Error {
@@ -325,12 +326,18 @@ export function parseDashScopeUsage(raw: unknown): DashScopeTokenUsage | null {
     prompt_tokens?: unknown
     completion_tokens?: unknown
     total_tokens?: unknown
+    completion_tokens_details?: { reasoning_tokens?: unknown } | null
   }
-  const pick = (value: unknown) => (typeof value === 'number' && Number.isFinite(value) ? value : undefined)
+  const pick = (value: unknown) => (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : undefined)
+  if (usage.completion_tokens_details?.reasoning_tokens != null &&
+      pick(usage.completion_tokens_details.reasoning_tokens) === undefined) return null
   const parsed: DashScopeTokenUsage = {
     promptTokens: pick(usage.prompt_tokens),
     completionTokens: pick(usage.completion_tokens),
     totalTokens: pick(usage.total_tokens),
+    ...(pick(usage.completion_tokens_details?.reasoning_tokens) === undefined ? {} : {
+      reasoningTokens: pick(usage.completion_tokens_details?.reasoning_tokens),
+    }),
   }
   return parsed.promptTokens == null && parsed.completionTokens == null && parsed.totalTokens == null
     ? null
@@ -362,6 +369,17 @@ function logFailure(input: {
     status: input.status ?? null,
     latencyMs: input.latencyMs,
   })
+}
+
+/** Only known hybrid tutor models accept false; fixed-thinking/custom models may reject it.
+ * https://help.aliyun.com/en/model-studio/qwen-api-via-dashscope
+ */
+function tutorThinkingOptions(role: DashScopeModelRole, model: string) {
+  if (!['tutor-text', 'tutor-planner', 'tutor-vision'].includes(role)) return {}
+  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2})$/, '')
+  return /^(?:qwen3\.[78]-(?:max|plus|flash)|qwen3-vl-(?:plus|flash)|qwen-flash)$/.test(family)
+    ? { enable_thinking: false }
+    : {}
 }
 
 /** 统一的 DashScope 请求出口：鉴权、超时、错误归一化。流式调用拿 Response，非流式用 dashScopeChatComplete。 */
@@ -396,7 +414,7 @@ export async function dashScopeChatCompletions(input: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ model, ...input.payload }),
+        body: JSON.stringify({ ...tutorThinkingOptions(input.role, model), ...input.payload, model }),
         signal: AbortSignal.timeout(input.timeoutMs),
       })
     } catch (error) {

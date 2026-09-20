@@ -4269,6 +4269,46 @@ export interface Database {
         Args: { p_cost: number; p_source: string }
         Returns: Json
       }
+      consume_ai_credit_service: {
+        Args: { p_user_id: string; p_cost: number }
+        Returns: Json
+      }
+      reserve_tutor_credit_service: {
+        Args: { p_user_id: string; p_request_id: string; p_max_output_tokens?: number }
+        Returns: Json
+      }
+      get_tutor_chat_session_service: {
+        Args: { p_user_id: string; p_context_type: string; p_context_id: string }
+        Returns: Json
+      }
+      archive_tutor_chat_service: {
+        Args: { p_user_id: string; p_context_type: string; p_context_id: string; p_epoch: number }
+        Returns: Json
+      }
+      begin_tutor_request_service: {
+        Args: { p_user_id: string; p_request_id: string; p_request_hash: string; p_context_type: string; p_context_id: string; p_epoch: number; p_max_output_tokens: number; p_executor_id: string }
+        Returns: Json
+      }
+      complete_tutor_request_service: {
+        Args: { p_user_id: string; p_request_id: string; p_user_content: string; p_images: string[]; p_user_meta: Json; p_reply: string; p_assistant_meta: Json; p_output_tokens: number | null; p_clarification: boolean; p_title: string }
+        Returns: Json
+      }
+      fail_tutor_request_service: {
+        Args: { p_user_id: string; p_request_id: string }
+        Returns: Json
+      }
+      delete_tutor_conversation_service: {
+        Args: { p_user_id: string; p_conversation_id: string }
+        Returns: Json
+      }
+      settle_tutor_credit_service: {
+        Args: { p_user_id: string; p_receipt_id: number; p_output_tokens?: number | null; p_cancel?: boolean }
+        Returns: Json
+      }
+      refund_ai_credit_service: {
+        Args: { p_user_id: string; p_refund_cost: number; p_source: string; p_receipt_id: number }
+        Returns: Json
+      }
       admin_adjust_ai_credit: {
         Args: { p_target_user_id: string; p_amount: number; p_note?: string | null }
         Returns: Json

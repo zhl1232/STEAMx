@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { readTutorStreamEvents } from '@/components/features/tutor/tutor-stream-protocol'
@@ -14,7 +14,7 @@ import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { TutorMascotFeedback } from '@/lib/ai/tutor/mascot-state'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
-import type { AiCreditStatus } from '@/lib/ai/tutor/types'
+import type { AiCreditStatus, TutorBilling } from '@/lib/ai/tutor/types'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
@@ -29,18 +29,24 @@ export type TutorChatMessage = {
   images?: string[]
   error?: boolean
   streaming?: boolean
+  stopped?: boolean
   speechKey?: string
   clarification?: TutorResourceClarification
+  billing?: TutorBilling
+  requestId?: string
 }
 
 export type TutorSendMessageOptions = {
   forceReadReply?: boolean
+  retryBody?: string
+  retryOf?: string
 }
 
 export type TutorSendMessageFn = (text: string, images?: string[], options?: TutorSendMessageOptions) => Promise<void>
 
 export type UseTutorChatStreamOptions = {
   contextKey: string
+  epoch?: number
   context: ResolvedTutorContext
   stageIndex?: number
   lessonStepIndex?: number
@@ -62,6 +68,7 @@ export type UseTutorChatStreamOptions = {
   setMascotFeedback: (feedback: TutorMascotFeedback | null) => void
   /** 发送前清场：开场白、输入框、吉祥物反馈（须为稳定引用） */
   onBeforeSend: () => void
+  onStopSpeech: () => void
 }
 
 /**
@@ -70,6 +77,7 @@ export type UseTutorChatStreamOptions = {
  */
 export function useTutorChatStream({
   contextKey,
+  epoch,
   context,
   stageIndex,
   lessonStepIndex,
@@ -89,6 +97,7 @@ export function useTutorChatStream({
   refreshQuota,
   setMascotFeedback,
   onBeforeSend,
+  onStopSpeech,
 }: UseTutorChatStreamOptions) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
@@ -98,25 +107,61 @@ export function useTutorChatStream({
   const [messages, setMessages] = useState<TutorChatMessage[]>([])
   const [busy, setBusy] = useState(false)
   const [toolPendingCount, setToolPendingCount] = useState(0)
+  const [streamPhase, setStreamPhase] = useState<'preparing' | 'generating' | null>(null)
+  const [failedMessage, setFailedMessage] = useState<{ text: string; images?: string[]; retryable: boolean; requestBody: string; newAttempt: boolean } | null>(null)
   const toolPendingCountRef = useRef(0)
   // 在途 SSE 请求的取消句柄：场景切换/卸载时中止旧流，避免旧话题内容串进新场景。
   const streamAbortRef = useRef<AbortController | null>(null)
+  const generationRef = useRef(0)
+  const scope = `${user?.id ?? 'anonymous'}:${contextKey}:${epoch ?? 'loading'}`
+  const scopeRef = useRef(scope)
+  const effectScopeRef = useRef(scope)
+  useLayoutEffect(() => { scopeRef.current = scope }, [scope])
+
+  const resetChat = useCallback(() => {
+    generationRef.current += 1
+    streamAbortRef.current?.abort()
+    streamAbortRef.current = null
+    busyRef.current = false
+    setBusy(false)
+    setStreamPhase(null)
+    setFailedMessage(null)
+    setMessages([])
+    toolPendingCountRef.current = 0
+    setToolPendingCount(0)
+  }, [busyRef])
 
   // 切换场景（换页面/换阶段）时清空旧话题的本地缓存并中止在途请求。
   // 旧流的 busyRef 不清会阻塞新场景应用会话数据。
   useEffect(() => {
-    setMessages([])
-    streamAbortRef.current?.abort()
-    streamAbortRef.current = null
-    toolPendingCountRef.current = 0
-    setToolPendingCount(0)
-  }, [contextKey])
+    if (effectScopeRef.current !== scope) onStopSpeech()
+    effectScopeRef.current = scope
+    resetChat()
+  }, [scope, resetChat, onStopSpeech])
 
   useEffect(() => {
     return () => {
+      generationRef.current += 1
       streamAbortRef.current?.abort()
+      busyRef.current = false
     }
-  }, [])
+  }, [busyRef])
+
+  const stopGeneration = useCallback(() => {
+    generationRef.current += 1
+    streamAbortRef.current?.abort()
+    streamAbortRef.current = null
+    busyRef.current = false
+    setBusy(false)
+    setStreamPhase(null)
+    toolPendingCountRef.current = 0
+    setToolPendingCount(0)
+    onStopSpeech()
+    if (sessionInput) void queryClient.invalidateQueries({ queryKey: tutorSessionQueryKey(sessionInput), refetchType: 'none' })
+    setMessages((current) => current.map((message) => message.streaming
+      ? { ...message, streaming: false, stopped: true }
+      : message))
+  }, [busyRef, onStopSpeech, queryClient, sessionInput])
 
   const sendMessage = useCallback<TutorSendMessageFn>(
     async (text, images, options = {}) => {
@@ -131,12 +176,41 @@ export function useTutorChatStream({
       const trimmed = text.trim()
       if (!trimmed && (!images || images.length === 0)) return
       if (busyRef.current) return
+      if (!options.retryBody && !Number.isSafeInteger(epoch)) {
+        toast({ title: '对话正在加载，请稍后发送。' })
+        return
+      }
+      const requestBody = options.retryBody ?? JSON.stringify({
+        requestId: crypto.randomUUID(), epoch,
+        contextType: context.contextType, contextId: context.contextId,
+        content: trimmed, images: images ?? [], stageIndex, lessonId: context.lessonId,
+        lessonStepIndex, lessonStepCount, scratchBlockTargetItemIndex,
+        scratchEditorContext: scratchEditorContext ?? undefined, sceneCapabilities: clientToolCapabilities,
+        surface: context.surface, gameKey: context.playgroundGameKey,
+        speak: Boolean(autoReadReplies || options.forceReadReply),
+      })
+      const { requestId, epoch: requestEpoch } = JSON.parse(requestBody) as { requestId: string; epoch: number }
+      const generation = ++generationRef.current
+      const requestScope = scopeRef.current
+      const isCurrent = () => generationRef.current === generation && scopeRef.current === requestScope
+      streamAbortRef.current?.abort()
+      const abortController = new AbortController()
+      streamAbortRef.current = abortController
+      let releasedBusy = false
+      let full = ''
+      let settledText = false
+      let retryable = true
+      let newAttempt = false
+      let replayed = false
 
       busyRef.current = true
       setBusy(true)
+      setStreamPhase('preparing')
+      setFailedMessage(null)
       onBeforeSend()
       const userMessage: TutorChatMessage = {
         role: 'user',
+        requestId,
         content: trimmed,
         images: images?.length ? images : undefined,
       }
@@ -163,25 +237,27 @@ export function useTutorChatStream({
         current: `chat-live-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       }
       setMessages((current) => {
+        if (!isCurrent()) return current
         const next = [
-          ...current,
+          ...current.filter((message) => !options.retryOf || message.requestId !== options.retryOf),
           userMessage,
-          { role: 'assistant' as const, content: '', streaming: true, speechKey: assistantSpeechKeyRef.current },
+          { role: 'assistant' as const, requestId, content: '', streaming: true, speechKey: assistantSpeechKeyRef.current },
         ]
         return next
       })
 
       const withAssistantSpeechKey = (patch: TutorChatMessage): TutorChatMessage =>
         patch.role === 'assistant' && !patch.speechKey
-          ? { ...patch, speechKey: assistantSpeechKeyRef.current }
+          ? { ...patch, requestId, speechKey: assistantSpeechKeyRef.current }
           : patch
 
       // 用「找最后一条 streaming 占位」代替固定索引，避免 loadSession 等并发更新打乱下标。
       const patchStreaming = (patch: TutorChatMessage) => {
         setMessages((current) => {
+          if (!isCurrent()) return current
           const next = [...current]
           for (let i = next.length - 1; i >= 0; i -= 1) {
-            if (next[i].role === 'assistant' && next[i].streaming) {
+            if (next[i].speechKey === assistantSpeechKeyRef.current) {
               next[i] = withAssistantSpeechKey(patch)
               return next
             }
@@ -193,9 +269,10 @@ export function useTutorChatStream({
 
       const patchLastAssistant = (patch: TutorChatMessage) => {
         setMessages((current) => {
+          if (!isCurrent()) return current
           const next = [...current]
           for (let i = next.length - 1; i >= 0; i -= 1) {
-            if (next[i].role === 'assistant') {
+            if (next[i].speechKey === assistantSpeechKeyRef.current) {
               next[i] = withAssistantSpeechKey(patch)
               return next
             }
@@ -210,6 +287,7 @@ export function useTutorChatStream({
         setToolPendingCount(toolPendingCountRef.current)
       }
       const endToolWork = () => {
+        if (!isCurrent()) return
         toolPendingCountRef.current = Math.max(0, toolPendingCountRef.current - 1)
         setToolPendingCount(toolPendingCountRef.current)
       }
@@ -225,42 +303,25 @@ export function useTutorChatStream({
         }
       }
 
-      streamAbortRef.current?.abort()
-      const abortController = new AbortController()
-      streamAbortRef.current = abortController
-      let releasedBusy = false
-
       try {
         if (willSpeak) {
           await beginStreamedSpeech(assistantSpeechKeyRef.current)
         }
+        if (!isCurrent()) return
         const res = await fetch('/api/tutor/chat', {
           method: 'POST',
           signal: abortController.signal,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contextType: context.contextType,
-            contextId: context.contextId,
-            content: trimmed,
-            images: images ?? [],
-            stageIndex,
-            lessonId: context.lessonId,
-            lessonStepIndex,
-            lessonStepCount,
-            scratchBlockTargetItemIndex,
-            scratchEditorContext: scratchEditorContext ?? undefined,
-            sceneCapabilities: clientToolCapabilities,
-            surface: context.surface,
-            gameKey: context.playgroundGameKey,
-            speak: willSpeak,
-          }),
+          body: requestBody,
         })
+        if (!isCurrent()) return
         const responseHeadersMs = TUTOR_CLIENT_TIMING_ENABLED ? markTiming() : 0
         const serverTiming = TUTOR_CLIENT_TIMING_ENABLED ? res.headers.get('Server-Timing') : null
 
         if (res.status === 402) {
           if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
           const payload = await res.json().catch(() => ({}))
+          if (!isCurrent()) return
           setQuota((q) => (q ? { ...q, canChat: false } : q))
           patchStreaming({
             role: 'assistant',
@@ -274,10 +335,14 @@ export function useTutorChatStream({
 
         if (!res.ok || !res.body) {
           const payload = await res.json().catch(() => ({}))
+          if (!isCurrent()) return
+          retryable = ![400, 401, 403, 402].includes(res.status) && !['stale_topic', 'conflict', 'unavailable'].includes(payload.requestState)
+          newAttempt = payload.requestState === 'failed'
+          if (payload.requestState === 'stale_topic' && sessionInput) void queryClient.invalidateQueries({ queryKey: tutorSessionQueryKey(sessionInput) })
           throw new Error(payload.error || '小迪暂时不可用')
         }
 
-        let full = ''
+        setStreamPhase('generating')
         let streamError: string | null = null
         let streamWarning: string | null = null
         let toolFailed = false
@@ -285,7 +350,6 @@ export function useTutorChatStream({
         let receivedAudio = false
         let speechPlaybackFailed = false
         let speechStreamWentStale = false
-        let settledText = false
         let clarification: TutorResourceClarification | undefined
 
         const releaseBusy = () => {
@@ -293,16 +357,23 @@ export function useTutorChatStream({
           releasedBusy = true
           busyRef.current = false
           setBusy(false)
+          setStreamPhase(null)
         }
 
-        const settleAssistantText = (content: string, messageClarification?: TutorResourceClarification) => {
-          if (settledText) return
+        const settleAssistantText = (
+          content: string,
+          messageClarification?: TutorResourceClarification,
+          billing?: TutorBilling,
+        ) => {
+          if (settledText || !isCurrent()) return
           settledText = true
           const assistantMessage: TutorChatMessage = {
             role: 'assistant',
+            requestId,
             content: content || '…',
             speechKey: assistantSpeechKeyRef.current,
             ...(messageClarification ? { clarification: messageClarification } : {}),
+            ...(billing ? { billing } : {}),
           }
           patchLastAssistant(assistantMessage)
           releaseBusy()
@@ -313,10 +384,11 @@ export function useTutorChatStream({
           }
           if (sessionInput) {
             queryClient.setQueryData<TutorSessionPayload>(tutorSessionQueryKey(sessionInput), (current) =>
-              current
+              current && current.epoch === requestEpoch
                 ? {
                     ...current,
-                    messages: [...(current.messages ?? []), userMessage, assistantMessage],
+                    messages: [...(current.messages ?? []).filter((message) => message.requestId !== requestId
+                      && (!options.retryOf || message.requestId !== options.retryOf)), userMessage, assistantMessage],
                     greeting: null,
                   }
                 : current,
@@ -336,6 +408,7 @@ export function useTutorChatStream({
         }
 
         for await (const event of readTutorStreamEvents(res.body)) {
+          if (!isCurrent()) return
           if (TUTOR_CLIENT_TIMING_ENABLED && firstEventMs == null) {
             firstEventMs = markTiming()
           }
@@ -354,13 +427,16 @@ export function useTutorChatStream({
             clarification = event.clarification
           } else if (event.type === 'done' && event.reply) {
             full = event.reply
-            settleAssistantText(full, clarification)
+            replayed = event.replayed === true
+            settleAssistantText(full, clarification, event.billing)
           } else if (event.type === 'audio_done') {
             finishStreamedSpeech(assistantSpeechKeyRef.current)
           } else if (event.type === 'warning') {
             streamWarning = event.warning || null
           } else if (event.type === 'error') {
             streamError = event.error || '小迪暂时不可用'
+            retryable = true
+            newAttempt = event.requestState === 'failed'
           } else if (event.type === 'tool_call' && event.toolCall) {
             sawToolCall = true
             const ok = await runToolCall(event.toolCall)
@@ -373,23 +449,16 @@ export function useTutorChatStream({
             })
           }
         }
+        if (!isCurrent()) return
 
         if (streamError) {
           if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
-          if (full) {
-            // 已有流式内容：保留内容，错误另起一条气泡，不覆盖回复
-            patchLastAssistant({ role: 'assistant', content: full })
-            setMessages((current) => [...current, { role: 'assistant', content: streamError, error: true }])
-            setMascotFeedback('error')
-            void refreshQuota()
-            return
-          }
           throw new Error(streamError)
         }
 
-        if (!settledText) settleAssistantText(full || '…', clarification)
-        const shouldSpeak = willSpeak
-        const speechResult = shouldSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
+        if (!settledText) throw new Error('连接中断，请稍后重新打开对话，查看回复是否已保存。')
+        const shouldSpeak = willSpeak && !replayed
+        const speechResult = willSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
         // null 表示这条语音已被另一条流/场景接管；只有收到过“stale”帧时才重试，
         // 避免用户主动停止后，旧 SSE 结束时又自动重新播放。
         const speechNeedsRetry = speechResult === false || speechStreamWentStale
@@ -397,24 +466,28 @@ export function useTutorChatStream({
           void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }
       } catch (error) {
+        if (!isCurrent()) return
         if (willSpeak) finishStreamedSpeech(assistantSpeechKeyRef.current)
         if (abortController.signal.aborted) {
-          // 场景切换主动中止：静默清掉流式占位气泡即可，不算错误。
-          // 服务端会照常完成并落库，回复在历史里仍然可见。
-          setMessages((current) => current.filter((message) => !(message.role === 'assistant' && message.streaming)))
           logTiming('aborted')
           return
         }
+        // The text is already saved when done arrives; an audio transport failure must not replace it.
+        if (settledText) return
         logTiming('error', { error: error instanceof Error ? error.message : String(error) })
+        const errorText = error instanceof Error ? error.message : '小迪暂时不可用，请稍后再试。'
         patchStreaming({
           role: 'assistant',
-          content: error instanceof Error ? error.message : '小迪暂时不可用，请稍后再试。',
+          content: full ? `${full}\n\n${errorText}` : errorText,
           error: true,
         })
+        setFailedMessage({ text: trimmed, images, retryable, requestBody, newAttempt })
         setMascotFeedback('error')
+        void refreshQuota()
       } finally {
-        if (streamAbortRef.current === abortController) {
+        if (isCurrent() && streamAbortRef.current === abortController) {
           streamAbortRef.current = null
+          setStreamPhase(null)
           if (!releasedBusy) {
             busyRef.current = false
             setBusy(false)
@@ -424,6 +497,7 @@ export function useTutorChatStream({
     },
     [
       user,
+      epoch,
       context.contextType,
       context.contextId,
       context.lessonId,
@@ -453,11 +527,26 @@ export function useTutorChatStream({
     ],
   )
 
+  const retryLastMessage = useCallback(async () => {
+    if (!failedMessage?.retryable || busyRef.current) return
+    const original = JSON.parse(failedMessage.requestBody) as { requestId: string }
+    const retryBody = failedMessage.newAttempt
+      ? JSON.stringify({ ...original, requestId: crypto.randomUUID() })
+      : failedMessage.requestBody
+    await sendMessage(failedMessage.text, failedMessage.images, { retryBody, retryOf: original.requestId })
+  }, [busyRef, failedMessage, sendMessage])
+
   return {
     messages,
     setMessages,
     busy,
     toolPendingCount,
     sendMessage,
+    resetChat,
+    stopGeneration,
+    streamPhase,
+    failedMessage,
+    retryLastMessage,
+    clearFailedMessage: () => setFailedMessage(null),
   }
 }

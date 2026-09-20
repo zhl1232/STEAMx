@@ -1,0 +1,24 @@
+.panel {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 6rem;
+  width: min(92vw, 380px);
+  max-height: calc(100dvh - 7rem);
+}
+
+.compact {
+  bottom: 10.5rem;
+  max-height: calc(100dvh - 11.5rem);
+}
+
+@media (max-width: 767px) {
+  .panel {
+    top: calc(var(--tutor-viewport-top, 0px) + max(8px, env(safe-area-inset-top)));
+    bottom: auto;
+    left: max(8px, env(safe-area-inset-left));
+    right: max(8px, env(safe-area-inset-right));
+    width: auto;
+    height: calc(var(--tutor-viewport-height, 100dvh) - max(8px, env(safe-area-inset-top)) - max(8px, env(safe-area-inset-bottom)));
+    max-height: none;
+  }
+}

@@ -80,6 +80,15 @@ describe('resolveNotebookCharLimit', () => {
 })
 
 describe('maybeUpdateTutorConversationSummary', () => {
+  it('keeps an existing summary anchor when the model fails', async () => {
+    queueQueries({
+      tutor_conversations: [createQuery({ data: { summary: '旧摘要', summary_message_id: 6 } })],
+      tutor_messages: [createQuery({ data: buildMessages(18).map((m) => ({ ...m, id: m.id + 6 })) })],
+    })
+    summarizeConversationWindowMock.mockResolvedValue(null)
+    await maybeUpdateTutorConversationSummary('conv-1', 'user-1')
+    expect(fromMock.mock.calls.filter(([table]) => table === 'tutor_conversations')).toHaveLength(1)
+  })
   it('窗口外消息不足最小批量时不触发摘要', async () => {
     // 14 条：窗口 12，溢出 2 < 4
     const conversationSelect = createQuery({ data: { summary: '', summary_message_id: null } })
@@ -168,6 +177,15 @@ describe('maybeUpdateTutorConversationSummary', () => {
 })
 
 describe('maybeUpdateTutorNotebook', () => {
+  it.each([null, { content: '旧笔记', last_message_id: 100 }])('does not advance or create a notebook after failed summarization (%j)', async (notebook) => {
+    queueQueries({
+      tutor_notebooks: [createQuery({ data: notebook })],
+      tutor_messages: [createQuery({ data: buildMessages(12) }), createQuery({ count: 350 })],
+    })
+    summarizeNotebookMock.mockResolvedValue(null)
+    await maybeUpdateTutorNotebook('user-1')
+    expect(fromMock.mock.calls.filter(([table]) => table === 'tutor_notebooks')).toHaveLength(1)
+  })
   it('按学生累计消息量放宽摘要上限', async () => {
     const notebookSelect = createQuery({ data: { content: '旧笔记', last_message_id: 100 } })
     const newMessages = buildMessages(12).map((m) => ({ ...m, id: m.id + 100 }))
