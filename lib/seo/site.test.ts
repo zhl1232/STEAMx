@@ -62,16 +62,16 @@ describe("getSiteUrl", () => {
 });
 
 describe("site SEO copy", () => {
-  it("uses high-volume search terms instead of jargon keywords", () => {
-    expect(HOME_PAGE_TITLE).toBe("积木课程、科学实践与自然观察");
+  it("describes the brand and actual learning topics", () => {
+    expect(HOME_PAGE_TITLE).toBe("少儿 STEAM 课程、积木搭建与科学实践");
     expect(HOME_PAGE_TITLE).not.toContain("项目式学习");
     expect(HOME_PAGE_TITLE).not.toContain("观鸟");
     expect(HOME_PAGE_TITLE).not.toContain("免费");
-    expect(HOME_DOCUMENT_TITLE).toBe("创探空间官网 | 积木课程、科学实践与自然观察");
+    expect(HOME_DOCUMENT_TITLE).toBe("创探空间｜少儿 STEAM 课程、积木搭建与科学实践");
     expect(SITE_DESCRIPTION).toContain("创探空间");
     expect(SITE_DESCRIPTION).toContain("3–16 岁");
-    expect(SITE_DESCRIPTION).toContain("少儿 STEAM 在线学习与创作平台");
-    expect(SITE_DESCRIPTION).toContain("非游戏平台");
+    expect(SITE_DESCRIPTION).toContain("少儿 STEAM 学习与创作平台");
+    expect(SITE_DESCRIPTION).not.toContain("非游戏平台");
     expect(SITE_DESCRIPTION).toContain("积木课程");
     expect(SITE_DESCRIPTION).toContain("科学实践");
     expect(SITE_DESCRIPTION).toContain("自然观察");

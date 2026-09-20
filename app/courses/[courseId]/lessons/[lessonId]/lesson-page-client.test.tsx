@@ -1,4 +1,5 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { LessonPageClient } from './lesson-page-client'
@@ -181,6 +182,52 @@ describe('LessonPageClient', () => {
     window.history.replaceState({}, '', '/courses/7/lessons/42')
   })
 
+  it.each(['scratch', 'playground', 'building_3d'])('renders complete %s step copy before hydration outside the sidebar', (lessonType) => {
+    const steps = [
+      { title: '观察结构', description: '先观察两侧连接的位置。', hint: '比较两边是否对称。' },
+      { title: '尝试改进', description: '调整结构后再试一次。', hint: '记录哪种结构更稳定。' },
+    ]
+    const publicLesson: CourseLessonRow = {
+      ...lesson,
+      lesson_type: lessonType,
+      steps: lessonType === 'building_3d' ? [{ title: '旧教案', description: '旧的描述不应展示。' }] : steps,
+      content: lessonType === 'building_3d'
+        ? {
+          building3d: {
+            ldrawModelUrl: '/courses/ldraw/car.mpd',
+            parts: [],
+            steps3d: steps.map(({ title, description }) => ({ title, description, partIds: [] })),
+          },
+        }
+        : {},
+    }
+
+    const html = renderToString(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="工程课"
+          lesson={publicLesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+    const document = new DOMParser().parseFromString(html, 'text/html')
+    const guide = document.querySelector('details')
+
+    expect(guide).not.toBeNull()
+    expect(guide).not.toHaveAttribute('open')
+    expect(guide?.closest('aside')).toBeNull()
+    for (const step of steps) {
+      expect(guide).toHaveTextContent(step.description)
+      if (lessonType !== 'building_3d') expect(guide).toHaveTextContent(step.hint)
+    }
+    expect(guide).not.toHaveTextContent('旧教案')
+    const partsLink = guide?.querySelector('a[href="/courses/7/lessons/42/parts"]')
+    if (lessonType === 'building_3d') expect(partsLink).not.toBeNull()
+    else expect(partsLink).toBeNull()
+  })
+
   it('uses the unified slide and 3D flow in building lesson sidebars', () => {
     const buildingLesson: CourseLessonRow = {
       ...lesson,
@@ -321,8 +368,9 @@ describe('LessonPageClient', () => {
     )
 
     expect(screen.getByRole('button', { name: /步骤 1 先看成五点 当前步骤/ })).toBeInTheDocument()
-    expect(screen.queryByText('这段讲解应只出现在 playground 工作区。')).not.toBeInTheDocument()
-    expect(screen.queryByText(/这条提示也不应出现在左侧步骤列表/)).not.toBeInTheDocument()
+    const sidebar = within(screen.getByRole('complementary'))
+    expect(sidebar.queryByText('这段讲解应只出现在 playground 工作区。')).not.toBeInTheDocument()
+    expect(sidebar.queryByText(/这条提示也不应出现在左侧步骤列表/)).not.toBeInTheDocument()
   })
 
   it('focuses and highlights a lesson step from tutor tool calls', async () => {
@@ -346,8 +394,9 @@ describe('LessonPageClient', () => {
         </TutorProvider>,
       )
 
-      expect(screen.getByText('找到底板和轮子。')).toBeInTheDocument()
-      expect(screen.queryByText('把轮子对称装到底盘两侧。')).not.toBeInTheDocument()
+      const sidebar = within(screen.getByRole('complementary'))
+      expect(sidebar.getByText('找到底板和轮子。')).toBeInTheDocument()
+      expect(sidebar.queryByText('把轮子对称装到底盘两侧。')).not.toBeInTheDocument()
 
       await act(async () => {
         await dispatchToolCall?.({
@@ -360,8 +409,8 @@ describe('LessonPageClient', () => {
         })
       })
 
-      expect(screen.queryByText('找到底板和轮子。')).not.toBeInTheDocument()
-      expect(screen.getByText('把轮子对称装到底盘两侧。')).toBeInTheDocument()
+      expect(sidebar.queryByText('找到底板和轮子。')).not.toBeInTheDocument()
+      expect(sidebar.getByText('把轮子对称装到底盘两侧。')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /步骤 2 装上车轮/ })).toHaveClass('ring-2')
       expect(scrollIntoView).toHaveBeenCalled()
     } finally {

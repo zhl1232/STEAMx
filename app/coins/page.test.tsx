@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import CoinsPage, { getActionLabel } from "./page";
+import CoinsPage from "./page";
+import { getActionLabel } from "./action-label";
 
 const mockUseQuery = vi.fn();
 const mockRefetch = vi.fn();

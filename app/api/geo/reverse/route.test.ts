@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { pickReadableLocationName } from './route'
+import { pickReadableLocationName } from './location-name'
 
 describe('pickReadableLocationName', () => {
   it('prefers the nearest named place over a farther keyword-matching landmark', () => {

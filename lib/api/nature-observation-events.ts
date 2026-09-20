@@ -15,6 +15,8 @@ import type { ObservationEventRow, ObservationEventSpeciesRow, SpeciesRow } from
 export interface ObservationListOptions {
   page?: number
   pageSize?: number
+  /** Throw database errors for server-rendered pages; API callers retain fallback behavior by default. */
+  strictErrors?: boolean
 }
 
 /** 公开观察列表的可见性口径，计数与取数必须保持一致 */
@@ -78,7 +80,7 @@ export async function getObservations(
   options: ObservationListOptions = {},
 ): Promise<{ observations: ObservationEvent[]; total: number; hasMore: boolean }> {
   const supabase = await createClient()
-  const { page = 0, pageSize = 12 } = options
+  const { page = 0, pageSize = 12, strictErrors = false } = options
   const from = page * pageSize
   const to = from + pageSize - 1
 
@@ -99,19 +101,21 @@ export async function getObservations(
 
   if (countError) {
     logger.error('Error counting observations', { error: countError })
+    if (strictErrors) throw countError
     return { observations: [], total: 0, hasMore: false }
   }
 
   const total = count || 0
 
   if (error) {
-    // Deep links and stale pagination controls can legitimately ask for a page
-    // past the last row; report an empty page with the real total instead.
-    if (from >= total || error.code === RANGE_NOT_SATISFIABLE) {
+    // PostgREST uses this specific error for a page whose range starts past
+    // the last row. Other query failures must remain visible to strict SSR.
+    if (error.code === RANGE_NOT_SATISFIABLE) {
       return { observations: [], total, hasMore: false }
     }
 
     logger.error('Error fetching observations', { error })
+    if (strictErrors) throw error
     return { observations: [], total, hasMore: false }
   }
 

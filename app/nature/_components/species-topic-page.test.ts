@@ -17,7 +17,7 @@ describe("buildSpeciesTopicMetadata", () => {
     expect(metadata.alternates).toEqual({ canonical: buildAbsoluteUrl("/nature/birds") });
     expect(metadata.openGraph).toMatchObject({
       url: buildAbsoluteUrl("/nature/birds"),
-      images: [{ url: "/assets/nature-topic-birds.webp", alt: "鸟类图鉴与观察" }],
+      images: [{ url: buildAbsoluteUrl("/assets/nature-topic-birds.webp"), alt: "鸟类图鉴与观察" }],
     });
   });
 });

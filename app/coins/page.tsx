@@ -34,6 +34,7 @@ import { getShopItemById, SHOP_ITEMS } from "@/lib/shop/items";
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils";
+import { getActionLabel } from "./action-label";
 
 type CoinLogRow = Database["public"]["Tables"]["coin_logs"]["Row"];
 type CoinLogEntry = Omit<CoinLogRow, "id"> & {
@@ -73,36 +74,6 @@ const COIN_SPENDING_RULES = [
 ] as const;
 
 type CoinRuleItem = (typeof COIN_EARNING_RULES)[number] | (typeof COIN_SPENDING_RULES)[number];
-
-export function getActionLabel(
-  actionType: string,
-  resourceId: string | null,
-  counterpartyDisplayText: string | null,
-  amount: number,
-): string {
-  switch (actionType) {
-    case "daily_login":
-      return "每日签到";
-    case "purchase": {
-      const item = resourceId ? getShopItemById(resourceId) : null;
-      return item ? `兑换「${item.name}」` : "兑换商品";
-    }
-    case "tip": {
-      if (counterpartyDisplayText) {
-        return amount < 0
-          ? `打赏给 ${counterpartyDisplayText}`
-          : `收到 ${counterpartyDisplayText} 的打赏`;
-      }
-      return resourceId ? `打赏 ${resourceId}` : "打赏";
-    }
-    case "challenge_prize":
-      return counterpartyDisplayText || "挑战奖励";
-    case "balance_baseline":
-      return "历史结余";
-    default:
-      return actionType || "其他";
-  }
-}
 
 function getActionDescription(log: CoinLogEntry): string {
   if (log.synthetic === "balance_baseline") {

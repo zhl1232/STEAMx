@@ -19,6 +19,7 @@ import {
   type SpeciesYearlyAggregate,
 } from '@/lib/mappers/types'
 import { createClient } from '@/lib/supabase/server'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
 import {
   calculateProgressPercent,
@@ -561,6 +562,10 @@ async function loadSpeciesObservationAuthorNames(
 }
 
 export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: string): Promise<Species | null> {
+  // Smoke runs intentionally exercise missing-detail 404s without a database
+  // fixture. Keep this deterministic and avoid masking a real query failure.
+  if (isPlaywrightSmoke()) return null
+
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -572,7 +577,7 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
 
   if (error) {
     logger.error('Error fetching species by slug', { error, slug })
-    return null
+    throw error
   }
 
   if (!data) return null

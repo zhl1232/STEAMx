@@ -5,6 +5,7 @@ import {
   dedupeCompletionRowsByUser,
   diversifyPopularByCategoryForTest,
   getProjectTotalCoinsReceived,
+  getProjects,
   shouldBlendPopularExplore,
 } from '@/lib/api/explore-data'
 import {
@@ -31,6 +32,11 @@ vi.mock('@/lib/logger', () => ({
     error: vi.fn(),
   },
 }))
+
+vi.mock('@/lib/content-classification', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/content-classification')>()
+  return { ...actual, getContentClassificationSettings: vi.fn(async () => ({ publicV1Enabled: false, enforcementEnabled: false })) }
+})
 
 describe('diversifyPopularByCategoryForTest', () => {
   it('still interleaves categories when targetLen equals the full pool size', () => {
@@ -167,5 +173,43 @@ describe('dedupeCompletionRowsByUser', () => {
 
     expect(dedupeCompletionRowsByUser(rows, 2)).toHaveLength(2)
     expect(dedupeCompletionRowsByUser(rows, 2).map((row) => row.user_id)).toEqual(['a', 'b'])
+  })
+})
+
+
+describe('getProjects strict errors', () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  function failedQuery() {
+    const query = {
+      select: vi.fn().mockReturnThis(), eq: vi.fn().mockReturnThis(), in: vi.fn().mockReturnThis(),
+      order: vi.fn().mockReturnThis(), range: vi.fn().mockReturnThis(),
+      then: (resolve: (value: unknown) => unknown) => Promise.resolve({ data: null, error: { message: 'offline' }, count: null }).then(resolve),
+    }
+    vi.mocked(createClient).mockResolvedValue({ from: vi.fn(() => query) } as never)
+  }
+
+  it('preserves soft failures for existing callers but throws in strict latest mode', async () => {
+    failedQuery()
+    await expect(getProjects({}, { sortBy: 'latest' })).resolves.toEqual({ projects: [], total: 0, hasMore: false })
+    await expect(getProjects({}, { sortBy: 'latest', strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+  })
+
+  it.each(['popular', 'weekly'] as const)('throws on %s ranking failure in strict mode', async (sortBy) => {
+    failedQuery()
+    vi.mocked(callRpc).mockResolvedValue({ data: null, error: { message: 'offline' } } as never)
+    await expect(getProjects({}, { sortBy, page: 1, strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+  })
+
+  it('throws when ranking succeeds but hydration fails', async () => {
+    failedQuery()
+    vi.mocked(callRpc).mockResolvedValue({ data: [{ project_id: 1, total_count: 1 }], error: null } as never)
+    await expect(getProjects({}, { sortBy: 'popular', page: 1, strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+  })
+
+  it('throws on a failed blended ranking query instead of returning an empty pool', async () => {
+    failedQuery()
+    vi.mocked(callRpc).mockResolvedValue({ data: null, error: { message: 'offline' } } as never)
+    await expect(getProjects({}, { sortBy: 'popular', page: 0, blendPopular: true, strictErrors: true })).rejects.toThrow('Unable to load explore projects')
   })
 })

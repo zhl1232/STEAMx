@@ -189,6 +189,13 @@ describe('ExploreClient', () => {
         )
     })
 
+    it('exposes real pagination links for the latest list', () => {
+        currentSearchParams = new URLSearchParams('sortBy=latest&page=1')
+        render(<ExploreClient initialProjects={[makeProject(1, '分页项目')]} initialHasMore initialPage={1} categories={['全部']} />)
+        expect(screen.getByRole('link', { name: '下一页' })).toHaveAttribute('href', '/explore?sortBy=latest&page=2')
+        expect(screen.getByRole('link', { name: '第一页' })).toHaveAttribute('href', '/explore?sortBy=latest')
+    })
+
     it('shows a progress-saving prompt for signed-out users', () => {
         render(
             <ExploreClient

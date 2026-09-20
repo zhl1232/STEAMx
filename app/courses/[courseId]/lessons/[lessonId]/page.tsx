@@ -1,3 +1,4 @@
+import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
 import { notFound } from "next/navigation";
 
 import { JsonLd } from "@/components/seo/json-ld";
@@ -81,7 +82,9 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                     image: finishedImage,
                     classification: context.course.classification,
                     durationMinutes: context.lesson.duration_minutes,
-                    steps: context.lesson.steps,
+                    steps: context.lesson.lesson_type === 'building_3d'
+                        ? buildBuildingLessonDisplaySteps({ lessonTitle: context.lesson.title, content: context.lesson.content?.building3d })
+                        : context.lesson.steps,
                 })}
             />
             <JsonLd

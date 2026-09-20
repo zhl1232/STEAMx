@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { toPublicImageUrl } from "@/lib/seo/public-image";
 
 import { SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
 
@@ -61,7 +62,8 @@ export function buildPageMetadata({
   omitCanonical = false,
 }: PageMetadataOptions): Metadata {
   const mergedKeywords = uniqueKeywords([...DEFAULT_SEO_KEYWORDS, ...keywords]);
-  const socialImage = image || DEFAULT_SOCIAL_IMAGE;
+  const contentImage = toPublicImageUrl(image);
+  const socialImage = contentImage || toPublicImageUrl(DEFAULT_SOCIAL_IMAGE)!;
   const absoluteUrl = buildAbsoluteUrl(path);
 
   return {
@@ -84,7 +86,7 @@ export function buildPageMetadata({
       type,
       images: [{
         url: socialImage,
-        ...(!image ? { width: 1200, height: 630 } : {}),
+        ...(!contentImage ? { width: 1200, height: 630 } : {}),
         alt: title,
       }],
     },

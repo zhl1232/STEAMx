@@ -21,7 +21,6 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BRAND_CORE_STATEMENT,
   BRAND_CORE_TAGLINE,
-  BRAND_DISAMBIGUATION,
   BRAND_FULL_NAME,
   BRAND_OFFICIAL_URL,
 } from "@/lib/brand";
@@ -153,7 +152,6 @@ export default function AboutSettingsPage() {
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
           <p className="text-sm font-medium leading-7 text-foreground">{BRAND_CORE_TAGLINE}</p>
           <p className="text-sm leading-7 text-muted-foreground">{BRAND_CORE_STATEMENT}</p>
-          <p className="text-sm leading-7 text-muted-foreground">{BRAND_DISAMBIGUATION}</p>
           <p className="text-sm leading-7 text-muted-foreground">
             可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
             <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">

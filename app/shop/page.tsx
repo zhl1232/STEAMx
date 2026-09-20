@@ -28,6 +28,7 @@ import { SHOP_ITEMS, getNameColorClassName, getShopItemById } from "@/lib/shop/i
 import type { Profile } from "@/lib/mappers/types";
 import type { ShopItem, ShopItemType } from "@/lib/shop/items";
 import { cn } from "@/lib/utils";
+import { getShopMutationErrorMessage, type ShopMutationError } from "./mutation-error";
 
 type ShopRpcResult = {
   ok?: boolean;
@@ -36,12 +37,6 @@ type ShopRpcResult = {
   price?: number;
   min_level?: number;
   level?: number;
-};
-
-type ShopMutationError = Error & {
-  code?: string;
-  minLevel?: number;
-  currentLevel?: number;
 };
 
 type ItemState = {
@@ -57,38 +52,6 @@ function createShopMutationError(result: ShopRpcResult, fallbackCode: string): S
   error.minLevel = result.min_level;
   error.currentLevel = result.level;
   return error;
-}
-
-export function getShopMutationErrorMessage(error: unknown): string {
-  const shopError = error as ShopMutationError | null;
-  const code = shopError?.code || shopError?.message;
-
-  switch (code) {
-    case "insufficient_coins":
-      return "硬币不足";
-    case "invalid_item":
-      return "商品无效";
-    case "already_owned":
-      return "已拥有该商品，无需重复兑换";
-    case "unauthorized":
-      return "登录状态已失效，请重新登录后再试";
-    case "profile_not_found":
-      return "未找到当前账号资料，请稍后重试";
-    case "min_level_required":
-      return typeof shopError?.minLevel === "number"
-        ? `等级不足，需达到 Lv.${shopError.minLevel}`
-        : "当前等级不足，暂时无法兑换";
-    case "not_owned":
-      return "未拥有该商品，无法装备";
-    case "not_name_color":
-      return "该商品不是昵称颜色，无法装备";
-    case "equip_failed":
-      return "装备失败，请稍后重试";
-    case "purchase_failed":
-      return "兑换失败，请稍后重试";
-    default:
-      return error instanceof Error && error.message ? error.message : "请稍后重试";
-  }
 }
 
 function CategoryIcon({ type, className }: { type: ShopItemType; className?: string }) {

@@ -36,6 +36,7 @@ import { ContentClassification } from '@/components/ui/content-classification'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
+import { toPublicImageUrl } from '@/lib/seo/public-image'
 import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
 import { buildProjectCiteDescription, buildProjectCiteKeywords } from '@/lib/seo/project-citability'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
@@ -65,7 +66,7 @@ import {
 import { visibleProjectTags } from '@/lib/project/tags'
 import { resolveProjectVideoPlaybackSrc } from '@/lib/project/video-url'
 import { createClient } from '@/lib/supabase/server'
-import { buildProjectJsonLd } from '@/lib/seo/json-ld'
+import { buildProjectJsonLd, validProjectDate } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
 import type { Project, ProjectStep } from '@/lib/mappers/types'
@@ -721,6 +722,7 @@ export async function generateMetadata(
     classification: project.classification,
     reflection: project.reflection,
   }) || `${BRAND_FULL_NAME}上的实践项目详情页。`
+  const socialImage = toPublicImageUrl(project.image) || toPublicImageUrl(DEFAULT_SOCIAL_IMAGE)!
   const canonicalPath = `/project/${id}`
   const keywords = buildProjectCiteKeywords({
     title: project.title,
@@ -742,7 +744,7 @@ export async function generateMetadata(
       url: canonicalPath,
       siteName: BRAND_FULL_NAME,
       images: [{
-        url: project.image || DEFAULT_SOCIAL_IMAGE,
+        url: socialImage,
         ...(project.image ? {} : { width: 1200, height: 630 }),
         alt: project.title,
       }],
@@ -753,7 +755,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: project.title,
       description,
-      images: [project.image || DEFAULT_SOCIAL_IMAGE],
+      images: [socialImage],
     },
     ...(project.status !== 'approved'
       ? {
@@ -865,6 +867,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const heroGallery = collectHeroGalleryImages(project.image, steps, {
     coverCaption: project.title,
   })
+  const createdAt = validProjectDate(project.createdAt)
+  const updatedAt = validProjectDate(project.updatedAt)
+  const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai" })
   const heroImages = heroGallery.map((item) => item.url)
   const heroCaptions = heroGallery.map((item) => item.caption)
 
@@ -880,6 +885,10 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
           materials,
           steps,
           reflection: project.reflection,
+          author: authorSummary?.name || project.author,
+          authorId: authorSummary?.id || project.author_id,
+          dateCreated: createdAt,
+          dateModified: updatedAt,
         })}
       />
       <ProjectDetailScrollTop />
@@ -1278,6 +1287,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
             ) : null}
           </main>
         </div>
+        {(createdAt || updatedAt) && (
+          <p className="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            {createdAt && <span>创建于 <time dateTime={createdAt}>{dateFormatter.format(new Date(createdAt))}</time></span>}
+            {updatedAt && <span>更新于 <time dateTime={updatedAt}>{dateFormatter.format(new Date(updatedAt))}</time></span>}
+          </p>
+        )}
       </div>
     </div>
   )

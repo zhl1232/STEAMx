@@ -43,6 +43,8 @@ describe('mapDbProject', () => {
       sub_categories: null,
     })
 
+    expect(project.createdAt).toBe('2026-08-28T00:00:00.000Z')
+    expect(project.updatedAt).toBe('2026-08-28T00:00:00.000Z')
     expect(project.reflection).toBe('同种电荷相互排斥，摩擦起电后章鱼会飘起来。')
   })
 })

@@ -1,3 +1,8 @@
+// Only public image files are exempt from the /api/ crawl block. Query variants
+// cover cache versions; videos, PDFs, models and private endpoints stay blocked.
+export const PUBLIC_IMAGE_CRAWLER_ALLOW = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif', 'svg']
+  .flatMap((extension) => [`/api/assets/*.${extension}$`, `/api/assets/*.${extension}?*`]);
+
 export const PRIVATE_CRAWLER_DISALLOW = [
   "/api/",
   "/admin/",

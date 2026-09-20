@@ -1,3 +1,4 @@
+import { toPublicImageUrl as toAbsoluteMediaUrl } from "@/lib/seo/public-image";
 import { BRAND_ALTERNATE_NAMES } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_NAME, SITE_STRUCTURED_DESCRIPTION, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
@@ -8,12 +9,8 @@ import {
   shouldShowProjectReflection,
 } from "@/lib/project/presentation";
 
-export function toAbsoluteMediaUrl(value: string | null | undefined): string | undefined {
-  const trimmed = value?.trim();
-  if (!trimmed) return undefined;
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return buildAbsoluteUrl(trimmed.startsWith("/") ? trimmed : `/${trimmed}`);
-}
+// Kept as an alias for existing JSON-LD callers; every media field here is an image.
+export { toPublicImageUrl as toAbsoluteMediaUrl } from '@/lib/seo/public-image';
 
 export function buildWebsiteJsonLd() {
   const siteUrl = getSiteUrl();
@@ -339,6 +336,10 @@ export function buildSpeciesProfileJsonLd(species: SpeciesProfileJsonLdInput) {
 }
 
 interface ProjectJsonLdInput {
+  author?: string | null;
+  authorId?: string | null;
+  dateCreated?: string | null;
+  dateModified?: string | null;
   id: string | number;
   title: string;
   description?: string | null;
@@ -351,6 +352,12 @@ interface ProjectJsonLdInput {
   }> | null;
   materials?: string[] | null;
   reflection?: string | null;
+}
+
+export function validProjectDate(value: string | null | undefined): string | undefined {
+  if (!value?.trim()) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
 }
 
 export function buildProjectJsonLd(project: ProjectJsonLdInput) {
@@ -375,9 +382,18 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
     ];
   });
 
+  const author = project.author?.trim();
+  const dateCreated = validProjectDate(project.dateCreated);
+  const dateModified = validProjectDate(project.dateModified);
   const article = {
     "@type": "Article",
     headline: project.title,
+    ...(author && author !== 'Unknown' ? { author: {
+      '@type': 'Person', name: author,
+      ...(project.authorId ? { url: buildAbsoluteUrl(`/users/${project.authorId}`) } : {}),
+    } } : {}),
+    ...(dateCreated ? { dateCreated } : {}),
+    ...(dateModified ? { dateModified } : {}),
     mainEntityOfPage: url,
     url,
     inLanguage: "zh-CN",

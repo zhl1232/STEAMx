@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { FUNCTION_WARS_LEVELS } from "@/lib/playground/function-wars-levels"
 import { createWeaponInventory } from "@/lib/playground/function-wars-weapons"
-import FunctionWarsPage, { getFunctionWarsMaxUnlockedIndex } from "./page"
+import FunctionWarsPage from "./page"
+import { getFunctionWarsMaxUnlockedIndex } from "./level-progress"
 
 const {
     checkBadgesMock,

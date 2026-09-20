@@ -46,8 +46,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Verify deployment script
-        run: node --test deploy/registry-deploy.test.mjs
+        run: node --test deploy/registry-deploy.test.mjs scripts/check-seo.test.mjs
 
       - name: Free disk space
         uses: jlumbroso/free-disk-space@v1.3.1
@@ -218,6 +223,20 @@ jobs:
             fi
             bash /tmp/registry-deploy.sh
             rm -f /tmp/registry-deploy.sh
+
+      - name: Check public SEO after deployment
+        id: seo-check
+        timeout-minutes: 8
+        run: node scripts/check-seo.mjs --base-url https://steam.bj.cn --report .tmp/seo-report.json
+
+      - name: Save SEO check report
+        if: always() && steps.seo-check.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-check-${{ github.sha }}
+          path: .tmp/seo-report.json
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Push public URLs to Baidu
         continue-on-error: true

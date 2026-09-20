@@ -73,4 +73,18 @@ describe('getObservations pagination', () => {
     releaseCount()
     await expect(pending).resolves.toMatchObject({ observations: [], total: 10 })
   })
+
+  it('propagates count failures for strict server rendering', async () => {
+    const error = { code: 'PGRST001', message: 'database unavailable' }
+    mockSupabase({ count: null, error }, { data: [], error: null })
+
+    await expect(getObservations({ strictErrors: true })).rejects.toEqual(error)
+  })
+
+  it('propagates non-pagination data failures for strict server rendering', async () => {
+    const error = { code: 'PGRST000', message: 'database unavailable' }
+    mockSupabase({ count: 10, error: null }, { data: null, error })
+
+    await expect(getObservations({ page: 1, strictErrors: true })).rejects.toEqual(error)
+  })
 })

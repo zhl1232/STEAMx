@@ -1,29 +1,45 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import { ObservationsListLoadMore } from "@/app/nature/observations/observations-list-load-more";
-import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getObservations } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-
-export const metadata: Metadata = buildPageMetadata({
-  title: "观察记录",
-  description: "查看社区公开的自然观察记录，了解大家在什么时间、什么地点观察到了哪些物种与生态现象。",
-  path: "/nature/observations",
-  keywords: ["创探空间 观察记录", "观察记录", "自然观察记录", "观鸟记录", "社区观察"],
-});
+import {
+  buildNatureObservationPageHref,
+  parseNatureObservationPage,
+} from "@/lib/seo/nature-observation-pagination";
 
 interface ObservationsPageProps {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string | string[] }>;
+}
+
+const OBSERVATION_DESCRIPTION = "查看社区公开的自然观察记录，了解大家在什么时间、什么地点观察到了哪些物种与生态现象。";
+const OBSERVATION_KEYWORDS = ["创探空间 观察记录", "观察记录", "自然观察记录", "观鸟记录", "社区观察"];
+
+export async function generateMetadata({ searchParams }: ObservationsPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const page = parseNatureObservationPage(params.page);
+  if (page > 0) {
+    const result = await getObservations({ page, pageSize: 12, strictErrors: true });
+    if (result.observations.length === 0) notFound();
+  }
+
+  return buildPageMetadata({
+    title: `观察记录${page > 0 ? ` · 第 ${page + 1} 页` : ""}`,
+    description: OBSERVATION_DESCRIPTION,
+    path: buildNatureObservationPageHref(page),
+    keywords: OBSERVATION_KEYWORDS,
+  });
 }
 
 export default async function ObservationsPage({ searchParams }: ObservationsPageProps) {
   const params = await searchParams;
-  const page = Math.max(0, parseInt(params.page || "0", 10) || 0);
+  const page = parseNatureObservationPage(params.page);
   const pageSize = 12;
-  const { observations, hasMore, total } = await getObservations({ page, pageSize });
-  const fromHref = page > 0 ? `/nature/observations?page=${page}` : "/nature/observations";
+  const { observations, hasMore, total } = await getObservations({ page, pageSize, strictErrors: true });
+  if (page > 0 && observations.length === 0) notFound();
+  const fromHref = buildNatureObservationPageHref(page);
 
   return (
     <div className="page-shell pt-4 pb-24 md:pt-6 md:pb-10">
@@ -39,6 +55,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
           </div>
 
           <ObservationsListLoadMore
+            key={page}
             initialObservations={observations}
             initialPage={page}
             pageSize={pageSize}
@@ -46,15 +63,6 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
             total={total}
             fromHref={fromHref}
           />
-          <noscript>
-            <div className="mt-8 flex justify-end">
-              {hasMore ? (
-                <Button asChild variant="outline">
-                  <Link href={`/nature/observations?page=${page + 1}`}>下一页</Link>
-                </Button>
-              ) : null}
-            </div>
-          </noscript>
         </div>
       </section>
     </div>

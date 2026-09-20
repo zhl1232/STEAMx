@@ -2,6 +2,7 @@
 
 import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
+import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
 import { useSearchParams } from 'next/navigation'
 import {
     ArrowLeft,
@@ -1340,6 +1341,21 @@ export function ExploreClient({
                                         })}
 
                                     </div>
+
+                                    <nav aria-label="项目分页" className="flex justify-center gap-5 py-4 text-sm text-muted-foreground">
+                                        {selectedSortBy === 'latest' ? (
+                                            <>
+                                                {page > 1 && (
+                                                    <a href={buildExplorePageHref(buildSearchParams(), 0)} className="underline underline-offset-4">第一页</a>
+                                                )}
+                                                {hasMore && (
+                                                    <a href={buildExplorePageHref(buildSearchParams(), page)} className="underline underline-offset-4">下一页</a>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <a href={buildExplorePageHref(buildSearchParams({ sortBy: 'latest' }), 0)} className="underline underline-offset-4">按最新发布浏览全部项目</a>
+                                        )}
+                                    </nav>
 
                                     {isLoadingMore && (
                                         <div

@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 import { ObservationCard } from "@/components/features/bird-observation/observation-card";
 import { Button } from "@/components/ui/button";
 import type { ObservationEvent } from "@/lib/mappers/types";
+import { buildNatureObservationPageHref } from "@/lib/seo/nature-observation-pagination";
 
 interface ObservationsListLoadMoreProps {
   initialObservations: ObservationEvent[];
@@ -93,6 +95,18 @@ export function ObservationsListLoadMore({
         </div>
       ) : (
         <div className="mt-8 space-y-4 border-t border-border/60 pt-6">
+          <nav aria-label="观察记录分页" className="flex justify-end gap-3">
+            {page > 0 ? (
+              <Button asChild variant="outline" size="sm">
+                <Link href={buildNatureObservationPageHref(page - 1)}>上一页</Link>
+              </Button>
+            ) : null}
+            {hasMore ? (
+              <Button asChild variant="outline" size="sm">
+                <Link href={buildNatureObservationPageHref(page + 1)}>下一页</Link>
+              </Button>
+            ) : null}
+          </nav>
           <p className="text-xs tabular-nums text-muted-foreground">
             已展示 <span className="font-medium text-foreground">{items.length}</span>
             {total > 0 ? <> / {total.toLocaleString()} 条</> : null}

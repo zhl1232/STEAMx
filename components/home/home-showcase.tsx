@@ -26,7 +26,7 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_TAGLINE } from "@/lib/brand";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_POSITIONING, BRAND_TAGLINE } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -132,7 +132,9 @@ function HomeHero({ image }: { image: string }) {
               <span className="hidden md:block">{BRAND_HERO_TITLE}</span>
             </h1>
 
-            {/* 手机端叠在实景图上对比度差、显得乱，仅桌面保留介绍文案 */}
+            <p className="mt-2 w-fit rounded-sm bg-background/85 px-2 py-1 text-xs font-medium text-foreground md:hidden">
+              {BRAND_POSITIONING}
+            </p>
             <p className="mt-3 hidden max-w-[560px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
               {BRAND_DESCRIPTION}
             </p>
