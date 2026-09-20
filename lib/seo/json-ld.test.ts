@@ -33,6 +33,29 @@ describe("toAbsoluteMediaUrl", () => {
   });
 });
 
+describe("project provenance", () => {
+  it("emits genuine author and database dates without inventing publication dates", () => {
+    const data = buildProjectJsonLd({
+      id: 12, title: "静电章鱼", author: "小明", authorId: "author-1",
+      dateCreated: "2026-08-28T00:00:00Z", dateModified: "2026-09-01T00:00:00Z",
+      image: "/projects/generated/project-0012-guide.webp",
+    });
+    expect(data).toMatchObject({
+      author: { "@type": "Person", name: "小明", url: "https://steam.bj.cn/users/author-1" },
+      dateCreated: "2026-08-28T00:00:00.000Z", dateModified: "2026-09-01T00:00:00.000Z",
+      image: "https://steam.bj.cn/api/assets/projects/generated/project-0012-guide.webp",
+    });
+    expect(data).not.toHaveProperty("datePublished");
+  });
+
+  it("omits unknown authors and invalid dates", () => {
+    const data = buildProjectJsonLd({ id: 12, title: "项目", author: "Unknown", dateCreated: "not a date" });
+    expect(data).not.toHaveProperty("author");
+    expect(data).not.toHaveProperty("dateCreated");
+    expect(data).not.toHaveProperty("dateModified");
+  });
+});
+
 describe("buildWebsiteJsonLd", () => {
   it("emits WebSite and EducationalOrganization using the shared site URL", () => {
     process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
@@ -44,15 +67,15 @@ describe("buildWebsiteJsonLd", () => {
     expect(data["@graph"][0]).toMatchObject({
       name: "创探空间",
       alternateName: expect.arrayContaining(["创探空间"]),
-      description: expect.stringContaining("少儿 STEAM 在线学习与创作平台"),
+      description: expect.stringContaining("少儿 STEAM 学习与创作平台"),
       url: "https://steam.bj.cn",
     });
-    expect(data["@graph"][0].description).toContain("非游戏平台");
-    expect(data["@graph"][0].description).toContain("Valve Steam");
+    expect(data["@graph"][0].description).not.toContain("非游戏平台");
+    expect(data["@graph"][0].description).not.toContain("Valve Steam");
     expect(data["@graph"][1]).toMatchObject({
       name: "创探空间",
       alternateName: expect.arrayContaining(["创探空间"]),
-      description: expect.stringContaining("少儿 STEAM 在线学习与创作平台"),
+      description: expect.stringContaining("少儿 STEAM 学习与创作平台"),
       url: "https://steam.bj.cn",
       inLanguage: "zh-CN",
     });
@@ -358,8 +381,8 @@ describe("buildAboutPageJsonLd", () => {
 
     expect(data["@type"]).toBe("AboutPage");
     expect(data.url).toBe("https://steam.bj.cn/about");
-    expect(data.description).toContain("非游戏平台");
-    expect(data.description).toContain("Valve Steam");
+    expect(data.description).not.toContain("非游戏平台");
+    expect(data.description).not.toContain("Valve Steam");
     expect(data.about).toEqual({ "@id": "https://steam.bj.cn/#organization" });
     expect(data.mainEntity).toEqual({ "@id": "https://steam.bj.cn/#organization" });
   });
@@ -367,21 +390,22 @@ describe("buildAboutPageJsonLd", () => {
 
 
 describe("buildBrandFaqPageJsonLd", () => {
-  it("emits FAQPage with GEO brand disambiguation questions", () => {
+  it("emits FAQPage with practical questions matching the visible FAQ", () => {
     const data = buildBrandFaqPageJsonLd();
 
     expect(data["@type"]).toBe("FAQPage");
     expect(data.url).toBe("https://steam.bj.cn/about");
-    expect(data.mainEntity).toHaveLength(5);
+    expect(data.mainEntity).toHaveLength(6);
     expect(data.mainEntity.map((item: { name: string }) => item.name)).toEqual([
       "创探空间是什么？",
-      "创探空间是 Steam 游戏商店吗？",
+      "开始动手项目前需要准备什么？",
       "创探空间适合谁？",
       "创探空间提供哪些内容？",
+      "如何开始学习并完成自己的作品？",
       "创探空间的官网是哪里？",
     ]);
-    expect(data.mainEntity[1].acceptedAnswer.text).toContain("不是");
-    expect(data.mainEntity[1].acceptedAnswer.text).toContain("Valve Steam");
-    expect(data.mainEntity[4].acceptedAnswer.text).toContain("https://steam.bj.cn");
+    expect(data.mainEntity[1].acceptedAnswer.text).toContain("材料清单");
+    expect(data.mainEntity[1].acceptedAnswer.text).not.toContain("Valve Steam");
+    expect(data.mainEntity[5].acceptedAnswer.text).toContain("https://steam.bj.cn");
   });
 });

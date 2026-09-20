@@ -9,6 +9,7 @@ import {
   type DashScopeModelRole,
   type DashScopeTokenUsage,
 } from '@/lib/ai/dashscope'
+import { sanitizeTutorReply } from '@/lib/ai/tutor/reasoning-output'
 
 export class TutorEngineError extends Error {
   userMessage: string
@@ -36,6 +37,9 @@ export type TutorEngineTelemetry = {
   model: string
   usage: TutorTokenUsage | null
   visionFallback: boolean
+  finishReason?: string
+  /** Sanitization removed unmetered content; do not bill it as answer output. */
+  outputSanitized?: boolean
 }
 
 export type TutorEngineOptions = {
@@ -175,12 +179,13 @@ export async function chatWithTutorComplete(
     }
   }
 
-  if (!result.text) {
+  const sanitizedText = sanitizeTutorReply(result.text)
+  if (!sanitizedText) {
     throw new TutorEngineError('Empty tutor reply', '小迪没有给出内容，请换个说法再试。')
   }
 
   options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback })
-  return result.text
+  return sanitizedText
 }
 
 export async function* streamChatWithTutor(
@@ -194,7 +199,7 @@ export async function* streamChatWithTutor(
 
   const streamOnce = async function* (
     includeImages: boolean,
-  ): AsyncGenerator<string, { text: string; model: string; usage: TutorTokenUsage | null }, undefined> {
+  ): AsyncGenerator<string, { text: string; model: string; usage: TutorTokenUsage | null; finishReason?: string; outputSanitized?: boolean }, undefined> {
     const { dsMessages } = buildDashScopeMessages(systemPrompt, messages, {
       includeImages,
       visionFallbackNote: wantImages && !includeImages,
@@ -206,6 +211,7 @@ export async function* streamChatWithTutor(
         temperature: options?.temperature ?? 0.7,
         stream: true,
         stream_options: { include_usage: true },
+        ...(options?.maxTokens == null ? {} : { max_tokens: options.maxTokens }),
         messages: dsMessages,
       },
     })
@@ -219,7 +225,28 @@ export async function* streamChatWithTutor(
     let buffer = ''
     let full = ''
     let usage: TutorTokenUsage | null = null
-
+    let finishReason: string | undefined
+    let sawDone = false
+    let omittedReasoning = false
+    const readLine = (line: string) => {
+      const trimmed = line.trim()
+      if (!trimmed.startsWith('data:')) return
+      const payload = trimmed.slice(5).trim()
+      if (payload === '[DONE]') { sawDone = true; return }
+      try {
+        const parsed = JSON.parse(payload) as {
+          choices?: Array<{ delta?: { content?: string; reasoning_content?: string }; finish_reason?: string | null }>
+          usage?: unknown
+        }
+        if (parsed.usage != null) usage = parseDashScopeUsage(parsed.usage)
+        const choice = parsed.choices?.[0]
+        if (choice?.delta?.reasoning_content) omittedReasoning = true
+        if (choice?.finish_reason) finishReason = choice.finish_reason
+        if (typeof choice?.delta?.content === 'string') full += choice.delta.content
+      } catch {
+        // Ignore non-JSON provider keepalives, never estimate missing usage.
+      }
+    }
     try {
       while (true) {
         const { done, value } = await reader.read()
@@ -227,43 +254,31 @@ export async function* streamChatWithTutor(
         buffer += decoder.decode(value, { stream: true })
         const lines = buffer.split('\n')
         buffer = lines.pop() ?? ''
-
-        for (const line of lines) {
-          const trimmed = line.trim()
-          if (!trimmed.startsWith('data:')) continue
-          const payload = trimmed.slice(5).trim()
-          if (payload === '[DONE]') continue
-          try {
-            const parsed = JSON.parse(payload) as {
-              choices?: Array<{ delta?: { content?: string } }>
-              usage?: unknown
-            }
-            const parsedUsage = parseDashScopeUsage(parsed.usage)
-            if (parsedUsage) usage = parsedUsage
-            const delta = parsed.choices?.[0]?.delta?.content ?? ''
-            if (delta) {
-              full += delta
-              yield delta
-            }
-          } catch {
-            // skip malformed chunk
-          }
-        }
+        lines.forEach(readLine)
       }
+      buffer += decoder.decode()
+      if (buffer.trim()) readLine(buffer)
     } catch (error) {
       if (isDashScopeTimeoutError(error) || error instanceof DashScopeError) {
         throwTutorEngineError(error)
       }
       throw error
+    } finally {
+      reader.releaseLock()
     }
 
-    return { text: full.trim(), model, usage }
+    if ((!sawDone && !finishReason) || (finishReason && !['stop', 'length'].includes(finishReason))) {
+      throw new TutorEngineError('Incomplete tutor stream', '这次回复未能完整生成，请重试。')
+    }
+    const text = sanitizeTutorReply(full)
+    if (text) yield text
+    return { text, model, usage, ...(omittedReasoning || text !== full.trim() ? { outputSanitized: true } : {}), ...(finishReason ? { finishReason } : {}) }
   }
 
   const drain = async function* (
     gen: ReturnType<typeof streamOnce>,
     onYield?: () => void,
-  ): AsyncGenerator<string, { text: string; model: string; usage: TutorTokenUsage | null }, undefined> {
+  ): AsyncGenerator<string, { text: string; model: string; usage: TutorTokenUsage | null; finishReason?: string; outputSanitized?: boolean }, undefined> {
     while (true) {
       const { value, done } = await gen.next()
       if (done) return value
@@ -283,7 +298,7 @@ export async function* streamChatWithTutor(
     if (!result.text) {
       throw new TutorEngineError('Empty tutor reply', '小迪没有给出内容，请换个说法再试。')
     }
-    options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback: false })
+    options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback: false, ...(result.outputSanitized ? { outputSanitized: true } : {}), ...(result.finishReason ? { finishReason: result.finishReason } : {}) })
     return result.text
   } catch (error) {
     // 仅在视觉模型「还没输出任何内容」就失败时降级为纯文本重试；
@@ -295,7 +310,7 @@ export async function* streamChatWithTutor(
         if (!result.text) {
           throw new TutorEngineError('Empty tutor reply', '小迪没有给出内容，请换个说法再试。')
         }
-        options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback: true })
+        options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback: true, ...(result.outputSanitized ? { outputSanitized: true } : {}), ...(result.finishReason ? { finishReason: result.finishReason } : {}) })
         return result.text
       } catch (fallbackError) {
         throwTutorEngineError(fallbackError)
@@ -307,17 +322,16 @@ export async function* streamChatWithTutor(
 
 function formatTutorTranscript(messages: Array<{ role: string; content: string }>) {
   return messages
-    .map((m) => `${m.role === 'user' ? '学生' : '小迪'}：${m.content.slice(0, 300)}`)
+    .map((m) => `${m.role === 'user' ? '学生' : '小迪'}：${(m.role === 'assistant' ? sanitizeTutorReply(m.content) : m.content).slice(0, 300)}`)
     .join('\n')
 }
 
-/** 摘要类任务的共享出口：planner 模型 + 低温 + 失败回退旧文本 */
+/** 摘要失败返回 null，调用方必须保留旧摘要和游标以便下次重试。 */
 async function summarizeWithModel(input: {
   system: string
   user: string
   maxChars: number
-  fallback: string
-}): Promise<string> {
+}): Promise<string | null> {
   try {
     const { text } = await dashScopeChatComplete({
       role: 'tutor-planner',
@@ -330,9 +344,9 @@ async function summarizeWithModel(input: {
         ],
       },
     })
-    return text.slice(0, input.maxChars) || input.fallback
+    return sanitizeTutorReply(text).slice(0, input.maxChars) || null
   } catch {
-    return input.fallback
+    return null
   }
 }
 
@@ -343,12 +357,11 @@ export async function summarizeNotebook(
   previousNotebook: string,
   recentMessages: Array<{ role: string; content: string }>,
   maxChars = NOTEBOOK_DEFAULT_CHAR_LIMIT,
-): Promise<string> {
+): Promise<string | null> {
   return summarizeWithModel({
     system: `你是小迪的内部笔记本助手。把旧笔记与新对话合并成一份不超过 ${maxChars} 字的中文记忆摘要，记录：学生偏好、技能强弱、正在做的事、沟通风格、需要记住的约定。只输出摘要正文，不要标题。`,
     user: `【旧笔记】\n${previousNotebook || '（空）'}\n\n【新对话】\n${formatTutorTranscript(recentMessages)}`,
     maxChars,
-    fallback: previousNotebook,
   })
 }
 
@@ -359,12 +372,11 @@ export const CONVERSATION_SUMMARY_CHAR_LIMIT = 400
 export async function summarizeConversationWindow(
   previousSummary: string,
   olderMessages: Array<{ role: string; content: string }>,
-): Promise<string> {
+): Promise<string | null> {
   return summarizeWithModel({
     system: `你是小迪的会话摘要助手。把旧摘要与即将滑出上下文窗口的对话合并成一份不超过 ${CONVERSATION_SUMMARY_CHAR_LIMIT} 字的中文摘要，按时间顺序记录：聊过的话题、学生的关键进展或作品状态、双方的约定与未完成事项。只输出摘要正文，不要标题。`,
     user: `【旧摘要】\n${previousSummary || '（空）'}\n\n【滑出窗口的对话】\n${formatTutorTranscript(olderMessages)}`,
     maxChars: CONVERSATION_SUMMARY_CHAR_LIMIT,
-    fallback: previousSummary,
   })
 }
 

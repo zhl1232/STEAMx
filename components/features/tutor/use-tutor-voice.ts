@@ -97,6 +97,9 @@ export function useTutorVoice({
   const [playingSpeechKey, setPlayingSpeechKey] = useState<string | null>(null)
 
   const recorderRef = useRef<TutorPcmRecorder | null>(null)
+  const recordingGenerationRef = useRef(0)
+  const recordingStartingRef = useRef(false)
+  const transcriptionAbortRef = useRef<AbortController | null>(null)
   const recordingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const voiceRecordingModeRef = useRef<TutorVoiceRecordingMode>('composer')
   const longPressActiveRef = useRef(false)
@@ -104,6 +107,7 @@ export function useTutorVoice({
   const speechAudioRef = useRef<HTMLAudioElement | null>(null)
   const speechObjectUrlRef = useRef<string | null>(null)
   const speechRequestIdRef = useRef(0)
+  const speechFetchAbortRef = useRef<AbortController | null>(null)
   const pcmPlayerRef = useRef<TutorPcmPlayer | null>(null)
   const streamedSpeechActiveRef = useRef(false)
   const streamedGotAudioRef = useRef(false)
@@ -184,6 +188,8 @@ export function useTutorVoice({
 
   const stopSpeechPlayback = useCallback(() => {
     speechRequestIdRef.current += 1
+    speechFetchAbortRef.current?.abort()
+    speechFetchAbortRef.current = null
     streamedSpeechActiveRef.current = false
     streamedGotAudioRef.current = false
     streamedSpeechKeyRef.current = null
@@ -293,11 +299,15 @@ export function useTutorVoice({
       }
 
       await beginStreamedSpeech(speechKey)
+      if (streamedSpeechKeyRef.current !== speechKey) return
       const speechRequestId = speechRequestIdRef.current
+      const speechController = new AbortController()
+      speechFetchAbortRef.current = speechController
 
       const requestSynthesize = (fallback?: boolean) =>
         fetch('/api/tutor/speech/synthesize', {
           method: 'POST',
+          signal: speechController.signal,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(fallback ? { text, fallback: true } : { text }),
         })
@@ -364,7 +374,7 @@ export function useTutorVoice({
 
   const finishVoiceRecording = useCallback(async () => {
     const recorder = recorderRef.current
-    if (!recorder || transcribingVoice) return
+    if (!recorder || transcriptionAbortRef.current) return
     recorderRef.current = null
     const recordingMode = voiceRecordingModeRef.current
     if (recordingTimerRef.current) {
@@ -375,9 +385,14 @@ export function useTutorVoice({
     setRecordingStartedAt(null)
     setTranscribingVoice(true)
     const requestKey = contextKeyRef.current
+    const generation = recordingGenerationRef.current
+    const controller = new AbortController()
+    transcriptionAbortRef.current = controller
+    const isCurrent = () => !controller.signal.aborted && generation === recordingGenerationRef.current && contextKeyRef.current === requestKey
 
     try {
       const recording = await recorder.stop()
+      if (!isCurrent()) return
       if (recording.durationMs < 350 || recording.blob.size <= 0) {
         toast({ title: '没有录到声音，请再试一次。', variant: 'destructive' })
         return
@@ -386,13 +401,13 @@ export function useTutorVoice({
       const formData = new FormData()
       formData.append('audio', recording.blob, 'xiaodi-voice.pcm')
       formData.append('durationMs', String(Math.min(recording.durationMs, TUTOR_VOICE_MAX_RECORDING_MS)))
-      const res = await fetch('/api/tutor/speech/transcribe', { method: 'POST', body: formData })
+      const res = await fetch('/api/tutor/speech/transcribe', { method: 'POST', body: formData, signal: controller.signal })
       if (!res.ok) {
         throw new Error(await readTutorSpeechError(res, '小迪没有听清楚，请再说一次。'))
       }
       const payload = await res.json().catch(() => null)
       const transcript = typeof payload?.transcript === 'string' ? payload.transcript.trim() : ''
-      if (contextKeyRef.current !== requestKey) return
+      if (!isCurrent()) return
       if (!transcript) {
         toast({ title: '小迪没有听清楚，请再说一次。', variant: 'destructive' })
         return
@@ -403,17 +418,21 @@ export function useTutorVoice({
         onComposerTranscript(transcript)
       }
     } catch (error) {
+      if (!isCurrent()) return
       toast({
         title: error instanceof Error ? error.message : '小迪没有听清楚，请再说一次。',
         variant: 'destructive',
       })
     } finally {
-      setTranscribingVoice(false)
-      voiceRecordingModeRef.current = 'composer'
-      longPressActiveRef.current = false
-      longPressReleasePendingRef.current = false
+      if (isCurrent()) {
+        transcriptionAbortRef.current = null
+        setTranscribingVoice(false)
+        voiceRecordingModeRef.current = 'composer'
+        longPressActiveRef.current = false
+        longPressReleasePendingRef.current = false
+      }
     }
-  }, [contextKeyRef, onComposerTranscript, onLongPressTranscript, toast, transcribingVoice, voicePreferences.voiceInputAutoPlay])
+  }, [contextKeyRef, onComposerTranscript, onLongPressTranscript, toast, voicePreferences.voiceInputAutoPlay])
 
   const startVoiceRecording = useCallback(async (mode: TutorVoiceRecordingMode = 'composer') => {
     const resetLongPressState = () => {
@@ -423,7 +442,7 @@ export function useTutorVoice({
       voiceRecordingModeRef.current = 'composer'
     }
 
-    if (recordingVoice || transcribingVoice) {
+    if (recordingVoice || transcribingVoice || recordingStartingRef.current) {
       resetLongPressState()
       return
     }
@@ -440,10 +459,17 @@ export function useTutorVoice({
       return
     }
 
+    const generation = ++recordingGenerationRef.current
+    const requestKey = contextKeyRef.current
+    recordingStartingRef.current = true
     try {
       stopSpeechPlayback()
       voiceRecordingModeRef.current = mode
       const recorder = await createTutorPcmRecorder()
+      if (generation !== recordingGenerationRef.current || requestKey !== contextKeyRef.current) {
+        await recorder.cancel()
+        return
+      }
       recorderRef.current = recorder
       setRecordingElapsedMs(0)
       setRecordingStartedAt(Date.now())
@@ -456,6 +482,7 @@ export function useTutorVoice({
         void finishVoiceRecording()
       }
     } catch (error) {
+      if (generation !== recordingGenerationRef.current || requestKey !== contextKeyRef.current) return
       voiceRecordingModeRef.current = 'composer'
       setRecordingStartedAt(null)
       setRecordingElapsedMs(0)
@@ -464,8 +491,10 @@ export function useTutorVoice({
         title: error instanceof Error ? error.message : '无法打开麦克风，请检查浏览器权限。',
         variant: 'destructive',
       })
+    } finally {
+      if (generation === recordingGenerationRef.current) recordingStartingRef.current = false
     }
-  }, [busyRef, finishVoiceRecording, promptLogin, quota, recordingVoice, stopSpeechPlayback, toast, transcribingVoice, user])
+  }, [busyRef, contextKeyRef, finishVoiceRecording, promptLogin, quota, recordingVoice, stopSpeechPlayback, toast, transcribingVoice, user])
 
   const toggleVoiceRecording = useCallback(() => {
     if (recordingVoice) {
@@ -483,6 +512,11 @@ export function useTutorVoice({
   // 面板关闭：结束录音相关的一切，但保留正在进行的 TTS 朗读队列清理
   useEffect(() => {
     if (!open) {
+      recordingGenerationRef.current += 1
+      recordingStartingRef.current = false
+      transcriptionAbortRef.current?.abort()
+      transcriptionAbortRef.current = null
+      setTranscribingVoice(false)
       stopSpeechPlayback()
       if (recordingTimerRef.current) {
         clearTimeout(recordingTimerRef.current)
@@ -501,6 +535,12 @@ export function useTutorVoice({
   // 卸载兜底清理
   useEffect(() => {
     return () => {
+      recordingGenerationRef.current += 1
+      transcriptionAbortRef.current?.abort()
+      speechRequestIdRef.current += 1
+      speechFetchAbortRef.current?.abort()
+      streamedSpeechActiveRef.current = false
+      streamedSpeechKeyRef.current = null
       if (recordingTimerRef.current) clearTimeout(recordingTimerRef.current)
       void recorderRef.current?.cancel()
       pcmPlayerRef.current?.stop()
@@ -511,6 +551,10 @@ export function useTutorVoice({
 
   // 场景切换：语音状态全部归零，避免旧场景的录音/朗读串进新场景
   useEffect(() => {
+    recordingGenerationRef.current += 1
+    recordingStartingRef.current = false
+    transcriptionAbortRef.current?.abort()
+    transcriptionAbortRef.current = null
     stopSpeechPlayback()
     if (recordingTimerRef.current) {
       clearTimeout(recordingTimerRef.current)
@@ -553,10 +597,24 @@ export function useTutorVoice({
     if (!longPressActiveRef.current) return
     longPressActiveRef.current = false
     longPressReleasePendingRef.current = false
-    if (recorderRef.current) {
-      void finishVoiceRecording()
+    // Invalidate a pending microphone/ASR before releasing any recorder. Dragging
+    // cancels this gesture; only an ordinary pointer release may send its speech.
+    recordingGenerationRef.current += 1
+    recordingStartingRef.current = false
+    transcriptionAbortRef.current?.abort()
+    transcriptionAbortRef.current = null
+    if (recordingTimerRef.current) {
+      clearTimeout(recordingTimerRef.current)
+      recordingTimerRef.current = null
     }
-  }, [finishVoiceRecording])
+    void recorderRef.current?.cancel()
+    recorderRef.current = null
+    voiceRecordingModeRef.current = 'composer'
+    setRecordingVoice(false)
+    setTranscribingVoice(false)
+    setRecordingStartedAt(null)
+    setRecordingElapsedMs(0)
+  }, [])
 
   const releaseLongPress = useCallback(() => {
     if (!longPressActiveRef.current) return false

@@ -45,6 +45,9 @@ jobs:
       - name: Run unit tests
         run: pnpm exec vitest run
 
+      - name: Verify SEO check script
+        run: node --test scripts/check-seo.test.mjs
+
       - name: Build app
         if: github.event_name == 'pull_request'
         run: pnpm run build

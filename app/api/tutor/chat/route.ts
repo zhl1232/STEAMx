@@ -32,6 +32,8 @@ import {
   formatTutorResourceSearch,
   searchTutorResources,
 } from '@/lib/ai/tutor/resource-search'
+import { sanitizeTutorReply } from '@/lib/ai/tutor/reasoning-output'
+import { validateTutorResourceTags } from '@/lib/ai/tutor/resource-links'
 import { normalizeTutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import { planTutorResourceSearch } from '@/lib/ai/tutor/resource-search-planner'
 import { diagnoseScratchScreenshot, shouldDiagnoseScratchScreenshot } from '@/lib/ai/tutor/scratch-screenshot-diagnosis'
@@ -48,7 +50,10 @@ import {
   type TutorPlaygroundGameKey,
 } from '@/lib/ai/tutor/types'
 import { logger } from '@/lib/logger'
-import { consumeAiCredit, getAiCreditStatusForProfile, refundAiCredit } from '@/lib/api/ai-credits'
+import { getAiCreditStatusForProfile } from '@/lib/api/ai-credits'
+import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, getTutorChatSession, type TutorRequestResult } from '@/lib/ai/tutor/requests'
+import { getTutorAnswerTokens, parseTutorBilling } from '@/lib/ai/tutor/billing'
+import type { TutorBilling } from '@/lib/ai/tutor/types'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import {
@@ -57,10 +62,7 @@ import {
   validateOwnedOrTrustedImageUrlFromSources,
 } from '@/lib/api/validation'
 import {
-  AI_CREDIT_COST_TEXT,
   AI_TUTOR_RATE_LIMIT_PER_MINUTE,
-  getAiChatCreditCost,
-  getMembershipSummary,
 } from '@/lib/membership'
 import { TutorSendSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
@@ -141,7 +143,6 @@ const TUTOR_IMAGE_SOURCES = [
 ]
 
 type TutorMessageRow = Database['public']['Tables']['tutor_messages']['Row']
-type TutorConversationRow = Database['public']['Tables']['tutor_conversations']['Row']
 
 function parseContextParams(searchParams: URLSearchParams) {
   const contextTypeRaw = searchParams.get('contextType') || 'global'
@@ -178,22 +179,25 @@ function mapMessage(row: TutorMessageRow) {
   const clarification = normalizeTutorResourceClarification(meta.clarification)
   return {
     role: row.role as 'user' | 'assistant',
-    content: row.content,
+    ...(typeof meta.requestId === 'string' ? { requestId: meta.requestId } : {}),
+    content: row.role === 'assistant' ? sanitizeTutorReply(row.content) : row.content,
     images: row.images ?? undefined,
     stageIndex: typeof meta.stageIndex === 'number' ? meta.stageIndex : undefined,
     ...(clarification ? { clarification } : {}),
+    ...(row.role === 'assistant' && parseTutorBilling(meta.billing) ? { billing: parseTutorBilling(meta.billing) } : {}),
   }
 }
 
 function mapPlannerHistoryMessage(row: TutorMessageRow) {
   const meta = (row.meta ?? {}) as Record<string, unknown>
   const clarification = normalizeTutorResourceClarification(meta.clarification)
+  const safeContent = row.role === 'assistant' ? sanitizeTutorReply(row.content) : row.content
   const content = clarification
     ? [
-        row.content,
+        safeContent,
         `【小迪上一轮给出的选项】${clarification.options.map((option) => option.label).join(' / ')}`,
       ].filter(Boolean).join('\n')
-    : row.content
+    : safeContent
 
   return {
     role: row.role as 'user' | 'assistant',
@@ -223,109 +227,36 @@ function buildConversationMeta(input: {
   return meta
 }
 
-async function getActiveConversation(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  userId: string,
-  contextType: TutorContextType,
-  contextId: string,
-) {
-  const { data, error } = await supabase
-    .from('tutor_conversations')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('context_type', contextType)
-    .eq('context_id', contextId)
-    .eq('status', 'active')
-    .order('updated_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-
-  if (error) throw error
-  return data as TutorConversationRow | null
+function completedRequestEvents(result: Extract<TutorRequestResult, { status: 'completed' }>) {
+  const message = mapMessage(result.message)
+  return [
+    ...(message.clarification ? [{ type: 'clarification', clarification: message.clarification }] : []),
+    { type: 'done', reply: message.content, replayed: true, ...(message.billing ? { billing: message.billing } : {}) },
+  ]
 }
 
-async function createConversation(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  input: {
-    userId: string
-    contextType: TutorContextType
-    contextId: string
-    title: string
-    meta: Record<string, unknown>
-  },
-) {
-  const { data, error } = await supabase
-    .from('tutor_conversations')
-    .insert({
-      user_id: input.userId,
-      context_type: input.contextType,
-      context_id: input.contextId,
-      title: input.title || '小迪对话',
-      meta: input.meta,
-    } as never)
-    .select('*')
-    .single()
-
-  if (error) throw error
-  return data as TutorConversationRow
-}
-
-async function getOrCreateActiveConversation(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  input: {
-    userId: string
-    contextType: TutorContextType
-    contextId: string
-    title: string
-    meta: Record<string, unknown>
-  },
-) {
-  const active = await getActiveConversation(supabase, input.userId, input.contextType, input.contextId)
-  if (active) return active
-
-  try {
-    return await createConversation(supabase, input)
-  } catch (error) {
-    // 并发打开同一场景时，唯一索引可能已经创建 active 线程；重查即可。
-    const activeAfterRace = await getActiveConversation(supabase, input.userId, input.contextType, input.contextId)
-    if (activeAfterRace) return activeAfterRace
-    throw error
+function requestResultResponse(result: Exclude<TutorRequestResult, { status: 'started' }>) {
+  if (result.status === 'completed') {
+    // Replays restore text and billing, never run page tools or play audio again.
+    return new Response(completedRequestEvents(result).map((event) => `data: ${JSON.stringify(event)}\n\n`).join(''), {
+      headers: { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store' },
+    })
   }
-}
-
-/**
- * 归档当前 active 线程；空线程直接保留复用，避免反复点「开启新对话」
- * 在历史里堆出一堆空的归档线程。新线程由下一条 POST 惰性创建。
- */
-async function archiveActiveConversation(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  userId: string,
-  contextType: TutorContextType,
-  contextId: string,
-) {
-  const active = await getActiveConversation(supabase, userId, contextType, contextId)
-  if (!active) return
-
-  const { count, error: countError } = await supabase
-    .from('tutor_messages')
-    .select('id', { count: 'exact', head: true })
-    .eq('conversation_id', active.id)
-  if (countError) throw countError
-  if ((count ?? 0) === 0) return
-
-  const now = new Date().toISOString()
-  const { error } = await supabase
-    .from('tutor_conversations')
-    .update({
-      status: 'archived',
-      archived_at: now,
-      updated_at: now,
-    } as never)
-    .eq('id', active.id)
-    .eq('user_id', userId)
-    .eq('status', 'active')
-
-  if (error) throw error
+  if (result.status === 'rejected' && result.error !== 'quota_exceeded') {
+    return NextResponse.json({ error: '对话服务暂未就绪，请稍后重试。', requestState: 'processing' }, { status: 503 })
+  }
+  const errors = {
+    processing: '这次提问仍在处理中，请稍后重试以查看结果。',
+    busy: '当前话题还有一条提问正在处理，请稍后再试。',
+    failed: '这次提问未完成，可以重新尝试。',
+    unavailable: '这条回复已删除，无法恢复。',
+    conflict: '提问内容已变化，请重新发送。',
+    stale_topic: '话题已更新，请重新打开对话后发送。',
+    rejected: '今日免费次数或本月代币已用完。',
+  }
+  return NextResponse.json({ error: errors[result.status], requestState: result.status,
+    ...(result.status === 'rejected' ? { code: result.error, resetAt: result.resetAt } : {}),
+  }, { status: result.status === 'rejected' && result.error === 'quota_exceeded' ? 402 : 409 })
 }
 
 async function loadHistory(
@@ -384,20 +315,22 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ quota })
     }
 
-    const [quota, studentProfile, scene, notebook] = await Promise.all([
+    const [quota, studentProfile, scene, notebook, session] = await Promise.all([
       getAiCreditStatusForProfile(supabase, profile),
       buildStudentProfile(supabase, user.id),
       buildTutorSceneContext(supabase, user.id, contextType, contextId, { stageIndex, lessonId, surface, gameKey }),
       loadTutorNotebook(supabase, user.id),
+      getTutorChatSession(user.id, contextType, contextId),
     ])
     // 只读：不在 GET 里创建会话，避免“打开面板就落一条空线程”；首条消息由 POST 创建。
-    const conversation = await getActiveConversation(supabase, user.id, contextType, contextId)
+    const conversation = session.conversation
     const messages = conversation ? await loadHistory(supabase, conversation.id) : []
 
     const greeting = messages.length === 0 ? buildTutorGreeting(studentProfile, scene) : null
 
     return NextResponse.json({
       messages,
+      epoch: session.epoch,
       quota,
       greeting,
       conversation: conversation
@@ -426,9 +359,11 @@ export async function DELETE(request: NextRequest) {
   try {
     const user = await requireAuth(supabase)
     const { contextType, contextId } = parseContextParams(request.nextUrl.searchParams)
-    await archiveActiveConversation(supabase, user.id, contextType, contextId)
-
-    return NextResponse.json({ ok: true })
+    const rawEpoch = request.nextUrl.searchParams.get('epoch')
+    const epoch = rawEpoch == null ? NaN : Number(rawEpoch)
+    if (!Number.isSafeInteger(epoch) || epoch < 0) return NextResponse.json({ error: '请刷新对话后重试', code: 'refresh_required' }, { status: 400 })
+    const result = await archiveTutorChat(user.id, contextType, contextId, epoch)
+    return NextResponse.json({ ok: true, ...result })
   } catch (error) {
     return handleApiError(error)
   }
@@ -439,6 +374,8 @@ export async function POST(request: NextRequest) {
   const timing = createTutorTimingTrace('api/tutor/chat POST')
   // 扣费成功后、流式响应移交前若抛错，由外层 catch 统一退款
   let pendingRefund: (() => Promise<void>) | null = null
+  let commitAttempted = false
+  let confirmedFailed = false
 
   try {
     const user = await requireAuth(supabase)
@@ -453,7 +390,7 @@ export async function POST(request: NextRequest) {
     const parsed = TutorSendSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.issues.map((issue) => issue.message).join(', ') },
+        { error: parsed.error.issues.map((issue) => issue.message).join(', '), code: 'refresh_required' },
         { status: 400 },
       )
     }
@@ -472,7 +409,6 @@ export async function POST(request: NextRequest) {
     const surface = parsed.data.surface
     const gameKey = surface === 'playground' ? parsed.data.gameKey : undefined
     const wantSpeak = parsed.data.speak === true
-    const cost = getAiChatCreditCost(images.length > 0)
 
     validateContentSafeIfPresent(content, '对话内容')
     for (const image of images) {
@@ -480,43 +416,20 @@ export async function POST(request: NextRequest) {
     }
     timing.mark('parse_validate')
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('membership_tier, membership_period, membership_started_at, membership_expires_at')
-      .eq('id', user.id)
-      .maybeSingle()
-
-    const creditResult = await consumeAiCredit(supabase, profile, cost)
-    if (!creditResult.ok) {
-      const membership = getMembershipSummary(profile)
-      return NextResponse.json(
-        {
-          error: '今日免费次数或本月代币已用完',
-          code: 'quota_exceeded',
-          resetAt: creditResult.resetAt,
-          membership,
-        },
-        { status: 402 },
-      )
+    const creditResult = await beginTutorRequest(user.id, parsed.data)
+    if (creditResult.status !== 'started') return requestResultResponse(creditResult)
+    const conversation = creditResult.conversation
+    const receiptId = creditResult.receiptId
+    const release = async () => {
+      try {
+        const result = await failTutorRequest(user.id, parsed.data.requestId)
+        confirmedFailed = result.status === 'failed'
+      } catch (error) {
+        logger.warn('Tutor request release unconfirmed; retry must retain request identity.', { receiptId, error: String(error) })
+      }
     }
+    pendingRefund = release
     timing.mark('profile_credit')
-
-    // 所有失败路径共用同一份退款额度：refund 按剩余可退金额封顶，天然防止重复退款。
-    let remainingCharge = creditResult.source ? cost : 0
-    const refund = async (amount: number) => {
-      if (!creditResult.source) return
-      const value = Math.min(amount, remainingCharge)
-      if (value <= 0) return
-      remainingCharge -= value
-      await refundAiCredit(supabase, value, creditResult.source).catch((error) => {
-        logger.warn('AI credit refund failed.', {
-          amount: value,
-          source: creditResult.source,
-          error: error instanceof Error ? error.message : String(error),
-        })
-      })
-    }
-    pendingRefund = () => refund(cost)
 
     const [studentProfile, scene, notebook] = await Promise.all([
       buildStudentProfile(supabase, user.id),
@@ -555,37 +468,12 @@ export async function POST(request: NextRequest) {
     const messageAudiosPromise = canUseSpeciesAudio
       ? findSpeciesAudiosForMessage(supabase, content)
       : Promise.resolve<TutorAudioRef[]>([])
-    const conversationPromise = getOrCreateActiveConversation(supabase, {
-      userId: user.id,
-      contextType,
-      contextId,
-      title: scene.title,
-      meta: buildConversationMeta({
-        stageIndex,
-        lessonId,
-        lessonStepIndex,
-        lessonStepCount,
-        scratchBlockTargetItemIndex,
-        surface,
-        gameKey,
-      }),
-    })
-    const historyRowsPromise = conversationPromise.then(async (activeConversation) => {
-      const recentRows = await supabase
-        .from('tutor_messages')
-        .select('*')
-        .eq('conversation_id', activeConversation.id)
-        .order('id', { ascending: false })
-        .limit(CONTEXT_TURNS)
-
-      if (recentRows.error) throw recentRows.error
-      return recentRows
-    })
-    const [messageAudios, conversation, recentRows] = await Promise.all([
+    const [messageAudios, recentRows] = await Promise.all([
       messageAudiosPromise,
-      conversationPromise,
-      historyRowsPromise,
+      supabase.from('tutor_messages').select('*').eq('conversation_id', conversation.id)
+        .order('id', { ascending: false }).limit(CONTEXT_TURNS),
     ])
+    if (recentRows.error) throw recentRows.error
     timing.mark('message_audio')
     timing.mark('conversation_history')
 
@@ -594,7 +482,7 @@ export async function POST(request: NextRequest) {
       .reverse()
       .map((row) => ({
         role: row.role as 'user' | 'assistant',
-        content: row.content,
+        content: row.role === 'assistant' ? sanitizeTutorReply(row.content) : row.content,
         images: row.images ?? undefined,
       }))
 
@@ -646,6 +534,7 @@ export async function POST(request: NextRequest) {
       previousMessages: plannerHistory,
       hasImages: images.length > 0,
       hasCurrentLessonContext: contextType === 'course' && typeof lessonId === 'number',
+      sceneSummary: scene.summary,
     })
     const resourceSearchPromise = resourcePlanPromise.then((plan) =>
       plan.shouldSearch && !plan.clarification ? searchTutorResources(supabase, plan) : null,
@@ -678,50 +567,16 @@ export async function POST(request: NextRequest) {
         ...clarificationMeta,
         clarification,
       }
-      const { error: insertError } = await supabase.from('tutor_messages').insert([
-        {
-          conversation_id: conversation.id,
-          user_id: user.id,
-          context_type: contextType,
-          context_id: contextId,
-          role: 'user',
-          content: content || '请看看我的产出。',
-          images: images.length ? images : null,
-          meta: clarificationMeta,
-        },
-        {
-          conversation_id: conversation.id,
-          user_id: user.id,
-          context_type: contextType,
-          context_id: contextId,
-          role: 'assistant',
-          content: clarificationReply,
-          images: null,
-          meta: assistantMeta,
-        },
-      ] as never)
-
-      let warning: string | null = null
-      if (insertError) {
-        warning = '这次澄清没有保存到历史记录。'
-      } else {
-        const { error: updateConversationError } = await supabase
-          .from('tutor_conversations')
-          .update({ updated_at: new Date().toISOString() } as never)
-          .eq('id', conversation.id)
-          .eq('user_id', user.id)
-        if (updateConversationError) warning = '对话时间未能更新，但澄清问题已保存。'
-        after(async () => {
-          await Promise.all([
-            maybeUpdateTutorNotebook(user.id),
-            maybeUpdateTutorConversationSummary(conversation.id, user.id),
-          ])
-        })
-      }
-
-      // 澄清本身不算一次完整 AI 对话；选项被确认后再为真正的检索回答计费。
-      await refund(cost)
+      commitAttempted = true
+      const saved = await completeTutorRequest(user.id, parsed.data.requestId, {
+        content: content || '请看看我的产出。', images, meta: clarificationMeta,
+        reply: clarificationReply, assistantMeta, outputTokens: null, clarification: true, title: scene.title,
+      })
       pendingRefund = null
+      if (saved.status !== 'completed') return requestResultResponse(saved as Exclude<TutorRequestResult, { status: 'started' }>)
+      after(async () => {
+        await Promise.all([maybeUpdateTutorNotebook(user.id), maybeUpdateTutorConversationSummary(conversation.id, user.id)])
+      })
       timing.mark('persist_clarification')
       timing.log('clarification', {
         contextType,
@@ -735,7 +590,6 @@ export async function POST(request: NextRequest) {
         events.push({ type: 'perf', phase: 'clarification', timings: timing.snapshot() })
       }
       events.push({ type: 'clarification', clarification })
-      if (warning) events.push({ type: 'warning', warning })
       events.push({ type: 'done', reply: clarificationReply })
       const readable = new ReadableStream({
         start(controller) {
@@ -815,18 +669,17 @@ export async function POST(request: NextRequest) {
             includeRecommendations: false,
           })
         : scene
-    const promptSceneWithResources = resourceSearch
-      ? { ...promptScene, summary: [formatTutorResourceSearch(resourceSearch), promptScene.summary].filter(Boolean).join('\n\n') }
-      : promptScene
+    const resourceSummary = resourceSearch
+      ? formatTutorResourceSearch(resourceSearch)
+      : resourcePlan.status === 'fallback'
+        ? '【本轮资源查询状态】检索规划暂时不可用，未完成站内检索。如需推荐实验或资源，必须说明这次查询暂时没成功；只能提供明确标为通用建议的内容，不得声称没有匹配项目或编造站内入口。'
+        : ''
     timing.mark('prompt_scene')
     const replyFocusSummary = buildTutorReplyFocusSummary({
       toolCalls,
       previousLessonStepIndex: lessonStepIndex,
     })
-    const sceneForPrompt = replyFocusSummary || hintsSummary
-      ? { ...promptSceneWithResources, summary: [replyFocusSummary, promptSceneWithResources.summary, hintsSummary].filter(Boolean).join('\n\n') }
-      : promptSceneWithResources
-    const canUsePromptSpeciesAudio = hasTutorSceneCapability(promptSceneWithResources.sceneCapabilities, 'speciesAudio')
+    const canUsePromptSpeciesAudio = hasTutorSceneCapability(promptScene.sceneCapabilities, 'speciesAudio')
     const availableAudios = canUsePromptSpeciesAudio
       ? mergeTutorAudios(
           promptScene.availableAudios ?? [],
@@ -836,12 +689,16 @@ export async function POST(request: NextRequest) {
       : []
 
     const systemPrompt = buildTutorSystemPrompt({
-      scene: sceneForPrompt,
+      scene: promptScene,
       profile: studentProfile,
       notebook,
       // 会话滚动摘要：窗口外的早期对话内容（由 after() 里的后台任务滚动维护）
       conversationSummary: conversation.summary,
+      resourceSummary,
+      replyFocusSummary,
+      speciesHintsSummary: hintsSummary,
     })
+    const referenceSources = [promptScene.summary, resourceSummary, studentProfile.text]
     const engineHistory = trimHistoryToCharBudget(history)
     timing.mark('build_prompt')
     const earlyAudioPlanPromise =
@@ -878,193 +735,183 @@ export async function POST(request: NextRequest) {
           }
         }
 
-        let visionFallback = false
         let telemetry: TutorEngineTelemetry | null = null
+        let replySaved = false
+        let billing: TutorBilling | undefined
 
         try {
-          if (TUTOR_TIMING_ENABLED) {
-            safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
-          }
-          if (wantSpeak) {
-            speechRef.current = createTutorSpeechStreamer({
-              onAudio: (pcm, sampleRate) => {
-                safeEnqueue({ type: 'audio', pcm, sampleRate })
+          try {
+            if (TUTOR_TIMING_ENABLED) {
+              safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
+            }
+            if (wantSpeak) {
+              speechRef.current = createTutorSpeechStreamer({
+                onAudio: (pcm, sampleRate) => {
+                  safeEnqueue({ type: 'audio', pcm, sampleRate })
+                },
+                onError: (error) => {
+                  logger.warn('Tutor realtime TTS failed', { message: error.message })
+                },
+              })
+              // push() starts TTS lazily after a sanitized reply is available.
+            }
+            for (const toolCall of toolCalls) {
+              safeEnqueue({ type: 'tool_call', toolCall })
+            }
+
+            const stream = streamChatWithTutor(systemPrompt, engineHistory, {
+              maxTokens: creditResult.maxOutputTokens,
+              onVisionFallback: () => {
+                safeEnqueue({
+                  type: 'warning',
+                  warning: '这次图片没能识别成功，小迪先按文字回复，仍只按回答 token 计费。',
+                })
               },
-              onError: (error) => {
-                logger.warn('Tutor realtime TTS failed', { message: error.message })
+              onTelemetry: (value) => {
+                telemetry = value
               },
             })
-            speechRef.current.start()
-          }
-          for (const toolCall of toolCalls) {
-            safeEnqueue({ type: 'tool_call', toolCall })
+            let sawFirstAiChunk = false
+            while (true) {
+              const { value, done } = await stream.next()
+              if (done) {
+                fullReply = typeof value === 'string' ? validateTutorResourceTags(value, referenceSources) : fullReply
+                break
+              }
+              if (value) {
+                if (!sawFirstAiChunk) {
+                  sawFirstAiChunk = true
+                  timing.mark('first_ai_chunk')
+                  if (TUTOR_TIMING_ENABLED) {
+                    safeEnqueue({ type: 'perf', phase: 'first_ai_chunk', timings: timing.snapshot() })
+                  }
+                }
+                // The engine delivers the fully buffered, reasoning-cleaned reply; validate references before any output sink.
+                const safeContent = validateTutorResourceTags(value, referenceSources)
+                fullReply += safeContent
+                safeEnqueue({ type: 'chunk', content: safeContent })
+                speechRef.current?.push(safeContent)
+              }
+            }
+            timing.mark('ai_stream_done')
+          } catch (error) {
+            speechRef.current?.abort()
+            speechRef.current = null
+            await release()
+            timing.log('stream_error', {
+              contextType,
+              hasImages: images.length > 0,
+              hasToolCalls: toolCalls.length > 0,
+              error: error instanceof Error ? error.message : String(error),
+            })
+            safeEnqueue({ type: 'error', error: getTutorEngineUserMessage(error), requestState: confirmedFailed ? 'failed' : 'processing' })
+            safeClose()
+            return
           }
 
-          const stream = streamChatWithTutor(systemPrompt, engineHistory, {
-            onVisionFallback: () => {
-              visionFallback = true
-              safeEnqueue({
-                type: 'warning',
-                warning: '这次图片没能识别成功，小迪先按文字回复，图片分析的差价会退回。',
-              })
-            },
-            onTelemetry: (value) => {
-              telemetry = value
-            },
-          })
-          let sawFirstAiChunk = false
-          while (true) {
-            const { value, done } = await stream.next()
-            if (done) {
-              fullReply = typeof value === 'string' ? value : fullReply
-              break
-            }
-            if (value) {
-              if (!sawFirstAiChunk) {
-                sawFirstAiChunk = true
-                timing.mark('first_ai_chunk')
-                if (TUTOR_TIMING_ENABLED) {
-                  safeEnqueue({ type: 'perf', phase: 'first_ai_chunk', timings: timing.snapshot() })
-                }
-              }
-              fullReply += value
-              safeEnqueue({ type: 'chunk', content: value })
-              speechRef.current?.push(value)
-            }
+          if (!fullReply.trim()) {
+            speechRef.current?.abort()
+            speechRef.current = null
+            await release()
+            safeEnqueue({ type: 'error', error: '小迪没有给出内容，请换个说法再试。', requestState: confirmedFailed ? 'failed' : 'processing' })
+            safeClose()
+            return
           }
-          timing.mark('ai_stream_done')
-        } catch (error) {
-          speechRef.current?.abort()
-          speechRef.current = null
-          await refund(cost)
-          timing.log('stream_error', {
+
+          const replyAudios = canUsePromptSpeciesAudio
+            ? await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`)
+            : []
+          const availableAudioSlugs = new Set(availableAudios.map((audio) => audio.slug))
+          const hasNewReplyAudios = replyAudios.some((audio) => !availableAudioSlugs.has(audio.slug))
+          const selectedAudio = canUsePromptSpeciesAudio
+            ? hasNewReplyAudios
+              ? await planTutorAudioAttachment(
+                  content,
+                  fullReply,
+                  mergeTutorAudios(availableAudios, replyAudios),
+                )
+              : await earlyAudioPlanPromise
+            : null
+          fullReply = finalizeReplyAudio(fullReply, selectedAudio)
+          timing.mark('finalize_audio')
+
+          // meta 全部由服务端生成，不接受客户端直通字段
+          const meta: Record<string, unknown> = {}
+          if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
+          if (typeof lessonId === 'number') meta.lessonId = lessonId
+          if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
+          if (typeof lessonStepCount === 'number') meta.lessonStepCount = lessonStepCount
+          if (typeof scratchBlockTargetItemIndex === 'number') {
+            meta.scratchBlockTargetItemIndex = scratchBlockTargetItemIndex
+          }
+
+          // 模型、token 用量与 prompt 版本只挂在助手消息上，供成本核对与提示词回归定位。
+          const assistantMeta: Record<string, unknown> = { ...meta }
+          const finalTelemetry = telemetry as TutorEngineTelemetry | null
+          assistantMeta.ai = {
+            promptVersion: TUTOR_PROMPT_VERSION,
+            creditReceiptId: receiptId,
+            ...(finalTelemetry
+              ? {
+                  model: finalTelemetry.model,
+                  visionFallback: finalTelemetry.visionFallback,
+                  ...(finalTelemetry.usage ? { usage: finalTelemetry.usage } : {}),
+                }
+              : {}),
+          }
+
+          commitAttempted = true
+          const saved = await completeTutorRequest(user.id, parsed.data.requestId, {
+            content: content || '请看看我的产出。', images, meta, reply: fullReply, assistantMeta,
+            outputTokens: finalTelemetry?.outputSanitized && finalTelemetry.usage?.reasoningTokens == null
+              ? null : getTutorAnswerTokens(finalTelemetry?.usage),
+            title: scene.title,
+          })
+          if (saved.status !== 'completed') {
+            confirmedFailed = saved.status === 'failed'
+            throw new Error('Tutor request was not completed')
+          }
+          replySaved = true
+          billing = parseTutorBilling((saved.message.meta as Record<string, unknown>).billing) ?? undefined
+          if (billing?.usageMissing && billing.source === 'wallet') {
+            safeEnqueue({ type: 'warning', warning: '本次未取得准确的 token 用量，不收取代币。' })
+          }
+          after(async () => {
+            await Promise.all([maybeUpdateTutorNotebook(user.id), maybeUpdateTutorConversationSummary(conversation.id, user.id)])
+          })
+          timing.mark('persist_messages')
+          timing.log('done', {
             contextType,
             hasImages: images.length > 0,
             hasToolCalls: toolCalls.length > 0,
-            error: error instanceof Error ? error.message : String(error),
+            replyLength: fullReply.length,
           })
-          safeEnqueue({ type: 'error', error: getTutorEngineUserMessage(error) })
-          safeClose()
-          return
-        }
 
-        if (!fullReply.trim()) {
+          if ((telemetry as TutorEngineTelemetry | null)?.finishReason === 'length') {
+            safeEnqueue({ type: 'warning', warning: '本次回答已达到输出上限，可以继续提问。' })
+          }
+          safeEnqueue({ type: 'done', reply: fullReply, ...(billing ? { billing } : {}) })
+          if (speechRef.current) {
+            try {
+              await speechRef.current.finish()
+            } catch {
+              // TTS 失败只静音，文字已经发出
+            }
+            safeEnqueue({ type: 'audio_done' })
+          }
+        } catch (error) {
           speechRef.current?.abort()
-          speechRef.current = null
-          await refund(cost)
-          safeEnqueue({ type: 'error', error: '小迪没有给出内容，请换个说法再试。' })
+          logger.warn('Tutor reply finalization failed.', { receiptId, error: String(error) })
+          if (replySaved) {
+            safeEnqueue({ type: 'warning', warning: '回复已保存，后续处理暂未完成。' })
+            safeEnqueue({ type: 'done', reply: fullReply, ...(billing ? { billing } : {}) })
+          } else {
+            if (!commitAttempted) await release()
+            safeEnqueue({ type: 'error', error: commitAttempted && !confirmedFailed ? '回复保存状态暂未确认，请重试以恢复结果。' : '回复处理失败，请稍后再试。', requestState: confirmedFailed ? 'failed' : 'processing' })
+          }
+        } finally {
           safeClose()
-          return
         }
-
-        // 图片识别降级为纯文本：只收文字对话的价，退回视觉分析差价。
-        if (visionFallback) {
-          await refund(cost - AI_CREDIT_COST_TEXT)
-        }
-
-        const replyAudios = canUsePromptSpeciesAudio
-          ? await findSpeciesAudiosMentionedInText(supabase, `${content}\n${fullReply}`)
-          : []
-        const availableAudioSlugs = new Set(availableAudios.map((audio) => audio.slug))
-        const hasNewReplyAudios = replyAudios.some((audio) => !availableAudioSlugs.has(audio.slug))
-        const selectedAudio = canUsePromptSpeciesAudio
-          ? hasNewReplyAudios
-            ? await planTutorAudioAttachment(
-                content,
-                fullReply,
-                mergeTutorAudios(availableAudios, replyAudios),
-              )
-            : await earlyAudioPlanPromise
-          : null
-        fullReply = finalizeReplyAudio(fullReply, selectedAudio)
-        timing.mark('finalize_audio')
-
-        // meta 全部由服务端生成，不接受客户端直通字段
-        const meta: Record<string, unknown> = {}
-        if (typeof stageIndex === 'number') meta.stageIndex = stageIndex
-        if (typeof lessonId === 'number') meta.lessonId = lessonId
-        if (typeof lessonStepIndex === 'number') meta.lessonStepIndex = lessonStepIndex
-        if (typeof lessonStepCount === 'number') meta.lessonStepCount = lessonStepCount
-        if (typeof scratchBlockTargetItemIndex === 'number') {
-          meta.scratchBlockTargetItemIndex = scratchBlockTargetItemIndex
-        }
-
-        // 模型、token 用量与 prompt 版本只挂在助手消息上，供成本核对与提示词回归定位。
-        const assistantMeta: Record<string, unknown> = { ...meta }
-        const finalTelemetry = telemetry as TutorEngineTelemetry | null
-        assistantMeta.ai = {
-          promptVersion: TUTOR_PROMPT_VERSION,
-          ...(finalTelemetry
-            ? {
-                model: finalTelemetry.model,
-                visionFallback: finalTelemetry.visionFallback,
-                ...(finalTelemetry.usage ? { usage: finalTelemetry.usage } : {}),
-              }
-            : {}),
-        }
-
-        const { error: insertError } = await supabase.from('tutor_messages').insert([
-          {
-            conversation_id: conversation.id,
-            user_id: user.id,
-            context_type: contextType,
-            context_id: contextId,
-            role: 'user',
-            content: content || '请看看我的产出。',
-            images: images.length ? images : null,
-            meta,
-          },
-          {
-            conversation_id: conversation.id,
-            user_id: user.id,
-            context_type: contextType,
-            context_id: contextId,
-            role: 'assistant',
-            content: fullReply,
-            images: null,
-            meta: assistantMeta,
-          },
-        ] as never)
-
-        if (insertError) {
-          // 回复已生成并展示，不作废内容：退还代币、提示未保存，照常结束。
-          await refund(cost)
-          safeEnqueue({ type: 'warning', warning: '本条回复未能保存到历史记录。' })
-        } else {
-          const { error: updateConversationError } = await supabase
-            .from('tutor_conversations')
-            .update({ updated_at: new Date().toISOString() } as never)
-            .eq('id', conversation.id)
-            .eq('user_id', user.id)
-          if (updateConversationError) {
-            safeEnqueue({ type: 'warning', warning: '对话时间未能更新，但消息已保存。' })
-          }
-          after(async () => {
-            // 两层记忆：用户级 notebook + 会话级滚动摘要，都在响应后台更新
-            await Promise.all([
-              maybeUpdateTutorNotebook(user.id),
-              maybeUpdateTutorConversationSummary(conversation.id, user.id),
-            ])
-          })
-        }
-        timing.mark('persist_messages')
-        timing.log('done', {
-          contextType,
-          hasImages: images.length > 0,
-          hasToolCalls: toolCalls.length > 0,
-          replyLength: fullReply.length,
-        })
-
-        safeEnqueue({ type: 'done', reply: fullReply })
-        if (speechRef.current) {
-          try {
-            await speechRef.current.finish()
-          } catch {
-            // TTS 失败只静音，文字已经发出
-          }
-          safeEnqueue({ type: 'audio_done' })
-        }
-        safeClose()
       },
     })
 
@@ -1080,7 +927,7 @@ export async function POST(request: NextRequest) {
       },
     })
   } catch (error) {
-    if (pendingRefund) {
+    if (pendingRefund && !commitAttempted) {
       await pendingRefund().catch(() => undefined)
     }
     timing.log('request_error', {
@@ -1089,6 +936,8 @@ export async function POST(request: NextRequest) {
     if (error instanceof ValidationError) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
-    return handleApiError(error)
+    const response = handleApiError(error)
+    const payload = await response.json()
+    return NextResponse.json({ ...payload, requestState: confirmedFailed ? 'failed' : 'processing' }, { status: response.status })
   }
 }

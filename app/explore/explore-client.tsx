@@ -2,6 +2,7 @@
 
 import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
+import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
 import { useSearchParams } from 'next/navigation'
 import {
     ArrowLeft,
@@ -942,7 +943,7 @@ export function ExploreClient({
                         onClick={openSheet}
                         data-testid="explore-more-filters"
                         className={cn(
-                            "relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
+                            "relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
                             hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
                         )}
                         aria-label="筛选条件"
@@ -993,7 +994,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-4 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
                     <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
@@ -1340,6 +1341,21 @@ export function ExploreClient({
                                         })}
 
                                     </div>
+
+                                    <nav aria-label="项目分页" className="flex justify-center gap-5 py-4 text-sm text-muted-foreground">
+                                        {selectedSortBy === 'latest' ? (
+                                            <>
+                                                {page > 1 && (
+                                                    <a href={buildExplorePageHref(buildSearchParams(), 0)} className="underline underline-offset-4">第一页</a>
+                                                )}
+                                                {hasMore && (
+                                                    <a href={buildExplorePageHref(buildSearchParams(), page)} className="underline underline-offset-4">下一页</a>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <a href={buildExplorePageHref(buildSearchParams({ sortBy: 'latest' }), 0)} className="underline underline-offset-4">按最新发布浏览全部项目</a>
+                                        )}
+                                    </nav>
 
                                     {isLoadingMore && (
                                         <div

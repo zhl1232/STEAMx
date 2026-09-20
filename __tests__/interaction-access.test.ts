@@ -1,10 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { PermissionError } from '@/lib/api/auth'
-import {
-  getInteractionAccess,
-  requireInteractionAccess,
-} from '@/lib/access/interaction-access'
+import { getInteractionAccess, requireInteractionAccess } from '@/lib/access/interaction-access'
 
 function makeSupabase(profile: unknown) {
   const maybeSingle = vi.fn().mockResolvedValue({ data: profile, error: null })
@@ -14,53 +11,63 @@ function makeSupabase(profile: unknown) {
 }
 
 const user = { id: 'user-1' } as never
+const capabilities = ['save_progress', 'engage', 'submit', 'comment', 'post', 'message'] as const
 
 describe('interaction access', () => {
-  it('lets registered users save progress but not publish interactions', async () => {
+  it.each(capabilities)('lets an unconfirmed registered user use %s', async (capability) => {
     const supabase = makeSupabase({ age_confirmed_at: null, interaction_restricted: false })
     const access = await getInteractionAccess(supabase, user)
 
     expect(access).toMatchObject({
       state: 'registered',
       canSaveProgress: true,
-      canSubmit: false,
-      canComment: false,
+      canEngage: true,
+      canSubmit: true,
+      canComment: true,
+      canPost: true,
       canMessage: true,
     })
-
-    await expect(requireInteractionAccess(supabase, user, 'submit')).rejects.toMatchObject({
-      code: 'AGE_CONFIRMATION_REQUIRED',
-    })
-    await expect(requireInteractionAccess(supabase, user, 'message')).resolves.toMatchObject({
+    await expect(requireInteractionAccess(supabase, user, capability)).resolves.toMatchObject({
       state: 'registered',
-      canMessage: true,
     })
   })
 
-  it('allows confirmed users to comment and message', async () => {
-    const supabase = makeSupabase({
-      age_confirmed_at: '2026-08-01T00:00:00.000Z',
-      interaction_restricted: false,
-    })
+  it.each(capabilities)('blocks %s for restricted accounts', async (capability) => {
+    const supabase = makeSupabase({ interaction_restricted: true })
 
-    await expect(requireInteractionAccess(supabase, user, 'comment')).resolves.toMatchObject({
-      state: 'confirmed',
-    })
-    await expect(requireInteractionAccess(supabase, user, 'message')).resolves.toMatchObject({
-      canMessage: true,
-    })
-  })
-
-  it('blocks every write capability for restricted accounts', async () => {
-    const supabase = makeSupabase({
-      age_confirmed_at: '2026-08-01T00:00:00.000Z',
-      interaction_restricted: true,
-    })
-
-    await expect(requireInteractionAccess(supabase, user, 'save_progress')).rejects.toEqual(
+    await expect(requireInteractionAccess(supabase, user, capability)).rejects.toEqual(
       expect.objectContaining({
         code: 'INTERACTION_RESTRICTED',
       } satisfies Partial<PermissionError>),
     )
+  })
+
+  it.each([
+    { safety_status: 'banned' },
+    { safety_status: 'suspended', safety_restricted_until: '2999-01-01T00:00:00.000Z' },
+  ])('blocks accounts with active safety status: %o', async (safety) => {
+    const supabase = makeSupabase({ interaction_restricted: false, ...safety })
+
+    await expect(requireInteractionAccess(supabase, user, 'post')).rejects.toMatchObject({
+      code: 'INTERACTION_RESTRICTED',
+    })
+  })
+
+  it('requires authentication before checking capabilities', async () => {
+    const supabase = makeSupabase(null)
+
+    await expect(requireInteractionAccess(supabase, null as never, 'post')).rejects.toMatchObject({
+      code: 'AUTH_REQUIRED',
+    })
+    await expect(getInteractionAccess(supabase, null)).resolves.toBeNull()
+  })
+
+  it('fails closed when an authenticated user has no profile', async () => {
+    const supabase = makeSupabase(null)
+
+    await expect(getInteractionAccess(supabase, user)).resolves.toBeNull()
+    await expect(requireInteractionAccess(supabase, user, 'post')).rejects.toMatchObject({
+      code: 'AUTH_REQUIRED',
+    })
   })
 })

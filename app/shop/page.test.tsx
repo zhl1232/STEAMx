@@ -2,7 +2,8 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import ShopPage, { getShopMutationErrorMessage } from './page'
+import ShopPage from './page'
+import { getShopMutationErrorMessage } from './mutation-error'
 
 const mockUseQuery = vi.fn()
 const mockUseMutation = vi.fn()

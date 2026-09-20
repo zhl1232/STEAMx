@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 /**
  * Hard-coded platform tokens already issued for this site.
- * Google / Baidu meta tokens stay optional via env so operators can rotate
+ * Google / Baidu / Bing meta tokens stay optional via env so operators can rotate
  * without inventing placeholders in the repo.
  */
 export const HARDCODED_SITE_VERIFICATION_OTHER = {
@@ -20,10 +20,13 @@ export function buildSiteVerificationMetadata(): NonNullable<Metadata["verificat
   const google = readOptionalToken(process.env.GOOGLE_SITE_VERIFICATION);
   const baidu = readOptionalToken(process.env.BAIDU_SITE_VERIFICATION);
 
+  const bing = readOptionalToken(process.env.BING_SITE_VERIFICATION);
+
   return {
     ...(google ? { google } : {}),
     other: {
       ...HARDCODED_SITE_VERIFICATION_OTHER,
+      ...(bing ? { "msvalidate.01": bing } : {}),
       ...(baidu ? { "baidu-site-verification": baidu } : {}),
     },
   };

@@ -448,6 +448,7 @@ async function hydrateExploreProjectsByIds(
   filters: ProjectFilters,
   starsRange: ReturnType<typeof resolveDifficultyStarsRange>,
   settings: PublicClassificationSettings,
+  strictErrors = false,
 ): Promise<Project[]> {
   if (projectIds.length === 0) {
     return [];
@@ -469,6 +470,7 @@ async function hydrateExploreProjectsByIds(
 
   if (hydrateError) {
     logger.error("Error hydrating explore projects", { error: hydrateError });
+    if (strictErrors) throw new Error("Unable to load explore projects", { cause: hydrateError });
     return [];
   }
 
@@ -516,6 +518,7 @@ async function fetchPopularProjects(
           const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
           if (error) {
             logger.error("Error fetching category popular rankings", { error, categoryName });
+            if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
             return { rankings: [], starsRange };
           }
           return { rankings: data || [], starsRange };
@@ -526,6 +529,7 @@ async function fetchPopularProjects(
         const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
         if (error) {
           logger.error("Error fetching fallback popular rankings", { error });
+          if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
           return { rankings: [], starsRange };
         }
         return { rankings: data || [], starsRange };
@@ -535,6 +539,7 @@ async function fetchPopularProjects(
         const { data, error } = await callRpc(supabase, "get_popular_project_rankings", rpcArgs);
         if (error) {
           logger.error("Error fetching popular rankings count", { error });
+          if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
           return { rankings: [], starsRange };
         }
         return { rankings: data || [], starsRange };
@@ -565,6 +570,7 @@ async function fetchPopularProjects(
       filters,
       starsRange,
       settings,
+      pagination.strictErrors,
     );
     // shuffle 必须在 diversify 之前：先按 seed 打乱决定「每类挑哪些项目」，
     // 再做类别 round-robin 才能保证前几位类别交错。反过来会被全局 hash 打散，
@@ -588,6 +594,7 @@ async function fetchPopularProjects(
 
   if (error) {
     logger.error("Error fetching popular project rankings", { error });
+    if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
     return { projects: [], total: 0, hasMore: false };
   }
 
@@ -604,6 +611,7 @@ async function fetchPopularProjects(
     filters,
     starsRange,
     settings,
+    pagination.strictErrors,
   );
 
   // 在 RPC 分页返回的当页结果里做稳定打乱：保留完整可翻页性，避免把热门排序压缩到固定池里
@@ -623,6 +631,8 @@ async function fetchPopularProjects(
  * 分页参数
  */
 export interface PaginationOptions {
+  /** SSR discovery pages must not mistake a database failure for an empty page. */
+  strictErrors?: boolean;
   page?: number;
   pageSize?: number;
   sortBy?: "latest" | "popular" | "weekly";
@@ -675,6 +685,7 @@ async function fetchWeeklyHotProjects(
 
   if (error) {
     logger.error("Error fetching weekly hot project rankings", { error });
+    if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
     return { projects: [], total: 0, hasMore: false };
   }
 
@@ -691,6 +702,7 @@ async function fetchWeeklyHotProjects(
     filters,
     starsRange,
     settings,
+    pagination.strictErrors,
   );
 
   const hasMore = from + projects.length < total;
@@ -1014,6 +1026,7 @@ export async function getProjects(
 
   if (error) {
     logger.error("Error fetching projects", { error });
+    if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
     return { projects: [], total: 0, hasMore: false };
   }
 

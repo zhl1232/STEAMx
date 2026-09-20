@@ -165,6 +165,8 @@ const ScratchEditorContextSchema = z.object({
 });
 
 export const TutorSendSchema = z.object({
+  requestId: z.string().uuid(),
+  epoch: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
   contextType: TutorContextTypeSchema.default('global'),
   contextId: z.string().max(64).optional(),
   content: z.string().max(4000).default(''),

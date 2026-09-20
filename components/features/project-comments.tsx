@@ -130,7 +130,7 @@ export function ProjectComments({
   const { user, profile } = useAuth();
   const { promptLogin } = useLoginPrompt();
 
-  const canUploadImage = Boolean(user && profile?.age_confirmed_at);
+  const canUploadImage = Boolean(user);
 
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [total, setTotal] = useState(initialTotal || initialComments.length);

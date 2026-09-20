@@ -9,6 +9,7 @@ import {
   evaluateTutorReply,
 } from '@/lib/ai/tutor/golden-set'
 import { getAvailableTutorTools } from '@/lib/ai/tutor/tool-registry'
+import { TUTOR_RESOURCE_TYPES } from '@/lib/ai/tutor/resource-search-planner'
 
 /**
  * golden-set 的结构校验：不调用模型，保证数据集本身自洽，
@@ -43,7 +44,7 @@ describe('tutor golden set dataset', () => {
   it('资源用例的资源类型与正则合法', () => {
     for (const goldenCase of TUTOR_RESOURCE_GOLDEN_CASES) {
       for (const type of goldenCase.expectedResourceTypes ?? []) {
-        expect(['course', 'project'], goldenCase.id).toContain(type)
+        expect(TUTOR_RESOURCE_TYPES, goldenCase.id).toContain(type)
       }
       for (const pattern of goldenCase.queryMustMatch ?? []) {
         expect(() => new RegExp(pattern, 'm'), goldenCase.id).not.toThrow()

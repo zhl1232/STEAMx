@@ -61,6 +61,7 @@ import {
     type WeaponId,
 } from "@/lib/playground/function-wars-weapons"
 import { cn } from "@/lib/utils"
+import { getFunctionWarsMaxUnlockedIndex } from "./level-progress"
 import {
     FunctionWarsRenderer,
     type FunctionWarsRenderScene,
@@ -94,16 +95,6 @@ function formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60)
     const rest = seconds % 60
     return `${minutes.toString().padStart(2, "0")}:${rest.toString().padStart(2, "0")}`
-}
-
-export function getFunctionWarsMaxUnlockedIndex(solved: ReadonlySet<string>, unlockAll = false): number {
-    if (unlockAll) return FUNCTION_WARS_LEVELS.length - 1
-    let contiguousSolved = 0
-    for (const level of FUNCTION_WARS_LEVELS) {
-        if (!solved.has(level.id)) break
-        contiguousSolved += 1
-    }
-    return Math.min(FUNCTION_WARS_LEVELS.length - 1, contiguousSolved)
 }
 
 function toRenderTrace(trace: FunctionWarsProjectileTrace, index: number): FunctionWarsRenderTrace {

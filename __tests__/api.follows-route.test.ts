@@ -34,15 +34,18 @@ describe('POST /api/follows', () => {
 
     it('returns 404 when the target user does not exist', async () => {
         const profileMaybeSingle = vi.fn().mockResolvedValue({
-            data: null,
+            data: { id: '11111111-1111-1111-1111-111111111111', interaction_restricted: false, safety_status: 'active', safety_restricted_until: null },
             error: null,
         })
+        const targetProfileMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
         const from = vi.fn((table: string) => {
             if (table === 'profiles') {
                 return {
                     select: vi.fn(() => ({
-                        eq: vi.fn(() => ({
-                            maybeSingle: profileMaybeSingle,
+                        eq: vi.fn((_column: string, value: string) => ({
+                            maybeSingle: value === '11111111-1111-1111-1111-111111111111'
+                                ? profileMaybeSingle
+                                : targetProfileMaybeSingle,
                         })),
                     })),
                 }
@@ -68,6 +71,10 @@ describe('POST /api/follows', () => {
 
     it('returns changed false when following an already-followed user', async () => {
         const profileMaybeSingle = vi.fn().mockResolvedValue({
+            data: { id: '11111111-1111-1111-1111-111111111111', interaction_restricted: false, safety_status: 'active', safety_restricted_until: null },
+            error: null,
+        })
+        const targetProfileMaybeSingle = vi.fn().mockResolvedValue({
             data: { id: '22222222-2222-2222-2222-222222222222' },
             error: null,
         })
@@ -78,8 +85,10 @@ describe('POST /api/follows', () => {
             if (table === 'profiles') {
                 return {
                     select: vi.fn(() => ({
-                        eq: vi.fn(() => ({
-                            maybeSingle: profileMaybeSingle,
+                        eq: vi.fn((_column: string, value: string) => ({
+                            maybeSingle: value === '11111111-1111-1111-1111-111111111111'
+                                ? profileMaybeSingle
+                                : targetProfileMaybeSingle,
                         })),
                     })),
                 }

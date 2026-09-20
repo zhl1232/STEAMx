@@ -1,6 +1,8 @@
 # SEO / GEO 索引清单（运营）
 
-面向 Google Search Console 与百度搜索资源平台的上线核对。规范主域：`https://steam.bj.cn`（旧域 `steamx.cc` / `www.steamx.cc` / `www.steam.bj.cn` 301 到主域）。
+面向 Google Search Console、百度搜索资源平台与 Bing Webmaster Tools的上线核对。规范主域：`https://steam.bj.cn`（旧域 `steamx.cc` / `www.steamx.cc` / `www.steam.bj.cn` 301 到主域）。
+
+持续运营见 [SEO / GEO 日常检查](seo-daily-operations.md) 与 [周报模板](seo-weekly-report-template.csv)。发布后运行 `pnpm seo:check --report .tmp/seo-report.json`；Release workflow 已接入相同检查。
 
 ## 发现文件
 
@@ -8,7 +10,6 @@
 |------|-----|
 | Sitemap | https://steam.bj.cn/sitemap.xml |
 | 首页 canonical / og:url | 必须为 `https://steam.bj.cn/`（含尾斜杠）；部署后 `curl -sL https://steam.bj.cn/ | rg -o 'rel="canonical" href="[^"]+"|property="og:url" content="[^"]+"'` 核对 |
-
 | robots.txt | https://steam.bj.cn/robots.txt |
 | llms.txt | https://steam.bj.cn/llms.txt |
 
@@ -43,6 +44,8 @@
 
 其余课程/项目/物种/观察等由 sitemap 全量覆盖（搜索引擎定期抓取）；Release 主动推送默认只刷上表高价值 URL，全量推送需显式 `BAIDU_PUSH_MODE=sitemap`。
 
+本次新增 `/learn/blocks`、`/learn/scratch`、`/learn/science` 三个专题，已纳入 sitemap 并由课程页链接。部署后逐页检查与提交；默认百度高价值推送列表仍为上面的 9 个入口。
+
 ## Google Search Console
 
 1. 添加资源：网域 `steam.bj.cn`（DNS）或网址前缀 `https://steam.bj.cn/`。
@@ -69,6 +72,7 @@
 |------|------|
 | `GOOGLE_SITE_VERIFICATION` | Google Search Console meta |
 | `BAIDU_SITE_VERIFICATION` | 百度站长 meta（可选；文件验证可替代） |
+| `BING_SITE_VERIFICATION` | Bing Webmaster Tools meta（可选） |
 | `BAIDU_PUSH_TOKEN` | 百度主动推送 token（勿提交仓库） |
 | `BAIDU_PUSH_SITE` | 必须为 `https://steam.bj.cn`（默认即此） |
 | `BAIDU_PUSH_MODE` / `BAIDU_PUSH_ALL` | 默认 high-value；`sitemap` / `1` 才推全量 sitemap |
@@ -79,12 +83,29 @@
 
 ## 品牌与消歧页面
 
-- `/about`：可抓取「STEAMX · 史迪姆是什么」正文 + AboutPage JSON-LD，明确非 Valve Steam。
-- 首页已含 WebSite / EducationalOrganization JSON-LD 与 Valve 消歧。
+- `/about`：可抓取「创探空间是什么」正文 + AboutPage JSON-LD，说明学习方式与材料准备。
+- 首页已含 WebSite / EducationalOrganization JSON-LD ，描述与可见正文一致。
 
 ## FAQ / GEO 结构化数据
 
-- `/about` 输出 FAQPage JSON-LD（`buildBrandFaqPageJsonLd`），覆盖：STEAMX/史迪姆是什么、是否 Valve Steam、适合谁（3–16）、提供什么（积木/自然观察/编程/PBL）、官网 `steam.bj.cn`。
+- `/about` 输出 FAQPage JSON-LD（`buildBrandFaqPageJsonLd`），覆盖：创探空间是什么、材料准备、适合谁（3–16）、提供什么、如何开始学习、官网 `steam.bj.cn`。
 - 同页可见「常见问题」含上述品牌问答 + 账号/客服支持问答，便于与结构化数据对齐。
 - 首页仍保留 WebSite + EducationalOrganization；AboutPage JSON-LD 在 `/about`。
 
+
+## Bing 与部署后验证
+
+- 在 Bing Webmaster Tools 验证 `https://steam.bj.cn/`，可将真实标签验证码配置为 `BING_SITE_VERIFICATION`，根布局输出 `msvalidate.01`；未配置时不输出占位值。
+- 提交 `https://steam.bj.cn/sitemap.xml`，并抽检首页、课程与项目详情的收录状态。
+- 部署后确认首页 title 包含「创探空间」与「少儿 STEAM」，移动端可见平台副标题，JSON-LD 与正文一致。
+- 抽检 `/explore?sortBy=latest&page=1`：独立 canonical、普通分页链接和服务端项目内容；搜索/筛选组合页为 noindex、follow。
+- Google、百度和 Bing 的验证、提交与索引结果分别记录；放行爬虫不代表已经收录或被 AI 引用。
+- llms.txt 仅作辅助目录，不作为排名或 AI 引用承诺；内容优先补全真实材料、步骤、观察结论和来源，不编造年龄、作者资质或更新时间。
+
+## 图片与课时正文回归
+
+- 抽检项目、课程的 `og:image`、Twitter 图片及 JSON-LD image：迁移资源应指向可访问的公开 `/api/assets/…` 图片，不能继续输出已删除的本地文件地址。
+- robots 对公开图片扩展名（含版本查询参数）放行；不要整体放行 `/api/`，也不要改变视频签名鉴权。
+- 禁用 JavaScript 检查课时「本课步骤与提示」：可展开完整说明和提示，积木课零件清单链接可访问；building_3d 的结构化步骤与页面一致。
+- 探索列表数据库/RPC 故障应走错误处理；只有查询成功但越界的空页才返回 404。
+- 项目作者、创建和更新日期来自真实数据。数据库没有独立发布时间，不将创建时间冒充发布时间。

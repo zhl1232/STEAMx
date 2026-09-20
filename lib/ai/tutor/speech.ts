@@ -1,4 +1,5 @@
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
+import { stripTutorResourceTags, TUTOR_RESOURCE_TAG_REGEX } from '@/lib/ai/tutor/resource-links'
 import {
   getDashScopeModelCandidates,
   isDashScopeModelAvailabilityError,
@@ -25,8 +26,6 @@ export const MAX_TUTOR_TTS_TEXT_CHARS = 800
 export const MAX_TUTOR_SPEECH_DURATION_MS = 30_000
 export const MAX_TUTOR_SPEECH_PCM_BYTES = ASR_SAMPLE_RATE * 2 * (MAX_TUTOR_SPEECH_DURATION_MS / 1000 + 2)
 
-const PROJECT_TAG_REGEX = /\[project:(\d+)\|([^\]\n]+)\]/g
-const COURSE_TAG_REGEX = /\[course:(\d+)\|([^\]\n]+)\]/g
 const MARKDOWN_LINK_REGEX = /\[([^\]\n]+)\]\(([^)\n]+)\)/g
 const SCRATCH_BLOCK_REGEX = /\[\[block:[^\]|\n]+(?:\|([^\]\n]+))?\]\]/g
 const SCRATCH_CATEGORY_REGEX = /\[\[cat:([^\]|\n]+)\]\]/g
@@ -78,8 +77,9 @@ const COMPLETE_MARKUP_AT_START = [
   /^\[[^\]\n]+\]\([^)\n]+\)/,
   /^!\[[^\]\n]*\]\([^)\n]+\)/,
 ]
+const RESOURCE_TAG_AT_START = new RegExp(`^${TUTOR_RESOURCE_TAG_REGEX.source}`, 'u')
 
-const CHIP_STARTERS = ['[audio:', '[project:', '[course:'] as const
+const CHIP_STARTERS = ['[audio:', '[lesson:', '[challenge:', '[resource:', '[species:', '[game:', '[project:', '[course:'] as const
 const SCRATCH_STARTERS = ['[[block:', '[[cat:'] as const
 
 export class TutorSpeechError extends Error {
@@ -125,6 +125,8 @@ export function extractDashScopeAudioUrl(payload: unknown): string | null {
 }
 
 function matchCompleteMarkup(text: string) {
+  const resource = text.match(RESOURCE_TAG_AT_START)
+  if (resource?.[0]) return resource[0]
   for (const pattern of COMPLETE_MARKUP_AT_START) {
     const match = text.match(pattern)
     if (match?.[0]) return match[0]
@@ -192,16 +194,14 @@ export function findTutorSpeechHoldIndex(raw: string) {
 
 export function sanitizeTutorSpeechText(input: string) {
   AUDIO_TAG_REGEX.lastIndex = 0
-  PROJECT_TAG_REGEX.lastIndex = 0
-  COURSE_TAG_REGEX.lastIndex = 0
+  TUTOR_RESOURCE_TAG_REGEX.lastIndex = 0
   MARKDOWN_LINK_REGEX.lastIndex = 0
   SCRATCH_BLOCK_REGEX.lastIndex = 0
   SCRATCH_CATEGORY_REGEX.lastIndex = 0
 
   const cleaned = input
     .replace(AUDIO_TAG_REGEX, '')
-    .replace(PROJECT_TAG_REGEX, '$2')
-    .replace(COURSE_TAG_REGEX, '$2')
+    .replace(TUTOR_RESOURCE_TAG_REGEX, (match) => stripTutorResourceTags(match))
     .replace(MARKDOWN_LINK_REGEX, '$1')
     .replace(SCRATCH_BLOCK_REGEX, (_match, label: string | undefined) => label ?? '')
     .replace(SCRATCH_CATEGORY_REGEX, (_match, category: string) => SCRATCH_CATEGORY_LABELS[category] ?? 'Scratch 分类')

@@ -85,6 +85,12 @@ describe('sanitizeTutorSpeechText', () => {
 
     expect(text).toHaveLength(MAX_TUTOR_TTS_TEXT_CHARS)
   })
+
+  it('reads new resource tags and keeps their titles', () => {
+    expect(sanitizeTutorSpeechText('去看 [lesson:12:3|纸桥课时] 和 [species:黑头鸦|黑头鸦]，再玩 [game:maze|迷宫]。')).toBe(
+      '去看 纸桥课时 和 黑头鸦，再玩 迷宫。',
+    )
+  })
 })
 
 describe('extractDashScopeAudioUrl', () => {
@@ -231,6 +237,12 @@ describe('findTutorSpeechHoldIndex', () => {
   it('holds an unclosed project chip', () => {
     const raw = '再看 [project:12|纸'
     expect(findTutorSpeechHoldIndex(raw)).toBe(raw.indexOf('['))
+  })
+
+  it('holds an unclosed resource chip until it is complete', () => {
+    const sanitizer = createTutorSpeechSanitizer()
+    expect(sanitizer.push('去看 [lesson:12:3|纸')).toBe('去看')
+    expect(sanitizer.push('桥课时]')).toBe(' 纸桥课时')
   })
 })
 

@@ -15,8 +15,6 @@ import { cn } from "@/lib/utils"
 import {
   getApiErrorMessageFromPayload,
   getApiErrorPayload,
-  getInteractionAccessRedirect,
-  isAgeConfirmationRequired,
 } from "@/lib/utils/http"
 
 interface ObservationCommentsProps {
@@ -26,7 +24,7 @@ interface ObservationCommentsProps {
 
 export function ObservationComments({ observationId, onCommentCreated }: ObservationCommentsProps) {
   const { user } = useAuth()
-  const { promptLogin, runAfterAgeConfirmation } = useLoginPrompt()
+  const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const [comments, setComments] = useState<Comment[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -77,14 +75,8 @@ export function ObservationComments({ observationId, onCommentCreated }: Observa
           parent_id: replyTo?.id ?? null,
         }),
       })
-      let res = await sendCommentRequest()
-      let errorPayload = await getApiErrorPayload(res)
-      if (!res.ok && isAgeConfirmationRequired(errorPayload)) {
-        res = await runAfterAgeConfirmation(sendCommentRequest, {
-          redirectTo: getInteractionAccessRedirect(errorPayload) ?? undefined,
-        })
-        errorPayload = await getApiErrorPayload(res)
-      }
+      const res = await sendCommentRequest()
+      const errorPayload = await getApiErrorPayload(res)
       if (!res.ok) {
         throw new Error(getApiErrorMessageFromPayload(errorPayload, "评论失败"))
       }

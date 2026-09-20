@@ -26,7 +26,6 @@ vi.mock("@/lib/context/auth-context", () => ({
 vi.mock("@/lib/context/login-prompt-context", () => ({
   useLoginPrompt: () => ({
     promptLogin: vi.fn(),
-    runAfterAgeConfirmation: vi.fn(),
   }),
 }))
 

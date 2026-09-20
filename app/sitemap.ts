@@ -1,16 +1,18 @@
 import type { MetadataRoute } from "next";
+import { unstable_cache } from "next/cache";
 
 import { hasLdrawModelFile } from "@/lib/courses/ldraw-bom-source";
 import { getContentClassificationSettings } from "@/lib/content-classification";
 import { logger } from "@/lib/logger";
+import { LEARNING_TOPICS } from "@/lib/seo/learning-topics";
 import { PLAYGROUND_METADATA_PATHS } from "@/lib/seo/playground-metadata";
 import { fetchAllSitemapRows } from "@/lib/seo/sitemap-pagination";
 import { buildAbsoluteUrl } from "@/lib/seo/site";
 import { createPublicClient } from "@/lib/supabase/server";
 
-// Keep the discovery file stable for crawlers and CDNs while still refreshing
-// newly published public content without requiring a full deployment.
-export const revalidate = 3600;
+// Generate at request time, so builds do not require a live content database.
+// The complete successful result is cached separately below.
+export const revalidate = 0;
 
 interface TimestampedIdRow {
   id: number;
@@ -25,6 +27,7 @@ interface SpeciesRow {
 interface WorkRow {
   id: number;
   completed_at: string | null;
+  reviewed_at?: string | null;
   project_id?: number | null;
   course_lesson_id?: number | null;
 }
@@ -60,6 +63,11 @@ export const STATIC_SITEMAP_ROUTES: StaticSitemapRoute[] = [
   { path: "/", changeFrequency: "daily", priority: 1 },
   { path: "/explore", changeFrequency: "daily", priority: 0.9 },
   { path: "/courses", changeFrequency: "weekly", priority: 0.9 },
+  ...LEARNING_TOPICS.map(({ slug }) => ({
+    path: `/learn/${slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  })),
   { path: "/nature", changeFrequency: "daily", priority: 0.8 },
   { path: "/nature/birds", changeFrequency: "weekly", priority: 0.8 },
   { path: "/nature/insects", changeFrequency: "weekly", priority: 0.8 },
@@ -84,6 +92,11 @@ function toLastModified(value: string | null | undefined) {
 
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
+function latestLastModified(...values: Array<string | null | undefined>) {
+  const dates = values.map(toLastModified).filter((date): date is Date => Boolean(date));
+  return dates.length ? new Date(Math.max(...dates.map((date) => date.getTime()))) : undefined;
 }
 
 function sitemapEntry(
@@ -150,7 +163,7 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
 
   content.works.forEach((work) => {
     routes.push(sitemapEntry(`/works/${work.id}`, {
-      lastModified: toLastModified(work.completed_at),
+      lastModified: latestLastModified(work.completed_at, work.reviewed_at),
       changeFrequency: "monthly",
       priority: 0.6,
     }));
@@ -175,7 +188,7 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
   return routes;
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const supabase = createPublicClient();
     const classificationSettings = await getContentClassificationSettings();
@@ -227,7 +240,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       fetchAllSitemapRows<TimestampedIdRow>(createCoursesQuery),
       fetchAllSitemapRows<WorkRow>(() => supabase
         .from("completed_projects")
-        .select("id, completed_at, project_id, course_lesson_id")
+        .select("id, completed_at, reviewed_at, project_id, course_lesson_id")
         .eq("record_kind", "final")
         .eq("status", "approved")
         .eq("is_public", true)
@@ -276,6 +289,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   } catch (error) {
     logger.error("Error generating sitemap", { error });
-    return buildSitemapEntries();
+    // Do not replace the last complete data-cache entry with a partial result.
+    // A cold cache must fail explicitly rather than publish an incomplete 200.
+    throw error;
   }
+}
+
+const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v2"], { revalidate: 3600 });
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  return getCachedSitemap();
 }

@@ -11,6 +11,7 @@ afterEach(() => {
 
 describe("buildSiteVerificationMetadata", () => {
   it("keeps hardcoded shenma/bytedance tokens without requiring env", () => {
+    vi.stubEnv("BING_SITE_VERIFICATION", " ");
     vi.stubEnv("GOOGLE_SITE_VERIFICATION", "");
     vi.stubEnv("BAIDU_SITE_VERIFICATION", "   ");
 
@@ -19,15 +20,17 @@ describe("buildSiteVerificationMetadata", () => {
     });
   });
 
-  it("wires optional Google and Baidu verification tokens from env", () => {
+  it("wires optional Google, Baidu and Bing verification tokens from env", () => {
     vi.stubEnv("GOOGLE_SITE_VERIFICATION", " google-token ");
     vi.stubEnv("BAIDU_SITE_VERIFICATION", "baidu-token");
+    vi.stubEnv("BING_SITE_VERIFICATION", " bing-token ");
 
     expect(buildSiteVerificationMetadata()).toEqual({
       google: "google-token",
       other: {
         ...HARDCODED_SITE_VERIFICATION_OTHER,
         "baidu-site-verification": "baidu-token",
+        "msvalidate.01": "bing-token",
       },
     });
   });

@@ -10,7 +10,6 @@ import {
   Loader2,
   MessageSquarePlus,
   MoreHorizontal,
-  Sparkles,
   Trash2,
   Volume2,
   X,
@@ -56,6 +55,7 @@ import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { hasTutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
+import { formatTutorCredits } from '@/lib/ai/tutor/billing'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
 import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
@@ -63,6 +63,7 @@ import { SecureUploadError, getSecureUploadErrorMessage, uploadFileSecure } from
 import { cn } from '@/lib/utils'
 
 import dockStyles from './tutor-fab-dock.module.css'
+import panelStyles from './tutor-panel.module.css'
 
 export type { TutorChatMessage } from '@/components/features/tutor/use-tutor-chat-stream'
 
@@ -105,7 +106,7 @@ type TutorPanelProps = {
 function formatQuota(quota: AiCreditStatus | null) {
   if (!quota) return null
   if (quota.isMember) {
-    return `本月代币 ${quota.walletBalance}/${quota.monthlyGrant || MEMBER_AI_MONTHLY_CREDITS}`
+    return `可用代币 ${formatTutorCredits(quota.walletBalance)}/${formatTutorCredits(quota.monthlyGrant || MEMBER_AI_MONTHLY_CREDITS)}`
   }
   return `今日免费 ${quota.freeRemainingToday}/${quota.freeDaily}`
 }
@@ -152,12 +153,17 @@ export function GlobalTutorFab({
   const [pendingImages, setPendingImages] = useState<string[]>([])
   const [suggestedImages, setSuggestedImages] = useState<string[]>([])
   const [uploadingImage, setUploadingImage] = useState(false)
+  const panelRef = useRef<HTMLElement>(null)
+  const fabRef = useRef<HTMLButtonElement>(null)
+  const toggleRef = useRef(onToggle)
+  toggleRef.current = onToggle
+  const aliveRef = useRef(true)
 
   // 发送中标记（ref 版），loadSession 用它避免覆盖乐观插入的消息；由流式控制器维护。
   const busyRef = useRef(false)
   const sendMessageRef = useRef<TutorSendMessageFn | null>(null)
 
-  const contextKey = `${context.contextType}:${context.contextId}:${stageIndex ?? ''}:${context.lessonId ?? ''}:${context.surface ?? ''}:${context.playgroundGameKey ?? ''}`
+  const contextKey = `${user?.id ?? 'anonymous'}:${context.contextType}:${context.contextId}:${stageIndex ?? ''}:${context.lessonId ?? ''}:${context.surface ?? ''}:${context.playgroundGameKey ?? ''}`
   // 最新场景 key 放 ref，异步响应回来时丢弃过期场景的数据（防快速切换串话题）。
   const contextKeyRef = useRef(contextKey)
   contextKeyRef.current = contextKey
@@ -205,10 +211,12 @@ export function GlobalTutorFab({
   }, [context.contextType, context.contextId, stageIndex, context.lessonId, context.surface, context.playgroundGameKey])
 
   const refreshQuota = useCallback(async () => {
+    const requestKey = contextKeyRef.current
     try {
       const res = await fetch(`/api/tutor/chat?${buildParams()}&quotaOnly=1`)
       if (!res.ok) return
       const payload = await res.json()
+      if (!aliveRef.current || contextKeyRef.current !== requestKey) return
       const nextQuota = payload.quota ?? null
       setQuota(nextQuota)
       if (sessionInput) {
@@ -243,6 +251,7 @@ export function GlobalTutorFab({
     onComposerTranscript: handleComposerTranscript,
     onLongPressTranscript: handleLongPressTranscript,
   })
+  const stopSpeechPlayback = voice.stopSpeechPlayback
 
   // ---- 流式对话控制器 ----
   const handleBeforeSend = useCallback(() => {
@@ -257,8 +266,15 @@ export function GlobalTutorFab({
     busy,
     toolPendingCount,
     sendMessage,
+    resetChat,
+    stopGeneration,
+    streamPhase,
+    failedMessage,
+    retryLastMessage,
+    clearFailedMessage,
   } = useTutorChatStream({
     contextKey,
+    epoch: sessionQuery.data?.epoch,
     context,
     stageIndex,
     lessonStepIndex,
@@ -278,6 +294,7 @@ export function GlobalTutorFab({
     refreshQuota,
     setMascotFeedback,
     onBeforeSend: handleBeforeSend,
+    onStopSpeech: voice.stopSpeechPlayback,
   })
 
   useEffect(() => {
@@ -299,7 +316,7 @@ export function GlobalTutorFab({
   )
 
   const loadSession = useCallback(async () => {
-    if (!sessionInput) return
+    if (!sessionInput || !aliveRef.current) return
     const requestKey = contextKeyRef.current
     try {
       const payload = await queryClient.fetchQuery({
@@ -308,7 +325,7 @@ export function GlobalTutorFab({
         staleTime: 0,
       })
       // 响应期间场景已切换：丢弃，避免旧话题数据串进新话题
-      if (contextKeyRef.current !== requestKey) return
+      if (!aliveRef.current || contextKeyRef.current !== requestKey) return
       applySessionPayload(payload)
     } catch {
       // 网络异常保持本地状态
@@ -317,13 +334,16 @@ export function GlobalTutorFab({
 
   // ---- 历史会话控制器 ----
   const handleResetChat = useCallback(() => {
-    setMessages([])
+    resetChat()
+    stopSpeechPlayback()
     setGreeting(null)
-  }, [setMessages])
+  }, [resetChat, stopSpeechPlayback])
 
   const history = useTutorHistory({
     contextKey,
+    epoch: sessionQuery.data?.epoch,
     contextKeyRef,
+    busyRef,
     contextType: context.contextType,
     contextId: context.contextId,
     buildParams,
@@ -345,8 +365,44 @@ export function GlobalTutorFab({
   })
 
   useEffect(() => {
+    aliveRef.current = true
     setMounted(true)
+    return () => { aliveRef.current = false }
   }, [])
+
+  useEffect(() => {
+    if (!open || !mounted) return
+    const panel = panelRef.current
+    if (!panel) return
+    const viewport = window.visualViewport
+    const updateViewport = () => {
+      panel.style.setProperty('--tutor-viewport-height', `${viewport?.height ?? window.innerHeight}px`)
+      panel.style.setProperty('--tutor-viewport-top', `${viewport?.offsetTop ?? 0}px`)
+    }
+    updateViewport()
+    viewport?.addEventListener('resize', updateViewport)
+    viewport?.addEventListener('scroll', updateViewport)
+    window.addEventListener('resize', updateViewport)
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const launcher = fabRef.current
+    // Focus the dialog on touch screens without opening the software keyboard.
+    const frame = requestAnimationFrame(() => panel.focus({ preventScroll: true }))
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return
+      event.preventDefault()
+      toggleRef.current()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      cancelAnimationFrame(frame)
+      document.removeEventListener('keydown', onKeyDown)
+      viewport?.removeEventListener('resize', updateViewport)
+      viewport?.removeEventListener('scroll', updateViewport)
+      window.removeEventListener('resize', updateViewport)
+      if (previousFocus?.isConnected && previousFocus !== document.body) previousFocus.focus({ preventScroll: true })
+      else launcher?.focus({ preventScroll: true })
+    }
+  }, [open, mounted])
 
   // 切换场景（换页面/换阶段）时清空旧话题残留的编排层状态
   useEffect(() => {
@@ -355,6 +411,9 @@ export function GlobalTutorFab({
     setPendingImages([])
     setSuggestedImages([])
     setMascotFeedback(null)
+    setInput('')
+    setQuota(null)
+    setUploadingImage(false)
   }, [contextKey])
 
   useEffect(() => {
@@ -364,13 +423,13 @@ export function GlobalTutorFab({
 
   useEffect(() => {
     // busy 时不消费，等当前回复结束后 effect 因 busy 变化重跑再发送，避免丢消息。
-    if (!open || !user || busy || !tutorCtx?.pendingSend) return
+    if (!open || !user || busy || history.startingNewTopic || !tutorCtx?.pendingSend) return
     const pending = tutorCtx.consumePendingSend()
     if (pending) {
       void sendMessage(pending.text, pending.images)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, user, busy, tutorCtx?.pendingSend])
+  }, [open, user, busy, history.startingNewTopic, tutorCtx?.pendingSend])
 
   // 输入框/发送按钮共用：携带待发图片，确认会发送后再清空，避免被 guard 拦截时丢图。
   const submitComposer = () => {
@@ -384,6 +443,7 @@ export function GlobalTutorFab({
   }
 
   const handleFilesSelected = async (files: File[]) => {
+    const requestKey = contextKeyRef.current
     const room = MAX_CHAT_IMAGES - pendingImages.length
     if (room <= 0) {
       toast({ title: `一次最多发 ${MAX_CHAT_IMAGES} 张图片`, variant: 'destructive' })
@@ -395,17 +455,19 @@ export function GlobalTutorFab({
       for (const file of files.slice(0, room)) {
         try {
           const url = await uploadFileSecure(file, 'project-images', 'tutor-chat')
+          if (!aliveRef.current || contextKeyRef.current !== requestKey) return
           if (url) {
-            setPendingImages((current) => (current.includes(url) ? current : [...current, url]))
+            setPendingImages((current) => (current.includes(url) || current.length >= MAX_CHAT_IMAGES ? current : [...current, url]))
           }
         } catch (error) {
+          if (!aliveRef.current || contextKeyRef.current !== requestKey) return
           const uploadToast = getTutorUploadToast(error)
           toast({ ...uploadToast, variant: 'destructive' })
           setMascotFeedback('error')
         }
       }
     } finally {
-      setUploadingImage(false)
+      if (aliveRef.current && contextKeyRef.current === requestKey) setUploadingImage(false)
     }
   }
 
@@ -446,24 +508,26 @@ export function GlobalTutorFab({
     <>
       {open && (
         <section
+          ref={panelRef}
+          role="dialog"
+          aria-label="小迪 AI 学习导师"
+          tabIndex={-1}
           className={cn(
-            'fixed right-4 z-50 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] md:right-6',
+            panelStyles.panel,
+            'z-50 flex flex-col overflow-hidden rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.3)] bg-[hsl(var(--surface-raised))] shadow-[0_24px_60px_-20px_hsl(var(--surface-shadow)/0.55)] outline-none',
             hideOnMobile && 'max-lg:hidden',
-            fabPlacement === 'compact'
-              ? 'bottom-[calc(5rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh_-_6rem_-_env(safe-area-inset-bottom))] md:bottom-42 md:max-h-[calc(100dvh_-_11.5rem)]'
-              : 'bottom-[calc(12rem+env(safe-area-inset-bottom))] max-h-[calc(100dvh_-_13rem_-_env(safe-area-inset-bottom))] md:bottom-24 md:max-h-[calc(100dvh_-_7rem)]',
+            fabPlacement === 'compact' && panelStyles.compact,
           )}
         >
-          <div className="flex items-center gap-3 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3.5 py-3">
+          <div className="flex shrink-0 items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3 py-2">
             <span className="relative h-11 w-10 shrink-0 overflow-visible drop-shadow-[0_8px_12px_hsl(var(--brand-blue)/0.18)]">
               <span className="absolute left-1/2 top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
                 <XiaoDi state={mascotState} size={52} onCycleEnd={handleMascotCycleEnd} />
               </span>
             </span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 text-sm font-semibold tracking-tight">
+              <div className="truncate text-sm font-semibold tracking-tight">
                 小迪 · AI 学习导师
-                <Sparkles className="h-3.5 w-3.5 text-[hsl(var(--brand-blue))]" />
               </div>
               <p className="truncate text-[11px] text-muted-foreground">{panelSubtitle}</p>
               {quota ? (
@@ -475,13 +539,13 @@ export function GlobalTutorFab({
                 <button
                   type="button"
                   aria-label="更多"
-                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))]"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))] focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <MoreHorizontal className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => void history.startNewTopic()}>
+                <DropdownMenuItem disabled={busy || history.startingNewTopic || !user} onClick={() => void history.startNewTopic()}>
                   <MessageSquarePlus className="mr-2 h-4 w-4" />
                   开启新对话
                 </DropdownMenuItem>
@@ -502,7 +566,7 @@ export function GlobalTutorFab({
               type="button"
               onClick={onToggle}
               aria-label="收起导师"
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))]"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-[hsl(var(--surface-muted))] focus-visible:ring-2 focus-visible:ring-ring"
             >
               <X className="h-4 w-4" />
             </button>
@@ -534,7 +598,20 @@ export function GlobalTutorFab({
             isAuthenticated={Boolean(user)}
             messages={messages}
             greeting={greeting}
-            busy={busy}
+            busy={busy || history.startingNewTopic}
+            streamPhase={streamPhase}
+            recoveryAction={failedMessage ? {
+              label: failedMessage.retryable ? '重试这次提问' : '重新编辑问题',
+              onClick: () => {
+                if (failedMessage.retryable) void retryLastMessage()
+                else {
+                  setInput(failedMessage.text)
+                  setPendingImages(failedMessage.images ?? [])
+                  clearFailedMessage()
+                  panelRef.current?.querySelector('textarea')?.focus()
+                }
+              },
+            } : undefined}
             quota={quota}
             sessionFetching={sessionQuery.isFetching}
             sessionError={sessionQuery.isError}
@@ -596,7 +673,7 @@ export function GlobalTutorFab({
               input={input}
               onInputChange={setInput}
               onSubmit={submitComposer}
-              busy={busy}
+              busy={busy || history.startingNewTopic}
               uploadingImage={uploadingImage}
               recordingVoice={voice.recordingVoice}
               transcribingVoice={voice.transcribingVoice}
@@ -609,6 +686,7 @@ export function GlobalTutorFab({
               onToggleVoiceRecording={voice.toggleVoiceRecording}
               voiceFeedback={voice.voiceFeedback}
               onStopSpeech={voice.stopSpeechPlayback}
+              onStopGeneration={busy ? stopGeneration : undefined}
               showReviewAction={showReviewAction}
               onReview={onReview}
             />
@@ -680,6 +758,7 @@ export function GlobalTutorFab({
       )}
 
       <button
+        ref={fabRef}
         type="button"
         onClick={drag.handleFabClick}
         onPointerDown={drag.handleFabPointerDown}
@@ -687,6 +766,7 @@ export function GlobalTutorFab({
         onPointerUp={drag.handleFabPointerEnd}
         onPointerCancel={drag.handleFabPointerEnd}
         aria-label={open ? '收起 AI 导师' : '打开 AI 导师'}
+        aria-expanded={open}
         className={cn(
           'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center overflow-visible focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
           dockStyles.host,
@@ -698,7 +778,7 @@ export function GlobalTutorFab({
                 !drag.fabDocked && 'hover:scale-105 active:scale-95',
               ),
           open
-            ? 'h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
+            ? 'max-md:hidden h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
             : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
           hideOnMobile && 'max-lg:hidden',
           !drag.useCustomFabPosition &&

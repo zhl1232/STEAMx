@@ -1,9 +1,9 @@
 import type { MetadataRoute } from 'next';
-import { AI_CRAWLER_USER_AGENTS, CN_INDEX_CRAWLER_USER_AGENTS, PRIVATE_CRAWLER_DISALLOW } from '@/lib/seo/robots-policy';
+import { AI_CRAWLER_USER_AGENTS, CN_INDEX_CRAWLER_USER_AGENTS, PRIVATE_CRAWLER_DISALLOW, PUBLIC_IMAGE_CRAWLER_ALLOW } from '@/lib/seo/robots-policy';
 import { buildAbsoluteUrl } from '@/lib/seo/site';
 
 const publicCrawlerRule = {
-    allow: '/',
+    allow: ['/', ...PUBLIC_IMAGE_CRAWLER_ALLOW],
     disallow: [...PRIVATE_CRAWLER_DISALLOW],
 };
 

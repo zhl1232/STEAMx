@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
 import { listApprovedCourses } from "@/lib/api/courses";
@@ -7,6 +9,7 @@ import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
 import { getContentClassificationSettings } from "@/lib/content-classification";
+import { LEARNING_TOPICS } from "@/lib/seo/learning-topics";
 
 const COURSE_HUB_DESCRIPTION =
     "创探空间提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
@@ -54,6 +57,14 @@ export default async function CoursesPage() {
                         </p>
                     </div>
                 </header>
+                <nav aria-label="学习入门指南" className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-border px-1 pb-3 text-sm">
+                    <span className="text-muted-foreground">从哪里开始？</span>
+                    {LEARNING_TOPICS.map((topic) => (
+                        <Link key={topic.slug} href={`/learn/${topic.slug}`} className="inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">
+                            {topic.label}
+                        </Link>
+                    ))}
+                </nav>
                 {courses ? (
                     <CourseBoard courses={courses} />
                 ) : (

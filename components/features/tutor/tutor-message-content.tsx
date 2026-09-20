@@ -8,14 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import { ScratchRichText } from '@/components/features/courses/lesson-rich-text'
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
 import { resolveAssetDisplayUrl } from '@/lib/utils/asset-url'
-
-/** 小迪回复中的站内项目引用标记：[project:12|项目名] */
-const PROJECT_TAG_REGEX = /\[project:(\d+)\|([^\]\n]+)\]/g
-/** 小迪回复中的站内课程引用标记：[course:12|课程名] */
-const COURSE_TAG_REGEX = /\[course:(\d+)\|([^\]\n]+)\]/g
-/** 仅站内项目/课程详情链接才渲染为可点击 chip */
-const PROJECT_HREF_REGEX = /^\/project\/\d+$/
-const COURSE_HREF_REGEX = /^\/courses\/\d+$/
+import { getTutorResourceHrefs, isTutorResourceHref, tutorResourceTagsToMarkdown } from '@/lib/ai/tutor/resource-links'
 
 /** 只放行轻量行内/列表元素，标题、表格、代码块、图片等一律剥掉外壳保留文字 */
 const ALLOWED_ELEMENTS = ['p', 'strong', 'em', 'ul', 'ol', 'li', 'a']
@@ -51,8 +44,9 @@ function splitTutorContent(content: string, allowAudio: boolean): ContentPart[] 
   return parts.length ? parts : [{ type: 'markdown', content }]
 }
 
-function MarkdownLink({ href, children }: { href?: string; children?: ReactNode }) {
-  if (typeof href === 'string' && (PROJECT_HREF_REGEX.test(href) || COURSE_HREF_REGEX.test(href))) {
+function MarkdownLink({ href, allowedHrefs, children }: { href?: string; allowedHrefs: Set<string>; children?: ReactNode }) {
+  // Route shape alone cannot authorize Markdown reference links or autolinks.
+  if (typeof href === 'string' && isTutorResourceHref(href) && allowedHrefs.has(decodeURIComponent(href))) {
     return (
       <Link
         href={href}
@@ -87,13 +81,8 @@ function renderScratchInline(children: ReactNode): ReactNode {
 }
 
 function TutorMarkdownBlock({ content }: { content: string }) {
-  const normalized = useMemo(
-    () =>
-      content
-        .replace(PROJECT_TAG_REGEX, (_match, id: string, title: string) => `[${title}](/project/${id})`)
-        .replace(COURSE_TAG_REGEX, (_match, id: string, title: string) => `[${title}](/courses/${id})`),
-    [content],
-  )
+  const normalized = useMemo(() => tutorResourceTagsToMarkdown(content), [content])
+  const allowedHrefs = useMemo(() => getTutorResourceHrefs(content), [content])
 
   if (!normalized.trim()) return null
 
@@ -108,7 +97,7 @@ function TutorMarkdownBlock({ content }: { content: string }) {
         ul: ({ children }) => <ul className="my-0 list-disc space-y-0.5 pl-4">{children}</ul>,
         ol: ({ children }) => <ol className="my-0 list-decimal space-y-0.5 pl-4">{children}</ol>,
         li: ({ children }) => <li className="my-0">{renderScratchInline(children)}</li>,
-        a: ({ href, children }) => <MarkdownLink href={href}>{renderScratchInline(children)}</MarkdownLink>,
+        a: ({ href, children }) => <MarkdownLink href={href} allowedHrefs={allowedHrefs}>{renderScratchInline(children)}</MarkdownLink>,
       }}
     >
       {normalized}
@@ -117,7 +106,7 @@ function TutorMarkdownBlock({ content }: { content: string }) {
 }
 
 /**
- * 小迪回复气泡内容：轻量 Markdown（列表/加粗）+ 站内项目/课程引用 chip + 鸟鸣音频播放器。
+ * 小迪回复气泡内容：轻量 Markdown（列表/加粗）+ 已校验的站内资源引用 chip + 鸟鸣音频播放器。
  */
 export const TutorMessageContent = memo(function TutorMessageContent({
   content,

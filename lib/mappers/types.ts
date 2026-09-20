@@ -87,6 +87,9 @@ export type DbDiscussionWithProfile = DbDiscussion & {
  * 从数据库 projects 表映射而来
  */
 export interface Project {
+    /** Database creation/update timestamps, not an inferred publication date. */
+    createdAt?: string
+    updatedAt?: string
     id: string | number
     title: string
     author: string
@@ -652,6 +655,8 @@ export function mapDbProject(
     const mapped: Project = {
         id: dbProject.id,
         title: dbProject.title,
+        createdAt: dbProject.created_at,
+        updatedAt: dbProject.updated_at,
         author: dbProject.profiles?.display_name || 'Unknown',
         author_id: dbProject.author_id || '',
         image: dbProject.image_url || '',

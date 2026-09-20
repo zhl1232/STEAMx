@@ -149,7 +149,7 @@ export type TutorResourceGoldenCase = {
   previousMessages?: TutorGoldenHistoryMessage[]
   expectShouldSearch: boolean
   /** shouldSearch=true 时：期望包含的资源类型 */
-  expectedResourceTypes?: Array<'course' | 'project'>
+  expectedResourceTypes?: Array<'course' | 'project' | 'challenge' | 'resource' | 'species' | 'game'>
   /** shouldSearch=true 时：每个正则至少命中一条 query */
   queryMustMatch?: string[]
   /** 资源范围存在歧义时，期望 planner 先给澄清选项 */
@@ -162,6 +162,26 @@ export type TutorResourceGoldenCase = {
 }
 
 export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
+  {
+    id: 'resource-find-reference-card', description: '找材料资料卡 → 检索已发布资料',
+    message: '找一下站内比较缓冲材料的资料卡', expectShouldSearch: true,
+    expectedResourceTypes: ['resource'], queryMustMatch: ['缓冲|材料'],
+  },
+  {
+    id: 'resource-find-pbl-challenge', description: '找 PBL 挑战 → 不混用普通项目入口',
+    message: '有没有关于搭桥的 PBL 项目挑战？', expectShouldSearch: true,
+    expectedResourceTypes: ['challenge'], queryMustMatch: ['桥'],
+  },
+  {
+    id: 'resource-find-species-entry', description: '找图鉴入口 → 检索公开物种',
+    message: '我想打开中华蜜蜂的图鉴，在哪里找？', expectShouldSearch: true,
+    expectedResourceTypes: ['species'], queryMustMatch: ['中华蜜蜂|蜜蜂'],
+  },
+  {
+    id: 'resource-find-game-entry', description: '按学习目标找小游戏 → 检索现有目录',
+    message: '站内有没有能练习递归的小游戏？', expectShouldSearch: true,
+    expectedResourceTypes: ['game'], queryMustMatch: ['递归'],
+  },
   {
     id: 'resource-recommend-course',
     description: '找课程 → 检索 course',
@@ -218,6 +238,20 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
     expectShouldSearch: true,
     expectedResourceTypes: ['course'],
     queryMustMatch: ['编程|[Ss]cratch|进阶|提高'],
+  },
+  {
+    id: 'resource-material-projects',
+    description: '手头材料找项目 → 用材料作为检索主题并包含 project',
+    message: '我有小苏打，可以做什么实验？',
+    expectShouldSearch: true,
+    expectedResourceTypes: ['project'],
+    queryMustMatch: ['小苏打|碳酸氢钠'],
+  },
+  {
+    id: 'resource-material-knowledge-question',
+    description: '材料相关知识问答 → 直接回答，不误触发项目检索',
+    message: '小苏打和白醋为什么会冒泡？',
+    expectShouldSearch: false,
   },
 ]
 
@@ -386,6 +420,49 @@ export const TUTOR_REPLY_GOLDEN_CASES: TutorReplyGoldenCase[] = [
       maxChars: 400,
       mustMatch: ['没查到|没有查到|暂时没'],
       mustNotMatch: ['站内没有|平台没有|没有这门课|没有开设'],
+    },
+  },
+  {
+    id: 'reply-material-project-with-materials',
+    description: '材料命中项目 → 引用项目并说明材料信息仅供参考',
+    scene: goldenScene({
+      title: '课程中心',
+      summary:
+        '学生在课程中心浏览。\n【本轮全站资源检索】\n- [project:21|小苏打气球实验]（项目登记材料：「小苏打」「白醋」；仅供参考，不保证完整）',
+    }),
+    conversation: [{ role: 'user', content: '我有小苏打，可以做什么实验？' }],
+    expectation: {
+      maxChars: 500,
+      mustMatch: ['\\[project:21\\|小苏打气球实验\\]', '白醋'],
+      mustNotMatch: ['完整材料清单'],
+    },
+  },
+  {
+    id: 'reply-failed-search-general-suggestion',
+    description: '检索失败 → 明确暂时查不到并继续给通用建议',
+    scene: goldenScene({
+      title: '课程中心',
+      summary: '学生在课程中心浏览。\n【本轮全站资源检索】\n本轮检索失败，暂时无法确认站内资源。',
+    }),
+    conversation: [{ role: 'user', content: '我有小苏打，可以做什么实验？' }],
+    expectation: {
+      maxChars: 500,
+      mustMatch: ['检索失败|暂时查不到|暂时无法确认|查询暂时没成功', '通用', '小苏打|白醋'],
+      mustNotMatch: ['站内没有|平台没有'],
+    },
+  },
+  {
+    id: 'reply-material-empty-general-suggestion',
+    description: '材料检索无命中 → 不断言站内没有，继续给出安全的通用实验建议',
+    scene: goldenScene({
+      title: '课程中心',
+      summary: '学生在课程中心浏览。\n【本轮全站资源检索】\n状态：本轮没有返回匹配条目，只能说暂时没查到，然后可以给学生通用建议。',
+    }),
+    conversation: [{ role: 'user', content: '我有小苏打，可以做什么实验？' }],
+    expectation: {
+      maxChars: 500,
+      mustMatch: ['暂时没查到|暂时没有', '小苏打|白醋'],
+      mustNotMatch: ['站内没有|平台没有|没有这类实验|查询暂时没成功|检索失败'],
     },
   },
 ]

@@ -11,11 +11,10 @@ export type InteractionCapability =
   | 'post'
   | 'message'
 
-export type InteractionState = 'anonymous' | 'registered' | 'confirmed' | 'restricted'
+export type InteractionState = 'anonymous' | 'registered' | 'restricted'
 
 export interface InteractionAccess {
   state: Exclude<InteractionState, 'anonymous'>
-  ageConfirmed: boolean
   canSaveProgress: boolean
   canEngage: boolean
   canSubmit: boolean
@@ -26,18 +25,8 @@ export interface InteractionAccess {
 
 type InteractionProfile = Pick<
   Database['public']['Tables']['profiles']['Row'],
-  'age_confirmed_at' | 'interaction_restricted' | 'safety_status' | 'safety_restricted_until'
+  'interaction_restricted' | 'safety_status' | 'safety_restricted_until'
 >
-
-const AGE_GATED_CAPABILITIES = new Set<InteractionCapability>([
-  'submit',
-  'comment',
-  'post',
-])
-
-function isAgeConfirmed(profile: InteractionProfile | null) {
-  return Boolean(profile?.age_confirmed_at)
-}
 
 export async function getInteractionAccess(
   supabase: SupabaseClient<Database>,
@@ -47,7 +36,7 @@ export async function getInteractionAccess(
 
   const profileQuery = supabase
     .from('profiles')
-    .select('age_confirmed_at, interaction_restricted, safety_status, safety_restricted_until')
+    .select('interaction_restricted, safety_status, safety_restricted_until')
     .eq('id', user.id)
   const profileQueryWithFallback = profileQuery as unknown as {
     maybeSingle?: () => PromiseLike<{ data: unknown; error: unknown }>
@@ -63,6 +52,7 @@ export async function getInteractionAccess(
   if (error) throw error
 
   const profile = data as InteractionProfile | null
+  if (!profile) return null
   const restrictionHasExpired = Boolean(
     profile?.safety_restricted_until && new Date(profile.safety_restricted_until).getTime() <= Date.now(),
   )
@@ -75,7 +65,6 @@ export async function getInteractionAccess(
   if (isRestricted) {
     return {
       state: 'restricted',
-      ageConfirmed: isAgeConfirmed(profile),
       canSaveProgress: false,
       canEngage: false,
       canSubmit: false,
@@ -85,17 +74,15 @@ export async function getInteractionAccess(
     }
   }
 
-  const ageConfirmed = isAgeConfirmed(profile)
   return {
-    state: ageConfirmed ? 'confirmed' : 'registered',
-    ageConfirmed,
+    state: 'registered',
     canSaveProgress: true,
     canEngage: true,
-    canSubmit: ageConfirmed,
-    canComment: ageConfirmed,
-    canPost: ageConfirmed,
+    canSubmit: true,
+    canComment: true,
+    canPost: true,
     // Direct messages are governed by recipient privacy, blocks, moderation,
-    // and rate limits. A sender does not need the public-content confirmation.
+    // and rate limits.
     canMessage: true,
   }
 }
@@ -114,13 +101,6 @@ export async function requireInteractionAccess(
   if (access.state === 'restricted') {
     throw new PermissionError('当前账号暂时不能进行此操作', 'INTERACTION_RESTRICTED', {
       capability,
-    })
-  }
-
-  if (AGE_GATED_CAPABILITIES.has(capability) && !access.ageConfirmed) {
-    throw new PermissionError('完成社区互动确认后即可继续此操作', 'AGE_CONFIRMATION_REQUIRED', {
-      capability,
-      redirectTo: '/settings/security?section=age-confirmation',
     })
   }
 

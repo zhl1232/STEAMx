@@ -31,13 +31,27 @@ describe('POST /api/comments/[id]/like', () => {
   })
 
   it('returns 404 when the comment does not exist', async () => {
+    const profileMaybeSingle = vi.fn().mockResolvedValue({
+      data: { interaction_restricted: false, safety_status: 'active', safety_restricted_until: null },
+      error: null,
+    })
     const maybeSingle = vi.fn().mockResolvedValue({
       data: null,
       error: null,
     })
     const eq = vi.fn().mockReturnValue({ maybeSingle })
     const select = vi.fn().mockReturnValue({ eq })
-    const from = vi.fn().mockReturnValue({ select })
+    const from = vi.fn((table: string) => {
+      if (table === 'profiles') {
+        return {
+          select: vi.fn(() => ({
+            eq: vi.fn(() => ({ maybeSingle: profileMaybeSingle })),
+          })),
+        }
+      }
+      if (table === 'comments') return { select }
+      throw new Error(`Unexpected table: ${table}`)
+    })
 
     createClientMock.mockResolvedValue({ from } as never)
     requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)

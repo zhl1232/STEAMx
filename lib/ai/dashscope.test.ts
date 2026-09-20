@@ -163,6 +163,20 @@ describe('dashScopeChatComplete', () => {
     })
   })
 
+  it.each(['qwen3.8-max', 'qwen3.7-plus', 'qwen3-vl-flash', 'qwen-flash'])('disables optional thinking for tutor model %s', async (model) => {
+    process.env.DASHSCOPE_TUTOR_TEXT_MODELS = model
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '收到' } }] }) })
+    await dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
+  })
+
+  it('does not send an unsupported thinking option to a custom thinking model', async () => {
+    process.env.DASHSCOPE_TUTOR_TEXT_MODELS = 'custom-thinking-model'
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '收到' } }] }) })
+    await dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).not.toHaveProperty('enable_thinking')
+  })
+
   it('keeps HTTP error details for callers', async () => {
     fetchMock.mockResolvedValue({
       ok: false,

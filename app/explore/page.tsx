@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { buildExplorePageHref, parseExplorePage } from "@/lib/seo/explore-pagination";
 
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
@@ -22,13 +24,27 @@ interface ExplorePageProps {
   }>
 }
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "STEAM 项目探索",
-  description:
-    "在创探空间浏览科学、技术、工程、艺术、数学项目，按关键词、分类、难度和标签筛选真实可做的动手实践内容。",
-  path: "/explore",
-  keywords: ["创探空间 项目", "STEAM项目", "科学实验项目", "创客项目", "积木项目"],
-});
+export async function generateMetadata({ searchParams }: ExplorePageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const page = parseExplorePage(params.page);
+  const query = new URLSearchParams();
+  for (const [key, raw] of Object.entries(params)) {
+    const value = firstParam(raw);
+    if (value) query.set(key, value);
+  }
+  if (parseExploreSortBy(query.get('sortBy')) === 'latest') query.set('sortBy', 'latest');
+  else query.delete('sortBy');
+  const filtered = ['q', 'category', 'subCategory', 'difficulty', 'age', 'tags']
+    .some((key) => Boolean(query.get(key)));
+  const metadata = buildPageMetadata({
+    title: `STEAM 项目探索${page > 0 ? ` · 第 ${page + 1} 页` : ''}`,
+    description: "在创探空间浏览科学、技术、工程、艺术、数学项目，按关键词、分类、难度和标签筛选真实可做的动手实践内容。",
+    path: buildExplorePageHref(query, page),
+    keywords: ["STEAM项目", "科学实验项目", "积木项目"],
+  });
+  // Search and filter combinations are discovery pages, not standalone topics.
+  return filtered ? { ...metadata, robots: { index: false, follow: true } } : metadata;
+}
 
 function firstParam(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) return value[0]
@@ -37,8 +53,7 @@ function firstParam(value: string | string[] | undefined): string | undefined {
 
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   const params = await searchParams
-  const parsedPage = Number.parseInt(params.page ?? '0', 10)
-  const initialPage = Number.isNaN(parsedPage) ? 0 : Math.max(0, parsedPage)
+  const initialPage = parseExplorePage(params.page)
 
   const filters: ProjectFilters = {
     searchQuery: params.q,
@@ -55,6 +70,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     await Promise.all([
       getExploreFilterOptions(),
       getProjects(filters, {
+        strictErrors: true,
         page: initialPage,
         pageSize: 12,
         sortBy,
@@ -65,6 +81,8 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         blendPopular: sortBy === 'popular',
       }),
     ])
+
+  if (initialPage > 0 && projects.length === 0) notFound();
 
   return (
     <>

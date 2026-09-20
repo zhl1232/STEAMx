@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
+import { LessonStepGuide } from "@/components/features/courses/lesson-step-guide";
 import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
 import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry";
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
@@ -325,6 +326,12 @@ export function LessonPageClient({
                     {courseTitle}
                 </Link>
             </div>
+            <LessonStepGuide
+                steps={steps}
+                partsHref={lessonWorkspace === "building_3d" && lesson.content?.building3d?.ldrawModelUrl
+                    ? `/courses/${courseId}/lessons/${lesson.id}/parts`
+                    : undefined}
+            />
             <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
                 <div
                     className={cn(

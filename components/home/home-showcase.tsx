@@ -25,8 +25,8 @@ import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/ho
 import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
-import { MAINLINE_ENTRY_HREF, MAINLINE_PRIMARY_CTA_LABEL, MAINLINE_SHORT_PITCH } from "@/lib/product/mainline";
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_TAGLINE } from "@/lib/brand";
+import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
+import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_POSITIONING, BRAND_TAGLINE } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
@@ -132,7 +132,9 @@ function HomeHero({ image }: { image: string }) {
               <span className="hidden md:block">{BRAND_HERO_TITLE}</span>
             </h1>
 
-            {/* 手机端叠在实景图上对比度差、显得乱，仅桌面保留介绍文案 */}
+            <p className="mt-2 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
+              {BRAND_POSITIONING}
+            </p>
             <p className="mt-3 hidden max-w-[560px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
               {BRAND_DESCRIPTION}
             </p>
@@ -267,14 +269,14 @@ function MainlineStartCard({ className }: { className?: string }) {
           新手推荐
         </p>
         <h3 className="mt-0.5 truncate text-[14px] font-extrabold text-foreground md:text-[16px] lg:text-[17px]">
-          {MAINLINE_PRIMARY_CTA_LABEL}，搭出第一件作品
+          积木搭建，从这里开始
         </h3>
         <p className="mt-0.5 line-clamp-1 text-[11px] leading-4 text-muted-foreground md:text-[13px] md:leading-5">
-          {MAINLINE_SHORT_PITCH}
+          免费积木课，跟着 3D 步骤动手搭
         </p>
       </div>
       <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-[12px] font-bold text-white shadow-xs transition duration-300 group-hover:translate-x-0.5 group-hover:bg-[hsl(var(--brand-blue)/0.9)] md:inline-flex">
-        开始学习
+        挑一节课
         <ArrowRight className="h-3.5 w-3.5" />
       </span>
       <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--brand-blue))] transition group-hover:translate-x-0.5 md:hidden" />
