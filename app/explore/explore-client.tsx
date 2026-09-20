@@ -943,7 +943,7 @@ export function ExploreClient({
                         onClick={openSheet}
                         data-testid="explore-more-filters"
                         className={cn(
-                            "relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
+                            "relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
                             hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
                         )}
                         aria-label="筛选条件"
