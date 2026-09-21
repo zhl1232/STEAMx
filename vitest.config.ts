@@ -1,7 +1,5 @@
 import path from 'node:path'
 
-const include = ['**/*.{test,spec}.{ts,tsx}']
-
 const exclude = [
     '**/node_modules/**',
     '**/e2e/**',
@@ -45,11 +43,11 @@ export default async () => {
     }
 
     return {
+        // Vitest 5 shares the Vite server when projects only customize test options.
+        plugins: [react()],
         test: {
             projects: [
                 {
-                    plugins: [react()],
-                    resolve,
                     test: {
                         name: 'dom',
                         environment: 'happy-dom',
@@ -59,8 +57,6 @@ export default async () => {
                     },
                 },
                 {
-                    plugins: [react()],
-                    resolve,
                     test: {
                         name: 'node',
                         environment: 'node',
@@ -69,8 +65,6 @@ export default async () => {
                     },
                 },
             ],
-            include,
-            exclude,
             coverage: {
                 provider: 'v8',
                 reporter: ['text', 'json-summary', 'html'],

@@ -3,6 +3,13 @@ import { cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import { afterEach, vi } from 'vitest'
 
+// happy-dom 20.14 exposes WAAPI, but canceling Motion animations rejects its
+// finished promises during cleanup. Keep DOM unit tests on Motion's JS fallback;
+// WAAPI behavior needs a real browser test instead of this simulated DOM.
+if (typeof Element !== 'undefined') {
+    Reflect.deleteProperty(Element.prototype, 'animate')
+}
+
 afterEach(() => {
     cleanup()
 })
