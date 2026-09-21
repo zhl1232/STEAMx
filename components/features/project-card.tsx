@@ -22,6 +22,8 @@ interface ProjectCardProps {
     /** 首屏优先加载（用于探索页前几张卡片，提升 LCP） */
     priority?: boolean;
     href?: string;
+    /** Forwarded to Next.js Link; false avoids scrolling explore away before restore. */
+    scroll?: boolean;
     variant?: "default" | "featured" | "compact";
     compactLayout?: "adaptive" | "vertical" | "dense";
     /** 默认卡片在移动端只展示发现所需的核心信息，桌面端保持完整内容。 */
@@ -33,7 +35,7 @@ function getCategoryTone(category?: string): CategoryTone {
     return CATEGORY_META[category || ""]?.tone ?? "science";
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, variant = "default", compactLayout = "adaptive", mobileCompact = false, className }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, scroll = true, variant = "default", compactLayout = "adaptive", mobileCompact = false, className }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
@@ -68,6 +70,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     <Link
                         href={detailHref}
                         prefetch={false}
+                        scroll={scroll}
                         className="absolute inset-0 z-0"
                         aria-label={`查看项目：${project.title}`}
                     />
@@ -231,6 +234,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     <Link
                         href={detailHref}
                         prefetch={false}
+                        scroll={scroll}
                         className="absolute inset-0 z-0"
                         aria-label={`查看重点推荐项目：${project.title}`}
                     />
@@ -343,6 +347,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                 <Link
                     href={detailHref}
                     prefetch={false}
+                    scroll={scroll}
                     className="absolute inset-0 z-0"
                     aria-label={`查看项目：${project.title}`}
                 />

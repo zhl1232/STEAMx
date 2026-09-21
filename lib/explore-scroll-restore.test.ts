@@ -17,17 +17,21 @@ describe('explore-scroll-restore', () => {
     expect(buildExploreFiltersKey(params)).toBe('q=%E6%B0%B4&category=%E7%A7%91%E5%AD%A6')
   })
 
-  it('round-trips scroll restore state', () => {
+  it('round-trips scroll restore state with project anchor', () => {
     saveExploreScrollRestore({
       filtersKey: 'category=%E7%A7%91%E5%AD%A6',
       scrollY: 1280,
       nextPage: 3,
+      anchorProjectId: '42',
+      anchorTop: 120,
     })
 
     expect(readExploreScrollRestore()).toEqual({
       filtersKey: 'category=%E7%A7%91%E5%AD%A6',
       scrollY: 1280,
       nextPage: 3,
+      anchorProjectId: '42',
+      anchorTop: 120,
     })
 
     clearExploreScrollRestore()
