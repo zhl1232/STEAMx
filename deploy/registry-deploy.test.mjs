@@ -24,6 +24,8 @@ if [[ "$1" == login ]]; then
   exit 0
 fi
 if [[ "$1" == pull ]]; then
+  if [[ "\${FAKE_PULL_TIMEOUT-}" == 1 ]]; then sleep 10; fi
+  if [[ "\${FAKE_PULL_FIRST_FAIL-}" == 1 && ! -f "$FAKE_COUNT.pull" ]]; then touch "$FAKE_COUNT.pull"; exit 1; fi
   [[ "\${FAKE_PULL_FAIL-}" != 1 ]]
   exit $?
 fi
@@ -324,4 +326,35 @@ exec /bin/cp "$@"
   const config = (await text(fixture.log)).match(/CONFIG=(\S+)/)?.[1]
   assert.ok(config)
   await assert.rejects(access(config))
+})
+
+
+test('transient pull failure retries before any configuration mutation', async (t) => {
+  const fixture = await setup({ env: { FAKE_PULL_FIRST_FAIL: '1' } })
+  t.after(fixture.cleanup)
+  assert.equal(run(fixture.env).status, 0)
+  assert.equal((await text(fixture.log)).match(/ARGS=pull /g).length, 2)
+})
+
+test('pull timeout exhausts bounded retries without changing the running configuration', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: { FAKE_PULL_TIMEOUT: '1', IMAGE_PULL_TIMEOUT: '1', IMAGE_PULL_ATTEMPTS: '2' } })
+  t.after(fixture.cleanup)
+  const paths = await configCandidates(fixture)
+  const result = run(fixture.env)
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /exit 124/)
+  assert.match(result.stderr, /exhausted retries/)
+  assert.equal(await text(paths.nginxPath), 'old-nginx\n')
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+  assert.doesNotMatch(await text(fixture.log), /ARGS=compose --env-file/)
+})
+
+test('a held server deployment lock rejects release before pulling or changing configuration', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: { DEPLOY_LOCK_TIMEOUT: '1' } })
+  t.after(fixture.cleanup)
+  const result = spawnSync('flock', [path.join(fixture.app, '.deploy.lock'), 'bash', script], { env: fixture.env, encoding: 'utf8' })
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /Another deployment is active/)
+  assert.equal(await text(fixture.log), '')
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
 })

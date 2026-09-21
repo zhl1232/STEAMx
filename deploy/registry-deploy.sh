@@ -13,6 +13,14 @@ compose_file="${COMPOSE_FILE:-$app_dir/docker-compose.yml}"
 image_env_file="${IMAGE_ENV_FILE:-$app_dir/.env}"
 wait_timeout="${COMPOSE_WAIT_TIMEOUT:-120}"
 image_ref="${REGISTRY_IMAGE}@${IMAGE_DIGEST}"
+# Use the same server lock as standalone operations, including manual invocations.
+exec 9>"$app_dir/.deploy.lock"
+flock -w "${DEPLOY_LOCK_TIMEOUT:-120}" 9 || { echo 'Another deployment is active.' >&2; exit 1; }
+pull_timeout="${IMAGE_PULL_TIMEOUT:-180}"
+pull_attempts="${IMAGE_PULL_ATTEMPTS:-2}"
+for value in "$pull_timeout" "$pull_attempts"; do
+  [[ "$value" =~ ^[1-9][0-9]*$ ]] || { echo 'Pull limits must be positive integers.' >&2; exit 1; }
+done
 login_config="$(mktemp -d)"
 candidate_env="$(mktemp "${image_env_file}.new.XXXXXX")"
 rollback_env="$(mktemp "${image_env_file}.rollback.XXXXXX")"
@@ -50,7 +58,21 @@ fi
 
 printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
 echo "Pulling $image_ref ..."
-docker pull "$image_ref"
+pulled=0
+for ((attempt=1; attempt<=pull_attempts; attempt++)); do
+  echo "Image pull attempt $attempt/$pull_attempts (timeout ${pull_timeout}s)"
+  if timeout --kill-after=10s "${pull_timeout}s" docker pull "$image_ref"; then
+    pulled=1
+    break
+  else
+    pull_status=$?
+    echo "Image pull attempt $attempt failed (exit $pull_status)." >&2
+  fi
+done
+if [ "$pulled" -ne 1 ]; then
+  echo 'Image pull exhausted retries; application and configuration were not changed.' >&2
+  exit 1
+fi
 
 # Compose's implicit .env is also used for interpolation. Copy it into the
 # candidate env file so --env-file preserves the existing interpolation settings.

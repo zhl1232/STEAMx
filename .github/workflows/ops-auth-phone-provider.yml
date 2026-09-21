@@ -2,63 +2,62 @@ name: Ops Auth Phone Provider
 
 on:
   workflow_dispatch:
+    inputs:
+      provider:
+        description: Phone authentication provider
+        required: true
+        default: legacy
+        type: choice
+        options: [legacy, supabase]
+      supabase_verified:
+        description: Confirm real SMS, existing-login, and new-registration tests passed
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
 
 concurrency:
-  group: ops-auth-phone-provider
+  group: release-production
   cancel-in-progress: false
 
 jobs:
-  upsert-and-recreate:
+  deploy:
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - name: Upsert AUTH_PHONE_PROVIDER and recreate steam-app
-        uses: appleboy/ssh-action@v1.2.0
-        env:
-          AUTH_PHONE_PROVIDER: supabase
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test deployment script
+        run: node --test deploy/auth-phone-provider.test.mjs
+      - name: Copy deployment script
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          envs: AUTH_PHONE_PROVIDER
+          source: deploy/auth-phone-provider.sh
+          strip_components: 1
+          target: /tmp/steam-auth-phone-${{ github.run_id }}-${{ github.run_attempt }}/
+      - name: Set provider and recreate steam-app
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          AUTH_PHONE_PROVIDER: ${{ inputs.provider }}
+          SUPABASE_VERIFIED: ${{ inputs.supabase_verified }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          envs: AUTH_PHONE_PROVIDER,SUPABASE_VERIFIED
           script_stop: true
-          debug: true
           script: |
             set -euo pipefail
-            echo "step:start uid=$(id -u)"
-            export AUTH_PHONE_PROVIDER="${AUTH_PHONE_PROVIDER:-supabase}"
-            AUTH_PHONE_PROVIDER="$(printf '%s' "$AUTH_PHONE_PROVIDER" | tr -d '\r\n')"
-            export AUTH_PHONE_PROVIDER
-            echo "step:provider=$AUTH_PHONE_PROVIDER"
-            cd /opt/steam-app
-            echo "step:cwd=$(pwd)"
-            test -f .env.production
-            echo "step:env_file_ok"
-            tmp="$(mktemp)"
-            cp .env.production "$tmp"
-            echo "step:tmp_copied"
-            echo 'aW1wb3J0IG9zLCByZSwgcGF0aGxpYiwgc3lzCnAgPSBwYXRobGliLlBhdGgoc3lzLmFyZ3ZbMV0pCnQgPSBwLnJlYWRfdGV4dChlbmNvZGluZz0idXRmLTgiKQp1ID0geyJBVVRIX1BIT05FX1BST1ZJREVSIjogb3MuZW52aXJvbi5nZXQoIkFVVEhfUEhPTkVfUFJPVklERVIiLCAic3VwYWJhc2UiKX0KZm9yIGssIHYgaW4gdS5pdGVtcygpOgogICAgciA9IHJlLmNvbXBpbGUociJeIiArIHJlLmVzY2FwZShrKSArIHIiPS4qJCIsIHJlLk0pCiAgICBsaW5lID0gayArICI9IiArIHYKICAgIGlmIHIuc2VhcmNoKHQpOgogICAgICAgIHQgPSByLnN1YihsaW5lLCB0LCBjb3VudD0xKQogICAgZWxzZToKICAgICAgICBpZiB0IGFuZCBub3QgdC5lbmRzd2l0aCgiXG4iKToKICAgICAgICAgICAgdCArPSAiXG4iCiAgICAgICAgdCArPSBsaW5lICsgIlxuIgpwLndyaXRlX3RleHQodCwgZW5jb2Rpbmc9InV0Zi04IikKcHJpbnQoInN0ZXA6cHlfdXBzZXJ0ZWQiLCAiLCIuam9pbih1KSkK' | base64 -d > /tmp/upsert_auth_phone.py
-            python3 /tmp/upsert_auth_phone.py "$tmp"
-            echo "step:py_done"
-            grep -qE '^AUTH_PHONE_PROVIDER=supabase$' "$tmp"
-            echo "step:file_ok"
-            cp "$tmp" .env.production
-            rm -f "$tmp" /tmp/upsert_auth_phone.py
-            echo "step:env_written"
-            echo "step:recreate"
-            docker compose up -d --force-recreate --no-deps steam-app
-            for i in $(seq 1 60); do
-              if docker compose exec -T steam-app node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; then
-                echo "step:healthy"
-                docker compose exec -T steam-app node -e "const v=(process.env.AUTH_PHONE_PROVIDER||'').trim(); console.log('step:container_provider', v); process.exit(v==='supabase'?0:2)"
-                echo "step:done"
-                exit 0
-              fi
-              sleep 2
-            done
-            echo "steam-app health timeout" >&2
-            exit 1
+            dir="/tmp/steam-auth-phone-${{ github.run_id }}-${{ github.run_attempt }}"
+            trap 'rm -rf -- "$dir"' EXIT
+            chmod 700 "$dir/auth-phone-provider.sh"
+            APP_DIR=/opt/steam-app AUTH_PHONE_PROVIDER="$AUTH_PHONE_PROVIDER" SUPABASE_VERIFIED="$SUPABASE_VERIFIED" "$dir/auth-phone-provider.sh"

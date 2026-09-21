@@ -3,6 +3,9 @@ import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 const CONTENT_PATHS = [
+  // Standalone manual operations do not alter the application image.
+  /^\.github\/workflows\/ops-[^/]+\.ya?ml$/,
+  /^deploy\/auth-phone-provider(?:\.test\.mjs|\.sh)$/,
   /^docs\//,
   /^(?:README|PROJECT_INDEX)\.md$/,
   /^public\/courses\/ldraw\//,
@@ -17,7 +20,7 @@ export function classifyRelease(paths, { force = false } = {}) {
   const applicationPaths = paths.filter((file) => !CONTENT_PATHS.some((pattern) => pattern.test(file)));
   return applicationPaths.length
     ? { deploy: true, reason: `Application changes: ${applicationPaths.length}` }
-    : { deploy: false, reason: 'Only course models/content or documentation changed; publish course assets through OSS' };
+    : { deploy: false, reason: 'Only standalone operations, course content or documentation changed' };
 }
 
 export function detectRelease(env = process.env, git = (args) => execFileSync('git', args, {

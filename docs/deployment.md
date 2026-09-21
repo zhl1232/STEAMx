@@ -35,3 +35,14 @@ docker inspect --format '{{.Config.Image}}' steam-app
 ```
 
 令牌在 Actions 结束后失效；已拉取镜像仍可在本机使用。换服务器或清理本地镜像后，应重新运行 Release 获取新的临时令牌并拉取。
+
+
+## 运维互斥与拉取超时
+
+手机号提供商切换与 Release 共用 `release-production` 并发组；服务器脚本另用 `/opt/steam-app/.deploy.lock` 互斥，防止手动执行或残留远端进程同时重建容器。Release 等锁默认 120 秒，可用 `DEPLOY_LOCK_TIMEOUT` 调整。
+
+镜像每次拉取默认最多 180 秒，失败最多尝试 2 次，可通过 `IMAGE_PULL_TIMEOUT`（秒）和 `IMAGE_PULL_ATTEMPTS` 调整。拉取失败不切换服务、不写配置；日志记录每次尝试及退出码。这能限制网络卡住时的等待，但不能修复 GHCR 的网络连通问题。
+
+仅修改独立 `ops-*` 工作流或手机号运维脚本不再触发镜像构建；混合应用变更、Release 配置变更、标签和手动发布仍构建。
+
+手机号运维任务可选择 `legacy` 或 `supabase`，只重建主站并保持其实际运行镜像；失败恢复原 `.env.production` 和服务，恢复失败保留备份路径。选择 Supabase 需确认真实短信、老账号登录与新注册验收已通过；任务的健康检查只证明容器运行，不验证短信送达。

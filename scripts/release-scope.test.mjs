@@ -39,3 +39,13 @@ test('git comparison includes deleted code and handles paths containing newlines
   assert(calls[1].includes('--no-renames'));
   assert.equal(calls[0][0], 'fetch');
 });
+
+
+test('standalone ops changes skip images but mixed release/application changes do not', () => {
+  const ops = ['.github/workflows/ops-auth-phone-provider.yml', 'deploy/auth-phone-provider.sh', 'deploy/auth-phone-provider.test.mjs'];
+  assert.equal(classifyRelease(ops).deploy, false);
+  for (const file of ['.github/workflows/release.yml', '.github/workflows/ci.yml', 'deploy/registry-deploy.sh', 'app/page.tsx']) {
+    assert.equal(classifyRelease([...ops, file]).deploy, true);
+  }
+  assert.equal(classifyRelease(ops, { force: true }).deploy, true);
+});
