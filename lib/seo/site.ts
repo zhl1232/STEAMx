@@ -16,7 +16,7 @@ export const HOME_DOCUMENT_TITLE = `${BRAND_FULL_NAME}｜${HOME_PAGE_TITLE}`;
 export const SITE_DESCRIPTION = BRAND_DESCRIPTION;
 /** Keep structured descriptions aligned with visible public copy. */
 export const SITE_STRUCTURED_DESCRIPTION = BRAND_DESCRIPTION;
-export const ICP_FILING_NUMBER = "京ICP备2025129751号-2";
+export const ICP_FILING_NUMBER = "京ICP备2025129751号-3";
 export const ICP_FILING_URL = "https://beian.miit.gov.cn/";
 
 function normalizeSiteUrl(value: string): string | null {

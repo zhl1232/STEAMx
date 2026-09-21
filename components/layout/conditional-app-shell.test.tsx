@@ -91,7 +91,7 @@ vi.mock('@/components/layout/logo', () => ({
 function renderShell(
   pathname: string,
   children: ReactNode = <div data-testid="page-owned-mobile-header" />,
-  footer: ReactNode = <footer data-testid="site-footer">京ICP备2025129751号-2</footer>,
+  footer: ReactNode = <footer data-testid="site-footer">京ICP备2025129751号-3</footer>,
 ) {
   mockUsePathname.mockReturnValue(pathname)
 
