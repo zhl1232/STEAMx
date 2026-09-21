@@ -16,6 +16,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
   release-scope:
     runs-on: ubuntu-latest
     outputs:
@@ -28,20 +33,18 @@ jobs:
           RELEASE_BEFORE: ${{ github.event.before }}
         run: node scripts/release-scope.mjs
 
-  deploy-production:
+  build-image:
     needs: release-scope
     if: needs.release-scope.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     environment: production
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+      digest: ${{ steps.build.outputs.digest }}
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_ASSETS_BASE_URL: ${{ secrets.NEXT_PUBLIC_ASSETS_BASE_URL }}
-      NGINX_SERVER_NAME: ${{ vars.NGINX_SERVER_NAME || 'steam.bj.cn www.steam.bj.cn steamx.cc www.steamx.cc' }}
-      NGINX_SSL_CERTIFICATE: ${{ vars.NGINX_SSL_CERTIFICATE || '/etc/letsencrypt/live/steam.bj.cn/fullchain.pem' }}
-      NGINX_SSL_CERTIFICATE_KEY: ${{ vars.NGINX_SSL_CERTIFICATE_KEY || '/etc/letsencrypt/live/steam.bj.cn/privkey.pem' }}
-      NGINX_SITE_PATH: ${{ vars.NGINX_SITE_PATH || '/etc/nginx/sites-available/steam-app' }}
-      NGINX_SITE_ENABLED_PATH: ${{ vars.NGINX_SITE_ENABLED_PATH || '/etc/nginx/sites-enabled/steam-app' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,17 +56,6 @@ jobs:
 
       - name: Verify deployment script
         run: node --test deploy/registry-deploy.test.mjs scripts/check-seo.test.mjs
-
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: false
-          docker-images: false
-          swap-storage: false
 
       - name: Validate required secrets
         shell: bash
@@ -80,6 +72,28 @@ jobs:
             printf 'Missing secrets: %s\n' "${missing[*]}" >&2
             exit 1
           fi
+
+      - name: Check available disk space
+        id: disk
+        shell: bash
+        run: |
+          available_kb=$(df -Pk "$GITHUB_WORKSPACE" | awk 'NR==2 {print $4}')
+          echo "Available space: $((available_kb / 1024 / 1024)) GiB"
+          if [ "$available_kb" -lt 20971520 ]; then
+            echo "cleanup=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Free disk space when below 20 GiB
+        if: steps.disk.outputs.cleanup == 'true'
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: false
+          swap-storage: false
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -110,6 +124,26 @@ jobs:
           cache-from: type=gha,scope=steam-app
           cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
 
+  deploy-production:
+    needs: [ci, build-image]
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      NGINX_SERVER_NAME: ${{ vars.NGINX_SERVER_NAME || 'steam.bj.cn www.steam.bj.cn steamx.cc www.steamx.cc' }}
+      NGINX_SSL_CERTIFICATE: ${{ vars.NGINX_SSL_CERTIFICATE || '/etc/letsencrypt/live/steam.bj.cn/fullchain.pem' }}
+      NGINX_SSL_CERTIFICATE_KEY: ${{ vars.NGINX_SSL_CERTIFICATE_KEY || '/etc/letsencrypt/live/steam.bj.cn/privkey.pem' }}
+      NGINX_SITE_PATH: ${{ vars.NGINX_SITE_PATH || '/etc/nginx/sites-available/steam-app' }}
+      NGINX_SITE_ENABLED_PATH: ${{ vars.NGINX_SITE_ENABLED_PATH || '/etc/nginx/sites-enabled/steam-app' }}
+      DEPLOY_DIR: /tmp/steam-deploy-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Render Nginx config
         shell: bash
         run: |
@@ -125,88 +159,41 @@ jobs:
           fi
           chmod 644 nginx.conf
 
-      - name: Copy compose file to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT || 22 }}
-          source: deploy/docker-compose.yml
-          target: /tmp/
-          strip_components: 1
+      - name: Prepare deployment bundle
+        run: |
+          mkdir -p .tmp/deploy-bundle
+          cp deploy/docker-compose.yml deploy/registry-deploy.sh nginx.conf .tmp/deploy-bundle/
 
-      - name: Copy Nginx config to server
+      - name: Copy deployment bundle to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          source: nginx.conf
-          target: /tmp/
-
-      - name: Copy registry deploy script to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT || 22 }}
-          source: deploy/registry-deploy.sh
-          target: /tmp/
-          strip_components: 1
+          source: .tmp/deploy-bundle/*
+          target: ${{ env.DEPLOY_DIR }}
+          strip_components: 2
 
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         env:
           GHCR_USERNAME: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY_IMAGE: ${{ steps.image.outputs.name }}
-          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+          REGISTRY_IMAGE: ${{ needs.build-image.outputs.image }}
+          IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 60m
-          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST
+          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH
           script: |
             set -eu
-            run_root() {
-              if [ "$(id -u)" -eq 0 ]; then
-                "$@"
-              else
-                sudo -n "$@"
-              fi
-            }
-
-            cp /tmp/docker-compose.yml /opt/steam-app/docker-compose.yml
-            rm -f /tmp/docker-compose.yml
-            nginx_site_path="${{ env.NGINX_SITE_PATH }}"
-            nginx_site_enabled_path="${{ env.NGINX_SITE_ENABLED_PATH }}"
-            nginx_backup_path=""
-            if [ -f /tmp/nginx.conf ]; then
-              if run_root test -f "$nginx_site_path"; then
-                nginx_backup_path="${nginx_site_path}.bak.$(date +%Y%m%d%H%M%S)"
-                run_root cp "$nginx_site_path" "$nginx_backup_path"
-              fi
-              run_root install -D -m 0644 /tmp/nginx.conf "$nginx_site_path"
-              if [ "$nginx_site_enabled_path" != "$nginx_site_path" ]; then
-                run_root ln -sfn "$nginx_site_path" "$nginx_site_enabled_path"
-              fi
-              if ! run_root nginx -t; then
-                if [ -n "$nginx_backup_path" ]; then
-                  run_root cp "$nginx_backup_path" "$nginx_site_path"
-                  run_root nginx -t || true
-                else
-                  run_root rm -f "$nginx_site_path" "$nginx_site_enabled_path"
-                fi
-                exit 1
-              fi
-              run_root systemctl reload nginx
-              rm -f /tmp/nginx.conf
-            fi
+            trap 'rm -rf -- "$DEPLOY_DIR"' EXIT
+            export CANDIDATE_COMPOSE_FILE="$DEPLOY_DIR/docker-compose.yml"
+            export CANDIDATE_NGINX_FILE="$DEPLOY_DIR/nginx.conf"
             cd /opt/steam-app
             missing_runtime=""
             for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY DASHSCOPE_API_KEY; do
@@ -221,8 +208,7 @@ jobs:
               echo "Missing runtime variables in /opt/steam-app/.env.production:$missing_runtime" >&2
               exit 1
             fi
-            bash /tmp/registry-deploy.sh
-            rm -f /tmp/registry-deploy.sh
+            bash "$DEPLOY_DIR/registry-deploy.sh"
 
       - name: Check public SEO after deployment
         id: seo-check

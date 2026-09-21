@@ -1,6 +1,10 @@
 # 生产部署
 
-GitHub Actions 的 Release Deploy 构建镜像并推送 `ghcr.io/zhl1232/steamx`，服务器按本次构建的 `sha256` 摘要拉取。SCP 仅用于 compose、部署脚本和 Nginx 配置，不再传输完整镜像压缩包。
+GitHub Actions 的 Release Deploy 构建镜像并推送 `ghcr.io/zhl1232/steamx`，服务器按本次构建的 `sha256` 摘要拉取。Compose、部署脚本和 Nginx 配置合并一次 SCP，上传到本次 run/attempt 专属临时目录，执行结束后清理。
+
+Release 复用 `ci.yml` 的检查，与 Docker 构建并行；只有同一提交的两项任务都成功，才会运行服务器切换。PR 保留独立 CI，main 不再重复启动另一套 CI。测试与镜像统一使用 Node 22。纯文档/课程资源变更仍运行 CI，但按已有范围规则跳过镜像和服务器切换。
+
+构建前检查磁盘：可用空间低于 20 GiB 才清理 Android、.NET、Haskell，保留工具缓存中的 Node。该阈值是保守起点，实际提速取决于 runner 剩余空间和构建缓存命中率。SEO 检查、报告和百度推送保持部署后执行。
 
 ## Scratch 缓存
 
@@ -18,9 +22,9 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包与依赖输入；主站调
 
 ## 切换与恢复
 
-部署先拉取精确镜像，再启动主站和后台 worker，等待健康检查。成功后将版本写入 `/opt/steam-app/.env` 的 `STEAM_APP_IMAGE`，保留其他配置，普通 `docker compose up -d` 会继续使用这个版本。
+部署先拉取精确镜像，再备份并安装候选 Compose、Nginx 配置及启用链接；Nginx 语法通过后启动主站和后台 worker，等待健康检查，最后 reload Nginx。全部成功后将版本写入 `/opt/steam-app/.env` 的 `STEAM_APP_IMAGE`，保留其他配置，普通 `docker compose up -d` 会继续使用这个版本。
 
-健康检查失败时，脚本尝试用部署前运行容器的本地镜像恢复两个服务，并让 Actions 标记失败。若恢复也失败，需查看服务器容器日志。发布不自动清理镜像，以保留恢复所需的层；后续按磁盘使用情况清理更早的版本。
+配置安装/校验、健康检查或 Nginx reload 失败时，脚本恢复原配置；若已尝试切换容器，再用部署前运行容器的本地镜像和原 Compose 恢复两个服务，并让 Actions 标记失败。镜像拉取失败不会改动线上配置。若配置恢复失败，日志会打印保留的备份目录，需先恢复配置；若容器恢复失败，需查看服务器容器日志。发布不自动清理镜像，以保留恢复所需的层；后续按磁盘使用情况清理更早的版本。
 
 如需人工查看当前版本：
 
