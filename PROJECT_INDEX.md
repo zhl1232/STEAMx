@@ -457,6 +457,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 6. 数据库 (`supabase/`)
 
+- 2026-09-21 函数 search_path 加固：`20260921121000_harden_reported_function_search_paths.sql` 对 Advisor 报告的 19 个精确函数签名设置空 `search_path`，保留函数体、所有者、执行权限及 SECURITY DEFINER/INVOKER 属性；业务对象均使用显式 schema。`scripts/test-function-search-path.mjs` 使用外部 PGlite 验证配置、元数据保留、幂等及业务调用；代币计费与请求生命周期另以应用相关 ALTER 后的既有回归验证。已于 2026-09-21 经授权使用 `pnpm db:push` 应用至当前配置的远端数据库，回读核验 19 个函数的空 search_path，函数体、所有者、安全模式与 ACL 保持不变。
+
+- 2026-09-21 RLS 性能修复：`20260921120000_optimize_reported_rls_auth_calls.sql` 仅针对 Advisor 报告的 41 个策略，将当前策略中的无参 auth 调用包装为 SELECT 初始化计划；保留角色、操作、权限条件及既有子查询，不恢复已删除策略。新增 `scripts/test-rls-auth-initplan.mjs` 隔离 PGlite 回归（通过 `PGLITE_MODULE_PATH` 指定外部安装），覆盖白名单、重复执行、字符串/标识符保护、本人访问与归属变更拒绝。已于 2026-09-21 经授权使用 `pnpm db:push` 应用至当前配置的远端数据库，回读确认优化 41 个策略、保留权限表达式及角色/操作属性；两条 Advisor 修复执行后待迁移数量为 0。
+
 - 2026-09-21 探索实验材料与步骤整理（已于 2026-09-21 应用并核验）：`20260921100000_normalize_science_kit_instructions.sql` 将 128 个科教版独有项目规范为对应实验材料包 + 视频操作提示，清除字幕署名和不可靠口播；`20260921101000_restore_fun_science_instructions.sql` 按各自视频为 22 个趣味实验补全材料/步骤（含材料与步骤错栏修复），保留原视频、封面和可复用行 ID。两迁移使用固定白名单、原内容快照校验、事务与删除引用保护；重叠项目仅「走马灯」按趣味实验补全，其余 4 个保留。可审核全文与视频证据见 `docs/science-kit-content-2026-09-21.md`、`docs/fun-science-content-2026-09-21.md`；已获授权使用 `pnpm db:push` 执行两份迁移，线上回读核验 128 个科教版及 22 个趣味实验通过，待执行迁移为 0。
 
 - 2026-09-15 教学图片修复：`20260915171000_correct_explore_project_images.sql` 替换夜灯接线、几何印章和 6174 错误示例；`scripts/generate-explore-correction-diagrams.mjs --no-upload` 可从 SVG 定义重建 `public/projects/corrections/` 的 4 张 PNG，默认运行会上传 OSS 并校验回读 SHA-256。
