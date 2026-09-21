@@ -1,0 +1,105 @@
+name: Ops Nginx Googlebot Logs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-nginx-googlebot-logs
+  cancel-in-progress: false
+
+jobs:
+  grep-access:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Grep nginx access for Googlebot sitemap/robots
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script_stop: true
+          command_timeout: 5m
+          script: |
+            set -euo pipefail
+            echo "step:start"
+            echo "step:host=$(hostname)"
+            echo "step:date=$(date -Is)"
+            echo "step:find_logs"
+            ls -la /var/log/nginx 2>/dev/null || echo "step:no_/var/log/nginx"
+
+            LOGS=""
+            EXTRA=$(ls /var/log/nginx/*access*.log 2>/dev/null || true)
+            for p in $EXTRA; do
+              LOGS="$LOGS $p"
+            done
+            echo "step:logs=$LOGS"
+
+            if [ -z "${LOGS// }" ]; then
+              echo "step:no_access_logs_found"
+              docker ps --format '{{.Names}}' 2>/dev/null | head -20 || true
+              exit 0
+            fi
+
+            echo "step:counts_by_path_status"
+            for f in $LOGS; do
+              echo "-- file=$f size=$(wc -c < "$f" 2>/dev/null || echo 0) --"
+              grep -Eih 'Googlebot|Google-InspectionTool|GoogleOther' "$f" 2>/dev/null \
+                | grep -Ei '/sitemap\.xml|/robots\.txt' \
+                | awk '{
+                    path=""; status=""; rt="";
+                    for(i=1;i<=NF;i++){
+                      if($i ~ /^"?GET$/ || $i ~ /^"?HEAD$/){ path=$(i+1) }
+                      if($i ~ /^[0-9]{3}$/ && path!="" && status==""){ status=$i }
+                    }
+                    if(path ~ /sitemap/) k="sitemap|"status;
+                    else if(path ~ /robots/) k="robots|"status;
+                    else next;
+                    c[k]++
+                  }
+                  END{ if(NR==0) print "(no matching lines)"; for(k in c) print k, c[k] }' \
+                || echo "(no matching lines)"
+            done
+
+            echo "step:recent_sample_max40"
+            for f in $LOGS; do
+              echo "-- file=$f --"
+              grep -Eih 'Googlebot|Google-InspectionTool|GoogleOther' "$f" 2>/dev/null \
+                | grep -Ei '/sitemap\.xml|/robots\.txt' \
+                | tail -n 40 || true
+            done
+
+            echo "step:rotated_gz_counts"
+            for gz in /var/log/nginx/*access*.log.*.gz /var/log/nginx/access.log.*.gz; do
+              [ -f "$gz" ] || continue
+              echo "-- gz=$gz --"
+              zgrep -Eih 'Googlebot|Google-InspectionTool|GoogleOther' "$gz" 2>/dev/null \
+                | grep -Ei '/sitemap\.xml|/robots\.txt' \
+                | awk '{
+                    path=""; status="";
+                    for(i=1;i<=NF;i++){
+                      if($i ~ /^"?GET$/ || $i ~ /^"?HEAD$/){ path=$(i+1) }
+                      if($i ~ /^[0-9]{3}$/ && path!="" && status==""){ status=$i }
+                    }
+                    if(path ~ /sitemap/) k="sitemap|"status;
+                    else if(path ~ /robots/) k="robots|"status;
+                    else next;
+                    c[k]++
+                  }
+                  END{ for(k in c) print k, c[k]; if(length(c)==0) print "(none)" }' || echo "(none)"
+              zgrep -Eih 'Googlebot|Google-InspectionTool|GoogleOther' "$gz" 2>/dev/null \
+                | grep -Ei '/sitemap\.xml|/robots\.txt' \
+                | tail -n 10 || true
+            done
+
+            echo "step:any_googlebot_last_20"
+            for f in $LOGS; do
+              echo "-- file=$f --"
+              grep -Eih 'Googlebot|Google-InspectionTool|GoogleOther' "$f" 2>/dev/null | tail -n 20 || echo "(none)"
+            done
+
+            echo "step:done"
