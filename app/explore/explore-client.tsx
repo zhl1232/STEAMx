@@ -315,6 +315,15 @@ export function ExploreClient({
     }, [page, hasMore, isLoadingMore, isFiltering])
 
     useEffect(() => {
+        if (typeof window === 'undefined' || !('scrollRestoration' in window.history)) return
+        const previous = window.history.scrollRestoration
+        window.history.scrollRestoration = 'manual'
+        return () => {
+            window.history.scrollRestoration = previous
+        }
+    }, [])
+
+    useEffect(() => {
         const nextQuery = searchParams.get("q") || ""
         const nextCategory = searchParams.get("category") || "全部"
         const nextSubCategory = searchParams.get("subCategory") || ""
@@ -441,21 +450,38 @@ export function ExploreClient({
         return params
     }, [searchQuery, selectedCategory, selectedSubCategory, selectedDifficulty, selectedAge, selectedTags, selectedSortBy])
 
-    const saveExploreScrollPosition = useCallback(() => {
+    const saveExploreScrollPosition = useCallback((anchor?: { projectId: string; top: number }) => {
         if (typeof window === 'undefined') return
 
         saveExploreScrollRestore({
             filtersKey: buildExploreFiltersKey(buildSearchParams()),
-            scrollY: window.scrollY,
+            scrollY: window.scrollY || document.documentElement.scrollTop || 0,
             nextPage: pageRef.current,
+            ...(anchor
+                ? { anchorProjectId: anchor.projectId, anchorTop: anchor.top }
+                : {}),
         })
     }, [buildSearchParams])
 
     const handleExploreProjectLinkClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
         const target = event.target
         if (!(target instanceof Element)) return
-        if (!target.closest('a[href^="/project/"]')) return
-        saveExploreScrollPosition()
+        const link = target.closest('a[href^="/project/"]')
+        if (!(link instanceof HTMLAnchorElement)) return
+
+        const match = link.getAttribute('href')?.match(/^\/project\/([^/?#]+)/)
+        const projectId = match?.[1]
+        const card = link.closest('[data-explore-project-id]')
+            || (projectId
+                ? document.querySelector(`[data-explore-project-id="${CSS.escape(projectId)}"]`)
+                : null)
+        const top = card instanceof HTMLElement ? card.getBoundingClientRect().top : 0
+
+        saveExploreScrollPosition(
+            projectId
+                ? { projectId, top }
+                : undefined,
+        )
     }, [saveExploreScrollPosition])
 
     useLayoutEffect(() => {
@@ -474,27 +500,68 @@ export function ExploreClient({
             return
         }
 
+        // Keep sessionStorage until restore finishes so remounts / effect re-runs don't lose it.
         pendingScrollRestoreRef.current = saved
-        clearExploreScrollRestore()
         // 仅在从详情页返回时读取一次 session 恢复点
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
-        const saved = pendingScrollRestoreRef.current
-        if (!saved) {
+        const saved = pendingScrollRestoreRef.current ?? readExploreScrollRestore()
+        if (!saved) return
+
+        const filtersKey = buildExploreFiltersKey(buildSearchParams())
+        if (saved.filtersKey !== filtersKey) {
+            clearExploreScrollRestore()
+            pendingScrollRestoreRef.current = null
             return
         }
 
-        pendingScrollRestoreRef.current = null
+        pendingScrollRestoreRef.current = saved
         let cancelled = false
         isRestoringScrollRef.current = true
+        const retryTimers: number[] = []
+
+        const applyScroll = () => {
+            if (cancelled || typeof window === 'undefined') return
+
+            const anchor = saved.anchorProjectId
+                ? document.querySelector<HTMLElement>(
+                    `[data-explore-project-id="${CSS.escape(saved.anchorProjectId)}"]`,
+                )
+                : null
+
+            if (anchor && typeof saved.anchorTop === 'number') {
+                window.scrollTo({
+                    top: Math.max(0, window.scrollY + anchor.getBoundingClientRect().top - saved.anchorTop),
+                    left: 0,
+                    behavior: 'auto',
+                })
+            } else {
+                window.scrollTo({ top: saved.scrollY, left: 0, behavior: 'auto' })
+            }
+        }
+
+        const finishRestore = () => {
+            if (cancelled) return
+            clearExploreScrollRestore()
+            pendingScrollRestoreRef.current = null
+            isRestoringScrollRef.current = false
+        }
 
         const restoreScroll = () => {
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                    window.scrollTo({ top: saved.scrollY, left: 0, behavior: 'auto' })
-                    isRestoringScrollRef.current = false
+                    if (cancelled) return
+                    applyScroll()
+                    // Layout can still shift after cards/images paint; nudge a few times.
+                    for (const delay of [50, 150, 320]) {
+                        retryTimers.push(window.setTimeout(() => {
+                            if (cancelled) return
+                            applyScroll()
+                            if (delay === 320) finishRestore()
+                        }, delay))
+                    }
                 })
             })
         }
@@ -514,6 +581,7 @@ export function ExploreClient({
             syncRestoredProjects(initialProjects, initialHasMore, saved.nextPage)
             return () => {
                 cancelled = true
+                for (const id of retryTimers) window.clearTimeout(id)
                 isRestoringScrollRef.current = false
             }
         }
@@ -562,15 +630,12 @@ export function ExploreClient({
 
         return () => {
             cancelled = true
+            for (const id of retryTimers) window.clearTimeout(id)
             isRestoringScrollRef.current = false
         }
-    }, [
-        initialProjects,
-        initialHasMore,
-        initialPage,
-        clearLikesDeltaForProjects,
-        buildSearchParams,
-    ])
+        // Intentionally mount-once: remount / prop identity churn must not drop the restore payload.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         if (typeof window === 'undefined') return
@@ -1313,15 +1378,18 @@ export function ExploreClient({
                                             const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id, index)
                                             const card = (
-                                                <ProjectCard
-                                                    project={project}
-                                                    searchQuery={searchQuery}
-                                                    priority={isPriority}
-                                                    href={detailHref}
-                                                    variant="compact"
-                                                    compactLayout="vertical"
-                                                    className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
-                                                />
+                                                <div data-explore-project-id={String(project.id)}>
+                                                    <ProjectCard
+                                                        project={project}
+                                                        searchQuery={searchQuery}
+                                                        priority={isPriority}
+                                                        href={detailHref}
+                                                        scroll={false}
+                                                        variant="compact"
+                                                        compactLayout="vertical"
+                                                        className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+                                                    />
+                                                </div>
                                             )
                                             const projectNode = projects.length === index + 1 ? (
                                                 <div ref={lastProjectElementRef}>

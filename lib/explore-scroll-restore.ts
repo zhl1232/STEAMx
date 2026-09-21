@@ -1,10 +1,14 @@
-const STORAGE_KEY = 'explore-scroll-restore-v2'
+const STORAGE_KEY = 'explore-scroll-restore-v3'
 
 export type ExploreScrollRestoreState = {
   filtersKey: string
   scrollY: number
   /** 与探索页 `pageRef` 一致：下一页要请求的页码（已加载页数 + 1） */
   nextPage: number
+  /** 点击进入的项目 id，返回时优先锚到该卡片 */
+  anchorProjectId?: string
+  /** 点击时卡片相对视口顶部的距离 */
+  anchorTop?: number
 }
 
 const FILTER_PARAM_KEYS = ['q', 'category', 'subCategory', 'difficulty', 'age', 'tags', 'sortBy'] as const
@@ -33,6 +37,8 @@ export function readExploreScrollRestore(): ExploreScrollRestoreState | null {
       || typeof parsed.nextPage !== 'number'
       || !Number.isInteger(parsed.nextPage)
       || parsed.nextPage < 1
+      || (parsed.anchorProjectId != null && typeof parsed.anchorProjectId !== 'string')
+      || (parsed.anchorTop != null && (typeof parsed.anchorTop !== 'number' || !Number.isFinite(parsed.anchorTop)))
     ) {
       return null
     }
