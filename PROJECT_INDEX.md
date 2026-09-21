@@ -457,7 +457,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 6. 数据库 (`supabase/`)
 
-- 2026-09-21 探索实验材料与步骤整理（待审核应用）：`20260921100000_normalize_science_kit_instructions.sql` 将 128 个科教版独有项目规范为对应实验材料包 + 视频操作提示，清除字幕署名和不可靠口播；`20260921101000_restore_fun_science_instructions.sql` 按各自视频为 22 个趣味实验补全材料/步骤（含材料与步骤错栏修复），保留原视频、封面和可复用行 ID。两迁移使用固定白名单、原内容快照校验、事务与删除引用保护；重叠项目仅「走马灯」按趣味实验补全，其余 4 个保留。可审核全文与视频证据见 `docs/science-kit-content-2026-09-21.md`、`docs/fun-science-content-2026-09-21.md`；经目标环境与迁移范围确认授权后使用 `pnpm db:push`，本地草稿不代表已上线。
+- 2026-09-21 探索实验材料与步骤整理（已于 2026-09-21 应用并核验）：`20260921100000_normalize_science_kit_instructions.sql` 将 128 个科教版独有项目规范为对应实验材料包 + 视频操作提示，清除字幕署名和不可靠口播；`20260921101000_restore_fun_science_instructions.sql` 按各自视频为 22 个趣味实验补全材料/步骤（含材料与步骤错栏修复），保留原视频、封面和可复用行 ID。两迁移使用固定白名单、原内容快照校验、事务与删除引用保护；重叠项目仅「走马灯」按趣味实验补全，其余 4 个保留。可审核全文与视频证据见 `docs/science-kit-content-2026-09-21.md`、`docs/fun-science-content-2026-09-21.md`；已获授权使用 `pnpm db:push` 执行两份迁移，线上回读核验 128 个科教版及 22 个趣味实验通过，待执行迁移为 0。
 
 - 2026-09-15 教学图片修复：`20260915171000_correct_explore_project_images.sql` 替换夜灯接线、几何印章和 6174 错误示例；`scripts/generate-explore-correction-diagrams.mjs --no-upload` 可从 SVG 定义重建 `public/projects/corrections/` 的 4 张 PNG，默认运行会上传 OSS 并校验回读 SHA-256。
 
