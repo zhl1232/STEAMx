@@ -39,6 +39,16 @@ vi.mock("@/lib/context/auth-context", () => ({
     useAuth: () => ({ user: null }),
 }));
 
+// Keep mount behavior covered while the temporary sitewide kill switch is off.
+vi.mock("@/lib/ai/tutor/resolve-context", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@/lib/ai/tutor/resolve-context")>();
+    return {
+        ...actual,
+        GLOBAL_TUTOR_ENABLED: true,
+        shouldShowGlobalTutor: (pathname: string) => actual.resolveTutorContextFromPath(pathname) !== null,
+    };
+});
+
 describe("GlobalTutorMount", () => {
     beforeEach(() => {
         vi.clearAllMocks();

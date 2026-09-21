@@ -97,6 +97,10 @@ function resolveGlobalSurface(pathname: string): TutorGlobalSurface | null {
   return null
 }
 
+/** Temporary kill switch. Set to `true` to restore the XiaoDi FAB sitewide. */
+export const GLOBAL_TUTOR_ENABLED = false
+
 export function shouldShowGlobalTutor(pathname: string) {
+  if (!GLOBAL_TUTOR_ENABLED) return false
   return resolveTutorContextFromPath(pathname) !== null
 }
