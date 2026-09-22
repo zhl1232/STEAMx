@@ -11,17 +11,17 @@ export const BRAND_FULL_NAME = BRAND_NAME;
 /** Brand slogan (mobile hero / marketing). */
 export const BRAND_TAGLINE = "探索 · 创造 · 成长";
 /** Desktop / primary homepage hero title. */
-export const BRAND_HERO_TITLE = "把好奇心做成作品";
+export const BRAND_HERO_TITLE = "从兴趣出发，在动手中成长";
 
 export const BRAND_POSITIONING = "少儿 STEAM 学习与创作平台";
 
 /** Core educational belief — short tagline (about / brand docs; not SEO title spam). */
 export const BRAND_CORE_TAGLINE =
-  "兴趣是最好的老师。在动手中，让孩子学会解决问题的能力。";
+  "兴趣是最好的老师。在动手中，让孩子学会解决问题。";
 
 /** Full core positioning statement (about / brand docs). */
 export const BRAND_CORE_STATEMENT =
-  "创探空间相信：兴趣是最好的老师；孩子在动手中发现问题、尝试解决、成功反馈——在真实项目的探索与创造中，自主定义挑战、持续跨界协作，掌握拆解复杂问题并持续迭代的终身能力。";
+  "兴趣是最好的老师。我们鼓励孩子在动手中发现问题、尝试解决、获得成功反馈，在真实项目的探索与创造中自主定义挑战、持续跨界协作，逐步培养拆解复杂问题与持续迭代的能力，让这种主动学习的能力伴随一生。";
 
 export const BRAND_OFFICIAL_URL = "https://steam.bj.cn";
 

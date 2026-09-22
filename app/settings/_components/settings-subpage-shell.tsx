@@ -12,6 +12,7 @@ interface SettingsSubpageShellProps {
   aside?: ReactNode;
   className?: string;
   mainClassName?: string;
+  onBack?: () => void;
 }
 
 export function SettingsSubpageShell({
@@ -23,11 +24,12 @@ export function SettingsSubpageShell({
   aside,
   className,
   mainClassName,
+  onBack,
 }: SettingsSubpageShellProps) {
   return (
     <div className={cn("mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full max-w-5xl flex-col pb-24", className)}>
       <div className="md:hidden">
-        <MobilePageHeader title={title} fallbackHref={fallbackHref} />
+        <MobilePageHeader title={title} fallbackHref={fallbackHref} onBack={onBack} />
       </div>
 
       <div className="page-shell flex-1 pt-4 md:pt-8">

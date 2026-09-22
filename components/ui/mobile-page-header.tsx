@@ -20,6 +20,8 @@ interface MobilePageHeaderProps {
   backButtonClassName?: string
   titleClassName?: string
   rightSlot?: ReactNode
+  /** Override navigation when the page needs to protect unsaved changes. */
+  onBack?: () => void
 }
 
 const headerSurfaceClass =
@@ -39,6 +41,7 @@ export function MobilePageHeader({
   backButtonClassName,
   titleClassName,
   rightSlot,
+  onBack,
 }: MobilePageHeaderProps) {
   const router = useRouter()
   const surfaceClass = borderless
@@ -46,6 +49,10 @@ export function MobilePageHeader({
     : cn(headerSurfaceClass, headerBorderClass, headerShadowClass)
 
   const handleBack = () => {
+    if (onBack) {
+      onBack()
+      return
+    }
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back()
       return

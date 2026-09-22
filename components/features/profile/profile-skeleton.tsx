@@ -219,10 +219,42 @@ function EmbeddedRowsSkeleton({ count = 3, imageClassName = "h-16 w-[82px]" }: {
 function DesktopDashboardProfileSkeleton() {
   return (
     <div className="hidden md:block">
-      <div className="profile-page-surface min-h-screen pb-10 text-foreground">
-        <div className="app-shell-wide py-4 md:px-8 md:py-6 min-[1440px]:px-10">
+      <div className="profile-page-surface profile-desktop-page min-h-screen pb-10 text-foreground">
+        <div className="app-shell-wide py-4 md:px-8 md:py-6 min-[90rem]:px-10">
           <div className="space-y-5">
-            <DashboardHeroSkeleton compact={false} />
+            <section className="profile-hero-card surface-panel rounded-lg p-6">
+              <div className="grid grid-cols-[112px_minmax(0,1fr)] items-start gap-x-6 gap-y-4 min-[80rem]:grid-cols-[minmax(0,1fr)_22.5rem] min-[80rem]:gap-x-8">
+                <div className="contents min-[80rem]:grid min-[80rem]:grid-cols-[112px_minmax(0,1fr)] min-[80rem]:items-start min-[80rem]:gap-6">
+                  <div className="flex flex-col items-center gap-2">
+                    <SkeletonBlock className="h-28 w-28 rounded-full" />
+                    <SkeletonBlock className="h-6 w-14 rounded-full" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <SkeletonBlock className="h-11 w-40 max-w-full rounded-md" />
+                      <SkeletonBlock className="h-11 w-28 shrink-0 rounded-md min-[80rem]:hidden" />
+                    </div>
+                    <SkeletonBlock className="mt-3 h-4 w-52 max-w-full rounded-full" />
+                    <div className="mt-3 flex gap-1.5">
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <SkeletonBlock key={index} className="h-8 w-8 rounded-full" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2 flex min-w-0 flex-col items-end gap-4 min-[80rem]:col-span-1">
+                  <SkeletonBlock className="hidden h-11 w-36 rounded-md min-[80rem]:block" />
+                  <div className="grid w-full grid-cols-4">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <div key={index} className="flex flex-col items-center gap-2 py-2.5">
+                        <SkeletonBlock className="h-6 w-10 rounded-full" />
+                        <SkeletonBlock className="h-3 w-8 rounded-full" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
 
             <section className="surface-panel p-4">
               <SkeletonBlock className="h-4 w-36 rounded-full" />
@@ -237,7 +269,7 @@ function DesktopDashboardProfileSkeleton() {
               </div>
             </section>
 
-            <div className="grid items-start gap-5 min-[1440px]:grid-cols-[minmax(0,1fr)_400px] min-[1680px]:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="grid items-start gap-5 min-[90rem]:grid-cols-[minmax(0,1fr)_400px] min-[105rem]:grid-cols-[minmax(0,1fr)_420px]">
               <main className="min-w-0 space-y-5">
                 <section className="surface-panel flex min-h-[220px] flex-col rounded-lg p-5">
                   <SectionTitleSkeleton />
@@ -252,7 +284,7 @@ function DesktopDashboardProfileSkeleton() {
                   </div>
                 </section>
 
-                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[1440px]:grid-cols-1 min-[1680px]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[90rem]:grid-cols-1 min-[105rem]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
                   <section className="surface-panel rounded-lg p-5">
                     <SectionTitleSkeleton />
                     <SkeletonBlock className="mt-5 h-16 rounded-md" />
@@ -266,18 +298,17 @@ function DesktopDashboardProfileSkeleton() {
               </main>
 
               <aside className="min-w-0">
-                <div className="grid gap-5 lg:grid-cols-2 min-[1440px]:grid-cols-1">
-                  <section className="surface-panel rounded-lg p-5 lg:col-span-2 min-[1440px]:col-span-1">
+                <div className="grid items-start gap-5 lg:grid-cols-2 min-[90rem]:grid-cols-1">
+                  <section className="surface-panel rounded-lg p-5">
                     <SectionTitleSkeleton action={false} />
                     <div className="mt-4 rounded-md bg-muted/50 p-4">
                       <SkeletonBlock className="h-8 w-24 rounded-full" />
                       <SkeletonBlock className="mt-4 h-2 w-full rounded-full" />
                       <SkeletonBlock className="mt-3 h-3 w-36 rounded-full" />
                     </div>
-                    <div className="mt-5 grid grid-cols-5 gap-2">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <SkeletonBlock key={index} className="h-11 rounded-full" />
-                      ))}
+                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
+                      <SkeletonBlock className="h-4 w-28 rounded-full" />
+                      <SkeletonBlock className="h-8 w-20 rounded-full" />
                     </div>
                   </section>
 

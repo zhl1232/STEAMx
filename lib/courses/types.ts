@@ -256,6 +256,8 @@ export interface CourseLessonSummary {
   summary: string | null
   /** 有 LDraw 模型才有 3D 分步搭建和零件清单 */
   has_model: boolean
+  /** 积木课成品参考图；目录只投影这一张图，不读取完整课时 content */
+  finished_image_url: string | null
   is_completed: boolean
   completed_at?: string | null
 }

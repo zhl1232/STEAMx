@@ -347,7 +347,7 @@ export async function getHomepageRecommendations(args: {
 
 export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
   const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts, featuredChallenge] = await Promise.all([
-    getTrendingWorks(4).catch((error) => {
+    getTrendingWorks(6).catch((error) => {
       unstable_rethrow(error);
       logger.warn("Failed to load homepage works", { error });
       return { works: [], nextOffset: 0, hasMore: false };

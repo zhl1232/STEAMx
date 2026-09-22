@@ -237,7 +237,7 @@ export async function getCourseOverview(
   const { data: lessons, error: lessonsError } = await supabase
     .from('course_lessons')
     .select(
-      'id, course_id, title, lesson_type, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel, summary:content->>summary, ldraw_model_url:content->building3d->>ldrawModelUrl',
+      'id, course_id, title, lesson_type, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel, summary:content->>summary, ldraw_model_url:content->building3d->>ldrawModelUrl, finished_image_url:content->building3d->>finishedImageUrl',
     )
     .eq('course_id', courseId)
     .order('sort_order', { ascending: true })
@@ -246,7 +246,9 @@ export async function getCourseOverview(
   if (lessonsError) throw lessonsError
 
   const summaryRows = ((lessons ?? []) as Array<
-    Omit<CourseLessonSummary, 'has_model'> & { ldraw_model_url?: string | null }
+    Omit<CourseLessonSummary, 'has_model' | 'is_completed' | 'completed_at'> & {
+      ldraw_model_url?: string | null
+    }
   >).map(({ ldraw_model_url, ...lesson }) => ({
     ...lesson,
     has_model: Boolean(ldraw_model_url),

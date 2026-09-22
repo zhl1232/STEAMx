@@ -17,10 +17,10 @@ export function workCardKey(work: Work) {
   return `${work.source?.type ?? "work"}:${work.id}`
 }
 
-export function WorkCardGrid({ works, className }: { works: Work[]; className?: string }) {
+export function WorkCardGrid({ works, className, imageClassName }: { works: Work[]; className?: string; imageClassName?: string }) {
   return (
     <div className={cn("grid grid-cols-2 items-stretch gap-3 md:grid-cols-3 xl:grid-cols-4", className)}>
-      {works.map((work, index) => <WorkCard key={workCardKey(work)} work={work} priority={index < 4} />)}
+      {works.map((work, index) => <WorkCard key={workCardKey(work)} work={work} priority={index < 4} imageClassName={imageClassName} />)}
     </div>
   )
 }
@@ -62,7 +62,7 @@ function describeSource(
   }
 }
 
-export function WorkCard({ work, priority = false }: { work: Work; priority?: boolean }) {
+export function WorkCard({ work, priority = false, imageClassName }: { work: Work; priority?: boolean; imageClassName?: string }) {
   const source = work.source
   const image = work.proofImages[0]
   const title = source?.title || "作品"
@@ -75,7 +75,7 @@ export function WorkCard({ work, priority = false }: { work: Work; priority?: bo
       aria-label={ariaLabel}
       className="group flex h-full flex-col overflow-hidden rounded-md border border-border/80 bg-card shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
-      <div className="relative aspect-square overflow-hidden bg-muted">
+      <div className={cn("relative aspect-square overflow-hidden bg-muted", imageClassName)}>
         {image ? (
           <OptimizedImage
             src={image}

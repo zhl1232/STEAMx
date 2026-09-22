@@ -23,6 +23,8 @@ export interface LessonCatalogItem {
   trackLabel: string | null
   /** 有 LDraw 模型的课时才有 3D 分步搭建 */
   hasModel: boolean
+  /** 积木课成品参考图；缺失时显示文字卡 */
+  finishedImageUrl: string | null
   isCompleted: boolean
 }
 

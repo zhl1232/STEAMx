@@ -14,7 +14,7 @@ type WorksBatch = {
   hasMore: boolean;
 };
 
-const HOME_WORKS_LIMIT = 4;
+const HOME_WORKS_LIMIT = 6;
 
 async function requestWorks(offset: number): Promise<WorksBatch> {
   const response = await fetch(`/api/explore/works?limit=${HOME_WORKS_LIMIT}&offset=${offset}`, {
@@ -72,7 +72,7 @@ export function HomeWorksSection({ initialData }: { initialData: WorksBatch }) {
         ) : null}
       </div>
       {works.length > 0 ? (
-        <WorkCardGrid works={works} className="md:grid-cols-2 xl:grid-cols-2" />
+        <WorkCardGrid works={works} className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 [&>a:nth-child(n+5)]:hidden lg:[&>a:nth-child(n+5)]:flex" imageClassName="lg:aspect-[4/3]" />
       ) : (
         <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
           <div>

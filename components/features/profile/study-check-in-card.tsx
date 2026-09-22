@@ -70,9 +70,9 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
 
   if (compact) {
     return (
-      <Container className={cn(!isEmbedded && 'surface-panel rounded-lg p-3.5', 'flex flex-col', className)}>
+      <Container className={cn(!isEmbedded && 'surface-panel rounded-lg p-3.5', '@container/check-in flex min-w-0 flex-col', className)}>
         {/* 顶部标题与今日状态 */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           {title || (
             <div className="flex items-center gap-1.5">
               <CalendarDays className="h-4 w-4 text-[hsl(var(--brand-amber))]" />
@@ -81,7 +81,7 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
           )}
           <span
             className={cn(
-              'inline-flex min-h-5 items-center rounded-full border px-2 text-[10px] font-bold',
+              'inline-flex min-h-5 shrink-0 items-center whitespace-nowrap rounded-full border px-2 text-[10px] font-bold',
               statusTone,
             )}
           >
@@ -89,8 +89,8 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
           </span>
         </div>
 
-        {/* 主体：左侧连续天数 + 右侧 6 天点阵横向对齐 */}
-        <div className="mt-2.5 flex items-center justify-between gap-3">
+        {/* 按卡片可用宽度排列，窄侧栏中日期独占一行。 */}
+        <div className="mt-2.5 flex flex-col gap-3 @min-[20rem]/check-in:flex-row @min-[20rem]/check-in:items-center @min-[20rem]/check-in:justify-between">
           <div className="flex items-baseline gap-1 shrink-0">
             <span className="text-xs font-semibold text-muted-foreground">连续</span>
             <span className="text-[26px] font-extrabold leading-none text-[hsl(var(--brand-green))]">
@@ -102,7 +102,7 @@ export function StudyCheckInCard({ title, summary, state, className, compact = f
           </div>
 
           {/* 6天打卡状态 */}
-          <div className="flex items-center gap-1.5 min-w-0">
+          <div className="grid min-w-0 grid-cols-6 gap-1 @min-[20rem]/check-in:gap-1.5">
             {visibleDays.map((day, index) => {
               const isToday = index === visibleDays.length - 1
               const completed = state === 'ready' && Boolean(day.completed)

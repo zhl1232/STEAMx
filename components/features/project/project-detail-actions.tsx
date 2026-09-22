@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Bookmark, Flag, Heart, Rocket, Share2 } from "lucide-react"
+import { Bookmark, Flag, Heart, ListChecks, Rocket, Share2 } from "lucide-react"
 
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
@@ -28,7 +28,7 @@ interface ProjectDetailActionsProps {
   projectId: number | string
   projectTitle: string
   mode?: "project" | "observation"
-  variant: "mobile" | "header" | "sticky" | "cover" | "bottom"
+  variant: "mobile" | "header" | "sticky" | "cover" | "bottom" | "hero"
   className?: string
   likes?: number
   collections?: number
@@ -119,7 +119,10 @@ export function ProjectDetailActions({
   const hasTippedProject = myTippedProject > 0
 
   const scrollToSteps = () => {
-    const target = document.getElementById("project-steps-mobile") || document.getElementById("project-steps")
+    // Both responsive sections are mounted; only scroll to the visible one.
+    const target = ["project-steps-mobile", "project-steps"]
+      .map((id) => document.getElementById(id))
+      .find((element) => element && element.getClientRects().length > 0)
     target?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
@@ -218,6 +221,29 @@ export function ProjectDetailActions({
       onOpenChange={setShowShareDialog}
     />
   ) : null
+
+  if (variant === "hero") {
+    return (
+      <div className={cn("space-y-2", className)}>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button asChild tone="brand" className="min-h-11 gap-2">
+            <a href="#project-materials">
+              <ListChecks className="h-4 w-4" aria-hidden />
+              查看材料与步骤
+            </a>
+          </Button>
+          <Button type="button" variant="outline" onClick={handleStart} className="min-h-11">
+            {user ? primaryActionLabel : isObservation ? "登录记录观察" : "登录记录我的项目"}
+          </Button>
+        </div>
+        {!user ? (
+          <p className="text-xs leading-5 text-muted-foreground">
+            查看材料与步骤无需登录；登录后可记录过程和上传作品。
+          </p>
+        ) : null}
+      </div>
+    )
+  }
 
   if (variant === "header") {
     return (

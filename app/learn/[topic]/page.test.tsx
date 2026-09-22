@@ -86,6 +86,18 @@ describe("learning topic pages", () => {
         expect(document.body).toHaveTextContent("暂时没有可展示");
     });
 
+    it("puts the resource entry point before the learning method section", async () => {
+        const document = await renderTopic("blocks");
+        const resources = document.querySelector("#start-learning");
+        const method = document.querySelector("#learning-method");
+
+        expect(resources).not.toBeNull();
+        expect(method).not.toBeNull();
+        expect(resources!.compareDocumentPosition(method!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+        expect(resources!.querySelectorAll('a[href^="/courses/"]')).toHaveLength(1);
+        expect(method!.closest("section")).toHaveTextContent(LEARNING_TOPICS.find((topic) => topic.slug === "blocks")!.firstQuestion);
+    });
+
     it("links only physical building courses on the blocks guide", async () => {
         const document = await renderTopic("blocks");
 

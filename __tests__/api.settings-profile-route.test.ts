@@ -253,6 +253,35 @@ describe('/api/settings/profile', () => {
     expect(capturedPayload).not.toHaveProperty('last_uploaded_avatar_url')
   })
 
+  it('retains a legacy custom avatar when switching to a preset for the first time', async () => {
+    const legacyAvatarUrl = 'https://example.com/storage/v1/object/public/avatars/legacy.jpg'
+    let capturedPayload: Record<string, unknown> | undefined
+    createClientMock.mockResolvedValue({
+      from: vi.fn(() => createProfilesTableMock({
+        currentProfile: { avatar_url: legacyAvatarUrl, last_uploaded_avatar_url: null },
+        updateResult: {
+          username: 'demo-user', display_name: '测试用户', bio: '', gender: null,
+          birth_date: null, avatar_url: '/avatars/default-2.svg', last_uploaded_avatar_url: legacyAvatarUrl,
+        },
+        onUpdate: (payload) => { capturedPayload = payload },
+      })),
+    } as never)
+    requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+    const response = await PATCH(new Request('http://localhost/api/settings/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        display_name: '测试用户', bio: '', gender: null, birth_year: null,
+        birth_month: null, avatar_url: '/avatars/default-2.svg',
+      }),
+    }) as never)
+    expect(response.status).toBe(200)
+    expect(capturedPayload).toMatchObject({
+      avatar_url: '/avatars/default-2.svg', last_uploaded_avatar_url: legacyAvatarUrl,
+    })
+    expect((await response.json()).profile.last_uploaded_avatar_url).toBe(legacyAvatarUrl)
+  })
+
   it('accepts a legacy uploaded avatar url already stored on the current profile', async () => {
     let capturedPayload: Record<string, unknown> | undefined
 

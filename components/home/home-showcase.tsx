@@ -26,13 +26,16 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
-import { BRAND_DESCRIPTION, BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_POSITIONING, BRAND_TAGLINE } from "@/lib/brand";
+import { BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_POSITIONING, BRAND_TAGLINE } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
+const homeHeroDescription =
+  "从积木、科学到自然探索，让孩子在真实项目中学习与创造。";
+const homeHeroTitleLines = BRAND_HERO_TITLE.split("，").filter(Boolean);
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -93,7 +96,7 @@ const homeHeroFeatures = [
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
-      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] lg:min-h-[310px]">
+      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[340px] lg:min-h-[370px] xl:min-h-[390px]">
         <Image
           src={image}
           alt="孩子们在湖边进行 STEAM 实验"
@@ -111,17 +114,17 @@ function HomeHero({ image }: { image: string }) {
           priority
           loading="eager"
           sizes="1800px"
-          className="hidden object-cover object-center dark:brightness-90 md:block"
+          className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:inset-0 md:h-auto md:bg-[linear-gradient(90deg,rgba(248,252,255,0.96)_0%,rgba(248,252,255,0.88)_28%,rgba(248,252,255,0.58)_45%,rgba(248,252,255,0.18)_64%,rgba(248,252,255,0)_80%)] md:dark:bg-[linear-gradient(90deg,rgba(6,12,22,0.88)_0%,rgba(6,12,22,0.76)_28%,rgba(6,12,22,0.46)_48%,rgba(6,12,22,0.14)_66%,rgba(6,12,22,0)_82%)]" />
+        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:hidden" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[290px] md:justify-center md:px-10 md:py-8 lg:min-h-[310px] lg:px-12">
-          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[620px] lg:max-w-[700px]">
+        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[310px] lg:max-w-[410px] xl:max-w-[460px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               {BRAND_FULL_NAME}
             </p>
-            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[38px] md:leading-[1.12] lg:text-[44px]">
+            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[36px] md:leading-[1.12] lg:text-[48px] xl:text-[52px]">
               <span className="md:hidden" aria-label={BRAND_TAGLINE}>
                 <span className="text-[hsl(var(--brand-blue))]">探索</span>
                 <span className="px-1.5 text-foreground">·</span>
@@ -129,14 +132,20 @@ function HomeHero({ image }: { image: string }) {
                 <span className="px-1.5 text-foreground">·</span>
                 <span className="text-[hsl(var(--brand-amber))]">成长</span>
               </span>
-              <span className="hidden md:block">{BRAND_HERO_TITLE}</span>
+              <span className="hidden md:block" aria-label={BRAND_HERO_TITLE}>
+                {homeHeroTitleLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </span>
             </h1>
 
             <p className="mt-2 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
               {BRAND_POSITIONING}
             </p>
-            <p className="mt-3 hidden max-w-[560px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
-              {BRAND_DESCRIPTION}
+            <p className="mt-3 hidden max-w-[500px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
+              {homeHeroDescription}
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">
@@ -144,22 +153,15 @@ function HomeHero({ image }: { image: string }) {
                 href="/explore"
                 className={cn(
                   buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
-                  "h-11 gap-2 px-6 text-[14px] font-bold shadow-[0_14px_30px_-16px_hsl(var(--brand-blue)/0.85)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-16px_hsl(var(--brand-blue)/0.95)]",
+                  "group h-11 gap-2 px-6 text-[14px] font-semibold",
                 )}
               >
                 开始探索项目
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </Link>
+
             </div>
 
-            <div className="mt-5 hidden max-w-[560px] grid-cols-4 gap-3 text-muted-foreground md:grid">
-              {homeHeroFeatures.map((item) => (
-                <div key={item.label} className="flex items-center gap-1.5 text-left">
-                  <item.icon className={cn("h-[18px] w-[18px] shrink-0", item.color)} strokeWidth={2.2} />
-                  <span className="whitespace-nowrap text-[13px] font-medium text-foreground/80">{item.label}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 max-[379px]:hidden min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
@@ -232,15 +234,15 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] px-2.5 py-2.5 text-left transition-all duration-300 hover:-translate-y-1 hover:bg-[hsl(var(--surface-raised)/0.96)] hover:shadow-[0_16px_32px_-20px_hsl(var(--surface-shadow)/0.35)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
-              tone.border,
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "border-border/60",
             )}
           >
             <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full transition-transform duration-300 group-hover:scale-110 md:h-10 md:w-10", tone.bg)}>
               <Icon className={cn("h-5 w-5 md:h-[22px] md:w-[22px]", tone.text)} strokeWidth={2.2} />
             </span>
             <div className="min-w-0 flex-1">
-              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none md:text-[15px] min-[1480px]:text-[16px]", tone.text)}>{category.labelOverride ?? meta.label}</span>
+              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
               <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
               <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
@@ -289,21 +291,17 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
     <section aria-labelledby="home-start-heading">
       <div className="mb-2 flex items-center justify-between md:mb-3">
         <div>
-          <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-blue))] md:block">选择一个方向</p>
           <h2 id="home-start-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
-            从这里开始
+            探索你感兴趣的方向
           </h2>
         </div>
         <Link
-          href="/explore"
+          href={MAINLINE_ENTRY_HREF}
           className="inline-flex min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5 md:min-h-11"
         >
-          全部项目
+          免费积木课
           <ArrowRight className="h-4 w-4" />
         </Link>
-      </div>
-      <div className="hidden md:block">
-        <MainlineStartCard className="mb-2.5 md:mb-3" />
       </div>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
     </section>

@@ -324,3 +324,11 @@
     inset 0 1px 1px hsl(222 30% 72% / 0.36),
     inset 0 -1px 0 hsl(0 0% 100% / 0.5);
 }
+
+/* Desktop panels sit inside a larger surface, so their dark-mode highlight
+   should read as a quiet edge instead of a second bright frame. */
+.dark .profile-desktop-page .surface-panel {
+  box-shadow:
+    0 16px 42px -34px hsl(var(--surface-shadow) / 0.28),
+    inset 0 1px 0 hsl(0 0% 100% / 0.07);
+}

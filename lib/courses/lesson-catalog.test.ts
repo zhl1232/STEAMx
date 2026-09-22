@@ -20,6 +20,7 @@ function lesson(overrides: Partial<CourseLessonSummary> & { id: number; title: s
     level_label: null,
     summary: null,
     has_model: false,
+    finished_image_url: null,
     is_completed: false,
     ...overrides,
   }

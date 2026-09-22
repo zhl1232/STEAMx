@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { useCallback, useEffect, useEffectEvent, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
@@ -35,7 +35,6 @@ import {
 } from '@/components/ui/dialog'
 
 import { BadgeGalleryDialog } from '@/components/features/gamification/badge-gallery-dialog'
-import { BadgeIcon } from '@/components/features/gamification/badge-icon'
 import { ProfileNextActionCard } from '@/components/features/profile/profile-next-action-card'
 import { ProfileModuleIcon, PROFILE_ACTION_GRID_ICONS } from '@/components/features/profile/profile-spot-icons'
 import {
@@ -43,7 +42,7 @@ import {
   isProfileTimelineIconName,
 } from '@/components/features/profile/profile-timeline-icons'
 import { StudyCheckInCard } from '@/components/features/profile/study-check-in-card'
-import { EditProfileDialog } from '@/components/features/profile/edit-profile-dialog'
+import { EditProfileDialog, type ProfileEditorTarget } from '@/components/features/profile/edit-profile-dialog'
 import { MobileProfileSectionTitle } from '@/components/features/profile/mobile-profile-section-title'
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
@@ -60,7 +59,6 @@ import { BADGES, getBadgeDisplayDefinitions } from '@/lib/gamification/badges'
 import {
   deriveFeaturedBadges,
   deriveUserTitle,
-  PROFILE_BADGE_VISIBLE_LIMIT,
 } from '@/lib/gamification/honorifics'
 import type { BadgeDisplay, UserStats } from '@/lib/gamification/types'
 import { logger } from '@/lib/logger'
@@ -493,8 +491,8 @@ function DesktopProfilePage({
   )
 
   return (
-    <div className="profile-page-surface min-h-screen pb-10 text-foreground">
-      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6 min-[1440px]:px-10">
+    <div className="profile-page-surface profile-desktop-page min-h-screen pb-10 text-foreground">
+      <div className="app-shell-wide py-4 min-[390px]:py-5 md:px-8 md:py-6 min-[90rem]:px-10">
         <div className="space-y-5">
           <ProfileHero
             profileContext={profileContext}
@@ -509,7 +507,7 @@ function DesktopProfilePage({
 
           {primaryPlanCard}
 
-          <div className="grid items-start gap-5 min-[1440px]:grid-cols-[minmax(0,1fr)_400px] min-[1680px]:grid-cols-[minmax(0,1fr)_420px]">
+          <div className="grid items-start gap-5 min-[90rem]:grid-cols-[minmax(0,1fr)_400px] min-[105rem]:grid-cols-[minmax(0,1fr)_420px]">
             <main className="min-w-0 space-y-5">
               <section
                 className={cn(
@@ -541,7 +539,7 @@ function DesktopProfilePage({
               ) : null}
 
               {!isExploreVacuum ? (
-                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[1440px]:grid-cols-1 min-[1680px]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[90rem]:grid-cols-1 min-[105rem]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
                   <NaturalObservationProgressCard
                     progress={naturalObservationProgress}
                     compact
@@ -555,15 +553,13 @@ function DesktopProfilePage({
             </main>
 
             <aside className="min-w-0">
-              <div className="grid gap-5 lg:grid-cols-2 min-[1440px]:grid-cols-1">
+              <div className="grid items-start gap-5 lg:grid-cols-2 min-[90rem]:grid-cols-1">
                 <ExperienceBadgesPanel
                   profileContext={profileContext}
-                  featuredBadges={featuredBadges}
                   featuredBadgeIds={profile?.featured_badge_ids}
                   unlockedBadges={unlockedBadges}
                   userBadgeDetails={userBadgeDetails}
                   userStats={userStats}
-                  className="lg:col-span-2 min-[1440px]:col-span-1"
                 />
                 <StudyCheckInPanel
                   studyCheckInSummary={studyCheckInSummary}
@@ -873,7 +869,7 @@ function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
         fill
         priority
         variant="cover"
-        className="object-cover object-[86%_10%] opacity-95"
+        className="object-cover object-[86%_10%] opacity-70 dark:opacity-20"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.94)_36%,hsl(var(--surface-raised)/0.66)_58%,hsl(var(--surface-raised)/0.16)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.86)_42%,hsl(var(--surface-raised)/0.52)_68%,hsl(var(--surface-raised)/0.22)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,hsl(var(--surface-raised)/0.72))]" />
@@ -902,9 +898,63 @@ function ProfileHero({
   compact: boolean
   splitStats?: boolean
 }) {
+  const [editorOpen, setEditorOpen] = useState(false)
+  const [editorTarget, setEditorTarget] = useState<ProfileEditorTarget>('overview')
+  const editorTriggerRef = useRef<HTMLButtonElement | null>(null)
+  const openEditor = (target: ProfileEditorTarget, trigger: HTMLButtonElement) => {
+    editorTriggerRef.current = trigger
+    setEditorTarget(target)
+    setEditorOpen(true)
+  }
   const compactProgressPercent = clampProgress(profileContext.xpIntoLevel, profileContext.xpNeededThisLevel)
   const compactRemainingXP = Math.max(0, profileContext.nextLevelXP - profileContext.currentXP)
-  const showInlineStats = compact ? !splitStats : true
+  const showInlineStats = compact ? !splitStats : false
+  const editorActions = (
+    <div className="flex shrink-0 items-center gap-1">
+      <Button
+        type="button"
+        variant={compact ? 'ghost' : 'outline'}
+        size={compact ? 'icon' : 'default'}
+        aria-label="编辑资料"
+        title="编辑资料"
+        className={compact
+          ? 'h-11 w-11 text-muted-foreground'
+          : 'h-11 gap-1.5 border-border/60 bg-background/70 px-3 text-xs font-medium md:text-sm'}
+        onClick={(event) => openEditor('overview', event.currentTarget)}
+      >
+        <Edit3 className={compact ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
+        {!compact ? '编辑资料' : null}
+      </Button>
+      <Button asChild variant="ghost" size="icon" className="h-11 w-11 text-muted-foreground">
+        <Link href={`/users/${profileContext.userId}`} aria-label="查看公开主页" title="查看公开主页">
+          <Eye className="h-4 w-4" />
+        </Link>
+      </Button>
+    </div>
+  )
+  const identityTitle = (
+    <span
+      className={cn(
+        'inline-flex max-w-full shrink-0 items-center gap-1 rounded-full border border-blue-200/80 bg-background/90 font-bold text-blue-700 shadow-2xs backdrop-blur-md dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.4)]',
+        compact ? 'h-5.5 px-2 text-[11px]' : 'px-2.5 py-0.5 text-xs',
+      )}
+      title={profileContext.userTitle || profileContext.levelTitle}
+    >
+      {profileContext.userTitle ? <Award className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400" /> : null}
+      <span className="truncate">{profileContext.userTitle || profileContext.levelTitle}</span>
+    </span>
+  )
+  const featuredBadgeStrip = (
+    <PublicProfileBadges
+      featuredBadges={featuredBadges}
+      allBadges={displayBadges}
+      unlockedBadgeIds={Array.from(unlockedBadges)}
+      userStats={userStats}
+      featuredBadgeIds={profile?.featured_badge_ids}
+      canManageHonors
+      showEmptyPlaceholder
+    />
+  )
 
   return (
     <section
@@ -912,28 +962,50 @@ function ProfileHero({
         'relative overflow-hidden',
         compact
           ? 'profile-mobile-hero overflow-visible'
-          : 'profile-hero-card surface-panel min-h-[270px] rounded-lg',
+          : 'profile-hero-card surface-panel rounded-lg',
       )}
     >
+      <EditProfileDialog
+        open={editorOpen}
+        onOpenChange={setEditorOpen}
+        initialTarget={editorTarget}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault()
+          editorTriggerRef.current?.focus()
+        }}
+      />
       <ProfileHeroBackdrop compact={compact} />
 
-      <div className={cn('relative', compact ? 'px-4 pb-4 pt-4' : 'px-7 pb-0 pt-7')}>
-        <div className={cn(compact ? 'grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4' : 'flex min-h-[156px] flex-wrap items-start gap-6')}>
-          <div className={cn('shrink-0', compact ? 'flex w-full flex-col items-center' : 'relative')}>
-            <UserAvatar
-              userId={profileContext.userId}
-              name={profileContext.userName}
-              src={profileContext.userAvatar}
-              alt={profileContext.userName}
-              fallback={getInitial(profileContext.userName)}
-              avatarFrameId={profile?.equipped_avatar_frame_id}
-              loading="eager"
+      <div className={cn('relative', compact ? 'px-4 pb-4 pt-4' : 'p-6')}>
+        <div className={cn(compact ? 'grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4' : 'grid grid-cols-[112px_minmax(0,1fr)] items-start gap-x-6 gap-y-4 min-[80rem]:grid-cols-[minmax(0,1fr)_22.5rem] min-[80rem]:gap-x-8')}>
+          <div className={cn(compact ? 'contents' : 'contents min-[80rem]:grid min-[80rem]:grid-cols-[112px_minmax(0,1fr)] min-[80rem]:items-start min-[80rem]:gap-6')}>
+          <div className={cn('flex shrink-0 flex-col items-center', compact ? 'w-full' : 'relative isolate')}>
+            <button
+              type="button"
+              aria-label="更换头像"
+              title="更换头像"
               className={cn(
-                'border-[3px] border-background shadow-[0_12px_28px_-18px_hsl(var(--brand-blue)/0.35)]',
-                compact ? 'h-[78px] w-[78px]' : 'h-[112px] w-[112px]',
+                'inline-flex shrink-0 rounded-full transition-opacity hover:opacity-85 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+                !compact && 'relative z-0',
               )}
-              avatarClassName="rounded-full object-cover"
-            />
+              onClick={(event) => openEditor('avatar', event.currentTarget)}
+            >
+              <UserAvatar
+                userId={profileContext.userId}
+                href={null}
+                name={profileContext.userName}
+                src={profileContext.userAvatar}
+                alt={profileContext.userName}
+                fallback={getInitial(profileContext.userName)}
+                avatarFrameId={profile?.equipped_avatar_frame_id}
+                loading="eager"
+                className={cn(
+                  'border-[3px] border-background shadow-[0_12px_28px_-18px_hsl(var(--brand-blue)/0.35)]',
+                  compact ? 'h-[78px] w-[78px]' : 'h-[112px] w-[112px]',
+                )}
+                avatarClassName="rounded-full object-cover"
+              />
+            </button>
             <LevelGuideDialog>
               <button
                 type="button"
@@ -941,7 +1013,7 @@ function ProfileHero({
                   'inline-flex h-6 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
                   compact
                     ? 'relative mt-1.5 hover:-translate-y-0.5'
-                    : 'absolute -bottom-1.5 left-1/2 -translate-x-1/2 hover:-translate-y-0.5 hover:-translate-x-1/2',
+                    : 'relative z-10 mt-2 hover:-translate-y-0.5',
                 )}
               >
                 Lv.{profileContext.level}
@@ -952,72 +1024,56 @@ function ProfileHero({
           <div className="min-w-0 flex-1">
             {/* 第一行：名字 + 称号徽标 + 编辑资料按钮 */}
             <div className="flex items-center justify-between gap-1.5">
-              <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden">
+              <div className="flex min-w-0 flex-1 items-center gap-1.5">
                 <h2
                   className={cn(
-                    'min-w-0 truncate font-bold tracking-normal text-foreground',
-                    compact ? 'text-[17px] leading-6' : 'text-[30px]',
+                    'min-w-0 max-w-full font-bold tracking-normal text-foreground',
+                    compact ? 'text-lg leading-6' : 'text-[30px]',
                     getNameColorClassName(profile?.equipped_name_color_id ?? null),
                   )}
                   title={profileContext.userName}
                 >
-                  {profileContext.userName}
-                </h2>
-                {profileContext.userTitle ? (
-                  <span
-                    className={cn(
-                      'inline-flex shrink-0 items-center gap-1 rounded-full border border-blue-200/80 bg-background/90 font-bold text-blue-700 shadow-2xs backdrop-blur-md dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.4)]',
-                      compact ? 'h-5.5 max-w-[110px] px-2 text-[11px]' : 'px-2.5 py-0.5 text-xs',
-                    )}
-                    title={profileContext.userTitle}
-                  >
-                    <Award className={cn(compact ? 'h-3.5 w-3.5' : 'h-3.5 w-3.5', 'shrink-0 text-blue-600 dark:text-blue-400')} />
-                    <span className="truncate">{profileContext.userTitle}</span>
-                  </span>
-                ) : (
-                  <span
-                    className={cn(
-                      'inline-flex shrink-0 items-center rounded-full border border-blue-200/80 bg-background/90 font-bold text-blue-700 shadow-2xs backdrop-blur-md dark:border-blue-400/40 dark:bg-slate-900/90 dark:text-blue-200 dark:shadow-[0_2px_8px_-2px_rgba(59,130,246,0.4)]',
-                      compact ? 'h-5.5 max-w-[110px] px-2 text-[11px]' : 'px-2.5 py-0.5 text-xs',
-                    )}
-                    title={profileContext.levelTitle}
-                  >
-                    <span className="truncate">{profileContext.levelTitle}</span>
-                  </span>
-                )}
-              </div>
-
-              {compact ? (
-                <EditProfileDialog>
                   <button
                     type="button"
-                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border/40 bg-background/60 text-muted-foreground shadow-2xs backdrop-blur-xs transition hover:bg-background hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
-                    aria-label="编辑资料"
-                    title="编辑资料"
+                    aria-label={`修改昵称：${profileContext.userName}`}
+                    className="block min-h-11 min-w-11 max-w-full truncate rounded-sm text-left transition-opacity hover:opacity-75 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
+                    onClick={(event) => openEditor('display_name', event.currentTarget)}
                   >
-                    <Edit3 className="h-3.5 w-3.5" />
+                    {profileContext.userName}
                   </button>
-                </EditProfileDialog>
-              ) : null}
+                </h2>
+                {!compact ? identityTitle : null}
+              </div>
+
+              {compact ? editorActions : <div className="min-[80rem]:hidden">{editorActions}</div>}
             </div>
+            {compact ? identityTitle : null}
 
             {/* 第二行：个人简介 */}
             <p className={cn('text-muted-foreground', compact ? 'mt-1 line-clamp-1 text-[11px] leading-4' : 'mt-2 max-w-2xl text-sm leading-7')}>
               {profile?.bio || '热爱科学与创造，喜欢用动手实践探索世界的奥秘。'}
             </p>
 
-            {/* 第三行：高光勋章阵列（个人主页最多露出 5 枚 +N，点击打开图鉴） */}
-            <PublicProfileBadges
-              featuredBadges={featuredBadges}
-              allBadges={displayBadges}
-              unlockedBadgeIds={Array.from(unlockedBadges)}
-              userStats={userStats}
-              featuredBadgeIds={profile?.featured_badge_ids}
-              canManageHonors
-              showEmptyPlaceholder={true}
-            />
+            {!compact ? featuredBadgeStrip : null}
           </div>
+          </div>
+          {!compact ? (
+            <div className="col-span-2 flex min-w-0 flex-col items-end gap-4 min-[80rem]:col-span-1">
+              <div className="hidden min-[80rem]:block">{editorActions}</div>
+              <div className="grid w-full grid-cols-4 overflow-hidden">
+                {stats.map((stat, index) => (
+                  <ProfileStatTile key={stat.key} stat={stat} compact bordered={index > 0} />
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
+
+        {compact ? (
+          <div className="mt-3 [&>div:first-child]:mt-0">
+            {featuredBadgeStrip}
+          </div>
+        ) : null}
 
         {compact ? (
           <div className="mt-4">
@@ -1053,7 +1109,7 @@ function ProfileHero({
               'grid grid-cols-4 overflow-hidden',
               compact
                 ? 'mt-3.5 rounded-lg border border-[hsl(var(--surface-border)/0.5)] bg-[hsl(var(--surface-raised)/0.7)] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.4)] backdrop-blur-sm dark:border-[hsl(var(--surface-border-strong)/0.55)] dark:bg-[hsl(var(--surface-raised)/0.55)] dark:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.06)]'
-                : 'profile-stats-bar mt-8',
+                : '',
             )}
           >
             {stats.map((stat, index) => (
@@ -1068,7 +1124,6 @@ function ProfileHero({
             <HeroQuickActions />
           </div>
         ) : null}
-        {!compact ? <div className="h-5 shrink-0" aria-hidden="true" /> : null}
       </div>
     </section>
   )
@@ -1272,89 +1327,8 @@ function SteamRadarEmptyPlaceholder() {
   )
 }
 
-function BadgeShowcase({
-  badges,
-  unlockedBadges,
-  userBadgeDetails,
-  userStats,
-  featuredBadgeIds,
-  compact = false,
-}: {
-  badges: BadgeDisplay[]
-  unlockedBadges: Set<string>
-  userBadgeDetails?: Map<string, { unlockedAt: string }>
-  userStats?: UserStats
-  featuredBadgeIds?: string[] | null
-  compact?: boolean
-}) {
-  const displayBadges = badges.slice(0, PROFILE_BADGE_VISIBLE_LIMIT)
-  const remainingCount = displayBadges.length > 0
-    ? Math.max(0, unlockedBadges.size - displayBadges.length)
-    : 0
-
-  return (
-    <div>
-      {displayBadges.length > 0 ? (
-        <div className={cn('mt-4 flex', compact ? 'items-center justify-between gap-1.5' : 'flex-wrap gap-3')}>
-        {displayBadges.map((badge) => {
-          const isUnlocked = unlockedBadges.has(badge.id)
-          return (
-            <div key={badge.id} className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
-              <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
-                <button
-                  type="button"
-                  className="group grid h-11 w-11 place-items-center overflow-visible transition-transform duration-200 hover:scale-110 focus:outline-none"
-                  title={`${badge.name}：${badge.description}（点击查看图鉴）`}
-                >
-                  <BadgeIcon
-                    icon={badge.icon}
-                    tier={badge.tier}
-                    seriesKey={badge.seriesKey}
-                    size={compact ? 'md' : 'lg'}
-                    className={compact ? 'h-11 w-11' : 'h-12 w-12'}
-                    showGlow={isUnlocked}
-                    locked={!isUnlocked}
-                  />
-                </button>
-              </BadgeGalleryDialog>
-              <span className={cn('mt-2 max-w-full text-xs font-semibold leading-4 text-foreground/84', compact ? 'block truncate' : 'line-clamp-2')}>
-                {badge.name}
-              </span>
-            </div>
-          )
-        })}
-
-        {remainingCount > 0 ? (
-          <div className={cn('flex flex-col items-center text-center', compact ? 'min-w-0 flex-1' : 'w-[68px]')}>
-            <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
-              <button
-                type="button"
-                className="group grid h-11 w-11 place-items-center rounded-full border border-dashed border-[hsl(var(--surface-border-strong))] bg-[hsl(var(--surface-muted)/0.5)] text-xs font-bold text-muted-foreground shadow-2xs backdrop-blur-xs transition hover:scale-105 hover:border-[hsl(var(--brand-blue)/0.5)] hover:text-[hsl(var(--brand-blue))] focus:outline-none"
-                title={`查看其余 ${remainingCount} 枚已解锁徽章`}
-              >
-                <span>+{remainingCount}</span>
-              </button>
-            </BadgeGalleryDialog>
-            <span className="mt-2 block max-w-full truncate text-xs font-semibold leading-4 text-muted-foreground">
-              更多
-            </span>
-          </div>
-        ) : null}
-        </div>
-      ) : null}
-
-      {compact && unlockedBadges.size === 0 ? (
-        <p className="mt-3 rounded-md bg-[hsl(var(--surface-muted)/0.4)] px-3 py-2 text-center text-[11px] leading-4 text-muted-foreground">
-          完成第一个探索项目或自然观察，即可点亮你的首枚专属徽章 ✨
-        </p>
-      ) : null}
-    </div>
-  )
-}
-
 function ExperienceBadgesPanel({
   profileContext,
-  featuredBadges,
   featuredBadgeIds,
   unlockedBadges,
   userBadgeDetails,
@@ -1362,7 +1336,6 @@ function ExperienceBadgesPanel({
   className,
 }: {
   profileContext: ProfileContext
-  featuredBadges: BadgeDisplay[]
   featuredBadgeIds?: string[] | null
   unlockedBadges: Set<string>
   userBadgeDetails: Map<string, { unlockedAt: string }>
@@ -1414,25 +1387,14 @@ function ExperienceBadgesPanel({
         </div>
       </div>
 
-      <div className="mt-5 border-t border-[hsl(var(--surface-border))] pt-4">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm font-semibold text-foreground">
-            {featuredBadges.length > 0 ? '主页佩戴' : '徽章图鉴'}
-          </p>
+      <div className="mt-5 flex items-center justify-between gap-3 border-t border-[hsl(var(--surface-border))] pt-4">
+          <p className="text-xs font-medium text-muted-foreground">已解锁 {unlockedBadges.size} 枚徽章</p>
           <BadgeGalleryDialog badges={BADGES} unlockedBadges={unlockedBadges} userBadgeDetails={userBadgeDetails} userStats={userStats} featuredBadgeIds={featuredBadgeIds}>
             <button type="button" className="inline-flex min-h-8 shrink-0 items-center gap-1 text-xs font-bold text-[hsl(var(--brand-blue))] transition hover:text-[hsl(var(--brand-blue)/0.82)]">
-              {featuredBadges.length > 0 ? '查看全部' : '打开图鉴'}
+              徽章图鉴
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </BadgeGalleryDialog>
-        </div>
-        <BadgeShowcase
-          badges={featuredBadges}
-          unlockedBadges={unlockedBadges}
-          userBadgeDetails={userBadgeDetails}
-          userStats={userStats}
-          featuredBadgeIds={featuredBadgeIds}
-        />
       </div>
     </section>
   )
@@ -1514,7 +1476,7 @@ function CommunityFeedPanel({
   }, [projects])
 
   return (
-    <section className={cn('surface-panel rounded-lg p-6', className)}>
+    <section className={cn('surface-panel rounded-lg p-5', className)}>
       <SectionTitle iconName="community" title="最近通知" actionHref="/messages" actionLabel="查看全部" />
       {notifications === null ? (
         <div className="mt-4 space-y-3">
@@ -1569,23 +1531,22 @@ function CommunityFeedPanel({
             )
           })}
         </div>
-      ) : compactEmpty ? (
-        <p className="mt-3 rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.35)] px-3 py-2.5 text-center text-xs leading-5 text-muted-foreground">
-          {loadFailed ? '最近通知暂时加载失败。' : '还没有通知，去探索互动后会出现在这里。'}
-          <Link href="/explore" className="ml-1 font-bold text-[hsl(var(--brand-blue))]">
-            去探索看看
-          </Link>
-        </p>
       ) : (
-        <EmptyBlock
-          icon={MessageCircle}
-          iconName="community"
-          title={loadFailed ? '通知加载失败' : '还没有通知'}
-          description={loadFailed ? '请稍后再查看，或前往消息中心刷新。' : '收到回复、喜欢、关注或打赏时，会在这里显示最近动态。'}
-          href={loadFailed ? '/messages' : '/explore'}
-          action={loadFailed ? '去消息中心' : '去探索'}
-          density="compact"
-        />
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+          <p className="min-w-0 flex-1 leading-5">
+            {loadFailed
+              ? '最近通知暂时加载失败，请稍后再试。'
+              : compactEmpty
+                ? '还没有通知，去探索互动后会出现在这里。'
+                : '收到回复、喜欢、关注或打赏时，会在这里显示最近动态。'}
+          </p>
+          <Link
+            href={loadFailed ? '/messages' : '/explore'}
+            className="profile-soft-cta h-8 shrink-0 px-3 text-xs"
+          >
+            {loadFailed ? '去消息中心' : compactEmpty ? '去探索看看' : '去探索'}
+          </Link>
+        </div>
       )}
     </section>
   )
@@ -1602,6 +1563,7 @@ function WorkShowcase({ works }: { works: Work[] }) {
         href="/explore"
         action="去完成一个项目"
         density="compact"
+        embedded
       />
     )
   }
@@ -1670,6 +1632,7 @@ function ObservationList({
         action="去记录今天见到的第一只鸟"
         density={emptyDensity}
         mobile={mobile}
+        embedded={embedded}
       />
     )
   }
@@ -1805,6 +1768,8 @@ function EmptyBlock({
   action,
   density = 'default',
   mobile = false,
+  embedded = false,
+  showIcon = true,
 }: {
   icon: LucideIcon
   iconName?: ProfileIconName
@@ -1814,6 +1779,8 @@ function EmptyBlock({
   action: string
   density?: 'default' | 'compact'
   mobile?: boolean
+  embedded?: boolean
+  showIcon?: boolean
 }) {
   const compact = density === 'compact'
 
@@ -1823,13 +1790,15 @@ function EmptyBlock({
         'mt-4 flex flex-col justify-between text-left',
         mobile
           ? 'min-h-[168px] items-center rounded-md bg-[hsl(var(--surface-muted)/0.35)] px-4 py-5 text-center'
-          : cn('surface-subtle', compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4'),
+          : embedded
+            ? 'min-h-0 gap-3'
+            : cn('surface-subtle', compact ? 'min-h-0 gap-3 px-4 py-3' : 'min-h-[178px] px-4 py-4'),
       )}
     >
       <div className={cn('flex items-start gap-3', mobile && 'flex-col items-center')}>
-        {iconName ? (
+        {showIcon && iconName ? (
           <ProfileImageIcon name={iconName} className={mobile ? 'h-14 w-14' : compact ? 'h-10 w-10' : 'h-12 w-12'} />
-        ) : (
+        ) : showIcon ? (
           <span
             className={cn(
               'grid shrink-0 place-items-center rounded-lg bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]',
@@ -1838,7 +1807,7 @@ function EmptyBlock({
           >
             <Icon className={mobile ? 'h-7 w-7' : compact ? 'h-5 w-5' : 'h-6 w-6'} />
           </span>
-        )}
+        ) : null}
         <div className={cn('min-w-0', mobile && 'text-center')}>
           {!compact && !mobile ? (
             <span className="inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[10px] font-bold text-[hsl(var(--brand-blue))]">

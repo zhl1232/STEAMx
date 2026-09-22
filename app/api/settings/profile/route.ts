@@ -138,6 +138,14 @@ export async function PATCH(request: NextRequest) {
 
     if (isCustomUpload) {
       updatePayload.last_uploaded_avatar_url = payload.avatar_url
+    } else if (
+      !currentAvatar.last_uploaded_avatar_url &&
+      currentAvatar.avatar_url &&
+      !currentAvatar.avatar_url.startsWith('/avatars/')
+    ) {
+      // Older profiles may predate the saved-upload field. Keep that avatar available
+      // before replacing it with a preset, just as we do for newer uploads.
+      updatePayload.last_uploaded_avatar_url = currentAvatar.avatar_url
     }
 
     const { data, error } = await supabase

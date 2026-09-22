@@ -108,7 +108,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
                     <span aria-current="page">{topic.label}</span>
                 </nav>
 
-                <header className="grid items-start gap-6 border-b border-border pb-8 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10 md:pb-10">
+                <header className="border-b border-border pb-6 md:pb-7">
                     <div className="min-w-0">
                         <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-[hsl(var(--topic-accent))]">
                             <TopicIcon className="h-5 w-5" aria-hidden="true" />
@@ -124,44 +124,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </a>
                     </div>
-                    <div className="border-l-4 border-[hsl(var(--topic-accent))] bg-[hsl(var(--topic-accent)/0.06)] p-5 md:p-6">
-                        <p className="text-xs font-semibold text-muted-foreground">先试一个小问题</p>
-                        <h2 className="mt-3 text-xl font-bold leading-relaxed text-foreground">{topic.firstQuestion}</h2>
-                        <p className="mt-3 text-sm leading-7 text-muted-foreground">{topic.firstChallenge}</p>
-                    </div>
                 </header>
-
-                <div className="grid gap-8 py-8 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10 md:py-10">
-                    <section aria-labelledby="learning-sequence">
-                        <h2 id="learning-sequence" className="text-xl font-bold text-foreground">可以这样一步步开始</h2>
-                        <ol className="mt-5 space-y-6">
-                            {topic.sequence.map((step, index) => (
-                                <li key={step.title} className="flex gap-4">
-                                    <span aria-hidden="true" className="mt-0.5 w-7 shrink-0 text-xl font-black tabular-nums text-[hsl(var(--topic-accent))]">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <div className="min-w-0">
-                                        <h3 className="text-base font-bold text-foreground">{step.title}</h3>
-                                        <p className="mt-1.5 text-sm leading-7 text-muted-foreground">{step.description}</p>
-                                    </div>
-                                </li>
-                            ))}
-                        </ol>
-                    </section>
-
-                    <aside className="space-y-7">
-                        <section aria-labelledby="learning-preparation" className="rounded-sm border border-border bg-card p-5 md:p-6">
-                            <h2 id="learning-preparation" className="text-lg font-bold text-foreground">开始前准备什么</h2>
-                            <ul className="mt-4 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground marker:text-[hsl(var(--topic-accent))]">
-                                {topic.preparation.map((item) => <li key={item} className="pl-1">{item}</li>)}
-                            </ul>
-                        </section>
-                        <section aria-labelledby="learning-companion" className="px-1">
-                            <h2 id="learning-companion" className="text-base font-bold text-foreground">家长和同伴可以怎样陪伴</h2>
-                            <p className="mt-2 text-sm leading-7 text-muted-foreground">{topic.companionNote}</p>
-                        </section>
-                    </aside>
-                </div>
 
                 <section id="start-learning" aria-labelledby="learning-resources" className="scroll-mt-24 border-t border-border py-8 md:py-10">
                     <div className="flex flex-wrap items-end justify-between gap-3">
@@ -174,7 +137,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
                         </Link>
                     </div>
                     {resources.length > 0 ? (
-                        <ul className="mt-5 grid gap-3 md:grid-cols-2">
+                        <ul className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                             {resources.map((resource) => (
                                 <li key={resource.id}>
                                     <Link
@@ -197,6 +160,45 @@ export default async function LearningTopicPage({ params }: PageProps) {
                             这个主题暂时没有可展示的{topic.slug === "science" ? "项目" : "课程"}。可以先试试上面的小挑战，或从其他主题继续探索。
                         </p>
                     )}
+                </section>
+
+                <section aria-labelledby="learning-method" className="border-t border-border py-8 md:py-10">
+                    <div className="grid gap-8 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10">
+                        <div>
+                            <h2 id="learning-method" className="text-xl font-bold text-foreground">可以这样一步步开始</h2>
+                            <div className="mt-5 rounded-sm border border-[hsl(var(--topic-accent)/0.35)] bg-[hsl(var(--topic-accent)/0.06)] p-5 md:p-6">
+                                <p className="text-xs font-semibold text-muted-foreground">先试一个小问题</p>
+                                <h3 className="mt-3 text-xl font-bold leading-relaxed text-foreground">{topic.firstQuestion}</h3>
+                                <p className="mt-3 text-sm leading-7 text-muted-foreground">{topic.firstChallenge}</p>
+                            </div>
+                            <ol className="mt-7 space-y-6">
+                                {topic.sequence.map((step, index) => (
+                                    <li key={step.title} className="flex gap-4">
+                                        <span aria-hidden="true" className="mt-0.5 w-7 shrink-0 text-xl font-black tabular-nums text-[hsl(var(--topic-accent))]">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
+                                        <div className="min-w-0">
+                                            <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                                            <p className="mt-1.5 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+
+                        <aside className="space-y-7">
+                            <section aria-labelledby="learning-preparation" className="rounded-sm border border-border bg-card p-5 md:p-6">
+                                <h2 id="learning-preparation" className="text-lg font-bold text-foreground">开始前准备什么</h2>
+                                <ul className="mt-4 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground marker:text-[hsl(var(--topic-accent))]">
+                                    {topic.preparation.map((item) => <li key={item} className="pl-1">{item}</li>)}
+                                </ul>
+                            </section>
+                            <section aria-labelledby="learning-companion" className="px-1">
+                                <h2 id="learning-companion" className="text-base font-bold text-foreground">家长和同伴可以怎样陪伴</h2>
+                                <p className="mt-2 text-sm leading-7 text-muted-foreground">{topic.companionNote}</p>
+                            </section>
+                        </aside>
+                    </div>
                 </section>
 
                 <section aria-labelledby="learning-reflection" className="border-t border-border py-8 md:py-10">

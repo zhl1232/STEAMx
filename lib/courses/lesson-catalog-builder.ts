@@ -54,6 +54,7 @@ export function buildLessonCatalogItems(
       levelLabel: lesson.level_label ?? undefined,
     }),
     hasModel: Boolean(lesson.has_model),
+    finishedImageUrl: lesson.finished_image_url ?? null,
     isCompleted: lesson.is_completed,
   }))
 }

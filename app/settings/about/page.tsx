@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight, Copy, FileText, Loader2, Mail, MessageCircle, MessageSquareHeart, ShieldAlert } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
@@ -20,12 +21,30 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   BRAND_CORE_STATEMENT,
-  BRAND_CORE_TAGLINE,
   BRAND_FULL_NAME,
   BRAND_OFFICIAL_URL,
 } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
+
+const LEARNING_PRINCIPLES = [
+  {
+    title: "兴趣驱动",
+    description: "从孩子真正好奇的问题出发，让选择和提问成为学习的起点。喜欢一只昆虫、好奇一座桥为什么稳固，都可以开启一次探索。",
+  },
+  {
+    title: "动手探究",
+    description: "先观察、再猜想、动手验证。看见尝试带来的变化，也把暂时没成功的结果变成下一次改进的线索。",
+  },
+  {
+    title: "自主挑战",
+    description: "从跟着步骤做开始，逐渐提出自己的目标，拆解任务、选择材料与方法，尝试完成自己的方案。",
+  },
+  {
+    title: "协作与迭代",
+    description: "把科学、技术、工程、艺术与数学结合起来，分享想法、听取反馈、调整方案，在合作与改进中积累解决问题的经验。",
+  },
+] as const;
 
 const FAQ_ITEMS = [
   ...BRAND_FAQ_ITEMS.map((item) => ({ q: item.question, a: item.answer })),
@@ -144,14 +163,12 @@ export default function AboutSettingsPage() {
       title="关于与帮助"
       fallbackHref={user ? "/settings" : "/"}
       kicker="支持与规则"
-      description="了解创探空间是什么，以及如何联系反馈与查阅规则。"
+      description="了解我们的教育理念，找到帮助、反馈与平台规则。"
     >
       <div className="space-y-6">
         <section id="about" className="scroll-mt-24 space-y-2 px-1">
           <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
-          <p className="text-sm font-medium leading-7 text-foreground">{BRAND_CORE_TAGLINE}</p>
-          <p className="text-sm leading-7 text-muted-foreground">{BRAND_CORE_STATEMENT}</p>
           <p className="text-sm leading-7 text-muted-foreground">
             可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
             <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">
@@ -166,9 +183,57 @@ export default function AboutSettingsPage() {
           </p>
         </section>
 
-        <section id="contact" className="scroll-mt-24 space-y-3">
+        <section id="philosophy" aria-labelledby="philosophy-heading" className="scroll-mt-24 space-y-5 border-t border-border/60 px-1 pt-6">
+          <div className="space-y-3">
+            <h2 id="philosophy-heading" className="settings-section-heading">我们的教育理念</h2>
+            <p className="text-base leading-8 text-foreground">{BRAND_CORE_STATEMENT}</p>
+          </div>
+          <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+            {LEARNING_PRINCIPLES.map((principle) => (
+              <div key={principle.title}>
+                <dt className="text-sm font-semibold text-foreground">{principle.title}</dt>
+                <dd className="mt-1.5 text-sm leading-7 text-muted-foreground">{principle.description}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="text-sm leading-7 text-muted-foreground">
+            家长和老师可以提供材料、安全支持与追问的空间，陪孩子观察和复盘，也给他们独立尝试的时间。
+          </p>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 space-y-5 border-t border-border/60 px-1 pt-6">
+          <div className="space-y-3">
+            <h2 id="contact-heading" className="settings-section-heading">联系我们</h2>
+            <p className="text-base font-semibold leading-7 text-foreground">让更多孩子，在兴趣中发现自己的可能</p>
+            <p className="text-sm leading-7 text-muted-foreground">如果你也认同让孩子从兴趣出发、在动手中成长，欢迎关注我们，一起交流教育想法、分享实践经验，探索合作的可能。</p>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+            <figure className="min-w-0 space-y-3">
+              <figcaption>
+                <h3 className="text-sm font-semibold">关注公众号</h3>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">获取项目灵感、课程更新与教育分享。</p>
+              </figcaption>
+              <a href="/assets/contact-official-account.png" target="_blank" rel="noopener noreferrer" aria-label="查看公众号二维码原图（新窗口）" className="flex min-h-[240px] items-center rounded-md bg-white p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Image src="/assets/contact-official-account.png" alt="微信扫一扫，或搜索公众号「创探空间」" width={1710} height={624} unoptimized className="h-auto w-full" />
+              </a>
+              <p className="text-xs leading-6 text-muted-foreground">微信搜一搜「创探空间」，或点击图片查看原图。</p>
+            </figure>
+            <figure className="min-w-0 space-y-3">
+              <figcaption>
+                <h3 className="text-sm font-semibold">微信客服</h3>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">使用咨询、问题反馈与合作交流。</p>
+              </figcaption>
+              <a href="/assets/contact-wechat.png" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="flex h-[240px] justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Image src="/assets/contact-wechat.png" alt="添加创探空间微信客服的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
+              </a>
+              <p className="text-xs leading-6 text-muted-foreground">添加时请备注「创探空间」。点击图片可查看、保存原图。</p>
+            </figure>
+          </div>
+        </section>
+
+        <section aria-labelledby="help-heading" className="space-y-3">
           <div className="px-1">
-            <h2 className="settings-section-heading">帮助入口</h2>
+            <h2 id="help-heading" className="settings-section-heading">帮助入口</h2>
           </div>
           <div className="settings-list">
             <button id="feedback" type="button" className="settings-row scroll-mt-24" onClick={openFeedback}>

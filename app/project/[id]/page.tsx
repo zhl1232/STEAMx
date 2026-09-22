@@ -1129,6 +1129,14 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                     ) : null}
                   </div>
 
+                  <ProjectDetailActions
+                    projectId={project.id}
+                    projectTitle={project.title}
+                    mode={mode}
+                    variant="hero"
+                    className="mt-5 hidden lg:block"
+                  />
+
                   <div className="mt-6 grid grid-cols-4 border-t border-border/70 pt-5">
                     <HeroStat
                       icon={<ListChecks className="h-5 w-5" />}
@@ -1194,13 +1202,13 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   className="surface-panel rounded-lg px-5 py-5 sm:px-6"
                 />
 
-                <div id="project-materials" className="scroll-mt-24 lg:scroll-mt-28">
+                <div id="project-materials" className="scroll-mt-36">
                   <SectionCard title={`所需材料${materials.length > 0 ? `（${materials.length}）` : ''}`}>
                     <MaterialsList materials={materials} compact />
                   </SectionCard>
                 </div>
 
-                <div id="project-steps" className="scroll-mt-24 lg:scroll-mt-28">
+                <div id="project-steps" className="scroll-mt-36">
                   <SectionCard title={`制作步骤${steps.length > 0 ? `（共 ${steps.length} 步）` : ''}`}>
                     {steps.length > 0 ? (
                       <ol className="space-y-3">

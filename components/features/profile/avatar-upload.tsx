@@ -1,214 +1,114 @@
-"use client"
+'use client'
 
-import { useRef, useState } from "react"
-import { Upload, Camera, Plus } from "lucide-react"
-import { OptimizedImage } from "@/components/ui/optimized-image"
-import { useToast } from "@/hooks/use-toast"
-import { DEFAULT_AVATAR_FILES } from "@/lib/profile/avatar-options"
-import { cn } from "@/lib/utils"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { useId, useRef, useState } from 'react'
+import { Camera, Check, Upload } from 'lucide-react'
+import { OptimizedImage } from '@/components/ui/optimized-image'
+import { useToast } from '@/hooks/use-toast'
+import { DEFAULT_AVATAR_FILES } from '@/lib/profile/avatar-options'
+import { RAW_INPUT_CEILING_MB } from '@/lib/utils/image-compression'
+import { cn } from '@/lib/utils'
 
 interface AvatarUploadProps {
   value: string
-  /** 已上传的头像 URL，在选择器里始终保留一格（不随切换预设而消失） */
   persistedUploadUrl?: string
+  pendingUploadUrl?: string
   onFileSelect: (file: File) => void
-  /** 选择预设或当前上传头像时回调，url 为预设路径如 /avatars/default-8.svg 或自定义上传的完整 URL；仅做高亮，提交由外层「保存修改」统一提交 */
   onDefaultSelect?: (url: string) => void
   disabled?: boolean
-  /** 设置页首屏头像预览使用 eager，避免把首个可见图片误标为 LCP 懒加载 */
   priority?: boolean
-  /** 在头像右下角显示相机图标，提示可点击更换 */
   showCameraBadge?: boolean
+  expanded?: boolean
+  onExpandedChange?: (expanded: boolean) => void
 }
-
-/** 判断当前 value 是否为某个预设头像路径 */
-function getSelectedPresetFilename(value: string): string | null {
-  if (!value || !value.startsWith("/avatars/")) return null
-  const name = value.replace("/avatars/", "")
-  return (DEFAULT_AVATAR_FILES as readonly string[]).includes(name) ? name : null
-}
+const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
 
 export function AvatarUpload({
-  value,
-  persistedUploadUrl,
-  onFileSelect,
-  onDefaultSelect,
-  disabled,
-  priority = false,
-  showCameraBadge,
+  value, persistedUploadUrl, pendingUploadUrl, onFileSelect, onDefaultSelect,
+  disabled, priority = false, showCameraBadge, expanded: controlledExpanded, onExpandedChange,
 }: AvatarUploadProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [pickerOpen, setPickerOpen] = useState(false)
+  const [internalExpanded, setInternalExpanded] = useState(false)
+  const expanded = controlledExpanded ?? internalExpanded
+  const inputRef = useRef<HTMLInputElement>(null)
+  const pickerId = useId()
   const { toast } = useToast()
+  const options = [
+    ...(pendingUploadUrl ? [{ url: pendingUploadUrl, label: '新选的头像' }] : []),
+    ...(persistedUploadUrl ? [{ url: persistedUploadUrl, label: '已上传的头像' }] : []),
+    ...DEFAULT_AVATAR_FILES.map((file, index) => ({ url: `/avatars/${file}`, label: `默认头像 ${index + 1}` })),
+  ]
 
-  const selectedPreset = getSelectedPresetFilename(value)
-
-  const validateAndEmit = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      toast({
-        title: "文件格式错误",
-        description: "请上传图片文件",
-        variant: "destructive",
-      })
+  const selectFile = (file: File) => {
+    if (!ACCEPTED_TYPES.includes(file.type)) {
+      toast({ title: '请选择 JPG、PNG、GIF 或 WebP 图片', variant: 'destructive' })
+      return
+    }
+    if (file.size > RAW_INPUT_CEILING_MB * 1024 * 1024) {
+      toast({ title: `原图不能超过 ${RAW_INPUT_CEILING_MB}MB`, variant: 'destructive' })
       return
     }
     onFileSelect(file)
-    if (fileInputRef.current) fileInputRef.current.value = ""
-    setPickerOpen(false)
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return // 用户在系统选择器点击「取消」，不处理
-    validateAndEmit(file)
-  }
-
-  const handlePresetClick = (filename: string) => {
-    onDefaultSelect?.(`/avatars/${filename}`)
-  }
-
-  const handlePersistedUploadClick = () => {
-    if (persistedUploadUrl) onDefaultSelect?.(persistedUploadUrl)
-  }
-
-  const handleCustomUploadClick = () => {
-    fileInputRef.current?.click()
-    // 不添加 capture，由系统弹出「拍照 / 图库 / 文件」选择
   }
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            disabled={disabled}
-            className="relative group cursor-pointer rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-background shadow-lg bg-linear-to-tr from-primary to-secondary flex items-center justify-center transition-all group-hover:opacity-90 relative">
-              {value ? (
-                <OptimizedImage
-                  src={value}
-                  alt="Avatar"
-                  fill
-                  variant="avatar"
-                  priority={priority}
-                  className="object-cover"
-                />
-              ) : (
-                <span className="text-5xl font-bold text-primary-foreground">
-                  <Upload className="h-10 w-10" />
-                </span>
-              )}
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-full backdrop-blur-[2px]">
-              <span className="text-white font-medium text-sm border border-white/50 px-3 py-1 rounded-full bg-black/20">
-                更换
-              </span>
-            </div>
-            {showCameraBadge && (
-              <span
-                className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground shadow-sm"
-                aria-hidden
+    <div className="flex w-full flex-col items-center gap-3">
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => { setInternalExpanded(!expanded); onExpandedChange?.(!expanded) }}
+        aria-expanded={expanded}
+        aria-controls={pickerId}
+        aria-label="更换头像"
+        data-profile-field="avatar_url"
+        className="group relative rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-60"
+      >
+        <span className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-border/70 bg-muted md:h-28 md:w-28">
+          {value ? <OptimizedImage src={value} alt="当前头像" fill variant="avatar" priority={priority} className="object-cover" /> : <Camera className="h-8 w-8 text-muted-foreground" />}
+        </span>
+        {showCameraBadge ? (
+          <span aria-hidden="true" className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground">
+            <Camera className="h-4 w-4" />
+          </span>
+        ) : null}
+      </button>
+      <span className="text-xs text-muted-foreground">点击头像更换</span>
+      {expanded ? (
+        <div id={pickerId} role="group" aria-label="头像选择器" className="w-full max-w-sm space-y-4">
+          <div className="grid grid-cols-4 justify-items-center gap-3 md:grid-cols-3">
+            {options.map(option => (
+              <button
+                key={option.url}
+                type="button"
+                disabled={disabled}
+                aria-label={option.label}
+                aria-pressed={value === option.url}
+                onClick={() => onDefaultSelect?.(option.url)}
+                className={cn(
+                  'relative h-12 w-12 rounded-full border-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-60 md:h-14 md:w-14',
+                  value === option.url ? 'border-primary ring-2 ring-primary/25 ring-offset-2 ring-offset-background' : 'border-transparent hover:border-muted-foreground/40',
+                )}
               >
-                <Camera className="h-4 w-4" />
-              </span>
-            )}
+                {/* Presets are local SVGs; pending files use a local object URL. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={option.url} alt="" className="h-full w-full rounded-full object-cover" />
+                {value === option.url ? (
+                  <span aria-hidden="true" className="absolute -bottom-1 -right-1 rounded-full bg-primary p-0.5 text-primary-foreground"><Check className="h-3 w-3" /></span>
+                ) : null}
+              </button>
+            ))}
+          </div>
+          <button type="button" disabled={disabled} onClick={() => inputRef.current?.click()}
+            className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60">
+            <Upload className="h-4 w-4" />上传照片
           </button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[360px] top-[62%] translate-y-[-50%]" hideOverlay>
-          <DialogHeader>
-            <DialogTitle>选择头像</DialogTitle>
-          </DialogHeader>
-
-          {/* 模块 A：预设头像库（含已上传的头像） */}
-          <div className="space-y-3">
-            <div className="grid grid-cols-4 gap-3">
-              {/* 已上传的头像：始终占一格，切换预设后仍可点回 */}
-              {persistedUploadUrl ? (
-                <button
-                  type="button"
-                  onClick={handlePersistedUploadClick}
-                  className={cn(
-                    "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                    value === persistedUploadUrl
-                      ? "border-primary ring-2 ring-primary ring-offset-2 ring-offset-background"
-                      : "border-transparent hover:border-muted-foreground/30"
-                  )}
-                >
-                  {persistedUploadUrl.startsWith("blob:") ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={persistedUploadUrl} alt="已上传" className="h-full w-full object-cover" />
-                  ) : (
-                    <OptimizedImage
-                      src={persistedUploadUrl}
-                      alt="已上传"
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                </button>
-              ) : null}
-              {DEFAULT_AVATAR_FILES.map((filename) => {
-                const isSelected = selectedPreset === filename
-                return (
-                  <button
-                    key={filename}
-                    type="button"
-                    onClick={() => handlePresetClick(filename)}
-                    className={cn(
-                      "h-14 w-14 rounded-full overflow-hidden border-2 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                      isSelected
-                        ? "border-primary ring-2 ring-primary ring-offset-2 ring-offset-background"
-                        : "border-transparent hover:border-muted-foreground/30"
-                    )}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`/avatars/${filename}`}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* 模块 B：自定义上传（统一入口，不区分拍照/相册，由系统选择器决定） */}
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-foreground">自定义上传</p>
-            <button
-              type="button"
-              onClick={handleCustomUploadClick}
-              className="flex w-full flex-col items-center justify-center gap-1 rounded-xs border border-input bg-background py-8 transition-colors hover:bg-muted/50 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              <Plus className="h-10 w-10 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">自定义上传</span>
-              <span className="text-xs text-muted-foreground">
-                （支持拍照/从相册选择）
-              </span>
-            </button>
-          </div>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-            disabled={disabled}
-          />
-        </DialogContent>
-      </Dialog>
+          <p className="text-center text-xs leading-5 text-muted-foreground">JPG、PNG、GIF、WebP<br />原图最大 {RAW_INPUT_CEILING_MB}MB，自动压缩后上传</p>
+        </div>
+      ) : null}
+      <input ref={inputRef} type="file" aria-label="上传头像文件" accept={ACCEPTED_TYPES.join(',')} className="hidden" disabled={disabled}
+        onChange={event => {
+          const file = event.target.files?.[0]
+          event.target.value = ''
+          if (file) selectFile(file)
+        }} />
     </div>
   )
 }

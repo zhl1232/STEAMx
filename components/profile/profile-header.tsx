@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { User } from "@supabase/supabase-js";
-import { ArrowUpRight, Bell, LayoutDashboard, Settings, ShieldCheck, Zap } from "lucide-react";
+import { ArrowUpRight, Bell, Eye, LayoutDashboard, Settings, ShieldCheck, Zap } from "lucide-react";
 
 import { BadgeGalleryDialog } from "@/components/features/gamification/badge-gallery-dialog";
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
-import { EditProfileDialog } from "@/components/features/profile/edit-profile-dialog";
+import { EditProfileDialog, type ProfileEditorTarget } from "@/components/features/profile/edit-profile-dialog";
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LevelProgress } from "@/components/features/gamification/level-progress";
 import { CoinIcon } from "@/components/icons/coin-icon";
@@ -48,6 +49,14 @@ export function ProfileHeader({
   followingCount,
   statLinks,
 }: ProfileHeaderProps) {
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editorTarget, setEditorTarget] = useState<ProfileEditorTarget>("overview");
+  const editorTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const openEditor = (target: ProfileEditorTarget, trigger: HTMLButtonElement) => {
+    editorTriggerRef.current = trigger;
+    setEditorTarget(target);
+    setEditorOpen(true);
+  };
   const { unlockedBadges, userBadgeDetails, coins = 0 } = useGamification();
   const { unreadCount } = useNotifications();
 
@@ -77,6 +86,15 @@ export function ProfileHeader({
 
   return (
     <section className="surface-panel overflow-hidden">
+      <EditProfileDialog
+        open={editorOpen}
+        onOpenChange={setEditorOpen}
+        initialTarget={editorTarget}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          editorTriggerRef.current?.focus();
+        }}
+      />
       <div className="relative overflow-hidden px-4 pb-4 pt-4">
         <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-muted)/0.72),transparent_72%)]" />
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
@@ -114,16 +132,25 @@ export function ProfileHeader({
 
           <div className="mt-7 flex flex-col items-center">
             <div className="relative">
-              <UserAvatar
-                userId={user.id}
-                name={userName}
-                src={userAvatar}
-                alt={userName}
-                fallback={userName[0]?.toUpperCase()}
-                avatarFrameId={profile?.equipped_avatar_frame_id}
-                className="h-[88px] w-[88px] shrink-0 border-[3px] border-background shadow-[0_16px_40px_-20px_rgba(15,23,42,0.3)]"
-                avatarClassName="rounded-full object-cover"
-              />
+              <button
+                type="button"
+                aria-label="更换头像"
+                title="更换头像"
+                className="inline-flex rounded-full transition-opacity hover:opacity-85 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                onClick={(event) => openEditor("avatar", event.currentTarget)}
+              >
+                <UserAvatar
+                  userId={user.id}
+                  href={null}
+                  name={userName}
+                  src={userAvatar}
+                  alt={userName}
+                  fallback={userName[0]?.toUpperCase()}
+                  avatarFrameId={profile?.equipped_avatar_frame_id}
+                  className="h-[88px] w-[88px] shrink-0 border-[3px] border-background shadow-[0_16px_40px_-20px_rgba(15,23,42,0.3)]"
+                  avatarClassName="rounded-full object-cover"
+                />
+              </button>
               <LevelGuideDialog>
                 <button
                   type="button"
@@ -136,10 +163,19 @@ export function ProfileHeader({
               </LevelGuideDialog>
             </div>
 
-            <div className="mt-4 flex flex-col items-center">
-              <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-4 flex w-full min-w-0 flex-col items-center">
+              <div className="flex max-w-full flex-wrap items-center justify-center gap-2">
                 {profile?.role && profile.role !== "user" ? <RoleBadge role={profile.role} size="md" /> : null}
-                <h1 className="text-xl font-semibold tracking-tight text-foreground">{userName}</h1>
+                <h1 className="min-w-0 max-w-full text-xl font-semibold tracking-tight text-foreground">
+                  <button
+                    type="button"
+                    aria-label={`修改昵称：${userName}`}
+                    className="block min-h-11 min-w-11 max-w-full truncate rounded-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
+                    onClick={(event) => openEditor("display_name", event.currentTarget)}
+                  >
+                    {userName}
+                  </button>
+                </h1>
               </div>
 
               <p className="mt-2 max-w-[260px] text-center text-[13px] leading-5 text-muted-foreground">
@@ -147,11 +183,20 @@ export function ProfileHeader({
               </p>
 
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-                <EditProfileDialog>
-                  <Button variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-5 text-xs font-medium backdrop-blur-xs">
-                    编辑资料
-                  </Button>
-                </EditProfileDialog>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-11 border-border/60 bg-background/70 px-5 text-xs font-medium"
+                  onClick={(event) => openEditor("overview", event.currentTarget)}
+                >
+                  编辑资料
+                </Button>
+                <Button asChild variant="ghost" size="icon" className="h-11 w-11 text-muted-foreground">
+                  <Link href={`/users/${user.id}`} aria-label="查看公开主页" title="查看公开主页">
+                    <Eye className="h-4 w-4" />
+                  </Link>
+                </Button>
 
                 {canReview ? (
                   <Button asChild variant="outline" size="sm" className="h-8 border-border/60 bg-background/70 px-4 text-xs font-medium backdrop-blur-xs">

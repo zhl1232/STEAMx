@@ -83,18 +83,21 @@ export default async function CourseDetailPage({ params }: PageProps) {
         course.lessons.every((l) => l.lesson_type === course.lessons[0].lesson_type);
     // 大课的 sort_order 是拼音序，平铺一列找不到东西；小课的 sort_order 是真的教学顺序，保持原样
     const useCatalog = course.lessons.length >= LESSON_CATALOG_MIN_SIZE;
+    const isBuildingCatalog = useCatalog && course.lessons.every((lesson) => lesson.lesson_type === "building_3d");
     const catalogLessons = useCatalog
         ? buildLessonCatalogItems(course.lessons, { showTypeLabel: !allSameLessonType })
         : [];
     const nextLessonId = course.progress?.next_lesson_id ?? course.lessons[0]?.id ?? null;
     const nextLessonIndex = course.lessons.findIndex((l) => l.id === nextLessonId);
     const nextLessonNumber = nextLessonIndex >= 0 ? nextLessonIndex + 1 : 1;
+    const isNewBuildingLearner = isBuildingCatalog && (!course.progress || course.progress.status === "not_started");
     const primaryCta =
         course.progress?.status === "completed"
             ? "回顾课程"
             : course.progress?.status === "in_progress"
                 ? `继续 第 ${nextLessonNumber} 课`
                 : `开始 第 1 课`;
+    const catalogAnchor = `#course-lessons-heading`;
     return (
         <>
             <JsonLd
@@ -219,12 +222,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                 </div>
                             ) : null}
 
-                            <div className="mt-6 flex items-center gap-2.5 md:mt-7">
-                                {nextLessonId ? (
+                            <div className="mt-6 flex flex-wrap items-center gap-2.5 md:mt-7">
+                                {nextLessonId && !isNewBuildingLearner ? (
                                     <Button
                                         asChild
                                         size="lg"
-                                        className="group flex-1 gap-2 rounded-xl bg-[hsl(var(--brand-blue))] px-6 font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_4px_16px_-4px_hsl(var(--brand-blue)/0.4)] transition-all hover:bg-[hsl(var(--brand-blue)/0.9)] hover:shadow-[0_6px_20px_-4px_hsl(var(--brand-blue)/0.5)] active:scale-[0.98] sm:flex-initial"
+                                        className="group min-w-0 flex-1 gap-2 rounded-xl bg-[hsl(var(--brand-blue))] px-4 font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_4px_16px_-4px_hsl(var(--brand-blue)/0.4)] transition-all hover:bg-[hsl(var(--brand-blue)/0.9)] hover:shadow-[0_6px_20px_-4px_hsl(var(--brand-blue)/0.5)] active:scale-[0.98] sm:flex-initial sm:px-6"
                                     >
                                         <Link
                                             href={`/courses/${course.id}/lessons/${nextLessonId}`}
@@ -233,6 +236,20 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                             {primaryCta}
                                             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                                         </Link>
+                                    </Button>
+                                ) : null}
+
+                                {isBuildingCatalog ? (
+                                    <Button
+                                        asChild
+                                        variant={isNewBuildingLearner ? "default" : "secondary"}
+                                        size="lg"
+                                        className="min-w-0 flex-1 gap-2 rounded-xl border border-border/70 px-4 font-bold transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98] sm:flex-initial"
+                                    >
+                                        <a href={catalogAnchor}>
+                                            {isNewBuildingLearner ? "挑一个作品开始" : "挑选作品"}
+                                            <ChevronRight className="h-4 w-4" />
+                                        </a>
                                     </Button>
                                 ) : null}
 
@@ -271,10 +288,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 ) : null}
 
                 {/* 课时列表 */}
-                <section className="mt-6 md:mt-8" aria-labelledby="course-lessons-heading">
+                <section id="course-lessons-heading" className="mt-6 scroll-mt-24 md:mt-8" aria-labelledby="course-lessons-heading-label">
                     <div className="mb-3 flex items-baseline justify-between md:mb-4">
                         <h2
-                            id="course-lessons-heading"
+                            id="course-lessons-heading-label"
                             className="text-base font-black tracking-tight text-foreground md:text-lg"
                         >
                             课时列表
@@ -291,6 +308,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                             courseId={course.id}
                             lessons={catalogLessons}
                             showProgressFilters={Boolean(user)}
+                            desktopCards={isBuildingCatalog}
                         />
                     ) : (
                     <ol className="space-y-2 md:space-y-2.5">
@@ -319,7 +337,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                         </div>
                                         <div className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
                                             {lesson.duration_minutes ? (
-                                                <span className="tabular-nums">
+                                                <span className="inline-flex items-center gap-1 tabular-nums">
+                                                    <Clock className="h-3 w-3" aria-hidden />
                                                     约 {lesson.duration_minutes} 分钟
                                                 </span>
                                             ) : null}

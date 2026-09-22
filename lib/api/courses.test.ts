@@ -64,6 +64,7 @@ function makeOverviewLesson(id: number, sortOrder: number) {
     level_label: null,
     summary: null,
     ldraw_model_url: null,
+    finished_image_url: null,
   }
 }
 
@@ -183,7 +184,7 @@ describe('getCourseOverview', () => {
       },
       course_lessons: {
         data: [
-          makeOverviewLesson(11, 1),
+          { ...makeOverviewLesson(11, 1), finished_image_url: '/courses/11/finished.webp' },
           makeOverviewLesson(12, 2),
           makeOverviewLesson(13, 3),
         ],
@@ -208,6 +209,7 @@ describe('getCourseOverview', () => {
       milestone_completed_at: MILESTONE_AT,
     })
     expect(course?.lessons.map((lesson) => lesson.is_completed)).toEqual([true, true, false])
+    expect(course?.lessons[0]?.finished_image_url).toBe('/courses/11/finished.webp')
   })
 
   it('does not turn an empty course into a completed learner state', async () => {

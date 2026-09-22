@@ -66,7 +66,7 @@ describe("HomeWorksSection", () => {
     expect(await screen.findByText("第二批作品")).toBeInTheDocument();
     expect(screen.queryByText("第一批作品")).not.toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledWith(
-      "/api/explore/works?limit=4&offset=1",
+      "/api/explore/works?limit=6&offset=1",
       { method: "GET", cache: "no-store" },
     );
   });
