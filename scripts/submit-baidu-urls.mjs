@@ -18,6 +18,9 @@
  * 每次成功响应后会尊重 remain：remain 为 0 则停止；下一批大于 remain 时先截断再 POST。
  */
 
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 const DEFAULT_SITE = "https://steam.bj.cn";
 const DEFAULT_PUSH_ENDPOINT = "http://data.zz.baidu.com/urls";
 const DEFAULT_CHUNK_SIZE = 10;
@@ -127,10 +130,27 @@ async function resolveUrls(site) {
   return urls;
 }
 
+/**
+ * 组装百度主动推送接口 URL。
+ * 不可用 URLSearchParams / URL.searchParams：会把 site 编成 https%3A%2F%2F...，
+ * 百度接口要求 query 里字面 `site=https://steam.bj.cn`，否则固定 400 site init fail。
+ */
+export function buildBaiduPushUrl(endpointBase, siteOrigin, token) {
+  const base = String(endpointBase || "").trim().replace(/\?.*$/, "").replace(/\/$/, "");
+  if (!base) throw new Error("BAIDU_PUSH_ENDPOINT 不能为空");
+  if (!siteOrigin || !String(siteOrigin).includes("://")) {
+    throw new Error("siteOrigin 必须是带协议的 origin，例如 https://steam.bj.cn");
+  }
+  if (!token) throw new Error("token 不能为空");
+  return `${base}?site=${siteOrigin}&token=${token}`;
+}
+
 async function pushChunk(urls, token, site) {
-  const endpoint = new URL(process.env.BAIDU_PUSH_ENDPOINT || DEFAULT_PUSH_ENDPOINT);
-  endpoint.searchParams.set("site", site.origin);
-  endpoint.searchParams.set("token", token);
+  const endpoint = buildBaiduPushUrl(
+    process.env.BAIDU_PUSH_ENDPOINT || DEFAULT_PUSH_ENDPOINT,
+    site.origin,
+    token,
+  );
 
   const response = await fetch(endpoint, {
     method: "POST",
@@ -232,9 +252,11 @@ async function main() {
   console.log(`百度主动推送完成: ${accepted}/${urls.length} 条被接口接受（实际提交 ${submitted} 条）。`);
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : error);
-  process.exitCode = 1;
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  try {
+    await main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  }
 }
