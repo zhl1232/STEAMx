@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 
 import { ProjectDetailActions } from "@/components/features/project/project-detail-actions"
+import { ProjectSectionNav } from "@/components/features/project/project-section-nav"
 import { cn } from "@/lib/utils"
 
 interface ProjectDetailStickyBarProps {
@@ -26,7 +27,8 @@ export function ProjectDetailStickyBar({
 
   useEffect(() => {
     const updateVisibility = () => {
-      setVisible(window.scrollY > Math.min(window.innerHeight * 0.72, 760))
+      const hero = document.getElementById("project-hero-desktop")
+      setVisible(Boolean(hero && hero.getBoundingClientRect().bottom <= 64))
     }
 
     updateVisibility()
@@ -39,13 +41,6 @@ export function ProjectDetailStickyBar({
     }
   }, [])
 
-  const scrollTo = (targetId: string) => {
-    document.getElementById(targetId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
-  }
-
   return (
     <div
       className={cn(
@@ -55,25 +50,10 @@ export function ProjectDetailStickyBar({
       aria-hidden={!visible}
     >
       <div className="app-shell-wide flex h-14 items-center justify-between gap-5 px-8">
-        <div className="min-w-0">
+        <div className="hidden min-w-0 lg:block">
           <p className="truncate font-sans text-sm font-bold text-foreground">{title}</p>
         </div>
-        <nav className="pointer-events-auto hidden shrink-0 items-center gap-1 xl:flex" aria-label="项目详情快捷导航">
-          {[
-            ["project-materials", "材料"],
-            ["project-steps", "步骤"],
-            ["project-exploration-records", "探索记录"],
-          ].map(([targetId, label]) => (
-            <button
-              key={targetId}
-              type="button"
-              onClick={() => scrollTo(targetId)}
-              className="h-8 rounded-xs px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
+        <ProjectSectionNav className="pointer-events-auto hidden shrink-0 md:flex" />
         <ProjectDetailActions
           projectId={projectId}
           projectTitle={title}

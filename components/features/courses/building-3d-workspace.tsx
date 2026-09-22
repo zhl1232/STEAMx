@@ -2,7 +2,8 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { ReactNode } from "react";
 import {
     Box,
     Check,
@@ -117,6 +118,20 @@ const DEFAULT_STEPS_3D: Building3DStep[] = [
 ];
 
 const VALID_BRICK_SHAPES = new Set(["box", "cylinder"]);
+
+function subscribeToMobileViewport(onChange: () => void) {
+    const media = window.matchMedia("(max-width: 1023px)");
+    media.addEventListener?.("change", onChange);
+    return () => media.removeEventListener?.("change", onChange);
+}
+
+function getMobileViewportSnapshot() {
+    return window.matchMedia?.("(max-width: 1023px)").matches ?? false;
+}
+
+function getMobileViewportServerSnapshot() {
+    return false;
+}
 
 function isVector3(value: unknown): value is [number, number, number] {
     return (
@@ -755,6 +770,7 @@ export function Building3DWorkspace({
     onStepChange,
     initialCompleted = false,
     onCompleted,
+    navigationSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -762,11 +778,13 @@ export function Building3DWorkspace({
     onStepChange: (index: number) => void;
     initialCompleted?: boolean;
     onCompleted?: () => void;
+    navigationSlot?: ReactNode;
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<SceneState | null>(null);
     const nativeFullscreenSessionRef = useRef(false);
+    const immersiveScrollYRef = useRef<number | null>(null);
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { toast } = useToast();
@@ -796,9 +814,17 @@ export function Building3DWorkspace({
     const hasWorks = isWorkSubmissionEnabled(lesson);
     const [view, setView] = useState<"lesson" | "works">("lesson");
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
+    const [failedVideos, setFailedVideos] = useState<Set<string>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
     const [isImmersive, setIsImmersive] = useState(false);
     const [bom, setBom] = useState<LdrawBom | null>(null);
+    const [bomLoading, setBomLoading] = useState(false);
+    const [modelRetry, setModelRetry] = useState(0);
+    const isMobileViewport = useSyncExternalStore(
+        subscribeToMobileViewport,
+        getMobileViewportSnapshot,
+        getMobileViewportServerSnapshot,
+    );
     // null = 跟随默认（搭建第一步展开全部零件，后续步骤收起）
     const [allPartsExpanded, setAllPartsExpanded] = useState<boolean | null>(null);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
@@ -841,7 +867,14 @@ export function Building3DWorkspace({
         });
     }, [activeStep, bomStep, partsById]);
     const allPartLines = useMemo(() => (bom ? toPartLines(bom.entries) : []), [bom]);
-    const allPartsOpen = allPartsExpanded ?? activeBuildStepIndex === 0;
+    const allPartsOpen = allPartsExpanded ?? (!isMobileViewport && activeBuildStepIndex === 0);
+
+    const restoreImmersiveScroll = useCallback(() => {
+        const scrollY = immersiveScrollYRef.current;
+        if (scrollY === null) return;
+        immersiveScrollYRef.current = null;
+        window.scrollTo?.({ top: scrollY, behavior: "auto" });
+    }, []);
 
     useEffect(() => {
         activeBuildStepIndexRef.current = activeBuildStepIndex;
@@ -849,6 +882,7 @@ export function Building3DWorkspace({
 
     useEffect(() => {
         setBom(null);
+        setBomLoading(false);
         setAllPartsExpanded(null);
     }, [ldrawModelFileName]);
 
@@ -857,16 +891,23 @@ export function Building3DWorkspace({
         if (!ldrawModelFileName || !needsPartList || bom) return;
 
         const abortController = new AbortController();
+        setBomLoading(true);
         void fetch(
             `/api/courses/ldraw-bom?model=${encodeURIComponent(ldrawModelFileName)}`,
             { cache: "force-cache", signal: abortController.signal },
         )
             .then((response) => (response.ok ? (response.json() as Promise<LdrawBom>) : null))
             .then((data) => {
-                if (data && Array.isArray(data.steps)) setBom(data);
+                if (!abortController.signal.aborted && data && Array.isArray(data.steps)) {
+                    setBomLoading(false);
+                    setBom(data);
+                }
             })
             // 零件清单只是搭建辅助，取不到就退回课时自带的零件字段。
-            .catch(() => undefined);
+            .catch(() => undefined)
+            .finally(() => {
+                if (!abortController.signal.aborted) setBomLoading(false);
+            });
 
         return () => abortController.abort();
     }, [bom, ldrawModelFileName, needsPartList]);
@@ -942,7 +983,18 @@ export function Building3DWorkspace({
         document.body.style.overflow = "hidden";
         return () => {
             document.body.style.overflow = previousOverflow;
+            getScreenOrientation()?.unlock?.();
+            restoreImmersiveScroll();
         };
+    }, [isImmersive, restoreImmersiveScroll]);
+
+    useEffect(() => {
+        if (!isImmersive) return;
+        const exitOnEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && !event.defaultPrevented && !document.fullscreenElement) setIsImmersive(false);
+        };
+        document.addEventListener("keydown", exitOnEscape);
+        return () => document.removeEventListener("keydown", exitOnEscape);
     }, [isImmersive]);
 
     useEffect(() => {
@@ -1298,7 +1350,7 @@ export function Building3DWorkspace({
             cleanupIncompleteScene = null;
             if (sceneRef.current === state) sceneRef.current = null;
         };
-    }, [content, showBuildPage]);
+    }, [content, modelRetry, showBuildPage]);
 
     useEffect(() => {
         sceneRef.current?.focusStep(activeBuildStepIndex);
@@ -1343,6 +1395,7 @@ export function Building3DWorkspace({
         const workspace = workspaceRef.current;
         if (!workspace) return;
 
+        immersiveScrollYRef.current = window.scrollY;
         setIsImmersive(true);
         if (!workspace.requestFullscreen) {
             toast({
@@ -1356,7 +1409,10 @@ export function Building3DWorkspace({
         try {
             await workspace.requestFullscreen();
             try {
-                await getScreenOrientation()?.lock?.("landscape");
+                const isDesktopViewport = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
+                if (!isDesktopViewport) {
+                    await getScreenOrientation()?.lock?.("landscape");
+                }
             } catch {
                 toast({
                     title: "已进入全屏",
@@ -1384,31 +1440,28 @@ export function Building3DWorkspace({
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
     const flowControls = (
         <div className={cn(
-            "sticky bottom-0 z-30 space-y-2 border-t border-border bg-card/95 p-2.5 backdrop-blur-xs shadow-[0_-4px_16px_-4px_rgba(0,0,0,0.15)] md:p-3",
-            isImmersive && "p-2",
+            "relative z-30 shrink-0 border-t border-border bg-card p-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] lg:p-3",
+            !isImmersive && "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0",
+            isImmersive && "p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]",
         )}>
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+            <div className="mx-auto grid w-full max-w-2xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
                 <Button
                     type="button"
                     variant="outline"
-                    className={cn(
-                        isImmersive && activePage?.kind === "build" && "h-11 px-2",
-                    )}
+                    className="h-11 min-w-0 px-2 sm:px-3"
                     disabled={clampedPageIndex === 0}
                     onClick={() => goPage(-1)}
                 >
                     <ChevronLeft className="mr-1 h-4 w-4" />
                     上一页
                 </Button>
-                <span className="min-w-14 text-center text-sm font-semibold tabular-nums text-muted-foreground">
-                    {clampedPageIndex + 1} / {flow.length}
+                <span className="min-w-14 text-center text-xs font-semibold tabular-nums text-muted-foreground min-[360px]:text-sm">
+                    {`课程 ${clampedPageIndex + 1}/${flow.length} 页`}
                 </span>
                 {isFinalPage ? (
                     <Button
                         type="button"
-                        className={cn(
-                            isImmersive && activePage?.kind === "build" && "h-11 px-2",
-                        )}
+                        className="h-11 min-w-0 px-2 sm:px-3"
                         disabled={completing || completed}
                         onClick={() => void handleComplete()}
                     >
@@ -1422,9 +1475,7 @@ export function Building3DWorkspace({
                 ) : (
                     <Button
                         type="button"
-                        className={cn(
-                            isImmersive && activePage?.kind === "build" && "h-11 px-2",
-                        )}
+                        className="h-11 min-w-0 px-2 sm:px-3"
                         onClick={() => goPage(1)}
                     >
                         下一页
@@ -1432,13 +1483,6 @@ export function Building3DWorkspace({
                     </Button>
                 )}
             </div>
-            {isFinalPage && hasWorks ? (
-                <LessonWorkUpload
-                    courseId={courseId}
-                    lessonId={lesson.id}
-                    lessonTitle={lesson.title}
-                />
-            ) : null}
         </div>
     );
 
@@ -1454,59 +1498,62 @@ export function Building3DWorkspace({
             {nextSlideImageUrl ? (
                 <link rel="preload" as="image" href={nextSlideImageUrl} />
             ) : null}
-            {view === "lesson" ? (
-                <Button
-                    type="button"
-                    size="icon"
-                    variant="outline"
-                    className="absolute right-2 top-2 z-40 h-11 w-11 bg-card/90 shadow-sm lg:hidden"
-                    aria-label={isImmersive ? "退出全屏" : "全屏横向展示"}
-                    title={isImmersive ? "退出全屏" : "全屏横向展示"}
-                    onClick={() => void (isImmersive ? exitImmersive() : enterImmersive())}
-                >
-                    {isImmersive ? (
-                        <Minimize2 className="h-5 w-5" />
-                    ) : (
-                        <Maximize2 className="h-5 w-5" />
-                    )}
-                </Button>
-            ) : null}
             {isImmersive ? (
                 <div className="absolute inset-0 z-30 hidden flex-col items-center justify-center gap-3 bg-[#0f172a] text-white portrait:flex landscape:hidden lg:hidden">
                     <RotateCw className="h-9 w-9" />
                     <p className="text-sm font-semibold">请将设备横放</p>
                 </div>
             ) : null}
-            {hasWorks ? (
-                <div className="flex shrink-0 items-center gap-1 border-b border-border bg-card px-2 py-1.5">
+            <div className="relative z-40 flex h-12 shrink-0 items-center gap-1 border-b border-border bg-card px-2">
+                {hasWorks ? (
+                    <>
                     <button
                         type="button"
                         onClick={() => setView("lesson")}
                         className={cn(
-                            "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
+                            "inline-flex h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold transition-colors",
                             view === "lesson"
                                 ? "bg-[hsl(var(--brand-blue))] text-white"
                                 : "text-muted-foreground hover:bg-muted",
                         )}
+                        aria-pressed={view === "lesson"}
                     >
                         <Presentation className="h-4 w-4" />
                         课程内容
                     </button>
                     <button
                         type="button"
-                        onClick={() => setView("works")}
+                        onClick={() => { void exitImmersive(); setView("works"); }}
                         className={cn(
-                            "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-semibold transition-colors",
+                            "inline-flex h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold transition-colors",
                             view === "works"
                                 ? "bg-[hsl(var(--brand-blue))] text-white"
                                 : "text-muted-foreground hover:bg-muted",
                         )}
+                        aria-pressed={view === "works"}
                     >
                         <Sparkles className="h-4 w-4" />
                         作品
                     </button>
+                    </>
+                ) : null}
+                <div className="ml-auto flex items-center gap-2">
+                    {view === "lesson" ? navigationSlot : null}
+                    {view === "lesson" ? (
+                        <Button
+                            type="button"
+                            size="icon"
+                            variant="outline"
+                            className="h-11 w-11"
+                            aria-label={isImmersive ? "退出全屏" : "全屏横向展示"}
+                            title={isImmersive ? "退出全屏" : "全屏横向展示"}
+                            onClick={() => void (isImmersive ? exitImmersive() : enterImmersive())}
+                        >
+                            {isImmersive ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                        </Button>
+                    ) : null}
                 </div>
-            ) : null}
+            </div>
 
             {view === "works" && hasWorks ? (
                 <LessonWorksGallery
@@ -1516,74 +1563,60 @@ export function Building3DWorkspace({
                 />
             ) : null}
 
-            {view === "lesson" && activePage?.kind === "slide" ? (
-                <div className={cn(
-                    "flex min-h-0 flex-none flex-col bg-[#0f172a] lg:flex-1",
-                    isImmersive && "flex-1",
-                )}>
+            <div className={cn("flex min-h-0 flex-1 flex-col", view === "works" && "hidden", view === "lesson" && !isImmersive && !(isFinalPage && hasWorks) && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
+            {view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video") ? (() => {
+                const videoUrl = activePage.kind === "video" || activePage.sourceIndex === videoSlide0
+                    ? content.videoUrl
+                    : undefined;
+                const failed = videoUrl ? failedVideos.has(videoUrl) : activePage.kind === "slide" && failedSlides.has(activePage.sourceIndex);
+                const retry = () => {
+                    if (videoUrl) {
+                        setFailedVideos((previous) => { const next = new Set(previous); next.delete(videoUrl); return next; });
+                    } else if (activePage.kind === "slide") {
+                        setFailedSlides((previous) => { const next = new Set(previous); next.delete(activePage.sourceIndex); return next; });
+                    }
+                };
+                return (
                     <div className={cn(
-                        "flex min-h-0 flex-none items-center justify-center overflow-hidden p-3 lg:flex-1 lg:p-6",
-                        isImmersive && "flex-1 p-2",
+                        "flex min-h-0 flex-none items-center justify-center bg-[#0f172a] p-3 lg:flex-1 lg:p-6",
+                        isImmersive && "flex-1 p-2 lg:p-2",
                     )}>
-                        {activePage.sourceIndex === videoSlide0 && content.videoUrl ? (
-                            <video
-                                key={content.videoUrl}
-                                src={content.videoUrl}
-                                controls
-                                playsInline
-                                className={cn(
-                                    "aspect-video h-auto w-full max-w-[900px] rounded-sm bg-black shadow-lg",
-                                    isImmersive && "h-full w-full max-w-none object-contain",
-                                )}
-                            />
-                        ) : failedSlides.has(activePage.sourceIndex) ? (
-                            <div className="flex max-w-sm flex-col items-center gap-2 rounded-sm border border-dashed border-white/25 bg-white/5 px-6 py-8 text-center">
-                                <Presentation className="h-8 w-8 text-white/40" />
-                                <p className="text-sm font-semibold text-white/80">本页课件待导入</p>
-                                <p className="text-xs leading-relaxed text-white/50">
-                                    课件图片加载失败，请检查资源或刷新页面重试。
-                                </p>
-                            </div>
-                        ) : (
-                            /* eslint-disable-next-line @next/next/no-img-element */
-                            <img
-                                src={activePage.imageUrl}
-                                alt={activePage.title}
-                                onError={() =>
-                                    setFailedSlides((prev) => {
-                                        const next = new Set(prev);
-                                        next.add(activePage.sourceIndex);
-                                        return next;
-                                    })
-                                }
-                                className={cn(
-                                    "h-auto w-full max-w-[900px] rounded-sm bg-white object-contain shadow-lg",
-                                    isImmersive && "h-full max-w-none",
-                                )}
-                            />
-                        )}
+                        <div
+                            aria-label="课程媒体"
+                            className={cn(
+                                "relative aspect-video w-full max-w-[900px] overflow-hidden rounded-sm lg:aspect-auto lg:h-full",
+                                isImmersive && "h-full max-w-none",
+                            )}
+                        >
+                            {failed ? (
+                                <div role="alert" className="absolute inset-0 flex flex-col items-center justify-center gap-2 overflow-y-auto bg-white/5 p-3 text-center text-white">
+                                    <p className="text-sm font-semibold">{videoUrl ? "视频加载失败" : "课件图片加载失败"}</p>
+                                    <p className="text-xs leading-relaxed text-white/70">请重试，或先继续下一页。</p>
+                                    <Button type="button" variant="outline" className="h-11 shrink-0 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white" onClick={retry}>重试</Button>
+                                </div>
+                            ) : videoUrl ? (
+                                <video
+                                    key={videoUrl}
+                                    src={videoUrl}
+                                    controls
+                                    playsInline
+                                    onError={() => setFailedVideos((previous) => new Set(previous).add(videoUrl))}
+                                    className="absolute inset-0 h-full w-full bg-black object-contain"
+                                />
+                            ) : activePage.kind === "slide" ? (
+                                /* eslint-disable-next-line @next/next/no-img-element */
+                                <img
+                                    key={activePage.imageUrl}
+                                    src={activePage.imageUrl}
+                                    alt={activePage.title}
+                                    onError={() => setFailedSlides((previous) => new Set(previous).add(activePage.sourceIndex))}
+                                    className="absolute inset-0 h-full w-full object-contain"
+                                />
+                            ) : null}
+                        </div>
                     </div>
-                    {flowControls}
-                </div>
-            ) : null}
-
-            {view === "lesson" && activePage?.kind === "video" && content.videoUrl ? (
-                <div className="flex min-h-0 flex-1 flex-col bg-black">
-                    <div className={cn(
-                        "flex min-h-[360px] flex-1 items-center justify-center p-3 max-lg:h-[62dvh] max-lg:flex-none",
-                        isImmersive && "min-h-0 p-2 max-lg:h-auto max-lg:flex-1",
-                    )}>
-                        <video
-                            key={content.videoUrl}
-                            src={content.videoUrl}
-                            controls
-                            playsInline
-                            className="max-h-full max-w-full rounded-sm"
-                        />
-                    </div>
-                    {flowControls}
-                </div>
-            ) : null}
+                );
+            })() : null}
 
             {view === "lesson" && !activePage ? (
                 <div className="flex min-h-[420px] flex-1 items-center justify-center bg-muted/20 p-6 text-center">
@@ -1598,7 +1631,7 @@ export function Building3DWorkspace({
             ) : null}
 
             <div className={cn(
-                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[38dvh_auto] lg:grid-cols-[minmax(0,1fr)_280px] lg:grid-rows-1",
+                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(260px,42dvh,440px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
@@ -1623,6 +1656,18 @@ export function Building3DWorkspace({
                                 <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
                                     {loadError}
                                 </p>
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    className="mt-3 h-11"
+                                    onClick={() => {
+                                        setLoadError(null);
+                                        setModelRetry((value) => value + 1);
+                                    }}
+                                >
+                                    重试
+                                </Button>
                             </div>
                         </div>
                     ) : null}
@@ -1631,7 +1676,7 @@ export function Building3DWorkspace({
                             type="button"
                             size="sm"
                             variant="outline"
-                            className="bg-card/90"
+                            className="h-11 bg-card/90"
                             onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex, true)}
                         >
                             <RotateCcw className="mr-1 h-4 w-4" />
@@ -1653,20 +1698,21 @@ export function Building3DWorkspace({
                     "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
                     isImmersive && "overflow-hidden border-l border-t-0",
                 )}>
-                    <div className="flex h-full flex-col">
+                    <div className="flex h-full min-h-0 flex-col">
                         {(() => {
                             const desc = activeStep?.description?.trim();
                             const isGeneric = !desc || desc.includes("按照三维示范") || desc.includes("添加本步零件") || desc === activeStep?.title;
+                            const hasCustomTitle = activeStep?.title && !/^搭建第\s*\d+\s*步$/.test(activeStep.title);
                             return (
                                 <div className="border-b border-border px-3.5 py-2.5">
                                     <div className="flex items-center justify-between gap-2">
-                                        <div className="flex items-baseline gap-2">
+                                        <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
                                             <h3 className="text-sm font-bold text-foreground">
-                                                {activeStep?.title || `搭建第 ${activeBuildStepIndex + 1} 步`}
+                                                {hasCustomTitle ? activeStep.title : `搭建 ${activeBuildStepIndex + 1}/${content.steps3d.length} 步`}
                                             </h3>
-                                            <span className="text-xs font-semibold tabular-nums text-muted-foreground">
-                                                {activeBuildStepIndex + 1} / {content.steps3d.length}
-                                            </span>
+                                            {hasCustomTitle ? <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+                                                搭建 {activeBuildStepIndex + 1}/{content.steps3d.length} 步
+                                            </span> : null}
                                         </div>
                                         {completed ? (
                                             <span className="rounded-full bg-[hsl(var(--status-success-surface))] px-2 py-0.5 text-xs font-semibold text-[hsl(var(--status-success))]">
@@ -1700,7 +1746,7 @@ export function Building3DWorkspace({
                                 <p className="rounded-sm border border-dashed border-border bg-background px-3 py-2 text-xs leading-relaxed text-muted-foreground">
                                     {bomStep
                                         ? "这一步模型里没有新增零件，照图纸检查一下已经搭好的部分。"
-                                        : "这一课的零件清单暂时看不到，先照 3D 图纸搭。"}
+                                        : bomLoading ? "正在准备零件清单…" : "这一课的零件清单暂时看不到，先照 3D 图纸搭。"}
                                 </p>
                             )}
 
@@ -1711,7 +1757,7 @@ export function Building3DWorkspace({
                                         onClick={() => setAllPartsExpanded(!allPartsOpen)}
                                         aria-expanded={allPartsOpen}
                                         aria-controls="building-3d-all-parts"
-                                        className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left"
+                                        className="flex min-h-11 w-full items-center justify-between gap-2 px-3 py-2 text-left"
                                     >
                                         <span className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
                                             <Package className="h-3.5 w-3.5" />
@@ -1751,10 +1797,20 @@ export function Building3DWorkspace({
                                 activeStepIndex={activeBuildStepIndex}
                             />
                         ) : null}
-                        {flowControls}
                     </div>
                 </aside>
             </div>
+            </div>
+            {view === "lesson" && isFinalPage && hasWorks ? (
+                <div className={cn("shrink-0 border-t border-border bg-background px-3 py-3 [&_button]:min-h-11", !isImmersive && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
+                    <LessonWorkUpload
+                        courseId={courseId}
+                        lessonId={lesson.id}
+                        lessonTitle={lesson.title}
+                    />
+                </div>
+            ) : null}
+            {view === "lesson" && activePage ? flowControls : null}
         </section>
     );
 }

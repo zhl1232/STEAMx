@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, type ComponentProps } from "react";
 import { Flag, Loader2 } from "lucide-react";
 import {
   Dialog,
@@ -35,6 +35,7 @@ interface ReportDialogProps {
   onOpenChange?: (open: boolean) => void;
   hideTrigger?: boolean;
   onSubmitted?: () => void;
+  onCloseAutoFocus?: ComponentProps<typeof DialogContent>["onCloseAutoFocus"];
 }
 
 export function ReportDialog({
@@ -46,6 +47,7 @@ export function ReportDialog({
   onOpenChange: controlledOnOpenChange,
   hideTrigger = false,
   onSubmitted,
+  onCloseAutoFocus,
 }: ReportDialogProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [reason, setReason] = useState<ReportReason | "">("");
@@ -138,7 +140,7 @@ export function ReportDialog({
           )}
         </DialogTrigger>
       )}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" onCloseAutoFocus={onCloseAutoFocus}>
         <DialogHeader>
           <DialogTitle>{reportCount > 1 ? `举报 ${reportCount} 条消息` : "举报内容"}</DialogTitle>
           <DialogDescription>

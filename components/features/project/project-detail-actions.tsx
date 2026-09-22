@@ -1,15 +1,21 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Bookmark, Flag, Heart, ListChecks, Rocket, Share2 } from "lucide-react"
+import { Bookmark, Flag, Heart, ListChecks, MoreHorizontal, Rocket, Share2 } from "lucide-react"
 
 import { CoinIcon } from "@/components/icons/coin-icon"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { Button } from "@/components/ui/button"
 import { ReportDialog } from "@/components/ui/report-dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
@@ -28,7 +34,7 @@ interface ProjectDetailActionsProps {
   projectId: number | string
   projectTitle: string
   mode?: "project" | "observation"
-  variant: "mobile" | "header" | "sticky" | "cover" | "bottom" | "hero"
+  variant: "mobile" | "header" | "sticky" | "cover" | "support" | "bottom" | "hero"
   className?: string
   likes?: number
   collections?: number
@@ -40,7 +46,7 @@ interface ProjectDetailActionsProps {
 }
 
 const coverIconButtonClass =
-  "inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/94 text-[#243246] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] backdrop-blur-md transition active:scale-95 dark:bg-slate-950/80 dark:text-white"
+  "inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/94 text-[#243246] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] backdrop-blur-md transition active:scale-95 dark:bg-slate-950/80 dark:text-white"
 
 export function ProjectDetailActions({
   projectId,
@@ -76,6 +82,8 @@ export function ProjectDetailActions({
 
   const [showTipDialog, setShowTipDialog] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
+  const [showReportDialog, setShowReportDialog] = useState(false)
+  const moreTriggerRef = useRef<HTMLButtonElement>(null)
 
   const collected = isCollected(projectId)
   const liked = isLiked(projectId)
@@ -114,7 +122,7 @@ export function ProjectDetailActions({
       const payload = await response.json()
       return (payload?.myTipped as number) ?? 0
     },
-    enabled: Boolean(user) && variant === "cover" && !isOwnProject,
+    enabled: Boolean(user) && variant === "support" && !isOwnProject,
   })
   const hasTippedProject = myTippedProject > 0
 
@@ -131,6 +139,7 @@ export function ProjectDetailActions({
     if (completed) return isObservation ? "查看观察记录" : "开始新的尝试"
     return isObservation ? "开始观察" : "开始我的项目"
   }, [completed, hasStartedExploration, isObservation])
+  const guestRecordLabel = isObservation ? "登录记录观察" : "登录记录项目"
 
   const runPrimaryAction = async () => {
     if (hasStartedExploration || completed) {
@@ -222,6 +231,20 @@ export function ProjectDetailActions({
     />
   ) : null
 
+  const reportDialog = user && !isOwnProject && projectOwnerId ? (
+    <ReportDialog
+      contentType="project"
+      contentId={projectId}
+      open={showReportDialog}
+      onOpenChange={setShowReportDialog}
+      hideTrigger
+      onCloseAutoFocus={(event) => {
+        event.preventDefault()
+        moreTriggerRef.current?.focus()
+      }}
+    />
+  ) : null
+
   if (variant === "hero") {
     return (
       <div className={cn("space-y-2", className)}>
@@ -233,7 +256,7 @@ export function ProjectDetailActions({
             </a>
           </Button>
           <Button type="button" variant="outline" onClick={handleStart} className="min-h-11">
-            {user ? primaryActionLabel : isObservation ? "登录记录观察" : "登录记录我的项目"}
+            {user ? primaryActionLabel : guestRecordLabel}
           </Button>
         </div>
         {!user ? (
@@ -275,47 +298,61 @@ export function ProjectDetailActions({
           >
             <Share2 className="h-5 w-5" />
           </button>
-          <button
-            type="button"
-            onClick={handleLike}
-            className={cn(coverIconButtonClass, liked && "text-red-500 dark:text-red-400")}
-            aria-label={likes > 0 ? `点赞 ${formatCount(likes)}` : "点赞项目"}
-          >
-            <Heart className={cn("h-5 w-5", liked && "fill-current")} />
-          </button>
-          {!isOwnProject && projectOwnerId ? (
-            <button
-              type="button"
-              onClick={handleTip}
-              className={cn(
-                coverIconButtonClass,
-                hasTippedProject && "text-[hsl(var(--brand-amber))] dark:text-[hsl(var(--brand-amber))]",
-              )}
-              aria-label={
-                projectCoinsReceived > 0
-                  ? `投币支持，共 ${formatCount(projectCoinsReceived)} 枚`
-                  : "投币支持项目"
-              }
-            >
-              <CoinIcon className="h-5 w-5" />
-            </button>
-          ) : null}
           {user && !isOwnProject && projectOwnerId ? (
-            <ReportDialog contentType="project" contentId={projectId}>
-              <button
-                type="button"
-                title="举报"
-                aria-label="举报项目"
-                className={coverIconButtonClass}
-              >
-                <Flag className="h-5 w-5" />
-              </button>
-            </ReportDialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button ref={moreTriggerRef} type="button" className={coverIconButtonClass} aria-label="更多操作">
+                  <MoreHorizontal className="h-5 w-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="min-h-11" onSelect={() => setShowReportDialog(true)}>
+                  <Flag className="mr-2 h-4 w-4" />
+                  举报项目
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : null}
         </div>
-        {tipDialog}
         {shareDialog}
+        {reportDialog}
       </>
+    )
+  }
+
+  if (variant === "support") {
+    return (
+      <div className={cn("flex max-w-full shrink-0 items-center gap-1.5", className)}>
+        <button
+          type="button"
+          onClick={handleLike}
+          className={cn("inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-sm px-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:text-red-500", liked && "text-red-500")}
+          aria-label={`点赞，累计 ${formatCount(likes)} 个赞`}
+          aria-pressed={liked}
+          title={`点赞，累计 ${formatCount(likes)} 个赞`}
+        >
+          <Heart className={cn("h-5 w-5", liked && "fill-current")} />
+          <span className="tabular-nums">{formatCount(likes)}</span>
+        </button>
+        {isOwnProject || !projectOwnerId ? (
+          <div className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 px-1.5 text-sm font-semibold text-muted-foreground" aria-label={`收到 ${formatCount(projectCoinsReceived)} 枚硬币`} title={`收到 ${formatCount(projectCoinsReceived)} 枚硬币`}>
+            <CoinIcon className="h-5 w-5" />
+            <span className="tabular-nums">{formatCount(projectCoinsReceived)}</span>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={handleTip}
+            className={cn("inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-sm px-1.5 text-sm font-semibold text-muted-foreground transition-colors hover:text-[hsl(var(--brand-amber))]", hasTippedProject && "text-[hsl(var(--brand-amber))]")}
+            aria-label={hasTippedProject ? `已投币支持，累计收到 ${formatCount(projectCoinsReceived)} 枚硬币` : `投币支持，累计收到 ${formatCount(projectCoinsReceived)} 枚硬币`}
+            title={hasTippedProject ? `已投币支持，累计收到 ${formatCount(projectCoinsReceived)} 枚硬币` : `投币支持，累计收到 ${formatCount(projectCoinsReceived)} 枚硬币`}
+          >
+            <CoinIcon className="h-5 w-5" />
+            <span className="tabular-nums">{formatCount(projectCoinsReceived)}</span>
+          </button>
+        )}
+        {tipDialog}
+      </div>
     )
   }
 
@@ -353,10 +390,10 @@ export function ProjectDetailActions({
             tone="brand"
             shape="square"
             onClick={handleStart}
-            className="h-9 px-3"
+            className="h-11 px-3"
           >
             <Rocket className="mr-1.5 h-4 w-4" />
-            {primaryActionLabel}
+            {user ? primaryActionLabel : guestRecordLabel}
           </Button>
         </div>
         {shareDialog}
@@ -388,7 +425,7 @@ export function ProjectDetailActions({
             className="h-12 min-w-0 flex-1 px-5 text-base font-bold"
           >
             <Rocket className="mr-2 h-5 w-5" />
-            {primaryActionLabel}
+            {user ? primaryActionLabel : guestRecordLabel}
           </Button>
         </div>
         {shareDialog}
@@ -403,7 +440,7 @@ export function ProjectDetailActions({
           type="button"
           onClick={handleLike}
           className={cn(
-            "flex h-10 w-10 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70",
+            "flex h-11 w-11 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70",
             liked && "text-red-500",
           )}
           aria-label={`喜欢 ${likes}`}
@@ -415,7 +452,7 @@ export function ProjectDetailActions({
           type="button"
           onClick={handleCollection}
           className={cn(
-            "flex h-10 w-10 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70",
+            "flex h-11 w-11 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70",
             collected && "text-[hsl(var(--brand-amber))]",
           )}
           aria-label={`收藏 ${collections}`}
@@ -426,7 +463,7 @@ export function ProjectDetailActions({
         <button
           type="button"
           onClick={handleShare}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-0.5 rounded-full text-[10px] font-semibold text-muted-foreground transition-colors active:bg-muted/70"
           aria-label="分享项目"
         >
           <Share2 className="h-5 w-5" />

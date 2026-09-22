@@ -98,13 +98,16 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                     },
                 ])}
             />
-            {context.course.classification ? (
+            {context.course.classification && context.lesson.lesson_type !== "building_3d" ? (
                 <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-3 pt-1 text-xs text-muted-foreground md:px-6">
                     <span className="shrink-0 font-semibold">本课继承课程分级</span>
                     <ContentClassification classification={context.course.classification} compact />
                 </div>
             ) : null}
             <LessonPageClient
+                classificationSlot={context.lesson.lesson_type === "building_3d" && context.course.classification
+                    ? <ContentClassification classification={context.course.classification} compact />
+                    : undefined}
                 courseId={courseId}
                 courseTitle={context.course.title}
                 lesson={context.lesson}

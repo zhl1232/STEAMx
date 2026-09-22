@@ -13,6 +13,7 @@ import { ContentClassification } from "@/components/ui/content-classification";
 import { SearchHighlight } from "@/components/ui/search-highlight";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
+import { formatCount } from "@/lib/project/format-count";
 import { visibleProjectTags } from "@/lib/project/tags";
 
 interface ProjectCardProps {
@@ -127,18 +128,18 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         className={cn(
                             "pointer-events-none relative flex min-w-0 flex-col justify-between gap-2",
                             isVerticalCompact
-                                ? "flex-1 p-3"
+                                ? isExploreVariant ? "flex-1 gap-3 p-3" : "flex-1 p-3"
                                 : isDenseCompact
                                     ? "py-0 sm:flex-1 sm:p-3.5"
                                     : "py-0.5 sm:flex-1 sm:p-3.5",
                         )}
                     >
-                        <div className={cn("min-w-0", isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
+                        <div className={cn("min-w-0", isExploreVariant ? "space-y-2" : isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
                             <h3
                                 className={cn(
                                     "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
                                     isDenseCompact ? "line-clamp-1 text-[14px] leading-5 sm:line-clamp-1 sm:text-[15px] sm:leading-6" : "text-[15px] leading-5",
-                                    isVerticalCompact ? "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
+                                    isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
                                 )}
                             >
                                 <SearchHighlight text={project.title} query={searchQuery} />
@@ -170,7 +171,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <ContentClassification
                                 classification={project.classification}
                                 compact
-                                variant={isExploreVariant ? "card" : isVerticalCompact ? "summary" : "chips"}
+                                variant={isExploreVariant ? "explore" : isVerticalCompact ? "summary" : "chips"}
                             />
                             {!isVerticalCompact && (
                                 <p
@@ -207,10 +208,15 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 </div>
                             </div>
                         ) : isExploreVariant ? (
-                            (likesCount > 0 || (project.completions_count ?? 0) > 0 || (project.coins_count ?? 0) > 0) && <div data-testid="explore-project-stats" className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs text-muted-foreground sm:mt-auto">
-                                {likesCount > 0 && <span className="flex items-center gap-1" title="点赞数"><Heart className={cn("h-3 w-3", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} aria-hidden />{likesCount} 点赞</span>}
-                                {(project.completions_count ?? 0) > 0 && <span className="flex items-center gap-1" title="作品数"><Images className="h-3 w-3 text-muted-foreground/80" aria-hidden />{project.completions_count} 作品</span>}
-                                {(project.coins_count ?? 0) > 0 && <span className="flex items-center gap-1" title="投币数"><CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" aria-hidden />{project.coins_count} 投币</span>}
+                            <div data-testid="explore-project-stats" className="mt-auto flex items-center justify-between gap-2 whitespace-nowrap border-t border-border/50 pt-2.5 text-xs leading-5 text-muted-foreground">
+                                <span className="flex min-w-0 items-center gap-1" title="点赞数" aria-label={`${likesCount} 点赞`}>
+                                    <Heart className={cn("h-3 w-3 shrink-0", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} aria-hidden />
+                                    <span>{formatCount(likesCount)} 点赞</span>
+                                </span>
+                                <span className="flex min-w-0 items-center gap-1" title="作品数" aria-label={`${project.completions_count ?? 0} 作品`}>
+                                    <Images className="h-3 w-3 shrink-0 text-muted-foreground/80" aria-hidden />
+                                    <span>{formatCount(project.completions_count ?? 0)} 作品</span>
+                                </span>
                             </div>
                         ) : (
                             <div className="flex items-center gap-3 text-[11px] text-muted-foreground/90 sm:mt-auto">

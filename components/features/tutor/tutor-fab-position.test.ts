@@ -24,6 +24,21 @@ describe('tutor fab position', () => {
     })
   })
 
+  it('keeps a page footer clear when clamping a dragged position', () => {
+    expect(clampTutorFabPosition({ right: 16, bottom: 0 }, 80, 390, 700, 76)).toEqual({
+      right: 16,
+      bottom: 84,
+    })
+    expect(clampTutorFabPosition({ right: 16, bottom: 9999 }, 80, 390, 700, 76).bottom).toBe(612)
+  })
+
+  it('keeps the FAB onscreen when the viewport cannot fit the footer inset', () => {
+    expect(clampTutorFabPosition({ right: 16, bottom: 0 }, 80, 390, 100, 76)).toEqual({
+      right: 16,
+      bottom: 12,
+    })
+  })
+
   it('only edge-docks on closed mobile viewports', () => {
     expect(canTutorFabEdgeDock(false, 390)).toBe(true)
     expect(canTutorFabEdgeDock(false, 767)).toBe(true)

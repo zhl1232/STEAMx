@@ -44,7 +44,7 @@ export function LessonWorksGallery({
     }, [load]);
 
     return (
-        <div className="flex min-h-0 flex-1 flex-col bg-[hsl(var(--background))]">
+        <div className="flex flex-1 flex-col bg-[hsl(var(--background))] lg:min-h-0">
             <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-4 py-3">
                 <div className="min-w-0">
                     <h3 className="flex items-center gap-1.5 text-sm font-bold text-foreground">
@@ -55,7 +55,7 @@ export function LessonWorksGallery({
                         搭好后拍照上传，作品通过审核后会展示在这里
                     </p>
                 </div>
-                <div className="w-44 shrink-0">
+                <div className="w-full shrink-0 sm:w-44 [&_button]:min-h-11">
                     <LessonWorkUpload
                         courseId={courseId}
                         lessonId={lessonId}
@@ -65,9 +65,9 @@ export function LessonWorksGallery({
                 </div>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto p-4">
+            <div className="min-h-[16rem] flex-1 p-4 lg:min-h-0 lg:overflow-y-auto">
                 {items === null && !error ? (
-                    <div className="grid h-full place-items-center">
+                    <div className="grid min-h-[12rem] place-items-center">
                         <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                             <Loader2 className="h-4 w-4 animate-spin" />
                             正在加载作品
@@ -117,7 +117,7 @@ export function LessonWorksGallery({
                         })}
                     </ul>
                 ) : (
-                    <div className="grid h-full place-items-center">
+                    <div className="grid min-h-[12rem] place-items-center">
                         <div className="max-w-xs rounded-sm border border-dashed border-border bg-card px-6 py-8 text-center">
                             <Sparkles className="mx-auto h-8 w-8 text-muted-foreground/50" />
                             <p className="mt-2 text-sm font-semibold text-foreground">
@@ -127,7 +127,7 @@ export function LessonWorksGallery({
                                 {error ? "作品暂时无法加载，请稍后重试。" : "搭好你的作品，拍照上传，做这一课的第一个分享者吧！"}
                             </p>
                             {error ? (
-                                <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => void load()}>
+                                <Button type="button" variant="outline" size="sm" className="mt-4 min-h-11" onClick={() => void load()}>
                                     <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
                                     重新加载
                                 </Button>

@@ -1,9 +1,8 @@
 import type { LucideIcon } from 'lucide-react'
-import { Box, ListChecks, Tag, UsersRound } from 'lucide-react'
+import { Box, ListChecks, Tag } from 'lucide-react'
 
 import { categoryToneClasses, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
-import { formatCount } from '@/lib/project/format-count'
 import { cn } from '@/lib/utils'
 import { ContentClassification } from '@/components/ui/content-classification'
 import type { PublicClassification } from '@/lib/content-classification/types'
@@ -22,12 +21,12 @@ function MobileMetaChip({
   return (
     <div
       className={cn(
-        'flex min-h-8 min-w-0 flex-col items-center justify-center gap-0.5 rounded-xs px-1.5 py-1.5',
+      'inline-flex min-h-8 min-w-0 flex-row items-center justify-center gap-1 rounded-xs border border-transparent px-2 py-1',
         className,
       )}
     >
       <Icon className={cn('h-3.5 w-3.5 shrink-0', iconClassName)} aria-hidden />
-      <span className="w-full truncate text-center text-[10px] font-semibold leading-tight">{label}</span>
+      <span className="truncate text-[11px] font-semibold leading-tight">{label}</span>
     </div>
   )
 }
@@ -38,7 +37,6 @@ export interface MobileProjectMetaChipsProps {
   topicLabel?: string | null
   stepsCount: number
   materialsCount: number
-  completionCount: number
   classification?: PublicClassification | null
 }
 
@@ -48,41 +46,19 @@ export function MobileProjectMetaChips({
   topicLabel,
   stepsCount,
   materialsCount,
-  completionCount,
   classification,
 }: MobileProjectMetaChipsProps) {
   const categoryMeta = CATEGORY_META[category || ''] ?? CATEGORY_META['科学']
   const CategoryIcon = categoryMeta.icon
   const tone = categoryMeta.tone ?? categoryTone
 
-  let scaleIcon: LucideIcon = ListChecks
-  let scaleLabel: string | null = null
-  let scaleClassName = 'bg-[hsl(var(--surface-muted))] text-muted-foreground'
-
-  if (stepsCount > 0) {
-    scaleLabel = `${stepsCount} 步`
-  } else if (materialsCount > 0) {
-    scaleIcon = Box
-    scaleLabel = `${materialsCount} 项材料`
-  } else if (completionCount > 0) {
-    scaleIcon = UsersRound
-    scaleLabel = `${formatCount(completionCount)} 次探索`
-  }
-
-  const chipCount = 1 + (topicLabel ? 1 : 0) + (scaleLabel ? 1 : 0)
-
   return (
     <div className="space-y-2.5">
-      <div
-        className={cn(
-          'grid gap-2',
-          chipCount >= 3 ? 'grid-cols-3' : chipCount === 2 ? 'grid-cols-2' : 'grid-cols-1',
-        )}
-      >
+      <div className="flex flex-wrap items-center gap-1.5">
         <MobileMetaChip
           icon={CategoryIcon}
           label={category || '探索'}
-          className={categoryToneClasses[tone].bg}
+            className={cn(categoryToneClasses[tone].bg, categoryToneClasses[tone].text)}
           iconClassName={categoryToneClasses[tone].text}
         />
 
@@ -90,16 +66,23 @@ export function MobileProjectMetaChips({
           <MobileMetaChip
             icon={Tag}
             label={topicLabel}
-            className="bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]"
+            className="border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]"
             iconClassName="text-[hsl(var(--brand-blue))]"
           />
         ) : null}
 
-        {scaleLabel ? (
+        {stepsCount > 0 ? (
           <MobileMetaChip
-            icon={scaleIcon}
-            label={scaleLabel}
-            className={scaleClassName}
+            icon={ListChecks}
+            label={`${stepsCount} 步`}
+            className="border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-muted))] text-muted-foreground"
+          />
+        ) : null}
+        {materialsCount > 0 ? (
+          <MobileMetaChip
+            icon={Box}
+            label={`${materialsCount} 项材料`}
+            className="border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-muted))] text-muted-foreground"
           />
         ) : null}
       </div>
@@ -112,4 +95,3 @@ export function MobileProjectMetaChips({
     </div>
   )
 }
-

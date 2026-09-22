@@ -101,6 +101,8 @@ type TutorPanelProps = {
   fabPlacement?: 'default' | 'compact'
   /** Hide the floating tutor affordance on phone-sized viewports when it would cover primary content. */
   hideOnMobile?: boolean
+  /** Additional bottom space reserved by the current page's fixed footer. */
+  fabBottomInset?: number
 }
 
 function formatQuota(quota: AiCreditStatus | null) {
@@ -137,6 +139,7 @@ export function GlobalTutorFab({
   showReviewAction = false,
   fabPlacement = 'default',
   hideOnMobile = false,
+  fabBottomInset = 0,
 }: TutorPanelProps) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
@@ -362,6 +365,7 @@ export function GlobalTutorFab({
     onToggle,
     longPress: voice.longPress,
     recording: voice.recordingVoice,
+    bottomInset: fabBottomInset,
   })
 
   useEffect(() => {

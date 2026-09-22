@@ -28,8 +28,9 @@ export function CourseShareButton({
       <Button
         variant="secondary"
         size="lg"
+        shape="pill"
         className={cn(
-          "gap-2 rounded-xl border border-border/70 bg-secondary/80 font-bold text-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98]",
+          "gap-2 border border-border/70 bg-secondary/80 font-bold text-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98]",
           className,
         )}
         onClick={() => setOpen(true)}

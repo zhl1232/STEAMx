@@ -264,6 +264,88 @@ describe("Building3DWorkspace", () => {
         expect(screen.getByText("2 种 · 3 块")).toBeInTheDocument();
     });
 
+    it("keeps course progress in the footer and labels the build header separately", async () => {
+        stubBomFetch();
+        renderWorkspace(ldrawLesson(["搭建底盘", "装上车轮"]), 4);
+
+        expect(await screen.findByText(/课程 5\/\d+ 页/)).toBeInTheDocument();
+        expect(screen.getByText("搭建 1/2 步")).toBeInTheDocument();
+    });
+
+    it("shows a retry state when an embedded slide video fails", () => {
+        const lesson: CourseLessonRow = {
+            ...baseLesson,
+            content: {
+                ...baseLesson.content,
+                building3d: {
+                    ...baseLesson.content?.building3d,
+                    videoSlideIndex: 1,
+                    videoUrl: "/slides/rescue.mp4",
+                    parts: [],
+                    steps3d: baseLesson.content?.building3d?.steps3d ?? [],
+                },
+            },
+        };
+
+        renderWorkspace(lesson);
+        const video = document.querySelector("video");
+        expect(video).toBeInTheDocument();
+        fireEvent.error(video!);
+        expect(screen.getByText("视频加载失败")).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: "重试" }));
+        expect(screen.queryByText("视频加载失败")).not.toBeInTheDocument();
+        expect(document.querySelector("video")).toHaveAttribute("src", "/slides/rescue.mp4");
+    });
+
+    it("retries a failed slide without losing course navigation", () => {
+        renderWorkspace();
+        fireEvent.error(screen.getByRole("img", { name: "认识救援车" }));
+        expect(screen.getByRole("alert")).toHaveTextContent("课件图片加载失败");
+        expect(screen.getByRole("button", { name: "下一页" })).toBeEnabled();
+        fireEvent.click(screen.getByRole("button", { name: "重试" }));
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+        expect(screen.getByRole("img", { name: "认识救援车" })).toHaveAttribute("src", "/slides/rescue-1.webp");
+    });
+
+    it("starts with the whole-model list collapsed on mobile, while keeping it accessible", async () => {
+        vi.stubGlobal("matchMedia", vi.fn().mockImplementation(() => ({
+            matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn(),
+        })));
+        stubBomFetch();
+        renderWorkspace(ldrawLesson(["搭建底盘", "装上车轮"]), 4);
+        const disclosure = await screen.findByRole("button", { name: /全部零件/ });
+        expect(disclosure).toHaveAttribute("aria-expanded", "false");
+        expect(document.getElementById("building-3d-all-parts")).not.toBeInTheDocument();
+        fireEvent.click(disclosure);
+        expect(disclosure).toHaveAttribute("aria-expanded", "true");
+        expect(document.getElementById("building-3d-all-parts")).toHaveTextContent("蓝色2×2 积木");
+    });
+
+    it("exits fallback immersion with Escape and restores scrolling", () => {
+        const fullscreenDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
+        const scrollDescriptor = Object.getOwnPropertyDescriptor(window, "scrollY");
+        Object.defineProperty(HTMLElement.prototype, "requestFullscreen", { configurable: true, value: undefined });
+        Object.defineProperty(window, "scrollY", { configurable: true, value: 180 });
+        const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+        const originalOverflow = document.body.style.overflow;
+        try {
+            renderWorkspace();
+            fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+            expect(document.body.style.overflow).toBe("hidden");
+            expect(screen.getByRole("button", { name: "退出全屏" })).toBeInTheDocument();
+            fireEvent.keyDown(document, { key: "Escape" });
+            expect(screen.queryByRole("button", { name: "退出全屏" })).not.toBeInTheDocument();
+            expect(document.body.style.overflow).toBe(originalOverflow);
+            expect(scrollTo).toHaveBeenCalledWith({ top: 180, behavior: "auto" });
+        } finally {
+            scrollTo.mockRestore();
+            if (fullscreenDescriptor) Object.defineProperty(HTMLElement.prototype, "requestFullscreen", fullscreenDescriptor);
+            else Reflect.deleteProperty(HTMLElement.prototype, "requestFullscreen");
+            if (scrollDescriptor) Object.defineProperty(window, "scrollY", scrollDescriptor);
+            else Reflect.deleteProperty(window, "scrollY");
+        }
+    });
+
     it("enters fullscreen landscape mode from the mobile control", async () => {
         const requestFullscreen = vi.fn().mockResolvedValue(undefined);
         const lock = vi.fn().mockResolvedValue(undefined);
@@ -284,6 +366,11 @@ describe("Building3DWorkspace", () => {
             configurable: true,
             value: { lock, unlock },
         });
+        vi.stubGlobal("matchMedia", vi.fn().mockImplementation((query: string) => ({
+            matches: query.includes("max-width"),
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn(),
+        })));
 
         const { unmount } = renderWorkspace();
         fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
@@ -294,6 +381,10 @@ describe("Building3DWorkspace", () => {
         });
         const exitButton = screen.getByRole("button", { name: "退出全屏" });
         expect(exitButton.closest("section")).toHaveClass("fixed", "h-dvh", "w-dvw");
+
+        fireEvent(document, new Event("fullscreenchange"));
+        expect(screen.queryByRole("button", { name: "退出全屏" })).not.toBeInTheDocument();
+        expect(unlock).toHaveBeenCalled();
 
         unmount();
         if (fullscreenDescriptor) {

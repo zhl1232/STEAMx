@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
@@ -87,6 +87,7 @@ export function LessonPageClient({
     initialCompleted = false,
     initialStepIndex = 0,
     shouldRecordStart = false,
+    classificationSlot,
 }: {
     courseId: number;
     courseTitle: string;
@@ -96,6 +97,7 @@ export function LessonPageClient({
     initialStepIndex?: number;
     /** 已登录且这节课还没有任何进度行时才为 true，避免匿名访问白打一次 401。 */
     shouldRecordStart?: boolean;
+    classificationSlot?: ReactNode;
 }) {
     const router = useRouter();
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
@@ -131,6 +133,9 @@ export function LessonPageClient({
         setActiveStep(nextStep);
         if (lessonWorkspace === "building_3d") {
             replaceBuildingStepInUrl(nextStep);
+            if (window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
+                window.scrollTo({ top: 0, behavior: "instant" });
+            }
         }
     }, [lessonWorkspace, steps.length]);
 
@@ -269,6 +274,7 @@ export function LessonPageClient({
             subtitle: activeStepTitle ? `正在做「${activeStepTitle}」` : lesson.title,
             lessonStepIndex: clampedActiveStep,
             lessonStepCount: steps.length,
+            fabBottomInset: lessonWorkspace === "building_3d" ? 72 : undefined,
             scratchBlockTargetItemIndex:
                 scratchBlockHint?.stepIndex === clampedActiveStep
                     ? scratchBlockHint.targetItemIndex
@@ -286,6 +292,7 @@ export function LessonPageClient({
         clampedActiveStep,
         clearTutorOverride,
         lesson.title,
+        lessonWorkspace,
         scratchBlockHint,
         scratchEditorContext,
         sceneCapabilities,
@@ -307,6 +314,84 @@ export function LessonPageClient({
         setScratchStepCheckResult(null);
     }, [clampedActiveStep]);
 
+    if (lessonWorkspace === "building_3d") {
+        return (
+            <div
+                className="mx-auto flex min-h-dvh w-full min-w-0 flex-col bg-background md:min-h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4rem-1px-env(safe-area-inset-top))] lg:min-h-0"
+                style={{ maxWidth: "var(--shell-wide)" }}
+                data-building-lesson
+            >
+                <div className="shrink-0 border-b border-border bg-card">
+                    <MobileGlobalHeader
+                        variant="title"
+                        title={
+                            <span className="flex min-w-0 items-center gap-2">
+                                <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm hover:bg-muted">
+                                    <ArrowLeft className="h-5 w-5" />
+                                </Link>
+                                <span className="truncate">{lesson.title}</span>
+                            </span>
+                        }
+                        className="[&>div]:px-2 [&>div]:py-1"
+                    />
+                    <div className="hidden min-h-16 items-center gap-4 px-5 md:flex">
+                        <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-border hover:bg-muted">
+                            <ArrowLeft className="h-5 w-5" />
+                        </Link>
+                        <div className="min-w-0 flex-1 py-2">
+                            <p className="truncate text-xs text-muted-foreground">{courseTitle}</p>
+                            <h1 className="truncate text-xl font-bold leading-snug">{lesson.title}</h1>
+                        </div>
+                        {completed ? <span className="shrink-0 text-sm font-semibold text-[hsl(var(--status-success))]">已完成</span> : null}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:px-5">
+                        {classificationSlot}
+                        {lesson.duration_minutes ? <span>约 {lesson.duration_minutes} 分钟</span> : null}
+                        {lesson.content?.building3d?.ldrawModelUrl ? (
+                            <Link href={`/courses/${courseId}/lessons/${lesson.id}/parts`} prefetch={false} className="inline-flex min-h-11 items-center text-[hsl(var(--nav-active))] underline underline-offset-4">查看本课零件清单</Link>
+                        ) : null}
+                    </div>
+                </div>
+                <div className="flex min-h-0 flex-1">
+                    <div className="hidden w-56 shrink-0 border-r border-border xl:flex">
+                        <LessonSidebar
+                            courseId={courseId}
+                            courseTitle={courseTitle}
+                            lesson={lesson}
+                            displaySteps={steps}
+                            activeStepIndex={clampedActiveStep}
+                            focusedStepIndex={focusedStep}
+                            onStepClick={handleStepChange}
+                            completed={completed}
+                            compactSteps
+                            directoryOnly
+                        />
+                    </div>
+                    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                        <LessonWorkspaceRenderer
+                            courseId={courseId}
+                            lesson={lesson}
+                            previewHref={previewHref}
+                            activeStepIndex={clampedActiveStep}
+                            buildingNavigationSlot={
+                                <LessonStepGuide
+                                    steps={steps}
+                                    activeStepIndex={clampedActiveStep}
+                                    introduction={typeof lesson.content?.summary === "string" ? lesson.content.summary : undefined}
+                                    onStepClick={handleStepChange}
+                                    desktopLabel="目录与提示"
+                                />
+                            }
+                            onStepChange={handleStepChange}
+                            initialCompleted={initialCompleted}
+                            onCompleted={() => { setCompleted(true); router.refresh(); }}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div
             className={cn(
@@ -326,12 +411,7 @@ export function LessonPageClient({
                     {courseTitle}
                 </Link>
             </div>
-            <LessonStepGuide
-                steps={steps}
-                partsHref={lessonWorkspace === "building_3d" && lesson.content?.building3d?.ldrawModelUrl
-                    ? `/courses/${courseId}/lessons/${lesson.id}/parts`
-                    : undefined}
-            />
+            <LessonStepGuide steps={steps} />
             <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
                 <div
                     className={cn(
@@ -341,8 +421,7 @@ export function LessonPageClient({
                             : "max-lg:shrink-0 max-lg:overflow-visible",
                         "max-lg:order-2 max-lg:border-b",
                         "lg:order-0 lg:min-h-0 lg:max-h-none lg:shrink-0",
-                        // playground 与积木课在移动端都由工作区承载翻页，隐藏重复的侧栏步骤。
-                        (lessonWorkspace === "playground" || lessonWorkspace === "building_3d") && "max-lg:hidden",
+                        lessonWorkspace === "playground" && "max-lg:hidden",
                     )}
                 >
                     <LessonSidebar
@@ -360,12 +439,9 @@ export function LessonPageClient({
                 <div
                     className={cn(
                         "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-0",
-                        usesFixedMobileWorkspace || lessonWorkspace === "building_3d"
+                        usesFixedMobileWorkspace
                             ? "min-h-0"
                             : "min-h-[60vh] md:min-h-0",
-                        // building_3d 在移动端不参与 flex 撑满，3D 画布用固定 dvh 高度，
-                        // 避免可滚动布局下 flex-1 高度波动触发 ResizeObserver 反复 setSize 闪烁。
-                        lessonWorkspace === "building_3d" && "max-lg:flex-none",
                     )}
                 >
                     <LessonWorkspaceRenderer

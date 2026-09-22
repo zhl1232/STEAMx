@@ -227,14 +227,15 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                     <Button
                                         asChild
                                         size="lg"
-                                        className="group min-w-0 flex-1 gap-2 rounded-xl bg-[hsl(var(--brand-blue))] px-4 font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_4px_16px_-4px_hsl(var(--brand-blue)/0.4)] transition-all hover:bg-[hsl(var(--brand-blue)/0.9)] hover:shadow-[0_6px_20px_-4px_hsl(var(--brand-blue)/0.5)] active:scale-[0.98] sm:flex-initial sm:px-6"
+                                        shape="pill"
+                                        className="group shrink-0 gap-2 bg-[hsl(var(--brand-blue))] px-3 font-bold text-[hsl(var(--brand-blue-foreground))] shadow-[0_4px_16px_-4px_hsl(var(--brand-blue)/0.4)] transition-all hover:bg-[hsl(var(--brand-blue)/0.9)] hover:shadow-[0_6px_20px_-4px_hsl(var(--brand-blue)/0.5)] active:scale-[0.98] sm:px-6"
                                     >
                                         <Link
                                             href={`/courses/${course.id}/lessons/${nextLessonId}`}
                                             prefetch={false}
                                         >
-                                            {primaryCta}
-                                            <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                                            <span>{primaryCta}</span>
+                                            <ChevronRight className="hidden h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5 sm:block" aria-hidden />
                                         </Link>
                                     </Button>
                                 ) : null}
@@ -244,11 +245,12 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                         asChild
                                         variant={isNewBuildingLearner ? "default" : "secondary"}
                                         size="lg"
-                                        className="min-w-0 flex-1 gap-2 rounded-xl border border-border/70 px-4 font-bold transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98] sm:flex-initial"
+                                        shape="pill"
+                                        className="shrink-0 gap-2 border border-border/70 px-3 font-bold transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98] sm:px-6"
                                     >
                                         <a href={catalogAnchor}>
-                                            {isNewBuildingLearner ? "挑一个作品开始" : "挑选作品"}
-                                            <ChevronRight className="h-4 w-4" />
+                                            <span>{isNewBuildingLearner ? "挑一个作品开始" : "挑选作品"}</span>
+                                            <ChevronRight className="hidden h-4 w-4 shrink-0 sm:block" aria-hidden />
                                         </a>
                                     </Button>
                                 ) : null}
@@ -258,16 +260,18 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                         asChild
                                         variant="secondary"
                                         size="lg"
-                                        className="gap-2 rounded-xl border border-border/70 bg-secondary/80 font-bold text-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98]"
+                                        shape="pill"
+                                        className="shrink-0 gap-2 border border-border/70 bg-secondary/80 px-3 font-bold text-foreground transition-all hover:bg-secondary hover:text-foreground active:scale-[0.98] sm:px-6"
                                     >
                                         <Link href={`/courses/${course.id}/certificate`} prefetch={false}>
-                                            <Award className="h-4 w-4 text-amber-500" aria-hidden />
+                                            <Award className="h-4 w-4 shrink-0 text-amber-500" aria-hidden />
                                             结课凭证
                                         </Link>
                                     </Button>
                                 ) : null}
 
                                 <CourseShareButton
+                                    className="shrink-0 px-3 sm:px-6"
                                     course={{
                                         id: course.id,
                                         title: course.title,

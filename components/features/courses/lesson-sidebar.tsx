@@ -18,6 +18,7 @@ export function LessonSidebar({
     onStepClick,
     completed,
     compactSteps = false,
+    directoryOnly = false,
 }: {
     courseId: number;
     courseTitle: string;
@@ -28,6 +29,7 @@ export function LessonSidebar({
     onStepClick: (index: number) => void;
     completed?: boolean;
     compactSteps?: boolean;
+    directoryOnly?: boolean;
 }) {
     const summary =
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
@@ -35,7 +37,15 @@ export function LessonSidebar({
 
     return (
         <aside className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
-            <div className="shrink-0 border-b border-border px-4 py-3">
+            {directoryOnly ? (
+                <div className="shrink-0 border-b border-border px-4 py-3">
+                    <div className="flex items-center justify-between gap-2">
+                        <h2 className="text-sm font-semibold">课程目录</h2>
+                        <span className="text-xs tabular-nums text-muted-foreground">{steps.length} 页</span>
+                    </div>
+                    {summary ? <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{summary}</p> : null}
+                </div>
+            ) : <div className="shrink-0 border-b border-border px-4 py-3">
                 <Link
                     href={`/courses/${courseId}`}
                     className="mb-2 hidden items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground lg:inline-flex"
@@ -63,7 +73,7 @@ export function LessonSidebar({
                         </span>
                     ) : null}
                 </div>
-            </div>
+            </div>}
             <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
                 <ol className="space-y-1.5">
                     {steps.map((step, index) => (
@@ -74,6 +84,7 @@ export function LessonSidebar({
                             active={index === activeStepIndex}
                             focused={index === focusedStepIndex}
                             compact={compactSteps}
+                            directoryOnly={directoryOnly}
                             onClick={() => onStepClick(index)}
                         />
                     ))}
@@ -124,6 +135,7 @@ function LessonStepItem({
     active,
     focused,
     compact,
+    directoryOnly,
     onClick,
 }: {
     step: CourseLessonStep;
@@ -131,14 +143,26 @@ function LessonStepItem({
     active: boolean;
     focused: boolean;
     compact: boolean;
+    directoryOnly: boolean;
     onClick: () => void;
 }) {
     const itemRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        if (!focused) return;
-        itemRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, [focused]);
+        if (!directoryOnly) {
+            if (focused) itemRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+        if (!focused && !(directoryOnly && active)) return;
+        const item = itemRef.current;
+        const scroller = item?.closest("ol")?.parentElement;
+        if (!item || !scroller) return;
+        // Scroll only the directory, never the page or mobile viewport.
+        const offset = item.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+        if (offset < 0 || offset + item.offsetHeight > scroller.clientHeight) {
+            scroller.scrollTop += offset - (scroller.clientHeight - item.offsetHeight) / 2;
+        }
+    }, [focused, active, directoryOnly]);
 
     return (
         <li>
@@ -146,21 +170,23 @@ function LessonStepItem({
                 ref={itemRef}
                 type="button"
                 onClick={onClick}
+                aria-current={active ? "step" : undefined}
                 className={cn(
                     "w-full rounded-sm px-3 py-2 text-left transition",
                     active
                         ? "bg-[hsl(var(--brand-blue)/0.12)] ring-1 ring-[hsl(var(--brand-blue)/0.35)]"
                         : "hover:bg-muted/60",
                     focused && "ring-2 ring-[hsl(var(--brand-amber))] ring-offset-2 ring-offset-card",
+                    directoryOnly && "flex min-h-11 items-center gap-3",
                 )}
             >
                 <span className="text-xs font-bold text-[hsl(var(--brand-blue))]">
-                    步骤 {index + 1}
+                    {directoryOnly ? String(index + 1).padStart(2, "0") : `步骤 ${index + 1}`}
                 </span>
                 <span className="mt-0.5 block text-sm font-semibold text-foreground">
                     {step.title}
                 </span>
-                {active && compact ? (
+                {active && compact && !directoryOnly ? (
                     <span className="mt-1 inline-flex rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2 py-0.5 text-[11px] font-bold text-[hsl(var(--brand-blue))]">
                         当前步骤
                     </span>

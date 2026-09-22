@@ -1,5 +1,6 @@
 import { renderToString } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { LessonStepGuide } from './lesson-step-guide'
 
@@ -8,6 +9,83 @@ function parseGuide(html: string) {
 }
 
 describe('LessonStepGuide', () => {
+    let fullscreenDescriptor: PropertyDescriptor | undefined
+    let fullscreenContainer: HTMLElement | undefined
+
+    afterEach(() => {
+        fullscreenContainer?.remove()
+        fullscreenContainer = undefined
+        if (fullscreenDescriptor) {
+            Object.defineProperty(document, 'fullscreenElement', fullscreenDescriptor)
+            fullscreenDescriptor = undefined
+        }
+    })
+
+    it('ports the mobile directory into fullscreen and returns it to the body after exit', () => {
+        const fullscreenElement = document.createElement('section')
+        document.body.appendChild(fullscreenElement)
+        fullscreenContainer = fullscreenElement
+        fullscreenDescriptor = Object.getOwnPropertyDescriptor(document, 'fullscreenElement')
+        Object.defineProperty(document, 'fullscreenElement', { configurable: true, value: fullscreenElement })
+
+        render(<LessonStepGuide steps={[{ title: '观察', description: '' }]} onStepClick={vi.fn()} />)
+        fireEvent.click(screen.getByLabelText('课程目录'))
+
+        const dialog = screen.getByRole('dialog')
+        expect(fullscreenElement).toContainElement(dialog)
+        expect(fullscreenElement.querySelector('[data-state="open"]')).not.toBeNull()
+
+        Object.defineProperty(document, 'fullscreenElement', { configurable: true, value: null })
+        fireEvent(document, new Event('fullscreenchange'))
+        const bodyDialog = screen.getByRole('dialog')
+        expect(document.body).toContainElement(bodyDialog)
+        expect(fullscreenElement).not.toContainElement(bodyDialog)
+    })
+
+    it('opens a compact mobile directory at the current page and closes after selection', () => {
+        const onStepClick = vi.fn()
+        render(<LessonStepGuide steps={[{ title: '观察', description: '不在手机目录显示的说明' }, { title: '搭建', description: '', hint: '详细提示' }]} activeStepIndex={1} onStepClick={onStepClick} />)
+        fireEvent.click(screen.getByLabelText('课程目录'))
+        const dialog = screen.getByRole('dialog')
+        expect(dialog).not.toHaveTextContent('不在手机目录显示的说明')
+        expect(dialog).not.toHaveTextContent('详细提示')
+        expect(screen.getByRole('button', { name: '2. 搭建' })).toHaveFocus()
+        fireEvent.click(screen.getByRole('button', { name: '1. 观察' }))
+        expect(onStepClick).toHaveBeenCalledWith(0)
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+
+    it('jumps to a selected page, marks the current page, and closes the directory', () => {
+        const onStepClick = vi.fn()
+        render(<LessonStepGuide
+            steps={[{ title: '认识小车', description: '先观察结构。' }, { title: '搭建车轮', description: '连接车轮。' }]}
+            activeStepIndex={1}
+            onStepClick={onStepClick}
+        />)
+        const summary = screen.getByLabelText('桌面课程目录')
+        const disclosure = summary.closest('details')!
+        disclosure.open = true
+        expect(screen.getByRole('button', { name: '2. 搭建车轮' })).toHaveAttribute('aria-current', 'step')
+
+        fireEvent.click(screen.getByRole('button', { name: '1. 认识小车' }))
+
+        expect(onStepClick).toHaveBeenCalledWith(0)
+        expect(disclosure.open).toBe(false)
+        expect(summary).toHaveFocus()
+    })
+
+    it('closes an open directory with Escape without changing the page', () => {
+        const onStepClick = vi.fn()
+        render(<LessonStepGuide steps={[{ title: '观察', description: '观察模型。' }]} onStepClick={onStepClick} />)
+        const summary = screen.getByLabelText('桌面课程目录')
+        const disclosure = summary.closest('details')!
+        disclosure.open = true
+        fireEvent.keyDown(screen.getByRole('button', { name: '1. 观察' }), { key: 'Escape' })
+        expect(disclosure.open).toBe(false)
+        expect(summary).toHaveFocus()
+        expect(onStepClick).not.toHaveBeenCalled()
+    })
+
     it('includes every description and hint in the initial HTML of a closed disclosure', () => {
         const steps = [
             { title: '观察', description: '观察车轮如何转动。', hint: '比较两侧车轮。' },

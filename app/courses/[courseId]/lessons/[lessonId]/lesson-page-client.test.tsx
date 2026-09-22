@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -25,6 +26,7 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
     onFocusScratchStepCheckItem,
     onScratchEditorContextChange,
     onStepChange,
+    buildingNavigationSlot,
   }: {
     activeStepIndex: number
     scratchBlockHint?: {
@@ -49,8 +51,10 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
       targets: Array<{ id: string; name: string; blocks?: Array<{ id: string; type: string }> }>
     }) => void
     onStepChange: (index: number) => void
+    buildingNavigationSlot?: ReactNode
   }) => (
     <div data-testid="lesson-workspace">
+      {buildingNavigationSlot}
       <p>workspace step {activeStepIndex + 1}</p>
       <button type="button" onClick={() => onStepChange(activeStepIndex + 1)}>
         下一页
@@ -223,8 +227,11 @@ describe('LessonPageClient', () => {
       if (lessonType !== 'building_3d') expect(guide).toHaveTextContent(step.hint)
     }
     expect(guide).not.toHaveTextContent('旧教案')
-    const partsLink = guide?.querySelector('a[href="/courses/7/lessons/42/parts"]')
-    if (lessonType === 'building_3d') expect(partsLink).not.toBeNull()
+    const partsLink = document.querySelector('a[href="/courses/7/lessons/42/parts"]')
+    if (lessonType === 'building_3d') {
+      expect(partsLink).not.toBeNull()
+      expect(partsLink?.closest('details')).toBeNull()
+    }
     else expect(partsLink).toBeNull()
   })
 
@@ -263,7 +270,7 @@ describe('LessonPageClient', () => {
       </TutorProvider>,
     )
 
-    const stepButtons = screen.getAllByRole('button', { name: /步骤 \d+/ })
+    const stepButtons = within(screen.getByRole('complementary')).getAllByRole('button')
     expect(stepButtons.map((button) => button.textContent)).toEqual([
       expect.stringContaining('认识长颈鹿'),
       expect.stringContaining('联系生活'),
@@ -318,7 +325,7 @@ describe('LessonPageClient', () => {
     expect(screen.getByText('workspace step 5')).toBeInTheDocument()
     expect(window.location.search).toBe('?view=works&step=5')
 
-    fireEvent.click(screen.getByRole('button', { name: /步骤 2 联系生活/ }))
+    fireEvent.click(within(screen.getByRole('complementary')).getByRole('button', { name: /02 联系生活/ }))
 
     expect(screen.getByText('workspace step 2')).toBeInTheDocument()
     expect(window.location.search).toBe('?view=works&step=2')

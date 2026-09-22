@@ -133,7 +133,7 @@ export function ProjectExplorationRecordsHorizontal({
           key={completion.id}
           projectId={projectId}
           completion={completion}
-          className="min-w-[178px] snap-start"
+          className="w-[min(240px,80vw)] shrink-0 snap-start"
         />
       ))}
     </div>
@@ -164,7 +164,7 @@ export function ProjectExplorationRecordsBlock({
       {completions.length > 0 ? (
         <Link
           href={`/project/${projectId}/records`}
-          className="mt-3 flex items-center justify-center gap-1 text-xs font-semibold text-muted-foreground transition-colors hover:text-[hsl(var(--brand-green))]"
+          className="mt-3 flex min-h-11 items-center justify-center gap-1 rounded-sm text-sm font-semibold text-muted-foreground transition-colors hover:text-[hsl(var(--brand-green))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
         >
           查看全部探索记录
           <ChevronRight className="h-3.5 w-3.5" />

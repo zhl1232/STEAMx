@@ -2,6 +2,7 @@
 
 import { Smartphone } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import {
     Building3DWorkspace,
@@ -34,6 +35,7 @@ export function LessonWorkspaceRenderer({
     onStepChange,
     initialCompleted,
     onCompleted,
+    buildingNavigationSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -48,6 +50,7 @@ export function LessonWorkspaceRenderer({
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
     onCompleted: () => void;
+    buildingNavigationSlot?: ReactNode;
 }) {
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
@@ -100,6 +103,7 @@ export function LessonWorkspaceRenderer({
     if (lessonType.workspace === "building_3d") {
         return (
             <Building3DWorkspace
+                navigationSlot={buildingNavigationSlot}
                 courseId={courseId}
                 lesson={lesson}
                 activeStepIndex={activeStepIndex}

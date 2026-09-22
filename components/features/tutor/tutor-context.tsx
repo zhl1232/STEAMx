@@ -27,6 +27,8 @@ export type TutorContextOverride = {
   hideFab?: boolean
   /** 仅在手机/平板窄屏隐藏悬浮入口，避免覆盖游戏棋盘、地图或画布。 */
   hideFabOnMobile?: boolean
+  /** Additional mobile bottom space reserved for a page-owned fixed footer. */
+  fabBottomInset?: number
 }
 
 export type TutorToolHandler = (toolCall: TutorToolCall) => void | Promise<void>

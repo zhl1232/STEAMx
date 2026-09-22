@@ -1,10 +1,6 @@
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
 
 import { UserAvatar } from '@/components/ui/user-avatar'
-import { formatCount } from '@/lib/project/format-count'
-import type { ProjectCompletion } from '@/lib/mappers/types'
-import { cn } from '@/lib/utils'
 
 export interface MobileProjectAuthorRowAuthor {
   id: string
@@ -16,25 +12,16 @@ export interface MobileProjectAuthorRowAuthor {
 
 interface MobileProjectAuthorRowProps {
   author: MobileProjectAuthorRowAuthor | null
-  projectId: string | number
-  completionCount: number
-  completions: ProjectCompletion[]
 }
 
 export function MobileProjectAuthorRow({
   author,
-  projectId,
-  completionCount,
-  completions,
 }: MobileProjectAuthorRowProps) {
   if (!author) return null
 
-  const recordsHref = `/project/${projectId}/records`
-  const explorerAvatars = completions.slice(0, 3)
-
   return (
     <section className="flex items-center justify-between gap-3 border-t border-[hsl(var(--surface-border)/0.72)] pt-4">
-      <Link href={`/users/${author.id}`} className="flex min-w-0 items-center gap-3">
+      <Link href={`/users/${author.id}`} className="flex min-h-11 min-w-0 items-center gap-3">
         <UserAvatar
           userId={author.id}
           name={author.name}
@@ -54,36 +41,6 @@ export function MobileProjectAuthorRow({
         </div>
       </Link>
 
-      <Link
-        href={recordsHref}
-        className="flex shrink-0 items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
-        aria-label={`${formatCount(completionCount)} 人探索过，查看探索记录`}
-      >
-        <div className="text-right">
-          <p className="text-xs font-semibold text-foreground">
-            {formatCount(completionCount)} 人探索过
-          </p>
-          {explorerAvatars.length > 0 ? (
-            <div className="mt-1 flex justify-end -space-x-2">
-              {explorerAvatars.map((completion) => (
-                <UserAvatar
-                  key={completion.id}
-                  userId={completion.userId}
-                  name={completion.author}
-                  src={completion.avatar}
-                  avatarFrameId={completion.avatarFrameId}
-                  href={null}
-                  className={cn(
-                    'h-6 w-6 bg-muted ring-2 ring-[hsl(var(--surface-raised))]',
-                  )}
-                  avatarClassName="text-[9px]"
-                />
-              ))}
-            </div>
-          ) : null}
-        </div>
-        <ChevronRight className="h-4 w-4 shrink-0" />
-      </Link>
     </section>
   )
 }

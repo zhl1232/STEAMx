@@ -55,6 +55,7 @@ export function GlobalTutorMount() {
     || pathname.startsWith('/users/')
     || Boolean(tutorCtx?.override.hideFabOnMobile)
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
+  const fabBottomInset = tutorCtx?.override.fabBottomInset ?? 0
   const stageIndex = tutorCtx?.override.stageIndex ?? baseContext?.stageIndex
   const lessonStepIndex = tutorCtx?.override.lessonStepIndex
   const lessonStepCount = tutorCtx?.override.lessonStepCount
@@ -156,6 +157,9 @@ export function GlobalTutorMount() {
             ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
             : 'bottom-[calc(8.5rem+env(safe-area-inset-bottom))] md:bottom-6'
         }`}
+        style={fabBottomInset > 0 ? {
+          bottom: `calc(${Math.max(baseContext.lessonId != null ? 16 : 136, fabBottomInset + 8)}px + env(safe-area-inset-bottom, 0px))`,
+        } : undefined}
       >
         <span
           aria-hidden
@@ -182,6 +186,7 @@ export function GlobalTutorMount() {
       quickPrompts={tutorCtx?.override.quickPrompts}
       fabPlacement={baseContext.lessonId != null ? 'compact' : 'default'}
       hideOnMobile={hideTutorOnMobile}
+      fabBottomInset={fabBottomInset}
       showReviewAction={Boolean(tutorCtx?.override.getReviewPayload)}
       onReview={() => {
         const payload = tutorCtx?.override.getReviewPayload?.()

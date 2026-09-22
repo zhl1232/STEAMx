@@ -297,7 +297,7 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
         </div>
         <Link
           href={MAINLINE_ENTRY_HREF}
-          className="inline-flex min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5 md:min-h-11"
+          className="hidden min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5 md:inline-flex md:min-h-11"
         >
           免费积木课
           <ArrowRight className="h-4 w-4" />

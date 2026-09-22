@@ -45,12 +45,15 @@ export function clampTutorFabPosition(
   fabSizePx: number,
   viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 390,
   viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 844,
+  bottomInset = 0,
 ): TutorFabPosition {
   const maxRight = Math.max(EDGE_PADDING_PX, viewportWidth - fabSizePx - EDGE_PADDING_PX)
+  const safeBottomInset = Math.max(0, bottomInset)
   const maxBottom = Math.max(EDGE_PADDING_PX, viewportHeight - fabSizePx - EDGE_PADDING_PX)
+  const minBottom = Math.min(EDGE_PADDING_PX + safeBottomInset, maxBottom)
   return {
     right: Math.min(maxRight, Math.max(EDGE_PADDING_PX, position.right)),
-    bottom: Math.min(maxBottom, Math.max(EDGE_PADDING_PX, position.bottom)),
+    bottom: Math.min(maxBottom, Math.max(minBottom, position.bottom)),
   }
 }
 

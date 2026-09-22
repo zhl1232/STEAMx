@@ -19,18 +19,32 @@ describe('getMaterialMeta', () => {
     })
   })
 
-  it('keeps a plain 量杯 as a named item with a default count', () => {
+  it('does not invent a count for a material without an explicit quantity', () => {
     expect(getMaterialMeta('量杯')).toEqual({
       name: '量杯',
-      amount: '1 个',
+      amount: '',
     })
   })
 
-  it('keeps 纸（自备） as the item name with a 自备 note', () => {
+  it('keeps notes without inventing an amount', () => {
     expect(getMaterialMeta('纸（自备）')).toEqual({
       name: '纸',
-      amount: '适量',
+      amount: '',
       note: '自备',
     })
+  })
+
+  it('preserves explicit ranges and simple Chinese counts', () => {
+    expect(getMaterialMeta('彩纸 3-4张')).toEqual({ name: '彩纸', amount: '3-4张' })
+    expect(getMaterialMeta('一个气球')).toEqual({ name: '气球', amount: '一个' })
+  })
+
+  it('does not treat a voltage as a material quantity', () => {
+    expect(getMaterialMeta('1.5V电池')).toEqual({ name: '1.5V电池', amount: '' })
+  })
+
+  it('preserves both capacity and count when a row has multiple quantities', () => {
+    expect(getMaterialMeta('塑料瓶 500ml 2个')).toEqual({ name: '塑料瓶 500ml 2个', amount: '' })
+    expect(getMaterialMeta('红纸2张、蓝纸3张')).toEqual({ name: '红纸2张、蓝纸3张', amount: '' })
   })
 })

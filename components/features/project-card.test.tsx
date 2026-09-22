@@ -91,26 +91,28 @@ describe("ProjectCard compact vertical variant", () => {
 })
 
 describe("ProjectCard explore variant", () => {
-  it("uses the card classification layout and hides zero interaction stats", () => {
+  it("keeps zero likes visible alongside works without coin stats", () => {
     render(
       <ProjectCard
-        project={{ ...classifiedProject, likes: 0, completions_count: 2, coins_count: 0 }}
+        project={{ ...classifiedProject, likes: 0, completions_count: 2, coins_count: 8 }}
         variant="explore"
       />,
     )
 
     expect(screen.getByText("艺术 · 雕塑")).toBeInTheDocument()
-    expect(screen.getByLabelText("适龄 6 岁起，难度 入门，建议成人陪同")).toHaveTextContent(
-      "6 岁起·入门建议成人陪同",
+    expect(screen.getByLabelText("适龄 6 岁起，建议成人陪同")).toHaveTextContent(
+      "6 岁起建议成人陪同",
     )
+    expect(screen.queryByText("入门")).not.toBeInTheDocument()
     expect(screen.getByText("2 作品")).toBeInTheDocument()
-    expect(screen.queryByText("0 点赞")).not.toBeInTheDocument()
+    expect(screen.getByText("0 点赞")).toBeInTheDocument()
     expect(screen.queryByText("0 投币")).not.toBeInTheDocument()
-    expect(screen.queryByTitle("点赞数")).not.toBeInTheDocument()
+    expect(screen.getByTitle("点赞数")).toBeInTheDocument()
+    expect(screen.queryByTitle("投币数")).not.toBeInTheDocument()
   })
 
-  it("omits the complete stats row when all values are zero", () => {
+  it("keeps both stats when all values are zero", () => {
     render(<ProjectCard project={{ ...classifiedProject, likes: 0, completions_count: 0, coins_count: 0 }} variant="explore" />)
-    expect(screen.queryByTestId("explore-project-stats")).not.toBeInTheDocument()
+    expect(screen.getByTestId("explore-project-stats")).toHaveTextContent("0 点赞0 作品")
   })
 })
