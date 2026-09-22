@@ -48,6 +48,7 @@ export default async () => {
         test: {
             projects: [
                 {
+                    extends: true,
                     test: {
                         name: 'dom',
                         environment: 'happy-dom',
@@ -57,6 +58,7 @@ export default async () => {
                     },
                 },
                 {
+                    extends: true,
                     test: {
                         name: 'node',
                         environment: 'node',
