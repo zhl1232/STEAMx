@@ -5,7 +5,9 @@ import { buildExplorePageHref, parseExplorePage } from "@/lib/seo/explore-pagina
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { parseExploreSortBy } from '@/lib/explore/presets'
+import { buildExploreFiltersKey } from '@/lib/explore-scroll-restore'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
+import { visibleProjectTags } from '@/lib/project/tags'
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -49,6 +51,27 @@ export async function generateMetadata({ searchParams }: ExplorePageProps): Prom
 function firstParam(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) return value[0]
   return value
+}
+
+function buildInitialFiltersKey(params: Awaited<ExplorePageProps['searchParams']>): string {
+  const query = new URLSearchParams()
+  const q = firstParam(params.q)
+  const category = firstParam(params.category)
+  const subCategory = firstParam(params.subCategory)
+  const difficulty = normalizeDifficultyParam(firstParam(params.difficulty))
+  const age = parseAgeParam(firstParam(params.age))
+  const tags = firstParam(params.tags)
+  const sortBy = parseExploreSortBy(firstParam(params.sortBy))
+
+  if (q) query.set('q', q)
+  if (category && category !== '全部') query.set('category', category)
+  if (subCategory) query.set('subCategory', subCategory)
+  if (difficulty) query.set('difficulty', difficulty)
+  if (age !== null) query.set('age', String(age))
+  const normalizedTags = visibleProjectTags(tags?.split(',') ?? [])
+  if (normalizedTags.length > 0) query.set('tags', normalizedTags.join(','))
+  if (sortBy !== 'popular') query.set('sortBy', sortBy)
+  return buildExploreFiltersKey(query)
 }
 
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
@@ -101,6 +124,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       availableTags={availableTags}
       popularTags={popularTags}
       tagScope={tagScope}
+      initialFiltersKey={buildInitialFiltersKey(params)}
     />
     </>
   )

@@ -232,6 +232,7 @@ interface ExploreClientProps {
     /** 服务端按标签在项目中的出现次数排序；为空时侧栏回退为 `availableTags` 前若干项 */
     popularTags?: string[]
     tagScope?: ExploreTagScope
+    initialFiltersKey?: string
 }
 
 export function ExploreClient({
@@ -243,6 +244,7 @@ export function ExploreClient({
     availableTags,
     popularTags: popularTagsProp,
     tagScope,
+    initialFiltersKey,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
     const { toast } = useToast()
@@ -279,15 +281,19 @@ export function ExploreClient({
     const observer = useRef<IntersectionObserver | null>(null)
     const activeFilterRequest = useRef<AbortController | null>(null)
     const activeLoadMoreRequest = useRef<AbortController | null>(null)
+    const activeRestoreRequest = useRef<AbortController | null>(null)
     const pageRef = useRef(initialPage + 1)
     const hasMoreRef = useRef(initialHasMore)
     const isLoadingMoreRef = useRef(false)
     const isFilteringRef = useRef(false)
     const pendingScrollRestoreRef = useRef<ExploreScrollRestoreState | null>(null)
     const isRestoringScrollRef = useRef(false)
+    const [isRestoringScroll, setIsRestoringScroll] = useState(false)
+    const [restoreError, setRestoreError] = useState(false)
     const activeFiltersKeyRef = useRef('')
     const filterRequestGenerationRef = useRef(0)
     const initializedFiltersKeyRef = useRef(false)
+    const restoreGenerationRef = useRef(0)
 
     const [selectedCategory, setSelectedCategory] = useState(initialCategory)
     const [selectedSubCategory, setSelectedSubCategory] = useState(initialSubCategory)
@@ -345,6 +351,7 @@ export function ExploreClient({
         return () => {
             activeFilterRequest.current?.abort()
             activeLoadMoreRequest.current?.abort()
+            activeRestoreRequest.current?.abort()
             observer.current?.disconnect()
         }
     }, [])
@@ -507,23 +514,34 @@ export function ExploreClient({
     }, [])
 
     useEffect(() => {
-        const saved = pendingScrollRestoreRef.current ?? readExploreScrollRestore()
-        if (!saved) return
-
         const filtersKey = buildExploreFiltersKey(buildSearchParams())
-        if (saved.filtersKey !== filtersKey) {
+        const stored = pendingScrollRestoreRef.current ?? readExploreScrollRestore()
+        const hasSavedScroll = stored?.filtersKey === filtersKey
+        if (stored && !hasSavedScroll) {
             clearExploreScrollRestore()
             pendingScrollRestoreRef.current = null
-            return
         }
+        // Browser forward/back and unavailable storage can restore a cached RSC
+        // payload without a scroll checkpoint. Data still needs the same guard.
+        const saved = hasSavedScroll ? stored : (
+            initialFiltersKey !== undefined && initialFiltersKey !== filtersKey
+                ? { filtersKey, scrollY: 0, nextPage: 1 }
+                : null
+        )
+        if (!saved) return
 
         pendingScrollRestoreRef.current = saved
         let cancelled = false
         isRestoringScrollRef.current = true
+        setIsRestoringScroll(true)
         const retryTimers: number[] = []
+        const restoreGeneration = restoreGenerationRef.current
+        const isCurrentRestore = () => !cancelled && restoreGenerationRef.current === restoreGeneration
+        const restoreController = new AbortController()
+        activeRestoreRequest.current = restoreController
 
         const applyScroll = () => {
-            if (cancelled || typeof window === 'undefined') return
+            if (!isCurrentRestore() || typeof window === 'undefined') return
 
             const anchor = saved.anchorProjectId
                 ? document.querySelector<HTMLElement>(
@@ -543,21 +561,26 @@ export function ExploreClient({
         }
 
         const finishRestore = () => {
-            if (cancelled) return
+            if (!isCurrentRestore()) return
             clearExploreScrollRestore()
             pendingScrollRestoreRef.current = null
             isRestoringScrollRef.current = false
+            setIsRestoringScroll(false)
         }
 
         const restoreScroll = () => {
+            if (!hasSavedScroll) {
+                finishRestore()
+                return
+            }
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                    if (cancelled) return
+                    if (!isCurrentRestore()) return
                     applyScroll()
                     // Layout can still shift after cards/images paint; nudge a few times.
                     for (const delay of [50, 150, 320]) {
                         retryTimers.push(window.setTimeout(() => {
-                            if (cancelled) return
+                            if (!isCurrentRestore()) return
                             applyScroll()
                             if (delay === 320) finishRestore()
                         }, delay))
@@ -566,30 +589,42 @@ export function ExploreClient({
             })
         }
 
-        const syncRestoredProjects = (nextProjects: Project[], nextHasMore: boolean, nextPage: number) => {
-            if (cancelled) return
+        const syncRestoredProjects = (nextProjects: Project[], nextHasMore: boolean, nextPage: number, nextTotal?: number) => {
+            if (!isCurrentRestore()) return
             setProjects(nextProjects)
             clearLikesDeltaForProjects(nextProjects.map((project) => project.id))
             setHasMore(nextHasMore)
             hasMoreRef.current = nextHasMore
             setPage(nextPage)
             pageRef.current = nextPage
+            if (typeof nextTotal === 'number') setResultTotal(nextTotal)
             restoreScroll()
         }
 
-        if (saved.nextPage <= initialPage + 1) {
+        const serverMatchesFilters = initialFiltersKey === filtersKey
+        const basePage = serverMatchesFilters ? initialPage : -1
+        const baseProjects = serverMatchesFilters ? initialProjects : []
+        const baseHasMore = serverMatchesFilters ? initialHasMore : true
+        const baseTotal = serverMatchesFilters ? initialTotal : undefined
+        if (!serverMatchesFilters) {
+            setProjects([])
+            setResultTotal(0)
+        }
+
+        if (saved.nextPage <= basePage + 1 && serverMatchesFilters) {
             syncRestoredProjects(initialProjects, initialHasMore, saved.nextPage)
             return () => {
                 cancelled = true
                 for (const id of retryTimers) window.clearTimeout(id)
                 isRestoringScrollRef.current = false
+                setIsRestoringScroll(false)
             }
         }
 
         void (async () => {
             const pagesToRestore = Array.from(
-                { length: Math.max(0, saved.nextPage - (initialPage + 1)) },
-                (_, index) => initialPage + 1 + index,
+                { length: Math.max(0, saved.nextPage - (basePage + 1)) },
+                (_, index) => basePage + 1 + index,
             )
             const baseParams = buildSearchParams()
             const pageResults = await Promise.allSettled(
@@ -598,7 +633,9 @@ export function ExploreClient({
 
                     const params = new URLSearchParams(baseParams)
                     params.set('page', String(page))
-                    const response = await fetch(`/api/projects?${params.toString()}`)
+                    const response = await fetch(`/api/projects?${params.toString()}`, {
+                        signal: restoreController.signal,
+                    })
                     if (!response.ok) {
                         throw new Error(await response.text())
                     }
@@ -608,30 +645,44 @@ export function ExploreClient({
                         page,
                         projects: (data.projects as Project[]) || [],
                         hasMore: Boolean(data.hasMore),
+                        total: typeof data.total === 'number' ? data.total : undefined,
                     }
                 }),
             )
 
-            if (cancelled) return
+            if (!isCurrentRestore()) return
 
-            let mergedProjects = [...initialProjects]
-            let nextHasMore = initialHasMore
+            let mergedProjects = [...baseProjects]
+            let nextHasMore = baseHasMore
+            let nextTotal = baseTotal
+            let nextPage = basePage + 1
+            let failed = false
 
             for (const result of pageResults) {
                 if (result.status !== 'fulfilled') {
+                    nextHasMore = true
+                    failed = true
                     break
                 }
                 mergedProjects = mergeUniqueProjectsById(mergedProjects, result.value.projects)
                 nextHasMore = result.value.hasMore
+                nextTotal = result.value.total ?? nextTotal
+                nextPage = result.value.page + 1
             }
 
-            syncRestoredProjects(mergedProjects, nextHasMore, saved.nextPage)
+            setRestoreError(failed)
+            syncRestoredProjects(mergedProjects, nextHasMore, nextPage, nextTotal)
         })()
 
         return () => {
             cancelled = true
+            restoreController.abort()
+            if (activeRestoreRequest.current === restoreController) {
+                activeRestoreRequest.current = null
+            }
             for (const id of retryTimers) window.clearTimeout(id)
             isRestoringScrollRef.current = false
+            setIsRestoringScroll(false)
         }
         // Intentionally mount-once: remount / prop identity churn must not drop the restore payload.
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -672,7 +723,7 @@ export function ExploreClient({
     }, [])
 
     const loadMore = useCallback(async () => {
-        if (isLoadingMoreRef.current || isFilteringRef.current || !hasMoreRef.current) return
+        if (isLoadingMoreRef.current || isFilteringRef.current || isRestoringScrollRef.current || !hasMoreRef.current) return
 
         activeLoadMoreRequest.current?.abort()
         const controller = new AbortController()
@@ -690,7 +741,10 @@ export function ExploreClient({
                 throw new Error(await response.text())
             }
             const data = await response.json()
+            if (controller.signal.aborted || activeLoadMoreRequest.current !== controller) return
             setProjects((prev) => mergeUniqueProjectsById(prev, data.projects))
+            setRestoreError(false)
+            if (typeof data.total === 'number') setResultTotal(data.total)
             clearLikesDeltaForProjects(data.projects.map((p: Project) => p.id))
             setHasMore(data.hasMore)
             hasMoreRef.current = data.hasMore
@@ -715,8 +769,8 @@ export function ExploreClient({
     }, [buildSearchParams, clearLikesDeltaForProjects, isAbortError, toast])
 
     const lastProjectElementRef = useCallback((node: HTMLDivElement) => {
-        if (isLoadingMore || isFiltering) return
         if (observer.current) observer.current.disconnect()
+        if (isLoadingMore || isFiltering || isRestoringScroll || restoreError) return
         if (!node) return
 
         observer.current = new IntersectionObserver(entries => {
@@ -726,7 +780,7 @@ export function ExploreClient({
         })
 
         observer.current.observe(node)
-    }, [isLoadingMore, isFiltering, loadMore])
+    }, [isLoadingMore, isFiltering, isRestoringScroll, restoreError, loadMore])
 
     const executeFilter = useCallback(async (params: URLSearchParams) => {
         const filterKey = serializeExploreFilterParams(params)
@@ -734,6 +788,13 @@ export function ExploreClient({
             return
         }
 
+        restoreGenerationRef.current += 1
+        setRestoreError(false)
+        pendingScrollRestoreRef.current = null
+        isRestoringScrollRef.current = false
+        setIsRestoringScroll(false)
+        activeRestoreRequest.current?.abort()
+        clearExploreScrollRestore()
         activeFilterRequest.current?.abort()
         activeLoadMoreRequest.current?.abort()
         const controller = new AbortController()
@@ -1318,7 +1379,7 @@ export function ExploreClient({
                                     "relative",
                                     !isResultsMode && "pb-5 pt-0.5 md:pb-0 md:pt-0",
                                 )}>
-                                    {isFiltering && (
+                                    {(isFiltering || isRestoringScroll) && (
                                         <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 flex items-center gap-2 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] px-4 py-2 text-xs font-bold text-foreground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-3 duration-300 md:bg-[hsl(var(--surface-raised)/0.8)] md:backdrop-blur-md">
                                             <Sparkles className="h-3.5 w-3.5 animate-spin text-[hsl(var(--brand-blue))]" strokeWidth={2.4} aria-hidden="true" />
                                             <span className="tracking-wide text-foreground/90">正在更新项目列表...</span>
@@ -1410,6 +1471,15 @@ export function ExploreClient({
 
                                     </div>
 
+                                    {restoreError && (
+                                        <div role="alert" className="mt-4 flex items-center justify-center gap-3 text-sm">
+                                            <span>列表恢复失败，请重试。</span>
+                                            <Button variant="outline" disabled={isRestoringScroll || isLoadingMore} onClick={() => void loadMore()}>
+                                                重试加载
+                                            </Button>
+                                        </div>
+                                    )}
+
                                     <nav aria-label="项目分页" className="flex justify-center gap-5 py-4 text-sm text-muted-foreground">
                                         {selectedSortBy === 'latest' ? (
                                             <>
@@ -1445,7 +1515,7 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    {!isLoadingMore && !isFiltering && projects.length === 0 && (
+                                    {!isLoadingMore && !isFiltering && !isRestoringScroll && !restoreError && projects.length === 0 && (
                                         <div className="mt-8 flex flex-col items-center justify-center rounded-lg border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-muted)/0.72)] px-6 py-14 text-center">
                                             <div className="mb-4 grid h-14 w-14 place-items-center rounded-md bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
                                                 <Search className="h-7 w-7" />

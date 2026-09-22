@@ -1,8 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { ReactElement } from 'react';
 
 vi.mock('@/lib/api/explore-data', () => ({ getExploreFilterOptions: vi.fn(), getProjects: vi.fn() }));
 vi.mock('@/lib/recommendations/viewer', () => ({ getRecommendationViewerKey: vi.fn() }));
-vi.mock('./explore-client', () => ({ ExploreClient: () => null }));
+vi.mock('./explore-client', () => ({ ExploreClient: vi.fn(() => null) }));
 
 import ExplorePage, { generateMetadata } from './page';
 import { getExploreFilterOptions, getProjects } from '@/lib/api/explore-data';
@@ -44,5 +45,28 @@ describe('explore page errors', () => {
     vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
     await expect(ExplorePage({ searchParams: Promise.resolve({ sortBy: 'latest', page: '1' }) }))
       .rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
+  });
+});
+
+describe('explore page initial client props', () => {
+  it('passes the normalized server filter key to restore matching SSR data', async () => {
+    vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
+    vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
+
+    const page = await ExplorePage({
+      searchParams: Promise.resolve({
+        category: '全部',
+        difficulty: 'beginner',
+        age: '8',
+        tags: '标签二,标签一',
+        sortBy: 'latest',
+      }),
+    });
+
+    const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
+    const clientProps = children[1].props;
+    expect(clientProps).toEqual(expect.objectContaining({
+      initialFiltersKey: 'difficulty=beginner&age=8&tags=%E6%A0%87%E7%AD%BE%E4%BA%8C%2C%E6%A0%87%E7%AD%BE%E4%B8%80&sortBy=latest',
+    }));
   });
 });

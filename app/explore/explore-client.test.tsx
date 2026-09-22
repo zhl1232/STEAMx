@@ -149,6 +149,7 @@ function createAbortError() {
 describe('ExploreClient', () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        sessionStorage.clear()
         mockAuth = {
             user: null,
             loading: false,
@@ -187,6 +188,192 @@ describe('ExploreClient', () => {
                 } as Response
             }),
         )
+    })
+
+    it('rebuilds page one when the saved filters differ from the SSR payload', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE',
+            scrollY: 240,
+            nextPage: 1,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+            callback(0)
+            return 0
+        })
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockImplementation(async (input) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) {
+                return { ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response
+            }
+            return {
+                ok: true,
+                json: async () => ({ projects: [makeProject(2, '筛选后的项目')], hasMore: false, total: 1 }),
+            } as Response
+        })
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '过期 SSR 项目')]}
+                initialHasMore={false}
+                initialFiltersKey="tags=旧标签"
+                categories={['全部']}
+            />,
+        )
+
+        expect(await screen.findByText('筛选后的项目')).toBeInTheDocument()
+        expect(screen.queryByText('过期 SSR 项目')).not.toBeInTheDocument()
+        expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('page=0'), expect.objectContaining({ signal: expect.any(AbortSignal) }))
+    })
+
+    it('uses matching SSR data without fetching page one again', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE',
+            scrollY: 240,
+            nextPage: 1,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+            callback(0)
+            return 0
+        })
+        const fetchMock = vi.mocked(fetch)
+
+        render(
+            <ExploreClient
+                initialProjects={[makeProject(1, '匹配的 SSR 项目')]}
+                initialHasMore={false}
+                initialFiltersKey="tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE"
+                categories={['全部']}
+            />,
+        )
+
+        expect(await screen.findByText('匹配的 SSR 项目')).toBeInTheDocument()
+        await waitFor(() => expect(fetchMock).not.toHaveBeenCalledWith(expect.stringContaining('/api/projects'), expect.anything()))
+    })
+
+    it('repairs stale SSR data even when no scroll checkpoint is available', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockImplementation(async (input) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) return { ok: true, json: async () => ({ projects: [] }) } as Response
+            return { ok: true, json: async () => ({ projects: [makeProject(7, '无记录点的新项目')], hasMore: false, total: 1 }) } as Response
+        })
+
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+
+        expect(await screen.findByText('无记录点的新项目')).toBeInTheDocument()
+        expect(screen.queryByText('过期 SSR 项目')).not.toBeInTheDocument()
+        expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('page=0'), expect.anything())
+    })
+
+    it('restores every missing page from page zero when SSR data is stale', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 3,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockImplementation(async (input) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) return { ok: true, json: async () => ({ projects: [] }) } as Response
+            const page = Number(new URL(url, 'http://localhost').searchParams.get('page'))
+            return { ok: true, json: async () => ({ projects: [makeProject(page + 10, `恢复第 ${page} 页`)], hasMore: page < 2, total: 3 }) } as Response
+        })
+
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+
+        expect(await screen.findByText('恢复第 0 页')).toBeInTheDocument()
+        expect(screen.getByText('恢复第 1 页')).toBeInTheDocument()
+        expect(screen.getByText('恢复第 2 页')).toBeInTheDocument()
+        expect(fetchMock.mock.calls.filter(([input]) => String(input).includes('/api/projects')).map(([input]) => String(input))).toEqual(expect.arrayContaining([
+            expect.stringContaining('page=0'), expect.stringContaining('page=1'), expect.stringContaining('page=2'),
+        ]))
+    })
+
+    it('shows a retry action when the first restore page fails', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 1,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
+        const fetchMock = vi.mocked(fetch)
+        let restoreAttempts = 0
+        fetchMock.mockImplementation(async (input) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) return { ok: true, json: async () => ({ projects: [] }) } as Response
+            restoreAttempts += 1
+            if (restoreAttempts === 1) return { ok: false, text: async () => 'restore failed' } as Response
+            return { ok: true, json: async () => ({ projects: [makeProject(8, '重试成功项目')], hasMore: false, total: 1 }) } as Response
+        })
+
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+
+        const retry = await screen.findByRole('button', { name: '重试加载' })
+        await waitFor(() => expect(retry).toBeEnabled())
+        await userEvent.click(retry)
+        expect(await screen.findByText('重试成功项目')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('retries the first missing page after a partial restore failure', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 3,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
+        const fetchMock = vi.mocked(fetch)
+        let pageOneAttempts = 0
+        fetchMock.mockImplementation(async (input) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) return { ok: true, json: async () => ({ projects: [] }) } as Response
+            const page = Number(new URL(url, 'http://localhost').searchParams.get('page'))
+            if (page === 1 && pageOneAttempts++ === 0) return { ok: false, text: async () => 'page one failed' } as Response
+            return { ok: true, json: async () => ({ projects: [makeProject(page + 20, `补齐第 ${page} 页`)], hasMore: page < 2, total: 3 }) } as Response
+        })
+
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+
+        const retry = await screen.findByRole('button', { name: '重试加载' })
+        expect(await screen.findByText('补齐第 0 页')).toBeInTheDocument()
+        await waitFor(() => expect(retry).toBeEnabled())
+        await userEvent.click(retry)
+        expect(await screen.findByText('补齐第 1 页')).toBeInTheDocument()
+        expect(screen.getByText('补齐第 0 页')).toBeInTheDocument()
+    })
+
+    it('cancels a pending restore when a new filter is applied', async () => {
+        currentSearchParams = new URLSearchParams('tags=已选标签')
+        sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
+            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 1,
+        }))
+        vi.stubGlobal('scrollTo', vi.fn())
+        vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockImplementation((input, init) => {
+            const url = String(input)
+            if (!url.includes('/api/projects')) return Promise.resolve({ ok: true, json: async () => ({ projects: [] }) } as Response)
+            if (url.includes('page=0')) {
+                return new Promise<Response>((_, reject) => init?.signal?.addEventListener('abort', () => reject(createAbortError()), { once: true }))
+            }
+            return Promise.resolve({ ok: true, json: async () => ({ projects: [makeProject(99, '新筛选项目')], hasMore: false, total: 1 }) } as Response)
+        })
+
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部', '科学']} />)
+        await user.click(screen.getByRole('button', { name: '最新' }))
+
+        expect(await screen.findByText('新筛选项目')).toBeInTheDocument()
+        expect(screen.queryByText('过期 SSR 项目')).not.toBeInTheDocument()
     })
 
     it('exposes real pagination links for the latest list', () => {
