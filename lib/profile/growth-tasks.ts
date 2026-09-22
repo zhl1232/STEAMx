@@ -1,5 +1,5 @@
 import type { UserStats } from '@/lib/gamification/types'
-import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
+import { PLATFORM_ONBOARDING_HREF } from '@/lib/product/onboarding'
 
 export const GROWTH_TASK_REWARD_ACTION_TYPE = 'profile_growth_task'
 export const GROWTH_TASK_GRADUATION_ACTION_TYPE = 'profile_growth_task_graduation'
@@ -22,6 +22,14 @@ export type GrowthTaskProgressInput = {
   observationsSubmitted: number
   consecutiveDays: number
 }
+
+export const MAIN_GROWTH_TASK_IDS = [
+  'start_first_lesson',
+  'complete_first_lesson',
+  'publish_first_work',
+] as const
+
+export const GROWTH_TASK_TOTAL = MAIN_GROWTH_TASK_IDS.length
 
 type GrowthTaskDefinition = {
   id: GrowthTaskId
@@ -50,15 +58,15 @@ export type ProfileGrowthTask = {
 }
 
 /**
- * 顺序即主线：前三条是「挑一节积木课 → 跟 3D 分步搭完 → 拍照上传作品」，
- * 后两条是搭完之后顺手能做的补充动作。起步周计划直接消费这份定义，
+ * 顺序即主线：前三条是「开始一次实践 → 完成一次实践 → 保存作品或记录」，
+ * 后两条是完成主线后可继续做的补充动作。起步周计划直接消费这份定义，
  * 保证「这周要做的事」和「能领的奖励」是同一批对象。
  */
 const GROWTH_TASK_DEFINITIONS: readonly GrowthTaskDefinition[] = [
   {
     id: 'start_first_lesson',
-    label: '挑一节积木课打开看看',
-    href: MAINLINE_ENTRY_HREF,
+    label: '开始一次实践',
+    href: PLATFORM_ONBOARDING_HREF,
     rewardXp: 10,
     target: 1,
     getCurrentValue: (input) => input.lessonsStarted,
@@ -66,8 +74,8 @@ const GROWTH_TASK_DEFINITIONS: readonly GrowthTaskDefinition[] = [
   },
   {
     id: 'complete_first_lesson',
-    label: '跟着 3D 分步搭完这一节',
-    href: MAINLINE_ENTRY_HREF,
+    label: '完成一次实践',
+    href: PLATFORM_ONBOARDING_HREF,
     rewardXp: 20,
     target: 1,
     getCurrentValue: (input) => input.lessonsCompleted,
@@ -75,8 +83,8 @@ const GROWTH_TASK_DEFINITIONS: readonly GrowthTaskDefinition[] = [
   },
   {
     id: 'publish_first_work',
-    label: '拍张照，交出第一件作品',
-    href: MAINLINE_ENTRY_HREF,
+    label: '保存作品或记录',
+    href: '/profile/library',
     rewardXp: 30,
     target: 1,
     getCurrentValue: (input) => input.worksPublished,
@@ -101,8 +109,6 @@ const GROWTH_TASK_DEFINITIONS: readonly GrowthTaskDefinition[] = [
     getProgressLabel: (currentValue) => `${Math.min(currentValue, 1)}/1`,
   },
 ] as const
-
-export const GROWTH_TASK_TOTAL = GROWTH_TASK_DEFINITIONS.length
 
 function clampProgress(value: number, target: number) {
   if (target <= 0) return 0
@@ -130,8 +136,18 @@ export function countDistinctClaimedGrowthTaskRewards(
   return ids.size
 }
 
+export function countDistinctClaimedMainGrowthTaskRewards(
+  rows: ReadonlyArray<{ resource_id: string | null }>,
+) {
+  const ids = new Set<string>()
+  for (const row of rows) {
+    if (row.resource_id && MAIN_GROWTH_TASK_IDS.includes(row.resource_id as (typeof MAIN_GROWTH_TASK_IDS)[number])) ids.add(row.resource_id)
+  }
+  return ids.size
+}
+
 export function isAllGrowthTasksClaimed(tasks: readonly ProfileGrowthTask[]) {
-  return tasks.length > 0 && tasks.every((task) => task.claimed)
+  return MAIN_GROWTH_TASK_IDS.every((id) => tasks.some((task) => task.id === id && task.claimed))
 }
 
 export function toGrowthTaskInput({
@@ -194,6 +210,6 @@ export function resolveGrowthTasks(
   })
 }
 
-export function getCompletedGrowthTaskCount(tasks: readonly Pick<ProfileGrowthTask, 'done'>[]) {
-  return tasks.filter((task) => task.done).length
+export function getCompletedGrowthTaskCount(tasks: readonly Pick<ProfileGrowthTask, 'id' | 'done'>[]) {
+  return tasks.filter((task) => task.done && MAIN_GROWTH_TASK_IDS.includes(task.id as (typeof MAIN_GROWTH_TASK_IDS)[number])).length
 }

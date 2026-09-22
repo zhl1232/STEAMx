@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, CheckCircle2, ChevronRight, Circle, PlayCircle } from "lucide-react";
+import { BookOpen, CheckCircle2, ChevronRight, PlayCircle } from "lucide-react";
 
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,7 @@ export function CourseBoard({ courses }: { courses: CourseListItem[] }) {
                     title="积木搭建"
                     description="从一块积木开始，跟着 3D 分步完成一件看得见的作品。"
                     courses={brick}
+                    brickLayout
                 />
             ) : null}
             {other.length > 0 ? (
@@ -69,12 +70,14 @@ function CourseSection({
     description,
     courses,
     separated = false,
+    brickLayout = false,
 }: {
     eyebrow: string;
     title: string;
     description: string;
     courses: CourseListItem[];
     separated?: boolean;
+    brickLayout?: boolean;
 }) {
     const headingId = `course-section-${title}`;
 
@@ -90,7 +93,7 @@ function CourseSection({
                 </h2>
                 <p className="mt-0.5 text-xs leading-5 text-muted-foreground md:mt-1 md:text-sm md:leading-6">{description}</p>
             </div>
-            <div className="grid gap-3 md:grid-cols-2 md:gap-4">
+            <div className={cn("grid gap-3 md:gap-4 lg:grid-cols-2", brickLayout && "xl:grid-cols-3")}>
                 {courses.map((course, index) => (
                     <CourseCard key={course.id} course={course} priority={index === 0 && !separated} />
                 ))}
@@ -130,12 +133,10 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const progress = course.progress;
     const isBrick = isBrickCourse(course);
-    const ProgressIcon =
-        progress?.status === "completed"
-            ? CheckCircle2
-            : progress?.status === "in_progress"
-                ? PlayCircle
-                : Circle;
+    const hasProgress = progress && progress.total_lesson_count > 0 && progress.status !== "not_started";
+    const completed = hasProgress && progress.status === "completed";
+    const actionLabel = completed ? "回顾课程" : hasProgress ? "继续学习" : "开始学习";
+    const ProgressIcon = completed ? CheckCircle2 : PlayCircle;
 
     const progressPercent =
         progress && progress.total_lesson_count > 0
@@ -143,7 +144,7 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
             : 0;
 
     return (
-        <article className="group relative flex flex-col overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] p-3 shadow-2xs transition-all duration-300 hover:border-[hsl(var(--brand-blue)/0.45)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-xs min-[390px]:p-3.5 sm:grid sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-3.5 md:grid-cols-[132px_minmax(0,1fr)] md:p-4">
+        <article className="group relative grid grid-cols-[88px_minmax(0,1fr)] content-start gap-x-3 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] p-3 shadow-2xs transition-colors hover:border-[hsl(var(--brand-blue)/0.45)] min-[24rem]:grid-cols-[96px_minmax(0,1fr)] md:grid-cols-[120px_minmax(0,1fr)] md:gap-x-4 md:p-4 min-[90rem]:grid-cols-[144px_minmax(0,1fr)]">
             <Link
                 href={`/courses/${course.id}`}
                 prefetch={false}
@@ -154,7 +155,7 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
             {/* 左侧/顶部 3D 展台封面 */}
             <div
                 className={cn(
-                    "relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-sm sm:aspect-square sm:w-full",
+                    "relative aspect-square w-full shrink-0 overflow-hidden rounded-sm",
                     isBrick
                         ? "bg-linear-to-br from-amber-500/10 via-orange-500/5 to-amber-500/5 dark:from-amber-400/12 dark:via-orange-400/8 dark:to-transparent"
                         : "bg-linear-to-br from-sky-500/10 via-blue-500/5 to-transparent dark:from-sky-400/12 dark:via-blue-400/8 dark:to-transparent",
@@ -167,68 +168,42 @@ function CourseCard({ course, priority = false }: { course: CourseListItem; prio
                     priority={priority}
                     variant="card"
                     className="object-contain p-2 transition-transform duration-500 group-hover:scale-108"
-                    sizes="(max-width: 640px) 100vw, 132px"
+                    sizes="(min-width: 1440px) 144px, (min-width: 768px) 120px, (min-width: 384px) 96px, 88px"
                 />
             </div>
 
-            {/* 右侧信息排版 */}
-            <div className="pointer-events-none relative z-0 mt-3 flex min-w-0 flex-1 flex-col justify-between sm:mt-0">
-                <div>
-                    <h3 className="line-clamp-1 text-[15px] font-bold leading-tight text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] min-[390px]:text-[16px] md:text-[17px]">
-                        {course.title}
-                    </h3>
-                    <p className="mt-1 line-clamp-1 text-[12px] leading-5 text-muted-foreground min-[390px]:text-[13px]">
-                        {course.description}
-                    </p>
-
-                    <ContentClassification classification={course.classification} compact className="mt-2" />
-
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-1 rounded bg-[hsl(var(--surface-muted))] px-2 py-0.5 text-[11px] font-medium text-foreground/80">
-                            <BookOpen className="h-3 w-3 text-muted-foreground" />
-                            {course.lesson_count} 课时
+            <div className="pointer-events-none min-w-0">
+                <h3 className="line-clamp-2 text-base font-bold leading-5 text-foreground group-hover:text-[hsl(var(--brand-blue))] md:text-[17px] md:leading-6">
+                    {course.title}
+                </h3>
+                <p className="mt-1 hidden text-[13px] leading-5 text-muted-foreground md:line-clamp-2">
+                    {course.description}
+                </p>
+                <ContentClassification classification={course.classification} compact className="mt-2 [&>span]:text-[11px]" />
+                <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
+                    <BookOpen className="h-3 w-3" aria-hidden />
+                    {course.lesson_count} 课时
+                </div>
+            </div>
+            <div className="pointer-events-none col-span-2 mt-3 border-t border-[hsl(var(--surface-border)/0.5)] pt-2.5">
+                <div className="flex items-center justify-between gap-2">
+                    {hasProgress ? (
+                        <span className="flex items-center gap-1 text-xs text-[hsl(var(--brand-blue))]">
+                            <ProgressIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                            {completed ? "已完成" : `${progress.completed_lesson_count}/${progress.total_lesson_count}`}
                         </span>
-                        {course.tags?.slice(0, 2).map((tag) => (
-                            <span
-                                key={tag}
-                                className="rounded bg-[hsl(var(--surface-muted))] px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                {/* 进度条与行动胶囊 */}
-                <div className="mt-3 border-t border-[hsl(var(--surface-border)/0.5)] pt-2.5">
-                    {progress && progress.total_lesson_count > 0 ? (
-                        <div className="space-y-1.5">
-                            <div className="flex items-center justify-between text-[11px] font-semibold">
-                                <span className="flex items-center gap-1 text-[hsl(var(--brand-blue))]">
-                                    <ProgressIcon className="h-3.5 w-3.5 shrink-0" />
-                                    {progress.completed_lesson_count}/{progress.total_lesson_count}
-                                </span>
-                                <span className="text-muted-foreground">{progressPercent}%</span>
-                            </div>
-                            <div className="h-1.5 w-full overflow-hidden rounded-full bg-[hsl(var(--surface-muted))]">
-                                <div
-                                    className="h-full rounded-full bg-[hsl(var(--brand-blue))] transition-all duration-500"
-                                    style={{ width: `${progressPercent}%` }}
-                                />
-                            </div>
-                        </div>
                     ) : (
-                        <div className="flex items-center justify-between">
-                            <span className="text-[11px] text-muted-foreground/80">
-                                {isBrick ? "3D 分步搭建" : "系统进阶学习"}
-                            </span>
-                            <span className="inline-flex h-7 items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 text-[11px] font-bold text-[hsl(var(--brand-blue))] transition-colors group-hover:bg-[hsl(var(--brand-blue))] group-hover:text-white">
-                                开始学习
-                                <ChevronRight className="h-3 w-3" />
-                            </span>
-                        </div>
+                        <span className="text-xs text-muted-foreground">{isBrick ? "3D 分步搭建" : "系统进阶学习"}</span>
                     )}
+                    <span className="inline-flex min-h-7 shrink-0 items-center gap-0.5 rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 text-xs font-bold text-[hsl(var(--brand-blue))]">
+                        {actionLabel}<ChevronRight className="h-3 w-3" aria-hidden />
+                    </span>
                 </div>
+                {hasProgress && !completed ? (
+                    <div role="progressbar" aria-label="课程学习进度" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent} className="mt-2 h-1.5 overflow-hidden rounded-full bg-[hsl(var(--surface-muted))]">
+                        <div className="h-full rounded-full bg-[hsl(var(--brand-blue))]" style={{ width: `${progressPercent}%` }} />
+                    </div>
+                ) : null}
             </div>
         </article>
     );

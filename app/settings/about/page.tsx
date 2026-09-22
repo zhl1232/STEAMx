@@ -226,7 +226,7 @@ export default function AboutSettingsPage() {
               <a href="/assets/contact-wechat.png" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="flex h-[240px] justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <Image src="/assets/contact-wechat.png" alt="添加创探空间微信客服的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
               </a>
-              <p className="text-xs leading-6 text-muted-foreground">添加时请备注「创探空间」。点击图片可查看、保存原图。</p>
+              <p className="text-xs leading-6 text-muted-foreground">家长或老师添加客服时，请备注「入群」，方便客服安排入群。点击图片可查看、保存原图。</p>
             </figure>
           </div>
         </section>

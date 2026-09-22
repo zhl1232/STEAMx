@@ -25,6 +25,7 @@ export function buildLlmsTxt() {
     `- 积木搭建入门：${buildAbsoluteUrl("/learn/blocks")}`,
     `- Scratch 入门：${buildAbsoluteUrl("/learn/scratch")}`,
     `- 科学实验入门：${buildAbsoluteUrl("/learn/science")}`,
+    `- 自然观察入门：${buildAbsoluteUrl("/learn/nature")}`,
     `- 自然观察：${buildAbsoluteUrl("/nature")}`,
     `- 物种图鉴：${buildAbsoluteUrl("/nature/species")}`,
     `- 观察记录：${buildAbsoluteUrl("/nature/observations")}`,

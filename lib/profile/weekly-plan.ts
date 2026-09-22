@@ -1,7 +1,7 @@
 import type { Challenge, ObservationEvent, Project, StageProgress } from '@/lib/mappers/types'
 import { sanitizeTutorUGC } from '@/lib/ai/tutor/untrusted-text'
 import type { NaturalObservationProgressSummary } from '@/lib/observations/progress'
-import type { GrowthTaskId, ProfileGrowthTask } from '@/lib/profile/growth-tasks'
+import { MAIN_GROWTH_TASK_IDS, type GrowthTaskId, type ProfileGrowthTask } from '@/lib/profile/growth-tasks'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import { isExploreVacuum } from '@/lib/profile/next-action'
@@ -349,13 +349,16 @@ function buildStarterPlan(weekStart: string, growthTasks?: ProfileGrowthTask[]):
 function resolveGrowthProgress(growthTasks?: ProfileGrowthTask[]): WeeklyPlanGrowthProgress | undefined {
   if (!growthTasks?.length) return undefined
 
-  const completed = growthTasks.filter((task) => task.done).length
-  const graduated = growthTasks.every((task) => task.claimed)
+  const graduated = MAIN_GROWTH_TASK_IDS.every((id) => growthTasks.some((task) => task.id === id && task.claimed))
 
   // 已毕业就不再占据卡片头部
   if (graduated) return undefined
 
-  return { completed, total: growthTasks.length, graduated }
+  return {
+    completed: growthTasks.filter((task) => MAIN_GROWTH_TASK_IDS.includes(task.id as (typeof MAIN_GROWTH_TASK_IDS)[number]) && task.done).length,
+    total: MAIN_GROWTH_TASK_IDS.length,
+    graduated: MAIN_GROWTH_TASK_IDS.every((id) => growthTasks.some((task) => task.id === id && task.claimed)),
+  }
 }
 
 export function buildWeeklyPlan(input: BuildWeeklyPlanInput): WeeklyPlan {

@@ -8,7 +8,7 @@ import { AuthFlow } from '@/components/auth/auth-flow'
 interface LoginDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSuccess?: () => void
+  onSuccess?: (options?: { isNewUser?: boolean }) => void
   title?: string
   description?: string
 }
@@ -64,9 +64,13 @@ export function LoginDialog({
             title={title}
             description={description}
             onClose={() => onOpenChange(false)}
-            onSuccess={() => {
+            onSuccess={(options) => {
               onOpenChange(false)
-              onSuccess?.()
+              if (onSuccess) {
+                onSuccess(options)
+              } else if (options?.isNewUser) {
+                window.location.href = '/start'
+              }
             }}
           />
         </div>

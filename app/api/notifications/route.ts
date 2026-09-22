@@ -210,20 +210,33 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const beforeParam = searchParams.get('before')
     const before = beforeParam ? validateDateTimeString(beforeParam, 'before') : null
+    const beforeIdParam = searchParams.get('beforeId')
+    const beforeId = beforeIdParam ? toPositiveInteger(beforeIdParam) : null
+    if (beforeIdParam && (!before || !beforeId)) return NextResponse.json({ error: 'Invalid beforeId' }, { status: 400 })
     const limitParam = searchParams.get('limit')
     const requestedLimit = limitParam ? toPositiveInteger(limitParam) : null
     const pageSize = Math.min(requestedLimit || DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE)
+    const category = searchParams.get('category')
+    const categoryTypes: Record<string, string[]> = {
+      system: ['system'],
+      replies: ['reply', 'mention', 'creator_update'],
+      likes: ['like', 'tip'],
+      follows: ['follow'],
+    }
+    if (category && !categoryTypes[category]) return NextResponse.json({ error: 'Invalid category' }, { status: 400 })
 
     let query = supabase
       .from('notifications')
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
       .limit(pageSize)
 
     if (before) {
-      query = query.lt('created_at', before)
+      query = beforeId ? query.or(`created_at.lt.${before},and(created_at.eq.${before},id.lt.${beforeId})`) : query.lt('created_at', before)
     }
+    if (category) query = query.in('type', categoryTypes[category])
 
     const { data, error } = await query
     if (error) throw error
@@ -231,7 +244,7 @@ export async function GET(request: NextRequest) {
     const list = (data || []) as Record<string, unknown>[]
     const hasMore = list.length === pageSize
 
-    return NextResponse.json({ notifications: list, hasMore })
+    return NextResponse.json({ notifications: list, hasMore, nextCursor: list.at(-1)?.created_at ?? null })
   } catch (error) {
     return handleApiError(error)
   }
@@ -244,6 +257,10 @@ export async function POST(request: NextRequest) {
     const user = await requireAuth(supabase)
     await requireRateLimit(supabase, { key: 'api-notifications-create', limit: 60, windowMs: 60_000 })
     const body = await request.json()
+
+    if (body?.title !== undefined || body?.system_kind !== undefined || body?.announcement_id !== undefined) {
+      return NextResponse.json({ error: 'Communication notifications are server-created' }, { status: 403 })
+    }
 
     const userId = validateUUID(body?.user_id, 'user_id')
     const type = typeof body?.type === 'string' ? body.type : null

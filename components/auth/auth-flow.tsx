@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { logger } from '@/lib/logger'
-import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
+import { PLATFORM_ONBOARDING_HREF } from '@/lib/product/onboarding'
 import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
@@ -44,7 +44,7 @@ interface AuthFlowProps {
   nextPath?: string
   onBack?: () => void
   onClose?: () => void
-  onSuccess?: () => void
+  onSuccess?: (options?: { isNewUser?: boolean }) => void
 }
 
 function getOtpErrorMessage(error: unknown, defaultMessage = OTP_SEND_FAIL_DEFAULT): string {
@@ -75,7 +75,7 @@ function getAuthErrorMessage() {
 }
 
 /**
- * 新注册没有指定 next 时，落地页直接给主线（积木课），而不是首页。
+ * 新注册没有指定 next 时，落地页进入平台方向指南，而不是首页。
  * 手机号验证码同时承担登录和注册，所以「是不是新用户」只能由 verify 接口告诉我们。
  * 老用户登录仍然回首页或来处，避免打断他们原本要做的事。
  */
@@ -183,7 +183,7 @@ export function AuthFlow({
       ? '输入手机号找回账号。'
       : null)
   const resolveSuccessTarget = (isNewUser: boolean) =>
-    nextPath ?? getSafeNextPath(isNewUser || emailMode === 'sign_up' ? MAINLINE_ENTRY_HREF : '/')
+    nextPath ?? getSafeNextPath(isNewUser || emailMode === 'sign_up' ? PLATFORM_ONBOARDING_HREF : '/')
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
   const descriptionId = resolvedDescription
     ? (presentation === 'page' ? 'auth-page-description' : 'auth-layer-description')
@@ -246,7 +246,7 @@ export function AuthFlow({
     }
 
     if (onSuccess) {
-      onSuccess()
+      onSuccess(options)
       return
     }
 

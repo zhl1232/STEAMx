@@ -12,6 +12,7 @@ import {
   Loader2,
   LayoutDashboard,
   WalletCards,
+  Compass,
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -73,6 +74,9 @@ export function UserButton({ compact = false }: UserButtonProps) {
         <LoginDialog
           open={loginOpen}
           onOpenChange={setLoginOpen}
+          onSuccess={(options) => {
+            if (options?.isNewUser) window.location.href = '/start'
+          }}
           title="登录或注册"
         />
       </>
@@ -132,6 +136,12 @@ export function UserButton({ compact = false }: UserButtonProps) {
           <Link href="/profile" className="cursor-pointer">
             <UserIcon className="mr-2 h-4 w-4" />
             <span>个人中心</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/start" className="cursor-pointer">
+            <Compass className="mr-2 h-4 w-4" />
+            <span>探索指南</span>
           </Link>
         </DropdownMenuItem>
         {!compact ? (

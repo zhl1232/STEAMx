@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ButtonHTMLAttributes } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -9,18 +9,6 @@ import type { Project } from '@/lib/mappers/types'
 
 const clearLikesDeltaForProjects = vi.fn()
 const toast = vi.fn()
-let mockAuth = {
-    user: null as { id: string } | null,
-    loading: false,
-}
-let mockGamification = {
-    level: 1,
-    progress: 0,
-    levelProgress: 0,
-    levelTotalNeeded: 100,
-    unlockedBadges: new Set<string>(),
-    userStats: undefined as { projectsCompleted: number } | undefined,
-}
 let currentSearchParams = new URLSearchParams()
 let latestIntersectionCallback: IntersectionObserverCallback | null = null
 let intersectionCallbacks: IntersectionObserverCallback[] = []
@@ -35,14 +23,6 @@ vi.mock('@/lib/context/project-context', () => ({
         clearLikesDeltaForProjects,
         completedProjects: new Set<number>(),
     }),
-}))
-
-vi.mock('@/lib/context/auth-context', () => ({
-    useAuth: () => mockAuth,
-}))
-
-vi.mock('@/lib/context/gamification-context', () => ({
-    useGamification: () => mockGamification,
 }))
 
 vi.mock('@/hooks/use-toast', () => ({
@@ -150,18 +130,6 @@ describe('ExploreClient', () => {
     beforeEach(() => {
         vi.clearAllMocks()
         sessionStorage.clear()
-        mockAuth = {
-            user: null,
-            loading: false,
-        }
-        mockGamification = {
-            level: 1,
-            progress: 0,
-            levelProgress: 0,
-            levelTotalNeeded: 100,
-            unlockedBadges: new Set<string>(),
-            userStats: undefined,
-        }
         currentSearchParams = new URLSearchParams()
         latestIntersectionCallback = null
         intersectionCallbacks = []
@@ -381,78 +349,6 @@ describe('ExploreClient', () => {
         render(<ExploreClient initialProjects={[makeProject(1, '分页项目')]} initialHasMore initialPage={1} categories={['全部']} />)
         expect(screen.getByRole('link', { name: '下一页' })).toHaveAttribute('href', '/explore?sortBy=latest&page=2')
         expect(screen.getByRole('link', { name: '第一页' })).toHaveAttribute('href', '/explore?sortBy=latest')
-    })
-
-    it('shows a progress-saving prompt for signed-out users', () => {
-        render(
-            <ExploreClient
-                initialProjects={[makeProject(1, '初始项目')]}
-                initialHasMore={false}
-                categories={['全部', '科学']}
-            />,
-        )
-
-        expect(screen.getByText('保存你的探索进度')).toBeInTheDocument()
-        expect(screen.getByText('登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。')).toBeInTheDocument()
-        expect(screen.getByText(/不知道从哪开始？试试「趣味实验」/)).toBeInTheDocument()
-        expect(screen.getByRole('link', { name: '登录保存进度' })).toHaveAttribute('href', '/login')
-    })
-
-    it('shows exploration progress for signed-in users', () => {
-        mockAuth = {
-            user: { id: 'user-1' },
-            loading: false,
-        }
-        mockGamification = {
-            level: 4,
-            progress: 62.5,
-            levelProgress: 250,
-            levelTotalNeeded: 400,
-            unlockedBadges: new Set(['first_step', 'explorer']),
-            userStats: { projectsCompleted: 3 },
-        }
-
-        render(
-            <ExploreClient
-                initialProjects={[makeProject(1, '初始项目')]}
-                initialHasMore={false}
-                categories={['全部', '科学']}
-            />,
-        )
-
-        expect(screen.getByText('你的探索进度')).toBeInTheDocument()
-        expect(screen.getByText('Lv.4')).toBeInTheDocument()
-        expect(screen.getByText('62%')).toBeInTheDocument()
-        expect(screen.getByText('距离下一级还差 150 XP')).toBeInTheDocument()
-        expect(screen.getByText('3 个')).toBeInTheDocument()
-        expect(screen.getByText('2 枚')).toBeInTheDocument()
-        expect(screen.getByRole('link', { name: '查看探索记录' })).toHaveAttribute('href', '/profile/library')
-    })
-
-    it('keeps completed projects in a syncing state until stats load', () => {
-        mockAuth = {
-            user: { id: 'user-1' },
-            loading: false,
-        }
-        mockGamification = {
-            level: 2,
-            progress: 25,
-            levelProgress: 75,
-            levelTotalNeeded: 300,
-            unlockedBadges: new Set(),
-            userStats: undefined,
-        }
-
-        render(
-            <ExploreClient
-                initialProjects={[makeProject(1, '初始项目')]}
-                initialHasMore={false}
-                categories={['全部', '科学']}
-            />,
-        )
-
-        expect(screen.getByText('完成项目')).toBeInTheDocument()
-        expect(screen.getByText('同步中')).toBeInTheDocument()
     })
 
     it('keeps the next page index when a filter request fails', async () => {
@@ -848,5 +744,85 @@ describe('ExploreClient', () => {
         expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
+    })
+
+    it('keeps the applied query when a draft search fails', async () => {
+        currentSearchParams = new URLSearchParams('q=旧词&category=科学')
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({ ok: false, text: async () => 'failed' } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
+
+        const inputs = screen.getAllByPlaceholderText('搜索项目、材料、作者...')
+        await user.clear(inputs[0])
+        await user.type(inputs[0], '新词')
+        await user.keyboard('{Enter}')
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalled())
+        expect(screen.getByRole('button', { name: /旧词/ })).toBeInTheDocument()
+        expect(inputs[0]).toHaveValue('新词')
+    })
+
+    it('does not leak an unsubmitted draft into category filtering', async () => {
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
+
+        const input = screen.getAllByPlaceholderText('搜索项目、材料、作者...')[0]
+        await user.type(input, '草稿')
+        await user.click(screen.getByRole('button', { name: '科学' }))
+
+        await waitFor(() => expect(fetchMock).toHaveBeenCalled())
+        expect(String(fetchMock.mock.calls[0]?.[0])).toContain('category=%E7%A7%91%E5%AD%A6')
+        expect(String(fetchMock.mock.calls[0]?.[0])).not.toContain('q=')
+        expect(input).toHaveValue('草稿')
+    })
+
+    it('clears mobile search while preserving other applied filters', async () => {
+        currentSearchParams = new URLSearchParams('q=旧词&category=科学')
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
+
+        await user.click(within(screen.getByRole('search')).getByRole('button', { name: '清空搜索' }))
+        await waitFor(() => expect(fetchMock).toHaveBeenCalled())
+        const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
+        expect(requestUrl).not.toContain('q=')
+        expect(requestUrl).toContain('category=%E7%A7%91%E5%AD%A6')
+    })
+
+    it('keeps a failed clear visibly empty while retaining the applied query', async () => {
+        currentSearchParams = new URLSearchParams('q=旧词')
+        const fetchMock = vi.mocked(fetch)
+        fetchMock.mockResolvedValue({ ok: false, text: async () => 'failed' } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
+        const input = screen.getAllByPlaceholderText('搜索项目、材料、作者...')[0]
+        await user.click(screen.getAllByRole('button', { name: '清空搜索' })[0])
+        expect(input).toHaveValue('')
+        expect(screen.getByRole('button', { name: /旧词/ })).toBeInTheDocument()
+    })
+
+    it('does not let a delayed search response replace a newer draft', async () => {
+        const fetchMock = vi.mocked(fetch)
+        let resolveSearch!: (response: Response) => void
+        fetchMock.mockImplementation(async (input) => {
+            if (String(input).includes('/api/projects')) {
+                return new Promise<Response>((resolve) => { resolveSearch = resolve })
+            }
+            return { ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response
+        })
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
+        const input = screen.getAllByPlaceholderText('搜索项目、材料、作者...')[0]
+        await user.type(input, '慢查询')
+        await user.keyboard('{Enter}')
+        await waitFor(() => expect(resolveSearch).toBeTypeOf('function'))
+        await user.type(input, '新草稿')
+        resolveSearch({ ok: true, json: async () => ({ projects: [makeProject(2, '慢结果')], hasMore: false, total: 1 }) } as Response)
+        await waitFor(() => expect(screen.getByTestId('explore-project-grid')).toHaveTextContent('慢结果'))
+        expect(input).toHaveValue('慢查询新草稿')
     })
 })

@@ -114,11 +114,13 @@ export function BottomNav() {
                             setPendingHref(null);
                         }
                     }}
-                    onSuccess={() => {
+                    onSuccess={(options) => {
                         const nextHref = pendingHref;
                         setPendingHref(null);
                         if (nextHref) {
                             router.push(nextHref);
+                        } else if (options?.isNewUser) {
+                            router.push('/start');
                         }
                     }}
                     title="登录后继续"

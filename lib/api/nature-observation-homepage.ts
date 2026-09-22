@@ -14,7 +14,10 @@ import {
   type Species,
 } from '@/lib/mappers/types'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
-import { resolveSpeciesNatureTopicKey } from '@/lib/utils/nature-topic-classification'
+import {
+  resolveSpeciesNatureTopicKey,
+  visibleSpeciesTopicKeys,
+} from '@/lib/utils/nature-topic-classification'
 import { applyHistoricalPublicLocationPrecision } from '@/lib/observations/public-location'
 
 import {
@@ -203,7 +206,7 @@ async function countWeeklyPublicObservations() {
     .eq('status', 'approved')
     .eq('is_public', true)
     .eq('moderation_state', 'approved')
-    .gte('observed_at', since)
+    .gte('created_at', since)
 
   if (error) {
     logger.error('Error counting weekly public observations', { error })
@@ -219,6 +222,7 @@ async function countActiveSpecies() {
     .from('species')
     .select('id', { count: 'exact', head: true })
     .eq('is_active', true)
+    .in('nature_topic', [...visibleSpeciesTopicKeys])
 
   if (error) {
     logger.error('Error counting active species', { error })
@@ -804,6 +808,100 @@ export async function getTreeObservationRecentObservations(limit = 6): Promise<O
   return getTopicObservationRecentObservations('plants', limit)
 }
 
+async function hydratePublicObservationRows(observationRows: ObservationEventRow[]): Promise<ObservationEvent[]> {
+  if (observationRows.length === 0) {
+    return []
+  }
+
+  const supabase = createPublicClient()
+  const [linkedRows, profilesById] = await Promise.all([
+    (async () => {
+      const links: ObservationSpeciesTopicLinkRow[] = []
+      for (const idBatch of chunkItems(observationRows.map((row) => row.id), HOTSPOT_QUERY_BATCH_SIZE)) {
+        const { data, error } = await supabase
+          .from('observation_event_species')
+          .select('observation_event_id,species_id,count')
+          .in('observation_event_id', idBatch)
+        if (error) {
+          logger.error('Error fetching public observation species links', { error })
+          continue
+        }
+        links.push(...((data || []) as unknown as ObservationSpeciesTopicLinkRow[]))
+      }
+      return links
+    })(),
+    loadProfileSummaries(observationRows.map((row) => row.user_id)),
+  ])
+
+  const speciesIds = Array.from(new Set(linkedRows.map((row) => row.species_id)))
+  const speciesById = new Map<number, SpeciesTopicRow>()
+  for (const idBatch of chunkItems(speciesIds, HOTSPOT_QUERY_BATCH_SIZE)) {
+    const { data, error } = await supabase
+      .from('species')
+      .select('id,slug,common_name,scientific_name,taxon_group,nature_topic,is_active')
+      .in('id', idBatch)
+      .eq('is_active', true)
+    if (error) {
+      logger.error('Error fetching species for public observations', { error })
+      continue
+    }
+    for (const row of ((data || []) as unknown as SpeciesTopicRow[])) {
+      speciesById.set(row.id, row)
+    }
+  }
+
+  const speciesByEvent = new Map<number, ObservationSpeciesSummary[]>()
+  for (const link of linkedRows) {
+    const species = speciesById.get(link.species_id)
+    if (!species) continue
+    const current = speciesByEvent.get(link.observation_event_id) || []
+    current.push({
+      speciesId: species.id,
+      speciesSlug: species.slug,
+      commonName: species.common_name,
+      scientificName: species.scientific_name,
+      count: link.count,
+      behaviorTags: [],
+      confidence: null,
+      notes: null,
+    })
+    speciesByEvent.set(link.observation_event_id, current)
+  }
+
+  return observationRows.map((rawRow) => {
+    const row = applyHistoricalPublicLocationPrecision(rawRow)
+    const profile = profilesById.get(row.user_id)
+    return {
+      ...mapDbObservationEvent(row as never, speciesByEvent.get(row.id) || []),
+      authorDisplayName: profile?.display_name || profile?.username || null,
+    }
+  })
+}
+
+async function getRecentNatureObservations(limit = 12): Promise<ObservationEvent[]> {
+  if (limit <= 0) {
+    return []
+  }
+
+  const supabase = createPublicClient()
+  const { data, error } = await supabase
+    .from('observation_events')
+    .select(HOMEPAGE_OBSERVATION_SELECT)
+    .eq('status', 'approved')
+    .eq('is_public', true)
+    .eq('moderation_state', 'approved')
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    logger.error('Error fetching recent observations for nature homepage', { error })
+    return []
+  }
+
+  return hydratePublicObservationRows((data || []) as unknown as ObservationEventRow[])
+}
+
 export async function getRecentNatureObservationsForMap(limit = 24): Promise<ObservationEvent[]> {
   if (limit <= 0) {
     return []
@@ -835,72 +933,7 @@ export async function getRecentNatureObservationsForMap(limit = 24): Promise<Obs
     return []
   }
 
-  const observationRows = (data || []) as unknown as ObservationEventRow[]
-
-  const [linkedRows, profilesById] = await Promise.all([
-    (async () => {
-      const links: ObservationSpeciesTopicLinkRow[] = []
-      for (const idBatch of chunkItems(observationRows.map((row) => row.id), HOTSPOT_QUERY_BATCH_SIZE)) {
-        const { data: linkData, error: linkError } = await supabase
-          .from('observation_event_species')
-          .select('observation_event_id,species_id,count')
-          .in('observation_event_id', idBatch)
-        if (linkError) {
-          logger.error('Error fetching links for homepage map observations', { error: linkError })
-          continue
-        }
-        links.push(...((linkData || []) as unknown as ObservationSpeciesTopicLinkRow[]))
-      }
-      return links
-    })(),
-    loadProfileSummaries(observationRows.map((row) => row.user_id)),
-  ])
-
-  const speciesIds = Array.from(new Set(linkedRows.map((row) => row.species_id)))
-  const speciesById = new Map<number, SpeciesTopicRow>()
-  if (speciesIds.length > 0) {
-    for (const idBatch of chunkItems(speciesIds, HOTSPOT_QUERY_BATCH_SIZE)) {
-      const { data: speciesData, error: speciesError } = await supabase
-        .from('species')
-        .select('id,slug,common_name,scientific_name,taxon_group,nature_topic,is_active')
-        .in('id', idBatch)
-        .eq('is_active', true)
-      if (speciesError) {
-        logger.error('Error fetching species for homepage map observations', { error: speciesError })
-        continue
-      }
-      for (const row of ((speciesData || []) as unknown as SpeciesTopicRow[])) {
-        speciesById.set(row.id, row)
-      }
-    }
-  }
-
-  const speciesByEvent = new Map<number, ObservationSpeciesSummary[]>()
-  for (const link of linkedRows) {
-    const species = speciesById.get(link.species_id)
-    if (!species) continue
-    const current = speciesByEvent.get(link.observation_event_id) || []
-    current.push({
-      speciesId: species.id,
-      speciesSlug: species.slug,
-      commonName: species.common_name,
-      scientificName: species.scientific_name,
-      count: link.count,
-      behaviorTags: [],
-      confidence: null,
-      notes: null,
-    })
-    speciesByEvent.set(link.observation_event_id, current)
-  }
-
-  return observationRows.map((rawRow) => {
-    const row = applyHistoricalPublicLocationPrecision(rawRow)
-    const profile = profilesById.get(row.user_id)
-    return {
-      ...mapDbObservationEvent(row as never, speciesByEvent.get(row.id) || []),
-      authorDisplayName: profile?.display_name || profile?.username || null,
-    }
-  })
+  return hydratePublicObservationRows((data || []) as unknown as ObservationEventRow[])
 }
 
 export async function getBirdObservationCategoryStats(): Promise<BirdObservationCategoryStats> {
@@ -1014,7 +1047,7 @@ const getBirdObservationHomepageDataCached = unstable_cache(
   async (): Promise<BirdHomepageData> => {
     const [featuredSpecies, recentObservations, mapObservations, statsAndSummaries] = await Promise.all([
       getTopicObservationFeaturedSpeciesBase('birds'),
-      getBirdObservationRecentObservations(12),
+      getRecentNatureObservations(12),
       getRecentNatureObservationsForMap(24),
       getHomepageStatsAndSummaries(),
     ])
@@ -1029,7 +1062,7 @@ const getBirdObservationHomepageDataCached = unstable_cache(
       galleryImages: collectObservationGalleryImages(recentObservations),
     }
   },
-  ['nature-homepage-v5-created-at-order'],
+  ['nature-homepage-v6-all-public-observations-created-at-order'],
   { revalidate: 300, tags: ['nature-homepage'] },
 )
 

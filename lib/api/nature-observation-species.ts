@@ -28,6 +28,7 @@ import {
 } from '@/lib/observations/progress'
 import {
   getNatureTopicLabel,
+  isVisibleSpeciesTopicKey,
   normalizeSpeciesTopicFilter,
   resolveSpeciesNatureTopicKey,
   visibleSpeciesTopicKeys,
@@ -573,6 +574,7 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
     .select('*')
     .eq('slug', slug)
     .eq('is_active', true)
+    .in('nature_topic', [...visibleSpeciesTopicKeys])
     .maybeSingle()
 
   if (error) {
@@ -580,7 +582,7 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
     throw error
   }
 
-  if (!data) return null
+  if (!data || !isVisibleSpeciesTopicKey(data.nature_topic)) return null
 
   const baseSpecies = mapSpeciesWithDerivedFields(data as SpeciesRow)
 

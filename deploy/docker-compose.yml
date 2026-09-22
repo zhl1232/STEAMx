@@ -35,3 +35,18 @@ services:
       NODE_OPTIONS: "${AUTO_INTERACTION_NODE_OPTIONS:---max-old-space-size=192}"
     mem_limit: "${AUTO_INTERACTION_MEMORY_LIMIT:-256m}"
     command: ["node", "auto-interactions-worker.mjs"]
+
+  communications-worker:
+    image: "${STEAM_APP_IMAGE:-steam-app:latest}"
+    container_name: steam-communications-worker
+    restart: unless-stopped
+    depends_on:
+      steam-app:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      COMMUNICATIONS_WORKER_URL: http://steam-app:3000/api/internal/communications/run
+      NODE_OPTIONS: "${COMMUNICATIONS_WORKER_NODE_OPTIONS:---max-old-space-size=192}"
+    mem_limit: "${COMMUNICATIONS_WORKER_MEMORY_LIMIT:-256m}"
+    command: ["node", "communications-worker.mjs"]

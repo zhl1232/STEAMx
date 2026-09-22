@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Blocks, Code2, FlaskConical } from "lucide-react";
+import { ArrowRight, Blocks, Code2, FlaskConical, Leaf } from "lucide-react";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { listApprovedCourses } from "@/lib/api/courses";
@@ -31,6 +31,7 @@ const TOPIC_APPEARANCE = {
     blocks: { icon: Blocks, accent: "var(--tone-engineering)" },
     scratch: { icon: Code2, accent: "var(--tone-tech)" },
     science: { icon: FlaskConical, accent: "var(--tone-science)" },
+    nature: { icon: Leaf, accent: "var(--brand-green)" },
 } as const;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -55,6 +56,13 @@ function matchesCourseTopic(course: CourseListItem, topic: "blocks" | "scratch")
 }
 
 async function loadTopicResources(topic: LearningTopicSlug): Promise<LearningResource[]> {
+    if (topic === "nature") {
+        return [
+            { id: "record", title: "记录第一次观察", description: "上传你拍摄的照片，核对观察时间、地点。不认识物种也可以开始。", href: "/nature/submit?from=%2Flearn%2Fnature", detail: "动手记录" },
+            { id: "atlas", title: "认识身边的物种", description: "浏览鸟类、昆虫、植物等物种资料，对照看得见的特征。", href: "/nature/species", detail: "物种图鉴" },
+            { id: "community", title: "看看大家的发现", description: "看看别人怎样拍照、描述特征和记录环境。", href: "/nature/observations", detail: "公开观察" },
+        ];
+    }
     if (topic === "science") {
         const { projects } = await getProjects(
             { category: "科学" },
@@ -98,12 +106,12 @@ export default async function LearningTopicPage({ params }: PageProps) {
         >
             <JsonLd data={buildBreadcrumbJsonLd([
                 { name: "首页", url: "/" },
-                { name: "技能课程", url: "/courses" },
+                { name: topic.slug === "nature" ? "自然观察" : "技能课程", url: topic.slug === "nature" ? "/nature" : "/courses" },
                 { name: topic.label, url: `/learn/${topic.slug}` },
             ])} />
             <article className="app-shell-wide pb-24 pt-4 md:pb-12 md:pt-6">
                 <nav aria-label="面包屑" className="mb-5 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
-                    <Link href="/courses" className="inline-flex min-h-11 items-center hover:text-foreground">技能课程</Link>
+                    <Link href={topic.slug === "nature" ? "/nature" : "/courses"} className="inline-flex min-h-11 items-center hover:text-foreground">{topic.slug === "nature" ? "自然观察" : "技能课程"}</Link>
                     <span aria-hidden="true">/</span>
                     <span aria-current="page">{topic.label}</span>
                 </nav>
@@ -120,7 +128,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
                             href="#start-learning"
                             className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-[hsl(var(--topic-accent)/0.12)] px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-[hsl(var(--topic-accent)/0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]"
                         >
-                            {topic.slug === "science" ? "选择一个科学项目" : "选择一门课程"}
+                            {topic.slug === "nature" ? "开始第一次观察" : topic.slug === "science" ? "选择一个科学项目" : "选择一门课程"}
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </a>
                     </div>
@@ -162,7 +170,49 @@ export default async function LearningTopicPage({ params }: PageProps) {
                     )}
                 </section>
 
-                <section aria-labelledby="learning-method" className="border-t border-border py-8 md:py-10">
+                {topic.equipmentSets ? (
+                    <section aria-labelledby="building-equipment" className="border-t border-border py-8 md:py-10">
+                        <h2 id="building-equipment" className="text-xl font-bold text-foreground">认识课程使用的教育套装</h2>
+                        <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">9090、9076、9656、45002 各有侧重。套装编号帮助识别零件组合；准备具体作品时，还要核对课时的零件清单、数量和连接方式，不能只凭套装编号判断零件是否齐全。</p>
+                        <div className="mt-5 rounded-sm border border-border bg-card p-4 md:p-5">
+                            <h3 className="text-base font-bold text-foreground">小班、中班、大班怎么选套？</h3>
+                            <ul className="mt-3 space-y-3 text-sm leading-7 text-muted-foreground">
+                                <li><strong className="font-semibold text-foreground">小班：主要使用 9090＋9076。</strong>从基础造型、生活场景和管道组合开始，练习拼接、互锁与简单结构。</li>
+                                <li><strong className="font-semibold text-foreground">中班：工程搭建可参考 45002。</strong>车辆、吊车等装配活动可从这类工程套装入手，再按作品需要搭配基础积木。</li>
+                                <li><strong className="font-semibold text-foreground">大班：机械探索可参考 9656。</strong>围绕齿轮、杠杆、滑轮和轮轴开展活动，再按作品需要补充结构零件。</li>
+                            </ul>
+                            <p className="mt-3 text-xs leading-6 text-muted-foreground">中班、大班为按学习内容给出的选套参考，尚未逐课核对全部作品所需零件；不代表单套即可完成整门课程。购买或准备前，请先查看选中课时的零件清单与搭建图。</p>
+                            <a href="https://www.ndhy.com/lego/zone.shtml" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline">分龄配置参考（外部教学方案）</a>
+                        </div>
+                        <dl className="mt-5 grid gap-x-8 gap-y-5 md:grid-cols-2">
+                            {topic.equipmentSets.map((set) => (
+                                <div key={set.code} className="border-l-2 border-[hsl(var(--topic-accent)/0.35)] pl-4">
+                                    <dt className="text-base font-bold text-foreground"><span className="mr-2 tabular-nums text-[hsl(var(--topic-accent))]">{set.code}</span>{set.name}</dt>
+                                    <dd className="mt-2 text-sm leading-7 text-muted-foreground">{set.use}</dd>
+                                    <dd><a href={set.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline">官方套装资料（英文）</a></dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </section>
+                ) : null}
+
+                {topic.concepts ? (
+                    <section aria-labelledby="building-concepts" className="border-t border-border py-8 md:py-10">
+                        <h2 id="building-concepts" className="text-xl font-bold text-foreground">搭得牢、站得稳、动得起来</h2>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">不只照着图完成造型，也用小实验理解结构。可以先从“互锁”开始。</p>
+                        <dl className="mt-5 grid gap-6 md:grid-cols-2 md:gap-8">
+                            {topic.concepts.map((concept) => (
+                                <div key={concept.title}>
+                                    <dt className="text-base font-bold text-foreground">{concept.title}</dt>
+                                    <dd className="mt-2 text-sm leading-7 text-muted-foreground">{concept.description}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        <a className="mt-4 inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline" href="https://assets.education.lego.com/v3/assets/blt293eea581807678a/bltb2ff88770e40583b/613ab1b40f12922b05ea6df0/Engineering_Design_Notebook_Build_to_Launch_Printers_Marks.pdf?locale=en-us" target="_blank" rel="noopener noreferrer">互锁与加固参考：LEGO Education 搭建指南（英文 PDF）</a>
+                    </section>
+                ) : null}
+
+                <section id={topic.slug === "nature" ? "record-observation" : undefined} aria-labelledby="learning-method" className="scroll-mt-24 border-t border-border py-8 md:py-10">
                     <div className="grid gap-8 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10">
                         <div>
                             <h2 id="learning-method" className="text-xl font-bold text-foreground">可以这样一步步开始</h2>
@@ -207,6 +257,13 @@ export default async function LearningTopicPage({ params }: PageProps) {
                         {topic.reflection.map((question) => <li key={question} className="border-l-2 border-[hsl(var(--topic-accent)/0.5)] pl-4 text-sm leading-7 text-foreground/85">{question}</li>)}
                     </ul>
                 </section>
+
+                {topic.slug === "nature" ? (
+                    <div className="flex flex-wrap items-center gap-3 border-t border-border py-6">
+                        <Link href="/nature/submit?from=%2Flearn%2Fnature" className="inline-flex min-h-11 items-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">记录第一次观察<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
+                        <Link href="/nature/observations" className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">看看大家的发现</Link>
+                    </div>
+                ) : null}
 
                 <nav aria-label="继续探索学习主题" className="flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border pt-5 text-sm">
                     <span className="mr-1 text-muted-foreground">换一种方式继续探索</span>

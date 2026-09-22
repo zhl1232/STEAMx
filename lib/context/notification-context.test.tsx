@@ -52,7 +52,7 @@ function jsonResponse(body: unknown, init?: ResponseInit) {
 }
 
 function TestComponent() {
-    const { unreadCount, notificationUnreadCount, dmUnreadCount, isLoading, markAsRead, notifications, hasMore } = useNotifications()
+    const { unreadCount, notificationUnreadCount, dmUnreadCount, isLoading, markAsRead, notifications, hasMore, loadCategory, loadMore } = useNotifications()
 
     if (isLoading) {
         return <div>loading</div>
@@ -68,6 +68,9 @@ function TestComponent() {
             <button type="button" onClick={() => void markAsRead(1)}>
                 mark-read
             </button>
+            <button type="button" onClick={() => void loadCategory('replies')}>replies</button>
+            <button type="button" onClick={() => void loadCategory('likes')}>likes</button>
+            <button type="button" onClick={() => void loadMore()}>load-more</button>
         </div>
     )
 }
@@ -291,5 +294,62 @@ describe('NotificationProvider', () => {
 
         expect(merged.notifications.map((notification) => notification.content)).toEqual(['轮询新通知', '初始通知'])
         expect(merged.hasMore).toBe(false)
+    })
+
+    it('does not let an older category response overwrite the latest category', async () => {
+        let resolveReplies!: (response: Response) => void
+        let resolveLikes!: (response: Response) => void
+        const replies = new Promise<Response>((resolve) => { resolveReplies = resolve })
+        const likes = new Promise<Response>((resolve) => { resolveLikes = resolve })
+        vi.stubGlobal('fetch', vi.fn((input: string | URL | Request) => {
+            const rawUrl = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+            const url = new URL(rawUrl, 'http://localhost')
+            if (url.pathname === '/api/notifications' && url.searchParams.get('category') === 'replies') return replies
+            if (url.pathname === '/api/notifications' && url.searchParams.get('category') === 'likes') return likes
+            if (url.pathname === '/api/notifications/unread-count') return Promise.resolve(jsonResponse({ count: 0 }))
+            if (url.pathname === '/api/messages/unread-count') return Promise.resolve(jsonResponse({ count: 0 }))
+            if (url.pathname === '/api/notifications') return Promise.resolve(jsonResponse({ notifications: [], hasMore: false }))
+            throw new Error(`Unexpected fetch: ${rawUrl}`)
+        }))
+
+        render(<NotificationProvider><TestComponent /></NotificationProvider>)
+        await waitFor(() => expect(screen.getByRole('button', { name: 'replies' })).toBeVisible())
+        await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: 'replies' }))
+            fireEvent.click(screen.getByRole('button', { name: 'likes' }))
+        })
+        resolveLikes(jsonResponse({ notifications: [{ id: 2, user_id: 'user-1', type: 'like', content: 'likes result', is_read: false, created_at: '2026-03-20T00:00:00.000Z' }], hasMore: false }))
+        await waitFor(() => expect(screen.getByTestId('notification-list')).toHaveTextContent('likes result'))
+        resolveReplies(jsonResponse({ notifications: [{ id: 1, user_id: 'user-1', type: 'reply', content: 'stale replies result', is_read: false, created_at: '2026-03-20T00:00:00.000Z' }], hasMore: false }))
+        await act(async () => { await replies })
+        expect(screen.getByTestId('notification-list')).toHaveTextContent('likes result')
+        expect(screen.getByTestId('notification-list')).not.toHaveTextContent('stale replies result')
+    })
+
+    it('loads a same-timestamp next page with both before and beforeId', async () => {
+        let page = 0
+        let requestedUrl = ''
+        vi.stubGlobal('fetch', vi.fn((input: string | URL | Request) => {
+            const rawUrl = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+            const url = new URL(rawUrl, 'http://localhost')
+            if (url.pathname === '/api/notifications/unread-count') return Promise.resolve(jsonResponse({ count: 0 }))
+            if (url.pathname === '/api/messages/unread-count') return Promise.resolve(jsonResponse({ count: 0 }))
+            if (url.pathname === '/api/notifications') {
+                requestedUrl = url.toString()
+                page += 1
+                return Promise.resolve(jsonResponse(page === 1
+                    ? { notifications: [{ id: 2, user_id: 'user-1', type: 'reply', content: 'first', is_read: false, created_at: '2026-03-20T00:00:00.000Z' }], hasMore: true }
+                    : { notifications: [{ id: 1, user_id: 'user-1', type: 'reply', content: 'same timestamp older id', is_read: false, created_at: '2026-03-20T00:00:00.000Z' }], hasMore: false }))
+            }
+            throw new Error(`Unexpected fetch: ${rawUrl}`)
+        }))
+
+        render(<NotificationProvider><TestComponent /></NotificationProvider>)
+        await waitFor(() => expect(screen.getByTestId('notification-list')).toHaveTextContent('first'))
+        await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'load-more' })) })
+        await waitFor(() => expect(screen.getByTestId('notification-list')).toHaveTextContent('same timestamp older id'))
+        const query = new URL(requestedUrl).searchParams
+        expect(query.get('before')).toBe('2026-03-20T00:00:00.000Z')
+        expect(query.get('beforeId')).toBe('2')
     })
 })

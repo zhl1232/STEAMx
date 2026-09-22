@@ -30,7 +30,7 @@ describe("sitemap route coverage", () => {
   it("maps all supported public content types and only emits available parts pages", () => {
     const urls = buildSitemapEntries({
       projects: [{ id: 1, updated_at: "2026-01-01T00:00:00Z" }],
-      species: [{ slug: "passer-montanus", updated_at: "2026-01-02T00:00:00Z" }],
+      species: [{ slug: "passer-montanus", nature_topic: "birds", updated_at: "2026-01-02T00:00:00Z" }],
       observations: [{ id: 2, updated_at: "2026-01-03T00:00:00Z" }],
       courses: [{ id: 3, updated_at: "2026-01-04T00:00:00Z" }],
       lessons: [
@@ -55,6 +55,22 @@ describe("sitemap route coverage", () => {
       "/pbl/8",
     ]));
     expect(urls).not.toContain("/courses/3/lessons/5/parts");
+  });
+
+  it("excludes fungi and legacy unclassified species from public detail URLs", () => {
+    const urls = buildSitemapEntries({
+      projects: [],
+      species: [
+        { slug: "bird", nature_topic: "birds", updated_at: null },
+        { slug: "fungus", nature_topic: "fungi", updated_at: null },
+        { slug: "legacy", nature_topic: null, updated_at: null },
+      ],
+      observations: [], courses: [], lessons: [], works: [], resources: [], challenges: [],
+    }).map((entry) => new URL(entry.url).pathname)
+
+    expect(urls).toContain("/nature/species/bird")
+    expect(urls).not.toContain("/nature/species/fungus")
+    expect(urls).not.toContain("/nature/species/legacy")
   });
 
   it("uses the latest valid completion or review timestamp for public works", () => {
@@ -106,5 +122,6 @@ describe("sitemap generation failures", () => {
     const select = mockDatabase();
     await expect(sitemap()).resolves.toEqual(buildSitemapEntries());
     expect(select).toHaveBeenCalledWith("completed_projects", "id, completed_at, reviewed_at, project_id, course_lesson_id");
+    expect(select).toHaveBeenCalledWith("species", "slug, nature_topic, updated_at");
   });
 });

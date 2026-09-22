@@ -263,8 +263,10 @@ describe("DailyCheckInSync", () => {
         );
         expect(mockToast).toHaveBeenCalledWith(
             expect.objectContaining({
-                duration: 4000,
-                description: expect.anything(),
+                duration: 2000,
+                title: '今日奖励：+13 经验 · +2 硬币',
+                presentation: 'compact',
+                type: 'background',
             }),
         );
     });

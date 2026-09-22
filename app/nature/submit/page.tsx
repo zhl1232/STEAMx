@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationSubmitForm } from "@/components/features/bird-observation/observation-submit-form";
@@ -42,6 +43,16 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
       mainClassName="space-y-0"
       mobileHeaderSticky={false}
     >
+      <div className="mb-4">
+        <Link
+          href="/learn/nature#record-observation"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-11 items-center rounded-full border border-border/70 bg-background/70 px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40"
+        >
+          怎样拍照和记录？
+        </Link>
+      </div>
       <ObservationSubmitForm
         speciesOptions={speciesOptions}
         initialSpeciesId={initialSpeciesId}

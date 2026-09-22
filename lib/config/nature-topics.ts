@@ -20,6 +20,8 @@ export interface NatureTopicConfig {
   href?: string
 }
 
+// Keep the full key/label registry above for database and historical-record
+// compatibility. Only currently public topics belong in this navigation list.
 export const natureTopics: NatureTopicConfig[] = [
   {
     id: 'birds',
@@ -47,13 +49,5 @@ export const natureTopics: NatureTopicConfig[] = [
     description: '覆盖树木、花草和食用植物，记录叶片、花果、种子与生长环境等线索。',
     status: 'available',
     href: '/nature/plants',
-  },
-  {
-    id: 'fungi',
-    slug: 'fungi',
-    title: '真菌观察',
-    subtitle: '专题预告',
-    description: '记录雨后和潮湿环境中的真菌线索，逐步补全本地真菌档案。',
-    status: 'upcoming',
   },
 ]

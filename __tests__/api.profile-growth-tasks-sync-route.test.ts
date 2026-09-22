@@ -136,7 +136,7 @@ describe('POST /api/profile/growth-tasks/sync', () => {
           status: 'claimable',
         }),
       ]),
-      completedTaskCount: 5,
+      completedTaskCount: 3,
       graduatedAt: null,
     })
   })

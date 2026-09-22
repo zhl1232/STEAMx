@@ -14,8 +14,8 @@ import {
   toGrowthTaskInput,
 } from '@/lib/profile/growth-tasks'
 import { createClient } from '@/lib/supabase/server'
-import { callRpc } from '@/lib/supabase/rpc'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { callRpc } from '@/lib/supabase/rpc'
 
 export async function POST() {
   const supabase = await createClient()
@@ -25,7 +25,7 @@ export async function POST() {
 
     const [{ data: profile, error: profileError }, { data: statsData, error: statsError }] = await Promise.all([
       supabase.from('profiles').select('bio').eq('id', user.id).maybeSingle(),
-      callRpc(supabase, 'get_user_stats_summary', { target_user_id: user.id }),
+      callRpc(supabase, 'get_platform_growth_progress', { p_user_id: user.id }),
     ])
 
     if (profileError) {

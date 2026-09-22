@@ -28,16 +28,22 @@ export type Notification = {
   from_avatar?: string; // User avatar URL
   is_read: boolean;
   created_at: string;
+  title?: string | null;
+  system_kind?: 'welcome' | 'announcement' | null;
+  announcement_id?: number | null;
 };
+export type NotificationCategory = 'system' | 'replies' | 'likes' | 'follows';
 
 type NotificationContextType = {
   notifications: Notification[];
   unreadCount: number;
   notificationUnreadCount: number;
+  unreadCountsByCategory: Record<NotificationCategory, number>;
   dmUnreadCount: number;
   hasMore: boolean;
   isLoadingMore: boolean;
   loadMore: () => Promise<void>;
+  loadCategory: (category: NotificationCategory) => Promise<void>;
   markAsRead: (id: number) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   refreshUnreadCount: () => Promise<void>;
@@ -54,10 +60,12 @@ const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
   notifications: [],
   unreadCount: 0,
   notificationUnreadCount: 0,
+  unreadCountsByCategory: { system: 0, replies: 0, likes: 0, follows: 0 },
   dmUnreadCount: 0,
   hasMore: false,
   isLoadingMore: false,
   loadMore: async () => {},
+  loadCategory: async () => {},
   markAsRead: async () => {},
   markAllAsRead: async () => {},
   refreshUnreadCount: async () => {},
@@ -69,6 +77,7 @@ const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
 type UnreadCountSnapshot = {
   notificationUnreadCount: number;
   dmUnreadCount: number;
+  unreadCountsByCategory: Record<NotificationCategory, number>;
 };
 
 let unreadCountCache: { userId: string; fetchedAt: number; data: UnreadCountSnapshot } | null = null;
@@ -113,7 +122,7 @@ async function fetchUnreadCountSnapshot(userId: string, { force = false }: { for
     ]);
 
     if (notificationResponse.status === 401 || dmResponse.status === 401) {
-      return { notificationUnreadCount: 0, dmUnreadCount: 0 };
+      return { notificationUnreadCount: 0, dmUnreadCount: 0, unreadCountsByCategory: { system: 0, replies: 0, likes: 0, follows: 0 } };
     }
 
     let notificationUnreadCount = unreadCountCache?.userId === userId
@@ -123,9 +132,13 @@ async function fetchUnreadCountSnapshot(userId: string, { force = false }: { for
       ? unreadCountCache.data.dmUnreadCount
       : 0;
 
+    let unreadCountsByCategory: Record<NotificationCategory, number> = unreadCountCache?.userId === userId
+      ? unreadCountCache.data.unreadCountsByCategory
+      : { system: 0, replies: 0, likes: 0, follows: 0 };
     if (notificationResponse.ok) {
       const payload = await notificationResponse.json();
       notificationUnreadCount = Number(payload?.count ?? 0);
+      if (payload?.countsByCategory) unreadCountsByCategory = { ...unreadCountsByCategory, ...payload.countsByCategory };
     } else {
       logger.error("Error fetching notification unread count:", {
         detail: await notificationResponse.text(),
@@ -139,7 +152,7 @@ async function fetchUnreadCountSnapshot(userId: string, { force = false }: { for
       logger.error("Error fetching message unread count:", { detail: await dmResponse.text() });
     }
 
-    return { notificationUnreadCount, dmUnreadCount };
+    return { notificationUnreadCount, dmUnreadCount, unreadCountsByCategory };
   })();
 
   unreadCountInFlight = { userId, promise };
@@ -194,6 +207,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [notificationUnreadCount, setNotificationUnreadCount] = useState(0);
+  const [unreadCountsByCategory, setUnreadCountsByCategory] = useState<Record<NotificationCategory, number>>({ system: 0, replies: 0, likes: 0, follows: 0 });
   const [dmUnreadCount, setDmUnreadCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -202,6 +216,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const hasMoreRef = useRef(true);
   const { user } = useAuth();
   const shouldLoadNotificationList = pathname === "/messages";
+  const currentUserRef = useRef(user?.id);
+  const categoryRef = useRef<NotificationCategory | null>(null);
+  const listRequestRef = useRef(0);
+  if (currentUserRef.current !== user?.id) {
+    currentUserRef.current = user?.id;
+    listRequestRef.current += 1;
+  }
+
 
   notificationsRef.current = notifications;
   hasMoreRef.current = hasMore;
@@ -209,12 +231,15 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const fetchUnreadCount = useCallback(async ({ force = false }: { force?: boolean } = {}) => {
     if (!user) {
       setNotificationUnreadCount(0);
+      setUnreadCountsByCategory({ system: 0, replies: 0, likes: 0, follows: 0 });
       setDmUnreadCount(0);
       return;
     }
     try {
       const snapshot = await fetchUnreadCountSnapshot(user.id, { force });
+      if (currentUserRef.current !== user.id) return;
       setNotificationUnreadCount(snapshot.notificationUnreadCount);
+      setUnreadCountsByCategory(snapshot.unreadCountsByCategory);
       setDmUnreadCount(snapshot.dmUnreadCount);
     } catch (error) {
       logger.error(error, { context: "Error fetching unread count" });
@@ -222,55 +247,44 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const fetchingNotificationsRef = useRef(false);
   const fetchNotifications = useCallback(
     async ({ reset = true, merge = false }: { reset?: boolean; merge?: boolean } = {}) => {
-      if (!user) {
+      const requestId = ++listRequestRef.current;
+      const userId = user?.id;
+      const isCurrent = () => requestId === listRequestRef.current && currentUserRef.current === userId;
+      if (!userId) {
         setNotifications([]);
-        setNotificationUnreadCount(0);
-        setDmUnreadCount(0);
-        setHasMore(true);
+        setHasMore(false);
         setIsLoading(false);
         return;
       }
-      if (fetchingNotificationsRef.current) return;
-      fetchingNotificationsRef.current = true;
       if (reset) setIsLoading(true);
+      setIsLoadingMore(false);
       try {
-        const response = await fetch("/api/notifications");
+        const category = categoryRef.current;
+        const response = await fetch(category ? `/api/notifications?category=${category}` : '/api/notifications');
+        if (!isCurrent()) return;
         if (response.status === 401) {
           setNotifications([]);
-          setNotificationUnreadCount(0);
-          setDmUnreadCount(0);
-          setHasMore(true);
+          setHasMore(false);
           return;
         }
-        if (!response.ok) {
-          logger.error("Error fetching notifications:", { detail: await response.text() });
-          return;
-        }
+        if (!response.ok) throw new Error('通知加载失败');
         const payload = await response.json();
+        if (!isCurrent()) return;
         const list = (payload?.notifications || []) as Notification[];
         if (merge) {
-          const mergedState = mergeLatestNotificationState(
-            list,
-            notificationsRef.current,
-            hasMoreRef.current,
-          );
-          setNotifications(mergedState.notifications);
-          setHasMore(mergedState.hasMore);
+          setNotifications(mergeLatestNotifications(list, notificationsRef.current));
         } else {
           setNotifications(list);
           setHasMore(Boolean(payload?.hasMore));
         }
       } catch (error) {
-        logger.error(error, { context: "Error fetching notifications" });
+        if (isCurrent()) logger.error(error, { context: 'Error fetching notifications' });
       } finally {
-        fetchingNotificationsRef.current = false;
-        if (reset) setIsLoading(false);
+        if (isCurrent()) setIsLoading(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [user?.id],
   );
 
@@ -278,32 +292,38 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     const list = notificationsRef.current;
     if (!user || !hasMore || isLoadingMore || list.length === 0) return;
     const last = list[list.length - 1];
-    const lastCreated = last?.created_at;
-    if (!lastCreated) return;
+    if (!last?.created_at) return;
+    const requestId = ++listRequestRef.current;
+    const userId = user.id;
+    const isCurrent = () => requestId === listRequestRef.current && currentUserRef.current === userId;
     setIsLoadingMore(true);
     try {
-      const params = new URLSearchParams({ before: lastCreated });
-      const response = await fetch(`/api/notifications?${params.toString()}`);
-      if (response.status === 401) {
-        setIsLoadingMore(false);
-        return;
-      }
-      if (!response.ok) {
-        logger.error("Error loading more notifications:", { detail: await response.text() });
-        setIsLoadingMore(false);
-        return;
-      }
+      const params = new URLSearchParams({ before: last.created_at, beforeId: String(last.id) });
+      if (categoryRef.current) params.set('category', categoryRef.current);
+      const response = await fetch(`/api/notifications?${params}`);
+      if (!response.ok) throw new Error('更多通知加载失败');
       const payload = await response.json();
+      if (!isCurrent()) return;
       const next = (payload?.notifications || []) as Notification[];
-      setNotifications((prev) => [...prev, ...next]);
+      setNotifications((prev) => {
+        const ids = new Set(prev.map((item) => item.id));
+        return [...prev, ...next.filter((item) => !ids.has(item.id))];
+      });
       setHasMore(Boolean(payload?.hasMore));
     } catch (error) {
-      logger.error(error, { context: "Error loading more notifications" });
+      if (isCurrent()) logger.error(error, { context: 'Error loading more notifications' });
     } finally {
-      setIsLoadingMore(false);
+      if (isCurrent()) setIsLoadingMore(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, hasMore, isLoadingMore]);
+
+  const loadCategory = useCallback(async (category: NotificationCategory) => {
+    categoryRef.current = category;
+    listRequestRef.current += 1;
+    setNotifications([]);
+    setHasMore(false);
+    await fetchNotifications();
+  }, [fetchNotifications]);
 
   const fetchUnreadCountRef = useRef(fetchUnreadCount);
   const fetchNotificationsRef = useRef(fetchNotifications);
@@ -311,9 +331,13 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   fetchNotificationsRef.current = fetchNotifications;
 
   useEffect(() => {
+    listRequestRef.current += 1;
+    setNotifications([]);
+    setIsLoadingMore(false);
     if (!user?.id) {
       setNotifications((prev) => (prev.length === 0 ? prev : []));
       setNotificationUnreadCount(0);
+      setUnreadCountsByCategory({ system: 0, replies: 0, likes: 0, follows: 0 });
       setDmUnreadCount(0);
       setHasMore(true);
       setIsLoading(false);
@@ -412,15 +436,21 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         return;
       }
 
-      if (!wasUnread) {
+      if (currentUserRef.current !== user.id || !wasUnread) {
         return;
       }
 
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
       setNotificationUnreadCount((c) => Math.max(0, c - 1));
+      const notification = notificationsRef.current.find((n) => n.id === id);
+      const category = notification?.type === 'system' ? 'system'
+        : notification?.type === 'follow' ? 'follows'
+        : notification?.type === 'like' || notification?.type === 'tip' ? 'likes' : 'replies';
+      setUnreadCountsByCategory((counts) => ({ ...counts, [category]: Math.max(0, counts[category] - 1) }));
       updateUnreadCountCache(user.id, (current) => ({
         ...current,
         notificationUnreadCount: Math.max(0, current.notificationUnreadCount - 1),
+        unreadCountsByCategory: { ...current.unreadCountsByCategory, [category]: Math.max(0, current.unreadCountsByCategory[category] - 1) },
       }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -439,9 +469,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return;
     }
 
+    if (currentUserRef.current !== user.id) return;
+    listRequestRef.current += 1;
+    setIsLoadingMore(false);
+    setIsLoading(false);
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setNotificationUnreadCount(0);
-    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0 }));
+    setUnreadCountsByCategory({ system: 0, replies: 0, likes: 0, follows: 0 });
+    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0, unreadCountsByCategory: { system: 0, replies: 0, likes: 0, follows: 0 } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
@@ -480,10 +515,15 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       return;
     }
 
+    if (currentUserRef.current !== user.id) return;
+    listRequestRef.current += 1;
     setNotifications([]);
     setNotificationUnreadCount(0);
-    setHasMore(true);
-    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0 }));
+    setUnreadCountsByCategory({ system: 0, replies: 0, likes: 0, follows: 0 });
+    setIsLoadingMore(false);
+    setIsLoading(false);
+    setHasMore(false);
+    updateUnreadCountCache(user.id, (current) => ({ ...current, notificationUnreadCount: 0, unreadCountsByCategory: { system: 0, replies: 0, likes: 0, follows: 0 } }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
@@ -495,10 +535,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       notifications,
       unreadCount,
       notificationUnreadCount,
+      unreadCountsByCategory,
       dmUnreadCount,
       hasMore,
       isLoadingMore,
       loadMore,
+      loadCategory,
       markAsRead,
       markAllAsRead,
       refreshUnreadCount,
@@ -510,10 +552,12 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       notifications,
       unreadCount,
       notificationUnreadCount,
+      unreadCountsByCategory,
       dmUnreadCount,
       hasMore,
       isLoadingMore,
       loadMore,
+      loadCategory,
       markAsRead,
       markAllAsRead,
       refreshUnreadCount,

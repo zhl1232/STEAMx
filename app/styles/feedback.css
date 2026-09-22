@@ -1,0 +1,43 @@
+/* Routine reward feedback stays smaller than actionable notifications. */
+.compact-feedback-toast {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 0;
+  align-self: center;
+  padding: 0.625rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  backdrop-filter: none;
+  box-shadow: 0 4px 12px hsl(var(--surface-shadow) / 0.12);
+}
+
+.compact-feedback-toast > div > div {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@media (width < 48rem) {
+  .compact-feedback-viewport {
+    inset-inline: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    align-items: center;
+  }
+
+  body:has(.bottom-nav-bar) .compact-feedback-viewport {
+    bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compact-feedback-toast {
+    animation: none;
+    transition: none;
+  }
+}

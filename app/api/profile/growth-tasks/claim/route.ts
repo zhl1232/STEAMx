@@ -2,21 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import type { UserStats } from '@/lib/gamification/types'
 import {
-  GROWTH_TASK_GRADUATION_ACTION_TYPE,
-  GROWTH_TASK_GRADUATION_RESOURCE_ID,
-  GROWTH_TASK_REWARD_ACTION_TYPE,
-  GROWTH_TASK_TOTAL,
-  type GrowthTaskId,
-  countDistinctClaimedGrowthTaskRewards,
   getGrowthTaskDefinition,
   isGrowthTaskId,
-  resolveGrowthTasks,
-  toGrowthTaskInput,
 } from '@/lib/profile/growth-tasks'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { callRpc } from '@/lib/supabase/rpc'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -42,140 +32,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '服务暂时不可用' }, { status: 500 })
     }
 
-    const [{ data: profile, error: profileError }, { data: statsData, error: statsError }] = await Promise.all([
-      supabase.from('profiles').select('bio').eq('id', user.id).maybeSingle(),
-      callRpc(supabase, 'get_user_stats_summary', { target_user_id: user.id }),
-    ])
-
-    if (profileError) {
-      throw profileError
-    }
-    if (statsError) {
-      throw statsError
-    }
-
-    const { data: existingReward, error: rewardError } = await supabaseAdmin
-      .from('xp_logs')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('action_type', GROWTH_TASK_REWARD_ACTION_TYPE)
-      .eq('resource_id', rawTaskId)
-      .maybeSingle()
-
-    if (rewardError) {
-      throw rewardError
-    }
-
-    const claimedTaskIds = existingReward ? new Set<GrowthTaskId>([rawTaskId]) : new Set<GrowthTaskId>()
-    const tasks = resolveGrowthTasks(
-      toGrowthTaskInput({
-        bio: (profile as { bio?: string | null } | null)?.bio ?? '',
-        stats: (statsData as Partial<UserStats> | null) ?? undefined,
-      }),
-      claimedTaskIds,
-    )
-    const task = tasks.find((item) => item.id === rawTaskId)
-
-    if (!task || !getGrowthTaskDefinition(rawTaskId)) {
+    const task = getGrowthTaskDefinition(rawTaskId)
+    if (!task) {
       return NextResponse.json({ error: '任务不存在' }, { status: 404 })
     }
-
-    if (task.claimed) {
-      return NextResponse.json({
-        ok: true,
-        alreadyClaimed: true,
-        taskId: rawTaskId,
-        xpGranted: 0,
-        graduated: false,
-      })
-    }
-
-    if (!task.claimable) {
-      return NextResponse.json({ error: '任务尚未完成，暂不能领取' }, { status: 400 })
-    }
-
-    const { data: insertedReward, error: insertError } = await supabaseAdmin
-      .from('xp_logs')
-      .upsert(
-        {
-          user_id: user.id,
-          action_type: GROWTH_TASK_REWARD_ACTION_TYPE,
-          resource_id: rawTaskId,
-          xp_amount: task.rewardXp,
-        } as never,
-        {
-          onConflict: 'user_id,action_type,resource_id',
-          ignoreDuplicates: true,
-        },
-      )
-      .select('id')
-
-    if (insertError) {
-      throw insertError
-    }
-
-    if (!insertedReward || insertedReward.length === 0) {
-      return NextResponse.json({
-        ok: true,
-        alreadyClaimed: true,
-        taskId: rawTaskId,
-        xpGranted: 0,
-        graduated: false,
-      })
-    }
-
-    const { error: incrementError } = await callRpc(supabaseAdmin, 'increment_user_xp', {
+    const { data: result, error: claimError } = await supabaseAdmin.rpc('claim_platform_growth_task', {
       p_user_id: user.id,
-      p_amount: task.rewardXp,
+      p_task_id: rawTaskId,
     })
-
-    if (incrementError) {
-      throw incrementError
-    }
-
-    let graduated = false
-    const { data: rewardIdRows, error: rewardIdsError } = await supabaseAdmin
-      .from('xp_logs')
-      .select('resource_id')
-      .eq('user_id', user.id)
-      .eq('action_type', GROWTH_TASK_REWARD_ACTION_TYPE)
-
-    if (rewardIdsError) {
-      throw rewardIdsError
-    }
-
-    const claimedGrowthCount = countDistinctClaimedGrowthTaskRewards((rewardIdRows as { resource_id: string | null }[]) || [])
-    if (claimedGrowthCount >= GROWTH_TASK_TOTAL) {
-      const { data: insertedGraduation, error: graduationError } = await supabaseAdmin
-        .from('xp_logs')
-        .upsert(
-          {
-            user_id: user.id,
-            action_type: GROWTH_TASK_GRADUATION_ACTION_TYPE,
-            resource_id: GROWTH_TASK_GRADUATION_RESOURCE_ID,
-            xp_amount: 0,
-          } as never,
-          {
-            onConflict: 'user_id,action_type,resource_id',
-            ignoreDuplicates: true,
-          },
-        )
-        .select('id')
-
-      if (graduationError) {
-        throw graduationError
+    if (claimError) {
+      if (/not complete/i.test(claimError.message || '')) {
+        return NextResponse.json({ error: '任务尚未完成，暂不能领取' }, { status: 400 })
       }
-
-      graduated = !!(insertedGraduation && insertedGraduation.length > 0)
+      throw claimError
     }
+    const row = (Array.isArray(result) ? result[0] : result) as { xp_granted?: number; already_claimed?: boolean; graduated?: boolean } | null
+    if (!row) throw new Error('成长任务领取结果为空')
 
     return NextResponse.json({
       ok: true,
-      alreadyClaimed: false,
+      alreadyClaimed: row.already_claimed === true,
       taskId: rawTaskId,
       taskLabel: task.label,
-      xpGranted: task.rewardXp,
-      graduated,
+      xpGranted: Number(row.xp_granted ?? 0),
+      graduated: row.graduated === true,
     })
   } catch (error) {
     return handleApiError(error)

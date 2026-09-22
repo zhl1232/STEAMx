@@ -12,8 +12,10 @@ import {
   MessageCircle,
   MessageSquare,
   UserPlus,
+  Megaphone,
 } from "lucide-react";
 
+import { WelcomeActions } from "@/components/features/communications/welcome-actions";
 import { FollowButton } from "@/components/features/social/follow-button";
 import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
@@ -49,6 +51,7 @@ const TABS = [
     shortLabel: "私信",
     icon: MessageCircle,
   },
+  { key: "system", label: "系统公告", shortLabel: "公告", icon: Megaphone },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -66,18 +69,20 @@ function filterByTab(notifications: Notification[], tab: TabKey): Notification[]
   }
   if (tab === "likes") return notifications.filter((n) => n.type === "like" || n.type === "tip");
   if (tab === "follows") return notifications.filter((n) => n.type === "follow");
+  if (tab === "system") return notifications.filter((n) => n.type === "system");
   return [];
 }
 
-function getUnreadByTab(notifications: Notification[], dmUnreadCount: number) {
+function getUnreadByTab(notifications: Notification[], dmUnreadCount: number, counts?: Record<string, number>) {
   const unread = notifications.filter((n) => !n.is_read);
 
   return {
-    replies: unread.filter(
+    replies: counts?.replies ?? unread.filter(
       (n) => n.type === "mention" || n.type === "reply" || n.type === "creator_update",
     ).length,
-    likes: unread.filter((n) => n.type === "like" || n.type === "tip").length,
-    follows: unread.filter((n) => n.type === "follow").length,
+    likes: counts?.likes ?? unread.filter((n) => n.type === "like" || n.type === "tip").length,
+    follows: counts?.follows ?? unread.filter((n) => n.type === "follow").length,
+    system: counts?.system ?? unread.filter((n) => n.type === "system").length,
     dm: dmUnreadCount,
   };
 }
@@ -137,6 +142,8 @@ function MessagesContent() {
     hasMore,
     isLoadingMore,
     isLoading: notificationsLoading,
+    unreadCountsByCategory,
+    loadCategory,
   } = useNotifications();
   const {
     conversations,
@@ -146,10 +153,14 @@ function MessagesContent() {
   } = useConversations();
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
-  const unreadByTab = getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount));
+  const unreadByTab = getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount), unreadCountsByCategory);
   const hasNotificationUnread = notificationUnreadCount > 0;
   const canMarkAllNotificationsRead = tab !== "dm" && hasNotificationUnread;
   const loadMoreRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (tab !== 'dm' && loadCategory) void loadCategory(tab as 'system' | 'replies' | 'likes' | 'follows');
+  }, [tab, loadCategory]);
 
   useEffect(() => {
     const el = loadMoreRef.current;
@@ -283,6 +294,7 @@ function MessagesContent() {
                   {tab === "replies" && "还没有新的回复或提及"}
                   {tab === "likes" && "还没有新的喜欢"}
                   {tab === "follows" && "还没有新的粉丝提醒"}
+                  {tab === "system" && "还没有系统公告"}
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   新的互动会出现在这里，方便你继续回应和跟进。
@@ -304,7 +316,9 @@ function MessagesContent() {
                           className="flex min-w-0 flex-1 items-center gap-3 rounded-md text-left transition-colors hover:bg-muted/60 active:bg-muted/80"
                           onClick={() => handleNotificationClick(notification)}
                         >
-                          {notification.from_username ? (
+                          {notification.type === "system" ? (
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><Megaphone className="h-5 w-5" /></div>
+                          ) : notification.from_username ? (
                             <UserAvatar
                               userId={notification.from_user_id}
                               name={notification.from_username}
@@ -319,6 +333,8 @@ function MessagesContent() {
                           )}
 
                           <div className="min-w-0 flex-1">
+                            {notification.type === "system" ? <p className="mb-1 text-xs text-muted-foreground">平台助手</p> : null}
+                            {notification.title ? <p className="font-medium text-foreground">{notification.title}</p> : null}
                             <p className="text-sm leading-6 text-foreground">{notification.content}</p>
                             <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                               <span>
@@ -343,6 +359,7 @@ function MessagesContent() {
                           </div>
                         ) : null}
                       </div>
+                      {notification.system_kind === "welcome" ? <WelcomeActions onRead={() => void markAsRead(notification.id)} /> : null}
                     </div>
                   </li>
                 ))}

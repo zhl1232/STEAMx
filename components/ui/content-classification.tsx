@@ -21,7 +21,7 @@ type ContentClassificationProps = {
   classification?: PublicClassification | null
   className?: string
   compact?: boolean
-  variant?: 'chips' | 'summary'
+  variant?: 'chips' | 'summary' | 'card'
   showIcons?: boolean
 }
 
@@ -151,6 +151,19 @@ export function ContentClassification({
     )
   }
 
+  if (variant === 'card') {
+    return (
+      <div className={cn('flex min-w-0 flex-col gap-0.5 text-xs leading-5 text-foreground', className)} aria-label={ariaLabel}>
+        <div className="flex min-w-0 flex-wrap items-center gap-x-1.5">
+          <span>{classification.ageLabel}</span>
+          <span aria-hidden>·</span>
+          <span>{classification.difficultyLabel}</span>
+        </div>
+        <span className="break-words text-muted-foreground">{classification.supportLabel}</span>
+      </div>
+    )
+  }
+
 
   return (
     <div
@@ -187,4 +200,3 @@ export function ContentClassification({
     </div>
   )
 }
-

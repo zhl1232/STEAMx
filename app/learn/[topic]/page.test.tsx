@@ -52,8 +52,8 @@ describe("learning topic metadata", () => {
         vi.stubEnv("NODE_ENV", "production");
         const metadata = await Promise.all(LEARNING_TOPICS.map((topic) => generateMetadata({ params: Promise.resolve({ topic: topic.slug }) })));
 
-        expect(new Set(metadata.map((item) => item.title)).size).toBe(3);
-        expect(new Set(metadata.map((item) => item.description)).size).toBe(3);
+        expect(new Set(metadata.map((item) => item.title)).size).toBe(LEARNING_TOPICS.length);
+        expect(new Set(metadata.map((item) => item.description)).size).toBe(LEARNING_TOPICS.length);
         for (const [index, topic] of LEARNING_TOPICS.entries()) {
             expect(metadata[index].alternates?.canonical).toBe(`https://steam.bj.cn/learn/${topic.slug}`);
             expect(metadata[index].robots).toBeUndefined();
@@ -81,9 +81,9 @@ describe("learning topic pages", () => {
         for (const item of LEARNING_TOPICS.filter((item) => item.slug !== topic.slug)) {
             expect(document.querySelector(`a[href="/learn/${item.slug}"]`)).not.toBeNull();
         }
-        expect(document.querySelector('a[href="/courses"]')).not.toBeNull();
+        expect(document.querySelector(`a[href="${topic.slug === "nature" ? "/nature" : "/courses"}"]`)).not.toBeNull();
         expect(document.querySelector('a[href="/explore"]')).not.toBeNull();
-        expect(document.body).toHaveTextContent("暂时没有可展示");
+        if (topic.slug !== "nature") expect(document.body).toHaveTextContent("暂时没有可展示");
     });
 
     it("puts the resource entry point before the learning method section", async () => {
@@ -105,6 +105,31 @@ describe("learning topic pages", () => {
         for (const id of [20, 30, 40, 50]) expect(document.querySelector(`a[href="/courses/${id}"]`)).toBeNull();
         expect(listApprovedCourses).toHaveBeenCalledWith({ publicOnly: true });
         expect(getProjects).not.toHaveBeenCalled();
+    });
+
+    it("provides a public nature guide with recording and identification guidance without catalog queries", async () => {
+        const document = await renderTopic("nature");
+        expect(document.querySelector('nav[aria-label="面包屑"] a')).toHaveAttribute("href", "/nature");
+        expect(document.querySelector("#record-observation")).toHaveTextContent("待鉴定");
+        expect(document.querySelector("#record-observation")).toHaveTextContent("每张照片会成为一条独立观察");
+        expect(document.querySelector('a[href="/nature/submit?from=%2Flearn%2Fnature"]')).not.toBeNull();
+        expect(document.querySelector('a[href="/nature/observations"]')).not.toBeNull();
+        expect(document.querySelector('a[href="/nature/species"]')).not.toBeNull();
+        expect(document.body).toHaveTextContent("不追赶、不投喂");
+        expect(document.querySelector("#building-equipment")).toBeNull();
+        expect(listApprovedCourses).not.toHaveBeenCalled();
+        expect(getProjects).not.toHaveBeenCalled();
+    });
+
+    it("keeps building concepts specific to the physical blocks guide", async () => {
+        const blocks = await renderTopic("blocks");
+        const concepts = blocks.querySelector("#building-concepts")?.closest("section");
+        expect(concepts).toHaveTextContent("互锁");
+        expect(concepts).toHaveTextContent("底座与重心");
+        expect(concepts).toHaveTextContent("支撑与加固");
+        expect(concepts).toHaveTextContent("轮轴与齿轮");
+        const scratch = await renderTopic("scratch");
+        expect(scratch.querySelector("#building-concepts")).toBeNull();
     });
 
     it("finds Scratch courses by title or tags without including unrelated courses", async () => {

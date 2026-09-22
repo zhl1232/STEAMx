@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import type { CourseListItem } from "@/lib/courses/types";
 
-import { CourseBoard, isBrickCourse, partitionCourseGroups } from "./course-board";
+import { CourseBoard, CourseBoardError, isBrickCourse, partitionCourseGroups } from "./course-board";
 
 vi.mock("next/link", () => ({
     default: ({ href, children, ...props }: { href: string; children: ReactNode }) => (
@@ -103,7 +103,35 @@ describe("course board groups", () => {
         );
 
         expect(screen.getAllByText("2/100")).not.toHaveLength(0);
+        expect(screen.getByText("继续学习")).toBeInTheDocument();
         expect(screen.queryByText("进行中")).not.toBeInTheDocument();
+    });
+
+    it.each([null, {
+        completed_lesson_count: 0,
+        total_lesson_count: 100,
+        status: "not_started" as const,
+        next_lesson_id: 3,
+        milestone_completed_at: null,
+    }])("keeps the start action for anonymous and unstarted courses", (progress) => {
+        render(<CourseBoard courses={[makeCourse({ progress })]} />);
+        expect(screen.getByText("开始学习")).toBeInTheDocument();
+        expect(screen.queryByText("0/100")).not.toBeInTheDocument();
+        expect(screen.queryByText("0%")).not.toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "进入技能课程：示例课程" })).toHaveAttribute("href", "/courses/1");
+    });
+
+    it("offers a course review after completion", () => {
+        render(<CourseBoard courses={[makeCourse({ progress: {
+            completed_lesson_count: 8,
+            total_lesson_count: 8,
+            status: "completed",
+            next_lesson_id: null,
+            milestone_completed_at: null,
+        } })]} />);
+        expect(screen.getByText("回顾课程")).toBeInTheDocument();
+        expect(screen.queryByText("开始学习")).not.toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "进入技能课程：示例课程" })).toHaveAttribute("href", "/courses/1");
     });
 
     it("keeps the empty state when the approved course list is empty", () => {
@@ -111,5 +139,11 @@ describe("course board groups", () => {
 
         expect(screen.getByText("技能课程即将上线，敬请期待。"))
             .toBeInTheDocument();
+    });
+
+    it("keeps a retry route available when courses cannot load", () => {
+        render(<CourseBoardError retryHref="/courses" />);
+        expect(screen.getByText("课程加载失败，请稍后重试。")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "重试" })).toHaveAttribute("href", "/courses");
     });
 });

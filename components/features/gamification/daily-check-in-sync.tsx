@@ -3,7 +3,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { AchievementToast } from "@/components/features/gamification/achievement-toast";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
@@ -128,19 +127,18 @@ export function DailyCheckInSync() {
         };
 
         const showCheckInToast = (result: CheckInResult) => {
-            const streak = result.streak ?? 1;
             const xpGranted = result.xp_granted ?? 0;
             const coinsGranted = result.coins_granted ?? 0;
-
+            const rewards = [
+                xpGranted > 0 ? `+${xpGranted} 经验` : null,
+                coinsGranted > 0 ? `+${coinsGranted} 硬币` : null,
+            ].filter(Boolean);
+            if (rewards.length === 0) return;
             toast({
-                description: (
-                    <AchievementToast
-                        title="每日登录奖励"
-                        description={`+${xpGranted} XP · +${coinsGranted} 硬币${streak > 1 ? ` · 连续 ${streak} 天 🔥` : ""}`}
-                        icon="📅"
-                    />
-                ),
-                duration: 4000,
+                title: `今日奖励：${rewards.join(' · ')}`,
+                presentation: 'compact',
+                type: 'background',
+                duration: 2000,
             });
         };
 

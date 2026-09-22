@@ -15,6 +15,157 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      platform_announcements: {
+        Row: {
+          id: number
+          title: string
+          summary: string
+          body: string
+          level: 'normal' | 'important' | 'urgent'
+          status: 'draft' | 'published' | 'withdrawn'
+          action_label: string | null
+          action_href: string | null
+          published_at: string | null
+          expires_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          title: string
+          summary?: string
+          body: string
+          level?: 'normal' | 'important' | 'urgent'
+          status?: 'draft' | 'published' | 'withdrawn'
+          action_label?: string | null
+          action_href?: string | null
+          published_at?: string | null
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          title?: string
+          summary?: string
+          body?: string
+          level?: 'normal' | 'important' | 'urgent'
+          status?: 'draft' | 'published' | 'withdrawn'
+          action_label?: string | null
+          action_href?: string | null
+          published_at?: string | null
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      platform_welcome_settings: {
+        Row: {
+          id: boolean
+          enabled: boolean
+          title: string
+          body: string
+          contact_href: string
+          activated_after: string
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          enabled?: boolean
+          title?: string
+          body?: string
+          contact_href?: string
+          activated_after?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          enabled?: boolean
+          title?: string
+          body?: string
+          contact_href?: string
+          activated_after?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      communication_ledger: {
+        Row: {
+          user_id: string
+          event_key: string
+          kind: 'welcome' | 'announcement'
+          announcement_id: number | null
+          delivered_at: string | null
+          read_at: string | null
+          banner_dismissed_at: string | null
+          popup_claimed_at: string | null
+          notification_id: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          event_key: string
+          kind: 'welcome' | 'announcement'
+          announcement_id?: number | null
+          delivered_at?: string | null
+          read_at?: string | null
+          banner_dismissed_at?: string | null
+          popup_claimed_at?: string | null
+          notification_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          event_key?: string
+          kind?: 'welcome' | 'announcement'
+          announcement_id?: number | null
+          delivered_at?: string | null
+          read_at?: string | null
+          banner_dismissed_at?: string | null
+          popup_claimed_at?: string | null
+          notification_id?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      communication_worker_state: {
+        Row: {
+          name: string
+          cursor: string | null
+          status: 'pending' | 'done' | 'error'
+          last_error: string | null
+          attempts: number
+          next_run_at: string
+          target_count: number
+          updated_at: string
+        }
+        Insert: {
+          name: string
+          cursor?: string | null
+          status?: 'pending' | 'done' | 'error'
+          last_error?: string | null
+          attempts?: number
+          next_run_at?: string
+          target_count?: number
+          updated_at?: string
+        }
+        Update: {
+          name?: string
+          cursor?: string | null
+          status?: 'pending' | 'done' | 'error'
+          last_error?: string | null
+          attempts?: number
+          next_run_at?: string
+          target_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+
       profiles: {
         Row: {
           id: string
@@ -3121,6 +3272,9 @@ export interface Database {
           user_id: string
           type: string
           content: string
+          title: string | null
+          system_kind: 'welcome' | 'announcement' | null
+          announcement_id: number | null
           related_type: string | null
           related_id: number | null
           project_id: number | null
@@ -3136,6 +3290,9 @@ export interface Database {
           user_id: string
           type: string
           content: string
+          title?: string | null
+          system_kind?: 'welcome' | 'announcement' | null
+          announcement_id?: number | null
           related_type?: string | null
           related_id?: number | null
           project_id?: number | null
@@ -3151,6 +3308,9 @@ export interface Database {
           user_id?: string
           type?: string
           content?: string
+          title?: string | null
+          system_kind?: 'welcome' | 'announcement' | null
+          announcement_id?: number | null
           related_type?: string | null
           related_id?: number | null
           project_id?: number | null
@@ -3764,6 +3924,17 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      platform_announcement_stats_service: { Args: Record<string, never>; Returns: { announcement_id: number; target: number; delivered: number; read: number; failed: number; pending: number }[] }
+      create_welcome_service: { Args: { p_user_id: string }; Returns: boolean }
+      publish_platform_announcement_service: { Args: { p_announcement_id: number }; Returns: Database['public']['Tables']['platform_announcements']['Row'] }
+      retry_platform_announcement_service: { Args: { p_announcement_id: number }; Returns: boolean }
+      claim_announcement_popup_service: { Args: { p_user_id: string; p_announcement_id: number }; Returns: boolean }
+      mark_communication_read_service: { Args: { p_user_id: string; p_event_key: string }; Returns: boolean }
+      mark_all_communications_read_service: { Args: { p_user_id: string }; Returns: number }
+      run_announcement_batch_service: { Args: { p_announcement_id: number; p_limit?: number }; Returns: Json }
+      get_platform_growth_progress: { Args: { p_user_id: string }; Returns: Json }
+      claim_platform_growth_task: { Args: { p_user_id: string; p_task_id: string }; Returns: { xp_granted: number; already_claimed: boolean; graduated: boolean }[] }
+
       create_store_order: {
         Args: {
           p_user_id: string

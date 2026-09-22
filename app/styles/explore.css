@@ -1,0 +1,27 @@
+/* Explore card tones are intentionally independent from the global brand tokens. */
+.explore-card {
+  --tone-science-card-text: 215 72% 32%;
+  --tone-tech-card-text: 145 64% 27%;
+  --tone-engineering-card-text: 30 78% 31%;
+  --tone-art-card-text: 257 57% 37%;
+  --tone-math-card-text: 0 66% 37%;
+  --tone-playground-card-text: 250 56% 37%;
+}
+
+.dark .explore-card {
+  --tone-science-card-text: 211 92% 78%;
+  --tone-tech-card-text: 143 70% 72%;
+  --tone-engineering-card-text: 39 96% 75%;
+  --tone-art-card-text: 258 90% 82%;
+  --tone-math-card-text: 3 91% 80%;
+  --tone-playground-card-text: 250 90% 82%;
+}
+
+.black-gold .explore-card {
+  --tone-science-card-text: 46 100% 74%;
+  --tone-tech-card-text: 49 96% 76%;
+  --tone-engineering-card-text: 38 100% 74%;
+  --tone-art-card-text: 45 91% 76%;
+  --tone-math-card-text: 35 94% 75%;
+  --tone-playground-card-text: 50 92% 76%;
+}

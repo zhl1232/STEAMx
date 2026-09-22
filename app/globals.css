@@ -9,6 +9,8 @@
 @import './styles/playground.utilities.css';
 @import './styles/admin.css';
 @import './styles/observation.css';
+@import './styles/feedback.css';
+@import './styles/explore.css';
 
 @import 'tailwindcss';
 

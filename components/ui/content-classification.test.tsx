@@ -41,6 +41,14 @@ describe('ContentClassification', () => {
     expect(summary).toHaveTextContent('8 岁起 · 进阶 · 建议成人陪同')
   })
 
+  it('renders card variant with age and difficulty on the first line and wrapping support on the second', () => {
+    render(<ContentClassification classification={sampleClassification} variant="card" />)
+
+    const card = screen.getByLabelText('适龄 8 岁起，难度 进阶，建议成人陪同')
+    expect(card).toHaveTextContent('8 岁起·进阶建议成人陪同')
+    expect(screen.getByText('建议成人陪同')).toBeInTheDocument()
+  })
+
   it('renders beginner and independent badges with correct semantic text', () => {
     const beginnerClassification: PublicClassification = {
       ...sampleClassification,

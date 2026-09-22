@@ -124,7 +124,7 @@ async function loadExploringProjects(supabase: DbClient, userId: string) {
 async function loadGrowthTasks(supabase: DbClient, userId: string) {
   const [{ data: profile, error: profileError }, { data: statsData, error: statsError }] = await Promise.all([
     supabase.from('profiles').select('bio').eq('id', userId).maybeSingle(),
-    callRpc(supabase, 'get_user_stats_summary', { target_user_id: userId }),
+    callRpc(supabase, 'get_platform_growth_progress', { p_user_id: userId }),
   ])
 
   if (profileError) throw profileError

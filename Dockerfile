@@ -48,6 +48,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/deploy/auto-interactions-worker.mjs ./auto-interactions-worker.mjs
+COPY --from=builder --chown=nextjs:nodejs /app/deploy/communications-worker.mjs ./communications-worker.mjs
 
 USER nextjs
 EXPOSE 3000

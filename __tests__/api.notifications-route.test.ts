@@ -23,6 +23,14 @@ vi.mock('@/lib/api/rate-limit', () => ({
     requireRateLimit: vi.fn().mockResolvedValue(undefined),
 }))
 
+function makeNotificationBuilder(result: unknown) {
+    const builder: Record<string, any> = {}
+    for (const method of ['eq', 'order', 'or', 'lt', 'in']) builder[method] = vi.fn(() => builder)
+    builder.limit = vi.fn(() => builder)
+    builder.then = (resolve: (value: unknown) => unknown, reject: (reason: unknown) => unknown) => Promise.resolve(result).then(resolve, reject)
+    return builder
+}
+
 describe('GET /api/notifications', () => {
     const createClientMock = createClient as Mock<typeof createClient>
     const requireAuthMock = requireAuth as Mock<typeof requireAuth>
@@ -49,13 +57,10 @@ describe('GET /api/notifications', () => {
     })
 
     it('applies the optional limit parameter up to the page-size cap', async () => {
-        const limit = vi.fn().mockResolvedValue({
-            data: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
-            error: null,
-        })
-        const order = vi.fn(() => ({ limit }))
-        const eq = vi.fn(() => ({ order }))
-        const select = vi.fn(() => ({ eq }))
+        const builder = makeNotificationBuilder({ data: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }], error: null })
+        const limit = builder.limit
+        const eq = builder.eq
+        const select = vi.fn(() => builder)
         const from = vi.fn(() => ({ select }))
 
         createClientMock.mockResolvedValue({ from } as never)
@@ -70,14 +75,54 @@ describe('GET /api/notifications', () => {
         await expect(response.json()).resolves.toEqual({
             notifications: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
             hasMore: true,
+            nextCursor: null,
         })
     })
 
+    it('rejects an invalid beforeId cursor without querying notifications', async () => {
+        const from = vi.fn()
+        createClientMock.mockResolvedValue({ from } as never)
+        requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+
+        const response = await GET(
+            new NextRequest('http://localhost/api/notifications?before=2026-09-21T08:00:00.000Z&beforeId=forged'),
+        )
+
+        expect(response.status).toBe(400)
+        await expect(response.json()).resolves.toEqual({ error: 'Invalid beforeId' })
+        expect(from).not.toHaveBeenCalled()
+    })
+
+    it('uses the timestamp and id together for a stable cursor page', async () => {
+        const page = [{ id: 17, created_at: '2026-09-20T08:00:00.000Z' }]
+        const builder = makeNotificationBuilder({ data: page, error: null })
+        const or = builder.or
+        const limit = builder.limit
+        const eq = builder.eq
+        const select = vi.fn(() => builder)
+        const from = vi.fn(() => ({ select }))
+
+        createClientMock.mockResolvedValue({ from } as never)
+        requireAuthMock.mockResolvedValue({ id: 'user-1' } as never)
+
+        const response = await GET(
+            new NextRequest('http://localhost/api/notifications?before=2026-09-21T08:00:00.000Z&beforeId=18&limit=1'),
+        )
+
+        expect(response.status).toBe(200)
+        await expect(response.json()).resolves.toEqual({
+            notifications: page,
+            hasMore: true,
+            nextCursor: '2026-09-20T08:00:00.000Z',
+        })
+        expect(or).toHaveBeenCalledWith('created_at.lt.2026-09-21T08:00:00.000Z,and(created_at.eq.2026-09-21T08:00:00.000Z,id.lt.18)')
+    })
+
     it('caps large limit values at 20', async () => {
-        const limit = vi.fn().mockResolvedValue({ data: [], error: null })
-        const order = vi.fn(() => ({ limit }))
-        const eq = vi.fn(() => ({ order }))
-        const select = vi.fn(() => ({ eq }))
+        const builder = makeNotificationBuilder({ data: [], error: null })
+        const limit = builder.limit
+        const eq = builder.eq
+        const select = vi.fn(() => builder)
         const from = vi.fn(() => ({ select }))
 
         createClientMock.mockResolvedValue({ from } as never)
@@ -311,6 +356,32 @@ describe('POST /api/notifications', () => {
 
         expect(response.status).toBe(400)
         await expect(response.json()).resolves.toEqual({ error: 'Cannot create notifications for yourself' })
+        expect(from).not.toHaveBeenCalled()
+    })
+
+    it('rejects forged communication fields before touching domain tables', async () => {
+        const from = vi.fn()
+        createClientMock.mockResolvedValue({ from } as never)
+        requireAuthMock.mockResolvedValue({
+            id: '11111111-1111-1111-1111-111111111111',
+            email: 'self@example.com',
+            user_metadata: {},
+        } as never)
+
+        const response = await POST(new Request('http://localhost/api/notifications', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_id: '22222222-2222-2222-2222-222222222222',
+                type: 'system',
+                content: '伪造系统消息',
+                system_kind: 'announcement',
+                announcement_id: 999,
+            }),
+        }) as never)
+
+        expect(response.status).toBe(403)
+        await expect(response.json()).resolves.toEqual({ error: 'Communication notifications are server-created' })
         expect(from).not.toHaveBeenCalled()
     })
 })

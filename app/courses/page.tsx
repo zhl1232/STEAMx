@@ -52,24 +52,21 @@ export default async function CoursesPage() {
                     <div className="min-w-0">
                         <h1 className="text-2xl font-black text-foreground">技能课程</h1>
                         <p className="mt-1 text-base font-bold text-foreground/85">挑一项技能，做一件作品</p>
-                        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                            {COURSE_HUB_DESCRIPTION}
-                        </p>
                     </div>
                 </header>
-                <nav aria-label="学习入门指南" className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-border px-1 pb-3 text-sm">
-                    <span className="text-muted-foreground">从哪里开始？</span>
+                {courses ? (
+                    <CourseBoard courses={courses} />
+                ) : (
+                    <CourseBoardError retryHref="/courses" />
+                )}
+                <nav aria-label="学习入门指南" className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border px-1 pt-3 text-sm">
+                    <span className="text-muted-foreground">学习入门指南</span>
                     {LEARNING_TOPICS.map((topic) => (
                         <Link key={topic.slug} href={`/learn/${topic.slug}`} className="inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">
                             {topic.label}
                         </Link>
                     ))}
                 </nav>
-                {courses ? (
-                    <CourseBoard courses={courses} />
-                ) : (
-                    <CourseBoardError retryHref="/courses" />
-                )}
             </main>
         </div>
         </>

@@ -10,7 +10,7 @@ import {
   isPhoneBasedDisplayName,
 } from '@/lib/auth/default-display-name'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
-import { MAINLINE_ENTRY_HREF } from '@/lib/product/mainline'
+import { PLATFORM_ONBOARDING_HREF } from '@/lib/product/onboarding'
 import { isSupabasePhoneProvider } from '@/lib/auth/phone-provider'
 
 const PHONE_EMAIL_PREFIX = 'p_'
@@ -465,8 +465,8 @@ export async function POST(req: Request) {
       req.headers.get('referer')?.replace(/\/[^/]*$/, '') ||
       process.env.NEXT_PUBLIC_SITE_URL ||
       'http://localhost:3000'
-    // 新注册的人直接落到主线（积木课），老用户回首页
-    const redirectTo = origin.replace(/\/$/, '') + (isNewUser ? MAINLINE_ENTRY_HREF : '/')
+    // 新注册的人进入平台方向指南，老用户回首页
+    const redirectTo = origin.replace(/\/$/, '') + (isNewUser ? PLATFORM_ONBOARDING_HREF : '/')
 
     const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: 'magiclink',

@@ -133,7 +133,7 @@ describe('buildWeeklyPlan', () => {
       'complete_first_lesson',
       'publish_first_work',
     ])
-    expect(plan.growthProgress).toEqual({ completed: 0, total: 5, graduated: false })
+    expect(plan.growthProgress).toEqual({ completed: 0, total: 3, graduated: false })
   })
 
   it('drops the growth progress row once every task is claimed', () => {
@@ -142,7 +142,7 @@ describe('buildWeeklyPlan', () => {
       growthTasks: [makeGrowthTask({ done: true, claimed: true, status: 'claimed' })],
     })
 
-    expect(plan.growthProgress).toBeUndefined()
+    expect(plan.growthProgress).toEqual({ completed: 1, total: 3, graduated: false })
   })
 
   it('prioritizes reward, PBL, exploring, course, and radar steps', () => {

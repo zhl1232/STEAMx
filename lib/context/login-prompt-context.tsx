@@ -33,10 +33,12 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
     setIsOpen(true)
   }, [])
 
-  const handleSuccess = useCallback(() => {
+  const handleSuccess = useCallback((options?: { isNewUser?: boolean }) => {
     // 执行待处理的回调
     if (pendingCallback) {
       pendingCallback()
+    } else if (options?.isNewUser) {
+      window.location.href = '/start'
     }
     
     // 清理状态

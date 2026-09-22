@@ -45,18 +45,22 @@ export const categoryToneClasses: Record<CategoryTone, { text: string; border: s
 
 export interface ToneBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   tone?: CategoryTone
+  variant?: "default" | "explore"
 }
 
 const ToneBadge = React.forwardRef<HTMLSpanElement, ToneBadgeProps>(
-  ({ className, tone = "science", ...props }, ref) => (
+  ({ className, tone = "science", variant = "default", style, ...props }, ref) => (
     <span
       ref={ref}
       className={cn(
         "inline-flex items-center rounded-xs px-2.5 py-1 text-[11px] font-semibold",
         categoryToneClasses[tone].bg,
-        categoryToneClasses[tone].text,
+        variant === "explore"
+          ? "text-[hsl(var(--explore-badge-text))]"
+          : categoryToneClasses[tone].text,
         className
       )}
+      style={variant === "explore" ? { "--explore-badge-text": `var(--tone-${tone}-card-text)`, ...style } as React.CSSProperties : style}
       {...props}
     />
   )

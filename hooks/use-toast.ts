@@ -140,6 +140,15 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">
 
+export function isCompactFeedbackBlocked() {
+  if (memoryState.toasts.some((item) => item.open && item.presentation !== 'compact')) return true
+  if (typeof document === 'undefined') return false
+  return document.visibilityState === 'hidden' ||
+    !!document.querySelector('[role="dialog"][aria-modal="true"], [role="alertdialog"]') ||
+    !!document.activeElement?.matches('input, textarea, select, [contenteditable="true"]') ||
+    !!(window.visualViewport && window.visualViewport.height < window.innerHeight * 0.75)
+}
+
 function toast({ ...props }: Toast) {
   const id = genId()
 
@@ -149,6 +158,9 @@ function toast({ ...props }: Toast) {
       toast: { ...props, id },
     })
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
+
+  // Routine rewards must not replace an actionable message or interrupt input.
+  if (props.presentation === 'compact' && isCompactFeedbackBlocked()) return { id, update: () => {}, dismiss: () => {} }
 
   dispatch({
     type: "ADD_TOAST",

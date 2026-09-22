@@ -82,7 +82,7 @@ describe('growth tasks', () => {
       claimable: true,
       status: 'claimable',
     })
-    expect(getCompletedGrowthTaskCount(tasks)).toBe(5)
+    expect(getCompletedGrowthTaskCount(tasks)).toBe(3)
   })
 
   it('falls back to projectsCompleted when worksPublished is missing', () => {

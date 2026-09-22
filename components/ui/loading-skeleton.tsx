@@ -4,7 +4,7 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Surface } from "@/components/ui/surface"
-import { COMPACT_VERTICAL_PROJECT_GRID_CLASS, COMPACT_VERTICAL_PROJECT_CARD_CLASS } from "@/components/features/compact-project-grid-styles"
+import { EXPLORE_PROJECT_GRID_CLASS, EXPLORE_PROJECT_CARD_CLASS } from "@/components/features/compact-project-grid-styles"
 import { cn } from "@/lib/utils"
 
 export function ProjectCardSkeleton({
@@ -12,13 +12,14 @@ export function ProjectCardSkeleton({
   compactLayout = "dense",
   className,
 }: {
-  variant?: "featured" | "compact"
+  variant?: "featured" | "compact" | "explore"
   compactLayout?: "adaptive" | "vertical" | "dense"
   className?: string
 } = {}) {
-  if (variant === "compact") {
-    const isVerticalCompact = compactLayout === "vertical"
-    const isDenseCompact = compactLayout === "dense"
+  if (variant === "compact" || variant === "explore") {
+    const isExploreVariant = variant === "explore"
+    const isVerticalCompact = compactLayout === "vertical" || isExploreVariant
+    const isDenseCompact = !isExploreVariant && compactLayout === "dense"
 
     return (
       <div className={cn("h-full", className)}>
@@ -36,7 +37,7 @@ export function ProjectCardSkeleton({
             className={cn(
               "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
               isVerticalCompact
-                ? "aspect-16/10 rounded-none"
+                ? isExploreVariant ? "aspect-16/10 rounded-none md:aspect-video" : "aspect-16/10 rounded-none"
                 : isDenseCompact
                   ? "h-full min-h-[92px] rounded-sm sm:aspect-16/8.5 sm:h-auto sm:min-h-0 sm:rounded-none"
                   : "aspect-square rounded-sm sm:aspect-16/8.5 sm:rounded-none",
@@ -66,8 +67,9 @@ export function ProjectCardSkeleton({
               />
               {isVerticalCompact ? (
                 <>
-                  <Skeleton className="h-4 w-[58%] rounded-xs" />
-                  <Skeleton className="h-3.5 w-[92%] rounded-full" />
+                  <Skeleton className={cn("w-[58%] rounded-xs", isExploreVariant ? "h-5" : "h-4")} />
+                  <Skeleton className={cn("w-[92%] rounded-full", isExploreVariant ? "h-5" : "h-3.5")} />
+                  {isExploreVariant && <Skeleton className="h-5 w-[80%] rounded-xs" />}
                 </>
               ) : (
                 <>
@@ -178,15 +180,15 @@ export function ExploreToolbarSkeleton() {
   const categoryWidths = ["w-[64px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]"]
 
   return (
-    <div className="bg-transparent pb-3 pt-1 md:border-b md:border-[hsl(var(--surface-border))] md:p-5">
+    <div className="bg-transparent md:p-5 md:pb-0">
       <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:gap-3">
         <Skeleton className="h-11 w-full rounded-sm" />
         <Skeleton className="h-11 w-[100px] shrink-0 rounded-sm" />
       </div>
-      <div className="space-y-2.5 md:mt-4 md:space-y-2">
+      <div className="space-y-2.5 pt-3 md:pt-4">
         <Skeleton className="hidden h-4 w-8 rounded-full md:block" />
-        <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-          <div className="flex min-w-max items-center gap-2 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
+        <div className="no-scrollbar overflow-x-auto">
+          <div className="flex min-h-11 min-w-max items-center gap-1.5 pb-0.5 md:min-h-0 md:min-w-0 md:flex-wrap md:gap-3">
             {categoryWidths.map((width, index) => (
               <Skeleton
                 key={index}
@@ -200,31 +202,11 @@ export function ExploreToolbarSkeleton() {
   )
 }
 
-function ExploreRecommendationRailSkeleton() {
-  return (
-    <section>
-      <div className="mb-2.5 flex items-center justify-between gap-3">
-        <Skeleton className="h-5 w-24 rounded-xs md:h-[18px]" />
-        <Skeleton className="h-4 w-14 rounded-full" />
-      </div>
-      <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-hidden scroll-px-4 px-4 pb-1.5 md:mx-0 md:px-0">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div
-            key={index}
-            className="w-[min(45.5vw,176px)] shrink-0 snap-start sm:w-[184px]"
-          >
-            <ExploreRecommendationCardSkeleton />
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function ExploreListTabsSkeleton() {
   return (
     <div className="mb-3 flex items-center justify-between gap-3">
       <div className="flex min-w-0 flex-1 items-center gap-1.5">
+        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
         <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
         <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
       </div>
@@ -262,9 +244,6 @@ function ExploreSidebarSkeleton() {
             </div>
           </div>
         </Surface>
-        <Surface className="p-4">
-          <Skeleton className="h-14 w-full rounded-sm" />
-        </Surface>
       </div>
     </aside>
   )
@@ -296,7 +275,7 @@ function ExploreMobileSearchHeaderSkeleton() {
   )
 }
 
-/** 与 `ExploreClient` 画布、max-w-[1840px]、双栏与项目网格（含 ≥1400px 四列）对齐 */
+/** 与 ExploreClient 画布、双栏以及按容器宽度显示 2/3/4 列的网格对齐。 */
 export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
@@ -339,17 +318,16 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       />
 
       <div className="relative z-10">
-        <div className="app-shell-wide min-w-0 pt-2.5 md:px-8 md:pt-5">
+        <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
           <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
             <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg">
               <ExploreToolbarSkeleton />
-              <div className="flex flex-col gap-2.5 pb-4 pt-1 md:p-5">
-                <ExploreRecommendationRailSkeleton />
+              <div className="@container flex flex-col gap-2.5 pb-4 pt-1 md:p-5">
                 <div className="relative pb-5 pt-0.5 md:pb-0 md:pt-0">
                   <ExploreListTabsSkeleton />
-                  <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
+                  <div className={EXPLORE_PROJECT_GRID_CLASS}>
                     {Array.from({ length: count }).map((_, index) => (
-                      <ProjectCardSkeleton key={index} variant="compact" compactLayout="vertical" className={COMPACT_VERTICAL_PROJECT_CARD_CLASS} />
+                      <ProjectCardSkeleton key={index} variant="explore" className={EXPLORE_PROJECT_CARD_CLASS} />
                     ))}
                   </div>
                 </div>

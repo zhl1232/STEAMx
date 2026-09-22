@@ -56,6 +56,10 @@ vi.mock('@/components/features/gamification/daily-check-in-sync', () => ({
   DailyCheckInSync: () => <div data-testid="daily-check-in-sync" />,
 }))
 
+vi.mock('@/components/features/communications/platform-communications', () => ({
+  PlatformCommunications: () => <aside data-testid="platform-communications" />,
+}))
+
 vi.mock('@/components/features/tutor/global-tutor-mount', () => ({
   GlobalTutorMount: () => null,
 }))

@@ -11,6 +11,7 @@ import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navi
 
 interface NatureHomeMapPairProps {
   observations: ObservationEvent[]
+  mapObservations: ObservationEvent[]
 }
 
 const BEIJING_CENTER = { lat: 39.9042, lon: 116.4074 }
@@ -23,13 +24,13 @@ function formatDate(dateString: string) {
   })
 }
 
-export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
+export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeMapPairProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const itemRefs = useRef<Map<string, HTMLAnchorElement | null>>(new Map())
 
   const markers = useMemo(
     () =>
-      observations
+      mapObservations
         .filter((o) => o.latitude != null && o.longitude != null)
         .map((o) => ({
           id: String(o.id),
@@ -41,7 +42,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
           summary: o.locationName,
           href: appendNatureFrom(`/nature/observations/${o.id}`, "/nature"),
         })),
-    [observations],
+    [mapObservations],
   )
 
   const mobileObservations = observations.slice(0, MOBILE_OBSERVATION_LIMIT)
@@ -67,7 +68,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
             </h2>
             <Link
               href="/nature/map"
-              className="inline-flex items-center gap-0.5 text-xs font-semibold text-[hsl(var(--primary))] transition-colors hover:text-[hsl(var(--primary)/0.85)]"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center gap-0.5 rounded-sm px-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary text-xs font-semibold text-[hsl(var(--primary))] transition-colors hover:text-[hsl(var(--primary)/0.85)]"
             >
               全屏地图
               <ChevronRight className="h-3.5 w-3.5" />
@@ -102,7 +103,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
               <p className="text-xs text-muted-foreground">
                 还没有公开观察。第一条由你来发布吧。
               </p>
-              <Link href={submitHref} className="nature-action-link h-9 min-h-9 px-3 text-xs">
+              <Link href={submitHref} className="nature-action-link px-3 text-xs">
                 发布观察
                 <ChevronRight className="h-3.5 w-3.5" />
               </Link>
@@ -118,7 +119,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                     <Link
                       key={observation.id}
                       href={appendNatureFrom(`/nature/observations/${observation.id}`, "/nature")}
-                      className="group block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] shadow-xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.4)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-sm"
+                      className="group block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] shadow-xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.4)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
                       <div className="relative aspect-4/3 w-full overflow-hidden bg-muted/40">
                         {observation.mediaUrls[0] ? (
@@ -165,7 +166,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
               <div>
                 <Link
                   href="/nature/observations"
-                  className="flex min-h-10 items-center justify-center gap-1.5 rounded-sm border border-[hsl(var(--primary)/0.25)] bg-[hsl(var(--surface-raised))] px-4 text-xs font-bold text-[hsl(var(--primary))] shadow-2xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.5)] hover:bg-[hsl(var(--status-info-surface)/0.5)] active:scale-[0.99]"
+                  className="flex min-h-11 items-center justify-center gap-1.5 rounded-sm border border-[hsl(var(--primary)/0.25)] bg-[hsl(var(--surface-raised))] px-4 text-xs font-bold text-[hsl(var(--primary))] shadow-2xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.5)] hover:bg-[hsl(var(--status-info-surface)/0.5)] active:scale-[0.99]"
                 >
                   查看全部观察记录
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -179,7 +180,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
       {/* 桌面端：优雅的宽屏左右联动面板 */}
       <section className="nature-section-card nature-home-map-panel hidden overflow-hidden p-0 md:block">
         <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.6)] px-5 py-2.5">
-          <p className="section-kicker tracking-normal">最近观察</p>
+          <h2 className="section-kicker tracking-normal">最近观察</h2>
           <Link
             href="/nature/observations"
             className="nature-link relative z-1 -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-sm"
@@ -207,7 +208,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
               <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-3 px-6 py-10 text-center">
                 <Leaf className="h-8 w-8 text-muted-foreground" />
                 <p className="text-sm text-muted-foreground">
-                  还没有带坐标的公开观察。第一条由你来发布吧。
+                  还没有公开观察。第一条由你来发布吧。
                 </p>
                 <Link href={submitHref} className="nature-action-link">
                   发布观察
@@ -233,7 +234,7 @@ export function NatureHomeMapPair({ observations }: NatureHomeMapPairProps) {
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group flex items-center gap-3.5 px-4 py-3 transition-all duration-200 ${
+                        className={`group flex items-center gap-3.5 px-4 py-3 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary ${
                           isActive ? "bg-[hsl(var(--status-info-surface)/0.6)] shadow-xs" : "hover:bg-[hsl(var(--surface-raised)/0.8)]"
                         }`}
                       >

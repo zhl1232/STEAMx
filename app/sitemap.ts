@@ -9,6 +9,10 @@ import { PLAYGROUND_METADATA_PATHS } from "@/lib/seo/playground-metadata";
 import { fetchAllSitemapRows } from "@/lib/seo/sitemap-pagination";
 import { buildAbsoluteUrl } from "@/lib/seo/site";
 import { createPublicClient } from "@/lib/supabase/server";
+import {
+  isVisibleSpeciesTopicKey,
+  visibleSpeciesTopicKeys,
+} from "@/lib/utils/nature-topic-classification";
 
 // Generate at request time, so builds do not require a live content database.
 // The complete successful result is cached separately below.
@@ -21,6 +25,7 @@ interface TimestampedIdRow {
 
 interface SpeciesRow {
   slug: string;
+  nature_topic: string | null;
   updated_at: string | null;
 }
 
@@ -113,13 +118,15 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
 
   if (!content) return routes;
 
-  content.species.forEach((species) => {
-    routes.push(sitemapEntry(`/nature/species/${species.slug}`, {
-      lastModified: toLastModified(species.updated_at),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    }));
-  });
+  content.species
+    .filter((species) => isVisibleSpeciesTopicKey(species.nature_topic))
+    .forEach((species) => {
+      routes.push(sitemapEntry(`/nature/species/${species.slug}`, {
+        lastModified: toLastModified(species.updated_at),
+        changeFrequency: "weekly",
+        priority: 0.7,
+      }));
+    });
 
   content.observations.forEach((observation) => {
     routes.push(sitemapEntry(`/nature/observations/${observation.id}`, {
@@ -229,8 +236,9 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
       fetchAllSitemapRows<TimestampedIdRow>(createProjectsQuery),
       fetchAllSitemapRows<SpeciesRow>(() => supabase
         .from("species")
-        .select("slug, updated_at")
-        .eq("is_active", true), { orderColumn: "id" }),
+        .select("slug, nature_topic, updated_at")
+        .eq("is_active", true)
+        .in("nature_topic", [...visibleSpeciesTopicKeys]), { orderColumn: "id" }),
       fetchAllSitemapRows<TimestampedIdRow>(() => supabase
         .from("observation_events")
         .select("id, updated_at")
@@ -295,7 +303,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   }
 }
 
-const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v2"], { revalidate: 3600 });
+const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v3-public-nature-topics"], { revalidate: 3600 });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return getCachedSitemap();

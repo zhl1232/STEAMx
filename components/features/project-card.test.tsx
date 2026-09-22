@@ -89,3 +89,28 @@ describe("ProjectCard compact vertical variant", () => {
     expect(screen.queryByText("泥塑")).not.toBeInTheDocument()
   })
 })
+
+describe("ProjectCard explore variant", () => {
+  it("uses the card classification layout and hides zero interaction stats", () => {
+    render(
+      <ProjectCard
+        project={{ ...classifiedProject, likes: 0, completions_count: 2, coins_count: 0 }}
+        variant="explore"
+      />,
+    )
+
+    expect(screen.getByText("艺术 · 雕塑")).toBeInTheDocument()
+    expect(screen.getByLabelText("适龄 6 岁起，难度 入门，建议成人陪同")).toHaveTextContent(
+      "6 岁起·入门建议成人陪同",
+    )
+    expect(screen.getByText("2 作品")).toBeInTheDocument()
+    expect(screen.queryByText("0 点赞")).not.toBeInTheDocument()
+    expect(screen.queryByText("0 投币")).not.toBeInTheDocument()
+    expect(screen.queryByTitle("点赞数")).not.toBeInTheDocument()
+  })
+
+  it("omits the complete stats row when all values are zero", () => {
+    render(<ProjectCard project={{ ...classifiedProject, likes: 0, completions_count: 0, coins_count: 0 }} variant="explore" />)
+    expect(screen.queryByTestId("explore-project-stats")).not.toBeInTheDocument()
+  })
+})

@@ -617,6 +617,11 @@ export default function AdminPage() {
             <div className="flex flex-wrap gap-2 lg:justify-end">
               {isAdmin && (
                 <Button asChild variant="outline">
+                  <Link href="/admin/announcements">公告与欢迎语</Link>
+                </Button>
+              )}
+              {isAdmin && (
+                <Button asChild variant="outline">
                   <Link href="/admin/store">
                     <Store className="mr-2 h-4 w-4" />
                     实物商城

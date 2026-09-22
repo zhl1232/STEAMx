@@ -6,22 +6,19 @@ import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
 import { useSearchParams } from 'next/navigation'
 import {
     ArrowLeft,
-    BarChart3,
     ChevronRight,
     Filter,
     Lightbulb,
     Search,
     Sparkles,
     Target,
-    UserCircle,
     X,
 } from 'lucide-react'
 import {
-    COMPACT_VERTICAL_PROJECT_CARD_CLASS,
-    COMPACT_VERTICAL_PROJECT_GRID_CLASS,
+    EXPLORE_PROJECT_CARD_CLASS,
+    EXPLORE_PROJECT_GRID_CLASS,
 } from '@/components/features/compact-project-grid-styles'
 import { ProjectCard } from '@/components/features/project-card'
-import { Progress } from '@/components/ui/progress'
 import { useProjects } from '@/lib/context/project-context'
 import { useSyncProjectInteractions } from '@/hooks/use-sync-project-interactions'
 import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
@@ -41,8 +38,6 @@ import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
 import { visibleProjectTags } from '@/lib/project/tags'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
-import { useAuth } from '@/lib/context/auth-context'
-import { useGamification } from '@/lib/context/gamification-context'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
 import {
@@ -56,7 +51,6 @@ import {
     EXPLORE_PRESETS,
     EXPLORE_RESULTS_SORT_OPTIONS,
     detectActivePreset,
-    getPresetHintLabel,
     isExploreListTabPreset,
     isExploreResultsMode,
     parseExploreSortBy,
@@ -92,8 +86,8 @@ function mergeUniqueProjectsById(existing: Project[], incoming: Project[]): Proj
 }
 
 // 类别配置：主分类 -> 子分类映射
-import { CATEGORY_CONFIG, CATEGORY_META } from '@/lib/config/categories'
-import { categoryToneClasses } from '@/components/ui/tone-badge'
+import { CATEGORY_CONFIG } from '@/lib/config/categories'
+import { ExploreCategoryStrip } from '@/components/explore/explore-category-strip'
 
 // 难度选项
 const DIFFICULTY_OPTIONS = [
@@ -110,102 +104,6 @@ const EMPTY_TAG_SCOPE: ExploreTagScope = {
     all: [],
     byCategory: {},
     bySubCategory: {},
-}
-
-function ExplorationProgressCard({ suggestedPresetId }: { suggestedPresetId: Exclude<ExplorePresetId, 'browse'> }) {
-    const { user, loading } = useAuth()
-    const {
-        level,
-        progress,
-        levelProgress,
-        levelTotalNeeded,
-        unlockedBadges,
-        userStats,
-    } = useGamification()
-    const suggestedLabel = getPresetHintLabel(suggestedPresetId)
-
-    if (!user) {
-        return (
-            <Surface className="border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-4">
-                <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                        <h2 className="flex items-center gap-2 text-base font-bold text-[hsl(var(--tone-tech))]">
-                            <BarChart3 className="h-[18px] w-[18px]" />
-                            保存你的探索进度
-                        </h2>
-                        <p className="mt-3 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-80">
-                            登录后可累计完成项目、经验值和成就勋章，回到这里继续下一步。
-                        </p>
-                        <p className="mt-2 text-xs leading-5 text-[hsl(var(--tone-tech))] opacity-70">
-                            不知道从哪开始？试试「{suggestedLabel}」。
-                        </p>
-                        <Link href="/login" className="mt-4 inline-flex rounded-sm bg-[hsl(var(--brand-green))] px-4 py-2 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)]">
-                            登录保存进度
-                        </Link>
-                    </div>
-                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-[hsl(var(--surface-raised)/0.74)] text-[hsl(var(--brand-green))] shadow-inner">
-                        <UserCircle className="h-8 w-8" />
-                    </div>
-                </div>
-            </Surface>
-        )
-    }
-
-    const safeProgress = Math.min(Math.max(progress, 0), 100)
-    const remainingXp = Math.max(levelTotalNeeded - levelProgress, 0)
-    const completedProjectsLabel = userStats ? `${userStats.projectsCompleted} 个` : '同步中'
-
-    return (
-        <Surface className="overflow-hidden border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--tone-tech-soft))] p-4">
-            <div className="flex items-start justify-between gap-3">
-                <h2 className="flex min-w-0 flex-1 items-center gap-2 text-base font-bold text-[hsl(var(--tone-tech))]">
-                    <BarChart3 className="h-[18px] w-[18px] shrink-0" />
-                    你的探索进度
-                </h2>
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-[hsl(var(--surface-raised)/0.82)] text-[hsl(var(--brand-green))] shadow-inner">
-                    <UserCircle className="h-7 w-7" />
-                </div>
-            </div>
-            <div className="mt-4 space-y-3">
-                <div className="rounded-md border border-[hsl(var(--tone-tech-border))] bg-[hsl(var(--surface-raised)/0.76)] p-3.5 shadow-[0_18px_36px_-32px_hsl(var(--tone-tech)/0.6)]">
-                    <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                            <p className="text-[11px] font-semibold text-muted-foreground">当前等级</p>
-                            <p className="mt-1 text-[28px] font-black leading-none text-[hsl(var(--tone-tech))]">Lv.{level}</p>
-                        </div>
-                        <div className="shrink-0 rounded-full bg-[hsl(var(--brand-green)/0.12)] px-2.5 py-1 text-xs font-bold text-[hsl(var(--brand-green))]">
-                            {Math.floor(safeProgress)}%
-                        </div>
-                    </div>
-                    <Progress value={safeProgress} className="mt-3 h-2" />
-                    <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                        {remainingXp > 0 ? `距离下一级还差 ${remainingXp} XP` : '已达到当前等级目标'}
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                    <div className="rounded-sm bg-[hsl(var(--surface-raised)/0.66)] p-3">
-                        <p className="text-[11px] font-medium text-muted-foreground">完成项目</p>
-                        <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{loading ? '同步中' : completedProjectsLabel}</p>
-                    </div>
-                    <div className="rounded-sm bg-[hsl(var(--surface-raised)/0.66)] p-3">
-                        <p className="text-[11px] font-medium text-muted-foreground">已获徽章</p>
-                        <p className="mt-1 text-[17px] font-black leading-6 text-foreground">{unlockedBadges.size} 枚</p>
-                    </div>
-                </div>
-
-                <Link
-                    href="/profile/library"
-                    className="inline-flex w-full items-center justify-center rounded-sm bg-[hsl(var(--brand-green))] px-4 py-2.5 text-xs font-bold text-[hsl(var(--brand-green-foreground))] shadow-[0_12px_24px_-16px_hsl(var(--brand-green)/0.72)] transition hover:bg-[hsl(var(--brand-green)/0.92)]"
-                >
-                    查看探索记录
-                </Link>
-                <p className="text-center text-[11px] leading-5 text-muted-foreground">
-                    试试「{suggestedLabel}」发现下一个项目
-                </p>
-            </div>
-        </Surface>
-    )
 }
 
 function normalizeSortBy(value: string | null | undefined): SortBy {
@@ -301,6 +199,12 @@ export function ExploreClient({
     const [selectedAge, setSelectedAge] = useState<number | null>(initialAge)
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
+    const [searchDraft, setSearchDraft] = useState(initialQuery)
+    const searchComposingRef = useRef(false)
+    const searchDraftRevisionRef = useRef(0)
+    const searchDraftDirtyRef = useRef(false)
+    const internalUrlFiltersKeyRef = useRef<string | null>(null)
+    const sheetTriggerRef = useRef<HTMLElement | null>(null)
     const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
 
     // Sheet 状态
@@ -338,7 +242,15 @@ export function ExploreClient({
         const nextTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
         const nextSortBy = sortFromSearchParam(searchParams.get("sortBy"))
 
+        const nextFiltersKey = serializeExploreFilterParams(new URLSearchParams(searchParams.toString()))
+        const isInternalUrlUpdate = internalUrlFiltersKeyRef.current === nextFiltersKey
+        if (isInternalUrlUpdate) internalUrlFiltersKeyRef.current = null
+
         setSearchQuery(nextQuery)
+        if (!isInternalUrlUpdate) {
+            setSearchDraft(nextQuery)
+            searchDraftDirtyRef.current = false
+        }
         setSelectedCategory(nextCategory)
         setSelectedSubCategory(nextSubCategory)
         setSelectedDifficulty(nextDifficulty)
@@ -719,6 +631,7 @@ export function ExploreClient({
 
     const syncUrl = useCallback((params: URLSearchParams) => {
         const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
+        internalUrlFiltersKeyRef.current = serializeExploreFilterParams(params)
         window.history.replaceState(null, '', nextUrl)
     }, [])
 
@@ -782,10 +695,12 @@ export function ExploreClient({
         observer.current.observe(node)
     }, [isLoadingMore, isFiltering, isRestoringScroll, restoreError, loadMore])
 
-    const executeFilter = useCallback(async (params: URLSearchParams) => {
+    const executeFilter = useCallback(async (params: URLSearchParams): Promise<boolean> => {
         const filterKey = serializeExploreFilterParams(params)
         if (filterKey === activeFiltersKeyRef.current) {
-            return
+            activeFilterRequest.current?.abort()
+            filterRequestGenerationRef.current += 1
+            return true
         }
 
         restoreGenerationRef.current += 1
@@ -813,7 +728,7 @@ export function ExploreClient({
             }
             const data = await response.json()
             if (controller.signal.aborted || requestGeneration !== filterRequestGenerationRef.current) {
-                return
+                return false
             }
 
             activeFiltersKeyRef.current = filterKey
@@ -827,13 +742,15 @@ export function ExploreClient({
             setPage(1)
             pageRef.current = 1
             syncUrl(params)
+            return true
 
         } catch (error) {
             if (isAbortError(error)) {
-                return
+                return false
             }
             logger.error('Error fetching projects', { error })
             toast({ title: '加载失败', description: '无法加载项目列表，请稍后重试', variant: 'destructive' })
+            return false
         } finally {
             if (activeFilterRequest.current === controller) {
                 activeFilterRequest.current = null
@@ -853,12 +770,30 @@ export function ExploreClient({
         executeFilter(params)
     }
 
+    const submitSearch = useCallback(async (value: string) => {
+        const query = value.trim()
+        const revision = searchDraftRevisionRef.current
+        const success = await executeFilter(buildSearchParams({ query }))
+        if (success) {
+            setSearchQuery(query)
+            if (revision === searchDraftRevisionRef.current) {
+                setSearchDraft(query)
+                searchDraftDirtyRef.current = false
+            }
+        }
+    }, [buildSearchParams, executeFilter])
+
+    const clearSearch = useCallback(() => {
+        searchDraftRevisionRef.current += 1
+        searchDraftDirtyRef.current = true
+        setSearchDraft('')
+        void submitSearch('')
+    }, [submitSearch])
+
     const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const query = searchQuery.trim()
-        setSearchQuery(query)
-        const params = buildSearchParams({ query })
-        executeFilter(params)
+        if (searchComposingRef.current) return
+        void submitSearch(searchDraft)
     }
 
     const handleTagClick = (tag: string) => {
@@ -873,6 +808,8 @@ export function ExploreClient({
 
     const handleClearFilters = () => {
         setSearchQuery("")
+        setSearchDraft("")
+        searchDraftDirtyRef.current = false
         setSelectedCategory("全部")
         setSelectedSubCategory("")
         setSelectedDifficulty("all")
@@ -884,7 +821,7 @@ export function ExploreClient({
         setDraftAge(null)
         setDraftTags([])
         setResultTotal(0)
-        executeFilter(new URLSearchParams())
+        void executeFilter(new URLSearchParams())
     }
 
     const handleSortChange = (sortBy: SortBy) => {
@@ -944,7 +881,8 @@ export function ExploreClient({
     }
 
     // Sheet 逻辑
-    const openSheet = () => {
+    const openSheet = (event?: MouseEvent<HTMLButtonElement>) => {
+        if (event?.currentTarget) sheetTriggerRef.current = event.currentTarget
         setDraftCategory(selectedCategory)
         setDraftSubCategory(selectedSubCategory)
         setDraftDifficulty(selectedDifficulty)
@@ -1046,7 +984,6 @@ export function ExploreClient({
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
 
-    const suggestedPresetId: Exclude<ExplorePresetId, 'browse' | 'beginner-friendly' | 'latest'> = 'fun-science'
 
     return (
         <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-20 md:min-h-[calc(100vh-4rem)] md:pb-8">
@@ -1055,14 +992,15 @@ export function ExploreClient({
                 showNotification={false}
                 showUserButton={false}
                 className="bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
-                searchValue={searchQuery}
+                searchValue={searchDraft}
                 searchPlaceholder="搜索项目、材料、作者..."
-                onSearchChange={setSearchQuery}
-                onSearchSubmit={(value) => {
-                    const trimmed = value.trim()
-                    setSearchQuery(trimmed)
-                    executeFilter(buildSearchParams({ query: trimmed }))
+                onSearchChange={(value) => {
+                    searchDraftRevisionRef.current += 1
+                    searchDraftDirtyRef.current = true
+                    setSearchDraft(value)
                 }}
+                onSearchSubmit={(value) => void submitSearch(value)}
+                onSearchClear={clearSearch}
                 rightSlot={
                     <button
                         type="button"
@@ -1121,14 +1059,47 @@ export function ExploreClient({
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
                 <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
-                    <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
+                    <div className={cn("grid items-stretch gap-5", !isResultsMode && "xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]")}>
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
                             isResultsMode && "md:border-[hsl(var(--surface-border))]",
                         )}>
+                            <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3 md:p-5 md:pb-0">
+                                <form id="explore-search" onSubmit={handleSearchSubmit}>
+                                    <label className="relative block">
+                                        <span className="sr-only">搜索项目</span>
+                                        <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
+                                        <input type="search" value={searchDraft}
+                                            onCompositionStart={() => { searchComposingRef.current = true }}
+                                            onCompositionEnd={() => { searchComposingRef.current = false }}
+                                            onKeyDown={(event) => { if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault() }}
+                                            onChange={(event) => {
+                                                searchDraftRevisionRef.current += 1
+                                                searchDraftDirtyRef.current = true
+                                                setSearchDraft(event.target.value)
+                                            }} placeholder="搜索项目、材料、作者..."
+                                            className="control-field h-11 w-full rounded-sm pl-11 pr-11 text-sm font-medium placeholder:text-muted-foreground/70 [&::-webkit-search-cancel-button]:hidden" />
+                                        {searchDraft ? <button type="button" aria-label="清空搜索" onClick={clearSearch} className="absolute right-1.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-[hsl(var(--surface-muted))]"><X className="h-3.5 w-3.5" /></button> : null}
+                                    </label>
+                                </form>
+                                <button type="button" onClick={openSheet} data-testid="explore-desktop-filters" className="inline-flex h-11 items-center justify-center gap-2 rounded-sm border px-4 text-sm font-semibold text-muted-foreground hover:text-foreground">
+                                    <Filter className="h-4 w-4" strokeWidth={2.2} />
+                                    <span>筛选</span>
+                                    {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">{advancedFilterCount}</span> : null}
+                                </button>
+                            </div>
+                            <div className="space-y-2.5 pt-3 md:px-5 md:pt-4">
+                                <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
+                                <ExploreCategoryStrip
+                                    categories={displayCategories}
+                                    selectedCategory={selectedCategory}
+                                    disabled={isFiltering}
+                                    onSelect={handleCategoryClick}
+                                />
+                            </div>
                             <div className={cn(
-                                "bg-transparent pb-2 pt-0 md:p-5",
-                                isResultsMode && "md:border-b md:border-[hsl(var(--surface-border))]",
+                                "bg-transparent",
+                                isResultsMode && "pb-2 pt-0 md:p-5 md:border-b md:border-[hsl(var(--surface-border))]",
                             )}>
                                 {isResultsMode ? (
                                     <div className="space-y-3">
@@ -1141,41 +1112,6 @@ export function ExploreClient({
                                                 <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
                                                 返回探索
                                             </button>
-                                            <button
-                                                type="button"
-                                                onClick={openSheet}
-                                                data-testid="explore-more-filters"
-                                                className={cn(
-                                                    "hidden md:inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-sm border px-4 text-sm font-semibold transition",
-                                                    hasActiveAdvancedFilters
-                                                        ? "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
-                                                        : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:text-foreground",
-                                                )}
-                                            >
-                                                <Filter className="h-4 w-4" strokeWidth={2.2} />
-                                                <span>筛选</span>
-                                                {advancedFilterCount > 0 && (
-                                                    <span className="grid h-5 min-w-5 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">
-                                                        {advancedFilterCount}
-                                                    </span>
-                                                )}
-                                            </button>
-                                        </div>
-
-                                        <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
-                                            <form id="explore-search" onSubmit={handleSearchSubmit}>
-                                                <label className="relative block">
-                                                    <span className="sr-only">搜索项目</span>
-                                                    <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-                                                    <input
-                                                        type="search"
-                                                        value={searchQuery}
-                                                        onChange={(event) => setSearchQuery(event.target.value)}
-                                                        placeholder="搜索项目、材料、作者..."
-                                                        className="control-field h-11 w-full rounded-sm pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
-                                                    />
-                                                </label>
-                                            </form>
                                         </div>
 
                                         <div className="flex flex-wrap items-center gap-2">
@@ -1192,8 +1128,7 @@ export function ExploreClient({
                                             {searchQuery && (
                                                 <FilterChip
                                                     onClick={() => {
-                                                        setSearchQuery("")
-                                                        executeFilter(buildSearchParams({ query: "" }))
+                                                        clearSearch()
                                                     }}
                                                     active
                                                     shape="pill"
@@ -1273,106 +1208,12 @@ export function ExploreClient({
                                     <>
                                 <h1 className="sr-only">探索</h1>
 
-                                <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-3">
-                                    <form id="explore-search" onSubmit={handleSearchSubmit} className="hidden md:block">
-                                        <label className="relative block">
-                                            <span className="sr-only">搜索项目</span>
-                                            <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
-                                            <input
-                                                type="search"
-                                                value={searchQuery}
-                                                onChange={(event) => setSearchQuery(event.target.value)}
-                                                placeholder="搜索项目、材料、作者..."
-                                                className="control-field h-11 w-full rounded-sm pl-11 pr-4 text-sm font-medium placeholder:text-muted-foreground/70"
-                                            />
-                                        </label>
-                                    </form>
-
-                                    <button
-                                        type="button"
-                                        onClick={openSheet}
-                                        className={cn(
-                                            "relative inline-flex h-11 items-center justify-center gap-2 rounded-sm border px-4 text-sm font-semibold transition",
-                                            hasActiveAdvancedFilters
-                                                ? "border-[hsl(var(--brand-amber)/0.5)] bg-[hsl(var(--brand-amber)/0.12)] text-[hsl(var(--brand-amber))] filter-chip-active"
-                                                : "border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.86)] text-muted-foreground hover:border-[hsl(var(--surface-border-strong))] hover:text-foreground"
-                                        )}
-                                    >
-                                        <Filter className="h-4 w-4" strokeWidth={2.2} />
-                                        <span>更多筛选</span>
-                                        {advancedFilterCount > 0 && (
-                                            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">
-                                                {advancedFilterCount}
-                                            </span>
-                                        )}
-                                    </button>
-                                </div>
-
-                                <div className="space-y-2.5 md:mt-4 md:space-y-2">
-                                    <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
-                                    <div className="relative md:static">
-                                    <div className="no-scrollbar -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-                                    <div className="flex min-w-max items-center gap-1.5 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
-                                        {displayCategories.map((category) => {
-                                            const meta = CATEGORY_META[category]
-                                            const isActive = selectedCategory === category
-                                            const tone = meta?.tone
-                                            const activeToneBg = isActive && tone ? categoryToneClasses[tone].badge : undefined
-                                            const Icon = meta?.icon ?? Sparkles
-                                            return (
-                                                <FilterChip
-                                                    key={category}
-                                                    onClick={() => handleCategoryClick(category)}
-                                                    disabled={isFiltering}
-                                                    aria-pressed={isActive}
-                                                    active={isActive}
-                                                    solid={isActive && !tone}
-                                                    shape="pill"
-                                                    size="md"
-                                                    className={cn(
-                                                        "h-11 min-w-[64px] px-3 text-[13px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm",
-                                                        !isActive && "border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12",
-                                                        isActive && tone && cn(
-                                                            activeToneBg,
-                                                            "border-transparent shadow-xs",
-                                                        ),
-                                                    )}
-                                                >
-                                                    <span
-                                                        className={cn(
-                                                            "contents max-md:inline-flex max-md:h-8 max-md:items-center max-md:gap-1.5 max-md:rounded-sm max-md:px-2.5 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors",
-                                                            isActive
-                                                                ? "max-md:bg-[hsl(var(--brand-blue))] max-md:text-[hsl(var(--brand-blue-foreground))] max-md:shadow-xs"
-                                                                : "max-md:bg-[hsl(var(--surface-muted)/0.62)] max-md:text-foreground/76 max-md:hover:bg-[hsl(var(--surface-muted)/0.9)] dark:max-md:bg-white/8 dark:max-md:text-foreground/84 dark:max-md:hover:bg-white/12",
-                                                        )}
-                                                    >
-                                                        <Icon
-                                                            className={cn(
-                                                                "mr-0.5 h-3.5 w-3.5 shrink-0 max-md:mr-0 max-md:h-3.5 max-md:w-3.5",
-                                                                isActive ? "text-inherit" : tone ? categoryToneClasses[tone].text : "text-muted-foreground",
-                                                            )}
-                                                            strokeWidth={2.2}
-                                                            aria-hidden="true"
-                                                        />
-                                                        {category}
-                                                    </span>
-                                                </FilterChip>
-                                            )
-                                        })}
-                                    </div>
-                                    </div>
-                                    <div
-                                        aria-hidden
-                                        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[hsl(var(--app-canvas))] via-[hsl(var(--app-canvas)/0.88)] to-transparent md:hidden"
-                                    />
-                                    </div>
-                                </div>
                                     </>
                                 )}
                             </div>
 
                             <div className={cn(
-                                "pb-4 pt-0 md:p-5",
+                                "@container pb-4 pt-0 md:p-5",
                                 isResultsMode && "md:pt-4",
                             )}>
                                 <div className={cn(
@@ -1429,7 +1270,7 @@ export function ExploreClient({
                                     <div
                                         data-testid="explore-project-grid"
                                         className={cn(
-                                            COMPACT_VERTICAL_PROJECT_GRID_CLASS,
+                                            EXPLORE_PROJECT_GRID_CLASS,
                                             "transition-opacity duration-300",
                                             isFiltering && "opacity-40 pointer-events-none"
                                         )}
@@ -1439,25 +1280,24 @@ export function ExploreClient({
                                             const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id, index)
                                             const card = (
-                                                <div data-explore-project-id={String(project.id)}>
+                                                <div data-explore-project-id={String(project.id)} className="h-full">
                                                     <ProjectCard
                                                         project={project}
                                                         searchQuery={searchQuery}
                                                         priority={isPriority}
                                                         href={detailHref}
                                                         scroll={false}
-                                                        variant="compact"
-                                                        compactLayout="vertical"
-                                                        className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+                                                        variant="explore"
+                                                        className={EXPLORE_PROJECT_CARD_CLASS}
                                                     />
                                                 </div>
                                             )
                                             const projectNode = projects.length === index + 1 ? (
-                                                <div ref={lastProjectElementRef}>
+                                                <div ref={lastProjectElementRef} className="h-full">
                                                     {card}
                                                 </div>
                                             ) : (
-                                                <div>
+                                                <div className="h-full">
                                                     {card}
                                                 </div>
                                             )
@@ -1502,13 +1342,12 @@ export function ExploreClient({
                                             aria-live="polite"
                                             className="mt-3"
                                         >
-                                            <div className={COMPACT_VERTICAL_PROJECT_GRID_CLASS}>
+                                            <div className={EXPLORE_PROJECT_GRID_CLASS}>
                                                 {Array.from({ length: EXPLORE_LOAD_MORE_PLACEHOLDER_COUNT }, (_, index) => (
                                                     <ProjectCardSkeleton
                                                         key={`skeleton-${index}`}
-                                                        variant="compact"
-                                                        compactLayout="vertical"
-                                                        className={COMPACT_VERTICAL_PROJECT_CARD_CLASS}
+                                                        variant="explore"
+                                                        className={EXPLORE_PROJECT_CARD_CLASS}
                                                     />
                                                 ))}
                                             </div>
@@ -1546,10 +1385,8 @@ export function ExploreClient({
                             </div>
                         </main>
 
-                        <aside className="hidden min-w-0 xl:block">
+                        {!isResultsMode ? <aside className="hidden min-w-0 xl:block">
                             <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
-                                {!isResultsMode ? (
-                                    <>
                                 <Surface className="p-4">
                                     <div className="mb-3 flex items-center justify-between gap-2">
                                         <h2 className="text-base font-bold text-foreground">热门标签</h2>
@@ -1610,12 +1447,8 @@ export function ExploreClient({
                                         了解更多使用指南 →
                                     </Link>
                                 </Surface>
-                                    </>
-                                ) : null}
-
-                                <ExplorationProgressCard suggestedPresetId={suggestedPresetId} />
                             </div>
-                        </aside>
+                        </aside> : null}
                     </div>
                 </div>
             </div>
@@ -1623,12 +1456,19 @@ export function ExploreClient({
             {/* 筛选 Bottom Sheet（含标签二级视图） */}
             <Sheet open={sheetOpen} onOpenChange={handleFilterSheetOpenChange}>
                 <SheetContent
-                    side="bottom"
+                    side="right"
                     showClose={false}
                     className={cn(
-                        "flex flex-col gap-0 rounded-t-md p-0 sm:max-w-none",
+                        "flex flex-col gap-0 rounded-l-md p-0 md:h-[100dvh] md:max-h-none md:w-[440px] md:max-w-[440px] max-md:inset-x-0 max-md:inset-y-auto max-md:bottom-0 max-md:top-auto max-md:max-h-[85dvh] max-md:w-full max-md:max-w-none max-md:rounded-t-md max-md:rounded-l-none max-md:border-l-0 max-md:border-t max-md:data-[state=open]:slide-in-from-bottom max-md:data-[state=closed]:slide-out-to-bottom",
                         sheetView === 'tags' ? "max-h-[85vh]" : "max-h-[70vh]"
                     )}
+                    onCloseAutoFocus={(event) => {
+                        event.preventDefault()
+                        const trigger = sheetTriggerRef.current
+                        if (trigger && trigger.isConnected && !trigger.hasAttribute('disabled')) {
+                            window.requestAnimationFrame(() => trigger.focus())
+                        }
+                    }}
                 >
                     {sheetView === 'filters' ? (
                         <>
@@ -1661,6 +1501,7 @@ export function ExploreClient({
                                                     key={category}
                                                     onClick={() => handleDraftCategoryClick(category)}
                                                     active={draftCategory === category}
+                                                    aria-pressed={draftCategory === category}
                                                     shape="pill"
                                                     size="md"
                                                     className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1680,6 +1521,7 @@ export function ExploreClient({
                                                         key={sub}
                                                         onClick={() => handleDraftSubCategoryClick(sub)}
                                                         active={draftSubCategory === sub}
+                                                        aria-pressed={draftSubCategory === sub}
                                                         shape="pill"
                                                         size="md"
                                                         className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1699,6 +1541,7 @@ export function ExploreClient({
                                                     key={option.value}
                                                     onClick={() => handleDraftDifficultyClick(option.value)}
                                                     active={draftDifficulty === option.value}
+                                                    aria-pressed={draftDifficulty === option.value}
                                                     shape="pill"
                                                     size="md"
                                                     className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1758,6 +1601,7 @@ export function ExploreClient({
                                                             key={tag}
                                                             onClick={() => handleDraftTagClick(tag)}
                                                             active={draftTags.includes(tag)}
+                                                            aria-pressed={draftTags.includes(tag)}
                                                             shape="pill"
                                                             size="md"
                                                             className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1784,7 +1628,7 @@ export function ExploreClient({
                                 </div>
                             </div>
 
-                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
+                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
                                 <div className="flex gap-3">
                                     <Button
                                         variant="outline"
@@ -1842,6 +1686,7 @@ export function ExploreClient({
                                                 key={`selected-${tag}`}
                                                 onClick={() => handleDraftTagClick(tag)}
                                                 active
+                                                aria-pressed
                                                 shape="pill"
                                                 size="md"
                                                 className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1865,6 +1710,7 @@ export function ExploreClient({
                                                 key={tag}
                                                 onClick={() => handleDraftTagClick(tag)}
                                                 active={draftTags.includes(tag)}
+                                                aria-pressed={draftTags.includes(tag)}
                                                 shape="pill"
                                                 size="md"
                                                 className="min-h-11 px-3.5 py-2 text-sm font-medium"
@@ -1876,7 +1722,7 @@ export function ExploreClient({
                                 )}
                             </div>
 
-                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 sm:px-6">
+                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
                                 <Button
                                     className="h-11 w-full"
                                     onClick={() => setSheetView('filters')}

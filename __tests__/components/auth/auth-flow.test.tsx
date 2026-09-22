@@ -248,12 +248,12 @@ describe('AuthFlow', () => {
       await user.click(screen.getByRole('button', { name: '验证并继续' }))
     }
 
-    it('sends a newly registered phone user to the brick course mainline', async () => {
+    it('sends a newly registered phone user to the platform starter guide', async () => {
       const location = stubLocation()
 
       await verifyPhone(true)
 
-      await waitFor(() => expect(location.href).toBe('/courses'))
+      await waitFor(() => expect(location.href).toBe('/start'))
     })
 
     it('keeps returning users on the home page', async () => {

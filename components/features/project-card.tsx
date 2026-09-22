@@ -24,7 +24,7 @@ interface ProjectCardProps {
     href?: string;
     /** Forwarded to Next.js Link; false avoids scrolling explore away before restore. */
     scroll?: boolean;
-    variant?: "default" | "featured" | "compact";
+    variant?: "default" | "featured" | "compact" | "explore";
     compactLayout?: "adaptive" | "vertical" | "dense";
     /** 默认卡片在移动端只展示发现所需的核心信息，桌面端保持完整内容。 */
     mobileCompact?: boolean;
@@ -51,12 +51,13 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
         setImageError(false);
     }, [imageSrc]);
 
-    if (variant === "compact") {
-        const isVerticalCompact = compactLayout === "vertical";
-        const isDenseCompact = compactLayout === "dense";
+    if (variant === "compact" || variant === "explore") {
+        const isExploreVariant = variant === "explore";
+        const isVerticalCompact = compactLayout === "vertical" || isExploreVariant;
+        const isDenseCompact = !isExploreVariant && compactLayout === "dense";
 
         return (
-            <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", className)}>
+            <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", isExploreVariant && "explore-card", className)}>
                 <div
                     className={cn(
                         "surface-card surface-card-interactive group relative h-full overflow-hidden rounded-md",
@@ -79,7 +80,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         className={cn(
                             "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
                             isVerticalCompact
-                                ? "aspect-16/10 rounded-none"
+                                ? isExploreVariant ? "aspect-16/10 rounded-none md:aspect-video" : "aspect-16/10 rounded-none"
                                 : isDenseCompact
                                     ? "h-full min-h-[92px] rounded-sm sm:aspect-16/8.5 sm:h-auto sm:min-h-0 sm:rounded-none"
                                     : "aspect-square rounded-sm sm:aspect-16/8.5 sm:rounded-none",
@@ -145,7 +146,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                             {isVerticalCompact ? (
                                 categoryLabel ? (
-                                    <ToneBadge tone={categoryTone} className="block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
+                                    <ToneBadge tone={categoryTone} variant={isExploreVariant ? "explore" : "default"} className={cn("block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 font-medium", isExploreVariant ? "text-xs" : "text-[10px]")}>
                                         {categoryLabel}
                                     </ToneBadge>
                                 ) : null
@@ -169,7 +170,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             <ContentClassification
                                 classification={project.classification}
                                 compact
-                                variant={isVerticalCompact ? "summary" : "chips"}
+                                variant={isExploreVariant ? "card" : isVerticalCompact ? "summary" : "chips"}
                             />
                             {!isVerticalCompact && (
                                 <p
@@ -204,6 +205,12 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                         <span>{project.coins_count ?? 0}</span>
                                     </span>
                                 </div>
+                            </div>
+                        ) : isExploreVariant ? (
+                            (likesCount > 0 || (project.completions_count ?? 0) > 0 || (project.coins_count ?? 0) > 0) && <div data-testid="explore-project-stats" className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs text-muted-foreground sm:mt-auto">
+                                {likesCount > 0 && <span className="flex items-center gap-1" title="点赞数"><Heart className={cn("h-3 w-3", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} aria-hidden />{likesCount} 点赞</span>}
+                                {(project.completions_count ?? 0) > 0 && <span className="flex items-center gap-1" title="作品数"><Images className="h-3 w-3 text-muted-foreground/80" aria-hidden />{project.completions_count} 作品</span>}
+                                {(project.coins_count ?? 0) > 0 && <span className="flex items-center gap-1" title="投币数"><CoinIcon className="h-3.5 w-3.5 text-[hsl(var(--brand-amber))]" aria-hidden />{project.coins_count} 投币</span>}
                             </div>
                         ) : (
                             <div className="flex items-center gap-3 text-[11px] text-muted-foreground/90 sm:mt-auto">

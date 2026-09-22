@@ -1,4 +1,4 @@
-export type LearningTopicSlug = "blocks" | "scratch" | "science";
+export type LearningTopicSlug = "blocks" | "scratch" | "science" | "nature";
 
 export interface LearningTopicDefinition {
     slug: LearningTopicSlug;
@@ -6,6 +6,8 @@ export interface LearningTopicDefinition {
     title: string;
     description: string;
     introduction: string;
+    concepts?: Array<{ title: string; description: string }>;
+    equipmentSets?: Array<{ code: string; name: string; use: string; sourceUrl: string }>;
     firstQuestion: string;
     firstChallenge: string;
     preparation: string[];
@@ -26,9 +28,21 @@ export const LEARNING_TOPICS: readonly LearningTopicDefinition[] = [
         label: "积木搭建",
         title: "少儿积木搭建入门：准备零件、读懂步骤与改进结构",
         description: "从一件想搭的作品开始，了解积木搭建需要准备什么、怎样读懂分步说明，以及如何检查连接、测试稳定性并改进作品。继续进入创探空间的积木课程。",
-        introduction: "积木搭建可以从一个孩子自己的问题开始：桥怎样站稳，小车怎样跑得更顺？先选一件感兴趣的作品，跟着步骤搭出基本结构，再改变一个地方，观察结果。作品完成之后，还可以继续测试和改进。",
+        introduction: "积木套装按主要用途可分为娱乐类和教育类，都能让孩子在玩中学习。创探空间使用教育套装，从有趣的作品出发，通过搭建、测试和改进，探索怎样搭得牢、站得稳、动得起来。",
+        concepts: [
+            { title: "互锁：让上下两层错开接缝", description: "像砌砖墙一样，让上层的一块积木跨过下层两块积木的接缝，把它们连在一起。与每层接缝都对齐的搭法相比，这通常能减少沿接缝分开的情况。先比较两种搭法，再说说哪一种更牢。" },
+            { title: "底座与重心：让作品站得稳", description: "连接牢固不等于不会倒。试着把底座加宽，或把较重的部分放低、放在支撑范围内，再轻推比较。一次只改一个条件，观察是连接松了，还是整件作品倾倒了。" },
+            { title: "支撑与加固：找出容易变形的地方", description: "桥面下垂、墙面晃动时，先找到变形的位置，再尝试增加支柱、加厚连接或用横向积木连住两侧。加固后重新测试，也留意是否挡住了原本需要运动的部分。" },
+            { title: "轮轴与齿轮：观察运动怎样传递", description: "转动车轮和齿轮，观察哪些零件跟着动、方向是否改变。两个直接啮合的外齿轮转向相反；在同样的驱动条件下，换用不同大小的齿轮，再比较转动圈数和速度。" },
+        ],
+        equipmentSets: [
+            { code: "9090", name: "大颗粒基础积木套装", use: "以基础砖块和造型零件搭建建筑、动物与生活场景，适合练习连接、互锁和空间组合。", sourceUrl: "https://le-www-live-s.legocdn.com/sc/media/files/catalogs/2016-preschool-catalog-us-da56dc1b07e890484862b160620d3851.pdf" },
+            { code: "9076", name: "管道实验套装", use: "用管道、球和支撑零件搭建通路，探索位置、路径和因果关系。", sourceUrl: "https://le-www-live-s.legocdn.com/sc/media/files/catalogs/2016-preschool-catalog-us-da56dc1b07e890484862b160620d3851.pdf" },
+            { code: "9656", name: "早期简单机械套装", use: "围绕齿轮、杠杆、滑轮、轮与轴开展搭建，观察简单机械怎样传递运动。", sourceUrl: "https://www.lego.com/en-no/product/early-simple-machines-set-9656" },
+            { code: "45002", name: "科技机械套装", use: "搭建车辆与机械模型，在装配和测试中练习设计与解决问题。", sourceUrl: "https://education.lego.com/en-us/products/tech-machines-set-with-storage-by-lego-education/45002/" },
+        ],
         firstQuestion: "同样的积木，怎样搭才更稳？",
-        firstChallenge: "先搭一个能站住的小结构，轻轻碰一碰，看看哪里先松动。只改底座或一处连接，再比较它和刚才有什么不同。",
+        firstChallenge: "用相同数量的长方形积木搭两面矮墙：一面上下接缝对齐，一面让上层跨过下层接缝。尽量保持高度和厚度一致，用相近的力轻推，比较哪里先松动。再试着只加宽底座，看看连接牢固和不易倾倒有什么不同。",
         preparation: [
             "先看选中课时的零件清单，核对形状、数量和连接方式；已有积木能否替代，要以这节课的实际结构为准。",
             "留出平整的搭建位置，把零件按形状分开放；小颗粒零件由家长结合孩子的使用能力选择和陪伴。",
@@ -101,6 +115,34 @@ export const LEARNING_TOPICS: readonly LearningTopicDefinition[] = [
         browseHref: "/explore?category=%E7%A7%91%E5%AD%A6",
         browseLabel: "探索更多科学项目",
         keywords: ["科学实验", "科学小实验", "少儿科学实践", "实验记录", "项目式学习"],
+    },
+    {
+        slug: "nature",
+        label: "自然观察入门",
+        title: "自然观察入门：从拍下身边的发现到记录第一次观察",
+        description: "从家门口、公园或校园开始，学习拍摄自然观察照片、记录时间地点、面对不确定的物种，并在不打扰自然的前提下留下第一次观察。",
+        introduction: "自然观察不必去很远的地方。路边的一棵树、花上的一只昆虫，都可以成为起点。停下来看看，拍下看得清的细节，记住何时、何地发现了它，再慢慢认识身边的生命。",
+        firstQuestion: "同一棵树，过几天会有什么变化？",
+        firstChallenge: "选择步道旁一棵容易再次找到的树，从安全的位置观察叶片、花或果实。拍下一张清晰照片，记下时间、地点和一句发现。过几天回到同一位置，比较颜色、数量或形态的变化。",
+        preparation: [
+            "带上能拍照的手机或相机即可开始，也可以准备小本子；先选择熟悉、安全、允许进入的地点，孩子与家长或老师同行。",
+            "保持距离，不追赶、不投喂、不翻动巢穴，不为拍照采摘或捕捉，也不要随意触碰陌生生物。让它留在原来的环境里。",
+            "公开照片前检查是否拍到人脸、门牌等私人信息；涉及巢穴或敏感物种时，不公开容易使它受到打扰的精确位置。",
+        ],
+        sequence: [
+            { title: "选一个地方，先安静地看", description: "从校园、社区绿地或公园步道开始。先观察它在哪里、在做什么，以及周围的环境，不急着靠近或判断名称。" },
+            { title: "拍清主体，也留意特征", description: "在不打扰的距离拍摄，避免逆光和模糊。观察植物的叶、花、果实，或动物的体形、颜色和姿态；能安全拍到多少就记录多少，不必为了细节强行靠近。" },
+            { title: "记下真实时间、地点和发现", description: "填写实际看到它的时间与位置，而不是上传时所在的位置。照片中的时间和 GPS 可以辅助填写，但仍需核对。本站上传的每张照片会成为一条独立观察，请分别检查信息。" },
+            { title: "不认识也可以先记录", description: "AI 给出的候选是鉴定建议，不是确定答案。对照照片中的特征再选择；拿不准时可以发布为待鉴定，不必为了填写名称而猜一个。审核通过后，社区也可以参与共同鉴定。" },
+            { title: "发布以后，再回来看看", description: "提交后留意审核状态和社区建议。回到同一地点继续观察，比较不同时候的变化；记录里把“我看到了什么”和“我猜可能是什么”分开说。" },
+        ],
+        reflection: ["照片里有哪些支持鉴定的特征？", "还有什么信息不确定，需要再次观察？", "与上一次相比，发生了什么变化？"],
+        companionNote: "陪孩子先描述看到的颜色、形状和动作，再一起查找名称。不急着给标准答案，也不以认识多少物种来评判一次观察；认真看见一处变化，就值得记录。",
+        resourceHeading: "开始你的第一次观察",
+        resourceIntroduction: "先记录真实发现，再逐步认识物种。可以直接记录，也可以先看看图鉴和大家的观察。",
+        browseHref: "/nature",
+        browseLabel: "返回自然观察",
+        keywords: ["自然观察入门", "亲子自然观察", "观察记录", "物种识别", "校园自然"],
     },
 ];
 

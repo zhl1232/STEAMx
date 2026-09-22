@@ -7,12 +7,12 @@ import { usePathname } from 'next/navigation'
 
 import { BottomNav } from '@/components/layout/bottom-nav'
 import { DailyCheckInSync } from '@/components/features/gamification/daily-check-in-sync'
+import { PlatformCommunications } from '@/components/features/communications/platform-communications'
 import { GlobalTutorMount } from '@/components/features/tutor/global-tutor-mount'
 import { TutorProvider } from '@/components/features/tutor/tutor-context'
 import { MainNav } from '@/components/layout/main-nav'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { NotificationBell } from '@/components/layout/notification-bell'
-import { ShareButton } from '@/components/layout/share-button'
 import { SteamLogo } from '@/components/layout/logo'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
 import { UserButton } from '@/components/layout/user-button'
@@ -190,7 +190,6 @@ export function ConditionalAppShell({
             <div className="flex min-h-9 flex-1 items-center justify-end gap-2">
               <nav className="flex shrink-0 items-center gap-2">
                 <ThemeToggle />
-                <ShareButton />
                 <NotificationBell />
                 <div className={cn(!user && "hidden")}>
                   <UserButton />
@@ -200,6 +199,7 @@ export function ConditionalAppShell({
             </div>
           </div>
         </header>
+        <PlatformCommunications />
         <main
           id="main-content"
           className={cn(

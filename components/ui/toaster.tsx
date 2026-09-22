@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from 'react'
 import {
   Toast,
   ToastClose,
@@ -8,16 +9,34 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/ui/toast"
-import { useToast } from "@/hooks/use-toast"
+import { isCompactFeedbackBlocked, useToast } from "@/hooks/use-toast"
 
 export function Toaster() {
-  const { toasts } = useToast()
+  const { toasts, dismiss } = useToast()
+  const compactId = toasts.find((item) => item.open && item.presentation === 'compact')?.id
+
+  useEffect(() => {
+    if (!compactId) return
+    const check = () => { if (isCompactFeedbackBlocked()) dismiss(compactId) }
+    const observer = new MutationObserver(check)
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['role', 'aria-modal'] })
+    document.addEventListener('focusin', check)
+    document.addEventListener('visibilitychange', check)
+    window.visualViewport?.addEventListener('resize', check)
+    check()
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('focusin', check)
+      document.removeEventListener('visibilitychange', check)
+      window.visualViewport?.removeEventListener('resize', check)
+    }
+  }, [compactId, dismiss])
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {toasts.map(function ({ id, title, description, action, presentation, ...props }) {
         return (
-          <Toast key={id} {...props}>
+          <Toast key={id} presentation={presentation} {...props}>
             <div className="grid min-w-0 flex-1 gap-0.5 md:gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (
@@ -25,11 +44,11 @@ export function Toaster() {
               )}
             </div>
             {action}
-            <ToastClose />
+            {presentation !== 'compact' ? <ToastClose /> : null}
           </Toast>
         )
       })}
-      <ToastViewport />
+      <ToastViewport className={compactId ? 'compact-feedback-viewport' : undefined} />
     </ToastProvider>
   )
 }

@@ -81,8 +81,8 @@
 
 .nature-leaflet-map .leaflet-control-zoom a {
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border: 0;
   border-bottom: 1px solid #cfe3d5;
@@ -318,12 +318,4 @@
 
 .dark .nature-map-popup-summary {
   color: #bed4c4;
-}
-
-@media (width >= 768px) {
-  .nature-leaflet-map .leaflet-control-zoom a {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
 }

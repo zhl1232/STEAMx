@@ -36,6 +36,8 @@ interface MobileGlobalHeaderProps {
   onSearchChange?: (value: string) => void
   /** variant='search' 时的提交回调（按下回车或失焦提交） */
   onSearchSubmit?: (value: string) => void
+  /** variant='search' 时的清空回调（清空并提交） */
+  onSearchClear?: () => void
 }
 
 /**
@@ -59,8 +61,10 @@ export function MobileGlobalHeader({
   searchPlaceholder = '搜索项目、材料、作者...',
   onSearchChange,
   onSearchSubmit,
+  onSearchClear,
 }: MobileGlobalHeaderProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const composingRef = useRef(false)
   const [internalValue, setInternalValue] = useState(searchValue ?? '')
 
   // 将外部受控值同步到内部 state（保持非受控时的兼容）
@@ -86,6 +90,7 @@ export function MobileGlobalHeader({
 
   const handleClear = () => {
     handleChange('')
+    onSearchClear?.()
     // 清空后让焦点留在输入框
     inputRef.current?.focus()
   }
@@ -138,9 +143,16 @@ export function MobileGlobalHeader({
                 type="search"
                 value={currentValue}
                 onChange={(event) => handleChange(event.target.value)}
+                onCompositionStart={() => { composingRef.current = true }}
+                onCompositionEnd={() => { composingRef.current = false }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && (event.nativeEvent.isComposing || composingRef.current)) {
+                    event.preventDefault()
+                  }
+                }}
                 placeholder={searchPlaceholder}
                 enterKeyHint="search"
-                className="h-10 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-hidden focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)]"
+                className="h-10 w-full rounded-sm border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.96)] pl-9 pr-10 text-sm font-medium text-foreground shadow-[inset_0_1px_0_hsl(var(--surface-raised)/0.92)] placeholder:text-muted-foreground/62 focus:border-[hsl(var(--brand-blue)/0.56)] focus:outline-hidden focus:ring-2 focus:ring-[hsl(var(--brand-blue)/0.12)] [&::-webkit-search-cancel-button]:hidden"
               />
               {currentValue ? (
                 <button
