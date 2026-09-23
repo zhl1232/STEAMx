@@ -30,7 +30,6 @@ jobs:
             HOST_DIR="/opt/steam-app/static-verify"
             HOST_FILE="$HOST_DIR/$MARKER"
             SITE_PATH="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
-            SITE_ENABLED="${NGINX_SITE_ENABLED_PATH:-/etc/nginx/sites-enabled/steam-app}"
             STAGE="$(mktemp -d /tmp/steam-yandex-verify.XXXXXX)"
             trap 'rm -rf -- "$STAGE"' EXIT
 
@@ -41,10 +40,10 @@ jobs:
             grep -q 'Verification: 43f97ab3236b6cfd' "$STAGE/$MARKER"
 
             mkdir -p "$HOST_DIR"
-            # URI /yandex_....html with root /opt/steam-app/static-verify resolves to
-            # /opt/steam-app/static-verify/yandex_....html — keep filename at that path.
+            chmod 755 /opt/steam-app "$HOST_DIR" || true
             install -m 0644 "$STAGE/$MARKER" "$HOST_FILE"
-            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE") ls=$(ls -la "$HOST_FILE")"
+            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE")"
+            ls -lad /opt/steam-app "$HOST_DIR" "$HOST_FILE"
             grep -q 'Verification: 43f97ab3236b6cfd' "$HOST_FILE"
 
             echo "step:docker_cp"
@@ -59,25 +58,68 @@ jobs:
             docker exec "$CID" sh -lc "test -f /app/public/$MARKER && grep -q 'Verification: 43f97ab3236b6cfd' /app/public/$MARKER && wc -c /app/public/$MARKER"
             echo "step:docker_cp_ok"
 
-            echo "step:nginx_paths available=$SITE_PATH enabled=$SITE_ENABLED"
-            ls -la "$SITE_PATH" "$SITE_ENABLED" 2>/dev/null || true
-            if [ -L "$SITE_ENABLED" ]; then
-              echo "step:enabled_symlink -> $(readlink -f "$SITE_ENABLED")"
+            echo "step:nginx_site=$SITE_PATH"
+            test -f "$SITE_PATH"
+            ls -la "$SITE_PATH" /etc/nginx/sites-enabled/steam-app 2>/dev/null || true
+            echo "step:location_slash_count=$(grep -c 'location / {' "$SITE_PATH" || true)"
+            echo "step:existing_yandex_lines"
+            grep -n 'yandex_43f97ab3236b6cfd\|location /' "$SITE_PATH" | head -n 40 || true
+
+            if grep -q 'location = /yandex_43f97ab3236b6cfd.html' "$SITE_PATH"; then
+              echo "step:nginx_location_already_present_rewriting"
+              # Remove any prior yandex exact-match location block (non-greedy via awk)
+              awk '
+                BEGIN {skip=0}
+                /location = \/yandex_43f97ab3236b6cfd\.html[[:space:]]*\{/ {skip=1; next}
+                skip==1 && /\}/ {skip=0; next}
+                skip==1 {next}
+                {print}
+              ' "$SITE_PATH" > "$STAGE/site.cleaned"
+              cp "$STAGE/site.cleaned" "$SITE_PATH"
             fi
-            printf '%s' 'aW1wb3J0IHBhdGhsaWIsIHN5cwoKbWFya2VyID0gInlhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkLmh0bWwiCmJsb2NrID0gKAogICAgIiAgICBsb2NhdGlvbiA9IC95YW5kZXhfNDNmOTdhYjMyMzZiNmNmZC5odG1sIHtcbiIKICAgICIgICAgICAgIHJvb3QgL29wdC9zdGVhbS1hcHAvc3RhdGljLXZlcmlmeTtcbiIKICAgICIgICAgICAgIGRlZmF1bHRfdHlwZSB0ZXh0L2h0bWw7XG4iCiAgICAiICAgICAgICBjaGFyc2V0IHV0Zi04O1xuIgogICAgIiAgICAgICAgYWRkX2hlYWRlciBDYWNoZS1Db250cm9sIFwibm8tc3RvcmVcIjtcbiIKICAgICIgICAgfVxuIgopCgpkZWYgcGF0Y2hfb25lKHBhdGg6IHBhdGhsaWIuUGF0aCkgLT4gc3RyOgogICAgdGV4dCA9IHBhdGgucmVhZF90ZXh0KGVuY29kaW5nPSJ1dGYtOCIpCiAgICBpZiAibG9jYXRpb24gPSAveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmQuaHRtbCIgaW4gdGV4dDoKICAgICAgICAjIGVuc3VyZSByb290LWJhc2VkIGJsb2NrIChyZXdyaXRlIG9sZGVyIGFsaWFzIGJsb2NrIGlmIHByZXNlbnQpCiAgICAgICAgaWYgImFsaWFzIC9vcHQvc3RlYW0tYXBwL3N0YXRpYy12ZXJpZnkveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmQuaHRtbCIgaW4gdGV4dDoKICAgICAgICAgICAgaW1wb3J0IHJlCiAgICAgICAgICAgIHRleHQyLCBuID0gcmUuc3VibigKICAgICAgICAgICAgICAgIHIiXG4gICAgbG9jYXRpb24gPSAveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmRcLmh0bWwgXHsuKj9cbiAgICBcfVxuIiwKICAgICAgICAgICAgICAgICJcbiIgKyBibG9jaywKICAgICAgICAgICAgICAgIHRleHQsCiAgICAgICAgICAgICAgICBjb3VudD0xLAogICAgICAgICAgICAgICAgZmxhZ3M9cmUuUywKICAgICAgICAgICAgKQogICAgICAgICAgICBpZiBuOgogICAgICAgICAgICAgICAgcGF0aC53cml0ZV90ZXh0KHRleHQyLCBlbmNvZGluZz0idXRmLTgiKQogICAgICAgICAgICAgICAgcmV0dXJuICJyZXdyb3RlX2FsaWFzX3RvX3Jvb3QiCiAgICAgICAgcmV0dXJuICJhbHJlYWR5X3ByZXNlbnQiCiAgICBuZWVkbGUyID0gIiAgICAjIOaJgOacieivt+axguS7o+eQhuWIsCBOZXh0LmpzXG4gICAgbG9jYXRpb24gLyB7IgogICAgaWYgbmVlZGxlMiBpbiB0ZXh0OgogICAgICAgIHRleHQgPSB0ZXh0LnJlcGxhY2UobmVlZGxlMiwgYmxvY2sgKyAiXG4iICsgbmVlZGxlMiwgMSkKICAgIGVsc2U6CiAgICAgICAgaWR4ID0gdGV4dC5yZmluZCgiXG4gICAgbG9jYXRpb24gLyB7IikKICAgICAgICBpZiBpZHggPCAwOgogICAgICAgICAgICBpZHggPSB0ZXh0LnJmaW5kKCJcbmxvY2F0aW9uIC8geyIpCiAgICAgICAgaWYgaWR4IDwgMDoKICAgICAgICAgICAgcmFpc2UgU3lzdGVtRXhpdChmImNvdWxkIG5vdCBmaW5kIGNhdGNoLWFsbCBsb2NhdGlvbiAvIGluIHtwYXRofSIpCiAgICAgICAgdGV4dCA9IHRleHRbOiBpZHggKyAxXSArIGJsb2NrICsgIlxuIiArIHRleHRbaWR4ICsgMSA6XQogICAgcGF0aC53cml0ZV90ZXh0KHRleHQsIGVuY29kaW5nPSJ1dGYtOCIpCiAgICByZXR1cm4gInBhdGNoZWQiCgpwYXRocyA9IHN5cy5hcmd2WzE6XQppZiBub3QgcGF0aHM6CiAgICByYWlzZSBTeXN0ZW1FeGl0KCJ1c2FnZTogcGF0Y2gucHkgPG5naW54LXNpdGUtcGF0aD4gW21vcmUgcGF0aHMuLi5dIikKZm9yIHJhdyBpbiBwYXRoczoKICAgIHAgPSBwYXRobGliLlBhdGgocmF3KQogICAgaWYgbm90IHAuZXhpc3RzKCk6CiAgICAgICAgcHJpbnQoZiJzdGVwOnNraXBfbWlzc2luZyBwYXRoPXtwfSIpCiAgICAgICAgY29udGludWUKICAgIHByaW50KGYic3RlcDpwYXRjaF9yZXN1bHQgcGF0aD17cH0gcmVzdWx0PXtwYXRjaF9vbmUocCl9IikK' | base64 -d > "$STAGE/patch-yandex-nginx.py"
-            # Patch available + enabled (if distinct) + any conf.d steam-app
-            EXTRA=""
-            for p in /etc/nginx/conf.d/steam-app.conf /etc/nginx/conf.d/steam.conf; do
-              [ -f "$p" ] && EXTRA="$EXTRA $p"
-            done
-            python3 "$STAGE/patch-yandex-nginx.py" "$SITE_PATH" "$SITE_ENABLED" $EXTRA
+
+            echo "step:nginx_patch_insert"
+            BLOCK_FILE="$STAGE/yandex.location"
+            cat > "$BLOCK_FILE" <<'BLOCK'
+                location = /yandex_43f97ab3236b6cfd.html {
+                    alias /opt/steam-app/static-verify/yandex_43f97ab3236b6cfd.html;
+                    default_type text/html;
+                    charset utf-8;
+                    add_header Cache-Control "no-store";
+                }
+            BLOCK
+            # Strip the accidental leading indent from heredoc if any (keep 4-space nginx indent)
+            sed -i 's/^                /    /' "$BLOCK_FILE"
+
+            python3 - "$SITE_PATH" "$BLOCK_FILE" <<'PY'
+            import pathlib, sys
+            site = pathlib.Path(sys.argv[1])
+            block = pathlib.Path(sys.argv[2]).read_text(encoding="utf-8")
+            if not block.endswith("\n"):
+                block += "\n"
+            text = site.read_text(encoding="utf-8")
+            needle = "    # 所有请求代理到 Next.js\n    location / {"
+            if needle in text:
+                text = text.replace(needle, block + "\n" + needle, 1)
+                where = "before_chinese_comment"
+            else:
+                idx = text.rfind("\n    location / {")
+                if idx < 0:
+                    raise SystemExit("no catch-all location / found")
+                text = text[: idx + 1] + block + "\n" + text[idx + 1 :]
+                where = "before_last_location_slash"
+            site.write_text(text, encoding="utf-8")
+            print("step:nginx_patched where=" + where)
+            PY
+
+            echo "step:post_patch_snip"
+            grep -n 'yandex_43f97ab3236b6cfd\|所有请求代理\|location /' "$SITE_PATH" | head -n 50 || true
 
             echo "step:nginx_T_yandex"
-            nginx -T 2>/dev/null | grep -n "yandex_43f97ab3236b6cfd" || echo "step:WARN_not_in_nginx_T"
+            nginx -T 2>/dev/null | grep -n 'yandex_43f97ab3236b6cfd' || echo "step:WARN_not_in_nginx_T"
 
             echo "step:nginx_test"
             nginx -t
-            echo "step:nginx_reload"
             if systemctl is-active --quiet nginx; then
               systemctl reload nginx
             else
@@ -85,21 +127,26 @@ jobs:
             fi
             echo "step:nginx_reloaded"
 
-            echo "step:local_curl"
-            STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://127.0.0.1/$MARKER -H 'Host: steam.bj.cn' -k || true)"
+            echo "step:curl_verbose_local"
+            curl -sS --max-time 20 -D /tmp/yandex_hdrs.txt -o /tmp/yandex_verify_body.html               https://127.0.0.1/$MARKER -H 'Host: steam.bj.cn' -k || true
+            echo "step:local_headers"; head -n 20 /tmp/yandex_hdrs.txt || true
+            STATUS="$(awk 'NR==1{print $2}' /tmp/yandex_hdrs.txt)"
             echo "step:local_status=$STATUS"
             head -c 500 /tmp/yandex_verify_body.html || true
             echo
-            if [ "$STATUS" != "200" ] || ! grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html; then
+
+            if [ "${STATUS:-}" != "200" ] || ! grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html; then
               echo "step:retry_public_curl"
-              STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://steam.bj.cn/$MARKER || true)"
+              curl -sS --max-time 20 -D /tmp/yandex_hdrs.txt -o /tmp/yandex_verify_body.html                 "https://steam.bj.cn/$MARKER" || true
+              echo "step:public_headers"; head -n 20 /tmp/yandex_hdrs.txt || true
+              STATUS="$(awk 'NR==1{print $2}' /tmp/yandex_hdrs.txt)"
               echo "step:public_status=$STATUS"
               head -c 500 /tmp/yandex_verify_body.html || true
               echo
             fi
-            test "$STATUS" = "200"
+
+            test "${STATUS:-}" = "200"
             grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html
-            # Must not be Next 404 shell
             if grep -q '_next/static' /tmp/yandex_verify_body.html; then
               echo "step:got_next_shell_not_verify" >&2
               exit 1
