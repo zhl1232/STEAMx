@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ScratchHostProvider } from './scratch-host-context'
@@ -208,5 +208,33 @@ describe('ScratchWorkspace', () => {
       selectedTargetName: 'Bear',
       targets: [{ id: 'bear-1', name: 'Bear' }],
     })
+  })
+
+  it('refuses to replace an unavailable saved project with the lesson starter', async () => {
+    postMessage.mockClear()
+    Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {
+      configurable: true,
+      get() { return { postMessage } },
+    })
+    const originalFetch = globalThis.fetch
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ hasUserProject: true, projectUrl: null }),
+    })
+    try {
+      render(<ScratchWorkspace courseId={1} lessonId={2} starterProjectUrl="/api/assets/courses/scratch-original/v1/s01-l01/starter.sb3" />)
+      window.dispatchEvent(new MessageEvent('message', {
+        origin: window.location.origin,
+        data: { source: 'steam-scratch-host', type: 'SCRATCH_READY' },
+      }))
+      await waitFor(() => {
+        expect(postMessage).toHaveBeenCalledWith(
+          expect.objectContaining({ type: 'LOAD_PROJECT', url: null, failClosed: true }),
+          window.location.origin,
+        )
+      })
+    } finally {
+      globalThis.fetch = originalFetch
+    }
   })
 })

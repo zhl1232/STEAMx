@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: PageProps) {
         path: `/courses/${courseId}`,
         keywords: [course.title, "STEAM课程", "在线课程", ...(course.tags ?? [])],
         image: course.image_url ?? undefined,
+        noIndex: course.is_listed === false,
     });
 }
 
@@ -84,6 +85,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
     // 大课的 sort_order 是拼音序，平铺一列找不到东西；小课的 sort_order 是真的教学顺序，保持原样
     const useCatalog = course.lessons.length >= LESSON_CATALOG_MIN_SIZE;
     const isBuildingCatalog = useCatalog && course.lessons.every((lesson) => lesson.lesson_type === "building_3d");
+    const isScratchCurriculum = useCatalog && course.lessons.every((lesson) =>
+        lesson.lesson_type === "scratch" && Number(lesson.stage_index) > 0 && Boolean(lesson.stage_title));
     const catalogLessons = useCatalog
         ? buildLessonCatalogItems(course.lessons, { showTypeLabel: !allSameLessonType })
         : [];
@@ -313,6 +316,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                             lessons={catalogLessons}
                             showProgressFilters={Boolean(user)}
                             desktopCards={isBuildingCatalog}
+                            groupByStage={isScratchCurriculum}
                         />
                     ) : (
                     <ol className="space-y-2 md:space-y-2.5">

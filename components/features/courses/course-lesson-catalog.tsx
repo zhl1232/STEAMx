@@ -9,6 +9,7 @@ import {
   collectLessonInitials,
   filterLessonCatalog,
   groupLessonCatalog,
+  groupLessonCatalogByStage,
   type LessonCatalogFilter,
   type LessonCatalogItem,
 } from "@/lib/courses/lesson-catalog";
@@ -30,6 +31,7 @@ export function CourseLessonCatalog({
   lessons,
   showProgressFilters,
   desktopCards = false,
+  groupByStage = false,
 }: {
   courseId: number;
   lessons: LessonCatalogItem[];
@@ -37,6 +39,7 @@ export function CourseLessonCatalog({
   showProgressFilters: boolean;
   /** 大颗粒积木目录在桌面使用成品图卡，其它大目录保留紧凑列表。 */
   desktopCards?: boolean;
+  groupByStage?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<LessonCatalogFilter>("all");
@@ -48,9 +51,12 @@ export function CourseLessonCatalog({
     () => filterLessonCatalog(lessons, { query: deferredQuery, filter }),
     [lessons, deferredQuery, filter],
   );
-  const groups = useMemo(() => groupLessonCatalog(visible), [visible]);
+  const groups = useMemo(
+    () => groupByStage ? groupLessonCatalogByStage(visible) : groupLessonCatalog(visible),
+    [visible, groupByStage],
+  );
   const desktopItems = useMemo(() => groups.flatMap((group) => group.items), [groups]);
-  const initials = useMemo(() => collectLessonInitials(visible), [visible]);
+  const initials = useMemo(() => groupByStage ? groups.map((group) => group.initial) : collectLessonInitials(visible), [visible, groups, groupByStage]);
 
   const options = (
     showProgressFilters
@@ -168,7 +174,7 @@ export function CourseLessonCatalog({
                   id={`${letterAnchorId(courseId, group.initial)}-heading`}
                   className="mb-2 text-xs font-black uppercase tracking-widest text-muted-foreground"
                 >
-                  {group.initial}
+                  {groupByStage ? `第 ${group.initial} 阶段 · ${group.items[0]?.stageTitle ?? "学习与创作"}` : group.initial}
                 </h3>
                 <ul className="space-y-2">
                   {group.items.map((lesson) => (
@@ -182,16 +188,16 @@ export function CourseLessonCatalog({
           </div>
 
           <nav
-            aria-label="按名称首字母跳转"
+            aria-label={groupByStage ? "按学习阶段跳转" : "按名称首字母跳转"}
             className="sticky top-20 hidden h-fit shrink-0 flex-col items-center gap-0.5 rounded-full bg-[hsl(var(--surface-muted))] px-1.5 py-2 text-[10px] font-bold text-muted-foreground lg:flex"
           >
             {initials.map((initial) => (
               <a
                 key={initial}
                 href={`#${letterAnchorId(courseId, initial)}${desktopCards ? "-desktop" : ""}`}
-                className="grid h-5 w-5 place-items-center rounded-full transition hover:bg-[hsl(var(--brand-blue)/0.12)] hover:text-[hsl(var(--brand-blue))]"
+                className={cn("grid h-5 place-items-center rounded-full transition hover:bg-[hsl(var(--brand-blue)/0.12)] hover:text-[hsl(var(--brand-blue))]", groupByStage ? "min-w-12 px-1" : "w-5")}
               >
-                {initial}
+                {groupByStage ? `第${initial}阶段` : initial}
               </a>
             ))}
           </nav>

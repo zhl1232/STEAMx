@@ -25,6 +25,7 @@ export async function fetchTutorRecommendableCourses(
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
+    .eq('is_listed', true)
   if (classificationSettings.enforcementEnabled) {
     query = query.eq('classification_status', 'reviewed')
   }

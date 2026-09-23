@@ -119,6 +119,7 @@ describe('listApprovedCourses', () => {
       { id: 2, lesson_count: 0, progress: null },
     ])
     expect(client.from.mock.calls.map(([table]) => table)).toEqual(['courses', 'course_lessons'])
+    expect(client.queries.get('courses')?.eq).toHaveBeenCalledWith('is_listed', true)
   })
 
   it('uses only the logged-in learner progress in a batched course response', async () => {
@@ -173,6 +174,19 @@ describe('listApprovedCourses', () => {
 })
 
 describe('getCourseOverview', () => {
+  it('keeps a direct historical course link available when the course leaves discovery', async () => {
+    const client = makeClient({
+      courses: { data: makeCourse({ is_listed: false }), error: null },
+      course_lessons: { data: [makeOverviewLesson(11, 1)], error: null },
+    })
+
+    const course = await getCourseOverview(client as never, 1)
+
+    expect(course?.id).toBe(1)
+    expect(course?.is_listed).toBe(false)
+    expect(client.queries.get('courses')?.eq).not.toHaveBeenCalledWith('is_listed', true)
+  })
+
   it('reopens current progress when a lesson is added after a milestone', async () => {
     const client = makeClient({
       courses: {

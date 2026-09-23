@@ -125,12 +125,12 @@ describe('resource search coverage', () => {
   it('searches lesson summary content and filters hidden parent courses before returning lesson chips', async () => {
     const { client, calls } = createSupabase({
       course_lessons: [
-        { id: 70, course_id: 5, title: '第一课', content_summary: '轮船搭建', courses: { status: 'approved' } },
-        { id: 71, course_id: 6, title: '隐藏课时', content_summary: '轮船搭建', courses: { status: 'draft' } },
+        { id: 70, course_id: 5, title: '第一课', content_summary: '轮船搭建', courses: { status: 'approved', is_listed: true } },
+        { id: 71, course_id: 6, title: '隐藏课时', content_summary: '轮船搭建', courses: { status: 'draft', is_listed: false } },
       ],
       courses: [
-        { id: 5, title: '积木课程', tags: ['轮船'], status: 'approved' },
-        { id: 6, title: '隐藏课程', tags: ['轮船'], status: 'draft' },
+        { id: 5, title: '积木课程', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 6, title: '隐藏课程', tags: ['轮船'], status: 'draft', is_listed: false },
       ],
     })
 
@@ -140,21 +140,22 @@ describe('resource search coverage', () => {
     const lessonCall = calls.find((call) => call.table === 'course_lessons')
     expect(lessonCall?.select).toContain('courses!inner(id)')
     expect(lessonCall?.filters).toContainEqual({ column: 'courses.status', value: 'approved' })
+    expect(lessonCall?.filters).toContainEqual({ column: 'courses.is_listed', value: true })
     expect(lessonCall?.or).toContain('content->>summary.ilike.%轮船%')
   })
 
   it('keeps a lesson-hit course ahead of five direct course matches', async () => {
     const { client } = createSupabase({
       courses: [
-        { id: 1, title: '宽泛课程一', tags: ['轮船'], status: 'approved' },
-        { id: 2, title: '宽泛课程二', tags: ['轮船'], status: 'approved' },
-        { id: 3, title: '宽泛课程三', tags: ['轮船'], status: 'approved' },
-        { id: 4, title: '宽泛课程四', tags: ['轮船'], status: 'approved' },
-        { id: 5, title: '宽泛课程五', tags: ['轮船'], status: 'approved' },
-        { id: 6, title: '精确课时所属课程', tags: [], status: 'approved' },
+        { id: 1, title: '宽泛课程一', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 2, title: '宽泛课程二', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 3, title: '宽泛课程三', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 4, title: '宽泛课程四', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 5, title: '宽泛课程五', tags: ['轮船'], status: 'approved', is_listed: true },
+        { id: 6, title: '精确课时所属课程', tags: [], status: 'approved', is_listed: true },
       ],
       course_lessons: [
-        { id: 60, course_id: 6, title: '精确课时', content_summary: '轮船搭建', courses: { status: 'approved' } },
+        { id: 60, course_id: 6, title: '精确课时', content_summary: '轮船搭建', courses: { status: 'approved', is_listed: true } },
       ],
     })
 

@@ -44,7 +44,7 @@ export type ScratchEditorContext = {
 
 export type ScratchParentMessage =
   | { type: 'SCRATCH_INIT'; lessonId: number; readOnly?: boolean; playerOnly?: boolean }
-  | { type: 'LOAD_PROJECT'; url: string | null; force?: boolean }
+  | { type: 'LOAD_PROJECT'; url: string | null; force?: boolean; requestId?: string; failClosed?: boolean }
   | { type: 'LOAD_PROJECT_BUFFER'; base64: string; force?: boolean }
   | { type: 'SAVE_PROJECT' }
   | { type: 'RUN_PLAYER_ONLY' }
@@ -60,7 +60,7 @@ export type ScratchParentMessage =
 
 export type ScratchHostMessage =
   | { type: 'SCRATCH_READY'; source: typeof SCRATCH_MESSAGE_SOURCE }
-  | { type: 'PROJECT_LOADED'; ok: boolean; error?: string }
+  | { type: 'PROJECT_LOADED'; ok: boolean; error?: string; requestId?: string }
   | { type: 'PROJECT_SAVED'; ok: boolean; error?: string }
   | { type: 'PROJECT_SAVE_DATA'; base64: string; source: typeof SCRATCH_MESSAGE_SOURCE }
   | { type: 'EDITOR_CONTEXT'; context: ScratchEditorContext; source: typeof SCRATCH_MESSAGE_SOURCE }

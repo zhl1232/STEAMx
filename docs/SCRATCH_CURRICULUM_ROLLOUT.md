@@ -1,0 +1,23 @@
+# 原创 Scratch 课程上线与验收
+
+本课程面向 7–10 岁初学者，六阶段共 48 节，每节附起始作品、参考作品和积木图示。D 盘旧课件只作主题参考；正式内容和作品均在本仓库重新编写、生成。旧 Scratch 课程有历史学习记录，发布新课时仅从发现入口隐藏，不能删除旧课程或进度。
+
+## 本地验收
+
+1. 运行 `node scripts/generate-scratch-curriculum-projects.mjs`，再运行 `node scripts/scratch-curriculum/import.mjs`。导入器默认只读，核对 48 节顺序、96 个 SB3、图示、必需积木及起始/参考差异。
+2. 运行 `node scripts/scratch-curriculum/verify-vm.mjs`，用 Scratch VM 对 96 个 SB3 做加载与绿旗烟测；再在浏览器逐节核对步骤文字、所需角色和积木、默认参数与图示一致。重点人工验收消息、变量、列表、克隆、画笔、自定义积木及综合作品的实际效果；无渲染器的 VM 烟测不能代替这一步。
+3. 运行 `pnpm build:scratch`、`pnpm type-check`、目标 Vitest、`pnpm lint`、`pnpm build`；在浏览器检查桌面与手机的课程阶段目录、课时侧栏、参考预览、起始作品加载、保存与续学。确认旧课程直达和历史作品仍可打开。
+
+2026-09-23 本地记录：48 节和 96 个 SB3 通过只读导入校验，96 个项目通过 VM 运行检查；48 个参考项目均在带渲染器的 Scratch 浏览器中加载并可点击绿旗，未出现页面脚本错误。另验证了停车线颜色碰撞、星光收集达 5 分、雨水收集达 8 滴及数据画画出四根柱条。TypeScript、21 项定向测试、lint 和 `next build --webpack` 通过。新课程尚未导入远端，课程详情、保存续学与手机布局的端到端检查须在未上架草稿环境继续完成。
+
+## 生产变更顺序
+
+下列步骤会修改远端应用或数据库，需完成上述本地验收、确认目标环境和明确发布授权后执行。
+
+1. 先检查目标数据库的待应用迁移清单，按 `.cursor/rules/db-migrations.mdc` 用 `pnpm db:push` 应用 `20260923170000_course_catalog_visibility.sql`。应用代码依赖 `is_listed` 列，不能先部署新应用。2026-09-23 已在目标 Supabase host `spb-bp1n04y14st4y299.supabase.opentrust.net` 应用并确认无待执行迁移。
+2. 部署包含 `public/courses/scratch-original/v1/` 的应用版本，检查 `GET /api/assets/courses/scratch-original/v1/s01-l01/starter.sb3` 和图示返回正确 MIME、可在编辑器打开。
+3. 执行 `node scripts/scratch-curriculum/import.mjs --apply --expect-host=<目标 Supabase host>`，只导入未上架草稿。人工核对 48 节、年龄 7–10、成人支持 `guided`，并把 `classification_status` 审核为 `reviewed`。草稿始终不可见。
+4. 用 `node scripts/scratch-curriculum/publish.mjs --expect-host=<目标 Supabase host> --legacy-id=<旧课 ID>` 做只读预览；确认课程 ID、历史课程 ID 和课时数后加 `--apply` 发布。该脚本调用迁移中的事务函数，原子地将新课设为 `approved`/`is_listed=true`，并将旧课设为 `is_listed=false`。
+5. 回读新旧课程状态和课时数，实际访问 `/courses`、新课第一节、旧课历史链接、学习进度、项目保存与参考预览。若新课需撤回，先设新课 `is_listed=false`，再恢复旧课 `is_listed=true`；不要删除任一课程。
+
+`db:status` 与 `db:push --dry-run` 可能创建数据库追踪表，不能作为只读预检。生产发布前需确认目标 host 和完整待执行迁移范围。

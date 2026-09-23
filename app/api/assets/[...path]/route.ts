@@ -20,6 +20,8 @@ const CONTENT_TYPE_BY_EXT: Record<string, string> = {
   '.png': 'image/png',
   '.webp': 'image/webp',
   '.gif': 'image/gif',
+  '.svg': 'image/svg+xml',
+  '.sb3': 'application/x.scratch.sb3',
   '.pdf': 'application/pdf',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
@@ -38,6 +40,7 @@ const PASS_THROUGH_HEADERS = [
 ] as const
 
 const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
+const ORIGINAL_SCRATCH_COURSE_PREFIX = '/courses/scratch-original/v1/'
 const CANONICAL_ASSET_REFERER = 'https://steamx.cc'
 const KNOWN_ASSETS_CDN_HOST = 'assets.steamx.cc'
 const DEFAULT_ASSET_CONNECT_TIMEOUT_MS = 10_000
@@ -311,7 +314,8 @@ async function proxyAsset(
   }
 
   // LDraw 库始终走 public/ 本地（文件小、打包后最新，避免 OSS/CDN 旧缓存）
-  if (isLdrawLibraryPath(pathname)) {
+  // 原创 Scratch 课件随应用版本部署，避免 OSS 旧文件与课程 JSON 版本错位。
+  if (isLdrawLibraryPath(pathname) || pathname.startsWith(ORIGINAL_SCRATCH_COURSE_PREFIX)) {
     const localResponse = await respondWithLocalAsset(request, pathname, method, { allowProduction: true })
     if (localResponse) return localResponse
   }

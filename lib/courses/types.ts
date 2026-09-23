@@ -67,7 +67,14 @@ export interface GomokuBoardVisual {
   winLine?: GomokuBoardLine
 }
 
-export type CourseLessonStepVisual = GomokuBoardVisual
+export interface ScratchStepImageVisual {
+  type: 'scratch_image'
+  src: string
+  alt: string
+  caption?: string
+}
+
+export type CourseLessonStepVisual = GomokuBoardVisual | ScratchStepImageVisual
 
 export interface GomokuBestMoveCandidate extends GomokuBoardPoint {
   label?: string
@@ -114,6 +121,20 @@ export interface LessonContent {
   tutorialDeckId?: string
   /** 完成本课必须用到的关键积木；为空或缺省时退化为「保存即可完成」 */
   requiredBlocks?: LessonRequiredBlock[]
+  /** Original Scratch curriculum metadata and immutable sample asset URLs. */
+  scratch?: {
+    curriculumKey: string
+    lessonKey: string
+    stageIndex: number
+    stageTitle: string
+    goals: string[]
+    prerequisites: string[]
+    challenge: string
+    reflection: string
+    projectGoal: string
+    starterProjectUrl: string
+    referenceProjectUrl: string
+  }
   /** 大颗粒积木搭建课内容；仅 lesson_type=building_3d 时由搭建工作区读取 */
   building3d?: Building3DLessonContent
   /** 游乐场实训课配置；仅 lesson_type=playground 时由实训工作区读取 */
@@ -208,6 +229,7 @@ export interface CourseRow {
   /** Internal calibration field; public course DTOs omit it. */
   difficulty_stars?: number
   status: CourseStatus
+  is_listed?: boolean
   sort_order: number
   steam_weights: Record<string, number> | null
   created_at: string
@@ -254,6 +276,9 @@ export interface CourseLessonSummary {
   level_label: string | null
   /** 课时一句话简介，用于课时目录搜索 */
   summary: string | null
+  /** Ordered curriculum stage projected without loading complete lesson content. */
+  stage_index?: number | string | null
+  stage_title?: string | null
   /** 有 LDraw 模型才有 3D 分步搭建和零件清单 */
   has_model: boolean
   /** 积木课成品参考图；目录只投影这一张图，不读取完整课时 content */

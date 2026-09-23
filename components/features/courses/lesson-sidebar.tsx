@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 
@@ -34,6 +35,7 @@ export function LessonSidebar({
     const summary =
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
     const steps = displaySteps ?? lesson.steps ?? [];
+    const scratch = lesson.lesson_type === "scratch" ? lesson.content?.scratch : undefined;
 
     return (
         <aside className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
@@ -59,6 +61,11 @@ export function LessonSidebar({
                 {summary ? (
                     <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                         {summary}
+                    </p>
+                ) : null}
+                {scratch?.goals?.length ? (
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                        本课目标：{scratch.goals.join("；")}
                     </p>
                 ) : null}
                 <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -89,6 +96,12 @@ export function LessonSidebar({
                         />
                     ))}
                 </ol>
+                {scratch && !directoryOnly ? (
+                    <div className="mt-4 space-y-2 border-t border-border pt-3 text-xs leading-relaxed">
+                        <p><strong>自由挑战：</strong>{scratch.challenge}</p>
+                        <p><strong>想一想：</strong>{scratch.reflection}</p>
+                    </div>
+                ) : null}
                 {lesson.resources?.length ? (
                     <div className="mt-4 border-t border-border pt-3">
                         <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
@@ -147,6 +160,7 @@ function LessonStepItem({
     onClick: () => void;
 }) {
     const itemRef = useRef<HTMLButtonElement>(null);
+    const images = (step.visuals ?? []).filter((visual) => visual.type === "scratch_image");
 
     useEffect(() => {
         if (!directoryOnly) {
@@ -202,6 +216,19 @@ function LessonStepItem({
                     </p>
                 ) : null}
             </button>
+            {active && !directoryOnly && images.map((visual) => (
+                <figure key={visual.src} className="mt-2 overflow-hidden rounded-lg border border-border bg-white p-1.5">
+                    <a href={visual.src} target="_blank" rel="noopener noreferrer" aria-label={`放大查看：${visual.alt}`}>
+                        <Image src={visual.src} alt={visual.alt} width={640} height={360} unoptimized className="h-auto w-full" />
+                    </a>
+                    {visual.caption ? <figcaption className="px-1 py-1.5 text-xs text-muted-foreground">{visual.caption}</figcaption> : null}
+                </figure>
+            ))}
+            {active && !directoryOnly && step.checklist?.length ? (
+                <ul className="mt-2 space-y-1 pl-5 text-xs leading-relaxed text-muted-foreground list-disc">
+                    {step.checklist.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+            ) : null}
         </li>
     );
 }

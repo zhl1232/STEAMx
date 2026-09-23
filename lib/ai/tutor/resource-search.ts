@@ -155,6 +155,7 @@ async function loadCourses(
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
+    .eq('is_listed', true)
   if (enforceReviewed) query = query.eq('classification_status', 'reviewed')
 
   if (queries.length) query = query.or(buildResourceOrFilter({ text: ['title', 'description'], array: ['tags'] }, queries))
@@ -175,6 +176,7 @@ async function loadCoursesByIds(
     .from('courses')
     .select('id, title, tags')
     .eq('status', 'approved')
+    .eq('is_listed', true)
     .in('id', ids)
   if (enforceReviewed) query = query.eq('classification_status', 'reviewed')
   const { data, error } = await query.limit(RESOURCE_SEARCH_LIMIT)
@@ -187,6 +189,7 @@ async function loadLessons(supabase: SupabaseClient<Database>, queries: string[]
     .from('course_lessons')
     .select('id, course_id, title, courses!inner(id)')
     .eq('courses.status', 'approved')
+    .eq('courses.is_listed', true)
     .or(buildResourceOrFilter({ text: ['title', 'content->>summary'] }, queries))
   if (enforceReviewed) query = query.eq('courses.classification_status', 'reviewed')
   const { data, error } = await query

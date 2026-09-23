@@ -1,6 +1,6 @@
 "use client";
 
-import { Smartphone } from "lucide-react";
+import { Play, Smartphone } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -55,6 +55,7 @@ export function LessonWorkspaceRenderer({
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
     if (lessonType.workspace === "scratch") {
+        const scratch = lesson.content?.scratch;
         return (
             <div className="flex min-h-0 flex-1 flex-col">
                 <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-muted/30 px-3 py-2 md:hidden">
@@ -68,9 +69,21 @@ export function LessonWorkspaceRenderer({
                         </Link>
                     </Button>
                 </div>
+                {scratch?.referenceProjectUrl ? (
+                    <div className="flex shrink-0 justify-end border-b border-border bg-card px-3 py-1.5">
+                        <Button variant="outline" size="sm" asChild>
+                            <Link href={`${previewHref}?source=reference`} prefetch={false} target="_blank" rel="noopener noreferrer">
+                                <Play className="mr-1 h-4 w-4" aria-hidden />
+                                查看积木示例
+                            </Link>
+                        </Button>
+                    </div>
+                ) : null}
                 <ScratchWorkspace
                     courseId={courseId}
                     lessonId={lesson.id}
+                    starterProjectUrl={scratch?.starterProjectUrl}
+                    referenceProjectUrl={scratch?.referenceProjectUrl}
                     tutorialDeckId={
                         typeof lesson.content?.tutorialDeckId === "string"
                             ? lesson.content.tutorialDeckId

@@ -88,6 +88,7 @@ let blockHintLocateTimer = null
 let highlightedFlyoutBlock = null
 let editorContextTimer = null
 let lastEditorContextJson = ''
+let loadGeneration = 0
 
 function setStatus(text) {
   const el = document.getElementById('scratch-status')
@@ -705,13 +706,11 @@ function syncTargetsToGui(vm) {
 }
 
 function enqueueVmLoad(task) {
-  loadChain = loadChain
-    .then(() => task())
-    .catch((err) => {
-      console.error('[scratch-host] project load failed:', err)
-      throw err
-    })
-  return loadChain
+  const currentLoad = loadChain.then(() => task())
+  loadChain = currentLoad.catch((err) => {
+    console.error('[scratch-host] project load failed:', err)
+  })
+  return currentLoad
 }
 
 async function waitForRenderer(vm, timeoutMs = 15000) {
@@ -722,7 +721,7 @@ async function waitForRenderer(vm, timeoutMs = 15000) {
   }
 }
 
-async function loadDefaultFromStorage(vm) {
+async function loadDefaultFromStorage(vm, generation) {
   const storage = vm?.runtime?.storage
   if (!storage) throw new Error('VM storage not ready')
 
@@ -734,7 +733,12 @@ async function loadDefaultFromStorage(vm) {
   if (!asset?.data) throw new Error('Default project not found')
 
   await enqueueVmLoad(async () => {
+    if (generation !== undefined && generation !== loadGeneration) return
     await vm.loadProject(asset.data)
+    vm.__steamUserTouched = false
+    syncTargetsToGui(vm)
+    drawStage(vm)
+    scheduleEditorContextPost(0)
   })
 }
 
@@ -799,20 +803,23 @@ async function flushPendingAfterGui() {
   const job = pendingAfterGui
   pendingAfterGui = null
   const force = Boolean(job.force)
+  const generation = job.generation
   try {
     if (job.type === 'url') {
-      await loadProjectFromUrl(job.url, { force })
+      await loadProjectFromUrl(job.url, { force, generation, requestId: job.requestId })
     } else if (job.type === 'base64') {
-      await loadProjectFromBase64(job.base64, { force })
+      await loadProjectFromBase64(job.base64, { force, generation })
     } else if (job.type === 'ready') {
-      await loadProjectFromUrl(null, { force })
+      await loadProjectFromUrl(null, { force, generation, failClosed: job.failClosed, requestId: job.requestId })
     }
   } catch (err) {
+    if (generation !== loadGeneration) return
     setStatus('加载失败')
     postToParent({
       type: 'PROJECT_LOADED',
       ok: false,
       error: err instanceof Error ? err.message : 'load failed',
+      requestId: job.requestId,
     })
   }
 }
@@ -825,8 +832,9 @@ export function onGuiProjectShowing() {
   void flushPendingAfterGui()
 }
 
-async function loadProjectBuffer(buffer, { force = false } = {}) {
+async function loadProjectBuffer(buffer, { force = false, generation = loadGeneration } = {}) {
   if (!vmRef) return
+  if (generation !== loadGeneration) return false
   if (!force && vmRef.__steamUserTouched) {
     postToParent({ type: 'PROJECT_LOADED', ok: true })
     return
@@ -838,6 +846,7 @@ async function loadProjectBuffer(buffer, { force = false } = {}) {
     await waitForStageTarget(vmRef, 30000)
   }
   await enqueueVmLoad(async () => {
+    if (generation !== loadGeneration) return
     await vmRef.loadProject(buffer)
     if (!hasStageTarget(vmRef)) {
       throw new Error('Invalid or empty Scratch project')
@@ -848,41 +857,51 @@ async function loadProjectBuffer(buffer, { force = false } = {}) {
     drawStage(vmRef)
     scheduleEditorContextPost(0)
   })
+  return generation === loadGeneration
 }
 
-async function loadProjectFromUrl(url, { force = false } = {}) {
+async function loadProjectFromUrl(url, { force = false, generation = loadGeneration, failClosed = false, requestId } = {}) {
   if (!vmRef) return
 
+  if (generation !== loadGeneration) return
+
   if (!url) {
+    if (failClosed) throw new Error('Project URL unavailable')
     if (force) {
-      vmRef.__steamUserTouched = false
+      await loadDefaultFromStorage(vmRef, generation)
+      if (generation !== loadGeneration) return
     }
     if (!hasStageTarget(vmRef)) {
       await waitForStageTarget(vmRef, 30000)
     }
     drawStage(vmRef)
     scheduleEditorContextPost(0)
-    postToParent({ type: 'PROJECT_LOADED', ok: true })
+    postToParent({ type: 'PROJECT_LOADED', ok: true, requestId })
     return
   }
 
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Failed to fetch project: ${res.status}`)
   const buf = await res.arrayBuffer()
-  await loadProjectBuffer(buf, { force })
-  postToParent({ type: 'PROJECT_LOADED', ok: true })
+  const loaded = await loadProjectBuffer(buf, { force, generation })
+  if (!loaded || generation !== loadGeneration) return
+  postToParent({ type: 'PROJECT_LOADED', ok: true, requestId })
 }
 
-async function loadProjectFromBase64(base64, { force = false } = {}) {
+async function loadProjectFromBase64(base64, { force = false, generation = loadGeneration } = {}) {
   if (!vmRef) return
+  if (generation !== loadGeneration) return
   const binary = atob(base64)
   const bytes = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-  await loadProjectBuffer(bytes.buffer, { force })
+  const loaded = await loadProjectBuffer(bytes.buffer, { force, generation })
+  if (!loaded || generation !== loadGeneration) return
   postToParent({ type: 'PROJECT_LOADED', ok: true })
 }
 
 function scheduleProjectLoad(job) {
+  const generation = ++loadGeneration
+  job = { ...job, generation }
   if (!guiProjectShowing) {
     pendingAfterGui = job
     return
@@ -890,15 +909,18 @@ function scheduleProjectLoad(job) {
   const force = Boolean(job.force)
   void (async () => {
     try {
-      if (job.type === 'url') await loadProjectFromUrl(job.url, { force })
-      else if (job.type === 'base64') await loadProjectFromBase64(job.base64, { force })
-      else if (job.type === 'ready') await loadProjectFromUrl(null, { force })
+      if (job.type === 'url') await loadProjectFromUrl(job.url, { force, generation, requestId: job.requestId })
+      else if (job.type === 'base64') await loadProjectFromBase64(job.base64, { force, generation })
+      else if (job.type === 'ready') await loadProjectFromUrl(null, { force, generation, failClosed: job.failClosed, requestId: job.requestId })
+      if (generation !== loadGeneration) return
     } catch (err) {
+      if (generation !== loadGeneration) return
       setStatus('加载失败')
       postToParent({
         type: 'PROJECT_LOADED',
         ok: false,
         error: err instanceof Error ? err.message : 'load failed',
+        requestId: job.requestId,
       })
     }
   })()
@@ -988,8 +1010,8 @@ export function initHostMessageListener() {
       case 'LOAD_PROJECT':
         scheduleProjectLoad(
           data.url
-            ? { type: 'url', url: data.url, force: Boolean(data.force) }
-            : { type: 'ready', force: Boolean(data.force) },
+            ? { type: 'url', url: data.url, force: Boolean(data.force), requestId: data.requestId }
+            : { type: 'ready', force: Boolean(data.force), failClosed: Boolean(data.failClosed), requestId: data.requestId },
         )
         break
       case 'LOAD_PROJECT_BUFFER':

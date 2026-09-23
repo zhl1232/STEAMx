@@ -154,6 +154,9 @@ export function ScratchWorkspace({
     courseId,
     lessonId,
     playerOnly = false,
+    projectSource = "own",
+    starterProjectUrl,
+    referenceProjectUrl,
     tutorialDeckId,
     initialCompleted = false,
     blockHint,
@@ -168,6 +171,9 @@ export function ScratchWorkspace({
     courseId: number;
     lessonId: number;
     playerOnly?: boolean;
+    projectSource?: "own" | "reference";
+    starterProjectUrl?: string | null;
+    referenceProjectUrl?: string | null;
     tutorialDeckId?: string;
     initialCompleted?: boolean;
     blockHint?: ScratchWorkspaceBlockHint | null;
@@ -191,6 +197,8 @@ export function ScratchWorkspace({
     const readyRef = useRef(false);
     /** 仅当「当前课时」的项目已成功载入 VM 时等于 `${courseId}:${lessonId}`，用于切课静默保存防串课 */
     const boundLessonKeyRef = useRef<string | null>(null);
+    const loadRequestRef = useRef(0);
+    const activeLoadRequestIdRef = useRef<string | null>(null);
 
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
@@ -198,6 +206,7 @@ export function ScratchWorkspace({
 
     const [localReady, setLocalReady] = useState(false);
     const [localProjectLoaded, setLocalProjectLoaded] = useState(false);
+    const [projectLoadError, setProjectLoadError] = useState<string | null>(null);
     const [saving, setSaving] = useState(false);
     const [completing, setCompleting] = useState(false);
     const [completed, setCompleted] = useState(initialCompleted);
@@ -325,6 +334,9 @@ export function ScratchWorkspace({
     const loadProjectUrl = useCallback(
         async (options?: { force?: boolean }) => {
             const force = options?.force ?? false;
+            const requestId = `${courseId}:${lessonId}:${++loadRequestRef.current}`;
+            activeLoadRequestIdRef.current = requestId;
+            setProjectLoadError(null);
             // 开始换课加载即解除绑定，避免未完成加载时误把上一课内容存到本课
             boundLessonKeyRef.current = null;
             setLoadingProject(true);
@@ -334,8 +346,12 @@ export function ScratchWorkspace({
             }
             setProjectLoaded(false);
             try {
+                if (projectSource === "reference") {
+                    postToIframe({ type: "LOAD_PROJECT", url: referenceProjectUrl ?? null, force, requestId, failClosed: true });
+                    return;
+                }
                 if (!user) {
-                    postToIframe({ type: "LOAD_PROJECT", url: null, force });
+                    postToIframe({ type: "LOAD_PROJECT", url: starterProjectUrl ?? null, force, requestId });
                     return;
                 }
                 const res = await fetch(
@@ -343,15 +359,20 @@ export function ScratchWorkspace({
                 );
                 if (!res.ok) throw new Error("无法加载项目");
                 const data = await res.json();
+                if (activeLoadRequestIdRef.current !== requestId) return;
                 setHasSavedProject(Boolean(data.hasUserProject));
+                const savedProjectUnavailable = Boolean(data.hasUserProject && !data.projectUrl);
                 postToIframe({
                     type: "LOAD_PROJECT",
-                    url: data.projectUrl ?? null,
+                    url: savedProjectUnavailable ? null : data.projectUrl ?? starterProjectUrl ?? null,
                     force,
+                    requestId,
+                    failClosed: savedProjectUnavailable,
                 });
             } catch {
+                if (activeLoadRequestIdRef.current !== requestId) return;
                 setHasSavedProject(false);
-                postToIframe({ type: "LOAD_PROJECT", url: null, force });
+                postToIframe({ type: "LOAD_PROJECT", url: null, force, requestId, failClosed: true });
             } finally {
                 setLoadingProject(false);
             }
@@ -364,6 +385,9 @@ export function ScratchWorkspace({
             sharedHost,
             useSharedHost,
             user,
+            projectSource,
+            referenceProjectUrl,
+            starterProjectUrl,
         ],
     );
 
@@ -384,10 +408,13 @@ export function ScratchWorkspace({
         const lessonKey = `${courseId}:${lessonId}`;
         const unsubscribe = sharedHost.subscribe({
             onProjectLoaded: (msg) => {
+                if (msg.requestId && msg.requestId !== activeLoadRequestIdRef.current) return;
                 if (msg.ok) {
                     boundLessonKeyRef.current = lessonKey;
+                    setProjectLoadError(null);
                 } else {
                     boundLessonKeyRef.current = null;
+                    setProjectLoadError(msg.error || "项目加载失败，请重试");
                     if (msg.error) {
                         toast({
                             title: "Scratch 项目加载失败",
@@ -401,6 +428,10 @@ export function ScratchWorkspace({
                 if (!msg.ok) finishPendingSave(false);
             },
             onProjectSaveData: async (msg) => {
+                if (playerOnly || projectSource === "reference") {
+                    finishPendingSave(false);
+                    return;
+                }
                 if (!user) {
                     promptLogin();
                     finishPendingSave(false);
@@ -436,6 +467,8 @@ export function ScratchWorkspace({
         toast,
         useSharedHost,
         user,
+        playerOnly,
+        projectSource,
     ]);
 
     // 共享 Host：ready 后按 lesson 热换项目（force）
@@ -485,6 +518,7 @@ export function ScratchWorkspace({
         const onMessage = async (event: MessageEvent) => {
             if (event.origin !== window.location.origin) return;
             if (!isScratchHostMessage(event.data)) return;
+            if (event.source && event.source !== localIframeRef.current?.contentWindow) return;
 
             const msg = event.data;
             if (msg.type === "SCRATCH_READY") {
@@ -503,7 +537,9 @@ export function ScratchWorkspace({
                 }, 300);
             }
             if (msg.type === "PROJECT_LOADED") {
+                if (msg.requestId && msg.requestId !== activeLoadRequestIdRef.current) return;
                 setLocalProjectLoaded(msg.ok);
+                setProjectLoadError(msg.ok ? null : msg.error || "项目加载失败，请重试");
                 if (!msg.ok && msg.error) {
                     toast({
                         title: "Scratch 项目加载失败",
@@ -516,6 +552,10 @@ export function ScratchWorkspace({
                 finishPendingSave(false);
             }
             if (msg.type === "PROJECT_SAVE_DATA" && msg.base64) {
+                if (playerOnly || projectSource === "reference") {
+                    finishPendingSave(false);
+                    return;
+                }
                 if (!user) {
                     promptLogin();
                     finishPendingSave(false);
@@ -542,6 +582,7 @@ export function ScratchWorkspace({
         toast,
         useSharedHost,
         user,
+        projectSource,
     ]);
 
     const handleSaveClick = () => {
@@ -554,6 +595,7 @@ export function ScratchWorkspace({
     };
 
     const handleComplete = async () => {
+        if (projectSource === "reference") return;
         if (!user) {
             promptLogin();
             return;
@@ -619,6 +661,7 @@ export function ScratchWorkspace({
     };
 
     const handleFileUpload = (file: File) => {
+        if (projectSource === "reference") return;
         if (!user) {
             promptLogin();
             return;
@@ -944,6 +987,12 @@ export function ScratchWorkspace({
                 )}
             >
                 <ScratchLoadingOverlay show={showOverlay} mode={overlayMode} />
+                {projectLoadError ? (
+                    <div className="absolute inset-x-4 bottom-8 z-30 mx-auto flex max-w-sm flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center shadow-lg" role="alert">
+                        <p className="text-sm font-semibold">{projectLoadError}</p>
+                        <Button type="button" size="sm" onClick={() => void loadProjectUrl({ force: true })}>重新加载作品</Button>
+                    </div>
+                ) : null}
                 {useSharedHost ? (
                     <div
                         ref={slotRef}

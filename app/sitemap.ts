@@ -216,6 +216,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
         .from("courses")
         .select("id, updated_at")
         .eq("status", "approved");
+      query = query.eq("is_listed", true);
       if (classificationSettings.enforcementEnabled) {
         query = query.eq("classification_status", "reviewed");
       }

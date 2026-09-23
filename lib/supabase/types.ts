@@ -2686,6 +2686,7 @@ export interface Database {
           tags: string[] | null
           difficulty_stars: number
           status: string
+          is_listed: boolean
           sort_order: number
           steam_weights: Json | null
           created_at: string
@@ -2707,6 +2708,7 @@ export interface Database {
           tags?: string[] | null
           difficulty_stars?: number
           status?: string
+          is_listed?: boolean
           sort_order?: number
           steam_weights?: Json | null
           created_at?: string
@@ -2728,6 +2730,7 @@ export interface Database {
           tags?: string[] | null
           difficulty_stars?: number
           status?: string
+          is_listed?: boolean
           sort_order?: number
           steam_weights?: Json | null
           created_at?: string

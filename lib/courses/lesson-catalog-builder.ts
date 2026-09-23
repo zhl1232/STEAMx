@@ -45,6 +45,8 @@ export function buildLessonCatalogItems(
   return lessons.map((lesson) => ({
     id: lesson.id,
     title: lesson.title,
+    stageIndex: Number(lesson.stage_index) || null,
+    stageTitle: lesson.stage_title ?? null,
     initial: resolveInitial(lesson.title),
     searchText: buildSearchText(lesson.title, lesson.summary ?? null),
     durationMinutes: lesson.duration_minutes,

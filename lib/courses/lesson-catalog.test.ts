@@ -4,6 +4,7 @@ import {
   collectLessonInitials,
   filterLessonCatalog,
   groupLessonCatalog,
+  groupLessonCatalogByStage,
   toLessonInitial,
   type LessonCatalogItem,
 } from './lesson-catalog'
@@ -107,5 +108,23 @@ describe('groupLessonCatalog', () => {
   it('lists only the initials present, alphabetically, with # last', () => {
     const withOther = [...items, ...buildLessonCatalogItems([lesson({ id: 4, title: '3D 打印笔' })])]
     expect(collectLessonInitials(withOther)).toEqual(['B', 'C', '#'])
+  })
+})
+
+describe('groupLessonCatalogByStage', () => {
+  it('keeps a 48-lesson curriculum in teaching order even when pinyin initials differ', () => {
+    const items = buildLessonCatalogItems([
+      lesson({ id: 1, title: '探索员报到', lesson_type: 'scratch', stage_index: 1, stage_title: '让想法动起来' }),
+      lesson({ id: 2, title: '种子去散步', lesson_type: 'scratch', stage_index: 1, stage_title: '让想法动起来' }),
+      lesson({ id: 3, title: '小车停哪里', lesson_type: 'scratch', stage_index: 2, stage_title: '让作品回应你' }),
+    ])
+
+    expect(groupLessonCatalogByStage(items).map((group) => ({
+      stage: group.initial,
+      titles: group.items.map((item) => item.title),
+    }))).toEqual([
+      { stage: '1', titles: ['探索员报到', '种子去散步'] },
+      { stage: '2', titles: ['小车停哪里'] },
+    ])
   })
 })

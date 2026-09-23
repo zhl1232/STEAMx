@@ -14,6 +14,8 @@ export type LessonCatalogFilter = 'all' | 'model' | 'todo' | 'done'
 export interface LessonCatalogItem {
   id: number
   title: string
+  stageIndex?: number | null
+  stageTitle?: string | null
   /** 拼音首字母，A–Z 或 `#` */
   initial: string
   /** 已归一化的搜索文本：标题 + 摘要 + 全拼 + 首字母缩写 */
@@ -31,6 +33,23 @@ export interface LessonCatalogItem {
 export interface LessonCatalogGroup {
   initial: string
   items: LessonCatalogItem[]
+}
+
+/** A sequenced curriculum is grouped by teaching stage, never by title pinyin. */
+export function groupLessonCatalogByStage(items: LessonCatalogItem[]): LessonCatalogGroup[] {
+  const groups: LessonCatalogGroup[] = []
+  for (const item of items) {
+    const index = item.stageIndex
+    if (!Number.isInteger(index) || !index || index < 1) continue
+    const key = String(index)
+    let group = groups.find((entry) => entry.initial === key)
+    if (!group) {
+      group = { initial: key, items: [] }
+      groups.push(group)
+    }
+    group.items.push(item)
+  }
+  return groups
 }
 
 export function normalizeLessonQuery(value: string | null | undefined): string {

@@ -102,10 +102,11 @@ export function ScratchHostProvider({ children }: { children: ReactNode }) {
     const detachedSaveTargetRef = useRef<ScratchHostSaveTarget | null>(null);
     const pendingSaveRef = useRef<Promise<void> | null>(null);
     const pendingSaveResolveRef = useRef<(() => void) | null>(null);
+    const activeProjectLoadRef = useRef<string | null>(null);
 
     const [activated, setActivated] = useState(false);
     const [ready, setReady] = useState(false);
-    const [projectLoaded, setProjectLoaded] = useState(false);
+    const [projectLoaded, setProjectLoadedState] = useState(false);
     const [switching, setSwitching] = useState(false);
     const [slot, setSlot] = useState<HTMLElement | null>(null);
 
@@ -121,7 +122,15 @@ export function ScratchHostProvider({ children }: { children: ReactNode }) {
     const postToIframe = useCallback((message: Record<string, unknown>) => {
         const win = iframeRef.current?.contentWindow;
         if (!win) return;
+        if (message.type === "LOAD_PROJECT" && typeof message.requestId === "string") {
+            activeProjectLoadRef.current = message.requestId;
+        }
         win.postMessage({ ...message, source: SCRATCH_PARENT_SOURCE }, window.location.origin);
+    }, []);
+
+    const setProjectLoaded = useCallback((loaded: boolean) => {
+        if (!loaded) activeProjectLoadRef.current = null;
+        setProjectLoadedState(loaded);
     }, []);
 
     const finishPendingSave = useCallback(() => {
@@ -191,17 +200,20 @@ export function ScratchHostProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const onMessage = (event: MessageEvent) => {
             if (event.origin !== window.location.origin) return;
+            if (event.source && event.source !== iframeRef.current?.contentWindow) return;
             if (!isScratchHostMessage(event.data)) return;
 
             const msg = event.data;
             const handlers = handlersRef.current;
 
             if (msg.type === "SCRATCH_READY") {
+                activeProjectLoadRef.current = null;
                 setReady(true);
                 setProjectLoaded(false);
                 return;
             }
             if (msg.type === "PROJECT_LOADED") {
+                if (msg.requestId && msg.requestId !== activeProjectLoadRef.current) return;
                 setProjectLoaded(msg.ok);
                 setSwitching(false);
                 handlers?.onProjectLoaded?.(msg);
@@ -240,7 +252,7 @@ export function ScratchHostProvider({ children }: { children: ReactNode }) {
 
         window.addEventListener("message", onMessage);
         return () => window.removeEventListener("message", onMessage);
-    }, [finishPendingSave, postToIframe]);
+    }, [finishPendingSave, postToIframe, setProjectLoaded]);
 
     const value = useMemo<ScratchHostContextValue>(
         () => ({
@@ -264,6 +276,7 @@ export function ScratchHostProvider({ children }: { children: ReactNode }) {
             ready,
             registerSlot,
             requestDetachedSave,
+            setProjectLoaded,
             subscribe,
             switching,
             waitForPendingSave,

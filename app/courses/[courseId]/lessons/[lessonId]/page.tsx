@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: PageProps) {
         path: `/courses/${courseId}/lessons/${lessonId}`,
         keywords: [context.lesson.title, context.course.title, "STEAM课时", "在线学习"],
         image: finishedImage ?? context.course.image_url ?? undefined,
+        noIndex: context.course.is_listed === false,
     });
 }
 
