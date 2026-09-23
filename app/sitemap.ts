@@ -304,7 +304,9 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   }
 }
 
-const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v3-public-nature-topics"], { revalidate: 3600 });
+// Catalog visibility changes should reach crawlers within minutes of publication.
+// Bump the key when changing the policy so a deployment drops the old hourly snapshot.
+const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v4-course-visibility"], { revalidate: 300 });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return getCachedSitemap();
