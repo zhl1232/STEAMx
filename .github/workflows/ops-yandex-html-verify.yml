@@ -1,0 +1,95 @@
+name: Ops Yandex HTML Verify
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-yandex-html-verify
+  cancel-in-progress: false
+
+jobs:
+  place-verify-file:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload Yandex verification assets
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: ops/static-verify/yandex_43f97ab3236b6cfd.html,ops/static-verify/patch-yandex-nginx.py
+          strip_components: 2
+          target: /tmp/steam-yandex-verify-${{ github.run_id }}-${{ github.run_attempt }}/
+
+      - name: Install host file, docker cp, patch live nginx
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script_stop: true
+          command_timeout: 5m
+          script: |
+            set -euo pipefail
+            STAGE="/tmp/steam-yandex-verify-${{ github.run_id }}-${{ github.run_attempt }}"
+            SRC="$STAGE/yandex_43f97ab3236b6cfd.html"
+            PATCH="$STAGE/patch-yandex-nginx.py"
+            HOST_DIR="/opt/steam-app/static-verify"
+            HOST_FILE="$HOST_DIR/yandex_43f97ab3236b6cfd.html"
+            MARKER="yandex_43f97ab3236b6cfd.html"
+            SITE_PATH="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
+            trap 'rm -rf -- "$STAGE"' EXIT
+
+            echo "step:start host=$(hostname) date=$(date -Is)"
+            test -f "$SRC"
+            test -f "$PATCH"
+            echo "step:src_bytes=$(wc -c < "$SRC")"
+            grep -q 'Verification: 43f97ab3236b6cfd' "$SRC"
+
+            mkdir -p "$HOST_DIR"
+            install -m 0644 "$SRC" "$HOST_FILE"
+            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE")"
+            grep -q 'Verification: 43f97ab3236b6cfd' "$HOST_FILE"
+
+            echo "step:docker_cp"
+            cd /opt/steam-app
+            CID="$(docker compose ps -q steam-app 2>/dev/null || true)"
+            if [ -z "$CID" ]; then
+              CID="$(docker ps --filter name=steam-app --format '{{.ID}}' | head -n1 || true)"
+            fi
+            test -n "$CID"
+            echo "step:container_id=$CID"
+            docker cp "$HOST_FILE" "$CID:/app/public/$MARKER"
+            docker exec "$CID" sh -lc "test -f /app/public/$MARKER && grep -q 'Verification: 43f97ab3236b6cfd' /app/public/$MARKER && wc -c /app/public/$MARKER"
+            echo "step:docker_cp_ok"
+
+            echo "step:nginx_site=$SITE_PATH"
+            test -f "$SITE_PATH"
+            python3 "$PATCH" "$SITE_PATH"
+
+            echo "step:nginx_test"
+            nginx -t
+            echo "step:nginx_reload"
+            if systemctl is-active --quiet nginx; then
+              systemctl reload nginx
+            else
+              nginx -s reload
+            fi
+            echo "step:nginx_reloaded"
+
+            echo "step:local_curl"
+            STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://127.0.0.1/yandex_43f97ab3236b6cfd.html -H 'Host: steam.bj.cn' -k || true)"
+            echo "step:local_status=$STATUS"
+            head -c 400 /tmp/yandex_verify_body.html || true
+            echo
+            test "$STATUS" = "200"
+            grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html
+            echo "step:done"
