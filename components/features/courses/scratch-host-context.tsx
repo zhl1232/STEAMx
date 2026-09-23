@@ -21,14 +21,15 @@ import {
 } from "@/lib/courses/scratch-messages";
 
 export function getScratchHostUrl(playerOnly: boolean): string {
-    const origin =
-        typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
-    const base =
-        process.env.NEXT_PUBLIC_SCRATCH_HOST_URL || `${origin}/scratch/index.html`;
-    const url = new URL(base, origin);
+    // Client Components also render on the server. A browser-derived origin here
+    // would produce a different iframe src during hydration on the first visit.
+    const base = process.env.NEXT_PUBLIC_SCRATCH_HOST_URL || "/scratch/index.html";
+    const url = new URL(base, "https://scratch-host.invalid");
     if (playerOnly) url.searchParams.set("playerOnly", "1");
     else url.searchParams.set("embed", "1");
-    return url.toString();
+    return /^https?:\/\//i.test(base)
+        ? url.toString()
+        : `${url.pathname}${url.search}${url.hash}`;
 }
 
 export type ScratchHostSaveTarget = {

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { ScratchHostProvider } from './scratch-host-context'
+import { getScratchHostUrl, ScratchHostProvider } from './scratch-host-context'
 import { ScratchWorkspace } from './scratch-workspace'
 
 const postMessage = vi.fn()
@@ -32,6 +32,11 @@ vi.mock('./scratch-loading-overlay', () => ({
 describe('ScratchWorkspace', () => {
   beforeEach(() => {
     mockScratchEditorAvailability.mockReturnValue(true)
+  })
+
+  it('uses a same-origin iframe URL that is stable during server rendering and hydration', () => {
+    expect(getScratchHostUrl(false)).toBe('/scratch/index.html?embed=1')
+    expect(getScratchHostUrl(true)).toBe('/scratch/index.html?playerOnly=1')
   })
 
   it('shows the upload fallback instead of mounting the editor on phones', () => {
