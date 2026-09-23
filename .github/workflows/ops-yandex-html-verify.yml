@@ -30,7 +30,6 @@ jobs:
             HOST_DIR="/opt/steam-app/static-verify"
             HOST_FILE="$HOST_DIR/$MARKER"
             SITE_PATH="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
-            SITE_ENABLED="${NGINX_SITE_ENABLED_PATH:-/etc/nginx/sites-enabled/steam-app}"
             STAGE="$(mktemp -d /tmp/steam-yandex-verify.XXXXXX)"
             trap 'rm -rf -- "$STAGE"' EXIT
 
@@ -41,11 +40,15 @@ jobs:
             grep -q 'Verification: 43f97ab3236b6cfd' "$STAGE/$MARKER"
 
             mkdir -p "$HOST_DIR"
-            # URI /yandex_....html with root /opt/steam-app/static-verify resolves to
-            # /opt/steam-app/static-verify/yandex_....html — keep filename at that path.
+            chmod 755 /opt/steam-app "$HOST_DIR" || true
             install -m 0644 "$STAGE/$MARKER" "$HOST_FILE"
-            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE") ls=$(ls -la "$HOST_FILE")"
-            grep -q 'Verification: 43f97ab3236b6cfd' "$HOST_FILE"
+            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE")"
+            ls -lad /opt/steam-app "$HOST_DIR" "$HOST_FILE" || true
+            # Ensure nginx user can traverse; also copy to /var/www for fallback readability
+            mkdir -p /var/www/steam-verify
+            chmod 755 /var/www /var/www/steam-verify || true
+            install -m 0644 "$STAGE/$MARKER" "/var/www/steam-verify/$MARKER"
+            echo "step:www_copy=/var/www/steam-verify/$MARKER"
 
             echo "step:docker_cp"
             cd /opt/steam-app
@@ -59,25 +62,30 @@ jobs:
             docker exec "$CID" sh -lc "test -f /app/public/$MARKER && grep -q 'Verification: 43f97ab3236b6cfd' /app/public/$MARKER && wc -c /app/public/$MARKER"
             echo "step:docker_cp_ok"
 
-            echo "step:nginx_paths available=$SITE_PATH enabled=$SITE_ENABLED"
-            ls -la "$SITE_PATH" "$SITE_ENABLED" 2>/dev/null || true
-            if [ -L "$SITE_ENABLED" ]; then
-              echo "step:enabled_symlink -> $(readlink -f "$SITE_ENABLED")"
-            fi
-            printf '%s' 'aW1wb3J0IHBhdGhsaWIsIHN5cwoKbWFya2VyID0gInlhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkLmh0bWwiCmJsb2NrID0gKAogICAgIiAgICBsb2NhdGlvbiA9IC95YW5kZXhfNDNmOTdhYjMyMzZiNmNmZC5odG1sIHtcbiIKICAgICIgICAgICAgIHJvb3QgL29wdC9zdGVhbS1hcHAvc3RhdGljLXZlcmlmeTtcbiIKICAgICIgICAgICAgIGRlZmF1bHRfdHlwZSB0ZXh0L2h0bWw7XG4iCiAgICAiICAgICAgICBjaGFyc2V0IHV0Zi04O1xuIgogICAgIiAgICAgICAgYWRkX2hlYWRlciBDYWNoZS1Db250cm9sIFwibm8tc3RvcmVcIjtcbiIKICAgICIgICAgfVxuIgopCgpkZWYgcGF0Y2hfb25lKHBhdGg6IHBhdGhsaWIuUGF0aCkgLT4gc3RyOgogICAgdGV4dCA9IHBhdGgucmVhZF90ZXh0KGVuY29kaW5nPSJ1dGYtOCIpCiAgICBpZiAibG9jYXRpb24gPSAveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmQuaHRtbCIgaW4gdGV4dDoKICAgICAgICAjIGVuc3VyZSByb290LWJhc2VkIGJsb2NrIChyZXdyaXRlIG9sZGVyIGFsaWFzIGJsb2NrIGlmIHByZXNlbnQpCiAgICAgICAgaWYgImFsaWFzIC9vcHQvc3RlYW0tYXBwL3N0YXRpYy12ZXJpZnkveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmQuaHRtbCIgaW4gdGV4dDoKICAgICAgICAgICAgaW1wb3J0IHJlCiAgICAgICAgICAgIHRleHQyLCBuID0gcmUuc3VibigKICAgICAgICAgICAgICAgIHIiXG4gICAgbG9jYXRpb24gPSAveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmRcLmh0bWwgXHsuKj9cbiAgICBcfVxuIiwKICAgICAgICAgICAgICAgICJcbiIgKyBibG9jaywKICAgICAgICAgICAgICAgIHRleHQsCiAgICAgICAgICAgICAgICBjb3VudD0xLAogICAgICAgICAgICAgICAgZmxhZ3M9cmUuUywKICAgICAgICAgICAgKQogICAgICAgICAgICBpZiBuOgogICAgICAgICAgICAgICAgcGF0aC53cml0ZV90ZXh0KHRleHQyLCBlbmNvZGluZz0idXRmLTgiKQogICAgICAgICAgICAgICAgcmV0dXJuICJyZXdyb3RlX2FsaWFzX3RvX3Jvb3QiCiAgICAgICAgcmV0dXJuICJhbHJlYWR5X3ByZXNlbnQiCiAgICBuZWVkbGUyID0gIiAgICAjIOaJgOacieivt+axguS7o+eQhuWIsCBOZXh0LmpzXG4gICAgbG9jYXRpb24gLyB7IgogICAgaWYgbmVlZGxlMiBpbiB0ZXh0OgogICAgICAgIHRleHQgPSB0ZXh0LnJlcGxhY2UobmVlZGxlMiwgYmxvY2sgKyAiXG4iICsgbmVlZGxlMiwgMSkKICAgIGVsc2U6CiAgICAgICAgaWR4ID0gdGV4dC5yZmluZCgiXG4gICAgbG9jYXRpb24gLyB7IikKICAgICAgICBpZiBpZHggPCAwOgogICAgICAgICAgICBpZHggPSB0ZXh0LnJmaW5kKCJcbmxvY2F0aW9uIC8geyIpCiAgICAgICAgaWYgaWR4IDwgMDoKICAgICAgICAgICAgcmFpc2UgU3lzdGVtRXhpdChmImNvdWxkIG5vdCBmaW5kIGNhdGNoLWFsbCBsb2NhdGlvbiAvIGluIHtwYXRofSIpCiAgICAgICAgdGV4dCA9IHRleHRbOiBpZHggKyAxXSArIGJsb2NrICsgIlxuIiArIHRleHRbaWR4ICsgMSA6XQogICAgcGF0aC53cml0ZV90ZXh0KHRleHQsIGVuY29kaW5nPSJ1dGYtOCIpCiAgICByZXR1cm4gInBhdGNoZWQiCgpwYXRocyA9IHN5cy5hcmd2WzE6XQppZiBub3QgcGF0aHM6CiAgICByYWlzZSBTeXN0ZW1FeGl0KCJ1c2FnZTogcGF0Y2gucHkgPG5naW54LXNpdGUtcGF0aD4gW21vcmUgcGF0aHMuLi5dIikKZm9yIHJhdyBpbiBwYXRoczoKICAgIHAgPSBwYXRobGliLlBhdGgocmF3KQogICAgaWYgbm90IHAuZXhpc3RzKCk6CiAgICAgICAgcHJpbnQoZiJzdGVwOnNraXBfbWlzc2luZyBwYXRoPXtwfSIpCiAgICAgICAgY29udGludWUKICAgIHByaW50KGYic3RlcDpwYXRjaF9yZXN1bHQgcGF0aD17cH0gcmVzdWx0PXtwYXRjaF9vbmUocCl9IikK' | base64 -d > "$STAGE/patch-yandex-nginx.py"
-            # Patch available + enabled (if distinct) + any conf.d steam-app
-            EXTRA=""
-            for p in /etc/nginx/conf.d/steam-app.conf /etc/nginx/conf.d/steam.conf; do
-              [ -f "$p" ] && EXTRA="$EXTRA $p"
-            done
-            python3 "$STAGE/patch-yandex-nginx.py" "$SITE_PATH" "$SITE_ENABLED" $EXTRA
+            # Also probe whether Next serves the file directly via loopback :3000
+            echo "step:next_direct"
+            NEXT_STATUS="$(curl -sS --max-time 10 -o /tmp/yandex_next.html -w '%{http_code}' http://127.0.0.1:3000/$MARKER || true)"
+            echo "step:next_status=$NEXT_STATUS"
+            head -c 200 /tmp/yandex_next.html || true
+            echo
+
+            echo "step:nginx_site=$SITE_PATH"
+            test -f "$SITE_PATH"
+            ls -la "$SITE_PATH" /etc/nginx/sites-enabled/steam-app 2>/dev/null || true
+            echo "step:location_slash_count=$(grep -c 'location / {' "$SITE_PATH" || true)"
+            echo "step:pre_patch_snip"
+            grep -nE 'yandex_43f97ab3236b6cfd|location /|所有请求代理' "$SITE_PATH" | head -n 40 || true
+
+            printf '%s' 'aW1wb3J0IHBhdGhsaWIsIHJlLCBzeXMKCnNpdGUgPSBwYXRobGliLlBhdGgoc3lzLmFyZ3ZbMV0pCnRleHQgPSBzaXRlLnJlYWRfdGV4dChlbmNvZGluZz0idXRmLTgiKQpibG9jayA9ICgKICAgICIgICAgbG9jYXRpb24gPSAveWFuZGV4XzQzZjk3YWIzMjM2YjZjZmQuaHRtbCB7XG4iCiAgICAiICAgICAgICBhbGlhcyAvb3B0L3N0ZWFtLWFwcC9zdGF0aWMtdmVyaWZ5L3lhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkLmh0bWw7XG4iCiAgICAiICAgICAgICBkZWZhdWx0X3R5cGUgdGV4dC9odG1sO1xuIgogICAgIiAgICAgICAgY2hhcnNldCB1dGYtODtcbiIKICAgICIgICAgICAgIGFkZF9oZWFkZXIgQ2FjaGUtQ29udHJvbCBcIm5vLXN0b3JlXCI7XG4iCiAgICAiICAgIH1cbiIKKQoKIyBEcm9wIGFueSBleGlzdGluZyBleGFjdC1tYXRjaCBibG9jayBmb3IgdGhpcyBmaWxlCnRleHQyLCBuID0gcmUuc3VibigKICAgIHIiKD9tKV5bIFx0XSpsb2NhdGlvbiA9IC95YW5kZXhfNDNmOTdhYjMyMzZiNmNmZFwuaHRtbFsgXHRdKlx7Lio/XlsgXHRdKlx9XHMqIiwKICAgICIiLAogICAgdGV4dCwKICAgIGNvdW50PTEsCiAgICBmbGFncz1yZS5TLAopCnByaW50KGYic3RlcDpyZW1vdmVkX2V4aXN0aW5nIGNvdW50PXtufSIpCnRleHQgPSB0ZXh0MgoKbmVlZGxlID0gIiAgICAjIOaJgOacieivt+axguS7o+eQhuWIsCBOZXh0LmpzXG4gICAgbG9jYXRpb24gLyB7IgppZiBuZWVkbGUgaW4gdGV4dDoKICAgIHRleHQgPSB0ZXh0LnJlcGxhY2UobmVlZGxlLCBibG9jayArICJcbiIgKyBuZWVkbGUsIDEpCiAgICB3aGVyZSA9ICJiZWZvcmVfY2hpbmVzZV9jb21tZW50IgplbHNlOgogICAgaWR4ID0gdGV4dC5yZmluZCgiXG4gICAgbG9jYXRpb24gLyB7IikKICAgIGlmIGlkeCA8IDA6CiAgICAgICAgcmFpc2UgU3lzdGVtRXhpdCgibm8gY2F0Y2gtYWxsIGxvY2F0aW9uIC8gZm91bmQiKQogICAgdGV4dCA9IHRleHRbOiBpZHggKyAxXSArIGJsb2NrICsgIlxuIiArIHRleHRbaWR4ICsgMSA6XQogICAgd2hlcmUgPSAiYmVmb3JlX2xhc3RfbG9jYXRpb25fc2xhc2giCgpzaXRlLndyaXRlX3RleHQodGV4dCwgZW5jb2Rpbmc9InV0Zi04IikKcHJpbnQoInN0ZXA6bmdpbnhfcGF0Y2hlZCB3aGVyZT0iICsgd2hlcmUpCiMgU2hvdyBuZWFyYnkgY29udGV4dApmb3IgaSwgbGluZSBpbiBlbnVtZXJhdGUodGV4dC5zcGxpdGxpbmVzKCksIDEpOgogICAgaWYgInlhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkIiBpbiBsaW5lIG9yICLmiYDmnInor7fmsYLku6PnkIYiIGluIGxpbmUgb3IgbGluZS5zdHJpcCgpID09ICJsb2NhdGlvbiAvIHsiOgogICAgICAgIHByaW50KGYic3RlcDpjZmcge2l9OntsaW5lfSIp' | base64 -d > "$STAGE/patch.py"
+            # Prefer alias to /var/www copy (world-readable path)
+            sed -i 's#alias /opt/steam-app/static-verify/yandex_43f97ab3236b6cfd.html;#alias /var/www/steam-verify/yandex_43f97ab3236b6cfd.html;#' "$STAGE/patch.py"
+            python3 "$STAGE/patch.py" "$SITE_PATH"
 
             echo "step:nginx_T_yandex"
-            nginx -T 2>/dev/null | grep -n "yandex_43f97ab3236b6cfd" || echo "step:WARN_not_in_nginx_T"
+            nginx -T 2>/dev/null | grep -n 'yandex_43f97ab3236b6cfd\|steam-verify' || echo "step:WARN_not_in_nginx_T"
 
             echo "step:nginx_test"
             nginx -t
-            echo "step:nginx_reload"
             if systemctl is-active --quiet nginx; then
               systemctl reload nginx
             else
@@ -85,23 +93,28 @@ jobs:
             fi
             echo "step:nginx_reloaded"
 
-            echo "step:local_curl"
-            STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://127.0.0.1/$MARKER -H 'Host: steam.bj.cn' -k || true)"
+            echo "step:curl_local"
+            curl -sS --max-time 20 -D /tmp/yandex_hdrs.txt -o /tmp/yandex_verify_body.html               "https://127.0.0.1/$MARKER" -H 'Host: steam.bj.cn' -k || true
+            echo "step:local_headers"; head -n 20 /tmp/yandex_hdrs.txt || true
+            STATUS="$(awk 'NR==1{print $2}' /tmp/yandex_hdrs.txt || true)"
             echo "step:local_status=$STATUS"
             head -c 500 /tmp/yandex_verify_body.html || true
             echo
-            if [ "$STATUS" != "200" ] || ! grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html; then
+
+            if [ "${STATUS:-}" != "200" ] || ! grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html; then
               echo "step:retry_public_curl"
-              STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://steam.bj.cn/$MARKER || true)"
+              curl -sS --max-time 20 -D /tmp/yandex_hdrs.txt -o /tmp/yandex_verify_body.html                 "https://steam.bj.cn/$MARKER" || true
+              echo "step:public_headers"; head -n 20 /tmp/yandex_hdrs.txt || true
+              STATUS="$(awk 'NR==1{print $2}' /tmp/yandex_hdrs.txt || true)"
               echo "step:public_status=$STATUS"
               head -c 500 /tmp/yandex_verify_body.html || true
               echo
             fi
-            test "$STATUS" = "200"
+
+            test "${STATUS:-}" = "200"
             grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html
-            # Must not be Next 404 shell
             if grep -q '_next/static' /tmp/yandex_verify_body.html; then
               echo "step:got_next_shell_not_verify" >&2
               exit 1
             fi
-            echo "step:done"
+            echo "step:done host_path=/opt/steam-app/static-verify/$MARKER www_path=/var/www/steam-verify/$MARKER"
