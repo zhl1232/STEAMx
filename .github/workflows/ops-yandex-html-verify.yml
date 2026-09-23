@@ -1,0 +1,81 @@
+name: Ops Yandex HTML Verify
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-yandex-html-verify
+  cancel-in-progress: false
+
+jobs:
+  place-verify-file:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Place host file, docker cp, patch live nginx
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script_stop: true
+          command_timeout: 5m
+          script: |
+            set -euo pipefail
+            MARKER="yandex_43f97ab3236b6cfd.html"
+            HOST_DIR="/opt/steam-app/static-verify"
+            HOST_FILE="$HOST_DIR/$MARKER"
+            SITE_PATH="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
+            STAGE="$(mktemp -d /tmp/steam-yandex-verify.XXXXXX)"
+            trap 'rm -rf -- "$STAGE"' EXIT
+
+            echo "step:start host=$(hostname) date=$(date -Is)"
+            printf '%s' 'PGh0bWw+CiAgICA8aGVhZD4KICAgICAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD1VVEYtOCI+CiAgICA8L2hlYWQ+CiAgICA8Ym9keT5WZXJpZmljYXRpb246IDQzZjk3YWIzMjM2YjZjZmQ8L2JvZHk+CjwvaHRtbD4K' | base64 -d > "$STAGE/$MARKER"
+            test -f "$STAGE/$MARKER"
+            echo "step:src_bytes=$(wc -c < "$STAGE/$MARKER")"
+            grep -q 'Verification: 43f97ab3236b6cfd' "$STAGE/$MARKER"
+
+            mkdir -p "$HOST_DIR"
+            install -m 0644 "$STAGE/$MARKER" "$HOST_FILE"
+            echo "step:host_file=$HOST_FILE bytes=$(wc -c < "$HOST_FILE")"
+            grep -q 'Verification: 43f97ab3236b6cfd' "$HOST_FILE"
+
+            echo "step:docker_cp"
+            cd /opt/steam-app
+            CID="$(docker compose ps -q steam-app 2>/dev/null || true)"
+            if [ -z "$CID" ]; then
+              CID="$(docker ps --filter name=steam-app --format '{{.ID}}' | head -n1 || true)"
+            fi
+            test -n "$CID"
+            echo "step:container_id=$CID"
+            docker cp "$HOST_FILE" "$CID:/app/public/$MARKER"
+            docker exec "$CID" sh -lc "test -f /app/public/$MARKER && grep -q 'Verification: 43f97ab3236b6cfd' /app/public/$MARKER && wc -c /app/public/$MARKER"
+            echo "step:docker_cp_ok"
+
+            echo "step:nginx_site=$SITE_PATH"
+            test -f "$SITE_PATH"
+            printf '%s' 'aW1wb3J0IHBhdGhsaWIsIHN5cwpwYXRoID0gcGF0aGxpYi5QYXRoKHN5cy5hcmd2WzFdKQp0ZXh0ID0gcGF0aC5yZWFkX3RleHQoZW5jb2Rpbmc9InV0Zi04IikKbWFya2VyID0gInlhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkLmh0bWwiCmlmIG1hcmtlciBpbiB0ZXh0OgogICAgcHJpbnQoInN0ZXA6bmdpbnhfbG9jYXRpb25fYWxyZWFkeV9wcmVzZW50IikKICAgIHJhaXNlIFN5c3RlbUV4aXQoMCkKYmxvY2sgPSAoCiAgICAiICAgIGxvY2F0aW9uID0gL3lhbmRleF80M2Y5N2FiMzIzNmI2Y2ZkLmh0bWwge1xuIgogICAgIiAgICAgICAgYWxpYXMgL29wdC9zdGVhbS1hcHAvc3RhdGljLXZlcmlmeS95YW5kZXhfNDNmOTdhYjMyMzZiNmNmZC5odG1sO1xuIgogICAgIiAgICAgICAgZGVmYXVsdF90eXBlIHRleHQvaHRtbDtcbiIKICAgICIgICAgICAgIGNoYXJzZXQgdXRmLTg7XG4iCiAgICAiICAgIH1cbiIKKQpuZWVkbGUgPSAiICAgICMgXHU2MjQwXHU2NzA5XHU4YmY3XHU2YzQyXHU0ZWUzXHU3NDA2XHU1MjMwIE5leHQuanNcbiAgICBsb2NhdGlvbiAvIHsiCiMgUHJlZmVyIHVuaWNvZGUgY2hpbmVzZSBjb21tZW50IGZyb20gZGVwbG95L25naW54LmNvbmY7IGZhbGxiYWNrIHRvIGxhc3QgbG9jYXRpb24gLwppZiBuZWVkbGUgaW4gdGV4dDoKICAgIHRleHQgPSB0ZXh0LnJlcGxhY2UobmVlZGxlLCBibG9jayArICJcbiIgKyBuZWVkbGUsIDEpCmVsc2U6CiAgICAjIHRyeSB1dGYtOCBjaGluZXNlIGNvbW1lbnQgYXMgYWN0dWFsIGNoYXJzCiAgICBuZWVkbGUyID0gIiAgICAjIOaJgOacieivt+axguS7o+eQhuWIsCBOZXh0LmpzXG4gICAgbG9jYXRpb24gLyB7IgogICAgaWYgbmVlZGxlMiBpbiB0ZXh0OgogICAgICAgIHRleHQgPSB0ZXh0LnJlcGxhY2UobmVlZGxlMiwgYmxvY2sgKyAiXG4iICsgbmVlZGxlMiwgMSkKICAgIGVsc2U6CiAgICAgICAgaWR4ID0gdGV4dC5yZmluZCgiXG4gICAgbG9jYXRpb24gLyB7IikKICAgICAgICBpZiBpZHggPCAwOgogICAgICAgICAgICBpZHggPSB0ZXh0LnJmaW5kKCJcbmxvY2F0aW9uIC8geyIpCiAgICAgICAgaWYgaWR4IDwgMDoKICAgICAgICAgICAgcmFpc2UgU3lzdGVtRXhpdCgiY291bGQgbm90IGZpbmQgY2F0Y2gtYWxsIGxvY2F0aW9uIC8gdG8gaW5zZXJ0IGJlZm9yZSIpCiAgICAgICAgdGV4dCA9IHRleHRbOiBpZHggKyAxXSArIGJsb2NrICsgIlxuIiArIHRleHRbaWR4ICsgMSA6XQpwYXRoLndyaXRlX3RleHQodGV4dCwgZW5jb2Rpbmc9InV0Zi04IikKcHJpbnQoInN0ZXA6bmdpbnhfcGF0Y2hlZCIpCg==' | base64 -d > "$STAGE/patch-yandex-nginx.py"
+            python3 "$STAGE/patch-yandex-nginx.py" "$SITE_PATH"
+
+            echo "step:nginx_test"
+            nginx -t
+            echo "step:nginx_reload"
+            if systemctl is-active --quiet nginx; then
+              systemctl reload nginx
+            else
+              nginx -s reload
+            fi
+            echo "step:nginx_reloaded"
+
+            echo "step:local_curl"
+            STATUS="$(curl -sS --max-time 20 -o /tmp/yandex_verify_body.html -w '%{http_code}' https://127.0.0.1/yandex_43f97ab3236b6cfd.html -H 'Host: steam.bj.cn' -k || true)"
+            echo "step:local_status=$STATUS"
+            head -c 400 /tmp/yandex_verify_body.html || true
+            echo
+            test "$STATUS" = "200"
+            grep -q 'Verification: 43f97ab3236b6cfd' /tmp/yandex_verify_body.html
+            echo "step:done"
