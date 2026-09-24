@@ -29,41 +29,35 @@ jobs:
             echo "step:start host=$(hostname) date=$(date -Is)"
             echo "step:env_file"
             test -f /opt/steam-app/.env.production
-            # Print KEY names only; mask all values. Allowlist non-secret-looking values for bucket/endpoint/urls/ttl/mode.
-            python3 - <<'PY'
-            import re
-            path="/opt/steam-app/.env.production"
-            pat=re.compile(r'(OSS|CDN|ASSET|S3|COS|BUCKET|ENDPOINT|SIGN|VIDEO|MEDIA|ASSETS)', re.I)
-            nonsecret=re.compile(r'(BUCKET|REGION|ENDPOINT|BASE_URL|DISPLAY_MODE|TTL|PORT|HOST)$', re.I)
-            print("step:env_keys_begin")
-            for line in open(path, encoding="utf-8", errors="replace"):
-                s=line.strip()
-                if not s or s.startswith("#") or "=" not in s: continue
-                k,v=s.split("=",1)
-                if not pat.search(k): continue
-                if nonsecret.search(k) and not re.search(r'(SECRET|KEY|TOKEN|PASSWORD|PASS)', k, re.I):
-                    # still redact if value looks like a secret
-                    if re.search(r'(LTAI|AKIA|sk-|ghp_|xox)', v) or len(v)>80:
-                        print(f"{k}=***masked***")
-                    else:
-                        print(f"{k}={v}")
-                else:
-                    print(f"{k}=***masked*** len={len(v)}")
-            print("step:env_keys_end")
-            PY
+            echo "step:env_keys_begin"
+            grep -E '^(ALIYUN_OSS_|ASSETS_|NEXT_PUBLIC_ASSETS_|CDN_|OSS_|S3_|COS_|BUCKET_|ENDPOINT_|.*SIGN.*|.*VIDEO.*|.*MEDIA.*)' /opt/steam-app/.env.production | while IFS= read -r line; do
+              k="${line%%=*}"
+              v="${line#*=}"
+              case "$k" in
+                *SECRET*|*KEY*|*TOKEN*|*PASSWORD*|*PASS*)
+                  echo "${k}=***masked*** len=${#v}"
+                  ;;
+                *BUCKET*|*REGION*|*ENDPOINT*|*BASE_URL*|*DISPLAY_MODE*|*TTL_SECONDS*|*TTL*)
+                  echo "${k}=${v}"
+                  ;;
+                *)
+                  echo "${k}=***masked*** len=${#v}"
+                  ;;
+              esac
+            done
+            echo "step:env_keys_end"
             echo "step:docker_env"
             CID=$(docker ps --filter name=steam-app --format '{{.ID}}' | head -1 || true)
             echo "step:steam_app_cid=${CID:-none}"
             if [ -n "${CID:-}" ]; then
-              docker exec "$CID" sh -lc 'printenv | grep -E "OSS|CDN|ASSET|S3|COS|BUCKET|ENDPOINT|SIGN|VIDEO|MEDIA|ASSETS" | sed -E "s/(SECRET|KEY|TOKEN|PASSWORD|PASS)=.*/\1=***masked***/I; t; s/=.*/=***masked***/"' || true
+              docker exec "$CID" printenv | grep -E 'OSS|CDN|ASSET|BUCKET|ENDPOINT|SIGN|VIDEO|MEDIA|ASSETS' | sed -E 's/(SECRET|KEY|TOKEN|PASSWORD|PASS)=.*/\1=***masked***/I' | sed -E 's/^([^=]*(BASE_URL|BUCKET|REGION|ENDPOINT|DISPLAY_MODE|TTL_SECONDS)[^=]*)=.*/\0/; t; s/=.*/=***masked***/' || true
             fi
             echo "step:nginx"
             for p in /etc/nginx/sites-enabled/steam /etc/nginx/sites-enabled/steam-app /etc/nginx/sites-enabled/default /etc/nginx/conf.d/steam.conf /opt/steam-app/nginx.conf /etc/nginx/sites-available/steam; do
               if [ -e "$p" ]; then
                 echo "step:nginx_path=$p"
                 ls -la --time-style=long-iso "$p" || true
-                # mtime via stat
-                stat -c 'step:mtime=%y path=%n' "$p" 2>/dev/null || stat -f 'step:mtime=%Sm path=%N' "$p" 2>/dev/null || true
+                stat -c 'step:mtime=%y path=%n' "$p" 2>/dev/null || true
               fi
             done
             echo "step:nginx_grep_media"
@@ -71,7 +65,6 @@ jobs:
               grep -nE 'location|proxy_pass|assets|media|mp4|steamx|Range' /opt/steam-app/nginx.conf | head -80 || true
               stat -c 'step:app_nginx_mtime=%y' /opt/steam-app/nginx.conf || true
             fi
-            # live enabled site if different
             if [ -f /etc/nginx/sites-enabled/steam ]; then
               grep -nE 'location|proxy_pass|assets|media|mp4|steamx|Range' /etc/nginx/sites-enabled/steam | head -80 || true
             fi
