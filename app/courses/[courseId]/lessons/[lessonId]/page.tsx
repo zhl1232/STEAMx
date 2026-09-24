@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { LessonPageClient } from "./lesson-page-client";
 import { createClient } from "@/lib/supabase/server";
 import { getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
+import { withSignedBuildingLessonVideo } from "@/lib/courses/building-video-url";
 import { buildBreadcrumbJsonLd, buildLessonJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getContentClassificationSettings } from "@/lib/content-classification";
@@ -111,7 +112,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                     : undefined}
                 courseId={courseId}
                 courseTitle={context.course.title}
-                lesson={context.lesson}
+                lesson={withSignedBuildingLessonVideo(context.lesson)}
                 previewHref={`/courses/${courseId}/lessons/${lessonId}/preview`}
                 initialCompleted={Boolean(progress?.completed_at)}
                 initialStepIndex={initialStepIndex}

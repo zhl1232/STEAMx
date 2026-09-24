@@ -27,7 +27,7 @@ import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
-import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
+import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 import { useToast } from "@/hooks/use-toast";
@@ -198,7 +198,14 @@ function normalizeBuildingContent(lesson: CourseLessonRow): Building3DLessonCont
         ldrawModelUrl: resolveAssetDisplayUrl(typeof content?.ldrawModelUrl === "string" ? content.ldrawModelUrl : undefined) ?? undefined,
         ldrawColorUrl: resolveAssetDisplayUrl(typeof content?.ldrawColorUrl === "string" ? content.ldrawColorUrl : undefined) ?? undefined,
         attribution: typeof content?.attribution === "string" ? content.attribution : undefined,
-        videoUrl: resolveAssetDisplayUrl(typeof content?.videoUrl === "string" ? content.videoUrl : undefined) ?? undefined,
+        // Prefer server-signed /api/assets?...&sig= (see withSignedBuildingLessonVideo).
+        // Fall back to forced proxy so video never embeds a permanent CDN URL.
+        videoUrl: (() => {
+            const raw = typeof content?.videoUrl === "string" ? content.videoUrl.trim() : "";
+            if (!raw) return undefined;
+            if (raw.startsWith("/api/assets/")) return raw;
+            return toForcedAssetProxyUrl(raw) ?? resolveAssetDisplayUrl(raw) ?? raw;
+        })(),
         videoSlideIndex,
         slideImageUrls: slideImageUrls?.map((url) => resolveAssetDisplayUrl(url) ?? url),
         slidesPdfUrl: resolveAssetDisplayUrl(typeof content?.slidesPdfUrl === "string" ? content.slidesPdfUrl : undefined) ?? undefined,
