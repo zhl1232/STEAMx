@@ -224,10 +224,3 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Push public URLs to Baidu
-        continue-on-error: true
-        env:
-          BAIDU_PUSH_TOKEN: ${{ secrets.BAIDU_PUSH_TOKEN }}
-          BAIDU_PUSH_SITE: https://steam.bj.cn
-          BAIDU_PUSH_CHUNK_SIZE: "10"
-        run: node scripts/submit-baidu-urls.mjs
