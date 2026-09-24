@@ -80,11 +80,12 @@ describe('withSignedBuildingLessonVideo', () => {
     vi.unstubAllEnvs()
   })
 
-  const baseLesson = {
+  const baseLesson: CourseLessonRow = {
     id: 30,
     course_id: 5,
     title: 'Eiffel',
     lesson_type: 'building_3d',
+    content: null,
     steps: [],
     resources: [],
     starter_project_path: null,
@@ -92,7 +93,7 @@ describe('withSignedBuildingLessonVideo', () => {
     duration_minutes: 40,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
-  } as CourseLessonRow
+  }
 
   it('rewrites building3d.videoUrl and leaves images alone', () => {
     const lesson: CourseLessonRow = {
