@@ -1,7 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { SteamLogo } from "@/components/layout/logo";
-import { ICP_FILING_NUMBER, ICP_FILING_URL } from "@/lib/seo/site";
+import {
+  ICP_FILING_NUMBER,
+  ICP_FILING_URL,
+  POLICE_FILING_ICON_SRC,
+  POLICE_FILING_NUMBER,
+  POLICE_FILING_URL,
+} from "@/lib/seo/filings";
 import { BRAND_FULL_NAME, BRAND_OFFICIAL_URL, BRAND_POSITIONING } from "@/lib/brand";
 
 const siteFooterColumns = [
@@ -30,6 +37,9 @@ const siteFooterColumns = [
   },
 ] as const;
 
+const filingLinkClassName =
+  "inline-flex items-center gap-1 underline-offset-2 hover:text-foreground hover:underline";
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6">
@@ -56,20 +66,39 @@ export function SiteFooter() {
           </div>
         ))}
       </div>
-      <p className="mt-0 px-4 text-center text-[12px] text-muted-foreground md:mt-4">
-        © 2026 {BRAND_FULL_NAME}
-        <span aria-hidden="true"> · </span>
-        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:underline">steam.bj.cn</a>
-        <span aria-hidden="true"> · </span>
+      <div className="mt-0 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4 text-center text-[13px] text-foreground/75 md:mt-4">
+        <span>© 2026 {BRAND_FULL_NAME}</span>
+        <span aria-hidden="true">·</span>
+        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:text-foreground hover:underline">
+          steam.bj.cn
+        </a>
+        <span aria-hidden="true">·</span>
         <a
           href={ICP_FILING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline-offset-2 hover:text-foreground hover:underline"
+          className={filingLinkClassName}
         >
           {ICP_FILING_NUMBER}
         </a>
-      </p>
+        <span aria-hidden="true">·</span>
+        <a
+          href={POLICE_FILING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={filingLinkClassName}
+        >
+          <Image
+            src={POLICE_FILING_ICON_SRC}
+            alt=""
+            width={20}
+            height={20}
+            className="h-5 w-5 shrink-0"
+            aria-hidden="true"
+          />
+          <span>{POLICE_FILING_NUMBER}</span>
+        </a>
+      </div>
     </footer>
   );
 }
