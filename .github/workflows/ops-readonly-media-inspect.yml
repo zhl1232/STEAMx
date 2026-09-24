@@ -26,48 +26,7 @@ jobs:
           command_timeout: 5m
           script: |
             set -euo pipefail
-            echo "step:start host=$(hostname) date=$(date -Is)"
-            echo "step:env_file"
-            test -f /opt/steam-app/.env.production
-            echo "step:env_keys_begin"
-            grep -E '^(ALIYUN_OSS_|ASSETS_|NEXT_PUBLIC_ASSETS_|CDN_|OSS_|S3_|COS_|BUCKET_|ENDPOINT_|.*SIGN.*|.*VIDEO.*|.*MEDIA.*)' /opt/steam-app/.env.production | while IFS= read -r line; do
-              k="${line%%=*}"
-              v="${line#*=}"
-              case "$k" in
-                *SECRET*|*KEY*|*TOKEN*|*PASSWORD*|*PASS*)
-                  echo "${k}=***masked*** len=${#v}"
-                  ;;
-                *BUCKET*|*REGION*|*ENDPOINT*|*BASE_URL*|*DISPLAY_MODE*|*TTL_SECONDS*|*TTL*)
-                  echo "${k}=${v}"
-                  ;;
-                *)
-                  echo "${k}=***masked*** len=${#v}"
-                  ;;
-              esac
-            done
-            echo "step:env_keys_end"
-            echo "step:docker_env"
-            CID=$(docker ps --filter name=steam-app --format '{{.ID}}' | head -1 || true)
-            echo "step:steam_app_cid=${CID:-none}"
-            if [ -n "${CID:-}" ]; then
-              docker exec "$CID" printenv | grep -E 'OSS|CDN|ASSET|BUCKET|ENDPOINT|SIGN|VIDEO|MEDIA|ASSETS' | sed -E 's/(SECRET|KEY|TOKEN|PASSWORD|PASS)=.*/\1=***masked***/I' | sed -E 's/^([^=]*(BASE_URL|BUCKET|REGION|ENDPOINT|DISPLAY_MODE|TTL_SECONDS)[^=]*)=.*/\0/; t; s/=.*/=***masked***/' || true
-            fi
-            echo "step:nginx"
-            for p in /etc/nginx/sites-enabled/steam /etc/nginx/sites-enabled/steam-app /etc/nginx/sites-enabled/default /etc/nginx/conf.d/steam.conf /opt/steam-app/nginx.conf /etc/nginx/sites-available/steam; do
-              if [ -e "$p" ]; then
-                echo "step:nginx_path=$p"
-                ls -la --time-style=long-iso "$p" || true
-                stat -c 'step:mtime=%y path=%n' "$p" 2>/dev/null || true
-              fi
-            done
-            echo "step:nginx_grep_media"
-            if [ -f /opt/steam-app/nginx.conf ]; then
-              grep -nE 'location|proxy_pass|assets|media|mp4|steamx|Range' /opt/steam-app/nginx.conf | head -80 || true
-              stat -c 'step:app_nginx_mtime=%y' /opt/steam-app/nginx.conf || true
-            fi
-            if [ -f /etc/nginx/sites-enabled/steam ]; then
-              grep -nE 'location|proxy_pass|assets|media|mp4|steamx|Range' /etc/nginx/sites-enabled/steam | head -80 || true
-            fi
-            echo "step:nginx_mtime_recent"
-            find /etc/nginx /opt/steam-app -maxdepth 3 -name '*.conf' -mtime -10 -printf 'step:recent_conf %TY-%Tm-%Td %TH:%TM %p\n' 2>/dev/null || true
-            echo "step:done"
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAic3RlcDpzdGFydCBob3N0PSQoaG9zdG5hbWUpIGRhdGU9JChkYXRlIC1JcykiCmVjaG8gInN0ZXA6ZW52X2ZpbGUiCnRlc3QgLWYgL29wdC9zdGVhbS1hcHAvLmVudi5wcm9kdWN0aW9uCmVjaG8gInN0ZXA6ZW52X2tleXNfYmVnaW4iCmF3ayAtRj0gJwogIEJFR0lOeyBJR05PUkVDQVNFPTAgfQogIC9eW1s6c3BhY2U6XV0qIy8geyBuZXh0IH0KICBORjwyIHsgbmV4dCB9CiAgJDEgfiAvKE9TU3xDRE58QVNTRVR8UzN8Q09TfEJVQ0tFVHxFTkRQT0lOVHxTSUdOfFZJREVPfE1FRElBfEFTU0VUUykvIHsKICAgIGs9JDE7IHY9c3Vic3RyKCQwLCBpbmRleCgkMCwiPSIpKzEpCiAgICBpZiAoayB+IC8oU0VDUkVUfEtFWXxUT0tFTnxQQVNTV09SRHxQQVNTKS8pIHsKICAgICAgcHJpbnRmICIlcz0qKiptYXNrZWQqKiogbGVuPSVkXG4iLCBrLCBsZW5ndGgodikKICAgIH0gZWxzZSBpZiAoayB+IC8oQlVDS0VUfFJFR0lPTnxFTkRQT0lOVHxCQVNFX1VSTHxESVNQTEFZX01PREV8VFRMKS8pIHsKICAgICAgcHJpbnRmICIlcz0lc1xuIiwgaywgdgogICAgfSBlbHNlIHsKICAgICAgcHJpbnRmICIlcz0qKiptYXNrZWQqKiogbGVuPSVkXG4iLCBrLCBsZW5ndGgodikKICAgIH0KICB9CicgL29wdC9zdGVhbS1hcHAvLmVudi5wcm9kdWN0aW9uCmVjaG8gInN0ZXA6ZW52X2tleXNfZW5kIgplY2hvICJzdGVwOmRvY2tlcl9lbnYiCkNJRD0kKGRvY2tlciBwcyAtLWZpbHRlciBuYW1lPXN0ZWFtLWFwcCAtLWZvcm1hdCAne3suSUR9fScgfCBoZWFkIC0xIHx8IHRydWUpCmVjaG8gInN0ZXA6c3RlYW1fYXBwX2NpZD0ke0NJRDotbm9uZX0iCmlmIFsgLW4gIiR7Q0lEOi19IiBdOyB0aGVuCiAgZG9ja2VyIGV4ZWMgIiRDSUQiIHByaW50ZW52IHwgYXdrIC1GPSAnCiAgICAkMSB+IC8oT1NTfENETnxBU1NFVHxCVUNLRVR8RU5EUE9JTlR8U0lHTnxWSURFT3xNRURJQXxBU1NFVFMpLyB7CiAgICAgIGs9JDE7IHY9c3Vic3RyKCQwLCBpbmRleCgkMCwiPSIpKzEpCiAgICAgIGlmIChrIH4gLyhTRUNSRVR8S0VZfFRPS0VOfFBBU1NXT1JEfFBBU1MpLykgcHJpbnRmICIlcz0qKiptYXNrZWQqKipcbiIsIGsKICAgICAgZWxzZSBpZiAoayB+IC8oQlVDS0VUfFJFR0lPTnxFTkRQT0lOVHxCQVNFX1VSTHxESVNQTEFZX01PREV8VFRMKS8pIHByaW50ZiAiJXM9JXNcbiIsIGssIHYKICAgICAgZWxzZSBwcmludGYgIiVzPSoqKm1hc2tlZCoqKlxuIiwgawogICAgfScgfHwgdHJ1ZQpmaQplY2hvICJzdGVwOm5naW54Igpmb3IgcCBpbiAvZXRjL25naW54L3NpdGVzLWVuYWJsZWQvc3RlYW0gL2V0Yy9uZ2lueC9zaXRlcy1lbmFibGVkL3N0ZWFtLWFwcCAvZXRjL25naW54L3NpdGVzLWVuYWJsZWQvZGVmYXVsdCAvZXRjL25naW54L2NvbmYuZC9zdGVhbS5jb25mIC9vcHQvc3RlYW0tYXBwL25naW54LmNvbmYgL2V0Yy9uZ2lueC9zaXRlcy1hdmFpbGFibGUvc3RlYW07IGRvCiAgaWYgWyAtZSAiJHAiIF07IHRoZW4KICAgIGVjaG8gInN0ZXA6bmdpbnhfcGF0aD0kcCIKICAgIGxzIC1sYSAtLXRpbWUtc3R5bGU9bG9uZy1pc28gIiRwIiB8fCB0cnVlCiAgICBzdGF0IC1jICdzdGVwOm10aW1lPSV5IHBhdGg9JW4nICIkcCIgMj4vZGV2L251bGwgfHwgdHJ1ZQogIGZpCmRvbmUKZWNobyAic3RlcDpuZ2lueF9ncmVwX21lZGlhIgppZiBbIC1mIC9vcHQvc3RlYW0tYXBwL25naW54LmNvbmYgXTsgdGhlbgogIGdyZXAgLW5FICdsb2NhdGlvbnxwcm94eV9wYXNzfGFzc2V0c3xtZWRpYXxtcDR8c3RlYW14fFJhbmdlJyAvb3B0L3N0ZWFtLWFwcC9uZ2lueC5jb25mIHwgaGVhZCAtODAgfHwgdHJ1ZQogIHN0YXQgLWMgJ3N0ZXA6YXBwX25naW54X210aW1lPSV5JyAvb3B0L3N0ZWFtLWFwcC9uZ2lueC5jb25mIHx8IHRydWUKZmkKaWYgWyAtZiAvZXRjL25naW54L3NpdGVzLWVuYWJsZWQvc3RlYW0gXTsgdGhlbgogIGdyZXAgLW5FICdsb2NhdGlvbnxwcm94eV9wYXNzfGFzc2V0c3xtZWRpYXxtcDR8c3RlYW14fFJhbmdlJyAvZXRjL25naW54L3NpdGVzLWVuYWJsZWQvc3RlYW0gfCBoZWFkIC04MCB8fCB0cnVlCmZpCmVjaG8gInN0ZXA6bmdpbnhfbXRpbWVfcmVjZW50IgpmaW5kIC9ldGMvbmdpbnggL29wdC9zdGVhbS1hcHAgLW1heGRlcHRoIDMgLW5hbWUgJyouY29uZicgLW10aW1lIC0xMCAtcHJpbnRmICdzdGVwOnJlY2VudF9jb25mICVUWS0lVG0tJVRkICVUSDolVE0gJXBcbicgMj4vZGV2L251bGwgfHwgdHJ1ZQplY2hvICJzdGVwOmRvbmUiCg==' | base64 -d > /tmp/readonly_media_inspect.sh
+            chmod +x /tmp/readonly_media_inspect.sh
+            bash /tmp/readonly_media_inspect.sh
+            rm -f /tmp/readonly_media_inspect.sh
