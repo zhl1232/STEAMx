@@ -97,8 +97,8 @@ function resolveGlobalSurface(pathname: string): TutorGlobalSurface | null {
   return null
 }
 
-/** Temporary kill switch. Set to `true` to restore the XiaoDi FAB sitewide. */
-export const GLOBAL_TUTOR_ENABLED = false
+/** Sitewide kill switch for the XiaoDi FAB. Set to `false` to hide it everywhere. */
+export const GLOBAL_TUTOR_ENABLED = true
 
 export function shouldShowGlobalTutor(pathname: string) {
   if (!GLOBAL_TUTOR_ENABLED) return false

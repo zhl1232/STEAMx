@@ -39,16 +39,6 @@ vi.mock("@/lib/context/auth-context", () => ({
     useAuth: () => ({ user: null }),
 }));
 
-// Keep mount behavior covered while the temporary sitewide kill switch is off.
-vi.mock("@/lib/ai/tutor/resolve-context", async (importOriginal) => {
-    const actual = await importOriginal<typeof import("@/lib/ai/tutor/resolve-context")>();
-    return {
-        ...actual,
-        GLOBAL_TUTOR_ENABLED: true,
-        shouldShowGlobalTutor: (pathname: string) => actual.resolveTutorContextFromPath(pathname) !== null,
-    };
-});
-
 describe("GlobalTutorMount", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -73,6 +63,22 @@ describe("GlobalTutorMount", () => {
 
         expect(mocks.setOpen).toHaveBeenCalledWith(true);
         await waitFor(() => expect(screen.getByTestId("full-tutor-fab")).toBeInTheDocument());
+    });
+
+    it("renders the launcher on tutor-enabled routes with the real sitewide switch", () => {
+        pathname = "/explore";
+
+        render(<GlobalTutorMount />);
+
+        expect(screen.getByRole("button", { name: "打开 AI 导师" })).toBeInTheDocument();
+    });
+
+    it("renders nothing on routes without a tutor context", () => {
+        pathname = "/login";
+
+        const { container } = render(<GlobalTutorMount />);
+
+        expect(container).toBeEmptyDOMElement();
     });
 
     it("hides the mobile launcher on public profile pages", () => {
