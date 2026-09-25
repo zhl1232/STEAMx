@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { randomInt } from 'node:crypto'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendVerificationSms } from '@/lib/sms/send'
 import { createClient } from '@/lib/supabase/server'
@@ -12,12 +13,7 @@ const OTP_LENGTH = 6
 const COOLDOWN_SECONDS = 60
 
 function generateCode(): string {
-  const digits = '0123456789'
-  let code = ''
-  for (let i = 0; i < OTP_LENGTH; i++) {
-    code += digits[Math.floor(Math.random() * digits.length)]
-  }
-  return code
+  return randomInt(0, 10 ** OTP_LENGTH).toString().padStart(OTP_LENGTH, '0')
 }
 
 /** 规范为 E.164 */

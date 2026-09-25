@@ -1,21 +1,14 @@
-/**
- * 阿里云号码认证服务（Dypnsapi）发送与校验短信验证码
- * 环境变量仅需：SMS_ALIYUN_ACCESS_KEY_ID, SMS_ALIYUN_ACCESS_KEY_SECRET
- * 签名与模板已写死，如需修改请改下方常量
- *
- * 注意：Dypnsapi 依赖 @alicloud/openapi-core，Config 需用 plain object（accessKeyId/accessKeySecret/endpoint）
- */
-
-import Dypnsapi20170525, * as $Dypnsapi20170525 from '@alicloud/dypnsapi20170525'
+/** Legacy SMS delivery through Alibaba Cloud SMS API. */
+import Dysmsapi20170525, * as $Dysmsapi20170525 from '@alicloud/dysmsapi20170525'
 import * as $Util from '@alicloud/tea-util'
 
-/** 短信签名（阿里云控制台配置） */
-const ALIYUN_SIGN_NAME = '速通互联验证码'
-/** 短信模板 code（阿里云控制台配置，模板需含变量 code、min） */
-const ALIYUN_TEMPLATE_CODE = '100001'
+const ALIYUN_SIGN_NAME = '北京创探科技'
+const ALIYUN_TEMPLATE_CODE = 'SMS_332130837'
+const ENDPOINT = 'dysmsapi.aliyuncs.com'
+const CONNECT_TIMEOUT_MS = 3_000
+const READ_TIMEOUT_MS = 5_000
 
 export type AliyunSendResult = { ok: true } | { ok: false; error: string }
-export type AliyunCheckResult = { ok: true } | { ok: false; error: string }
 
 function getEnv() {
   const accessKeyId = process.env.SMS_ALIYUN_ACCESS_KEY_ID
@@ -24,69 +17,50 @@ function getEnv() {
   return { accessKeyId, accessKeySecret }
 }
 
-/** 创建 Dypnsapi 客户端（openapi-core 接受 plain object） */
-function createClient(): Dypnsapi20170525 {
+function createClient(): Dysmsapi20170525 {
   const cfg = getEnv()
-  if (!cfg) throw new Error('SMS_ALIYUN_* env not set')
-  const config = {
+  if (!cfg) throw new Error('SMS provider is not configured')
+  return new Dysmsapi20170525({
     accessKeyId: cfg.accessKeyId,
     accessKeySecret: cfg.accessKeySecret,
-    endpoint: 'dypnsapi.aliyuncs.com',
-  }
-  return new Dypnsapi20170525(config as never)
+    endpoint: ENDPOINT,
+  } as never)
 }
 
-/** 发送短信验证码（templateParam 传我们自己的 code，模板里用 ${code} 占位） */
+function normalizePhone(phone: string): string {
+  const digits = phone.replace(/\D/g, '')
+  return digits.startsWith('86') && digits.length === 13 ? digits.slice(2) : digits
+}
+
+/** Send exactly one verification message. SDK retry is disabled to avoid duplicate OTPs. */
 export async function sendSmsVerifyCode(phone: string, code: string): Promise<AliyunSendResult> {
-  const cfg = getEnv()
-  if (!cfg) return { ok: false, error: 'SMS_ALIYUN_* env not set' }
-  const phoneNumber = phone.replace(/\D/g, '').replace(/^86/, '')
-  if (phoneNumber.length < 11) return { ok: false, error: 'Invalid phone number' }
+  if (!getEnv()) return { ok: false, error: 'SMS provider is not configured' }
+  const phoneNumber = normalizePhone(phone)
+  if (!/^1\d{10}$/.test(phoneNumber) || !/^\d{6}$/.test(code)) {
+    return { ok: false, error: 'Invalid phone number or code' }
+  }
+
   try {
-    const client = createClient()
-    const request = new $Dypnsapi20170525.SendSmsVerifyCodeRequest({
-      phoneNumber,
-      countryCode: '86',
+    const request = new $Dysmsapi20170525.SendSmsRequest({
+      phoneNumbers: phoneNumber,
       signName: ALIYUN_SIGN_NAME,
       templateCode: ALIYUN_TEMPLATE_CODE,
-      templateParam: JSON.stringify({ code, min: '5' }),
-      codeLength: 6,
+      templateParam: JSON.stringify({ code }),
     })
-    const runtime = new $Util.RuntimeOptions({})
-    await client.sendSmsVerifyCodeWithOptions(request, runtime)
-    return { ok: true }
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e)
-    return { ok: false, error: msg }
-  }
-}
-
-/** 是否已配置阿里云（用于 verify 时决定是否走阿里云校验） */
-export function isAliyunConfigured(): boolean {
-  return getEnv() !== null
-}
-
-/** 校验短信验证码（阿里云侧校验，仅当使用 ##code## 由阿里云生成验证码时需要用此接口） */
-export async function checkSmsVerifyCode(phone: string, verifyCode: string): Promise<AliyunCheckResult> {
-  const cfg = getEnv()
-  if (!cfg) return { ok: false, error: 'SMS_ALIYUN_* env not set' }
-  const phoneNumber = phone.replace(/\D/g, '').replace(/^86/, '')
-  if (phoneNumber.length < 11 || !verifyCode.trim()) return { ok: false, error: 'Invalid phone or code' }
-  try {
-    const client = createClient()
-    const request = new $Dypnsapi20170525.CheckSmsVerifyCodeRequest({
-      phoneNumber,
-      countryCode: '86',
-      verifyCode: verifyCode.trim(),
+    const runtime = new $Util.RuntimeOptions({
+      autoretry: false,
+      maxAttempts: 1,
+      connectTimeout: CONNECT_TIMEOUT_MS,
+      readTimeout: READ_TIMEOUT_MS,
     })
-    const runtime = new $Util.RuntimeOptions({})
-    const resp = await client.checkSmsVerifyCodeWithOptions(request, runtime)
-    const body = (resp as { body?: { code?: string; message?: string; success?: boolean; model?: { verifyResult?: string } } })?.body
-    const ok = body?.code === 'OK' && (body?.model?.verifyResult === 'PASS' || body?.success === true)
-    if (ok) return { ok: true }
-    return { ok: false, error: body?.message || '验证失败' }
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e)
-    return { ok: false, error: msg }
+    const response = await createClient().sendSmsWithOptions(request, runtime)
+    const body = (response as { body?: { code?: string } })?.body
+    if (body?.code === 'OK') return { ok: true }
+    const providerCode = typeof body?.code === 'string' && /^[A-Za-z0-9_.-]{1,80}$/.test(body.code)
+      ? body.code
+      : 'unknown'
+    return { ok: false, error: `SMS provider rejected the request (${providerCode})` }
+  } catch {
+    return { ok: false, error: 'SMS provider request failed' }
   }
 }

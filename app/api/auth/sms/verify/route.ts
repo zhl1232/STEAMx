@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
-import { isAliyunConfigured, checkSmsVerifyCode } from '@/lib/sms/aliyun'
 import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
 import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
@@ -195,7 +194,6 @@ export async function POST(req: Request) {
     }
 
     const now = new Date().toISOString()
-    let otpValid = false
 
     if (type === 'phone_change') {
       const supabase = await createClient()
@@ -244,35 +242,22 @@ export async function POST(req: Request) {
         )
       }
 
-      if (isAliyunConfigured()) {
-        const aliyunResult = await checkSmsVerifyCode(phone, token)
-        if (aliyunResult.ok) otpValid = true
-      }
-      if (!otpValid) {
-        const { data: rows, error: fetchError } = await supabaseAdmin
-          .from('phone_otps')
-          .select('id, type')
-          .eq('phone', phone)
-          .eq('code', token)
-          .eq('type', 'phone_change')
-          .eq('user_id', user.id)
-          .gt('expires_at', now)
-          .order('created_at', { ascending: false })
-          .limit(1)
+      const { data: consumed, error: consumeError } = await supabaseAdmin
+        .from('phone_otps')
+        .delete()
+        .eq('phone', phone)
+        .eq('code', token)
+        .eq('type', 'phone_change')
+        .eq('user_id', user.id)
+        .gt('expires_at', now)
+        .select('id')
 
-        if (fetchError || !rows?.length) {
-          return NextResponse.json(
-            { error: '验证码错误或已过期，请重新获取' },
-            { status: 400 }
-          )
-        }
-        await supabaseAdmin
-          .from('phone_otps')
-          .delete()
-          .eq('phone', phone)
-          .eq('code', token)
-          .eq('type', 'phone_change')
-          .eq('user_id', user.id)
+      if (consumeError || !consumed?.length) {
+        if (consumeError) logger.error('[auth/sms/verify] consume phone_change OTP', { error: consumeError })
+        return NextResponse.json(
+          { error: '验证码错误或已过期，请重新获取' },
+          { status: consumeError ? 500 : 400 }
+        )
       }
 
       const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
@@ -299,33 +284,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true })
     }
 
-    if (isAliyunConfigured()) {
-      const aliyunResult = await checkSmsVerifyCode(phone, token)
-      if (aliyunResult.ok) otpValid = true
-    }
-    if (!otpValid) {
-      const { data: rows, error: fetchError } = await supabaseAdmin
-        .from('phone_otps')
-        .select('id, type')
-        .eq('phone', phone)
-        .eq('code', token)
-        .eq('type', 'login')
-        .gt('expires_at', now)
-        .order('created_at', { ascending: false })
-        .limit(1)
+    const { data: consumed, error: consumeError } = await supabaseAdmin
+      .from('phone_otps')
+      .delete()
+      .eq('phone', phone)
+      .eq('code', token)
+      .eq('type', 'login')
+      .is('user_id', null)
+      .gt('expires_at', now)
+      .select('id')
 
-      if (fetchError || !rows?.length) {
-        return NextResponse.json(
-          { error: '验证码错误或已过期，请重新获取' },
-          { status: 400 }
-        )
-      }
-      await supabaseAdmin
-        .from('phone_otps')
-        .delete()
-        .eq('phone', phone)
-        .eq('code', token)
-        .eq('type', 'login')
+    if (consumeError || !consumed?.length) {
+      if (consumeError) logger.error('[auth/sms/verify] consume login OTP', { error: consumeError })
+      return NextResponse.json(
+        { error: '验证码错误或已过期，请重新获取' },
+        { status: consumeError ? 500 : 400 }
+      )
     }
 
     let userId: string

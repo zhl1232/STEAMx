@@ -4,7 +4,7 @@
 
 ## 一、自定义短信（替代 Supabase 官方短信）
 
-手机号登录/注册已改为使用项目自己的「发码 + 验证」流程，短信由你配置的接口发送。
+当 `AUTH_PHONE_PROVIDER=legacy` 时，手机号登录/注册使用项目自己的「发码 + 验证」流程，短信由网站服务器发送。
 
 ### 1. 环境变量
 
@@ -12,18 +12,18 @@
 
 | 变量 | 说明 |
 |------|------|
-| `SMS_PROVIDER=log` | 不真实发短信，仅在开发环境打日志（默认） |
-| `SMS_PROVIDER=aliyun` | 阿里云号码认证服务（Dypnsapi），需配合下表 |
+| `SMS_PROVIDER=log` | 不真实发短信，仅限开发环境；生产环境缺少发送配置会报错 |
+| `SMS_PROVIDER=aliyun` | 阿里云普通短信服务（Dysmsapi SendSms），需配合下表 |
 | `SMS_PROVIDER=custom` | 使用自定义 HTTP 接口发短信，需配合下表 |
 
-**阿里云**：只需配置下面两个变量即走阿里云 Dypnsapi，签名与模板在代码内写死（`lib/sms/aliyun.ts` 中 `ALIYUN_SIGN_NAME`、`ALIYUN_TEMPLATE_CODE`，如需修改可改该文件）。
+**阿里云**：只需配置下面两个变量即走阿里云 Dysmsapi，签名「北京创探科技」、模板 `SMS_332130837` 在代码内配置（`lib/sms/aliyun.ts` 中 `ALIYUN_SIGN_NAME`、`ALIYUN_TEMPLATE_CODE`，如需修改可改该文件）。
 
 | 变量 | 说明 |
 |------|------|
 | `SMS_ALIYUN_ACCESS_KEY_ID` | 必填。阿里云 AccessKey ID |
 | `SMS_ALIYUN_ACCESS_KEY_SECRET` | 必填。阿里云 AccessKey Secret |
 
-验证时若已配置上述密钥则优先走阿里云 `CheckSmsVerifyCode` 校验；否则走本库 `phone_otps` 表校验。
+模板正文为 `您的验证码为：${code}，请勿泄露于他人！`，只传数字验证码变量 `code`。验证码由应用生成并通过本库 `phone_otps` 校验、消费，不调用号码认证 `CheckSmsVerifyCode`。只有短信 API 返回 `Code=OK` 才视为发送受理成功。
 
 **手机号登录后的跳转**：验证成功后会通过 Supabase Magic Link 跳回你的站点（优先用请求的 `Origin`，否则用 `NEXT_PUBLIC_SITE_URL` 或本地 `http://localhost:3000`）。请在 Supabase Dashboard → **Authentication** → **URL Configuration** 中把「Redirect URLs」里加上你的站点根地址（如 `http://localhost:3000/`、`https://你的域名/`），否则可能跳转到 Supabase 默认页。
 

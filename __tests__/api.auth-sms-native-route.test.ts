@@ -22,7 +22,6 @@ vi.mock('@/lib/supabase/server', () => ({
 }))
 vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: mocks.admin }))
 vi.mock('@/lib/sms/send', () => ({ sendVerificationSms: vi.fn() }))
-vi.mock('@/lib/sms/aliyun', () => ({ isAliyunConfigured: vi.fn(() => false), checkSmsVerifyCode: vi.fn() }))
 vi.mock('@/lib/api/auth', () => ({ handleApiError: vi.fn((error) => Response.json({ error: String(error) }, { status: 500 })) }))
 vi.mock('@/lib/api/auth-rate-limit', () => ({ requireRequestRateLimit: vi.fn() }))
 vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn(), warn: vi.fn() } }))

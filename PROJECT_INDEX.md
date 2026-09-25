@@ -410,7 +410,7 @@
 | `components/store/` | `contextual-store-products.tsx` | 课程、课时零件清单和项目详情中的上下文材料包卡片；仅展示已配置且通过淘宝 HTTPS 白名单的外部商品 |
 | `lib/ai/` | `dashscope.ts`, `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `completion-moderation.ts`, `completion-proof-vision.ts`, `pbl-stage-coach.ts` | 通义千问/DashScope AI：`dashscope.ts` 是共享 HTTP 客户端（鉴权、非流式 20s / 流式 120s 超时、错误归一、token usage 解析），按角色保留模型 env 链（tutor-text/planner/vision、vision、moderation、pbl-text/vision）。物种识别走 `vision`（默认 `qwen3.7-plus`）；上传图与作品配图审核走 `moderation`（`DASHSCOPE_MODERATION_MODEL` → `DASHSCOPE_VISION_MODEL` → 默认 `qwen3-vl-flash`）。观察提交先读媒体分析，已通过的图片不再二次视觉审核，只审文字；作品异步审核在提交时 `moderation_state=approved` 则跳过配图视觉、只跑文字语义审核，其余多图并行。完成作品文字审核由模型按语义判断，不使用敏感词列表决定 AI 审核结果。TTS/ASR 仍走 `lib/ai/tutor/speech.ts` |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟点赞与项目收藏。**只发弱信号，不再生成拟人化短评**——2026-08-14 删除 `lib/ai/auto-reply.ts` 与 `reply` 动作类型，因为让 15 个机器人账号冒充同龄人写评论（prompt 曾明确要求不得提及 AI）在一个儿童社区里越线；点赞/收藏保留，用来给冷启动内容一点温度 |
-| `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
+| `lib/sms/` | `aliyun.ts`, `send.ts` | legacy 模式由网站服务器调用阿里云 Dysmsapi SendSms（北京创探科技 / SMS_332130837 / 数字 code），检查业务返回码；验证码由 phone_otps 校验并原子消费，生产缺失发送配置时拒绝发送 |
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |
