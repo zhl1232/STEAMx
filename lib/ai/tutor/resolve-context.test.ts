@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { resolveTutorContextFromPath } from '@/lib/ai/tutor/resolve-context'
+import {
+  GLOBAL_TUTOR_ENABLED,
+  resolveTutorContextFromPath,
+  shouldShowGlobalTutor,
+} from '@/lib/ai/tutor/resolve-context'
 
 describe('resolveTutorContextFromPath', () => {
   it('resolves species detail pages by slug', () => {
@@ -68,5 +72,21 @@ describe('resolveTutorContextFromPath', () => {
       surface: 'playground',
       playgroundGameKey: 'functionwars',
     })
+  })
+})
+
+describe('shouldShowGlobalTutor', () => {
+  it('keeps the sitewide XiaoDi switch enabled', () => {
+    expect(GLOBAL_TUTOR_ENABLED).toBe(true)
+  })
+
+  it('shows the tutor on routes that resolve a tutor context', () => {
+    expect(shouldShowGlobalTutor('/')).toBe(true)
+    expect(shouldShowGlobalTutor('/explore')).toBe(true)
+    expect(shouldShowGlobalTutor('/nature/species/turdus-merula')).toBe(true)
+  })
+
+  it('hides the tutor on routes without a tutor context', () => {
+    expect(shouldShowGlobalTutor('/login')).toBe(false)
   })
 })
