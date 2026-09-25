@@ -2,62 +2,53 @@ name: Ops Auth Phone Provider
 
 on:
   workflow_dispatch:
-    inputs:
-      provider:
-        description: Phone authentication provider
-        required: true
-        default: legacy
-        type: choice
-        options: [legacy, supabase]
-      supabase_verified:
-        description: Confirm real SMS, existing-login, and new-registration tests passed
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: read
 
 concurrency:
-  group: release-production
+  group: ops-sms-aliyun-ak
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  upsert-and-recreate:
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Test deployment script
-        run: node --test deploy/auth-phone-provider.test.mjs
-      - name: Copy deployment script
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT || 22 }}
-          source: deploy/auth-phone-provider.sh
-          strip_components: 1
-          target: /tmp/steam-auth-phone-${{ github.run_id }}-${{ github.run_attempt }}/
-      - name: Set provider and recreate steam-app
+      - name: Upsert SMS_ALIYUN_ACCESS_KEY_* and recreate steam-app
         uses: appleboy/ssh-action@v1.2.0
         env:
-          AUTH_PHONE_PROVIDER: ${{ inputs.provider }}
-          SUPABASE_VERIFIED: ${{ inputs.supabase_verified }}
+          SMS_ALIYUN_ACCESS_KEY_ID: ${{ secrets.SMS_ALIYUN_ACCESS_KEY_ID }}
+          SMS_ALIYUN_ACCESS_KEY_SECRET: ${{ secrets.SMS_ALIYUN_ACCESS_KEY_SECRET }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          envs: AUTH_PHONE_PROVIDER,SUPABASE_VERIFIED
+          envs: SMS_ALIYUN_ACCESS_KEY_ID,SMS_ALIYUN_ACCESS_KEY_SECRET
           script_stop: true
           script: |
             set -euo pipefail
-            dir="/tmp/steam-auth-phone-${{ github.run_id }}-${{ github.run_attempt }}"
-            trap 'rm -rf -- "$dir"' EXIT
-            chmod 700 "$dir/auth-phone-provider.sh"
-            APP_DIR=/opt/steam-app AUTH_PHONE_PROVIDER="$AUTH_PHONE_PROVIDER" SUPABASE_VERIFIED="$SUPABASE_VERIFIED" "$dir/auth-phone-provider.sh"
+            test -n "${SMS_ALIYUN_ACCESS_KEY_ID:-}"; test -n "${SMS_ALIYUN_ACCESS_KEY_SECRET:-}"
+            cd /opt/steam-app
+            test -f .env.production
+            cp .env.production ".env.production.bak-sms-$(date +%Y%m%d%H%M%S)"
+            echo "step:backup_ok"
+            echo "step:provider_before=$(grep -E '^AUTH_PHONE_PROVIDER=' .env.production | cut -d= -f2)"
+            tmp="$(mktemp)"; cp .env.production "$tmp"
+            echo 'aW1wb3J0IG9zLCByZSwgcGF0aGxpYiwgc3lzCnAgPSBwYXRobGliLlBhdGgoc3lzLmFyZ3ZbMV0pOyB0ID0gcC5yZWFkX3RleHQoZW5jb2Rpbmc9InV0Zi04IikKZm9yIGsgaW4gKCJTTVNfQUxJWVVOX0FDQ0VTU19LRVlfSUQiLCAiU01TX0FMSVlVTl9BQ0NFU1NfS0VZX1NFQ1JFVCIpOgogICAgdiA9IG9zLmVudmlyb25ba10uc3RyaXAoKTsgbGluZSA9IGsgKyAiPSIgKyB2CiAgICByID0gcmUuY29tcGlsZShyIl4iICsgcmUuZXNjYXBlKGspICsgciI9LiokIiwgcmUuTSkKICAgIGlmIHIuc2VhcmNoKHQpOiB0ID0gci5zdWIobGFtYmRhIG06IGxpbmUsIHQsIGNvdW50PTEpCiAgICBlbHNlOgogICAgICAgIGlmIHQgYW5kIG5vdCB0LmVuZHN3aXRoKCJcbiIpOiB0ICs9ICJcbiIKICAgICAgICB0ICs9IGxpbmUgKyAiXG4iCnAud3JpdGVfdGV4dCh0LCBlbmNvZGluZz0idXRmLTgiKTsgcHJpbnQoInN0ZXA6cHlfdXBzZXJ0ZWQiKQo=' | base64 -d > /tmp/upsert_sms_ak.py
+            python3 /tmp/upsert_sms_ak.py "$tmp"
+            test "$(grep -c '^SMS_ALIYUN_ACCESS_KEY_ID=' "$tmp")" = 1
+            test "$(grep -c '^SMS_ALIYUN_ACCESS_KEY_SECRET=' "$tmp")" = 1
+            cp "$tmp" .env.production; rm -f "$tmp" /tmp/upsert_sms_ak.py
+            echo "step:env_written"
+            docker compose up -d --force-recreate --no-deps steam-app
+            for i in $(seq 1 60); do
+              if docker compose exec -T steam-app node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; then
+                echo "step:healthy"
+                docker compose exec -T steam-app node -e "const c=require('crypto');const i=process.env.SMS_ALIYUN_ACCESS_KEY_ID||'';const s=process.env.SMS_ALIYUN_ACCESS_KEY_SECRET||'';console.log('step:container_ak', i.slice(0,4), 'len', i.length, 'sha8', c.createHash('sha256').update(i).digest('hex').slice(0,8), 'secret_len', s.length, 'provider', process.env.AUTH_PHONE_PROVIDER)"
+                echo "step:done"; exit 0
+              fi
+              sleep 2
+            done
+            echo "steam-app health timeout" >&2; exit 1
