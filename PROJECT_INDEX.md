@@ -281,6 +281,7 @@
 ### 3.6 认证 (`components/auth/`)
 - `auth-flow.tsx` — 手机号 → 验证码两步登录/注册；使用无衬线标题、单个可粘贴/自动填充的 6 位验证码输入框和轻量协议行，验证码步骤不重复显示发送成功卡片及协议框，保留已勾选授权与修改手机号后的重发倒计时；弹层使用独立关闭按钮。微信登录暂不接入。
 - `lib/auth/phone-provider.ts` — 服务端 `AUTH_PHONE_PROVIDER=supabase` 切换原生手机认证（登录与安全页绑定共用）；默认保留 legacy。原生发送/验证由 Supabase 管理，验证后维护旧账号映射，禁止验证码失败后自动降级；发送接口保留上游 429/504 等错误状态，前端将超时转为中文提示且不自动重发。配置及未完成的服务启用步骤见 `docs/phone-auth.md`。
+- `lib/auth/send-sms-hook.ts` + `app/api/auth/sms/hook/route.ts` — Supabase Send SMS Hook（HTTP，Standard Webhooks 验签，`SUPABASE_SEND_SMS_HOOK_SECRET`）：Supabase 生成 OTP 后回调本接口，用 `lib/sms/aliyun.ts` 的 `sendSmsVerifyCodeWithTimeout`（legacy 同签名/模板，默认 3 秒超时）发短信；成功 200 `{}`，失败返回 `{error:{http_code,message}}`，不返回可重试状态以免重复发送。该路径被 `proxy.ts` matcher 排除（无 host 跳转/cookie）。上线步骤见 `docs/phone-auth.md`。
 
 ### 3.7 个人资料 (`components/profile/`) — 8 个组件
 移动端个人主页、资料头部、作品库、点赞列表、时间线、用户列表、项目列表；移动端项目列表复用探索页 `ProjectCard` 轻量竖版卡，桌面内容库和公开主页桌面端保留完整默认卡片
@@ -410,7 +411,7 @@
 | `components/store/` | `contextual-store-products.tsx` | 课程、课时零件清单和项目详情中的上下文材料包卡片；仅展示已配置且通过淘宝 HTTPS 白名单的外部商品 |
 | `lib/ai/` | `dashscope.ts`, `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `completion-moderation.ts`, `completion-proof-vision.ts`, `pbl-stage-coach.ts` | 通义千问/DashScope AI：`dashscope.ts` 是共享 HTTP 客户端（鉴权、非流式 20s / 流式 120s 超时、错误归一、token usage 解析），按角色保留模型 env 链（tutor-text/planner/vision、vision、moderation、pbl-text/vision）。物种识别走 `vision`（默认 `qwen3.7-plus`）；上传图与作品配图审核走 `moderation`（`DASHSCOPE_MODERATION_MODEL` → `DASHSCOPE_VISION_MODEL` → 默认 `qwen3-vl-flash`）。观察提交先读媒体分析，已通过的图片不再二次视觉审核，只审文字；作品异步审核在提交时 `moderation_state=approved` 则跳过配图视觉、只跑文字语义审核，其余多图并行。完成作品文字审核由模型按语义判断，不使用敏感词列表决定 AI 审核结果。TTS/ASR 仍走 `lib/ai/tutor/speech.ts` |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟点赞与项目收藏。**只发弱信号，不再生成拟人化短评**——2026-08-14 删除 `lib/ai/auto-reply.ts` 与 `reply` 动作类型，因为让 15 个机器人账号冒充同龄人写评论（prompt 曾明确要求不得提及 AI）在一个儿童社区里越线；点赞/收藏保留，用来给冷启动内容一点温度 |
-| `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码 |
+| `lib/sms/` | `aliyun.ts`, `send.ts` | 阿里云短信验证码（`sendSmsVerifyCodeWithTimeout` 供 Send SMS Hook 使用，带超时并校验返回码） |
 | `lib/content-filter/` | `index.ts`, `words-zh.ts`, `words-en.ts` | 敏感词过滤 |
 | `lib/notifications/` | `navigation.ts` | 通知跳转路由映射 |
 | `lib/community/` | `reply-utils.ts`, `featured-nature-challenges.ts` | 回复工具、精选挑战 |

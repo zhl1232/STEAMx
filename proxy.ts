@@ -70,7 +70,9 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
+  // api/auth/sms/hook：Supabase Auth Send SMS Hook 服务端回调，不做 host 跳转、不写 cookie，
+  // 安全边界是 Standard Webhooks 签名。
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!api/auth/sms/hook|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

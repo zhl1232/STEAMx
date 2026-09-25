@@ -6,6 +6,7 @@ import { logger } from '@/lib/logger'
 import { handleApiError } from '@/lib/api/auth'
 import { requireRequestRateLimit } from '@/lib/api/auth-rate-limit'
 import { isSupabasePhoneProvider } from '@/lib/auth/phone-provider'
+import { maskPhone } from '@/lib/utils/phone'
 
 const OTP_EXPIRY_MINUTES = 10
 const OTP_LENGTH = 6
@@ -30,6 +31,20 @@ function toE164(phone: string): string {
 
 function jsonError(message: string, status: number) {
   return NextResponse.json({ error: message }, { status })
+}
+
+/** Supabase 原生短信失败时打一行可读日志（手机号脱敏），不改变接口行为。 */
+function logSupabaseSmsFailure(
+  action: 'signInWithOtp' | 'updateUser',
+  phone: string,
+  startedAt: number,
+  error: unknown,
+) {
+  const e = (error && typeof error === 'object' ? error : {}) as { status?: unknown; code?: unknown; name?: unknown; message?: unknown }
+  const message = typeof e.message === 'string' ? e.message : String(error)
+  logger.error(
+    `[auth/sms/send] supabase ${action} failed provider=supabase phone=${maskPhone(phone)} status=${e.status ?? '-'} code=${e.code ?? e.name ?? '-'} elapsedMs=${Date.now() - startedAt} message=${message.slice(0, 300)}`,
+  )
 }
 
 export async function POST(req: Request) {
@@ -93,15 +108,33 @@ export async function POST(req: Request) {
           return jsonError('该手机号已被绑定', 409)
         }
 
-        const { error } = await supabase.auth.updateUser({ phone })
+        const updateStartedAt = Date.now()
+        let updateResult: Awaited<ReturnType<typeof supabase.auth.updateUser>>
+        try {
+          updateResult = await supabase.auth.updateUser({ phone })
+        } catch (thrown) {
+          logSupabaseSmsFailure('updateUser', phone, updateStartedAt, thrown)
+          throw thrown
+        }
+        const { error } = updateResult
+        if (error) logSupabaseSmsFailure('updateUser', phone, updateStartedAt, error)
         if (error) return jsonError(error.message || '发送验证码失败', error.status && error.status >= 400 && error.status <= 599 ? error.status : 400)
         return NextResponse.json({ ok: true })
       }
 
-      const { error } = await supabase.auth.signInWithOtp({
-        phone,
-        options: { shouldCreateUser: true },
-      })
+      const otpStartedAt = Date.now()
+      let otpResult: Awaited<ReturnType<typeof supabase.auth.signInWithOtp>>
+      try {
+        otpResult = await supabase.auth.signInWithOtp({
+          phone,
+          options: { shouldCreateUser: true },
+        })
+      } catch (thrown) {
+        logSupabaseSmsFailure('signInWithOtp', phone, otpStartedAt, thrown)
+        throw thrown
+      }
+      const { error } = otpResult
+      if (error) logSupabaseSmsFailure('signInWithOtp', phone, otpStartedAt, error)
       if (error) return jsonError(error.message || '发送验证码失败', error.status && error.status >= 400 && error.status <= 599 ? error.status : 400)
       return NextResponse.json({ ok: true })
     }

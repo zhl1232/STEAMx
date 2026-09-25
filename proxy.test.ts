@@ -73,3 +73,18 @@ describe("proxy canonical host redirect", () => {
     expect(response.headers.get("set-cookie")).toBeNull();
   });
 });
+
+describe("proxy matcher", () => {
+  it("excludes the Supabase Send SMS hook so it is never redirected or given cookies", async () => {
+    const { config } = await import("@/proxy");
+    const { tryToParsePath } = await import("next/dist/lib/try-to-parse-path");
+    const parsed = tryToParsePath(config.matcher[0]!);
+    expect(parsed.error).toBeFalsy();
+    const re = new RegExp(parsed.regexStr!);
+
+    expect(re.test("/api/auth/sms/hook")).toBe(false);
+    expect(re.test("/api/auth/sms/send")).toBe(true);
+    expect(re.test("/api/auth/sms/verify")).toBe(true);
+    expect(re.test("/explore")).toBe(true);
+  });
+});

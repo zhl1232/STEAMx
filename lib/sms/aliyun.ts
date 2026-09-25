@@ -61,6 +61,74 @@ export async function sendSmsVerifyCode(phone: string, code: string): Promise<Al
   }
 }
 
+export type AliyunTimedSendResult =
+  | { ok: true; requestId?: string }
+  | { ok: false; error: string; code?: string; timedOut?: boolean; requestId?: string }
+
+function readErrorCode(e: unknown): string | undefined {
+  if (!e || typeof e !== 'object') return undefined
+  const candidate = e as { code?: unknown; data?: { Code?: unknown } }
+  if (typeof candidate.code === 'string' && candidate.code) return candidate.code
+  if (typeof candidate.data?.Code === 'string') return candidate.data.Code
+  return undefined
+}
+
+/**
+ * 带显式超时的发送（供 Supabase Send SMS Hook 使用）：
+ * - SDK 连接/读取超时 + 外层硬截止，保证在 Hook 时间预算内返回；
+ * - 校验响应 body.code，平台受理失败（非 OK）也视为失败。
+ * legacy 流程仍使用上面的 sendSmsVerifyCode，行为不变。
+ */
+export async function sendSmsVerifyCodeWithTimeout(
+  phone: string,
+  code: string,
+  options: { timeoutMs: number },
+): Promise<AliyunTimedSendResult> {
+  const cfg = getEnv()
+  if (!cfg) return { ok: false, error: 'SMS_ALIYUN_* env not set', code: 'CONFIG_MISSING' }
+  const phoneNumber = phone.replace(/\D/g, '').replace(/^86/, '')
+  if (phoneNumber.length < 11) return { ok: false, error: 'Invalid phone number', code: 'INVALID_PHONE' }
+  const timeoutMs = Math.max(1, Math.floor(options.timeoutMs))
+
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const deadline = new Promise<AliyunTimedSendResult>((resolve) => {
+    timer = setTimeout(
+      () => resolve({ ok: false, error: `Aliyun SendSmsVerifyCode timed out after ${timeoutMs}ms`, code: 'TIMEOUT', timedOut: true }),
+      timeoutMs,
+    )
+  })
+
+  const send = (async (): Promise<AliyunTimedSendResult> => {
+    try {
+      const client = createClient()
+      const request = new $Dypnsapi20170525.SendSmsVerifyCodeRequest({
+        phoneNumber,
+        countryCode: '86',
+        signName: ALIYUN_SIGN_NAME,
+        templateCode: ALIYUN_TEMPLATE_CODE,
+        templateParam: JSON.stringify({ code, min: '5' }),
+        codeLength: 6,
+      })
+      const runtime = new $Util.RuntimeOptions({ connectTimeout: timeoutMs, readTimeout: timeoutMs })
+      const resp = await client.sendSmsVerifyCodeWithOptions(request, runtime)
+      const body = (resp as { body?: { code?: string; message?: string; success?: boolean; requestId?: string } })?.body
+      if (body?.code && body.code !== 'OK') {
+        return { ok: false, error: body.message || body.code, code: body.code, requestId: body.requestId }
+      }
+      return { ok: true, requestId: body?.requestId }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e)
+      return { ok: false, error: msg, code: readErrorCode(e) }
+    }
+  })()
+
+  try {
+    return await Promise.race([send, deadline])
+  } finally {
+    if (timer) clearTimeout(timer)
+  }
+}
+
 /** 是否已配置阿里云（用于 verify 时决定是否走阿里云校验） */
 export function isAliyunConfigured(): boolean {
   return getEnv() !== null

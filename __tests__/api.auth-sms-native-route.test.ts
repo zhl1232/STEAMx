@@ -29,6 +29,7 @@ vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn(), warn: vi.fn() } }))
 
 import { POST as sendOtp } from '@/app/api/auth/sms/send/route'
 import { POST as verifyOtp } from '@/app/api/auth/sms/verify/route'
+import { logger } from '@/lib/logger'
 
 function request(body: Record<string, unknown>) {
   return new Request('http://localhost/api/auth/sms', {
@@ -81,6 +82,41 @@ describe('native Supabase phone auth routes', () => {
 
     expect(response.status).toBe(400)
     await expect(response.json()).resolves.toEqual({ error: 'provider unavailable' })
+  })
+
+  it('logs one masked, readable line when Supabase returns an error', async () => {
+    mocks.supabase.auth.signInWithOtp.mockResolvedValue({
+      error: { status: 504, code: 'request_timeout', message: 'Processing this request timed out, please retry after a moment.' },
+    })
+
+    const response = await sendOtp(request({ phone: '13800138000', type: 'login' }))
+
+    expect(response.status).toBe(504)
+    expect(logger.error).toHaveBeenCalledTimes(1)
+    const line = String(vi.mocked(logger.error).mock.calls[0]?.[0])
+    expect(line).toContain('provider=supabase')
+    expect(line).toContain('phone=861****8000')
+    expect(line).toContain('status=504')
+    expect(line).toContain('code=request_timeout')
+    expect(line).toContain('Processing this request timed out')
+    expect(line).not.toContain('13800138000')
+  })
+
+  it('logs and preserves existing handling when Supabase throws', async () => {
+    mocks.supabase.auth.signInWithOtp.mockRejectedValue(new Error('fetch failed'))
+
+    const response = await sendOtp(request({ phone: '13800138000', type: 'login' }))
+
+    expect(response.status).toBe(500)
+    const line = String(vi.mocked(logger.error).mock.calls[0]?.[0])
+    expect(line).toContain('supabase signInWithOtp failed provider=supabase')
+    expect(line).toContain('message=fetch failed')
+  })
+
+  it('does not log on success', async () => {
+    mocks.supabase.auth.signInWithOtp.mockResolvedValue({ error: null })
+    await sendOtp(request({ phone: '13800138000', type: 'login' }))
+    expect(logger.error).not.toHaveBeenCalled()
   })
 
   it('preserves the native service timeout status for diagnostics', async () => {
