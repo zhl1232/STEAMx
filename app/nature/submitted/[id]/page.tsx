@@ -7,5 +7,5 @@ interface ObservationSubmittedPageProps {
 export default async function ObservationSubmittedPage({ params }: ObservationSubmittedPageProps) {
   const { id } = await params;
 
-  redirect(`/nature/observations/${id}?from=%2Fnature%2Fsubmit`);
+  redirect(`/nature/observations/${id}`);
 }

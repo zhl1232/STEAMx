@@ -112,7 +112,7 @@ describe("learning topic pages", () => {
         expect(document.querySelector('nav[aria-label="面包屑"] a')).toHaveAttribute("href", "/nature");
         expect(document.querySelector("#record-observation")).toHaveTextContent("待鉴定");
         expect(document.querySelector("#record-observation")).toHaveTextContent("每张照片会成为一条独立观察");
-        expect(document.querySelector('a[href="/nature/submit?from=%2Flearn%2Fnature"]')).not.toBeNull();
+        expect(document.querySelector('a[href="/nature/submit"]')).not.toBeNull();
         expect(document.querySelector('a[href="/nature/observations"]')).not.toBeNull();
         expect(document.querySelector('a[href="/nature/species"]')).not.toBeNull();
         expect(document.body).toHaveTextContent("不追赶、不投喂");

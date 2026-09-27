@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { toPublicImageUrl } from "@/lib/seo/public-image";
 
 import { SITE_NAME, buildAbsoluteUrl } from "@/lib/seo/site";
+import { buildSegmentTitle, stripSiteTitleSuffix } from "@/lib/seo/title";
 
 export const DEFAULT_SOCIAL_IMAGE = "/assets/seo/steamx-social-card.webp";
 
@@ -50,6 +51,28 @@ interface PageMetadataOptions {
   omitCanonical?: boolean;
 }
 
+/** Navigation / tracking query params that must never appear in a canonical URL. */
+export const TRACKING_QUERY_PARAMS = ["from", "sourceIndex", "ref", "source", "spm", "gclid", "fbclid"] as const;
+
+function isTrackingQueryParam(key: string): boolean {
+  return (TRACKING_QUERY_PARAMS as readonly string[]).includes(key) || key.toLowerCase().startsWith("utm_");
+}
+
+/**
+ * Absolute canonical URL for a route path. Tracking params (`?from=`, `?sourceIndex=`,
+ * `utm_*`, …) and fragments are always removed. Detail pages pass bare paths; the only
+ * query strings that survive are deliberate pagination canonicals such as
+ * `/explore?sortBy=latest&page=1` built by the caller.
+ */
+export function buildCanonicalUrl(path: string): string {
+  const url = new URL(path || "/", buildAbsoluteUrl("/"));
+  for (const key of Array.from(url.searchParams.keys())) {
+    if (isTrackingQueryParam(key)) url.searchParams.delete(key);
+  }
+  url.hash = "";
+  return url.toString();
+}
+
 export function buildPageMetadata({
   title,
   description,
@@ -64,10 +87,11 @@ export function buildPageMetadata({
   const mergedKeywords = uniqueKeywords([...DEFAULT_SEO_KEYWORDS, ...keywords]);
   const contentImage = toPublicImageUrl(image);
   const socialImage = contentImage || toPublicImageUrl(DEFAULT_SOCIAL_IMAGE)!;
-  const absoluteUrl = buildAbsoluteUrl(path);
+  const absoluteUrl = buildCanonicalUrl(path);
+  const pageTitle = absoluteTitle ? title : stripSiteTitleSuffix(title);
 
   return {
-    title: absoluteTitle ? { absolute: title } : title,
+    title: absoluteTitle ? { absolute: title } : buildSegmentTitle(pageTitle),
     description,
     keywords: mergedKeywords,
     ...(omitCanonical
@@ -78,7 +102,7 @@ export function buildPageMetadata({
           },
         }),
     openGraph: {
-      title,
+      title: pageTitle,
       description,
       ...(omitCanonical ? {} : { url: absoluteUrl }),
       siteName: SITE_NAME,
@@ -87,12 +111,12 @@ export function buildPageMetadata({
       images: [{
         url: socialImage,
         ...(!contentImage ? { width: 1200, height: 630 } : {}),
-        alt: title,
+        alt: pageTitle,
       }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: pageTitle,
       description,
       images: [socialImage],
     },

@@ -31,9 +31,8 @@ export default function robots(): MetadataRoute.Robots {
                 ...publicCrawlerRule,
             },
         ],
-        sitemap: [
-            buildAbsoluteUrl('/sitemap.xml'),
-            buildAbsoluteUrl('/sitemap-v2.xml'),
-        ],
+        // Only the primary sitemap is advertised. /sitemap-v2.xml stays as a
+        // rewrite alias (next.config.mjs) for crawlers that cached the old URL.
+        sitemap: buildAbsoluteUrl('/sitemap.xml'),
     };
 }

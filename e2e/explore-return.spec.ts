@@ -11,7 +11,7 @@ test('浏览器从项目页返回时，第一页仍使用已选标签', async ({
   await expect(cards.first()).toHaveAttribute('data-explore-project-id', '101')
 
   await cards.first().getByRole('link').first().click()
-  await expect(page).toHaveURL(/\/project\/101\?/)
+  await expect(page).toHaveURL(/\/project\/101$/)
   // The smoke fixture supplies list data only. Leaving the list through the
   // real App Router still exercises its cached RSC payload on browser back.
   await page.locator('main').waitFor()
@@ -27,7 +27,7 @@ test('浏览器从项目页返回时，第一页仍使用已选标签', async ({
 
   await page.evaluate(() => sessionStorage.clear())
   await page.goForward()
-  await expect(page).toHaveURL(/\/project\/101\?/)
+  await expect(page).toHaveURL(/\/project\/101$/)
   await page.goBack()
   await expect(page).toHaveURL(/\/explore\?tags=/)
   await expect(cards).toHaveCount(1)
@@ -57,7 +57,7 @@ test('返回已加载多页的筛选列表时，每一页都保留筛选结果',
   await cards.last().scrollIntoViewIfNeeded()
   await expect(cards).toHaveCount(13)
   await cards.last().getByRole('link').first().click()
-  await expect(page).toHaveURL(/\/project\/213\?/)
+  await expect(page).toHaveURL(/\/project\/213$/)
   await page.locator('main').waitFor()
   await page.goBack()
   await expect(page).toHaveURL(/\/explore\?tags=/)

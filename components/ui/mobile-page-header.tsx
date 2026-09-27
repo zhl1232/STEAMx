@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import { ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+import { useReturnHref } from '@/components/navigation/return-href'
 import { cn } from '@/lib/utils'
 
 interface MobilePageHeaderProps {
@@ -44,6 +45,8 @@ export function MobilePageHeader({
   onBack,
 }: MobilePageHeaderProps) {
   const router = useRouter()
+  // Remembered referrer (sessionStorage) replaces the old `?from=` query param.
+  const returnHref = useReturnHref(fallbackHref)
   const surfaceClass = borderless
     ? headerBorderlessClass
     : cn(headerSurfaceClass, headerBorderClass, headerShadowClass)
@@ -58,7 +61,7 @@ export function MobilePageHeader({
       return
     }
 
-    router.push(fallbackHref)
+    router.push(returnHref)
   }
 
   const bar = (

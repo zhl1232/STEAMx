@@ -7,7 +7,7 @@ import { Camera, ChevronRight, Leaf, MapPin } from "lucide-react"
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import type { ObservationEvent } from "@/lib/mappers/types"
-import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation"
+import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation"
 
 interface NatureHomeMapPairProps {
   observations: ObservationEvent[]
@@ -40,13 +40,13 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
           observedAt: o.observedAt,
           imageUrl: o.mediaUrls[0] || null,
           summary: o.locationName,
-          href: appendNatureFrom(`/nature/observations/${o.id}`, "/nature"),
+          href: `/nature/observations/${o.id}`,
         })),
     [mapObservations],
   )
 
   const mobileObservations = observations.slice(0, MOBILE_OBSERVATION_LIMIT)
-  const submitHref = buildNatureSubmitHref({ from: "/nature" })
+  const submitHref = buildNatureSubmitHref({})
 
   useEffect(() => {
     if (!hoveredId) return
@@ -118,7 +118,7 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
                   return (
                     <Link
                       key={observation.id}
-                      href={appendNatureFrom(`/nature/observations/${observation.id}`, "/nature")}
+                      href={`/nature/observations/${observation.id}`}
                       className="group block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] shadow-xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.4)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
                       <div className="relative aspect-4/3 w-full overflow-hidden bg-muted/40">
@@ -225,7 +225,7 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
                   return (
                     <li key={observation.id}>
                       <Link
-                        href={appendNatureFrom(`/nature/observations/${observation.id}`, "/nature")}
+                        href={`/nature/observations/${observation.id}`}
                         ref={(el) => {
                           if (el) itemRefs.current.set(id, el)
                           else itemRefs.current.delete(id)

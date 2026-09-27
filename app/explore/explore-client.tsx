@@ -47,6 +47,7 @@ import {
     saveExploreScrollRestore,
     type ExploreScrollRestoreState,
 } from '@/lib/explore-scroll-restore'
+import { buildExploreProjectContext, saveExploreProjectContext } from '@/lib/explore/project-navigation-context'
 import {
     EXPLORE_PRESETS,
     EXPLORE_RESULTS_SORT_OPTIONS,
@@ -401,7 +402,12 @@ export function ExploreClient({
                 ? { projectId, top }
                 : undefined,
         )
-    }, [saveExploreScrollPosition])
+
+        const index = projectId ? projects.findIndex((project) => String(project.id) === projectId) : -1
+        const filterParams = buildSearchParams()
+        const exploreHref = filterParams.size > 0 ? `/explore?${filterParams.toString()}` : '/explore'
+        saveExploreProjectContext(index >= 0 ? buildExploreProjectContext(projects, index, exploreHref) : null)
+    }, [buildSearchParams, projects, saveExploreScrollPosition])
 
     useLayoutEffect(() => {
         if (initializedFiltersKeyRef.current) return
@@ -620,14 +626,9 @@ export function ExploreClient({
         }
     }, [saveExploreScrollPosition])
 
-    const buildProjectDetailHref = useCallback((projectId: string | number, index: number) => {
-        const params = buildSearchParams()
-        params.set('from', 'explore')
-        params.set('sourceIndex', String(index))
-
-        const query = params.toString()
-        return query ? `/project/${projectId}?${query}` : `/project/${projectId}`
-    }, [buildSearchParams])
+    // Project links stay canonical (`/project/:id`); list filters + position travel via
+    // sessionStorage (see lib/explore/project-navigation-context.ts) instead of `?from=&sourceIndex=`.
+    const buildProjectDetailHref = useCallback((projectId: string | number) => `/project/${projectId}`, [])
 
     const syncUrl = useCallback((params: URLSearchParams) => {
         const nextUrl = params.size > 0 ? `/explore?${params.toString()}` : '/explore'
@@ -1278,7 +1279,7 @@ export function ExploreClient({
                                     >
                                         {projects.map((project, index) => {
                                             const isPriority = index < 2
-                                            const detailHref = buildProjectDetailHref(project.id, index)
+                                            const detailHref = buildProjectDetailHref(project.id)
                                             const card = (
                                                 <div data-explore-project-id={String(project.id)} className="h-full">
                                                     <ProjectCard

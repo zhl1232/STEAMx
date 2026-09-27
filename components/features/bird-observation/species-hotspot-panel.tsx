@@ -4,12 +4,10 @@ import { useMemo } from "react"
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import type { ObservationEvent, ObservationLocationSummary } from "@/lib/mappers/types"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 
 interface SpeciesHotspotPanelProps {
   locations: ObservationLocationSummary[]
   recentObservations?: ObservationEvent[]
-  currentPath?: string
 }
 
 function locationObservationKey(locationName: string, observedAt: string) {
@@ -19,7 +17,6 @@ function locationObservationKey(locationName: string, observedAt: string) {
 export function SpeciesHotspotPanel({
   locations,
   recentObservations = [],
-  currentPath,
 }: SpeciesHotspotPanelProps) {
   const validLocations = useMemo(
     () => locations.filter((location) => location.latitude != null && location.longitude != null),
@@ -71,7 +68,7 @@ export function SpeciesHotspotPanel({
                   ? `观察者：${matchedObservation.authorDisplayName || "匿名观察者"}`
                   : undefined,
                 href: matchedObservation
-                  ? appendNatureFrom(`/nature/observations/${matchedObservation.id}`, currentPath)
+                  ? `/nature/observations/${matchedObservation.id}`
                   : undefined,
               }
             })}

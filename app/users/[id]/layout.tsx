@@ -4,6 +4,7 @@ import { isUuid } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 import { BRAND_FULL_NAME } from '@/lib/brand'
 import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
+import { buildSegmentTitle } from '@/lib/seo/title'
 
 interface UserProfileLayoutProps {
     children: React.ReactNode
@@ -40,7 +41,7 @@ export async function generateMetadata(
     const description = profile.bio?.substring(0, 160) || `来看看这个有趣的灵魂吧，在${BRAND_FULL_NAME}里发现更多项目。`
 
     return {
-        title,
+        title: buildSegmentTitle(title),
         description,
         keywords: [displayName, '用户主页', 'STEAM 社区'],
         alternates: {

@@ -46,7 +46,6 @@ import {
   type CompareSpeciesTarget,
 } from "@/components/features/bird-observation/observation-species-compare-sheet"
 import { natureActionButtonClass } from "@/lib/nature/action-buttons"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 import { cn } from "@/lib/utils"
 import {
   getApiErrorMessageFromPayload,
@@ -77,7 +76,6 @@ interface ObservationDetailActivityProps {
   initialStatus: "needs_id" | "community_confirmed"
   initialConfirmedSpecies?: ObservationSpeciesSummary | null
   initialIdentifications: ObservationIdentification[]
-  currentPath: string
   headlineTitle: string
   headlineScientificName?: string | null
   observationMediaUrls: string[]
@@ -125,7 +123,6 @@ export function ObservationDetailActivity({
   initialStatus,
   initialConfirmedSpecies = null,
   initialIdentifications,
-  currentPath,
   headlineTitle,
   headlineScientificName = null,
   observationMediaUrls,
@@ -358,7 +355,7 @@ export function ObservationDetailActivity({
   }
 
   const speciesHref = (slug: string | null | undefined) =>
-    slug ? appendNatureFrom(`/nature/species/${slug}`, currentPath) : null
+    slug ? `/nature/species/${slug}` : null
 
   const openCompare = (identification: ObservationIdentification) => {
     if (!identification.speciesSlug) return

@@ -58,7 +58,7 @@ function matchesCourseTopic(course: CourseListItem, topic: "blocks" | "scratch")
 async function loadTopicResources(topic: LearningTopicSlug): Promise<LearningResource[]> {
     if (topic === "nature") {
         return [
-            { id: "record", title: "记录第一次观察", description: "上传你拍摄的照片，核对观察时间、地点。不认识物种也可以开始。", href: "/nature/submit?from=%2Flearn%2Fnature", detail: "动手记录" },
+            { id: "record", title: "记录第一次观察", description: "上传你拍摄的照片，核对观察时间、地点。不认识物种也可以开始。", href: "/nature/submit", detail: "动手记录" },
             { id: "atlas", title: "认识身边的物种", description: "浏览鸟类、昆虫、植物等物种资料，对照看得见的特征。", href: "/nature/species", detail: "物种图鉴" },
             { id: "community", title: "看看大家的发现", description: "看看别人怎样拍照、描述特征和记录环境。", href: "/nature/observations", detail: "公开观察" },
         ];
@@ -260,7 +260,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
 
                 {topic.slug === "nature" ? (
                     <div className="flex flex-wrap items-center gap-3 border-t border-border py-6">
-                        <Link href="/nature/submit?from=%2Flearn%2Fnature" className="inline-flex min-h-11 items-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">记录第一次观察<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
+                        <Link href="/nature/submit" className="inline-flex min-h-11 items-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">记录第一次观察<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
                         <Link href="/nature/observations" className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">看看大家的发现</Link>
                     </div>
                 ) : null}

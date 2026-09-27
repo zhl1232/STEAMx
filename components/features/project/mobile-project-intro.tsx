@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 
 import { visibleProjectTags } from "@/lib/project/tags"
+import { isPlaceholderProjectDescription } from "@/lib/seo/project-description"
 import { cn } from "@/lib/utils"
 
 const COLLAPSED_MAX_CHARS = 96
@@ -19,7 +20,7 @@ export function MobileProjectIntro({
 }) {
   const [expanded, setExpanded] = useState(false)
   const visibleTags = visibleProjectTags(tags)
-  const description = /^材料与步骤见正文[。.!！]?$/u.test(summary.trim()) ? "" : summary.trim()
+  const description = isPlaceholderProjectDescription(summary) ? "" : summary.trim()
   const needsExpand = description.length > COLLAPSED_MAX_CHARS
 
   if (!description && visibleTags.length === 0) return null

@@ -9,17 +9,15 @@ import {
   formatObservationDateTime,
   getObservationDisplayTitle,
 } from "@/lib/observations/display";
-import { appendNatureFrom } from "@/lib/utils/nature-navigation";
 import { cn } from "@/lib/utils";
 
 interface ObservationCardProps {
   observation: ObservationEvent;
   className?: string;
-  fromHref?: string;
   priority?: boolean;
 }
 
-export function ObservationCard({ observation, className, fromHref, priority = false }: ObservationCardProps) {
+export function ObservationCard({ observation, className, priority = false }: ObservationCardProps) {
   const heroImage = observation.mediaUrls[0];
   const title = getObservationDisplayTitle(observation.species);
   const summary = observation.notes?.trim();
@@ -27,7 +25,7 @@ export function ObservationCard({ observation, className, fromHref, priority = f
 
   return (
     <Link
-      href={appendNatureFrom(`/nature/observations/${observation.id}`, fromHref)}
+      href={`/nature/observations/${observation.id}`}
       prefetch={false}
       className={cn(
         "group overflow-hidden rounded-(--radius-lg) border border-border/70 bg-card/90 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_20px_46px_-28px_rgba(15,23,42,0.45)]",

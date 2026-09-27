@@ -34,10 +34,8 @@ describe("robots", () => {
     expect(gptBotRule?.allow).toEqual(expect.arrayContaining(["/", "/api/assets/*.webp$", "/api/assets/*.webp?*"]));
     expect(gptBotRule?.disallow).toEqual(expect.arrayContaining(["/api/", "/admin/", "/login"]));
     expect(gptBotRule?.disallow).not.toContain("/");
-    expect(result.sitemap).toEqual([
-      "https://steam.bj.cn/sitemap.xml",
-      "https://steam.bj.cn/sitemap-v2.xml",
-    ]);
+    expect(result.sitemap).toBe("https://steam.bj.cn/sitemap.xml");
+    expect(JSON.stringify(result.sitemap)).not.toContain("sitemap-v2");
   });
 });
 

@@ -18,12 +18,10 @@ import {
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildObservationJsonLd } from "@/lib/seo/json-ld";
 import { observationSubmitTopicFromNatureTopic } from "@/lib/observations/submit-topic";
-
-import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
+import { ReturnLink } from "@/components/navigation/return-href";
 
 interface ObservationDetailPageProps {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ from?: string }>;
 }
 
 export async function generateMetadata({ params }: ObservationDetailPageProps): Promise<Metadata> {
@@ -55,9 +53,8 @@ export async function generateMetadata({ params }: ObservationDetailPageProps): 
   });
 }
 
-export default async function ObservationDetailPage({ params, searchParams }: ObservationDetailPageProps) {
+export default async function ObservationDetailPage({ params }: ObservationDetailPageProps) {
   const { id } = await params;
-  const query = await searchParams;
   const observation = await getObservationById(id);
 
   if (!observation) {
@@ -75,10 +72,10 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
   const primarySpecies = observation.species[0];
   const observedAtLabel = formatObservationDateTime(observation.observedAt);
   const submittedAtLabel = formatObservationDateTime(observation.createdAt);
-  const currentPath = `/nature/observations/${observation.id}`;
-  const fallbackHref = normalizeNatureFrom(query.from, "/nature/observations");
+  // Back target: remembered referrer (sessionStorage) else the list; no `?from=` in URLs.
+  const fallbackHref = "/nature/observations";
   const primarySpeciesHref = primarySpecies?.speciesSlug
-    ? appendNatureFrom(`/nature/species/${primarySpecies.speciesSlug}`, currentPath)
+    ? `/nature/species/${primarySpecies.speciesSlug}`
     : null;
   const hasCoordinates = observation.latitude != null && observation.longitude != null;
   const amapHref = hasCoordinates
@@ -144,9 +141,9 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
         </div>
 
         <div className="hidden gap-4 border-b border-border/60 px-5 py-3 md:grid md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:px-7">
-          <Link href={fallbackHref} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+          <ReturnLink fallbackHref={fallbackHref} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
             ← 返回
-          </Link>
+          </ReturnLink>
           <p className="truncate text-center text-base font-semibold tracking-tight text-foreground">
             观察记录
           </p>
@@ -242,7 +239,6 @@ export default async function ObservationDetailPage({ params, searchParams }: Ob
               initialStatus={observation.identificationStatus}
               initialConfirmedSpecies={primarySpecies}
               initialIdentifications={observation.identifications || []}
-              currentPath={currentPath}
               headlineTitle={headline.title}
               headlineScientificName={headline.scientificName}
               observationMediaUrls={observation.mediaUrls}
