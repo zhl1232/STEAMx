@@ -11,15 +11,14 @@ import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getSpeciesBySlug } from "@/lib/api/nature-observation-data";
 import { buildBreadcrumbJsonLd, buildSpeciesProfileJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildSpeciesIntroText, buildSpeciesSeoDescription } from "@/lib/seo/species-description";
 import { resolveAssetDisplayUrl } from "@/lib/utils/asset-url";
-import { appendNatureFrom, normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 import { splitTaxonGroup, toSpeciesPinyinLabel } from "@/lib/utils/species-pinyin";
 import { SpeciesDetailScrollTop } from "./species-detail-scroll-top";
 import { SpeciesImageGallery, type SpeciesImageGalleryItem } from "./species-image-gallery";
 
 interface SpeciesDetailPageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ from?: string }>;
 }
 
 interface TextInfoCardProps {
@@ -70,15 +69,11 @@ export async function generateMetadata({ params }: SpeciesDetailPageProps): Prom
     notFound();
   }
 
-  const description =
-    species.identificationNotes ||
-    species.habitatNotes ||
-    species.seasonalityNotes ||
-    `${species.commonName} 的物种档案，包含识别特征、常见环境和近期观察线索。`;
+  const description = buildSpeciesSeoDescription(species);
 
   return buildPageMetadata({
-    title: species.commonName,
-    description: description.slice(0, 160),
+    title: species.scientificName ? `${species.commonName}（${species.scientificName}）` : species.commonName,
+    description,
     path: `/nature/species/${species.slug}`,
     image: species.coverImageUrl || undefined,
     keywords: [
@@ -92,9 +87,8 @@ export async function generateMetadata({ params }: SpeciesDetailPageProps): Prom
   });
 }
 
-export default async function SpeciesDetailPage({ params, searchParams }: SpeciesDetailPageProps) {
+export default async function SpeciesDetailPage({ params }: SpeciesDetailPageProps) {
   const { slug } = await params;
-  const query = await searchParams;
   const species = await getSpeciesBySlug(slug);
 
   if (!species) {
@@ -102,14 +96,9 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
   }
 
   const recentObservations = species.recentObservations ?? [];
-  const profileDescription = (
-    species.identificationNotes ||
-    species.habitatNotes ||
-    species.seasonalityNotes ||
-    `${species.commonName} 的物种档案，包含识别特征、常见环境和近期观察线索。`
-  ).slice(0, 160);
-  const currentPath = `/nature/species/${species.slug}`;
-  const fallbackHref = normalizeNatureFrom(query.from, "/nature/species");
+  const profileDescription = buildSpeciesSeoDescription(species);
+  // Back target: remembered referrer (sessionStorage) else the atlas; no `?from=` in URLs.
+  const fallbackHref = "/nature/species";
   const isBirdSpecies = species.topicKey === "birds";
   const archiveLabel = isBirdSpecies
     ? "鸟类档案"
@@ -137,10 +126,11 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
       addGalleryImage({
         url,
         observationAuthor: observation.authorDisplayName,
-        observationHref: appendNatureFrom(`/nature/observations/${observation.id}`, currentPath),
+        observationHref: `/nature/observations/${observation.id}`,
       });
     });
   });
+  const speciesIntro = buildSpeciesIntroText({ ...species, archiveLabel });
   const commonNamePinyin = toSpeciesPinyinLabel(species.commonName);
   const { family, genus } = splitTaxonGroup(species.taxonGroup);
   const topicAssetPrefix = isBirdSpecies
@@ -253,6 +243,9 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
                 })}
               </div>
             ) : null}
+            <p data-testid="species-intro" className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+              {speciesIntro}
+            </p>
           </div>
 
           {taxonomyRankItems.length > 0 ? (
@@ -321,7 +314,6 @@ export default async function SpeciesDetailPage({ params, searchParams }: Specie
         <SpeciesHotspotPanel
           locations={species.topLocations}
           recentObservations={recentObservations}
-          currentPath={currentPath}
         />
       ) : (
         <section className="surface-subtle relative overflow-hidden rounded-lg p-5 sm:p-6">

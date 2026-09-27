@@ -5,12 +5,10 @@ import { NatureShell } from "@/app/nature/_components/nature-shell";
 import { ObservationSubmitForm } from "@/components/features/bird-observation/observation-submit-form";
 import { getSpeciesList } from "@/lib/api/nature-observation-data";
 import { buildPageMetadata } from "@/lib/seo/metadata";
-import { normalizeNatureFrom } from "@/lib/utils/nature-navigation";
 
 interface ObservationSubmitPageProps {
   searchParams: Promise<{
     species?: string;
-    from?: string;
   }>;
 }
 
@@ -30,7 +28,8 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
     commonName: item.commonName,
     scientificName: item.scientificName,
   }));
-  const fallbackHref = normalizeNatureFrom(params.from, "/nature");
+  // Back target comes from the remembered referrer (sessionStorage), not `?from=`.
+  const fallbackHref = "/nature";
 
   return (
     <NatureShell

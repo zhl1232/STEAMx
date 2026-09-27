@@ -35,7 +35,7 @@ describe("PrivacyPage", () => {
   });
 
   it("exports legal page metadata", () => {
-    expect(metadata.title).toBe("隐私政策");
+    expect(metadata.title).toEqual({ absolute: '隐私政策 | 创探空间', template: '%s | 创探空间' });
     expect(metadata.description).toContain("隐私政策");
   });
 });

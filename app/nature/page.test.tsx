@@ -146,9 +146,10 @@ describe("nature homepage behavior", () => {
     expect(html).toContain("近 7 天发布");
   });
 
-  it("preserves nature from parameters on the publish and topic entry links", async () => {
+  it("keeps publish and topic entry links free of from= tracking params", async () => {
     const html = await renderPage();
-    expect(html).toContain('href="/nature/submit?from=%2Fnature"');
+    expect(html).toContain('href="/nature/submit"');
+    expect(html).not.toMatch(/href="[^"]*[?&](?:amp;)?from=/);
     expect(html).toContain('href="/nature/birds"');
     expect(html).toContain('href="/nature/insects"');
     expect(html).toContain('href="/nature/plants"');

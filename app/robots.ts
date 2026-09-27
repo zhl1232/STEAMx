@@ -31,9 +31,7 @@ export default function robots(): MetadataRoute.Robots {
                 ...publicCrawlerRule,
             },
         ],
-        sitemap: [
-            buildAbsoluteUrl('/sitemap.xml'),
-            buildAbsoluteUrl('/sitemap-v2.xml'),
-        ],
+        // Only the primary sitemap is advertised (Google, Bing, Yandex, Baidu).
+        sitemap: buildAbsoluteUrl('/sitemap.xml'),
     };
 }

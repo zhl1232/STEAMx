@@ -58,7 +58,7 @@ describe("NatureHomeMapPair", () => {
     expect(markerSets.length).toBe(2);
     expect(markerSets.every((markers) => markers)).toBe(true);
     expect(markerSets[0]).toEqual([
-      expect.objectContaining({ id: "2", latitude: 31.2, longitude: 121.5, href: "/nature/observations/2?from=%2Fnature" }),
+      expect.objectContaining({ id: "2", latitude: 31.2, longitude: 121.5, href: "/nature/observations/2" }),
     ]);
     expect(markerSets[0]).not.toEqual(expect.arrayContaining([expect.objectContaining({ id: "1" })]));
   });
@@ -69,7 +69,7 @@ describe("NatureHomeMapPair", () => {
     expect(screen.getAllByText("还没有公开观察。第一条由你来发布吧。").length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /发布观察/ })[0]).toHaveAttribute(
       "href",
-      "/nature/submit?from=%2Fnature",
+      "/nature/submit",
     );
   });
 
@@ -80,7 +80,7 @@ describe("NatureHomeMapPair", () => {
 
     const links = screen.getAllByRole("link", { name: new RegExp(longName) });
     expect(links.length).toBeGreaterThan(0);
-    expect(links[0]).toHaveAttribute("href", "/nature/observations/7?from=%2Fnature");
+    expect(links[0]).toHaveAttribute("href", "/nature/observations/7");
     expect(screen.getAllByText("城市公园").length).toBeGreaterThan(0);
   });
 });

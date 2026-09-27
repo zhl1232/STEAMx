@@ -32,7 +32,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getAssetDisplayUrl, rewriteAssetUrl, shouldBypassAssetImageOptimization } from "@/lib/utils/asset-url";
-import { appendNatureFrom, buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
+import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation";
 
 const heroImage = "/assets/nature-hero-lakeside-observation.png";
 
@@ -360,7 +360,7 @@ function DataStatusCard({
   const topHotspotLabel = topHotspot ? `${topHotspot.locationName} · ${topHotspot.observationCount} 条` : "暂无热点地点";
   const items = [
     { title: "近 7 天发布", value: `${formatCount(stats.weeklyObservationCount)} 条`, icon: Clock3, href: "/nature/observations" },
-    { title: "最新记录", value: latestLabel, icon: Leaf, href: latestObservation ? appendNatureFrom(`/nature/observations/${latestObservation.id}`, "/nature") : "/nature/observations" },
+    { title: "最新记录", value: latestLabel, icon: Leaf, href: latestObservation ? `/nature/observations/${latestObservation.id}` : "/nature/observations" },
     { title: "最高热点", value: topHotspotLabel, icon: MapPin, href: "/nature/map" },
   ];
 
@@ -460,9 +460,7 @@ export default async function NaturePage() {
   const topicCards = buildTopicCards(homepage.topicSummaries, atlasProgress);
   const latestObservation = homepage.recentObservations[0];
   const topHotspot = homepage.hotspots[0];
-  const submitHref = buildNatureSubmitHref({
-    from: "/nature",
-  });
+  const submitHref = buildNatureSubmitHref({});
 
   return (
     <>

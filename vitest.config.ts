@@ -25,6 +25,8 @@ const domOnlyTsTests = [
     'hooks/playground/use-gomoku-online.test.ts',
     'hooks/playground/use-tangram.test.ts',
     'lib/explore-scroll-restore.test.ts',
+    'lib/explore/project-navigation-context.test.ts',
+    'lib/navigation/return-href.test.ts',
     'lib/nature-species-scroll-restore.test.ts',
     'lib/playground/gomoku-rapfi.test.ts',
     'lib/playground/minesweeper-stats.test.ts',

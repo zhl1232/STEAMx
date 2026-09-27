@@ -15,7 +15,6 @@ interface ObservationsListLoadMoreProps {
   pageSize: number;
   initialHasMore: boolean;
   total: number;
-  fromHref?: string;
 }
 
 export function ObservationsListLoadMore({
@@ -24,7 +23,6 @@ export function ObservationsListLoadMore({
   pageSize,
   initialHasMore,
   total,
-  fromHref,
 }: ObservationsListLoadMoreProps) {
   const [items, setItems] = useState(initialObservations);
   const [page, setPage] = useState(initialPage);
@@ -83,7 +81,6 @@ export function ObservationsListLoadMore({
           <ObservationCard
             key={observation.id}
             observation={observation}
-            fromHref={fromHref}
             priority={index === 0}
           />
         ))}

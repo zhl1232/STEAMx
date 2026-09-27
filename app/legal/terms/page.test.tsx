@@ -35,7 +35,7 @@ describe("TermsPage", () => {
   });
 
   it("exports legal page metadata", () => {
-    expect(metadata.title).toBe("用户协议");
+    expect(metadata.title).toEqual({ absolute: '用户协议 | 创探空间', template: '%s | 创探空间' });
     expect(metadata.description).toContain("用户协议");
   });
 });

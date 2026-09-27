@@ -5,10 +5,8 @@ import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import {
   AlertTriangle,
-  ArrowLeft,
   Box,
   ChevronDown,
-  ChevronRight,
   Edit,
   ListChecks,
   UsersRound,
@@ -22,7 +20,7 @@ import { MobileProjectMetaChips } from '@/components/features/project/mobile-pro
 import { MobileProjectSteps } from '@/components/features/project/mobile-project-steps'
 import { ProjectExplorationRecordsBlock } from '@/components/features/project/project-exploration-records'
 import { CompletionCTA } from '@/components/features/project/completion-cta'
-import { ProjectContinuationCard } from '@/components/features/project/project-continuation-card'
+import { ExploreAwareContinuationCard, ExploreAwareMobileRelated, ExploreBackLink } from '@/components/features/project/explore-project-context'
 import { ProjectCourseLink } from '@/components/features/project/project-course-link'
 import { ContextualStoreProducts } from '@/components/store/contextual-store-products'
 import { ProjectDetailActions } from '@/components/features/project/project-detail-actions'
@@ -36,23 +34,27 @@ import { ProjectStepImage } from '@/components/features/project/project-step-ima
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
 import { ContentClassification } from '@/components/ui/content-classification'
-import { OptimizedImage } from '@/components/ui/optimized-image'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
 import { toPublicImageUrl } from '@/lib/seo/public-image'
 import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
 import { buildProjectCiteDescription, buildProjectCiteKeywords } from '@/lib/seo/project-citability'
+import {
+  buildProjectOverviewText,
+  buildProjectSeoDescription,
+  isPlaceholderProjectDescription,
+} from '@/lib/seo/project-description'
+import { buildSegmentTitle } from '@/lib/seo/title'
+import { toExploreContextProject } from '@/lib/explore/project-navigation-context'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
-  getProjectAtIndex,
   getProjectById,
   getProjectCompletions,
   getProjectCompletionsCount,
   getProjectCollectionsCount,
   getRelatedProjects,
   getProjectTotalCoinsReceived,
-  type ProjectFilters,
 } from '@/lib/api/explore-data'
 import { getCourseLessonByWorksProjectId } from '@/lib/api/courses'
 import { listStoreProductsForContext } from '@/lib/store/service'
@@ -71,78 +73,16 @@ import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd, validProjectDate } from '@/lib/seo/json-ld'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
-import type { Project, ProjectStep } from '@/lib/mappers/types'
+import type { ProjectStep } from '@/lib/mappers/types'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>
-  searchParams?: Promise<{
-    from?: string | string[]
-    sourceIndex?: string | string[]
-    q?: string | string[]
-    category?: string | string[]
-    subCategory?: string | string[]
-    difficulty?: string | string[]
-    tags?: string | string[]
-    sortBy?: string | string[]
-  }>
 }
 
-function getSingleSearchParam(value?: string | string[]) {
-  if (Array.isArray(value)) return value[0]
-  return value
-}
-
-function buildExploreSearchParams(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>) {
-  const params = new URLSearchParams()
-  const query = getSingleSearchParam(searchParams?.q)
-  const category = getSingleSearchParam(searchParams?.category)
-  const subCategory = getSingleSearchParam(searchParams?.subCategory)
-  const difficulty = getSingleSearchParam(searchParams?.difficulty)
-  const tags = getSingleSearchParam(searchParams?.tags)
-  const sortBy = getSingleSearchParam(searchParams?.sortBy)
-
-  if (query) params.set('q', query)
-  if (category) params.set('category', category)
-  if (subCategory) params.set('subCategory', subCategory)
-  if (difficulty) params.set('difficulty', difficulty)
-  if (tags) params.set('tags', tags)
-  if (sortBy === 'latest') params.set('sortBy', 'latest')
-
-  return params
-}
-
-function buildExploreHref(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>) {
-  const params = buildExploreSearchParams(searchParams)
-  return params.size > 0 ? `/explore?${params.toString()}` : '/explore'
-}
-
-function buildProjectHref(
-  projectId: string | number,
-  searchParams?: Awaited<ProjectDetailPageProps['searchParams']>,
-  sourceIndex?: number,
-) {
-  const params = buildExploreSearchParams(searchParams)
-
-  if (Number.isInteger(sourceIndex) && (sourceIndex ?? -1) >= 0) {
-    params.set('from', 'explore')
-    params.set('sourceIndex', String(sourceIndex))
-  }
-
-  const query = params.toString()
-  return query ? `/project/${projectId}?${query}` : `/project/${projectId}`
-}
-
-function parseProjectFilters(searchParams?: Awaited<ProjectDetailPageProps['searchParams']>): ProjectFilters {
-  const tagsValue = getSingleSearchParam(searchParams?.tags)
-
-  return {
-    searchQuery: getSingleSearchParam(searchParams?.q),
-    category: getSingleSearchParam(searchParams?.category),
-    subCategory: getSingleSearchParam(searchParams?.subCategory),
-    difficulty: getSingleSearchParam(searchParams?.difficulty) as ProjectFilters['difficulty'],
-    tags: tagsValue ? tagsValue.split(',').filter(Boolean) : undefined,
-  }
-}
+// Explore filters / list position used to travel in the URL (`?from=explore&sourceIndex=…&q=…`).
+// They now live in sessionStorage (lib/explore/project-navigation-context.ts) so every
+// internal project link is the bare canonical `/project/:id`.
+const EXPLORE_HREF = '/explore'
 
 function canAccessProject(
   project: Awaited<ReturnType<typeof getProjectById>>,
@@ -335,65 +275,6 @@ function MobileSectionCard({
   )
 }
 
-function MobileRelatedProjects({
-  project,
-  href,
-  exploreHref,
-}: {
-  project: Project | null
-  href: string
-  exploreHref: string
-}) {
-  if (!project) {
-    return (
-      <MobileSectionCard
-        title="你可能还会喜欢"
-        action={<Link href={exploreHref} className="inline-flex min-h-11 items-center rounded-sm px-2 text-sm font-semibold text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring">查看更多</Link>}
-      >
-        <Link
-          href={href}
-          className="flex items-center justify-between rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-background/58 px-4 py-4 text-sm font-semibold text-[hsl(var(--brand-green))]"
-        >
-          回到探索页发现更多项目
-          <ChevronRight className="h-4 w-4" />
-        </Link>
-      </MobileSectionCard>
-    )
-  }
-
-  return (
-    <MobileSectionCard
-      title="你可能还会喜欢"
-      action={<Link href={exploreHref} className="inline-flex min-h-11 items-center rounded-sm px-2 text-sm font-semibold text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring">查看更多</Link>}
-    >
-      <Link
-        href={href}
-        className="grid grid-cols-[112px_minmax(0,1fr)] gap-3 rounded-sm border border-[hsl(var(--surface-border)/0.84)] bg-background/78 p-2.5"
-      >
-        <div className="relative aspect-4/3 overflow-hidden rounded-sm bg-muted">
-          <OptimizedImage
-            src={project.image}
-            alt={project.title}
-            fill
-            variant="card"
-            className="object-cover"
-          />
-        </div>
-        <div className="min-w-0 py-0.5">
-          <p className="line-clamp-2 font-sans text-sm font-bold leading-5 text-foreground">{project.title}</p>
-          <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
-            {project.description || '继续探索一个相关项目。'}
-          </p>
-          <div className="mt-2 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
-            <ContentClassification classification={project.classification} compact />
-            {project.category ? <span className="shrink-0">{project.category}</span> : null}
-          </div>
-        </div>
-      </Link>
-    </MobileSectionCard>
-  )
-}
-
 function MobileBottomProjectBar({
   projectId,
   projectTitle,
@@ -506,15 +387,32 @@ export async function generateMetadata(
       },
     }
   }
-  const description = buildProjectCiteDescription({
+  const citeDescription = buildProjectCiteDescription({
     title: project.title,
-    description: project.description,
+    description: isPlaceholderProjectDescription(project.description, project.title) ? '' : project.description,
     category: project.category,
     classification: project.classification,
     reflection: project.reflection,
+  })
+  const description = buildProjectSeoDescription({
+    citeDescription,
+    title: project.title,
+    description: project.description,
+    category: project.category,
+    subCategory: project.sub_category,
+    classification: project.classification,
+    tags: project.tags,
+    materials: mergeBrokenParenMaterials(project.materials ?? []),
+    steps: project.steps,
+    hasVideo: Boolean(resolveProjectVideoPlaybackSrc({
+      videoUrl: project.videoUrl,
+      description: project.description,
+      steps: project.steps ?? [],
+    })),
   }) || `${BRAND_FULL_NAME}上的实践项目详情页。`
   const socialImage = toPublicImageUrl(project.image) || toPublicImageUrl(DEFAULT_SOCIAL_IMAGE)!
-  const canonicalPath = `/project/${id}`
+  // Normalised numeric id (never the raw segment / query): `/project/0348` canonicalises to `/project/348`.
+  const canonicalPath = `/project/${numericId}`
   const keywords = buildProjectCiteKeywords({
     title: project.title,
     category: project.category,
@@ -523,7 +421,7 @@ export async function generateMetadata(
   })
 
   return {
-    title: project.title,
+    title: buildSegmentTitle(project.title),
     description,
     keywords,
     alternates: {
@@ -559,9 +457,8 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProjectDetailPage({ params, searchParams }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const { id } = await params
-  const resolvedSearchParams = searchParams ? await searchParams : undefined
   const numericId = Number(id)
   if (!Number.isInteger(numericId) || numericId <= 0) {
     notFound()
@@ -585,11 +482,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     notFound()
   }
 
-  const fromExplore = getSingleSearchParam(resolvedSearchParams?.from) === 'explore'
-  const parsedSourceIndex = Number.parseInt(getSingleSearchParam(resolvedSearchParams?.sourceIndex) || '', 10)
-  const sourceIndex = Number.isInteger(parsedSourceIndex) && parsedSourceIndex >= 0 ? parsedSourceIndex : null
-  const exploreFilters = parseProjectFilters(resolvedSearchParams)
-  const exploreBackHref = buildExploreHref(resolvedSearchParams)
+  const exploreBackHref = EXPLORE_HREF
 
   const showStatusAlert = isAuthor && (project.status === 'pending' || project.status === 'rejected')
 
@@ -598,7 +491,6 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     completionCount,
     projectCoinsReceived,
     collectionsCount,
-    nextProject,
     relatedProjects,
     authorSummary,
     courseLessonRef,
@@ -608,12 +500,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
     getProjectCompletionsCount(project.id),
     getProjectTotalCoinsReceived(project.id, project.coins_count ?? 0),
     getProjectCollectionsCount(project.id),
-    fromExplore && sourceIndex !== null
-      ? getProjectAtIndex(exploreFilters, sourceIndex + 1, {
-          sortBy: getSingleSearchParam(resolvedSearchParams?.sortBy) === 'latest' ? 'latest' : 'popular',
-        })
-      : Promise.resolve(null),
-    fromExplore ? Promise.resolve([]) : getRelatedProjects(project.id, project.category, 1),
+    getRelatedProjects(project.id, project.category, 1),
     getProjectAuthorSummary(project.author_id, project.author),
     Promise.resolve(null as Awaited<ReturnType<typeof getCourseLessonByWorksProjectId>>),
     listStoreProductsForContext(supabase, `project:${project.id}`),
@@ -641,19 +528,25 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   }))
   const tags = project.tags ?? []
   const isObservationProject = tags.includes('鸟类')
-  const projectSummary =
-    formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer })
-    || '一个适合边做边学、逐步完成的实践项目。'
-  const continuationProject = nextProject && Number(nextProject.id) !== Number(project.id)
-    ? nextProject
-    : (!fromExplore ? relatedProjects[0] ?? null : null)
-  const continuationHref = continuationProject
-    ? buildProjectHref(
-        continuationProject.id,
-        resolvedSearchParams,
-        fromExplore && sourceIndex !== null ? sourceIndex + 1 : undefined,
-      )
-    : exploreBackHref
+  // Deterministic intro assembled from this project's own fields (never invented copy).
+  const projectOverview = buildProjectOverviewText({
+    title: project.title,
+    description: project.description,
+    category: project.category,
+    subCategory: project.sub_category,
+    classification: project.classification,
+    tags,
+    materials,
+    steps: rawSteps,
+    hasVideo: hasVideoPlayer,
+  })
+  const summaryIsPlaceholder = isPlaceholderProjectDescription(project.description, project.title)
+  const projectSummary = summaryIsPlaceholder
+    ? projectOverview
+    : formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer }) || projectOverview
+  const relatedProject = relatedProjects.find((item) => Number(item.id) !== Number(project.id)) ?? null
+  const continuationProject = relatedProject ? toExploreContextProject(relatedProject) : null
+  const continuationHref = continuationProject ? `/project/${continuationProject.id}` : exploreBackHref
   const categoryTone = getCategoryTone(project.category)
   const visibleTags = visibleProjectTags(tags)
     .filter((tag) => tag !== project.category && tag !== project.sub_category)
@@ -677,7 +570,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
         data={buildProjectJsonLd({
           id: project.id,
           title: project.title,
-          description: project.description,
+          description: projectSummary,
           image: project.image,
           classification: project.classification,
           materials,
@@ -702,18 +595,19 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
       <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_16%_0%,hsl(var(--brand-blue)/0.18),transparent_38%),radial-gradient(circle_at_85%_10%,hsl(var(--brand-green)/0.12),transparent_34%),linear-gradient(180deg,hsl(var(--app-canvas))_0%,transparent_100%)]" />
       <div className="app-shell-wide pb-[calc(6rem+env(safe-area-inset-bottom))] pt-0 md:px-8 md:pb-14 md:pt-6">
         <div className="mb-5 hidden md:block">
-          <Link
-            href={exploreBackHref}
+          <ExploreBackLink
+            projectId={project.id}
+            fallbackHref={exploreBackHref}
             className="hidden items-center text-sm text-muted-foreground transition-colors hover:text-foreground md:inline-flex"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
             返回探索
-          </Link>
+          </ExploreBackLink>
         </div>
 
           <ProjectDetailMobileHeader
             key={`header-${project.id}`}
             title={project.title}
+            projectId={project.id}
             backHref={exploreBackHref}
             actions={
               <ProjectDetailActions
@@ -829,7 +723,12 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
             <MobileSectionCard id="project-exploration-records-mobile" title="探索记录">
               <ProjectExplorationRecordsBlock projectId={project.id} completions={completions} />
             </MobileSectionCard>
-            <MobileRelatedProjects project={continuationProject} href={continuationHref} exploreHref={exploreBackHref} />
+            <ExploreAwareMobileRelated
+              projectId={project.id}
+              fallbackProject={continuationProject}
+              fallbackHref={continuationHref}
+              fallbackExploreHref={exploreBackHref}
+            />
           </div>
           <MobileBottomProjectBar
             projectId={project.id}
@@ -864,6 +763,9 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                     <ContentClassification classification={project.classification} compact />
                   </div>
                   <p className="max-w-3xl whitespace-pre-line text-base leading-7 text-foreground/85">{projectSummary}</p>
+                  {!summaryIsPlaceholder && projectOverview !== projectSummary ? (
+                    <p data-testid="project-overview" className="max-w-3xl text-sm leading-6 text-muted-foreground">{projectOverview}</p>
+                  ) : null}
                   {visibleTags.length ? <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">{visibleTags.map(tag => <span key={tag}>#{tag}</span>)}</div> : null}
                 </div>
                 <ProjectDetailActions projectId={project.id} projectTitle={project.title} mode={mode} variant="hero" />
@@ -907,7 +809,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                   emptyActionSlot={<CompletionCTA projectId={project.id} projectTitle={project.title} challengeId={project.challenge_id} mode={mode} variant="inline" actionLabel={isObservationProject ? '记录我的观察' : '记录我的项目'} />}
                 />
               </section>
-              {(continuationProject || fromExplore) ? <ProjectContinuationCard kind={continuationProject ? (fromExplore ? 'next' : 'related') : 'back'} href={continuationHref} project={continuationProject} /> : null}
+              <ExploreAwareContinuationCard projectId={project.id} fallbackProject={continuationProject} fallbackHref={continuationHref} />
             </div>
             <aside className="sticky top-36 hidden min-w-0 space-y-5 lg:block">
               <section className="surface-panel rounded-lg p-5">

@@ -6,7 +6,6 @@ import { useMemo, useState } from "react"
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import type { ObservationLocationSummary } from "@/lib/mappers/types"
 import { cn } from "@/lib/utils"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 
 function recencyLabel(dateString: string): { text: string; className: string } {
   const ageDays = (Date.now() - new Date(dateString).getTime()) / 86_400_000
@@ -19,10 +18,9 @@ function recencyLabel(dateString: string): { text: string; className: string } {
 interface TopicHotspotPanelProps {
   locations: ObservationLocationSummary[]
   topicLabel?: string
-  fromHref?: string
 }
 
-export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref = "/nature/birds" }: TopicHotspotPanelProps) {
+export function TopicHotspotPanel({ locations, topicLabel = "鸟类" }: TopicHotspotPanelProps) {
   const validLocations = useMemo(
     () => locations.filter((location) => location.latitude != null && location.longitude != null),
     [locations],
@@ -117,7 +115,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类", fromHref =
                     return (
                       <Link
                         key={species.speciesId}
-                        href={appendNatureFrom(`/nature/species/${species.speciesSlug}`, fromHref)}
+                        href={`/nature/species/${species.speciesSlug}`}
                         className={className}
                       >
                         {label}

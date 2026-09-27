@@ -11,7 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { OptimizedImage } from "@/components/ui/optimized-image"
-import { appendNatureFrom } from "@/lib/utils/nature-navigation"
 
 interface ObservationSubmitSuccessDialogProps {
   open: boolean
@@ -105,7 +104,7 @@ export function ObservationSubmitSuccessDialog({
           <Link
             href={
               observationId
-                ? appendNatureFrom(`/nature/observations/${observationId}`, "/nature/submit")
+                ? `/nature/observations/${observationId}`
                 : "/nature/observations"
             }
             className="inline-flex h-12 items-center justify-center rounded-full bg-[hsl(var(--primary))] px-5 text-sm font-semibold text-[hsl(var(--primary-foreground))] transition-colors hover:bg-[hsl(var(--primary)/0.9)]"

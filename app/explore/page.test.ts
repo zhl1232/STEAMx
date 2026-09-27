@@ -15,7 +15,7 @@ describe('explore search metadata', () => {
     vi.stubEnv('NODE_ENV', 'production');
     const metadata = await generateMetadata({ searchParams: Promise.resolve({ sortBy: 'latest', page: '1' }) });
     expect(metadata.alternates?.canonical).toBe('https://steam.bj.cn/explore?sortBy=latest&page=1');
-    expect(metadata.title).toBe('STEAM 项目探索 · 第 2 页');
+    expect(metadata.title).toEqual({ absolute: 'STEAM 项目探索 · 第 2 页 | 创探空间', template: '%s | 创探空间' });
     expect(metadata.robots).toBeUndefined();
   });
 

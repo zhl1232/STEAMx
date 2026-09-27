@@ -17,8 +17,10 @@ import { fontClassNames } from "@/lib/fonts";
 import { HOME_DOCUMENT_TITLE, SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
 import { DEFAULT_SEO_KEYWORDS, DEFAULT_SOCIAL_IMAGE } from "@/lib/seo/metadata";
 import { buildSiteVerificationMetadata } from "@/lib/seo/site-verification";
+import { SITE_TITLE_TEMPLATE } from "@/lib/seo/title";
 import { PwaInstallPrompt } from "@/components/pwa/install-prompt";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { ReturnHrefTracker } from "@/components/navigation/return-href";
 
 const metadataBase = getMetadataBase();
 
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
   metadataBase,
   applicationName: SITE_NAME,
   title: {
-    template: `%s | ${SITE_NAME}`,
+    template: SITE_TITLE_TEMPLATE,
     default: HOME_DOCUMENT_TITLE,
   },
   description: SITE_DESCRIPTION,
@@ -120,6 +122,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <BadgeUnlockOverlayMount />
               <Toaster />
               <ServiceWorkerRegister />
+              <ReturnHrefTracker />
               <PwaInstallPrompt />
             </ThemeProvider>
           </AuthProvider>

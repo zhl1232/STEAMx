@@ -12,7 +12,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 import { SITE_STRUCTURED_DESCRIPTION } from "@/lib/seo/site";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: `关于 ${BRAND_FULL_NAME}`,
+  title: "关于我们",
   description: SITE_STRUCTURED_DESCRIPTION,
   path: "/about",
   keywords: [

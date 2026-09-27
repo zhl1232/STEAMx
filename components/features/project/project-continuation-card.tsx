@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { ArrowRight, Compass } from 'lucide-react'
 
-import type { Project } from '@/lib/mappers/types'
+import type { ExploreContextProject } from '@/lib/explore/project-navigation-context'
+import { isPlaceholderProjectDescription } from '@/lib/seo/project-description'
 import { Button } from '@/components/ui/button'
 import { ContentClassification } from '@/components/ui/content-classification'
 import { OptimizedImage } from '@/components/ui/optimized-image'
@@ -12,7 +13,9 @@ type ContinuationKind = 'next' | 'related' | 'back'
 interface ProjectContinuationCardProps {
   kind: ContinuationKind
   href: string
-  project?: Project | null
+  project?: ExploreContextProject | null
+  /** Runs before client navigation (e.g. hand the explore context to the next project). */
+  onNavigate?: () => void
   compact?: boolean
   className?: string
 }
@@ -32,8 +35,11 @@ const COPY = {
   },
 } as const
 
-export function ProjectContinuationCard({ kind, href, project, compact = false, className }: ProjectContinuationCardProps) {
+export function ProjectContinuationCard({ kind, href, project, onNavigate, compact = false, className }: ProjectContinuationCardProps) {
   const copy = COPY[kind]
+  const projectDescription = project && !isPlaceholderProjectDescription(project.description, project.title)
+    ? project.description
+    : ''
 
   return (
     <section className={cn(
@@ -89,13 +95,13 @@ export function ProjectContinuationCard({ kind, href, project, compact = false, 
                     "mt-3 line-clamp-3 text-sm text-muted-foreground",
                     compact ? "leading-6" : "leading-7",
                   )}>
-                    {project.description || '继续看看这个实践项目，找找下一步想动手的方向。'}
+                    {projectDescription || '继续看看这个实践项目，找找下一步想动手的方向。'}
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                <Link href={href}>
+                <Link href={href} onClick={onNavigate}>
                   <Button shape={compact ? "default" : "pill"} className={cn("gap-2", compact && "h-9")}>
                     {copy.buttonLabel}
                     <ArrowRight className="h-4 w-4" />

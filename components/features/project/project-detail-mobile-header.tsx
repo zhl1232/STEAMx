@@ -5,15 +5,20 @@ import { useEffect, useRef, useState } from "react"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
+import { useExploreBackHref } from "@/components/features/project/explore-project-context"
 import { ProjectSectionNav } from "@/components/features/project/project-section-nav"
 
 interface ProjectDetailMobileHeaderProps {
   title: string
+  /** Used to pick up the explore list (with filters) this page was opened from. */
+  projectId?: string | number
+  /** Fallback when there is no explore navigation context. */
   backHref: string
   actions: ReactNode
 }
 
-export function ProjectDetailMobileHeader({ title, backHref, actions }: ProjectDetailMobileHeaderProps) {
+export function ProjectDetailMobileHeader({ title, projectId, backHref: fallbackBackHref, actions }: ProjectDetailMobileHeaderProps) {
+  const backHref = useExploreBackHref(projectId ?? "", fallbackBackHref)
   const rowRef = useRef<HTMLDivElement>(null)
   const [chaptersVisible, setChaptersVisible] = useState(false)
 

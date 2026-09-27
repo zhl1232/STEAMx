@@ -233,10 +233,6 @@ export function SpeciesAtlas({
     [data, progressReady, topic],
   )
   const filtersKey = useMemo(() => buildSpeciesAtlasFiltersKey(filters), [filters])
-  const fromHref = useMemo(
-    () => buildSpeciesHref({ ...filters, canonicalTopicPath: TOPIC_PATHS[topic] ?? canonicalTopicPath }),
-    [canonicalTopicPath, filters, topic],
-  )
   const letterGroups = useMemo(
     () => (isTopicView ? groupSpeciesByInitial(filteredGroups[0]?.items ?? []) : []),
     [filteredGroups, isTopicView],
@@ -307,7 +303,6 @@ export function SpeciesAtlas({
           <li key={item.id}>
             <SpeciesAtlasTile
               item={item}
-              fromHref={fromHref}
               filtersKey={filtersKey}
               priority={priorityItemIds.has(item.id)}
             />

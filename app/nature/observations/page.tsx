@@ -39,7 +39,6 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
   const pageSize = 12;
   const { observations, hasMore, total } = await getObservations({ page, pageSize, strictErrors: true });
   if (page > 0 && observations.length === 0) notFound();
-  const fromHref = buildNatureObservationPageHref(page);
 
   return (
     <div className="page-shell pt-4 pb-24 md:pt-6 md:pb-10">
@@ -61,7 +60,6 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
             pageSize={pageSize}
             initialHasMore={hasMore}
             total={total}
-            fromHref={fromHref}
           />
         </div>
       </section>

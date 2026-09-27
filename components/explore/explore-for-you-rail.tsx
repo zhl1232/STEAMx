@@ -7,6 +7,7 @@ import { Flame, ImageOff, Repeat2 } from "lucide-react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
+import { saveExploreProjectContext } from "@/lib/explore/project-navigation-context";
 import { type HomepageRecommendationMode } from "@/lib/home/recommendations";
 import { type Project } from "@/lib/mappers/types";
 import { cn } from "@/lib/utils";
@@ -60,7 +61,9 @@ function ExploreRecommendationCard({
   return (
     <article className="group relative h-full overflow-hidden rounded-md border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] transition duration-300 hover:border-[hsl(var(--surface-border-strong))]">
       <Link
-        href={`/project/${project.id}?from=explore-for-you`}
+        href={`/project/${project.id}`}
+        // Recommendations are not part of the filtered list: drop any stale list context.
+        onClick={() => saveExploreProjectContext(null)}
         className="absolute inset-0 z-10"
         aria-label={`查看项目：${project.title}`}
       />

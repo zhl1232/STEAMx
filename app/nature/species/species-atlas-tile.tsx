@@ -8,17 +8,15 @@ import { useEffect, useState } from 'react'
 import { saveNatureSpeciesScrollRestore } from '@/lib/nature-species-scroll-restore'
 import type { SpeciesAtlasItem } from '@/lib/nature-species-atlas'
 import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from '@/lib/utils/asset-url'
-import { appendNatureFrom } from '@/lib/utils/nature-navigation'
 import { cn } from '@/lib/utils'
 
 interface SpeciesAtlasTileProps {
   item: SpeciesAtlasItem
-  fromHref: string
   filtersKey: string
   priority?: boolean
 }
 
-export function SpeciesAtlasTile({ item, fromHref, filtersKey, priority = false }: SpeciesAtlasTileProps) {
+export function SpeciesAtlasTile({ item, filtersKey, priority = false }: SpeciesAtlasTileProps) {
   const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
   const imageSrc = resolveAssetDisplayUrl(item.thumbnailUrl) ?? item.thumbnailUrl
@@ -29,7 +27,7 @@ export function SpeciesAtlasTile({ item, fromHref, filtersKey, priority = false 
     : item.observedByCurrentUser === false
       ? '待观察'
       : '观察状态未知'
-  const href = appendNatureFrom(`/nature/species/${item.slug}`, fromHref)
+  const href = `/nature/species/${item.slug}`
 
   useEffect(() => {
     setLoaded(false)

@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
+import { buildSegmentTitle } from '@/lib/seo/title'
+
 
 export const metadata: Metadata = {
-  title: '材料包商城',
+  title: buildSegmentTitle('材料包商城'),
   robots: { index: false, follow: false },
 }
 

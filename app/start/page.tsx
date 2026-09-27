@@ -2,11 +2,13 @@ import Link from 'next/link'
 import { ArrowRight, Blocks, FlaskConical, Gamepad2, Leaf, PencilRuler, Sprout } from 'lucide-react'
 
 import { PLATFORM_GUIDE_LINKS } from '@/lib/product/onboarding'
+import { buildPageMetadata } from '@/lib/seo/metadata'
 
-export const metadata = {
-  title: '探索指南 | 创探空间',
+export const metadata = buildPageMetadata({
+  title: '探索指南',
   description: '从动手实践、编程、科学实验、自然观察、项目学习和游乐场中选择你的起点。',
-}
+  path: '/start',
+})
 
 const ICONS = [Blocks, PencilRuler, FlaskConical, Leaf, Sprout, Gamepad2]
 

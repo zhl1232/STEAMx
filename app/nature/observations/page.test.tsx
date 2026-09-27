@@ -16,7 +16,7 @@ describe('nature observation pagination metadata', () => {
     const metadata = await generateMetadata({ searchParams: Promise.resolve({ page: '1' }) })
 
     expect(metadata.alternates?.canonical).toBe('https://steam.bj.cn/nature/observations?page=1')
-    expect(metadata.title).toBe('观察记录 · 第 2 页')
+    expect(metadata.title).toEqual({ absolute: '观察记录 · 第 2 页 | 创探空间', template: '%s | 创探空间' })
     expect(getObservations).toHaveBeenCalledWith({ page: 1, pageSize: 12, strictErrors: true })
   })
 
@@ -24,7 +24,7 @@ describe('nature observation pagination metadata', () => {
     const metadata = await generateMetadata({ searchParams: Promise.resolve({ page: '2junk' }) })
 
     expect(metadata.alternates?.canonical).toBe('https://steam.bj.cn/nature/observations')
-    expect(metadata.title).toBe('观察记录')
+    expect(metadata.title).toEqual({ absolute: '观察记录 | 创探空间', template: '%s | 创探空间' })
   })
 
   it('returns a true 404 for an empty later page', async () => {
