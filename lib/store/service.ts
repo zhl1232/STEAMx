@@ -12,6 +12,7 @@ import {
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database, Json } from '@/lib/supabase/types'
 import { logger } from '@/lib/logger'
+import { isStoreCatalogVisible } from '@/lib/store/config'
 
 type StoreClient = SupabaseClient<Database, 'public'>
 type ProductRow = Database['public']['Tables']['store_products']['Row']
@@ -205,7 +206,7 @@ export async function listStoreProducts(
 }
 
 /**
- * Read only the active Taobao products associated with a course/lesson/project.
+ * Read only active native products associated with a course/lesson/project.
  * This deliberately avoids the source/supplier tables because a contextual
  * recommendation needs no procurement details.
  */
@@ -214,6 +215,7 @@ export async function listStoreProductsForContext(
   contextKey: string,
   options: { limit?: number } = {},
 ): Promise<PublicStoreProduct[]> {
+  if (!isStoreCatalogVisible()) return []
   if (!isStoreContextKey(contextKey)) return []
 
   try {
@@ -222,8 +224,8 @@ export async function listStoreProductsForContext(
       .from('store_products')
       .select('id, slug, name, description, cover_url, currency, price_cents, compare_at_price_cents, checkout_mode, external_channel, external_url, context_keys')
       .eq('status', 'active')
-      .eq('checkout_mode', 'external')
-      .eq('external_channel', 'taobao')
+      .eq('checkout_mode', 'internal')
+      .not('shipping_cents', 'is', null)
       .contains('context_keys', [contextKey])
       .order('created_at', { ascending: false })
       .limit(48)

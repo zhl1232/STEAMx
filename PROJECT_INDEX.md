@@ -122,8 +122,8 @@
 | `/auth/callback` | `app/auth/callback/` | Supabase Auth OAuth 回调处理 |
 | `/leaderboard` | `app/leaderboard/page.tsx` | 排行榜 — 经验值/等级排名 |
 | `/shop` | `app/shop/page.tsx` | 积分商店 — 用金币兑换头像框、名字颜色等虚拟物品；页面采用顶部个人预览 + 全宽商品区，移除重复预览、排行榜和引导说明，商品卡仅保留状态、价格与操作；新增「科学星轨」头像框，采用带蓝紫节点旋转的平面圆 + 视觉居中、上移放大的接近 `/` 方向的前后分层倾斜立体轨道，原子与齿轮以对向错位方式沿同一投影轨道面向用户动态绕行，后半圈被头像遮挡且避免两枚元素同时消失，购买/装备通过商店 RPC 白名单同步 |
-| `/store` | `app/store/page.tsx`、`app/store/orders/` | 实物材料包商城，与 `/shop` 金币虚拟商店完全分离；商品卡片按 `checkout_mode` 区分站内过渡订单与淘宝外部结算，淘宝商品只跳转受限 HTTPS 链接，在淘宝完成支付/物流/售后，不进入本站购物车、地址采集或待支付订单；课程/课时/项目详情页复用上下文材料包卡片 |
-| `/admin/store` | `app/admin/store/page.tsx`、`components/admin/store-channel-editor.tsx` | 管理员专用的实物商城运营页：查看淘宝外部结算与备用 1688 目录统计，并为商品配置渠道和淘宝链接；1688 OAuth 仅保留为后续研究状态，不作为当前上线前提 |
+| `/store` | `app/store/page.tsx`、`app/store/orders/` | 实物材料包商城；公开目录和购买默认关闭（直接访问 404、公开 API 返回空目录），与 `/shop` 金币商店分离。未来开放后采用单 SKU 数量结算、固定运费与大陆省份校验；历史订单保留支付二维码/状态轮询、物流和整单售后，课程购买卡片随目录开关隐藏 |
+| `/admin/store` | `app/admin/store/page.tsx`、`components/admin/store-native-operations.tsx` | 管理员商品/规格/库存/运费/禁配地区/课程关联与人工采购、物流、售后审核；商品和规格版本校验拒绝旧表单覆盖已售库存，订单分页可处理较早订单；状态转换由事务 RPC 执行。`/admin/store/preview` 仅 admin、非生产、显式 test 环境及本地 Supabase 可访问 |
 | `/coins` | `app/coins/page.tsx` | 金币页 — 余额、收支记录 |
 | `/messages` | `app/messages/page.tsx` | 消息中心 — 通知分类、私信会话列表、未读角标；移动端页签下方不重复显示当前分类标题，消息列表外层取消重复面板边框并使用更宽的页面 gutter，通知页签的全部已读收至顶部扫帚图标，私信页签不显示通知清理操作；子路由 `[userId]/` 聊天详情（连续消息不在气泡内重复显示时间，首条或间隔至少 5 小时才显示一次时间分隔；移动/桌面会话头部的头像与昵称进入对应公开主页，屏蔽与取消屏蔽统一在公开主页操作；移动端会话头部提供举报消息入口，可勾选最多 10 条对方消息后统一提交举报，桌面端保留单条悬停举报） |
 | `/share` | `app/share/page.tsx` | 分享/创建项目页 |
@@ -189,7 +189,7 @@
 | health | `api/health/` | Docker/负载均衡浅健康检查；仅验证 Next 服务存活，不访问数据库或外部服务；响应附带进程 uptime 与 RSS/heap/external 内存观测值，便于定位 OOM 前的增长趋势 |
 | home | `api/home/` | 首页推荐数据 |
 | internal | `api/internal/` | 内部 Worker 入口：完成记录审核、自动互动队列执行（只有点赞/收藏，拟人化短评已于 2026-08-14 删除）与历史 approved 项目低比例 backfill 入队 |
-| store | `api/store/`、`api/admin/store/products/[id]/` | 实物商城商品目录、淘宝外部结算链接、用户订单/订单详情、支付通道占位与签名 webhook；公开目录只返回安全展示字段，服务端拒绝用站内报价接口购买外部商品；`alibaba/oauth/*` 仅 admin 发起 OAuth、服务端加密保存 1688 token，`api/internal/store/sync` 仍是后续履约入口但当前不启用自动下单 |
+| store | `api/store/`、`api/admin/store/`、`api/internal/store/reconcile/` | 默认关闭新购；原子下单预留库存、独立支付尝试；支付宝/微信专属验签回调，旧 HMAC webhook 返回 410；管理员原子目录编辑/订单履约/加密地址读取，买家订单/退款/退货/收货操作按归属鉴权；内部对账须 Bearer cron secret，重试使用稳定订单号和退款号，旧 1688 自动采购额外开关默认关闭 |
 | leaderboard | `api/leaderboard/` | 排行榜数据 |
 | messages | `api/messages/` | 私信发送、会话列表、消息线程、未读计数、会话标记已读；发送消息登录即可，仍受账号安全、屏蔽、接收方隐私、频率限制和内容审核约束；**陌生人递进门槛**见 `lib/messages/stranger-gate.ts`；消息读取兼容历史 UUID 形状的测试账号 |
 | moderator | `api/moderator/` | 审核员资格检查、申请 |
@@ -406,8 +406,8 @@
 | `lib/nature-species-atlas.ts` | `nature-species-atlas.ts` | 图鉴 DTO、专题固定顺序、中文名称稳定排序、客户端搜索/专题/观察状态过滤与筛选 key |
 | `lib/api/challenge-resources.ts` | `challenge-resources.ts` | 挑战 resources 字段服务端校验（title/url 必填、type 三分类枚举） |
 | `lib/shop/` | `items.ts` | 商店物品定义与价格；头像框样式映射包含「科学星轨」 |
-| `lib/store/` | `service.ts`, `external-channel.ts`, `http.ts`, `address-crypto.ts`, `secret-crypto.ts`, `alibaba-1688.ts`, `alibaba-order.ts` | 实物商城目录/报价/订单服务（MOQ、库存、单供应商代发和幂等）；外部渠道 URL 白名单、上下文关联键与公开目录映射；AES-256-GCM 地址与 1688 token 密文；1688 OAuth、AOP HMAC-SHA1、HTTPS/超时/有限重试客户端；自动下单适配器仅作为后续方案保留，当前不启用未经确认的 `fastCreateOrder`；明文地址、token 和供货映射不进入客户端 |
-| `components/store/` | `contextual-store-products.tsx` | 课程、课时零件清单和项目详情中的上下文材料包卡片；仅展示已配置且通过淘宝 HTTPS 白名单的外部商品 |
+| `lib/store/` | `native.ts`, `operations.ts`, `payment-flow.ts`, `payments/`, `config.ts`, `access.ts`, `catalog-input.ts`, `regions.ts`, `service.ts` | 站内实物交易：有限库存事务预留、支付确认扣减、唯一人工采购任务、原路整单退款及公平重试对账；`payments/` 使用固定 `alipay-sdk@4.14.0` 和独立微信 APIv3 Native/H5 封装，严格响应/通知验签、公钥 ID、商户/订单/金额/币种校验与绝对截止时间；密钥仅服务端，供货成本和密文仅授权服务读取。旧 `alibaba-*` 代码保留但默认禁用 |
+| `components/store/` | `store-catalog-client.tsx`, `store-order-actions.tsx`, `contextual-store-products.tsx` | 单规格订单填写、真实二维码、订单状态轮询、退款及批准后退货物流；上下文材料包购买卡片默认隐藏；开放后关联站内商品并通过 `/store?product=` 选中对应商品，订单返回项目使用 `/project/[id]`；保留学习材料清单 |
 | `lib/ai/` | `dashscope.ts`, `qwen-vision.ts`, `observation-media-analysis.ts`, `upload-content-moderation.ts`, `completion-moderation.ts`, `completion-proof-vision.ts`, `pbl-stage-coach.ts` | 通义千问/DashScope AI：`dashscope.ts` 是共享 HTTP 客户端（鉴权、非流式 20s / 流式 120s 超时、错误归一、token usage 解析），按角色保留模型 env 链（tutor-text/planner/vision、vision、moderation、pbl-text/vision）。物种识别走 `vision`（默认 `qwen3.7-plus`）；上传图与作品配图审核走 `moderation`（`DASHSCOPE_MODERATION_MODEL` → `DASHSCOPE_VISION_MODEL` → 默认 `qwen3-vl-flash`）。观察提交先读媒体分析，已通过的图片不再二次视觉审核，只审文字；作品异步审核在提交时 `moderation_state=approved` 则跳过配图视觉、只跑文字语义审核，其余多图并行。完成作品文字审核由模型按语义判断，不使用敏感词列表决定 AI 审核结果。TTS/ASR 仍走 `lib/ai/tutor/speech.ts` |
 | `lib/auto-interactions.ts` | `auto-interactions.ts` | 自动互动队列：公开项目/完成记录/自然观察的延迟点赞与项目收藏。**只发弱信号，不再生成拟人化短评**——2026-08-14 删除 `lib/ai/auto-reply.ts` 与 `reply` 动作类型，因为让 15 个机器人账号冒充同龄人写评论（prompt 曾明确要求不得提及 AI）在一个儿童社区里越线；点赞/收藏保留，用来给冷启动内容一点温度 |
 | `lib/sms/` | `aliyun.ts`, `send.ts` | legacy 模式由网站服务器调用阿里云 Dysmsapi SendSms（北京创探科技 / SMS_332130837 / 数字 code），检查业务返回码；验证码由 phone_otps 校验并原子消费，生产缺失发送配置时拒绝发送 |
@@ -429,7 +429,7 @@
 | `lib/api/weekly-plan-data.ts` | `weekly-plan-data.ts` | 本周探索计划服务端数据聚合：并行读取个人作品/雷达/新手引导/自然观察、本周项目/挑战/观察里程碑、进行中 PBL 阶段与在学课程，返回共享 `WeeklyPlan`；签到经验和徽章由独立打卡/成长足迹数据流处理，不参与计划名额 |
 | `lib/api/ai-credits.ts` | `ai-credits.ts` | AI 代币 consume/refund/status RPC 与小迪 token 预留/结算 RPC 封装 |
 | `docs/AI_DEVELOPMENT_GUIDELINES.md` | — | AI 开发规范：意图判断必须交给大模型；结构化输出经服务端白名单/范围/权限校验；关键词和正则仅可用于非语义的格式、协议、元数据候选查询或防御性安全边界，不得作为 Tutor/AI 行为门控 |
-| `docs/STORE_CHANNEL_FULFILLMENT_DECISION.md` | — | 实物商城渠道与履约决策：当前采用 STEAMX 商品卡片 + 淘宝外部结算（淘宝负责支付、物流、售后），保留少量人工采购兜底；达到主体、订单量和平台资质门槛后再评估开放平台/合规 ERP；不申请 1688 铺货分销 ISV，不直接 iframe 嵌入外部收银台 |
+| `docs/STORE_CHANNEL_FULFILLMENT_DECISION.md` | — | 2026-09-26 改为站内直接支付预接入 + 人工采购代发；公开购买关闭，商城迁移已于 2026-09-27 应用线上；商户准入、凭证、部署及真实交易验收尚待完成；记录本地测试、回调、公钥模式和对账运行方式，不部署聚合支付系统 |
 | `docs/product-direction.md` | — | 当前产品方向与暂缓边界；新增功能前先读。历史评审数据及改版过程见 `docs/archive/product-design-review-2026-08-14.md`，不作为实时运营数据 |
 
 小迪资源检索：`resource-search-planner.ts` 由轻量模型选择 `course/project/challenge/resource/species/game` 并提取主题短语，不使用固定关键词决定是否检索，并接收最近对话与当前场景辅助指代消解。只有对象或目标的缺失会明显影响答案时才返回 2-4 个澄清选项；明确资源请求直接查询，不强制先选年龄/难度。协议解析失败只重试一次，仍失败则标记规划不可用并**不检索**。`resource-search.ts` 按所选类型并行限量查询：课程/课时要求父课程 approved，项目同时要求 status 与 moderation_state approved，PBL 为 active/ended，前三类按配置执行 classification reviewed 门禁；学习卡仅 published，物种仅 is_active，游戏来自现有公共目录。课程匹配标题/描述/标签，课时匹配标题与 JSON 摘要，项目补查 `project_materials`，学习卡可匹配 `content_md` 但只返回摘要。课时先过滤父课程可见性再限量，合并时优先保留课时命中的课程，并提供课程和具体课时入口。数组列 `tags/aliases` 使用 `cs.{短语}` 元素包含匹配，不能用 `ilike`；严格短语全部无命中才补一轮空白切分/纯汉字二字滑窗候选（最多 8 个），标记近似匹配。空结果与查询失败分开，报错写 `logger.warn`。格式化结果轮流保留各类完整引用行（最多 18 行、条目正文 3200 字），由独立 prompt 段注入；普通对话不加载全量课程目录或首页推荐。
@@ -532,6 +532,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `20260823100000_store_external_checkout.sql` — 为 `store_products` 增加 `checkout_mode`、`external_channel`、`external_url`，支持淘宝外部结算商品卡片；默认值保持既有商品为站内模式，应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
 - `20260823110000_store_context_keys.sql` — 为商品增加 `context_keys`，把淘宝材料包挂到课程/课时/项目详情页；应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
 - `20260823120000_hide_store_preview_fixture.sql` — 将明确标记为 `test_fixture` 的商城样式预览商品改为草稿，避免测试商品和无效淘宝链接进入公开目录；应用迁移使用 `pnpm db:push`，不要使用 `supabase db push`
+- `20260926120000_store_native_transactions.sql`、`20260926121000_store_native_actions.sql` — 2026-09-27 已获授权通过 `pnpm db:push` 应用线上并回读验证：原子目录/SKU/人工供货编辑、单 SKU 库存预留、支付尝试、付款扣库存与唯一人工采购、管理员审核/退货/整单退款；订单先加锁，金额/币种/稳定编号验证，全部新写 RPC 仅 service role；私密表禁止用户直接读取，历史宽泛操作 helper 被撤销执行权限；对账调度时间/错误码避免旧异常任务饥饿。应用前审查目标和全部待执行迁移，获授权后使用 `pnpm db:push`。
 
 - `20260920180000_remove_interaction_confirmation_gate.sql` — 移除数据库互动资格对历史确认时间的依赖，保留登录、能力白名单、账号限制、有效处罚、触发器和函数权限；需与移除确认 UI/API 的应用代码配套发布。已于 2026-09-20 使用 `pnpm db:push` 单独应用到当前配置的远端数据库，并核验函数定义、执行权限和迁移记录；其余既有待执行迁移保持不变。
 
@@ -773,3 +774,9 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - 项目详情移动端操作分层：顶部 `ProjectDetailActions variant="cover"` 保留分享和「更多」菜单，举报仅向符合条件的用户在菜单内展示；项目标题右侧嵌入 `variant="support"`（窄屏空间不足时在标题组内换行），以图标与单个累计数展示点赞和投币（含零值），已投币使用金色状态，无障碍文案明确累计收到的硬币；本人项目投币数只读。作者行仅展示作者资料，记录保留在下方专属板块，底栏继续保留收藏与项目记录主操作。
 - `20260922230000_localize_default_admin_name.sql` 与后续 `20260922230100_clarify_system_admin_name.sql` 将固定种子管理员账号默认昵称从 `Admin User` 中文化，最终统一为「系统管理员」，同步 auth metadata 的 `full_name`；以账号 ID、管理员角色和旧名称限定更新，不覆盖自定义昵称。已通过 `pnpm db:push` 应用并回读验证。
+
+- `20260927090000_store_catalog_versions.sql` — 2026-09-27 已获授权通过 `pnpm db:push` 应用线上并回读验证：商品与规格增加 `catalog_version`，更新触发器覆盖库存预留、释放和付款扣减；目录保存校验客户端版本，不允许旧编辑表单覆盖最新库存或商品信息。
+
+### 实物交易本地验证
+
+`node scripts/test-store-native.mjs` 使用一次性 Docker PostgreSQL 验证真实数据库并发、幂等、库存、退货退款和目录原子性（含付款后旧表单冲突、最新版本库存调整及并发管理员保存）；`lib/store/payment-flow.test.ts`、`lib/store/payments/*.test.ts` 与 `components/{store,admin}/` 对应测试验证通道协议及 UI 请求。所有凭证和开关说明见 `.env.example`，本批不部署、不执行远端迁移、不发起真实收款。

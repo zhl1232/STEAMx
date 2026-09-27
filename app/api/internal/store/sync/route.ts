@@ -13,6 +13,10 @@ function authorized(request: NextRequest) {
 /** Cron/worker entry for paid-order -> 1688 order orchestration. */
 export async function POST(request: NextRequest) {
   if (!authorized(request)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  // Legacy supplier automation is never part of manual fulfillment.
+  if (process.env.STORE_ALIBABA_AUTOMATION_ENABLED !== 'true') {
+    return NextResponse.json({ error: '自动采购未启用', code: 'AUTOMATION_DISABLED' }, { status: 503 })
+  }
   try {
     const body = await request.json().catch(() => ({})) as { limit?: unknown }
     const limit = Number(body.limit ?? 10)

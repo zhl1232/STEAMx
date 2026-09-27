@@ -1,7 +1,9 @@
-import { ExternalLink, Package } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, Package } from 'lucide-react'
 
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import type { PublicStoreProduct } from '@/lib/store/service'
+import { isStoreCatalogVisible } from '@/lib/store/config'
 
 export function ContextualStoreProducts({
   products,
@@ -16,8 +18,8 @@ export function ContextualStoreProducts({
   embedded?: boolean
   materialAmount?: string
 }) {
-  const purchasable = products.filter((product): product is PublicStoreProduct & { external_url: string } => Boolean(product.external_url))
-  if (!purchasable.length) return null
+  if (!isStoreCatalogVisible()) return null
+  if (!products.length) return null
   const headingId = `contextual-store-products-heading-${idSuffix}`
 
   return (
@@ -30,11 +32,11 @@ export function ContextualStoreProducts({
         <h2 id={headingId} className="min-w-0 truncate text-xs font-semibold text-muted-foreground">
           {contextLabel}材料包
         </h2>
-        <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">淘宝完成交易</p>
+        <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">本站下单</p>
       </div> : null}
 
       <div className={embedded ? 'grid gap-4 xl:grid-cols-2' : 'grid gap-2.5 px-3 pb-3 sm:grid-cols-2 sm:px-4 sm:pb-4 lg:grid-cols-3'}>
-        {purchasable.map((product) => {
+        {products.map((product) => {
           const price = product.variants[0]?.price_cents ?? product.price_cents
           return (
             <article key={product.id} className={`flex min-w-0 gap-3 ${embedded ? '' : 'rounded-sm border border-border/70 bg-background/80 p-3'}`}>
@@ -46,11 +48,11 @@ export function ContextualStoreProducts({
                   <h3 className="text-sm font-semibold leading-6 wrap-anywhere">{product.name}</h3>
                   {materialAmount ? <span className="shrink-0 text-sm leading-6 text-muted-foreground">{materialAmount}</span> : null}
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">{price > 0 ? `参考价 ¥${(price / 100).toFixed(2)} 起` : '价格以淘宝页面为准'}</p>
-                <a href={product.external_url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-1 rounded-sm text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-                  去淘宝购买
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
+                <p className="mt-1 text-sm text-muted-foreground">{price > 0 ? `¥${(price / 100).toFixed(2)} 起` : '价格待确认'}</p>
+                <Link href={`/store?product=${encodeURIComponent(product.id)}`} className="inline-flex min-h-11 items-center gap-1 rounded-sm text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                  查看并下单
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </article>
           )

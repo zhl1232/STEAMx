@@ -1,24 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
-
+import { NextResponse } from 'next/server'
+import { validateUUID } from '@/lib/api/validation'
 import { handleApiError } from '@/lib/api/auth'
-import { createClient } from '@/lib/supabase/server'
-import { listStoreProducts, mapPublicStoreProduct } from '@/lib/store/service'
-
+import { isStoreCatalogVisible } from '@/lib/store/config'
+import { listPublicNativeProducts } from '@/lib/store/operations'
 export const dynamic = 'force-dynamic'
-
-/** GET /api/store/products - active physical-goods catalog (separate from /shop coins). */
-export async function GET(request: NextRequest) {
+export const runtime = 'nodejs'
+export async function GET(request: Request) {
+  if (!isStoreCatalogVisible()) return NextResponse.json({ products: [] }, { headers: { 'Cache-Control': 'no-store' } })
   try {
-    const supabase = await createClient()
-    const rawLimit = Number(request.nextUrl.searchParams.get('limit') || 24)
-    const limit = Number.isFinite(rawLimit) ? rawLimit : 24
-    const products = await listStoreProducts(supabase, {
-      limit,
-      search: request.nextUrl.searchParams.get('search') || undefined,
-    })
-    // 1688 offer/spec、供应商和 metadata 只供服务端报价和下单，不能随商品目录返回浏览器。
-    return NextResponse.json({ products: products.map(mapPublicStoreProduct) })
-  } catch (error) {
-    return handleApiError(error)
-  }
+    const requestedId = new URL(request.url).searchParams.get('product')
+    const productId = requestedId === null ? undefined : validateUUID(requestedId, '商品编号')
+    return NextResponse.json({ products: await listPublicNativeProducts(productId) }, { headers: { 'Cache-Control': 'no-store' } })
+  } catch (error) { return handleApiError(error) }
 }
