@@ -49,13 +49,13 @@ describe('canonical public redirects', () => {
   })
 })
 
-describe('sitemap alias rewrite', () => {
-  it('aliases /sitemap-v2.xml to /sitemap.xml for identical content', async () => {
+describe('sitemap routing', () => {
+  it('serves only the primary /sitemap.xml without legacy sitemap aliases', async () => {
     const rewrites = await nextConfig.rewrites()
+    const redirects = await nextConfig.redirects()
+    const rules: Array<{ source: string; destination: string }> = [...rewrites, ...redirects]
 
-    expect(rewrites).toEqual(expect.arrayContaining([
-      { source: '/sitemap-v2.xml', destination: '/sitemap.xml' },
-    ]))
+    expect(rules.some((rule) => /sitemap/i.test(rule.source) || /sitemap/i.test(rule.destination))).toBe(false)
   })
 })
 

@@ -31,8 +31,7 @@ export default function robots(): MetadataRoute.Robots {
                 ...publicCrawlerRule,
             },
         ],
-        // Only the primary sitemap is advertised. /sitemap-v2.xml stays as a
-        // rewrite alias (next.config.mjs) for crawlers that cached the old URL.
+        // Only the primary sitemap is advertised (Google, Bing, Yandex, Baidu).
         sitemap: buildAbsoluteUrl('/sitemap.xml'),
     };
 }

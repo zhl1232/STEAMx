@@ -219,11 +219,6 @@ const nextConfig = {
     const scratchAssetDestination = buildScratchAssetDestination()
     return [
       {
-        // GSC 对 /sitemap.xml 长期「无法抓取」；提供同源别名供重新提交
-        source: '/sitemap-v2.xml',
-        destination: '/sitemap.xml',
-      },
-      {
         // scratch-storage FetchWorker 默认去 /chunks/xxx，产物在 /scratch/chunks/
         // 注意：:param 前必须有分隔符，不能写成 fetch-worker:path*
         source: '/chunks/:file',
