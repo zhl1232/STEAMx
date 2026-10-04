@@ -53,6 +53,30 @@ describe('ScratchWorkspace', () => {
     expect(document.querySelector('iframe')).toBeNull()
   })
 
+  it('keeps the phone upload fallback inside the remaining height so the button is not clipped', () => {
+    mockScratchEditorAvailability.mockReturnValue(false)
+
+    render(
+      <ScratchHostProvider>
+        <ScratchWorkspace courseId={1} lessonId={2} />
+      </ScratchHostProvider>,
+    )
+
+    // 作为固定高度工作区里的 flex 子项：占满剩余高度、可收缩，并在内部滚动而不是被父级 overflow 裁掉。
+    const fallback = screen.getByTestId('scratch-mobile-fallback')
+    expect(fallback).toHaveClass('flex-1', 'min-h-0', 'overflow-y-auto')
+    expect(fallback).not.toHaveClass('h-full')
+    // 内层 my-auto：空间够时居中，不够时从顶部开始排布（justify-center 溢出时会把上下两端都裁掉）。
+    expect(fallback.firstElementChild).toHaveClass('my-auto')
+    expect(fallback).not.toHaveClass('justify-center')
+
+    // 小屏紧凑内边距，平板以上保持原来的 p-8。
+    expect(fallback.firstElementChild).toHaveClass('px-4', 'py-6', 'sm:p-8')
+
+    // 触控目标至少 44px，且不会被挤压。
+    expect(screen.getByRole('button', { name: '上传 .sb3 作品' })).toHaveClass('min-h-11', 'shrink-0')
+  })
+
   it('forwards the current block hint target to the Scratch iframe and dismisses it', () => {
     postMessage.mockClear()
     Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {

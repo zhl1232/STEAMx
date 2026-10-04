@@ -709,29 +709,37 @@ export function ScratchWorkspace({
 
     if (!editorAllowed && !playerOnly) {
         return (
-            <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
-                <p className="max-w-sm text-muted-foreground">
-                    在手机上的小屏幕较难舒适地使用 Scratch
-                    编辑器。请用平板或电脑打开本课，也可以上传已完成的 .sb3 文件交作业。
-                </p>
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".sb3"
-                    className="hidden"
-                    onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        if (f) handleFileUpload(f);
-                    }}
-                />
-                <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                >
-                    <Upload className="mr-2 h-4 w-4" />
-                    上传 .sb3 作品
-                </Button>
+            // 与编辑器分支一致：作为 flex-1 + min-h-0 的子项占满剩余高度并在内部滚动；
+            // 内层 my-auto 在空间够时居中、不够时从顶部排布，避免手机小屏上按钮被父级 overflow 裁掉。
+            <div
+                data-testid="scratch-mobile-fallback"
+                className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain"
+            >
+                <div className="my-auto flex flex-col items-center gap-3 px-4 py-6 text-center sm:gap-4 sm:p-8">
+                    <p className="max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-base">
+                        在手机上的小屏幕较难舒适地使用 Scratch
+                        编辑器。请用平板或电脑打开本课，也可以上传已完成的 .sb3 文件交作业。
+                    </p>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".sb3"
+                        className="hidden"
+                        onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleFileUpload(f);
+                        }}
+                    />
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="min-h-11 max-w-full shrink-0"
+                        onClick={() => fileInputRef.current?.click()}
+                    >
+                        <Upload className="mr-2 h-4 w-4" />
+                        上传 .sb3 作品
+                    </Button>
+                </div>
             </div>
         );
     }

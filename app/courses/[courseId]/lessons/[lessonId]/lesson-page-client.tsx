@@ -28,9 +28,12 @@ import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-f
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
-/** 交互式编辑/搭建课需要固定工作区；阅读型 playground 课在移动端应交给页面自然滚动。 */
-const FIXED_LESSON_PAGE_HEIGHT = "max-md:h-dvh md:h-[calc(100dvh-4rem)]";
-const SCROLL_LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
+/**
+ * 手机（< md）上所有课时都交给页面自然滚动；md 起课时页固定为一屏高度。
+ * Scratch 编辑器只在 ≥ md 可用（见 lib/courses/device.ts），手机上只显示「上传 .sb3」提示卡，
+ * 若仍把手机锁成 h-dvh 一屏，提示卡会被挤进很矮的剩余高度里，按钮被裁掉。
+ */
+const LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
 const BUILDING_STEP_QUERY_PARAM = "step";
 
 function clampStepIndex(index: number, stepCount: number) {
@@ -124,9 +127,10 @@ export function LessonPageClient({
     const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
     const clampedActiveStep = clampStepIndex(activeStep, steps.length);
     const activeStepTitle = steps[clampedActiveStep]?.title;
-    // Scratch 编辑器需要固定一屏；building_3d 在移动端交给页面自然滚动，
-    // 让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
-    const usesFixedMobileWorkspace = lessonWorkspace === "scratch";
+    // Scratch 编辑器（仅 ≥ md 可用）需要固定一屏：平板（md–lg）上限制侧栏高度，把剩余空间留给编辑器。
+    // 手机上编辑器不可用、只显示上传提示卡，和其他课型一样交给页面自然滚动；
+    // building_3d 在移动端同样自然滚动，让教案内容完整展开、3D 画布给固定高度，避免一屏塞不下导致内容被截。
+    const usesFixedEditorWorkspace = lessonWorkspace === "scratch";
 
     const handleStepChange = useCallback((index: number) => {
         const nextStep = clampStepIndex(index, steps.length);
@@ -396,8 +400,8 @@ export function LessonPageClient({
         <div
             className={cn(
                 "mx-auto flex w-full flex-col app-canvas",
-                usesFixedMobileWorkspace ? "overflow-hidden" : "overflow-x-hidden overflow-y-visible md:overflow-hidden",
-                usesFixedMobileWorkspace ? FIXED_LESSON_PAGE_HEIGHT : SCROLL_LESSON_PAGE_HEIGHT,
+                "overflow-x-hidden overflow-y-visible md:overflow-hidden",
+                LESSON_PAGE_HEIGHT,
             )}
             style={{ maxWidth: "var(--shell-wide)" }}
         >
@@ -416,8 +420,8 @@ export function LessonPageClient({
                 <div
                     className={cn(
                         "flex flex-col border-border lg:w-[min(100%,300px)] lg:border-r xl:w-[320px]",
-                        usesFixedMobileWorkspace
-                            ? "max-lg:max-h-[min(48vh,28rem)] max-lg:min-h-0 max-lg:shrink-0 max-lg:overflow-hidden"
+                        usesFixedEditorWorkspace
+                            ? "max-md:shrink-0 max-md:overflow-visible md:max-lg:max-h-[min(48vh,28rem)] md:max-lg:min-h-0 md:max-lg:shrink-0 md:max-lg:overflow-hidden"
                             : "max-lg:shrink-0 max-lg:overflow-visible",
                         "max-lg:order-2 max-lg:border-b",
                         "lg:order-0 lg:min-h-0 lg:max-h-none lg:shrink-0",
@@ -439,8 +443,8 @@ export function LessonPageClient({
                 <div
                     className={cn(
                         "flex min-w-0 flex-1 flex-col max-lg:order-1 lg:order-0",
-                        usesFixedMobileWorkspace
-                            ? "min-h-0"
+                        usesFixedEditorWorkspace
+                            ? "md:min-h-0"
                             : "min-h-[60vh] md:min-h-0",
                     )}
                 >
