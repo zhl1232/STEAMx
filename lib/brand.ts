@@ -10,8 +10,16 @@ export const BRAND_NAME_ZH = BRAND_NAME;
 export const BRAND_FULL_NAME = BRAND_NAME;
 /** Brand slogan (mobile hero / marketing). */
 export const BRAND_TAGLINE = "探索 · 创造 · 成长";
-/** Desktop / primary homepage hero headline. */
+/**
+ * Core tagline shared by /about, the welcome message, and BRAND_HERO_STATEMENT.
+ * The homepage hero headline uses BRAND_HOME_HERO_TITLE instead.
+ */
 export const BRAND_HERO_TITLE = "兴趣是最好的老师";
+/**
+ * Homepage hero headline (desktop + mobile only). Desktop splits it into lines at "，";
+ * mobile shows it on one line under the BRAND_TAGLINE slogan.
+ */
+export const BRAND_HOME_HERO_TITLE = "从兴趣出发，在动手中成长";
 /** Homepage hero subtitle shown under the headline. */
 export const BRAND_HERO_SUBTITLE = "在真实项目中动手探索，学会拆解问题、持续迭代。";
 /** Full hero statement (headline + subtitle) for places that need one sentence. */

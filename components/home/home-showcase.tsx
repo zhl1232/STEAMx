@@ -29,7 +29,7 @@ import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
 import {
   BRAND_FULL_NAME,
   BRAND_HERO_SUBTITLE,
-  BRAND_HERO_TITLE,
+  BRAND_HOME_HERO_TITLE,
   BRAND_POSITIONING,
   BRAND_TAGLINE,
 } from "@/lib/brand";
@@ -39,7 +39,7 @@ const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
-const homeHeroTitleLines = BRAND_HERO_TITLE.split("，").filter(Boolean);
+const homeHeroTitleLines = BRAND_HOME_HERO_TITLE.split("，").filter(Boolean);
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -136,7 +136,7 @@ function HomeHero({ image }: { image: string }) {
                 <span className="px-1.5 text-foreground">·</span>
                 <span className="text-[hsl(var(--brand-amber))]">成长</span>
               </span>
-              <span className="hidden md:block" aria-label={BRAND_HERO_TITLE}>
+              <span className="hidden md:block" aria-label={BRAND_HOME_HERO_TITLE}>
                 {homeHeroTitleLines.map((line) => (
                   <span key={line} className="block">
                     {line}
@@ -145,8 +145,8 @@ function HomeHero({ image }: { image: string }) {
               </span>
             </h1>
 
-            <p className="mt-1.5 text-[15px] font-bold leading-tight tracking-[0.02em] text-foreground dark:text-white dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:text-[16px] md:hidden">
-              {BRAND_HERO_TITLE}
+            <p className="mt-1.5 whitespace-nowrap text-[15px] font-bold leading-tight tracking-[0.02em] text-foreground dark:text-white dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:text-[16px] md:hidden">
+              {BRAND_HOME_HERO_TITLE}
             </p>
             <p className="mt-1 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
               {BRAND_POSITIONING}
