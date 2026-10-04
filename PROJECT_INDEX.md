@@ -60,7 +60,7 @@
 - 「小迪」仍是 AI 学习导师的对外昵称，不再把「史迪姆」写成小迪的吉祥物全名，避免与平台中文品牌混淆。
 - `STEAM` 仍表示科学、技术、工程、艺术、数学这一教育/能力概念，保留在课程、雷达、分类、SEO 关键词和数据库字段中；不要把它机械替换成品牌名。SEO 围绕少儿 STEAM、积木搭建、科学实践、编程和自然观察分配页面主题；品牌名统一为创探空间。
 - 用户可见品牌常量集中在 `lib/brand.ts`；站点 metadata、JSON-LD、PWA 与 llms.txt 通过 `lib/seo/site.ts` 等共享出口使用。域名、路由、环境变量、`x-steam-*` 请求头、包名和历史 LDraw 作者/迁移注释属于内部或历史标识，不因品牌改名而重命名。
-- 核心教育定位（非 SEO 标题滥写）：首页 `BRAND_HERO_TITLE`「兴趣是最好的老师」+ `BRAND_HERO_SUBTITLE`「在真实项目中动手探索，学会拆解问题、持续迭代。」（移动端首屏依次为标语「探索 · 创造 · 成长」、主标题「兴趣是最好的老师」、品类副标题「少儿 STEAM 项目式学习平台」；站内欢迎消息默认文案与 `/about#contact` 邀请语同样引用这些常量），短句 `BRAND_CORE_TAGLINE`「兴趣是最好的老师。在动手中，让孩子学会解决问题。」；完整 `BRAND_CORE_STATEMENT` 在 `/about#philosophy` 与 README 品牌定位段引用。关于页以兴趣驱动、动手探究、自主挑战、协作与迭代四部分解释理念，保留原帮助、联系与反馈锚点；理念入口由页脚「关于我们」承接，首页不再重复展示。
+- 核心教育定位（非 SEO 标题滥写）：首页 `BRAND_HERO_TITLE`「兴趣是最好的老师」+ `BRAND_HERO_SUBTITLE`「在真实项目中动手探索，学会拆解问题、持续迭代。」（移动端首屏依次为标语「探索 · 创造 · 成长」、主标题「兴趣是最好的老师」、品类副标题「少儿 STEAM 项目式学习平台」；站内欢迎消息默认文案与 `/about#contact` 邀请语同样引用这些常量；数据库中仍为旧默认欢迎语的 `platform_welcome_settings.body` 由 `20261004100000_refresh_welcome_brand_copy.sql` 按原文精确匹配更新，管理员自定义内容不动，本地用 `scripts/test-welcome-brand-copy-migration.mjs`（PGlite）验证），短句 `BRAND_CORE_TAGLINE`「兴趣是最好的老师。在动手中，让孩子学会解决问题。」；完整 `BRAND_CORE_STATEMENT` 在 `/about#philosophy` 与 README 品牌定位段引用。关于页以兴趣驱动、动手探究、自主挑战、协作与迭代四部分解释理念，保留原帮助、联系与反馈锚点；理念入口由页脚「关于我们」承接，首页不再重复展示。
 
 ### 面向用户的产出词汇：只有三个词
 
