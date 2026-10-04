@@ -130,7 +130,10 @@ export function ObservationSubmitPhotoSection({
       })
       return
     }
-    const input = fromFiles ? originalFileInputRef : fileInputRef
+    // Android media providers may redact GPS; prefer the original-file path
+    // without changing desktop/iOS pickers. The provider still controls the bytes.
+    const preferOriginalFile = fromFiles || /Android/i.test(navigator.userAgent)
+    const input = preferOriginalFile ? originalFileInputRef : fileInputRef
     input.current?.click()
   }
 
@@ -348,7 +351,7 @@ export function ObservationSubmitPhotoSection({
                   <Camera className="h-7 w-7" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-semibold tracking-tight text-(--obs-text)">上传或拍摄照片</p>
+                  <p className="text-lg font-semibold tracking-tight text-(--obs-text)">选择观察照片</p>
                   <p className="text-sm text-(--obs-muted-2)">
                     最多 5 张，每张生成一条观察记录
                   </p>
@@ -422,12 +425,12 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-(--obs-muted)">
-        <span>相册有地点，网页却读不到？</span>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-(--obs-muted) md:hidden">
+        <span>需要读取拍摄地点时，优先选择相机原图。</span>
         <button type="button" onClick={() => choosePhotos(true)} disabled={!canAddMore || isUploading || authLoading} className="inline-flex min-h-11 items-center font-semibold text-(--obs-accent-text) underline underline-offset-4 disabled:opacity-50">
           从文件选择原图
         </button>
-        <span>尝试系统文件入口；选好后仍需核对实际观察地点。</span>
+        <span>原图通常位于 DCIM/Camera 文件夹；选好后请核对实际观察地点。</span>
       </div>
       <input
         ref={originalFileInputRef}
@@ -446,6 +449,7 @@ export function ObservationSubmitPhotoSection({
         className="hidden"
         onChange={handleSelectFiles}
         disabled={isUploading}
+        aria-label="选择观察照片"
       />
     </section>
   )

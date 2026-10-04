@@ -169,7 +169,7 @@ export const LEARNING_TOPICS: readonly LearningTopicDefinition[] = [
                 },
                 {
                     title: "登录后，上传自己拍摄的照片",
-                    description: "进入发布页，点击“上传或拍摄照片”，至少添加一张清晰照片。一次可以多选，本站上传的每张照片会成为一条独立观察；选中哪张，就为哪张确认信息。",
+                    description: "进入发布页，点击“选择观察照片”，至少添加一张清晰照片。一次可以多选，本站上传的每张照片会成为一条独立观察；选中哪张，就为哪张确认信息。",
                     links: [{ href: "/nature/submit", label: "去发布观察" }],
                 },
                 {

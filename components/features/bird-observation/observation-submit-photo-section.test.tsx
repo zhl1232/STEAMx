@@ -36,6 +36,7 @@ vi.mock('@/lib/utils/upload', () => ({
 
 describe('ObservationSubmitPhotoSection', () => {
   beforeEach(() => {
+    vi.restoreAllMocks()
     vi.clearAllMocks()
     mocks.user = { id: 'user-1' }
     mocks.readMetadata.mockResolvedValue({ observedAt: null, latitude: null, longitude: null })
@@ -47,10 +48,29 @@ describe('ObservationSubmitPhotoSection', () => {
     const input = container.querySelector('input[type="file"]') as HTMLInputElement
     const choose = vi.spyOn(input, 'click')
 
-    fireEvent.click(screen.getByRole('button', { name: /上传或拍摄照片/ }))
+    fireEvent.click(screen.getByRole('button', { name: /选择观察照片/ }))
 
     expect(mocks.promptLogin).toHaveBeenCalledOnce()
     expect(choose).not.toHaveBeenCalled()
+    expect(mocks.upload).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    ['Android Chrome', 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/130.0.0.0 Mobile Safari/537.36', true],
+    ['desktop Chrome', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130.0.0.0 Safari/537.36', false],
+    ['iPhone Safari', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1', false],
+  ])('uses the appropriate primary picker on %s', (_device, userAgent, prefersOriginal) => {
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(userAgent)
+    const { container } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
+    const originalInput = container.querySelector('input[aria-label="从文件选择原始照片"]') as HTMLInputElement
+    const photoInput = container.querySelector('input[aria-label="选择观察照片"]') as HTMLInputElement
+    const chooseOriginal = vi.spyOn(originalInput, 'click')
+    const choosePhotos = vi.spyOn(photoInput, 'click')
+
+    fireEvent.click(screen.getByRole('button', { name: /选择观察照片/ }))
+
+    expect(chooseOriginal).toHaveBeenCalledTimes(prefersOriginal ? 1 : 0)
+    expect(choosePhotos).toHaveBeenCalledTimes(prefersOriginal ? 0 : 1)
     expect(mocks.upload).not.toHaveBeenCalled()
   })
 
