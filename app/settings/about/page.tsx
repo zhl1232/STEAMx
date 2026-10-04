@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BRAND_CORE_STATEMENT,
   BRAND_FULL_NAME,
+  BRAND_HERO_TITLE,
   BRAND_OFFICIAL_URL,
 } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
@@ -205,7 +206,7 @@ export default function AboutSettingsPage() {
           <div className="space-y-3">
             <h2 id="contact-heading" className="settings-section-heading">联系我们</h2>
             <p className="text-base font-semibold leading-7 text-foreground">让更多孩子，在兴趣中发现自己的可能</p>
-            <p className="text-sm leading-7 text-muted-foreground">如果你也认同让孩子从兴趣出发、在动手中成长，欢迎关注我们，一起交流教育想法、分享实践经验，探索合作的可能。</p>
+            <p className="text-sm leading-7 text-muted-foreground">如果你也认同「{BRAND_HERO_TITLE}」，愿意陪孩子在真实项目中动手探索、学会拆解问题、持续迭代，欢迎关注我们，一起交流教育想法、分享实践经验，探索合作的可能。</p>
           </div>
           <div className="grid gap-8 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
             <figure className="min-w-0 space-y-3">

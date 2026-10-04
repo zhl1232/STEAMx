@@ -57,7 +57,7 @@ describe("project provenance", () => {
 });
 
 describe("buildWebsiteJsonLd", () => {
-  it("emits WebSite and EducationalOrganization using the shared site URL", () => {
+  it("emits a single Organization/EducationalOrganization and WebSite graph for 创探空间", () => {
     process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
 
     const data = buildWebsiteJsonLd();
@@ -65,24 +65,45 @@ describe("buildWebsiteJsonLd", () => {
 
     expect(types).toEqual([["Organization", "EducationalOrganization"], "WebSite"]);
     expect(data["@graph"][0]).toMatchObject({
+      "@id": "https://steam.bj.cn/#organization",
       name: "创探空间",
-      alternateName: expect.arrayContaining(["创探空间"]),
-      description: expect.stringContaining("少儿 STEAM 学习与创作平台"),
-      url: "https://steam.bj.cn",
+      alternateName: ["创探空间 STEAM"],
+      url: "https://steam.bj.cn/",
+      description: "少儿 STEAM 项目式学习平台",
+      slogan: "探索 · 创造 · 成长",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://steam.bj.cn/logo.png",
+        contentUrl: "https://steam.bj.cn/logo.png",
+        width: 1024,
+        height: 1024,
+      },
     });
-    expect(data["@graph"][0].description).not.toContain("非游戏平台");
-    expect(data["@graph"][0].description).not.toContain("Valve Steam");
+    // No verifiable public profile URLs yet: omit sameAs instead of guessing.
+    expect(data["@graph"][0]).not.toHaveProperty("sameAs");
     expect(data["@graph"][1]).toMatchObject({
+      "@id": "https://steam.bj.cn/#website",
       name: "创探空间",
-      alternateName: expect.arrayContaining(["创探空间"]),
-      description: expect.stringContaining("少儿 STEAM 学习与创作平台"),
-      url: "https://steam.bj.cn",
+      url: "https://steam.bj.cn/",
+      description: expect.stringContaining("少儿 STEAM 项目式学习平台"),
       inLanguage: "zh-CN",
+      publisher: { "@id": "https://steam.bj.cn/#organization" },
     });
     expect(data["@graph"][1].potentialAction).toMatchObject({
       "@type": "SearchAction",
       "query-input": "required name=search_term_string",
     });
+  });
+
+  it("never names the entity with the legacy STEAMX / 史迪姆 brand", () => {
+    process.env.NEXT_PUBLIC_APP_URL = "https://steam.bj.cn";
+
+    const serialized = JSON.stringify(buildWebsiteJsonLd());
+
+    expect(serialized).not.toMatch(/steamx/i);
+    expect(serialized).not.toContain("史迪姆");
+    expect(serialized).not.toContain("非游戏平台");
+    expect(serialized).not.toContain("Valve Steam");
   });
 });
 

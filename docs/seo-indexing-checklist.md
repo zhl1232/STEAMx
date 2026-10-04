@@ -84,7 +84,8 @@
 ## 品牌与消歧页面
 
 - `/about`：可抓取「创探空间是什么」正文 + AboutPage JSON-LD，说明学习方式与材料准备。
-- 首页已含 WebSite / EducationalOrganization JSON-LD ，描述与可见正文一致。
+- 首页已含单个 `@graph` JSON-LD：Organization+EducationalOrganization（`https://steam.bj.cn/#organization`，name「创探空间」、alternateName「创探空间 STEAM」、logo `https://steam.bj.cn/logo.png` 1024×1024、description「少儿 STEAM 项目式学习平台」、slogan「探索 · 创造 · 成长」）+ WebSite（`#website`，inLanguage zh-CN，publisher 指向 Organization）。
+- `sameAs` 只填可被爬虫打开的官方主页 URL（`lib/brand.ts` 的 `BRAND_SAME_AS`）。目前没有：公众号只有二维码（`weixin.qq.com/r/mp/…` 在浏览器中跳转到微信下载页），小红书 / 抖音 / 视频号 / B 站 / 微博尚无官方主页链接；拿到后补充即可。
 
 ## FAQ / GEO 结构化数据
 
