@@ -1,3 +1,5 @@
+import { BRAND_HERO_STATEMENT, BRAND_NAME, BRAND_POSITIONING } from "@/lib/brand";
+
 export type AnnouncementLevel = "normal" | "important" | "urgent";
 export type AnnouncementStatus = "draft" | "published" | "withdrawn";
 
@@ -27,8 +29,8 @@ export type WelcomeSettings = {
 
 export const DEFAULT_WELCOME_SETTINGS: WelcomeSettings = {
   enabled: true,
-  title: "欢迎来到创探空间",
-  body: "从兴趣出发，在动手中成长。你可以探索积木搭建、Scratch 编程、科学实验、自然观察、项目式学习和游乐场挑战，遇到问题随时联系我们。",
+  title: `欢迎来到${BRAND_NAME}`,
+  body: `${BRAND_HERO_STATEMENT}${BRAND_NAME}是${BRAND_POSITIONING}：你可以探索积木搭建、Scratch 编程、科学实验、自然观察、PBL 挑战和游乐场，遇到问题随时联系我们。`,
   contact_href: "/about#contact",
 };
 

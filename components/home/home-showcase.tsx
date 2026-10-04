@@ -120,10 +120,10 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        <div className="absolute inset-x-0 top-0 h-[112px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:hidden" />
+        <div className="absolute inset-x-0 top-0 h-[132px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:hidden" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/40 to-transparent md:hidden" />
 
-        <div className="relative z-10 flex min-h-[176px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+        <div className="relative z-10 flex min-h-[192px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[184px] min-[390px]:min-h-[200px] md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[310px] lg:max-w-[410px] xl:max-w-[460px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               {BRAND_FULL_NAME}
@@ -145,7 +145,10 @@ function HomeHero({ image }: { image: string }) {
               </span>
             </h1>
 
-            <p className="mt-2 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
+            <p className="mt-1.5 text-[15px] font-bold leading-tight tracking-[0.02em] text-foreground dark:text-white dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:text-[16px] md:hidden">
+              {BRAND_HERO_TITLE}
+            </p>
+            <p className="mt-1 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
               {BRAND_POSITIONING}
             </p>
             <p className="mt-3 hidden max-w-[500px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">

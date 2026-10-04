@@ -58,6 +58,15 @@ describe("AboutSettingsPage", () => {
     );
   });
 
+  it("uses the current brand tagline in the contact invitation", () => {
+    render(<AboutSettingsPage />);
+
+    expect(
+      screen.getByText(/如果你也认同「兴趣是最好的老师」，愿意陪孩子在真实项目中动手探索、学会拆解问题、持续迭代/),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/从兴趣出发/)).not.toBeInTheDocument();
+  });
+
   afterAll(() => {
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL = originalEmail;
   });
