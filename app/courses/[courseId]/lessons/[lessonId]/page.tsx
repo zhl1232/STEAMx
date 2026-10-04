@@ -1,10 +1,11 @@
 import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
 import { notFound } from "next/navigation";
 
+import { CourseSuccessorBanner } from "@/components/features/courses/course-successor-banner";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LessonPageClient } from "./lesson-page-client";
 import { createClient } from "@/lib/supabase/server";
-import { getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
+import { getCourseSuccessor, getLessonInCourse, getUserLessonProgress } from "@/lib/api/courses";
 import { withSignedBuildingLessonVideo } from "@/lib/courses/building-video-url";
 import { buildBreadcrumbJsonLd, buildLessonJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -39,6 +40,7 @@ export async function generateMetadata({ params }: PageProps) {
         keywords: [context.lesson.title, context.course.title, "STEAM课时", "在线学习"],
         image: finishedImage ?? context.course.image_url ?? undefined,
         noIndex: context.course.is_listed === false,
+        noIndexFollow: context.course.is_listed === false,
     });
 }
 
@@ -63,9 +65,10 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
     const {
         data: { user },
     } = await supabase.auth.getUser();
-    const progress = user
-        ? await getUserLessonProgress(supabase, user.id, lessonId)
-        : null;
+    const [progress, successor] = await Promise.all([
+        user ? getUserLessonProgress(supabase, user.id, lessonId) : Promise.resolve(null),
+        getCourseSuccessor(supabase, courseId),
+    ]);
 
     const content = context.lesson.content as { summary?: unknown; building3d?: { finishedImageUrl?: unknown } } | null;
     const summary = typeof content?.summary === "string" ? content.summary : context.course.description;
@@ -117,6 +120,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                 initialCompleted={Boolean(progress?.completed_at)}
                 initialStepIndex={initialStepIndex}
                 shouldRecordStart={Boolean(user) && !progress}
+                noticeSlot={successor ? <CourseSuccessorBanner successor={successor} variant="compact" /> : undefined}
             />
         </>
     );

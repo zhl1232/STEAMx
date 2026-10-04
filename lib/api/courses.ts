@@ -10,6 +10,7 @@ import type {
   UserLessonProgressRow,
 } from '@/lib/courses/types'
 import { deriveCourseProgress } from '@/lib/courses/progress'
+import { getCourseSuccessorId } from '@/lib/courses/successors'
 import {
   getContentClassificationSettings,
   mapPublicClassification,
@@ -203,6 +204,51 @@ export async function listApprovedCourses(
         )
       : null,
   }))
+}
+
+export type CourseSummary = { id: number; title: string }
+
+/**
+ * Minimal public info for a course that is visible in the catalog (approved,
+ * listed and — when enforcement is on — reviewed). Mirrors listApprovedCourses.
+ */
+export async function getListedCourseSummary(
+  supabase: DbClient,
+  courseId: number,
+): Promise<CourseSummary | null> {
+  const classificationSettings = await getContentClassificationSettings()
+  let query = supabase
+    .from('courses')
+    .select('id, title')
+    .eq('id', courseId)
+    .eq('status', 'approved')
+    .eq('is_listed', true)
+  if (classificationSettings.enforcementEnabled) {
+    query = query.eq('classification_status', 'reviewed')
+  }
+  const { data, error } = await query.maybeSingle()
+  if (error) throw error
+  const row = data as { id: number; title: string | null } | null
+  const title = row?.title?.trim()
+  return row && title ? { id: row.id, title } : null
+}
+
+/**
+ * Replacement course for a retired course (see lib/courses/successors.ts).
+ * Returns null when there is no mapping or the successor is missing/unlisted,
+ * and never throws: the banner is optional and must not break the page.
+ */
+export async function getCourseSuccessor(
+  supabase: DbClient,
+  courseId: number,
+): Promise<CourseSummary | null> {
+  const successorId = getCourseSuccessorId(courseId)
+  if (successorId === null) return null
+  try {
+    return await getListedCourseSummary(supabase, successorId)
+  } catch {
+    return null
+  }
 }
 
 export async function getCourseOverview(

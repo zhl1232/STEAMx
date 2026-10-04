@@ -235,6 +235,26 @@ describe('LessonPageClient', () => {
     else expect(partsLink).toBeNull()
   })
 
+  it.each(['scratch', 'building_3d'])('renders the optional notice row above the %s workspace', (lessonType) => {
+    const html = renderToString(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={1}
+          courseTitle="旧课程"
+          lesson={{ ...lesson, lesson_type: lessonType, content: lessonType === 'building_3d' ? { building3d: { ldrawModelUrl: '/m.mpd', parts: [], steps3d: [] } } : {} }}
+          previewHref="/courses/1/lessons/42/preview"
+          noticeSlot={<p data-testid="notice">本课程已更新，前往新版课程：新课</p>}
+        />
+      </TutorProvider>,
+    )
+    const document = new DOMParser().parseFromString(html, 'text/html')
+    const notice = document.querySelector('[data-testid="notice"]')
+
+    expect(notice).toHaveTextContent('本课程已更新，前往新版课程：新课')
+    expect(notice?.closest('aside')).toBeNull()
+    expect(notice?.closest('details')).toBeNull()
+  })
+
   it('uses the unified slide and 3D flow in building lesson sidebars', () => {
     const buildingLesson: CourseLessonRow = {
       ...lesson,
