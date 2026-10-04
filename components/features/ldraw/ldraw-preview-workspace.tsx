@@ -35,6 +35,65 @@ import {
 } from '@/lib/utils/ldraw-mpd'
 import type { LdrawModelInfo } from '@/lib/courses/ldraw-packer'
 
+// Display-only treatment; never mutate loader-cached materials or LDraw colours.
+function enhanceBlackBricks(THREE: typeof import('three'), group: import('three').Group) {
+  const geometries: import('three').BufferGeometry[] = []
+  const materials: import('three').Material[] = []
+  const clones = new Map<import('three').Material, import('three').Material>()
+  const meshes: import('three').Mesh[] = []
+  group.traverse((object) => {
+    if ((object as import('three').Mesh).isMesh) meshes.push(object as import('three').Mesh)
+  })
+  const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x646b73, toneMapped: false })
+  materials.push(edgeMaterial)
+  for (const mesh of meshes) {
+    const sourceMaterials = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+    const black = sourceMaterials.map((material) => String(material.userData.code) === '0')
+    if (!black.some(Boolean)) continue
+    const displayed = sourceMaterials.map((material, index) => {
+      if (!black[index]) return material
+      let clone = clones.get(material)
+      if (!clone) {
+        clone = material.clone()
+        const surface = clone as import('three').MeshStandardMaterial
+        surface.color.set(0x24272b)
+        surface.polygonOffset = true
+        surface.polygonOffsetFactor = 1
+        surface.polygonOffsetUnits = 1
+        clones.set(material, clone)
+        materials.push(clone)
+      }
+      return clone
+    })
+    mesh.material = Array.isArray(mesh.material) ? displayed : displayed[0]
+    // LDraw can combine several colours in one mesh. Extract black faces only.
+    const geometry = mesh.geometry
+    const position = geometry.getAttribute('position')
+    const index = geometry.getIndex()
+    const ranges = geometry.groups.length ? geometry.groups : [{ start: 0, count: index?.count ?? position.count, materialIndex: 0 }]
+    const coordinates: number[] = []
+    for (const range of ranges) {
+      if (!black[range.materialIndex ?? 0]) continue
+      for (let i = range.start; i < range.start + range.count; i++) {
+        const vertex = index ? index.getX(i) : i
+        coordinates.push(position.getX(vertex), position.getY(vertex), position.getZ(vertex))
+      }
+    }
+    const faces = new THREE.BufferGeometry()
+    faces.setAttribute('position', new THREE.Float32BufferAttribute(coordinates, 3))
+    const edges = new THREE.EdgesGeometry(faces, 35)
+    faces.dispose()
+    geometries.push(edges)
+    const lines = new THREE.LineSegments(edges, edgeMaterial)
+    lines.name = 'black-brick-outline'
+    mesh.add(lines)
+  }
+  return () => {
+    for (const geometry of geometries) geometry.dispose()
+    for (const material of materials) material.dispose()
+  }
+}
+
 const COLOR_CONFIG_URL = '/courses/ldraw/LDConfig.ldr'
 
 type ViewPreset = 'iso' | 'top' | 'front' | 'side'
@@ -77,6 +136,8 @@ export function LdrawPreviewWorkspace() {
   const [renderError, setRenderError] = useState<string | null>(null)
   const [showGrid, setShowGrid] = useState(true)
   const [showAxes, setShowAxes] = useState(false)
+  const disposeBlackDisplayRef = useRef<(() => void) | null>(null)
+  useEffect(() => () => { disposeBlackDisplayRef.current?.() }, [])
   const [bgColor, setBgColor] = useState<'light' | 'dark' | 'gray'>('gray')
   const [threeReady, setThreeReady] = useState(false)
 
@@ -452,6 +513,9 @@ export function LdrawPreviewWorkspace() {
         )
 
         if (cancelled) return
+
+        disposeBlackDisplayRef.current?.()
+        disposeBlackDisplayRef.current = enhanceBlackBricks(THREE, modelGroup)
 
         // 移除旧模型
         if (threeStateRef.current?.currentModelGroup) {

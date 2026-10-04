@@ -8,13 +8,14 @@
 0 // Local draft only. Geometry and source assumptions: .tmp/ldr-next-fiveplus-20260912/FINAL-REVIEW.md
 
 0 // STEP 1 - source page 1
-0 // Two 6x12 plates form 12x12 base. Red Toolo beam is omitted; no ordinary-brick bridge substitute.
+0 // Two 6x12 plates form 12x12 base. Red75350 holebrick bridges the plates with source four-stud overhang to left.
 1 2 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
 1 2 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -200 -48 0 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 
 0 // STEP 2 - source page 2
-0 // Blue 9, yellow 6; source-constrained Toolo void X[-240,0],Z[-80,80] is 4x6 studs. Hidden seams are grid inference. Base seam is crossed by the right blue middle brick.
+0 // Blue 9, yellow 6; source-constrained beam bay X[-240,0],Z[-80,80] is 4x6 studs. Hidden seams are grid inference. Base seam is crossed by the right blue middle brick.
 1 1 200 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -33,11 +34,14 @@
 0 STEP
 
 0 // STEP 3 - source page 3
-0 // Two standard bricks and one red Toolo brick form the outer stack on the omitted beam; their dependent placement is withheld, not replaced by scattered bricks.
+0 // Source yellow brick, blue thinplate and red holebrick form outer stack; blue is24LDU, not48.
+1 14 -320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -320 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -320 -168 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
 0 // STEP 4 - source page 4
-0 // Yellow 12 = ten perimeter bricks + two central platform bricks. Central bricks bridge the unresolved inner void with their right halves supported.
+0 // Yellow 12 = ten perimeter bricks + two central platform bricks. Central bricks bridge the beam bay with their right halves supported.
 1 14 -160 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 0 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 160 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
@@ -53,7 +57,8 @@
 0 STEP
 
 0 // STEP 5 - source page 5
-0 // Blue 10; source red central side-hole brick is omitted.
+0 // Blue10 and central75349 holebrick on yellow platform.
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
 1 1 200 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -67,7 +72,8 @@
 0 STEP
 
 0 // STEP 6 - source page 6
-0 // Yellow 9 with 4x2-stud control opening at X=0,Z=-200; red mechanical brick omitted.
+0 // Yellow9 with red75349 filling frontcontrol opening.
+1 4 0 -192 -200 1 0 0 0 1 0 0 0 1 75349.dat
 1 14 -160 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 160 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 -160 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
@@ -80,7 +86,8 @@
 0 STEP
 
 0 // STEP 7 - source page 7
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+0 // Source75349 support restored; dependent mechanism remains omitted.
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
 0 // STEP 8 - source page 8
@@ -102,7 +109,8 @@
 0 STEP
 
 0 // STEP 10 - source page 10
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+0 // Source75349 support restored; dependent mechanism remains omitted.
+1 4 200 -288 160 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
 
 0 // STEP 11 - source page 11
@@ -172,4 +180,4 @@
 0 STEP
 
 0 // STEP 19 - source page 19
-0 // Final partial base and separate cover. Mechanism, outer three-brick stack and verified whole-model support remain INCOMPLETE.
+0 // Final partial base and separate cover. Outer stack restored. Mechanism and verified cover attachment remain INCOMPLETE.

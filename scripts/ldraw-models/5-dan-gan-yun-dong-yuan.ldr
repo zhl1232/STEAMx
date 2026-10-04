@@ -1,42 +1,79 @@
-0 5+ 单杆运动员 (Horizontal Bar Athlete) - DUPLO draft for manual repair
-0 Name: 5-dan-gan-yun-dong-yuan.ldr
-0 Author: OpenAI
+0 FILE 5-dan-gan-yun-dong-yuan.ldr
+0 5+ 单杠运动员 — INCOMPLETE source steps 1-4 frame
+0 Source: /mnt/d/pdf预览/5+单杠运动员搭建说明_pdf/5+单杠运动员搭建说明-1.jpg ... -4.jpg
+0 INCOMPLETE: source steps 5-11 intentionally omitted
+0 Geometry: all base bricks are side-built, studs +X; foot matrix det=1; upright matrix det=1
+0 Support: 3011 height 48 LDU, 40666 height 24 LDU; source-backed contacts documented in review.json
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+单杆运动员 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Uprights, rotating bar, athlete body and hanging legs are simplified.
 
-0 // STEP 1 - yellow base and red uprights
-1 14 -240 -24 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -24 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 1 — BOM: yellow 3011 x8, red 75350 x2
+0 // Staggered base feet: each upright has yellow 3011 at (X, -40, Z=+-120), (X=+-48, -40, Z=0)
+1 14 -240 -40 -120 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -240 -40 120 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -192 -40 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -288 -40 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 240 -40 -120 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 240 -40 120 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 288 -40 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 192 -40 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 4 -240 -200 0 0 -1 0 -1 0 0 0 0 -1 75350.dat
+1 4 240 -200 0 0 -1 0 -1 0 0 0 0 -1 75350.dat
 0 STEP
 
-0 // STEP 2 - top horizontal bar
-1 14 -160 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 0 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 160 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 -320 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 320 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 — BOM: yellow 3011 x8, orange 40666 x8
+0 // Added yellow stagger: X=+-48, Z=+-160; orange clamps/rails front X=+72 and back X=-96, Z=+-80
+1 14 -192 -40 -160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -192 -40 160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -288 -40 -160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -288 -40 160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 192 -40 -160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 192 -40 160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 288 -40 -160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 288 -40 160 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 25 -168 -40 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 -168 -40 80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 -336 -40 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 -336 -40 80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 312 -40 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 312 -40 80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 144 -40 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 25 144 -40 80 0 -1 0 0 0 -1 1 0 0 40666.dat
 0 STEP
 
-0 // STEP 3 - athlete head and torso
-1 14 0 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -336 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -60 -384 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 60 -384 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 — BOM: yellow 3011 x12; six-layer 48-LDU floor, two bricks across each layer
+1 14 -120 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -120 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -72 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -72 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -24 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -24 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 24 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 24 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 72 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 72 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 120 -40 -80 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 120 -40 80 0 -1 0 0 0 -1 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 4 - arms and hanging legs
-1 14 -120 -300 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 14 120 -300 -260 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 4 -80 -432 -160 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 80 -432 -160 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 -120 -520 -200 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 120 -520 -200 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 — BOM: red 75350 x2, orange 40666 x4; beams end-to-end, plates on both faces
+1 4 -240 -600 0 0 -1 0 -1 0 0 0 0 -1 75350.dat
+1 4 240 -600 0 0 -1 0 -1 0 0 0 0 -1 75350.dat
+1 25 -216 -400 0 0 -1 0 -1 0 0 0 0 -1 40666.dat
+1 25 -288 -400 0 0 -1 0 -1 0 0 0 0 -1 40666.dat
+1 25 264 -400 0 0 -1 0 -1 0 0 0 0 -1 40666.dat
+1 25 192 -400 0 0 -1 0 -1 0 0 0 0 -1 40666.dat
+0 STEP
+0 // STEP 5 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 6 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 7 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 8 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 9 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 10 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved
+0 STEP
+0 // STEP 11 - INCOMPLETE: mechanism and figure omitted; source identity/fit unresolved

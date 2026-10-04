@@ -4,7 +4,8 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // SOURCE: /mnt/d/pdf预览/5+扁担搭建说明_pdf/5+扁担搭建说明-{1..13}.jpg
-0 // STATUS: INCOMPLETE. Mechanical shoulder beam, axles, wheels, strings, hooks and side-hole bricks omitted.
+0 NumOfBricks: 46
+0 // STATUS: INCOMPLETE. Mechanical shoulder beam, axles, wheels, strings and hooks omitted.
 0 // Source 7/8 and 10/11 restore two standard bucket bodies; display separation is inferred, not beam length.
 0 // STEP 1 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP
@@ -33,7 +34,7 @@
 1 1 -640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 8 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
+0 // STEP 8 - four red corner 3437 + four blue 40666 caps; two red75349 hole bricks complete each rim
 1 4 -760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 4 -520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 1 -720 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
@@ -42,7 +43,9 @@
 1 4 -520 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 1 -720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 -560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+1 4 -640 -144 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -640 -144 120 1 0 0 0 1 0 0 0 1 75349.dat
+0 // Source rim complete; both cap plates bridge corner and central hole bricks.
 0 STEP
 0 // STEP 9 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP
@@ -61,7 +64,7 @@
 1 1 640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 11 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
+0 // STEP 11 - four red corner 3437 + four blue 40666 caps; two red75349 hole bricks complete each rim
 1 4 520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 4 760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 1 560 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
@@ -70,7 +73,9 @@
 1 4 760 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 1 560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
 1 1 720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+1 4 640 -144 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 640 -144 120 1 0 0 0 1 0 0 0 1 75349.dat
+0 // Source rim complete; both cap plates bridge corner and central hole bricks.
 0 STEP
 0 // STEP 12 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
 0 STEP

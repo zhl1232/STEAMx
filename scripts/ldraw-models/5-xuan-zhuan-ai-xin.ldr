@@ -1,0 +1,62 @@
+0 5+ 旋转爱心 - Incomplete source-guided fixed base
+0 Name: 5-xuan-zhuan-ai-xin.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 NumOfBricks: 29
+0 // Source: 5+旋转爱心搭建说明_pdf, 11 numbered pages.
+0 // Only source steps 1-4: plates, alternating wall courses and central bearing bricks.
+0 // Hidden wall seams and plate underside variant inferred; ordinary stud support checked.
+0 // Steps 5-11 preserved but omitted: unverified axle seating, gear mesh, rotating beam and heart.
+0 // Full 52-part scratch trial has real gear intersections and unclassified shaft contacts.
+0 // INCOMPLETE. Not eligible for acceptance or publication.
+0 // source step 1
+1 4 -120 0 0 0 0 1 0 1 0 -1 0 0 4196.dat
+1 4 120 0 0 0 0 1 0 1 0 -1 0 0 4196.dat
+1 14 -120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -48 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -48 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // source step 2
+1 14 120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -96 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -96 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // source step 3
+1 4 160 -144 0 0 0 1 0 1 0 -1 0 0 75350.dat
+1 4 -120 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // source step 4
+1 4 0 -144 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 0 -192 0 0 0 1 0 1 0 -1 0 0 75349.dat
+0 STEP
+0 // source step 5
+0 STEP
+0 // source step 6
+0 STEP
+0 // source step 7
+0 STEP
+0 // source step 8
+0 STEP
+0 // source step 9
+0 STEP
+0 // source step 10
+0 STEP
+0 // source step 11

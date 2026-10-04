@@ -38,9 +38,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { JsonLd } from '@/components/seo/json-ld'
 import { toPublicImageUrl } from '@/lib/seo/public-image'
 import { DEFAULT_SOCIAL_IMAGE } from '@/lib/seo/metadata'
-import { buildProjectCiteDescription, buildProjectCiteKeywords } from '@/lib/seo/project-citability'
+import { buildProjectCiteKeywords } from '@/lib/seo/project-citability'
 import {
-  buildProjectOverviewText,
   buildProjectSeoDescription,
   isPlaceholderProjectDescription,
 } from '@/lib/seo/project-description'
@@ -387,29 +386,18 @@ export async function generateMetadata(
       },
     }
   }
-  const citeDescription = buildProjectCiteDescription({
-    title: project.title,
-    description: isPlaceholderProjectDescription(project.description, project.title) ? '' : project.description,
-    category: project.category,
-    classification: project.classification,
-    reflection: project.reflection,
-  })
+  const hasVideo = Boolean(resolveProjectVideoPlaybackSrc({
+    videoUrl: project.videoUrl,
+    description: project.description,
+    steps: project.steps ?? [],
+  }))
   const description = buildProjectSeoDescription({
-    citeDescription,
     title: project.title,
     description: project.description,
-    category: project.category,
-    subCategory: project.sub_category,
-    classification: project.classification,
-    tags: project.tags,
-    materials: mergeBrokenParenMaterials(project.materials ?? []),
+    reflection: project.reflection,
     steps: project.steps,
-    hasVideo: Boolean(resolveProjectVideoPlaybackSrc({
-      videoUrl: project.videoUrl,
-      description: project.description,
-      steps: project.steps ?? [],
-    })),
-  }) || `${BRAND_FULL_NAME}上的实践项目详情页。`
+    hasVideo,
+  })
   const socialImage = toPublicImageUrl(project.image) || toPublicImageUrl(DEFAULT_SOCIAL_IMAGE)!
   // Normalised numeric id (never the raw segment / query): `/project/0348` canonicalises to `/project/348`.
   const canonicalPath = `/project/${numericId}`
@@ -528,22 +516,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }))
   const tags = project.tags ?? []
   const isObservationProject = tags.includes('鸟类')
-  // Deterministic intro assembled from this project's own fields (never invented copy).
-  const projectOverview = buildProjectOverviewText({
-    title: project.title,
-    description: project.description,
-    category: project.category,
-    subCategory: project.sub_category,
-    classification: project.classification,
-    tags,
-    materials,
-    steps: rawSteps,
-    hasVideo: hasVideoPlayer,
-  })
-  const summaryIsPlaceholder = isPlaceholderProjectDescription(project.description, project.title)
-  const projectSummary = summaryIsPlaceholder
-    ? projectOverview
-    : formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer }) || projectOverview
+  const formattedProjectDescription = formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer })
+  const projectSummary = isPlaceholderProjectDescription(formattedProjectDescription, project.title)
+    ? ''
+    : formattedProjectDescription
   const relatedProject = relatedProjects.find((item) => Number(item.id) !== Number(project.id)) ?? null
   const continuationProject = relatedProject ? toExploreContextProject(relatedProject) : null
   const continuationHref = continuationProject ? `/project/${continuationProject.id}` : exploreBackHref
@@ -762,10 +738,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     {project.sub_category ? <span className="rounded-xs bg-muted px-3 py-1 text-xs text-muted-foreground">{project.sub_category}</span> : null}
                     <ContentClassification classification={project.classification} compact />
                   </div>
-                  <p className="max-w-3xl whitespace-pre-line text-base leading-7 text-foreground/85">{projectSummary}</p>
-                  {!summaryIsPlaceholder && projectOverview !== projectSummary ? (
-                    <p data-testid="project-overview" className="max-w-3xl text-sm leading-6 text-muted-foreground">{projectOverview}</p>
-                  ) : null}
+                  {projectSummary ? <p className="max-w-3xl whitespace-pre-line text-base leading-7 text-foreground/85">{projectSummary}</p> : null}
                   {visibleTags.length ? <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">{visibleTags.map(tag => <span key={tag}>#{tag}</span>)}</div> : null}
                 </div>
                 <ProjectDetailActions projectId={project.id} projectTitle={project.title} mode={mode} variant="hero" />

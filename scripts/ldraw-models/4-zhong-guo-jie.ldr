@@ -5,7 +5,7 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: 4+中国结搭建说明-1.jpg through -11.jpg.
 0 // Recovered:20 red plates plus6 core76395, central60535 and4 side76057; local simplified parts approved.
-0 // INCOMPLETE: source6-11 hinge placement, cord and pulley assemblies remain unresolved.
+0 // INCOMPLETE: source6-11 hinge placement, cord and pulley assemblies remain unresolved. Added76395 underside tubes also intersect central60535(line51) at corelines19/20; two unresolved mesh pairs.
 0 // Source1 six black4x6 Toolo76395 panels recovered; long side5 holes, short side3 holes.
 0 // Core gap48LDU inferred from source proportions, not confirmed missing-part geometry.
 0 // Core topY=-48 and baseY=0; original upper plates bottomY=-48. Local threaded interfaces remain manual.

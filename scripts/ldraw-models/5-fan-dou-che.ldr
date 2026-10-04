@@ -1,40 +1,73 @@
-0 5+ 翻斗车 (Dump Truck) - DUPLO draft for manual repair
+0 FILE 5-fan-dou-che.ldr
+0 5+ 翻斗车 - INCOMPLETE source-based chassis draft
 0 Name: 5-fan-dou-che.ldr
-0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+翻斗车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Raised dump bed, side rails, linkage and orange cab are simplified.
+0 // Source: /mnt/d/pdf预览/5+翻斗车搭建说明_pdf, 11 pages.
+0 // INCOMPLETE: cab shell/glazing and tipping mechanism/bed omitted.
+0 // Cab omission leaves front four-stud section disconnected at intended height; manual support required.
+0 // Front support plate has four supported studs; other half awaits cab rear deck.
+0 // Source steps retained; partial local draft, not an acceptance candidate.
 
-0 // STEP 1 - wheeled chassis and cab
-1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 1 -240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 -400 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -300 -144 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 1 - Source-backed standard bricks
+1 1 -240 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -160 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -80 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 80 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 240 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -200 -48 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -48 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -200 -48 40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -48 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 
-0 // STEP 2 - black lift frame
-1 0 -40 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 120 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -192 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 14 160 -192 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+0 // STEP 2 - Source wheel assembly; 12 axle-hole mesh contacts qualified in local review
+1 2 -80 -24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 -80 -24 -100 1 0 0 0 -1 0 0 0 -1 6527.dat
+1 14 -80 -24 -140 1 0 0 0 -1 0 0 0 -1 6527.dat
+1 0 -80 -24 -152 1 0 0 0 -1 0 0 0 -1 6292.dat
+1 14 -80 -24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -24 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -80 -24 152 1 0 0 0 1 0 0 0 1 6292.dat
+1 2 240 -24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 240 -24 -100 1 0 0 0 -1 0 0 0 -1 6527.dat
+1 14 240 -24 -140 1 0 0 0 -1 0 0 0 -1 6527.dat
+1 0 240 -24 -152 1 0 0 0 -1 0 0 0 -1 6292.dat
+1 14 240 -24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 240 -24 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 240 -24 152 1 0 0 0 1 0 0 0 1 6292.dat
 0 STEP
 
-0 // STEP 3 - raised dump bed
-1 4 40 -240 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 15 200 -282 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 4 360 -324 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 15 520 -366 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 4 260 -324 -40 0.966 0.259 0 -0.259 0.966 0 0 0 1 4196.dat
+0 // STEP 3 - Source-backed standard bricks
+1 14 -40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 4 - white rails and rear lip
-1 15 80 -318 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 15 240 -360 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 15 400 -402 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 0 560 -408 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 40666.dat
-1 4 -420 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - Source-backed standard bricks
+1 1 -80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -80 -168 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 5 - Source-backed standard bricks
+1 14 200 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 6 - INCOMPLETE: dependent assembly omitted
+0 STEP
+
+0 // STEP 7 - INCOMPLETE: dependent assembly omitted
+0 STEP
+
+0 // STEP 8 - INCOMPLETE: dependent assembly omitted
+0 STEP
+
+0 // STEP 9 - INCOMPLETE: dependent assembly omitted
+0 STEP
+
+0 // STEP 10 - INCOMPLETE: dependent assembly omitted
+0 STEP
+
+0 // STEP 11 - INCOMPLETE: dependent assembly omitted

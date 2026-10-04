@@ -1,42 +1,50 @@
-0 4+ 蜻蜓 (Dragonfly) - DUPLO draft for manual repair
+0 4+ Dragonfly - source reconstruction pending review
 0 Name: 4-qing-ting.ldr
-0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蜻蜓 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic wings, legs and pins are replaced with coarse DUPLO tubes and plates.
-
-0 // STEP 1 - segmented body
-1 0 -160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // 26 pieces / 9 source pages. Eight articulated joint checks and 16 support checks pass.
+0 // Four source-seated plate/hinge pairs retain 216 triangle crossings at simplified hinge local Z -4..0.
+0 // Source-backed simplified-part fit exception; not collision-free or physical clutch certification.
+0 // Hidden screw seats and articulated poses inferred; local pending review, not published.
+0 // Source page 1
+1 0 -120.0 -48.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+1 0 120.0 -48.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+1 0 0.0 -96.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
 0 STEP
-
-0 // STEP 2 - head and tail
-1 0 -420 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -420 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 340 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 460 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // Source page 2
+1 7 200.0 -96.0 0.0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 7 248.0 -235.0 0.0 0 0 1 0 1 0 -1 0 0 74957.dat
 0 STEP
-
-0 // STEP 3 - four long wings
-1 8 -120 -96 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -120 -96 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 7 -260 -160 -220 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 -240 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 -260 -160 220 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // Source page 3
+1 7 248.0 -211.0 -80.0 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 248.0 -211.0 -80.0 1 0 0 0 0 -1 0 1 0 44970.dat
+1 7 248.0 -211.0 80.0 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 248.0 -211.0 80.0 1 0 0 0 0 1 0 -1 0 44970.dat
 0 STEP
-
-0 // STEP 4 - legs and eye spots
-1 0 -80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 -80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -440 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -440 -192 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 4
+1 7 -200.0 -96.0 0.0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 7 -552.0 -161.0 0.0 0 1 0 -1 0 0 0 0 1 28331.dat
+0 STEP
+0 // Source page 5
+1 7 -200.0 -24.0 -128.0 -1 0 0 0 0 1 0 1 0 28336.dat
+1 7 -40.0 -24.0 -128.0 -1 0 0 0 0 1 0 1 0 28336.dat
+1 7 200.0 -24.0 -128.0 -1 0 0 0 0 1 0 1 0 28336.dat
+0 STEP
+0 // Source page 6
+1 7 -200.0 -24.0 128.0 1 0 0 0 0 1 0 -1 0 28336.dat
+1 7 -40.0 -24.0 128.0 1 0 0 0 0 1 0 -1 0 28336.dat
+1 7 200.0 -24.0 128.0 1 0 0 0 0 1 0 -1 0 28336.dat
+0 STEP
+0 // Source page 7
+1 14 0.0 -168.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 40666.dat
+1 7 -40.0 -144.0 -40.0 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 7 40.0 -144.0 -40.0 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 7 -40.0 -144.0 40.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+1 7 40.0 -144.0 40.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+0 STEP
+0 // Source page 8
+1 7 -40.0 -209.0 -488.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 28331.dat
+1 7 40.0 -209.0 -488.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0 0.0 28331.dat
+1 7 -40.0 -209.0 488.0 0.0 0.0 1.0 -1.0 0.0 0.0 0.0 -1.0 0.0 28331.dat
+1 7 40.0 -209.0 488.0 0.0 0.0 1.0 -1.0 0.0 0.0 0.0 -1.0 0.0 28331.dat
+0 STEP
+0 // Source page 9

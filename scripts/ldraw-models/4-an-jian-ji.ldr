@@ -2,7 +2,8 @@
 0 Name: 4-an-jian-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 // STATUS: INCOMPLETE. Toolo conveyor deck/rollers/belts/ramp and figure omitted.
+0 // Source reconstruction under final review; existing approved local Toolo approximations retained.
+0 // Panel overhang is outward: centersX+-160 leave160LDU belt lane. Belt tension and threaded retention remain approximate.
 0 // Source: /mnt/d/pdf预览/4+安检机搭建说明_pdf/4+安检机搭建说明-1.jpg ... -10.jpg
 0 // Source 1 raised plate is 8x16 (6490), not 4x8: counted source stud rows.
 0 // +Y down; conveyor runs Z, front +Z. Toolo deck 48 LDU thickness inferred only.
@@ -25,13 +26,30 @@
 1 14 120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 0 -72 -360 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // SOURCE 3: two yellow crosswise bricks at rail centers; four black Toolo side-hole panels omitted
-1 14 -120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 120 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE 3: two yellow crosswise bricks at rail centers; four black 6x4 Toolo panels, long axis Z. Body-bottom -120 seats on rails.
+1 14 -160 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -168 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -160 -168 -320 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -160 -168 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -168 -320 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -168 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-0 // SOURCE 4: eight axle/rollers and four black conveyor pieces unresolved
+0 // SOURCE 4: eight 99565 hubs and four 71981 fixed track loops.
+0 // Rear screws face lane walls; centersX+-40, inferred shoulder40, cap-40. Opposing caps nominally touch center plane; physical clearance unverified.
+1 0 -40 -144 -320 0 0 1 0 1 0 -1 0 0 71981.dat
+1 71 -40 -144 -400 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 -40 -144 -240 0 -1 0 1 0 0 0 0 1 99565.dat
+1 0 -40 -144 0 0 0 1 0 1 0 -1 0 0 71981.dat
+1 71 -40 -144 -80 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 -40 -144 80 0 -1 0 1 0 0 0 0 1 99565.dat
+1 0 40 -144 -320 0 0 1 0 1 0 -1 0 0 71981.dat
+1 71 40 -144 -400 0 1 0 1 0 0 0 0 -1 99565.dat
+1 71 40 -144 -240 0 1 0 1 0 0 0 0 -1 99565.dat
+1 0 40 -144 0 0 0 1 0 1 0 -1 0 0 71981.dat
+1 71 40 -144 -80 0 1 0 1 0 0 0 0 -1 99565.dat
+1 71 40 -144 80 0 1 0 1 0 0 0 0 -1 99565.dat
 0 STEP
-0 // SOURCE 5: two 8x2 four-course red walls; lower bricks partly depend on omitted deck
+0 // SOURCE 5: two 8x2 four-course red walls; black panels now support ends, middle yellow crossbricks support wall centers
 1 4 -120 -216 -240 0 0 1 0 1 0 -1 0 0 3011.dat
 1 4 -120 -216 -80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 4 120 -216 -240 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -53,23 +71,38 @@
 1 4 120 -360 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 4 120 -360 -40 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // SOURCE 6: gray 8x8 roof, thickness24; orange3437 cargo omitted: hidden position/belt support unresolved
+0 // SOURCE 6: gray 8x8 roof, thickness24; orange3437 cargo at the rear output belt, inferred play position supported on top tread
 1 72 0 -384 -160 1 0 0 0 1 0 0 0 1 51262.dat
+1 25 0 -245 -380 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // SOURCE 7: two red bricks with four curves ABOVE; two yellow side-hole supports underneath omitted
-1 4 -80 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -120 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 -40 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 40 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 120 -144 280 0 0 -1 0 1 0 1 0 0 2302.dat
-0 // Entry six-part component is unsupported until missing yellow Toolo blocks are resolved.
+0 // SOURCE 7: two red bricks with four curves ABOVE; two yellow76057 support the entry row
+1 4 -80 -120.0 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -120.0 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -168.0 200 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 -40 -168.0 200 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 40 -168.0 200 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 120 -168.0 200 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 -80 -72 200 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 80 -72 200 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
-0 // SOURCE 8: two hinge blocks and two sloped Toolo ramp arms unresolved
+0 // SOURCE 8: two28336 base hinges side-fastened to entry yellow front face Z240. Bodies do not rest on deck; matching side-hole axes Y-48 provide inferred threaded retention.
+0 // Two short28334 arms engage the upper hinges with their open ends at Y=-137,Z328; closed lower heads extend23LDU beyond base edge. Pose is hinge-retained, not grounded; angle and retention inferred from source8.
+1 71 -40 -72 280 1 0 0 0 1 0 0 0 1 28336.dat
+1 71 -40 -40 502.90283017 0 0 1 -0.87451415 -0.485 0 0.485 -0.87451415 0 28334.dat
+1 71 40 -72 280 1 0 0 0 1 0 0 0 1 28336.dat
+1 71 40 -40 502.90283017 0 0 1 -0.87451415 -0.485 0 0.485 -0.87451415 0 28334.dat
 0 STEP
-0 // SOURCE 9: 4x4 yellow figure stand, two parallel bricks and upper crosswise brick; figure unresolved
+0 // SOURCE 9: 4x4 yellow figure stand, two parallel bricks and upper crosswise brick; eight official child components, standing on lower side of yellow platform
 1 14 -320 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 -320 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 -280 -96 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -48 220 1 0 0 0 1 0 0 0 1 47205.dat
+1 0 -360 -85 226 1 0 0 0 1 0 0 0 1 47207.dat
+1 15 -360 -85 226 1 0 0 0 1 0 0 0 1 47204.dat
+1 4 -360 -85 226 1 0 0 0 1 0 0 0 1 47203p03.dat
+1 15 -360 -112 226.5 1 0 0 0 1 0 0 0 1 47198p03.dat
+1 15 -360 -112 226.5 -1 0 0 0 1 0 0 0 -1 47198p03.dat
+1 14 -360 -127 228 1 0 0 0 1 0 0 0 1 47206p01.dat
+1 4 -360 -127 228 1 0 0 0 1 0 0 0 1 47199.dat
 0 STEP
-0 // SOURCE 10: finished reference only; mechanical reconstruction remains incomplete
+0 // SOURCE 10: reverse finished view; no new pieces.

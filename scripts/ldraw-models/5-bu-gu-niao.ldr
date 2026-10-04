@@ -31,15 +31,19 @@
 0 STEP
 
 0 // STEP 2 - source page 2
-0 // One yellow 3011 under front mechanical tower. Three red Toolo side-hole bricks omitted. Rear assembly absolute grid anchors are inferred from the source.
+0 // One yellow 3011 under front mechanical tower. Three red 75349 side-hole bricks form the front tower; their holes face along X. Rear assembly absolute grid anchors are inferred from the source.
 1 14 80 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 80 -144 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 80 -192 0 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
 
 0 // STEP 3 - source page 3
-0 // Six yellow long and two yellow square bricks: three-layer rear column and two two-layer side feet. Visible front foot has two short top bricks; hidden rear-foot seam is inferred. Rear red Toolo cap omitted.
+0 // Six yellow long and two yellow square bricks: three-layer rear column and two two-layer side feet. Visible front foot has two short top bricks; hidden rear-foot seam is inferred. Rear column capped with red 75349, holes along X.
 1 14 240 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 240 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 240 -192 0 0 0 1 0 1 0 -1 0 0 75349.dat
 1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 240 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
@@ -123,4 +127,4 @@
 0 STEP
 
 0 // STEP 13 - source page 13
-0 // Final partial shell plus separate bird. Missing Toolo towers/drive/carrier prevent full mechanical assembly.
+0 // Final partial shell plus separate bird. Missing drive/carrier prevent full mechanical assembly.

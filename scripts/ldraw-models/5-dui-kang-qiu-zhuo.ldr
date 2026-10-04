@@ -5,7 +5,7 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: .tmp/ldr-fiveplus-20260912/对抗球桌-sheet.jpg, all 11 instruction pages.
 0 // INCOMPLETE: source mechanical rods, paddles, knobs and ball omitted; source yellow ball is unresolved (candidate 22119.dat not confirmed).
-0 // Structural recovery: 154 confirmed standard pieces; outer X +/-960, Z +/-480.
+0 // Structural recovery: 162 source-based pieces; outer X +/-960, Z +/-480.
 0 // STEP 1 - two 24 x 24 bases and yellow first wall
 1 2 -480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 2 480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
@@ -44,7 +44,11 @@
 1 14 920 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 920 -48 320 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // STEP 2 - source red field fittings omitted (unresolved source geometry)
+0 // STEP 2 - four red 75349 axle supports, long axis across field
+1 4 -480 -48 -320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -480 -48 320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 480 -48 -320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 480 -48 320 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
 0 // STEP 3 - source red rod fittings omitted (unresolved source geometry)
 0 STEP
@@ -120,7 +124,11 @@
 1 14 920 -144 400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // STEP 7 - eight yellow 2 x 4 plates, one below and one above each aperture
-0 // Four upper plates lack their source red Toolo supports and remain isolated until STEP 10 caps; intermediate poses are source-aligned only.
+0 // Four red 75349 supports bridge each lower and upper plate; top=-168, bottom=-120.
+1 4 -480 -168 -440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -480 -168 440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 480 -168 -440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 480 -168 440 1 0 0 0 1 0 0 0 1 75349.dat
 1 14 -480 -120 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 480 -120 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 -480 -120 440 1 0 0 0 1 0 0 0 1 40666.dat
@@ -183,4 +191,4 @@
 1 14 480 -240 440 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // STEP 11 - final comparison; unresolved mechanical source parts remain omitted
-0 // Mechanical BOM from source pages: red fittings 4 + red tubes 4 + yellow handles 8 + dark tubes/knobs 15 + yellow ball 1; IDs/geometry unresolved.
+0 // Source2/7 red hole bricks restored. Axles, gears, paddles, wheel handles and ball remain omitted; not an acceptance candidate.

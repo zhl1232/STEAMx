@@ -1,44 +1,145 @@
-0 4+ 春节舞狮 (Lion Dance) - DUPLO draft for manual repair
+0 4+ 春节舞狮 (Lion Dance) - source reconstruction, INCOMPLETE fit review
 0 Name: 4-chun-jie-wu-shi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+春节舞狮 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Head details, layered cloth and face decorations are simplified.
-
-0 // STEP 1 - four legs
-1 4 -160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 NumOfBricks: 60
+0 // Source: 4+春节舞狮搭建说明_pdf, pages1-13; 60 source pieces, page13 final no additions.
+0 // INCOMPLETE: eye axes are aligned but rims/tyres intersect forehead; see axis20-eye-mesh.json.
+0 // Source-confirmed screw axes; front-leg and eye-module20deg poses inferred. Approved Toolo fit remains approximate.
+0 // Evidence: .tmp/4plus-review-20260927/lion-repair/review.md
+0 // STEP 1
+0 // base Toolo board
+1 0 -160 24 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // base Toolo board
+1 0 0 24 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // base Toolo board
+1 0 160 24 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // green6x12 plate bridges all three Toolo boards
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
-
-0 // STEP 2 - red body cloth
-1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2
+0 // source3screw zigzag: front pivot(-200,48,Zside); one rear pivot atX120 or200,Y48
+1 0 -189.773906634617 136.856215395899 -168 -0.342020143326 0 0.939692620786 0.939692620786 0 0.342020143326 0 1 0 76395.dat
+0 // plate underside on leg outward stud plane
+1 4 -162.412295168564 61.680805733027 -192 0.939692620786 0 0.342020143326 0.342020143326 0 -0.939692620786 0 1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 14 -189.773906634617 136.856215395899 -192 0.939692620786 0 0.342020143326 0.342020143326 0 -0.939692620786 0 1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 4 -217.135518100671 212.031625058772 -192 0.939692620786 0 0.342020143326 0.342020143326 0 -0.939692620786 0 1 0 40666.dat
+0 // source3screw zigzag: front pivot(-200,48,Zside); one rear pivot atX120 or200,Y48
+1 0 -189.773906634617 136.856215395899 168 0.342020143326 0 0.939692620786 -0.939692620786 0 0.342020143326 0 -1 0 76395.dat
+0 // plate underside on leg outward stud plane
+1 4 -162.412295168564 61.680805733027 192 -0.939692620786 0 0.342020143326 -0.342020143326 0 -0.939692620786 0 -1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 14 -189.773906634617 136.856215395899 192 -0.939692620786 0 0.342020143326 -0.342020143326 0 -0.939692620786 0 -1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 4 -217.135518100671 212.031625058772 192 -0.939692620786 0 0.342020143326 -0.342020143326 0 -0.939692620786 0 -1 0 40666.dat
 0 STEP
-
-0 // STEP 3 - head and jaw
-1 14 -80 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -384 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 80 -384 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 3
+0 // source3screw zigzag: front pivot(-200,48,Zside); one rear pivot atX120 or200,Y48
+1 0 160 128 -168 0 0 1 1 0 0 0 1 0 76395.dat
+0 // plate underside on leg outward stud plane
+1 4 160 48 -192 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 14 160 128 -192 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 4 160 208 -192 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // source3screw zigzag: front pivot(-200,48,Zside); one rear pivot atX120 or200,Y48
+1 0 160 128 168 0 0 -1 1 0 0 0 -1 0 76395.dat
+0 // plate underside on leg outward stud plane
+1 4 160 48 192 -1 0 0 0 0 -1 0 -1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 14 160 128 192 -1 0 0 0 0 -1 0 -1 0 40666.dat
+0 // plate underside on leg outward stud plane
+1 4 160 208 192 -1 0 0 0 0 -1 0 -1 0 40666.dat
 0 STEP
-
-0 // STEP 4 - eyes and top ornaments
-1 15 -120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 120 -432 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -480 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -528 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 4
+1 0 -160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 4 0 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 5
+0 // curved ends point rearward+X
+1 4 40 -96 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // curved ends point rearward+X
+1 4 160 -96 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // curved ends point rearward+X
+1 4 -40 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 // curved ends point rearward+X
+1 4 80 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 // curved ends point rearward+X
+1 4 40 -96 80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // curved ends point rearward+X
+1 4 160 -96 80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // STEP 6
+0 // base on exposed rear2x2 area of redToolo brick
+1 7 200 -96 0 0 0 1 0 1 0 -1 0 0 28336.dat
+0 // clip notch coincides with tail bracket pivot(248,-161,0); approximation fit unresolved
+1 7 248 -235 0 0 0 1 0 1 0 -1 0 0 74957.dat
+0 STEP
+0 // STEP 7
+0 // 72LDU high revised pedestal; bottom=-48
+1 0 -160 -120 0 1 0 0 0 1 0 0 0 1 60535.dat
+0 // lower jaw6wide8long
+1 0 -200 -168 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // lower jaw6wide8long
+1 0 -40 -168 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // STEP 8
+0 // tongue
+1 4 -240 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // upper jaw support
+1 4 -120 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // rear stacked support
+1 14 0 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // rear stacked support
+1 14 0 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 9
+0 // upper jaw8wide6long; rests on tongue and middle redbrick
+1 0 -160 -264 -80 1 0 0 0 1 0 0 0 1 76395.dat
+0 // upper jaw8wide6long; rests on tongue and middle redbrick
+1 0 -160 -264 80 1 0 0 0 1 0 0 0 1 76395.dat
+0 STEP
+0 // STEP 10
+1 14 -160 -312 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -160 -312 40 1 0 0 0 1 0 0 0 1 76057.dat
+0 // earbase rear support; outer2stud overhang
+1 14 0 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // earbase rear support; outer2stud overhang
+1 14 0 -312 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // left ear high end outward; curve inward
+1 14 0 -408 -140 0 0 -1 0 1 0 1 0 0 2301.dat
+0 // right ear high end outward; curve inward
+1 14 0 -408 140 0 0 1 0 1 0 -1 0 0 2301.dat
+0 STEP
+0 // STEP 11
+0 // upper forehead shifted rearward1stud
+1 14 -160 -360 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 // upper forehead shifted rearward1stud
+1 14 -80 -360 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 4 -160 -408 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // central crest bracket points rearward
+1 7 -80 -408 0 0 0 1 0 1 0 -1 0 0 28336.dat
+0 STEP
+0 // STEP 12
+0 // central source screw axis atX-160,Y-336 mates forehead sidehole; eye module rotates15deg around thisZaxis
+1 7 -160 -336 -128 0.965925826289 0 0.258819045103 0.258819045103 0 -0.965925826289 0 1 0 28336.dat
+0 // wheel axle is exact continuation of bracket localX sidehole; rear shoulder nominally seats at sideface; exact screw fit unmeasured
+1 7 -237.274066103125 -356.705523608202 -104 -0.258819045103 0.965925826289 0 0.965925826289 0.258819045103 0 0 0 -1 99565.dat
+0 // tyre concentric with rim
+1 0 -237.274066103125 -356.705523608202 -104 -0.258819045103 0.965925826289 0 0.965925826289 0.258819045103 0 0 0 -1 44970.dat
+0 // central source screw axis atX-160,Y-336 mates forehead sidehole; eye module rotates15deg around thisZaxis
+1 7 -160 -336 128 -0.965925826289 0 0.258819045103 -0.258819045103 0 -0.965925826289 0 -1 0 28336.dat
+0 // wheel axle is exact continuation of bracket localX sidehole; rear shoulder nominally seats at sideface; exact screw fit unmeasured
+1 7 -237.274066103125 -356.705523608202 104 -0.258819045103 0.965925826289 0 0.965925826289 0.258819045103 0 0 0 -1 99565.dat
+0 // tyre concentric with rim
+1 0 -237.274066103125 -356.705523608202 104 -0.258819045103 0.965925826289 0 0.965925826289 0.258819045103 0 0 0 -1 44970.dat
+0 STEP
+0 // STEP 13 - finished view, no new pieces

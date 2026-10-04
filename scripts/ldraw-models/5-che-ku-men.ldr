@@ -65,7 +65,9 @@
 0 STEP
 
 0 // STEP 5 - source page 5
-0 // Two red side-hole Toolo bricks at X=+/-280,Z=-160, top=-240 are unresolved and omitted.
+0 // Two source5 red75349 complete the front ends; top=-240, holes along X. Each bridges one long and one square brick below.
+1 4 -280 -240 -160 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 280 -240 -160 0 0 1 0 1 0 -1 0 0 75349.dat
 1 1 -240 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 80 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
@@ -85,7 +87,8 @@
 0 STEP
 
 0 // STEP 8 - source page 8
-0 // White mechanical unit, blue drum, gear and axle unresolved. Two identifiable blue support bricks depend on its unverified placement and are also omitted.
+0 // Source8 one blue3011 support sits on base outside right wall, inferred grid X360/Z-160; source BOM is one, not two. White worm housing, blue worm, gear and axle remain unresolved and omitted.
+1 1 360 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
 0 // STEP 9 - source page 9
@@ -97,7 +100,7 @@
 0 STEP
 
 0 // STEP 11 - source page 11
-0 // Adds yellow 9 long + 2 square then blue 10 long. Two front yellow squares lack direct support where the source has missing Toolo; the upper blue course reconnects them. No claim of complete load bearing.
+0 // Adds yellow 9 long + 2 square then blue 10 long. Front yellow squares are now supported by source5 red75349; all wall courses retain their original placement.
 1 14 -160 -288 280 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 0 -288 280 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 160 -288 280 1 0 0 0 1 0 0 0 1 3011.dat

@@ -1,42 +1,76 @@
-0 5+ 变速风扇 (Variable Speed Fan) - source-grounded partial draft
+0 5+ Variable Speed Fan - INCOMPLETE source-based support frame
 0 Name: 5-bian-su-feng-shan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: tmp/ldraw-refs/231-5-bian-su-feng-shan.webp (finished reference image).
-0 // STATUS: INCOMPLETE. The source's red/yellow gear train, side-hole frame,
-0 // axle, crank, hub and broad fan blades have no confirmed local part IDs.
-0 // Only confirmed plate/brick/tube geometry is retained; 40666 is a thin plate
-0 // detail and is never claimed to be a gear. 31452 spokes are display proxies.
+0 // Source: /mnt/d/pdf预览/5+变速风扇搭建说明_pdf, 11 pages.
+0 // Four 75350 side-built beams, eight blue and fourteen yellow 3011 foot bricks.
+0 // Transmission and blade assembly remain unresolved; no tube/plate proxies.
+0 // All studs face -X; brick layer spacing is actual 48 LDU. Floor is Y=0.
+0 // Bottom of central column is embraced by staggered side-clutched foot bricks.
+0 // Hidden back half of symmetric foot is inferred from BOM and visible front.
 
-0 // STEP 1 - yellow 6x12 foundation and alternating tower
-1 14 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE STEP 1: four interlocked side-built hole beams; hand-supported until foot is added
+1 4 0 -200 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 0 -600 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 -48 -400 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 48 -400 0 0 1 0 -1 0 0 0 0 1 75350.dat
 0 STEP
 
-0 // STEP 2 - tower continuation; source side-hole frame and crank unresolved
-1 4 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -120 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -120 -240 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 8 120 -192 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE STEP 2: shaft / gears / fan assembly omitted pending mating verification
+
 0 STEP
 
-0 // STEP 3 - unresolved gear train boundary; four tube spokes retained as proxy
-1 14 0 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 0 -512 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 0 -304 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 -120 -408 -300 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 120 -408 -300 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // SOURCE STEP 3: shaft / gears / fan assembly omitted pending mating verification
+
 0 STEP
 
-0 // STEP 4 - unresolved wide blades; thin plate detail and renderer-visible spokes
-1 2 0 -616 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 0 -144 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 -240 -408 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 2 240 -408 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 0 -408 -200 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE STEP 4: shaft / gears / fan assembly omitted pending mating verification
+
+0 STEP
+
+0 // SOURCE STEP 5: shaft / gears / fan assembly omitted pending mating verification
+
+0 STEP
+
+0 // SOURCE STEP 6: shaft / gears / fan assembly omitted pending mating verification
+
+0 STEP
+
+0 // SOURCE STEP 7: shaft / gears / fan assembly omitted pending mating verification
+
+0 STEP
+
+0 // SOURCE STEP 8: shaft / gears / fan assembly omitted pending mating verification
+
+0 STEP
+
+0 // SOURCE STEP 9: eight blue foot bricks
+1 1 -96 -80 0 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -48 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -48 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 0 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 0 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 48 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 48 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 96 -80 0 0 1 0 -1 0 0 0 0 1 3011.dat
+0 STEP
+
+0 // SOURCE STEP 10: fourteen yellow outer foot bricks
+1 14 -144 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -144 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -96 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -96 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -48 -80 -120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -48 -80 120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 0 -80 -160 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 0 -80 160 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 48 -80 -120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 48 -80 120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 96 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 96 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 144 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 144 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+0 STEP
+
+0 // SOURCE STEP 11: finished view; mechanism remains omitted

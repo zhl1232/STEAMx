@@ -1,37 +1,89 @@
-0 5+ 测风仪 (Anemometer) - DUPLO draft for manual repair
+0 5+ 测风仪 - INCOMPLETE source reconstruction
 0 Name: 5-ce-feng-yi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+测风仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Rotating arms, cup ends, bearing hub and striped tower are simplified.
-
-0 // STEP 1 - blue base and striped tower
-1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 NumOfBricks: 67
+0 // Source: 5+测风仪搭建说明_pdf pages 1-7. Only fixed structure in pages 1-3 reconstructed.
+0 // INCOMPLETE: shaft length, pulley identity and rotating assembly remain unresolved and omitted.
+0 // No replacement wind cups or ball-tube arms. This partial model is not an acceptance candidate.
+0 // STEP 1 - two 6x12 plates, twelve blue and eight yellow 2x4 bricks
+1 4 0 -24 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 -24 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -120 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -72 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -72 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -72 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -72 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -72 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -72 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - central hub
-1 4 0 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -384 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -432 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 2 - ten alternating red/yellow four-brick open rings; 8x6 and 6x8 envelopes
+1 4 0 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -216 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -216 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -264 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -264 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -264 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -312 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -312 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -360 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -360 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -360 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -408 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -408 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -456 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -456 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -456 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -456 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -504 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -504 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -504 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -552 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -552 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -600 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -600 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -600 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -600 -80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - red/blue cross arms
-1 4 -180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 0 -384 -260 1 0 0 0 1 0 0 0 1 31452.dat
-1 1 0 -384 100 1 0 0 0 1 0 0 0 1 31452.dat
+0 // STEP 3 - three red cap bricks and two stacked 2x4 hole bricks; shaft and pulley omitted
+1 4 -80 -648 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -648 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -648 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -696 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -744 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
-
-0 // STEP 4 - wind cups
-1 4 -300 -384 -80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 300 -384 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 1 0 -384 -380 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 0 -384 220 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 14 0 -480 -120 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // STEP 4 - Rotating cross and retaining pulley omitted; support/part identity unresolved
+0 STEP
+0 // STEP 5 - Arm extensions omitted with the unresolved rotating assembly
+0 STEP
+0 // STEP 6 - Four cup/axle/pulley sets omitted; no unconfirmed substitutes
+0 STEP
+0 // STEP 7 - Finished source view; current preview intentionally shows only fixed structure

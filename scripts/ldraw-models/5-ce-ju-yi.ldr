@@ -1,38 +1,44 @@
-0 5+ 测距仪 (Rangefinder) - DUPLO draft for manual repair
+0 5+ 测距仪 - INCOMPLETE source-based static chassis
 0 Name: 5-ce-ju-yi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+测距仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long measuring beam, sight head, scale dots and support cart are simplified.
-
-0 // STEP 1 - small instrument cart
-1 0 -440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -440 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -360 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -520 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source steps1-2 plus fixed official gearbox in step8; wheels, linkages, measuring arms and dial omitted.
+0 // Strict mesh check: 34 pairs, zero crossings. Raw checker passed after official mesh-derived metadata was added.
+0 // Source step 1; 5 modeled additions
+1 4 0 0 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 80 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 2 - long measuring rail
-1 4 -240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 400 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 560 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Source step 2; 5 modeled additions
+1 14 -120 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 160 -72 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
+0 // Source step 3; 0 modeled additions
 
-0 // STEP 3 - yellow scale markers
-1 14 -160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 320 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 480 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
+0 // Source step 4; 0 modeled additions
 
-0 // STEP 4 - blue sight and end target
-1 1 -540 -192 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -640 -192 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 700 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 760 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Source step 5; 0 modeled additions
+
+0 STEP
+0 // Source step 6; 0 modeled additions
+
+0 STEP
+0 // Source step 7; 0 modeled additions
+
+0 STEP
+0 // Source step 8; 1 modeled addition; official gearbox fixed to exposed yellow studs
+1 15 -80 -48 0 0 0 1 0 1 0 -1 0 0 31624.dat
+
+0 STEP
+0 // Source step 9; 0 modeled additions
+
+0 STEP
+0 // Source step 10; 0 modeled additions
+

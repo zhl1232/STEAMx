@@ -1,0 +1,61 @@
+0 5+ 旋转舞台 - INCOMPLETE source reconstruction working draft
+0 Name: 5-xuan-zhuan-wu-tai.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 NumOfBricks: 34
+0 // Source: 5+旋转舞台搭建说明_pdf pages 1-7. No new approximate parts.
+0 // INCOMPLETE: nominal axle/hole contacts remain unresolved.
+0 // All 34 source pieces included, but this model is not an acceptance candidate.
+0 // Source1 places the green shaft in the front stud at X=-20,Z=-20; drive returns to center.
+0 // Shaft bottom stops at the ordinary support-brick stud top; insertion depth is inferred.
+0 // Upper stack rests above the rail stud tips; nominal contact is not a retention test.
+0 // STEP 1 - fixed frame and central vertical axle
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -264 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 2 -20 -339 -20 0 0.9914448614 0.1305261922 -1 0 0 0 -0.1305261922 0.9914448614 6521.dat
+0 STEP
+0 // STEP 2 - horizontal drive axle, rear pulley/crank and front 40-tooth gear
+0 // Inferred drive static phase 2.25deg; gear center Z=-80, shaft center Z=20 for full hub engagement.
+1 7 0 -192 20 0 -0.0392598158 -0.9992290363 0 0.9992290363 -0.0392598158 1 0 0 6522.dat
+1 14 0 -192 60 0.9992290363 -0.0392598158 0 0.0392598158 0.9992290363 0 0 0 1 6527.dat
+1 14 0 -192 100 0.9992290363 0 0.0392598158 0.0392598158 0 -0.9992290363 0 1 0 6526.dat
+1 14 0 -192 -80 0.9992290363 -0.0392598158 0 0.0392598158 0.9992290363 0 0 0 1 6530.dat
+0 STEP
+0 // Central rotating group has inferred 7.5deg Y phase; all three gear pairs checked statically.
+0 // STEP 3 - crown gear and two stacked pulley spacers
+1 1 -20 -295 -20 0.9914448614 -0.1305261922 0 0 0 1 -0.1305261922 -0.9914448614 0 31622.dat
+1 14 -20 -335 -20 0.9914448614 -0.1305261922 0 0 0 1 -0.1305261922 -0.9914448614 0 6527.dat
+1 14 -20 -375 -20 0.9914448614 -0.1305261922 0 0 0 1 -0.1305261922 -0.9914448614 0 6527.dat
+0 STEP
+0 // STEP 4 - 11-hole beam, two vertical side axles and lower pulley retainers
+1 14 -20 -415 -20 0 0 1 0 1 0 -1 0 0 6525.dat
+1 7 -140 -443 -20 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -140 -375 -20 1 0 0 0 0 1 0 -1 0 6527.dat
+1 7 100 -443 -20 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 100 -375 -20 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+0 // STEP 5 - three meshing 24-tooth gears
+1 4 -140 -455 -20 1 0 0 0 0 1 0 -1 0 6529.dat
+1 4 -20 -455 -20 0.9914448614 -0.1305261922 0 0 0 1 -0.1305261922 -0.9914448614 0 6529.dat
+1 4 100 -455 -20 1 0 0 0 0 1 0 -1 0 6529.dat
+0 STEP
+0 // STEP 6 - two crank connectors with axles facing up, and platform hole bricks
+1 14 -140 -495 -20 -1 0 0 0 -1 0 0 0 1 6526.dat
+1 4 -140 -563 20 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 100 -495 -20 -1 0 0 0 -1 0 0 0 1 6526.dat
+1 4 100 -563 20 0 0 1 0 1 0 -1 0 0 75349.dat
+0 STEP
+0 // STEP 7 - final source view; no new parts

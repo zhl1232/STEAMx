@@ -1,14 +1,9 @@
-0 4+ 书包 - source-based standard body draft
+0 4+ School Bag - local review candidate
 0 Name: 4-shu-bao.ldr
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE: lid, strap anchors and articulated straps omitted; black backplate restored using approved local simplified76395.
-0 // Source: /mnt/d/pdf预览/4+书包搭建说明_pdf, 9 physical pages.
-0 // Standard pieces rebuilt flat then rotated Rx(-90); front+Z, opening-Y.
-0 // Back planeZ=0; yellow topsZ=48/96; orange thin frontZ=120, thickness24.
-0 // Inner U source4 visible joints: viewed from+Z with up-Y, left is+X;3437 at+X top.
-0 // Bottom edge worldY=0 is a display baseline, not a ground/clutch-strength certification.
-0 // Source 1: six black76395 core panels. TopZ=-24 supports red4196 backs atZ=-24; no standard plate removed.
+0 // REVIEW: rear hinges attach vertically to lid-base rear screw faces; 18 anchors and whole mesh checked.
+0 // Strap chains use four 200-LDU arms per side; angles and hidden fastening inferred. Authorized approximate6294 retained.
+0 // Source page 1
 1 0 -120 -400 -24 1 0 0 0 0 1 0 -1 0 76395.dat
 1 0 120 -400 -24 1 0 0 0 0 1 0 -1 0 76395.dat
 1 0 -120 -240 -24 1 0 0 0 0 1 0 -1 0 76395.dat
@@ -16,11 +11,11 @@
 1 0 -120 -80 -24 1 0 0 0 0 1 0 -1 0 76395.dat
 1 0 120 -80 -24 1 0 0 0 0 1 0 -1 0 76395.dat
 0 STEP
-0 // Source 2: Two red4196 plates make 12x12 back, all studs face world+Z
+0 // Source page 2
 1 4 0 -360 0 1 0 0 0 0 1 0 -1 0 4196.dat
 1 4 0 -120 0 1 0 0 0 0 1 0 -1 0 4196.dat
 0 STEP
-0 // Source 3: Eight yellow3011 outer12x12 U, open upward
+0 // Source page 3
 1 14 -200 -400 48 0 0 1 -1 0 0 0 -1 0 3011.dat
 1 14 -200 -240 48 0 0 1 -1 0 0 0 -1 0 3011.dat
 1 14 -200 -80 48 0 0 1 -1 0 0 0 -1 0 3011.dat
@@ -30,7 +25,7 @@
 1 14 -80 -40 48 1 0 0 0 0 1 0 -1 0 3011.dat
 1 14 80 -40 48 1 0 0 0 0 1 0 -1 0 3011.dat
 0 STEP
-0 // Source 4: Six yellow3011 and one3437 inner10x10 U, one-stud inset
+0 // Source page 4
 1 14 160 -400 96 1 0 0 0 0 1 0 -1 0 3437.dat
 1 14 160 -280 96 0 0 1 -1 0 0 0 -1 0 3011.dat
 1 14 160 -120 96 0 0 1 -1 0 0 0 -1 0 3011.dat
@@ -39,7 +34,7 @@
 1 14 40 -80 96 1 0 0 0 0 1 0 -1 0 3011.dat
 1 14 -120 -80 96 1 0 0 0 0 1 0 -1 0 3011.dat
 0 STEP
-0 // Source 5: Ten orange40666 thin plates make8x10 front panel
+0 // Source page 5
 1 25 -80 -400 120 1 0 0 0 0 1 0 -1 0 40666.dat
 1 25 -80 -320 120 1 0 0 0 0 1 0 -1 0 40666.dat
 1 25 -80 -240 120 1 0 0 0 0 1 0 -1 0 40666.dat
@@ -51,10 +46,26 @@
 1 25 80 -160 120 1 0 0 0 0 1 0 -1 0 40666.dat
 1 25 80 -80 120 1 0 0 0 0 1 0 -1 0 40666.dat
 0 STEP
-0 // Source 6: Toolo curved lid and hinges omitted
+0 // Source page 6
+1 7 -120 -528 -48 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+1 25 -120 -593 0 -1 0 0 0 0 1 0 1 0 6294.dat
+1 7 120 -528 -48 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+1 25 120 -593 0 -1 0 0 0 0 1 0 1 0 6294.dat
 0 STEP
-0 // Source 7: Toolo strap anchors omitted
+0 // Source page 7
+1 7 -120 -504 -136 1 0 0 0 0 -1 0 1 0 28336.dat
+1 7 -120 -80 -72 1 0 0 0 0 1 0 -1 0 74957.dat
+1 7 120 -504 -136 1 0 0 0 0 -1 0 1 0 28336.dat
+1 7 120 -80 -72 1 0 0 0 0 1 0 -1 0 74957.dat
 0 STEP
-0 // Source 8: Toolo articulated straps omitted
+0 // Source page 8
+1 7 -120.0 -472.0 -384.3030277982336 -0.0 0.0 1.0 0.9165151389911679 -0.4 0.0 0.4 0.9165151389911679 0.0 28334.dat
+1 7 -120.0 -294.8032664094209 -477.04631653024563 -0.0 0.0 1.0 0.46371644366006026 -0.8859836679528954 0.0 0.8859836679528954 0.46371644366006026 0.0 28334.dat
+1 7 -120.0 -160.0 -329.3030277982336 0.0 0.0 1.0 -0.7387164436600603 -0.6740163320471046 0.0 0.6740163320471046 -0.7387164436600603 0.0 28334.dat
+1 7 -120.0 -80.0 -146.0 0.0 0.0 1.0 -0.9165151389911679 -0.4 0.0 0.4 -0.9165151389911679 0.0 28334.dat
+1 7 120.0 -472.0 -384.3030277982336 -0.0 0.0 1.0 0.9165151389911679 -0.4 0.0 0.4 0.9165151389911679 0.0 28334.dat
+1 7 120.0 -294.8032664094209 -477.04631653024563 -0.0 0.0 1.0 0.46371644366006026 -0.8859836679528954 0.0 0.8859836679528954 0.46371644366006026 0.0 28334.dat
+1 7 120.0 -160.0 -329.3030277982336 0.0 0.0 1.0 -0.7387164436600603 -0.6740163320471046 0.0 0.6740163320471046 -0.7387164436600603 0.0 28334.dat
+1 7 120.0 -80.0 -146.0 0.0 0.0 1.0 -0.9165151389911679 -0.4 0.0 0.4 -0.9165151389911679 0.0 28334.dat
 0 STEP
-0 // Source 9: Final source view, no additions
+0 // Source page 9

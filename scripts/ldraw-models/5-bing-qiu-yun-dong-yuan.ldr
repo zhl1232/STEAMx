@@ -1,37 +1,51 @@
-0 5+ 冰球运动员 (Ice Hockey Player) - DUPLO draft for manual repair
+0 5+ 冰球运动员 - INCOMPLETE source-based static structure
 0 Name: 5-bing-qiu-yun-dong-yuan.ldr
-0 Author: OpenAI
+0 Author: Codex scratch reconstruction
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+冰球运动员 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Player pose, gear details, stick blade and puck are simplified.
-
-0 // STEP 1 - skates and legs
-1 14 -80 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -120 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 7 120 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source steps1-5 and9 reconstructed; mechanisms, stick and ball omitted.
+0 // Car underside variant and hidden stud registration inferred; not an acceptance candidate.
+1 4 120 0 0 -1 0 0 0 1 0 0 0 -1 10715p02.dat
+1 4 -120 0 0 -1 0 0 0 1 0 0 0 -1 10715p02.dat
+1 14 120 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - blue/red torso and shoulders
-1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 160 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 3 - yellow head and helmet
-1 14 0 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -288 -160 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 -60 -336 -200 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 160 -384 -220 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+1 1 0 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - hockey stick and puck
-1 14 -180 -168 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -180 -300 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -260 -24 -160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -420 -24 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -384 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -432 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -456 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -504 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+1 14 20 -600 0 1 0 0 0 1 0 0 0 1 2301.dat
+1 14 -20 -600 0 -1 0 0 0 1 0 0 0 -1 2301.dat
+0 STEP
+0 // Steps 6-8 omitted; this scratch package is intentionally incomplete.
+0 STEP
+0 // Step 7 omitted.
+0 STEP
+0 // Step 8 omitted.
+0 STEP
+0 // Step 9 source addition: mirrored side arms.
+1 4 160 -384 -120 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -160 -384 -120 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 160 -336 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -160 -336 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -408 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -160 -408 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // Step 10 omitted.
+0 STEP
+0 // Step 11 omitted.
+0 STEP
+0 // Step 12 omitted.
+0 STEP
+0 // Source step 13: final reference; mechanisms and ball omitted.

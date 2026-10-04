@@ -4,60 +4,65 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: /mnt/d/pdf预览/5+病床搭建说明_pdf, pages 1-11.
-0 // Status: INCOMPLETE - unresolved Toolo/axle/gear/figure geometry is intentionally omitted.
+0 // Status: INCOMPLETE - unresolved mechanism/figure geometry is intentionally omitted.
 0 // Geometry: standard confirmed local LDraw parts only; 40 LDU stud pitch.
-0 // Support: platform is connected at the supplemented end only; missing side-hole beams must support its far end.
+0 // Support: frame length14studs; two75350beams now support both ends of the6x12platform.
+0 NumOfBricks: 21
 
 0 // STEP 1 - green 24x24 base and four red three-brick legs (12 + 1)
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
-1 4 -160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
 0 // STEP 2 - red short end beams and red 2x10 hole side beams (4)
-1 4 -160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
-0 // UNRESOLVED source page 2: two long Toolo beams; no substitute placed.
+1 4 -200 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 -80 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 80 -192 80 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 
 0 // STEP 3 - green 6x12 platform and two striped safety barriers (3)
-1 2 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 -40 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
 1 15 -80 -312 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 -80 -312 100 1 0 0 0 1 0 0 0 1 31021p01.dat
 0 STEP
 
-0 // STEP 4 - yellow raised back-rest slopes; axle/round details unresolved (2)
-0 // No placement: source slope-to-axle angle and support are not confirmed.
+0 // STEP 4 - two yellow perforated back-rest beams, green axle and two pulleys omitted.
+0 // No placement: source beam-to-axle angle and support are not confirmed.
 0 STEP
 
 0 // STEP 5 - red side blocks; rods and four round details unresolved (2)
 0 // No placement: rods/round pieces lack confirmed IDs and support.
 0 STEP
 
-0 // STEP 6 - blue body plates shown as standard 2x4 bricks (3)
+0 // STEP 6 - three blue 2x4 body plates (3)
 0 // No placement: source pieces are plates in a tilted mechanism; angle/support unresolved.
 0 STEP
 
-0 // STEP 7 - Toolo/gear/holder mechanism unresolved; source boundary retained
-0 // UNRESOLVED source page 7: two rods, blue hub, red gear and white holder. No guessed IDs.
+0 // STEP 7 - official fixed housing; moving gear/axle mechanism remains unresolved
+0 // Official 31624 housing at head end, supported by base studs.
+0 // Exact stud-grid position X400/Z0 is inferred from source page 7; requires human review.
+1 15 400 0 0 1 0 0 0 1 0 0 0 1 31624.dat
+0 // Two axles, 31625 worm and red gear omitted pending assembly fit.
 0 STEP
 
 0 // STEP 8 - confirmed black 25/53 x 19 tyre; yellow round pieces unresolved (1)
 0 // No placement: tyre mounting axis and two yellow round pieces are unresolved.
 0 STEP
 
-0 // STEP 9 - Toolo hinge details unresolved; source boundary retained
-0 // UNRESOLVED source page 9: four yellow Toolo hinge pieces. No guessed IDs.
+0 // STEP 9 - yellow connector details unresolved; source boundary retained
+0 // UNRESOLVED source page 9: four yellow connector pieces. No guessed IDs.
 0 STEP
 
 0 // STEP 10 - confirmed colored standard bricks; figure and printed eyes unresolved (5)

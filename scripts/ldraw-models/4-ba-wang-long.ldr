@@ -1,45 +1,64 @@
-0 4+ 霸王龙 (Tyrannosaur) - DUPLO draft for manual repair
+0 4+ 霸王龙 - source reconstruction, local unaccepted draft
 0 Name: 4-ba-wang-long.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+霸王龙 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Articulated limbs, claws and teeth are simplified.
-
-0 // STEP 1 - body core
-1 0 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 0 -192 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 NumOfBricks: 29
+0 // Source: 4+霸王龙搭建说明_pdf pages 1-13. Page 13 adds no parts.
+0 // Uses user-approved approximate Toolo meshes. Joint fit is under local review.
+0 // STEP 1 - three overlapping black Toolo body blocks
+1 0 0 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 80 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - tail and neck
-1 0 220 -144 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 340 -144 0 0 0 1 0 1 0 -1 0 0 31195.dat
-1 0 -220 -192 0 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 -320 -240 0 0.866 -0.500 0 0.500 0.866 0 0 0 1 31195.dat
+0 // STEP 2 - back hinge base and central body block
+1 7 -200 -96 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 0 -40 -96 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 3 - head and jaw
-1 0 -380 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 -560 -312 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -420 -336 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -460 -360 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - front turntable
+1 0 120 -120 0 1 0 0 0 1 0 0 0 1 60535.dat
 0 STEP
-
-0 // STEP 4 - legs
-1 0 -120 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -120 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -160 -144 -140 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 120 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 120 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -144 -140 1 0 0 0 1 0 0 0 1 2302.dat
+0 // STEP 4 - two underside clips and hinged legs
+1 7 0 48 -80 0 0 -1 0 1 0 1 0 0 74957.dat
+1 7 48 187 -80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 7 0 48 80 0 0 -1 0 1 0 1 0 0 74957.dat
+1 7 48 187 80 0 0 -1 0 1 0 1 0 0 28336.dat
 0 STEP
-
-0 // STEP 5 - arms and back cannon shape
-1 0 -180 -192 -240 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 120 -192 -240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 8 60 -264 0 1 0 0 0 1 0 0 0 1 42029.dat
-1 8 120 -312 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 5 - two yellow feet
+1 14 88 235 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 88 235 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // STEP 6 - two yellow side arms, screw-axis normal to torso sides
+1 14 104 8 -168 0.6 0 0.8 0.8 0 -0.6 0 1 0 76057.dat
+1 14 104 8 168 0.6 0 -0.8 0.8 0 0.6 0 -1 0 76057.dat
+0 STEP
+0 // STEP 7 - grey forearms overlapping distal two stud rows
+1 7 152 72 -216 0.6 0 0.8 0.8 0 -0.6 0 1 0 76057.dat
+1 7 152 72 216 0.6 0 -0.8 0.8 0 0.6 0 -1 0 76057.dat
+0 STEP
+0 // STEP 8 - one short fork tail, open end nested on base pivot
+1 7 -368 -321 0 0.8 0.6 0 -0.6 0.8 0 0 0 1 28334.dat
+0 STEP
+0 // STEP 9 - two staggered head blocks on turntable
+1 0 80 -168 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 160 -216 0 1 0 0 0 1 0 0 0 1 76395.dat
+0 STEP
+0 // STEP 10 - grey rear and red front jaw spacers
+1 7 80 -264 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 4 200 -264 0 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // STEP 11 - upper jaw, grey eye beam and two exposed screw rims
+1 0 160 -312 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 7 80 -360 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 7 80 -336 120 1 0 0 0 0 1 0 -1 0 99565.dat
+1 7 80 -336 -120 1 0 0 0 0 -1 0 1 0 99565.dat
+0 STEP
+0 // STEP 12 - four yellow curved back covers in two tiers
+1 14 -80 -144 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 0 -216 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -80 -144 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 0 -216 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // STEP 13 - finished view; no new parts
+0 // Local renderer-reviewed candidate; no publication or human acceptance recorded.
+0 // 60535 underside, screw retention and joint angles use approved approximate geometry/inferred fit.

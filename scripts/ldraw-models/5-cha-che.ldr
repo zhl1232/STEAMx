@@ -1,40 +1,130 @@
-0 5+ 叉车 (Forklift) - DUPLO draft for manual repair
+0 5+ Forklift - INCOMPLETE source-based chassis and load
 0 Name: 5-cha-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+叉车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Fork mast, yellow lift linkage, forks, load box and gear details are simplified.
+0 // Source: /mnt/d/pdf预览/5+叉车搭建说明_pdf, 20 pages.
+0 // Cab, worm housing, lift linkage and forks remain unresolved and omitted.
+0 // Not an acceptance candidate. No approximate pipe/linkage substitutes.
+0 // Wheel contacts reuse exactly checked crane transforms and unchanged geometry.
 
-0 // STEP 1 - wheeled chassis and yellow body
-1 14 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -280 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE STEP 1: green 6490 and four red 75349; shown upright throughout
+1 4 -240 0 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -240 0 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 0 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 0 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
 
-0 // STEP 2 - cab and roof
-1 8 -40 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -40 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 40 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 200 -192 -120 1 0 0 0 1 0 0 0 1 2302.dat
+0 // SOURCE STEP 2: four short geared axles 6523; shaft length inferred from source
+1 1 -240 24 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 -240 24 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 240 24 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 240 24 100 0 0 1 0 1 0 -1 0 0 6523.dat
 0 STEP
 
-0 // STEP 3 - front mast and lift arm
-1 0 -300 -96 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 -300 -216 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -360 -168 -240 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 -480 -168 -240 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 -600 -168 -240 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE STEP 3: four 6530 gear wheels
+1 14 -240 24 -180 1 0 0 0 -1 0 0 0 -1 6530.dat
+1 14 -240 24 180 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 240 24 -180 1 0 0 0 -1 0 0 0 -1 6530.dat
+1 14 240 24 180 1 0 0 0 1 0 0 0 1 6530.dat
 0 STEP
 
-0 // STEP 4 - forks and blue load
-1 8 -700 -72 -160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 8 -700 -72 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 -820 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -820 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -820 -144 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE STEP 4: four yellow bricks and six blue underside plates
+1 14 -120 0 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 0 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 0 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 0 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -160 48 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 48 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -120 48 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 120 48 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+
+0 // SOURCE STEP 5: 12x8 yellow border with four red interior bricks
+1 14 -120 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // SOURCE STEP 6: 8x8 upper yellow platform
+1 14 -40 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // SOURCE STEP 7: UNRESOLVED cab base and windscreen; omitted
+
+0 STEP
+
+0 // SOURCE STEP 8: cab-dependent frame, pane and roof omitted
+
+0 STEP
+
+0 // SOURCE STEP 9: three-brick front support; middle brick has axle holes
+1 4 -240 -72 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -120 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -240 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // SOURCE STEP 10: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 11: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 12: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 13: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 14: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 15: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 16: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 17: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 18: mechanism depends on unknown worm housing; omitted
+
+0 STEP
+
+0 // SOURCE STEP 19: separate load; floor y=115 is inferred from wheel extent
+1 1 -960 67 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -960 19 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -960 67 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -960 19 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -960 -29 0 0 0 1 0 1 0 -1 0 0 75350.dat
+0 STEP
+
+0 // SOURCE STEP 20: finished view; incomplete model

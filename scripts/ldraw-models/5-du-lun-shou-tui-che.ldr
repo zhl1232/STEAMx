@@ -1,39 +1,106 @@
-0 5+ 独轮手推车 (Wheelbarrow) - DUPLO draft for manual repair
+0 5+ 独轮手推车 (Wheelbarrow) — 68-piece local review draft
 0 Name: 5-du-lun-shou-tui-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+独轮手推车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Single front wheel, tray, handles and loose cargo blocks are simplified.
+0 // Source: /mnt/d/pdf预览/5+独轮手推车搭建说明_pdf/5+独轮手推车搭建说明-1.jpg … -9.jpg
+0 // Complete page-1 mechanism; 6521 axle length inferred from 320 LDU span. Physical retention untested.
+0 // +Y down. Identity orientation is I; R is Y-quarter-turn: 0 0 1 / 0 1 0 / -1 0 0.
 
-0 // STEP 1 - yellow/blue tray
-1 1 -160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 160 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -168 -80 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STEP 1 - red rails, double-gear wheel, axles, pulleys and crank feet/braces
+1 4 0 0 -80 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 80 1 0 0 0 1 0 0 0 1 75350.dat
+1 2 160 24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 160 24 -20 1 0 0 0 -1 0 0 0 -1 6530.dat
+1 14 160 24 20 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 160 24 -140 1 0 0 0 -1 0 0 0 -1 6527.dat
+1 14 160 24 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 -160 24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 -160 24 140 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 -160 24 -140 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -160 24 20 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 -160 24 -20 0 0 1 -1 0 0 0 -1 0 6526.dat
 0 STEP
 
-0 // STEP 2 - front wheel and legs
-1 14 280 -72 0 1 0 0 0 1 0 0 0 1 42029.dat
-1 0 200 -96 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 -260 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 -160 -48 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // STEP 2 - six yellow 2x4 bricks
+1 14 -120 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 3 - green handles
-1 2 -260 -120 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 -380 -120 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 -500 -120 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 2 -260 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 -380 -120 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 -500 -120 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // STEP 3 - six blue 2x4 bricks, shifted 80 LDU forward
+1 1 -40 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 4 - loose cargo
-1 25 -360 -24 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -24 180 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -460 -24 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - green underside plate and blue end cap; cap orientation inferred from source
+1 2 360 -48 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 360 -48 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 400 -96 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 5 - two green 2x10 bricks, supported only at the visible two-stud underside interfaces
+1 2 -320 -96 -80 1 0 0 0 1 0 0 0 1 2291.dat
+1 2 -320 -96 80 1 0 0 0 1 0 0 0 1 2291.dat
+0 STEP
+
+0 // STEP 6 - green 6x12 deck and three green 2x4 plates
+1 2 40 -120 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 360 -120 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 360 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 2 360 -120 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 7 - yellow ten-brick ring; two rotated closure bricks
+1 14 -120 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 400 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+
+0 // STEP 8 - blue and yellow twelve-brick outer rings
+1 1 -160 -216 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -216 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -216 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -216 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -216 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -216 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -216 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -216 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -216 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -200 -216 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 440 -216 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 440 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Step 8 continued - yellow opposite bond
+1 14 -80 -264 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -264 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -264 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -264 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -264 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -264 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -264 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -264 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -264 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // STEP 9 - finished view; no additions
+
+0 // Review: 14 exact native mating-contact pairs classified; raw overlap warnings retained.
+0 // Inferences: axle length, hidden front cap seam and wall bonding. Renderer-verified only.
+0 // Display pose has no floor: wheel bottom Y~115, feet Y128; resting pose needs slight pitch.

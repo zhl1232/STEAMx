@@ -1,39 +1,85 @@
-0 5+ 打镲的小牛 (Cymbal Calf) - DUPLO draft for manual repair
+0 5+ 打镲的小牛 - INCOMPLETE fixed-frame reconstruction
 0 Name: 5-da-cha-de-xiao-niu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+打镲的小牛 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Cow face, horns, side cymbals, gear wheels and arms are simplified.
-
-0 // STEP 1 - green stage and legs
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source14steps; static frame and head through step12. Mechanism/horns omitted; hidden placements inferred.
+0 // Base6490; foot pair back-to-back inferred; upper posts half-width supported at rail ends.
+0 // Not an acceptance candidate; no approximate parts or publication.
+0 // Source step 1; 11 modeled additions
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 -120 -48 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -120 -48 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -48 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 120 -48 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - red/yellow torso
-1 4 -80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source step 2; 2 modeled additions
+1 4 0 -240 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -240 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - head, horns and cymbals
-1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -120 -408 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 120 -408 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
-1 14 240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+0 // Source step 3; 0 modeled additions
 0 STEP
-
-0 // STEP 4 - arms and face details
-1 4 -180 -240 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 4 180 -240 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 15 -60 -360 -240 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 60 -360 -240 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source step 4; 0 modeled additions
+0 STEP
+0 // Source step 5; 0 modeled additions
+0 STEP
+0 // Source step 6; 6 modeled additions
+1 1 -200 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -200 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source step 7; 4 modeled additions
+1 4 0 -432 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -432 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -240 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source step 8; 8 modeled additions
+1 1 -120 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -480 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -200 -480 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 200 -480 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 200 -480 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // Source step 9; 1 modeled addition; official 4672b underside variant inferred
+1 1 0 -504 -80 0 0 1 0 1 0 -1 0 0 4672b.dat
+0 STEP
+0 // Source step 10; 10 modeled additions
+1 4 -40 -552 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -552 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -552 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -600 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -600 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -600 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -600 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -600 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source step 11; 5 modeled additions
+1 14 -80 -648 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 80 -648 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 0 -648 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -648 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -648 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source step 12; 4 modeled additions
+1 14 -40 -696 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -40 -696 80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 40 -696 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 40 -696 80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // Source step 13; 0 modeled additions
+0 STEP
+0 // Source step 14; 0 modeled additions
