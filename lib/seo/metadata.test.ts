@@ -93,4 +93,15 @@ describe("buildPageMetadata", () => {
     expect(metadata.openGraph?.url).toBeUndefined();
     expect(String(buildAbsoluteUrl("/")).endsWith("/")).toBe(true);
   });
+
+  it("uses noindex, nofollow by default and noindex, follow when requested", () => {
+    const base = { title: "课程", description: "desc", path: "/courses/1" };
+
+    expect(buildPageMetadata(base).robots).toBeUndefined();
+    expect(buildPageMetadata({ ...base, noIndex: true }).robots).toEqual({ index: false, follow: false });
+    expect(buildPageMetadata({ ...base, noIndex: true, noIndexFollow: true }).robots).toEqual({ index: false, follow: true });
+    // noIndexFollow alone never de-indexes a page.
+    expect(buildPageMetadata({ ...base, noIndexFollow: true }).robots).toBeUndefined();
+  });
 });
+

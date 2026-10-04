@@ -6,13 +6,14 @@ import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import { CourseLessonCatalog } from "@/components/features/courses/course-lesson-catalog";
 import { CourseShareButton } from "@/components/features/courses/course-share-button";
+import { CourseSuccessorBanner } from "@/components/features/courses/course-successor-banner";
 import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { createClient } from "@/lib/supabase/server";
-import { getCourseOverview } from "@/lib/api/courses";
+import { getCourseOverview, getCourseSuccessor } from "@/lib/api/courses";
 import { listStoreProductsForContext } from "@/lib/store/service";
 import { LESSON_CATALOG_MIN_SIZE } from "@/lib/courses/lesson-catalog";
 import { buildLessonCatalogItems } from "@/lib/courses/lesson-catalog-builder";
@@ -42,7 +43,10 @@ export async function generateMetadata({ params }: PageProps) {
         path: `/courses/${courseId}`,
         keywords: [course.title, "STEAM课程", "在线课程", ...(course.tags ?? [])],
         image: course.image_url ?? undefined,
+        // Unlisted courses stay reachable for existing learners but out of search results;
+        // keep links followable so crawlers reach the successor course.
         noIndex: course.is_listed === false,
+        noIndexFollow: course.is_listed === false,
     });
 }
 
@@ -75,7 +79,10 @@ export default async function CourseDetailPage({ params }: PageProps) {
     });
     if (!course) notFound();
 
-    const contextualStoreProducts = await listStoreProductsForContext(supabase, `course:${course.id}`);
+    const [contextualStoreProducts, successor] = await Promise.all([
+        listStoreProductsForContext(supabase, `course:${course.id}`),
+        getCourseSuccessor(supabase, course.id),
+    ]);
 
     const imageSrc = course.image_url || "/projects/tech_programming.webp";
     const isGomoku = usesGomokuHero(course);
@@ -136,6 +143,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
                     <ArrowLeft className="h-3.5 w-3.5" />
                     返回全部课程
                 </Link>
+
+                <CourseSuccessorBanner successor={successor} className="mb-3 md:mb-4" />
 
                 {/* Hero 卡：左文右图，五子棋课用棋盘 SVG，其它课用位图 */}
                 <section className="surface-card overflow-hidden rounded-xl">

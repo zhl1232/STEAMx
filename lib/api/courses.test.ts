@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   getCourseOverview,
+  getCourseSuccessor,
+  getListedCourseSummary,
   listApprovedCourses,
 } from '@/lib/api/courses'
 import type { CourseRow } from '@/lib/courses/types'
@@ -251,3 +253,41 @@ describe('getCourseOverview', () => {
     expect(client.from.mock.calls.map(([table]) => table)).toEqual(['courses', 'course_lessons'])
   })
 })
+
+describe('course successor lookup', () => {
+  it('reads the successor through the same listed/approved filters as the catalog', async () => {
+    const client = makeClient({
+      courses: { data: { id: 8, title: ' Scratch 创探编程：从动画到作品 ' }, error: null },
+    })
+
+    await expect(getCourseSuccessor(client as never, 1)).resolves.toEqual({
+      id: 8,
+      title: 'Scratch 创探编程：从动画到作品',
+    })
+    const query = client.queries.get('courses')
+    expect(query?.select).toHaveBeenCalledWith('id, title')
+    expect(query?.eq).toHaveBeenCalledWith('id', 8)
+    expect(query?.eq).toHaveBeenCalledWith('status', 'approved')
+    expect(query?.eq).toHaveBeenCalledWith('is_listed', true)
+  })
+
+  it('returns null without querying when a course has no successor', async () => {
+    const client = makeClient({})
+
+    await expect(getCourseSuccessor(client as never, 3)).resolves.toBeNull()
+    expect(client.from).not.toHaveBeenCalled()
+  })
+
+  it('falls back to null when the successor is missing, unlisted or the query fails', async () => {
+    await expect(
+      getCourseSuccessor(makeClient({ courses: { data: null, error: null } }) as never, 1),
+    ).resolves.toBeNull()
+    await expect(
+      getCourseSuccessor(makeClient({ courses: { data: null, error: new Error('boom') } }) as never, 1),
+    ).resolves.toBeNull()
+    await expect(
+      getListedCourseSummary(makeClient({ courses: { data: { id: 8, title: '  ' }, error: null } }) as never, 8),
+    ).resolves.toBeNull()
+  })
+})
+

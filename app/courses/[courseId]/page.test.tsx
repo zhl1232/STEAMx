@@ -5,7 +5,7 @@ import type { CourseLessonSummary, CourseOverview } from "@/lib/courses/types";
 
 const state = vi.hoisted(() => ({ user: null as { id: string } | null }));
 
-vi.mock("@/lib/api/courses", () => ({ getCourseOverview: vi.fn() }));
+vi.mock("@/lib/api/courses", () => ({ getCourseOverview: vi.fn(), getCourseSuccessor: vi.fn(async () => null) }));
 vi.mock("@/lib/supabase/server", () => ({
   createClient: vi.fn(async () => ({ auth: { getUser: vi.fn(async () => ({ data: { user: state.user } })) } })),
 }));
@@ -29,8 +29,8 @@ vi.mock("@/components/features/courses/course-lesson-catalog", () => ({
   CourseLessonCatalog: ({ desktopCards }: { desktopCards?: boolean }) => <div data-desktop-cards={desktopCards ? "true" : "false"} />,
 }));
 
-import CourseDetailPage from "./page";
-import { getCourseOverview } from "@/lib/api/courses";
+import CourseDetailPage, { generateMetadata } from "./page";
+import { getCourseOverview, getCourseSuccessor } from "@/lib/api/courses";
 
 function makeLesson(id: number, lessonType: CourseLessonSummary["lesson_type"] = "building_3d"): CourseLessonSummary {
   return {
@@ -122,3 +122,55 @@ describe("course detail CTA", () => {
     expect(document.querySelector('[data-desktop-cards="true"]')).toBeNull();
   });
 });
+
+describe("unlisted course successor and robots", () => {
+  beforeEach(() => {
+    state.user = null;
+    vi.clearAllMocks();
+    vi.mocked(getCourseSuccessor).mockResolvedValue(null);
+  });
+
+  it("keeps unlisted courses out of search but lets crawlers follow links", async () => {
+    vi.mocked(getCourseOverview).mockResolvedValue({ ...makeCourse(null), id: 1, is_listed: false });
+
+    const metadata = await generateMetadata({ params: Promise.resolve({ courseId: "1" }) });
+
+    expect(metadata).toMatchObject({ noIndex: true, noIndexFollow: true, path: "/courses/1" });
+  });
+
+  it("indexes listed courses and keeps nofollow for missing ones", async () => {
+    vi.mocked(getCourseOverview).mockResolvedValueOnce({ ...makeCourse(null), is_listed: true });
+    expect(await generateMetadata({ params: Promise.resolve({ courseId: "5" }) })).toMatchObject({
+      noIndex: false,
+      noIndexFollow: false,
+    });
+
+    vi.mocked(getCourseOverview).mockResolvedValueOnce(null);
+    const missing = await generateMetadata({ params: Promise.resolve({ courseId: "404" }) });
+    expect(missing).toMatchObject({ noIndex: true });
+    expect(missing).not.toHaveProperty("noIndexFollow");
+  });
+
+  it("shows the 新版课程 entry with the successor title without touching progress UI", async () => {
+    vi.mocked(getCourseSuccessor).mockResolvedValue({ id: 8, title: "Scratch 创探编程：从动画到作品" });
+    const document = await renderCourse({ ...makeCourse({
+      completed_lesson_count: 2,
+      total_lesson_count: 24,
+      status: "in_progress",
+      next_lesson_id: 3,
+      milestone_completed_at: null,
+    }), is_listed: false }, { id: "learner" });
+
+    const banner = document.querySelector('[data-testid="course-successor-banner"]');
+    expect(banner).toHaveAttribute("href", "/courses/8");
+    expect(banner).toHaveTextContent("本课程已更新，前往新版课程：Scratch 创探编程：从动画到作品");
+    expect(document.querySelector('a[href="/courses/5/lessons/3"]')).toHaveTextContent("继续 第 3 课");
+  });
+
+  it("renders no entry when there is no listed successor", async () => {
+    const document = await renderCourse(makeCourse(null));
+
+    expect(document.querySelector('[data-testid="course-successor-banner"]')).toBeNull();
+  });
+});
+

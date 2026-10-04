@@ -42,6 +42,12 @@ interface PageMetadataOptions {
   image?: string;
   type?: "website" | "article" | "profile";
   noIndex?: boolean;
+  /**
+   * With `noIndex`, still let crawlers follow links (`noindex, follow`).
+   * Use for real pages that are only hidden from discovery (e.g. unlisted courses
+   * that point to a successor); keep the default `nofollow` for missing pages.
+   */
+  noIndexFollow?: boolean;
   /** Skip the root layout title template. Needed on the `/` segment, which does not inherit it. */
   absoluteTitle?: boolean;
   /**
@@ -81,6 +87,7 @@ export function buildPageMetadata({
   image,
   type = "website",
   noIndex = false,
+  noIndexFollow = false,
   absoluteTitle = false,
   omitCanonical = false,
 }: PageMetadataOptions): Metadata {
@@ -124,7 +131,7 @@ export function buildPageMetadata({
       ? {
           robots: {
             index: false,
-            follow: false,
+            follow: noIndexFollow,
           },
         }
       : {}),
