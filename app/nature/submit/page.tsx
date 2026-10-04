@@ -34,7 +34,7 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
   return (
     <NatureShell
       title="发布观察记录"
-      description="记录身边的自然、确认物种和地点，把一次观察沉淀为可追踪的图鉴进度。"
+      description="选照片 → 确认物种（可选）→ 核对时间和地点 → 发布。每张照片生成一条观察记录。"
       fallbackHref={fallbackHref}
       variant="wide"
       className="app-canvas max-w-none text-foreground"
@@ -49,7 +49,7 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
           rel="noopener noreferrer"
           className="inline-flex min-h-11 items-center rounded-full border border-border/70 bg-background/70 px-4 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40"
         >
-          怎样拍照和记录？
+          发布步骤与观察说明
         </Link>
       </div>
       <ObservationSubmitForm

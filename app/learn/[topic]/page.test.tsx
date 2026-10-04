@@ -107,11 +107,30 @@ describe("learning topic pages", () => {
         expect(getProjects).not.toHaveBeenCalled();
     });
 
-    it("provides a public nature guide with recording and identification guidance without catalog queries", async () => {
+    it("puts observation preparation and boundaries before recording links without catalog queries", async () => {
         const document = await renderTopic("nature");
+        const preparation = document.querySelector("#observation-preparation")!;
+        const boundaries = document.querySelector("#observation-boundaries")!;
+        const method = document.querySelector("#learning-method")!.closest("section")!;
+        const usage = document.querySelector("#record-observation")!;
+        const resources = document.querySelector("#start-learning")!;
+
+        expect(preparation).not.toBeNull();
+        expect(boundaries).not.toBeNull();
+        expect(preparation.compareDocumentPosition(boundaries)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+        expect(boundaries.compareDocumentPosition(method)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+        expect(method.compareDocumentPosition(usage)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+        expect(usage.compareDocumentPosition(resources)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+        expect(document.querySelectorAll("#learning-preparation")).toHaveLength(1);
+        expect(preparation).toHaveTextContent("只用眼睛看、耳朵听就能开始");
+        expect(boundaries.querySelector('[aria-labelledby="observation-can-do"]')).toHaveTextContent("拍照、画画");
+        expect(boundaries.querySelector('[aria-labelledby="observation-avoid"]')).toHaveTextContent("不追赶、不投喂");
+        expect(document.querySelector('header a')).toHaveAttribute("href", "#observation-preparation");
         expect(document.querySelector('nav[aria-label="面包屑"] a')).toHaveAttribute("href", "/nature");
         expect(document.querySelector("#record-observation")).toHaveTextContent("待鉴定");
         expect(document.querySelector("#record-observation")).toHaveTextContent("每张照片会成为一条独立观察");
+        expect(usage.querySelector('a[href="/profile/library?tab=observations"]')).not.toBeNull();
+        expect(document.querySelector('header a[href="#record-observation"]')).toHaveTextContent("查看页面用法");
         expect(document.querySelector('a[href="/nature/submit"]')).not.toBeNull();
         expect(document.querySelector('a[href="/nature/observations"]')).not.toBeNull();
         expect(document.querySelector('a[href="/nature/species"]')).not.toBeNull();

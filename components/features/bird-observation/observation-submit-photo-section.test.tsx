@@ -1,9 +1,10 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ObservationSubmitPhotoSection } from './observation-submit-photo-section'
 
 const mocks = vi.hoisted(() => ({
+  user: { id: 'user-1' } as { id: string } | null,
   promptLogin: vi.fn(),
   readMetadata: vi.fn(),
   toast: vi.fn(),
@@ -11,7 +12,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('@/lib/context/auth-context', () => ({
-  useAuth: () => ({ user: { id: 'user-1' }, loading: false }),
+  useAuth: () => ({ user: mocks.user, loading: false }),
 }))
 
 vi.mock('@/lib/context/login-prompt-context', () => ({
@@ -36,6 +37,49 @@ vi.mock('@/lib/utils/upload', () => ({
 describe('ObservationSubmitPhotoSection', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mocks.user = { id: 'user-1' }
+    mocks.readMetadata.mockResolvedValue({ observedAt: null, latitude: null, longitude: null })
+  })
+
+  it('prompts anonymous users to log in before opening the file chooser', () => {
+    mocks.user = null
+    const { container } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
+    const input = container.querySelector('input[type="file"]') as HTMLInputElement
+    const choose = vi.spyOn(input, 'click')
+
+    fireEvent.click(screen.getByRole('button', { name: /上传或拍摄照片/ }))
+
+    expect(mocks.promptLogin).toHaveBeenCalledOnce()
+    expect(choose).not.toHaveBeenCalled()
+    expect(mocks.upload).not.toHaveBeenCalled()
+  })
+
+  it('keeps successful photos and their metadata when another upload fails', async () => {
+    mocks.upload.mockResolvedValueOnce('https://example.com/good.jpg').mockRejectedValueOnce(new Error('failed'))
+    const onEvidenceChange = vi.fn()
+    const onPhotoMetadata = vi.fn()
+    const { container } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={onEvidenceChange} onPhotoMetadata={onPhotoMetadata} />)
+
+    fireEvent.change(container.querySelector('input[type="file"]')!, {
+      target: { files: [new File(['a'], 'a.jpg'), new File(['b'], 'b.jpg')] },
+    })
+
+    await waitFor(() => expect(onEvidenceChange).toHaveBeenCalledWith(['https://example.com/good.jpg']))
+    expect(onPhotoMetadata).toHaveBeenCalledWith([expect.objectContaining({ imageUrl: 'https://example.com/good.jpg' })])
+    expect(mocks.toast).toHaveBeenCalledWith(expect.objectContaining({ title: '1 张照片上传失败' }))
+  })
+
+  it('does not restore a deleted photo when a later upload completes', async () => {
+    let finish: (url: string) => void = () => {}
+    mocks.upload.mockImplementation(() => new Promise<string>((resolve) => { finish = resolve }))
+    const onEvidenceChange = vi.fn()
+    const { container, rerender } = render(<ObservationSubmitPhotoSection evidenceImages={['https://example.com/old.jpg']} onEvidenceChange={onEvidenceChange} />)
+    fireEvent.change(container.querySelector('input[type="file"]')!, { target: { files: [new File(['new'], 'new.jpg')] } })
+    await waitFor(() => expect(mocks.upload).toHaveBeenCalledOnce())
+    fireEvent.click(screen.getByRole('button', { name: '删除第 1 张照片' }))
+    rerender(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={onEvidenceChange} />)
+    await act(async () => { finish('https://example.com/new.jpg') })
+    expect(onEvidenceChange).toHaveBeenLastCalledWith(['https://example.com/new.jpg'])
   })
 
   it('reads EXIF from the original photo before compression and upload', async () => {

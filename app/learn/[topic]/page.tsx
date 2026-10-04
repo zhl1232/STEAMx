@@ -99,6 +99,44 @@ export default async function LearningTopicPage({ params }: PageProps) {
     const resources = await loadTopicResources(topic.slug);
     const { icon: TopicIcon, accent } = TOPIC_APPEARANCE[topic.slug];
 
+    const resourceSection = (
+        <section id="start-learning" aria-labelledby="learning-resources" className="scroll-mt-24 border-t border-border py-8 md:py-10">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                    <h2 id="learning-resources" className="text-xl font-bold text-foreground">{topic.resourceHeading}</h2>
+                    <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">{topic.resourceIntroduction}</p>
+                </div>
+                <Link href={topic.browseHref} className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">
+                    {topic.browseLabel}<ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+            </div>
+            {resources.length > 0 ? (
+                <ul className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {resources.map((resource) => (
+                        <li key={resource.id}>
+                            <Link
+                                href={resource.href}
+                                prefetch={false}
+                                className="group flex h-full items-start justify-between gap-4 rounded-sm border border-border bg-card p-5 transition hover:border-[hsl(var(--topic-accent)/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]"
+                            >
+                                <div className="min-w-0">
+                                    <span className="text-xs text-muted-foreground">{resource.detail}</span>
+                                    <h3 className="mt-1 text-base font-bold text-foreground">{resource.title}</h3>
+                                    {resource.description ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{resource.description}</p> : null}
+                                </div>
+                                <ArrowRight className="mt-5 h-4 w-4 shrink-0 text-[hsl(var(--topic-accent))] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="mt-5 rounded-sm border border-dashed border-border p-5 text-sm leading-7 text-muted-foreground">
+                    这个主题暂时没有可展示的{topic.slug === "science" ? "项目" : "课程"}。可以先试试上面的小挑战，或从其他主题继续探索。
+                </p>
+            )}
+        </section>
+    );
+
     return (
         <div
             className="min-h-screen app-canvas-community"
@@ -125,50 +163,61 @@ export default async function LearningTopicPage({ params }: PageProps) {
                         <h1 className="text-3xl font-black tracking-tight text-foreground md:text-4xl">{topic.label}</h1>
                         <p className="mt-4 max-w-3xl text-sm leading-7 text-foreground/85 md:text-base md:leading-8">{topic.introduction}</p>
                         <a
-                            href="#start-learning"
+                            href={topic.observationGuide ? "#observation-preparation" : "#start-learning"}
                             className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-[hsl(var(--topic-accent)/0.12)] px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-[hsl(var(--topic-accent)/0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]"
                         >
-                            {topic.slug === "nature" ? "开始第一次观察" : topic.slug === "science" ? "选择一个科学项目" : "选择一门课程"}
+                            {topic.slug === "nature" ? "先看出发准备" : topic.slug === "science" ? "选择一个科学项目" : "选择一门课程"}
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </a>
+                        {topic.observationGuide ? (
+                            <a href="#record-observation" className="ml-4 inline-flex min-h-11 items-center text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]">
+                                查看页面用法
+                            </a>
+                        ) : null}
                     </div>
                 </header>
 
-                <section id="start-learning" aria-labelledby="learning-resources" className="scroll-mt-24 border-t border-border py-8 md:py-10">
-                    <div className="flex flex-wrap items-end justify-between gap-3">
-                        <div>
-                            <h2 id="learning-resources" className="text-xl font-bold text-foreground">{topic.resourceHeading}</h2>
-                            <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">{topic.resourceIntroduction}</p>
-                        </div>
-                        <Link href={topic.browseHref} className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">
-                            {topic.browseLabel}<ArrowRight className="h-4 w-4" aria-hidden="true" />
-                        </Link>
-                    </div>
-                    {resources.length > 0 ? (
-                        <ul className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-                            {resources.map((resource) => (
-                                <li key={resource.id}>
-                                    <Link
-                                        href={resource.href}
-                                        prefetch={false}
-                                        className="group flex h-full items-start justify-between gap-4 rounded-sm border border-border bg-card p-5 transition hover:border-[hsl(var(--topic-accent)/0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]"
-                                    >
-                                        <div className="min-w-0">
-                                            <span className="text-xs text-muted-foreground">{resource.detail}</span>
-                                            <h3 className="mt-1 text-base font-bold text-foreground">{resource.title}</h3>
-                                            {resource.description ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{resource.description}</p> : null}
-                                        </div>
-                                        <ArrowRight className="mt-5 h-4 w-4 shrink-0 text-[hsl(var(--topic-accent))] transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="mt-5 rounded-sm border border-dashed border-border p-5 text-sm leading-7 text-muted-foreground">
-                            这个主题暂时没有可展示的{topic.slug === "science" ? "项目" : "课程"}。可以先试试上面的小挑战，或从其他主题继续探索。
-                        </p>
-                    )}
-                </section>
+                {topic.observationGuide ? (
+                    <>
+                        <section id="observation-preparation" aria-labelledby="learning-preparation" className="scroll-mt-24 border-t border-border py-8 md:py-10">
+                            <h2 id="learning-preparation" className="text-xl font-bold text-foreground">观察前，最少准备什么</h2>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">从身边的一次短观察开始，按地点、天气和想做的记录来准备。</p>
+                            <div className="mt-5 grid gap-5 md:grid-cols-2">
+                                <div className="rounded-sm border border-[hsl(var(--topic-accent)/0.35)] bg-[hsl(var(--topic-accent)/0.06)] p-5 md:p-6">
+                                    <h3 className="text-base font-bold text-foreground">最小准备：一个观察点，十分钟</h3>
+                                    <ul className="mt-4 list-disc space-y-3 pl-4 text-sm leading-7 text-foreground/85 marker:text-[hsl(var(--topic-accent))]">
+                                        {topic.preparation.map((item) => <li key={item} className="pl-1">{item}</li>)}
+                                    </ul>
+                                </div>
+                                <div className="rounded-sm border border-border bg-card p-5 md:p-6">
+                                    <h3 className="text-base font-bold text-foreground">按需要再带这些</h3>
+                                    <ul className="mt-4 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground marker:text-[hsl(var(--topic-accent))]">
+                                        {topic.observationGuide.optionalEquipment.map((item) => <li key={item} className="pl-1">{item}</li>)}
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="observation-boundaries" aria-labelledby="observation-rules" className="scroll-mt-24 border-t border-border py-8 md:py-10">
+                            <h2 id="observation-rules" className="text-xl font-bold text-foreground">观察可以做什么，哪些事不要做</h2>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">看完离开时，让它继续原来的生活，让环境保持原样。</p>
+                            <div className="mt-5 grid gap-5 md:grid-cols-2">
+                                <section aria-labelledby="observation-can-do" className="border-l-2 border-[hsl(var(--topic-accent)/0.5)] pl-4 md:pl-5">
+                                    <h3 id="observation-can-do" className="text-base font-bold text-foreground">可以做</h3>
+                                    <ul className="mt-3 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground">
+                                        {topic.observationGuide.canDo.map((item) => <li key={item}>{item}</li>)}
+                                    </ul>
+                                </section>
+                                <section aria-labelledby="observation-avoid" className="border-l-2 border-border pl-4 md:pl-5">
+                                    <h3 id="observation-avoid" className="text-base font-bold text-foreground">不要做</h3>
+                                    <ul className="mt-3 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground">
+                                        {topic.observationGuide.avoid.map((item) => <li key={item}>{item}</li>)}
+                                    </ul>
+                                </section>
+                            </div>
+                        </section>
+                    </>
+                ) : resourceSection}
 
                 {topic.equipmentSets ? (
                     <section aria-labelledby="building-equipment" className="border-t border-border py-8 md:py-10">
@@ -212,7 +261,7 @@ export default async function LearningTopicPage({ params }: PageProps) {
                     </section>
                 ) : null}
 
-                <section id={topic.slug === "nature" ? "record-observation" : undefined} aria-labelledby="learning-method" className="scroll-mt-24 border-t border-border py-8 md:py-10">
+                <section aria-labelledby="learning-method" className="scroll-mt-24 border-t border-border py-8 md:py-10">
                     <div className="grid gap-8 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10">
                         <div>
                             <h2 id="learning-method" className="text-xl font-bold text-foreground">可以这样一步步开始</h2>
@@ -237,12 +286,12 @@ export default async function LearningTopicPage({ params }: PageProps) {
                         </div>
 
                         <aside className="space-y-7">
-                            <section aria-labelledby="learning-preparation" className="rounded-sm border border-border bg-card p-5 md:p-6">
+                            {!topic.observationGuide ? <section aria-labelledby="learning-preparation" className="rounded-sm border border-border bg-card p-5 md:p-6">
                                 <h2 id="learning-preparation" className="text-lg font-bold text-foreground">开始前准备什么</h2>
                                 <ul className="mt-4 list-disc space-y-3 pl-4 text-sm leading-7 text-muted-foreground marker:text-[hsl(var(--topic-accent))]">
                                     {topic.preparation.map((item) => <li key={item} className="pl-1">{item}</li>)}
                                 </ul>
-                            </section>
+                            </section> : null}
                             <section aria-labelledby="learning-companion" className="px-1">
                                 <h2 id="learning-companion" className="text-base font-bold text-foreground">家长和同伴可以怎样陪伴</h2>
                                 <p className="mt-2 text-sm leading-7 text-muted-foreground">{topic.companionNote}</p>
@@ -258,12 +307,34 @@ export default async function LearningTopicPage({ params }: PageProps) {
                     </ul>
                 </section>
 
-                {topic.slug === "nature" ? (
-                    <div className="flex flex-wrap items-center gap-3 border-t border-border py-6">
-                        <Link href="/nature/submit" className="inline-flex min-h-11 items-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">记录第一次观察<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
-                        <Link href="/nature/observations" className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">看看大家的发现</Link>
-                    </div>
+                {topic.observationGuide ? (
+                    <section id="record-observation" aria-labelledby="observation-site-usage" className="scroll-mt-24 border-t border-border py-8 md:py-10">
+                        <h2 id="observation-site-usage" className="text-xl font-bold text-foreground">本站自然观察页面怎么用</h2>
+                        <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">想认识物种，可以先浏览；想把发现发布到这里，登录后按下面的步骤操作。</p>
+                        <ol className="mt-6 max-w-3xl space-y-6">
+                            {topic.observationGuide.siteUsage.map((step, index) => (
+                                <li key={step.title} className="flex gap-4">
+                                    <span aria-hidden="true" className="mt-0.5 w-7 shrink-0 text-xl font-black tabular-nums text-[hsl(var(--topic-accent))]">{String(index + 1).padStart(2, "0")}</span>
+                                    <div className="min-w-0">
+                                        <h3 className="text-base font-bold text-foreground">{step.title}</h3>
+                                        <p className="mt-1.5 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                                        {step.links ? (
+                                            <div className="mt-1 flex flex-wrap gap-x-5 gap-y-1">
+                                                {step.links.map((link) => (
+                                                    <Link key={link.href} href={link.href} prefetch={false} className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--topic-accent))]">
+                                                        {link.label}<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                    </section>
                 ) : null}
+
+                {topic.observationGuide ? resourceSection : null}
 
                 <nav aria-label="继续探索学习主题" className="flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border pt-5 text-sm">
                     <span className="mr-1 text-muted-foreground">换一种方式继续探索</span>

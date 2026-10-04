@@ -51,6 +51,7 @@ export function GlobalTutorMount() {
 
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
   const hideTutorOnMobile = pathname === '/nature/observations'
+    || pathname === '/nature/submit'
     || pathname === '/nature/species'
     || pathname.startsWith('/users/')
     || Boolean(tutorCtx?.override.hideFabOnMobile)

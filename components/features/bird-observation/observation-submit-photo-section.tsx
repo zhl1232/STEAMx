@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ChangeEvent } from "react"
 import { Camera, CheckCircle2, Loader2, Plus, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -43,6 +43,7 @@ interface ObservationSubmitPhotoSectionProps {
   isAnalyzing?: boolean
   showHeader?: boolean
   onPhotoMetadata?: (items: Array<ObservationPhotoMetadata & { imageUrl: string }>) => void
+  onUploadingChange?: (uploading: boolean) => void
 }
 
 const MAX_IMAGES = 5
@@ -96,6 +97,7 @@ export function ObservationSubmitPhotoSection({
   isAnalyzing = false,
   showHeader = true,
   onPhotoMetadata,
+  onUploadingChange,
 }: ObservationSubmitPhotoSectionProps) {
   const { user, loading: authLoading } = useAuth()
   const { promptLogin } = useLoginPrompt()
@@ -103,6 +105,9 @@ export function ObservationSubmitPhotoSection({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadingCount, setUploadingCount] = useState(0)
+  const imagesRef = useRef(evidenceImages)
+  const uploadingRef = useRef(false)
+  useLayoutEffect(() => { imagesRef.current = evidenceImages }, [evidenceImages])
 
   const analysisByImage = useMemo(
     () => new Map(analyses.map((item) => [item.imageUrl, item])),
@@ -115,10 +120,23 @@ export function ObservationSubmitPhotoSection({
     }
   }, [evidenceImages, onEvidenceChange])
 
+  const choosePhotos = () => {
+    if (authLoading || uploadingRef.current) return
+    if (!user) {
+      promptLogin(undefined, {
+        title: "登录后再上传照片",
+        description: "登录后即可选择观察照片并发布记录。",
+      })
+      return
+    }
+    fileInputRef.current?.click()
+  }
+
   const handleSelectFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? [])
     if (fileInputRef.current) fileInputRef.current.value = ""
     if (files.length === 0) return
+    if (uploadingRef.current) return
 
     if (!user) {
       if (authLoading) {
@@ -135,7 +153,7 @@ export function ObservationSubmitPhotoSection({
       return
     }
 
-    const remaining = MAX_IMAGES - evidenceImages.length
+    const remaining = MAX_IMAGES - imagesRef.current.length
     if (remaining <= 0) {
       toast({ title: `最多上传 ${MAX_IMAGES} 张照片`, variant: "destructive" })
       return
@@ -156,37 +174,55 @@ export function ObservationSubmitPhotoSection({
 
     const batch = acceptedFiles.slice(0, remaining)
     if (batch.length === 0) return
+    if (acceptedFiles.length > remaining) {
+      toast({ title: `本次添加 ${batch.length} 张照片`, description: `每次最多 ${MAX_IMAGES} 张，其余照片可在下一次发布。` })
+    }
 
+    uploadingRef.current = true
     setIsUploading(true)
     setUploadingCount(batch.length)
+    onUploadingChange?.(true)
 
     try {
-      const metadata = await Promise.all(batch.map((file) => readObservationPhotoMetadata(file)))
-      const uploadedUrls = await Promise.all(
+      const results = await Promise.allSettled(
         batch.map(async (file) => {
+          // Read from the original file; missing EXIF must not prevent uploading.
+          const metadata = await readObservationPhotoMetadata(file).catch(() => null)
           const publicUrl = await uploadFileSecure(file, "project-images", "observations")
           if (!publicUrl) {
             throw new Error("Upload failed")
           }
-          return publicUrl
+          return {
+            imageUrl: publicUrl,
+            observedAt: metadata?.observedAt ?? null,
+            latitude: metadata?.latitude ?? null,
+            longitude: metadata?.longitude ?? null,
+          }
         }),
       )
-
-      onEvidenceChange([...evidenceImages, ...uploadedUrls])
-      onPhotoMetadata?.(
-        uploadedUrls.map((imageUrl, index) => ({
-          imageUrl,
-          observedAt: metadata[index]?.observedAt ?? null,
-          latitude: metadata[index]?.latitude ?? null,
-          longitude: metadata[index]?.longitude ?? null,
-        })),
-      )
-      toast({
-        title: uploadedUrls.length > 1 ? "照片已添加" : "照片已添加",
-        description: uploadedUrls.length > 1
-          ? `成功添加 ${uploadedUrls.length} 张，每张会单独成为一条观察`
-          : "这张照片会成为一条观察",
-      })
+      const uploaded = results.flatMap((result) => result.status === "fulfilled" ? [result.value] : [])
+      const failed = results.filter((result) => result.status === "rejected")
+      if (uploaded.length > 0) {
+        const urls = [...imagesRef.current, ...uploaded.map((item) => item.imageUrl)]
+        imagesRef.current = urls
+        onEvidenceChange(urls)
+        onPhotoMetadata?.(uploaded)
+        toast({ title: "照片已添加", description: `成功添加 ${uploaded.length} 张，每张会单独成为一条观察。` })
+      }
+      if (failed.length > 0) {
+        const error = failed[0].reason
+        const description = getSecureUploadErrorMessage(error)
+        if (isExpectedSecureUploadRejection(error)) {
+          logger.warn("Observation image upload rejected", { error: description })
+        } else {
+          logger.error("Observation image upload error", { error })
+        }
+        toast({
+          title: `${failed.length} 张照片上传失败`,
+          description: `${description}${uploaded.length > 0 ? "；已成功的照片已保留，请只重试失败的照片。" : ""}`,
+          variant: "destructive",
+        })
+      }
     } catch (error) {
       const description = getSecureUploadErrorMessage(error)
       if (isExpectedSecureUploadRejection(error)) {
@@ -200,13 +236,17 @@ export function ObservationSubmitPhotoSection({
         variant: "destructive",
       })
     } finally {
+      uploadingRef.current = false
       setIsUploading(false)
       setUploadingCount(0)
+      onUploadingChange?.(false)
     }
   }
 
   const handleRemove = (index: number) => {
-    onEvidenceChange(evidenceImages.filter((_, currentIndex) => currentIndex !== index))
+    const urls = imagesRef.current.filter((_, currentIndex) => currentIndex !== index)
+    imagesRef.current = urls
+    onEvidenceChange(urls)
   }
 
   const canAddMore = evidenceImages.length < MAX_IMAGES
@@ -229,7 +269,7 @@ export function ObservationSubmitPhotoSection({
             </h2>
             <div className="flex shrink-0 items-center gap-2">
               <span className="shrink-0 whitespace-nowrap rounded-full border border-emerald-200/80 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-300">
-                {evidenceImages.length}/{MAX_IMAGES}
+                已选 {evidenceImages.length} 张 · 最多 {MAX_IMAGES} 张
               </span>
               <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-border/70 bg-background/85 px-2.5 py-1 text-[11px] font-medium leading-none text-muted-foreground">
                 {isAnalyzing ? (
@@ -249,7 +289,7 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]">
+      <div className={`grid gap-3 ${heroImage ? "md:grid-cols-[minmax(0,1.35fr)_minmax(180px,0.65fr)]" : ""}`}>
         <div className="overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) [box-shadow:var(--obs-panel-shadow)]">
           {heroImage ? (
             <>
@@ -284,8 +324,8 @@ export function ObservationSubmitPhotoSection({
         ) : (
           <button
             type="button"
-            className="group flex aspect-16/11 min-h-[180px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-(--obs-border-strong) [background:var(--obs-photo-bg)] px-6 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:text-(--obs-text) sm:min-h-[210px] md:aspect-16/10"
-            onClick={() => fileInputRef.current?.click()}
+            className="group flex min-h-[220px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-(--obs-border-strong) [background:var(--obs-photo-bg)] px-6 py-6 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:text-(--obs-text)"
+            onClick={choosePhotos}
             disabled={isUploading || authLoading}
           >
             {isUploading ? (
@@ -308,7 +348,7 @@ export function ObservationSubmitPhotoSection({
                 <div className="space-y-1">
                   <p className="text-lg font-semibold tracking-tight text-(--obs-text)">上传或拍摄照片</p>
                   <p className="text-sm text-(--obs-muted-2)">
-                    支持多选，JPG / PNG / GIF / WebP
+                    最多 5 张，每张生成一条观察记录
                   </p>
                 </div>
               </>
@@ -321,17 +361,17 @@ export function ObservationSubmitPhotoSection({
           <button
             type="button"
             className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-(--obs-border-strong) bg-(--obs-control) px-5 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:bg-(--obs-control-hover) hover:text-(--obs-text) md:min-h-0"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={choosePhotos}
             disabled={!canAddMore || isUploading || authLoading}
           >
             <span className="grid h-11 w-11 place-items-center rounded-full bg-(--obs-accent) text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
               {isUploading || authLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
             </span>
             <span className="text-base font-semibold text-(--obs-text)">
-              {canAddMore ? "添加更多照片" : "照片已达上限"}
+              {isUploading ? `正在上传 ${uploadingCount} 张` : canAddMore ? "添加更多照片" : "照片已达上限"}
             </span>
             <span className="text-xs leading-5 text-(--obs-muted-2)">
-              {evidenceImages.length}/{MAX_IMAGES} · 支持 JPG / PNG
+              {canAddMore ? `还可添加 ${MAX_IMAGES - evidenceImages.length} 张` : "本次可发布 5 条观察"} · 支持 JPG / PNG / GIF / WebP
             </span>
           </button>
         ) : null}
@@ -346,7 +386,7 @@ export function ObservationSubmitPhotoSection({
                 <div className="relative aspect-square">
                   <OptimizedImage
                     src={url}
-                    alt={`补充照片 ${index + 2}`}
+                    alt={`观察照片 ${index + 2}`}
                     fill
                     variant="cover"
                     className="object-cover"
@@ -360,7 +400,7 @@ export function ObservationSubmitPhotoSection({
                   type="button"
                   onClick={() => handleRemove(index + 1)}
                   className="absolute right-1.5 top-1.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black/75"
-                  aria-label={`删除补充照片 ${index + 2}`}
+                  aria-label={`删除第 ${index + 2} 张照片`}
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>

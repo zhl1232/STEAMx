@@ -81,8 +81,8 @@ describe("GlobalTutorMount", () => {
         expect(container).toBeEmptyDOMElement();
     });
 
-    it("hides the mobile launcher on public profile pages", () => {
-        pathname = "/users/22222222-2222-2222-2222-222222222222";
+    it.each(["/users/22222222-2222-2222-2222-222222222222", "/nature/submit"])("hides the mobile launcher on %s", (path) => {
+        pathname = path;
 
         render(<GlobalTutorMount />);
 

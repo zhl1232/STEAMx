@@ -255,15 +255,15 @@ function MobileAccordionHeader({
             {summary ? (
               <span className="mt-1 block truncate text-xs leading-5 text-(--obs-muted)">{summary}</span>
             ) : null}
+            {status ? (
+              <span className={cn("mt-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium", stepStatusClassNames[statusTone])}>
+                {statusTone === "loading" ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+                {status}
+              </span>
+            ) : null}
           </span>
         </span>
         <span className="flex shrink-0 items-center gap-2">
-          {status ? (
-            <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium", stepStatusClassNames[statusTone])}>
-              {statusTone === "loading" ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
-              {status}
-            </span>
-          ) : null}
           <ChevronDown className={cn("mt-1 h-4 w-4 text-(--obs-muted-2) transition-transform", open && "rotate-180")} />
         </span>
       </button>
@@ -558,6 +558,7 @@ export function ObservationSubmitForm({
   const { userStats } = useGamification()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploadingPhotos, setIsUploadingPhotos] = useState(false)
   const [evidenceImages, setEvidenceImages] = useState<string[]>([])
   const [photoDrafts, setPhotoDrafts] = useState<Record<string, ObservationPhotoDraft>>({})
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null)
@@ -599,6 +600,8 @@ export function ObservationSubmitForm({
   })
   const pendingAnalysisImageUrlsRef = useRef(new Set<string>())
   const photoMetadataRef = useRef<Record<string, ObservationPhotoMetadata>>({})
+  const manualPhotoEditsRef = useRef<Record<string, { time?: boolean; location?: boolean }>>({})
+  const locationEditVersionRef = useRef<Record<string, number>>({})
   const placeSearchRequestRef = useRef(0)
   const photoSectionRef = useRef<HTMLElement | null>(null)
   const speciesSectionRef = useRef<HTMLElement | null>(null)
@@ -725,9 +728,16 @@ export function ObservationSubmitForm({
 
   const updatePhotoDraft = useCallback((url: string, patch: Partial<ObservationPhotoDraft>) => {
     setPhotoDrafts((current) => {
-      const existing = current[url] ?? createEmptyPhotoDraft()
+      const existing = current[url]
+      if (!existing) return current
       return { ...current, [url]: { ...existing, ...patch } }
     })
+  }, [])
+
+  const markManualLocation = useCallback((url: string) => {
+    manualPhotoEditsRef.current[url] = { ...manualPhotoEditsRef.current[url], location: true }
+    locationEditVersionRef.current[url] = (locationEditVersionRef.current[url] ?? 0) + 1
+    return locationEditVersionRef.current[url]
   }, [])
 
   const handleEvidenceChange = useCallback((urls: string[]) => {
@@ -746,7 +756,7 @@ export function ObservationSubmitForm({
   })
   const locationAndTimeReady = unlocatedPassedUrls.length === 0 && eligibleImageUrls.length > 0
   const safetyCheckReady = safetyFailedAnalyses.length === 0
-  const canSubmit = locationAndTimeReady && safetyCheckReady
+  const canSubmit = locationAndTimeReady && safetyCheckReady && !isUploadingPhotos
   const observationProgressCount = userStats?.observationsSubmitted
   const displayedObservationCount = observationProgressCount ?? 0
   const nextObserverThreshold = getNextObserverThreshold(displayedObservationCount)
@@ -766,6 +776,7 @@ export function ObservationSubmitForm({
     }
 
     const imageUrl = selectedImageUrl
+    const editVersion = markManualLocation(imageUrl)
     setIsLocating(true)
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -784,12 +795,14 @@ export function ObservationSubmitForm({
           setIsLocating(false)
         }
 
+        if (locationEditVersionRef.current[imageUrl] !== editVersion || !draftSnapshotRef.current.evidenceImages.includes(imageUrl)) return
+
         updatePhotoDraft(imageUrl, {
           latitude: lat.toFixed(6),
           longitude: lng.toFixed(6),
           locationSource: "device_location",
           locationWarning: "",
-          ...(name ? { locationName: name } : {}),
+          locationName: name ?? "",
         })
         placeSearchRequestRef.current += 1
         setPlaceResults([])
@@ -811,7 +824,7 @@ export function ObservationSubmitForm({
       },
       { enableHighAccuracy: true, timeout: 12000 },
     )
-  }, [selectedImageUrl, toast, updatePhotoDraft])
+  }, [markManualLocation, selectedImageUrl, toast, updatePhotoDraft])
 
   useEffect(() => {
     if (draftRestoreTriedRef.current || typeof window === "undefined") return
@@ -875,8 +888,9 @@ export function ObservationSubmitForm({
   }, [draftReady])
 
   useEffect(() => {
+    if (!draftReady) return
     if (!user || evidenceImages.length === 0) {
-      setMediaAnalyses((current) => (current.length === 0 ? current : []))
+      if (evidenceImages.length === 0) setMediaAnalyses((current) => (current.length === 0 ? current : []))
       setIsAnalyzingImages(false)
       return
     }
@@ -953,7 +967,7 @@ export function ObservationSubmitForm({
       imageUrlsToAnalyze.forEach((url) => pendingAnalysisImageUrls.delete(url))
       window.clearTimeout(timeout)
     }
-  }, [analysisMap, evidenceImages, toast, user])
+  }, [analysisMap, draftReady, evidenceImages, toast, user])
 
   useEffect(() => {
     if (!selectedImageUrl) {
@@ -1097,6 +1111,9 @@ export function ObservationSubmitForm({
   }
 
   const getSubmitBlocker = (): SubmitBlocker | null => {
+    if (isUploadingPhotos) {
+      return { panel: "photo", label: "照片上传完成", title: "照片正在上传，请稍候", description: "上传完成后再确认每张照片的信息，避免遗漏新照片。" }
+    }
     if (evidenceImages.length === 0) {
       return { panel: "photo", label: "照片", title: "请先上传一张照片" }
     }
@@ -1111,11 +1128,13 @@ export function ObservationSubmitForm({
     }
 
     if (!locationAndTimeReady) {
+      const draft = photoDrafts[unlocatedPassedUrls[0]]
+      const missingTime = draft && !isPhotoTimeReady(draft)
       return {
         panel: "location",
-        label: "地点和时间",
-        title: "请为每张可发布的照片确认地点",
-        description: "没有 GPS 的照片需要搜索选择地点或在地图上选点。",
+        label: missingTime ? "观察日期和时间" : "观察地点",
+        title: missingTime ? "请补全这张照片的观察日期和时间" : "请为每张照片确认观察地点",
+        description: missingTime ? "填写实际观察时间；照片拍摄信息可作为参考。" : "没有 GPS 的照片需要搜索选择地点或在地图上选点。",
       }
     }
 
@@ -1147,6 +1166,8 @@ export function ObservationSubmitForm({
     setPlaceSearchUnavailable(false)
     placeSearchRequestRef.current += 1
     photoMetadataRef.current = {}
+    manualPhotoEditsRef.current = {}
+    locationEditVersionRef.current = {}
     speciesAutofillRef.current.clear()
     setSpeciesQuery(initialSpecies?.commonName ?? "")
     draftPersistenceDisabledRef.current = false
@@ -1154,6 +1175,7 @@ export function ObservationSubmitForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (isSubmitting) return
 
     const blocker = getSubmitBlocker()
     if (blocker) {
@@ -1264,8 +1286,8 @@ export function ObservationSubmitForm({
     }
   }
 
-  const observedDate = observedAt.slice(0, 10)
-  const observedTime = observedAt.slice(11, 16)
+  const observedDate = observedAt.split("T")[0] ?? ""
+  const observedTime = observedAt.split("T")[1]?.slice(0, 5) ?? ""
   const submitBlocker = getSubmitBlocker()
   const submitMissingLabel = submitBlocker?.label ?? "必要信息"
   const mobileSubmitReady = canSubmit && !isSubmitting
@@ -1281,24 +1303,25 @@ export function ObservationSubmitForm({
 
   const updateObservedDate = (date: string) => {
     if (!selectedImageUrl) return
+    manualPhotoEditsRef.current[selectedImageUrl] = { ...manualPhotoEditsRef.current[selectedImageUrl], time: true }
     updatePhotoDraft(selectedImageUrl, {
       observedAtSource: "manual",
-      observedAt: `${date}T${observedTime || "00:00"}`,
+      observedAt: `${date}T${observedTime}`,
     })
   }
 
   const updateObservedTime = (time: string) => {
     if (!selectedImageUrl) return
-    if (observedDate) {
-      updatePhotoDraft(selectedImageUrl, {
-        observedAtSource: "manual",
-        observedAt: `${observedDate}T${time || "00:00"}`,
-      })
-    }
+    manualPhotoEditsRef.current[selectedImageUrl] = { ...manualPhotoEditsRef.current[selectedImageUrl], time: true }
+    updatePhotoDraft(selectedImageUrl, {
+      observedAtSource: "manual",
+      observedAt: `${observedDate}T${time}`,
+    })
   }
 
   const handleMapChange = useCallback((coords: { latitude: string; longitude: string }) => {
     if (!selectedImageUrl) return
+    markManualLocation(selectedImageUrl)
     placeSearchRequestRef.current += 1
     setPlaceResults([])
     setPlaceSearchUnavailable(false)
@@ -1308,7 +1331,7 @@ export function ObservationSubmitForm({
       locationSource: "map_pin",
       locationWarning: "",
     })
-  }, [selectedImageUrl, updatePhotoDraft])
+  }, [markManualLocation, selectedImageUrl, updatePhotoDraft])
 
   const handleLocationNameSuggestion = useCallback((name: string) => {
     if (!selectedImageUrl) return
@@ -1327,26 +1350,30 @@ export function ObservationSubmitForm({
         reverseGeocode,
       })
 
-      updatePhotoDraft(item.imageUrl, {
-        ...(result.observedAt ? { observedAt: result.observedAt, observedAtSource: "photo_exif" } : {}),
-        ...(result.latitude && result.longitude
-          ? {
+      setPhotoDrafts((current) => {
+        const existing = current[item.imageUrl]
+        if (!existing) return current
+        const edited = manualPhotoEditsRef.current[item.imageUrl]
+        return { ...current, [item.imageUrl]: {
+          ...existing,
+          ...(!edited?.time && result.observedAt ? { observedAt: result.observedAt, observedAtSource: "photo_exif" as const } : {}),
+          ...(!edited?.location ? {
+            ...(result.latitude && result.longitude ? {
               latitude: result.latitude,
               longitude: result.longitude,
-              locationSource: "photo_exif",
+              locationSource: "photo_exif" as const,
               locationName: result.locationName ?? "",
-            }
-          : {}),
-        locationWarning: result.warning ?? "",
+            } : {}),
+            locationWarning: result.warning ?? "",
+          } : {}),
+        } }
       })
     }
-    placeSearchRequestRef.current += 1
-    setPlaceResults([])
-    setPlaceSearchUnavailable(false)
-  }, [updatePhotoDraft])
+  }, [])
 
   const handleLocationInput = useCallback(async (value: string) => {
     if (!selectedImageUrl) return
+    markManualLocation(selectedImageUrl)
     const requestId = placeSearchRequestRef.current + 1
     placeSearchRequestRef.current = requestId
     setPhotoDrafts((current) => {
@@ -1378,10 +1405,11 @@ export function ObservationSubmitForm({
     } finally {
       if (requestId === placeSearchRequestRef.current) setIsSearchingPlaces(false)
     }
-  }, [photoDrafts, selectedImageUrl])
+  }, [markManualLocation, photoDrafts, selectedImageUrl])
 
   const handlePlaceSelect = useCallback((place: PlaceSearchResult) => {
     if (!selectedImageUrl) return
+    markManualLocation(selectedImageUrl)
     placeSearchRequestRef.current += 1
     updatePhotoDraft(selectedImageUrl, {
       locationName: place.name,
@@ -1392,11 +1420,15 @@ export function ObservationSubmitForm({
     })
     setPlaceResults([])
     setPlaceSearchUnavailable(false)
-  }, [selectedImageUrl, updatePhotoDraft])
+  }, [markManualLocation, selectedImageUrl, updatePhotoDraft])
 
   const handleApplyLocationToUnlocated = useCallback(() => {
     if (!selectedDraft || !isPhotoLocated(selectedDraft)) return
     const source = selectedDraft
+    for (const url of evidenceImages) {
+      const draft = draftSnapshotRef.current.photoDrafts[url]
+      if (url !== selectedImageUrl && draft && !isPhotoLocated(draft)) markManualLocation(url)
+    }
     setPhotoDrafts((current) => {
       const next = { ...current }
       for (const url of evidenceImages) {
@@ -1409,7 +1441,7 @@ export function ObservationSubmitForm({
       return next
     })
     toast({ title: "已用到其余未定位的照片" })
-  }, [evidenceImages, selectedDraft, selectedImageUrl, toast])
+  }, [evidenceImages, markManualLocation, selectedDraft, selectedImageUrl, toast])
 
   const visibilityLabel = "公开记录 · 准确位置"
   const precisionLabel = "准确位置"
@@ -1420,15 +1452,14 @@ export function ObservationSubmitForm({
     { label: "已提供初步鉴定（可选）", done: identifiedCount > 0 },
     { label: "已上传至少 1 张照片", done: evidenceImages.length > 0 },
     { label: "每张可发布照片已填写时间和地点", done: locationAndTimeReady },
-    { label: "图片安全检查通过", done: safetyCheckReady },
+    { label: "图片安全检查通过（提交时复核）", done: evidenceImages.length > 0 && evidenceImages.every((url) => analysisMap.get(url)?.moderationPass === true) },
   ]
-  const requiredChecks = [
-    evidenceImages.length > 0,
-    safetyCheckReady,
-    locationAndTimeReady,
-  ]
-  const requiredReadyCount = requiredChecks.filter(Boolean).length
-  const requiredReadyValue = getProgressValue(requiredReadyCount, requiredChecks.length)
+  const preparationSummary = evidenceImages.length === 0
+    ? "先选择观察照片"
+    : isUploadingPhotos
+      ? "正在添加照片…"
+      : `已确认 ${locatedPassedCount} 张 · 共 ${evidenceImages.length} 张`
+  const preparationProgress = evidenceImages.length > 0 ? getProgressValue(locatedPassedCount, evidenceImages.length) : 0
   const trimmedLocationName = locationName.trim()
   const locationSummary = locationReady
     ? `${trimmedLocationName} · ${precisionLabel}`
@@ -1436,12 +1467,12 @@ export function ObservationSubmitForm({
       ? "还需要地图选点"
       : "填写地点并确认地图"
   const locationStepStatus = eligibleImageUrls.length > 0
-    ? `${locatedPassedCount}/${eligibleImageUrls.length} 已定位`
+    ? `已确认 ${locatedPassedCount} 张 · 共 ${eligibleImageUrls.length} 张`
     : locationReady
       ? "已填写"
       : "待填写"
   const locationStepTone: StepStatusTone = locationAndTimeReady ? "success" : "warning"
-  const submitActionLabel = publishCount > 0 ? `发布 ${publishCount} 条观察` : "发布观察"
+  const submitActionLabel = evidenceImages.length > 0 ? `发布 ${evidenceImages.length} 条观察` : "发布观察"
   const speciesSummary = selectedSpecies
     ? selectedSpecies.commonName
     : suggestedCandidates[0]
@@ -1490,11 +1521,12 @@ export function ObservationSubmitForm({
   return (
     <>
       <form onSubmit={handleSubmit} className="observation-submit-theme relative pb-36 md:pb-10">
+        <fieldset disabled={isSubmitting} className="contents">
         <div className="pointer-events-none absolute inset-x-0 -top-10 h-56 [background:radial-gradient(circle_at_18%_10%,var(--obs-glow-a),transparent_30%),radial-gradient(circle_at_82%_12%,var(--obs-glow-b),transparent_28%)] md:-inset-x-8" />
 
         <div className="sticky top-[calc(var(--mobile-global-header-height,0rem)+env(safe-area-inset-top))] z-30 mb-4 rounded-sm border border-(--obs-border) bg-(--obs-panel) px-3 py-2.5 shadow-[0_12px_30px_-26px_hsl(var(--surface-shadow)/0.42)] backdrop-blur-xl md:hidden">
           <div className="flex items-center justify-between gap-3 text-[13px]">
-            <span className="font-semibold text-(--obs-text)">发布准备 {requiredReadyCount}/{requiredChecks.length}</span>
+            <span className="font-semibold text-(--obs-text)">{preparationSummary}</span>
             {submitBlocker ? (
               <button
                 type="button"
@@ -1510,21 +1542,21 @@ export function ObservationSubmitForm({
           <div className="mt-2 h-1 overflow-hidden rounded-full bg-(--obs-border)">
             <div
               className="h-full rounded-full bg-(--obs-accent) transition-[width] duration-500"
-              style={{ width: `${requiredReadyValue}%` }}
+              style={{ width: `${preparationProgress}%` }}
             />
           </div>
         </div>
 
-        <div className="relative grid gap-5 xl:grid-cols-[minmax(0,1fr)_470px]">
+        <div className="relative grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div className="min-w-0 space-y-5">
             <section ref={photoSectionRef} className={panelClass}>
               <div className="hidden md:block">
                 <StepHeader
                   index={1}
                   title="上传照片"
-                  description="AI 会自动尝试鉴定主体，照片越清晰越容易识别。"
+                  description="最多 5 张，每张生成一条观察记录。随后确认物种（可选）、观察时间和地点。"
                   icon={Camera}
-                  status={`${evidenceImages.length}/5`}
+                  status={`已选 ${evidenceImages.length} 张`}
                   statusTone={evidenceImages.length > 0 ? "success" : "neutral"}
                 />
               </div>
@@ -1532,7 +1564,7 @@ export function ObservationSubmitForm({
                 index={1}
                 title="上传照片"
                 icon={Camera}
-                status={`${evidenceImages.length}/5`}
+                status={`已选 ${evidenceImages.length} 张`}
                 statusTone={evidenceImages.length > 0 ? "success" : "neutral"}
                 summary={evidenceImages.length > 0 ? "照片已进入识别流程" : "先添加一张清晰照片"}
                 open={mobilePanels.photo}
@@ -1549,6 +1581,7 @@ export function ObservationSubmitForm({
                   isAnalyzing={isAnalyzingImages}
                   showHeader={false}
                   onPhotoMetadata={handlePhotoMetadata}
+                  onUploadingChange={setIsUploadingPhotos}
                 />
                 <div className="mt-4 flex justify-end md:hidden">
                   <button
@@ -1561,8 +1594,8 @@ export function ObservationSubmitForm({
                   </button>
                 </div>
                 <MobileStepFooter
-                  actionLabel={evidenceImages.length > 0 ? "继续按张鉴定" : "先上传照片"}
-                  disabled={evidenceImages.length === 0}
+                  actionLabel={evidenceImages.length > 0 ? "确认物种（可选）" : "先上传照片"}
+                  disabled={evidenceImages.length === 0 || isUploadingPhotos}
                   onNext={() => openMobilePanel("species")}
                   helper={
                     evidenceImages.length > 0
@@ -1570,6 +1603,11 @@ export function ObservationSubmitForm({
                       : "上传照片后会自动读取照片拍摄时间和 GPS（如果照片包含这些信息）。"
                   }
                 />
+                {evidenceImages.length > 0 ? (
+                  <button type="button" disabled={isUploadingPhotos} onClick={() => openMobilePanel("location")} className="mt-3 min-h-11 w-full text-sm font-semibold text-(--obs-accent-text) md:hidden">
+                    不确定物种，直接填时间和地点
+                  </button>
+                ) : null}
               </div>
             </section>
 
@@ -1577,7 +1615,7 @@ export function ObservationSubmitForm({
               <div className="hidden md:block">
                 <StepHeader
                   index={2}
-                  title="按张鉴定"
+                  title="确认物种（可选）"
                   description="点选一张照片，为这张填写物种、性别和生命阶段。不确定也可以先发布为待鉴定。"
                   icon={Bird}
                   status={speciesStepStatus}
@@ -1586,7 +1624,7 @@ export function ObservationSubmitForm({
               </div>
               <MobileAccordionHeader
                 index={2}
-                title="按张鉴定"
+                title="确认物种（可选）"
                 icon={Bird}
                 status={speciesStepStatus}
                 statusTone={speciesStatusTone}
@@ -1613,8 +1651,8 @@ export function ObservationSubmitForm({
                     : selectedFailedAnalysis.status === "failed_low_quality"
                       ? selectedFailedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"
                       : selectedFailedAnalysis.status === "failed_unrecognized"
-                        ? "这是旧版未识别结果，请重新上传照片触发新的鉴定流程。"
-                        : selectedFailedAnalysis.moderationReason || "图片识别失败，请删除后重新上传。"}
+                        ? "暂未识别出物种，可以留为待鉴定并继续填写时间和地点。"
+                        : "识别建议暂不可用，可手动选择物种或以待鉴定发布。"}
                 </div>
               ) : null}
 
@@ -1765,7 +1803,7 @@ export function ObservationSubmitForm({
                 ) : null}
 
                 <MobileStepFooter
-                  actionLabel={speciesStepLocked ? "先上传照片" : "继续填写地点"}
+                  actionLabel={speciesStepLocked ? "先上传照片" : "继续填写时间和地点"}
                   disabled={speciesStepLocked}
                   onNext={() => openMobilePanel("location")}
                   helper={selectedSpecies ? "已保存这张照片的物种鉴定。" : "不确定物种也可以继续发布，审核通过后社区可参与共同鉴定。"}
@@ -1778,8 +1816,8 @@ export function ObservationSubmitForm({
               <div className="hidden md:block">
                 <StepHeader
                   index={3}
-                  title="按张确认地点"
-                  description="每张照片都要有自己的观察时间和准确坐标。"
+                  title="确认时间和地点"
+                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。记录会公开显示准确位置。"
                   icon={MapPin}
                   status={locationStepStatus}
                   statusTone={locationStepTone}
@@ -1810,7 +1848,13 @@ export function ObservationSubmitForm({
                   </p>
                 </div>
               ) : null}
-                <div className="space-y-4">
+                {!selectedImageUrl ? (
+                  <div className="rounded-xs border border-dashed border-(--obs-border-strong) bg-(--obs-subtle) p-5 text-sm leading-6 text-(--obs-muted)">
+                    <p>先选择照片，再填写对应的观察时间和地点。</p>
+                    <Button type="button" variant="outline" className="mt-3 h-11" onClick={() => openMobilePanel("photo")}>去选择照片</Button>
+                  </div>
+                ) : <div className="space-y-4">
+                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。记录会公开显示准确位置。</p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedDate">观察日期</FieldLabel>
@@ -1869,22 +1913,19 @@ export function ObservationSubmitForm({
                     </Button>
                   ) : null}
 
-              </div>
-              <MobileStepFooter
-                actionLabel={locationAndTimeReady ? "信息已齐全，可发布" : "先完善地点和时间"}
-                disabled
-                onNext={() => undefined}
-                helper={
-                  locationAndTimeReady
-                    ? "地点和时间已确认，可以发布。"
-                    : "还需要确认地点和时间。"
-                }
-              />
+              </div>}
+              {selectedImageUrl ? <p role="status" className="mt-4 text-sm leading-6 text-(--obs-muted)">
+                {canSubmit ? `已确认 ${publishCount} 张照片，可在下方发布 ${publishCount} 条观察。` : submitBlocker?.title}
+              </p> : null}
               </div>
             </section>
 
             <div className="hidden items-center gap-3 rounded-xs border border-(--obs-border) bg-(--obs-subtle) p-3 md:flex">
-              <DraftSaveIndicator status={draftSaveStatus} className="mr-auto" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-(--obs-text)">{preparationSummary}</p>
+                {submitBlocker ? <button type="button" onClick={() => guideToSubmitBlocker(submitBlocker)} className="mt-1 text-left text-xs text-(--obs-accent-text) underline underline-offset-4">{submitBlocker.title}</button> : <p className="mt-1 text-xs text-(--obs-muted)">每张照片生成一条记录，提交后等待审核。</p>}
+                <DraftSaveIndicator status={draftSaveStatus} className="mt-1" />
+              </div>
               <Button
                 type="submit"
                 disabled={isSubmitting || !canSubmit}
@@ -1955,7 +1996,7 @@ export function ObservationSubmitForm({
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-(--obs-text)">
-                      {observerProgressKnown ? `${displayedObservationCount} / ${nextObserverThreshold} 条` : "同步中"}
+                      {observerProgressKnown ? `${displayedObservationCount} / ${nextObserverThreshold} 条` : user ? "同步中" : "登录后查看观察进度"}
                     </p>
                     <p className="mt-1 text-xs text-(--obs-muted-2)">每条审核通过后发放 +{DEFAULT_XP_REWARD} 探索经验</p>
                   </div>
@@ -2025,6 +2066,7 @@ export function ObservationSubmitForm({
             <DraftSaveIndicator status={draftSaveStatus} className="mb-2 px-1" />
             <Button
               type="submit"
+              disabled={isSubmitting || isUploadingPhotos}
               data-disabled={!mobileSubmitReady}
               onClick={handleMobileSubmitClick}
               className={cn(
@@ -2048,6 +2090,7 @@ export function ObservationSubmitForm({
             </Button>
           </div>
         </div>
+        </fieldset>
       </form>
 
       <Sheet open={speciesSheetOpen} onOpenChange={setSpeciesSheetOpen}>
