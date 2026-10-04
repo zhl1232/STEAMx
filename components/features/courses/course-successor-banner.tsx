@@ -38,7 +38,7 @@ export function CourseSuccessorBanner({
                 <span aria-hidden className="shrink-0 rounded-md bg-[hsl(var(--brand-blue))] px-1.5 py-0.5 text-[11px] font-bold text-white">
                     新版课程
                 </span>
-                <span className="min-w-0 flex-1 truncate">{label}</span>
+                <span className="min-w-0 flex-1 line-clamp-2 leading-snug md:line-clamp-1">{label}</span>
                 <ArrowRight aria-hidden className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
             </Link>
         );
