@@ -3,8 +3,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { XIAODI_STATES, XiaoDi, type XiaoDiState, type XiaoDiVariant } from '@/components/features/tutor/xiaodi'
+import { TutorFabMascot } from '@/components/features/tutor/tutor-fab-mascot'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+
+import dockStyles from '@/components/features/tutor/tutor-fab-dock.module.css'
 
 const STATE_INFO: Record<XiaoDiState, { label: string; duration: string; note: string }> = {
   idle: { label: 'idle 待命', duration: '≈3.4s/轮', note: '呼吸、姿势轻换、叶子随帧轻晃' },
@@ -32,6 +35,7 @@ export function XiaoDiPreviewClient() {
   const [darkPanel, setDarkPanel] = useState(false)
   const [transientDemo, setTransientDemo] = useState(false)
   const [frameVariant, setFrameVariant] = useState<XiaoDiVariant>('ai-draft')
+  const [perchDemo, setPerchDemo] = useState(true)
 
   useEffect(() => {
     if (!autoPlay) return
@@ -113,6 +117,43 @@ export function XiaoDiPreviewClient() {
         <div className="flex flex-col items-center gap-2">
           <XiaoDi state={state} size={280} variant={frameVariant} onCycleEnd={handleCycleEnd} />
           <span className={cn('text-xs', darkPanel ? 'text-slate-300' : 'text-slate-600')}>280px（引导页）</span>
+        </div>
+      </section>
+
+      <section className="space-y-4" aria-label="移动端趴边姿势预览">
+        <div className="space-y-1">
+          <h2 className="text-lg font-semibold">移动端趴边</h2>
+          <p className="text-sm text-muted-foreground">头和搭边的手完整露出。点小迪切换站立与趴边姿势。</p>
+        </div>
+        <div className="flex flex-wrap gap-6">
+          {(['left', 'right'] as const).map((edge) => (
+            <div key={edge} className="relative h-40 w-56 overflow-hidden rounded-md border bg-background">
+              <span className="absolute inset-x-4 top-4 text-xs text-muted-foreground">
+                {edge === 'left' ? '屏幕左侧' : '屏幕右侧'}
+              </span>
+              <button
+                type="button"
+                aria-label={`${edge === 'left' ? '左侧' : '右侧'}小迪，切换${perchDemo ? '站立' : '趴边'}姿势`}
+                onClick={() => setPerchDemo((value) => !value)}
+                className={cn(
+                  'absolute bottom-4 inline-flex h-20 w-20 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                  dockStyles.motion,
+                )}
+                style={{
+                  [edge]: 0,
+                  transform: perchDemo ? 'translateX(0)' : `translateX(${edge === 'left' ? 16 : -16}px)`,
+                }}
+              >
+                <TutorFabMascot
+                  state="idle"
+                  docked={perchDemo}
+                  edge={edge}
+                  edgeDockEnabled
+                  onCycleEnd={handleCycleEnd}
+                />
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 

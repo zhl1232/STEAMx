@@ -6,9 +6,8 @@ import {
   getDefaultTutorFabPosition,
   getTutorFabBubbleOffset,
   getTutorFabDockTransform,
-  getTutorFabDockTransformOrigin,
+  getTutorFabDockTranslateX,
   resolveTutorFabDockEdge,
-  TUTOR_FAB_DOCK_TRANSLATE_RATIO,
 } from '@/components/features/tutor/tutor-fab-position'
 
 describe('tutor fab position', () => {
@@ -53,40 +52,20 @@ describe('tutor fab position', () => {
     expect(resolveTutorFabDockEdge({ right: 156, bottom: 136 }, 80, 390)).toBe('left')
   })
 
-  it('does not let a docked visual offset leak into stored clamp coordinates', () => {
-    const fullRight = { right: 16, bottom: 136 }
-    expect(clampTutorFabPosition(fullRight, 80, 390, 700)).toEqual(fullRight)
-
-    const peekPx = Math.round(80 * TUTOR_FAB_DOCK_TRANSLATE_RATIO)
-    const leakedRight = clampTutorFabPosition(
-      { right: fullRight.right - peekPx, bottom: fullRight.bottom },
-      80,
-      390,
-      700,
-    )
-    expect(leakedRight.right).toBe(8)
-    expect(leakedRight.bottom).toBe(136)
-
-    const fullLeft = { right: 302, bottom: 136 }
-    expect(clampTutorFabPosition(fullLeft, 80, 390, 700)).toEqual(fullLeft)
-
-    const leakedLeft = clampTutorFabPosition(
-      { right: fullLeft.right + peekPx, bottom: fullLeft.bottom },
-      80,
-      390,
-      700,
-    )
-    expect(leakedLeft.right).toBe(302)
-    expect(leakedLeft.bottom).toBe(136)
+  it.each([
+    [320, { right: 16, bottom: 136 }, 'right', 16],
+    [390, { right: 302, bottom: 136 }, 'left', -8],
+    [767, { right: 607, bottom: 136 }, 'left', -80],
+  ] as const)('anchors the full 80px FAB at the nearest edge (%dpx)', (viewportWidth, position, edge, expectedX) => {
+    expect(getTutorFabDockTranslateX(edge, position, 80, viewportWidth)).toBe(expectedX)
+    expect(getTutorFabDockTransform(edge, position, 80, viewportWidth)).toBe(`translateX(${expectedX}px)`)
   })
 
-  it('perches the mascot head-in on the nearer edge', () => {
-    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeGreaterThanOrEqual(0.42)
-    expect(TUTOR_FAB_DOCK_TRANSLATE_RATIO).toBeLessThanOrEqual(0.52)
-    expect(getTutorFabDockTransform('right')).toBe('translateX(48%) rotate(-15deg) scale(0.92)')
-    expect(getTutorFabDockTransform('left')).toBe('translateX(-48%) rotate(15deg) scale(0.92)')
-    expect(getTutorFabDockTransformOrigin('right')).toBe('68% 18%')
-    expect(getTutorFabDockTransformOrigin('left')).toBe('32% 18%')
+  it('supports a custom middle position without changing the persisted base', () => {
+    const position = { right: 120, bottom: 204 }
+    expect(resolveTutorFabDockEdge(position, 80, 390)).toBe('right')
+    expect(getTutorFabDockTranslateX('right', position, 80, 390)).toBe(120)
+    expect(clampTutorFabPosition(position, 80, 390, 700)).toEqual(position)
   })
 
   it('keeps a left-docked voice bubble on-screen over the visible stub', () => {
@@ -106,7 +85,7 @@ describe('tutor fab position', () => {
         edge: 'right',
         viewportWidth: 390,
       }),
-    ).toEqual({ right: 29 })
+    ).toEqual({ right: 12 })
   })
 
   it('does not shift the bubble when the fab is not docked', () => {

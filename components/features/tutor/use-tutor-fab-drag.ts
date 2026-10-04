@@ -8,7 +8,6 @@ import {
   getDefaultTutorFabPosition,
   getTutorFabBubbleOffset,
   getTutorFabDockTransform,
-  getTutorFabDockTransformOrigin,
   readTutorFabPosition,
   resolveTutorFabDockEdge,
   TUTOR_FAB_CLOSED_SIZE_PX,
@@ -32,7 +31,7 @@ export type UseTutorFabDragOptions = {
   onToggle: () => void
   /** 长按说话桥接（来自语音控制器）；拖拽启动时取消长按，抬起时结算 */
   longPress: TutorLongPressBridge
-  /** 正在录音时不要趴边 */
+  /** 录音或回复反馈期间保持完整姿势 */
   recording?: boolean
   /** Additional space reserved below the FAB (for example a mobile lesson footer). */
   bottomInset?: number
@@ -58,6 +57,7 @@ export function useTutorFabDrag({
   const [fabDragging, setFabDragging] = useState(false)
   const [fabDocked, setFabDocked] = useState(false)
   const [pointerActive, setPointerActive] = useState(false)
+  const [pointerPosition, setPointerPosition] = useState<TutorFabPosition | null>(null)
   const [viewportWidth, setViewportWidth] = useState(TUTOR_FAB_MOBILE_BREAKPOINT_PX)
   const fabDragRef = useRef<{
     pointerId: number
@@ -143,8 +143,12 @@ export function useTutorFabDrag({
 
   const resolveFabOrigin = useCallback((): TutorFabPosition => {
     if (fabPositionRef.current) return fabPositionRef.current
-    return getDefaultTutorFabPosition(fabPlacement)
-  }, [fabPlacement])
+    const defaultPosition = getDefaultTutorFabPosition(fabPlacement, viewportWidth)
+    return {
+      ...defaultPosition,
+      bottom: Math.max(defaultPosition.bottom, Math.max(0, bottomInset) + 8),
+    }
+  }, [bottomInset, fabPlacement, viewportWidth])
 
   const handleFabPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
     if (hideOnMobile || event.button !== 0) return
@@ -153,11 +157,20 @@ export function useTutorFabDrag({
     setFabDocked(false)
 
     const origin = resolveFabOrigin()
+    // Freeze the actual onscreen horizontal coordinate, including any in-flight
+    // dock transition. Bottom remains the base coordinate because the dock pose
+    // only changes horizontal placement and the host owns safe-area padding.
+    const rect = event.currentTarget.getBoundingClientRect()
+    const pointerOrigin = {
+      ...origin,
+      right: Math.max(0, window.innerWidth - rect.right),
+    }
+    setPointerPosition(pointerOrigin)
     fabDragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      origin,
+      origin: pointerOrigin,
       moved: false,
     }
     setFabDragging(false)
@@ -204,18 +217,20 @@ export function useTutorFabDrag({
         bottom: drag.origin.bottom - deltaY,
       },
       fabSize,
-      undefined,
-      undefined,
+      viewportWidth,
+      window.innerHeight,
       bottomInset,
     )
     fabPositionRef.current = next
     setFabPosition(next)
+    setPointerPosition(next)
   }
 
   const handleFabPointerEnd = (event: PointerEvent<HTMLButtonElement>) => {
     const drag = fabDragRef.current
     clearLongPressTimer()
     setPointerActive(false)
+    setPointerPosition(null)
     setFabDocked(false)
 
     if (drag && drag.pointerId === event.pointerId) {
@@ -257,8 +272,9 @@ export function useTutorFabDrag({
     fabSizePx,
     viewportWidth,
   )
-  const dockedVisual = fabDocked && canTutorFabEdgeDock(open, viewportWidth)
-  const positionStyle: CSSProperties | undefined = useCustomFabPosition || bottomInset > 0
+  const dockedVisual = fabDocked && canIdleDock
+  const renderedPosition = pointerActive && pointerPosition ? pointerPosition : resolvedFabPosition
+  const positionStyle: CSSProperties | undefined = useCustomFabPosition || bottomInset > 0 || pointerPosition != null
     ? {
         right: resolvedFabPosition.right,
         bottom: `calc(${resolvedFabPosition.bottom}px + env(safe-area-inset-bottom, 0px))`,
@@ -267,23 +283,27 @@ export function useTutorFabDrag({
   const fabStyle: CSSProperties | undefined = dockedVisual
     ? {
         ...positionStyle,
-        transform: getTutorFabDockTransform(fabDockEdge),
-        transformOrigin: getTutorFabDockTransformOrigin(fabDockEdge),
+        transform: getTutorFabDockTransform(fabDockEdge, renderedPosition, fabSizePx, viewportWidth),
       }
-    : positionStyle
-  const bubbleOffset = getTutorFabBubbleOffset(resolvedFabPosition, fabSizePx, {
+    : pointerActive && pointerPosition
+      ? {
+          ...positionStyle,
+          transform: `translateX(${resolvedFabPosition.right - pointerPosition.right}px)`,
+        }
+      : positionStyle
+  const bubbleOffset = getTutorFabBubbleOffset(renderedPosition, fabSizePx, {
     docked: dockedVisual,
     edge: fabDockEdge,
     viewportWidth,
   })
   const fabBubbleStyle: CSSProperties | undefined =
-    useCustomFabPosition || dockedVisual || bottomInset > 0
+    useCustomFabPosition || dockedVisual || bottomInset > 0 || pointerPosition != null
       ? {
           ...(bubbleOffset.left != null ? { left: bubbleOffset.left } : {}),
           right: bubbleOffset.right,
           ...(useCustomFabPosition || bottomInset > 0
             ? {
-                bottom: `calc(${resolvedFabPosition.bottom + fabSizePx + 12}px + env(safe-area-inset-bottom, 0px))`,
+                bottom: `calc(${renderedPosition.bottom + fabSizePx + 12}px + env(safe-area-inset-bottom, 0px))`,
               }
             : {}),
         }
@@ -291,6 +311,7 @@ export function useTutorFabDrag({
 
   return {
     fabDragging,
+    fabInteracting: fabDragging || pointerActive,
     fabDocked: dockedVisual,
     fabDockEdge,
     fabEdgeDockEnabled: viewportWidth < TUTOR_FAB_MOBILE_BREAKPOINT_PX,

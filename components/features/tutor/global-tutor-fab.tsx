@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { XiaoDi, type XiaoDiState } from '@/components/features/tutor/xiaodi'
+import { TutorFabMascot } from '@/components/features/tutor/tutor-fab-mascot'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
 import {
   resolveTutorMascotState,
@@ -355,19 +356,6 @@ export function GlobalTutorFab({
   })
   const { view, historyDetail, deletingHistoryId } = history
 
-  // ---- 悬浮球拖拽 ----
-  const drag = useTutorFabDrag({
-    open,
-    mounted,
-    hideOnMobile,
-    fabPlacement,
-    contextKey,
-    onToggle,
-    longPress: voice.longPress,
-    recording: voice.recordingVoice,
-    bottomInset: fabBottomInset,
-  })
-
   useEffect(() => {
     aliveRef.current = true
     setMounted(true)
@@ -505,6 +493,19 @@ export function GlobalTutorFab({
     if (state !== 'success' && state !== 'error') return
     setMascotFeedback((current) => (current === state ? null : current))
   }, [])
+
+  // Idle docking waits until voice, response and feedback animations have finished.
+  const drag = useTutorFabDrag({
+    open,
+    mounted,
+    hideOnMobile,
+    fabPlacement,
+    contextKey,
+    onToggle,
+    longPress: voice.longPress,
+    recording: voice.recordingVoice || mascotState !== 'idle',
+    bottomInset: fabBottomInset,
+  })
 
   if (!mounted) return null
 
@@ -731,7 +732,7 @@ export function GlobalTutorFab({
             aria-hidden
             className={cn(
               'absolute -bottom-1.5 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]',
-              drag.fabDocked && drag.fabDockEdge === 'left' ? 'left-6' : 'right-10',
+              drag.fabDocked ? (drag.fabDockEdge === 'left' ? 'left-3' : 'right-3') : 'right-10',
             )}
           />
         </div>
@@ -755,7 +756,7 @@ export function GlobalTutorFab({
             aria-hidden
             className={cn(
               'absolute -bottom-1.5 h-3 w-3 rotate-45 border-b border-r border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))]',
-              drag.fabDocked && drag.fabDockEdge === 'left' ? 'left-6' : 'right-10',
+              drag.fabDocked ? (drag.fabDockEdge === 'left' ? 'left-3' : 'right-3') : 'right-10',
             )}
           />
         </div>
@@ -774,16 +775,22 @@ export function GlobalTutorFab({
         className={cn(
           'fixed right-4 z-50 inline-flex touch-none select-none items-center justify-center overflow-visible focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)] focus-visible:ring-offset-2 md:right-6',
           dockStyles.host,
+          drag.fabInteracting && dockStyles.dragging,
           drag.fabDragging
             ? cn('cursor-grabbing', dockStyles.dragging)
             : cn(
                 'cursor-grab',
                 drag.fabEdgeDockEnabled ? dockStyles.motion : 'transition-transform',
-                !drag.fabDocked && 'hover:scale-105 active:scale-95',
+                !drag.fabDocked && 'md:hover:scale-105 md:active:scale-95',
               ),
           open
             ? 'max-md:hidden h-12 w-12 rounded-full bg-[hsl(var(--surface-raised))] shadow-[0_16px_36px_-12px_hsl(var(--brand-blue)/0.6)] ring-1 ring-[hsl(var(--brand-blue)/0.28)]'
-            : 'h-20 w-20 bg-transparent drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
+            : cn(
+                'h-20 w-20 bg-transparent',
+                drag.fabDocked
+                  ? 'drop-shadow-[0_5px_7px_hsl(var(--brand-blue)/0.13)]'
+                  : 'drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
+              ),
           hideOnMobile && 'max-lg:hidden',
           !drag.useCustomFabPosition &&
             (fabPlacement === 'compact'
@@ -795,16 +802,13 @@ export function GlobalTutorFab({
         {open ? (
           <ChevronDown className="h-6 w-6 text-[hsl(var(--brand-blue))]" />
         ) : (
-          <>
-            <span className="flex h-full w-full items-center justify-center overflow-visible">
-              <XiaoDi
-                state={mascotState}
-                size={86}
-                animated={mascotState !== 'idle'}
-                onCycleEnd={handleMascotCycleEnd}
-              />
-            </span>
-          </>
+          <TutorFabMascot
+            state={mascotState}
+            docked={drag.fabDocked}
+            edge={drag.fabDockEdge}
+            edgeDockEnabled={drag.fabEdgeDockEnabled}
+            onCycleEnd={handleMascotCycleEnd}
+          />
         )}
       </button>
     </>,

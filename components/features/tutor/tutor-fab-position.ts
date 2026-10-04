@@ -3,14 +3,6 @@ export const TUTOR_FAB_DRAG_THRESHOLD_PX = 10
 export const TUTOR_FAB_MOBILE_BREAKPOINT_PX = 768
 export const TUTOR_FAB_CLOSED_SIZE_PX = 80
 export const TUTOR_FAB_DOCK_IDLE_MS = 3000
-/** Head-in perch: ~52% of the closed FAB stays in view so the head and a hint of shoulder remain. */
-export const TUTOR_FAB_DOCK_TRANSLATE_RATIO = 0.48
-/** Counterclockwise on the right edge, clockwise on the left; head leans into the viewport. */
-export const TUTOR_FAB_DOCK_ROTATE_DEG = 15
-export const TUTOR_FAB_DOCK_SCALE = 0.92
-/** Edge-adjacent head pivot, nudged slightly toward the viewport so the helmet is not clipped. */
-export const TUTOR_FAB_DOCK_ORIGIN_RIGHT = '68% 18%'
-export const TUTOR_FAB_DOCK_ORIGIN_LEFT = '32% 18%'
 
 export type TutorFabPlacement = 'default' | 'compact'
 export type TutorFabDockEdge = 'left' | 'right'
@@ -94,25 +86,30 @@ export function resolveTutorFabDockEdge(
   return left < position.right ? 'left' : 'right'
 }
 
-export function getTutorFabDockTransform(edge: TutorFabDockEdge): string {
-  const translateDir = edge === 'right' ? 1 : -1
-  const translatePercent = Math.round(TUTOR_FAB_DOCK_TRANSLATE_RATIO * 100)
-  // Opposite of the slide direction: right edge leans CCW so the head tips in and the body goes out.
-  const rotateDeg = -translateDir * TUTOR_FAB_DOCK_ROTATE_DEG
-  return `translateX(${translateDir * translatePercent}%) rotate(${rotateDeg}deg) scale(${TUTOR_FAB_DOCK_SCALE})`
+/** Pixel translation needed to place the full FAB flush against the selected viewport edge. */
+export function getTutorFabDockTranslateX(
+  edge: TutorFabDockEdge,
+  position: TutorFabPosition,
+  fabSizePx: number,
+  viewportWidth: number,
+): number {
+  const edgeRight = edge === 'right' ? 0 : Math.max(0, viewportWidth - fabSizePx)
+  // CSS translateX moves the box after `right` is applied; positive X
+  // therefore decreases its computed right inset.
+  return position.right - edgeRight
 }
 
-export function getTutorFabDockTransformOrigin(edge: TutorFabDockEdge): string {
-  return edge === 'right' ? TUTOR_FAB_DOCK_ORIGIN_RIGHT : TUTOR_FAB_DOCK_ORIGIN_LEFT
-}
-
-function dockVisibleStubPx(fabSizePx: number) {
-  const peekPx = Math.round(fabSizePx * TUTOR_FAB_DOCK_TRANSLATE_RATIO)
-  return Math.max(0, fabSizePx - peekPx)
+export function getTutorFabDockTransform(
+  edge: TutorFabDockEdge,
+  position: TutorFabPosition,
+  fabSizePx: number,
+  viewportWidth: number,
+): string {
+  return `translateX(${getTutorFabDockTranslateX(edge, position, fabSizePx, viewportWidth)}px)`
 }
 
 /**
- * Voice-hint / feedback bubble stays aligned with the visible stub.
+ * Voice-hint / feedback bubble stays inside the viewport at the actual dock edge.
  * Dock translate is visual-only and must not be written to storage.
  */
 export function getTutorFabBubbleOffset(
@@ -127,13 +124,9 @@ export function getTutorFabBubbleOffset(
   const baseRight = Math.max(BUBBLE_MIN_INSET_PX, position.right - 4)
 
   if (options.docked && options.edge === 'left') {
-    const visiblePx = dockVisibleStubPx(fabSizePx)
-    return {
-      left: Math.max(EDGE_PADDING_PX, Math.round(visiblePx * 0.28)),
-      right: 'auto',
-    }
+    return { left: BUBBLE_MIN_INSET_PX, right: 'auto' }
   }
 
-  const extra = options.docked && options.edge === 'right' ? Math.round(dockVisibleStubPx(fabSizePx) * 0.4) : 0
-  return { right: baseRight + extra }
+  if (options.docked && options.edge === 'right') return { right: BUBBLE_MIN_INSET_PX }
+  return { right: baseRight }
 }

@@ -143,7 +143,7 @@
 | `/moderator/apply` | `app/moderator/apply/` | 申请成为审核员 |
 | `/legal` | `app/legal/` | 法律条款 — `privacy/`（隐私政策）、`terms/`（服务条款）；法律文档使用单层低对比度容器与无边框导读区，移动端页头完整占位并支持从顶部正常滚动阅读 |
 | `/badges-preview` | `app/badges-preview/page.tsx` | 徽章样式预览（仅开发环境可访问） |
-| `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用 AI sprite，并可切回原版 sprite 对比） |
+| `/xiaodi-preview` | `app/xiaodi-preview/page.tsx` | 小迪吉祥物 7 状态动画预览（仅开发环境；状态切换/自动轮播/深浅底/播一轮回 idle 演示；默认使用 AI sprite，并可切回原版 sprite 对比）；另有移动端左右趴边专用姿势预览，点小迪切换站立/趴边，复用 `TutorFabMascot` 与正式入口相同的缓动及减少动态效果规则 |
 | `/design-system` | `app/design-system/page.tsx` | 设计系统静态展示（仅开发环境） |
 | `/ldraw-preview` | `app/ldraw-preview/page.tsx` + `components/features/ldraw/ldraw-preview-workspace.tsx` | LDraw 3D 预览工作台：收录全部 `.ldr` 模型并标注 MPD 存在/未打包状态，支持按分类检索、分步搭建回放、多视角、辅助线及自定义源码即时渲染；`?model=<文件名.ldr>` 直达单模型，`?models=<逗号分隔文件名>` 限定待验收批次并提供上一个/下一个模型及显示全部；提供“修复完待确认 / 已确认”筛选和当前版本确认按钮，确认记录仅用于本地验收，模型或依赖变化后重新待确认；预览草稿不代表模型已验收或课程已挂载。当前状态与批次证据见 `docs/ldraw-status.md`；`3-hua-lan.ldr` 把手沿前后轴居中至 Z=264（第 7、12–14 步），第 5–7、12–14 步按原图恢复同宽篮壁、嵌入式红色把手根部及跨缝黄色侧片，顶部横梁齐平；第 1、3 步消除篮内凸台，按现有 16 钉底板改为每层 7 块直立侧壁排布（原图 8 块标注与此宽度不符） |
 | `/migrate` | `app/migrate/page.tsx` | 数据迁移说明页（只引导使用项目封装的 `pnpm db:push`；长命令在手机端限制于代码块内部横向滚动） |
@@ -271,6 +271,8 @@
 | `profile/` | 16 | 头像上传、响应式编辑资料弹窗与共享资料表单（手机全屏、PC 双栏；内联头像选择与草稿退出保护）、本周探索计划卡（失败回退今日行动卡，步骤统一用 3D spot icon，当前周完成项保留显示并弱化为“已完成 / 查看记录”，含 `plan-*` 图标）、STEAM 雷达图、新手引导行（毕业后整卡不再渲染）、学习打卡卡片、骨架屏；`profile-spot-icons` 统一内容层/导航 icon（`public/assets/profile-icons/` 3D WebP） |
 
 > 作品提升成功后，`work-detail` 必须保留 `/works/[id]?share=1` 查询参数，由详情页自动打开分享卡片；探索记录到作品的浏览器回归位于 `e2e/integration/core-flow.spec.ts`。
+
+> 小迪移动端趴边（2026-10-04）：`tutor-fab-mascot.tsx` 在完整站立小迪与透明半身探头素材之间做短暂交叉淡入，完整露出头部、嫩芽和搭边的手；素材仅在移动端预加载并等待 decode，左侧镜像复用，加载失败保留原姿势。`use-tutor-fab-drag` 空闲 3 秒后把完整 80px 触控区域平移到最近屏幕边缘，`tutor-fab-dock.module.css` 用 280ms 无回弹缓动；触摸/拖拽期间取消位置补间并从当前可见位置跟手，持久化仍保存未停靠坐标。录音、回复和反馈动画期间暂停趴边，气泡始终留在对应屏幕边缘内；`prefers-reduced-motion` 同时关闭平移与姿势切换补间。
 
 > `/works/[id]` 详情页视觉层次：首屏明确展示作品标题与探索状态；无探索过程的作品使用带媒体计数与缩略图胶囊的作品展台，有探索过程时以时间线为首要内容并在时间线末尾突出最终成果，避免重复渲染主图；作者/支持、来源、探索时间线和留言区使用可辨识的内容面板，来源卡保留项目/课程课时上下文与返回入口，时间线记录卡在移动端保持连续滚动并保留 44px 级操作命中区。
 
@@ -745,7 +747,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 | `public/assets/species-detail/` | 物种详情信息卡插图（鸟类、植物、昆虫专题） |
 | `public/avatars/` | 12 个默认头像 SVG |
 | `public/xiaodi/` | 小迪原版动画 sprite：`sprite.webp`（7 状态 × 4 帧，供 `variant="default"` 预览/回退使用） |
-| `public/xiaodi-ai/` | 小迪 AI 候选动画 sprite：`sprite.webp`（默认 `variant="ai-draft"` 使用，7 状态 × 8 帧）、全局关闭态轻量静帧 `idle.webp` 与观察详情头像静帧 `idle-0.webp` |
+| `public/xiaodi-ai/` | 小迪 AI 候选动画 sprite：`sprite.webp`（默认 `variant="ai-draft"` 使用，7 状态 × 8 帧）、全局关闭态轻量静帧 `idle.webp` 与观察详情头像静帧 `idle-0.webp`；`edge-peek.webp` 为移动端趴边专用透明半身姿势（192px、约 10KB），由内置图像生成工具参考 `idle-0.webp` 保留同一角色制作，左侧镜像复用 |
 | `public/birds/` | 鸟类物种封面图与鸟鸣音频（已迁 OSS，本地目录 gitignore；配置 `NEXT_PUBLIC_ASSETS_BASE_URL` 后各环境先解析到同一资源域名，本地开发再经 `/api/assets` 模拟线上 Referer） |
 | `public/insects/` | 昆虫物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
 | `public/trees/` | 树木物种封面图（已迁 OSS，本地目录 gitignore；静态图片重写策略同 `public/birds/`） |
