@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
     steps:
-      - name: Readonly recon: logrotate + docker images (no changes)
+      - name: Readonly recon - logrotate and docker images (no changes)
         uses: appleboy/ssh-action@v1.2.0
         env:
           WENYAN_API_KEY: ${{ secrets.WENYAN_API_KEY }}
