@@ -11,6 +11,7 @@ type AuthOptions = {
 
 async function openEmailAuthForm(page: Page) {
   await page.goto('/login')
+  await page.getByRole('button', { name: '密码登录', exact: true }).click()
   const form = page.locator('form').first()
   await form.getByPlaceholder('请输入手机号').waitFor({ state: 'visible' })
   return form

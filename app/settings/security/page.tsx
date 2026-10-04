@@ -11,6 +11,7 @@ import { useAuth } from '@/lib/context/auth-context';
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { toE164 } from "@/lib/utils/phone";
+import { sanitizeInternalHref } from "@/lib/utils/safe-internal-href";
 
 function maskPhone(phone: string) {
   const local = phone.replace(/^\+?86/, "");
@@ -62,6 +63,7 @@ function SecuritySettingsContent() {
   }, [recoveryMode]);
 
   const handleChangePassword = async () => {
+    if (passwordLoading) return;
     if (!newPassword || newPassword.length < 6) {
       toast({ title: "新密码至少 6 位", variant: "destructive" });
       return;
@@ -82,10 +84,13 @@ function SecuritySettingsContent() {
       if (!res.ok) {
         throw new Error(data.error || `请求失败 ${res.status}`);
       }
-      toast({ title: "修改成功", description: "密码已更新。" });
+      toast({ title: "修改成功", description: "密码已更新，下次可用手机号和密码登录。" });
       setNewPassword("");
       setConfirmPassword("");
       setPasswordExpand(false);
+      if (recoveryMode) {
+        window.location.href = sanitizeInternalHref(searchParams.get("next"));
+      }
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "修改失败";
       toast({ title: "修改失败", description: message, variant: "destructive" });
@@ -178,7 +183,7 @@ function SecuritySettingsContent() {
         {recoveryMode ? (
           <div role="status" className="flex items-start gap-3 rounded-md bg-primary/8 px-4 py-3 text-sm leading-6 text-foreground/90">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-            <p>请先设置新密码，设置成功后即可继续使用账号。</p>
+            <p>请先设置新密码，保存后会返回刚才的页面。</p>
           </div>
         ) : null}
 
@@ -189,6 +194,7 @@ function SecuritySettingsContent() {
             aria-label={passwordExpand ? "收起修改密码" : "展开修改密码"}
             aria-expanded={passwordExpand}
             aria-controls="password-settings"
+            disabled={passwordLoading}
             className="settings-row group"
             onClick={() => setPasswordExpand((prev) => !prev)}
           >
@@ -196,7 +202,8 @@ function SecuritySettingsContent() {
               <KeyRound className="h-5 w-5" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-sm font-semibold">修改密码</h3>
+              <h3 className="text-sm font-semibold">设置或修改密码</h3>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">设置后可使用密码登录，也可继续用验证码。</p>
             </div>
             {passwordExpand ? (
               <ChevronUp className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
@@ -224,6 +231,7 @@ function SecuritySettingsContent() {
                     autoComplete="new-password"
                     value={newPassword}
                     onChange={(event) => setNewPassword(event.target.value)}
+                    disabled={passwordLoading}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -235,6 +243,7 @@ function SecuritySettingsContent() {
                     autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(event) => setConfirmPassword(event.target.value)}
+                    disabled={passwordLoading}
                   />
                 </div>
               </div>

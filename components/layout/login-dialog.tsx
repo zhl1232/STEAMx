@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { useRef } from 'react'
 
 import { AuthFlow } from '@/components/auth/auth-flow'
 
@@ -20,45 +20,27 @@ export function LoginDialog({
   title,
   description
 }: LoginDialogProps) {
-  const [mounted, setMounted] = useState(false)
+  const returnFocusRef = useRef<HTMLElement | null>(null)
 
-  useEffect(() => {
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
-
-  useEffect(() => {
-    if (!open) return
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onOpenChange(false)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onOpenChange, open])
-
-  if (!mounted || !open) return null
-
-  return createPortal(
-    <div className="fixed inset-0 z-90">
-      <button
-        type="button"
-        aria-label="关闭登录层"
-        className="absolute inset-0 bg-slate-950/30 backdrop-blur-xs"
-        onClick={() => onOpenChange(false)}
-      />
-
-      <div className="absolute inset-x-0 bottom-0 top-0 flex items-end justify-center md:items-center md:p-6">
-        <div
-          role="dialog"
-          aria-modal="true"
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="fixed inset-0 z-90 bg-slate-950/30 backdrop-blur-xs" />
+        <DialogPrimitive.Content
           aria-labelledby="auth-layer-title"
-          className="w-full md:max-w-md"
-          onClick={(event) => event.stopPropagation()}
+          aria-describedby={undefined}
+          className="fixed inset-x-0 bottom-0 z-90 w-full outline-hidden md:inset-x-auto md:bottom-auto md:left-1/2 md:top-1/2 md:max-w-md md:-translate-x-1/2 md:-translate-y-1/2"
+          onOpenAutoFocus={() => {
+            returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault()
+            returnFocusRef.current?.focus()
+          }}
         >
+          <DialogPrimitive.Title asChild>
+            <span className="sr-only">{title ?? '登录'}</span>
+          </DialogPrimitive.Title>
           <AuthFlow
             presentation="layer"
             title={title}
@@ -73,9 +55,8 @@ export function LoginDialog({
               }
             }}
           />
-        </div>
-      </div>
-    </div>,
-    document.body
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   )
 }

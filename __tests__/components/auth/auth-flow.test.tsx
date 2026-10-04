@@ -46,6 +46,7 @@ describe('AuthFlow', () => {
     expect(screen.queryByLabelText('密码')).not.toBeInTheDocument()
     expect(screen.queryByText(/邮箱/)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: '获取验证码' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '密码登录' })).toHaveAttribute('aria-pressed', 'false')
   })
 
   it('installs the native phone session before completing a modal login', async () => {
@@ -71,12 +72,14 @@ describe('AuthFlow', () => {
     expect(setSessionMock.mock.invocationCallOrder[0]).toBeLessThan(onSuccess.mock.invocationCallOrder[0])
   })
 
-  it('keeps legacy email password login behind the phone field', async () => {
+  it('supports internal email test accounts through the explicit password entry without email prompts', async () => {
     const user = userEvent.setup()
     signInWithPasswordMock.mockResolvedValue({ error: null })
 
     render(<AuthFlow presentation="page" />)
 
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    expect(screen.queryByText(/邮箱/)).not.toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('手机号'), { target: { value: 'student@example.com' } })
     expect(await screen.findByLabelText('密码')).toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('密码'), { target: { value: 'secret1' } })
@@ -88,6 +91,138 @@ describe('AuthFlow', () => {
         password: 'secret1',
       })
     })
+  })
+
+  it('logs in a phone account with its password and completes the original modal action', async () => {
+    const user = userEvent.setup()
+    const onSuccess = vi.fn()
+    signInWithPasswordMock.mockResolvedValue({ error: null })
+    render(<AuthFlow presentation="layer" onSuccess={onSuccess} />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    expect(screen.getByLabelText('手机号')).toHaveValue('13800138000')
+    expect(screen.queryByText(/邮箱/)).not.toBeInTheDocument()
+    await user.type(screen.getByLabelText('密码'), 'secret1')
+    await user.click(screen.getByRole('button', { name: '登录' }))
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledOnce())
+    expect(signInWithPasswordMock).toHaveBeenCalledWith({ phone: '+8613800138000', password: 'secret1' })
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('lets users inspect a password and keeps it when clicking the selected method', async () => {
+    const user = userEvent.setup()
+    render(<AuthFlow presentation="page" />)
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    await user.type(screen.getByLabelText('密码'), 'secret1')
+    await user.click(screen.getByRole('button', { name: '显示密码' }))
+    expect(screen.getByLabelText('密码')).toHaveAttribute('type', 'text')
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    expect(screen.getByLabelText('密码')).toHaveValue('secret1')
+    await user.click(screen.getByRole('button', { name: '隐藏密码' }))
+    expect(screen.getByLabelText('密码')).toHaveAttribute('type', 'password')
+  })
+
+  it('keeps the phone when an incorrect password is replaced by SMS login', async () => {
+    const user = userEvent.setup()
+    signInWithPasswordMock.mockResolvedValue({ error: { message: 'Invalid login credentials' } })
+    render(<AuthFlow presentation="page" />)
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.type(screen.getByLabelText('密码'), 'secret1')
+    await user.click(screen.getByRole('button', { name: '登录' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('账号或密码错误，请重试。')
+    expect(screen.queryByText('还没设置密码？用验证码登录')).not.toBeInTheDocument()
+    expect(screen.queryByText('验证码登录后，可在「账号与安全」设置密码。')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '验证码登录' }))
+    expect(screen.getByLabelText('手机号')).toHaveValue('13800138000')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('密码')).not.toBeInTheDocument()
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('resumes the existing SMS code after switching to password and back without sending again', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ ok: true }))
+    render(<AuthFlow presentation="page" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('checkbox'))
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(await screen.findByLabelText('验证码')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    await user.click(screen.getByRole('button', { name: '验证码登录' }))
+    expect(screen.getByLabelText('验证码')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /后重发/ })).toBeDisabled()
+    expect(global.fetch).toHaveBeenCalledOnce()
+  })
+
+  it('rejects malformed phone input before requesting a password login', async () => {
+    const user = userEvent.setup()
+    render(<AuthFlow presentation="page" />)
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
+    await user.type(screen.getByLabelText('手机号'), '12345')
+    await user.type(screen.getByLabelText('密码'), 'secret1')
+    await user.click(screen.getByRole('button', { name: '登录' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('请输入有效的手机号')
+    expect(signInWithPasswordMock).not.toHaveBeenCalled()
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('does not report login success if the verify endpoint returns no session or token', async () => {
+    const user = userEvent.setup()
+    const onSuccess = vi.fn()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ ok: true }))
+    render(<AuthFlow presentation="layer" onSuccess={onSuccess} />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('checkbox'))
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    await user.type(await screen.findByLabelText('验证码'), '123456')
+    await user.click(screen.getByRole('button', { name: '验证并继续' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('登录会话建立失败，请重新验证。')
+    expect(onSuccess).not.toHaveBeenCalled()
+  })
+
+  it('allows consent when a recovery code is resumed as normal SMS login', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockImplementation(async (input) => String(input).endsWith('/send')
+      ? Response.json({ ok: true })
+      : Response.json({ error: '验证码错误' }, { status: 400 }))
+    render(<AuthFlow presentation="page" initialMode="forgot_password" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('button', { name: '继续找回密码' }))
+    await screen.findByLabelText('验证码')
+    await user.click(screen.getByRole('button', { name: '返回密码登录' }))
+    await user.click(screen.getByRole('button', { name: '验证码登录' }))
+    expect(screen.getByLabelText('验证码')).toBeInTheDocument()
+    await user.click(screen.getByRole('checkbox'))
+    await user.type(screen.getByLabelText('验证码'), '123456')
+    await user.click(screen.getByRole('button', { name: '验证并继续' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('验证码错误')
+    expect(global.fetch).toHaveBeenCalledTimes(2)
+  })
+
+  it('confirms agreement before verifying a resumed recovery code, without resending SMS', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockImplementation(async (input) => String(input).endsWith('/send')
+      ? Response.json({ ok: true })
+      : Response.json({ error: '验证码错误' }, { status: 400 }))
+    render(<AuthFlow presentation="page" initialMode="forgot_password" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('button', { name: '继续找回密码' }))
+    await screen.findByLabelText('验证码')
+    await user.click(screen.getByRole('button', { name: '返回密码登录' }))
+    await user.click(screen.getByRole('button', { name: '验证码登录' }))
+    await user.type(screen.getByLabelText('验证码'), '123456')
+    await user.click(screen.getByRole('button', { name: '验证并继续' }))
+
+    expect(screen.getByRole('alertdialog')).toHaveTextContent('勾选同意，并验证登录')
+    expect(global.fetch).toHaveBeenCalledOnce()
+    await user.click(screen.getByRole('button', { name: '同意并继续' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('验证码错误')
+    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+    expect(global.fetch).toHaveBeenCalledTimes(2)
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/auth/sms/verify', expect.objectContaining({
+      body: JSON.stringify({ phone: '+8613800138000', code: '123456' }),
+    }))
   })
 
   it('starts SMS verification for phone login after consent', async () => {
@@ -168,7 +303,7 @@ describe('AuthFlow', () => {
     expect(screen.getByRole('button', { name: '验证并继续' })).toBeInTheDocument()
   })
 
-  it('blocks phone registration until terms are accepted', async () => {
+  it('offers explicit agreement before sending SMS, and cancellation leaves consent unchecked', async () => {
     const user = userEvent.setup()
 
     render(<AuthFlow presentation="page" initialMode="sign_up" />)
@@ -177,18 +312,58 @@ describe('AuthFlow', () => {
     await user.click(screen.getByRole('button', { name: '获取验证码' }))
 
     expect(global.fetch).not.toHaveBeenCalledWith('/api/auth/sms/send', expect.anything())
-    expect(toastMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: '请先确认使用授权',
-    }))
-    expect(screen.getByText('请先同意服务条款和隐私政策。')).toBeInTheDocument()
+    expect(screen.getByRole('alertdialog', { name: '请确认服务协议' })).toBeInTheDocument()
+    expect(screen.getByText(/点击「同意并继续」将勾选同意，并获取验证码/)).toBeInTheDocument()
+    expect(toastMock).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: '取消' }))
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('checkbox')).not.toBeChecked()
+    expect(global.fetch).not.toHaveBeenCalled()
   })
 
-  it('keeps legacy email password reset hidden behind the phone field', async () => {
+  it('checks consent and continues the original SMS request once after confirmation', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ ok: true }))
+    render(<AuthFlow presentation="page" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(global.fetch).not.toHaveBeenCalled()
+    await user.click(screen.getByRole('button', { name: '同意并继续' }))
+    expect(await screen.findByLabelText('验证码')).toBeInTheDocument()
+    expect(global.fetch).toHaveBeenCalledOnce()
+    await user.click(screen.getByRole('button', { name: '修改手机号' }))
+    expect(screen.getByRole('checkbox')).toBeChecked()
+  })
+
+  it('keeps agreed consent if sending fails and never retries automatically', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ error: '发送暂时失败' }, { status: 500 }))
+    render(<AuthFlow presentation="page" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    await user.click(screen.getByRole('button', { name: '同意并继续' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('发送暂时失败')
+    expect(screen.getByRole('checkbox')).toBeChecked()
+    expect(global.fetch).toHaveBeenCalledOnce()
+  })
+
+  it('shows malformed phone feedback before asking for agreement', async () => {
+    const user = userEvent.setup()
+    render(<AuthFlow presentation="page" />)
+    await user.type(screen.getByLabelText('手机号'), '12345')
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('请输入有效的手机号')
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('preserves email test account recovery without advertising email accounts', async () => {
     const user = userEvent.setup()
     resetPasswordForEmailMock.mockResolvedValue({ error: null })
 
     render(<AuthFlow presentation="page" />)
 
+    await user.click(screen.getByRole('button', { name: '密码登录' }))
     fireEvent.change(screen.getByLabelText('手机号'), { target: { value: 'student@example.com' } })
     await user.click(screen.getByRole('button', { name: '忘记密码' }))
 
@@ -263,10 +438,27 @@ describe('AuthFlow', () => {
 
       await waitFor(() => expect(location.href).toBe('/'))
     })
+
+    it('keeps a protected page as the destination after phone password recovery', async () => {
+      const location = stubLocation()
+      location.search = '?next=%2Fnature%2Fsubmit%3Ftopic%3Dplants'
+      const user = userEvent.setup()
+      verifyOtpMock.mockResolvedValue({ error: null })
+      vi.mocked(global.fetch).mockImplementation(async (input) => String(input).endsWith('/send')
+        ? Response.json({ ok: true })
+        : Response.json({ tokenHash: 'hash-1', isNewUser: false }))
+      render(<AuthFlow presentation="page" initialMode="forgot_password" />)
+      await user.type(screen.getByLabelText('手机号'), '13800138000')
+      await user.click(screen.getByRole('button', { name: '继续找回密码' }))
+      await user.type(await screen.findByLabelText('验证码'), '123456')
+      await user.click(screen.getByRole('button', { name: '验证并继续' }))
+      await waitFor(() => expect(location.href).toBe('/settings/security?mode=recovery&next=%2Fnature%2Fsubmit%3Ftopic%3Dplants'))
+    })
   })
 
-  it('routes phone password recovery through inline SMS verification', async () => {
+  it('sends the recovery SMS immediately after the phone is confirmed, without a second send button', async () => {
     const user = userEvent.setup()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ ok: true }))
 
     render(<AuthFlow presentation="page" initialMode="forgot_password" />)
 
@@ -274,9 +466,11 @@ describe('AuthFlow', () => {
     await user.click(screen.getByRole('button', { name: '继续找回密码' }))
 
     expect(resetPasswordForEmailMock).not.toHaveBeenCalled()
-    expect(screen.getByRole('heading', { name: '短信验证' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: '验证码登录' })).not.toBeInTheDocument()
-    expect(screen.getByLabelText('手机号')).toHaveValue('13800138000')
-    expect(screen.getByText('请先完成短信验证。验证后设置新密码。')).toBeInTheDocument()
+    expect(screen.getByText('已发送到 13800138000')).toBeInTheDocument()
+    expect(screen.getByLabelText('验证码')).toBeInTheDocument()
+    expect(global.fetch).toHaveBeenCalledOnce()
+    expect(screen.getByRole('button', { name: '返回密码登录' })).toBeInTheDocument()
   })
 })

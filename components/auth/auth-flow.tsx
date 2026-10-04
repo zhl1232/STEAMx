@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   AlertCircle,
   ArrowLeft,
+  Eye,
+  EyeOff,
   Loader2,
   Lock,
   Pencil,
@@ -16,8 +18,8 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Dialog, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/hooks/use-toast'
 import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { logger } from '@/lib/logger'
 import { PLATFORM_ONBOARDING_HREF } from '@/lib/product/onboarding'
@@ -112,6 +114,12 @@ function isEmailIdentifier(value: string) {
   return value.includes('@')
 }
 
+function getAuthPhone(value: string) {
+  const digits = value.replace(/\D/g, '')
+  if (!/^(?:86)?1\d{10}$/.test(digits) || /[^\d+\s()-]/.test(value)) return ''
+  return toE164(value)
+}
+
 export function AuthFlow({
   presentation,
   title,
@@ -124,7 +132,6 @@ export function AuthFlow({
   onSuccess,
 }: AuthFlowProps) {
   const supabase = createClient()
-  const { toast } = useToast()
 
   const [method, setMethod] = useState<AuthMethod>(initialMode === 'forgot_password' ? 'email' : initialMethod)
   const [emailMode, setEmailMode] = useState<'sign_in' | 'sign_up'>(getInitialEmailMode(initialMode))
@@ -134,12 +141,19 @@ export function AuthFlow({
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [otp, setOtp] = useState('')
   const [otpStep, setOtpStep] = useState<OtpStep>('input')
 
   const [termsAgreed, setTermsAgreed] = useState(false)
-  const [consentError, setConsentError] = useState<string | null>(null)
+  const [consentOpen, setConsentOpen] = useState(false)
+  const [consentActionLabel, setConsentActionLabel] = useState('获取验证码')
+  const consentActionRef = useRef<(() => void) | null>(null)
+  const consentReturnFocusRef = useRef<HTMLElement | null>(null)
+  const consentCancelRef = useRef<HTMLButtonElement>(null)
+  const consentContinuingRef = useRef(false)
   const [otpCooldown, setOtpCooldown] = useState(0)
+  const [otpSentPhone, setOtpSentPhone] = useState('')
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -147,43 +161,32 @@ export function AuthFlow({
 
   const emailValue = email.trim()
   const phoneValue = phone.trim()
-  const phoneDigits = phoneValue.replace(/\D/g, '')
-  const isPhone = phoneDigits.length >= 11
-  const formattedPhone = isPhone ? toE164(phoneValue) : ''
+  const formattedPhone = getAuthPhone(phoneValue)
   const isPhoneMethod = method === 'phone'
-  const isLegacyEmailLogin = isPhoneMethod && emailMode === 'sign_in' && isEmailIdentifier(phoneValue)
   const isPhoneSignUpEmail = isPhoneMethod && emailMode === 'sign_up' && isEmailIdentifier(phoneValue)
   const isSignUpPhoneIdentifier = emailMode === 'sign_up' && !!emailValue && !isEmailIdentifier(emailValue)
   const showPasswordField = !isResetMode && !isPhoneMethod && !(emailMode === 'sign_up' && isSignUpPhoneIdentifier)
-  const requiresConsent = (isPhoneMethod && !phoneRecoveryAfterOtp && !isLegacyEmailLogin) || (emailMode === 'sign_up' && !isResetMode && !isPhoneMethod)
-  const showConsent = requiresConsent && (isPhoneMethod ? otpStep === 'input' : true)
+  const requiresConsent = (isPhoneMethod && !phoneRecoveryAfterOtp) || (emailMode === 'sign_up' && !isResetMode && !isPhoneMethod)
+  const showConsent = requiresConsent && (isPhoneMethod ? otpStep === 'input' || !termsAgreed : true)
   const passwordIdentifierLabel = '手机号'
   const passwordIdentifierPlaceholder = '请输入手机号'
 
-  const resolvedTitle = otpStep === 'verify' && isPhoneMethod ? '输入验证码' : title ?? (
-    phoneRecoveryAfterOtp
-      ? '短信验证'
-      : otpStep === 'verify' && isPhoneMethod
-        ? '输入验证码'
-        : isResetMode
-          ? '找回密码'
-          : isPhoneMethod
-            ? (emailMode === 'sign_up' ? '手机号注册' : '手机号登录')
-            : emailMode === 'sign_in'
-              ? '手机号登录'
-              : '手机号注册'
-  )
-  const resolvedDescription = otpStep === 'verify' && isPhoneMethod ? null : description?.trim() || (isPhoneMethod
-    ? (phoneRecoveryAfterOtp
-      ? '验证后设置新密码。'
-      : otpStep === 'verify'
-        ? null
-        : '未注册手机号验证后自动注册')
-    : isResetMode
-      ? '输入手机号找回账号。'
-      : null)
+  const resolvedTitle = otpStep === 'verify' && isPhoneMethod ? '输入验证码'
+    : isResetMode ? '找回密码'
+      : phoneRecoveryAfterOtp ? '短信验证'
+        : title ?? (isPhoneMethod ? (emailMode === 'sign_up' ? '手机号注册' : '手机号登录') : '密码登录')
+  const resolvedDescription = phoneRecoveryAfterOtp ? '验证后设置新密码。'
+    : isResetMode ? '验证手机号后设置新密码。'
+      : otpStep === 'verify' && isPhoneMethod ? null
+        : description?.trim() || (isPhoneMethod ? '未注册手机号验证后自动注册' : '已设置密码的账号可直接登录。')
   const resolveSuccessTarget = (isNewUser: boolean) =>
-    nextPath ?? getSafeNextPath(isNewUser || emailMode === 'sign_up' ? PLATFORM_ONBOARDING_HREF : '/')
+    sanitizeInternalHref(nextPath, getSafeNextPath(isNewUser || emailMode === 'sign_up' ? PLATFORM_ONBOARDING_HREF : '/'))
+  const getRecoveryHref = () => {
+    const returnTo = nextPath ?? (presentation === 'layer'
+      ? `${window.location.pathname}${window.location.search}${window.location.hash}`
+      : getSafeNextPath())
+    return `/settings/security?mode=recovery&next=${encodeURIComponent(sanitizeInternalHref(returnTo))}`
+  }
   const titleId = presentation === 'page' ? 'auth-page-title' : 'auth-layer-title'
   const descriptionId = resolvedDescription
     ? (presentation === 'page' ? 'auth-page-description' : 'auth-layer-description')
@@ -202,7 +205,6 @@ export function AuthFlow({
     if (phoneRecoveryAfterOtp) return
     setError(null)
     setMessage(null)
-    setConsentError(null)
   }, [method, emailMode, isResetMode, phoneRecoveryAfterOtp])
 
   useEffect(() => {
@@ -221,27 +223,36 @@ export function AuthFlow({
     }
   }, [presentation])
 
-  const requireConsent = () => {
-    if (!requiresConsent) return true
+  const requireConsent = (continueAction: () => void, actionLabel: string, confirmed = false) => {
+    if (!requiresConsent || termsAgreed || confirmed) return true
+    if (consentActionRef.current) return false
+    consentActionRef.current = continueAction
+    consentReturnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    consentContinuingRef.current = false
+    setConsentActionLabel(actionLabel)
+    setConsentOpen(true)
+    return false
+  }
 
-    if (!termsAgreed) {
-      const nextMessage = '请先同意服务条款和隐私政策。'
-      setConsentError(nextMessage)
-      toast({
-        title: '请先确认使用授权',
-        description: nextMessage,
-        variant: 'destructive',
-      })
-      return false
-    }
+  const closeConsent = (open: boolean) => {
+    setConsentOpen(open)
+    if (!open) consentActionRef.current = null
+  }
 
-    setConsentError(null)
-    return true
+  const confirmConsent = () => {
+    const continueAction = consentActionRef.current
+    if (!continueAction) return
+    consentActionRef.current = null
+    consentContinuingRef.current = true
+    setTermsAgreed(true)
+    setConsentOpen(false)
+    // Continue the same action; React has not committed the checked state yet.
+    continueAction()
   }
 
   const completeSuccess = (options?: { isNewUser?: boolean }) => {
     if (phoneRecoveryAfterOtp) {
-      window.location.href = '/settings/security?mode=recovery'
+      window.location.href = getRecoveryHref()
       return
     }
 
@@ -253,19 +264,19 @@ export function AuthFlow({
     window.location.href = resolveSuccessTarget(options?.isNewUser ?? false)
   }
 
-  const handleSendOtp = async (rawPhone = phoneValue) => {
+  const handleSendOtp = async (rawPhone = phoneValue, consentConfirmed = false) => {
     if (loading) return
-    if (!requireConsent()) return
     if (isEmailIdentifier(rawPhone.trim())) {
       setError('请使用手机号获取验证码。')
       return
     }
-    const nextFormattedPhone = toE164(rawPhone)
+    const nextFormattedPhone = getAuthPhone(rawPhone)
     if (!nextFormattedPhone) {
       setError('请输入有效的手机号')
       return
     }
     if (otpCooldown > 0) return
+    if (!requireConsent(() => void handleSendOtp(rawPhone, true), '获取验证码', consentConfirmed)) return
 
     setLoading(true)
     setError(null)
@@ -292,6 +303,7 @@ export function AuthFlow({
 
       setMessage(null)
       setOtpCooldown(OTP_COOLDOWN_SECONDS)
+      setOtpSentPhone(nextFormattedPhone)
       setOtpStep('verify')
       setPhone(rawPhone)
       setMethod('phone')
@@ -303,9 +315,8 @@ export function AuthFlow({
     }
   }
 
-  const handleVerifyOtp = async () => {
+  const handleVerifyOtp = async (consentConfirmed = false) => {
     if (loading) return
-    if (!requireConsent()) return
     if (!formattedPhone) {
       setError('请输入有效的手机号')
       return
@@ -314,6 +325,7 @@ export function AuthFlow({
       setError('请输入 6 位验证码')
       return
     }
+    if (!requireConsent(() => void handleVerifyOtp(true), '验证登录', consentConfirmed)) return
 
     setLoading(true)
     setError(null)
@@ -351,11 +363,14 @@ export function AuthFlow({
       }
 
       if (data.redirectUrl) {
-        window.location.href = data.redirectUrl
+        const redirectUrl = new URL(data.redirectUrl)
+        if (!['https:', 'http:'].includes(redirectUrl.protocol)) throw new Error('登录链接无效，请重新验证。')
+        redirectUrl.searchParams.set('redirect_to', `${window.location.origin}${phoneRecoveryAfterOtp ? getRecoveryHref() : resolveSuccessTarget(isNewUser)}`)
+        window.location.href = redirectUrl.toString()
         return
       }
 
-      completeSuccess({ isNewUser })
+      throw new Error('登录会话建立失败，请重新验证。')
     } catch (err: unknown) {
       logger.warn('OTP verify error', { error: err })
       setError(getOtpErrorMessage(err, OTP_VERIFY_FAIL_DEFAULT))
@@ -374,18 +389,19 @@ export function AuthFlow({
       }
 
       if (!isEmailIdentifier(emailValue)) {
-        const formattedRecoveryPhone = toE164(emailValue)
-        if (!formattedRecoveryPhone || formattedRecoveryPhone.replace(/\D/g, '').length < 11) {
+        const formattedRecoveryPhone = getAuthPhone(emailValue)
+        if (!formattedRecoveryPhone) {
           throw new Error('请输入有效的手机号')
         }
         setPhone(emailValue)
         setMethod('phone')
         setIsResetMode(false)
         setEmailMode('sign_in')
-        setOtpStep('input')
+        const canResumeOtp = otpCooldown > 0 && otpSentPhone === formattedRecoveryPhone
+        setOtpStep(canResumeOtp ? 'verify' : 'input')
         setOtp('')
         setPhoneRecoveryAfterOtp(true)
-        setMessage('请先完成短信验证。验证后设置新密码。')
+        if (!canResumeOtp) await handleSendOtp(emailValue)
         return
       }
 
@@ -394,7 +410,7 @@ export function AuthFlow({
       if (!result.success) throw new Error(result.error.issues[0].message)
 
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(emailValue, {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/settings/security?mode=recovery')}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(getRecoveryHref())}`,
       })
 
       if (resetError) throw resetError
@@ -407,8 +423,8 @@ export function AuthFlow({
     }
   }
 
-  const handleEmailPasswordAuth = async () => {
-    if (emailMode === 'sign_up' && !requireConsent()) return
+  const handleEmailPasswordAuth = async (consentConfirmed = false) => {
+    if (emailMode === 'sign_up' && !requireConsent(() => void handleEmailPasswordAuth(true), '继续注册', consentConfirmed)) return
 
     setLoading(true)
     setError(null)
@@ -421,7 +437,7 @@ export function AuthFlow({
 
         const credentials = isEmailIdentifier(emailValue)
           ? { email: emailValue, password }
-          : { phone: toE164(emailValue), password }
+          : { phone: getAuthPhone(emailValue), password }
 
         if ('phone' in credentials && !credentials.phone) {
           throw new Error('请输入有效的手机号')
@@ -453,40 +469,11 @@ export function AuthFlow({
     }
   }
 
-  const handleEmailPasswordAuthFromValue = async (identifier: string) => {
-    setLoading(true)
-    setError(null)
-    setMessage(null)
-
-    try {
-      if (!identifier) throw new Error('请输入手机号')
-      if (!isEmailIdentifier(identifier)) throw new Error('请输入有效的手机号')
-      if (!password || password.length < 6) throw new Error('密码长度至少需要 6 位。')
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: identifier,
-        password,
-      })
-
-      if (signInError) throw signInError
-      completeSuccess()
-    } catch (err: unknown) {
-      logger.warn('Legacy email auth error', { error: err })
-      setError(getFriendlyErrorMessage(err))
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (loading) return
 
     if (isPhoneMethod) {
-      if (isLegacyEmailLogin) {
-        await handleEmailPasswordAuthFromValue(phoneValue)
-        return
-      }
       if (isPhoneSignUpEmail) {
         setError('注册请使用手机号。')
         return
@@ -507,13 +494,22 @@ export function AuthFlow({
     await handleEmailPasswordAuth()
   }
 
-  const switchEmailMode = (nextMode: 'sign_in' | 'sign_up') => {
-    setMethod('email')
-    setEmailMode(nextMode)
+  const switchLoginMethod = (nextMethod: AuthMethod) => {
+    if (loading) return
+    if (nextMethod === method && !isResetMode && !phoneRecoveryAfterOtp) return
+    const identifier = isPhoneMethod ? phoneValue : emailValue
+    if (nextMethod === 'email') setEmail(identifier)
+    else setPhone(isEmailIdentifier(identifier) ? '' : identifier)
+    setMethod(nextMethod)
+    setEmailMode('sign_in')
     setIsResetMode(false)
     setError(null)
     setMessage(null)
     setPhoneRecoveryAfterOtp(false)
+    setPassword('')
+    setShowPassword(false)
+    setOtp('')
+    setOtpStep(nextMethod === 'phone' && otpCooldown > 0 && otpSentPhone === getAuthPhone(identifier) ? 'verify' : 'input')
   }
 
   return (
@@ -554,6 +550,16 @@ export function AuthFlow({
             </Button>
           </div>
 
+          {!isResetMode && !phoneRecoveryAfterOtp && (
+            <div role="group" aria-label="登录方式" className="grid grid-cols-2 gap-1 rounded-lg border border-border/80 bg-muted p-1">
+              {([['phone', '验证码登录'], ['email', '密码登录']] as const).map(([value, label]) => (
+                <button key={value} type="button" aria-pressed={method === value} disabled={loading} onClick={() => switchLoginMethod(value)} className={cn('min-h-11 rounded-md px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60', method === value ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground')}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+
           {error && (
             <div role="alert" className="rounded-lg border border-destructive/25 bg-background p-4 text-destructive">
               <div className="flex items-start gap-3">
@@ -591,43 +597,6 @@ export function AuthFlow({
                   </div>
                 ) : null}
 
-                {isLegacyEmailLogin ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-4">
-                      <label htmlFor={`${presentation}-legacy-password`} className="text-sm font-medium text-foreground/86">密码</label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEmail(phoneValue)
-                          setMethod('email')
-                          setIsResetMode(true)
-                          setError(null)
-                          setMessage(null)
-                        }}
-                        className="text-xs font-medium text-primary hover:underline"
-                      >
-                        忘记密码
-                      </button>
-                    </div>
-                    <div className="relative">
-                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input
-                        id={`${presentation}-legacy-password`}
-                        type="password"
-                        placeholder="请输入至少 6 位密码"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        autoComplete="current-password"
-                        minLength={6}
-                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-base"
-                        required
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  null
-                )}
-
                 {otpStep === 'verify' ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between gap-3 text-sm">
@@ -659,6 +628,7 @@ export function AuthFlow({
                         placeholder="请输入 6 位验证码"
                         value={otp}
                         onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))}
+                        disabled={loading}
                         className="h-12 rounded-md border-border/80 bg-background text-[16px] tracking-[0.28em]"
                         maxLength={6}
                         minLength={6}
@@ -680,35 +650,6 @@ export function AuthFlow({
               </>
             ) : (
               <>
-                {!isResetMode && !isPhoneMethod && (
-                  <div className="grid grid-cols-2 gap-1 rounded-lg border border-border/80 bg-muted p-1">
-                    <button
-                      type="button"
-                      onClick={() => switchEmailMode('sign_in')}
-                      className={cn(
-                        'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
-                        emailMode === 'sign_in'
-                          ? 'bg-background text-foreground shadow-xs'
-                          : 'text-muted-foreground hover:text-foreground'
-                      )}
-                    >
-                      登录
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => switchEmailMode('sign_up')}
-                      className={cn(
-                        'rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
-                        emailMode === 'sign_up'
-                          ? 'bg-background text-foreground shadow-xs'
-                          : 'text-muted-foreground hover:text-foreground'
-                      )}
-                    >
-                      注册
-                    </button>
-                  </div>
-                )}
-
                 <div className="space-y-2">
                   <label htmlFor={`${presentation}-email`} className="text-sm font-medium text-foreground/86">{passwordIdentifierLabel}</label>
                   <div className="relative">
@@ -725,6 +666,7 @@ export function AuthFlow({
                       placeholder={passwordIdentifierPlaceholder}
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
+                      disabled={loading}
                       className="h-12 rounded-md border-border/80 bg-background pl-10 text-base"
                       required
                     />
@@ -738,12 +680,13 @@ export function AuthFlow({
                       {emailMode === 'sign_in' && (
                         <button
                           type="button"
+                          disabled={loading}
                           onClick={() => {
                             setIsResetMode(true)
                             setError(null)
                             setMessage(null)
                           }}
-                          className="text-xs font-medium text-primary hover:underline"
+                          className="inline-flex min-h-11 items-center text-sm font-medium text-primary hover:underline disabled:opacity-60"
                         >
                           忘记密码
                         </button>
@@ -753,15 +696,19 @@ export function AuthFlow({
                       <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id={`${presentation}-password`}
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="请输入至少 6 位密码"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
+                        disabled={loading}
                         autoComplete={emailMode === 'sign_in' ? 'current-password' : 'new-password'}
                         minLength={6}
-                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-base"
+                        className="h-12 rounded-md border-border/80 bg-background pl-10 pr-12 text-base"
                         required
                       />
+                      <button type="button" aria-label={showPassword ? '隐藏密码' : '显示密码'} aria-pressed={showPassword} disabled={loading} onClick={() => setShowPassword((current) => !current)} className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring">
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
                     </div>
                   </div>
                 )}
@@ -777,11 +724,10 @@ export function AuthFlow({
                   <button
                     type="button"
                     onClick={() => {
-                      setIsResetMode(false)
-                      setError(null)
-                      setMessage(null)
+                      switchLoginMethod('email')
                     }}
-                    className="text-sm font-medium text-primary hover:underline"
+                    disabled={loading}
+                    className="min-h-11 text-sm font-medium text-primary hover:underline disabled:opacity-60"
                   >
                     返回密码登录
                   </button>
@@ -795,9 +741,9 @@ export function AuthFlow({
                   <Checkbox
                     id={`${presentation}-terms`}
                     checked={termsAgreed}
+                    disabled={loading}
                     onCheckedChange={(checked) => {
                       setTermsAgreed(checked === true)
-                      if (checked === true) setConsentError(null)
                     }}
                     className="mt-0.5"
                   />
@@ -808,23 +754,15 @@ export function AuthFlow({
                     <Link href="/legal/privacy" className="whitespace-nowrap text-primary hover:underline">《隐私政策》</Link>
                   </label>
                 </div>
-                {consentError && (
-                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-destructive">
-                    <AlertCircle className="h-3.5 w-3.5" />
-                    {consentError}
-                  </p>
-                )}
               </div>
             )}
 
-            <Button type="submit" shape="soft" className="h-12 w-full text-base font-semibold" disabled={loading || (isPhoneMethod && !isLegacyEmailLogin && (otpStep === 'verify' ? otp.length !== 6 : otpCooldown > 0))}>
+            <Button type="submit" shape="soft" className="h-12 w-full text-base font-semibold" disabled={loading || (isPhoneMethod && (otpStep === 'verify' ? otp.length !== 6 : otpCooldown > 0))}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   处理中...
                 </>
-              ) : isLegacyEmailLogin ? (
-                '登录'
               ) : isPhoneMethod ? (
                 otpStep === 'input' ? (otpCooldown > 0 ? `${otpCooldown}s 后重新获取` : '获取验证码') : '验证并继续'
               ) : isResetMode ? (
@@ -839,8 +777,45 @@ export function AuthFlow({
             </Button>
           </form>
 
+          {phoneRecoveryAfterOtp && (
+            <button type="button" disabled={loading} onClick={() => switchLoginMethod('email')} className="min-h-11 text-sm font-medium text-primary hover:underline disabled:opacity-60">
+              返回密码登录
+            </button>
+          )}
         </div>
       </div>
+      <Dialog open={consentOpen} onOpenChange={closeConsent}>
+        <DialogPortal>
+          <DialogOverlay className="z-100 bg-slate-950/45" />
+        </DialogPortal>
+        <DialogContent
+          role="alertdialog"
+          hideOverlay
+          hideCloseButton
+          className="z-110 w-[calc(100%-2rem)] max-w-sm rounded-xl p-6"
+          onOpenAutoFocus={(event) => {
+            event.preventDefault()
+            consentCancelRef.current?.focus()
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault()
+            if (!consentContinuingRef.current) consentReturnFocusRef.current?.focus()
+          }}
+        >
+          <DialogTitle>请确认服务协议</DialogTitle>
+          <DialogDescription className="text-sm leading-6">
+            请阅读
+            <Link href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">《服务条款》</Link>
+            和
+            <Link href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">《隐私政策》</Link>
+            。点击「同意并继续」将勾选同意，并{consentActionLabel}。
+          </DialogDescription>
+          <div className="grid grid-cols-2 gap-3">
+            <Button ref={consentCancelRef} type="button" variant="outline" className="h-11" onClick={() => closeConsent(false)}>取消</Button>
+            <Button type="button" className="h-11" onClick={confirmConsent}>同意并继续</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
