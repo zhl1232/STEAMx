@@ -10,10 +10,14 @@ export const BRAND_NAME_ZH = BRAND_NAME;
 export const BRAND_FULL_NAME = BRAND_NAME;
 /** Brand slogan (mobile hero / marketing). */
 export const BRAND_TAGLINE = "探索 · 创造 · 成长";
-/** Desktop / primary homepage hero title. */
-export const BRAND_HERO_TITLE = "从兴趣出发，在动手中成长";
+/** Desktop / primary homepage hero headline. */
+export const BRAND_HERO_TITLE = "兴趣是最好的老师";
+/** Homepage hero subtitle shown under the headline. */
+export const BRAND_HERO_SUBTITLE = "在真实项目中动手探索，学会拆解问题、持续迭代。";
+/** Full hero statement (headline + subtitle) for places that need one sentence. */
+export const BRAND_HERO_STATEMENT = `${BRAND_HERO_TITLE}。${BRAND_HERO_SUBTITLE}`;
 
-export const BRAND_POSITIONING = "少儿 STEAM 学习与创作平台";
+export const BRAND_POSITIONING = "少儿 STEAM 项目式学习平台";
 
 /** Core educational belief — short tagline (about / brand docs; not SEO title spam). */
 export const BRAND_CORE_TAGLINE =
@@ -25,8 +29,15 @@ export const BRAND_CORE_STATEMENT =
 
 export const BRAND_OFFICIAL_URL = "https://steam.bj.cn";
 
-/** Human-facing / hero copy. Avoid jargon like「项目式学习」on the homepage surface. */
+/** Default meta / Open Graph description; keep aligned with the visible hero copy. */
 export const BRAND_DESCRIPTION =
-  `${BRAND_FULL_NAME}是面向 3–16 岁孩子、家长和教育者的${BRAND_POSITIONING}，提供积木课程、科学实践、自然观察、少儿编程与 PBL，帮助孩子在动手实践中学习、创造和分享。`;
+  `${BRAND_FULL_NAME}是面向 3–16 岁孩子的${BRAND_POSITIONING}。兴趣是最好的老师：孩子在积木搭建、科学实验、自然观察和编程项目中动手发现问题、尝试解决、获得成功反馈。`;
 
-export const BRAND_ALTERNATE_NAMES = [BRAND_NAME] as const;
+/** Extra names search engines may use for the brand entity (never the legacy STEAMX / 史迪姆 names). */
+export const BRAND_ALTERNATE_NAMES = [`${BRAND_NAME} STEAM`] as const;
+
+/**
+ * Official public profile URLs for Organization.sameAs.
+ * Only add verifiable profile pages that crawlers can open (no QR redirects, no guesses).
+ */
+export const BRAND_SAME_AS: readonly string[] = [];

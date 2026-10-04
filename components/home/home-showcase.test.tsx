@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { BRAND_FULL_NAME, BRAND_HERO_TITLE } from "@/lib/brand";
+import { BRAND_FULL_NAME, BRAND_HERO_SUBTITLE, BRAND_HERO_TITLE, BRAND_POSITIONING } from "@/lib/brand";
 
 import { HomeShowcase } from "./home-showcase";
 
@@ -35,12 +35,15 @@ describe("HomeShowcase hero", () => {
     );
 
     expect(screen.getByText(BRAND_FULL_NAME)).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(BRAND_HERO_TITLE.replace("，", ""));
-    expect(screen.getByText("从积木、科学到自然探索，让孩子在真实项目中学习与创造。")).toBeInTheDocument();
+    expect(BRAND_HERO_TITLE).toBe("兴趣是最好的老师");
+    expect(BRAND_HERO_SUBTITLE).toBe("在真实项目中动手探索，学会拆解问题、持续迭代。");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(BRAND_HERO_TITLE);
+    expect(screen.getByText(BRAND_HERO_SUBTITLE)).toBeInTheDocument();
+    expect(screen.getByText(BRAND_POSITIONING)).toHaveTextContent("少儿 STEAM 项目式学习平台");
+    expect(screen.queryByText("把好奇心做成作品")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /开始探索项目/ })).toHaveAttribute("href", "/explore");
     expect(screen.queryByRole("link", { name: "了解我们的理念" })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "免费积木课" })).toHaveAttribute("href", "/courses");
-    expect(screen.queryByText(/项目式学习/)).not.toBeInTheDocument();
     expect(screen.queryByText(/乐高/)).not.toBeInTheDocument();
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
   });

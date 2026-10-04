@@ -15,7 +15,7 @@ export function buildLlmsTxt() {
     "",
     "## What it is",
     "",
-    `${BRAND_NAME} is a Chinese kids STEAM online learning and creation platform for ages 3–16 (children, parents, and educators). It offers brick-building courses (积木课程), science practice (科学实践), nature observation (自然观察), coding, and PBL project work.`,
+    `${BRAND_NAME} is a Chinese kids STEAM project-based learning platform for ages 3–16 (children, parents, and educators). It offers brick-building courses (积木课程), science practice (科学实践), nature observation (自然观察), coding, and PBL project work.`,
     "",
     "## 主要公开栏目",
     "",

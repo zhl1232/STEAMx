@@ -59,30 +59,30 @@ describe("buildPageMetadata", () => {
     expect(DEFAULT_SEO_KEYWORDS.join(" ").toLowerCase()).not.toContain("steam教育");
 
     const metadata = buildPageMetadata({
-      title: "创探空间｜少儿 STEAM 课程、积木搭建与科学实践",
-      description: "创探空间是面向 3–16 岁孩子、家长和教育者的少儿 STEAM 学习与创作平台，提供积木课程、科学实践、自然观察、少儿编程与 PBL，帮助孩子在动手实践中学习、创造和分享。",
+      title: "创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程",
+      description: "创探空间是面向 3–16 岁孩子的少儿 STEAM 项目式学习平台。兴趣是最好的老师：孩子在积木搭建、科学实验、自然观察和编程项目中动手发现问题、尝试解决、获得成功反馈。",
       path: "/",
       absoluteTitle: true,
     });
 
-    expect(metadata.title).toEqual({ absolute: "创探空间｜少儿 STEAM 课程、积木搭建与科学实践" });
+    expect(metadata.title).toEqual({ absolute: "创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程" });
     expect(metadata.description).not.toContain("非游戏平台");
-    expect(metadata.description).toContain("积木课程");
+    expect(metadata.description).toContain("积木搭建");
     expect(metadata.openGraph).toMatchObject({
-      title: "创探空间｜少儿 STEAM 课程、积木搭建与科学实践",
+      title: "创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程",
       description: expect.stringContaining("少儿 STEAM"),
     });
     expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl("/"));
     expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl("/"));
     expect(String(metadata.alternates?.canonical).endsWith("/")).toBe(true);
     expect(metadata.twitter).toMatchObject({
-      title: "创探空间｜少儿 STEAM 课程、积木搭建与科学实践",
+      title: "创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程",
     });
   });
 
   it("can omit metadata canonical/og:url for handwritten homepage tags", () => {
     const metadata = buildPageMetadata({
-      title: "创探空间｜少儿 STEAM 课程、积木搭建与科学实践",
+      title: "创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程",
       description: "desc",
       path: "/",
       absoluteTitle: true,

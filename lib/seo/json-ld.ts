@@ -1,5 +1,5 @@
 import { toPublicImageUrl as toAbsoluteMediaUrl } from "@/lib/seo/public-image";
-import { BRAND_ALTERNATE_NAMES } from "@/lib/brand";
+import { BRAND_ALTERNATE_NAMES, BRAND_POSITIONING, BRAND_SAME_AS, BRAND_TAGLINE } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_NAME, SITE_STRUCTURED_DESCRIPTION, buildAbsoluteUrl, getSiteUrl } from "@/lib/seo/site";
 import { buildClassificationJsonLd } from "@/lib/content-classification/json-ld";
@@ -12,32 +12,54 @@ import {
 // Kept as an alias for existing JSON-LD callers; every media field here is an image.
 export { toPublicImageUrl as toAbsoluteMediaUrl } from '@/lib/seo/public-image';
 
+/** Square raster brand logo in /public (1024×1024), used for Organization.logo. */
+const ORGANIZATION_LOGO_PATH = "/logo.png";
+const ORGANIZATION_LOGO_SIZE = 1024;
+
+/**
+ * Homepage brand entity graph: one Organization (also an EducationalOrganization)
+ * plus the WebSite it publishes. Other page-level JSON-LD references these @id values.
+ */
 export function buildWebsiteJsonLd() {
   const siteUrl = getSiteUrl();
+  const homeUrl = `${siteUrl}/`;
+  const organizationId = `${siteUrl}/#organization`;
   const alternateName = [...BRAND_ALTERNATE_NAMES];
+  const logoUrl = buildAbsoluteUrl(ORGANIZATION_LOGO_PATH);
+  const sameAs = [...BRAND_SAME_AS];
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": ["Organization", "EducationalOrganization"],
-        "@id": `${siteUrl}/#organization`,
+        "@id": organizationId,
         name: SITE_NAME,
         alternateName,
-        url: siteUrl,
-        description: SITE_STRUCTURED_DESCRIPTION,
-        logo: buildAbsoluteUrl("/logo.png"),
+        url: homeUrl,
+        logo: {
+          "@type": "ImageObject",
+          "@id": `${siteUrl}/#logo`,
+          url: logoUrl,
+          contentUrl: logoUrl,
+          width: ORGANIZATION_LOGO_SIZE,
+          height: ORGANIZATION_LOGO_SIZE,
+          caption: SITE_NAME,
+        },
+        description: BRAND_POSITIONING,
+        slogan: BRAND_TAGLINE,
+        ...(sameAs.length > 0 ? { sameAs } : {}),
       },
       {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         name: SITE_NAME,
         alternateName,
-        url: siteUrl,
+        url: homeUrl,
         description: SITE_STRUCTURED_DESCRIPTION,
         inLanguage: "zh-CN",
         publisher: {
-          "@id": `${siteUrl}/#organization`,
+          "@id": organizationId,
         },
         potentialAction: {
           "@type": "SearchAction",

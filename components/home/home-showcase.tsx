@@ -26,15 +26,19 @@ import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
-import { BRAND_FULL_NAME, BRAND_HERO_TITLE, BRAND_POSITIONING, BRAND_TAGLINE } from "@/lib/brand";
+import {
+  BRAND_FULL_NAME,
+  BRAND_HERO_SUBTITLE,
+  BRAND_HERO_TITLE,
+  BRAND_POSITIONING,
+  BRAND_TAGLINE,
+} from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
-const homeHeroDescription =
-  "从积木、科学到自然探索，让孩子在真实项目中学习与创造。";
 const homeHeroTitleLines = BRAND_HERO_TITLE.split("，").filter(Boolean);
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
@@ -145,7 +149,7 @@ function HomeHero({ image }: { image: string }) {
               {BRAND_POSITIONING}
             </p>
             <p className="mt-3 hidden max-w-[500px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
-              {homeHeroDescription}
+              {BRAND_HERO_SUBTITLE}
             </p>
 
             <div className="mt-5 hidden flex-wrap gap-3 md:flex">

@@ -63,21 +63,16 @@ describe("getSiteUrl", () => {
 
 describe("site SEO copy", () => {
   it("describes the brand and actual learning topics", () => {
-    expect(HOME_PAGE_TITLE).toBe("少儿 STEAM 课程、积木搭建与科学实践");
-    expect(HOME_PAGE_TITLE).not.toContain("项目式学习");
+    expect(HOME_PAGE_TITLE).toBe("少儿 STEAM 项目式学习：积木、科学实验与编程");
     expect(HOME_PAGE_TITLE).not.toContain("观鸟");
     expect(HOME_PAGE_TITLE).not.toContain("免费");
-    expect(HOME_DOCUMENT_TITLE).toBe("创探空间｜少儿 STEAM 课程、积木搭建与科学实践");
-    expect(SITE_DESCRIPTION).toContain("创探空间");
-    expect(SITE_DESCRIPTION).toContain("3–16 岁");
-    expect(SITE_DESCRIPTION).toContain("少儿 STEAM 学习与创作平台");
+    expect(HOME_DOCUMENT_TITLE).toBe("创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程");
+    expect(SITE_DESCRIPTION).toBe(
+      "创探空间是面向 3–16 岁孩子的少儿 STEAM 项目式学习平台。兴趣是最好的老师：孩子在积木搭建、科学实验、自然观察和编程项目中动手发现问题、尝试解决、获得成功反馈。",
+    );
     expect(SITE_DESCRIPTION).not.toContain("非游戏平台");
-    expect(SITE_DESCRIPTION).toContain("积木课程");
-    expect(SITE_DESCRIPTION).toContain("科学实践");
-    expect(SITE_DESCRIPTION).toContain("自然观察");
-    expect(SITE_DESCRIPTION).toContain("PBL");
+    expect(SITE_DESCRIPTION).not.toContain("在线学习与创作");
     expect(SITE_DESCRIPTION.toLowerCase()).not.toContain("steam教育");
     expect(SITE_DESCRIPTION).not.toContain("STEAM教育");
-    expect(SITE_DESCRIPTION).not.toContain("项目式学习");
   });
 });
