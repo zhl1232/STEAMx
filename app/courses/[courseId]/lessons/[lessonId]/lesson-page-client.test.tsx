@@ -400,6 +400,34 @@ describe('LessonPageClient', () => {
     expect(sidebar.queryByText(/这条提示也不应出现在左侧步骤列表/)).not.toBeInTheDocument()
   })
 
+  it('lets Scratch lessons scroll naturally on phones and only pins the editor layout from md up', () => {
+    render(
+      <TutorProvider>
+        <LessonPageClient
+          courseId={7}
+          courseTitle="Scratch 课"
+          lesson={lesson}
+          previewHref="/courses/7/lessons/42/preview"
+        />
+      </TutorProvider>,
+    )
+
+    // 手机（< md）上 Scratch 编辑器不可用，只显示上传提示卡：不能锁成 h-dvh 一屏，否则提示卡被挤矮、按钮被裁。
+    const workspaceColumn = screen.getByTestId('lesson-workspace').parentElement as HTMLElement
+    expect(workspaceColumn).toHaveClass('md:min-h-0')
+    expect(workspaceColumn).not.toHaveClass('min-h-0')
+
+    const pageShell = workspaceColumn.parentElement?.parentElement as HTMLElement
+    expect(pageShell).toHaveClass('max-md:min-h-screen', 'md:h-[calc(100dvh-4rem)]', 'md:overflow-hidden')
+    expect(pageShell).not.toHaveClass('max-md:h-dvh')
+    expect(pageShell).not.toHaveClass('overflow-hidden')
+
+    // 平板（md–lg）有编辑器时仍限制侧栏高度，把剩余空间留给编辑器。
+    const sidebarColumn = workspaceColumn.parentElement?.firstElementChild as HTMLElement
+    expect(sidebarColumn).toHaveClass('max-md:overflow-visible', 'md:max-lg:max-h-[min(48vh,28rem)]', 'md:max-lg:overflow-hidden')
+    expect(sidebarColumn).not.toHaveClass('max-lg:max-h-[min(48vh,28rem)]')
+  })
+
   it('focuses and highlights a lesson step from tutor tool calls', async () => {
     const scrollIntoView = vi.fn()
     const originalScrollIntoView = Element.prototype.scrollIntoView
