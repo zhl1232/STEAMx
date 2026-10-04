@@ -4,6 +4,8 @@ import {
   PHOTO_METADATA_COORDINATE_CONVERSION_WARNING,
   PHOTO_METADATA_NO_GPS_WARNING,
   PHOTO_METADATA_REVERSE_GEOCODE_WARNING,
+  PHOTO_METADATA_UNREADABLE_WARNING,
+  PHOTO_METADATA_UNSUPPORTED_WARNING,
   resolveObservationPhotoMetadataAutofill,
 } from './photo-metadata-autofill'
 
@@ -60,6 +62,22 @@ describe('resolveObservationPhotoMetadataAutofill', () => {
     expect(result.latitude).toBeUndefined()
     expect(result.longitude).toBeUndefined()
     expect(reverseGeocode).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    ['unreadable', PHOTO_METADATA_UNREADABLE_WARNING],
+    ['unsupported_format', PHOTO_METADATA_UNSUPPORTED_WARNING],
+  ] as const)('distinguishes %s metadata from missing GPS', async (gpsReadStatus, warning) => {
+    const convertGpsToMap = vi.fn()
+    const reverseGeocode = vi.fn()
+    const result = await resolveObservationPhotoMetadataAutofill({
+      metadata: { observedAt: null, latitude: null, longitude: null, gpsReadStatus },
+      convertGpsToMap,
+      reverseGeocode,
+    })
+    expect(result.warning).toBe(warning)
+    expect(result.warning).not.toBe(PHOTO_METADATA_NO_GPS_WARNING)
+    expect(convertGpsToMap).not.toHaveBeenCalled()
   })
 
   it('keeps converted coordinates when reverse geocoding cannot find a place name', async () => {

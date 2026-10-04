@@ -332,7 +332,8 @@
 - `lib/observations/photo-draft.ts` — 按张草稿（物种/性别/阶段/地点/时间）与定位套用
 - `lib/observations/create-payload.ts` — 批量创建观察的 `items[]` 校验（1～5 张，禁止重复 URL）
 - `lib/observations/create-rollback.ts` — 批量创建失败时按 id 删除已插入观察，并核对删除行数
-- `lib/observations/photo-metadata-autofill.ts` — 单张照片 EXIF 拍摄时间/GPS 自动回填；缺 GPS、坐标转换失败和地点反查失败只提示这一张，不会用其他照片的坐标覆盖；提交表单保留手动编辑优先权，慢速回填不覆盖手动时间／地点，也不恢复已删除照片
+- `lib/observation-photo-metadata.ts` — 上传前从原文件读取 EXIF 时间与 GPS；Blob 分块读取失败时回退原文件字节读取，支持 WebP EXIF chunk；区分缺少 GPS、读取失败和格式不支持，不把解析异常当作照片没有定位。上传区另有「从文件选择原图」入口，供安卓等系统照片选择器可能隐去 GPS 时尝试，仍需用户核对实际观察地点
+- `lib/observations/photo-metadata-autofill.ts` — 单张照片 EXIF 拍摄时间/GPS 自动回填；缺 GPS、拍摄信息读取失败、格式不支持、坐标转换失败和地点反查失败分别提示，只影响这一张，不会用其他照片的坐标覆盖；提交表单保留手动编辑优先权，慢速回填不覆盖手动时间／地点，也不恢复已删除照片
 - `lib/geo/wgs84-gcj02.ts` — 高德 Key 缺失时为照片 EXIF GPS 做本地 WGS-84→GCJ-02 转换，地图名称仍由逆地理编码服务或用户手动选择提供
 - `lib/nature/action-buttons.ts` — 自然观察操作按钮统一样式（`brand` / `outline` / `destructive`，默认 10px 圆角）
 - `project-access.ts` / `project-validation.ts` — 项目权限、文字安全与封面/步骤图片归属校验

@@ -1,7 +1,9 @@
 import type { ObservationPhotoMetadata } from '@/lib/observation-photo-metadata'
 import type { ObservationPhotoLocationSource, ObservationPhotoTimeSource } from '@/lib/observations/photo-draft'
 
-export const PHOTO_METADATA_NO_GPS_WARNING = '没有读取到照片 GPS，请搜索选择地点或在地图上选点。'
+export const PHOTO_METADATA_NO_GPS_WARNING = '网页收到的照片文件中未读取到 GPS。若手机相册显示地点，可尝试从「文件」选择原图；系统照片选择器可能未保留定位信息。也可以在地图上确认实际观察地点。'
+export const PHOTO_METADATA_UNREADABLE_WARNING = '照片拍摄信息读取失败，暂时无法判断文件是否包含 GPS。请尝试选择原始 JPG / PNG 文件，或手动确认观察时间和地点。'
+export const PHOTO_METADATA_UNSUPPORTED_WARNING = '当前图片格式暂不支持读取拍摄信息。可选择原始 JPG / PNG 文件，或手动确认观察时间和地点。'
 export const PHOTO_METADATA_COORDINATE_CONVERSION_WARNING = '照片包含 GPS，但地图服务暂时无法转换坐标，请搜索选择地点或在地图上选点。'
 export const PHOTO_METADATA_REVERSE_GEOCODE_WARNING = '已读取照片 GPS，但暂时没有找到地点名称，请搜索选择地点或手动输入地点。'
 
@@ -45,7 +47,11 @@ export async function resolveObservationPhotoMetadataAutofill({
   }
 
   if (!hasPhotoCoordinates(metadata)) {
-    result.warning = PHOTO_METADATA_NO_GPS_WARNING
+    result.warning = metadata.gpsReadStatus === 'unreadable'
+      ? PHOTO_METADATA_UNREADABLE_WARNING
+      : metadata.gpsReadStatus === 'unsupported_format'
+        ? PHOTO_METADATA_UNSUPPORTED_WARNING
+        : PHOTO_METADATA_NO_GPS_WARNING
     return result
   }
 

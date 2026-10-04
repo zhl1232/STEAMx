@@ -103,6 +103,7 @@ export function ObservationSubmitPhotoSection({
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const originalFileInputRef = useRef<HTMLInputElement>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadingCount, setUploadingCount] = useState(0)
   const imagesRef = useRef(evidenceImages)
@@ -120,7 +121,7 @@ export function ObservationSubmitPhotoSection({
     }
   }, [evidenceImages, onEvidenceChange])
 
-  const choosePhotos = () => {
+  const choosePhotos = (fromFiles = false) => {
     if (authLoading || uploadingRef.current) return
     if (!user) {
       promptLogin(undefined, {
@@ -129,12 +130,13 @@ export function ObservationSubmitPhotoSection({
       })
       return
     }
-    fileInputRef.current?.click()
+    const input = fromFiles ? originalFileInputRef : fileInputRef
+    input.current?.click()
   }
 
   const handleSelectFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? [])
-    if (fileInputRef.current) fileInputRef.current.value = ""
+    event.target.value = ""
     if (files.length === 0) return
     if (uploadingRef.current) return
 
@@ -187,16 +189,16 @@ export function ObservationSubmitPhotoSection({
       const results = await Promise.allSettled(
         batch.map(async (file) => {
           // Read from the original file; missing EXIF must not prevent uploading.
-          const metadata = await readObservationPhotoMetadata(file).catch(() => null)
+          const metadata = await readObservationPhotoMetadata(file).catch(() => ({
+            observedAt: null, latitude: null, longitude: null, gpsReadStatus: "unreadable" as const,
+          }))
           const publicUrl = await uploadFileSecure(file, "project-images", "observations")
           if (!publicUrl) {
             throw new Error("Upload failed")
           }
           return {
             imageUrl: publicUrl,
-            observedAt: metadata?.observedAt ?? null,
-            latitude: metadata?.latitude ?? null,
-            longitude: metadata?.longitude ?? null,
+            ...metadata,
           }
         }),
       )
@@ -325,7 +327,7 @@ export function ObservationSubmitPhotoSection({
           <button
             type="button"
             className="group flex min-h-[220px] w-full flex-col items-center justify-center gap-3 border-2 border-dashed border-(--obs-border-strong) [background:var(--obs-photo-bg)] px-6 py-6 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:text-(--obs-text)"
-            onClick={choosePhotos}
+            onClick={() => choosePhotos()}
             disabled={isUploading || authLoading}
           >
             {isUploading ? (
@@ -361,7 +363,7 @@ export function ObservationSubmitPhotoSection({
           <button
             type="button"
             className="group flex min-h-[128px] flex-col items-center justify-center gap-3 rounded-xs border border-dashed border-(--obs-border-strong) bg-(--obs-control) px-5 text-center text-(--obs-muted) transition duration-300 hover:border-(--obs-accent) hover:bg-(--obs-control-hover) hover:text-(--obs-text) md:min-h-0"
-            onClick={choosePhotos}
+            onClick={() => choosePhotos()}
             disabled={!canAddMore || isUploading || authLoading}
           >
             <span className="grid h-11 w-11 place-items-center rounded-full bg-(--obs-accent) text-white [box-shadow:var(--obs-soft-shadow)] transition-transform duration-300 group-hover:scale-105">
@@ -420,6 +422,22 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-(--obs-muted)">
+        <span>相册有地点，网页却读不到？</span>
+        <button type="button" onClick={() => choosePhotos(true)} disabled={!canAddMore || isUploading || authLoading} className="inline-flex min-h-11 items-center font-semibold text-(--obs-accent-text) underline underline-offset-4 disabled:opacity-50">
+          从文件选择原图
+        </button>
+        <span>尝试系统文件入口；选好后仍需核对实际观察地点。</span>
+      </div>
+      <input
+        ref={originalFileInputRef}
+        type="file"
+        multiple
+        className="hidden"
+        onChange={handleSelectFiles}
+        disabled={isUploading}
+        aria-label="从文件选择原始照片"
+      />
       <input
         ref={fileInputRef}
         type="file"

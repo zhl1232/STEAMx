@@ -69,6 +69,30 @@ describe('ObservationSubmitPhotoSection', () => {
     expect(mocks.toast).toHaveBeenCalledWith(expect.objectContaining({ title: '1 张照片上传失败' }))
   })
 
+  it('offers an unrestricted file picker for original photos and checks login first', () => {
+    const { container, rerender } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
+    const input = container.querySelector('input[aria-label="从文件选择原始照片"]') as HTMLInputElement
+    const choose = vi.spyOn(input, 'click')
+    expect(input).not.toHaveAttribute('accept')
+    fireEvent.click(screen.getByRole('button', { name: '从文件选择原图' }))
+    expect(choose).toHaveBeenCalledOnce()
+    mocks.user = null
+    choose.mockClear()
+    rerender(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: '从文件选择原图' }))
+    expect(mocks.promptLogin).toHaveBeenCalledOnce()
+    expect(choose).not.toHaveBeenCalled()
+  })
+
+  it('forwards metadata read failures to the per-photo warning', async () => {
+    mocks.readMetadata.mockResolvedValue({ observedAt: null, latitude: null, longitude: null, gpsReadStatus: 'unreadable' })
+    mocks.upload.mockResolvedValue('https://example.com/photo.jpg')
+    const onPhotoMetadata = vi.fn()
+    const { container } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} onPhotoMetadata={onPhotoMetadata} />)
+    fireEvent.change(container.querySelector('input[type="file"]')!, { target: { files: [new File(['bytes'], 'photo.jpg')] } })
+    await waitFor(() => expect(onPhotoMetadata).toHaveBeenCalledWith([expect.objectContaining({ imageUrl: 'https://example.com/photo.jpg', gpsReadStatus: 'unreadable' })]))
+  })
+
   it('does not restore a deleted photo when a later upload completes', async () => {
     let finish: (url: string) => void = () => {}
     mocks.upload.mockImplementation(() => new Promise<string>((resolve) => { finish = resolve }))
