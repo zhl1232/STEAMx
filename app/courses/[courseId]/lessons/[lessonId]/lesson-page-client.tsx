@@ -88,6 +88,7 @@ export function LessonPageClient({
     initialStepIndex = 0,
     shouldRecordStart = false,
     classificationSlot,
+    noticeSlot,
 }: {
     courseId: number;
     courseTitle: string;
@@ -98,6 +99,8 @@ export function LessonPageClient({
     /** 已登录且这节课还没有任何进度行时才为 true，避免匿名访问白打一次 401。 */
     shouldRecordStart?: boolean;
     classificationSlot?: ReactNode;
+    /** Optional full-width notice above the workspace (e.g. 「新版课程」 link); rendered as a non-shrinking row. */
+    noticeSlot?: ReactNode;
 }) {
     const router = useRouter();
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
@@ -344,6 +347,7 @@ export function LessonPageClient({
                         </div>
                         {completed ? <span className="shrink-0 text-sm font-semibold text-[hsl(var(--status-success))]">已完成</span> : null}
                     </div>
+                    {noticeSlot}
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:px-5">
                         {classificationSlot}
                         {lesson.duration_minutes ? <span>约 {lesson.duration_minutes} 分钟</span> : null}
@@ -411,6 +415,7 @@ export function LessonPageClient({
                     {courseTitle}
                 </Link>
             </div>
+            {noticeSlot}
             <LessonStepGuide steps={steps} />
             <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
                 <div
