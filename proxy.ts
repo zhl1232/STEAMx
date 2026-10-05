@@ -2,7 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { STEAM_PATHNAME_HEADER, STEAM_SEARCH_HEADER } from "@/lib/auth/login-redirect";
 import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
-import { buildCanonicalHostRedirectUrl } from "@/lib/seo/canonical-host";
+import {
+  buildCanonicalHostRedirectUrl,
+  shouldNoIndexSteamxHost,
+  X_ROBOTS_TAG_NOINDEX,
+} from "@/lib/seo/canonical-host";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 const SEO_RESOURCE_PATHS = new Set(["/robots.txt", "/sitemap.xml"]);
@@ -29,7 +33,14 @@ export function proxy(request: NextRequest) {
     search: request.nextUrl.search,
   });
   if (apexRedirectUrl) {
-    return NextResponse.redirect(apexRedirectUrl, 301);
+    const response = NextResponse.redirect(apexRedirectUrl, 301);
+    const host = request.headers.get("host") ?? request.nextUrl.host;
+    // 仅旧域 steamx.cc / www.steamx.cc：301 只带 noindex（不加 nofollow，避免干扰百度改版权重迁移），避免 Google 继续收录旧域 URL。
+    // 不对 steam.bj.cn / www.steam.bj.cn 生效（www.bj 虽会 301，但主域应保持可索引）。
+    if (shouldNoIndexSteamxHost(host)) {
+      response.headers.set("X-Robots-Tag", X_ROBOTS_TAG_NOINDEX);
+    }
+    return response;
   }
 
   // Search-engine discovery files must be deterministic and cookie-free.

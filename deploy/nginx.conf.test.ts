@@ -15,4 +15,16 @@ describe("deploy/nginx.conf", () => {
     expect(nginxConf).not.toMatch(/GPTBot/);
     expect(nginxConf).not.toContain("return 301 https://www.$host$request_uri");
   });
+
+  it("marks only the legacy steamx.cc hosts noindex via X-Robots-Tag", () => {
+    expect(nginxConf).toMatch(/map \$host \$steamx_legacy_robots \{/);
+    expect(nginxConf).toMatch(/default\s+"";/);
+    expect(nginxConf).toMatch(/\n\s+steamx\.cc\s+"noindex";/);
+    expect(nginxConf).toMatch(/\n\s+www\.steamx\.cc\s+"noindex";/);
+    expect(nginxConf).not.toMatch(/steam\.bj\.cn\s+"noindex/);
+    expect(nginxConf).not.toMatch(/nofollow/);
+    const headerLines = nginxConf.match(/add_header X-Robots-Tag \$steamx_legacy_robots always;/g) ?? [];
+    expect(headerLines).toHaveLength(2);
+  });
+
 });
