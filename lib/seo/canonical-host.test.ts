@@ -4,6 +4,7 @@ import {
   buildCanonicalHostRedirectUrl,
   getRequestHostname,
   PRIMARY_ORIGIN,
+  shouldNoIndexSteamxHost,
 } from "@/lib/seo/canonical-host";
 import { getSiteUrl } from "@/lib/seo/site";
 
@@ -80,5 +81,17 @@ describe("getSiteUrl", () => {
         process.env.NEXT_PUBLIC_APP_URL = previousAppUrl;
       }
     }
+  });
+});
+
+describe("shouldNoIndexSteamxHost", () => {
+  it("matches only steamx.cc and www.steamx.cc", () => {
+    expect(shouldNoIndexSteamxHost("steamx.cc")).toBe(true);
+    expect(shouldNoIndexSteamxHost("WWW.steamx.cc:443")).toBe(true);
+    expect(shouldNoIndexSteamxHost("www.steam.bj.cn")).toBe(false);
+    expect(shouldNoIndexSteamxHost("steam.bj.cn")).toBe(false);
+    expect(shouldNoIndexSteamxHost("dev.steamx.cc")).toBe(false);
+    expect(shouldNoIndexSteamxHost("assets.steamx.cc")).toBe(false);
+    expect(shouldNoIndexSteamxHost("localhost:3000")).toBe(false);
   });
 });

@@ -19,14 +19,26 @@ describe("proxy canonical host redirect", () => {
     expect(www.status).toBe(301);
     expect(apex.headers.get("location")).toBe("https://steam.bj.cn/explore?q=bird");
     expect(www.headers.get("location")).toBe("https://steam.bj.cn/explore?q=bird");
+    expect(apex.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+    expect(www.headers.get("x-robots-tag")).toBe("noindex, nofollow");
   });
 
-  it("does not redirect localhost or the primary host", () => {
-    const local = proxy(makeRequest("http://localhost:3000/explore", "localhost:3000"));
+  it("does not noindex www.steam.bj.cn redirects or the primary host", () => {
+    const wwwBj = proxy(makeRequest("https://www.steam.bj.cn/explore", "www.steam.bj.cn"));
     const primary = proxy(makeRequest("https://steam.bj.cn/explore", "steam.bj.cn"));
+    const local = proxy(makeRequest("http://localhost:3000/explore", "localhost:3000"));
+    const dev = proxy(makeRequest("https://dev.steamx.cc/explore", "dev.steamx.cc"));
 
-    expect(local.status).not.toBe(301);
+    expect(wwwBj.status).toBe(301);
+    expect(wwwBj.headers.get("location")).toBe("https://steam.bj.cn/explore");
+    expect(wwwBj.headers.get("x-robots-tag")).toBeNull();
+
     expect(primary.status).not.toBe(301);
+    expect(local.status).not.toBe(301);
+    expect(dev.status).not.toBe(301);
+    expect(primary.headers.get("x-robots-tag")).toBeNull();
+    expect(local.headers.get("x-robots-tag")).toBeNull();
+    expect(dev.headers.get("x-robots-tag")).toBeNull();
     expect(local.headers.get("location")).toBeNull();
     expect(primary.headers.get("location")).toBeNull();
   });

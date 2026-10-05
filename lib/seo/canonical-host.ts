@@ -43,6 +43,20 @@ export function getRequestHostname(hostHeader: string | null | undefined): strin
   return trimmed.split(":")[0] ?? "";
 }
 
+/** 旧域 steamx 入口：响应应带 noindex，避免与主域抢 SEO。不含 www.steam.bj.cn / 主域 / dev。 */
+export const STEAMX_NOINDEX_HOSTS = [
+  STEAMX_APEX_HOST,
+  STEAMX_WWW_HOST,
+] as const;
+
+const STEAMX_NOINDEX_HOST_SET = new Set<string>(STEAMX_NOINDEX_HOSTS);
+
+export const X_ROBOTS_TAG_NOINDEX_NOFOLLOW = "noindex, nofollow";
+
+export function shouldNoIndexSteamxHost(hostHeader: string | null | undefined): boolean {
+  return STEAMX_NOINDEX_HOST_SET.has(getRequestHostname(hostHeader));
+}
+
 export function isProductionSiteHost(hostHeader: string | null | undefined): boolean {
   return PRODUCTION_SITE_HOST_SET.has(getRequestHostname(hostHeader));
 }
