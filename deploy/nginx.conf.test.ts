@@ -8,7 +8,7 @@ const nginxConf = readFileSync(path.resolve(process.cwd(), "deploy/nginx.conf"),
 describe("deploy/nginx.conf", () => {
   it("keeps legacy steamx.cc hosts and permanently redirects them to steam.bj.cn", () => {
     expect(nginxConf).toContain("server_name steamx.cc www.steamx.cc;");
-    expect(nginxConf).toContain('add_header X-Robots-Tag "noindex, nofollow" always;');
+    expect(nginxConf).toContain('add_header X-Robots-Tag "noindex" always;');
     expect(nginxConf).toContain("if ($host = www.steam.bj.cn)");
     expect(nginxConf).toContain("return 301 https://steam.bj.cn$request_uri;");
     expect(nginxConf).not.toContain("return 301 https://www.steamx.cc$request_uri;");

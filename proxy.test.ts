@@ -19,8 +19,8 @@ describe("proxy canonical host redirect", () => {
     expect(www.status).toBe(301);
     expect(apex.headers.get("location")).toBe("https://steam.bj.cn/explore?q=bird");
     expect(www.headers.get("location")).toBe("https://steam.bj.cn/explore?q=bird");
-    expect(apex.headers.get("x-robots-tag")).toBe("noindex, nofollow");
-    expect(www.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+    expect(apex.headers.get("x-robots-tag")).toBe("noindex");
+    expect(www.headers.get("x-robots-tag")).toBe("noindex");
   });
 
   it("does not noindex www.steam.bj.cn redirects or the primary host", () => {

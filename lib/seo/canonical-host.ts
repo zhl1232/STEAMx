@@ -51,7 +51,7 @@ export const STEAMX_NOINDEX_HOSTS = [
 
 const STEAMX_NOINDEX_HOST_SET = new Set<string>(STEAMX_NOINDEX_HOSTS);
 
-export const X_ROBOTS_TAG_NOINDEX_NOFOLLOW = "noindex, nofollow";
+export const X_ROBOTS_TAG_NOINDEX = "noindex";
 
 export function shouldNoIndexSteamxHost(hostHeader: string | null | undefined): boolean {
   return STEAMX_NOINDEX_HOST_SET.has(getRequestHostname(hostHeader));
