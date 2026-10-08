@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
+import { SubmitCompletionSchema } from '@/lib/project/record-input'
 
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
@@ -43,16 +43,7 @@ export async function GET(
   }
 }
 
-const SubmitCompletionSchema = z.object({
-  kind: z.enum(['progress', 'final']),
-  recordType: z.string().max(32).optional(),
-  stageLabel: z.string().max(64).optional(),
-  images: z.array(z.string().url()).min(1).max(9),
-  imageCaptions: z.array(z.string().max(200)).optional(),
-  videoUrl: z.string().url().nullable().optional(),
-  notes: z.string().max(5000).optional(),
-  isPublic: z.boolean().optional(),
-})
+
 
 /**
  * POST /api/projects/[id]/completions
@@ -79,10 +70,8 @@ export async function POST(
 
     const payload = parsed.data
     const recordKind = payload.kind
-    // Final works default to public review, but a user may keep one as a
-    // private draft and publish it later from the Journey timeline.
-    const isPublic = payload.isPublic ?? (recordKind === 'final')
-    await requireInteractionAccess(supabase, user, recordKind === 'final' || isPublic ? 'submit' : 'save_progress')
+    // This POST is an explicit publish request; unpublished recovery stays local.
+    await requireInteractionAccess(supabase, user, 'submit')
 
     validateContentSafeIfPresent(payload.recordType, '记录类型')
     validateContentSafeIfPresent(payload.stageLabel, '阶段名称')
@@ -103,20 +92,10 @@ export async function POST(
       return NextResponse.json({ error: '作品视频必须使用当前账号上传的文件' }, { status: 400 })
     }
 
-    const moderation = isPublic
-      ? await moderateUserContent({
-          text: [payload.notes, ...(payload.imageCaptions || [])]
-            .filter((value): value is string => Boolean(value?.trim()))
-            .join('\n'),
-          imageSources: payload.images,
-        })
-      : {
-          state: 'approved' as const,
-          reason: undefined,
-          riskLevel: undefined,
-          category: undefined,
-          modelName: 'private_draft',
-        }
+    const moderation = await moderateUserContent({
+      text: [payload.notes, ...(payload.imageCaptions || [])].filter((value): value is string => Boolean(value?.trim())).join('\n'),
+      imageSources: payload.images,
+    })
     if (moderation.state === 'rejected') {
       return NextResponse.json(
         { error: moderation.reason || '作品未通过安全检查', code: 'CONTENT_REJECTED' },
@@ -147,19 +126,12 @@ export async function POST(
         recordType: payload.recordType || null,
         stageLabel: payload.stageLabel || null,
       },
-      visibility: isPublic ? 'public' : 'private',
+      visibility: 'public',
       moderationState: moderation.state,
-      moderationSource: moderation.modelName || (isPublic ? 'ai' : 'private_draft'),
+      moderationSource: moderation.modelName || 'ai',
     })
 
     const legacyId = await syncLegacyProjectRecord(supabase, journey, record)
-
-    if (!isPublic) {
-      return NextResponse.json(
-        { id: record.id, recordId: record.id, status: record.status, recordKind: record.record_kind, journeyId: journey.id },
-        { status: 201 },
-      )
-    }
 
     if (recordKind === 'final') {
       if (!legacyId) throw new Error('最终作品兼容记录创建失败')

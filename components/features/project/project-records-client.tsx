@@ -1,5 +1,6 @@
 "use client"
 
+import { readProjectRecords } from '@/lib/project/read-records'
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { ListFilter, Sprout } from "lucide-react"
@@ -69,6 +70,8 @@ export function ProjectRecordsClient({
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogMode, setDialogMode] = useState<DialogMode>("progress")
   const [selectedRecordType, setSelectedRecordType] = useState<string | undefined>()
+  const [recordsError, setRecordsError] = useState(false)
+  const [recordsLoading, setRecordsLoading] = useState(false)
   const [journeyRecords, setJourneyRecords] = useState<JourneyRecord[]>([])
   const [currentJourneyId, setCurrentJourneyId] = useState<number | null>(journeyId)
   const [currentJourneyStatus, setCurrentJourneyStatus] = useState<string | null>(journeyStatus)
@@ -94,42 +97,19 @@ export function ProjectRecordsClient({
       return
     }
 
+    setRecordsLoading(true)
     try {
-      const journeyListResponse = await fetch(
-        `/api/journeys?source_type=project&source_id=${projectId}&status=all`,
-        { cache: "no-store", signal },
-      )
-      const journeyListPayload = journeyListResponse.ok
-        ? await journeyListResponse.json().catch(() => ({}))
-        : {}
+      const snapshot = await readProjectRecords(projectId, preferredJourneyId, signal)
       if (!isCurrentRequest()) return
-
-      const journeys = Array.isArray(journeyListPayload.journeys) ? journeyListPayload.journeys : []
-      const activeJourney = journeys.find((item: { status?: string }) => item.status === "active")
-      const preferredJourney = journeys.find((item: { id?: number }) => item.id === preferredJourneyId)
-      const nextJourney = activeJourney ?? preferredJourney ?? journeys[0] ?? null
-      const nextJourneyId = typeof nextJourney?.id === "number" ? nextJourney.id : null
-      if (!nextJourneyId) {
-        applyJourneyState(null, null, [])
-        return
-      }
-
-      const response = await fetch(`/api/journeys/${nextJourneyId}?limit=100`, {
-        cache: "no-store",
-        signal,
-      })
-      if (!response.ok || !isCurrentRequest()) return
-      const payload = await response.json().catch(() => ({}))
-      if (!isCurrentRequest()) return
-      applyJourneyState(
-        nextJourneyId,
-        typeof payload.journey?.status === "string" ? payload.journey.status : null,
-        (payload.records ?? []) as JourneyRecord[],
-      )
+      setRecordsError(false)
+      applyJourneyState(snapshot.id, snapshot.status, snapshot.records)
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") return
       if (!isCurrentRequest()) return
+      setRecordsError(true)
       throw error
+    } finally {
+      if (isCurrentRequest()) setRecordsLoading(false)
     }
   }, [applyJourneyState, projectId, user?.id])
 
@@ -185,8 +165,8 @@ export function ProjectRecordsClient({
     setJourneyRecords((current) => current.map((item) => item.id === record.id ? nextRecord : item))
     if (record.record_kind === "final") setCurrentJourneyStatus("active")
     toast({
-      title: visibility === "public" ? "已提交公开审核" : "已切回私密记录",
-      description: visibility === "public" ? "审核通过后，其他人才能看到这一步。" : "这一步只对你自己可见。",
+      title: visibility === "public" ? "已提交公开审核" : "已撤回分享",
+      description: visibility === "public" ? "审核通过后，其他人才能看到这一步。" : "已停止公开展示，不会自动重新发布。",
     })
   }
 
@@ -300,6 +280,7 @@ export function ProjectRecordsClient({
       <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
       <RecordsPageContent>
+        {recordsError && <div role="alert" className="rounded-md border p-4 text-sm">探索记录加载失败，已有记录已保留。<Button variant="outline" className="ml-3" disabled={recordsLoading} onClick={() => void loadJourneyRecords().catch(() => {})}>{recordsLoading ? "重试中…" : "重试"}</Button></div>}
         <RecordsFilterRow>
           <div className="flex min-w-0 items-center gap-2">
             <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
@@ -379,10 +360,10 @@ export function ProjectRecordsClient({
           </section>
         ) : null}
 
-        <JourneyRecordTimeline
+        {(!recordsError || journeyRecords.length > 0) && <JourneyRecordTimeline
           records={journeyRecords}
           onVisibilityChange={handleJourneyVisibilityChange}
-        />
+        />}
 
         {totalRecordsCount > completions.length ? (
           <p className="mb-3 text-xs leading-5 text-muted-foreground">
@@ -391,7 +372,7 @@ export function ProjectRecordsClient({
         ) : null}
 
         {filtered.length === 0 ? (
-          <RecordsEmptyState
+          !recordsError && <RecordsEmptyState
             totalRecordsCount={totalRecordsCount}
             hasLoadedRecords={completions.length > 0}
             typeFilterActive={typeFilter !== "all"}
@@ -433,7 +414,7 @@ export function ProjectRecordsClient({
               router.push(`/works/${result.id}?share=1`)
               return
             }
-            void loadJourneyRecords()
+            void loadJourneyRecords().catch(() => {})
             router.refresh()
           }}
         />

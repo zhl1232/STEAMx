@@ -1,5 +1,7 @@
 # 创探空间 — 项目功能索引
 
+> 2026-10-08 探索记录发布：新记录在 `complete-project-dialog` 点击“发布记录”申请公开审核，不再显示可见性开关；文字或图片至少一种，作品仍要求图片。`record-input.ts` 为接口校验，`read-records.ts` 区分读取失败与空列表，详情开始动作防重复并显示失败提示。`record-draft.ts` 只在当前标签页按账号/项目恢复未发布文字，退出或换账号清除、发布成功清除；照片不做恢复承诺。项目 completions 和通用 Journey 项目写入口均移除私密保存模式；撤回后未公开、再次发布须重新审核，不迁移测试数据。共享 visibility/draft 字段保留给撤回状态和 PBL 工作区；待审记录不提前设置 published_at。表单按账号/项目 key 重建编辑会话，避免 effect 同步重置警告。发布契约及验证边界见 `docs/EXPLORATION_RECORDS.md`。
+
 > 原创 Scratch 课程（2026-09-23）：`scripts/scratch-curriculum/lessons.json` 定义 7–10 岁家庭跟学的六阶段、48 节原创课，`scripts/generate-scratch-curriculum-projects.mjs` 与 `scripts/scratch-curriculum/semantic-overrides.mjs` 生成全部 48 节按角色编排的可运行示例、96 个起始/参考 `.sb3`、原创 SVG/WAV 和脚本路线图到 `public/courses/scratch-original/v1/`；`scripts/scratch-curriculum/import.mjs` 默认只读校验，`verify-vm.mjs` 用真实 Scratch VM 执行全部项目并检查关键行为，显式 `--apply --expect-host` 才导入草稿。`20260923170000_course_catalog_visibility.sql` 增加 `courses.is_listed` 与事务发布函数，公开课程列表、sitemap 和小迪资源检索仅发现已上架课程；旧课隐藏后仍可由历史链接直达并保留进度。旧课详情页与课时页按 `lib/courses/successors.ts`（`{ 1: 8 }`）显示「新版课程」入口，未上架课程及课时输出 `noindex, follow`。`scripts/scratch-curriculum/publish.mjs` 默认只读预览，审核通过后才原子地发布新课并隐藏旧课。课程详情按阶段编排，课时侧栏显示目标、图示、挑战与复盘；Scratch 工作区按“本人保存项目→起始作品”加载，参考积木示例单独预览，项目加载失败时阻止误存上一课内容。Scratch iframe 默认使用同源相对 URL，确保服务端预渲染和浏览器 hydration 不会把线上地址固定为 localhost。上线顺序和人工验收见 `docs/SCRATCH_CURRICULUM_ROLLOUT.md`。
 > 生产状态（2026-09-23）：原创 Scratch 课程 #8 已审核并上架，48 节公开；旧课 #1 从发现入口隐藏但保留直达与学习记录。首次上线时发现 Scratch iframe 的服务端 localhost 地址，热修复 `a8c18e6a` 部署后线上编辑器与参考预览均确认项目加载成功。发布与回归详情见 `docs/SCRATCH_CURRICULUM_ROLLOUT.md`。
 

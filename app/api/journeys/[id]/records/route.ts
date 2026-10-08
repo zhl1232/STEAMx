@@ -23,6 +23,7 @@ import {
 import { queueJourneyRecordModeration } from '@/lib/journeys/moderation'
 import { createClient } from '@/lib/supabase/server'
 import type { Json } from '@/lib/supabase/types'
+import { SubmitCompletionSchema } from '@/lib/project/record-input'
 
 const UrlSchema = z.union([z.string().url(), z.string().min(1).startsWith('/')])
 const JourneyRecordSchema = z.object({
@@ -98,7 +99,19 @@ export async function POST(
     const journey = await getJourneyById(supabase, journeyId, user.id)
     if (!journey) return NextResponse.json({ error: 'Journey not found' }, { status: 404 })
 
-    const visibility = parsed.data.visibility ?? (parsed.data.record_kind === 'final' ? 'public' : 'private')
+    if (journey.source_type === 'project') {
+      const publishInput = SubmitCompletionSchema.safeParse({
+        kind: parsed.data.record_kind,
+        images: parsed.data.images,
+        notes: parsed.data.notes ?? undefined,
+        isPublic: parsed.data.visibility !== 'private',
+      })
+      if (!publishInput.success) {
+        return NextResponse.json({ error: '项目记录需填写文字或添加图片后申请发布，作品需要图片；未发布文字保留在当前标签页' }, { status: 400 })
+      }
+    }
+    // Project records use one publish flow. Challenge workspaces still save drafts.
+    const visibility = parsed.data.visibility ?? (journey.source_type === 'project' || parsed.data.record_kind === 'final' ? 'public' : 'private')
     await requireInteractionAccess(supabase, user, visibility === 'public' || parsed.data.record_kind === 'final' ? 'submit' : 'save_progress')
     await requireRateLimit(supabase, { key: 'api-journey-records-write', limit: 30, windowMs: 60_000 })
     await validateMedia(parsed.data.images, parsed.data.video_url, user.id)

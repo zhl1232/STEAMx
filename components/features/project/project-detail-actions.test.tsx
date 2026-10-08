@@ -226,3 +226,19 @@ describe("mobile project actions", () => {
     expect(screen.queryByRole("button", { name: "更多操作" })).not.toBeInTheDocument()
   })
 })
+
+
+it("reports start failure, permits retry and prevents overlapping starts", async () => {
+  mocks.user={id:'user-1'};mocks.exploring=false;mocks.completed=false;mocks.toast.mockClear();mocks.startExploration.mockReset()
+  let fail!: (reason: Error) => void
+  mocks.startExploration.mockImplementationOnce(()=>new Promise((_,reject)=>{fail=reject})).mockResolvedValue(undefined)
+  renderEntry()
+  const button=screen.getByRole('button',{name:'开始我的项目'})
+  fireEvent.click(button);fireEvent.click(button)
+  expect(mocks.startExploration).toHaveBeenCalledTimes(1)
+  fail(new Error('网络故障'))
+  await waitFor(()=>expect(mocks.toast).toHaveBeenCalledWith(expect.objectContaining({title:'无法开始我的项目',description:expect.stringContaining('重试')})))
+  await waitFor(()=>expect(button).not.toBeDisabled())
+  fireEvent.click(button)
+  await waitFor(()=>expect(mocks.startExploration).toHaveBeenCalledTimes(2))
+})
