@@ -142,7 +142,7 @@ export function buildPlaygroundMetadata(path: PlaygroundMetadataPath): Metadata 
 }
 
 /**
- * Page-level structured data for a playground game: a WebPage whose @id/url is the
+ * Page-level structured data for a playground game or tutorial: a WebPage whose @id/url is the
  * same absolute canonical as <link rel="canonical"> / og:url, plus the breadcrumb trail.
  * Gives Google one more consistent "this URL is the canonical page" signal for
  * client-rendered games whose server HTML is otherwise thin.
@@ -151,6 +151,8 @@ export function buildPlaygroundJsonLd(path: PlaygroundMetadataPath) {
   const page = PLAYGROUND_METADATA[path];
   const url = buildAbsoluteUrl(path);
   const siteUrl = getSiteUrl();
+  // The tutorial is about the game, not a separate game at the course URL.
+  const gamePath = path === "/playground/minesweeper/course" ? "/playground/minesweeper" : path;
   const breadcrumbs = [
     { name: "首页", url: "/" },
     { name: "游乐场", url: "/playground" },
@@ -178,8 +180,8 @@ export function buildPlaygroundJsonLd(path: PlaygroundMetadataPath) {
       },
       about: {
         "@type": "Game",
-        name: page.title,
-        url,
+        name: PLAYGROUND_METADATA[gamePath].title,
+        url: buildAbsoluteUrl(gamePath),
       },
     },
     buildBreadcrumbJsonLd(breadcrumbs),

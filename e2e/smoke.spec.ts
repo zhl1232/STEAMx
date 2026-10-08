@@ -141,3 +141,50 @@ for (const [target, expectedNext] of protectedDeepLinks) {
     expect(new URL(page.url()).searchParams.get('next')).toBe(expectedNext)
   })
 }
+
+// Disable page JavaScript so these assertions cover the actual nested SSR output,
+// including metadata inheritance, without relying on hydration to repair it.
+for (const route of [
+  { path: '/playground/minesweeper', name: '扫雷 在线逻辑推理游戏', crumbs: ['首页', '游乐场', '扫雷'] },
+  { path: '/playground/minesweeper/course', name: '扫雷解局学 入门教程', crumbs: ['首页', '游乐场', '扫雷', '扫雷解局学'] },
+]) {
+  test(`${route.path} SSR 页面身份一致`, async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+    try {
+      const page = await context.newPage()
+      const response = await page.goto(route.path)
+      expect(response?.status()).toBe(200)
+      const canonical = page.locator('link[rel="canonical"]')
+      await expect(canonical).toHaveCount(1)
+      const expectedUrl = `https://steam.bj.cn${route.path}`
+      await expect(canonical).toHaveAttribute('href', expectedUrl)
+      const entities = await page.locator('script[type="application/ld+json"]').evaluateAll(
+        (scripts) => scripts.flatMap((script) => {
+          const data = JSON.parse(script.textContent || 'null')
+          return Array.isArray(data) ? data : data['@graph'] ?? [data]
+        }),
+      )
+      const webPages = entities.filter((entity) => entity['@type'] === 'WebPage')
+      expect(webPages).toHaveLength(1)
+      expect(webPages[0]).toMatchObject({
+        '@id': `${expectedUrl}#webpage`,
+        url: expectedUrl,
+        name: route.name,
+        isPartOf: { name: '创探空间' },
+        about: { '@type': 'Game', name: '扫雷', url: 'https://steam.bj.cn/playground/minesweeper' },
+      })
+      const breadcrumbs = entities.filter((entity) => entity['@type'] === 'BreadcrumbList')
+      expect(breadcrumbs).toHaveLength(1)
+      expect(breadcrumbs[0].itemListElement).toEqual(route.crumbs.map((name, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name,
+        item: ['https://steam.bj.cn/', 'https://steam.bj.cn/playground',
+          'https://steam.bj.cn/playground/minesweeper',
+          'https://steam.bj.cn/playground/minesweeper/course'][index],
+      })))
+    } finally {
+      await context.close()
+    }
+  })
+}

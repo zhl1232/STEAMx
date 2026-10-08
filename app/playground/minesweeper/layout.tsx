@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 
-import { JsonLd } from "@/components/seo/json-ld";
-import { buildPlaygroundJsonLd, buildPlaygroundMetadata } from "@/lib/seo/playground-metadata";
+import { buildPlaygroundMetadata } from "@/lib/seo/playground-metadata";
 
 export const metadata: Metadata = buildPlaygroundMetadata("/playground/minesweeper");
 
 export default function PlaygroundRouteLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <JsonLd data={buildPlaygroundJsonLd("/playground/minesweeper")} />
-      {children}
-    </>
-  );
+  return children;
 }

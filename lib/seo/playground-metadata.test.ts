@@ -54,6 +54,21 @@ describe('playground structured data', () => {
     }
   })
 
+  it('describes the course as a WebPage about the actual minesweeper game', async () => {
+    const { buildPlaygroundJsonLd } = await import('@/lib/seo/playground-metadata')
+    const [course] = buildPlaygroundJsonLd('/playground/minesweeper/course')
+    expect(course).toMatchObject({
+      '@type': 'WebPage',
+      name: '扫雷解局学 入门教程',
+      url: buildAbsoluteUrl('/playground/minesweeper/course'),
+      about: {
+        '@type': 'Game',
+        name: '扫雷',
+        url: buildAbsoluteUrl('/playground/minesweeper'),
+      },
+    })
+  })
+
   it('nests the minesweeper course under the minesweeper game in breadcrumbs', async () => {
     const { buildPlaygroundJsonLd } = await import('@/lib/seo/playground-metadata')
     const [, breadcrumb] = buildPlaygroundJsonLd('/playground/minesweeper/course') as unknown as [

@@ -28,6 +28,7 @@ export default defineConfig({
     command: [
       'PLAYWRIGHT_SMOKE=1',
       'NEXT_PUBLIC_PLAYWRIGHT_SMOKE=1',
+      'NEXT_PUBLIC_APP_URL=https://steam.bj.cn',
       `NEXT_PUBLIC_SUPABASE_URL="${supabaseUrl}"`,
       `NEXT_PUBLIC_SUPABASE_ANON_KEY="${supabaseAnonKey}"`,
       'pnpm dev',
