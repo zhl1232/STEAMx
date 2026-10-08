@@ -36,3 +36,42 @@ describe('playground document titles', () => {
     expect(buildPlaygroundMetadata('/playground/tangram').title).toMatchObject({ absolute: '七巧板 在线拼图 | 创探空间' })
   })
 })
+
+describe('playground structured data', () => {
+  it('ties every game JSON-LD WebPage to the same absolute canonical URL', async () => {
+    const { PLAYGROUND_METADATA_PATHS, buildPlaygroundJsonLd } = await import('@/lib/seo/playground-metadata')
+    for (const path of PLAYGROUND_METADATA_PATHS) {
+      const canonical = buildPlaygroundMetadata(path).alternates?.canonical
+      const [webPage, breadcrumb] = buildPlaygroundJsonLd(path) as unknown as [
+        { url: string; '@id': string; description: string },
+        { itemListElement: Array<{ item: string }> },
+      ]
+      expect(webPage.url).toBe(canonical)
+      expect(webPage['@id']).toBe(`${canonical}#webpage`)
+      expect(webPage.description).toBe(buildPlaygroundMetadata(path).description)
+      expect(breadcrumb.itemListElement.at(-1)?.item).toBe(canonical)
+      expect(breadcrumb.itemListElement[1]?.item).toBe(buildAbsoluteUrl('/playground'))
+    }
+  })
+
+  it('nests the minesweeper course under the minesweeper game in breadcrumbs', async () => {
+    const { buildPlaygroundJsonLd } = await import('@/lib/seo/playground-metadata')
+    const [, breadcrumb] = buildPlaygroundJsonLd('/playground/minesweeper/course') as unknown as [
+      unknown,
+      { itemListElement: Array<{ name: string; item: string }> },
+    ]
+    expect(breadcrumb.itemListElement.map((item) => item.name)).toEqual(['首页', '游乐场', '扫雷', '扫雷解局学'])
+  })
+})
+
+describe('playground descriptions', () => {
+  it('are unique and substantive enough to tell games apart', async () => {
+    const { PLAYGROUND_METADATA, PLAYGROUND_METADATA_PATHS } = await import('@/lib/seo/playground-metadata')
+    const descriptions = PLAYGROUND_METADATA_PATHS.map((path) => PLAYGROUND_METADATA[path].description)
+    expect(new Set(descriptions).size).toBe(descriptions.length)
+    for (const description of descriptions) {
+      expect(description.length).toBeGreaterThanOrEqual(50)
+      expect(description.length).toBeLessThanOrEqual(120)
+    }
+  })
+})
