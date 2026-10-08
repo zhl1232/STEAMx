@@ -158,17 +158,28 @@ export function ProjectDetailActions({
     })
   }
 
+  const startingRef = useRef(false)
+  const [starting, setStarting] = useState(false)
+  const startSafely = async () => {
+    if (startingRef.current) return
+    startingRef.current = true
+    setStarting(true)
+    try { await runPrimaryAction() }
+    catch (error) { toast({ title: "无法开始我的项目", description: error instanceof Error ? `${error.message}，请重试` : "请检查网络后重试", variant: "destructive" }) }
+    finally { startingRef.current = false; setStarting(false) }
+  }
+
   const handleStart = () => {
     if (!user) {
       promptLogin(() => {
-        void runPrimaryAction()
+        void startSafely()
       }, {
         title: isObservation ? "登录以开始观察" : "登录以开始我的项目",
         description: "登录后即可记录探索过程并上传作品",
       })
       return
     }
-    void runPrimaryAction()
+    void startSafely()
   }
 
   const handleCollection = () => {
@@ -255,7 +266,7 @@ export function ProjectDetailActions({
               查看材料与步骤
             </a>
           </Button>
-          <Button type="button" variant="outline" onClick={handleStart} className="min-h-11">
+          <Button type="button" variant="outline" onClick={handleStart} disabled={starting} className="min-h-11">
             {user ? primaryActionLabel : guestRecordLabel}
           </Button>
         </div>
@@ -389,7 +400,7 @@ export function ProjectDetailActions({
             size="sm"
             tone="brand"
             shape="square"
-            onClick={handleStart}
+            onClick={handleStart} disabled={starting}
             className="h-11 px-3"
           >
             <Rocket className="mr-1.5 h-4 w-4" />
@@ -421,7 +432,7 @@ export function ProjectDetailActions({
             type="button"
             tone="success"
             shape="soft"
-            onClick={handleStart}
+            onClick={handleStart} disabled={starting}
             className="h-12 min-w-0 flex-1 px-5 text-base font-bold"
           >
             <Rocket className="mr-2 h-5 w-5" />

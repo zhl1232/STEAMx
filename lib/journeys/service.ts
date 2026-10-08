@@ -331,7 +331,8 @@ export async function upsertJourneyRecord(
     rejection_reason: input.rejectionReason ?? null,
     reviewed_by: input.reviewedBy ?? null,
     reviewed_at: input.reviewedAt ?? null,
-    published_at: visibility === 'public' && input.moderationState === 'approved' ? (existing?.published_at ?? now) : null,
+    // The pre-check does not publish a record; only final approval sets this.
+    published_at: null,
     updated_at: now,
   }
 

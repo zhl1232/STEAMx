@@ -1,5 +1,6 @@
 'use client'
 
+import { syncRecordDraftOwner } from '@/lib/project/record-draft'
 import { User } from '@supabase/supabase-js'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -100,6 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // 因此这里同步处理 user/loading，把任何 Supabase 调用 defer 到下一个事件循环。
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        syncRecordDraftOwner(session?.user?.id ?? null)
         if (session?.user) {
           const sessionUser = session.user
           const userId = sessionUser.id
@@ -146,6 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [fetchProfile, smokeMode, supabase])
 
   const signOut = useCallback(async () => {
+    syncRecordDraftOwner(null)
     signingOutRef.current = true
     try {
       if (supabase) {

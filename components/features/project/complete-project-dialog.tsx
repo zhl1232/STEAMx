@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { recordDraftKey, readRecordDraft, writeRecordDraft } from '@/lib/project/record-draft';
 import { useAuth } from '@/lib/context/auth-context';
 import { useOptionalProjects } from '@/lib/context/project-context';
 import { uploadFileSecureWithProgress } from "@/lib/utils/upload";
@@ -19,7 +20,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { X, ChevronUp, ChevronDown, ImagePlus, Info, Video, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
@@ -129,7 +129,14 @@ function uploadVideoWithProgress(
     });
 }
 
-export function CompleteProjectDialog({
+export function CompleteProjectDialog(props: CompleteProjectDialogProps) {
+    const { user } = useAuth();
+    // Account/source changes create a fresh editing session before it can render.
+    const sessionKey = JSON.stringify([user?.id ?? null, props.projectId ?? props.submitEndpoint ?? props.projectTitle, props.mode ?? "final"]);
+    return <CompleteProjectDialogSession key={sessionKey} {...props} />;
+}
+
+function CompleteProjectDialogSession({
     projectId,
     projectTitle,
     submitEndpoint,
@@ -164,17 +171,26 @@ export function CompleteProjectDialog({
     const videoXhrRef = useRef<{ xhr?: XMLHttpRequest }>({});
 
     // Step 2 state
-    const [notes, setNotes] = useState("");
-    const [isPublic, setIsPublic] = useState(mode !== "progress");
+    const [notes, setNotes] = useState(() =>
+        isProgress && user?.id && projectId !== undefined
+            ? readRecordDraft(recordDraftKey(user.id, projectId))
+            : ""
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const submittingRef = useRef(false);
+    const [draftError, setDraftError] = useState(false);
+    const draftKey = isProgress && user?.id && projectId !== undefined ? recordDraftKey(user.id, projectId) : null;
+    const editGeneration = useRef(0);
+    const changeNotes = (text: string) => {
+        setNotes(text);
+        if (draftKey) setDraftError(!writeRecordDraft(draftKey, text));
+    };
+
 
     useEffect(() => {
-        return () => { videoXhrRef.current.xhr?.abort(); };
+        return () => { editGeneration.current += 1; videoXhrRef.current.xhr?.abort(); };
     }, []);
 
-    useEffect(() => {
-        if (open) setIsPublic(mode !== "progress");
-    }, [mode, open]);
 
     const totalImages = proofImages.length + uploading.length;
     const canAddMore = totalImages < MAX_IMAGES;
@@ -185,6 +201,7 @@ export function CompleteProjectDialog({
 
     const processFiles = useCallback(async (files: FileList | File[]) => {
         if (!user) return;
+        const generation = editGeneration.current;
         const fileArray = Array.from(files);
         const validFiles: File[] = [];
 
@@ -222,6 +239,7 @@ export function CompleteProjectDialog({
                     item.file,
                     "project-completions",
                     (loaded, total) => {
+                        if (generation !== editGeneration.current) return;
                         const pct = Math.round((loaded / total) * 100);
                         setUploading((prev) =>
                             prev.map((u) => (u.id === item.id ? { ...u, progress: pct } : u))
@@ -229,6 +247,7 @@ export function CompleteProjectDialog({
                     }
                 );
 
+                if (generation !== editGeneration.current) return { item, url: null };
                 if (url) {
                     return { item, url };
                 } else {
@@ -242,6 +261,7 @@ export function CompleteProjectDialog({
             })
         );
 
+        if (generation !== editGeneration.current) { newItems.forEach(item => URL.revokeObjectURL(item.preview)); return; }
         const uploaded = results.filter(
             (result): result is { item: UploadingImage; url: string } => Boolean(result.url),
         );
@@ -394,17 +414,19 @@ export function CompleteProjectDialog({
     // ─── Submit ───
 
     const handleSubmit = async () => {
-        if (!user) return;
+        if (!user || submittingRef.current) return;
 
-        if (proofImages.length === 0) {
+        if (proofImages.length === 0 && (!isProgress || !notes.trim())) {
             toast({
-                title: "请上传作品照片",
-                description: "至少上传一张作品照片来证明你完成了这个项目",
+                title: isProgress ? "请填写文字或添加图片" : "请上传作品照片",
+                description: isProgress ? "预测、提问或观察都可以成为一条探索记录" : "至少上传一张作品照片",
                 variant: "destructive",
             });
             return;
         }
 
+        const generation = editGeneration.current;
+        submittingRef.current = true;
         setIsSubmitting(true);
 
         try {
@@ -412,8 +434,8 @@ export function CompleteProjectDialog({
             const proof = {
                 images: proofImages,
                 videoUrl: videoUrl || undefined,
-                notes: notes || undefined,
-                isPublic,
+                notes: notes.trim() || undefined,
+                isPublic: true,
                 imageCaptions: nonEmptyCaptions ? imageCaptions : undefined,
             };
 
@@ -447,6 +469,10 @@ export function CompleteProjectDialog({
                 result = submitted;
             }
 
+            if (generation !== editGeneration.current) return;
+            if (result.status !== "pending" && result.status !== "approved") {
+                throw new Error("发布未完成，文字已保留，请重试");
+            }
             if (!isProgress) {
                 try {
                     const confetti = (await import("canvas-confetti")).default;
@@ -462,29 +488,29 @@ export function CompleteProjectDialog({
             }
 
             toast({
-                title: isProgress ? "探索记录已提交" : "最终作品已提交",
-                description: isProgress
-                    ? "AI 审核通过后将出现在探索记录流"
-                    : isPublic
-                        ? "审核通过后将公开展示并获得 XP 奖励"
-                        : "已保存为私密最终作品，之后可以从项目时间线公开",
+                title: result.status === "approved" ? "已发布" : isProgress ? "探索记录已提交审核" : "作品已提交审核",
+                description: result.status === "approved" ? "审核已通过，可在探索记录中查看" : "审核通过后公开展示，可在探索记录中查看状态",
             });
 
+            if (draftKey) writeRecordDraft(draftKey, "");
             onSuccess(result);
             onOpenChange(false);
             resetForm();
         } catch (error: unknown) {
+            if (generation !== editGeneration.current) return;
             toast({
                 title: "提交失败",
                 description: error instanceof Error ? error.message : "提交失败",
                 variant: "destructive",
             });
         } finally {
+            submittingRef.current = false;
             setIsSubmitting(false);
         }
     };
 
     const resetForm = useCallback(() => {
+        editGeneration.current += 1;
         videoXhrRef.current.xhr?.abort();
         setStep(1);
         setProofImages([]);
@@ -494,24 +520,23 @@ export function CompleteProjectDialog({
         setVideoPreviewUrl("");
         setVideoUploadStatus("idle");
         setVideoUploadProgress(0);
-        setNotes("");
-        setIsPublic(mode !== "progress");
-    }, [mode]);
+        setNotes(draftKey ? readRecordDraft(draftKey) : "");
+    }, [draftKey]);
 
     // ─── Render ───
 
     return (
-        <Dialog open={open} onOpenChange={(v) => { if (!v) resetForm(); onOpenChange(v); }}>
+        <Dialog open={open} onOpenChange={(v) => { if (submittingRef.current) return; if (!v) resetForm(); onOpenChange(v); }}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>{isProgress ? "记录探索过程" : "提交最终作品"}</DialogTitle>
+                    <DialogTitle>{isProgress ? "发布探索记录" : "提交作品"}</DialogTitle>
                     <DialogDescription>
                         {isProgress
-                            ? "记录这一步的进展，随时可以再来更新。探索记录不计经验，提交最终作品时可获得 20 XP"
+                            ? "写下预测、提问或观察，也可以添加图片。发布后先审核，通过后公开展示。"
                             : "分享你的成果，审核通过后可获得 20 XP"}
                     </DialogDescription>
                     {/* Stepper indicator */}
-                    <div className="flex items-center gap-2 pt-2">
+                    {!isProgress && <div className="flex items-center gap-2 pt-2">
                         <div className={cn(
                             "flex items-center justify-center h-6 w-6 rounded-full text-xs font-semibold",
                             step === 1 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
@@ -523,7 +548,7 @@ export function CompleteProjectDialog({
                             "flex items-center justify-center h-6 w-6 rounded-full text-xs font-semibold",
                             step === 2 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                         )}>2</div>
-                    </div>
+                    </div>}
                 </DialogHeader>
 
                 {step === 1 ? (
@@ -544,11 +569,19 @@ export function CompleteProjectDialog({
                             </div>
                         )}
 
+                        {isProgress && <div className="space-y-2">
+                            <Label htmlFor="record-notes">想记录什么？</Label>
+                            <Textarea id="record-notes" value={notes} maxLength={5000} rows={5} onChange={e => changeNotes(e.target.value)} placeholder="我的预测是… 我观察到… 我想问…" />
+                            <p className="text-xs text-muted-foreground">未发布文字可在本标签页恢复；退出登录会清除。照片不保存在恢复内容中，重新打开后需重新选择。</p>
+                            {draftError && <p role="alert" className="text-sm text-destructive">浏览器无法暂存文字，请复制留存后再关闭。</p>}
+                        </div>}
+                        <details open={isProgress ? undefined : true} className="space-y-4">
+                          <summary className={isProgress ? "min-h-11 cursor-pointer py-3 text-sm font-medium" : "hidden"}>添加图片或视频（可选）</summary>
                         {/* 作品照片 — 拖拽上传区 */}
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
                                 <Label className="text-base">
-                                    作品照片 <span className="text-red-500">*</span>
+                                    {isProgress ? "图片（可选）" : <>作品照片 <span className="text-red-500">*</span></>}
                                 </Label>
                                 <span className="text-xs text-muted-foreground">
                                     {totalImages}/{MAX_IMAGES}
@@ -657,7 +690,7 @@ export function CompleteProjectDialog({
                                         <ImagePlus className="h-8 w-8" />
                                         <span className="text-sm">
                                             {proofImages.length === 0
-                                                ? "选择多张作品照片"
+                                                ? (isProgress ? "选择图片" : "选择多张作品照片")
                                                 : `继续添加照片（还可 ${MAX_IMAGES - totalImages} 张）`}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
@@ -679,7 +712,7 @@ export function CompleteProjectDialog({
 
                         {/* 作品视频（可选） */}
                         <div className="space-y-3">
-                            <Label className="text-base">作品视频（可选）</Label>
+                            <Label className="text-base">{isProgress ? "视频（可选，需配文字或图片）" : "作品视频（可选）"}</Label>
 
                             {videoUploadStatus === "done" && videoPreviewUrl ? (
                                 <div className="relative rounded-xs overflow-hidden bg-black aspect-video">
@@ -748,6 +781,7 @@ export function CompleteProjectDialog({
                                 className="hidden"
                             />
                         </div>
+                        </details>
                     </div>
                 ) : (
                     /* ═══ Step 2: 补充信息 + 预览 ═══ */
@@ -802,41 +836,22 @@ export function CompleteProjectDialog({
                                         : "分享你的制作过程、遇到的挑战或学到的东西…"
                                 }
                                 value={notes}
-                                onChange={(e) => setNotes(e.target.value)}
+                                onChange={(e) => changeNotes(e.target.value)}
                                 rows={3}
                             />
                         </div>
 
-                        {/* 是否公开展示 */}
-                        <div className="rounded-sm border border-border/70 bg-muted/25 p-3">
-                            <div className="flex items-start gap-2">
-                            <Checkbox
-                                id="is-public"
-                                checked={isPublic}
-                                onCheckedChange={(checked) => setIsPublic(checked === true)}
-                            />
-                            <div>
-                                <Label htmlFor="is-public" className="cursor-pointer text-sm font-medium">
-                                    {isProgress ? "公开这条探索记录" : "公开展示最终作品"}
-                                </Label>
-                                <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                                    {isProgress
-                                        ? "默认仅自己可见；公开后会先审核，通过后出现在项目记录流。"
-                                        : "默认公开并进入审核；也可以先保存为私密作品，之后再公开。"}
-                                </p>
-                            </div>
-                            </div>
-                        </div>
+                        <p className="text-sm text-muted-foreground">提交后先审核，通过后公开展示。</p>
                     </div>
                 )}
 
                 <DialogFooter className="flex-col sm:flex-row gap-2">
                     {step === 1 ? (
                         <>
-                            <Button variant="outline" onClick={() => onOpenChange(false)}>
+                            <Button variant="outline" disabled={isSubmitting} onClick={() => { resetForm(); onOpenChange(false); }}>
                                 取消
                             </Button>
-                            <div className="flex gap-2 flex-1 sm:flex-initial">
+                            {isProgress ? <Button onClick={handleSubmit} disabled={isSubmitting || isImageUploadInProgress || isVideoUploading || (!notes.trim() && proofImages.length === 0)}>{isSubmitting ? "正在提交…" : "发布记录"}</Button> : <div className="flex gap-2 flex-1 sm:flex-initial">
                                 {proofImages.length > 0 && (
                                     <Button
                                         variant="ghost"
@@ -863,7 +878,7 @@ export function CompleteProjectDialog({
                                         </>
                                     )}
                                 </Button>
-                            </div>
+                            </div>}
                         </>
                     ) : (
                         <>

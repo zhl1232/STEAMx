@@ -794,8 +794,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
       const pid = normalizeProjectId(projectId);
       if (pid === null) throw new Error("无效的项目 ID");
 
-      if (!proof.images?.length) {
-        throw new Error("至少需要上传一张作品照片");
+      if (!proof.images?.length && (options.kind === "final" || !proof.notes?.trim())) {
+        throw new Error(options.kind === "final" ? "至少需要上传一张作品照片" : "请填写文字或添加图片");
       }
 
       const submitExplorationRequest = () => fetch(`/api/projects/${pid}/completions`, {
@@ -809,7 +809,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
           imageCaptions: proof.imageCaptions,
           videoUrl: proof.videoUrl || null,
           notes: proof.notes,
-          isPublic: proof.isPublic ?? options.kind === "final",
+          isPublic: true,
         }),
       });
 

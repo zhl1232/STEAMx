@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import type { JourneyRecord } from "@/lib/journeys/types"
 
 function recordStatus(record: JourneyRecord) {
-  if (record.visibility === "private") return { label: "仅自己可见", tone: "muted" as const }
+  if (record.visibility === "private") return { label: "未公开", tone: "muted" as const }
   if (record.status === "pending") return { label: "公开审核中", tone: "warning" as const }
   if (record.status === "rejected") return { label: "待修改", tone: "danger" as const }
   return { label: "已公开", tone: "success" as const }
@@ -42,9 +42,9 @@ export function JourneyRecordTimeline({
     <section className="rounded-lg border border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.18)] p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="section-kicker">我的项目过程</p>
+          <p className="section-kicker">我的探索记录</p>
           <h2 className="mt-2 text-lg font-semibold tracking-tight">一步一步留下来</h2>
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">默认只有你能看到；想分享哪一步，再单独公开。</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">发布后先审核，通过后公开。未发布和未通过审核的内容不会公开。</p>
         </div>
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
           <ShieldCheck className="h-4 w-4" />
@@ -106,14 +106,14 @@ export function JourneyRecordTimeline({
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground">
                     {record.visibility === "public" ? <Eye className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
-                    {record.visibility === "public" ? "公开动作会重新审核" : "这条记录只保存在你的项目里"}
+                    {record.visibility === "public" ? "公开动作会重新审核" : "这条记录尚未公开分享"}
                   </span>
                   <Button
                     type="button"
                     size="sm"
                     variant="outline"
                     className="min-h-11 rounded-full px-3 text-xs"
-                    aria-label={record.visibility === "public" ? "将这条记录转为私密" : "公开这条记录"}
+                    aria-label={record.visibility === "public" ? "撤回这条记录的分享" : "重新发布"}
                     disabled={isWorking}
                     onClick={async () => {
                       setWorkingId(record.id)
@@ -125,7 +125,7 @@ export function JourneyRecordTimeline({
                     }}
                   >
                     {isWorking ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : record.visibility === "public" ? <EyeOff className="mr-1.5 h-3.5 w-3.5" /> : <Eye className="mr-1.5 h-3.5 w-3.5" />}
-                    {record.visibility === "public" ? "转为私密" : "公开这一步"}
+                    {record.visibility === "public" ? "撤回分享" : "重新发布"}
                   </Button>
                 </div>
               </article>

@@ -5,6 +5,7 @@ import {
   dedupeCompletionRowsByUser,
   diversifyPopularByCategoryForTest,
   getProjectTotalCoinsReceived,
+  getProjectExplorationRecordsCount,
   getProjects,
   shouldBlendPopularExplore,
 } from '@/lib/api/explore-data'
@@ -36,6 +37,28 @@ vi.mock('@/lib/logger', () => ({
 vi.mock('@/lib/content-classification', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/content-classification')>()
   return { ...actual, getContentClassificationSettings: vi.fn(async () => ({ publicV1Enabled: false, enforcementEnabled: false })) }
+})
+
+it('counts only public records approved by both review gates, excluding drafts, pending and rejected records', async () => {
+  const rows = [
+    {is_public:false, status:'draft', moderation_state:'approved'},
+    {is_public:true, status:'pending', moderation_state:'approved'},
+    {is_public:true, status:'rejected', moderation_state:'rejected'},
+    {is_public:true, status:'approved', moderation_state:'pending'},
+    {is_public:false, status:'approved', moderation_state:'approved'},
+    {is_public:true, status:'approved', moderation_state:'approved'},
+  ].map(row => ({project_id:149, ...row}))
+  const filters: Array<[string, unknown]> = []
+  const query = {
+    select: () => query,
+    eq: (key: string, value: unknown) => { filters.push([key,value]); return query },
+    then: (resolve: (value: unknown) => unknown) => Promise.resolve({
+      count: rows.filter(row => filters.every(([key,value]) => row[key as keyof typeof row] === value)).length,
+      error: null,
+    }).then(resolve),
+  }
+  vi.mocked(createClient).mockResolvedValue({from: () => query} as never)
+  expect(await getProjectExplorationRecordsCount(149)).toBe(1)
 })
 
 describe('diversifyPopularByCategoryForTest', () => {

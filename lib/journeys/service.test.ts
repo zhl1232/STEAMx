@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 
 import {
   completeJourneyForApprovedFinal,
+  listJourneyRecords,
+  publishJourneyRecord,
   reopenJourneyAfterRejectedRecord,
   upsertJourneyRecord,
 } from '@/lib/journeys/service'
@@ -198,4 +200,48 @@ describe('Journey service', () => {
       completed_at: '2026-08-19T08:05:00.000Z',
     })
   })
+})
+
+
+describe('record review: isolated ownership, failure and reload contracts', () => {
+  it('rejects a missing owned journey before writing', async () => {
+    const fake = createFakeClient([{data: null, error: null}])
+    await expect(upsertJourneyRecord(fake.client, 7, 'other-user', {notes: 'test'})).rejects.toThrow('无权操作')
+    expect(fake.calls).toContainEqual({table: 'project_journeys', method: 'eq', args: ['user_id', 'other-user']})
+    expect(fake.calls.some(c => c.method === 'insert' || c.method === 'update')).toBe(false)
+  })
+  it('propagates a write failure rather than reporting a saved record', async () => {
+    const failure = new Error('simulated database unavailable')
+    const fake = createFakeClient([{data: journey, error: null}, {data: null, error: failure}])
+    await expect(upsertJourneyRecord(fake.client, 7, 'user-1', {recordKind: 'progress', notes: '未完成'})).rejects.toThrow('simulated database unavailable')
+  })
+  it('reads saved private records on a fresh read and propagates read errors', async () => {
+    const saved = record({notes: '预测未验证', visibility: 'private'})
+    const fresh = createFakeClient([{data: [saved], error: null}])
+    expect(await listJourneyRecords(fresh.client, 7)).toEqual([saved])
+    expect(fresh.calls).toContainEqual({table: 'project_journey_records', method: 'eq', args: ['journey_id', 7]})
+    const failed = createFakeClient([{data: null, error: new Error('read failed')}])
+    await expect(listJourneyRecords(failed.client, 7)).rejects.toThrow('read failed')
+  })
+})
+
+
+it('still supports withdrawing public records without deleting them', async () => {
+  const fake=createFakeClient([{data:journey},{data:record({visibility:'public'})},{data:record({visibility:'private'})},{data:null},{data:{id:50}},{data:null},{data:null}])
+  await publishJourneyRecord(fake.client,7,11,'user-1','private')
+  expect(fake.calls).toContainEqual(expect.objectContaining({table:'project_journey_records',method:'update',args:[expect.objectContaining({visibility:'private',status:'draft',published_at:null})]}))
+})
+
+it('keeps a newly published text record pending even when the pre-check approves', async () => {
+  const pending=record({visibility:'public',status:'pending',moderation_state:'approved',published_at:null})
+  const fake=createFakeClient([{data:journey},{data:pending},{data:null},{data:{id:50}},{data:null},{data:{id:60}},{data:null}])
+  await upsertJourneyRecord(fake.client,7,'user-1',{recordKind:'progress',notes:'预测',images:[],visibility:'public',moderationState:'approved'})
+  expect(fake.calls).toContainEqual(expect.objectContaining({table:'project_journey_records',method:'insert',args:[expect.objectContaining({visibility:'public',status:'pending',published_at:null})]}))
+})
+
+it('requires a new review when explicitly republishing a withdrawn record', async () => {
+  const pending = record({ visibility: 'public', status: 'pending', moderation_state: 'pending' })
+  const fake = createFakeClient([{data:journey},{data:record()},{data:pending},{data:null},{data:{id:50}},{data:null},{data:{id:60}},{data:null}])
+  await publishJourneyRecord(fake.client, 7, 11, 'user-1', 'public')
+  expect(fake.calls).toContainEqual(expect.objectContaining({table:'project_journey_records',method:'update',args:[expect.objectContaining({visibility:'public',status:'pending',moderation_state:'pending',published_at:null})]}))
 })

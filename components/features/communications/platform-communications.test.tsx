@@ -136,4 +136,26 @@ describe("PlatformCommunications", () => {
     act(() => blocker.remove());
     expect(await screen.findByRole("dialog")).toHaveTextContent("紧急维护");
   });
+  it("bounds failed welcome retries within each one-minute refresh cycle", async () => {
+    vi.useFakeTimers();
+    const requests = vi.spyOn(global, "fetch").mockImplementation(async () =>
+      Response.json({ error: "service unavailable" }, { status: 500 }),
+    );
+    const view = render(<PlatformCommunications />);
+    const count = (path: string) => requests.mock.calls.filter(([url]) => String(url) === path).length;
+    try {
+      await act(async () => { await vi.advanceTimersByTimeAsync(5_000); });
+      expect(count("/api/welcome")).toBe(3);
+      expect(count("/api/announcements/active")).toBe(1);
+      await act(async () => { await vi.advanceTimersByTimeAsync(54_000); });
+      expect(count("/api/welcome")).toBe(3);
+      await act(async () => { await vi.advanceTimersByTimeAsync(1_000); });
+      expect(count("/api/welcome")).toBe(4);
+      expect(count("/api/announcements/active")).toBe(2);
+    } finally {
+      view.unmount();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
+  });
 });
