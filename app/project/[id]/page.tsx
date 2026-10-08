@@ -30,6 +30,9 @@ import { ProjectDetailStickyBar } from '@/components/features/project/project-de
 import { ProjectDetailMobileHeader } from '@/components/features/project/project-detail-mobile-header'
 import { ProjectSectionNav } from '@/components/features/project/project-section-nav'
 import { ProjectHeroGallery } from '@/components/features/project/project-hero-gallery'
+import { LedCardExtension } from '@/components/features/project/led-card-extension'
+import { ProjectStepCopy } from '@/components/features/project/project-step-copy'
+import { ProjectFaq } from '@/components/features/project/project-faq'
 import { ProjectStepImage } from '@/components/features/project/project-step-image'
 import { FollowButton } from '@/components/features/social/follow-button'
 import { Button } from '@/components/ui/button'
@@ -352,7 +355,7 @@ function StepItem({ step, index }: { step: ProjectStep; index: number }) {
               sizes="(max-width: 1023px) 40vw, (max-width: 1535px) 28vw, 480px"
             />
           ) : null}
-          <p className="whitespace-pre-line text-base leading-7 text-foreground/85 wrap-anywhere">{step.description}</p>
+          <ProjectStepCopy step={step} className="whitespace-pre-line text-base leading-7 text-foreground/85 wrap-anywhere" />
         </div>
       </article>
     </li>
@@ -556,7 +559,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const chip2Label = project.sub_category ?? visibleTags[0] ?? null
   const introTags = project.sub_category ? visibleTags : visibleTags.slice(1)
   const heroGallery = collectHeroGalleryImages(project.image, steps, {
-    coverCaption: project.title,
+    coverCaption: Number(project.id) === 149 ? 'AI 生成的成品示意图；制作方法见步骤。' : project.title,
   }).slice(0, 1)
   const createdAt = validProjectDate(project.createdAt)
   const updatedAt = validProjectDate(project.updatedAt)
@@ -576,6 +579,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           materials,
           steps,
           reflection: project.reflection,
+          faq: project.faq,
           author: authorSummary?.name || project.author,
           authorId: authorSummary?.id || project.author_id,
           dateCreated: createdAt,
@@ -694,6 +698,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 classification={project.classification}
               />
               <MobileProjectIntro key={project.id} summary={projectSummary} tags={introTags} embedded />
+              {Number(project.id) === 149 ? <p className="text-xs leading-5 text-muted-foreground">封面及过程配图为 AI 生成示意图，制作方法见步骤。</p> : null}
               <MobileProjectAuthorRow
                 author={authorSummary}
               />
@@ -714,12 +719,21 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               )}
             </MobileSectionCard>
             <MobileProjectSteps key={project.id} steps={steps} />
-            <ProjectCiteTakeaway
+            {Number(project.id) === 149 ? (
+              <LedCardExtension className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-3" />
+            ) : (
+              <ProjectCiteTakeaway
               category={project.category}
               reflection={project.reflection}
               description={projectSummary}
               className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-3"
             />
+            )}
+            {project.faq?.length ? (
+              <MobileSectionCard id="project-faq-mobile" title={Number(project.id) === 149 ? "故障排查" : "常见问题"}>
+                <ProjectFaq items={project.faq} projectId={project.id} />
+              </MobileSectionCard>
+            ) : null}
             <MobileSectionCard id="project-exploration-records-mobile" title="探索记录">
               <ProjectExplorationRecordsBlock projectId={project.id} completions={completions} />
             </MobileSectionCard>
@@ -763,7 +777,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                     <ContentClassification classification={project.classification} compact />
                   </div>
                   <p className="max-w-3xl whitespace-pre-line text-base leading-7 text-foreground/85">{projectSummary}</p>
-                  {!summaryIsPlaceholder && projectOverview !== projectSummary ? (
+                  {Number(project.id) === 149 ? <p className="text-xs leading-5 text-muted-foreground">封面及过程配图为 AI 生成示意图，制作方法见步骤。</p> : null}
+                  {Number(project.id) !== 149 && !summaryIsPlaceholder && projectOverview !== projectSummary ? (
                     <p data-testid="project-overview" className="max-w-3xl text-sm leading-6 text-muted-foreground">{projectOverview}</p>
                   ) : null}
                   {visibleTags.length ? <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">{visibleTags.map(tag => <span key={tag}>#{tag}</span>)}</div> : null}
@@ -800,7 +815,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   ) : <p className="py-4 text-sm text-muted-foreground">暂无步骤说明</p>}
                 </SectionCard>
               </div>
-              <ProjectCiteTakeaway category={project.category} reflection={project.reflection} description={projectSummary} className="surface-panel rounded-lg px-6 py-4" />
+              {Number(project.id) === 149 ? <LedCardExtension className="surface-panel rounded-lg px-6 py-4" /> : (<ProjectCiteTakeaway category={project.category} reflection={project.reflection} description={projectSummary} className="surface-panel rounded-lg px-6 py-4" />)}
+              {project.faq?.length ? (
+                <SectionCard title={Number(project.id) === 149 ? "故障排查" : "常见问题"}>
+                  <ProjectFaq items={project.faq} projectId={project.id} />
+                </SectionCard>
+              ) : null}
               <section id="project-exploration-records" className="surface-panel scroll-mt-36 overflow-hidden rounded-lg p-6">
                 <h2 className="mb-4 text-xl font-bold tracking-tight">探索记录</h2>
                 <ProjectExplorationRecordsBlock

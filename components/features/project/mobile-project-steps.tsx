@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
 
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { ProjectStepCopy } from "@/components/features/project/project-step-copy"
 import { ProjectStepImage } from "@/components/features/project/project-step-image"
 import type { ProjectStep } from "@/lib/mappers/types"
 
@@ -68,7 +69,7 @@ export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
                       <h3 className="break-words font-sans text-sm font-bold text-foreground">{stepTitle}</h3>
                       {step.description ? (
                         <p className="mt-0.5 line-clamp-2 text-xs leading-4 text-muted-foreground group-open/details:hidden">
-                          {step.description}
+                          {step.checkpoint?.includes(' → ') ? step.description : step.checkpoint || step.description}
                         </p>
                       ) : null}
                     </div>
@@ -98,7 +99,7 @@ export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
                         </div>
                       ) : null}
                       {step.description ? (
-                        <p className="whitespace-pre-line text-sm leading-6 text-foreground/85 wrap-anywhere">{step.description}</p>
+                        <ProjectStepCopy step={step} className="whitespace-pre-line text-sm leading-6 text-foreground/85 wrap-anywhere" />
                       ) : null}
                     </div>
                   )}

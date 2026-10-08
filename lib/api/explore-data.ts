@@ -10,6 +10,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { callRpc } from "@/lib/supabase/rpc";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
 import { isInternalProjectTag } from "@/lib/project/tags";
+import { applyLedCardContent } from "@/lib/project/led-card";
 import {
   mapDbProject,
   mapDbCompletion,
@@ -1241,7 +1242,7 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
-  const project = mapDbProject(data as unknown as ProjectRowForMapper);
+  const project = applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper));
   return classificationSettings.publicV1Enabled ? project : (withoutPublicClassification(project) as Project);
 });
 

@@ -370,10 +370,12 @@ interface ProjectJsonLdInput {
   steps?: Array<{
     title?: string | null;
     description?: string | null;
+    checkpoint?: string;
     image_url?: string | null;
   }> | null;
   materials?: string[] | null;
   reflection?: string | null;
+  faq?: Array<{ question: string; answer: string }> | null;
 }
 
 export function validProjectDate(value: string | null | undefined): string | undefined {
@@ -390,7 +392,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
   const supplies = (project.materials ?? []).map((material) => material.trim()).filter(Boolean);
   const howToSteps = (project.steps ?? []).flatMap((step, index) => {
     const name = step.title?.trim();
-    const text = step.description?.trim();
+    const text = [step.description, step.checkpoint].filter(Boolean).join('\n').trim();
     if (!name && !text) return [];
 
     return [
@@ -461,6 +463,20 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
 }
 
 function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
+  const explicitQuestions = (project.faq ?? [])
+    .map(item => ({ question: item.question.trim(), answer: item.answer.trim() }))
+    .filter(item => item.question && item.answer);
+  if (explicitQuestions.length) {
+    return [{
+      "@type": "FAQPage",
+      url,
+      mainEntity: explicitQuestions.map(item => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    }];
+  }
   const title = project.title.trim();
   const questions: Array<{ question: string; answer: string }> = [];
   const ageLabel = project.classification?.status === "reviewed"
