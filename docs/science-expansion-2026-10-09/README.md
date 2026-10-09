@@ -142,6 +142,8 @@
 - 878个LDraw模型、审核、权限相关文件SHA-256对比一致；LED独立提交 `035f0d21d1f48da7e54879efd20f8d6df0c232f6` 保持干净。
 - 共享科学项目780条完整只读回读，与扩展开始前逐字段一致；无新增、删除或改写。
 - 公开公告GET 200；Supabase配置presence为true，SDK接受当前配置、只读查询返回200；未读取/输出密钥值。
-- 桌面1440px与手机390px逐页验收结果将在结束后补入；浏览器仅允许GET/HEAD/OPTIONS，未登录或触发欢迎、记录、确认等写入。源媒体可读性在视频核验阶段检查，UI回归不重复播放全部媒体。
+- 桌面1440px与手机390px：54个新页面×2、科学指南×2，共110项检查全部通过。核对HTTP 200、无横向溢出、真实步骤全文、HowTo步骤数、2项FAQ、无占位步骤/VideoObject、折叠交互及无页面脚本错误；截图保存于本地验收目录，并抽看各批页面。浏览器仅允许GET/HEAD/OPTIONS，未登录或触发欢迎、记录、确认等写入。源媒体可读性在视频核验阶段检查，UI回归不重复播放全部媒体。
+- 13张新增WebP均HTTP读取成功；4张在主页面检查中完成解码，另9张懒加载图补做浏览器解码并保存可见截图。12条blocked页面均返回200、没有HowTo或dev实验正文。
+- 逐项机器结果：[browser-results.json](browser-results.json)、[blocked-http-results.json](blocked-http-results.json)、[image-results.json](image-results.json)、[browser-image-results.json](browser-image-results.json)、[preservation-results.json](preservation-results.json)。
 
 本轮未push、merge、执行CI、上传OSS或发布生产。dev沿用已授权的现有服务与relay，未新建共享relay或更换环境。
