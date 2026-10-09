@@ -801,3 +801,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `lib/seo/json-ld.ts` 复用 `isPlaceholderProjectStep`，占位视频提示不再产生 HowTo/操作 FAQ；真实步骤重新连续编号。
 - `lib/seo/science-resources.ts`：科学指南优先真实文字步骤，隐藏占位摘要，不按标题硬填内容。dev 优先五页样板；其他环境按近期候选真实内容排序。
 - 逐页视频 SHA-256、时间点、未确认项与 VideoObject 阻碍见 `docs/science-samples-review-2026-10-09.md`。没有真实视频上传日期或已批准可抓取播放方案时不添加 VideoObject；不把项目创建时间当视频上传时间，不把短期签名链接写为永久 contentUrl。
+
+- 2026-10-09 科学扩展：66 条缺材料/步骤的视频项目逐条处理，54 条新稿加原 5 条共 59 条 dev 覆盖，12 条保留阻碍；已完整的 709 条不覆盖。指南最多读取 6 条 dev 候选，避免随目录扩大而全量取详情。批次证据与补充输入清单见 `docs/science-expansion-2026-10-09/`；部分安全对照活动为明确标注的编辑补充，未做实物验证。

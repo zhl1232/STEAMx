@@ -67,7 +67,7 @@ async function loadTopicResources(topic: LearningTopicSlug): Promise<LearningRes
         ];
     }
     if (topic === "science") {
-        const draftIds = scienceSampleIds();
+        const draftIds = scienceSampleIds().slice(0, 6);
         // Review drafts are dev-only. Otherwise rank actual recent detail content;
         // list cards intentionally omit steps and cannot establish completeness.
         const ids = draftIds.length ? draftIds : (await getProjects(

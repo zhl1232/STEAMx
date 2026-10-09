@@ -31,9 +31,11 @@ test('mixed steps retain genuine instructions and consecutive positions', () => 
   expect(result).not.toContain('观看实验视频')
   expect(result).toContain('将白纸剪成两条等宽的纸带')
 })
-test('all five samples expose their actual step count and visible FAQ only', () => {
+test('all reviewed samples expose their actual step count and visible FAQ only', () => {
   vi.stubEnv('NODE_ENV', 'development')
-  expect(scienceSampleIds()).toHaveLength(5)
+  expect(scienceSampleIds()).toHaveLength(59)
+  expect(new Set(scienceSampleIds()).size).toBe(59)
+  expect(scienceSampleIds()).toEqual(expect.arrayContaining([1309, 1323, 1322, 1315, 1295]))
   for (const id of scienceSampleIds()) {
     const sample = getScienceSample(id)!
     const graph = JSON.stringify(buildProjectJsonLd(sample))
