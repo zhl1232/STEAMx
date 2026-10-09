@@ -119,9 +119,15 @@ export interface Project {
     reflection?: string
     problem_statement?: string
     iterations?: Iteration[]
+    faq?: ProjectFaqItem[]
     steam_weights?: SteamWeights | null
     /** 公开三轴；未复核内容为 null。 */
     classification?: PublicClassification | null
+}
+
+export interface ProjectFaqItem {
+    question: string
+    answer: string
 }
 
 /**
@@ -130,6 +136,7 @@ export interface Project {
 export interface ProjectStep {
     title: string
     description: string
+    checkpoint?: string
     image_url?: string
 }
 

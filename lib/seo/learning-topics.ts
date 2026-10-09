@@ -121,7 +121,7 @@ export const LEARNING_TOPICS: readonly LearningTopicDefinition[] = [
         reflection: ["这次只改变了什么？还有哪些条件可能影响结果？", "换一个人做，能得到相似的结果吗？", "你的记录支持什么判断，又有什么还不能确定？"],
         companionNote: "先听孩子的预测，不急着给标准答案。用“你看到了什么”“怎样再确认一次”帮助孩子把想法和证据连接起来；分工时可以轮流操作、观察和记录。",
         resourceHeading: "继续做一个科学项目",
-        resourceIntroduction: "下面是平台近期发布的科学项目。打开详情核对材料、步骤和成人支持要求，再选择适合自己的尝试。",
+        resourceIntroduction: "优先看看有文字步骤的科学项目。打开详情核对材料、步骤和成人支持要求，再选择适合自己的尝试。",
         browseHref: "/explore?category=%E7%A7%91%E5%AD%A6",
         browseLabel: "探索更多科学项目",
         keywords: ["科学实验", "科学小实验", "少儿科学实践", "实验记录", "项目式学习"],

@@ -2,12 +2,12 @@ import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/api/courses", () => ({ listApprovedCourses: vi.fn() }));
-vi.mock("@/lib/api/explore-data", () => ({ getProjects: vi.fn() }));
+vi.mock("@/lib/api/explore-data", () => ({ getProjects: vi.fn(), getProjectById: vi.fn() }));
 vi.mock("@/lib/supabase/server", () => ({ createPublicClient: vi.fn(() => ({ publicOnly: true })) }));
 
 import LearningTopicPage, { generateMetadata } from "./page";
 import { listApprovedCourses } from "@/lib/api/courses";
-import { getProjects } from "@/lib/api/explore-data";
+import { getProjects, getProjectById } from "@/lib/api/explore-data";
 import type { CourseListItem } from "@/lib/courses/types";
 import { LEARNING_TOPICS } from "@/lib/seo/learning-topics";
 
@@ -35,6 +35,7 @@ async function renderTopic(topic: string) {
 
 beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(getProjectById).mockResolvedValue(null);
     vi.mocked(listApprovedCourses).mockResolvedValue([
         makeCourse(10, "大颗粒结构探索", ["building_3d"]),
         makeCourse(20, "Scratch 小故事", ["编程"]),
@@ -172,9 +173,10 @@ describe("learning topic pages", () => {
             hasMore: false,
         });
 
+        vi.mocked(getProjectById).mockResolvedValue({ id: 91, title: "纸桥承重探索", description: "比较不同折法。", author: "作者", author_id: "public-author", image: "", category: "科学", likes: 0, steps: [{ title: "折纸桥", description: "把纸折成折扇形。" }] });
         const document = await renderTopic("science");
 
-        expect(getProjects).toHaveBeenCalledWith({ category: "科学" }, { sortBy: "latest", strictErrors: true, pageSize: 6 });
+        expect(getProjects).toHaveBeenCalledWith({ category: "科学" }, { sortBy: "latest", strictErrors: true, pageSize: 24 });
         expect(document.querySelector('a[href="/project/91"]')).toHaveTextContent("纸桥承重探索");
         expect(listApprovedCourses).not.toHaveBeenCalled();
     });

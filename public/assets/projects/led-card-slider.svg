@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+<title>开合联动滑片：左页带动拉条，铜桥接通或离开固定触点</title>
+<rect width="800" height="800" rx="16" fill="#f6f7f8"/>
+<g font-family="sans-serif" fill="#253445" font-size="27">
+<text x="35" y="48" font-size="32" font-weight="bold">开关局部原理 · 俯视透视示意</text>
+<text x="35" y="91" font-size="23">拉条底面贴铜桥；A、B 固定在右页，互不相连。</text>
+<text x="35" y="143" fill="#176440" font-weight="bold">打开：左页拉动纸条，铜桥同时接触 A、B</text>
+<rect x="35" y="171" width="170" height="210" rx="6" fill="#dceaf5"/><rect x="218" y="171" width="547" height="210" rx="6" fill="#fff" stroke="#a5b2c0"/>
+<path d="M211 165V388" stroke="#60758b" stroke-dasharray="8 8"/>
+<text x="48" y="203" font-size="22">左页</text><text x="676" y="203" font-size="22">右页</text>
+<rect x="111" y="238" width="461" height="92" fill="#e8dfc7" fill-opacity=".75" stroke="#9e9174"/>
+<rect x="108" y="223" width="33" height="123" fill="#a8cbeb" fill-opacity=".85"/>
+<text x="43" y="372" font-size="23">胶带铰点 ↗</text>
+<path d="M442 187V251M504 187V251" stroke="#ad633b" stroke-width="16"/>
+<circle cx="442" cy="263" r="19" fill="#ad633b"/><circle cx="504" cy="263" r="19" fill="#ad633b"/>
+<rect x="416" y="243" width="114" height="45" rx="4" fill="#df925c" stroke="#86451f" stroke-width="3"/>
+<text x="436" y="226" font-size="20">A</text><text x="498" y="226" font-size="20">B</text>
+<path d="M351 242V327M550 242V327" stroke="#91a7b9" stroke-width="24" opacity=".65"/>
+<path d="M331 299H251m0 0 18-12m-18 12 18 12" stroke="#276a4c" stroke-width="4" fill="none"/>
+<text x="416" y="318" font-size="22">底面铜桥</text><text x="568" y="371" font-size="22">纸盖条 / 滑道</text>
+<text x="35" y="435" fill="#705232" font-weight="bold">合上：纸条退向右侧，铜桥离开 A、B</text>
+<rect x="218" y="459" width="547" height="210" rx="6" fill="#fff" stroke="#a5b2c0"/>
+<path d="M211 453V676" stroke="#60758b" stroke-dasharray="8 8"/>
+<text x="38" y="509" font-size="22">左页已翻到</text><text x="38" y="540" font-size="22">右侧（未画）</text>
+<rect x="279" y="526" width="461" height="92" fill="#e8dfc7" fill-opacity=".75" stroke="#9e9174"/>
+<rect x="276" y="511" width="33" height="123" fill="#a8cbeb" fill-opacity=".85"/>
+<path d="M442 475V539M504 475V539" stroke="#ad633b" stroke-width="16"/>
+<circle cx="442" cy="551" r="19" fill="#ad633b"/><circle cx="504" cy="551" r="19" fill="#ad633b"/>
+<rect x="584" y="531" width="114" height="45" rx="4" fill="#df925c" stroke="#86451f" stroke-width="3"/>
+<text x="436" y="514" font-size="20">A</text><text x="498" y="514" font-size="20">B</text>
+<path d="M351 530V615M550 530V615" stroke="#91a7b9" stroke-width="24" opacity=".65"/>
+<path d="M393 601H529m0 0-18-12m18 12-18 12" stroke="#705232" stroke-width="4" fill="none"/>
+<text x="401" y="658" font-size="22">两触点间保持断开</text>
+<text x="35" y="724" font-size="23">接线：电池＋ → A → 铜桥 → B → 电阻 → LED → 电池−</text>
+<text x="35" y="765" font-size="23">按实际开合行程定位，不按图量尺寸；先测试，再封装。</text>
+</g></svg>
