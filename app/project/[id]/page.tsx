@@ -574,7 +574,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     <div className="relative overflow-x-clip bg-[hsl(var(--app-canvas))]">
       <JsonLd
         data={buildProjectJsonLd({
-          faq: scienceSample?.faq,
           id: project.id,
           title: project.title,
           description: projectSummary,
@@ -583,7 +582,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           materials,
           steps,
           reflection: project.reflection,
-          faq: project.faq,
+          faq: scienceSample?.faq ?? project.faq,
           author: authorSummary?.name || project.author,
           authorId: authorSummary?.id || project.author_id,
           dateCreated: createdAt,

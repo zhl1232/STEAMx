@@ -1,0 +1,41 @@
+{
+  "unitTests": {
+    "filesPassed": 405,
+    "filesSkipped": 1,
+    "testsPassed": 2197,
+    "testsSkipped": 31
+  },
+  "typescript": "passed",
+  "ldrawPublishingAndSeoScriptTests": 14,
+  "ledUploadScriptTests": 3,
+  "postgres16IsolationTests": [
+    "roundtrip",
+    "science drift",
+    "lesson drift",
+    "science newer edit",
+    "model newer edit",
+    "unrelated lesson edit preservation",
+    "referenced inserted row blocks rollback"
+  ],
+  "modelPreflight": {
+    "count": 65,
+    "missing": 0,
+    "reviewHashMismatch": 0
+  },
+  "assetReadOnly": {
+    "verified": 0,
+    "404": 52,
+    "503": 19
+  },
+  "productionMutations": false,
+  "pushed": false,
+  "configurationLoadedInOldContainer": false,
+  "build": "passed with CI placeholder database; expected public-data fetch warnings",
+  "browserSmoke": {
+    "passed": 23,
+    "failed": 0,
+    "port": 3094,
+    "realAccounts": false
+  },
+  "publicBranchContainsDatabaseSnapshots": false
+}

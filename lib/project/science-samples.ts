@@ -3,22 +3,33 @@ import samples from './science-samples.data.json'
 
 export type ScienceSample = typeof samples[number]
 
-/** Review drafts only. Never override the shared production database or runtime. */
+/** Reviewed supplemental notes; production instructions are read from the database. */
 export function getScienceSample(id: string | number): ScienceSample | null {
-  if (process.env.NODE_ENV !== 'development') return null
   return samples.find(sample => sample.id === Number(id)) ?? null
 }
 
 export function scienceSampleIds(): number[] {
-  return process.env.NODE_ENV === 'development' ? samples.map(sample => sample.id) : []
+  return samples.map(sample => sample.id)
 }
 
-export function getScienceSampleForProject(project: Pick<Project, 'id' | 'title' | 'category'>): ScienceSample | null {
+export function getScienceSampleForProject(project: Project): ScienceSample | null {
   const sample = getScienceSample(project.id)
-  return sample && project.title === sample.title && project.category === '科学' ? sample : null
+  if (!sample || project.title !== sample.title || project.category !== '科学') return null
+  // Avoid showing newly released notes over stale or concurrently edited instructions.
+  if (process.env.NODE_ENV !== 'development' && (
+    project.description !== sample.description ||
+    JSON.stringify(project.materials) !== JSON.stringify(sample.materials) ||
+    project.steps?.length !== sample.steps.length ||
+    sample.steps.some((step, index) => {
+      const actual = project.steps?.[index]
+      return actual?.title !== step.title || actual?.description !== step.description
+    })
+  )) return null
+  return sample
 }
 
 export function applyScienceSample(project: Project): Project {
+  if (process.env.NODE_ENV !== 'development') return project
   const sample = getScienceSampleForProject(project)
   if (!sample) return project
   return {

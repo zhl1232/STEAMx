@@ -1,0 +1,428 @@
+[
+  {
+    "path": "public/courses/ldraw/3-ai-fei-er-tie-ta.mpd",
+    "key": "courses/ldraw/3-ai-fei-er-tie-ta-6348810d02fb604d0d25f635282982bcdca6c1a7442b0f02e00cf346db8c03f9.mpd",
+    "sha256": "6348810d02fb604d0d25f635282982bcdca6c1a7442b0f02e00cf346db8c03f9",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/3-jing-che.mpd",
+    "key": "courses/ldraw/3-jing-che-145e2fe03af6b9f9f0c20429fcfdafd2f93d310631004f6388bc1c9cb0b1ebf3.mpd",
+    "sha256": "145e2fe03af6b9f9f0c20429fcfdafd2f93d310631004f6388bc1c9cb0b1ebf3",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/3-liang-ting.mpd",
+    "key": "courses/ldraw/3-liang-ting-46542953b275dc0c7df732bd6fbe34450c7dd13bf4824924fca980f36cbc197d.mpd",
+    "sha256": "46542953b275dc0c7df732bd6fbe34450c7dd13bf4824924fca980f36cbc197d",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/3-liu-bing-xie.mpd",
+    "key": "courses/ldraw/3-liu-bing-xie-803ab2f04b35f5f16d95d9765430b3ae8b463f7162b20f533fc36cad6d130432.mpd",
+    "sha256": "803ab2f04b35f5f16d95d9765430b3ae8b463f7162b20f533fc36cad6d130432",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/3-xue-gao-che.mpd",
+    "key": "courses/ldraw/3-xue-gao-che-bbde1366aecffe2384026078f382a3c8afdbc325914ee9950cf2e5daaeadc72d.mpd",
+    "sha256": "bbde1366aecffe2384026078f382a3c8afdbc325914ee9950cf2e5daaeadc72d",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-an-jian-ji.mpd",
+    "key": "courses/ldraw/4-an-jian-ji-007eaf090687fee6bf73c9b43db91aef05b34bf2c37bc9ce5b5b6581b74d4781.mpd",
+    "sha256": "007eaf090687fee6bf73c9b43db91aef05b34bf2c37bc9ce5b5b6581b74d4781",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-ba-wang-long.mpd",
+    "key": "courses/ldraw/4-ba-wang-long-9ed40b3d90aa8493163a6eab4ed22e9fb31ea206a4b91d6cadf4d3059c77600a.mpd",
+    "sha256": "9ed40b3d90aa8493163a6eab4ed22e9fb31ea206a4b91d6cadf4d3059c77600a",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-ban-gong-yi.mpd",
+    "key": "courses/ldraw/4-ban-gong-yi-2b582531c44401c3e22cadb3602e5cfc8e1b0e2de613e428f29d36b0e390e1e0.mpd",
+    "sha256": "2b582531c44401c3e22cadb3602e5cfc8e1b0e2de613e428f29d36b0e390e1e0",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-bao-jian.mpd",
+    "key": "courses/ldraw/4-bao-jian-b2cbc3c6a3b1e6e79680fc5d5ad0ad708bda055bc60af544c15b6bc892b8c4ba.mpd",
+    "sha256": "b2cbc3c6a3b1e6e79680fc5d5ad0ad708bda055bc60af544c15b6bc892b8c4ba",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-chong-wu-gou.mpd",
+    "key": "courses/ldraw/4-chong-wu-gou-570165c62110dbcb7955d3e16f213ef47c420e814b808047c51c78c19d56eace.mpd",
+    "sha256": "570165c62110dbcb7955d3e16f213ef47c420e814b808047c51c78c19d56eace",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-da-wen-zi.mpd",
+    "key": "courses/ldraw/4-da-wen-zi-433169422e020a71df7ef0c38a2d060db79a8a5e09380a9df0931c3a024d97b6.mpd",
+    "sha256": "433169422e020a71df7ef0c38a2d060db79a8a5e09380a9df0931c3a024d97b6",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-da-zha-xie.mpd",
+    "key": "courses/ldraw/4-da-zha-xie-0a4779b4e71635ba5134913b5a7d2d6971135445a8506b4ae2e5855e9f8cc4b3.mpd",
+    "sha256": "0a4779b4e71635ba5134913b5a7d2d6971135445a8506b4ae2e5855e9f8cc4b3",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-deng-long.mpd",
+    "key": "courses/ldraw/4-deng-long-c30132150234459a43b60c14722b73834dee66656f383aeee4e69846e6848528.mpd",
+    "sha256": "c30132150234459a43b60c14722b73834dee66656f383aeee4e69846e6848528",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-dian-hua-ji.mpd",
+    "key": "courses/ldraw/4-dian-hua-ji-2c1f2a56c72121e9c6bb1ce0971eef159acef768ebd6bd0d7f26a31aad9670f5.mpd",
+    "sha256": "2c1f2a56c72121e9c6bb1ce0971eef159acef768ebd6bd0d7f26a31aad9670f5",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-dong-fang-ming-zhu.mpd",
+    "key": "courses/ldraw/4-dong-fang-ming-zhu-441aa0a9f411f5845da65075408d3a4417101726d15a51168ce6be0f323fbb64.mpd",
+    "sha256": "441aa0a9f411f5845da65075408d3a4417101726d15a51168ce6be0f323fbb64",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-er-hu.mpd",
+    "key": "courses/ldraw/4-er-hu-4854f73d534a5c35b1a14daa9282290831c790445de46bfeb63e3bd300840789.mpd",
+    "sha256": "4854f73d534a5c35b1a14daa9282290831c790445de46bfeb63e3bd300840789",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-er-tong-hua-ban-che.mpd",
+    "key": "courses/ldraw/4-er-tong-hua-ban-che-8c806987f3490bf3df7aa4c2d41e45c0cc1190e1baee778a1570fbea3dad3919.mpd",
+    "sha256": "8c806987f3490bf3df7aa4c2d41e45c0cc1190e1baee778a1570fbea3dad3919",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-fan-chuan.mpd",
+    "key": "courses/ldraw/4-fan-chuan-a1dfd77e597eb3f4db8f4690c6149a42b0529965c90c8cf218617a38a897fa8a.mpd",
+    "sha256": "a1dfd77e597eb3f4db8f4690c6149a42b0529965c90c8cf218617a38a897fa8a",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-fan-dou-che.mpd",
+    "key": "courses/ldraw/4-fan-dou-che-970cf8d6faf17682912ac6379fdb4e2d5aa9198d5c42e93415304342c3ced7fe.mpd",
+    "sha256": "970cf8d6faf17682912ac6379fdb4e2d5aa9198d5c42e93415304342c3ced7fe",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-fei-die.mpd",
+    "key": "courses/ldraw/4-fei-die-a9988c9c88a3517e9e6b9f50166f2db5a40dc2f066f82d7084b28d8133522ede.mpd",
+    "sha256": "a9988c9c88a3517e9e6b9f50166f2db5a40dc2f066f82d7084b28d8133522ede",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-feng-che-fang.mpd",
+    "key": "courses/ldraw/4-feng-che-fang-120bfc2761d8faef79f9b96248665230dcae06e13c5c5caff6e5a9a3ec584a37.mpd",
+    "sha256": "120bfc2761d8faef79f9b96248665230dcae06e13c5c5caff6e5a9a3ec584a37",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-gao-tie-zhan.mpd",
+    "key": "courses/ldraw/4-gao-tie-zhan-77e26657c17fd1ef8bb97e8f7d1355bb4647c61d4bd78fc8da7fb613e4f97abd.mpd",
+    "sha256": "77e26657c17fd1ef8bb97e8f7d1355bb4647c61d4bd78fc8da7fb613e4f97abd",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-gong-jian.mpd",
+    "key": "courses/ldraw/4-gong-jian-ef2a62629b5e701f77610214fadc7f035bf1b77a82a193cf564e00ba247090ec.mpd",
+    "sha256": "ef2a62629b5e701f77610214fadc7f035bf1b77a82a193cf564e00ba247090ec",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-gou-wu-che.mpd",
+    "key": "courses/ldraw/4-gou-wu-che-1ce547319a1d8757eee8b079f8844e1f7d5bfd9604b91012293d802be61d1c11.mpd",
+    "sha256": "1ce547319a1d8757eee8b079f8844e1f7d5bfd9604b91012293d802be61d1c11",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-hai-shi.mpd",
+    "key": "courses/ldraw/4-hai-shi-f4950208d39a8c3f057b34eacaa1ed18afa272cebec5be32739e0d5029c906a5.mpd",
+    "sha256": "f4950208d39a8c3f057b34eacaa1ed18afa272cebec5be32739e0d5029c906a5",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-han-xue-bao-ma.mpd",
+    "key": "courses/ldraw/4-han-xue-bao-ma-657ffe15aeb73cc9d549e18ccc96f40b1b11c4a2fa9a67d5f89cdc41b9d7f86b.mpd",
+    "sha256": "657ffe15aeb73cc9d549e18ccc96f40b1b11c4a2fa9a67d5f89cdc41b9d7f86b",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-hu-die.mpd",
+    "key": "courses/ldraw/4-hu-die-bb210744f8402d15b60e3d260747b4bc60ff4a679e67863dc9120a4aa59436a5.mpd",
+    "sha256": "bb210744f8402d15b60e3d260747b4bc60ff4a679e67863dc9120a4aa59436a5",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-hua-ban.mpd",
+    "key": "courses/ldraw/4-hua-ban-33af6f634d82002944b0384824723fa252b0f1b0bac7f3ba3c8aceaa6708f7c5.mpd",
+    "sha256": "33af6f634d82002944b0384824723fa252b0f1b0bac7f3ba3c8aceaa6708f7c5",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-hua-kai-hua-luo.mpd",
+    "key": "courses/ldraw/4-hua-kai-hua-luo-2078d9d4f778b90c7c7f1dc5768e0fd95aed82b35acffbe5797bea9cdb7f3424.mpd",
+    "sha256": "2078d9d4f778b90c7c7f1dc5768e0fd95aed82b35acffbe5797bea9cdb7f3424",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-huang-bao-che.mpd",
+    "key": "courses/ldraw/4-huang-bao-che-b341888ff71e41879f63dce9db6306d36ff918116af177e6371535bbcfa47a14.mpd",
+    "sha256": "b341888ff71e41879f63dce9db6306d36ff918116af177e6371535bbcfa47a14",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-huo-jian.mpd",
+    "key": "courses/ldraw/4-huo-jian-ba1eeeb67abed774bf0b77cc808cb196e8a6b7720cd1be24cb296f9330a14484.mpd",
+    "sha256": "ba1eeeb67abed774bf0b77cc808cb196e8a6b7720cd1be24cb296f9330a14484",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-ji-ta.mpd",
+    "key": "courses/ldraw/4-ji-ta-fd6aafaf71d037cd937845453c9e6fe69f387954c76f33be12e64d9c18778793.mpd",
+    "sha256": "fd6aafaf71d037cd937845453c9e6fe69f387954c76f33be12e64d9c18778793",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-jiu-hu-che.mpd",
+    "key": "courses/ldraw/4-jiu-hu-che-f95abf5b8a10a411210c725c8c99d526a8e8bf0c0f171d7a76d170e0bb9fbdd0.mpd",
+    "sha256": "f95abf5b8a10a411210c725c8c99d526a8e8bf0c0f171d7a76d170e0bb9fbdd0",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-la-ji-fen-lei.mpd",
+    "key": "courses/ldraw/4-la-ji-fen-lei-ebd2aa799bc3b4d667f56e3e441fa644ee37b5782790bbb782c361014e60033d.mpd",
+    "sha256": "ebd2aa799bc3b4d667f56e3e441fa644ee37b5782790bbb782c361014e60033d",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-lan-qiu-jia.mpd",
+    "key": "courses/ldraw/4-lan-qiu-jia-0960a67095b261b99f9db709dde99e6d836827358ba28ea4d53af69102bde1b2.mpd",
+    "sha256": "0960a67095b261b99f9db709dde99e6d836827358ba28ea4d53af69102bde1b2",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-lei-da.mpd",
+    "key": "courses/ldraw/4-lei-da-b32882ea6f6211187eca75bdcce8abe7cce4d4875825a01ec3ccbbbab566163a.mpd",
+    "sha256": "b32882ea6f6211187eca75bdcce8abe7cce4d4875825a01ec3ccbbbab566163a",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-long-zhou.mpd",
+    "key": "courses/ldraw/4-long-zhou-ee2273f0f46c044f40feddf3fb5e930a2be6c088bfa1cd8c1d8c2d66e2bad618.mpd",
+    "sha256": "ee2273f0f46c044f40feddf3fb5e930a2be6c088bfa1cd8c1d8c2d66e2bad618",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-lu-yin-ji.mpd",
+    "key": "courses/ldraw/4-lu-yin-ji-56a80b9d775cde86576714909c2eca6f59511b3341f81295607bdc8046253bb1.mpd",
+    "sha256": "56a80b9d775cde86576714909c2eca6f59511b3341f81295607bdc8046253bb1",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-luo-tuo.mpd",
+    "key": "courses/ldraw/4-luo-tuo-cf139c589d9727f5dbdf9bb7faa6e2575619deb3c73ac19be8f9267ad6db2ef2.mpd",
+    "sha256": "cf139c589d9727f5dbdf9bb7faa6e2575619deb3c73ac19be8f9267ad6db2ef2",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-pang-xie.mpd",
+    "key": "courses/ldraw/4-pang-xie-670b39751dd7d4e5b48433057fdc51ba717ebd4f66b2ed628106d86c292b14d6.mpd",
+    "sha256": "670b39751dd7d4e5b48433057fdc51ba717ebd4f66b2ed628106d86c292b14d6",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-re-qi-qiu.mpd",
+    "key": "courses/ldraw/4-re-qi-qiu-5d716fa3187c0c40a9f02f33bd820a47029a7d85b8454d13d5b2de221cd47fcb.mpd",
+    "sha256": "5d716fa3187c0c40a9f02f33bd820a47029a7d85b8454d13d5b2de221cd47fcb",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-she-xiang-ji.mpd",
+    "key": "courses/ldraw/4-she-xiang-ji-327386f04365e8a538f757cac86f90b0c334e3f0c24a70b57afd4b5947870fc1.mpd",
+    "sha256": "327386f04365e8a538f757cac86f90b0c334e3f0c24a70b57afd4b5947870fc1",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-shi-zi-wang.mpd",
+    "key": "courses/ldraw/4-shi-zi-wang-71964d8f34e4e5c86eb28148b139971297bd67619fac34723493c65802f4a65c.mpd",
+    "sha256": "71964d8f34e4e5c86eb28148b139971297bd67619fac34723493c65802f4a65c",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-shu-bao.mpd",
+    "key": "courses/ldraw/4-shu-bao-e5cdca54cd5d1ab028552f00ea03ac79288041b757c2fa623e658aedce8ba938.mpd",
+    "sha256": "e5cdca54cd5d1ab028552f00ea03ac79288041b757c2fa623e658aedce8ba938",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-shuang-ceng-ba-shi.mpd",
+    "key": "courses/ldraw/4-shuang-ceng-ba-shi-a13353b5108d0643466547ed94fce23c7a833c2e0b016872a6688c9f923c061c.mpd",
+    "sha256": "a13353b5108d0643466547ed94fce23c7a833c2e0b016872a6688c9f923c061c",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-tai-deng.mpd",
+    "key": "courses/ldraw/4-tai-deng-36d64fbaf6c90a05456962f32aa5741552a66dd47dc12724c61316041197ff9d.mpd",
+    "sha256": "36d64fbaf6c90a05456962f32aa5741552a66dd47dc12724c61316041197ff9d",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-tai-yang-neng-re-shui-qi.mpd",
+    "key": "courses/ldraw/4-tai-yang-neng-re-shui-qi-f20291e20c9107b13c938e760f8d082eafac8e62173b3235a986b850393f26d9.mpd",
+    "sha256": "f20291e20c9107b13c938e760f8d082eafac8e62173b3235a986b850393f26d9",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-tan-ke.mpd",
+    "key": "courses/ldraw/4-tan-ke-2b62f1e903de974ed0849ec79767971a36cc8fab6e2b40c6f3eec2869bfb53ae.mpd",
+    "sha256": "2b62f1e903de974ed0849ec79767971a36cc8fab6e2b40c6f3eec2869bfb53ae",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-tian-ping.mpd",
+    "key": "courses/ldraw/4-tian-ping-9275d6f5315dbdb33f160fd4b76053bbde03c2b13a5ef5d021f0b2cc9b9237d1.mpd",
+    "sha256": "9275d6f5315dbdb33f160fd4b76053bbde03c2b13a5ef5d021f0b2cc9b9237d1",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-tuo-niao.mpd",
+    "key": "courses/ldraw/4-tuo-niao-9273e4b43ab8bcb9ce9622ca88e554fc28fccf2ec54a9c4f5a705906bd7042c6.mpd",
+    "sha256": "9273e4b43ab8bcb9ce9622ca88e554fc28fccf2ec54a9c4f5a705906bd7042c6",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-wa-tu-ji.mpd",
+    "key": "courses/ldraw/4-wa-tu-ji-d4de062124456a621c1f1c30ed4b710eddd1566002734b0fefdd0e436409a96c.mpd",
+    "sha256": "d4de062124456a621c1f1c30ed4b710eddd1566002734b0fefdd0e436409a96c",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-wai-xing-tan-ce-qi.mpd",
+    "key": "courses/ldraw/4-wai-xing-tan-ce-qi-da4f46af47724732bc808b02084c0ef57194013e88ef16424317581495b8f208.mpd",
+    "sha256": "da4f46af47724732bc808b02084c0ef57194013e88ef16424317581495b8f208",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-wan-long.mpd",
+    "key": "courses/ldraw/4-wan-long-398fa97e01e866bf12d8fdbc054e1b75b753179c01de753b128a937fe3eb63fa.mpd",
+    "sha256": "398fa97e01e866bf12d8fdbc054e1b75b753179c01de753b128a937fe3eb63fa",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-wang-yuan-jing.mpd",
+    "key": "courses/ldraw/4-wang-yuan-jing-43025ef643ecd9c4d7afea82ea8bbf41dee2b8d54ddf1cf17f2bbb2e3badc427.mpd",
+    "sha256": "43025ef643ecd9c4d7afea82ea8bbf41dee2b8d54ddf1cf17f2bbb2e3badc427",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-xian-wei-jing.mpd",
+    "key": "courses/ldraw/4-xian-wei-jing-41249f4eda81f3e4bcf650875c4247bdedd4a121bdbcf5266818f1aa865b0799.mpd",
+    "sha256": "41249f4eda81f3e4bcf650875c4247bdedd4a121bdbcf5266818f1aa865b0799",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-xie-la-qiao.mpd",
+    "key": "courses/ldraw/4-xie-la-qiao-f5a10d28f895eef207fa325e0ccee31825c2233f6629323c7c19a5e35eddb6db.mpd",
+    "sha256": "f5a10d28f895eef207fa325e0ccee31825c2233f6629323c7c19a5e35eddb6db",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-xing-li-xiang.mpd",
+    "key": "courses/ldraw/4-xing-li-xiang-cd0270f5ffff27de0a204ced2f0f25f26da82716177501d03f9fb3699fdfe05c.mpd",
+    "sha256": "cd0270f5ffff27de0a204ced2f0f25f26da82716177501d03f9fb3699fdfe05c",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-xuan-zhuan-mu-ma.mpd",
+    "key": "courses/ldraw/4-xuan-zhuan-mu-ma-9db52a8b7417ca9d70a68a2e9a3188b32bc130fb4c280d04f934d186d4223f16.mpd",
+    "sha256": "9db52a8b7417ca9d70a68a2e9a3188b32bc130fb4c280d04f934d186d4223f16",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-ying-er-che.mpd",
+    "key": "courses/ldraw/4-ying-er-che-5dd0c21776f7301091807e8657cb9073641074551d3e68104b6b66c4be31c139.mpd",
+    "sha256": "5dd0c21776f7301091807e8657cb9073641074551d3e68104b6b66c4be31c139",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/4-zhang-yu.mpd",
+    "key": "courses/ldraw/4-zhang-yu-2f5a7554903d6fecb593df016b3d046d41274d81d234334acb627a45d90fa585.mpd",
+    "sha256": "2f5a7554903d6fecb593df016b3d046d41274d81d234334acb627a45d90fa585",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/5-da-bai-chui.mpd",
+    "key": "courses/ldraw/5-da-bai-chui-b13c0a6fa59b4c3a055ae04bd291f1430f419d321b7bd4bd22b2e21ed73eefa9.mpd",
+    "sha256": "b13c0a6fa59b4c3a055ae04bd291f1430f419d321b7bd4bd22b2e21ed73eefa9",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/5-du-lun-shou-tui-che.mpd",
+    "key": "courses/ldraw/5-du-lun-shou-tui-che-1469f221b5666ac83fd87987eba48d3f2b00b57f19b23665c70a7a562052ef74.mpd",
+    "sha256": "1469f221b5666ac83fd87987eba48d3f2b00b57f19b23665c70a7a562052ef74",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/5-shen-suo-men.mpd",
+    "key": "courses/ldraw/5-shen-suo-men-314dad17a901b4ec59c32ca4b1ee51bbabaa47c1541b22de01d2ce06471f324a.mpd",
+    "sha256": "314dad17a901b4ec59c32ca4b1ee51bbabaa47c1541b22de01d2ce06471f324a",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/5-shi-zi-zha-men.mpd",
+    "key": "courses/ldraw/5-shi-zi-zha-men-31ff2ffad2d23ff0fb5c395fdef8ab41748e412c1ea3a34b00f0bee81b2f4a10.mpd",
+    "sha256": "31ff2ffad2d23ff0fb5c395fdef8ab41748e412c1ea3a34b00f0bee81b2f4a10",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/5-tuo-luo-da-zhan.mpd",
+    "key": "courses/ldraw/5-tuo-luo-da-zhan-fc699ea4c5ddc2b59b90469e4b5e3ad905c9e0dece83430645c243c4f7cf6484.mpd",
+    "sha256": "fc699ea4c5ddc2b59b90469e4b5e3ad905c9e0dece83430645c243c4f7cf6484",
+    "kind": "ldraw"
+  },
+  {
+    "path": "public/courses/ldraw/LDConfig.ldr",
+    "key": "courses/ldraw/LDConfig-1c41cfed43b935de8b2113d9e9617e786aacadb0b0329cea2842032fdf166905.ldr",
+    "sha256": "1c41cfed43b935de8b2113d9e9617e786aacadb0b0329cea2842032fdf166905",
+    "kind": "color"
+  },
+  {
+    "path": "public/projects/generated/project-0149-led-star-cover-20261008.webp",
+    "key": "projects/generated/project-0149-led-star-cover-20261008.webp",
+    "sha256": "a6ba154df9a50b5fa7cba5183f486cea9140970e242c99e31a94cc3a3843d110",
+    "kind": "led"
+  },
+  {
+    "path": "public/projects/steps/project-0149-copper-blue-20261008.webp",
+    "key": "projects/steps/project-0149-copper-blue-20261008.webp",
+    "sha256": "b47e296128cba8f76dde201a8981c4fa25700087e2725af606fb8e41616e5bbc",
+    "kind": "led"
+  },
+  {
+    "path": "public/projects/steps/project-0149-decorate-blue-20261008.webp",
+    "key": "projects/steps/project-0149-decorate-blue-20261008.webp",
+    "sha256": "65d12b4454161fdca9ca39232c9c577a3061de33600f77aef5dd1499062859b8",
+    "kind": "led"
+  },
+  {
+    "path": "public/projects/steps/project-0149-design-blue-20261008.webp",
+    "key": "projects/steps/project-0149-design-blue-20261008.webp",
+    "sha256": "dc52289e605867d818bd9bb79e53c4f1e430774cd88554580cc3385a2e010b7e",
+    "kind": "led"
+  },
+  {
+    "path": "public/projects/steps/project-0149-led-blue-20261008.webp",
+    "key": "projects/steps/project-0149-led-blue-20261008.webp",
+    "sha256": "39a21acb2cfb66168c9cab647e1cf470bcef12a376d9f64a0a74892c0d2df3cb",
+    "kind": "led"
+  }
+]
