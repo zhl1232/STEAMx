@@ -1,3 +1,5 @@
+import { getScienceSampleForProject } from '@/lib/project/science-samples'
+import { ScienceProjectNotes, ScienceProjectSafety } from '@/components/features/project/science-project-notes'
 import type { ReactNode } from 'react'
 
 import Link from 'next/link'
@@ -510,6 +512,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   ])
 
   const rawMaterials = project.materials ?? []
+  const scienceSample = getScienceSampleForProject(project)
   const rawSteps = project.steps ?? []
   const videoPlaybackSrc = resolveProjectVideoPlaybackSrc({
     videoUrl: project.videoUrl,
@@ -571,6 +574,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     <div className="relative overflow-x-clip bg-[hsl(var(--app-canvas))]">
       <JsonLd
         data={buildProjectJsonLd({
+          faq: scienceSample?.faq,
           id: project.id,
           title: project.title,
           description: projectSummary,
@@ -718,8 +722,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </>
               )}
             </MobileSectionCard>
+            {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
             <MobileProjectSteps key={project.id} steps={steps} />
-            {Number(project.id) === 149 ? (
+            {scienceSample ? <ScienceProjectNotes sample={scienceSample} /> : Number(project.id) === 149 ? (
               <LedCardExtension className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-3" />
             ) : (
               <ProjectCiteTakeaway
@@ -808,6 +813,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded />
                 </SectionCard>
               </div>
+              {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
               <div id="project-steps" className="scroll-mt-36">
                 <SectionCard title={`制作步骤${steps.length ? `（共 ${steps.length} 步）` : ''}`}>
                   {steps.length ? (
@@ -815,7 +821,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   ) : <p className="py-4 text-sm text-muted-foreground">暂无步骤说明</p>}
                 </SectionCard>
               </div>
-              {Number(project.id) === 149 ? <LedCardExtension className="surface-panel rounded-lg px-6 py-4" /> : (<ProjectCiteTakeaway category={project.category} reflection={project.reflection} description={projectSummary} className="surface-panel rounded-lg px-6 py-4" />)}
+              {scienceSample ? <ScienceProjectNotes sample={scienceSample} /> : Number(project.id) === 149 ? <LedCardExtension className="surface-panel rounded-lg px-6 py-4" /> : (<ProjectCiteTakeaway category={project.category} reflection={project.reflection} description={projectSummary} className="surface-panel rounded-lg px-6 py-4" />)}
               {project.faq?.length ? (
                 <SectionCard title={Number(project.id) === 149 ? "故障排查" : "常见问题"}>
                   <ProjectFaq items={project.faq} projectId={project.id} />

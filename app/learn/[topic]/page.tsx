@@ -1,3 +1,6 @@
+import { scienceSampleIds } from '@/lib/project/science-samples';
+import { selectScienceResources, scienceResourceSummary } from '@/lib/seo/science-resources';
+import { isPlaceholderProjectStep } from '@/lib/seo/project-description';
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
@@ -6,7 +9,7 @@ import { ArrowRight, Blocks, Code2, FlaskConical, Leaf } from "lucide-react";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { listApprovedCourses } from "@/lib/api/courses";
-import { getProjects } from "@/lib/api/explore-data";
+import { getProjectById, getProjects } from "@/lib/api/explore-data";
 import type { CourseListItem } from "@/lib/courses/types";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import {
@@ -64,16 +67,22 @@ async function loadTopicResources(topic: LearningTopicSlug): Promise<LearningRes
         ];
     }
     if (topic === "science") {
-        const { projects } = await getProjects(
+        const draftIds = scienceSampleIds();
+        // Review drafts are dev-only. Otherwise rank actual recent detail content;
+        // list cards intentionally omit steps and cannot establish completeness.
+        const ids = draftIds.length ? draftIds : (await getProjects(
             { category: "科学" },
-            { sortBy: "latest", strictErrors: true, pageSize: 6 },
-        );
-        return projects.map((project) => ({
+            { sortBy: "latest", strictErrors: true, pageSize: 24 },
+        )).projects.map(project => project.id);
+        const candidates = (await Promise.all(ids.map(id => getProjectById(id))))
+            .filter((project): project is NonNullable<typeof project> => project !== null);
+        return selectScienceResources(candidates).map((project) => ({
             id: project.id,
             title: project.title,
-            description: project.description,
+            description: scienceResourceSummary(project),
             href: `/project/${project.id}`,
-            detail: "科学项目",
+            detail: project.steps?.some(step => !isPlaceholderProjectStep(step))
+                ? "有文字步骤" : "视频项目 · 请先核对操作说明",
         }));
     }
 

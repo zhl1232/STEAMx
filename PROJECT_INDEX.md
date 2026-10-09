@@ -793,3 +793,11 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ### 实物交易本地验证
 
 `node scripts/test-store-native.mjs` 使用一次性 Docker PostgreSQL 验证真实数据库并发、幂等、库存、退货退款和目录原子性（含付款后旧表单冲突、最新版本库存调整及并发管理员保存）；`lib/store/payment-flow.test.ts`、`lib/store/payments/*.test.ts` 与 `components/{store,admin}/` 对应测试验证通道协议及 UI 请求。所有凭证和开关说明见 `.env.example`，本批不部署、不执行远端迁移、不发起真实收款。
+
+## 科学实验 dev 样板（2026-10-09）
+
+- `lib/project/science-samples.data.json` / `science-samples.ts`：1309、1323、1322、1315、1295 视频核对重述稿，仅 `NODE_ENV=development` 覆盖详情读取结果；不写共享 Supabase、不改变生产运行时。独立分支 `science-samples-20261009`。
+- `components/features/project/science-project-notes.tsx`：基础步骤前的具体安全提示，以及观察、短原理、折叠拓展和真实问题；结构化 FAQ 与可见问题使用同一份数据。
+- `lib/seo/json-ld.ts` 复用 `isPlaceholderProjectStep`，占位视频提示不再产生 HowTo/操作 FAQ；真实步骤重新连续编号。
+- `lib/seo/science-resources.ts`：科学指南优先真实文字步骤，隐藏占位摘要，不按标题硬填内容。dev 优先五页样板；其他环境按近期候选真实内容排序。
+- 逐页视频 SHA-256、时间点、未确认项与 VideoObject 阻碍见 `docs/science-samples-review-2026-10-09.md`。没有真实视频上传日期或已批准可抓取播放方案时不添加 VideoObject；不把项目创建时间当视频上传时间，不把短期签名链接写为永久 contentUrl。

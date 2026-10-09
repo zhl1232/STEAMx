@@ -1,3 +1,4 @@
+import { isPlaceholderProjectStep } from '@/lib/seo/project-description';
 import { toPublicImageUrl as toAbsoluteMediaUrl } from "@/lib/seo/public-image";
 import { BRAND_ALTERNATE_NAMES, BRAND_POSITIONING, BRAND_SAME_AS, BRAND_TAGLINE } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
@@ -390,7 +391,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
   const description = project.description?.trim() || undefined;
   const classificationFields = buildClassificationJsonLd(project.classification);
   const supplies = (project.materials ?? []).map((material) => material.trim()).filter(Boolean);
-  const howToSteps = (project.steps ?? []).flatMap((step, index) => {
+  const howToSteps = (project.steps ?? []).filter(step => !isPlaceholderProjectStep(step)).flatMap((step, index) => {
     const name = step.title?.trim();
     const text = [step.description, step.checkpoint].filter(Boolean).join('\n').trim();
     if (!name && !text) return [];
@@ -463,20 +464,14 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
 }
 
 function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
-  const explicitQuestions = (project.faq ?? [])
-    .map(item => ({ question: item.question.trim(), answer: item.answer.trim() }))
-    .filter(item => item.question && item.answer);
-  if (explicitQuestions.length) {
-    return [{
-      "@type": "FAQPage",
-      url,
-      mainEntity: explicitQuestions.map(item => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    }];
+  if (project.faq) {
+    const items = project.faq.filter(item => item.question.trim() && item.answer.trim());
+    return items.length ? [{ '@type': 'FAQPage', url, mainEntity: items.map(item => ({
+      '@type': 'Question', name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })) }] : [];
   }
+  const realSteps = (project.steps ?? []).filter(step => !isPlaceholderProjectStep(step));
   const title = project.title.trim();
   const questions: Array<{ question: string; answer: string }> = [];
   const ageLabel = project.classification?.status === "reviewed"
@@ -485,17 +480,17 @@ function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
   if (ageLabel) {
     questions.push({
       question: `${title}适合几岁？`,
-      answer: `${title}适合${ageLabel}，在 ${SITE_NAME} 上可以按步骤完成。`,
+      answer: `${title}适合${ageLabel}。${realSteps.length ? `在 ${SITE_NAME} 上可以按步骤完成。` : "操作前请核对材料和视频说明。"}`,
     });
   }
-  const materials = (project.materials ?? []).map((item) => item.trim()).filter(Boolean);
+  const materials = (project.materials ?? []).map((item) => item.trim()).filter(item => Boolean(item) && !/^[（(]?见(?:实验说明|视频)[）)]?[。！.!]?$/u.test(item));
   if (materials.length > 0) {
     questions.push({
       question: `${title}需要哪些材料？`,
       answer: `${title}需要：${materials.join("、")}。`,
     });
   }
-  const firstStep = (project.steps ?? []).find((step) => step.title?.trim() || step.description?.trim());
+  const firstStep = realSteps.find((step) => step.title?.trim() || step.description?.trim());
   if (firstStep) {
     const stepText = (firstStep.description?.trim() || firstStep.title?.trim() || "");
     questions.push({

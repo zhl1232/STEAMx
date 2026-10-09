@@ -1,3 +1,4 @@
+import { applyScienceSample } from '@/lib/project/science-samples';
 /**
  * 探索页面数据获取函数
  * 用于服务端组件中获取项目列表
@@ -1242,7 +1243,7 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
-  const project = applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper));
+  const project = applyScienceSample(applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper)));
   return classificationSettings.publicV1Enabled ? project : (withoutPublicClassification(project) as Project);
 });
 
