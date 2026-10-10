@@ -13,7 +13,7 @@ const SUMMARY_GRID_WITH_THUMB =
 const SUMMARY_GRID_NO_THUMB =
   "grid min-h-[54px] cursor-pointer list-none grid-cols-[30px_minmax(0,1fr)_20px] items-center gap-2.5 px-2.5 py-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
 
-export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
+export function MobileProjectSteps({ steps, practicePending = false, observationOnly = false }: { steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
   const [openStates, setOpenStates] = useState<boolean[]>(() => steps.map((_, index) => index === 0))
   const allExpanded = steps.length > 0 && openStates.length === steps.length && openStates.every(Boolean)
   const toggleExpandAll = () => {
@@ -27,7 +27,7 @@ export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">
-          {`探索步骤${steps.length > 0 ? `（共 ${steps.length} 步）` : ""}`}
+          {`${practicePending ? "实践准备" : observationOnly ? "观看要点" : "探索步骤"}${!practicePending && steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
         </h2>
         {steps.length > 0 ? (
           <button
@@ -43,7 +43,7 @@ export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
       {steps.length > 0 ? (
         <ol className="space-y-2">
           {steps.map((step, index) => {
-            const stepTitle = step.title || `步骤 ${index + 1}`
+            const stepTitle = step.title || `${observationOnly ? "观看要点" : "步骤"} ${index + 1}`
             const imageUrl = step.image_url
             const displayIndex = index + 1
 
@@ -110,7 +110,7 @@ export function MobileProjectSteps({ steps }: { steps: ProjectStep[] }) {
         </ol>
       ) : (
         <div className="rounded-sm border border-dashed border-border bg-background/50 px-5 py-8 text-center text-sm text-muted-foreground">
-          暂无步骤说明
+          {observationOnly ? "暂无观看要点" : "暂无步骤说明"}
         </div>
       )}
     </section>

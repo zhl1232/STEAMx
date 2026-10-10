@@ -1,3 +1,4 @@
+import { getScienceTutorContent } from './science-context'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
@@ -609,12 +610,14 @@ async function buildProjectContext(
     supabase.from('project_materials').select('material').eq('project_id', projectId).limit(12),
   ])
 
+  const science = getScienceTutorContent(projectId, project.title, project.category)
+
   // 社区项目的标题、简介、步骤、材料都是创作者可编辑的不可信文本，统一清洗
-  const stepSummary = (steps ?? [])
+  const stepSummary = (science?.steps ?? steps ?? [])
     .map((step, i) => `第${i + 1}步「${sanitizeTutorUGC(step.title ?? '步骤', 40) || '步骤'}」：${sanitizeTutorUGC(step.description, 100)}`)
     .join('\n')
 
-  const materialText = (materials ?? [])
+  const materialText = (science ? science.materials.map(material => ({ material })) : materials ?? [])
     .map((m) => sanitizeTutorUGC(m.material, 40))
     .filter(Boolean)
     .join('、')
@@ -626,11 +629,16 @@ async function buildProjectContext(
     classification?.ageLabel ? `适龄：${classification.ageLabel}` : '',
     classification?.supportLabel ? `成人支持：${classification.supportLabel}` : '',
     classification?.difficultyLabel ? `难度：${classification.difficultyLabel}` : '',
-    project.description ? `简介：${sanitizeTutorUGC(project.description, 300)}` : '',
+    (science?.description ?? project.description) ? `简介：${sanitizeTutorUGC(science?.description ?? project.description, 300)}` : '',
     project.problem_statement ? `问题：${sanitizeTutorUGC(project.problem_statement, 200)}` : '',
+    science ? `页面拓展：${science.extension}\n页面可选提问：${science.questions.join("；")}\n页面观察：${science.observation}\n页面原理：${science.principle}\n安全提示：${science.safety}` : '',
     materialText ? `材料：${materialText}` : '',
-    stepSummary ? `页面步骤（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
-    `【学生页面上有】项目详情、材料清单和步骤列表。${buildStepReferenceInstruction('项目步骤')}需要学生动手时，直接引导他看页面里的材料清单或对应步骤标题，不要把整页内容重新念一遍。`,
+    stepSummary ? `页面${science?.mode === 'observation' ? '观看要点' : science?.mode === 'preparation' ? '准备与观察要点' : '步骤'}（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
+    science?.mode === 'observation'
+      ? `【项目定位】仅观看与讨论，不指导复现或扩写操作。${science.demonstrationReason ?? ''}引用页面观看要点时保留原编号和标题。`
+      : science?.mode === 'preparation'
+        ? '【项目定位】实践准备，页面不是完整操作教程。仅讨论已公开的过程、观察、原理和安全；不得补造用量、步骤或引导学生仅凭本页开始操作。'
+        : `【学生页面上有】项目详情、材料清单和步骤列表。${buildStepReferenceInstruction('项目步骤')}需要学生动手时，直接引导他看页面里的材料清单或对应步骤标题，不要把整页内容重新念一遍。`,
   ]
     .filter(Boolean)
     .join('\n')

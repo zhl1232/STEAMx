@@ -49,6 +49,9 @@ export function GlobalTutorMount() {
     previousUserRef.current = user?.id
   }, [user?.id, queryClient, tutorCtx])
 
+  const clearPendingDraft = tutorCtx?.clearPendingDraft
+  useEffect(() => { clearPendingDraft?.() }, [pathname, user?.id, clearPendingDraft])
+
   const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
   const hideTutorOnMobile = pathname === '/nature/observations'
     || pathname === '/nature/submit'

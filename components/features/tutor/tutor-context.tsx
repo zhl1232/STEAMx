@@ -33,6 +33,8 @@ export type TutorContextOverride = {
 
 export type TutorToolHandler = (toolCall: TutorToolCall) => void | Promise<void>
 
+export type TutorDraft = { text: string; userId: string; projectId: string }
+
 type TutorContextValue = {
   override: TutorContextOverride
   setOverride: (next: TutorContextOverride) => void
@@ -40,6 +42,9 @@ type TutorContextValue = {
   open: boolean
   setOpen: (open: boolean) => void
   openTutor: () => void
+  pendingDraft: TutorDraft | null
+  prefillDraft: (draft: TutorDraft) => void
+  clearPendingDraft: () => void
   pendingSend: { text: string; images?: string[] } | null
   queueSend: (text: string, images?: string[]) => void
   consumePendingSend: () => { text: string; images?: string[] } | null
@@ -55,7 +60,11 @@ const EMPTY_OVERRIDE: TutorContextOverride = {}
 
 export function TutorProvider({ children }: { children: ReactNode }) {
   const [override, setOverrideState] = useState<TutorContextOverride>(EMPTY_OVERRIDE)
-  const [open, setOpen] = useState(false)
+  const [open, setOpenState] = useState(false)
+  const [pendingDraft, setPendingDraft] = useState<TutorDraft | null>(null)
+  const setOpen = useCallback((next: boolean) => { setOpenState(next); if (!next) setPendingDraft(null) }, [])
+  const prefillDraft = useCallback((draft: TutorDraft) => { setPendingDraft(draft); setOpenState(true) }, [])
+  const clearPendingDraft = useCallback(() => setPendingDraft(null), [])
   const [pendingSend, setPendingSend] = useState<{ text: string; images?: string[] } | null>(null)
   const toolHandlersRef = useRef<Partial<Record<TutorToolName, TutorToolHandler>>>({})
 
@@ -67,11 +76,11 @@ export function TutorProvider({ children }: { children: ReactNode }) {
     setOverrideState(EMPTY_OVERRIDE)
   }, [])
 
-  const openTutor = useCallback(() => setOpen(true), [])
+  const openTutor = useCallback(() => setOpenState(true), [])
 
   const queueSend = useCallback((text: string, images?: string[]) => {
     setPendingSend({ text, images })
-    setOpen(true)
+    setOpenState(true)
   }, [])
 
   const consumePendingSend = useCallback(() => {
@@ -115,6 +124,7 @@ export function TutorProvider({ children }: { children: ReactNode }) {
       open,
       setOpen,
       openTutor,
+      pendingDraft, prefillDraft, clearPendingDraft,
       pendingSend,
       queueSend,
       consumePendingSend,
@@ -127,7 +137,9 @@ export function TutorProvider({ children }: { children: ReactNode }) {
       setOverride,
       clearOverride,
       open,
+      setOpen,
       openTutor,
+      pendingDraft, prefillDraft, clearPendingDraft,
       pendingSend,
       queueSend,
       consumePendingSend,

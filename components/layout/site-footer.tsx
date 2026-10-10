@@ -9,7 +9,7 @@ import {
   POLICE_FILING_NUMBER,
   POLICE_FILING_URL,
 } from "@/lib/seo/filings";
-import { BRAND_FULL_NAME, BRAND_OFFICIAL_URL, BRAND_POSITIONING } from "@/lib/brand";
+import { BRAND_FULL_NAME, BRAND_POSITIONING } from "@/lib/brand";
 
 const siteFooterColumns = [
   {
@@ -68,10 +68,6 @@ export function SiteFooter() {
       </div>
       <div className="mt-0 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4 text-center text-[13px] text-foreground/75 md:mt-4">
         <span>© 2026 {BRAND_FULL_NAME}</span>
-        <span aria-hidden="true">·</span>
-        <a href={BRAND_OFFICIAL_URL} className="underline-offset-2 hover:text-foreground hover:underline">
-          steam.bj.cn
-        </a>
         <span aria-hidden="true">·</span>
         <a
           href={ICP_FILING_URL}

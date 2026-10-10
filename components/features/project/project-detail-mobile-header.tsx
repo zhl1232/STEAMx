@@ -14,10 +14,11 @@ interface ProjectDetailMobileHeaderProps {
   projectId?: string | number
   /** Fallback when there is no explore navigation context. */
   backHref: string
+  viewingGuide?: boolean; practicePending?: boolean
   actions: ReactNode
 }
 
-export function ProjectDetailMobileHeader({ title, projectId, backHref: fallbackBackHref, actions }: ProjectDetailMobileHeaderProps) {
+export function ProjectDetailMobileHeader({ title, projectId, backHref: fallbackBackHref, actions, practicePending = false, viewingGuide = false }: ProjectDetailMobileHeaderProps) {
   const backHref = useExploreBackHref(projectId ?? "", fallbackBackHref)
   const rowRef = useRef<HTMLDivElement>(null)
   const [chaptersVisible, setChaptersVisible] = useState(false)
@@ -58,7 +59,7 @@ export function ProjectDetailMobileHeader({ title, projectId, backHref: fallback
           <div className="flex min-w-0 shrink-0 items-center gap-1">{actions}</div>
         </div>
         {chaptersVisible ? (
-          <ProjectSectionNav mobile className="border-t border-border/60 px-3 py-1" />
+          <ProjectSectionNav practicePending={practicePending} viewingGuide={viewingGuide} mobile className="border-t border-border/60 px-3 py-1" />
         ) : null}
       </header>
     </>

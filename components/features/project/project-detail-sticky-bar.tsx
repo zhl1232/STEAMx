@@ -7,6 +7,7 @@ import { ProjectSectionNav } from "@/components/features/project/project-section
 import { cn } from "@/lib/utils"
 
 interface ProjectDetailStickyBarProps {
+  viewingGuide?: boolean; practicePending?: boolean
   title: string
   projectId: number | string
   mode?: "project" | "observation"
@@ -17,6 +18,7 @@ interface ProjectDetailStickyBarProps {
 
 export function ProjectDetailStickyBar({
   title,
+  practicePending = false, viewingGuide = false,
   projectId,
   mode = "project",
   projectAuthor,
@@ -53,8 +55,8 @@ export function ProjectDetailStickyBar({
         <div className="hidden min-w-0 lg:block">
           <p className="truncate font-sans text-sm font-bold text-foreground">{title}</p>
         </div>
-        <ProjectSectionNav className="pointer-events-auto hidden shrink-0 md:flex" />
-        <ProjectDetailActions
+        <ProjectSectionNav practicePending={practicePending} viewingGuide={viewingGuide} className="pointer-events-auto hidden shrink-0 md:flex" />
+        <ProjectDetailActions practicePending={practicePending} viewingGuide={viewingGuide}
           projectId={projectId}
           projectTitle={title}
           mode={mode}

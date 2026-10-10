@@ -1,0 +1,887 @@
+[
+  {
+    "id": 478,
+    "title": "液体分层",
+    "sources": [
+      {
+        "url": "https://www.acs.org/education/resources/k-8/inquiryinaction/fifth-grade/substances-have-characteristic-properties/density-of-liquids.html",
+        "title": "American Chemical Society｜Lesson 2.5: The Density of Liquids",
+        "claim": "等体积食用油比水轻，密度小于水，油在水面形成独立液层。"
+      },
+      {
+        "url": "https://www.questacon.edu.au/learn-and-play/activities/oil-and-water",
+        "title": "Questacon 澳大利亚国家科学技术中心｜Oil and Water",
+        "claim": "油水不易混合；洗涤剂同时与油和水相互作用，帮助清除餐具油污。"
+      },
+      {
+        "url": "https://www.acs.org/content/dam/acsorg/education/resources/k-8/science-activities/articles/a-matter-of-mixing.pdf",
+        "title": "American Chemical Society｜A Matter of Mixing",
+        "claim": "洗涤剂帮助油污进入水中并随水清除；只引用清洁原理，不引入原文活动。"
+      }
+    ]
+  },
+  {
+    "id": 552,
+    "title": "平衡鸟",
+    "sources": [
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/center-of-gravity/",
+        "title": "NASA Glenn Research Center｜Center of Gravity",
+        "claim": "重心表示重量分布的平均位置；均匀对称物体的重心位于对称线上，均匀圆环中心为空处的例子据此作几何解释。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/9-3-stability",
+        "title": "Rice University OpenStax｜College Physics 2e: 9.3 Stability",
+        "claim": "稳定平衡在小幅偏离后产生恢复作用；降低重心和扩大支撑范围可提高站立稳定性；运动员屈膝接球为相关生活实例。"
+      }
+    ]
+  },
+  {
+    "id": 586,
+    "title": "气球缆车",
+    "sources": [
+      {
+        "url": "https://www.jpl.nasa.gov/edu/resources/lesson-plan/simple-rocket-science/",
+        "title": "NASA JPL Education｜Simple Rocket Science",
+        "claim": "气球与火箭通过向后排出物质获得相反方向的推力；NASA用火箭发射卫星和探测器。"
+      },
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/rocket-thrust/",
+        "title": "NASA Glenn Research Center｜Rocket Thrust",
+        "claim": "火箭携带推进所需物质，可以在没有周围空气的真空中产生推力。"
+      },
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/newtons-laws-of-motion/",
+        "title": "NASA Glenn Research Center｜Newton’s Laws of Motion",
+        "claim": "惯性意味着运动不需持续推力来维持，外力会改变运动；结合已验收的摩擦原理说明喷气停止后可能滑行并逐渐减速。"
+      }
+    ]
+  },
+  {
+    "id": 617,
+    "title": "大象的鼻子",
+    "sources": [
+      {
+        "url": "https://www.grc.nasa.gov/www/k-12/VirtualAero/BottleRocket/airplane/presar.html",
+        "title": "NASA Glenn — Aerodynamic Forces",
+        "claim": "空气在物体表面的压力分布可形成合力；用于支持气流对柔软纸条施力的基础解释。"
+      }
+    ]
+  },
+  {
+    "id": 624,
+    "title": "纸炮",
+    "sources": [
+      {
+        "url": "https://www.scienceworld.ca/stories/sound/",
+        "title": "Science World — Sound",
+        "claim": "声源引起邻近空气振动，扰动逐步传播至耳膜；支撑声音传播及不同声源的比较。"
+      }
+    ]
+  },
+  {
+    "id": 642,
+    "title": "弹跳的泡泡",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/bubble-tray",
+        "title": "Exploratorium — Bubble Tray",
+        "claim": "表面活性剂降低表面张力使液膜易形成，泡膜受表面张力趋向收缩；内外表面反射光干涉造成颜色。"
+      },
+      {
+        "url": "https://www.exploratorium.edu/snacks/soap-film-painting",
+        "title": "Exploratorium — Soap Film Painting",
+        "claim": "泡膜与接触表面的连续性影响破裂，泡膜颜色随膜厚变化。"
+      }
+    ]
+  },
+  {
+    "id": 657,
+    "title": "吸管大力士",
+    "sources": [
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-5-normal-tension-and-other-examples-of-forces",
+        "title": "Rice University OpenStax｜4.5 Normal, Tension, and Other Examples of Forces",
+        "claim": "物体之间通过接触传力；静止支撑物需要提供抵抗重力的力，材料形变与支持力有关。"
+      }
+    ]
+  },
+  {
+    "id": 675,
+    "title": "风的痕迹",
+    "sources": [
+      {
+        "url": "https://extensionpubs.unl.edu/publication/g1773/na/html/view",
+        "title": "University of Nebraska–Lincoln — Spray Drift of Pesticides (G1773)",
+        "claim": "喷雾液滴可被风搬运；液滴大小、风和其他条件都会影响漂移。仅取物理事实，不引入农药活动。"
+      },
+      {
+        "url": "https://www.grc.nasa.gov/www/k-12/airplane/tunsmoke.html",
+        "title": "NASA Glenn Flow Visualization Tunnel",
+        "claim": "风洞可用烟流显示飞机模型周围的气流及绕机翼的旋涡。"
+      }
+    ]
+  },
+  {
+    "id": 700,
+    "title": "简易飞镖",
+    "sources": [
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/center-of-gravity/",
+        "title": "NASA Glenn Research Center｜Center of Gravity",
+        "claim": "重心由整体质量分布决定，可用各部分质量与位置加权理解，不必等于几何中心。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/9-2-the-second-condition-for-equilibrium",
+        "title": "Rice University OpenStax｜9.2 The Second Condition for Equilibrium",
+        "claim": "重力产生的转动作用取决于重量及其作用线到转轴的距离；跷跷板中较轻者离支点较远可达到平衡。"
+      }
+    ]
+  },
+  {
+    "id": 717,
+    "title": "太乙仙猪",
+    "sources": [
+      {
+        "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-aerodynamics-grades-5-8/",
+        "title": "NASA — What Is Aerodynamics? (Grades 5–8)",
+        "claim": "空气阻力影响运动，物体形状影响阻力大小。"
+      },
+      {
+        "url": "https://www.jpl.nasa.gov/edu/resources/lesson-plan/parachute-design/",
+        "title": "NASA JPL — Parachute Design",
+        "claim": "降落伞产生阻力、减慢载荷下降。"
+      }
+    ]
+  },
+  {
+    "id": 738,
+    "title": "彩虹爬爬爬",
+    "sources": [
+      {
+        "url": "https://www.acs.org/content/dam/acsorg/education/outreach/activities/investigating-ink/investigating-ink-home.pdf",
+        "title": "American Chemical Society — Investigating Ink: Is Black a Color?",
+        "claim": "水沿纸移动涉及毛细作用；水携带不同墨水组分的距离可不同；色谱用于分离分析混合物。"
+      },
+      {
+        "url": "https://www.acs.org/education/activities/mystery-markers.html",
+        "title": "American Chemical Society — Mystery Markers",
+        "claim": "许多水彩笔含混合染料；染料与水及纸作用差异影响移动和分离。"
+      }
+    ]
+  },
+  {
+    "id": 745,
+    "title": "弹跳纸杯",
+    "sources": [
+      {
+        "url": "https://www.grc.nasa.gov/www/k-12/VirtualAero/BottleRocket/airplane/presar.html",
+        "title": "NASA Glenn — Aerodynamic Forces",
+        "claim": "物体表面各处的压力及方向共同决定空气动力，不能用单点流速概括全部表面。"
+      },
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-measurement/",
+        "title": "NASA Glenn — Drag Measurement",
+        "claim": "风洞研究使用测力装置，可测量模型在多个方向的力和转动作用。"
+      }
+    ]
+  },
+  {
+    "id": 763,
+    "title": "好玩的物象原理",
+    "sources": [
+      {
+        "url": "https://www.amnh.org/explore/ology/physics/see-the-light2/refraction",
+        "title": "American Museum of Natural History — Refraction",
+        "claim": "水中吸管错位与瓶子造成的像变形涉及折射；眼镜与放大镜利用透明曲面改变光线路径。"
+      }
+    ]
+  },
+  {
+    "id": 772,
+    "title": "蜡烛的两种形态",
+    "sources": [
+      {
+        "url": "https://inchemistry.acs.org/atomic-news/shining-light-on-candles.html",
+        "title": "American Chemical Society — Shining a Light on Candles",
+        "claim": "蜡熔化、沿灯芯毛细输送、汽化后燃烧；充分燃烧生成水和二氧化碳。"
+      },
+      {
+        "url": "https://candles.org/candle-science/",
+        "title": "National Candle Association — Candle Science",
+        "claim": "蜡燃烧与空气中氧气反应，释放热、光并产生水蒸气、二氧化碳；灯芯输送蜡液。"
+      }
+    ]
+  },
+  {
+    "id": 792,
+    "title": "升起的杯子",
+    "sources": [
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/6-3-centripetal-force",
+        "title": "OpenStax — Centripetal Force",
+        "claim": "向心作用由实际力提供，绳张力是例子。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-5-normal-tension-and-other-examples-of-forces",
+        "title": "OpenStax — Normal, Tension, and Other Examples of Forces",
+        "claim": "绳张力与重力及加速度的关系。"
+      }
+    ]
+  },
+  {
+    "id": 810,
+    "title": "气球糖葫芦",
+    "sources": [
+      {
+        "url": "https://www.phys.ens.psl.eu/~foldingslidingstretchinglab/papers/moulinetPRL2015.pdf",
+        "title": "Moulinet & Adda-Bedia — Popping Balloons: A Case Study of Dynamical Fragmentation",
+        "claim": "拉伸乳胶膜中的裂纹可快速扩展并发生分叉；研究使用高速成像分析破裂过程。"
+      },
+      {
+        "url": "https://www.sciencefun.org/kidszone/experiments/balloon-pop-not/",
+        "title": "Science Fun for Everyone — Balloon Pop! Not!",
+        "claim": "胶带可减缓气球裂口扩大过程；仅引用机制，不采纳其穿刺操作。"
+      }
+    ]
+  },
+  {
+    "id": 812,
+    "title": "回旋镖",
+    "sources": [
+      {
+        "url": "https://www.jpl.nasa.gov/news/solar-power-origami-style/",
+        "title": "NASA Jet Propulsion Laboratory｜Solar Power, Origami-Style",
+        "claim": "工程师研究折纸启发的可展开太阳能板；真实板材厚度要求重新设计折叠方式。"
+      }
+    ]
+  },
+  {
+    "id": 813,
+    "title": "向上移动的球",
+    "sources": [
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/center-of-gravity/",
+        "title": "NASA Glenn Research Center｜Center of Gravity",
+        "claim": "重心由整体质量分布决定，可用各部分质量与位置加权理解，不必等于几何中心。"
+      },
+      {
+        "url": "https://web.physics.ucsb.edu/~lecturedemonstrations/Composer/Pages/24.42.html",
+        "title": "University of California, Santa Barbara｜24.42 Cone rolls uphill",
+        "claim": "双锥体在变宽的轨道上看似上坡，实际重心降低；这里仅用于对照说明轨道高度不同于重心高度，不把双锥体结构套用到木球。"
+      }
+    ]
+  },
+  {
+    "id": 822,
+    "title": "魔力滚筒",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/bottle-racer",
+        "title": "Exploratorium — Bottle Racer",
+        "claim": "扭紧橡皮筋储存弹性势能，释放转成运动能量。"
+      },
+      {
+        "url": "https://stevespangler.com/experiments/magic-rollback-can-2/",
+        "title": "Steve Spangler Science — Magic Rollback Can",
+        "claim": "返回筒内部配重与橡皮筋扭转、恢复关系及摩擦耗散。"
+      }
+    ]
+  },
+  {
+    "id": 843,
+    "title": "杯中云海",
+    "sources": [
+      {
+        "url": "https://www.noaa.gov/jetstream/clouds/how-clouds-form",
+        "title": "NOAA — How Clouds Form",
+        "claim": "云滴形成与空气冷却、水汽凝结、凝结核有关，云含水滴或冰晶。"
+      },
+      {
+        "url": "https://www.noaa.gov/jetstream/clouds/ll-smoke",
+        "title": "NOAA — Learning Lesson: Smoking Clouds",
+        "claim": "烟颗粒可作凝结核，但烟与凝结成的云滴须区分；不采用页面实验步骤。"
+      },
+      {
+        "url": "https://scied.ucar.edu/learning-zone/how-climate-works/carbon-dioxide",
+        "title": "UCAR Center for Science Education — Carbon Dioxide",
+        "claim": "二氧化碳常温常压下是无色气体。"
+      }
+    ]
+  },
+  {
+    "id": 847,
+    "title": "风车转转转",
+    "sources": [
+      {
+        "url": "https://www.energy.gov/cmei/systems/how-do-wind-turbines-work",
+        "title": "U.S. Department of Energy — How Do Wind Turbines Work?",
+        "claim": "空气动力带动叶片及转子，转子驱动发电机；偏航及变桨系统调节迎风方向和叶片角度。"
+      }
+    ]
+  },
+  {
+    "id": 867,
+    "title": "土电话",
+    "sources": [
+      {
+        "url": "https://www.teachengineering.org/activities/cub_sound_lesson02_activity1",
+        "title": "TeachEngineering — String Telephones",
+        "claim": "杯底、绷紧线和另一端杯底依次传递振动，最终使空气振动；支撑正文传声路径。"
+      }
+    ]
+  },
+  {
+    "id": 869,
+    "title": "耦合共振",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/coupled-resonant-pendulums",
+        "title": "Exploratorium — Coupled Resonant Pendulums",
+        "claim": "共同连接传递牵引，合适频率使两摆交换能量；秋千类比说明作用时机；摩擦和空气阻力使摆动衰减。"
+      }
+    ]
+  },
+  {
+    "id": 876,
+    "title": "小火柴大力量",
+    "sources": [
+      {
+        "url": "https://americanindian.si.edu/nk360/inka-innovation/tension/tension.cshtml",
+        "title": "Smithsonian NMAI — Explore Tension and Compression",
+        "claim": "桥梁中拉力、压力及承载作用。"
+      },
+      {
+        "url": "https://openstax.org/books/university-physics-volume-1/pages/12-2-examples-of-static-equilibrium",
+        "title": "OpenStax — Examples of Static Equilibrium",
+        "claim": "静力平衡需要力与力矩平衡，接触摩擦防滑。"
+      }
+    ]
+  },
+  {
+    "id": 891,
+    "title": "摩擦自锁",
+    "sources": [
+      {
+        "url": "https://pubs.aip.org/aapt/pte/article/49/6/335/276853/Ring-Falling-into-a-Chain-No-Magic-Just-Physics",
+        "title": "The Physics Teacher — Ring Falling into a Chain: No Magic—Just Physics",
+        "claim": "原研究用高速摄影分析环链魔术，快速过程不能仅凭肉眼结果解释。"
+      }
+    ]
+  },
+  {
+    "id": 893,
+    "title": "帕洛马结",
+    "sources": [
+      {
+        "url": "https://news.mit.edu/2020/model-how-strong-knot-0102",
+        "title": "MIT News — How strong is your knot?",
+        "claim": "绳结交叉、扭转、接触摩擦和材料机械性质共同影响稳定性。"
+      }
+    ]
+  },
+  {
+    "id": 903,
+    "title": "会跑的铁环",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/bottle-racer",
+        "title": "Exploratorium — Bottle Racer",
+        "claim": "橡皮筋储存的弹性势能可转成运动能量。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-5-normal-tension-and-other-examples-of-forces",
+        "title": "OpenStax — Normal, Tension, and Other Examples of Forces",
+        "claim": "接触力与重力是可同时存在的实际作用。"
+      }
+    ]
+  },
+  {
+    "id": 907,
+    "title": "欢叫的吸管",
+    "sources": [
+      {
+        "url": "https://acoustics.org/pressroom/httpdocs/161st/Lee.html",
+        "title": "Acoustical Society of America — Air bubbles in water as acoustic resonators",
+        "claim": "水中气泡有体积振动及固有频率，气泡内空气类似弹簧，周围水具有惯性；气泡大小影响频率。"
+      },
+      {
+        "url": "https://dosits.org/galleries/audio-gallery/anthropogenic-sounds/bubble-curtain/",
+        "title": "Discovery of Sound in the Sea — Bubble Curtain",
+        "claim": "打桩时气泡幕利用水气声阻抗差异反射声音，气泡共振吸收声能，降低传播噪声。"
+      }
+    ]
+  },
+  {
+    "id": 925,
+    "title": "翻滚吧小熊",
+    "sources": [
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/center-of-gravity/",
+        "title": "NASA Glenn Research Center｜Center of Gravity",
+        "claim": "重心由整体质量分布决定，可用各部分质量与位置加权理解，不必等于几何中心。"
+      },
+      {
+        "url": "https://www.inm.uni-stuttgart.de/einzelprojekte/toys/woodentoys/",
+        "title": "University of Stuttgart｜Nonlinear Dynamics of Wooden Toys",
+        "claim": "研究中的翻滚玩具由空心木壳、可沿内部移动的小球和支点构成；翻滚表现为壳体转动与内部小球移动交替进行。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-5-normal-tension-and-other-examples-of-forces",
+        "title": "Rice University OpenStax｜4.5 Normal, Tension, and Other Examples of Forces",
+        "claim": "物体之间通过接触传力；静止支撑物需要提供抵抗重力的力，材料形变与支持力有关。"
+      }
+    ]
+  },
+  {
+    "id": 930,
+    "title": "欹器满覆",
+    "sources": [
+      {
+        "url": "https://kongziyjy.org/nd.jsp?id=2417",
+        "title": "孔子研究院｜孙胜利：孔子观欹器的警示",
+        "claim": "介绍孔子观欹器的文献故事与博物馆藏画；传统欹器不同水量下的姿态及其谦逊、适度的文化寓意。"
+      },
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/center-of-gravity/",
+        "title": "NASA Glenn Research Center｜Center of Gravity",
+        "claim": "重心由整体质量分布决定，可用各部分质量与位置加权理解，不必等于几何中心。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/9-2-the-second-condition-for-equilibrium",
+        "title": "Rice University OpenStax｜9.2 The Second Condition for Equilibrium",
+        "claim": "重力产生的转动作用取决于重量及其作用线到转轴的距离；跷跷板中较轻者离支点较远可达到平衡。"
+      }
+    ]
+  },
+  {
+    "id": 949,
+    "title": "四两拨千斤",
+    "sources": [
+      {
+        "url": "https://physicstoday.aip.org/quick-study/why-cant-you-separate-interleaved-books",
+        "title": "Physics Today — Why can’t you separate interleaved books?",
+        "claim": "书页几何形状使拉力增加接触挤压并放大摩擦。"
+      },
+      {
+        "url": "https://arxiv.org/html/1508.03290v2",
+        "title": "Self-amplification of solid friction in interleaved assemblies",
+        "claim": "原研究说明交错层数、厚度、重叠距离共同影响分离力。"
+      }
+    ]
+  },
+  {
+    "id": 957,
+    "title": "吹硬币大比拼",
+    "sources": [
+      {
+        "url": "https://www.grc.nasa.gov/www/k-12/VirtualAero/BottleRocket/airplane/presar.html",
+        "title": "NASA Glenn — Aerodynamic Forces",
+        "claim": "空气在物体表面的压力分布决定合力方向和大小；不据跳起现象指定单一气流路径。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/5-1-friction",
+        "title": "OpenStax (Rice University) — College Physics 2e: Friction",
+        "claim": "接触表面的摩擦影响开始滑动和滑动过程，静摩擦与滑动摩擦需要区分。"
+      }
+    ]
+  },
+  {
+    "id": 964,
+    "title": "掌中悬浮术",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/ames-chair",
+        "title": "Exploratorium — Ames Chair",
+        "claim": "固定视角和深度线索可使分散结构被看成完整椅子。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/4-5-normal-tension-and-other-examples-of-forces",
+        "title": "OpenStax — Normal, Tension, and Other Examples of Forces",
+        "claim": "物体可同时受到重力和接触支撑力。"
+      }
+    ]
+  },
+  {
+    "id": 977,
+    "title": "检测食物中的淀粉",
+    "sources": [
+      {
+        "url": "https://jic.ac.uk/blog/how-do-plants-make-starch/",
+        "title": "John Innes Centre — How do plants make starch?",
+        "claim": "淀粉由葡萄糖单元组成；植物叶片暂存淀粉供夜间使用，种子及块茎储存淀粉供萌发生长。"
+      },
+      {
+        "url": "https://sciencecity.unionstation.org/2020/04/27/testing-for-starch-in-food/",
+        "title": "Science City — Testing for Starch in Food",
+        "claim": "碘可用于检测食物中的淀粉，形成深蓝或紫黑色信号；仅采用显色知识，不采用来源中的操作要求或阴性绝对判断。"
+      }
+    ]
+  },
+  {
+    "id": 979,
+    "title": "受热一定会膨胀吗？",
+    "sources": [
+      {
+        "url": "https://www.te.com/en/industries/automotive/applications/heat-shrink-tubing-automotive-applications.html",
+        "title": "TE Connectivity — Heat Shrink Tubing: Automotive",
+        "claim": "制造加工可赋予热缩管形状记忆；不同材料和添加剂影响性能；合适产品用于电线接头绝缘及机械保护。"
+      },
+      {
+        "url": "https://wrap.warwick.ac.uk/id/eprint/129511/1/WRAP-Shape-memory%20properties-polyethylene-ethylene-composites-Wan-2019.pdf",
+        "title": "University of Warwick repository — Shape memory properties of polyethylene/ethylene vinyl acetate composites",
+        "claim": "形状固定与形状恢复取决于材料结构和热机械过程；作为学术背景，不用于认定视频样品成分。"
+      }
+    ]
+  },
+  {
+    "id": 985,
+    "title": "磁场的干扰",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/magnetic-lines-of-force",
+        "title": "Exploratorium — Magnetic Lines of Force",
+        "claim": "铁屑被磁化、受到吸引并沿磁场方向排列，其图样能显示磁场结构且会略微改变磁场。"
+      },
+      {
+        "url": "https://lasp.colorado.edu/wp-content/uploads/2011/08/P1-2_3D_field.pdf",
+        "title": "University of Colorado LASP — Iron Filings and Magnetic Field Lines",
+        "claim": "将纸或透明片隔在磁铁与铁屑之间仍可显示铁屑排列，支持薄纸不完全阻断磁力作用。"
+      }
+    ]
+  },
+  {
+    "id": 1021,
+    "title": "团结的钉子",
+    "sources": [
+      {
+        "url": "https://science.anu.edu.au/engagement/science-lab-experiments-home-school/try-nail-balancing-challenge",
+        "title": "Australian National University — Nail balancing challenge",
+        "claim": "交错结构、重心低于支点及重力恢复作用解释钉子平衡。"
+      }
+    ]
+  },
+  {
+    "id": 1040,
+    "title": "非牛顿流体",
+    "sources": [
+      {
+        "url": "https://news.mit.edu/2019/oobleck-behavior-predict-cornstarch-1006",
+        "title": "MIT News — Oobleck’s weird behavior is now predictable",
+        "claim": "浓玉米淀粉水体系快速受扰时颗粒摩擦接触增多、阻力增大；缓慢变形时更易流动。"
+      },
+      {
+        "url": "https://www.scienceworld.ca/resource/oobleck/",
+        "title": "Science World — Oobleck",
+        "claim": "非牛顿流体包括遇扰更易流动的番茄酱。仅采用类别反例，不采用该页“变成固体”或颗粒形状缠结的过度简化解释。"
+      }
+    ]
+  },
+  {
+    "id": 1049,
+    "title": "纸杯里的悄悄话",
+    "sources": [
+      {
+        "url": "https://www.teachengineering.org/activities/cub_sound_lesson02_activity1",
+        "title": "TeachEngineering — String Telephones",
+        "claim": "接收端杯底把线中振动传给空气；杯电话两端传递过程相反。"
+      },
+      {
+        "url": "https://www.nidcd.nih.gov/health/how-do-we-hear",
+        "title": "NIH/NIDCD — How Do We Hear?",
+        "claim": "声音经耳道引起鼓膜及中耳听小骨振动；内耳形成电信号，由听神经传至大脑。"
+      }
+    ]
+  },
+  {
+    "id": 1100,
+    "title": "爬坡的玻璃珠",
+    "sources": [
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-3-gravitational-potential-energy",
+        "title": "Rice University OpenStax｜7.3 Gravitational Potential Energy",
+        "claim": "重力势能随高度改变，可在下落时转化为动能；抬高物体需要做功，过山车为相关例子。"
+      },
+      {
+        "url": "https://web.physics.ucsb.edu/~lecturedemonstrations/Composer/Pages/24.42.html",
+        "title": "University of California, Santa Barbara｜24.42 Cone rolls uphill",
+        "claim": "双锥体在变宽的轨道上看似上坡，实际重心降低；这里仅用于对照说明轨道高度不同于重心高度，不把双锥体结构套用到木球。"
+      },
+      {
+        "url": "https://openstax.org/books/college-physics-2e/pages/7-1-work-the-scientific-definition",
+        "title": "Rice University OpenStax｜7.1 Work: The Scientific Definition",
+        "claim": "力在物体位移方向上的分量做功，做功伴随能量传递；支持移动轨道可能向球传递能量的解释。"
+      }
+    ]
+  },
+  {
+    "id": 1102,
+    "title": "晃不倒的瓶子",
+    "sources": [
+      {
+        "url": "https://www.taipei-101.com.tw/en/observatory/feature",
+        "title": "TAIPEI 101 — Observatory Features: Wind Damping Ball",
+        "claim": "官方说明TMD根据建筑需求设计，减少强风晃动。"
+      },
+      {
+        "url": "https://www.motioneering.ca/our-work/taipei-101",
+        "title": "Motioneering — Taipei 101",
+        "claim": "阻尼器设计实施方说明建筑采用摆式和塔尖调谐质量阻尼器。"
+      }
+    ]
+  },
+  {
+    "id": 1116,
+    "title": "站立的铁棒",
+    "sources": [
+      {
+        "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/newtons-laws-of-motion/",
+        "title": "NASA Glenn Research Center — Newton’s Laws of Motion",
+        "claim": "合外力为零时维持原有运动状态；不平衡外力使速度改变，支持区分静止平衡与磁力大于重力。"
+      },
+      {
+        "url": "https://www.exploratorium.edu/snacks/magnetic-lines-of-force",
+        "title": "Exploratorium — Magnetic Lines of Force",
+        "claim": "磁铁能使铁磁化并吸引铁，支持金属杆可能受磁力的材料限定。"
+      }
+    ]
+  },
+  {
+    "id": 1157,
+    "title": "神奇的牛奶灯",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/blue-sky",
+        "title": "Exploratorium — Blue Sky",
+        "claim": "向水中加入牛奶可使光束可见；观察侧面散射光与末端透射光会出现差异。"
+      },
+      {
+        "url": "https://www.ugr.es/~colorimg/pdfs/ao_2008_H128.pdf",
+        "title": "Applied Optics / University of Granada — Quantifying the “milky sky” experiment",
+        "claim": "牛奶中的酪蛋白微粒及脂肪球参与散射；直接光和散射光可分别测量，不能将可见度提高理解为新增光源。"
+      }
+    ]
+  },
+  {
+    "id": 1175,
+    "title": "造雪实验",
+    "sources": [
+      {
+        "url": "https://www.scienceworld.ca/resource/fake-snow/",
+        "title": "Science World — Fake Snow",
+        "claim": "吸水性高分子可吸水膨胀并形成仿雪外观；只采用一般现象，不采用该来源中特定粉末身份、吸水倍数或接触方法。"
+      },
+      {
+        "url": "https://www.noaa.gov/stories/how-do-snowflakes-form-science-behind-snow",
+        "title": "NOAA — How do snowflakes form?",
+        "claim": "真雪来自冰晶；冰晶生长和形状受温度、湿度等环境条件影响。"
+      }
+    ]
+  },
+  {
+    "id": 1189,
+    "title": "气体热胀冷缩",
+    "sources": [
+      {
+        "url": "https://chem-textbook.ucalgary.ca/chapter-9-main/volume-and-temperature-charless-law/",
+        "title": "University of Calgary — Volume and Temperature: Charles’s Law",
+        "claim": "固定气体量及恒定压力条件下，体积随绝对温度升高而增大。"
+      },
+      {
+        "url": "https://www.chem.fsu.edu/chemlab/chm1045/gas_laws.html",
+        "title": "Florida State University — Gas Laws",
+        "claim": "受热使气体分子运动加快；固定体积和气体量时温度升高导致压力升高。"
+      }
+    ]
+  },
+  {
+    "id": 1195,
+    "title": "水卷龙卷风",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/vortex",
+        "title": "Exploratorium — Vortex",
+        "claim": "两瓶漩涡中心通道允许下瓶空气向上流，使上瓶排水顺畅。"
+      },
+      {
+        "url": "https://oceanservice.noaa.gov/education/dyw-tornado-bottle.html",
+        "title": "NOAA — Tornado in a Bottle",
+        "claim": "无旋转时可出现上升气泡；外形相近的漩涡有不同成因，瓶中水涡由外加旋转与重力形成。"
+      }
+    ]
+  },
+  {
+    "id": 1198,
+    "title": "淀粉与碘酒",
+    "sources": [
+      {
+        "url": "https://edu.rsc.org/experiments/detecting-starch-in-food-on-a-microscale/563.article",
+        "title": "Royal Society of Chemistry — Detecting starch in food on a microscale",
+        "claim": "碘与淀粉形成深蓝黑色显色体系，可用于食品淀粉检测。搜索摘要可读，全文打开失败；不采用操作。"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10856212/",
+        "title": "Pesek et al. — The Iodine/Iodide/Starch Supramolecular Complex",
+        "claim": "直链淀粉的螺旋结构与碘显色体系有关；正文避免给微观复合物唯一结构。"
+      },
+      {
+        "url": "https://uwaterloo.ca/centre-advanced-science-education/news/sharing-chemistry-community-c-difference",
+        "title": "University of Waterloo — Sharing Chemistry with the Community: “C” the difference",
+        "claim": "维生素C与碘反应，淀粉显色可用于维生素C检测。"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6502385/",
+        "title": "Kerr et al. — Mathematical modelling of the vitamin C clock reaction",
+        "claim": "维生素C将碘还原为碘离子，碘减少时淀粉蓝色不出现；不沿用时钟实验中的其他反应物或步骤。"
+      }
+    ]
+  },
+  {
+    "id": 1213,
+    "title": "火山喷发",
+    "sources": [
+      {
+        "url": "https://www.usgs.gov/faqs/how-do-volcanoes-erupt",
+        "title": "USGS: How Do Volcanoes Erupt?",
+        "claim": "岩浆、熔岩、气体与喷发。"
+      },
+      {
+        "url": "https://www.usgs.gov/observatories/yvo/news/active-dormant-and-extinct-clarifying-confusing-classifications",
+        "title": "USGS: Active, dormant, and extinct",
+        "claim": "活动分类没有统一绝对界线。"
+      },
+      {
+        "url": "https://www.usgs.gov/centers/national-minerals-information-center/pumice-and-pumicite-statistics-and-information",
+        "title": "USGS: Pumice and Pumicite",
+        "claim": "浮石建筑骨料用途。"
+      },
+      {
+        "url": "https://www.usgs.gov/faqs/what-are-some-benefits-volcanic-eruptions",
+        "title": "USGS: Benefits of volcanic eruptions",
+        "claim": "地热资源。"
+      }
+    ]
+  },
+  {
+    "id": 1215,
+    "title": "魔法开花树",
+    "sources": [
+      {
+        "url": "https://www.unomaha.edu/academic-affairs/ne-stem-for-u/ne-stem-4u-activities/chemistry---the-crystal-tree.pdf",
+        "title": "University of Nebraska Omaha — The Crystal Tree",
+        "claim": "纸板中的毛细作用输送溶液，蒸发后留下结晶物；只采用物理过程，不采用该来源特殊配方、温度或时间。"
+      },
+      {
+        "url": "https://www.acs.org/education/whatischemistry/adventures-in-chemistry/experiments/a-closer-look-at-crystals.html",
+        "title": "American Chemical Society — A Closer Look at Crystals",
+        "claim": "晶体内部粒子按重复规律排列，溶液在纸上蒸发后可显现晶体。"
+      },
+      {
+        "url": "https://www.acs.org/education/resources/k-8/inquiryinaction/fifth-grade/chapter-1-investigating-matter-at-the-particle-level/lesson-1-3--dissolving-and-back-again.html",
+        "title": "American Chemical Society — Dissolving and Back Again",
+        "claim": "盐溶于水后仍存在，水蒸发后盐可再结晶。"
+      }
+    ]
+  },
+  {
+    "id": 1220,
+    "title": "造雪实验",
+    "sources": [
+      {
+        "url": "https://www.acs.org/education/whatischemistry/adventures-in-chemistry/experiments/diapers.html",
+        "title": "American Chemical Society — Diapers: The Inside Story",
+        "claim": "纸尿裤中的吸水性聚合物吸收水后形成凝胶，水并未消失；只采用原理和用途，不采用拆开或接触材料的步骤。"
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38463253/",
+        "title": "ACS Omega / PubMed — Modification of Superabsorbent Polymer Granules and Fibers for Antimicrobial Efficacy and Malodor Control",
+        "claim": "吸水性高分子颗粒广用于纸尿裤等吸收制品；原论文说明交联颗粒的吸收保水特征。未引用或引入其抗菌改性实验。"
+      },
+      {
+        "url": "https://www.scienceworld.ca/resource/fake-snow/",
+        "title": "Science World — Fake Snow",
+        "claim": "吸水性高分子的一类材料可形成仿雪外观，不同用途材料并不等同。"
+      }
+    ]
+  },
+  {
+    "id": 1222,
+    "title": "小孔成像",
+    "sources": [
+      {
+        "url": "https://www.exploratorium.edu/snacks/personal-pinhole-theater",
+        "title": "Exploratorium Teacher Institute — Personal Pinhole Theater",
+        "claim": "针孔限制各点光线通过，产生上下和左右反转的像；较大孔带来较亮但更模糊的像。"
+      },
+      {
+        "url": "https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/what-is-aperture",
+        "title": "Nikon: What is Aperture?",
+        "claim": "镜头光圈控制通光量并影响景深；人物和风景的摄影选择。"
+      }
+    ]
+  },
+  {
+    "id": 1249,
+    "title": "火药",
+    "sources": [
+      {
+        "url": "https://www.nist.gov/el/fire-research-division-73300/firegov-fire-service/fire-dynamics",
+        "title": "NIST — Fire Dynamics",
+        "claim": "燃烧伴随热和光；热释放速率为单位时间释放能量；传导、对流、辐射是热传播机制，消防科学研究这些因素。"
+      }
+    ]
+  },
+  {
+    "id": 1269,
+    "title": "人体导电",
+    "sources": [
+      {
+        "url": "https://www.mcgill.ca/oss/article/history-general-science/electric-feel-guide-how-touchscreens-work",
+        "title": "McGill University Office for Science and Society — “Electric Feel”: A Guide to How Touchscreens Work",
+        "claim": "电容触屏依据电学变化识别触碰；普通手套与导电纤维触屏手套会有不同反应。只采用这些一般事实，不引用该文安全保证或其微观电荷转移简化表述。"
+      },
+      {
+        "url": "https://www.osha.gov/sites/default/files/publications/OSHA3075.pdf",
+        "title": "OSHA — Controlling Electrical Hazards",
+        "claim": "人体可成为导电路径；电流大小、流经路径、时间等影响伤害，灯亮不构成人体接触安全证据。"
+      }
+    ]
+  },
+  {
+    "id": 1285,
+    "title": "酸碱认知",
+    "sources": [
+      {
+        "url": "https://www.usgs.gov/water-science-school/science/ph-and-water",
+        "title": "USGS Water Science School — pH and Water",
+        "claim": "pH表征水的酸碱性，影响水生生物和物质溶解、存在状态；水质研究会测pH。"
+      },
+      {
+        "url": "https://www.acs.org/education/activities/red-cabbage-indicator.html",
+        "title": "American Chemical Society — Red Cabbage Indicator",
+        "claim": "指示剂分子随酸碱环境改变颜色；仅支撑指示剂原理，不建议自配植物指示剂。"
+      }
+    ]
+  },
+  {
+    "id": 1299,
+    "title": "茶水变色",
+    "sources": [
+      {
+        "url": "https://axial.acs.org/agriculture-and-food-chemistry/chemistry-tea-coffee",
+        "title": "American Chemical Society — Chemistry of Tea and Coffee",
+        "claim": "茶叶加工中的氧化影响风味和颜色，茶含多种多酚等成分。"
+      },
+      {
+        "url": "https://blog.doublehelix.csiro.au/colour-changing-lemon-tea/",
+        "title": "CSIRO Double Helix — Colour changing lemon tea",
+        "claim": "柠檬汁使茶更酸并使颜色变浅；网页搜索摘要可读，直接打开403。仅采用可读摘要的一般事实，不采用试剂或操作。"
+      },
+      {
+        "url": "https://www.scienceinschool.org/wp-content/uploads/2021/03/Issue52_TeaChemistry.pdf",
+        "title": "Science in School — Tea-time chemistry",
+        "claim": "黑茶单宁与铁离子相互作用可显色；花青素花茶部分不能混同普通茶叶。本交付只取黑茶部分一般离子相互作用概念。"
+      }
+    ]
+  }
+]

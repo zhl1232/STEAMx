@@ -69,3 +69,12 @@ describe("ProjectSectionNav", () => {
     expect(screen.getByRole("link", { name: "探索记录" })).toHaveAttribute("href", "#project-exploration-records-mobile")
   })
 })
+
+it.each([false, true])("uses viewing chapter labels with responsive anchors (mobile=%s)", (mobile) => {
+  render(<ProjectSectionNav mobile={mobile} viewingGuide />)
+  const suffix = mobile ? "-mobile" : ""
+  expect(screen.getByRole("link", { name: "观看准备" })).toHaveAttribute("href", "#project-materials" + suffix)
+  expect(screen.getByRole("link", { name: "观看要点" })).toHaveAttribute("href", "#project-steps" + suffix)
+  expect(screen.queryByRole("link", { name: "材料" })).not.toBeInTheDocument()
+  expect(screen.queryByRole("link", { name: "步骤" })).not.toBeInTheDocument()
+})
