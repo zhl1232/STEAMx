@@ -33,6 +33,7 @@ const ShareProjectDialog = dynamic(
 interface ProjectDetailActionsProps {
   projectId: number | string
   projectTitle: string
+  viewingGuide?: boolean; practicePending?: boolean
   mode?: "project" | "observation"
   variant: "mobile" | "header" | "sticky" | "cover" | "support" | "bottom" | "hero"
   className?: string
@@ -52,6 +53,7 @@ export function ProjectDetailActions({
   projectId,
   projectTitle,
   mode = "project",
+  practicePending = false, viewingGuide = false,
   variant,
   className,
   likes: initialLikes = 0,
@@ -135,13 +137,16 @@ export function ProjectDetailActions({
   }
 
   const primaryActionLabel = useMemo(() => {
+    if (practicePending) return "记录探索过程"
+    if (viewingGuide) return hasStartedExploration || completed ? "查看观看心得" : "记录观看心得"
     if (hasStartedExploration) return isObservation ? "继续观察" : "继续我的项目"
     if (completed) return isObservation ? "查看观察记录" : "开始新的尝试"
     return isObservation ? "开始观察" : "开始我的项目"
-  }, [completed, hasStartedExploration, isObservation])
-  const guestRecordLabel = isObservation ? "登录记录观察" : "登录记录项目"
+  }, [completed, hasStartedExploration, isObservation, viewingGuide, practicePending])
+  const guestRecordLabel = practicePending ? "登录记录探索过程" : viewingGuide ? "登录记录观看心得" : isObservation ? "登录记录观察" : "登录记录项目"
 
   const runPrimaryAction = async () => {
+    if (practicePending) { router.push(recordsHref); return }
     if (hasStartedExploration || completed) {
       router.push(recordsHref)
       return
@@ -151,8 +156,8 @@ export function ProjectDetailActions({
     }
     scrollToSteps()
     toast({
-      title: isObservation ? "已开始观察" : "已开始我的项目",
-      description: isObservation
+      title: viewingGuide ? "记录观看心得" : isObservation ? "已开始观察" : "已开始我的项目",
+      description: viewingGuide ? "记录观看中发现的现象与问题，无需制作或上传作品" : isObservation
         ? "按步骤记录你的观察发现"
         : "按步骤动手制作，随时在我的项目记录里上传照片与心得",
     })
@@ -165,7 +170,7 @@ export function ProjectDetailActions({
     startingRef.current = true
     setStarting(true)
     try { await runPrimaryAction() }
-    catch (error) { toast({ title: "无法开始我的项目", description: error instanceof Error ? `${error.message}，请重试` : "请检查网络后重试", variant: "destructive" }) }
+    catch (error) { toast({ title: viewingGuide ? "无法记录观看心得" : "无法开始我的项目", description: error instanceof Error ? `${error.message}，请重试` : "请检查网络后重试", variant: "destructive" }) }
     finally { startingRef.current = false; setStarting(false) }
   }
 
@@ -174,8 +179,8 @@ export function ProjectDetailActions({
       promptLogin(() => {
         void startSafely()
       }, {
-        title: isObservation ? "登录以开始观察" : "登录以开始我的项目",
-        description: "登录后即可记录探索过程并上传作品",
+        title: practicePending ? "登录记录探索过程" : viewingGuide ? "登录记录观看心得" : isObservation ? "登录以开始观察" : "登录以开始我的项目",
+        description: practicePending ? "登录后可记录材料准备与问题；操作资料补齐后再开展实验" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
       })
       return
     }
@@ -186,7 +191,7 @@ export function ProjectDetailActions({
     if (!user) {
       promptLogin(() => toggleCollection(projectId), {
         title: "登录以收藏项目",
-        description: "登录后即可收藏喜欢的项目，稍后继续制作",
+        description: viewingGuide ? "登录后即可收藏，稍后继续观看" : "登录后即可收藏喜欢的项目，稍后继续制作",
       })
       return
     }
@@ -263,7 +268,7 @@ export function ProjectDetailActions({
           <Button asChild tone="brand" className="min-h-11 gap-2">
             <a href="#project-materials">
               <ListChecks className="h-4 w-4" aria-hidden />
-              查看材料与步骤
+              {practicePending ? "查看材料与准备" : viewingGuide ? "查看观看准备与要点" : "查看材料与步骤"}
             </a>
           </Button>
           <Button type="button" variant="outline" onClick={handleStart} disabled={starting} className="min-h-11">
@@ -272,7 +277,7 @@ export function ProjectDetailActions({
         </div>
         {!user ? (
           <p className="text-xs leading-5 text-muted-foreground">
-            查看材料与步骤无需登录；登录后可记录过程和上传作品。
+            {practicePending ? "材料准备无需登录；本页操作步骤尚待补充，可先记录问题。" : viewingGuide ? "观看准备与要点无需登录；可记录观看心得，无需制作或上传作品。" : "查看材料与步骤无需登录；登录后可记录过程和上传作品。"}
           </p>
         ) : null}
       </div>

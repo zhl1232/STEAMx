@@ -7,16 +7,19 @@ const mocks = vi.hoisted(() => ({
     prefetchQuery: vi.fn(),
     setOpen: vi.fn(),
     toast: vi.fn(),
+    clearPendingDraft: vi.fn(),
+    removeQueries: vi.fn(),
 }));
 
 let pathname = "/";
+let user: { id: string } | null = null;
 
 vi.mock("next/navigation", () => ({
     usePathname: () => pathname,
 }));
 
 vi.mock("@tanstack/react-query", () => ({
-    useQueryClient: () => ({ prefetchQuery: mocks.prefetchQuery }),
+    useQueryClient: () => ({ prefetchQuery: mocks.prefetchQuery, removeQueries: mocks.removeQueries }),
 }));
 
 vi.mock("@/components/features/tutor/tutor-context", () => ({
@@ -24,6 +27,8 @@ vi.mock("@/components/features/tutor/tutor-context", () => ({
         open: false,
         setOpen: mocks.setOpen,
         override: {},
+        clearPendingDraft: mocks.clearPendingDraft,
+        consumePendingSend: vi.fn(),
     }),
 }));
 
@@ -36,13 +41,14 @@ vi.mock("@/hooks/use-toast", () => ({
 }));
 
 vi.mock("@/lib/context/auth-context", () => ({
-    useAuth: () => ({ user: null }),
+    useAuth: () => ({ user }),
 }));
 
 describe("GlobalTutorMount", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         pathname = "/";
+        user = null;
         Object.defineProperty(window, "requestIdleCallback", {
             configurable: true,
             value: vi.fn(() => 1),
@@ -89,3 +95,17 @@ describe("GlobalTutorMount", () => {
         expect(screen.getByRole("button", { name: "打开 AI 导师" })).toHaveClass("max-lg:hidden");
     });
 });
+
+ it("cancels pending draft on project navigation, back and account changes", () => {
+    pathname = "/project/1213"; user = { id: "a" };
+    const { rerender } = render(<GlobalTutorMount />);
+    mocks.clearPendingDraft.mockClear();
+    pathname = "/project/1215"; rerender(<GlobalTutorMount />);
+    expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(1);
+    pathname = "/project/1213"; rerender(<GlobalTutorMount />);
+    expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(2);
+    user = { id: "b" }; rerender(<GlobalTutorMount />);
+    expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(3);
+    user = null; rerender(<GlobalTutorMount />);
+    expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(4);
+ });

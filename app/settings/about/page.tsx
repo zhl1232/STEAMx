@@ -23,7 +23,6 @@ import {
   BRAND_CORE_STATEMENT,
   BRAND_FULL_NAME,
   BRAND_HERO_TITLE,
-  BRAND_OFFICIAL_URL,
 } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
@@ -171,11 +170,7 @@ export default function AboutSettingsPage() {
           <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
           <p className="text-sm leading-7 text-muted-foreground">
-            可从首页进入积木课程、科学实践、自然观察与项目探索；官网：
-            <a href={BRAND_OFFICIAL_URL} className="underline underline-offset-4 hover:text-foreground">
-              steam.bj.cn
-            </a>
-            。
+            可从首页进入积木课程、科学实践、自然观察与项目探索。
           </p>
           <p className="text-sm leading-7">
             <Link href="/" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">

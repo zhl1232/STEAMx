@@ -240,14 +240,12 @@ export default async function LearningTopicPage({ params }: PageProps) {
                                 <li><strong className="font-semibold text-foreground">大班：机械探索可参考 9656。</strong>围绕齿轮、杠杆、滑轮和轮轴开展活动，再按作品需要补充结构零件。</li>
                             </ul>
                             <p className="mt-3 text-xs leading-6 text-muted-foreground">中班、大班为按学习内容给出的选套参考，尚未逐课核对全部作品所需零件；不代表单套即可完成整门课程。购买或准备前，请先查看选中课时的零件清单与搭建图。</p>
-                            <a href="https://www.ndhy.com/lego/zone.shtml" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline">分龄配置参考（外部教学方案）</a>
                         </div>
                         <dl className="mt-5 grid gap-x-8 gap-y-5 md:grid-cols-2">
                             {topic.equipmentSets.map((set) => (
                                 <div key={set.code} className="border-l-2 border-[hsl(var(--topic-accent)/0.35)] pl-4">
                                     <dt className="text-base font-bold text-foreground"><span className="mr-2 tabular-nums text-[hsl(var(--topic-accent))]">{set.code}</span>{set.name}</dt>
                                     <dd className="mt-2 text-sm leading-7 text-muted-foreground">{set.use}</dd>
-                                    <dd><a href={set.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline">官方套装资料（英文）</a></dd>
                                 </div>
                             ))}
                         </dl>
@@ -266,7 +264,6 @@ export default async function LearningTopicPage({ params }: PageProps) {
                                 </div>
                             ))}
                         </dl>
-                        <a className="mt-4 inline-flex min-h-11 items-center text-xs text-[hsl(var(--nav-active))] hover:underline" href="https://assets.education.lego.com/v3/assets/blt293eea581807678a/bltb2ff88770e40583b/613ab1b40f12922b05ea6df0/Engineering_Design_Notebook_Build_to_Launch_Printers_Marks.pdf?locale=en-us" target="_blank" rel="noopener noreferrer">互锁与加固参考：LEGO Education 搭建指南（英文 PDF）</a>
                     </section>
                 ) : null}
 

@@ -359,6 +359,7 @@ export function buildSpeciesProfileJsonLd(species: SpeciesProfileJsonLdInput) {
 }
 
 interface ProjectJsonLdInput {
+  mode?: "activity" | "observation" | "preparation";
   author?: string | null;
   authorId?: string | null;
   dateCreated?: string | null;
@@ -434,7 +435,7 @@ export function buildProjectJsonLd(project: ProjectJsonLdInput) {
   };
 
   const faqGraph = buildProjectFaqGraph(project, url);
-  const howTo = howToSteps.length === 0
+  const howTo = (project.mode === "observation" || project.mode === "preparation") || howToSteps.length === 0
     ? []
     : [
         {
@@ -471,6 +472,7 @@ function buildProjectFaqGraph(project: ProjectJsonLdInput, url: string) {
       acceptedAnswer: { '@type': 'Answer', text: item.answer },
     })) }] : [];
   }
+  if (project.mode === 'observation' || project.mode === 'preparation') return [];
   const realSteps = (project.steps ?? []).filter(step => !isPlaceholderProjectStep(step));
   const title = project.title.trim();
   const questions: Array<{ question: string; answer: string }> = [];

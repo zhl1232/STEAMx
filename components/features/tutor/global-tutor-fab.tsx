@@ -25,6 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { decideTutorDraft } from './tutor-draft'
 import { XiaoDi, type XiaoDiState } from '@/components/features/tutor/xiaodi'
 import { TutorFabMascot } from '@/components/features/tutor/tutor-fab-mascot'
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
@@ -422,6 +423,14 @@ export function GlobalTutorFab({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, user, busy, history.startingNewTopic, tutorCtx?.pendingSend])
+
+  useEffect(() => {
+    if (!open || !tutorCtx?.pendingDraft) return
+    const decision = decideTutorDraft(tutorCtx.pendingDraft, user?.id, context.contextType, context.contextId, input, pendingImages.length)
+    tutorCtx.clearPendingDraft()
+    if (decision === 'prefill') setInput(tutorCtx.pendingDraft.text)
+    if (decision === 'preserve') toast({ title: '已保留当前草稿，请发送或清空文字和照片后再选问题。' })
+  }, [open, tutorCtx, user?.id, context.contextType, context.contextId, input, pendingImages.length, toast])
 
   // 输入框/发送按钮共用：携带待发图片，确认会发送后再清空，避免被 guard 拦截时丢图。
   const submitComposer = () => {

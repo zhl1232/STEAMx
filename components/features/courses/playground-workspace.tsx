@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { lessonTeachingResources } from "@/lib/courses/teaching-resources";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Brain,
@@ -165,6 +166,8 @@ export function PlaygroundWorkspace({
         }
     }, [courseId, lesson.id, onCompleted, promptLogin, toast, user]);
 
+    const teachingResources = lessonTeachingResources(lesson.resources);
+
     return (
         <section className="flex min-h-0 flex-1 flex-col bg-muted/20">
             <div className="flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-y-auto">
@@ -234,13 +237,13 @@ export function PlaygroundWorkspace({
                         ) : null}
 
                         {/* 参考资源：所有视口都放在讲解面板底部，避免与侧栏重复 */}
-                        {lesson.resources?.length ? (
+                        {teachingResources.length ? (
                             <div className="border-t border-border pt-3">
                                 <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                                     参考资源
                                 </h3>
                                 <ul className="space-y-1">
-                                    {lesson.resources.map((r) => (
+                                    {teachingResources.map((r) => (
                                         <li key={r.url}>
                                             <a
                                                 href={r.url}

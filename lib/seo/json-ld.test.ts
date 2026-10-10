@@ -430,3 +430,11 @@ describe("buildBrandFaqPageJsonLd", () => {
     expect(data.mainEntity[5].acceptedAnswer.text).toContain("https://steam.bj.cn");
   });
 });
+
+it('does not turn viewing prompts into a HowTo or automatic how-to FAQ', () => {
+  const graph = JSON.stringify(buildProjectJsonLd({ id: 1249, title: '观看讨论', mode: 'observation', materials: ['本页视频'], steps: [{ title: '比较现象', description: '记录看见的变化。' }] }));
+  expect(graph).not.toContain('HowTo');
+  expect(graph).not.toContain('怎么做');
+  expect(graph).not.toContain('可以按步骤做');
+  expect(graph).toContain('Article');
+});

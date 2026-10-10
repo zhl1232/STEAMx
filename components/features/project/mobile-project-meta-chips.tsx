@@ -35,6 +35,7 @@ export interface MobileProjectMetaChipsProps {
   category?: string | null
   categoryTone: CategoryTone
   topicLabel?: string | null
+  viewingGuide?: boolean; practicePending?: boolean
   stepsCount: number
   materialsCount: number
   classification?: PublicClassification | null
@@ -44,6 +45,7 @@ export function MobileProjectMetaChips({
   category,
   categoryTone,
   topicLabel,
+  practicePending = false, viewingGuide = false,
   stepsCount,
   materialsCount,
   classification,
@@ -74,11 +76,11 @@ export function MobileProjectMetaChips({
         {stepsCount > 0 ? (
           <MobileMetaChip
             icon={ListChecks}
-            label={`${stepsCount} 步`}
+            label={practicePending ? "实践准备" : viewingGuide ? `${stepsCount} 项观看要点` : `${stepsCount} 步`}
             className="border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-muted))] text-muted-foreground"
           />
         ) : null}
-        {materialsCount > 0 ? (
+        {!viewingGuide && materialsCount > 0 ? (
           <MobileMetaChip
             icon={Box}
             label={`${materialsCount} 项材料`}

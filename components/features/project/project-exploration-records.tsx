@@ -99,12 +99,12 @@ function ExplorationRecordLikes({ likes }: { likes: number }) {
   )
 }
 
-function ExplorationRecordsEmptyState({ action }: { action?: ReactNode }) {
+function ExplorationRecordsEmptyState({ action, practicePending = false, viewingGuide = false }: { action?: ReactNode; viewingGuide?: boolean; practicePending?: boolean }) {
   return (
     <div className="app-empty-state py-8">
       <p className="text-sm font-semibold text-foreground">还没有探索记录</p>
       <p className="mt-1 text-xs leading-5 text-muted-foreground">
-        完成一次探索后，上传作品，记录就会出现在这里。
+        {practicePending ? "可先记录材料准备与问题；操作资料补齐后，再记录实际实验过程。" : viewingGuide ? "观看后可交流发现与问题，也可记录心得；无需制作或上传作品。" : "完成一次探索后，上传作品，记录就会出现在这里。"}
       </p>
       {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
     </div>
@@ -116,14 +116,16 @@ export function ProjectExplorationRecordsHorizontal({
   completions,
   limit = 6,
   emptyActionSlot,
+  practicePending = false, viewingGuide = false,
 }: {
   projectId: string | number
   completions: ProjectCompletion[]
   limit?: number
   emptyActionSlot?: ReactNode
+  viewingGuide?: boolean; practicePending?: boolean
 }) {
   if (completions.length === 0) {
-    return <ExplorationRecordsEmptyState action={emptyActionSlot} />
+    return <ExplorationRecordsEmptyState action={emptyActionSlot} practicePending={practicePending} viewingGuide={viewingGuide} />
   }
 
   return (
@@ -146,12 +148,14 @@ export function ProjectExplorationRecordsBlock({
   limit = 6,
   className,
   emptyActionSlot,
+  practicePending = false, viewingGuide = false,
 }: {
   projectId: string | number
   completions: ProjectCompletion[]
   limit?: number
   className?: string
   emptyActionSlot?: ReactNode
+  viewingGuide?: boolean; practicePending?: boolean
 }) {
   return (
     <div className={className}>
@@ -160,6 +164,7 @@ export function ProjectExplorationRecordsBlock({
         completions={completions}
         limit={limit}
         emptyActionSlot={emptyActionSlot}
+        practicePending={practicePending} viewingGuide={viewingGuide}
       />
       {completions.length > 0 ? (
         <Link

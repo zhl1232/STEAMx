@@ -37,9 +37,9 @@ describe("SiteFooter", () => {
     expect(screen.queryByRole("link", { name: "赞助我们" })).not.toBeInTheDocument();
   });
 
-  it("shows the canonical steam.bj.cn host in the copyright line", () => {
+  it("keeps filing links without an external brand promotion", () => {
     render(<SiteFooter />);
 
-    expect(screen.getByRole("link", { name: "steam.bj.cn" })).toHaveAttribute("href", "https://steam.bj.cn");
+    expect(screen.queryByRole("link", { name: "steam.bj.cn" })).not.toBeInTheDocument();
   });
 });

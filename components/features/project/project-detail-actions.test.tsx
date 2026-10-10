@@ -242,3 +242,27 @@ it("reports start failure, permits retry and prevents overlapping starts", async
   fireEvent.click(button)
   await waitFor(()=>expect(mocks.startExploration).toHaveBeenCalledTimes(2))
 })
+
+it("offers viewing guidance without starting a project or requiring an upload", () => {
+  mocks.user = null
+  mocks.startExploration.mockClear()
+  render(<ProjectDetailActions projectId={1249} projectTitle="观看导读" variant="hero" viewingGuide />)
+  expect(screen.getByRole("link", { name: "查看观看准备与要点" })).toHaveAttribute("href", "#project-materials")
+  fireEvent.click(screen.getByRole("button", { name: "登录记录观看心得" }))
+  expect(mocks.promptLogin).toHaveBeenCalledWith(expect.any(Function), expect.objectContaining({ description: "登录后可记录观看中发现的现象与问题，无需制作或上传作品" }))
+  expect(screen.queryByText("查看材料与步骤")).not.toBeInTheDocument()
+  expect(screen.getByText(/无需制作或上传作品/)).toBeInTheDocument()
+  expect(mocks.startExploration).not.toHaveBeenCalled()
+})
+
+it('preparation entry opens records without starting an unverified experiment', async () => {
+  vi.clearAllMocks()
+  mocks.user = { id: 'fixture-user' }
+  mocks.exploring = false
+  mocks.completed = false
+  render(<ProjectDetailActions projectId={1213} projectTitle="火山喷发" variant="hero" practicePending />)
+  expect(screen.getByRole('link', { name: '查看材料与准备' })).toHaveAttribute('href', '#project-materials')
+  fireEvent.click(screen.getByRole('button', { name: '记录探索过程' }))
+  await waitFor(() => expect(mocks.push).toHaveBeenCalledWith('/project/1213/records'))
+  expect(mocks.startExploration).not.toHaveBeenCalled()
+})

@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { lessonTeachingResources } from "@/lib/courses/teaching-resources";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+const ImageLightbox = dynamic(() => import("@/components/features/shared/image-lightbox").then(module => module.ImageLightbox), { ssr: false });
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import type { CourseLessonRow, CourseLessonStep } from "@/lib/courses/types";
@@ -36,6 +39,8 @@ export function LessonSidebar({
         typeof lesson.content?.summary === "string" ? lesson.content.summary : null;
     const steps = displaySteps ?? lesson.steps ?? [];
     const scratch = lesson.lesson_type === "scratch" ? lesson.content?.scratch : undefined;
+
+    const teachingResources = lessonTeachingResources(lesson.resources);
 
     return (
         <aside className="flex h-full min-h-0 flex-col overflow-hidden bg-card">
@@ -102,13 +107,13 @@ export function LessonSidebar({
                         <p><strong>想一想：</strong>{scratch.reflection}</p>
                     </div>
                 ) : null}
-                {lesson.resources?.length ? (
+                {teachingResources.length ? (
                     <div className="mt-4 border-t border-border pt-3">
                         <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
                             参考资源
                         </h3>
                         <ul className="space-y-1">
-                            {lesson.resources.map((r) => (
+                            {teachingResources.map((r) => (
                                 <li key={r.url}>
                                     <a
                                         href={r.url}
@@ -126,16 +131,7 @@ export function LessonSidebar({
             </div>
             {lesson.lesson_type === "scratch" ? (
                 <p className="shrink-0 border-t border-border px-4 py-2 text-center text-[10px] leading-relaxed text-muted-foreground">
-                    基于{" "}
-                    <a
-                        href="https://scratch.mit.edu"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline"
-                    >
-                        Scratch
-                    </a>{" "}
-                    · 作品保存在本平台
+                    基于 Scratch · 作品保存在本平台
                 </p>
             ) : null}
         </aside>
@@ -159,6 +155,7 @@ function LessonStepItem({
     directoryOnly: boolean;
     onClick: () => void;
 }) {
+    const [previewIndex, setPreviewIndex] = useState<number | null>(null);
     const itemRef = useRef<HTMLButtonElement>(null);
     const images = (step.visuals ?? []).filter((visual) => visual.type === "scratch_image");
 
@@ -216,11 +213,11 @@ function LessonStepItem({
                     </p>
                 ) : null}
             </button>
-            {active && !directoryOnly && images.map((visual) => (
+            {active && !directoryOnly && images.map((visual, imageIndex) => (
                 <figure key={visual.src} className="mt-2 overflow-hidden rounded-lg border border-border bg-white p-1.5">
-                    <a href={visual.src} target="_blank" rel="noopener noreferrer" aria-label={`放大查看：${visual.alt}`}>
+                    <button type="button" className="block w-full" onClick={() => setPreviewIndex(imageIndex)} aria-label={`放大查看：${visual.alt}`}>
                         <Image src={visual.src} alt={visual.alt} width={640} height={360} unoptimized className="h-auto w-full" />
-                    </a>
+                    </button>
                     {visual.caption ? <figcaption className="px-1 py-1.5 text-xs text-muted-foreground">{visual.caption}</figcaption> : null}
                 </figure>
             ))}
@@ -229,6 +226,7 @@ function LessonStepItem({
                     {step.checklist.map((item) => <li key={item}>{item}</li>)}
                 </ul>
             ) : null}
+            {previewIndex !== null && <ImageLightbox open onOpenChange={open => { if (!open) setPreviewIndex(null); }} images={images.map(image => image.src)} index={previewIndex} onIndexChange={setPreviewIndex} alt={images[previewIndex]?.alt ?? "课时图示"} captions={images.map(image => image.caption)} />}
         </li>
     );
 }

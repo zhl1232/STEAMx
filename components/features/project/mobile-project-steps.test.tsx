@@ -53,4 +53,17 @@ describe("MobileProjectSteps", () => {
     expect(screen.getByText("暂无步骤说明")).toBeInTheDocument()
     expect(screen.queryByRole("button", { name: /全部/ })).not.toBeInTheDocument()
   })
+  it('labels viewing guides as observation points', () => {
+    render(<MobileProjectSteps steps={steps} observationOnly />)
+    expect(screen.getByRole('heading', { name: '观看要点（共 2 项）' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /探索步骤/ })).not.toBeInTheDocument()
+  })
+})
+
+it("uses viewing language for empty points and untitled points", () => {
+  const { rerender } = render(<MobileProjectSteps steps={[]} observationOnly />)
+  expect(screen.getByText("暂无观看要点")).toBeInTheDocument()
+  expect(screen.queryByText("暂无步骤说明")).not.toBeInTheDocument()
+  rerender(<MobileProjectSteps steps={[{title: "", description: "观察变化"}]} observationOnly />)
+  expect(screen.getByText("观看要点 1")).toBeInTheDocument()
 })
