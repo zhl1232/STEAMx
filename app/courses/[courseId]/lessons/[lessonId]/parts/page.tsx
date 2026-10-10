@@ -10,6 +10,7 @@ import { lookupLdrawBom } from "@/lib/courses/ldraw-bom-source";
 import { listStoreProductsForContext } from "@/lib/store/service";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
+import { LessonMaterialsPreparation } from "@/components/features/courses/lesson-materials-preparation";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 
 type PageProps = { params: Promise<{ courseId: string; lessonId: string }> };
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
   return buildPageMetadata({
     title: `${context.lesson.title} 零件清单`,
-    description: `搭「${context.lesson.title}」需要哪些积木：按颜色和形状列出全部零件与数量，开搭前先配齐。`,
+    description: `搭「${context.lesson.title}」需要哪些积木：按颜色和形状列出全部零件与数量，开搭前先配齐。${Number(courseId) === 6 ? "工程搭建可参考 45002。" : ""}`,
     path,
   });
 }
@@ -123,6 +124,8 @@ export default async function LessonPartsPage({ params }: PageProps) {
             <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这节课的" />
           </div>
         ) : null}
+
+        <LessonMaterialsPreparation courseId={courseId} bom={bom} />
 
         <section className="mt-6" aria-labelledby="all-parts-heading">
           <h2 id="all-parts-heading" className="mb-3 text-base font-black tracking-tight text-foreground md:text-lg">
