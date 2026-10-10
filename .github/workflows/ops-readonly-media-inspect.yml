@@ -1,31 +1,35 @@
 name: Ops Readonly Media Inspect
+
 on:
   workflow_dispatch:
+
 permissions:
   contents: read
+
 concurrency:
   group: ops-readonly-media-inspect
   cancel-in-progress: false
+
 jobs:
   inspect:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment: Production
     steps:
-      - name: Run
+      - name: Memswap verify
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          port: ${{ secrets.PROD_SSH_PORT }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
           timeout: 30s
           command_timeout: 2m
           script_stop: true
           script: |
-            echo "===== step:start"
-            echo "IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXIgd2VueWFuIHdlbnlhbi1kcmFmdHM7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gc3dhcCA9PT09PSIKZnJlZSAtbTsgc3dhcG9uIC0tc2hvdyB8fCB0cnVlOyBjYXQgL3Byb2Mvc3lzL3ZtL3N3YXBwaW5lc3MKZWNobyAiPT09PT0gaGVhbHRoIGxvY2FsID09PT09IgpjdXJsIC1zUyAtLW1heC10aW1lIDUgaHR0cDovLzEyNy4wLjAuMTozMDAwL2FwaS9oZWFsdGggfHwgdHJ1ZQo=" | base64 -d > /tmp/memcheck.sh
-            chmod +x /tmp/memcheck.sh
-            bash /tmp/memcheck.sh
+            set -euo pipefail
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXIgd2VueWFuIHdlbnlhbi1kcmFmdHM7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gc3dhcCA9PT09PSIKZnJlZSAtbTsgc3dhcG9uIC0tc2hvdyB8fCB0cnVlOyBjYXQgL3Byb2Mvc3lzL3ZtL3N3YXBwaW5lc3MKZWNobyAiPT09PT0gaGVhbHRoIGxvY2FsID09PT09IgpjdXJsIC1zUyAtLW1heC10aW1lIDUgaHR0cDovLzEyNy4wLjAuMTozMDAwL2FwaS9oZWFsdGggfHwgdHJ1ZQo=' | base64 -d > /tmp/memcheck.sh
+            chmod 700 /tmp/memcheck.sh
+            rc=0; bash /tmp/memcheck.sh || rc=$?
             rm -f /tmp/memcheck.sh
-            echo "===== step:done"
+            exit $rc
