@@ -13,10 +13,11 @@ concurrency:
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     environment: Production
+    timeout-minutes: 4
     steps:
-      - name: Restore swapfile
+      - name: Readonly - hourly memcheck
+        timeout-minutes: 3
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -24,12 +25,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           timeout: 30s
-          command_timeout: 8m
+          command_timeout: 2m
           script_stop: true
           script: |
             set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKVFM9JChkYXRlICslWSVtJWQtJUglTSVTKQpCSz0vcm9vdC9vcHMtYmFja3Vwcy9zd2FwLSRUUwpta2RpciAtcCAiJEJLIgplY2hvICI9PT09PSBiZWZvcmUgPT09PT0iCmZyZWUgLW0Kc3dhcG9uIC0tc2hvdyB8fCB0cnVlCmNhdCAvcHJvYy9zeXMvdm0vc3dhcHBpbmVzcwpscyAtbGEgL3N3YXBmaWxlIDI+L2Rldi9udWxsIHx8IGVjaG8gIm5vIC9zd2FwZmlsZSIKZ3JlcCAtbiBzd2FwIC9ldGMvZnN0YWIgfHwgZWNobyAibm8gc3dhcCBpbiBmc3RhYiIKY3AgLWEgL2V0Yy9mc3RhYiAiJEJLL2ZzdGFiLnByZXYiClsgLWYgL2V0Yy9zeXNjdGwuZC85OS1zdGVhbXgtc3dhcHBpbmVzcy5jb25mIF0gJiYgY3AgLWEgL2V0Yy9zeXNjdGwuZC85OS1zdGVhbXgtc3dhcHBpbmVzcy5jb25mICIkQksvIiB8fCB0cnVlCnN5c2N0bCAtYSAyPi9kZXYvbnVsbCB8IGdyZXAgc3dhcHBpbmVzcyA+ICIkQksvc3dhcHBpbmVzcy5wcmV2IiB8fCB0cnVlCgojIENyZWF0ZSBzd2FwZmlsZSBpZiBtaXNzaW5nIG9yIHdyb25nIHNpemUgKDwxLjVHKQpuZWVkX2NyZWF0ZT0wCmlmIFsgISAtZiAvc3dhcGZpbGUgXTsgdGhlbgogIG5lZWRfY3JlYXRlPTEKZWxpZiBbICIkKHN0YXQgLWMlcyAvc3dhcGZpbGUgMj4vZGV2L251bGwgfHwgZWNobyAwKSIgLWx0IDE1MDAwMDAwMDAgXTsgdGhlbgogIGVjaG8gImV4aXN0aW5nIC9zd2FwZmlsZSB0b28gc21hbGwsIHJlY3JlYXRpbmciCiAgc3dhcG9mZiAvc3dhcGZpbGUgMj4vZGV2L251bGwgfHwgdHJ1ZQogIG5lZWRfY3JlYXRlPTEKZmkKCmlmIFsgIiRuZWVkX2NyZWF0ZSIgPSAxIF07IHRoZW4KICAjIFByZWZlciBmYWxsb2NhdGU7IGZhbGwgYmFjayB0byBkZAogIHJtIC1mIC9zd2FwZmlsZQogIGlmIGZhbGxvY2F0ZSAtbCAyRyAvc3dhcGZpbGUgMj4vZGV2L251bGw7IHRoZW4KICAgIGVjaG8gImNyZWF0ZWQgL3N3YXBmaWxlIHZpYSBmYWxsb2NhdGUiCiAgZWxzZQogICAgZGQgaWY9L2Rldi96ZXJvIG9mPS9zd2FwZmlsZSBicz0xTSBjb3VudD0yMDQ4IHN0YXR1cz1wcm9ncmVzcwogIGZpCiAgY2htb2QgNjAwIC9zd2FwZmlsZQogIG1rc3dhcCAvc3dhcGZpbGUKZmkKCmNobW9kIDYwMCAvc3dhcGZpbGUKIyBBY3RpdmF0ZSBpZiBub3QgYWxyZWFkeQppZiAhIHN3YXBvbiAtLXNob3cgfCBncmVwIC1xICcvc3dhcGZpbGUnOyB0aGVuCiAgbWtzd2FwIC9zd2FwZmlsZSA+L2Rldi9udWxsCiAgc3dhcG9uIC9zd2FwZmlsZQogIGVjaG8gInN3YXBvbiAvc3dhcGZpbGUgb2siCmVsc2UKICBlY2hvICIvc3dhcGZpbGUgYWxyZWFkeSBhY3RpdmUiCmZpCgojIGZzdGFiCmlmICEgZ3JlcCAtcUUgJ15bWzpzcGFjZTpdXSovc3dhcGZpbGVbWzpzcGFjZTpdXScgL2V0Yy9mc3RhYjsgdGhlbgogIHByaW50ZiAnXG4vc3dhcGZpbGUgbm9uZSBzd2FwIHN3IDAgMFxuJyA+PiAvZXRjL2ZzdGFiCiAgZWNobyAiYXBwZW5kZWQgZnN0YWIgZW50cnkiCmVsc2UKICBlY2hvICJmc3RhYiBhbHJlYWR5IGhhcyAvc3dhcGZpbGUiCmZpCgojIHN3YXBwaW5lc3MgMjAKcHJpbnRmICd2bS5zd2FwcGluZXNzPTIwXG4nID4gL2V0Yy9zeXNjdGwuZC85OS1zdGVhbXgtc3dhcHBpbmVzcy5jb25mCnN5c2N0bCAtcCAvZXRjL3N5c2N0bC5kLzk5LXN0ZWFteC1zd2FwcGluZXNzLmNvbmYKCmVjaG8gIj09PT09IGFmdGVyID09PT09IgpmcmVlIC1tCnN3YXBvbiAtLXNob3cKY2F0IC9wcm9jL3N5cy92bS9zd2FwcGluZXNzCmdyZXAgc3dhcCAvZXRjL2ZzdGFiCnN0YXQgLWMgJ3N3YXBmaWxlX2J5dGVzPSVzIG1vZGU9JWEnIC9zd2FwZmlsZQojIGhlYWx0aCBjaGVja3MgLSBkb24ndCByZXN0YXJ0IGFueXRoaW5nCmN1cmwgLXNTIC1vIC9kZXYvbnVsbCAtdyAnbG9jYWxfYXBwICV7aHR0cF9jb2RlfVxuJyAtLW1heC10aW1lIDEwIGh0dHA6Ly8xMjcuMC4wLjE6MzAwMC9hcGkvaGVhbHRoIHx8IGVjaG8gJ2xvY2FsX2FwcCBmYWlsJwpjdXJsIC1zUyAtbyAvZGV2L251bGwgLXcgJ2xvY2FsX3dlbnlhbiAle2h0dHBfY29kZX1cbicgLS1tYXgtdGltZSAxMCBodHRwOi8vMTI3LjAuMC4xOjMwODAvaGVhbHRoIHx8IGVjaG8gJ2xvY2FsX3dlbnlhbiBmYWlsJwpjdXJsIC1zUyAtbyAvZGV2L251bGwgLXcgJ2xvY2FsX2RyYWZ0cyAle2h0dHBfY29kZX1cbicgLS1tYXgtdGltZSAxMCBodHRwOi8vMTI3LjAuMC4xOjMwODEvZHJhZnRzL2hlYWx0aCB8fCBlY2hvICdsb2NhbF9kcmFmdHMgZmFpbCcKZG9ja2VyIHBzIC0tZm9ybWF0ICd7ey5OYW1lc319IHt7LlN0YXR1c319JyB8IHNvcnQKZWNobyAiPT09PT0gYmFja3VwICRCSyA9PT09PSIKbHMgLWxhICIkQksiCmVjaG8gIj09PT09IGRvbmUgPT09PT0iCg==' | base64 -d > /tmp/restore-swap.sh
-            chmod 700 /tmp/restore-swap.sh
-            rc=0; bash /tmp/restore-swap.sh || rc=$?
-            rm -f /tmp/restore-swap.sh
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXI7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gZnJlZSA9PT09PSIKZnJlZSAtbQo=' | base64 -d > /tmp/memcheck.sh
+            chmod 700 /tmp/memcheck.sh
+            rc=0; bash /tmp/memcheck.sh || rc=$?
+            rm -f /tmp/memcheck.sh
             exit $rc
