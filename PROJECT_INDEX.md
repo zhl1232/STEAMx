@@ -380,7 +380,7 @@
 - `project-description.ts` — 项目页确定性文案：识别导入占位简介（「材料与步骤见正文。」「物理探索 木质科技制作」「木质科学」、与标题相同等）和「观看实验视频 / 见视频」占位步骤；`buildProjectOverviewText()` 仅用真实字段（标题、分类/子分类、复核年龄/难度/陪同、可见标签、步骤标题、材料名、是否有视频）拼出项目概览，占位项目用它替换页面简介与 JSON-LD 描述，普通项目在桌面 Hero 追加一段概览；`buildProjectSeoDescription()` 生成 80–150 字 meta description（真实简介沿用 `project-citability` 文案，过短时补步骤/材料）
 - `species-description.ts` — 物种页 meta description（中文名+学名+分类+识别/环境/时段笔记，≤150 字）与页面可见简介（学名、分类、别名、常见时段、公开观察数与最近观察日期）
 - `site.ts` — 站点名称、描述、URL 与 ICP 备案号；`getSiteUrl()` / `buildAbsoluteUrl()` 供 metadata、sitemap、JSON-LD、llms.txt 复用，生产环境即使误配 HTTP 或旧域也统一归一到 `https://steam.bj.cn`
-- `canonical-host.ts` — 旧域与 `www.steam.bj.cn` 301 到 `https://steam.bj.cn`，供 `proxy.ts` 使用
+- `canonical-host.ts` — 旧域与 `www.steam.bj.cn` 301 到 `https://steam.bj.cn`，供 `proxy.ts` 使用；非生产 host 判断显式排除旧域 `steamx.cc` / `www.steamx.cc`，旧域仅带 `X-Robots-Tag: noindex`（不加 nofollow，保留百度改版权重迁移），proxy 末尾缺失头时也优先按旧域兜底；dev / 预览等其它公网非生产 host 带 `noindex, nofollow`，主域及其 www、localhost、IP、无点内部名、空 host 不加该头
 - `site-verification.ts` — 根布局 verification meta：神马/字节硬编码 + 可选 `GOOGLE_SITE_VERIFICATION` / `BAIDU_SITE_VERIFICATION` / `BING_SITE_VERIFICATION`
 - `json-ld.ts` — 首页 WebSite/Organization/SearchAction、`/about` AboutPage、项目页 Article（有步骤时再加 HowTo）、课程 Course、课时/资料卡 LearningResource、物种 Taxon/WebPage、公开作品 CreativeWork、带 Taxon 与 contentLocation 的自然观察 CreativeWork、面包屑 JSON-LD；已复核内容才写入 `typicalAgeRange` / `educationalLevel`，不暴露内部星级、候选值或审核元数据；项目 Article 输出真实作者及数据库创建/更新时间（不伪造发布时间），详情页显示对应日期；只使用已有公开数据，由 `components/seo/json-ld.tsx` 输出 `<script type="application/ld+json">`
 - `project-citability.ts` — 项目页面向豆包、文心、通义的引用摘要：按项目类型组合年龄、reflection 或描述与关键词；项目 JSON-LD 同时输出材料/步骤 HowTo 和 reflection 结论 FAQ，页面移动端与桌面端都显示结论区块
