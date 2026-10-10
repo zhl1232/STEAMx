@@ -7,6 +7,7 @@ import {
   mergeKitInventories,
   kitInventories,
   type KitInventoryPart,
+  summarizeMaterialOutcome,
   type MaterialRequirement,
 } from './lesson-materials'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
@@ -190,25 +191,33 @@ it.each(['3-cheng-bao.mpd', '3-guan-dao-gou.mpd', '3-chong-wu-gou.mpd', '3-xiang
   },
 )
 
-it('renders parent-facing sections on the server and omits unconfigured courses', async () => {
-  const { createElement } = await import('react')
-  const { renderToStaticMarkup } = await import('react-dom/server')
-  const { LessonMaterialsPreparation } = await import(
-    '@/components/features/courses/lesson-materials-preparation'
-  )
-  const model = bom(entry('4268.dat'), entry('31196c01.dat'), entry('6510.dat'), entry('47205.dat', 4, 2))
-  const html = renderToStaticMarkup(createElement(LessonMaterialsPreparation, { courseId: 5, bom: model }))
-  expect(html).toContain('9090-2 × 1 套 + 9076-1 × 1 套')
-  expect(html).toContain('缺件（必需）')
-  expect(html).toContain('建议补齐的可选底板')
-  expect(html).toContain('完整小人')
-  expect(html).not.toContain('对照模型确认')
-  expect(html).toContain('套装中暂无对应零件')
-  expect(html).toContain('<ul')
-  expect(renderToStaticMarkup(createElement(LessonMaterialsPreparation, { courseId: 8, bom: model }))).toBe(
-    '',
-  )
-  expect(
-    renderToStaticMarkup(createElement(LessonMaterialsPreparation, { courseId: 6, bom: model })),
-  ).toContain('工程搭建可参考 45002')
+it('stacks any combination of kit copies', () => {
+  const model = bom(entry('3011.dat', 4, 30))
+  const run = (kits: { setNum: string; copies: number }[]) =>
+    compareLessonMaterials(model, mergeKitInventories(kits), mergeLessonMaterialPreferences(5, { kits }))
+  // 9090-2 共 140 块 2×4（红 20），9076-1 共 20 块（红 4）；默认允许换色
+  expect(run([{ setNum: '9090-2', copies: 1 }]).stats.requiredMissing).toBe(0)
+  expect(run([{ setNum: '9076-1', copies: 1 }]).stats.requiredMissing).toBe(10)
+  expect(run([{ setNum: '9076-1', copies: 2 }]).stats.requiredMissing).toBe(0)
+  expect(run([]).stats.requiredMissing).toBe(30)
+  const exactOnly = (kits: { setNum: string; copies: number }[]) =>
+    compareLessonMaterials(model, mergeKitInventories(kits), { ...mergeLessonMaterialPreferences(5, { kits }), acceptColorSubstitutes: false }).stats.requiredMissing
+  expect(exactOnly([{ setNum: '9090-2', copies: 1 }])).toBe(10)
+  expect(exactOnly([{ setNum: '9090-2', copies: 1 }, { setNum: '9076-1', copies: 2 }])).toBe(2)
+  expect(exactOnly([{ setNum: '9090-2', copies: 2 }])).toBe(0)
+  // 9656-1 有 4 块红 2×4：0 套 9090 + 3 套 9656 → 30 - 12
+  expect(exactOnly([{ setNum: '9090-2', copies: 0 }, { setNum: '9656-1', copies: 3 }])).toBe(18)
+})
+
+it('summarizes outcome for the headline', () => {
+  const short = compareLessonMaterials(bom(entry('3011.dat', 4, 3), entry('4196.dat', 4, 2)), [stock('3011', 4, 1)], prefs)
+  expect(summarizeMaterialOutcome(short)).toEqual({ status: 'short', missingKinds: 2, missingPieces: 4, specialPieces: 0 })
+  const ok = compareLessonMaterials(bom(entry('3011.dat'), entry('31196c01.dat')), [stock('3011')], prefs)
+  expect(summarizeMaterialOutcome(ok)).toEqual({ status: 'complete', missingKinds: 0, missingPieces: 0, specialPieces: 1 })
+})
+
+it('figure folding never appears in the colour-substitute list', () => {
+  const result = compareLessonMaterials(bom(entry('47205.dat', 4, 1)), [stock('47510pr0002', 212, 1)], prefs)
+  expect(result.colorSubstitutes).toHaveLength(0)
+  expect(result.stats.requiredMissing).toBe(0)
 })

@@ -77,7 +77,7 @@ exports[`real model 3-xiang-pi-ting.mpd 1`] = `
     "matched": 60,
     "optionalMissing": 0,
     "requiredMissing": 0,
-    "substituted": 8,
+    "substituted": 6,
     "total": 58,
     "unknown": 0,
   },

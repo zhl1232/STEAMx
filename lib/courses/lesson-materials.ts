@@ -69,7 +69,7 @@ export interface MaterialRequirement extends LdrawBomEntry {
   figureFolded?: boolean
 }
 
-function isUnknown(entry: MaterialRequirement, stock: KitInventoryPart[]): boolean {
+function isUnknown(entry: MaterialRequirement): boolean {
   if (entry.mapping.flags.unknown) return true
   if (entry.mapping.flags.figureComponent) return false
   if (!entry.mapping.partNums.length) return true
@@ -135,7 +135,7 @@ function allocateStock(
 
   for (const substitutePass of [false, true] as const) {
     for (const entry of order) {
-      if (isUnknown(entry, stock)) continue
+      if (isUnknown(entry)) continue
       const colorId = resolveLdrawColor(entry.colorCode)
       if (substitutePass && colorId !== undefined && !prefs.acceptColorSubstitutes) continue
 
@@ -223,7 +223,7 @@ export function compareLessonMaterials(
   allocateStock(remaining, stock, prefs)
 
   for (const entry of remaining) {
-    if (isUnknown(entry, stock)) {
+    if (isUnknown(entry)) {
       entry.status = 'unknown'
     } else if (entry.missing) {
       entry.status = isOptional(entry, prefs) ? 'optionalMissing' : 'requiredMissing'
@@ -238,7 +238,8 @@ export function compareLessonMaterials(
   const requiredMissing = remaining.filter((e) => e.status === 'requiredMissing')
   const optionalMissing = remaining.filter((e) => e.status === 'optionalMissing')
   const unknown = remaining.filter((e) => e.status === 'unknown')
-  const colorSubstitutes = remaining.filter((e) => e.substituted > 0)
+  // 小人折算本身就是「整人替代散件」，不放进换色列表，避免家长误以为要换颜色。
+  const colorSubstitutes = remaining.filter((e) => e.substituted > 0 && !e.figureFolded)
   const sum = (rows: MaterialRequirement[], field: 'missing' | 'substituted') =>
     rows.reduce((n, row) => n + row[field], 0)
 
@@ -259,5 +260,29 @@ export function compareLessonMaterials(
       total: bom.partCount,
       figureDemand,
     },
+  }
+}
+
+export type LessonMaterialsResult = ReturnType<typeof compareLessonMaterials>
+
+export interface MaterialOutcome {
+  /** complete：套装零件够用；short：还差必需零件 */
+  status: 'complete' | 'short'
+  /** 还差几种（按零件+颜色计） */
+  missingKinds: number
+  /** 还差几块 */
+  missingPieces: number
+  /** 套装里没有、需单独准备的特殊件块数 */
+  specialPieces: number
+}
+
+/** 页面顶部一句话结论用的汇总。 */
+export function summarizeMaterialOutcome(result: LessonMaterialsResult): MaterialOutcome {
+  const missingPieces = result.stats.requiredMissing
+  return {
+    status: missingPieces > 0 ? 'short' : 'complete',
+    missingKinds: result.requiredMissing.length,
+    missingPieces,
+    specialPieces: result.stats.unknown,
   }
 }

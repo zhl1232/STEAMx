@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Blocks, ChevronRight } from "lucide-react";
+import { ArrowLeft, Blocks, ChevronDown, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { MobilePageHeader } from "@/components/ui/mobile-page-header";
 import { getLessonInCourse } from "@/lib/api/courses";
+import { hasKitComparison } from "@/lib/courses/course-kit-config";
 import { lookupLdrawBom } from "@/lib/courses/ldraw-bom-source";
 import { listStoreProductsForContext } from "@/lib/store/service";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -125,44 +126,58 @@ export default async function LessonPartsPage({ params }: PageProps) {
           </div>
         ) : null}
 
-        <LessonMaterialsPreparation courseId={courseId} bom={bom} />
+        <LessonMaterialsPreparation courseId={courseId} entries={bom.entries} partCount={bom.partCount} />
 
-        <section className="mt-6" aria-labelledby="all-parts-heading">
-          <h2 id="all-parts-heading" className="mb-3 text-base font-black tracking-tight text-foreground md:text-lg">
-            全部零件
-          </h2>
-          <PartTable entries={bom.entries} />
-        </section>
+        <details className="group surface-card mt-6 rounded-xl" open={!hasKitComparison(courseId)}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 md:p-5 [&::-webkit-details-marker]:hidden">
+            <span>
+              <h2 id="all-parts-heading" className="text-base font-black tracking-tight text-foreground md:text-lg">
+                完整零件清单
+              </h2>
+              <span className="text-xs text-muted-foreground">
+                共 {bom.kindCount} 种、{bom.partCount} 块，开搭前对着找齐
+              </span>
+            </span>
+            <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
+          </summary>
+          <div className="px-4 pb-4 md:px-5 md:pb-5">
+            <PartTable entries={bom.entries} />
+          </div>
+        </details>
 
         {bom.steps.length > 0 ? (
-          <section className="mt-8" aria-labelledby="step-parts-heading">
-            <h2
-              id="step-parts-heading"
-              className="mb-1 text-base font-black tracking-tight text-foreground md:text-lg"
-            >
-              每步用到的零件
-            </h2>
-            <p className="mb-3 text-xs text-muted-foreground">没有新增零件的步骤是对照检查步，跳过即可。</p>
-            <ol className="space-y-3">
-              {bom.steps.map((step) => (
-                <li key={step.stepIndex} className="surface-card rounded-md p-4">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="text-sm font-bold text-foreground">第 {step.stepIndex + 1} 步</h3>
-                    <span className="text-xs font-semibold tabular-nums text-muted-foreground">
-                      新增 {step.partCount} 块
-                    </span>
-                  </div>
-                  {step.entries.length > 0 ? (
-                    <div className="mt-3">
-                      <PartTable entries={step.entries} />
+          <details className="group surface-card mt-4 rounded-xl">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 md:p-5 [&::-webkit-details-marker]:hidden">
+              <span>
+                <h2 id="step-parts-heading" className="text-base font-black tracking-tight text-foreground md:text-lg">
+                  每步用到的零件
+                </h2>
+                <span className="text-xs text-muted-foreground">没有新增零件的步骤是对照检查步，跳过即可。</span>
+              </span>
+              <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
+            </summary>
+            <div className="px-4 pb-4 md:px-5 md:pb-5">
+              <ol className="space-y-3">
+                {bom.steps.map((step) => (
+                  <li key={step.stepIndex} className="surface-card rounded-md p-4">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <h3 className="text-sm font-bold text-foreground">第 {step.stepIndex + 1} 步</h3>
+                      <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+                        新增 {step.partCount} 块
+                      </span>
                     </div>
-                  ) : (
-                    <p className="mt-2 text-xs text-muted-foreground">这一步只做对照检查，没有新增零件。</p>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </section>
+                    {step.entries.length > 0 ? (
+                      <div className="mt-3">
+                        <PartTable entries={step.entries} />
+                      </div>
+                    ) : (
+                      <p className="mt-2 text-xs text-muted-foreground">这一步只做对照检查，没有新增零件。</p>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </details>
         ) : null}
       </main>
     </div>
