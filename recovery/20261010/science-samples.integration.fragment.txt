@@ -1,0 +1,19 @@
+ import samples from './science-samples.data.json'
++import remainingDrafts from './science-remaining.data.json'
+
+ export function getScienceSample(id: string | number): ScienceSample | null {
+-  return samples.find(sample =&gt; sample.id === Number(id)) ?? null
++  return samples.find(sample =&gt; sample.id === Number(id)) ?? (
++    process.env.NODE_ENV === 'development'
++      ? remainingDrafts.find(sample =&gt; sample.id === Number(id)) ?? null
++      : null
++  )
+ }
+
+ export function scienceSampleIds(): number[] {
+-  return samples.map(sample =&gt; sample.id)
++  const active = process.env.NODE_ENV === 'development'
++    ? [...samples, ...remainingDrafts]
++    : samples
++  return active.map(sample =&gt; sample.id)
+ }

@@ -1,0 +1,38 @@
+test('remaining drafts preserve media and cannot expose unpublished notes in production', () =&gt; {
+  for (const [id, title] of [
+    [710, '高出杯沿的水'], [733, '倒不出的水'],
+    [781, '可乐遇见糖'], [787, '钥匙的定身术'],
+    [844, '漏斗不漏水'], [987, '磁悬浮'],
+    [580, '可乐加牛奶'], [713, '水中陀螺'],
+    [786, '让牙签动起来'], [983, '轻功了得'],
+  ] as const) {
+    const original = { ...project(id), title }
+    vi.stubEnv('NODE_ENV', 'development')
+    const draft = applyScienceSample(original)
+    expect(draft.steps!.length).toBeGreaterThan(1)
+    expect(draft.videoUrl).toBe(original.videoUrl)
+    expect(draft.image).toBe(original.image)
+    expect(original.steps).toHaveLength(1)
+    expect(applyScienceSample({ ...original, title: '其他项目' }).steps).toHaveLength(1)
+    expect(applyScienceSample({ ...original, category: '工程' }).steps).toHaveLength(1)
+
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(getScienceSample(id)).toBeNull()
+    expect(getScienceSampleForProject(draft)).toBeNull()
+    expect(applyScienceSample(original)).toBe(original)
+    expect(scienceSampleIds()).not.toContain(id)
+  }
+})
+
+test('candidates with unresolved video evidence do not get an instruction overlay', () =&gt; {
+  vi.stubEnv('NODE_ENV', 'development')
+  for (const [id, title] of [
+    [700, '简易飞镖'],
+    [847, '风车转转转'],
+    [1116, '站立的铁棒'],
+  ] as const) {
+    const original = { ...project(id), title }
+    expect(getScienceSample(id)).toBeNull()
+    expect(applyScienceSample(original)).toBe(original)
+  }
+})
