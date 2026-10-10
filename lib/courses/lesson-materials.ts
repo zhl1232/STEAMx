@@ -1,7 +1,9 @@
 import inventories from './ldraw-kit-inventories.json'
-import type { KitSelection } from './course-kit-config'
+import { hasKitComparison, type KitSelection } from './course-kit-config'
 import type { LessonMaterialPreferences } from './lesson-material-preferences'
 import {
+  normalizeLdrawPartId,
+  SYSTEM_TO_DUPLO_STAND_INS,
   resolveLdrawColor,
   resolveLdrawPart,
   VIRTUAL_CHILD_FIGURE,
@@ -9,6 +11,56 @@ import {
   type ResolvedLdrawPart,
 } from './ldraw-part-mapping'
 import type { LdrawBom, LdrawBomEntry } from '../utils/ldraw-bom'
+
+/** 为 Duplo 课程还原替身零件并识别结构薄板；全课和分步清单使用相同口径。 */
+export function prepareLessonBomForCourse(courseId: number, bom: LdrawBom): LdrawBom {
+  if (!hasKitComparison(courseId)) return bom
+
+  const prepareEntries = (entries: LdrawBomEntry[]): LdrawBomEntry[] => {
+    const merged = new Map<string, LdrawBomEntry>()
+    for (const entry of entries) {
+      const id = normalizeLdrawPartId(entry.partId)
+      const replacement = Object.hasOwn(SYSTEM_TO_DUPLO_STAND_INS, id)
+        ? SYSTEM_TO_DUPLO_STAND_INS[id]
+        : undefined
+      const prepared = { ...entry, ...replacement }
+      const key = `${normalizeLdrawPartId(prepared.partId)}|${prepared.colorCode}`
+      const previous = merged.get(key)
+      if (previous) {
+        previous.count += prepared.count
+        if (prepared.structural) previous.structural = true
+      } else merged.set(key, prepared)
+    }
+    return [...merged.values()].sort((a, b) => b.count - a.count)
+  }
+
+  const entries = prepareEntries(bom.entries)
+  const steps = bom.steps.map((step) => ({ ...step, entries: prepareEntries(step.entries) }))
+  const partColorKey = (entry: LdrawBomEntry) =>
+    `${normalizeLdrawPartId(entry.partId)}|${entry.colorCode}`
+  const structuralPlates = new Set<string>()
+  for (const step of steps) {
+    if (step.stepIndex <= 0) continue
+    for (const entry of step.entries) {
+      if (
+        normalizeLdrawPartId(entry.partId) === '51262' &&
+        resolveLdrawPart(entry.partId).flags.optionalBaseplate
+      ) {
+        structuralPlates.add(partColorKey(entry))
+      }
+    }
+  }
+  // 同号同色在后续步骤用于连接时，全课和所有分步行都必须备齐；24×24 底板不自动标记。
+  for (const entry of [...entries, ...steps.flatMap((step) => step.entries)]) {
+    if (structuralPlates.has(partColorKey(entry))) entry.structural = true
+  }
+  return {
+    ...bom,
+    entries,
+    kindCount: entries.length,
+    steps,
+  }
+}
 
 export interface KitInventoryPart {
   partNum: string
@@ -80,6 +132,7 @@ function isOptional(
   entry: MaterialRequirement,
   prefs: LessonMaterialPreferences,
 ): boolean {
+  if (entry.structural) return false
   return (
     !!entry.mapping.flags.optionalBaseplate &&
     !prefs.includeOptionalBaseplates &&

@@ -1,3 +1,4 @@
+import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Blocks, ChevronDown, ChevronRight } from "lucide-react";
@@ -79,7 +80,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
     );
   }
 
-  const bom = lookup.bom;
+  const bom = prepareLessonBomForCourse(courseId, lookup.bom);
   const contextualStoreProducts = await listStoreProductsForContext(supabase, `lesson:${lessonId}`);
 
   return (

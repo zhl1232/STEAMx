@@ -12,7 +12,6 @@ export interface PartFlags {
   figureUnits?: number
   optionalBaseplate?: boolean
   unknown?: boolean
-  nonDuplo?: boolean
 }
 
 export interface ResolvedLdrawPart {
@@ -35,6 +34,18 @@ export const KIT_CHILD_FIGURE_PART_NUMS = [
 
 /** 核算用的虚拟零件号：1 个 = 套装里 1 个完整小人 */
 export const VIRTUAL_CHILD_FIGURE = '__duplo_child_figure__'
+
+/** 大颗粒课程模型中以 System 比例绘制的 Duplo 替身零件。 */
+export const SYSTEM_TO_DUPLO_STAND_INS: Record<
+  string,
+  { partId: string; partName: string; partDescription: string }
+> = {
+  '3001': { partId: '3011.dat', partName: '2×4 积木', partDescription: 'Duplo Brick 2 x 4' },
+  '3003': { partId: '3437.dat', partName: '2×2 积木', partDescription: 'Duplo Brick 2 x 2' },
+  '3020': { partId: '40666.dat', partName: '2×4 薄板', partDescription: 'Duplo Plate 2 x 4' },
+  '41539': { partId: '51262.dat', partName: '8×8 薄板', partDescription: 'Duplo Plate 8 x 8' },
+  '3811': { partId: '4268.dat', partName: '24×24 底板', partDescription: 'Duplo Baseplate 24 x 24' },
+}
 
 const aliases: Record<string, ResolvedLdrawPart> = {
   // 车底盘
@@ -67,12 +78,12 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   // 可选底板
   '4268': { partNums: ['4268'], flags: { optionalBaseplate: true } },
   '51262': { partNums: ['51262'], flags: { optionalBaseplate: true } },
-  '3811': { partNums: ['3811'], flags: { optionalBaseplate: true, nonDuplo: true } },
-  // 小颗粒（不在大颗粒套装里，但已知 → 记必需缺件，不标未知）
-  '3001': { partNums: ['3001'], flags: { nonDuplo: true } },
-  '3003': { partNums: ['3003'], flags: { nonDuplo: true } },
-  '3020': { partNums: ['3020'], flags: { nonDuplo: true } },
-  '41539': { partNums: ['41539'], flags: { nonDuplo: true } },
+  '3811': { partNums: ['4268'], flags: { optionalBaseplate: true } },
+  // 大颗粒课程模型里的 System 替身 → 实际 Duplo 零件
+  '3001': { partNums: ['3011'], flags: {} },
+  '3003': { partNums: ['3437'], flags: {} },
+  '3020': { partNums: ['40666'], flags: {} },
+  '41539': { partNums: ['51262'], flags: {} },
   // 人物散件 → 由核算层折算
   '47198': { partNums: [], flags: { figureComponent: 'child', figureUnits: 0.5 } },
   '47198p03': { partNums: [], flags: { figureComponent: 'child', figureUnits: 0.5 } },

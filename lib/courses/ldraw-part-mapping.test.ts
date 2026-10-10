@@ -26,11 +26,17 @@ it.each(['4268.dat', '51262.dat', '3811.dat'])('optional plate %s', (id) => {
   expect(resolveLdrawPart(id).flags.unknown).toBeFalsy()
 })
 
-it.each(['3001.dat', '3003.dat', '3020.dat', '41539.dat'])('system brick known %s', (id) => {
-  const resolved = resolveLdrawPart(id)
-  expect(resolved.flags.unknown).toBeFalsy()
-  expect(resolved.flags.nonDuplo).toBe(true)
-  expect(resolved.partNums.length).toBeGreaterThan(0)
+it.each([
+  ['3001.dat', '3011'],
+  ['3003.dat', '3437'],
+  ['3020.dat', '40666'],
+  ['41539.dat', '51262'],
+  ['3811.dat', '4268'],
+])('System stand-in resolves to Duplo %s', (id, partNum) => {
+  expect(resolveLdrawPart(id)).toEqual({
+    partNums: [partNum],
+    flags: id === '3811.dat' ? { optionalBaseplate: true } : {},
+  })
 })
 
 it.each(['47198p03.dat', '47205.dat', '47206p01.dat', '63710.dat'])('figure component %s', (id) => {

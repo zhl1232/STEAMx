@@ -11,7 +11,7 @@ const vite = await createServer({
 })
 try {
   const { summarizePackedLdrawBom } = await vite.ssrLoadModule('/lib/utils/ldraw-bom.ts')
-  const { compareLessonMaterials, mergeKitInventories } = await vite.ssrLoadModule(
+  const { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse } = await vite.ssrLoadModule(
     '/lib/courses/lesson-materials.ts',
   )
   const { mergeLessonMaterialPreferences } = await vite.ssrLoadModule(
@@ -28,7 +28,7 @@ try {
   let complete = 0
   for (const file of files) {
     const bom = summarizePackedLdrawBom(readFileSync(`public/courses/ldraw/${file}`, 'utf8'))
-    const result = compareLessonMaterials(bom, inventory, prefs)
+    const result = compareLessonMaterials(prepareLessonBomForCourse(5, bom), inventory, prefs)
     if (!result.stats.requiredMissing) zero++
     if (!result.stats.requiredMissing && !result.stats.unknown) complete++
     const lessonMissing = new Map()
@@ -61,14 +61,14 @@ try {
   )
   const report = `# 小班套装对比粗算
 
-库存：9090-2 + 9076-1，各 1 套。每课独立使用完整库存；默认接受换色/印花替代，可选底板不计入必需缺件，结构底板白名单为空。人物散件折算为完整小人后与套装小人抵扣。
+库存：9090-2 + 9076-1，各 1 套。每课独立使用完整库存；默认接受换色/印花替代。51262（8×8 薄板，含 System 替身 41539）同号同色出现在 stepIndex > 0 的步骤时按结构件计入必需缺件；仅用于第 0 步时仍为可选。4268（24×24 底板，含替身 3811）保持可选，不计入必需缺件；手动结构底板白名单为空。人物散件折算为完整小人后与套装小人抵扣。
 
 - 模型：${files.length} 课
 - requiredMissing=0：${zero} 课
 - 同时没有未知零件：${complete} 课
 - 仍未知的零件种类：${unknownRows.length}
 
-零缺件不代表全部可搭；仍需检查可选底板是否在结构上起连接作用。库存是预解析 Rebrickable 种子，未联网刷新，也不反映客户丢失的零件。
+零缺件不代表全部可搭；结构件识别依据分步位置，仍需核对实际搭建中的连接和支撑。库存是预解析 Rebrickable 种子，未联网刷新，也不反映客户丢失的零件。
 
 | 缺件 TOP（按涉及课数） | 课数 | 缺少总块数 |
 | --- | ---: | ---: |

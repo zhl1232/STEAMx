@@ -127,7 +127,7 @@ export function LessonMaterialsPreparation({
       <div className="surface-card rounded-xl p-4 md:p-5">
         <h3 className="text-base font-black text-foreground">你有几套？</h3>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">没有的填 0，改完马上重新计算，会记在这台设备上。</p>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+        <ul className="mt-3 grid gap-2 pr-14 sm:grid-cols-2 sm:pr-0">
           {KIT_CATALOG.map((kit) => (
             <li
               key={kit.setNum}

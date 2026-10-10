@@ -24,6 +24,8 @@ export interface LdrawBomEntry {
   colorName: string
   colorHex: string
   count: number
+  /** 此零件在模型中起连接作用（不是垫在最底下的底板），即使形状是底板也必须备齐 */
+  structural?: boolean
 }
 
 export interface LdrawBomStep {
