@@ -25,6 +25,7 @@ exports[`real model 3-cheng-bao.mpd 1`] = `
     ],
   ],
   "stats": {
+    "figureDemand": 0,
     "matched": 165,
     "optionalMissing": 1,
     "requiredMissing": 14,
@@ -40,6 +41,7 @@ exports[`real model 3-chong-wu-gou.mpd 1`] = `
 {
   "required": [],
   "stats": {
+    "figureDemand": 0,
     "matched": 115,
     "optionalMissing": 1,
     "requiredMissing": 0,
@@ -55,11 +57,28 @@ exports[`real model 3-guan-dao-gou.mpd 1`] = `
 {
   "required": [],
   "stats": {
+    "figureDemand": 0,
     "matched": 42,
     "optionalMissing": 0,
     "requiredMissing": 0,
     "substituted": 16,
     "total": 42,
+    "unknown": 0,
+  },
+  "unknown": [],
+}
+`;
+
+exports[`real model 3-xiang-pi-ting.mpd 1`] = `
+{
+  "required": [],
+  "stats": {
+    "figureDemand": 2,
+    "matched": 60,
+    "optionalMissing": 0,
+    "requiredMissing": 0,
+    "substituted": 8,
+    "total": 58,
     "unknown": 0,
   },
   "unknown": [],
