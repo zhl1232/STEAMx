@@ -15,6 +15,7 @@ services:
     environment:
       NODE_OPTIONS: "${STEAM_APP_NODE_OPTIONS:---max-old-space-size=512}"
     mem_limit: "${STEAM_APP_MEMORY_LIMIT:-1g}"
+    memswap_limit: "${STEAM_APP_MEMORY_LIMIT:-1g}"
     healthcheck:
       test:
         - CMD
@@ -42,8 +43,9 @@ services:
       - .env.production
     environment:
       AUTO_INTERACTION_WORKER_URL: http://steam-app:3000/api/internal/auto-interactions/run
-      NODE_OPTIONS: "${AUTO_INTERACTION_NODE_OPTIONS:---max-old-space-size=192}"
-    mem_limit: "${AUTO_INTERACTION_MEMORY_LIMIT:-256m}"
+      NODE_OPTIONS: "${AUTO_INTERACTION_NODE_OPTIONS:---max-old-space-size=96}"
+    mem_limit: "${AUTO_INTERACTION_MEMORY_LIMIT:-128m}"
+    memswap_limit: "${AUTO_INTERACTION_MEMORY_LIMIT:-128m}"
     command: ["node", "auto-interactions-worker.mjs"]
 
   communications-worker:
@@ -62,6 +64,7 @@ services:
       - .env.production
     environment:
       COMMUNICATIONS_WORKER_URL: http://steam-app:3000/api/internal/communications/run
-      NODE_OPTIONS: "${COMMUNICATIONS_WORKER_NODE_OPTIONS:---max-old-space-size=192}"
-    mem_limit: "${COMMUNICATIONS_WORKER_MEMORY_LIMIT:-256m}"
+      NODE_OPTIONS: "${COMMUNICATIONS_WORKER_NODE_OPTIONS:---max-old-space-size=96}"
+    mem_limit: "${COMMUNICATIONS_WORKER_MEMORY_LIMIT:-128m}"
+    memswap_limit: "${COMMUNICATIONS_WORKER_MEMORY_LIMIT:-128m}"
     command: ["node", "communications-worker.mjs"]
