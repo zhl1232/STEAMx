@@ -103,6 +103,7 @@ it('uses native Enter/Space activation and tracks the keyboard visual viewport i
   expect(panel.style.getPropertyValue('--tutor-viewport-top')).toBe('50px')
   expect(panel.style.getPropertyValue('--tutor-viewport-bottom')).toBe('350px')
   expect(panel).toHaveAttribute('data-sheet-keyboard', 'true')
+  expect(panel.style.getPropertyValue('--tutor-sheet-collapsed-bottom')).toBe('')
   Object.assign(viewport, { height: 800, offsetTop: 0 })
   act(() => viewport.dispatchEvent(new Event('resize')))
   expect(panel).toHaveAttribute('data-sheet-keyboard', 'false')

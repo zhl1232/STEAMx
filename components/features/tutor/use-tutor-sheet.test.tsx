@@ -39,8 +39,8 @@ describe('sheet snap calculation', () => {
   })
 })
 
-function Harness({ open = true }: { open?: boolean }) {
-  const sheet = useTutorSheet(open)
+function Harness({ open = true, inset = 0 }: { open?: boolean; inset?: number }) {
+  const sheet = useTutorSheet(open, inset)
   const [draft, setDraft] = useState('')
   const [images, setImages] = useState<string[]>([])
   return open && <section role="dialog" {...sheet.panelProps}>
@@ -58,6 +58,108 @@ const handle = () => screen.getByRole('button', { name: /调整小迪面板高�
 const expectSnap = (snap: string) => expect(screen.getByRole('dialog')).toHaveAttribute('data-sheet-snap', snap)
 
 describe('mobile sheet shell and hook', () => {
+  it('tracks a bottom bar inserted 500ms after returning to a route, its height changes and removal', async () => {
+    vi.useFakeTimers()
+    vi.stubGlobal('innerWidth', 390)
+    pathname = '/project/1189'
+    const { rerender, unmount } = render(<Harness />)
+    pathname = '/project/83'
+    rerender(<Harness />)
+    pathname = '/project/1189'
+    rerender(<Harness />)
+    const bottom = () => screen.getByRole('dialog').style.getPropertyValue('--tutor-sheet-collapsed-bottom')
+    act(() => vi.advanceTimersByTime(500))
+    expect(bottom()).toBe('calc(8px + env(safe-area-inset-bottom))')
+    const bar = document.createElement('div')
+    bar.style.position = 'fixed'
+    let height = 73
+    vi.spyOn(bar, 'getBoundingClientRect').mockImplementation(() => ({
+      top: 800 - height, bottom: 800, height, width: 390, left: 0, right: 390,
+      x: 0, y: 800 - height, toJSON: () => ({}),
+    }))
+    await act(async () => { document.body.append(bar) })
+    act(() => vi.advanceTimersByTime(20))
+    expect(bottom()).toBe('81px')
+    // Continue observing after all route fallback timers have expired.
+    act(() => vi.advanceTimersByTime(1100))
+    await act(async () => { height = 90; bar.style.height = '90px' })
+    act(() => vi.advanceTimersByTime(20))
+    expect(bottom()).toBe('98px')
+    await act(async () => { bar.remove() })
+    act(() => vi.advanceTimersByTime(20))
+    expect(bottom()).toBe('calc(8px + env(safe-area-inset-bottom))')
+    unmount()
+  })
+
+  it('coalesces page mutations and resizes, and ignores mutations inside tutor UI', async () => {
+    vi.useFakeTimers()
+    const { unmount } = render(<Harness />)
+    fireEvent.keyDown(handle(), { key: 'ArrowDown' })
+    act(() => vi.advanceTimersByTime(1600))
+    const panel = screen.getByRole('dialog')
+    const measure = vi.spyOn(document.body, 'querySelectorAll')
+    await act(async () => { panel.style.color = 'red' })
+    act(() => vi.advanceTimersByTime(20))
+    expect(measure).not.toHaveBeenCalled()
+    const bar = document.createElement('div')
+    await act(async () => {
+      document.body.append(bar)
+      bar.className = 'bottom-bar'
+      window.dispatchEvent(new Event('resize'))
+      window.dispatchEvent(new Event('resize'))
+    })
+    act(() => vi.advanceTimersByTime(20))
+    expect(measure).toHaveBeenCalledOnce()
+    act(() => vi.advanceTimersByTime(100))
+    expect(measure).toHaveBeenCalledOnce()
+    unmount()
+    bar.remove()
+  })
+
+  it.each(['expand', 'close'] as const)('stops observing and cancels pending measurements on %s', async (action) => {
+    vi.useFakeTimers()
+    const viewport = new EventTarget()
+    vi.stubGlobal('visualViewport', viewport)
+    const disconnect = vi.spyOn(MutationObserver.prototype, 'disconnect')
+    const { result, rerender, unmount } = renderHook(({ open }) => useTutorSheet(open), { initialProps: { open: true } })
+    act(() => result.current.collapse())
+    act(() => vi.advanceTimersByTime(20))
+    const measure = vi.spyOn(document.body, 'querySelectorAll')
+    // Queue a frame immediately before leaving collapsed.
+    act(() => window.dispatchEvent(new Event('resize')))
+    if (action === 'expand') act(() => result.current.expand())
+    else rerender({ open: false })
+    expect(disconnect).toHaveBeenCalledOnce()
+    const bar = document.createElement('div')
+    await act(async () => { document.body.append(bar) })
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+      viewport.dispatchEvent(new Event('resize'))
+      vi.advanceTimersByTime(2000)
+    })
+    expect(measure).not.toHaveBeenCalled()
+    bar.remove()
+    unmount()
+  })
+
+  it.each([0, 73, 80])('only gives the collapsed section its bottom inset (%s px)', (inset) => {
+    render(<Harness inset={inset} />)
+    const panel = screen.getByRole('dialog')
+    const bottom = () => panel.style.getPropertyValue('--tutor-sheet-collapsed-bottom')
+    expectSnap('half')
+    expect(bottom()).toBe('')
+    fireEvent.click(handle())
+    expectSnap('full')
+    expect(bottom()).toBe('')
+    fireEvent.keyDown(handle(), { key: 'ArrowDown' })
+    fireEvent.keyDown(handle(), { key: 'ArrowDown' })
+    expectSnap('collapsed')
+    expect(bottom()).toBe(inset ? `${inset + 8}px` : 'calc(8px + env(safe-area-inset-bottom))')
+    fireEvent.click(screen.getByRole('button', { name: '展开小迪对话' }))
+    expectSnap('half')
+    expect(bottom()).toBe('')
+  })
+
   it('opens half, toggles, handles arrow keys, and preserves the mounted body while collapsed', () => {
     render(<Harness />)
     expectSnap('half')

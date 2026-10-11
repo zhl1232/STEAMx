@@ -725,7 +725,7 @@ export function GlobalTutorFab({
               onReview={onReview}
             />
           ) : (
-            <div className="flex flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
+            <div className="flex shrink-0 flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
               <p className="text-xs text-muted-foreground">登录后就能和小迪一对一聊。</p>
               <Button
                 type="button"

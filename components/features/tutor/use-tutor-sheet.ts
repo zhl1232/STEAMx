@@ -32,6 +32,7 @@ export function useTutorSheet(open: boolean, fabBottomInset = 0) {
   const [snap, setSnap] = useState<TutorSheetSnap>('half')
   const [previousOpen, setPreviousOpen] = useState(open)
   const [bottomInset, setBottomInset] = useState(0)
+  const measuredBottomInset = useRef(0)
   const [dragHeight, setDragHeight] = useState<number | null>(null)
   const gesture = useRef<{
     pointerId: number; startY: number; lastY: number; lastTime: number
@@ -85,22 +86,38 @@ export function useTutorSheet(open: boolean, fabBottomInset = 0) {
 
   useEffect(() => {
     if (!isMobile || !open || snap !== 'collapsed') return
-    let frame = 0
+    let frame: number | null = null
     const schedule = () => {
-      cancelAnimationFrame(frame)
+      if (frame !== null) return
       frame = requestAnimationFrame(() => {
+        frame = null
         // DOMRects and fixed bottom offsets use the layout viewport coordinates.
-        setBottomInset(measureTutorSheetBottomInset(document, window.innerHeight))
+        const nextInset = measureTutorSheetBottomInset(document, window.innerHeight)
+        if (nextInset === measuredBottomInset.current) return
+        measuredBottomInset.current = nextInset
+        setBottomInset(nextInset)
       })
     }
+    const observer = new MutationObserver((mutations) => {
+      if (mutations.some(({ target }) => {
+        const element = target instanceof Element ? target : target.parentElement
+        return !element?.closest('section[data-sheet-snap], [data-tutor-ui]')
+      })) schedule()
+    })
+    observer.observe(document.body, {
+      childList: true, subtree: true, attributes: true,
+      attributeFilter: ['class', 'style', 'hidden'],
+    })
+    // Route content and its final layout may arrive after the first paint.
     schedule()
-    const timer = window.setTimeout(schedule, 300)
+    const timers = [0, 100, 300, 700, 1500].map((delay) => window.setTimeout(schedule, delay))
     const viewport = window.visualViewport
     window.addEventListener('resize', schedule)
     viewport?.addEventListener('resize', schedule)
     return () => {
-      cancelAnimationFrame(frame)
-      window.clearTimeout(timer)
+      observer.disconnect()
+      if (frame !== null) cancelAnimationFrame(frame)
+      timers.forEach((timer) => window.clearTimeout(timer))
       window.removeEventListener('resize', schedule)
       viewport?.removeEventListener('resize', schedule)
     }
@@ -188,7 +205,9 @@ export function useTutorSheet(open: boolean, fabBottomInset = 0) {
       'data-sheet-snap': isMobile ? snap : undefined,
       'data-sheet-dragging': isMobile && dragHeight !== null ? true : undefined,
       style: (isMobile ? {
-        '--tutor-sheet-collapsed-bottom': inset > 0 ? `${inset + 8}px` : 'calc(8px + env(safe-area-inset-bottom))',
+        ...(snap === 'collapsed' ? {
+          '--tutor-sheet-collapsed-bottom': inset > 0 ? `${inset + 8}px` : 'calc(8px + env(safe-area-inset-bottom))',
+        } : {}),
         ...(dragHeight !== null ? { '--tutor-sheet-height': `${dragHeight}px` } : {}),
       } : undefined) as CSSProperties | undefined,
       onClickCapture,
