@@ -63,7 +63,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
         <div className="md:hidden">
           <MobilePageHeader title="零件清单" fallbackHref={lessonHref} />
         </div>
-        <main className="app-shell pb-28 pt-4 md:py-6">
+        <main id="lesson-parts" className="mx-auto w-full max-w-5xl space-y-3 px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-4 md:space-y-5 md:px-8 md:pt-6 [&_h1]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h2]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h3]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_details]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_summary]:scroll-mt-[calc(4rem+env(safe-area-inset-top))]">
           <div className="surface-card rounded-xl p-6 text-center md:p-10">
             <h1 className="text-xl font-black tracking-tight text-foreground">零件清单正在生成</h1>
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
@@ -88,49 +88,57 @@ export default async function LessonPartsPage({ params }: PageProps) {
       <div className="md:hidden">
         <MobilePageHeader title="零件清单" fallbackHref={lessonHref} />
       </div>
-      <main className="app-shell pb-28 pt-4 md:py-6">
+      <main id="lesson-parts" className="mx-auto w-full max-w-5xl space-y-3 px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-4 md:space-y-5 md:px-8 md:pt-6 [&_h1]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h2]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h3]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_details]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_summary]:scroll-mt-[calc(4rem+env(safe-area-inset-top))]">
         <Link
           href={lessonHref}
-          className="mb-3 hidden items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground md:mb-4 md:inline-flex md:text-sm"
+          className="hidden min-h-10 items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground md:inline-flex md:text-sm"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           返回课时
         </Link>
 
-        <header className="surface-card rounded-xl p-5 md:p-7">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--tone-engineering)/0.12)] px-2.5 py-1 text-[11px] font-bold text-[hsl(var(--tone-engineering))]">
-            <Blocks className="h-3 w-3" aria-hidden />
-            {context.course.title}
-          </span>
-          <h1 className="mt-3 text-2xl font-black tracking-tight text-foreground md:text-[1.75rem]">
-            {context.lesson.title} · 零件清单
-          </h1>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            开搭前照这份清单把零件找齐，中途就不用停下来翻盒子。数量按 3D 模型统计，和课上的分步搭建一致。
-          </p>
-          <dl className="mt-4 flex flex-wrap gap-2">
-            <Stat label="零件总数" value={`${bom.partCount} 块`} />
-            <Stat label="零件种类" value={`${bom.kindCount} 种`} />
-            <Stat label="搭建步数" value={`${bom.stepCount} 步`} />
-          </dl>
-          <Button asChild tone="brand" shape="pill" className="mt-5 gap-2 font-bold">
-            <Link href={lessonHref} prefetch={false}>
-              去搭这一课
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </header>
+        <LessonMaterialsPreparation
+          courseId={courseId}
+          entries={bom.entries}
+          partCount={bom.partCount}
+          intro={
+            <>
+              <header className="relative pb-1 md:pr-44">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--tone-engineering)/0.12)] mb-3 px-2.5 py-1 text-xs md:mb-0 font-bold text-[hsl(var(--tone-engineering))]">
+                  <Blocks className="h-3 w-3" aria-hidden />
+                  {context.course.title}
+                </span>
+                <h1 className="mt-2 text-xl font-black tracking-tight text-foreground md:text-[1.75rem]">
+                  {context.lesson.title} · 零件清单
+                </h1>
+                <p className="mt-2 max-w-2xl text-sm leading-5 text-muted-foreground">
+                  按课上 3D 模型统计，开搭前照着找齐零件。
+                </p>
+                <dl className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  <Stat label="零件总数" value={`${bom.partCount} 块`} />
+                  <Stat label="零件种类" value={`${bom.kindCount} 种`} />
+                  <Stat label="搭建步数" value={`${bom.stepCount} 步`} />
+                </dl>
+                <Button asChild tone="brand" shape="pill" className="absolute right-0 top-0 min-h-10 gap-2 font-bold">
+                  <Link href={lessonHref} prefetch={false}>
+                    去搭这一课
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </header>
 
-        {contextualStoreProducts.length > 0 ? (
-          <div className="mt-6">
-            <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这节课的" />
-          </div>
-        ) : null}
+              {contextualStoreProducts.length > 0 ? (
+                <div className="py-1">
+                  <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这节课的" />
+                </div>
+              ) : null}
 
-        <LessonMaterialsPreparation courseId={courseId} entries={bom.entries} partCount={bom.partCount} />
+            </>
+          }
+        />
 
-        <details className="group surface-card mt-6 rounded-xl" open={!hasKitComparison(courseId)}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 md:p-5 [&::-webkit-details-marker]:hidden">
+        <details className="group border-t border-border/70 md:rounded-xl md:border-0 md:bg-background" open={!hasKitComparison(courseId)}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 md:p-5 [&::-webkit-details-marker]:hidden">
             <span>
               <h2 id="all-parts-heading" className="text-base font-black tracking-tight text-foreground md:text-lg">
                 完整零件清单
@@ -141,14 +149,14 @@ export default async function LessonPartsPage({ params }: PageProps) {
             </span>
             <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
           </summary>
-          <div className="px-4 pb-4 md:px-5 md:pb-5">
+          <div className="pb-3 md:px-5 md:pb-5">
             <PartTable entries={bom.entries} />
           </div>
         </details>
 
         {bom.steps.length > 0 ? (
-          <details className="group surface-card mt-4 rounded-xl">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 md:p-5 [&::-webkit-details-marker]:hidden">
+          <details className="group border-t border-border/70 md:rounded-xl md:border-0 md:bg-background">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 md:p-5 [&::-webkit-details-marker]:hidden">
               <span>
                 <h2 id="step-parts-heading" className="text-base font-black tracking-tight text-foreground md:text-lg">
                   每步用到的零件
@@ -157,10 +165,10 @@ export default async function LessonPartsPage({ params }: PageProps) {
               </span>
               <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
             </summary>
-            <div className="px-4 pb-4 md:px-5 md:pb-5">
-              <ol className="space-y-3">
+            <div className="pb-3 md:px-5 md:pb-5">
+              <ol className="divide-y divide-border/70">
                 {bom.steps.map((step) => (
-                  <li key={step.stepIndex} className="surface-card rounded-md p-4">
+                  <li key={step.stepIndex} className="py-4">
                     <div className="flex items-baseline justify-between gap-3">
                       <h3 className="text-sm font-bold text-foreground">第 {step.stepIndex + 1} 步</h3>
                       <span className="text-xs font-semibold tabular-nums text-muted-foreground">
@@ -187,7 +195,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-full bg-[hsl(var(--surface-muted))] px-3 py-1.5">
+    <div className="py-1">
       <dt className="inline text-xs text-muted-foreground">{label} </dt>
       <dd className="inline text-xs font-bold tabular-nums text-foreground">{value}</dd>
     </div>
@@ -196,11 +204,11 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 function PartTable({ entries }: { entries: LdrawBom["entries"] }) {
   return (
-    <ul className="grid gap-2 sm:grid-cols-2">
+    <ul className="grid divide-y divide-border/70 md:grid-cols-2 md:gap-x-8 md:[&>li:nth-last-child(2):nth-child(odd)]:border-b-0">
       {entries.map((entry) => (
         <li
           key={`${entry.partId}|${entry.colorCode}`}
-          className="flex items-center justify-between gap-3 rounded-sm border border-border bg-background px-3 py-2"
+          className="flex items-center justify-between gap-3 py-3"
           title={entry.partDescription || undefined}
         >
           <span className="flex min-w-0 items-center gap-2">
