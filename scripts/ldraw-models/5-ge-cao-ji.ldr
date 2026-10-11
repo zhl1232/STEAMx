@@ -1,0 +1,76 @@
+0 Lawn mower - source reconstruction; unaccepted development draft
+0 Name: 5-ge-cao-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF SHA256 c1383dc7116fcd69d2f7513ec9fb1463b7b41358c2ec3b749f819c445723eda0; all10pages actually viewed.
+0 // Orthogonal gear engagement, tyre interfaces and shaft retention remain provisional.
+0 // SOURCE PAGE 1: two red ten-stud beams overlap by six studs with one brick height offset
+1 4 -80 -153 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 80 -201 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 2: end supports: two yellow plates, two red axle bricks and one yellow brick
+1 14 -200 -105 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -200 -81 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 200 -105 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 200 -81 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 200 -153 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 3: blue front cap
+1 1 -160 -201 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -201 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // SOURCE PAGE 4: vertical grey spindle, red gear, pulley spacer and yellow cutting disc
+1 7 0 -142 0 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 0 -232 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 14 0 -72 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -32 0 1 0 0 0 0 -1 0 1 0 6530.dat
+0 STEP
+0 // SOURCE PAGE 5: transverse grey spindle and blue crown gear with two retainers
+1 7 0 -177 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 1 0 -177 -60 1 0 0 0 1 0 0 0 1 31622.dat
+1 14 0 -177 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -177 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 6: two tyres, four pulley wheels and front grey axle
+1 7 -200 -57 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -200 -57 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -200 -57 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -200 -57 -100 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 -200 -57 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -200 -57 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -200 -57 100 1 0 0 0 1 0 0 0 1 6292.dat
+0 STEP
+0 // SOURCE PAGE 7: two eleven-hole handle uprights, two grey cross axles and four pulley retainers
+1 14 200 -257 -60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 200 -257 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 7 200 -177 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -177 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 200 -177 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 200 -57 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -57 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 200 -57 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 8: two seven-hole grips, green cross axle and four crank locks
+1 2 200 -457 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 320 -457 -100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 200 -457 -140 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 200 -457 -20 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 320 -457 100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 200 -457 140 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 200 -457 20 -1 0 0 0 0 1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 9: green 24x24 practice lawn with twelve flowers; illustrative source layout
+1 2 -800 -4 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 27 -1100 -52 -260 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -940 -52 -300 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -740 -52 -280 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -540 -52 -220 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -1100 -52 -60 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -860 -52 -100 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -660 -52 -60 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -1060 -52 140 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -900 -52 140 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -700 -52 180 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -980 -52 340 1 0 0 0 1 0 0 0 1 6510.dat
+1 27 -500 -52 140 1 0 0 0 1 0 0 0 1 6510.dat

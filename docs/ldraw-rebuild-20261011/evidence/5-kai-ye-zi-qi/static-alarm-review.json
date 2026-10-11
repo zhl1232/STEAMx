@@ -1,0 +1,91 @@
+{
+  "slug": "5-kai-ye-zi-qi",
+  "sourceSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [5-kai-ye-zi-qi.ldr] 2 error(s), 51 placement(s):\n  - step 8: 5-kai-ye-zi-qi_l64 overlaps 5-kai-ye-zi-qi_l58\n  - step 9: 5-kai-ye-zi-qi_l70 overlaps 5-kai-ye-zi-qi_l64\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "step": 8,
+      "lines": [
+        64,
+        58
+      ],
+      "classification": "real_risk",
+      "raw": "- step 8: 5-kai-ye-zi-qi_l64 overlaps 5-kai-ye-zi-qi_l58",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 9,
+      "lines": [
+        70,
+        64
+      ],
+      "classification": "false_positive_aabb",
+      "raw": "- step 9: 5-kai-ye-zi-qi_l70 overlaps 5-kai-ye-zi-qi_l64",
+      "evidence": "Parallelwheel axesdelta(80,-48),distance93.295230; realrecursive6527radius41.002480 each,radialgap11.290269,soAABBs overlap without radialfacesoverlap. Geometry hash/radius evidence in preparation/5-dan-che/pulley-radial-evidence.json."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P7-8 cranks and 8T/24T teeth use realDAT, but exact toothphase, shaftretention and camcontact tolever are unvalidated.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P9 lever20deg is a source-visible free-pivot pose inference; dynamic sweep and crank-driven lift not certified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P10 yellowlongparts interpreted4199 normal2x8 bricks48LDU fromsourceBOM/profile; rendered sourcecomparison required.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P11 orange3664 identity matches2x2 curvedtop silhouette, mold/color inventory needs comparison; no customgeometry.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "3664 official nativebottomY24 and curvedtopY-64 differ frommetadata top-center96 assumption; localplacement corrected toactualDAT, sharedmetadata unchanged.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "highResolutionRenderRepair": {
+    "sourceSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+    "revision": "ccec6382f8d34cdd1106889ff11466853e5c603bbf744af90dc10032e85f15ea",
+    "reason": "Replaced invalid basename fallback ordinary2-4chrd with official48/2-4chrd; source unchanged, dependency revision changed.",
+    "primitiveSha256": "7e2992507dbdb62dc8797facc505fe10550a57e63c70502780f46b0a700c2fb5",
+    "pixelsActuallyViewed": {
+      "final": [
+        "iso",
+        "iso-rear",
+        "top"
+      ],
+      "steps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "original": [
+        "step-11.png"
+      ]
+    },
+    "finding": "No new definite source-placement error; curved orange face continuous and attached to yellow support.",
+    "priorRiskDisposition": "Existing raw alarms/manual mechanical risks unchanged; not waived by dependency repair.",
+    "accepted": false
+  }
+}

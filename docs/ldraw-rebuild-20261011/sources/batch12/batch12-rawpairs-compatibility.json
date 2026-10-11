@@ -1,0 +1,189 @@
+{
+  "slug": "5-hai-dao-chuan",
+  "sourceSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+  "rawPairCount": 14,
+  "explicitPairReviews": 14,
+  "summaryRiskItems": 8,
+  "unexplained": [],
+  "rawPairsPreserved": [
+    {
+      "lines": [
+        113,
+        108
+      ],
+      "placements": [
+        "1 14 -420.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 -420.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        114,
+        109
+      ],
+      "placements": [
+        "1 14 -380.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 -380.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        115,
+        110
+      ],
+      "placements": [
+        "1 14 -260.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 -260.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        116,
+        111
+      ],
+      "placements": [
+        "1 14 -220.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 -220.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        123,
+        118
+      ],
+      "placements": [
+        "1 14 220.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 220.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        124,
+        119
+      ],
+      "placements": [
+        "1 14 260.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 260.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        125,
+        120
+      ],
+      "placements": [
+        "1 14 380.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 380.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        126,
+        121
+      ],
+      "placements": [
+        "1 14 420.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 420.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        131,
+        129
+      ],
+      "placements": [
+        "1 14 -140.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 -140.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        135,
+        133
+      ],
+      "placements": [
+        "1 14 140.0 -696 40 0 0 1 0 1 0 -1 0 0 6527.dat",
+        "1 14 140.0 -696 -40 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "real-mesh-crossing-risk",
+      "evidence": "6527 same-axis-plane pair,80LDU lateral separation; representative strict mesh witness20crossings. Source placement retained, not cleared.",
+      "witness": "pulley-pair-mesh-witness.json"
+    },
+    {
+      "lines": [
+        197,
+        179
+      ],
+      "placements": [
+        "1 1 -40 -290.424319 -80 1 0 0 0 1 0 0 0 1 3437.dat",
+        "1 14 -60 -314.424319 -160 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "bbox-false-positive-with-radial-bound",
+      "evidence": "Four new raw wheel/central-blue alerts: blue body closest point in wheel radialYZ plane has offsets(24,40), radius46.6476>44 conservative wheel radialbound. Studs extend closerY13 but their circular footprints stop atZ111, at least49 from shaftZ160, so radialdistance>=50.695. Body and studs are outside wheel enclosing cylinder; this proof is separate from unresolved upper wheel-pair crossings."
+    },
+    {
+      "lines": [
+        199,
+        182
+      ],
+      "placements": [
+        "1 1 -40 -290.424319 80 1 0 0 0 1 0 0 0 1 3437.dat",
+        "1 14 -60 -314.424319 160 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "bbox-false-positive-with-radial-bound",
+      "evidence": "Four new raw wheel/central-blue alerts: blue body closest point in wheel radialYZ plane has offsets(24,40), radius46.6476>44 conservative wheel radialbound. Studs extend closerY13 but their circular footprints stop atZ111, at least49 from shaftZ160, so radialdistance>=50.695. Body and studs are outside wheel enclosing cylinder; this proof is separate from unresolved upper wheel-pair crossings."
+    },
+    {
+      "lines": [
+        200,
+        185
+      ],
+      "placements": [
+        "1 1 40 -290.424319 -80 1 0 0 0 1 0 0 0 1 3437.dat",
+        "1 14 60 -314.424319 -160 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "bbox-false-positive-with-radial-bound",
+      "evidence": "Four new raw wheel/central-blue alerts: blue body closest point in wheel radialYZ plane has offsets(24,40), radius46.6476>44 conservative wheel radialbound. Studs extend closerY13 but their circular footprints stop atZ111, at least49 from shaftZ160, so radialdistance>=50.695. Body and studs are outside wheel enclosing cylinder; this proof is separate from unresolved upper wheel-pair crossings."
+    },
+    {
+      "lines": [
+        202,
+        188
+      ],
+      "placements": [
+        "1 1 40 -290.424319 80 1 0 0 0 1 0 0 0 1 3437.dat",
+        "1 14 60 -314.424319 160 0 0 1 0 1 0 -1 0 0 6527.dat"
+      ],
+      "classification": "bbox-false-positive-with-radial-bound",
+      "evidence": "Four new raw wheel/central-blue alerts: blue body closest point in wheel radialYZ plane has offsets(24,40), radius46.6476>44 conservative wheel radialbound. Studs extend closerY13 but their circular footprints stop atZ111, at least49 from shaftZ160, so radialdistance>=50.695. Body and studs are outside wheel enclosing cylinder; this proof is separate from unresolved upper wheel-pair crossings."
+    }
+  ],
+  "scope": "Targeted QA field compatibility only; full current QA still retains wrong48primitive package defects pending coordinator repack."
+}

@@ -1,0 +1,112 @@
+{
+  "slug": "5-long-men-diao",
+  "lessonId": 269,
+  "courseId": 7,
+  "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+  "pdf": {
+    "name": "5+龙门吊搭建说明.pdf",
+    "relative_path": "5+/5+龙门吊搭建说明.pdf",
+    "pages": 15,
+    "bytes": 1969625,
+    "sha256": "b1ebd3c4d0c6ca8e011e4f3c905cea926bfde818d64ee9a792dcbd525ad02890",
+    "source_url": "https://pan.quark.cn/list#/docpdf/2e7eeb2b6f914246ae31f5a132df6461",
+    "slug": "5-long-men-diao",
+    "lesson_id": 269,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "assemblySteps": 14,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-01.jpg",
+      "sha256": "e28c66723752fb9d483a3714657c5aab1e4683e714e32a340a84a62c77d9118c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-02.jpg",
+      "sha256": "23bb0d70d9c6e802502a804cffcdd32ee8ea3816801d71429faf1aa474fcd122",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-03.jpg",
+      "sha256": "88e03f3961dc23cf5930c77bb6774377621d672847121deedb01ef8f21013884",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-04.jpg",
+      "sha256": "759b7675a8fcea576aa5c9da9a77b68f3967d5ba54094a27665839287c4fa1e5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-05.jpg",
+      "sha256": "a8892a7e048177a986903374cda3ccb82eaa1ab80cfd85656e5491e78496e993",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-06.jpg",
+      "sha256": "a241e523bfdfb455220360f4a3ca6817f728f155ff61c9fe5c59cdc224008a34",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-07.jpg",
+      "sha256": "0459d6a2470a94f6960bb1daf6e673a177c960489c84701fef0e20937a5a5ccc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-08.jpg",
+      "sha256": "ed13ac6c220620cde9e162e14003a985b568d3ef14294b8ec87a5eb3bb1bb73b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-09.jpg",
+      "sha256": "8aa7a94a4f3266f690557863b04cd4edee8d59316da9c2b949f899f35e6f2bd2",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-10.jpg",
+      "sha256": "0ea4e97fa8d895bae1fc00280e6c7e0b61efdefa8f8338599952f0e5859a9db9",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-11.jpg",
+      "sha256": "d65edf96be99bb54e0fff5e9ddaed2d17cae41cf86f38c8cb78d65182a9f3c4d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-12.jpg",
+      "sha256": "07124b9889834b8b4df04cfe2b600d92e56ec5501abaae0daacbd1556f8a7402",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-13.jpg",
+      "sha256": "f426e2787204e9037039d441e8f86186da204be32f0c293ce6638edc77d53144",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-14.jpg",
+      "sha256": "6b442940269c20c3df63f2b9409c098e16f36c403bcdbfa53bc2070e1fb235a6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-15.jpg",
+      "sha256": "e8ecdc78abcea2b448ed344a704ff02de68918f1ce093731db6b5b4f09a544e5",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

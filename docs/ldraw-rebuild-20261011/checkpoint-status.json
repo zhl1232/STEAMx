@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-11T11:41:15.395715+00:00",
-  "localCheckpointCommit": "eb25e23",
+  "generatedAt": "2026-10-11T12:37:31.164583+00:00",
+  "localCheckpointCommit": "78aaa94",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 86,
-    "source-verified-remotely-awaiting-transfer": 43
+    "draft-final-and-all-steps-pixels-reviewed": 96,
+    "source-verified-remotely-awaiting-transfer": 33
   },
-  "writtenSources": 86,
-  "finalReviewed": 86,
-  "allStepsReviewed": 86,
+  "writtenSources": 96,
+  "finalReviewed": 96,
+  "allStepsReviewed": 96,
   "partIssueFamiliesIncludingFlexibleRoutes": 31,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
@@ -44,6 +44,8 @@
     "5-chou-you-ji",
     "5-diao-che",
     "5-fan-chuan",
+    "5-lan-che",
+    "5-long-men-diao",
     "5-ma-tou-diao-ji",
     "5-shui-jing",
     "5-ti-xian-mu-ou",
@@ -55,7 +57,7 @@
     "5-ya-mian-ji",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T11:40:41.180989+00:00",
+  "unknownRegistryGeneratedAt": "2026-10-11T12:37:30.226587+00:00",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -590,37 +592,37 @@
     },
     {
       "slug": "5-ge-cao-ji",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-hai-dao-chuan",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-hu-die",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "d1b50ef6cdefe049948fe539bbcefb2f81f3e48c10fd0ce8120f358c89436f7f",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-hua-ban-che",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -644,10 +646,10 @@
     },
     {
       "slug": "5-ji-gu-shou",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -671,37 +673,37 @@
     },
     {
       "slug": "5-kai-ye-zi-qi",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-la-ji-che",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-lan-che",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-long-men-diao",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -725,10 +727,10 @@
     },
     {
       "slug": "5-nian-yao-ren-zai",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "name": "5+击鼓手搭建说明.pdf",
+    "relative_path": "5+/5+击鼓手搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1368842,
+    "sha256": "3bccfe43f16c5d94a69d50cb7cc5ca8f488b3f699f8a5124b34365ce532e0ba9",
+    "source_url": "https://pan.quark.cn/list#/docpdf/593ae489754243b5923676002f361531",
+    "slug": "5-ji-gu-shou",
+    "lesson_id": 263,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\materialization-verification.json",
+  "currentModelSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-01.jpg",
+      "sha256": "fb14af7b6f519ceb05270b694a4bb7c4b7906c7232fd421d156d89bd497fdc77",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-02.jpg",
+      "sha256": "b2c09de39f6865004fc13cd587f1e76cb7e6dea365c68aab50e96ab9cd0e811a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-03.jpg",
+      "sha256": "fdf4608030e44ca53e6900e7bb8c7d47039368818f7b7fd5eb5bfd5f77186f3d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-04.jpg",
+      "sha256": "50ddd4e7caba0fd56323a66028d4aae8a942c1bf4f58c518509cf7fd037acf33",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-05.jpg",
+      "sha256": "026fd670014a06b4fbde06f717c83584d4d9c2e06e738fd4d4eb1f1759a186fc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-06.jpg",
+      "sha256": "c818f816e7fd69c6e39866c81b43717cf95f76d6547d97cda1f911a2dfc3a34f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-07.jpg",
+      "sha256": "38b43544c803ab5e517b43cf6ee18e14da26a7e862ec150962714688613b23dc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-08.jpg",
+      "sha256": "f41e89462ab2cb4046bd5c365d95878996ed602eeabd3e30e445c12cb414a049",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-09.jpg",
+      "sha256": "819f22465dd45524d7734295bd94ae9627e01608dad8bd99ee4eaf37a9647536",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-10.jpg",
+      "sha256": "8511f81847e919de22a73dc3d5a6895811b8b0ed28221b8f8083a36dd3feeb11",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-11.jpg",
+      "sha256": "e4303d0d0840444c37d7a29fa08a09e4649d92525901215f4d2c911321c3f891",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

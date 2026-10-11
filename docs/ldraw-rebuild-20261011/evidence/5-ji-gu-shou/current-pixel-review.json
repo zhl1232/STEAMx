@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+  "revision": "395e4f4a61e286249b55fe22061e9865bdc1fde0b8954fc694ad33d53f490de3",
+  "reviewedAt": "2026-10-11T12:22:28.805573+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ji-gu-shou",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "9a8d71b9223a7673b9d30b44b7f76638e590c4a17e364af9ed21d7d330c4214a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "8b914ff3fc4ef7a9500459f6f017b5ecc88a803b2c1e4cd0676c13194253b360",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "3f068c47afcd6ca537c125c910dc5d8ac310d51b041795fd20045662dc63fcd3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "86a042ad15600b6509d8d497d15508ab435af2656283653f0d928d930bd4bf13",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "ceda9e2bd703989ed75b075da82c9257931390fb284bc2c4d268402536d343f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "9019e172930a5f52bd52d9dcfea425789cdca50134f6002a3af09d4c6a3e037b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "22b6d951261072a7b64ee42b65864a1ae1579eccc4fa1b1d67beda2f2e39d52f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "cd7e98c91515e145d9dd2b6bc244c5dffd0504526eedaf4a181fa854c636dca6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "f666a5be3532a71e9cb70ec22ef85684ac8deca48709ec4cbf51468c44266f75",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "1912ad0c8f0121c801370b6db4e565d6d5850d44a6d77287dd24129c805c365a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "cf8557a3d8a1781c9a8194cfa660e724d5f86c2d5ceba0beebfe7d579aa29e89",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "c52d898d8c5c95189ea90948b87347441483a6bf3ee821501aa24cb2ca3832ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9a8d71b9223a7673b9d30b44b7f76638e590c4a17e364af9ed21d7d330c4214a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final iso/iso-rear/top and all cumulative steps1-10 contact frames, plus original step10. Compared to sourcep10/p11: right arm now slopes inward/down toward drum, left arm remains vertical; p8 three visually added pulleys and p5 curved shoulders/head retained. No new obvious source mismatch found. Arm30deg is a reasonable static phase, not measured source angle. Drum tyre/hub raw overlap remains insufficient evidence: strict0 does not validate grip/retention, vertical blue axle engagement and dynamic gear/arm/drum motion unverified. No human acceptance or physical validation."
+}

@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-10-11T11:40:42.806693+00:00",
-  "progressSha256": "e27bcf14930d3d17356a59e148e6dc944d58d7c941405df281b928114aa2eaba",
+  "generatedAt": "2026-10-11T12:37:53.292552+00:00",
+  "progressSha256": "e44ec7299b8043b03def8d1dcd438a388ec34543f1fe378da2b40ea66836135c",
   "selection": "All progress courses with nonempty modelSha256; no fixed count or workStatus filter",
   "method": "Read-only stable-source QA. Current/historical explicit attestations and image hashes are checked, not new pixel viewing. No physical validation.",
   "accepted": false,
   "summary": {
-    "courses": 86,
-    "placements": 6302,
+    "courses": 96,
+    "placements": 7271,
     "structuralIssueCourses": 0,
     "structuralIssues": 0,
-    "rawAlarmCourses": 31,
-    "rawErrorGroups": 110,
-    "expandedAlarmItems": 145,
-    "uniqueLocalDATFiles": 408,
-    "finalAllThreeCovered": 86,
-    "allStepsCovered": 86,
+    "rawAlarmCourses": 38,
+    "rawErrorGroups": 140,
+    "expandedAlarmItems": 193,
+    "uniqueLocalDATFiles": 414,
+    "finalAllThreeCovered": 96,
+    "allStepsCovered": 96,
     "pixelIssueCourses": 0,
-    "imagesChecked": 1267,
+    "imagesChecked": 1419,
     "pendingIndexEntries": 0
   },
   "rows": [
@@ -63,8 +63,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "ac3db5da720a7340693df4e967ea421a40d8b2c478e531bc2d89c66bf4cddb46",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -238,8 +241,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "f46ca1fd5867f3f5bf71f56c0c5baa0109ab00e34b6b571337f870cd76bef581",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -459,8 +465,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "963f2f85c1a96f0276fc0f63381ec0e0b125b7fc811f00f2454feb192dbc280f",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -628,8 +637,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "4dc34affa8a8ed89f92525254df048e4c42f0ee8aeb5da83aa9e27bddd8639f2",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -760,8 +772,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "bcf25b009cc0597b2e8c1e424f6c3494d1b24e75193716fe015d4e2b0a9cb6a0",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -920,8 +935,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "539c7c38c71840777358c7c4ff43096e5078881ad95dcdd4d74da4078d0c589a",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1060,8 +1078,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "32f11080ecbf6c750a756194c7d08a8d358b6e07af5519b8789a3c890f7d5875",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1208,8 +1229,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "e7409b5987837194561bb4bf49f1895ca94c75ffb6ec15323de4f88e4ef32a43",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1417,8 +1441,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "579dc4fb7fb50acbc3273a83480927d9cb6c794fa55b1d2ca17646766af81eba",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1556,8 +1583,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "751d66192b4c1b5361e0e540a89cf4b6611ccbb93d0f82614ad0ea48bfa25429",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1701,8 +1731,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d035209a27890cca3a55c44ea0e5e2950985fdb4b83d3877062b55be180f9382",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -1856,8 +1889,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "9de22f48cfd8f3333694714fb7344c92e0420ca503d6b7113516e13a7e1598b8",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2033,8 +2069,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "3eeb654291d3fba8631cd58ab8b6a998524971ce1fa434dd73757e21a2e38094",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2178,8 +2217,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "ad3c1b4fdce785296804e4b7e121b59b0819570d805c2469f86a9c693105fa93",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2337,8 +2379,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "dbb668cdec79317e66ee77272d61739f6149876ef34bd4e9316cdafacf8989a4",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2496,8 +2541,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "967a87bdcb2a1bcd6803444e271445b8aea31a0a155c237a6fdf8c5be53e0529",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2638,8 +2686,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "f58e626f1d513f83ec9e5683a0327806a2bf24c3509a58dff71ac9eaf9c868ad",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -2937,8 +2988,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "3d98761ba0a4edb2f9292f0ea50b1680d2c7e29ee3d66e7df5141244130fc5a9",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3066,8 +3120,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "cb9f32900a18588e3400dd59f742b8af125724a65e79dd8c7dd46cfa7cad0ee6",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3182,8 +3239,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "ad8e7e5dad09c34fe7343d675f20ad9ac5ce36d327ce03166afb75a2782fb5b3",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3351,8 +3411,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "45c03769dbda144dcc6a449f2fad34927cb3be679083a6c91a4e79f6ee0688e5",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3491,8 +3554,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "30f67cf20ea5a04481186be5ad7eccd444522eca6ba014e04f2cdd7a4104ebf5",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3624,8 +3690,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "32f0d2a22a3174bede3ce479c2e0b8f4dbaaa64ac2a93f6f24ff6374e7f26ac1",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -3769,8 +3838,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d29827804611af7b4ae2c8183a63e7b8f367e9814d8077891f441f070e0f8148",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4013,8 +4085,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "57ac58ccb86ce658900acf7defddee9b880e53a08bd31ec9643a8e54404b41e2",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4163,8 +4238,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "06ba03a73bf4cea49d42129aa9b9d479098a16ce15df4103ba33105630bde754",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4292,8 +4370,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 5,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "bca144a48a1c8fd12c9e5f37dd63be2c063850cbccd634670bdb3ec7fced78cb",
       "expandedAlarmItems": 5,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4523,8 +4604,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "3bd11c1f7c29764e26a44e446011e2bf5b690fe6911742cbf8bf937f1d398471",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4686,8 +4770,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "c6e192cc81c1d9903c365a21ffa5085ccbc1cb0d71d0b45d69aa9ff1cb35152a",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -4955,8 +5042,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "574558dded3bf884fdc338126ebd52552c306b9714cea94882f9d4650f4a2647",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -5210,8 +5300,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "9f27421743d4da537bd78d7fc523e5e3fcbc1b7f754264988d061a421e48a85b",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -5449,8 +5542,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "f7a06fae9a97cf011ecf26616f691e22ef7cbe976e96735a9f2cc9ce909c4298",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -5594,8 +5690,11 @@
         }
       ],
       "rawErrorGroups": 4,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d375df2557a12514dedb8a8773441c735274bae6a1eade177a66196a840b1558",
       "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -5739,8 +5838,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "21d11f5645fb1baeae21337480f9d034c67efe0961b84ed3d6bbfa130ee93d2b",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -5892,8 +5994,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d726a647382a457f877408e1c92c96fc104b433d840744886b796225905a4783",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6153,8 +6258,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "31addb8b2a02cdc0c95f8fc39ba6abf58b2999d5e718400aa11198f6bbe05816",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6332,8 +6440,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "2487eb5c8be4235cfe3031390a851160534cd40d19851e9ad7bda4abf2374195",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6468,8 +6579,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "6e5c5722ab89e8837cdc80d2e4d30f35179cd1047ebaddcefca5481d8ec089f1",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6679,8 +6793,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "60695c9fd964717943f18c5a14595466ee02875cbcd1b0a1c88533aa1c3d1071",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6808,8 +6925,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "b2e820a27825ce8616eec1d2f81d60a1fb0ad760d5caa8904053c31a85022154",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -6970,8 +7090,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "a0a28eb6de9a1df0167c78b7ccd6f6a53cd932ada7aac26bedeb1abc20d2d417",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7110,8 +7233,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "0f6a83faf58f6d42e666a8cc8536fab38cac00607b122d0020daa397f5b62e64",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7285,8 +7411,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "3ec3b29a8bb718853981fca8dd847ff810194dd43460a77a1af6b2b8f2dd307c",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7445,8 +7574,11 @@
         }
       ],
       "rawErrorGroups": 8,
+      "staticAlarmSummaryItems": 10,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "349ceee5a1844289e14b52872fa719a2225f86ba96fc219cc4836def8a0cc2a1",
       "expandedAlarmItems": 10,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7596,8 +7728,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "96df9a599c4215c1ab23508487f21061bb175a0f0394ad22df608128b3276196",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7775,8 +7910,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "7315acc4ac0ddfa6841b15de93cd4887c3366f0b573ef5a8512eea32c4482663",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -7920,8 +8058,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "b2de776043a15184b90cf8e2b9c441c92e27d939db5c00c75b30c91c78140fb5",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8075,8 +8216,11 @@
         }
       ],
       "rawErrorGroups": 4,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "803735bde149a6936ec00cd7a3633e76a9d8c810fcdd1e857f3590c3aa3df9b7",
       "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8220,8 +8364,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "f9ffea2a2a780f55a8cc2337e17185f4173f5126010ab39456bc8d32d57f61c0",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8340,8 +8487,11 @@
         }
       ],
       "rawErrorGroups": 9,
+      "staticAlarmSummaryItems": 9,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d9374258a5d50fdf8f3748f9dce075cb228206f72939c729b7ed341db99d3e8a",
       "expandedAlarmItems": 9,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8485,8 +8635,11 @@
         }
       ],
       "rawErrorGroups": 4,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "70093ad77dfe10ce80fb76e9f609f825baa8eb989ecc136af172f8b2e610dd81",
       "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8602,8 +8755,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "d5c4d81d8e357a4b0ae616a9418bf444c8a5f7c9d4847d393166171dbe7993f0",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -8843,8 +8999,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "a4c38ba5d290d78e836c0cf6ac77603609ca4bb90f8a014ff17144e10ba801cb",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9015,8 +9174,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "a64a501b10a66696796df8b0b76d1e188d480eb6e4bc09ac92ac2eba92e4010a",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9182,8 +9344,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "912c4c66097dc93f228f600304c5b0c145bbe9174ab0465041bdb19faf39f679",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9316,8 +9481,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 6,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "0dcec774cb3b34e851c69351088bd85a31b6fede6884fd8806a773b3dda7b7f5",
       "expandedAlarmItems": 6,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9537,8 +9705,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "9aa7fdd40d19b78e7f8bba167e2528334053ee161c4e2490eb284dc389d29433",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9702,8 +9873,11 @@
         }
       ],
       "rawErrorGroups": 9,
+      "staticAlarmSummaryItems": 9,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "fe354d74185b7ef1106b6ac268ffbf981a31c635a6a99f7c4769723eec8f32f2",
       "expandedAlarmItems": 9,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9836,8 +10010,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "959f132823b8167cbd947c91451b1aefbd24f6fca9fe1d628000e9d9bdbeee77",
       "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -9935,6 +10112,614 @@
       "missingViews": []
     },
     {
+      "slug": "5-ge-cao-ji",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "progressHashMatches": true,
+      "placements": 52,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+割草机搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 10
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ge-cao-ji\\ledger.json",
+          "sha256": "8393a7d12c2b2884d9d2b142218f37a685fbc4d99926a003af80fe4911e800d0"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ge-cao-ji\\source.json",
+          "sha256": "8d0ca42e236ed5645c5df5d1de6eff9b580d238f37a4a39f0d9d01589c367632"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ge-cao-ji\\ledger.json",
+          "field": ".sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-ge-cao-ji.ldr",
+          "claim": "0 // Source PDF SHA256 c1383dc7116fcd69d2f7513ec9fb1463b7b41358c2ec3b749f819c445723eda0; all10pages actually viewed."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-ge-cao-ji.mpd",
+          "sha256": "3098e52ba79e8c0b39e11cd3b440373be35b71315427f8cb01d302c7376cbb65",
+          "datBlocks": 134
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-ge-cao-ji.mpd",
+          "sha256": "3098e52ba79e8c0b39e11cd3b440373be35b71315427f8cb01d302c7376cbb65",
+          "datBlocks": 134
+        }
+      ],
+      "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "159a16721706ba1cd9a36c27a404a6fae9b0e1196aeb7d633125125f004ae571",
+      "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ge-cao-ji\\current-pixel-review.json",
+          "recordSha256": "39ce041fc9d1fa8d4800401ed63b351d47252df12c6830684b5bc0d8ea344107",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 9,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-hai-dao-chuan",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+      "progressHashMatches": true,
+      "placements": 192,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+海盗船搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 14
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hai-dao-chuan\\ledger.json",
+          "sha256": "3a20c44d4663b392dc75f01e995a34c615b1f73448713c37e459ecd4bff49407"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hai-dao-chuan\\source.json",
+          "sha256": "82d783f93892acfe416a3a347d2cb5f99cf6b78002a58d4d012ac3c8da22dd06"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hai-dao-chuan\\REVIEW.md",
+          "claim": "Source SHA `b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537`. All14 source pages actually viewed;13 source steps,192 placements vs192 source physical items. No omitted quantities; six blue bricks and two yellowplates use an explicit supported layout adjustment. Development preview, not accepted."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-hai-dao-chuan.mpd",
+          "sha256": "866909a666194c663e5b784aa40243ee46dc1b4138ee361b576e5e676f1b13ad",
+          "datBlocks": 99
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-hai-dao-chuan.mpd",
+          "sha256": "866909a666194c663e5b784aa40243ee46dc1b4138ee361b576e5e676f1b13ad",
+          "datBlocks": 99
+        }
+      ],
+      "rawErrorGroups": 14,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 14,
+      "staticReportSha256": "a8eea5bb43b53fb5d1245e185a713f8c1605dc1d64880e3170a63873409f5cf2",
+      "expandedAlarmItems": 22,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hai-dao-chuan\\current-pixel-review.json",
+          "recordSha256": "f7ddc93323d7f097193233167d87c186baafc3fdaea0ff3b42a8c5001d67268a",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-13",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 13,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-hu-die",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "d1b50ef6cdefe049948fe539bbcefb2f81f3e48c10fd0ce8120f358c89436f7f",
+      "progressHashMatches": true,
+      "placements": 115,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+蝴蝶搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 12
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hu-die\\ledger.json",
+          "sha256": "8c802050c7217d504929a12f9833b23634f0d267b0a44879953bda387ee84aad"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hu-die\\source.json",
+          "sha256": "ffe066d834d13f6a3bce77e71898133e884cb205ae769b7d0a341b0e7b0d1e6c"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-hu-die.ldr",
+          "claim": "0 // All12 source pages actually viewed; final page is presentation only."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-hu-die.mpd",
+          "sha256": "a6c3d120f31435d2bffa614f89fe43e41e3a1feccb968ac5fe5864a6cab0eec1",
+          "datBlocks": 84
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-hu-die.mpd",
+          "sha256": "a6c3d120f31435d2bffa614f89fe43e41e3a1feccb968ac5fe5864a6cab0eec1",
+          "datBlocks": 84
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "a1e0e99f5965301a8f6590d0af198b9bae7297fe0698c55e505d58ce2a71b2b6",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hu-die\\current-pixel-review.json",
+          "recordSha256": "c26cf4b6052dbbeab1e4b4b71f7d2dc5d969b8704001b7b088d4f82c78a9ab8b",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 11,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-hua-ban-che",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+      "progressHashMatches": true,
+      "placements": 61,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+滑板车搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 10
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "sha256": "f9c8bac6e92e0362127bde0d0a59196edbf1330c0e2497f99ace4cadf6ab8948"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\source.json",
+          "sha256": "6cc5f16d1ba4985d7fef0e26cbdd2d3daacaa18378bde71c1c788497a39b0e5b"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\ledger.json",
+          "field": ".evidence.9.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\REVIEW.md",
+          "claim": "All 10 verified materialized pages individually viewed. Source/page hashes retained in source.json/ledger.json. 55 placements, 9 constructionSTEPs; finalsource page adds no duplicate parts."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-hua-ban-che.mpd",
+          "sha256": "aa8fc7da0b53a0b8e623c46c878bbb80a14dd04171cbc213d58b59dc35d27ae7",
+          "datBlocks": 95
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-hua-ban-che.mpd",
+          "sha256": "aa8fc7da0b53a0b8e623c46c878bbb80a14dd04171cbc213d58b59dc35d27ae7",
+          "datBlocks": 95
+        }
+      ],
+      "rawErrorGroups": 7,
+      "staticAlarmSummaryItems": 7,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "d12b2a08cf3674a8fae45b07d42c7b58a8f57f659831d498ff7eced7bd8fd60e",
+      "expandedAlarmItems": 7,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-hua-ban-che\\current-pixel-review.json",
+          "recordSha256": "cb0e69d21dc8cae32221913e7332eee00d335b1386f02c741a39230de358b933",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 9,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-huan-wei-che",
       "issues": [],
       "pixelIssues": [],
@@ -9972,8 +10757,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "fdbc2aaa62bc6371c5bb3ce73ae9b57523bf8862e221a33565ee0adc4f3aff10",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10126,13 +10914,153 @@
         }
       ],
       "rawErrorGroups": 12,
+      "staticAlarmSummaryItems": 12,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "c513e9461152738b2309564bc8aa8a7503d7b010ee93d6dc8ee0c3306398f101",
       "expandedAlarmItems": 12,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
           "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-huo-jian\\current-pixel-review.json",
           "recordSha256": "952f26eb95dece94e104be65fa6714fcbbc9826f84279d019748b443d7c1c8e3",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 10,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-ji-gu-shou",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+      "progressHashMatches": true,
+      "placements": 46,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+击鼓手搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 11
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ji-gu-shou\\ledger.json",
+          "sha256": "e671c4955dc52ed4ecfe22f7653fd0f42bb2f966a5980cd15c5037f7574f7cca"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ji-gu-shou\\source.json",
+          "sha256": "f67e32f02d276e8d85f045c9e9ddc2a14549d5a73bb1c4a374da683a24b6ad8a"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ji-gu-shou\\REVIEW.md",
+          "claim": "Current source `dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54`; 46 placements, 10 steps. All source pages actually viewed. Target visible count 46; omitted 0."
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ji-gu-shou\\REVIEW.md",
+          "claim": "All11 original pages viewed; p11 is final with no addedBOM. p8 inset lists only8Lshaft+24T gear, but image adds3front6527; these are explicitly image-visible additions, not blindly copied inset totals."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-ji-gu-shou.mpd",
+          "sha256": "395e4f4a61e286249b55fe22061e9865bdc1fde0b8954fc694ad33d53f490de3",
+          "datBlocks": 127
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-ji-gu-shou.mpd",
+          "sha256": "395e4f4a61e286249b55fe22061e9865bdc1fde0b8954fc694ad33d53f490de3",
+          "datBlocks": 127
+        }
+      ],
+      "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "5d2e1bd42cab234bf5a1eae7a8a9ef39c6e6a97e510d10f557e168b933c1e9b4",
+      "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ji-gu-shou\\current-pixel-review.json",
+          "recordSha256": "0489a9d0afdbb5fa79fdc1a414f092b78f4ffb1e1fab8b58012dd6faacabc92b",
           "type": "current",
           "currentBinding": true,
           "images": [
@@ -10247,8 +11175,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "7cb25e87a70295cdd6e661f28a937c4785e46667731541c31f532b5bd5485cdb",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10366,8 +11297,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "daddf0da5f3c1dacab81dd96c3132f407a51d6a5102dc14629434d24946c6adc",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10450,6 +11384,710 @@
       "missingViews": []
     },
     {
+      "slug": "5-kai-ye-zi-qi",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+      "progressHashMatches": true,
+      "placements": 51,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+开椰子器搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 12
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "sha256": "c44de240759e1591c6e924bd65756ccc6d45f809df9a91a1c57f6ac517b867ee"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\source.json",
+          "sha256": "0d2afae70c1dbfc9cb9effbf445d20dd7165a72fe35789472b6afb9804384625"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.9.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.10.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\ledger.json",
+          "field": ".evidence.11.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\REVIEW.md",
+          "claim": "All 12 verified materialized pages individually viewed. Source/page hashes retained in source.json/ledger.json. 51 placements, 11 constructionSTEPs; finalsource page adds no duplicate parts."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-kai-ye-zi-qi.mpd",
+          "sha256": "ccec6382f8d34cdd1106889ff11466853e5c603bbf744af90dc10032e85f15ea",
+          "datBlocks": 103
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-kai-ye-zi-qi.mpd",
+          "sha256": "ccec6382f8d34cdd1106889ff11466853e5c603bbf744af90dc10032e85f15ea",
+          "datBlocks": 103
+        }
+      ],
+      "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "d4ce9e7dbf548523161d9df923b3477802485a741e9805456f7441d413884924",
+      "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-kai-ye-zi-qi\\current-pixel-review.json",
+          "recordSha256": "dff5ec150fe8c24705f9a04d32efe58c3b8cbbc07d0afcec83d697834eb96280",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 11,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-la-ji-che",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+      "progressHashMatches": true,
+      "placements": 150,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+垃圾车搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 16
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-la-ji-che\\ledger.json",
+          "sha256": "37d7f942b96d259fa8121213f8f22205200eda3ef85a8ebabbbfb3b22fc32924"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-la-ji-che\\source.json",
+          "sha256": "dafbb8db612fca742026b3403e15a4a846fd70e9590e511a29c3692f9c95a8ef"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-la-ji-che\\ledger.json",
+          "field": ".sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-la-ji-che.ldr",
+          "claim": "0 // Source PDF SHA256 971127a10ea4c54de8498ff88a1049083d0c246281fd7ee0666d775242e25e75; all16pages actually viewed."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-la-ji-che.mpd",
+          "sha256": "4f709d810d1dd5c66354eb4e13c15ea8e9919b6e4889b0d1924a4d5726e26282",
+          "datBlocks": 139
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-la-ji-che.mpd",
+          "sha256": "4f709d810d1dd5c66354eb4e13c15ea8e9919b6e4889b0d1924a4d5726e26282",
+          "datBlocks": 139
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "b0e6ac602c36228e64b9a32f3044c2217164e817babb00c9daafa3cc2d4ece61",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-la-ji-che\\current-pixel-review.json",
+          "recordSha256": "79d2eaf32b8b53313699e460becc16a73a1a2a1e444727e1f6008a53dd0c8740",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-13",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-14",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-15",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 15,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-lan-che",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+      "progressHashMatches": true,
+      "placements": 129,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+缆车搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 18
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-lan-che\\ledger.json",
+          "sha256": "015d1cd93edd61b6430bd13250ea2ba0f9fa567a2f65ea8b422a7742d60ed3ad"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-lan-che\\source.json",
+          "sha256": "38a7f1d25e43513b5c7df5cbaa23dc63a7e0ce0a4c03d3f03273832ff03e21bd"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-lan-che.ldr",
+          "claim": "0 // All18 source pages actually viewed; final page is presentation only."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-lan-che.mpd",
+          "sha256": "2256d4fd4797edbfd692402beee193d35dfe7bb2c7f4dfb7220512c83bc850fb",
+          "datBlocks": 105
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-lan-che.mpd",
+          "sha256": "2256d4fd4797edbfd692402beee193d35dfe7bb2c7f4dfb7220512c83bc850fb",
+          "datBlocks": 105
+        }
+      ],
+      "rawErrorGroups": 3,
+      "staticAlarmSummaryItems": 5,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "93ea3e70bebe71a41a2c6a4db9cd1acaa9e634e80f471f6d4c3d494ff986bfd6",
+      "expandedAlarmItems": 5,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-lan-che\\current-pixel-review.json",
+          "recordSha256": "9739dacf364afdbe01af5812659ab66e53cf1b9694fc03913f6f8e8c143ec1da",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-13",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-14",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-15",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-16",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-17",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "right",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 17,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-long-men-diao",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+      "progressHashMatches": true,
+      "placements": 112,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+龙门吊搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 15
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-long-men-diao\\ledger.json",
+          "sha256": "4054407d24195963d067e1a643ab075deb281056518b8cfb4d5ad52ba2580041"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-long-men-diao\\source.json",
+          "sha256": "77ecfbc3fedca1813ad1dc91cdcac893912e0256cb25c4e1bfa298463b49cdfe"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-long-men-diao\\REVIEW.md",
+          "claim": "Source SHA `4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7`. All15 source pages actually viewed;14 source steps,112 placements vs114 source physical items. Incomplete development preview, not accepted."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-long-men-diao.mpd",
+          "sha256": "e99773a7e94dc9b06aaa8768956dfed9e1baed5b6eecc04b355ee913f04d59e3",
+          "datBlocks": 108
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-long-men-diao.mpd",
+          "sha256": "e99773a7e94dc9b06aaa8768956dfed9e1baed5b6eecc04b355ee913f04d59e3",
+          "datBlocks": 108
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 6,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "eb6064e05d96f8e9d38d262afaacc7085c4523fd878bf1fffefe8665de6f77f1",
+      "expandedAlarmItems": 6,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-long-men-diao\\current-pixel-review.json",
+          "recordSha256": "36b7665ed2a9d5bb41fe74735dabe7792f1d9a3c6108c342fe5ab7dbd604237f",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-13",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-14",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 14,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-ma-tou-diao-ji",
       "issues": [],
       "pixelIssues": [],
@@ -10491,8 +12129,11 @@
         }
       ],
       "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "e75f2e6bc7f73a1480f021280a2af898b944ee2cbaf34eabc5327aeac3718302",
       "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10641,8 +12282,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "93b1d6334cc40404046166810755d51c6ba4ef4706c6b0ab18df716cbd3f05ee",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10755,6 +12399,149 @@
       "missingViews": []
     },
     {
+      "slug": "5-nian-yao-ren-zai",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+      "progressHashMatches": true,
+      "placements": 61,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\manifest.json",
+          "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+碾药人仔搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 12
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-nian-yao-ren-zai\\ledger.json",
+          "sha256": "e57be4b32fd8ee1f2a805dfa562cd44a0b1454c1354e2b9b9eca9249ec42af34"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-nian-yao-ren-zai\\source.json",
+          "sha256": "2ac8842528fed94249db7e6820c401c0cf45f96667b469f324ce6168ee4cb86c"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-nian-yao-ren-zai\\REVIEW.md",
+          "claim": "All12 source pages actually viewed. p4 short arms corrected to front shoulder axle only, rear shoulder independent. Torso40.329034529degrees and short-arm downward30degrees are reasonable static poses, not measured source angles."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-nian-yao-ren-zai.mpd",
+          "sha256": "bd41eeca4000d23cbdf3bf8d26f22366125ca30e99995e2cd7bd0bfba9d742d6",
+          "datBlocks": 126
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-nian-yao-ren-zai.mpd",
+          "sha256": "bd41eeca4000d23cbdf3bf8d26f22366125ca30e99995e2cd7bd0bfba9d742d6",
+          "datBlocks": 126
+        }
+      ],
+      "rawErrorGroups": 1,
+      "staticAlarmSummaryItems": 1,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "a7f2619fcceb612d005f61c06c78152385b96d54b1f8627001ca0890ae52fd3d",
+      "expandedAlarmItems": 1,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-nian-yao-ren-zai\\current-pixel-review.json",
+          "recordSha256": "149f2ec9e00b8b4f243904ab94f373226e170b7545f174ff9c508ac75ff20d46",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "right",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 11,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-ping-heng-cheng",
       "issues": [],
       "pixelIssues": [],
@@ -10830,8 +12617,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "5ee4d65833ba5620b9e24d460262534cc29ab8033d0abe1a960f1cc1fbda44fc",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -10980,8 +12770,11 @@
         }
       ],
       "rawErrorGroups": 5,
+      "staticAlarmSummaryItems": 9,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "440b7eec348d6b427003c096c193db85081e347d49180254e310658a80a57d94",
       "expandedAlarmItems": 9,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11114,8 +12907,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "809d716918a10531484dd293f82bf456a552c0c13cb7f8a4ed72c45c539a63e8",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11245,8 +13041,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "0332a602c3d7ccf151e6bcbdd128c6eff8d6ba2b50b30ddd7f6ce369f701b3ec",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11380,8 +13179,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "e217e9a07d893c68fdda456201b9184d654af741e232302b78cafa75a8843579",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11516,8 +13318,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "0091f97cd7e9d8250c7cffeab2ebca30240978523f4bcb30cd6950a7ee8b9af6",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11645,8 +13450,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "c835ceeee9d465caaaed2578f73d0026777578bf437e2471b803f92bdbbde45d",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11773,8 +13581,11 @@
         }
       ],
       "rawErrorGroups": 14,
+      "staticAlarmSummaryItems": 14,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "9164bba2225fed4da77f5147413ba697e7fb45548d87e48c4bd8cb1d15468607",
       "expandedAlarmItems": 14,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -11909,8 +13720,11 @@
         }
       ],
       "rawErrorGroups": 4,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "c698489b5ff5f8c8697e852f875c949e34991855f02f56479eb997b1a3dabb90",
       "expandedAlarmItems": 8,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12030,8 +13844,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "2ec55027fc7540fae690c07c9cb005aa0afe44a3723bdf301a0b676ff64bc80b",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12251,8 +14068,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "0ae1500b2fe0595df02b7290ebe79f07c6f622733d028e4702f590418a6f4d2b",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12451,8 +14271,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "cc06794d8169f409a83ce19b8eabc02776a04cb76cc87066d92b4c282834d5ab",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12578,8 +14401,11 @@
         }
       ],
       "rawErrorGroups": 4,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "842df6ce45ec265cce2672dc0d22d659a4b7a066d6407c88b59f8959b519c586",
       "expandedAlarmItems": 8,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12718,8 +14544,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "9c5037361246da4072a750fc8c890218cec9e1527d9a45f30d04e3f8025ec9b5",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12855,8 +14684,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "02df5974763b25083db22e15c94bfb8466bb9d29c57e8322f12d8924b963bf28",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -12980,8 +14812,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "e27757fe9a67265b24b7eb06eac4ffe65cbaef64ef5c71b57f3b4ef506210b83",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -13085,8 +14920,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "26a9b0fa5d4d8eff2fe493f051b845663a4e059d5d6b3a26d829225292ddfcb6",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -13212,8 +15050,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 2,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "c7c17ec3c9e1a8932926b3afb36e4bc7204cdd255f137a02a063cc4d2df08dad",
       "expandedAlarmItems": 2,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -13352,8 +15193,11 @@
         }
       ],
       "rawErrorGroups": 2,
+      "staticAlarmSummaryItems": 4,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "63b5d808039d5ef6aa2e99600f88eee87050919b5a9fc2e468904c457a1d991f",
       "expandedAlarmItems": 4,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -13522,8 +15366,11 @@
         }
       ],
       "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "753a0fcc8c3ccf2e6f9f1fad76ced478cdcd2494f97071495a6ac0db459cf0da",
       "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {
@@ -13642,8 +15489,11 @@
         }
       ],
       "rawErrorGroups": 6,
+      "staticAlarmSummaryItems": 10,
+      "explicitRawPairReviewItems": 0,
       "staticReportSha256": "5559d8787a666df7ae4cf6dfb5bca1907df4926ba131967d55799f2fdde35845",
       "expandedAlarmItems": 10,
+      "rawPairReviewsMissingDiagnosis": [],
       "unexplainedRawPairs": [],
       "pixelRecords": [
         {

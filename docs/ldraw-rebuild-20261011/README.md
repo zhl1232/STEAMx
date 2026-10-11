@@ -4,14 +4,6 @@
 See [当前说明](本轮核查说明.md), [逐课状态](COURSE-STATUS-CURRENT.md), and [current independent QA](current-development-QA.json). Files explicitly named 69 are historical snapshots; current counts and hashes come from these links.
 <!-- END-CURRENT-DEVELOPMENT -->
 
-
-
-
-
-
-
-
-
 # 129-course development reconstruction
 
 This is an in-progress development branch, not a release or course approval.
@@ -21,8 +13,8 @@ This is an in-progress development branch, not a release or course approval.
 - Base: `bbcdaddd417feba086f0683aa1bd3e6c5878d96a`.
 - Branch: `models/129-course-source-rebuild-20261011`.
 - Audit reproduced: 300 courses, 160 with published 3D; this scope contains 71 missing source models and 58 simplified source drafts. Eleven other incomplete/review cases are recorded separately in `deferred-11.json`.
-- Source coverage: 62 PDF lessons (774 pages) and seven image-based lessons are locally materialized through Library. The remaining 60 courses were matched on PC-20260523FVXD: 713 JPG pages across six packages, with decoding, continuity and final-page checks reported by the source task. Official Library upload preparation/finalization tools are unavailable on that PC, so no file IDs exist and transfer is blocked. Those 60 are not locally received or reconstructed. The active executor remains DESKTOP-MNEH90C; remote paths are not local paths.
-- Local commits preserve the 69 source drafts and review evidence. All 69 current development MPDs are synchronized into previews/ after hash-verified backup of the previous versions on D. See preview-sync.json and preview-sync-history.json for versions, source/MPD hashes and disk-space checks; see CHECKPOINT.md for current review counts. Future source edits require repacking and renewed pixel checks.
+- Source coverage: all 129 source lessons are available in Library (122 PDFs / 1,487 pages and seven image-based lessons / 93 pages). 96 lessons are locally materialized and verified; 33 await sequential local import. Remote source availability is not local reconstruction completion.
+- Current local work contains 96 source-backed development drafts, with 96 current final-view reviews and 96 full-step reviews. Development MPDs are synchronized into previews/ after hash-verified backup on D. See preview-sync.json, preview-sync-history.json and CHECKPOINT.md. The verified pushed checkpoint is separately recorded in branch-backup.json; source edits require repacking and renewed pixel review.
 - `progress-129.json` records each course, source coverage, current reconstruction status, model hash and limitations. A rewritten LDR is **not** a completed/approved model.
 
 ## Validation boundary

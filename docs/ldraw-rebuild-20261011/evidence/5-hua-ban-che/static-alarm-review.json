@@ -1,0 +1,119 @@
+{
+  "slug": "5-hua-ban-che",
+  "sourceSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [5-hua-ban-che.ldr] 7 error(s), 61 placement(s):\n  - step 1: 5-hua-ban-che_l18 overlaps 5-hua-ban-che_l15\n  - step 1: 5-hua-ban-che_l19 overlaps 5-hua-ban-che_l16\n  - step 1: 5-hua-ban-che_l24 overlaps 5-hua-ban-che_l21\n  - step 1: 5-hua-ban-che_l25 overlaps 5-hua-ban-che_l22\n  - step 5: 5-hua-ban-che_l51 overlaps 5-hua-ban-che_l15\n  - step 5: 5-hua-ban-che_l52 overlaps 5-hua-ban-che_l16\n  - step 5: 5-hua-ban-che_l53 overlaps 5-hua-ban-che_l9\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "step": 1,
+      "lines": [
+        18,
+        15
+      ],
+      "classification": "real_risk",
+      "raw": "- step 1: 5-hua-ban-che_l18 overlaps 5-hua-ban-che_l15",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 1,
+      "lines": [
+        19,
+        16
+      ],
+      "classification": "real_risk",
+      "raw": "- step 1: 5-hua-ban-che_l19 overlaps 5-hua-ban-che_l16",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 1,
+      "lines": [
+        24,
+        21
+      ],
+      "classification": "real_risk",
+      "raw": "- step 1: 5-hua-ban-che_l24 overlaps 5-hua-ban-che_l21",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 1,
+      "lines": [
+        25,
+        22
+      ],
+      "classification": "real_risk",
+      "raw": "- step 1: 5-hua-ban-che_l25 overlaps 5-hua-ban-che_l22",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 5,
+      "lines": [
+        51,
+        15
+      ],
+      "classification": "real_risk",
+      "raw": "- step 5: 5-hua-ban-che_l51 overlaps 5-hua-ban-che_l15",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 5,
+      "lines": [
+        52,
+        16
+      ],
+      "classification": "real_risk",
+      "raw": "- step 5: 5-hua-ban-che_l52 overlaps 5-hua-ban-che_l16",
+      "evidence": "Same-depth belt-wheel centers80LDU versusrealrimdiameter82.004961; potential2.004961radialintersection. Need sourceface/axialstack evidence; notmoved offholegrid toclear."
+    },
+    {
+      "step": 5,
+      "lines": [
+        53,
+        9
+      ],
+      "classification": "real_risk",
+      "raw": "- step 5: 5-hua-ban-che_l53 overlaps 5-hua-ban-che_l9",
+      "evidence": "Inclinedbrace distalcorner reachesX~-194 nearY28 whiledeckstartsX-200,Y0..48; possible6LDUrigidcorneroverlap, notwaived. Lowerpivot chosen fromsourceholes; upperpose remainsinferred and needs newpixel/mesh review."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P5 lowerbraceaxle installed atsourcehole;upperbrace can contactupright butupperpinclosure differs11.660LDU,not countedasstructuralsupport. p5BOMonlyoneaxle.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P6 lower8Lshaft atY-176 onlyjoins overlappingyellowbeams;upper8L atY-296 alsojoinsredstem. P7 pair atY-416/-536 onreal40LDUholegrid.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P9 sixhandleparts omittedpending mutualaxis/offset/seat evidence; knownIDs,notmissinggeometry.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Adjacentretainercenters80LDU canoverlapreal6527radius41.00248; rawalarms retainedpendingaxialstack/facecheck.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Gearpairsusedaswheel per source,nottyres;physicalrolling,brakeandsteeringunvalidated.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P9 restored six known parts using real nativeY central brick passage, not sideZhole. Exact second-row choice and axial stack inferred fromp9/p10; keyed phase, central-passage clearance, rear pin retention and full assembly strength remain unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Recursive handle mesh strict crossing pairs: shaft/stem176, rear pin/stem156, frontpin/handle80. Nominal coaxial R9 versus~9.00023 facet discrepancies visible; not physical clearance proof. See handle-mesh-diagnostic.json; frontcrank/stem0.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false
+}

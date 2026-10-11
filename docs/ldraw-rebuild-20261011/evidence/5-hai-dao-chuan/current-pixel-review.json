@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+  "revision": "866909a666194c663e5b784aa40243ee46dc1b4138ee361b576e5e676f1b13ad",
+  "reviewedAt": "2026-10-11T12:22:16.490886+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-hai-dao-chuan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "b7af61040ea159ba57d1f841dbf6f7e6c36bb7a694c71540badd9a04a54ded58",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "28b6da63a1a843ce8788fb8c023457f9895c5e14b701b1e650e3c40b1743f45e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "58cc787d927372df13125d1e1276e3631cac71219cb5daa9b1c12626e6b0733e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "07b4bfdaeb16ae4934e51b10d37ebac2960841aa16cd268d71c250a562d3a773",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "0d8d0a911f36be7047b36f8b1514912f2da10e0520569b0f7cf3f3bf57889bd2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "09c72f6f5877b0d03b885a54c174771b654e31d56c56e4bab4ad1bf753904ea8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c7d57f05564d25b2baea5d6c51638a75232fb7087236360563f6cf01b6e639bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "82a89b6310fa29dea5399e16c1967127090d7f8d91cad60874ab24aa0f3428db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7cff41f16c84a224587684b8e2ed52358f30b7cb9b879e798b7928084182ac5d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6374a7a2980da4b7e73b7ebdcd1d1ca08e6e61f2408e470d99cef990b6eabae6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "51d06f1419cdae2ed18069d7d7a6e067971e9f5d67fe1cddbe707a52cc5e4b3b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4474209ef286e9549a7817e80476c82e910841dd1f481d31b859067a471bdf27",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "76e11963bd3d434ba36625f7a8d742aa8cad4957f8dedc439cf82b5153bb2520",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "8933e81e1ddf5457bcf4bb905cbc1ef545a254e2ee60613d929aadb7b84cd3e4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "656397753b21581c68e75bfdd9b3331669f6d83ed4b91e31537b0d7a2e1677d0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "b7af61040ea159ba57d1f841dbf6f7e6c36bb7a694c71540badd9a04a54ded58",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "实际查看当前final3原PNG及全部13累计步骤联系表：双阶梯支架、四根摆杆的上下轴位、船底层及外轮廓未发现新增可确认错位。舱内6蓝方砖与2黄座板采用已授权明确记录的可支承布局调整，座板低于外缘48LDU，不能当作源隐藏布局复原已证实。192件不等于验收完成：10组上部相邻6527的20 triangle-pair crossings风险仍保留；4组下轮/蓝砖AABB报警有径向包络分离依据，不能以此豁免上部风险。源p7–10船体为分组件暂置，p11轴后才形成最终悬挂；活动行程、轴端保持、承重与实物配合未验证。"
+}

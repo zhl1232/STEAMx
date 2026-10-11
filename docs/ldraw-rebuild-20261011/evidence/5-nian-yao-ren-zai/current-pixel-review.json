@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+  "revision": "bd41eeca4000d23cbdf3bf8d26f22366125ca30e99995e2cd7bd0bfba9d742d6",
+  "reviewedAt": "2026-10-11T12:28:28.631633+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-nian-yao-ren-zai",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "6a7cfead8bca0030e1cb46d23c5fe31a0bfcb991bf7c42cf345c20c4526b99d8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "7bfe7ef0b804fe21bbe3e58d306510d9f093547227c85bea1e5aab9187dde035",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d57835ca00e2b9dda63cf6c82fb6f0c0e46748c71cb8d7b67e0f55ab37670228",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "fac7d950c875691934c488addc995047bad6790bf13babe5aacd8e8ee2bd6238",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8d2fd89104a12d949443ecd2e114bee4c05cf014fd7184fc8a04210ef10c2588",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b6926f8de768cad93b48317f693206de0f2e2ea74e5b919f70830c175d292981",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c0d427f7b1b1adbbe6f2ca8a7e56d3385166d625ed83a3b537f10bb79eb7789d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "2561bb06b6418b6c906fcc8cf8bdecfc6ae56b0ee792d6e2a7b14c2510104dd6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "69edf0903deee254be66e4f818be7d9f9f63762721fd4e90b6b09bbe0b5d73fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6eea61596cdc70f4a533f5baf7378be2cffa1f0f7fefd4abb19893ff099970e4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e7c61d5d312fd329d403a7cb49a10e73009ce3cb07821543b5f7bc5f6845e086",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4b096fef1dd7c2a0d3caada47db0a3477ed06ae552bab062d3ad1da21923d5e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f1689b0b0fb39051b253a7e34ef9ea23744394b07971f6b25eae4084cfae0b8b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "6a7cfead8bca0030e1cb46d23c5fe31a0bfcb991bf7c42cf345c20c4526b99d8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "right",
+      "sha256": "6a29b5dbdf40bfddd7c1ba0f681722a454cccf7369defac7ec13e14599b28a18",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final iso/iso-rear/top, every cumulative step1-11 contact frame, original iso-rear and supplemental right.png. Right low front view clearly shows both printed eyes facing roller/tray; no head orientation repair needed. Sourcep4 arms belong to front shoulder; p7 restored second crank/shifted drive pedestal supported, p8 long rod and blue axle retained; p10 seven-blue-brick tray and p11 eight-red-plate rim visible without former block overlap. No new obvious source mismatch found. Torso40.329deg, arm30deg and hidden second-crank phase are reasonable inferred static poses, not unique measured source transforms. Preserve22 strict shoulder-pulley mesh crossings, axial retention and motion limits, roller-to-floor gap, and source-obscured attachment uncertainty. Zero source omissions and visible assembly do not establish interface/physical acceptance."
+}

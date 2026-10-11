@@ -1,0 +1,70 @@
+{
+  "previousSha256": "eda18ce46e941f10e777ba41787f5be0098bf43ba3b417330f9ace5af7a68373",
+  "sourceSha256": "5fbbf55eeec19e1e01f0cb6bad8ae848178befb540b13c123ade7f5afb2ee650",
+  "sourcePages": [
+    4,
+    5,
+    7,
+    8,
+    10,
+    11
+  ],
+  "sourceCorrection": "p4 front shoulder axle alone carries short arms; rear shoulder axle retains independent pulley and p8 long rod. Both shafts do not run through same7hole arm.",
+  "reasonablePose": {
+    "torsoDegrees": 40.32903452878564,
+    "shortArmsWorldDownwardDegrees": 30,
+    "sourceAngleMeasured": false
+  },
+  "rearShoulder": [
+    78.23197887738912,
+    -321.9602464304593,
+    0
+  ],
+  "frontShoulder": [
+    139.21921665963586,
+    -270.18615225497706,
+    0
+  ],
+  "roller": [
+    347.0653135679011,
+    -150.18615225497706,
+    0
+  ],
+  "gearCenter": [
+    -320,
+    -144,
+    60
+  ],
+  "eccentricHole": [
+    -280,
+    -144,
+    60
+  ],
+  "rodCenter": [
+    -100.88401056130544,
+    -232.98012321522964,
+    100
+  ],
+  "rodEndHoleDistance": 399.99999999999994,
+  "axialStack": {
+    "rearShoulderPositiveZ": [
+      "brick[-40,40]",
+      "pulley[40,80]",
+      "rod[80,120]",
+      "6Lshaft[-120,120]"
+    ],
+    "drive": [
+      "gear[40,80]; actual offset-hole axial surface62..73.5",
+      "rod[80,120]",
+      "blue5Lshaft[40,240] avoids redbrick interior",
+      "blue8TcollarZ180"
+    ]
+  },
+  "rearBlueAxisToRedBearingOffset": 0,
+  "limits": [
+    "Exact400LDU closure uses rear40T eccentric40 and body40.329034529degrees, source pose not measured.",
+    "Blue axle starts atZ40 beyond brick exterior; do not invoke generic hole clearance. Actual radial/rotational fit and axial retention require further evidence.",
+    "Secondp7crank remains knownID connection-unresolved; hidden placement not invented.",
+    "One same-depth shoulder pulley pair nominal80centres retains mesh risk; no source-constrained center shift."
+  ]
+}

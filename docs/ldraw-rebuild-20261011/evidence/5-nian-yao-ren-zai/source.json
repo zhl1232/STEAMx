@@ -1,0 +1,89 @@
+{
+  "manifest": {
+    "name": "5+碾药人仔搭建说明.pdf",
+    "relative_path": "5+/5+碾药人仔搭建说明.pdf",
+    "pages": 12,
+    "bytes": 1710615,
+    "sha256": "5dc38f502dcb752332f5815fab18f0f5fc4b757557e0c7fe259ec4bd12952378",
+    "source_url": "https://pan.quark.cn/list#/docpdf/3aa8abecf7b6479481833d707dec5570",
+    "slug": "5-nian-yao-ren-zai",
+    "lesson_id": 272,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\materialization-verification.json",
+  "currentModelSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-01.jpg",
+      "sha256": "edf200e31fa9e0fb1209414b85712a4300cab12bc403855ed38e3c5c20af4410",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-02.jpg",
+      "sha256": "5cf433d02ae35cd6b88daad7525ba3adbd45d230661ae41705b98c62e0d8c050",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-03.jpg",
+      "sha256": "a99e85ff8a8a7b4959a530a55dedcb566ddbe30502de1091386fe7bffe2ab17e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-04.jpg",
+      "sha256": "746c436f5e2f0643459e129f4927bb29bf7fe409ebe680342dcca471babc25c7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-05.jpg",
+      "sha256": "cfe61389118a7d6d99dd378a617e2f021e085663b5e63d240c942437d8f9b833",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-06.jpg",
+      "sha256": "89bfd390d5ca54a9c802a2d3ebfb72602c2005ba2bbcd775d86c04e07b9617c0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-07.jpg",
+      "sha256": "996b1b286d3ba625129443d3e7f6b20b61c20555cdd412b7626c3f4addf91e0e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-08.jpg",
+      "sha256": "b0a646424eccb99169898ec4685f59383148ed0dfe8a86bd9a8e0664ec10ad3b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-09.jpg",
+      "sha256": "6974165569b0d5f5dab4bb1735724f33fd1ba5fa585530b3cbbf99e2ef084bab",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-10.jpg",
+      "sha256": "c3c811913b236e37f4b70f19072c3bb28c7f3b6c53fbf4f22bedad416134bf99",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-11.jpg",
+      "sha256": "fb02c7151757912a0e97ce1ac3f3797b06f7960c7dc8eacd13adbcf69b849204",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-12.jpg",
+      "sha256": "f1150fbb7bcf4d1b3c22bf60b24a687d1fce086a1a01f42826d62695af59b32e",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

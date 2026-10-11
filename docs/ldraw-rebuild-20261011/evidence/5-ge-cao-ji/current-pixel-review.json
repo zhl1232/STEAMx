@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+  "revision": "3098e52ba79e8c0b39e11cd3b440373be35b71315427f8cb01d302c7376cbb65",
+  "reviewedAt": "2026-10-11T12:07:48.940481+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ge-cao-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3146674a5a429d60c7365e38259b566f43dee6dae46c5b7b451fc751aa9d7cb1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "60715bec415077d7951bb0868652c57a4942390cf8483dc00da713cfa423d157",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e4959274a3faa8024f363463e0c1842a9617494df6f3923ad5280633d9d9e38d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "51c1664eafe69b609bee7a501e0ad6aec5fb6e065af6edde622e52359e84eb4f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "4f72def1c261c83e569d9d1cdfa262d3432ff4b2bbc62ce1670e9dd12944fc2b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "d664ac81cec34c5bc9da6f8df0ee219c3d88b35b8b165ff5c3a0f90f21913e97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "06a8229eb7e074f5d3a878fe8b649702af3cb2413041a492be1bc67f397d6acb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "648d75ea94ad104167428e2c6edb9a9d6abe9a5474d143d0ec12a2103ca62f8d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "281bdf02c2f6b46b1bcc6fb85ed11d4a45bb1006d180a5fccc502bbded7cba6a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "515420342eebf91ef89811e41597be0247df530e3f5ec235eafdc3809c879735",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9f0b11359c2dc7adc0167f8519d44db78e00cd935c8bd5105ee2496594703075",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "3146674a5a429d60c7365e38259b566f43dee6dae46c5b7b451fc751aa9d7cb1",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final iso/iso-rear/top and all 9 cumulative step images in review sheets; compared source p8 handle clamp and p10 final rear view. No new visible source-order/outline discrepancy found. Two staggered red beams, blue curved nose, vertical red gear and low horizontal yellow disc, two upright handles and lawn with 12 flowers remain present and uncropped. 24LDU plate thickness, 48LDU brick layers, actual 4LDU lawn body and 48LDU flower support origins retained. Four tyre raw pairs remain: inner pulleys each have52 strict mesh crossing triangle pairs; outer zero is not clearance proof. Right-angle tooth engagement, axle retention and handle clamp fit remain unverified. Flower distribution is illustrative where exact source stud locations are occluded; no physical validation or user acceptance."
+}

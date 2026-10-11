@@ -1,0 +1,25 @@
+{
+  "previousSourceSha256": "5fbbf55eeec19e1e01f0cb6bad8ae848178befb540b13c123ade7f5afb2ee650",
+  "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+  "changedSourceSteps": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "placedBefore": 60,
+  "placedAfter": 61,
+  "omittedBefore": 1,
+  "omittedAfter": 0,
+  "evidence": "Secondp7 crank restored with rear pedestal shifted one40LDU stud along-Z on existing base. Mainshaft[-160,80]; rear wheel[-120,-80]/handle[-160,-120]; positive gear[0,40]/newcrank[40,80]/rod[80,120]. Added crank fully receives40LDU shaft; integralpin faces-X/+Z away from blueaxis. Hidden-side attachment/phase is a supported non-unique source inference, not exact confirmation. OriginalZ100candidate had58 strict crossings with rod and was rejected; shifted candidate has0 against rod/gear/blue, not a physical validation.",
+  "candidateMeshResults": {
+    "oldZ100RodStrictCrossings": 58,
+    "newCrankVsRod": 0,
+    "newCrankVsGear": 0,
+    "newCrankVsBlue": 0
+  },
+  "motionAndAxialRetention": "unverified",
+  "beforePixelsActuallyViewed": "a8300b7a final3/all11 and originaliso; no unsupported acceptance transferred"
+}

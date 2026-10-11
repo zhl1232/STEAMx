@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+  "revision": "e99773a7e94dc9b06aaa8768956dfed9e1baed5b6eecc04b355ee913f04d59e3",
+  "reviewedAt": "2026-10-11T12:13:14.665883+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-long-men-diao",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "20bcc3877fbba1484384669577c0bbaf1d9fca7ddcc49c0663ed543c8c21b18c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1d7eb51a9ac8e0512fd3923fb6dc8c4c4fb713d1eb90d3a60d04b2b760660e99",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a26b310fc977af58d2567480d03608271f81e826e677d5d696d1c15943b6c268",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "c7d333bc23fd871e0cda43d3179821d2f2a1f7fda2be88920d7f0d68121565a3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3e09c5aa026c7b24f368ea1391ba687ad7a74064659181ce48c9c60e736e13c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "c78eb65cdaa865a9074980900facdbc4266cab7da74f1871b06af896439e3c94",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "5daa41af9f885fa1db6f8b807cec10d723825a6f7113ef8aa51706c6e999ed01",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "a3c577ae9b8c7c143c9665ba784409fedd193fbd30dd6800a4ff405cc3e8470d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7ba7ea6d9bb6dd32fcfafa51142c7f4025579a0d735edb4e42d1f20d36e257ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "7ed8ec45874437842d362ea36c40f45bd74dc387152aebeaed85553bc46cb27d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "4d5633d2bdd87ba562b4f364609db8e5182d3d82cebc02f915a2812a53322d1e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "0006c593c2c66a872733faa76c89b2f9e452f6d324a7ee511c4e03aa41985dde",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "c42505e6a6155ce8f660d220a657e561f93c496301fc973084ed92ae51c8f9a0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "3ab405c37b7f8cfca93de7b99759edfcb9f227189aa928d52c5688068f72dda1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "3ab405c37b7f8cfca93de7b99759edfcb9f227189aa928d52c5688068f72dda1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "33b952e130c48ca4826fdfb8f1f8490b80641fa83e4f37c3d1cdd76969dd9384",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "20bcc3877fbba1484384669577c0bbaf1d9fca7ddcc49c0663ed543c8c21b18c",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "实际查看当前 final3 原PNG与全部14累计步骤联系表，对照源p4/7/10方形开口座、p11滑车和p14轴柄：未发现新增可确认源对应错位。当前112件，源绳与4663悬钩共2件明确省略；第12步为空源绳步骤，第13步卷轮待第14步轴组件承接。仅观察覆盖，不代表装配通过；轨道滑动/承重、6394内部筋与stud接面、6523轴端保持与后曲柄部分接合、滑车防脱及运动仍未物理验证。"
+}

@@ -1,0 +1,100 @@
+{
+  "name": "5+开椰子器搭建说明.pdf",
+  "relative_path": "5+/5+开椰子器搭建说明.pdf",
+  "pages": 12,
+  "bytes": 1541775,
+  "sha256": "15d623a43abdf57ce63b0f9d9bc34a2c8de1f20ad5837080be56997c340e7f89",
+  "source_url": "https://pan.quark.cn/list#/docpdf/05500e18ac8f4befacbbe1545eda863b",
+  "slug": "5-kai-ye-zi-qi",
+  "lesson_id": 266,
+  "course_id": 7,
+  "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+开椰子器搭建说明.pdf",
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-01.jpg",
+      "sha256": "1b33c15b38d13c3b7b0eaa92d74520e2b7785bb82c6824669b6ea916f232b88e",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-02.jpg",
+      "sha256": "9fd34a513dd745bc4ca5ee12b1cc00a99c345b3d605aa856173940e91a94e917",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-03.jpg",
+      "sha256": "2d337d9d94de83a63db94d9fc2a092375dbd1d29ddeb6ad599989ee95a073ffd",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-04.jpg",
+      "sha256": "6bbe4eac8469f926d7190767f8be673776051faeaac01db12c4913e5273e24e5",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-05.jpg",
+      "sha256": "1129050838dfe71ec1c8a9f30d84cb04be0419dac17d8a2e8178d49f9e0c8b4a",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-06.jpg",
+      "sha256": "145b12d124bfe66a55032a6ebe70f2f3ce509033dcdd6e1f64924b2cdb9df0c9",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-07.jpg",
+      "sha256": "f1ccbf6e14585c2a76c4c2df78919d0d5969663a0c2dac5304a3e0a6dfc05448",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-08.jpg",
+      "sha256": "7b163f942872dd69aa312e0dc1e39c5687354f64c3d53bfc921c0bac36f7b122",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-09.jpg",
+      "sha256": "3805cf271fd136f7c98080ee7a4d7c9c542b83a27ea3f90fcc6d5276f094865e",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-10.jpg",
+      "sha256": "0b2c7c9829d551c465a0c9f704868b7462bddc723b4ecd85b8744279a235f39a",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-11.jpg",
+      "sha256": "091405d45a94f80e03f46dd53cbbfd6a9da01686492811d775a5de075e02ce66",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-12.jpg",
+      "sha256": "fbe31bdce1289651b0d4d9a84b348db43d732380ddf13e67c482b5cec4c8f1f8",
+      "width": 1500,
+      "height": 1062
+    }
+  ],
+  "localBytesVerified": true,
+  "libraryFileId": "libfile_2f7d19118b7c8191acf12b2484585011"
+}

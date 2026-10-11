@@ -1,0 +1,127 @@
+{
+  "slug": "5-lan-che",
+  "sourceSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+  "previousDraftSha256": "6714080ea3549bf745f2952368002e6e7af3db6abaa2594153de6c1536b5dfc0",
+  "manifest": {
+    "name": "5+缆车搭建说明.pdf",
+    "relative_path": "5+/5+缆车搭建说明.pdf",
+    "pages": 18,
+    "bytes": 2448677,
+    "sha256": "773599d538ed8eac8581dd9830371dd85d3d4ac268e8e38421bcced747270a03",
+    "source_url": "https://pan.quark.cn/list#/docpdf/f830393ec57b4c6fbfef79964c02a974",
+    "slug": "5-lan-che",
+    "lesson_id": 268,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-01.jpg",
+      "sha256": "8363196c38e69d6ddf8bfa07ef674563a4711d45c7f771aa1cd961c49050befc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-02.jpg",
+      "sha256": "4927bc91015ae30f79dd89d12d94ed5b2c66ba5b8a6bc6c28c9fe9b1f0479eab",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-03.jpg",
+      "sha256": "10b7347feb6522b2fcede34f061f2c29fd00143fc25d0bef195ebcd7c16ca62a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-04.jpg",
+      "sha256": "8a7bc629981b50e9d8917275ecef62d0d1bc58052a82b606a35ba817013cbaf5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-05.jpg",
+      "sha256": "c8ac5b7c386c63627d0515e22c3aa5bf1f39443b1edb57c20a87bfa2c64ee384",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-06.jpg",
+      "sha256": "cb9cea46dc351bd7a30e4c2c7047e0351f43a66601f6423d81bfbae04caef192",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-07.jpg",
+      "sha256": "c6d547a489376aea2a9e2b3332f6e900c2f705e6c30cbabe48ff410d252c8f90",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-08.jpg",
+      "sha256": "6991ddbddb4f91c22da7f826d3c3625cf955f0be20b4000202ec2bab41178760",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-09.jpg",
+      "sha256": "11dcaff396150e68850fab62953ee8450cbb54c6d8e49496b888eb9ff442332c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-10.jpg",
+      "sha256": "5988f297ce9ddec83d2559121ee76bed9654ca21e68aa3a529529f88333681d7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-11.jpg",
+      "sha256": "a32e97a847287ca29da23fe698ca97d8323fe1dc40a66712b26d2b27344bec2b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-12.jpg",
+      "sha256": "9bf0289cbd067d1edb910e2c879a266c07c8c421b0dbb79cf4da3deea8779cad",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-13.jpg",
+      "sha256": "5fc5268e9c5380116fa23d9d74f87b9fdb60ff6b60c9a6d7cb86334ad921435a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-14.jpg",
+      "sha256": "d9c9df160a5a0cf0f8999008bccca11fc88c9143f7c4e661a985cb11018facfa",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-15.jpg",
+      "sha256": "43b1660038dc3a4bdfe33a9eefde813ac051e522baba3eb51b2defcf3466fdf1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 16,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-16.jpg",
+      "sha256": "724074170d114d76d91a3dae276e003ed7c15f86302db7d3f0925e28ff7f7a3c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 17,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-17.jpg",
+      "sha256": "4af0501d287f9e5f542b34e2f09aad36693014b245b267e9d4464a45900ae0dd",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 18,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-18.jpg",
+      "sha256": "5abb4e91ff71cae34ae10be581308388b14d30e0cdd4175ebe0566b74858d2ca",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

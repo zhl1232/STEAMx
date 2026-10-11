@@ -1,0 +1,602 @@
+{
+  "slug": "5-long-men-diao",
+  "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+  "status": "incomplete-development-preview-awaiting-render",
+  "implementedPlacements": 112,
+  "sourcePhysicalCount": 114,
+  "knownOmittedPhysicalCount": 2,
+  "pages": [
+    {
+      "page": 1,
+      "sourcePageBOM": [
+        {
+          "id": "4268.dat",
+          "color": 2,
+          "quantity": 1
+        },
+        {
+          "id": "3011.dat",
+          "color": 14,
+          "quantity": 12
+        }
+      ],
+      "implementedCount": 13,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 2,
+      "sourcePageBOM": [
+        {
+          "id": "75350.dat",
+          "color": 4,
+          "quantity": 2
+        },
+        {
+          "id": "6522.dat",
+          "color": 7,
+          "quantity": 4
+        },
+        {
+          "id": "6527.dat",
+          "color": 14,
+          "quantity": 8
+        }
+      ],
+      "implementedCount": 14,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 3,
+      "sourcePageBOM": [
+        {
+          "id": "6529.dat",
+          "color": 4,
+          "quantity": 8
+        }
+      ],
+      "implementedCount": 8,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 4,
+      "sourcePageBOM": [
+        {
+          "id": "6394.dat",
+          "color": 1,
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 4,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 5,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": 14,
+          "quantity": 24
+        },
+        {
+          "id": "3011.dat",
+          "color": 1,
+          "quantity": 20
+        }
+      ],
+      "implementedCount": 44,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 6,
+      "sourcePageBOM": [
+        {
+          "id": "75350.dat",
+          "color": 4,
+          "quantity": 2
+        },
+        {
+          "id": "40666.dat",
+          "color": 1,
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 3,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 7,
+      "sourcePageBOM": [
+        {
+          "id": "6394.dat",
+          "color": 1,
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 4,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 8,
+      "sourcePageBOM": [
+        {
+          "id": "40666.dat",
+          "color": 14,
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 4,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 9,
+      "sourcePageBOM": [
+        {
+          "id": "75350.dat",
+          "color": 4,
+          "quantity": 2
+        },
+        {
+          "id": "40666.dat",
+          "color": 1,
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 3,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 10,
+      "sourcePageBOM": [
+        {
+          "id": "6394.dat",
+          "color": 1,
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 4,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 11,
+      "sourcePageBOM": [
+        {
+          "id": "6524.dat",
+          "color": 14,
+          "quantity": 2
+        },
+        {
+          "id": "6522.dat",
+          "color": 7,
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": 14,
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 8,
+      "extraSourceOmitted": []
+    },
+    {
+      "page": 12,
+      "sourcePageBOM": [],
+      "implementedCount": 0,
+      "extraSourceOmitted": [
+        {
+          "page": 12,
+          "id": "string-unknown",
+          "quantity": 1,
+          "category": "unknown-id-and-flexible-route",
+          "reason": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+        }
+      ]
+    },
+    {
+      "page": 13,
+      "sourcePageBOM": [
+        {
+          "id": "6527.dat",
+          "color": 14,
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 1,
+      "extraSourceOmitted": [
+        {
+          "page": 13,
+          "id": "4663.dat",
+          "quantity": 1,
+          "color": 14,
+          "category": "known-part-connection-omission",
+          "reason": "Official hook geometry exists; suspended without confirmed string would be unsupported, so omitted."
+        }
+      ]
+    },
+    {
+      "page": 14,
+      "sourcePageBOM": [
+        {
+          "id": "6523.dat",
+          "color": 1,
+          "quantity": 1
+        },
+        {
+          "id": "6526.dat",
+          "color": 14,
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 2,
+      "extraSourceOmitted": []
+    }
+  ],
+  "omissions": [
+    {
+      "page": 12,
+      "id": "string-unknown",
+      "quantity": 1,
+      "category": "unknown-id-and-flexible-route",
+      "reason": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+    },
+    {
+      "page": 13,
+      "id": "4663.dat",
+      "quantity": 1,
+      "color": 14,
+      "category": "known-part-connection-omission",
+      "reason": "Official hook geometry exists; suspended without confirmed string would be unsupported, so omitted."
+    }
+  ],
+  "unknownIdentity": [
+    {
+      "page": 12,
+      "id": "string-unknown",
+      "quantity": 1,
+      "category": "unknown-id-and-flexible-route",
+      "reason": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+    }
+  ],
+  "missingGeometry": [],
+  "knownConnectionOmissions": [
+    {
+      "page": 13,
+      "id": "4663.dat",
+      "quantity": 1,
+      "color": 14,
+      "category": "known-part-connection-omission",
+      "reason": "Official hook geometry exists; suspended without confirmed string would be unsupported, so omitted."
+    }
+  ],
+  "implementedBOM": [
+    {
+      "id": "3011.dat",
+      "color": 1,
+      "quantity": 20
+    },
+    {
+      "id": "3011.dat",
+      "color": 14,
+      "quantity": 36
+    },
+    {
+      "id": "40666.dat",
+      "color": 1,
+      "quantity": 2
+    },
+    {
+      "id": "40666.dat",
+      "color": 14,
+      "quantity": 4
+    },
+    {
+      "id": "4268.dat",
+      "color": 2,
+      "quantity": 1
+    },
+    {
+      "id": "6394.dat",
+      "color": 1,
+      "quantity": 12
+    },
+    {
+      "id": "6522.dat",
+      "color": 7,
+      "quantity": 6
+    },
+    {
+      "id": "6523.dat",
+      "color": 1,
+      "quantity": 1
+    },
+    {
+      "id": "6524.dat",
+      "color": 14,
+      "quantity": 2
+    },
+    {
+      "id": "6526.dat",
+      "color": 14,
+      "quantity": 1
+    },
+    {
+      "id": "6527.dat",
+      "color": 14,
+      "quantity": 13
+    },
+    {
+      "id": "6529.dat",
+      "color": 4,
+      "quantity": 8
+    },
+    {
+      "id": "75350.dat",
+      "color": 4,
+      "quantity": 6
+    }
+  ],
+  "partGeometry": [
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "4268.dat",
+      "sha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6394.dat",
+      "sha256": "e300a3ddaf0c603bce9aea25f525e328f72f800a9f08530994e8ddb70414a91c",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6523.dat",
+      "sha256": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6524.dat",
+      "sha256": "bce610a72909858c956df7b8e2637d104fe0d12406566e79099aa438c90f9f38",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6526.dat",
+      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "6529.dat",
+      "sha256": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+      "geometry": "existing official DAT"
+    },
+    {
+      "id": "75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "geometry": "existing official DAT"
+    }
+  ],
+  "risks": [
+    {
+      "key": "track-carriage",
+      "classification": "evidence-insufficient",
+      "evidence": "p1 rails3011 topY-48; red75350 top-96/bottom-48 supported on rails. ShaftY-72; gear6529 radius64.145 is near base studs but not claimed to carry weight or roll without collision. Pulley guide flanges and track sliding require actual mesh/contact check."
+    },
+    {
+      "key": "6394-cutout",
+      "classification": "source-supported-with-contact-risk",
+      "evidence": "p4/7/10 square cutout shape matches official6394, not curved11198. Cutout X[-40,40],Y48..96; p4 top-144 makes cutout roof-96 equal carriage top. p7 top-768 ->cutout roof-720 equal lower rail top; p10 top-888 ->roof-840 equal upper rail. Feet96 and upper support heights preserved. Internal ribs/stud seating and capture remain manual, not bbox proof."
+    },
+    {
+      "key": "towers-and-bridge",
+      "classification": "source-supported",
+      "evidence": "p5 each4x4 tower uses eleven48LDU courses (6yellow+5blue), alternate brick directions. Two75350 span X[-400,400], columnsX+/-360 support outer120LDU each. Centre40666 underside tie joins bridge seam; upper bridge similarly top tie."
+    },
+    {
+      "key": "trolley",
+      "classification": "evidence-insufficient",
+      "evidence": "p11 two6524 seven-hole beams atZ+/-60, holeaxisZ, endholesX+/-120; two6L shafts and four6527 wheels. ShaftY-729 bottom-720 rests nominally above lower rail; static posture differs from unmeasured source phase. This is a source-aligned sliding candidate, not verified trolley rolling/contact or anti-derailment."
+    },
+    {
+      "key": "winch-shaft",
+      "classification": "evidence-insufficient",
+      "evidence": "p14 official6523 is5L axle with8T gear (not worm). AxisZ, centreZ-20, ends[-120,80], gearcentreZ+20; pulleyZ-100 fits front shaft, rear6526 centreZ80 has only partial engagement. Pin points upward. Gear mesh, crank retention and torque path unverified."
+    },
+    {
+      "key": "hanging-load",
+      "classification": "known-omission",
+      "evidence": "One source string and official4663 hook omitted; source p13 pulley appears in its source step but attaches to p14 shaft in final, an explicitly staged subassembly. No dangling hook claimed as completed load path."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "9090-2",
+      "9656-1"
+    ],
+    "setIsNotCourseBOM": true,
+    "userStock": "unknown",
+    "comparisons": [
+      {
+        "id": "3011.dat",
+        "color": "Blue",
+        "sourceQuantity": 20,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 26
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Yellow",
+        "sourceQuantity": 36,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 31,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Blue",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 12
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Yellow",
+        "sourceQuantity": 4,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 2,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4268.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6394.dat",
+        "color": "Blue",
+        "sourceQuantity": 12,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6522.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 6,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 7
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6523.dat",
+        "color": "Blue",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6524.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6526.dat",
+        "color": "Yellow",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 6
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6527.dat",
+        "color": "Yellow",
+        "sourceQuantity": 13,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 15
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6529.dat",
+        "color": "Red",
+        "sourceQuantity": 8,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 6,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75350.dat",
+        "color": "Red",
+        "sourceQuantity": 6,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      }
+    ]
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "e99773a7e94dc9b06aaa8768956dfed9e1baed5b6eecc04b355ee913f04d59e3",
+    "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 14,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

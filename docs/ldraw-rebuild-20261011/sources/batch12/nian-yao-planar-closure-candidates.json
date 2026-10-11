@@ -1,0 +1,18 @@
+{
+  "sourcePagesActuallyViewed": [7, 8],
+  "sourceDirectory": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-nian-yao-ren-zai",
+  "method": "Analytic two-circle intersection, based on owner-proposed hip/body coordinates and existing official6530 eccentric radius40 plus6525 end-hole distance400. Candidate calculation, not source/assembly acceptance.",
+  "hip": [0, -168],
+  "shoulderLocal": [-40, -168],
+  "rearGearCenter": [-320, -144],
+  "jointAxis": "Z",
+  "gearEccentricRadius": 40,
+  "beamEndHoleDistance": 400,
+  "at45deg": {"distance": 444.7313139617768, "minimumRodDistance": 404.7313139617768, "closes": false},
+  "at40deg": {"shoulder": [77.34654070257947, -322.4069708314498], "distance": 435.5609264495157, "gearHoleCandidates": [[-294.3949691303377, -174.7308052963739], [-280.02060276829104, -142.7163345493379]]},
+  "at42deg": {"shoulder": [82.68814884919243, -319.6135549345566], "distance": 439.3152238431328, "gearHoleCandidates": [[-286.7169376030274, -166.18643183297456], [-281.09495550497513, -153.29502624203593]]},
+  "sourceInference": "At40deg second candidate is nearly level with rear gear center and toward shoulder, visually plausible fromp8; perspective cannot certify hidden joint or precise body angle.",
+  "limitations": ["Z thickness/axis retention not checked by this2D calculation", "Second source6526 position unresolved", "Front roller height/contact not solved", "No dynamic or physical validation"],
+  "accepted": false,
+  "physicalValidation": false
+}

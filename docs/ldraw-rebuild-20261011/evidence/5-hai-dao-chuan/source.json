@@ -1,0 +1,106 @@
+{
+  "slug": "5-hai-dao-chuan",
+  "lessonId": 258,
+  "courseId": 7,
+  "sourceSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+  "pdf": {
+    "name": "5+海盗船搭建说明.pdf",
+    "relative_path": "5+/5+海盗船搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2196624,
+    "sha256": "68377c18e7d9b804cba8a781b690d3683b006d24a76b388c984f97f8128ba26b",
+    "source_url": "https://pan.quark.cn/list#/docpdf/6a48d4cced3146458ede9e422a803dba",
+    "slug": "5-hai-dao-chuan",
+    "lesson_id": 258,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "assemblySteps": 13,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-01.jpg",
+      "sha256": "fd4ea2c486f53d2198a62c3818acbc028180014dfeb390726b9ed1db5966a05d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-02.jpg",
+      "sha256": "80ea97a261ee8e4b4eb6525f418d36f6dc5f99af827e2b1385eafdf774ac0ea4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-03.jpg",
+      "sha256": "54ed579055ba5065b7a7cd3d6df0947d10a4249bb7a03cb31808fd2778b510d5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-04.jpg",
+      "sha256": "1992a567241f47732219a6b310c71c0ea39292b3832481df01dd9a04807db8c3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-05.jpg",
+      "sha256": "2c8fd5e11c4ea5a46f88724a932164d98f412f8447c4797bf7742c4b4852cf0a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-06.jpg",
+      "sha256": "dbfcaa7bca395a1a2a4c131653968622d69f5ee4d49035a4d07fde7c533477da",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-07.jpg",
+      "sha256": "56003ae48d8c060bd11c5d8c86125280a00be89e92090d521ca484817d879d26",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-08.jpg",
+      "sha256": "d3e27a2e9610c44fc986ffee43ec0d513b95cd0ba84049ced57bd6e0a92890a5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-09.jpg",
+      "sha256": "bcd45b8fb92b6a8f9274b7ff97724c477d0604e382b844f127b970e51e7f534d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-10.jpg",
+      "sha256": "365537b2b3f2c63d1734b4e8ce35582cecdf864f7640b5b83987c2599c6238ed",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-11.jpg",
+      "sha256": "02fff4343d1184bb3d8b28c8c6cd687ba678769077f16006470943d168bde812",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-12.jpg",
+      "sha256": "bb7540922e3276e0f8d4b15cf7322db00eab87d6c8914a91f41ce275afce7385",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-13.jpg",
+      "sha256": "35f0b56438234fd2e68e49231cd56e280f8249c6d0cdcd60beaa810c47dea924",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-14.jpg",
+      "sha256": "9d22693309cb7d51f4a2a58a7fccf43c9846f54a1aeb1ae5323e17f6beb0e09d",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

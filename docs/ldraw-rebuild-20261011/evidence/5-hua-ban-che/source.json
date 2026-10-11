@@ -1,0 +1,86 @@
+{
+  "name": "5+滑板车搭建说明.pdf",
+  "relative_path": "5+/5+滑板车搭建说明.pdf",
+  "pages": 10,
+  "bytes": 1274496,
+  "sha256": "b270010f9c24749a986758d767afae72317eac1b8e97f7125fb8d7d9cdbafc6a",
+  "source_url": "https://pan.quark.cn/list#/docpdf/8b159868b523456d8525fbe9d4e583ef",
+  "slug": "5-hua-ban-che",
+  "lesson_id": 260,
+  "course_id": 7,
+  "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+滑板车搭建说明.pdf",
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-01.jpg",
+      "sha256": "f9d04a430aefd6d73bb2c17a6e670661153ad9e07232f9b6f8ecfb14234812e4",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-02.jpg",
+      "sha256": "1a83df5680dc244e2eef9fff7d5039aad0016fb569442f7733b9260d4731fc51",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-03.jpg",
+      "sha256": "53fb6a829f4aa432a2381615dd1b61bf9130c3e04e2299646bf2c622113b8b40",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-04.jpg",
+      "sha256": "d52b2e104e2284f8b1d1a6f8e5fb5f81fa93f4abffaad186c406aeec288e6557",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-05.jpg",
+      "sha256": "d48bad3d4a667e61bc928a062ed3cc2c5e3787125e898189327dbbd66168fd68",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-06.jpg",
+      "sha256": "c8c179bf8fb6da62d5495be1212f702aa0144bde73adadc0ddc05ea9e56833f6",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-07.jpg",
+      "sha256": "d5574a2b0cae26188ef9218a9f4b5d1d54c7937607055ac5124b9a6c505fe423",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-08.jpg",
+      "sha256": "3e119ab5a5989d2822899ee1912645ecf0eb462732bc92a90ce3ae2376898d7f",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-09.jpg",
+      "sha256": "13cd5b060db45a4051431e42444ad00fe3f5979b45b50f58f07bad2f6b7822a9",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-10.jpg",
+      "sha256": "a4f7c2262b3aa39f08a6eaea89de6d309444ad491aebdd86ea1683ef3b261c97",
+      "width": 1500,
+      "height": 1062
+    }
+  ],
+  "localBytesVerified": true,
+  "libraryFileId": "libfile_2f7d19118b7c8191acf12b2484585011"
+}

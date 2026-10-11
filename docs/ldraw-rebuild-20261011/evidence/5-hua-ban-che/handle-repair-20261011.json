@@ -1,0 +1,156 @@
+{
+  "beforeSha256": "b3f15bbc8d11fea4a574c6c3b35921d00c9af8504a66586a1191a6b87946fb32",
+  "afterSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+  "sourcePages": [
+    9,
+    10
+  ],
+  "pixelsViewed": true,
+  "correction": "p9 crossbar11holes =6525, previous6524 seven-hole identification rejected; restores six omittedparts",
+  "geometryEvidence": [
+    "6518s01 native centralY hole R12 at each40LDU segment",
+    "6517s01 nativeY R9 throat atY2..15 and mergedsidebore; needs fullclearance diagnostic",
+    "6526 nativeY mainhole axis; integralaxleparallel, nativeZ offset80, nativeY20..60"
+  ],
+  "shaft": {
+    "center": [
+      -480,
+      -976,
+      0
+    ],
+    "axis": "X",
+    "range": [
+      -600,
+      -360
+    ]
+  },
+  "rearPin": {
+    "axis": "X",
+    "centerYZ": [
+      -896,
+      0
+    ],
+    "range": [
+      -504,
+      -464
+    ]
+  },
+  "frontPin": {
+    "axis": "X",
+    "centerYZ": [
+      -1056,
+      0
+    ],
+    "range": [
+      -404,
+      -364
+    ]
+  },
+  "inferred": [
+    "mainshaft nativeX-120 row (80LDU belowstem end)",
+    "frontcrank standoff clears stud tips by1LDU",
+    "retainer/mainshaft axial phases unverified"
+  ],
+  "partsBefore": 55,
+  "partsAfter": 61,
+  "steps": 9,
+  "physicalValidation": false,
+  "accepted": false,
+  "centralPassageSamples": "handle-passage-samples.json",
+  "sampleInterpretation": "Center/cardinal rays clear. Diagonal samples dx4 dz8 intersect throat: R9 bounding cylinder does not entirely fit. Actual cross axle geometry checked separately; ray samples alone not clearance proof.",
+  "recursiveMeshDiagnostics": [
+    {
+      "lines": [
+        80,
+        75
+      ],
+      "parts": [
+        "6522.dat",
+        "75350.dat"
+      ],
+      "triangles": [
+        60,
+        12600
+      ],
+      "bboxCandidates": 710,
+      "strictCrossingPairs": 176
+    },
+    {
+      "lines": [
+        81,
+        75
+      ],
+      "parts": [
+        "6526.dat",
+        "75350.dat"
+      ],
+      "triangles": [
+        1252,
+        12600
+      ],
+      "bboxCandidates": 476,
+      "strictCrossingPairs": 156
+    },
+    {
+      "lines": [
+        82,
+        75
+      ],
+      "parts": [
+        "6526.dat",
+        "75350.dat"
+      ],
+      "triangles": [
+        1252,
+        12600
+      ],
+      "bboxCandidates": 0,
+      "strictCrossingPairs": 0
+    },
+    {
+      "lines": [
+        82,
+        83
+      ],
+      "parts": [
+        "6526.dat",
+        "6525.dat"
+      ],
+      "triangles": [
+        1252,
+        3608
+      ],
+      "bboxCandidates": 592,
+      "strictCrossingPairs": 80
+    }
+  ],
+  "meshInterpretation": "Strict intersections retained: coaxial nominal axle/throat meshes have R9 versus ~9.00023 and triangulated surfaces; not waived as physically clear. Front crank/stem has zero triangle bbox candidates. No geometry scaled or moved to suppress diagnostics.",
+  "currentPixelObservation": {
+    "sourceSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+    "revision": "aa8fc7da0b53a0b8e623c46c878bbb80a14dd04171cbc213d58b59dc35d27ae7",
+    "finalViewsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "originalsViewed": [
+      "step-9.png",
+      "iso-rear.png",
+      "source page09",
+      "source page10"
+    ],
+    "finding": "Eleven-hole transverse bar and opposed crank offsets now present. Frontbar abovefrontwheel/rearcrank belowrearwheel correspond qualitatively to source. Selected hole-row, height and stack remain inferred; no new definite source correction established.",
+    "accepted": false
+  }
+}

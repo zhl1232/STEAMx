@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T11:41:16.585416+00:00",
+  "generatedAt": "2026-10-11T12:37:32.631668+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -1446,7 +1446,8 @@
             "90265"
           ],
           "missingEvidence": [
-            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window."
+            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window.",
+            "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -1472,10 +1473,40 @@
               "quantity": 1,
               "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
               "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                17
+              ],
+              "quantity": 2,
+              "part": "2332ac01/4253c01 frame + white4pane leaf",
+              "proposedFamilyKey": "candidate:four-pane-window",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved_geometry_candidates_available",
+              "ownerEvidence": {
+                "partOrCandidate": "2332ac01/4253c01 frame + white4pane leaf",
+                "sourceQuantity": 2,
+                "location": "sourcep17 red cabin walls",
+                "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+                "classification": "unknown-variant-and-missing-geometry"
+              },
+              "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Not uniquely identified; candidate official geometries exist with complete closure, not confirmed source identity",
+              "classificationCorrection": "Owner wording missing geometry is not treated as proved absence.4809/31022/90265 candidates available but profile mismatch remains.",
+              "independentEvidence": "preparation/independent-qa/cable-window-candidate-comparison.json",
+              "sourcePage": 17,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
             "4-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji"
           ],
           "issueCountUnit": "part identity/family; not physical piece count",
@@ -2968,7 +2999,8 @@
           "confirmedId": null,
           "candidates": [],
           "missingEvidence": [
-            "Length/material,knots androuting unknown; no evidence it is75536assembly."
+            "Length/material,knots androuting unknown; no evidence it is75536assembly.",
+            "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -2990,10 +3022,38 @@
                 "scripts/ldraw-models/4-long-men-diao.ldr"
               ],
               "missingEvidence": "Length/material,knots androuting unknown; no evidence it is75536assembly."
+            },
+            {
+              "slug": "5-long-men-diao",
+              "currentModelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "string-unknown",
+              "proposedFamilyKey": "unknown:gantry-cord",
+              "existingFamily": true,
+              "category": "unknown_id_and_flexible_route",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "string-unknown",
+                "quantity": 1,
+                "category": "unknown-id-and-flexible-route",
+                "reason": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+              },
+              "missingEvidence": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope.",
+              "evidencePath": "preparation/5-long-men-diao/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Unresolved source cord; do not merge with75536 merely by appearance",
+              "sourcePage": 12,
+              "modelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+              "source": "preparation/5-long-men-diao/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
-            "4-long-men-diao"
+            "4-long-men-diao",
+            "5-long-men-diao"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
         }
@@ -7881,7 +7941,8 @@
           "candidates": [],
           "name": "Pulley+28L cord+short hook assembly",
           "missingEvidence": [
-            "Course-specific cord routing/length/knots and retention; hook4663 now available"
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -8108,6 +8169,33 @@
               "missingEvidence": [
                 "Course-specific cord routing/length/knots and retention; hook4663 now available"
               ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [
@@ -8116,6 +8204,7 @@
           "affectedCourses": [
             "5-chou-you-ji",
             "5-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji",
             "5-shui-jing",
             "5-ti-xian-mu-ou"
@@ -8302,7 +8391,8 @@
           "candidates": [],
           "name": "Pulley+28L cord+short hook assembly",
           "missingEvidence": [
-            "Course-specific cord routing/length/knots and retention; hook4663 now available"
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -8529,6 +8619,33 @@
               "missingEvidence": [
                 "Course-specific cord routing/length/knots and retention; hook4663 now available"
               ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [
@@ -8537,6 +8654,7 @@
           "affectedCourses": [
             "5-chou-you-ji",
             "5-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji",
             "5-shui-jing",
             "5-ti-xian-mu-ou"
@@ -8717,6 +8835,87 @@
       "visualReviewMeansObservationNotPass": true
     },
     {
+      "slug": "5-ge-cao-ji",
+      "modelSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-ge-cao-ji/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "159a16721706ba1cd9a36c27a404a6fae9b0e1196aeb7d633125125f004ae571",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-hai-dao-chuan",
+      "modelSha256": "b383934ee353075c0730aac1520288fceaf6a1801bc0ef3b45f3bda63ed28537",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-hai-dao-chuan/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "a8eea5bb43b53fb5d1245e185a713f8c1605dc1d64880e3170a63873409f5cf2",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-hu-die",
+      "modelSha256": "d1b50ef6cdefe049948fe539bbcefb2f81f3e48c10fd0ce8120f358c89436f7f",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-hu-die/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "a1e0e99f5965301a8f6590d0af198b9bae7297fe0698c55e505d58ce2a71b2b6",
+      "unresolvedSourceComments": [
+        "5-hu-die - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-hua-ban-che",
+      "modelSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-hua-ban-che/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "d12b2a08cf3674a8fae45b07d42c7b58a8f57f659831d498ff7eced7bd8fd60e",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
       "slug": "5-huan-wei-che",
       "modelSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
       "sourceDraft": "rewritten-from-viewed-local-source",
@@ -8751,6 +8950,25 @@
       "unresolvedSourceComments": [
         "// Source colours for alternating tower posts interpreted as yellow/orange; set quantities remain unknown."
       ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-ji-gu-shou",
+      "modelSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-ji-gu-shou/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "5d2e1bd42cab234bf5a1eae7a8a9ef39c6e6a97e510d10f557e168b933c1e9b4",
+      "unresolvedSourceComments": [],
       "partIssueFamilies": [],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
@@ -8800,18 +9018,61 @@
       "visualReviewMeansObservationNotPass": true
     },
     {
-      "slug": "5-ma-tou-diao-ji",
-      "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "slug": "5-kai-ye-zi-qi",
+      "modelSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
-      "staticInterpretationReport": "evidence/5-ma-tou-diao-ji/static-alarm-review.json",
+      "staticInterpretationReport": "evidence/5-kai-ye-zi-qi/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "e75f2e6bc7f73a1480f021280a2af898b944ee2cbaf34eabc5327aeac3718302",
+      "staticInterpretationReportSha256": "d4ce9e7dbf548523161d9df923b3477802485a741e9805456f7441d413884924",
       "unresolvedSourceComments": [
-        "// INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.",
-        "// OMITTED UNRESOLVED p10: second 6522 grey axle and two 6527 retainers; source shows lower pivot but exact arm engagement/depth obscured. Do not duplicate grey axle at p11 blue winding shaft. Both boom placements remain provisional at the visible upper pivot."
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-la-ji-che",
+      "modelSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-la-ji-che/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "b0e6ac602c36228e64b9a32f3044c2217164e817babb00c9daafa3cc2d4ece61",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-lan-che",
+      "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-lan-che/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "93ea3e70bebe71a41a2c6a4db9cd1acaa9e634e80f471f6d4c3d494ff986bfd6",
+      "unresolvedSourceComments": [
+        "5-lan-che - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.",
+        "// SOURCE PAGE 17 - Cabin roof plate; unresolved door assemblies and dependent floor omitted",
+        "// UNVERIFIED 2332ac01/4253c01 frame + white4pane leaf - Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+        "// UNVERIFIED 40666 - Known ID geometry available, omitted because two missingwindow/wall assemblies remove its source support. Source fullcabin height/attach remains unresolved."
       ],
       "partIssueFamilies": [
         {
@@ -8821,7 +9082,8 @@
           "candidates": [],
           "name": "Pulley+28L cord+short hook assembly",
           "missingEvidence": [
-            "Course-specific cord routing/length/knots and retention; hook4663 now available"
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -9048,6 +9310,33 @@
               "missingEvidence": [
                 "Course-specific cord routing/length/knots and retention; hook4663 now available"
               ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [
@@ -9056,6 +9345,7 @@
           "affectedCourses": [
             "5-chou-you-ji",
             "5-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji",
             "5-shui-jing",
             "5-ti-xian-mu-ou"
@@ -9072,7 +9362,8 @@
             "90265"
           ],
           "missingEvidence": [
-            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window."
+            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window.",
+            "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -9098,10 +9389,657 @@
               "quantity": 1,
               "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
               "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                17
+              ],
+              "quantity": 2,
+              "part": "2332ac01/4253c01 frame + white4pane leaf",
+              "proposedFamilyKey": "candidate:four-pane-window",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved_geometry_candidates_available",
+              "ownerEvidence": {
+                "partOrCandidate": "2332ac01/4253c01 frame + white4pane leaf",
+                "sourceQuantity": 2,
+                "location": "sourcep17 red cabin walls",
+                "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+                "classification": "unknown-variant-and-missing-geometry"
+              },
+              "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Not uniquely identified; candidate official geometries exist with complete closure, not confirmed source identity",
+              "classificationCorrection": "Owner wording missing geometry is not treated as proved absence.4809/31022/90265 candidates available but profile mismatch remains.",
+              "independentEvidence": "preparation/independent-qa/cable-window-candidate-comparison.json",
+              "sourcePage": 17,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
             "4-diao-che",
+            "5-lan-che",
+            "5-ma-tou-diao-ji"
+          ],
+          "issueCountUnit": "part identity/family; not physical piece count",
+          "beforeSupportedWindowRepair": {
+            "key": "candidate:four-pane-window",
+            "category": "candidate_mould_or_assembly",
+            "name": "Red frame with white four-pane insert",
+            "confirmedId": null,
+            "candidates": [
+              "2332ac01",
+              "4253c01",
+              "61649",
+              "90265"
+            ],
+            "missingEvidence": [
+              "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            ],
+            "sourcesTried": [
+              "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+            ],
+            "geometryLicense": null,
+            "approximationBoundary": "No new geometry invented",
+            "occurrences": [
+              {
+                "slug": "4-mo-tian-lun",
+                "sourcePage": 12,
+                "location": "eight cabin windows omitted",
+                "quantity": 8,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
+                  "scripts/ldraw-models/4-mo-tian-lun.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tui-tu-ji",
+                "sourcePage": 3,
+                "location": "rear window omitted",
+                "quantity": null,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
+                  "scripts/ldraw-models/5-tui-tu-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tuo-gua-che",
+                "sourcePage": 5,
+                "location": "four windows omitted",
+                "quantity": 4,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
+                  "scripts/ldraw-models/5-tuo-gua-che.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-ma-tou-diao-ji",
+                "sourcePage": 9,
+                "location": "frame mould detail obscured; existing61649+90265 used",
+                "quantity": 1,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+                  "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "4-dao-dan-che",
+                "sourcePage": 6,
+                "location": "three red2x4x3 frames withwhiteopening four-pane windows",
+                "quantity": 3,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
+                "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
+              },
+              {
+                "slug": "4-diao-che",
+                "sourcePage": 4,
+                "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
+                "quantity": 1,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
+                "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+              }
+            ],
+            "affectedCourses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "5-ma-tou-diao-ji",
+              "4-dao-dan-che",
+              "4-diao-che"
+            ],
+            "issueCountUnit": "part identity/family; not physical piece count"
+          },
+          "supportedIdentityResolution": {
+            "at": "2026-10-11T09:01:29.974284+00:00",
+            "courses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "4-dao-dan-che"
+            ],
+            "parts": [
+              "61649.dat",
+              "90265.dat"
+            ],
+            "evidence": [
+              "preparation/window-repair-20261011.json",
+              "preparation/4-mo-tian-lun/window-first-four-evidence.json"
+            ],
+            "setsRestored": 11,
+            "physicalPiecesRestored": 22,
+            "boundary": "Other two hidden-mould observations remain in this family."
+          }
+        }
+      ],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-lan-che",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 3,
+          "items": [
+            {
+              "page": 13,
+              "id": "4663",
+              "quantity": 1,
+              "missingEvidence": "Officialhook ID andgeometry known; rope support/path omitted and exact hook throat-to-carriage-axle seating not proven. Hook omitted rather than arbitrarily suspended."
+            },
+            {
+              "page": 17,
+              "id": "40666",
+              "quantity": 2,
+              "missingEvidence": "Known ID geometry available, omitted because two missingwindow/wall assemblies remove its source support. Source fullcabin height/attach remains unresolved."
+            }
+          ],
+          "gap": "Officialhook ID andgeometry known; rope support/path omitted and exact hook throat-to-carriage-axle seating not proven. Hook omitted rather than arbitrarily suspended. Known ID geometry available, omitted because two missingwindow/wall assemblies remove its source support. Source fullcabin height/attach remains unresolved.",
+          "currentDecisionEvidence": "preparation/5-lan-che/ledger.json",
+          "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+          "accepted": false,
+          "physicalValidation": false
+        }
+      ],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-long-men-diao",
+      "modelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-long-men-diao/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "eb6064e05d96f8e9d38d262afaacc7085c4523fd878bf1fffefe8665de6f77f1",
+      "unresolvedSourceComments": [
+        "// DEV ONLY incomplete: source rope and unsupported hook omitted; trolley motion, axle retention and guide interfaces unverified."
+      ],
+      "partIssueFamilies": [
+        {
+          "key": "unknown:gantry-cord",
+          "category": "flexible_route_unverified",
+          "name": "Gantry cord",
+          "confirmedId": null,
+          "candidates": [],
+          "missingEvidence": [
+            "Length/material,knots androuting unknown; no evidence it is75536assembly.",
+            "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+          ],
+          "sourcesTried": [
+            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+          ],
+          "geometryLicense": null,
+          "approximationBoundary": "No new geometry invented",
+          "occurrences": [
+            {
+              "slug": "4-long-men-diao",
+              "sourcePage": [
+                10,
+                11,
+                12
+              ],
+              "location": "hanging cord",
+              "quantity": 1,
+              "source": [
+                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-long-men-diao/ledger.json",
+                "scripts/ldraw-models/4-long-men-diao.ldr"
+              ],
+              "missingEvidence": "Length/material,knots androuting unknown; no evidence it is75536assembly."
+            },
+            {
+              "slug": "5-long-men-diao",
+              "currentModelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "string-unknown",
+              "proposedFamilyKey": "unknown:gantry-cord",
+              "existingFamily": true,
+              "category": "unknown_id_and_flexible_route",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "string-unknown",
+                "quantity": 1,
+                "category": "unknown-id-and-flexible-route",
+                "reason": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope."
+              },
+              "missingEvidence": "Source line/string identity, length, knot/wrap and flexible path unresolved. No generated straight cylinder masquerading as rope.",
+              "evidencePath": "preparation/5-long-men-diao/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Unresolved source cord; do not merge with75536 merely by appearance",
+              "sourcePage": 12,
+              "modelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+              "source": "preparation/5-long-men-diao/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            }
+          ],
+          "affectedCourses": [
+            "4-long-men-diao",
+            "5-long-men-diao"
+          ],
+          "issueCountUnit": "part identity/family; not physical piece count"
+        }
+      ],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-long-men-diao",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 1,
+          "items": [
+            {
+              "page": 13,
+              "id": "4663",
+              "quantity": 1,
+              "missingEvidence": "Official hook geometry exists; suspended without confirmed string would be unsupported, so omitted."
+            }
+          ],
+          "gap": "Official hook geometry exists; suspended without confirmed string would be unsupported, so omitted.",
+          "currentDecisionEvidence": "preparation/5-long-men-diao/ledger.json",
+          "modelSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+          "accepted": false,
+          "physicalValidation": false
+        }
+      ],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-ma-tou-diao-ji/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "e75f2e6bc7f73a1480f021280a2af898b944ee2cbaf34eabc5327aeac3718302",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.",
+        "// OMITTED UNRESOLVED p10: second 6522 grey axle and two 6527 retainers; source shows lower pivot but exact arm engagement/depth obscured. Do not duplicate grey axle at p11 blue winding shaft. Both boom placements remain provisional at the visible upper pivot."
+      ],
+      "partIssueFamilies": [
+        {
+          "key": "75536",
+          "category": "flexible_route_unverified",
+          "confirmedId": "75536",
+          "candidates": [],
+          "name": "Pulley+28L cord+short hook assembly",
+          "missingEvidence": [
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
+          ],
+          "sourcesTried": [
+            "9656 inventory",
+            "BL6527c01 photo/sourcep5 match",
+            "official4663 CC BY4 imported"
+          ],
+          "geometryLicense": "6527/4663 officialCC BY4; no new cord geometry authored",
+          "approximationBoundary": null,
+          "occurrences": [
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "|4|绳索，未添加未知DAT|",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line12",
+              "rawObservation": "|4|绳索，未添加未知DAT|"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "|5|滑轮+黄色短横钩+绳，轮已有，绳钩待闭合|",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line13",
+              "rawObservation": "|5|滑轮+黄色短横钩+绳，轮已有，绳钩待闭合|"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": "4",
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "1. p4绳索长度与路径。库存75536是“28L cord+short crossbar hook+pulley”组件，但本图绳长/结法未量取，不添加虚构绳DAT。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line27",
+              "rawObservation": "1. p4绳索长度与路径。库存75536是“28L cord+short crossbar hook+pulley”组件，但本图绳长/结法未量取，不添加虚构绳DAT。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": "7",
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "4. p7重物由绳悬挂，绳钩未完成前属未支撑构件；需确认隐藏底面/结绳位置。没有用底板补出源图没有的支撑。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line30",
+              "rawObservation": "4. p7重物由绳悬挂，绳钩未完成前属未支撑构件；需确认隐藏底面/结绳位置。没有用底板补出源图没有的支撑。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "库存：9656仅参考，本课四条75350超过其两条库存（额外2）；6527使用24超过15（额外9，不含组合75536自带轮是否独立计入）；3011蓝16超过4（额外12）；蓝40666两块而参考只有黄色，保持源色；绿24×24底板参考无。需主BOM统一比对，以免75536组合重复计数。已知机械件使用真实DAT，未添加近似DAT。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line32",
+              "rawObservation": "库存：9656仅参考，本课四条75350超过其两条库存（额外2）；6527使用24超过15（额外9，不含组合75536自带轮是否独立计入）；3011蓝16超过4（额外12）；蓝40666两块而参考只有黄色，保持源色；绿24×24底板参考无。需主BOM统一比对，以免75536组合重复计数。已知机械件使用真实DAT，未添加近似DAT。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "最新像素诊断：b818833a版三视图已实际查看，刚性A架、两红摇梁、十蓝砖空框可见；绳钩缺失与驱动未闭合仍成立，不升完成状态。missing_parts另核BrickLink6527c01完整组件照片对应75536，6528独立编号仍缺证据，官方6528/75536 DAT返回404。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line34",
+              "rawObservation": "最新像素诊断：b818833a版三视图已实际查看，刚性A架、两红摇梁、十蓝砖空框可见；绳钩缺失与驱动未闭合仍成立，不升完成状态。missing_parts另核BrickLink6527c01完整组件照片对应75536，6528独立编号仍缺证据，官方6528/75536 DAT返回404。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "编号闭合更正：missing_parts通过独立照片/官方DAT确认短钩为4663，非6528，已补真实钩（眼点400,-232,120），现64刚性件 raw checker PASS。绳路/长度/结法与驱动隐藏连接仍未闭合。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line37",
+              "rawObservation": "编号闭合更正：missing_parts通过独立照片/官方DAT确认短钩为4663，非6528，已补真实钩（眼点400,-232,120），现64刚性件 raw checker PASS。绳路/长度/结法与驱动隐藏连接仍未闭合。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+              "pointer": "line41",
+              "rawObservation": "已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。"
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": "4",
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "0 // Source page 4: source flexible cord prepared separately; omitted until verified real cord geometry/length is available.",
+              "source": "scripts/ldraw-models/5-chou-you-ji.ldr",
+              "pointer": "line48",
+              "rawObservation": "0 // Source page 4: source flexible cord prepared separately; omitted until verified real cord geometry/length is available."
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": "4",
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "0 // UNKNOWN p4 cord length/form: source black line, combination inventory75536 contains28Lcord; no fabricatedDAT.",
+              "source": "scripts/ldraw-models/5-chou-you-ji.ldr",
+              "pointer": "line49",
+              "rawObservation": "0 // UNKNOWN p4 cord length/form: source black line, combination inventory75536 contains28Lcord; no fabricatedDAT."
+            },
+            {
+              "slug": "5-chou-you-ji",
+              "sourcePage": "5",
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "0 // p5 official4663 hook matched source+catalog; eye positioned above hollowweight, exact knot and cord path unknown.",
+              "source": "scripts/ldraw-models/5-chou-you-ji.ldr",
+              "pointer": "line54",
+              "rawObservation": "0 // p5 official4663 hook matched source+catalog; eye positioned above hollowweight, exact knot and cord path unknown."
+            },
+            {
+              "slug": "5-diao-che",
+              "sourcePage": "14-16",
+              "location": "75536/6527c01 rope assembly",
+              "quantity": null,
+              "missingEvidence": "4663 hook confirmed; rope flexible geometry/length/routing and extra winding pulley omitted",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-che/review.json",
+              "pointer": "unknown/0",
+              "rawObservation": {
+                "page": "14-16",
+                "part": "75536/6527c01 rope assembly",
+                "missing": "4663 hook confirmed; rope flexible geometry/length/routing and extra winding pulley omitted"
+              }
+            },
+            {
+              "slug": "5-diao-che",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "0 // STEP 15 - source4663 hook; rope and separate rope-end6527 pulley omitted pending route",
+              "source": "scripts/ldraw-models/5-diao-che.ldr",
+              "pointer": "line108",
+              "rawObservation": "0 // STEP 15 - source4663 hook; rope and separate rope-end6527 pulley omitted pending route"
+            },
+            {
+              "slug": "5-ma-tou-diao-ji",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "Support: alternating columns share a base; bridge plates span columns; ordinary brick platform/roof/cap interfaces checked by dimensions. Slew bearing, cantilever platform retention, boom pivots and rope load path are manual/mechanical checks, not proven by AABB checker. Final views and cumulative step pixels pending parent rendering.",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+              "pointer": "line34",
+              "rawObservation": "Support: alternating columns share a base; bridge plates span columns; ordinary brick platform/roof/cap interfaces checked by dimensions. Slew bearing, cantilever platform retention, boom pivots and rope load path are manual/mechanical checks, not proven by AABB checker. Final views and cumulative step pixels pending parent rendering."
+            },
+            {
+              "slug": "5-shui-jing",
+              "sourcePage": "3-5/11",
+              "location": "two75536 rope/hook assemblies",
+              "quantity": null,
+              "missingEvidence": "flexible rope route and two4663 hook engagement; pulleys present, ropes/hooks omitted",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shui-jing/review.json",
+              "pointer": "unknown/0",
+              "rawObservation": {
+                "page": "3-5/11",
+                "part": "two75536 rope/hook assemblies",
+                "missing": "flexible rope route and two4663 hook engagement; pulleys present, ropes/hooks omitted"
+              }
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "未确认开发稿；56个有编号零件放置+2根type2示意绳线，按源保留9步骤（第6为绳，第8为挂接说明无新增实体）。10页全已实际看像素。PDF pdfbatch3/5+/5+提线木偶搭建说明.pdf，lesson293/course7，sha256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10与manifest一致。LDR SHA256 57E05392DBF92BE27A566118396110214288FDB2C8E8B34E81AD4F6AE84360B7。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+              "pointer": "line3",
+              "rawObservation": "未确认开发稿；56个有编号零件放置+2根type2示意绳线，按源保留9步骤（第6为绳，第8为挂接说明无新增实体）。10页全已实际看像素。PDF pdfbatch3/5+/5+提线木偶搭建说明.pdf，lesson293/course7，sha256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10与manifest一致。LDR SHA256 57E05392DBF92BE27A566118396110214288FDB2C8E8B34E81AD4F6AE84360B7。"
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "|6|0|2根示意绳线（源展示单根并在7要求做2份），无假编号。|",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+              "pointer": "line12",
+              "rawObservation": "|6|0|2根示意绳线（源展示单根并在7要求做2份），无假编号。|"
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "|7|4|6527轮2、4663钩2；官方钩绳眼原点、钩向+Y。|",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+              "pointer": "line13",
+              "rawObservation": "|7|4|6527轮2、4663钩2；官方钩绳眼原点、钩向+Y。|"
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "|8|0|把绳钩挂至手部；最终姿态重用，无额外零件。|",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+              "pointer": "line14",
+              "rawObservation": "|8|0|把绳钩挂至手部；最终姿态重用，无额外零件。|"
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": null,
+              "location": "see observation",
+              "quantity": null,
+              "missingEvidence": "绳为可见直线示意，非带实测长度的物理件：库存75536/6527c01由6527+4663+28L绳组成，但源未给线长、结法、绕轮路径和承重约束。候选线材编号仍未知；第7/8页钩扣在手部轴/齿的细节不完全可见，当前是最终画面示意，不能声称悬挂结构已通过。顶梁从上方由使用者持握，源未给固定支架，不凭空补支架。",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+              "pointer": "line20",
+              "rawObservation": "绳为可见直线示意，非带实测长度的物理件：库存75536/6527c01由6527+4663+28L绳组成，但源未给线长、结法、绕轮路径和承重约束。候选线材编号仍未知；第7/8页钩扣在手部轴/齿的细节不完全可见，当前是最终画面示意，不能声称悬挂结构已通过。顶梁从上方由使用者持握，源未给固定支架，不凭空补支架。"
+            },
+            {
+              "slug": "5-ti-xian-mu-ou",
+              "sourcePage": "7/8",
+              "location": "cord/pulley/hooks",
+              "quantity": 2,
+              "source": "Prior missing-parts research and author messages in this task",
+              "missingEvidence": [
+                "Course-specific cord routing/length/knots and retention; hook4663 now available"
+              ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            }
+          ],
+          "aliases": [
+            "6527c01"
+          ],
+          "affectedCourses": [
+            "5-chou-you-ji",
+            "5-diao-che",
+            "5-lan-che",
+            "5-ma-tou-diao-ji",
+            "5-shui-jing",
+            "5-ti-xian-mu-ou"
+          ],
+          "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
+        },
+        {
+          "key": "candidate:four-pane-window",
+          "category": "known_part_hidden_mould_variant_unverified",
+          "name": "Red frame with white four-pane insert",
+          "confirmedId": "61649 + 90265 supported assembly; hidden back mould unresolved only in two older observations",
+          "candidates": [
+            "61649",
+            "90265"
+          ],
+          "missingEvidence": [
+            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window.",
+            "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute."
+          ],
+          "sourcesTried": [
+            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+          ],
+          "geometryLicense": null,
+          "approximationBoundary": "No new geometry invented",
+          "occurrences": [
+            {
+              "slug": "5-ma-tou-diao-ji",
+              "sourcePage": 9,
+              "location": "frame mould detail obscured; existing61649+90265 used",
+              "quantity": 1,
+              "source": [
+                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+                "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
+              ],
+              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            },
+            {
+              "slug": "4-diao-che",
+              "sourcePage": 4,
+              "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
+              "quantity": 1,
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
+              "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                17
+              ],
+              "quantity": 2,
+              "part": "2332ac01/4253c01 frame + white4pane leaf",
+              "proposedFamilyKey": "candidate:four-pane-window",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved_geometry_candidates_available",
+              "ownerEvidence": {
+                "partOrCandidate": "2332ac01/4253c01 frame + white4pane leaf",
+                "sourceQuantity": 2,
+                "location": "sourcep17 red cabin walls",
+                "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+                "classification": "unknown-variant-and-missing-geometry"
+              },
+              "missingEvidence": "Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Not uniquely identified; candidate official geometries exist with complete closure, not confirmed source identity",
+              "classificationCorrection": "Owner wording missing geometry is not treated as proved absence.4809/31022/90265 candidates available but profile mismatch remains.",
+              "independentEvidence": "preparation/independent-qa/cable-window-candidate-comparison.json",
+              "sourcePage": 17,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            }
+          ],
+          "affectedCourses": [
+            "4-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji"
           ],
           "issueCountUnit": "part identity/family; not physical piece count",
@@ -9275,6 +10213,27 @@
       "visualReviewMeansObservationNotPass": true
     },
     {
+      "slug": "5-nian-yao-ren-zai",
+      "modelSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-nian-yao-ren-zai/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "a7f2619fcceb612d005f61c06c78152385b96d54b1f8627001ca0890ae52fd3d",
+      "unresolvedSourceComments": [
+        "Herb grinding figure - INCOMPLETE source reconstruction"
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
       "slug": "5-ping-heng-cheng",
       "modelSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
       "sourceDraft": "rewritten-from-viewed-local-source",
@@ -9382,7 +10341,8 @@
           "candidates": [],
           "name": "Pulley+28L cord+short hook assembly",
           "missingEvidence": [
-            "Course-specific cord routing/length/knots and retention; hook4663 now available"
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -9609,6 +10569,33 @@
               "missingEvidence": [
                 "Course-specific cord routing/length/knots and retention; hook4663 now available"
               ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [
@@ -9617,6 +10604,7 @@
           "affectedCourses": [
             "5-chou-you-ji",
             "5-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji",
             "5-shui-jing",
             "5-ti-xian-mu-ou"
@@ -9652,7 +10640,8 @@
           "candidates": [],
           "name": "Pulley+28L cord+short hook assembly",
           "missingEvidence": [
-            "Course-specific cord routing/length/knots and retention; hook4663 now available"
+            "Course-specific cord routing/length/knots and retention; hook4663 now available",
+            "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -9879,6 +10868,33 @@
               "missingEvidence": [
                 "Course-specific cord routing/length/knots and retention; hook4663 now available"
               ]
+            },
+            {
+              "slug": "5-lan-che",
+              "currentModelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 1,
+              "part": "75536",
+              "proposedFamilyKey": "75536",
+              "existingFamily": true,
+              "category": "known_id_missing_flexible_geometry",
+              "ownerEvidence": {
+                "partOrCandidate": "75536 rope component",
+                "sourceQuantity": 1,
+                "location": "p12 standalone rope",
+                "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+                "classification": "known-id-missing-flexible-geometry"
+              },
+              "missingEvidence": "Rope assembly identity75536/6527c01 known; source length/tie details and authorized accurate flexible geometry absent. No invented line/tube cord.",
+              "evidencePath": "preparation/5-lan-che/ledger.json",
+              "accepted": false,
+              "identityConfidence": "Owner identifies rope assembly75536/6527c01; route and accurate flexible geometry unresolved",
+              "sourcePage": 12,
+              "modelSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+              "source": "preparation/5-lan-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [
@@ -9887,6 +10903,7 @@
           "affectedCourses": [
             "5-chou-you-ji",
             "5-diao-che",
+            "5-lan-che",
             "5-ma-tou-diao-ji",
             "5-shui-jing",
             "5-ti-xian-mu-ou"

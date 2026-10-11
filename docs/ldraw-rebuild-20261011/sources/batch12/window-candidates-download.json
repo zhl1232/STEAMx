@@ -1,0 +1,1175 @@
+{
+  "at": "2026-10-11T11:57:27.732736+00:00",
+  "requests": [
+    {
+      "url": "https://library.ldraw.org/library/official/parts/4809.dat",
+      "status": 200
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/s/4247as02.dat",
+      "status": 200
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/31022.dat",
+      "status": 200
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/48/1-12cylo.dat",
+      "status": 404
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/p/48/1-12cylo.dat",
+      "status": 200
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/48/1-12cyli.dat",
+      "status": 404
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/p/48/1-12cyli.dat",
+      "status": 200
+    }
+  ],
+  "files": {
+    "4809.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4809.dat",
+      "sha256": "4e6b96b3e54ab418410357a5e0520a1a30c161857bf167873c51b82efea851f6",
+      "source": "https://library.ldraw.org/library/official/parts/4809.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\4247as02.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16cylo.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16cylo.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16cylo.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "box3u4p.dat",
+        "box3u4p.dat",
+        "box3u6.dat",
+        "box3u6.dat"
+      ]
+    },
+    "s/4247as02.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\s\\4247as02.dat",
+      "sha256": "624074c450d7d87f2fbd3962dbc1b8f899ce123fcc699865f3bef6d6228200d9",
+      "source": "https://library.ldraw.org/library/official/parts/s/4247as02.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4cylo.dat",
+        "box3u2p.dat",
+        "4-4cylo.dat",
+        "box3u2p.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "7-16cylo.dat",
+        "7-16chrd.dat",
+        "7-16chrd.dat",
+        "7-16cylo.dat",
+        "7-16chrd.dat",
+        "7-16chrd.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "48\\1-16cylo.dat",
+        "48\\1-16chrd.dat",
+        "48\\1-16chrd.dat",
+        "48\\1-16cylo.dat",
+        "48\\1-16chrd.dat",
+        "48\\1-16chrd.dat"
+      ]
+    },
+    "4-4cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "4-4edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box3u2p.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box3u2p.dat",
+      "sha256": "df73118b95f23d693c3b7d25c57c483db3bf61ae017d757848119955d28d59e0",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u2p.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\3-16cylo.dat",
+      "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "3-16edge.dat",
+        "3-16edge.dat",
+        "3-16cyli.dat"
+      ]
+    },
+    "3-16edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\3-16edge.dat",
+      "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\3-16cyli.dat",
+      "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cylo.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "2-4edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4ndis.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect2p.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect2p.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "7-16cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\7-16cylo.dat",
+      "sha256": "347b7feca8d94f501ce40045c987575fd830ca0a5aae7cfdea49daf61e540bb9",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-16cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "7-16cyli.dat",
+        "7-16edge.dat",
+        "7-16edge.dat"
+      ]
+    },
+    "7-16cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\7-16cyli.dat",
+      "sha256": "e829752713ec727431bf5053bd3ad60a113236ad10a885aa87c0e5fd856598ae",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-16cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "7-16edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\7-16edge.dat",
+      "sha256": "c98b01990a94c2c5a786f06cdfbc199a2bb4685e2d605b7ed2c6efb98e710842",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-16edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "7-16chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\7-16chrd.dat",
+      "sha256": "bfe1821f275b2dfa3dcc4c34e7f5e9cf7476f8277b35565b0d56930ea212301a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-16chrd.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\1-4cylo.dat",
+      "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4edge.dat",
+        "1-4edge.dat",
+        "1-4cyli.dat"
+      ]
+    },
+    "1-4edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\1-4edge.dat",
+      "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\1-4cyli.dat",
+      "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-16cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-16cylo.dat",
+      "sha256": "94929f851cefec060fcf3222213a1f9743f9b6549a9e7bbcf471482dc546a827",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-16cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "48\\1-16edge.dat",
+        "48\\1-16edge.dat",
+        "48\\1-16cyli.dat"
+      ]
+    },
+    "48/1-16edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-16edge.dat",
+      "sha256": "9b3b4df68d3c0d68fd3e5c52346871867043f67522e53aaa21991562c89bdc10",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-16edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-16cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-16cyli.dat",
+      "sha256": "b6fb5e76f958a18c4cc88866d5e6a0502b62d3abda1a72450663b82502645330",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-16cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-16chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-16chrd.dat",
+      "sha256": "612846540dad896fa0610b5f7eb9ec1f7a39c0bbbd68dd7e3a9114da1737173d",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\48\\1-16chrd.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16ndis.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\3-16ndis.dat",
+      "sha256": "abb7da370e72fe9e75faf5d10c637b476202dbd8ced9cb5b0f96433e1f72f529",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16ndis.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4ndis.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\1-4ndis.dat",
+      "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4ndis.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box3u4p.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box3u4p.dat",
+      "sha256": "1d63ff287fe62f8636cf59cfdfce5118e1017f66559aeb32abc642bacbacd361",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u4p.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box3u6.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box3u6.dat",
+      "sha256": "362b5deba42781b7ec9b0616c62c242fc46a051edb3ad3e9c7d800d1929bc22c",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u6.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "31022.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\31022.dat",
+      "sha256": "51f8cce4e06911e123a43e4475c50405749fe2771865cef925a605eed192be0e",
+      "source": "https://library.ldraw.org/library/official/parts/31022.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "rect3.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "2-4cylo.dat",
+        "box3u2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "2-4cylo.dat",
+        "box3u2p.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "48\\1-12cylo.dat",
+        "48\\1-12chrd.dat",
+        "48\\1-12chrd.dat",
+        "48\\1-12cylo.dat",
+        "48\\1-12chrd.dat",
+        "48\\1-12chrd.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16ndis.dat",
+        "3-16cylo.dat",
+        "3-16cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat"
+      ]
+    },
+    "rect3.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-12cylo.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-12cylo.dat",
+      "sha256": "aba0697449741a95889cb0faf8d6231777086ebed8ee1956ac304bd32b208c6a",
+      "source": "https://library.ldraw.org/library/official/p/48/1-12cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "48\\1-12edge.dat",
+        "48\\1-12edge.dat",
+        "48\\1-12cyli.dat"
+      ]
+    },
+    "48/1-12edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-12edge.dat",
+      "sha256": "c1320fa098058f1bb4bb73a4bd02a9533bdcc4f22ac4a0f0a1dcd5cdf85deaed",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-12edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-12cyli.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-12cyli.dat",
+      "sha256": "a645a42a5ed912a059a9336ab1449d02efd067008f034549cc8c5ae488159fd3",
+      "source": "https://library.ldraw.org/library/official/p/48/1-12cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/1-12chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\48\\1-12chrd.dat",
+      "sha256": "fe2a0252d971dc65126755c4fdb7db900e229dfdce712b42ce9510c7b0390e26",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-12chrd.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2332ac01.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2332ac01.dat",
+      "sha256": "1f0c1b20745931bbaec1cefc93994cc38f966eb88b39facee71ca5c9e86d5876",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\2332ac01.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2332a.dat",
+        "u9525.dat"
+      ]
+    },
+    "2332a.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2332a.dat",
+      "sha256": "3a3fce3fea13e3c624c7be539f42940ae415ae18b3bafc9a1ba00b8c9647a298",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\2332a.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box5.dat",
+        "rect.dat",
+        "rect1.dat",
+        "rect2a.dat",
+        "rect2a.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect2p.dat",
+        "stug7-1x4.dat",
+        "stug7-1x4.dat",
+        "stug8-1x3.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect2a.dat",
+        "rect3.dat",
+        "rect.dat",
+        "rect2a.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4disc.dat",
+        "ddoorhinge.dat",
+        "ddoorhinge.dat",
+        "box4o4a.dat",
+        "box4o4a.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "48\\1-16cylo.dat",
+        "48\\1-16chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "48\\1-16cylo.dat",
+        "48\\1-16chrd.dat",
+        "2-4cylo.dat",
+        "2-4chrd.dat",
+        "2-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat"
+      ]
+    },
+    "box5.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box5.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect1.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect2a.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\rect2a.dat",
+      "sha256": "6d75ffb88e705a35f34e095ec0848a7bb70b577a376fdae05804da214b0d6369",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect2a.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "stug7-1x4.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\stug7-1x4.dat",
+      "sha256": "5ff4ae6d96a8aaceebd21bd5122177e5637e023202638efe6126aef54048fb5a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-1x4.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat"
+      ]
+    },
+    "stud7.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4ring3.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "4-4ring3.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "stug8-1x3.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\stug8-1x3.dat",
+      "sha256": "684517fda2f33699b9a32dba81c833ae848c18e9ef9c006ad2f6a18119529c5c",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug8-1x3.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat"
+      ]
+    },
+    "stud8.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\stud8.dat",
+      "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud8.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4ring7.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "4-4ring7.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring7.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box4-1.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4-1.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4disc.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4disc.dat",
+      "sha256": "a00b5547776f61a7389d303616987c76b3c4de86ad8ec32f22857e1bd5e5e40f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4disc.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "ddoorhinge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\ddoorhinge.dat",
+      "sha256": "1747ae9594f4aeaea4b8699b1dbaaf043763109519758566875439aad40abcc4",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\ddoorhinge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box3u2p.dat",
+        "rect.dat",
+        "rect.dat",
+        "box3u2p.dat"
+      ]
+    },
+    "box4o4a.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box4o4a.dat",
+      "sha256": "a66f3fc32d0209b5b2432c82414997dc0910c48a074be1d96ef5ec088a2594dd",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4o4a.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4chrd.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\2-4chrd.dat",
+      "sha256": "1d467b20e425d329fa4831d5734b9b677afee1f16e07d907403ef94dadd81fec",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4chrd.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "u9525.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\u9525.dat",
+      "sha256": "28ee5232f9fd81b3aac876e892397aa5c062fe8b002b9358178a80b8805ef676",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\u9525.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box4.dat",
+        "box4.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylc.dat"
+      ]
+    },
+    "box4.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\box4.dat",
+      "sha256": "72e1169ec1b2f11d44a6aaf6e87e15ec82a6cb35b5c56dcf7b1185d6b8b954aa",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cylc.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4-4cylc.dat",
+      "sha256": "0183cffc7f56a2f3e5e3511f0d07ac484d3039c2d41bee802a94344ec95ec8bd",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylc.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4disc.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "4253c01.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4253c01.dat",
+      "sha256": "2796cd22f402fe96c3934fe3834ed2060c8be73d464e9a1395d2d889c0bb1168",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\4253c01.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4253.dat",
+        "4252.dat"
+      ]
+    },
+    "4253.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4253.dat",
+      "sha256": "927a8733fae3f20c231f5eafcf07faaea5f60350fe94eac5fdb30a8bfc6c0693",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\4253.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box5.dat",
+        "stug8-1x3.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box3u2p.dat",
+        "box4.dat",
+        "stug7-1x4.dat",
+        "stug7-1x4.dat",
+        "box3u2p.dat",
+        "rect1.dat",
+        "box3u2p.dat",
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "4-4disc.dat",
+        "5-16edge.dat",
+        "3-16cyli.dat",
+        "3-16edge.dat",
+        "5-16edge.dat",
+        "3-16cyli.dat",
+        "3-16edge.dat",
+        "rect1.dat",
+        "ddoorhinge.dat",
+        "ddoorhinge.dat",
+        "box4o4a.dat",
+        "box4o4a.dat"
+      ]
+    },
+    "5-16edge.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\5-16edge.dat",
+      "sha256": "17a9ae47e68e98286d27fc7be4a48e1110d1cae0d3abff658f3378a552857fc3",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4252.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\4252.dat",
+      "sha256": "02fe848a336787ee03fd5334252312ea130fe262e079ae7f558d0691c2c8411e",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\parts-resolution-evidence\\4252.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box4.dat",
+        "box4.dat"
+      ]
+    },
+    "61649.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\61649.dat",
+      "sha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\61649.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "stug7-1x4.dat",
+        "rect.dat",
+        "box3u2p.dat",
+        "box5.dat",
+        "stug8-1x3.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "rect1.dat",
+        "ddoorhinge.dat",
+        "ddoorhinge.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "rect1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "stug7-1x4.dat",
+        "box4o4a.dat",
+        "box4o4a.dat"
+      ]
+    },
+    "90265.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\90265.dat",
+      "sha256": "e2c13bb59f14aaf887969736f299dd424959c15e2be6ba1a3206efe9fcc77259",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\90265.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\27382s02.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect2p.dat"
+      ]
+    },
+    "s/27382s02.dat": {
+      "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\s\\27382s02.dat",
+      "sha256": "520f4917bd8d24128dcb7fdb57c50e0a6115ffc4e074eca67af9ff4159ce31f1",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\27382s02.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "1-4cylo.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "2-4cylo.dat",
+        "box3u2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "2-4cylo.dat",
+        "box3u2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat"
+      ]
+    }
+  },
+  "missing": [],
+  "sharedPartsChanged": false
+}
