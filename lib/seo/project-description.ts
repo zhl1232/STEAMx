@@ -2,11 +2,10 @@
  * Deterministic, data-only copy for project detail pages whose stored summary is
  * an import placeholder (e.g. 「材料与步骤见正文。」). Nothing here invents facts:
  * every clause is assembled from real project fields (title, category,
- * classification, tags, materials, steps, video presence).
+ * classification, materials, steps, video presence).
  */
 import type { PublicClassification } from "@/lib/content-classification/types";
 import { getMaterialMeta } from "@/lib/project/material-meta";
-import { visibleProjectTags } from "@/lib/project/tags";
 import { projectKindLabel } from "@/lib/seo/project-citability";
 
 export const PROJECT_SEO_DESCRIPTION_MAX = 150;
@@ -123,7 +122,7 @@ export function clampChineseDescription(text: string, max = PROJECT_SEO_DESCRIPT
 /**
  * Visible intro paragraph (also the meta-description source) for a project page.
  * Always unique per project because it leads with the title and lists the
- * project's own materials / step titles / tags.
+ * project's own materials / step titles.
  */
 export function buildProjectOverviewText(input: ProjectSeoInput): string {
   const title = normalize(input.title);
@@ -133,11 +132,6 @@ export function buildProjectOverviewText(input: ProjectSeoInput): string {
   const sentences: string[] = [];
 
   sentences.push(`《${title}》是创探空间${topic ? `「${topic}」分类下` : ""}的${kind}${traits ? `，${traits}` : ""}。`);
-
-  const tags = visibleProjectTags(input.tags)
-    .filter((tag) => tag !== input.category && tag !== input.subCategory)
-    .slice(0, 4);
-  if (tags.length) sentences.push(`标签：${tags.join("、")}。`);
 
   const titles = stepTitles(input.steps);
   const steps = realSteps(input.steps);

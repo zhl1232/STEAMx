@@ -77,3 +77,9 @@ describe("project citability copy", () => {
     ).toBe("静电章鱼是适合6岁起的科学小实验。同种电荷相互排斥，摩擦起电后章鱼会飘起来。");
   });
 });
+
+it('omits grades and 科教版 while retaining topical keywords', () => {
+  expect(buildProjectCiteKeywords({ title: '大气压力', category: '科学',
+    tags: ['科教版', '幼儿园中班', '二年级', '初中', '高中', '高一', 'kejiao16a-src:1', '气压'],
+  })).toEqual(['大气压力', '科学', '气压', '科学小实验', '科学实验', 'STEAM项目']);
+});

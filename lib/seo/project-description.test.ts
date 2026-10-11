@@ -82,7 +82,7 @@ describe("buildProjectSeoDescription", () => {
     const input = kitProject("大气压力", "幼儿园中班");
     const description = buildProjectSeoDescription({ ...input, citeDescription: "" });
     expect(description).toBe(
-      "《大气压力》是创探空间「科学·物理实验」分类下的科学小实验，适合4岁起，难度入门，建议成人陪同。标签：科教版、幼儿园中班。需要准备《大气压力》对应实验材料包。页面附实验演示视频，可边看边做。",
+      "《大气压力》是创探空间「科学·物理实验」分类下的科学小实验，适合4岁起，难度入门，建议成人陪同。需要准备《大气压力》对应实验材料包。页面附实验演示视频，可边看边做。",
     );
     expect(description).not.toContain("见正文");
     expect(description).not.toContain("kejiao16a");
@@ -116,7 +116,7 @@ describe("buildProjectSeoDescription", () => {
 describe("buildProjectOverviewText", () => {
   it("summarises steps and materials from the project itself", () => {
     expect(buildProjectOverviewText(mobile)).toBe(
-      "《动态雕塑（悬挂）》是创探空间「艺术·雕塑」分类下的实践项目，适合8岁起，难度入门，建议成人陪同。标签：平衡、动态。共 6 个步骤：设计与裁剪形状、制作悬臂、单层平衡测试、逐层向上搭建、微调整体平衡、悬挂调试。需要准备 7 种材料：铝丝或细铁丝、彩色卡纸或薄木片、鱼线或细绳、尖嘴钳、剪刀、小坠子或小珠子等。",
+      "《动态雕塑（悬挂）》是创探空间「艺术·雕塑」分类下的实践项目，适合8岁起，难度入门，建议成人陪同。共 6 个步骤：设计与裁剪形状、制作悬臂、单层平衡测试、逐层向上搭建、微调整体平衡、悬挂调试。需要准备 7 种材料：铝丝或细铁丝、彩色卡纸或薄木片、鱼线或细绳、尖嘴钳、剪刀、小坠子或小珠子等。",
     );
   });
 
@@ -135,4 +135,13 @@ describe("clampChineseDescription", () => {
     const text = `${"一".repeat(100)}。${"二".repeat(80)}`;
     expect(clampChineseDescription(text, 150)).toBe(`${"一".repeat(100)}。`);
   });
+});
+
+it('never appends tags to overview or placeholder SEO copy, even without other details', () => {
+  const input = { title: '大气压力', description: '材料与步骤见正文。',
+    tags: ['科教版', '幼儿园中班', '二年级', '初中', '独有主题标签'] };
+  const overview = buildProjectOverviewText(input);
+  expect(overview).toBe('《大气压力》是创探空间的实践项目。');
+  expect(buildProjectSeoDescription({ ...input, citeDescription: '' })).toBe(overview);
+  expect(buildProjectOverviewText(mobile)).not.toContain('标签：');
 });

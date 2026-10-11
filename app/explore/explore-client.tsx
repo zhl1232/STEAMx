@@ -36,7 +36,7 @@ import {
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
-import { visibleProjectTags } from '@/lib/project/tags'
+import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
@@ -117,8 +117,8 @@ function sortFromSearchParam(raw: string | null): SortBy {
     return normalizeSortBy(raw)
 }
 
-function normalizeTagList(tags: string[]) {
-    return visibleProjectTags(tags)
+function normalizeTagList(tags: string | null) {
+    return sanitizeProjectTagsParam(tags)
 }
 
 interface ExploreClientProps {
@@ -166,7 +166,7 @@ export function ExploreClient({
     const initialSubCategory = searchParams.get("subCategory") || ""
     const initialDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
     const initialAge = parseAgeParam(searchParams.get("age"))
-    const initialTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
+    const initialTags = normalizeTagList(searchParams.get("tags"))
     const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
@@ -240,7 +240,7 @@ export function ExploreClient({
         const nextSubCategory = searchParams.get("subCategory") || ""
         const nextDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
         const nextAge = parseAgeParam(searchParams.get("age"))
-        const nextTags = normalizeTagList(searchParams.get("tags")?.split(",") || [])
+        const nextTags = normalizeTagList(searchParams.get("tags"))
         const nextSortBy = sortFromSearchParam(searchParams.get("sortBy"))
 
         const nextFiltersKey = serializeExploreFilterParams(new URLSearchParams(searchParams.toString()))

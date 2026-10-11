@@ -72,7 +72,7 @@ import {
   mergeBrokenParenMaterials,
   shouldShowProjectReflection,
 } from '@/lib/project/presentation'
-import { visibleProjectTags } from '@/lib/project/tags'
+import { displayProjectTags } from '@/lib/project/tags'
 import { resolveProjectVideoPlaybackSrc } from '@/lib/project/video-url'
 import { createClient } from '@/lib/supabase/server'
 import { buildProjectJsonLd, validProjectDate } from '@/lib/seo/json-ld'
@@ -559,7 +559,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const continuationProject = relatedProject ? toExploreContextProject(relatedProject) : null
   const continuationHref = continuationProject ? `/project/${continuationProject.id}` : exploreBackHref
   const categoryTone = getCategoryTone(project.category)
-  const visibleTags = visibleProjectTags(tags)
+  const visibleTags = displayProjectTags(tags)
     .filter((tag) => tag !== project.category && tag !== project.sub_category)
     .slice(0, 4)
   const mode = isObservationProject ? 'observation' : 'project'

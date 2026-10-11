@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { callRpc } from "@/lib/supabase/rpc";
 import { isPlaywrightSmoke } from "@/lib/testing/playwright-smoke";
-import { isInternalProjectTag } from "@/lib/project/tags";
+import { filterOptionProjectTags } from "@/lib/project/tags";
 import { applyLedCardContent } from "@/lib/project/led-card";
 import {
   mapDbProject,
@@ -146,14 +146,14 @@ function sortLabels(labels: Iterable<string>): string[] {
 }
 
 /** 与 `buildTagScope` 相同的排除规则，按标签被多少个项目使用排序 */
-function rankTagsByPopularity(
+export function rankTagsByPopularity(
   entries: Array<{ tags?: string[] | null }>,
   excludedNames: Set<string>,
 ): string[] {
   const counts = new Map<string, number>();
   for (const entry of entries) {
-    for (const tag of entry.tags || []) {
-      if (!tag || excludedNames.has(tag) || isInternalProjectTag(tag)) continue;
+    for (const tag of filterOptionProjectTags(entry.tags)) {
+      if (excludedNames.has(tag)) continue;
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
   }
@@ -166,7 +166,7 @@ function rankTagsByPopularity(
     .map(([tag]) => tag);
 }
 
-function buildTagScope(
+export function buildTagScope(
   entries: Array<{ category?: string | null; subCategory?: string | null; tags?: string[] | null }>,
   excludedNames: Set<string>,
 ): ExploreTagScope {
@@ -175,7 +175,7 @@ function buildTagScope(
   const subCategoryTags = new Map<string, Set<string>>();
 
   for (const entry of entries) {
-    const tags = (entry.tags || []).filter((tag) => tag && !excludedNames.has(tag) && !isInternalProjectTag(tag));
+    const tags = filterOptionProjectTags(entry.tags).filter((tag) => !excludedNames.has(tag));
     if (tags.length === 0) continue;
 
     for (const tag of tags) {
