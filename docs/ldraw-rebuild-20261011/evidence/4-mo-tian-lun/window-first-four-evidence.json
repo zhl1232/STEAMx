@@ -1,6 +1,6 @@
 {
   "at": "2026-10-11T08:36:17.831Z",
-  "status": "scratch candidate; no main LDR edit",
+  "status": "Applied common four assemblies; corrected facing actually reviewed in current final3 and all12 steps; INCOMPLETE and no physical acceptance",
   "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
   "candidateSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
   "sourcePage": 12,
@@ -141,8 +141,8 @@
     "rotation": [
       0,
       0,
-      -1,
       1,
+      -1,
       0,
       0,
       0,
@@ -150,14 +150,14 @@
       0
     ],
     "rows": [
-      "1 4 -40 -316 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
-      "1 15 0 -250.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
-      "1 4 -288 -644 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
-      "1 15 -248 -578.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
-      "1 4 40 -892 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
-      "1 15 80 -826.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
-      "1 4 288 -564 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
-      "1 15 328 -498.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat"
+      "1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
     ]
   },
   "remainingFour": {
@@ -186,8 +186,10 @@
   },
   "limitations": [
     "Visible lower-row placement is inferred from source bottom alignment, not measured physical mating.",
-    "Frame orientation chosen with window face atworld+X; current preview/source camera comparison needed before accepting visible orientation.",
+    "White window face corrected toward world-X after source/render comparison; corrected rendering pending.",
     "Original tower/turntable/arm interfaces remain provisional; four assemblies still omitted."
   ],
-  "accepted": false
+  "accepted": false,
+  "appliedAt": "2026-10-11T08:48:08.400Z",
+  "appliedSourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d"
 }

@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-11T08:41:34.448Z",
+  "generatedAt": "2026-10-11T08:58:06.425Z",
   "scope": "69 current drafts only, excludes deferred11; independent read-only current-source snapshot",
   "method": "Matrices and DAT/MPD text checked. Materialized PDFs SHA-checked. Existing authors source-view claims indexed, not new pixel inspection or physical validation. No browser/render/repack/model mutations.",
   "summary": {
     "models": 69,
-    "placements": 4977,
+    "placements": 4999,
     "matrixIssues": 0,
     "sourceIssues": 0,
     "statusIssues": 0,
     "mpdIssues": 0,
-    "embeddedDatBlocksCompared": 5933,
+    "embeddedDatBlocksCompared": 5971,
     "uniqueLocalPartFiles": 392,
     "acceptedTrue": 0
   },
@@ -135,10 +135,10 @@
           "claim": "0 // All14 source PDF pages viewed. Source SHA256 0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a."
         }
       ],
-      "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
-      "placements": 60,
+      "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+      "placements": 66,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "742d7bc694bd8c938617383987ee1d155fc57dcf0d71a085488b8d4608b0246a",
+      "developmentMpdSha256": "66d19e61b46ea7a4295fdd7d7b42b7ee0435e17bc0e50a4388c557f4d78b625c",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -430,14 +430,18 @@
           ]
         },
         {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/REVIEW.md",
+          "claim": "实际看e87d58a0的final3与全部12步骤后，发现蓝板stud面可见时，白窗处于远侧，与源第12页相反。已将四组框与窗绕框局部Y转180度，原点、底面与支撑孔排保持不变。当前SHA 4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d，静态PASS60件，新像素待复核。前后变换及旧图hash见window-facing-correction.json。"
+        },
+        {
           "file": "scripts/ldraw-models/4-mo-tian-lun.ldr",
           "claim": "0 // All13 source pages actually viewed. No physical verification or user acceptance."
         }
       ],
-      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
-      "placements": 52,
+      "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+      "placements": 60,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+      "developmentMpdSha256": "87f98f7e87ada12f3ef6e88165267dd882e415e09ccab9f78383d0e3e9b0c508",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -1613,10 +1617,10 @@
           "claim": "已实际看完18页源图，SHA见source.json。当前109件17步，checker PASS109。未做最终渲染。页18为整车反面图，不增件。已实现车架、红齿轮作车轮、灰地板、蓝车体、黄内支撑、牵引轴、拖斗绿底板与五层蓝黄环墙。"
         }
       ],
-      "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
-      "placements": 109,
+      "modelSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+      "placements": 117,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+      "developmentMpdSha256": "59682e1b6d1eced6054823969afbe51be1d42064763d9690d1183b6377b52ae4",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false

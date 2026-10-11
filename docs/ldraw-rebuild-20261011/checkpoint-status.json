@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-11T08:41:42.997575+00:00",
-  "localCheckpointCommit": "d454941",
+  "generatedAt": "2026-10-11T09:01:30.916749+00:00",
+  "localCheckpointCommit": "086b0a9",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
     "draft-final-and-all-steps-pixels-reviewed": 69,
@@ -23,7 +23,6 @@
     "4-ke-ji",
     "4-kuai-ting",
     "4-long-men-diao",
-    "4-mo-tian-lun",
     "4-qian-shui-ting",
     "4-sai-che",
     "4-ta-diao",
@@ -50,7 +49,7 @@
     "5-ya-mian-ji",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T08:41:42.298079+00:00",
+  "unknownRegistryGeneratedAt": "2026-10-11T09:01:30.134651+00:00",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -99,7 +98,7 @@
     },
     {
       "slug": "4-dao-dan-che",
-      "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "sourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
       "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
       "allCumulativeStepsActuallyReviewed": true,
@@ -189,7 +188,7 @@
     },
     {
       "slug": "4-mo-tian-lun",
-      "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "sourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
       "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
       "allCumulativeStepsActuallyReviewed": true,
@@ -936,7 +935,7 @@
     },
     {
       "slug": "5-tuo-gua-che",
-      "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "sourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
       "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
       "allCumulativeStepsActuallyReviewed": true,

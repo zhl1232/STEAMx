@@ -53,9 +53,9 @@
   {
     "file": "4-dao-dan-che.mpd",
     "selfContained": true,
-    "blocks": 43,
+    "blocks": 53,
     "devGeometryChecks": [],
-    "mpdSha256": "742d7bc694bd8c938617383987ee1d155fc57dcf0d71a085488b8d4608b0246a"
+    "mpdSha256": "66d19e61b46ea7a4295fdd7d7b42b7ee0435e17bc0e50a4388c557f4d78b625c"
   },
   {
     "file": "4-diao-che.mpd",
@@ -169,7 +169,7 @@
   {
     "file": "4-mo-tian-lun.mpd",
     "selfContained": true,
-    "blocks": 37,
+    "blocks": 55,
     "devGeometryChecks": [
       {
         "part": "dev-129/28334.dat",
@@ -177,7 +177,7 @@
         "embeddedGeometryEqualsLocal": true
       }
     ],
-    "mpdSha256": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a"
+    "mpdSha256": "87f98f7e87ada12f3ef6e88165267dd882e415e09ccab9f78383d0e3e9b0c508"
   },
   {
     "file": "4-qian-shui-ting.mpd",
@@ -603,9 +603,9 @@
   {
     "file": "5-tuo-gua-che.mpd",
     "selfContained": true,
-    "blocks": 83,
+    "blocks": 93,
     "devGeometryChecks": [],
-    "mpdSha256": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6"
+    "mpdSha256": "59682e1b6d1eced6054823969afbe51be1d42064763d9690d1183b6377b52ae4"
   },
   {
     "file": "5-wo-lun-diao-qiao.mpd",

@@ -1,21 +1,18 @@
-# Independent 69-course QA snapshot
+# Independent 69-course QA: final window repair batch
 
-Time: 2026-10-11T08:41:27.821Z
+Final integrity time: 2026-10-11T09:01:56.926Z
 
-- 69 current drafts; 4977 top-level placements. No nonfinite, scaled, sheared or reflected matrices (tolerance 1e-4).
-- All 69 development MPDs match current LDR geometry and STEP sequence. closure.json source SHA matches all 69; every entry developmentOnly=true and accepted=false.
-- All references embedded. 5933 DAT blocks compared against 392 unique local part files; no missing local file or geometry mismatch.
-- 62 materialized PDFs hash-verified; 7 courses use original image Library sources. All 69 have existing source-page viewing claims. This scan did not re-view source pixels or certify complete reproduction.
-- 169 acceptance/physical-verification boolean fields checked recursively in current known reports; 0 true fields. No acceptance inferred from absent fields.
-- Remaining 60 courses: source verified remotely, awaiting transfer (713 JPGs in 6 packages, per parent report). Official Library upload tools are unavailable on the source host. These are not classified as missing source; remote bytes were not independently hashed here.
-- Deferred 11 and historical current67 QA are unchanged and outside this package scan.
+- 69 current drafts; 4999 top-level placements. Matrix, source, report-status and MPD issues: 0.
+- 69 current source/STEP sequences match both development and repository MPDs. All references embedded; 5971 DAT blocks compared against 392 local files. Repository/D copies are byte-identical.
+- Source, checker, static-diagnostic and closure manifest hashes all current; final consistency failures: 0.
+- 24 courses have 81 raw error groups expanded into 99 diagnostic items; 0 stale checker/report hashes and 0 unexplained raw pair mentions. These are not99 independent physical failures.
+- Current explicit image records plus separately labeled, same-source historical owner attestations cover 69/69 final three views and 69/69 full cumulative sequences. 1028 image hashes checked; 0 image/source/revision mismatches. Pending index is an array with 0 entries.
+- The current-record-only check is intentionally insufficient for16 courses whose complete coverage includes historical evidence; the final union admits only source/revision-bound, hash-matching, explicitly attested images. This audit does not itself perform a new visual review.
+- 551 acceptance/physical-verification boolean fields checked in the final scan; 0 true fields. Closure and viewed pixels do not certify physical fit, collision-free motion, stock sufficiency or user acceptance.
+- 62 materialized source PDFs hash-verified;7 courses use original image Library sources. Existing source-page viewing claims indexed; this scan did not re-view all source pages.
+- Remaining60 source courses await local transfer; deferred11 remain outside this69-course QA. Existing missing geometry, identity, interfaces and real collision risks remain tracked.
 
-Existing omissions, stock deficits and provisional interfaces remain. Closure does not establish physical connection, collision-free motion or user acceptance. No models, browsers, renders or packages were changed by this QA.
+Compared with previous086b snapshot, only3 sources changed: 4-dao-dan-che 3ed13777, 4-mo-tian-lun 4c5d2473, 5-tuo-gua-che 02ec1a77; total+22 placements. Intermediate wrong-facing ferris version remains archived; current ferris4c5d2473 is covered by its new pixel record.
 
-Findings: matrix 0; source 0; status 0; MPD 0; closure manifest 0; nested acceptance true 0.
-
-Static coverage: 69 courses; 24 alarm courses; 81 raw groups; 99 expanded items. Stale checker hashes: 0; stale report hashes: 0; unexplained pair mentions: 0. No physical acceptance.
-
-Final integrity:69/69 source, checker, diagnostic, closure and repo/D package bindings match. Current plus explicitly labeled same-source historical records cover69/69 final3 and69/69 cumulative steps;1,028 image hashes checked,0 mismatches. This is evidence integrity checking, not a new pixel inspection.548 acceptance/physical boolean fields checked in broader final scan;0true.
-
-This repair batch changes only: 5-tou-shi-che acd8d1b5, 5-yi-dong-guang-gao-pai 0ff688cc. Previous QA snapshots retained in preparation\independent-qa\before-first-repair-20261011T084118Z.
+Old QA snapshots retained: preparation\independent-qa\before-window-batch-086b-20261011T084942Z; preparation\independent-qa\before-ferris-facing-correction-20261011T085748Z.
+No LDR, DAT, MPD, registry or Git mutation by this QA; only independent reports and scratch QA scripts were updated.

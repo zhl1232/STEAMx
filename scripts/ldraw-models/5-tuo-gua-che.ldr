@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV-ONLY; all18 PDF source pages visually inspected.
-0 // INCOMPLETE pending true cab and four white-window assemblies; no placeholder geometry.
+0 // INCOMPLETE pending true cab/canopy; four official red-frame white-window assemblies restored from source.
 0 // Source page 1: four short holebricks in two rails; blue plates bridge each seam from below.
 1 4 -80 -89 -120 1 0 0 0 1 0 0 0 1 75349.dat
 1 4 80 -89 -120 1 0 0 0 1 0 0 0 1 75349.dat
@@ -32,7 +32,15 @@
 1 1 -80 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 80 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // Source page 5: four red frames with white four-pane opening, unresolved complete part ID: no fictitious geometry.
+0 // Source page 5: four official61649 open-back red frames and90265 white four-equal-pane windows; closed hinge axes matched.
+1 4 -80 -305 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -14.5 -233 -160 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 80 -305 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 145.5 -233 -160 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -80 -305 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -145.5 -233 160 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 80 -305 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 14.5 -233 160 -1 0 0 0 1 0 0 0 -1 90265.dat
 0 STEP
 0 // Source page 6: seven yellow inner support bricks.
 1 14 -80 -161 -40 1 0 0 0 1 0 0 0 1 3011.dat

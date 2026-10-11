@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T08:41:43.999152+00:00",
+  "generatedAt": "2026-10-11T09:01:31.810540+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -165,7 +165,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-chun-jie-wu-shi",
@@ -220,7 +221,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ci-xuan-fu-lie-che",
@@ -241,7 +243,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-da-xiang",
@@ -593,22 +596,22 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-dao-dan-che",
-      "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-dao-dan-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "0e7c905404bde7046c1e8e20bb968fd54c2a03d47b61a52a02ece6ad8e5fc822",
+      "staticInterpretationReportSha256": "539c7c38c71840777358c7c4ff43096e5078881ad95dcdd4d74da4078d0c589a",
       "unresolvedSourceComments": [
-        "// DEV-ONLY INCOMPLETE: cockpit/window identities and hidden fork-to-clip capture pending.",
-        "// Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD.",
-        "// No inferred hidden cockpit/window geometry added. Roof partly unsupported until missing windows restored."
+        "// DEV-ONLY INCOMPLETE: cockpit geometry and hidden fork-to-clip capture pending; official window assemblies restored.",
+        "// Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD."
       ],
       "partIssueFamilies": [
         {
@@ -674,103 +677,13 @@
             "4-dao-dan-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
-        },
-        {
-          "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
-          "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
-          "candidates": [
-            "2332ac01",
-            "4253c01",
-            "61649",
-            "90265"
-          ],
-          "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-          ],
-          "sourcesTried": [
-            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-          ],
-          "geometryLicense": null,
-          "approximationBoundary": "No new geometry invented",
-          "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-ma-tou-diao-ji",
-              "sourcePage": 9,
-              "location": "frame mould detail obscured; existing61649+90265 used",
-              "quantity": 1,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
-                "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
-              "slug": "4-diao-che",
-              "sourcePage": 4,
-              "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
-              "quantity": 1,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
-              "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
-            }
-          ],
-          "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
-            "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
-            "4-diao-che"
-          ],
-          "issueCountUnit": "part identity/family; not physical piece count"
         }
       ],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-diao-che",
@@ -792,17 +705,15 @@
       "partIssueFamilies": [
         {
           "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
+          "category": "known_part_hidden_mould_variant_unverified",
           "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
+          "confirmedId": "61649 + 90265 supported assembly; hidden back mould unresolved only in two older observations",
           "candidates": [
-            "2332ac01",
-            "4253c01",
             "61649",
             "90265"
           ],
           "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -810,39 +721,6 @@
           "geometryLicense": null,
           "approximationBoundary": "No new geometry invented",
           "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
             {
               "slug": "5-ma-tou-diao-ji",
               "sourcePage": 9,
@@ -855,14 +733,6 @@
               "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
             },
             {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
               "slug": "4-diao-che",
               "sourcePage": 4,
               "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
@@ -872,14 +742,121 @@
             }
           ],
           "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
             "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
             "4-diao-che"
           ],
-          "issueCountUnit": "part identity/family; not physical piece count"
+          "issueCountUnit": "part identity/family; not physical piece count",
+          "beforeSupportedWindowRepair": {
+            "key": "candidate:four-pane-window",
+            "category": "candidate_mould_or_assembly",
+            "name": "Red frame with white four-pane insert",
+            "confirmedId": null,
+            "candidates": [
+              "2332ac01",
+              "4253c01",
+              "61649",
+              "90265"
+            ],
+            "missingEvidence": [
+              "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            ],
+            "sourcesTried": [
+              "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+            ],
+            "geometryLicense": null,
+            "approximationBoundary": "No new geometry invented",
+            "occurrences": [
+              {
+                "slug": "4-mo-tian-lun",
+                "sourcePage": 12,
+                "location": "eight cabin windows omitted",
+                "quantity": 8,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
+                  "scripts/ldraw-models/4-mo-tian-lun.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tui-tu-ji",
+                "sourcePage": 3,
+                "location": "rear window omitted",
+                "quantity": null,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
+                  "scripts/ldraw-models/5-tui-tu-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tuo-gua-che",
+                "sourcePage": 5,
+                "location": "four windows omitted",
+                "quantity": 4,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
+                  "scripts/ldraw-models/5-tuo-gua-che.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-ma-tou-diao-ji",
+                "sourcePage": 9,
+                "location": "frame mould detail obscured; existing61649+90265 used",
+                "quantity": 1,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+                  "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "4-dao-dan-che",
+                "sourcePage": 6,
+                "location": "three red2x4x3 frames withwhiteopening four-pane windows",
+                "quantity": 3,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
+                "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
+              },
+              {
+                "slug": "4-diao-che",
+                "sourcePage": 4,
+                "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
+                "quantity": 1,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
+                "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+              }
+            ],
+            "affectedCourses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "5-ma-tou-diao-ji",
+              "4-dao-dan-che",
+              "4-diao-che"
+            ],
+            "issueCountUnit": "part identity/family; not physical piece count"
+          },
+          "supportedIdentityResolution": {
+            "at": "2026-10-11T09:01:29.974284+00:00",
+            "courses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "4-dao-dan-che"
+            ],
+            "parts": [
+              "61649.dat",
+              "90265.dat"
+            ],
+            "evidence": [
+              "preparation/window-repair-20261011.json",
+              "preparation/4-mo-tian-lun/window-first-four-evidence.json"
+            ],
+            "setsRestored": 11,
+            "physicalPiecesRestored": 22,
+            "boundary": "Other two hidden-mould observations remain in this family."
+          }
         },
         {
           "key": "unknown:large-toolo-hook",
@@ -921,7 +898,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-du-jiao-xian",
@@ -987,7 +965,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-e-yu",
@@ -1007,7 +986,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ji-guan-qiang",
@@ -1174,7 +1154,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ju-ji-qiang",
@@ -1341,7 +1322,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-jun-jian",
@@ -1447,7 +1429,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ke-ji",
@@ -1798,7 +1781,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-kuai-ting",
@@ -1911,7 +1895,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-long-men-diao",
@@ -2151,120 +2136,52 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-mo-tian-lun",
-      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-mo-tian-lun/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "d66e5db5ad7961c6f1259dc99ec50dca4afd109c86f27af9642f59b9dd9121aa",
+      "staticInterpretationReportSha256": "967a87bdcb2a1bcd6803444e271445b8aea31a0a155c237a6fdf8c5be53e0529",
       "unresolvedSourceComments": [
         "4+ Ferris wheel - incomplete source reconstruction draft",
-        "// INCOMPLETE: p12 eight red four-pane window assemblies identity/geometry not established; omitted. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.",
-        "// UNKNOWN p12 windowframe/pane candidates4253c01/2332ac01/61649 plus90265, mold version not verified. All8 omitted; no substituteboxes."
+        "// INCOMPLETE: p12 four 61649+90265 window assemblies placed; four more known assemblies omitted pending seating/orientation evidence. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.",
+        "// KNOWN OMITTED p12 four additional61649+90265 assemblies: second frame seating/orientation remains unresolved. Source target8 each; placed4 each."
       ],
-      "partIssueFamilies": [
-        {
-          "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
-          "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
-          "candidates": [
-            "2332ac01",
-            "4253c01",
-            "61649",
-            "90265"
-          ],
-          "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-          ],
-          "sourcesTried": [
-            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-          ],
-          "geometryLicense": null,
-          "approximationBoundary": "No new geometry invented",
-          "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-ma-tou-diao-ji",
-              "sourcePage": 9,
-              "location": "frame mould detail obscured; existing61649+90265 used",
-              "quantity": 1,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
-                "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
-              "slug": "4-diao-che",
-              "sourcePage": 4,
-              "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
-              "quantity": 1,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
-              "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
-            }
-          ],
-          "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
-            "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
-            "4-diao-che"
-          ],
-          "issueCountUnit": "part identity/family; not physical piece count"
-        }
-      ],
+      "partIssueFamilies": [],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "4-mo-tian-lun",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 8,
+          "sets": 4,
+          "items": [
+            {
+              "page": 12,
+              "id": "61649",
+              "quantity": 4
+            },
+            {
+              "page": 12,
+              "id": "90265",
+              "quantity": 4
+            }
+          ],
+          "gap": "Second frame per cabin can occupy upper four stud rows or stack outwards; available pixels do not establish which. Four lower supported frames and inserts restored.",
+          "currentDecisionEvidence": "preparation/4-mo-tian-lun/window-first-four-evidence.json",
+          "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d"
+        }
+      ]
     },
     {
       "slug": "4-qian-shui-ting",
@@ -2334,7 +2251,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-qing-ting",
@@ -2357,7 +2275,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-sai-che",
@@ -2706,7 +2625,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-sheng-jiang-jiu-yuan-che",
@@ -2725,7 +2645,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-sun-wu-kong",
@@ -2747,7 +2668,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ta-diao",
@@ -3022,7 +2944,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-tui-tu-ji",
@@ -3119,7 +3042,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-wa-li",
@@ -3184,7 +3108,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-wu-ren-ji",
@@ -3313,7 +3238,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-xiang-wei-she",
@@ -3337,7 +3263,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-xiao-tu-zi",
@@ -3356,7 +3283,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-xie-zi",
@@ -3483,7 +3411,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-xuan-zhuan-fei-ji",
@@ -3834,7 +3763,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-ya-lu-ji",
@@ -4028,7 +3958,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-yao-yao-ma",
@@ -4048,7 +3979,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-yi-long",
@@ -4430,7 +4362,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-you-wen",
@@ -4449,7 +4382,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-zhi-sheng-ji",
@@ -4577,7 +4511,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "4-zhi-zhu",
@@ -4780,7 +4715,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-bing-qiu-yun-dong-yuan",
@@ -4797,7 +4733,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-chou-you-ji",
@@ -5067,7 +5004,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-da-zhuang-ji",
@@ -5086,7 +5024,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-dan-gan-yun-dong-yuan",
@@ -5107,7 +5046,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-di-qiu-yi",
@@ -5126,7 +5066,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-diao-che",
@@ -5396,7 +5337,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-diao-shan",
@@ -5417,7 +5359,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-fan-chuan",
@@ -5479,7 +5422,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-huan-wei-che",
@@ -5499,7 +5443,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-huo-jian",
@@ -5518,7 +5463,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ji-xie-shou",
@@ -5537,7 +5483,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-jiao-ban-qi",
@@ -5554,7 +5501,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ma-tou-diao-ji",
@@ -5821,17 +5769,15 @@
         },
         {
           "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
+          "category": "known_part_hidden_mould_variant_unverified",
           "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
+          "confirmedId": "61649 + 90265 supported assembly; hidden back mould unresolved only in two older observations",
           "candidates": [
-            "2332ac01",
-            "4253c01",
             "61649",
             "90265"
           ],
           "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            "5-ma-tou-diao-ji p9 and4-diao-che p4 hidden back mould not newly established; existing assembly retained. Not missing DAT or an omitted window."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -5839,39 +5785,6 @@
           "geometryLicense": null,
           "approximationBoundary": "No new geometry invented",
           "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
             {
               "slug": "5-ma-tou-diao-ji",
               "sourcePage": 9,
@@ -5884,14 +5797,6 @@
               "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
             },
             {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
               "slug": "4-diao-che",
               "sourcePage": 4,
               "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
@@ -5901,20 +5806,153 @@
             }
           ],
           "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
             "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
             "4-diao-che"
           ],
-          "issueCountUnit": "part identity/family; not physical piece count"
+          "issueCountUnit": "part identity/family; not physical piece count",
+          "beforeSupportedWindowRepair": {
+            "key": "candidate:four-pane-window",
+            "category": "candidate_mould_or_assembly",
+            "name": "Red frame with white four-pane insert",
+            "confirmedId": null,
+            "candidates": [
+              "2332ac01",
+              "4253c01",
+              "61649",
+              "90265"
+            ],
+            "missingEvidence": [
+              "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+            ],
+            "sourcesTried": [
+              "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+            ],
+            "geometryLicense": null,
+            "approximationBoundary": "No new geometry invented",
+            "occurrences": [
+              {
+                "slug": "4-mo-tian-lun",
+                "sourcePage": 12,
+                "location": "eight cabin windows omitted",
+                "quantity": 8,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
+                  "scripts/ldraw-models/4-mo-tian-lun.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tui-tu-ji",
+                "sourcePage": 3,
+                "location": "rear window omitted",
+                "quantity": null,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
+                  "scripts/ldraw-models/5-tui-tu-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-tuo-gua-che",
+                "sourcePage": 5,
+                "location": "four windows omitted",
+                "quantity": 4,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
+                  "scripts/ldraw-models/5-tuo-gua-che.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "5-ma-tou-diao-ji",
+                "sourcePage": 9,
+                "location": "frame mould detail obscured; existing61649+90265 used",
+                "quantity": 1,
+                "source": [
+                  "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+                  "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
+                ],
+                "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+              },
+              {
+                "slug": "4-dao-dan-che",
+                "sourcePage": 6,
+                "location": "three red2x4x3 frames withwhiteopening four-pane windows",
+                "quantity": 3,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
+                "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
+              },
+              {
+                "slug": "4-diao-che",
+                "sourcePage": 4,
+                "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
+                "quantity": 1,
+                "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
+                "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
+              }
+            ],
+            "affectedCourses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "5-ma-tou-diao-ji",
+              "4-dao-dan-che",
+              "4-diao-che"
+            ],
+            "issueCountUnit": "part identity/family; not physical piece count"
+          },
+          "supportedIdentityResolution": {
+            "at": "2026-10-11T09:01:29.974284+00:00",
+            "courses": [
+              "4-mo-tian-lun",
+              "5-tui-tu-ji",
+              "5-tuo-gua-che",
+              "4-dao-dan-che"
+            ],
+            "parts": [
+              "61649.dat",
+              "90265.dat"
+            ],
+            "evidence": [
+              "preparation/window-repair-20261011.json",
+              "preparation/4-mo-tian-lun/window-first-four-evidence.json"
+            ],
+            "setsRestored": 11,
+            "physicalPiecesRestored": 22,
+            "boundary": "Other two hidden-mould observations remain in this family."
+          }
         }
       ],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-ma-tou-diao-ji",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 3,
+          "items": [
+            {
+              "page": 10,
+              "id": "6522",
+              "quantity": 1
+            },
+            {
+              "page": 10,
+              "id": "6527",
+              "quantity": 2
+            }
+          ],
+          "gap": "Secondbearing/boomengagement obscured; no unsupported duplicate shaft.",
+          "source": [
+            "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+            "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
+          ],
+          "currentDecisionEvidence": "preparation/5-ma-tou-diao-ji/omission-repair-20261011.json",
+          "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e"
+        }
+      ]
     },
     {
       "slug": "5-mian-bao-ji",
@@ -5936,7 +5974,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ping-heng-cheng",
@@ -5955,7 +5994,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-qing-ting",
@@ -5976,7 +6016,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ren-li-shui-che",
@@ -5996,7 +6037,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-shou-yao-zuan-zi",
@@ -6013,7 +6055,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-shui-jing",
@@ -6283,7 +6326,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ti-xian-mu-ou",
@@ -6551,7 +6595,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-tou-lan-ji",
@@ -6571,7 +6616,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-tou-shi-che",
@@ -6594,7 +6640,137 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-tou-shi-che",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 15,
+          "items": [
+            {
+              "page": 10,
+              "id": "6522",
+              "quantity": 1
+            },
+            {
+              "page": 10,
+              "id": "6527",
+              "quantity": 2
+            },
+            {
+              "page": 10,
+              "id": "6526",
+              "quantity": 4
+            },
+            {
+              "page": 11,
+              "id": "6522",
+              "quantity": 1
+            },
+            {
+              "page": 11,
+              "id": "6527",
+              "quantity": 2
+            },
+            {
+              "page": 11,
+              "id": "6526",
+              "quantity": 4
+            },
+            {
+              "page": 11,
+              "id": "3437",
+              "quantity": 1
+            }
+          ],
+          "gap": "Two p9 6527 restored on source-backed supported shaft. Fifteen basket/retainer/payload pieces remain unresolved; see per-item alternatives and requested evidence.",
+          "source": [
+            "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-shi-che/REVIEW.md",
+            "scripts/ldraw-models/5-tou-shi-che.ldr"
+          ],
+          "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+          "placedCount": 50,
+          "targetVisibleCount": 65,
+          "omittedKnownBOM": {
+            "6527.dat": 4,
+            "6522.dat": 2,
+            "6526.dat": 8,
+            "3437.dat": 1
+          },
+          "currentEvidence": "preparation/5-tou-shi-che/current-bom-evidence.json",
+          "previousOmissionSnapshot": {
+            "slug": "5-tou-shi-che",
+            "category": "known_parts_omitted_connection_unresolved",
+            "totalPieces": 17,
+            "items": [
+              {
+                "page": 9,
+                "id": "6527",
+                "quantity": 2
+              },
+              {
+                "page": 10,
+                "id": "6522",
+                "quantity": 1
+              },
+              {
+                "page": 10,
+                "id": "6527",
+                "quantity": 2
+              },
+              {
+                "page": 10,
+                "id": "6526",
+                "quantity": 4
+              },
+              {
+                "page": 11,
+                "id": "6522",
+                "quantity": 1
+              },
+              {
+                "page": 11,
+                "id": "6527",
+                "quantity": 2
+              },
+              {
+                "page": 11,
+                "id": "6526",
+                "quantity": 4
+              },
+              {
+                "page": 11,
+                "id": "3437",
+                "quantity": 1
+              }
+            ],
+            "gap": "Basket pin orientation,axial spacing andpayload support unresolved; p9retainer planes conflict. Earlier9piece omission note superseded by17.",
+            "source": [
+              "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-shi-che/REVIEW.md",
+              "scripts/ldraw-models/5-tou-shi-che.ldr"
+            ],
+            "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+            "placedCount": 48,
+            "targetVisibleCount": 65,
+            "omittedKnownBOM": {
+              "6527.dat": 6,
+              "6522.dat": 2,
+              "6526.dat": 8,
+              "3437.dat": 1
+            },
+            "currentEvidence": "preparation/5-tou-shi-che/current-bom-evidence.json"
+          },
+          "partialResolution": {
+            "at": "2026-10-11T08:35:50.421062+00:00",
+            "piecesRestored": 2,
+            "part": "6527.dat",
+            "page": 9,
+            "evidence": "preparation/5-tou-shi-che/omission-repair-20261011.json",
+            "meshRiskRetained": "22 strict triangle crossings with adjacent pulley pair; not a claim of real physical interference or clearance."
+          },
+          "currentDecisionEvidence": "preparation/5-tou-shi-che/omission-repair-20261011.json"
+        }
+      ]
     },
     {
       "slug": "5-tui-tu-ji",
@@ -6674,117 +6850,48 @@
             "4-dao-dan-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
-        },
-        {
-          "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
-          "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
-          "candidates": [
-            "2332ac01",
-            "4253c01",
-            "61649",
-            "90265"
-          ],
-          "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-          ],
-          "sourcesTried": [
-            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-          ],
-          "geometryLicense": null,
-          "approximationBoundary": "No new geometry invented",
-          "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-ma-tou-diao-ji",
-              "sourcePage": 9,
-              "location": "frame mould detail obscured; existing61649+90265 used",
-              "quantity": 1,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
-                "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
-              "slug": "4-diao-che",
-              "sourcePage": 4,
-              "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
-              "quantity": 1,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
-              "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
-            }
-          ],
-          "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
-            "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
-            "4-diao-che"
-          ],
-          "issueCountUnit": "part identity/family; not physical piece count"
         }
       ],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-tui-tu-ji",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 2,
+          "sets": 1,
+          "items": [
+            {
+              "page": 3,
+              "id": "61649",
+              "quantity": 1
+            },
+            {
+              "page": 3,
+              "id": "90265",
+              "quantity": 1
+            }
+          ],
+          "gap": "Source1x window assembly identified but orange6344 cockpit rear support geometry/height unresolved; no floating replacement.",
+          "currentDecisionEvidence": "preparation/window-repair-20261011.json",
+          "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b"
+        }
+      ]
     },
     {
       "slug": "5-tuo-gua-che",
-      "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "modelSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/5-tuo-gua-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "a9dbb4938f7bdaacba04f7c139b09ee1abb093dfb7243d01f2174d762e2fce82",
+      "staticInterpretationReportSha256": "2ec55027fc7540fae690c07c9cb005aa0afe44a3723bdf301a0b676ff64bc80b",
       "unresolvedSourceComments": [
-        "// INCOMPLETE pending true cab and four white-window assemblies; no placeholder geometry.",
-        "// Source page 5: four red frames with white four-pane opening, unresolved complete part ID: no fictitious geometry."
+        "// INCOMPLETE pending true cab/canopy; four official red-frame white-window assemblies restored from source."
       ],
       "partIssueFamilies": [
         {
@@ -6850,103 +6957,13 @@
             "4-dao-dan-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
-        },
-        {
-          "key": "candidate:four-pane-window",
-          "category": "candidate_mould_or_assembly",
-          "name": "Red frame with white four-pane insert",
-          "confirmedId": null,
-          "candidates": [
-            "2332ac01",
-            "4253c01",
-            "61649",
-            "90265"
-          ],
-          "missingEvidence": [
-            "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-          ],
-          "sourcesTried": [
-            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-          ],
-          "geometryLicense": null,
-          "approximationBoundary": "No new geometry invented",
-          "occurrences": [
-            {
-              "slug": "4-mo-tian-lun",
-              "sourcePage": 12,
-              "location": "eight cabin windows omitted",
-              "quantity": 8,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
-                "scripts/ldraw-models/4-mo-tian-lun.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tui-tu-ji",
-              "sourcePage": 3,
-              "location": "rear window omitted",
-              "quantity": null,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
-                "scripts/ldraw-models/5-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-tuo-gua-che",
-              "sourcePage": 5,
-              "location": "four windows omitted",
-              "quantity": 4,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
-                "scripts/ldraw-models/5-tuo-gua-che.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "5-ma-tou-diao-ji",
-              "sourcePage": 9,
-              "location": "frame mould detail obscured; existing61649+90265 used",
-              "quantity": 1,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
-                "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
-              ],
-              "missingEvidence": "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
-            },
-            {
-              "slug": "4-dao-dan-che",
-              "sourcePage": 6,
-              "location": "three red2x4x3 frames withwhiteopening four-pane windows",
-              "quantity": 3,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\source-review.md",
-              "missingEvidence": "2332ac01/4253c01 unverified; omitted, roof partially unsupported."
-            },
-            {
-              "slug": "4-diao-che",
-              "sourcePage": 4,
-              "location": "existing61649+90265 assembly used; old/new rear mould uncertain",
-              "quantity": 1,
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-diao-che\\REVIEW.md",
-              "missingEvidence": "Frontoutline supported by source; hidden old/new mould detail unresolved. Not a missingDAT claim."
-            }
-          ],
-          "affectedCourses": [
-            "4-mo-tian-lun",
-            "5-tui-tu-ji",
-            "5-tuo-gua-che",
-            "5-ma-tou-diao-ji",
-            "4-dao-dan-che",
-            "4-diao-che"
-          ],
-          "issueCountUnit": "part identity/family; not physical piece count"
         }
       ],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-wo-lun-diao-qiao",
@@ -7003,7 +7020,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-xiao-niao-de-chi-bang",
@@ -7023,7 +7041,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-xuan-yi-fei-ji",
@@ -7087,7 +7106,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-xuan-zhuan-deng-long",
@@ -7108,7 +7128,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-xuan-zhuan-ka-fei-bei",
@@ -7184,7 +7205,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-ya-mian-ji",
@@ -7240,7 +7262,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-yao-yao-che",
@@ -7257,7 +7280,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-yi-dong-guang-gao-pai",
@@ -7278,7 +7302,29 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-yi-dong-guang-gao-pai",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 1,
+          "items": [
+            {
+              "page": 6,
+              "id": "6526.dat",
+              "quantity": 1
+            }
+          ],
+          "gap": "Lower pulley corrected from Y-148 to-127 using source support and official geometry; 6526 is still omitted because upper-beam seating depth, secondary pin engagement and hidden shaft stack remain unresolved.",
+          "source": [
+            "preparation/5-yi-dong-guang-gao-pai/static-alarm-review.json",
+            "preparation/5-yi-dong-guang-gao-pai/step6-carrier-evidence.json"
+          ],
+          "geometryAvailable": true,
+          "currentDecisionEvidence": "preparation/5-yi-dong-guang-gao-pai/omission-repair-20261011.json",
+          "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf"
+        }
+      ]
     },
     {
       "slug": "5-yu-er-de-wei-ba",
@@ -7297,7 +7343,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     },
     {
       "slug": "5-yu-hang-yuan-xun-lian-ji",
@@ -7320,7 +7367,35 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-yu-hang-yuan-xun-lian-ji",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 4,
+          "items": [
+            {
+              "page": 6,
+              "id": "6529.dat",
+              "quantity": 1
+            },
+            {
+              "page": 6,
+              "id": "31622.dat",
+              "quantity": 1
+            },
+            {
+              "page": 6,
+              "id": "6523.dat",
+              "quantity": 2
+            }
+          ],
+          "gap": "Old red-left/blue-right and80LDU candidates rejected. Re-view shows blue crown near left corner and red gear to right, but exact hole pair, crown face and short-axle insertion depth remain unresolved. Historical candidate evidence is explicitly superseded.",
+          "source": "preparation/5-yu-hang-yuan-xun-lian-ji/unassembled-p6-evidence.json",
+          "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+          "currentDecisionEvidence": "preparation/5-yu-hang-yuan-xun-lian-ji/omission-repair-20261011.json"
+        }
+      ]
     },
     {
       "slug": "5-zhuan-wan-xiao-che",
@@ -7393,7 +7468,8 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-checks-in-progress"
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": []
     }
   ]
 }

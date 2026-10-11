@@ -1,7 +1,7 @@
 {
   "slug": "4-dao-dan-che",
-  "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
-  "placements": 60,
+  "sourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+  "placements": 66,
   "steps": 13,
   "sourcePagesActuallyViewed": 14,
   "sourceImagesRoot": "D:/Codex-task-2-20261011/source-pages/4-dao-dan-che",
@@ -154,6 +154,42 @@
       "status": "Official"
     },
     {
+      "id": "61649.dat",
+      "sha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8",
+      "name": "Duplo Door Frame  2 x  4 x  3 with Completely Open Back",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 144,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "status": "Official",
+      "notes": [
+        "Auto-generated: rectangular approximation for window-door part. Actual geometry may differ significantly."
+      ]
+    },
+    {
+      "id": "90265.dat",
+      "sha256": "e2c13bb59f14aaf887969736f299dd424959c15e2be6ba1a3206efe9fcc77259",
+      "name": "Duplo Window  1 x  4 x  3 with Flat Top with 4 Same Size Panes",
+      "bbox": {
+        "xMin": -133.5,
+        "xMax": 2.5,
+        "yMin": -60,
+        "yMax": 60,
+        "zMin": -2.5,
+        "zMax": 2.5
+      },
+      "status": "Official",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Verified against local official 90265.dat (2022-01, CC BY 4.0) and s/27382s02.dat on 2026-09-07. Hinge-origin pane body bounds X=-133.5..2.5, Y=-60..60, Z=-2.5..2.5.",
+        "Closed installation in 61649.dat uses frame-relative offset (65.5,72,-40). Manual hinge support/collision review is required; this is not a top-centered structural brick."
+      ]
+    },
+    {
       "id": "74957.dat",
       "sha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
       "name": "Duplo clutch element with thread",
@@ -210,7 +246,7 @@
       ]
     }
   ],
-  "finalPixelReview": "pending",
-  "stepPixelReview": "pending",
+  "finalPixelReview": "current final3 actually reviewed",
+  "stepPixelReview": "all13 current cumulative steps actually reviewed",
   "status": "INCOMPLETE / pending user confirmation"
 }

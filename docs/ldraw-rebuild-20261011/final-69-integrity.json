@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-11T08:42:04.001Z",
+  "generatedAt": "2026-10-11T09:01:56.926Z",
   "method": "Lightweight hashes/byte equality/report SHA and confirmation scan; unchanged source and package hashes reuse independent mesh/closure QA. No new pixel inspection inferred.",
   "summary": {
     "models": 69,
     "consistencyFailures": 0,
-    "confirmationFieldsChecked": 548,
+    "confirmationFieldsChecked": 551,
     "confirmationTrue": 0,
     "legacyCourses": 20,
     "legacyEvidenceMismatches": 0
@@ -60,7 +60,7 @@
     },
     {
       "slug": "4-dao-dan-che",
-      "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "sourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
       "sourceUnchangedSinceMeshQA": true,
       "packageUnchangedSinceMeshQA": true,
       "repoDByteIdentical": true,
@@ -180,7 +180,7 @@
     },
     {
       "slug": "4-mo-tian-lun",
-      "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "sourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
       "sourceUnchangedSinceMeshQA": true,
       "packageUnchangedSinceMeshQA": true,
       "repoDByteIdentical": true,
@@ -696,7 +696,7 @@
     },
     {
       "slug": "5-tuo-gua-che",
-      "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "sourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
       "sourceUnchangedSinceMeshQA": true,
       "packageUnchangedSinceMeshQA": true,
       "repoDByteIdentical": true,
@@ -1350,7 +1350,7 @@
     "limit": "Historical owner attestations are indexed, not independently re-performed here. Hash checks cannot prove viewing; current D visual records stay separate."
   },
   "pixelCoverage": {
-    "checkedAt": "2026-10-11T08:42:04.955Z",
+    "checkedAt": "2026-10-11T09:01:57.789Z",
     "method": "Union of current explicit image reviews and separately labeled historical owner attestations. Every listed image hash and its own manifest/source/revision checked. No new visual review inferred from existence.",
     "summary": {
       "courses": 69,
@@ -10813,24 +10813,30 @@
     ]
   },
   "repairBatch": {
+    "phase": "final-independent-evidence-integrity-complete",
     "changedSources": [
       {
-        "slug": "5-tou-shi-che",
-        "before": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-        "after": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960"
+        "slug": "4-dao-dan-che",
+        "before": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+        "after": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+        "placementDelta": 6
       },
       {
-        "slug": "5-yi-dong-guang-gao-pai",
-        "before": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
-        "after": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf"
+        "slug": "4-mo-tian-lun",
+        "before": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+        "after": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+        "placementDelta": 8
+      },
+      {
+        "slug": "5-tuo-gua-che",
+        "before": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+        "after": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+        "placementDelta": 8
       }
     ],
-    "previousSnapshot": "preparation\\independent-qa\\before-first-repair-20261011T084118Z",
-    "qaScriptCorrections": [
-      "Coverage counts computed dynamically instead of stale79/97.",
-      "Pixel union coverage requires current source/revision binding as well as image hashes and explicit view attestations.",
-      "QA coverage no longer writes unrelated shared part-registry summaries."
-    ],
-    "noModelOrPackageChangesByThisQA": true
+    "previousSnapshot": "preparation\\independent-qa\\before-window-batch-086b-20261011T084942Z",
+    "ferrisIntermediateSnapshot": "preparation\\independent-qa\\before-ferris-facing-correction-20261011T085748Z",
+    "noModelOrPackageChangesByThisQA": true,
+    "accepted": false
   }
 }

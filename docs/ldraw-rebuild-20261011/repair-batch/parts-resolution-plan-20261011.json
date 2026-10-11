@@ -1,16 +1,19 @@
 {
-  "generatedAt": "2026-10-11T08:27:45.593Z",
-  "scope": "29 existing registry families only; known4 omission groups separately assigned to model owners; no registry/model changes",
+  "generatedAt": "2026-10-11T08:45:46.522Z",
+  "scope": "原29家族逐行更新；只编辑本方案JSON/Markdown，不改registry、模型或验收状态",
   "groupDefinitions": {
-    "1": "现有源+本地正规几何可立即收敛/修复",
-    "2": "公开官方目录/几何检索仍可推进；须先核身份与许可闭包，不保证已能解决",
-    "3": "现证据不足：需局部新源图/实物尺寸/来源许可或明确近似授权"
+    "1": "现有正规件已解决身份或有局部补装证据；明确区分两者",
+    "2": "可继续目录/源版本研究，但未有可直接装配的完整证据",
+    "3": "需源细节、实测、柔性连接或许可几何证据"
   },
   "webEvidence": [
     {
       "url": "https://library.ldraw.org/parts/list?tableSearch=32ac01.dat",
       "finding": "Official list indexed2332ac01 Duplo Door Frame2x4x3 Raised Door Outline Complete; direct fetch inaccessible, license header/dependency file not yet obtained.",
-      "status": "catalog presence confirmed, geometry not downloaded"
+      "status": "historical_superseded",
+      "historicalOnly": true,
+      "supersededBy": "parts-resolution-evidence/new-official-closure.json",
+      "currentFinding": "旧direct-fetch-inaccessible不再有效：2332ac01/4253c01/74656已真实GET并完成90文件闭包；用于研究比较，不代表当前窗型或小车已修复。"
     },
     {
       "file": "parts-resolution-evidence/official-probes.json",
@@ -25,16 +28,28 @@
     "4-tui-tu-ji/source/page-07.png",
     "5-wo-lun-diao-qiao/source-11.jpg"
   ],
-  "classificationBoundary": "Known approved approximate geometry (71981/31196c01) is kept separate from official geometry and unknown identity. No new approximate piece invented. Category2 is a research path, not a promise of available mesh.",
+  "classificationBoundary": "29互斥分类是家族处理状态，不是课程完成计数。4198身份解决1；窗族可实施局部1；研究几何下载与完整依赖不等于源身份、装配或实物验证。已有近似与正规件分开。",
   "summary": {
     "originalFamilies": 29,
     "resolvedExistingIdentity": 1,
     "remainingFamilies": 28,
     "groups": {
-      "1": 1,
-      "2": 14,
+      "1": 2,
+      "2": 13,
       "3": 14
-    }
+    },
+    "exclusiveCategories": {
+      "licensed_geometry_missing": 7,
+      "identity_geometry_research": 12,
+      "flexible_interface_evidence": 4,
+      "resolved_identity": 1,
+      "ready_partial": 1,
+      "figure_variant_evidence": 1,
+      "regular_geometry_needs_source": 3
+    },
+    "sourceConfirmedPartialWindowAssemblies": 11,
+    "partialWindowCourses": 3,
+    "fullCoursesCompletedByThisPlan": 0
   },
   "rows": [
     {
@@ -104,6 +119,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -194,6 +228,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -270,6 +323,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -336,7 +408,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Mold-version/side-rib confirmation and licensed geometry"
+        ],
+        "nextAction": "按机关枪p10、狙击枪p8、塔吊p18和龙门吊p11分别比较U架侧筋、孔距及基座；检索2223及正式别名的PT/官方组件，取得作者许可和依赖后再逐课装配。不能仅凭黑色U形把四课模具版本合并。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "2223仍为U架候选；四课侧筋、孔距、模具版本未统一证实，且现有检索无可复用许可几何。须逐课局部正反图与有权CAD，目录研究可继续。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "2223仍为U架候选；四课侧筋、孔距、模具版本未统一证实，且现有检索无可复用许可几何。须逐课局部正反图与有权CAD，目录研究可继续。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "6670c01",
@@ -411,6 +502,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry; short thick6669c01 rejected"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -464,6 +574,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -506,7 +635,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Author/provenance/redistribution permission for existing old mesh"
+        ],
+        "nextAction": "现有31193 DAT作者空白、无LICENSE，不能因在本地就复用。先追原作者/原始可再分发来源；若仍无许可，需有权的重新建模授权及门厚/铰轴照片，不覆盖旧件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "本地31193旧网格作者/许可缺失，不可因本地存在就复用；需要合法来源或基于尺寸的独立原创。",
+      "currentEvidence": [
+        "existing local31193 provenance review"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "本地31193旧网格作者/许可缺失，不可因本地存在就复用；需要合法来源或基于尺寸的独立原创。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "58629",
@@ -563,7 +711,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Source decoration version and complete drum/cradle geometry"
+        ],
+        "nextAction": "蜘蛛p6先核桶口、轴端与底架关系，查58629及印花后缀；须完整桶体+95219c01底架，不能用42235单桶替代。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "蜘蛛大筒候选58629家族，印花/筒口/轴端未锁定；42235已排除。必须连同95219c01托架解决，当前没有完整可装几何。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "蜘蛛大筒候选58629家族，印花/筒口/轴端未锁定；42235已排除。必须连同95219c01托架解决，当前没有完整可装几何。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "95219c01",
@@ -615,6 +782,25 @@
         "unofficialAvailable": false,
         "license": null,
         "nextAction": "Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable base assembly geometry"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -691,7 +877,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Course-specific cord routing/length/knots and retention; hook4663 now available"
+        ],
+        "nextAction": "已知官方4663钩和6527轮可用；五课逐一取得绳长、端结、绕轮路径与固定点证据。若只需展示线，需明确允许示意并标无机械验收；不要重新称钩缺几何。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4663正规钩和6527轮已具备，阻塞是各课绳长、端结、绕轮与固定点，不再描述为钩缺几何。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "4663正规钩和6527轮已具备，阻塞是各课绳长、端结、绕轮与固定点，不再描述为钩缺几何。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "71059",
@@ -730,7 +935,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Source belt ID/length and approved flexed depiction"
+        ],
+        "nextAction": "旋翼飞机p6/7核四根带的截面、自然长度与绕轮关系；先核9656库存71059是否同件，随后需可再分发柔性模板或允许示意的范围。不能从圆环DAT推定拉伸长度或张力。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "皮带71059仍需源件自然长度、截面及绕轮路径；正规圆环或库存不证明张力和变形姿态。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "皮带71059仍需源件自然长度、截面及绕轮路径；正规圆环或库存不证明张力和变形姿态。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:yellow-concave-ears",
@@ -761,7 +985,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact design ID not identified; convex slopes explicitly rejected."
+        ],
+        "nextAction": "舞狮黄色凹弧耳先以已看源页轮廓核目录：关键为凹弧、凸点数及背面固定点。检索官方Duplo凹曲件，不用已排除凸坡件；官方匹配仍无结果时才请求局部正反近照。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "舞狮凹弧耳身份未明；凸坡候选已排除。需要凹面、背面接点的清晰局部图或官方套装映射。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "舞狮凹弧耳身份未明；凸坡候选已排除。需要凹面、背面接点的清晰局部图或官方套装映射。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:blue-toolo-wing-claw",
@@ -800,7 +1043,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Author source visual-family match only; exact ID, handedness and licensed geometry remain unverified."
+        ],
+        "nextAction": "独角仙p5/8与快艇分别比两翼/钳口长度、手性、螺纹轴连接，查Toolo套装官方库存designID，再查官方LDraw。视觉家族相似不等于同一编号，不能拿普通31215翼替换。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "独角仙与快艇的蓝翼/钳只能作视觉家族比较；编号、手性和螺纹接口未证实，不能跨课合并或用31215代替。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "独角仙与快艇的蓝翼/钳只能作视觉家族比较；编号、手性和螺纹接口未证实，不能跨课合并或用31215代替。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "candidate:three-blade-propeller",
@@ -851,7 +1113,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Need match actual source length, width and mount to catalog; no transfer of helicopter/drone confirmed6670c01 identity."
+        ],
+        "nextAction": "快艇和潜水艇源图分别核长窄叶/短厚叶、毂深和螺纹座，比较6669c01和6670c01；借用worker6670公开几何结果但不得转移直升机身份。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "快艇/潜水艇需逐课分辨6669c01短厚叶与6670c01长窄叶；直升机的确认身份不能迁移，几何结果也不是源身份。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "快艇/潜水艇需逐课分辨6669c01短厚叶与6670c01长窄叶；直升机的确认身份不能迁移，几何结果也不是源身份。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:orange-toothed-blade",
@@ -882,7 +1163,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "No reliable ID from current source/inventory research; not6294 scoop."
+        ],
+        "nextAction": "翼龙p7/10四件宽齿曲板，从齿数、侧夹方向及宽度查9090/Toolo官方库存并对源；不能复用6294无齿铲。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "翼龙4件齿板仍未知ID；需要齿数、侧夹和厚度/接口证据，不是6294无齿铲。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "翼龙4件齿板仍未知ID；需要齿数、侧夹和厚度/接口证据，不是6294无齿铲。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:orange-bulldozer-blade",
@@ -913,7 +1213,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact ID andgeometry unverified; resemblance alone does not merge with pterosaur rake."
+        ],
+        "nextAction": "4推土p5单片铲刀与翼龙齿板独立检索；核齿边、两侧连接孔/叉、宽度，再查官方DAT。没有匹配时需前后照片，不先合并为同件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4推土单片铲刀独立未定ID；需正反轮廓与两侧接口，不能因橙色或齿边直接合并为翼龙件。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "4推土单片铲刀独立未定ID；需正反轮廓与两侧接口，不能因橙色或齿边直接合并为翼龙件。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:blue-drum",
@@ -944,7 +1263,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "No reliable ID; top has no ordinary studs; not automatically60777/31180."
+        ],
+        "nextAction": "压路机p12/13两蓝半鼓查无stud顶、环缘、中央轴孔的Duplo筒件，按合拢后横滚筒特征查套装说明；不自动套60777/31180。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "压路机两半蓝鼓编号未明；需无stud顶、环缘及中央孔照片，不自动认60777/31180。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "压路机两半蓝鼓编号未明；需无stud顶、环缘及中央孔照片，不自动认60777/31180。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "candidate:track",
@@ -989,17 +1327,34 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Existing71981 approximation approval does not independently prove this source track identity."
+        ],
+        "nextAction": "71981现有CC BY4已批准近似不是正规精确几何。4推土p3/4可继续核履带节纹与轮距；要准确配合仍需环长、内节距、轮槽证据或批准固定展示形变，不能宣称已有近似即可直接修。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "71981是已有许可且获旧批准的近似件，不能等同精确源履带；轮槽/内节距/环长与轮距配合仍需实测或明确展示形变边界。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "71981是已有许可且获旧批准的近似件，不能等同精确源履带；轮槽/内节距/环长与轮距配合仍需实测或明确展示形变边界。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "candidate:double-curved-brick",
       "name": "Red double-curved2x4 brick",
       "group": 1,
-      "identityStatus": "confirmed_by_source_shape_and_owner",
+      "identityStatus": "confirmed",
       "confirmedId": "4198",
-      "candidateIds": [
-        "4198"
-      ],
+      "candidateIds": [],
       "aliases": [],
       "originalCategory": "candidate_identity_unresolved",
       "courses": [
@@ -1012,10 +1367,8 @@
           "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c"
         }
       ],
-      "missingEvidence": [
-        "Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT."
-      ],
-      "nextAction": "本轮实看4推土p7：四stud顶、双圆端、2砖高与本地Official4198一致，当前三件已采用4198。主可将旧98223猜测和缺件身份条目收敛为4198源图形态确认；不新增几何，不等于履带/铲刀已解决。",
+      "missingEvidence": [],
+      "nextAction": "无需新增几何；主线程按source-identity-quantity-recheck修正旧98223/身份待定记录。",
       "localGeometry": [
         {
           "id": "4198",
@@ -1035,7 +1388,7 @@
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
       "notClaimedResolved": false,
-      "resolutionStatus": "resolved_identity_existing_part_no_model_addition",
+      "resolutionStatus": "identity_resolved_existing_official_placements",
       "ownerConfirmation": "preparation/source-identity-quantity-recheck-20261011.json",
       "inventoryBoundary": {
         "referenceRows": [
@@ -1054,6 +1407,25 @@
           "quantity": 3
         },
         "note": "Identity closure does not establish three red pieces in user stock; colour/quantity availability is independent."
+      },
+      "previousPlan": {
+        "group": 1,
+        "missingEvidence": [
+          "Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT."
+        ],
+        "nextAction": "本轮实看4推土p7：四stud顶、双圆端、2砖高与本地Official4198一致，当前三件已采用4198。主可将旧98223猜测和缺件身份条目收敛为4198源图形态确认；不新增几何，不等于履带/铲刀已解决。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "resolved_identity",
+      "currentConclusion": "4推土p7三件已按源图及官方4198独特形态确认，当前源稿已有3件；仅身份条目关闭，不代表课程或其他缺件完成。",
+      "currentEvidence": [
+        "source-identity-quantity-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "resolved_identity",
+        "conclusion": "4推土p7三件已按源图及官方4198独特形态确认，当前源稿已有3件；仅身份条目关闭，不代表课程或其他缺件完成。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -1192,20 +1564,34 @@
         ],
         "source": "inputs/inventory-evidence.json",
         "limit": "17562 screen row does not establish6344 or source base identity; verified45002 aliases do not include6344/31196c01."
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact base ID/licensed geometry not established.6345 canopy is known; canopy geometry does not establish base identity."
+        ],
+        "nextAction": "5推土p3、拖挂p4、导弹p5逐一分离底座和罩，查6344/17562正式几何及库存；现有6345正规罩不能证明底座，31196c01只是已批准近似，不可当精确替代。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "三课车头底座仍待6344/17562等源型确认及正规几何；6345罩已知可用不等于底座解决，31196c01仅旧批准近似。5推土的橙色6344候选后承台平面未闭合，阻塞窗框落座。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "三课车头底座仍待6344/17562等源型确认及正规几何；6345罩已知可用不等于底座解决，31196c01仅旧批准近似。5推土的橙色6344候选后承台平面未闭合，阻塞窗框落座。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
       "key": "candidate:four-pane-window",
       "name": "Red frame with white four-pane insert",
-      "group": 2,
-      "identityStatus": "unresolved_or_candidate",
+      "group": 1,
+      "identityStatus": "confirmed_for_four_source_courses_two_hidden_mould_observations_remain",
       "confirmedId": null,
-      "candidateIds": [
-        "2332ac01",
-        "4253c01",
-        "61649",
-        "90265"
-      ],
+      "candidateIds": [],
       "aliases": [],
       "originalCategory": "candidate_mould_or_assembly",
       "courses": [
@@ -1259,9 +1645,11 @@
         }
       ],
       "missingEvidence": [
-        "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+        "摩天轮剩余4套：占蓝板上4排还是叠在前框外侧、背面窗朝向未解。",
+        "5推土1套：缺6344候选车头后承台的stud平面高度及足迹；不得省略承台直接落黄车体。",
+        "5码头p9/4吊车p4背模隐藏，未重新确证；保留观察项，不当未知ID。"
       ],
-      "nextAction": "先按已授权9090-2库存61649红框+90265白四格（各6）与各课源前脸、门窗铰链对照；一致者可用现有正规DAT实施，不需默认等背面照片。摩天轮8套须记单套额外2。新2332ac01/4253c01已获得正规闭包，但只作旧框版本比较，不自动替换优先套装件。",
+      "nextAction": "补装并验收拖挂4/导弹3/摩天轮前4；推土待6344承台，摩天轮后4待布局证据。5码头p9/4吊车p4保留背模隐藏观察项；若要消除其精确模具限制，需背面图或明确套装模具来源。",
       "localGeometry": [
         {
           "id": "2332ac01",
@@ -1298,7 +1686,7 @@
         "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
-      "externalBlocker": null,
+      "externalBlocker": "仅剩余子集需承台几何或背面源图；已具备证据的11套无需等新许可/背面照片。",
       "notClaimedResolved": true,
       "inventoryEvidence": {
         "set": "9090-2",
@@ -1352,7 +1740,92 @@
         "closed": true,
         "license": "CC BY4.0",
         "clarification": "Complete refers to frame+rear-panel, NOT frame+white4pane window;90265 remains a separate insert. Source old/new frame not confirmed by filename."
-      }
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+        ],
+        "nextAction": "先按已授权9090-2库存61649红框+90265白四格（各6）与各课源前脸、门窗铰链对照；一致者可用现有正规DAT实施，不需默认等背面照片。摩天轮8套须记单套额外2。新2332ac01/4253c01已获得正规闭包，但只作旧框版本比较，不自动替换优先套装件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "ready_partial",
+      "confirmedIds": [
+        "61649",
+        "90265"
+      ],
+      "currentConclusion": "已确认61649红框+90265白四等格窗；拖挂4套、导弹3套、摩天轮前4套具有局部补装证据，共11套/22个DAT引用。仍是候选/集成验收过程，不计3课完成。 本次身份确认限定推土/拖挂/导弹/摩天轮4课；5码头p9和4吊车p4已有61649+90265，但背模未重新证实，只保留hidden-mould观察限制，不重计未知ID或缺整套，不能关闭整个family。",
+      "currentEvidence": [
+        "window-repair-20261011.json",
+        "4-mo-tian-lun/window-first-four-evidence.json"
+      ],
+      "installableSubset": [
+        {
+          "slug": "5-tuo-gua-che",
+          "count": 4,
+          "candidatePath": "preparation\\5-tuo-gua-che\\window-candidate.ldr",
+          "candidateSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+          "currentSourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        },
+        {
+          "slug": "4-dao-dan-che",
+          "count": 3,
+          "candidatePath": "preparation\\4-dao-dan-che\\window-candidate.ldr",
+          "candidateSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+          "currentSourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        },
+        {
+          "slug": "4-mo-tian-lun",
+          "count": 4,
+          "candidatePath": "preparation/4-mo-tian-lun/window-first-four-candidate.ldr",
+          "candidateSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
+          "currentSourceSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        }
+      ],
+      "inventoryBoundary": "9090-2参考库存各6；摩天轮完整8套各需额外2，但当前可补4套不超6。实际用户库存unknown；各课独立用量不混加为同时库存。",
+      "currentAssessment": {
+        "classification": "ready_partial",
+        "conclusion": "已确认61649红框+90265白四等格窗；拖挂4套、导弹3套、摩天轮前4套具有局部补装证据，共11套/22个DAT引用。仍是候选/集成验收过程，不计3课完成。 本次身份确认限定推土/拖挂/导弹/摩天轮4课；5码头p9和4吊车p4已有61649+90265，但背模未重新证实，只保留hidden-mould观察限制，不重计未知ID或缺整套，不能关闭整个family。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      },
+      "confirmedSourceCourses": [
+        "5-tui-tu-ji",
+        "5-tuo-gua-che",
+        "4-dao-dan-che",
+        "4-mo-tian-lun"
+      ],
+      "hiddenMouldObservations": [
+        {
+          "slug": "5-ma-tou-diao-ji",
+          "sourcePage": 9,
+          "status": "hidden_mould_observation_only",
+          "currentParts": [
+            "61649.dat",
+            "90265.dat"
+          ],
+          "exactRearMouldReconfirmed": false,
+          "unknownId": false
+        },
+        {
+          "slug": "4-diao-che",
+          "sourcePage": 4,
+          "status": "hidden_mould_observation_only",
+          "currentParts": [
+            "61649.dat",
+            "90265.dat"
+          ],
+          "exactRearMouldReconfirmed": false,
+          "unknownId": false
+        }
+      ],
+      "familyClosed": false
     },
     {
       "key": "unknown:child-figure-variants",
@@ -1399,7 +1872,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+        ],
+        "nextAction": "咖啡杯10人、转弯车1司机需各自头/手/躯干/裤腿/印花局部图或允许装饰近似范围；军舰已有2官方拆分人偶只缺准确图案，不能重复计为缺整人。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "咖啡杯10人及转弯车司机需逐人头/帽/手/腿/印花证据；军舰已有2官方拆分人偶仅装饰未定，不能重复计作整人缺失。",
+      "classification": "figure_variant_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "figure_variant_evidence",
+        "conclusion": "咖啡杯10人及转弯车司机需逐人头/帽/手/腿/印花证据；军舰已有2官方拆分人偶仅装饰未定，不能重复计作整人缺失。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "candidate:small-car-base",
@@ -1468,6 +1960,25 @@
         "license": "CC BY4.0",
         "closed": true,
         "distinction": "74656 contains2313a wheels;10715p01/p02 contain2313b fake-bolt wheels with fixed red/yellow colours."
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exactwheel/base variant not confirmed; omitted."
+        ],
+        "nextAction": "本轮重看吊桥p11明确2x6红车黄轮及黄车红轮，现有Official10715p02/p01可作精确比较候选；比较2313b假螺栓轮毂与74656模具后再放置，不因颜色相同判定。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "官方74656及现有10715p01/p02可用于两辆2x6小车的版本比较；74656用2313a，10715用2313b轮毂。源p11轮毂/轴型仍未唯一确认，下载闭包不等于车已补装。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/new-official-closure.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "官方74656及现有10715p01/p02可用于两辆2x6小车的版本比较；74656用2313a，10715用2313b轮毂。源p11轮毂/轴型仍未唯一确认，下载闭包不等于车已补装。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
       }
     },
     {
@@ -1526,7 +2037,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Green colour is not length proof; source length andcoupler insertion depth unresolved."
+        ],
+        "nextAction": "帆船p11/12候选6521(8L)/6522(6L)正规几何齐全；需要杆全长和接头插入深度的正视比例/原BOM或实物，绿色不能证明长度，禁止重叠两杆凑总高。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "帆船6根桅杆的6521/6522正规DAT已齐，缺全长及31625两端插入深度证据；绿色不证明8L，禁止两杆重叠凑高。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "帆船6根桅杆的6521/6522正规DAT已齐，缺全长及31625两端插入深度证据；绿色不证明8L，禁止两杆重叠凑高。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "candidate:tray-loose-shafts",
@@ -1583,7 +2113,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Material icon gray shaft andfinal greenends conflict; exact length/identity unverified."
+        ],
+        "nextAction": "压面机p5材料栏灰杆与成品绿端矛盾，需高清原页或长度标记，6521/6522正规DAT已齐。先保持两杆遗漏，不能任意选色/长。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "压面机2杆的6521/6522正规DAT已齐；材料栏灰与成品绿存在差异，需长度标记/BOM或量尺照片，不任意选色选长。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "压面机2杆的6521/6522正规DAT已齐；材料栏灰与成品绿存在差异，需长度标记/BOM或量尺照片，不任意选色选长。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:gantry-hook-pulley",
@@ -1614,7 +2163,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Real IDs not verified; not4663short yellowhook. Compact Uholder candidate2223 tracked separately."
+        ],
+        "nextAction": "龙门吊p11灰小轮+长黑钩分别对官方Duplo钩/滑轮目录，识别孔、长颈和绳槽。明确不是4663短钩，2223支架另条，不把总成单ID假定。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "龙门吊灰轮+黑长钩仍需分别确认ID与许可几何；不是4663短钩，2223架单独跟踪。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "龙门吊灰轮+黑长钩仍需分别确认ID与许可几何；不是4663短钩，2223架单独跟踪。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:gantry-cord",
@@ -1647,7 +2215,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Length/material,knots androuting unknown; no evidence it is75536assembly."
+        ],
+        "nextAction": "龙门吊p10-12绳材/长度/两端结和绕轮路径需详细源或实物；不默认75536。若展示用连线需单独定义标注，不能当承载构件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "龙门吊绳的材质、长度、两端结和绕轮路径未解，不默认75536；示意连线不能计为承载验证。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "龙门吊绳的材质、长度、两端结和绕轮路径未解，不默认75536；示意连线不能计为承载验证。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:large-toolo-hook",
@@ -1680,7 +2267,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact catalogidentity for largefork-top Toolo hook andlicensed matchinggeometry or explicitapproximation approval. No candidate promoted from inventory resemblance."
+        ],
+        "nextAction": "4吊车p8大灰钩先比叉顶/枢轴/钩口；15449、14013c01、4663均不是已确认候选。查官方套装design/element映射后再检索几何，不能按名称选钩。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4吊车大灰叉顶钩未定ID；需叉顶、枢轴、钩口近照和目录映射，15449/14013c01/4663不能按名称转正。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "4吊车大灰叉顶钩未定ID；需叉顶、枢轴、钩口近照和目录映射，15449/14013c01/4663不能按名称转正。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     },
     {
       "key": "unknown:warship-mixer-assembly",
@@ -1711,7 +2317,26 @@
       ],
       "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
       "externalBlocker": null,
-      "notClaimedResolved": true
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Sourcep16 exactpart orassembly IDs andlicensed source-matchinggeometry notconfirmed; omitted"
+        ],
+        "nextAction": "军舰p16对黄桶的口沿、轴、托架/底座逐组件查目录；蜘蛛58629/95219c01只作比较，不跨课默认确认。需同时解决桶体和转座许可几何。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "军舰黄筒总成身份和转座几何未确认；蜘蛛58629/95219c01只能作对照，不能跨课默认。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "军舰黄筒总成身份和转座几何未确认；蜘蛛58629/95219c01只能作对照，不能跨课默认。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
     }
   ],
   "geometryDeliverables": {
@@ -2951,8 +3576,46 @@
     "repoChanged": false
   },
   "notes": [
-    "Do not aggregate duplicate source observations into quantities.4433c01 roller p7 is1, supplemental registry2 superseded by original source.",
-    "4198 resolves identity documentation only; currentLDR alreadycontains3.",
-    "Six official-geometry absent families escalated to external evidence/authorized modelling route after completed worker check."
+    "压路机4433c01源p7为1件；旧supplemental2是错误，不能重复相加。",
+    "4198源p7为3件，现有源稿已有，无新增件。",
+    "窗族三课共11套局部安装已获源及DAT接口证据，仍需主集成和实际像素验收；推土6344承台与摩天轮后4套待证。",
+    "旧网络不可访问仅作历史，最新真实GET和闭包优先；6已知缺几何家族无匹配文件的结果不能被3个其他根文件下载替代。",
+    "常规几何齐全但仍需源版本/尺寸证据的3族是小车底盘、帆船杆、压面机杆。",
+    "本方案只更新研究结论，不改共享registry、模型、用户确认或生产状态。"
+  ],
+  "classificationDefinitions": {
+    "resolved_identity": "身份已解决，现有正规件已在源稿",
+    "ready_partial": "正规几何及局部安装证据具备，可继续补装/验收",
+    "regular_geometry_needs_source": "正规几何齐，仍需源版本或长度/插深证据",
+    "licensed_geometry_missing": "缺可再分发几何或许可；需有权CAD或实测后原创",
+    "identity_geometry_research": "身份/模具/组件仍需核查，不能直接安装",
+    "flexible_interface_evidence": "柔性路径、长度或轮件配合仍需证据",
+    "figure_variant_evidence": "人物变体/装饰与逐人源图仍需证据"
+  },
+  "evidenceReferences": [
+    {
+      "file": "preparation/official-geometry-recheck-20261011.json",
+      "sha256": "3cd71aa0c6424e2ff16a195ca0a02a92f031ccd18a2687ad53c0a92692c000b3"
+    },
+    {
+      "file": "preparation/source-identity-quantity-recheck-20261011.json",
+      "sha256": "88adfdaf3aa76af69e836476317904cdc9a8aa42958b464cf7a412df540a09f8"
+    },
+    {
+      "file": "preparation/window-repair-20261011.json",
+      "sha256": "0e7ab9371e7726f98919f13aa1b090d2b7e277bbb943f42512ddcef3bf8dd28c"
+    },
+    {
+      "file": "preparation/4-mo-tian-lun/window-first-four-evidence.json",
+      "sha256": "011ae45bdbe43ed2124d35830a1a909ff6ecf81f8c690b2f970ee257aa7cec59"
+    },
+    {
+      "file": "preparation/parts-resolution-evidence/new-official-closure.json",
+      "sha256": "2e940b6e8d884c11fd05f97df946a28e3ea458a5262687be1b9750d40311d601"
+    },
+    {
+      "file": "preparation/parts-resolution-evidence/official-probes.json",
+      "sha256": "f612b2d852e41a95d37d05c0602f506e0dbba5d55f4cdfbbbc8351cbfb9cc290"
+    }
   ]
 }

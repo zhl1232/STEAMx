@@ -1,23 +1,23 @@
 {
-  "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
-  "revision": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
-  "reviewedAt": "2026-10-11T08:12:51.495395+00:00",
+  "sourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+  "revision": "59682e1b6d1eced6054823969afbe51be1d42064763d9690d1183b6377b52ae4",
+  "reviewedAt": "2026-10-11T08:52:13.806491+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tuo-gua-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "09ea4acc0f4edad7f41d6bca05edd7e7613515f3966703e237434f5023c070a6",
+      "sha256": "f74edfb3575743f5e52b7a411aae5a7c20e27bbd8cbe55e57c77d6acc2fdb262",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "751643e4be835b9f8f378e5b911ff2bb71acdb3cc9b1299cc6aa3587ca8e1ca7",
+      "sha256": "ef764809594819a710a765c8963976dba7c24268da6ee44f7b78c1d97a1a4e47",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "96948a6900cfb9c1f1c121f3b820e535e41101f0dd0a64fffdd344e7fc884b69",
+      "sha256": "0df5b689c038b23141f8be94ae63f609185426b2131f81a8cee5a5dc45bc938b",
       "pixelsActuallyReviewed": true
     },
     {
@@ -42,67 +42,67 @@
     },
     {
       "view": "step-5",
-      "sha256": "8e38ffd27bcd84568976026f10db553d1abaa261c91b72ad6d1b678cd4ef2952",
+      "sha256": "12780b663a15bb974cf3c26ac3eb4ee7159c50ca19256c5d9d38e8ff4f8c3654",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-6",
-      "sha256": "64f8d26204e8cbc81cf85191aa57280e0801991e1419aafc772b455a0c3330db",
+      "sha256": "5cda51cc8a96198eef6bb5afb2df0f7dd4bf3709de6efb5a53ad259370b37904",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-7",
-      "sha256": "2d759e9f5f03c4aab3f0d4cfcf27b24c788a94cee251f8cbf63c4cbe3216a617",
+      "sha256": "c2642941b7e711233ae7a780ff160be0f0a3f1ec3263142073f7f3d1d330a2b9",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-8",
-      "sha256": "1ddf73a337c756d03e3a36bc37fa9d5a34c23e35375323c7b5dcdac4801ce1ba",
+      "sha256": "efac2fce1c9190fa04c0693de7a67c7498cf04b9f802d806d2fb3e5b9e1e3dca",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-9",
-      "sha256": "e239316b5243ec8ffeda5492f0eff61625cb1367fa0874585f7ff8380366c4a9",
+      "sha256": "919251205a0eb7445f3576026c8450fabb237e1a2648a79e93518d26665fde37",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-10",
-      "sha256": "fb3357b174955d75f07691afede9cabef6e9e8036abbff788c0e39c55100499c",
+      "sha256": "c55de26bc4f652222346803788e0c3251285fd20854502475c95bdeb926bbbd3",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-11",
-      "sha256": "c781609dcd098ef7d8edfe926e897011b816259e567414ca4b4a68314e0cc098",
+      "sha256": "26a0bca800e6c02ad2258384e468a8be8417d4f6142aaeb8e7c18d4949c41cdd",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-12",
-      "sha256": "5390c2eaffe1bd7528faeefd9236817172742ca0461d5a1b9662432c8b6c8054",
+      "sha256": "ba3097fc047fdf59872f7b63cc84a321cedfdc8ae67102fcbd86e31f3020c79b",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-13",
-      "sha256": "76a198a97b6a271291d0bf02502ef6049c4628707d3db3f0a4ce657cf6b1ee81",
+      "sha256": "72916d0d782eef087b83dbd7c7ed09fcd25794204014d940095b306a724db527",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-14",
-      "sha256": "e734ec01de9b2d9455049637e3d4aba335ed9e4b114138db727964102210f7b9",
+      "sha256": "03cf0e979cf5159a412a71f6d0c4f2403002cfd58cc82c53f9a0f8b0f8616fd6",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-15",
-      "sha256": "30ee494424525aaaffdeb5097ab8566e475c8c21a72274234c794333fa568fca",
+      "sha256": "4238d11d189531345d601dd8c8905f8b2091e0688fa6af61b17f40567597c93b",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-16",
-      "sha256": "50711c68962a25e064e2c4aa965161a1f534fb5751614cf0479df881c152e6e6",
+      "sha256": "2e9e49456a66be526ca7df00c50f55b62a41dbb95dc498a3a00586a7ae76604e",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-17",
-      "sha256": "09ea4acc0f4edad7f41d6bca05edd7e7613515f3966703e237434f5023c070a6",
+      "sha256": "f74edfb3575743f5e52b7a411aae5a7c20e27bbd8cbe55e57c77d6acc2fdb262",
       "pixelsActuallyReviewed": true
     }
   ],
@@ -111,5 +111,5 @@
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected all17 D cumulative contact frames and originals step5,13,17; compared source p5,p13,p18. Tractor/trailer rails, gear wheels, floor, stepped blue roof, vertical tow axle/three retainers and five cargo-wall courses follow visible source additions. Source p4 cab/canopy and p5 four white-pane windows omitted: step5 has no visible addition and roof is incompletely supported. Tow pin capture/articulation physically unresolved. Current final3 hash-matched evidence retained. INCOMPLETE, pending user confirmation, no physical validation."
+  "limitations": "After source02ec1a77 window repair, actually viewed final contact and original iso/iso-rear/top plus all17 cumulative contact frames and originals step5/8; re-opened source p5. Four red61649 frames seat on blue sidewalls, white90265 equal panes face outward with matching two hinges, open frame backs visible and roof now seats on frame tops. No visible new window orientation/seating discrepancy found. Cab/canopy remain absent; tow pin retention and articulation/real hinge fit unverified. Renderer-reviewed only, pending user confirmation; no physical validation."
 }

@@ -48,3 +48,11 @@ Actually viewed original iso,iso-rear,top separately and re-opened source p12 an
 ## Inventory
 
 Use supplied9090/45002 evidence, not arbitrary other-set additions. The complete45002 reference has7 black86599 blocks; this source uses10, a reference deficit of3. Seven screw hubs fit its16; four tyres fit8; four gray2x4 bearings fit5; two angled bases fit4; two lower clips match2. Source ordinary blue/yellow bricks, greenplate and curves are compared to9090 evidence in bom-reference.json, whose9090 listing is incomplete. Exact user quantities and color shades remain unknown. Reference deficits are a request for extra stock, not proof the user lacks those pieces.
+
+## Window repair20261011 — supersedes window omission only
+Source page6 actually re-opened. Restored3 red61649 completely-open-back frames with white90265 four-equal-pane windows, 6 DAT placements. Official geometry hinge centres match relative translation(65.5,72,-40); source open back/front/hinges plus9090 reference corroborate identities. Frame bottoms seat on existing blue brick tops, so this repair does not depend on missing cab. Current source has66 placements, unchanged step count.
+Remaining cab/canopy omitted and mechanical limitations persist. Prior final/steps evidence applies only to old source: new render and pixel review required. Reference kit is not an exclusive course BOM; actual user inventory unknown. See ../window-repair-20261011.json. No physical/user acceptance.
+
+Source SHA256 3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644. Raw checker0errors; new final/steps pending.
+
+Window repair source3ed13777/revision66d19e61: actual final3 originals and13 cumulative frames reviewed, p6 reopened. Three fronts/backs/hinges, blue-base seating and roof tops agree visually. Cab/canopy and Toolo approximate interface/hub risks remain. No physical/user acceptance.

@@ -50,5 +50,31 @@
     "cFreeAfter": 1324331008,
     "allCurrentSourceAndMpdHashesVerified": true,
     "accepted": false
+  },
+  {
+    "at": "2026-10-11T08:48:49.162593+00:00",
+    "previousCheckpoint": "086b0a9",
+    "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\086b0a9",
+    "oldMpdCount": 69,
+    "currentMpdCount": 69,
+    "oldBytes": 75854078,
+    "currentBytes": 75921372,
+    "cFreeBefore": 1310707712,
+    "cFreeAfter": 1310576640,
+    "allCurrentSourceAndMpdHashesVerified": true,
+    "accepted": false
+  },
+  {
+    "at": "2026-10-11T08:56:59.698656+00:00",
+    "previousCheckpoint": "086b0a9",
+    "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\086b0a9-before-ferris-facing-correction",
+    "oldMpdCount": 69,
+    "currentMpdCount": 69,
+    "oldBytes": 75921372,
+    "currentBytes": 75921373,
+    "cFreeBefore": 1311903744,
+    "cFreeAfter": 1311838208,
+    "allCurrentSourceAndMpdHashesVerified": true,
+    "accepted": false
   }
 ]

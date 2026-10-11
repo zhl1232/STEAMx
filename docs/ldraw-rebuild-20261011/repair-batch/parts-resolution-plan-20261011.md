@@ -1,49 +1,71 @@
-# 29类零件问题处置计划
+# 原29个零件家族处理方案
 
-原29类保留：1类身份已收敛（4198，未新增模型件），28类仍需处理。组别：{"1":1,"2":14,"3":14}。不把已批准近似当官方精确几何。
+更新：2026-10-11T08:45:46.522Z。本文件只记录处理方案，不把研究下载、候选源稿或局部补装算作整课修复。
 
-## 1 现有源+本地正规几何可立即收敛/修复
+29族互斥分类：
+- 缺可再分发几何或许可；需有权CAD或实测后原创：7族。
+- 身份/模具/组件仍需核查，不能直接安装：12族。
+- 柔性路径、长度或轮件配合仍需证据：4族。
+- 身份已解决，现有正规件已在源稿：1族。
+- 正规几何及局部安装证据具备，可继续补装/验收：1族。
+- 人物变体/装饰与逐人源图仍需证据：1族。
+- 正规几何齐，仍需源版本或长度/插深证据：3族。
 
-- **candidate:double-curved-brick** — 推土机（4-tui-tu-ji，p7）；ID：4198。缺证：Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT.。下一步：本轮实看4推土p7：四stud顶、双圆端、2砖高与本地Official4198一致，当前三件已采用4198。主可将旧98223猜测和缺件身份条目收敛为4198源图形态确认；不新增几何，不等于履带/铲刀已解决。
+身份已解决1族；窗族1族可推进3课11套局部补装；其余27族仍受版本、尺寸/接口、许可或身份约束。整课完成计数为0。
 
-## 2 公开官方目录/几何检索仍可推进；须先核身份与许可闭包，不保证已能解决
+| 家族 | 当前分类 | 逐行结论 / 下一步 |
+|---|---|---|
+| 4433c01 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2. |
+| 45117c01 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed. |
+| 31239c01 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed. |
+| 2223 | 身份/模具/组件仍需核查，不能直接安装 | 2223仍为U架候选；四课侧筋、孔距、模具版本未统一证实，且现有检索无可复用许可几何。须逐课局部正反图与有权CAD，目录研究可继续。 按机关枪p10、狙击枪p8、塔吊p18和龙门吊p11分别比较U架侧筋、孔距及基座；检索2223及正式别名的PT/官方组件，取得作者许可和依赖后再逐课装配。不能仅凭黑色U形把四课模具版本合并。 |
+| 6670c01 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed. |
+| 6295 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed. |
+| 31193 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 本地31193旧网格作者/许可缺失，不可因本地存在就复用；需要合法来源或基于尺寸的独立原创。 现有31193 DAT作者空白、无LICENSE，不能因在本地就复用。先追原作者/原始可再分发来源；若仍无许可，需有权的重新建模授权及门厚/铰轴照片，不覆盖旧件。 |
+| 58629 | 身份/模具/组件仍需核查，不能直接安装 | 蜘蛛大筒候选58629家族，印花/筒口/轴端未锁定；42235已排除。必须连同95219c01托架解决，当前没有完整可装几何。 蜘蛛p6先核桶口、轴端与底架关系，查58629及印花后缀；须完整桶体+95219c01底架，不能用42235单桶替代。 |
+| 95219c01 | 缺可再分发几何或许可；需有权CAD或实测后原创 | 身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。 官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed. |
+| 75536 | 柔性路径、长度或轮件配合仍需证据 | 4663正规钩和6527轮已具备，阻塞是各课绳长、端结、绕轮与固定点，不再描述为钩缺几何。 已知官方4663钩和6527轮可用；五课逐一取得绳长、端结、绕轮路径与固定点证据。若只需展示线，需明确允许示意并标无机械验收；不要重新称钩缺几何。 |
+| 71059 | 柔性路径、长度或轮件配合仍需证据 | 皮带71059仍需源件自然长度、截面及绕轮路径；正规圆环或库存不证明张力和变形姿态。 旋翼飞机p6/7核四根带的截面、自然长度与绕轮关系；先核9656库存71059是否同件，随后需可再分发柔性模板或允许示意的范围。不能从圆环DAT推定拉伸长度或张力。 |
+| unknown:yellow-concave-ears | 身份/模具/组件仍需核查，不能直接安装 | 舞狮凹弧耳身份未明；凸坡候选已排除。需要凹面、背面接点的清晰局部图或官方套装映射。 舞狮黄色凹弧耳先以已看源页轮廓核目录：关键为凹弧、凸点数及背面固定点。检索官方Duplo凹曲件，不用已排除凸坡件；官方匹配仍无结果时才请求局部正反近照。 |
+| unknown:blue-toolo-wing-claw | 身份/模具/组件仍需核查，不能直接安装 | 独角仙与快艇的蓝翼/钳只能作视觉家族比较；编号、手性和螺纹接口未证实，不能跨课合并或用31215代替。 独角仙p5/8与快艇分别比两翼/钳口长度、手性、螺纹轴连接，查Toolo套装官方库存designID，再查官方LDraw。视觉家族相似不等于同一编号，不能拿普通31215翼替换。 |
+| candidate:three-blade-propeller | 身份/模具/组件仍需核查，不能直接安装 | 快艇/潜水艇需逐课分辨6669c01短厚叶与6670c01长窄叶；直升机的确认身份不能迁移，几何结果也不是源身份。 快艇和潜水艇源图分别核长窄叶/短厚叶、毂深和螺纹座，比较6669c01和6670c01；借用worker6670公开几何结果但不得转移直升机身份。 |
+| unknown:orange-toothed-blade | 身份/模具/组件仍需核查，不能直接安装 | 翼龙4件齿板仍未知ID；需要齿数、侧夹和厚度/接口证据，不是6294无齿铲。 翼龙p7/10四件宽齿曲板，从齿数、侧夹方向及宽度查9090/Toolo官方库存并对源；不能复用6294无齿铲。 |
+| unknown:orange-bulldozer-blade | 身份/模具/组件仍需核查，不能直接安装 | 4推土单片铲刀独立未定ID；需正反轮廓与两侧接口，不能因橙色或齿边直接合并为翼龙件。 4推土p5单片铲刀与翼龙齿板独立检索；核齿边、两侧连接孔/叉、宽度，再查官方DAT。没有匹配时需前后照片，不先合并为同件。 |
+| unknown:blue-drum | 身份/模具/组件仍需核查，不能直接安装 | 压路机两半蓝鼓编号未明；需无stud顶、环缘及中央孔照片，不自动认60777/31180。 压路机p12/13两蓝半鼓查无stud顶、环缘、中央轴孔的Duplo筒件，按合拢后横滚筒特征查套装说明；不自动套60777/31180。 |
+| candidate:track | 柔性路径、长度或轮件配合仍需证据 | 71981是已有许可且获旧批准的近似件，不能等同精确源履带；轮槽/内节距/环长与轮距配合仍需实测或明确展示形变边界。 71981现有CC BY4已批准近似不是正规精确几何。4推土p3/4可继续核履带节纹与轮距；要准确配合仍需环长、内节距、轮槽证据或批准固定展示形变，不能宣称已有近似即可直接修。 |
+| candidate:double-curved-brick | 身份已解决，现有正规件已在源稿 | 4推土p7三件已按源图及官方4198独特形态确认，当前源稿已有3件；仅身份条目关闭，不代表课程或其他缺件完成。 无需新增几何；主线程按source-identity-quantity-recheck修正旧98223/身份待定记录。 |
+| candidate:car-cockpit-base | 身份/模具/组件仍需核查，不能直接安装 | 三课车头底座仍待6344/17562等源型确认及正规几何；6345罩已知可用不等于底座解决，31196c01仅旧批准近似。5推土的橙色6344候选后承台平面未闭合，阻塞窗框落座。 5推土p3、拖挂p4、导弹p5逐一分离底座和罩，查6344/17562正式几何及库存；现有6345正规罩不能证明底座，31196c01只是已批准近似，不可当精确替代。 |
+| candidate:four-pane-window | 正规几何及局部安装证据具备，可继续补装/验收 | 已确认61649红框+90265白四等格窗；拖挂4套、导弹3套、摩天轮前4套具有局部补装证据，共11套/22个DAT引用。仍是候选/集成验收过程，不计3课完成。 本次身份确认限定推土/拖挂/导弹/摩天轮4课；5码头p9和4吊车p4已有61649+90265，但背模未重新证实，只保留hidden-mould观察限制，不重计未知ID或缺整套，不能关闭整个family。 补装并验收拖挂4/导弹3/摩天轮前4；推土待6344承台，摩天轮后4待布局证据。5码头p9/4吊车p4保留背模隐藏观察项；若要消除其精确模具限制，需背面图或明确套装模具来源。 |
+| unknown:child-figure-variants | 人物变体/装饰与逐人源图仍需证据 | 咖啡杯10人及转弯车司机需逐人头/帽/手/腿/印花证据；军舰已有2官方拆分人偶仅装饰未定，不能重复计作整人缺失。 咖啡杯10人、转弯车1司机需各自头/手/躯干/裤腿/印花局部图或允许装饰近似范围；军舰已有2官方拆分人偶只缺准确图案，不能重复计为缺整人。 |
+| candidate:small-car-base | 正规几何齐，仍需源版本或长度/插深证据 | 官方74656及现有10715p01/p02可用于两辆2x6小车的版本比较；74656用2313a，10715用2313b轮毂。源p11轮毂/轴型仍未唯一确认，下载闭包不等于车已补装。 本轮重看吊桥p11明确2x6红车黄轮及黄车红轮，现有Official10715p02/p01可作精确比较候选；比较2313b假螺栓轮毂与74656模具后再放置，不因颜色相同判定。 |
+| candidate:mast-shafts | 正规几何齐，仍需源版本或长度/插深证据 | 帆船6根桅杆的6521/6522正规DAT已齐，缺全长及31625两端插入深度证据；绿色不证明8L，禁止两杆重叠凑高。 帆船p11/12候选6521(8L)/6522(6L)正规几何齐全；需要杆全长和接头插入深度的正视比例/原BOM或实物，绿色不能证明长度，禁止重叠两杆凑总高。 |
+| candidate:tray-loose-shafts | 正规几何齐，仍需源版本或长度/插深证据 | 压面机2杆的6521/6522正规DAT已齐；材料栏灰与成品绿存在差异，需长度标记/BOM或量尺照片，不任意选色选长。 压面机p5材料栏灰杆与成品绿端矛盾，需高清原页或长度标记，6521/6522正规DAT已齐。先保持两杆遗漏，不能任意选色/长。 |
+| unknown:gantry-hook-pulley | 身份/模具/组件仍需核查，不能直接安装 | 龙门吊灰轮+黑长钩仍需分别确认ID与许可几何；不是4663短钩，2223架单独跟踪。 龙门吊p11灰小轮+长黑钩分别对官方Duplo钩/滑轮目录，识别孔、长颈和绳槽。明确不是4663短钩，2223支架另条，不把总成单ID假定。 |
+| unknown:gantry-cord | 柔性路径、长度或轮件配合仍需证据 | 龙门吊绳的材质、长度、两端结和绕轮路径未解，不默认75536；示意连线不能计为承载验证。 龙门吊p10-12绳材/长度/两端结和绕轮路径需详细源或实物；不默认75536。若展示用连线需单独定义标注，不能当承载构件。 |
+| unknown:large-toolo-hook | 身份/模具/组件仍需核查，不能直接安装 | 4吊车大灰叉顶钩未定ID；需叉顶、枢轴、钩口近照和目录映射，15449/14013c01/4663不能按名称转正。 4吊车p8大灰钩先比叉顶/枢轴/钩口；15449、14013c01、4663均不是已确认候选。查官方套装design/element映射后再检索几何，不能按名称选钩。 |
+| unknown:warship-mixer-assembly | 身份/模具/组件仍需核查，不能直接安装 | 军舰黄筒总成身份和转座几何未确认；蜘蛛58629/95219c01只能作对照，不能跨课默认。 军舰p16对黄桶的口沿、轴、托架/底座逐组件查目录；蜘蛛58629/95219c01只作比较，不跨课默认确认。需同时解决桶体和转座许可几何。 |
 
-- **2223** — 机关枪（4-ji-guan-qiang，p10/10）、狙击枪（4-ju-ji-qiang，p8）、龙门吊（4-long-men-diao，p11/11）、塔吊（4-ta-diao，p18）；ID：候选2223。缺证：Mold-version/side-rib confirmation and licensed geometry。下一步：按机关枪p10、狙击枪p8、塔吊p18和龙门吊p11分别比较U架侧筋、孔距及基座；检索2223及正式别名的PT/官方组件，取得作者许可和依赖后再逐课装配。不能仅凭黑色U形把四课模具版本合并。
-- **58629** — 蜘蛛（4-zhi-zhu，p6/6）；ID：候选58629。缺证：Source decoration version and complete drum/cradle geometry。下一步：蜘蛛p6先核桶口、轴端与底架关系，查58629及印花后缀；须完整桶体+95219c01底架，不能用42235单桶替代。
-- **unknown:yellow-concave-ears** — 春节舞狮（4-chun-jie-wu-shi，p10）；ID：候选未知。缺证：Exact design ID not identified; convex slopes explicitly rejected.。下一步：舞狮黄色凹弧耳先以已看源页轮廓核目录：关键为凹弧、凸点数及背面固定点。检索官方Duplo凹曲件，不用已排除凸坡件；官方匹配仍无结果时才请求局部正反近照。
-- **unknown:blue-toolo-wing-claw** — 独角仙（4-du-jiao-xian，p5/8）、快艇（4-kuai-ting，p8）；ID：候选未知。缺证：Author source visual-family match only; exact ID, handedness and licensed geometry remain unverified.。下一步：独角仙p5/8与快艇分别比两翼/钳口长度、手性、螺纹轴连接，查Toolo套装官方库存designID，再查官方LDraw。视觉家族相似不等于同一编号，不能拿普通31215翼替换。
-- **candidate:three-blade-propeller** — 快艇（4-kuai-ting，p11）、潜水艇（4-qian-shui-ting，p6）；ID：候选6669c01/6670c01。缺证：Need match actual source length, width and mount to catalog; no transfer of helicopter/drone confirmed6670c01 identity.。下一步：快艇和潜水艇源图分别核长窄叶/短厚叶、毂深和螺纹座，比较6669c01和6670c01；借用worker6670公开几何结果但不得转移直升机身份。
-- **unknown:orange-toothed-blade** — 翼龙（4-yi-long，p7/10）；ID：候选未知。缺证：No reliable ID from current source/inventory research; not6294 scoop.。下一步：翼龙p7/10四件宽齿曲板，从齿数、侧夹方向及宽度查9090/Toolo官方库存并对源；不能复用6294无齿铲。
-- **unknown:orange-bulldozer-blade** — 推土机（4-tui-tu-ji，p5）；ID：候选未知。缺证：Exact ID andgeometry unverified; resemblance alone does not merge with pterosaur rake.。下一步：4推土p5单片铲刀与翼龙齿板独立检索；核齿边、两侧连接孔/叉、宽度，再查官方DAT。没有匹配时需前后照片，不先合并为同件。
-- **unknown:blue-drum** — 压路机（4-ya-lu-ji，p12）；ID：候选未知。缺证：No reliable ID; top has no ordinary studs; not automatically60777/31180.。下一步：压路机p12/13两蓝半鼓查无stud顶、环缘、中央轴孔的Duplo筒件，按合拢后横滚筒特征查套装说明；不自动套60777/31180。
-- **candidate:car-cockpit-base** — 推土机（5-tui-tu-ji，p3）、拖挂车（5-tuo-gua-che，p4）、导弹车（4-dao-dan-che，p5）；ID：候选6344/31196c01/6345/17562。缺证：Exact base ID/licensed geometry not established.6345 canopy is known; canopy geometry does not establish base identity.。下一步：5推土p3、拖挂p4、导弹p5逐一分离底座和罩，查6344/17562正式几何及库存；现有6345正规罩不能证明底座，31196c01只是已批准近似，不可当精确替代。
-- **candidate:four-pane-window** — 摩天轮（4-mo-tian-lun，p12）、推土机（5-tui-tu-ji，p3）、拖挂车（5-tuo-gua-che，p5）、码头吊机（5-ma-tou-diao-ji，p9）、导弹车（4-dao-dan-che，p6）、吊车（4-diao-che，p4）；ID：候选2332ac01/4253c01/61649/90265。缺证：Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim.。下一步：先按已授权9090-2库存61649红框+90265白四格（各6）与各课源前脸、门窗铰链对照；一致者可用现有正规DAT实施，不需默认等背面照片。摩天轮8套须记单套额外2。新2332ac01/4253c01已获得正规闭包，但只作旧框版本比较，不自动替换优先套装件。
-- **candidate:small-car-base** — 蜗轮吊桥（5-wo-lun-diao-qiao，p11）；ID：候选74656/10715p01/10715p02。缺证：Exactwheel/base variant not confirmed; omitted.。下一步：本轮重看吊桥p11明确2x6红车黄轮及黄车红轮，现有Official10715p02/p01可作精确比较候选；比较2313b假螺栓轮毂与74656模具后再放置，不因颜色相同判定。
-- **unknown:gantry-hook-pulley** — 龙门吊（4-long-men-diao，p11）；ID：候选未知。缺证：Real IDs not verified; not4663short yellowhook. Compact Uholder candidate2223 tracked separately.。下一步：龙门吊p11灰小轮+长黑钩分别对官方Duplo钩/滑轮目录，识别孔、长颈和绳槽。明确不是4663短钩，2223支架另条，不把总成单ID假定。
-- **unknown:large-toolo-hook** — 吊车（4-diao-che，p8）；ID：候选未知。缺证：Exact catalogidentity for largefork-top Toolo hook andlicensed matchinggeometry or explicitapproximation approval. No candidate promoted from inventory resemblance.。下一步：4吊车p8大灰钩先比叉顶/枢轴/钩口；15449、14013c01、4663均不是已确认候选。查官方套装design/element映射后再检索几何，不能按名称选钩。
-- **unknown:warship-mixer-assembly** — 军舰（4-jun-jian，p16）；ID：候选未知。缺证：Sourcep16 exactpart orassembly IDs andlicensed source-matchinggeometry notconfirmed; omitted。下一步：军舰p16对黄桶的口沿、轴、托架/底座逐组件查目录；蜘蛛58629/95219c01只作比较，不跨课默认确认。需同时解决桶体和转座许可几何。
+## 窗族的实际边界
 
-## 3 现证据不足：需局部新源图/实物尺寸/来源许可或明确近似授权
+- 拖挂车4套、导弹车3套、摩天轮前4套，共11套22个DAT引用，可按各拥有者候选进行局部集成和渲染核验。
+- 摩天轮目标8套，后4套位置/朝向未解；参考9090-2各6件，完整目标各额外2件。实际用户库存未知。
+- 5推土窗身份已确认，但缺6344候选车头橙色后承台，不能把窗框直接放黄车体。
+- 窗身份本次确认仅覆盖推土、拖挂、导弹、摩天轮4课；5码头p9及4吊车p4虽已使用61649+90265，背模仍隐藏，保留观察限制，不重计未知ID，也不关闭整个家族。
+- 61649+90265正规DAT及铰点闭合已有证据。2332ac01/4253c01是旧框比较资料，不能取代已确认窗型。
 
-- **4433c01** — 叉车（4-cha-che，p8/8）、赛车（4-sai-che，p3）、压路机（4-ya-lu-ji，p7）；ID：4433c01。缺证：Reusable geometry with clear license。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2.
-- **45117c01** — 大象（4-da-xiang，p4）、客机（4-ke-ji，p3/5）、赛车（4-sai-che，p6）、旋转飞机（4-xuan-zhuan-fei-ji，p11）、翼龙（4-yi-long，p13/13）；ID：45117c01。缺证：Reusable geometry with clear license。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed.
-- **31239c01** — 大象（4-da-xiang，p5）、客机（4-ke-ji，p5）、旋转飞机（4-xuan-zhuan-fei-ji，p11）、翼龙（4-yi-long，p13/13）；ID：31239c01。缺证：Reusable geometry with clear license。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed.
-- **6670c01** — 无人机（4-wu-ren-ji，p6）、直升机（4-zhi-sheng-ji，p7/7/15）；ID：6670c01。缺证：Reusable geometry; short thick6669c01 rejected。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed.
-- **6295** — 塔吊（4-ta-diao，p11）、蝎子（4-xie-zi，p10）；ID：6295。缺证：Reusable geometry。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed.
-- **31193** — 瓦力（4-wa-li，p）；ID：31193。缺证：Author/provenance/redistribution permission for existing old mesh。下一步：现有31193 DAT作者空白、无LICENSE，不能因在本地就复用。先追原作者/原始可再分发来源；若仍无许可，需有权的重新建模授权及门厚/铰轴照片，不覆盖旧件。
-- **95219c01** — 蜘蛛（4-zhi-zhu，p6/6）；ID：95219c01。缺证：Reusable base assembly geometry。下一步：官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed.
-- **75536** — 抽油机（5-chou-you-ji，p4/7/5）、吊车（5-diao-che，p14-16）、码头吊机（5-ma-tou-diao-ji，p）、水井（5-shui-jing，p3-5/11）、提线木偶（5-ti-xian-mu-ou，p7/8）；ID：75536。缺证：Course-specific cord routing/length/knots and retention; hook4663 now available。下一步：已知官方4663钩和6527轮可用；五课逐一取得绳长、端结、绕轮路径与固定点证据。若只需展示线，需明确允许示意并标无机械验收；不要重新称钩缺几何。
-- **71059** — 旋翼飞机（5-xuan-yi-fei-ji，p6-7）；ID：候选71059。缺证：Source belt ID/length and approved flexed depiction。下一步：旋翼飞机p6/7核四根带的截面、自然长度与绕轮关系；先核9656库存71059是否同件，随后需可再分发柔性模板或允许示意的范围。不能从圆环DAT推定拉伸长度或张力。
-- **candidate:track** — 推土机（4-tui-tu-ji，p3/4）；ID：候选71981。缺证：Existing71981 approximation approval does not independently prove this source track identity.。下一步：71981现有CC BY4已批准近似不是正规精确几何。4推土p3/4可继续核履带节纹与轮距；要准确配合仍需环长、内节距、轮槽证据或批准固定展示形变，不能宣称已有近似即可直接修。
-- **unknown:child-figure-variants** — 旋转咖啡杯（5-xuan-zhuan-ka-fei-bei，p9）、转弯小车（5-zhuan-wan-xiao-che，p14）、军舰（4-jun-jian，p19）；ID：候选未知。缺证：Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.。下一步：咖啡杯10人、转弯车1司机需各自头/手/躯干/裤腿/印花局部图或允许装饰近似范围；军舰已有2官方拆分人偶只缺准确图案，不能重复计为缺整人。
-- **candidate:mast-shafts** — 帆船（5-fan-chuan，p11/12）；ID：候选6521/6522。缺证：Green colour is not length proof; source length andcoupler insertion depth unresolved.。下一步：帆船p11/12候选6521(8L)/6522(6L)正规几何齐全；需要杆全长和接头插入深度的正视比例/原BOM或实物，绿色不能证明长度，禁止重叠两杆凑总高。
-- **candidate:tray-loose-shafts** — 压面机（5-ya-mian-ji，p5）；ID：候选6521/6522。缺证：Material icon gray shaft andfinal greenends conflict; exact length/identity unverified.。下一步：压面机p5材料栏灰杆与成品绿端矛盾，需高清原页或长度标记，6521/6522正规DAT已齐。先保持两杆遗漏，不能任意选色/长。
-- **unknown:gantry-cord** — 龙门吊（4-long-men-diao，p10/11/12）；ID：候选未知。缺证：Length/material,knots androuting unknown; no evidence it is75536assembly.。下一步：龙门吊p10-12绳材/长度/两端结和绕轮路径需详细源或实物；不默认75536。若展示用连线需单独定义标注，不能当承载构件。
+## 网络与几何证据
 
-## 已取得的正规候选几何
+旧“源URL不可访问/未下载”属于历史。最新真实GET已取得2332ac01、4253c01、74656，90文件依赖闭包无missing；这只解决研究候选几何，不自动解决来源身份和装配。6个已知Toolo/托架家族的官方与非官方复查仍无匹配几何；31193缺合法可再分发出处。
 
-2332ac01、4253c01、74656为官方CC BY4.0，90文件闭包完整，9新文件仅存scratch。旧框完整件仅含框及后板，不包含白四格窗。9090库存直接支持已有61649+90265（各6），应优先套装约束而非新下载旧框；摩天轮8套需记录额外2。74656的2313a车轮需与10715p01/p02的2313b假螺栓轮对源比较。
+常规件小车底盘、帆船杆、压面机杆不是“缺DAT”，而是源版本或长度/插深证据不足。其他未知件可继续目录核对，但在编号、接口和许可未闭合前不能猜装；柔性件需路线、自然长度和固定方式，人物需逐人变体证据。
 
-详见 `parts-resolution-evidence/new-official-closure.json`；六项已知缺几何正式404/目录复核见 `official-geometry-recheck-20261011.json`。所有正文是处置计划，不是完成或实物验收。
+## 依据
 
-库存边界：4198身份收敛不证明用户有3红；本地证据9090记录为蓝2，须独立核颜色/数量。窗框在当前输入JSON的套装归属以逐行set字段为准，不能由日志行号推断。
+- [official-geometry-recheck-20261011.json](official-geometry-recheck-20261011.json)
+- [source-identity-quantity-recheck-20261011.json](source-identity-quantity-recheck-20261011.json)
+- [window-repair-20261011.json](window-repair-20261011.json)
+- [4-mo-tian-lun/window-first-four-evidence.json](4-mo-tian-lun/window-first-four-evidence.json)
+- [parts-resolution-evidence/new-official-closure.json](parts-resolution-evidence/new-official-closure.json)
+- [parts-resolution-evidence/official-probes.json](parts-resolution-evidence/official-probes.json)
+
+压路机排气源数量1；4198源数量3已确认。所有课程仍以各自最新源稿、验证报告与用户确认状态为准。

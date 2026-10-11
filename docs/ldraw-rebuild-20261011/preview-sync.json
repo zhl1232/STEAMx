@@ -1,13 +1,13 @@
 {
-  "at": "2026-10-11T08:33:46.072374+00:00",
-  "previousCheckpoint": "d454941",
-  "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\d454941",
+  "at": "2026-10-11T08:56:59.698656+00:00",
+  "previousCheckpoint": "086b0a9",
+  "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\086b0a9-before-ferris-facing-correction",
   "oldMpdCount": 69,
   "currentMpdCount": 69,
-  "oldBytes": 75853909,
-  "currentBytes": 75854078,
-  "cFreeBefore": 1324347392,
-  "cFreeAfter": 1324331008,
+  "oldBytes": 75921372,
+  "currentBytes": 75921373,
+  "cFreeBefore": 1311903744,
+  "cFreeAfter": 1311838208,
   "allCurrentSourceAndMpdHashesVerified": true,
   "accepted": false
 }

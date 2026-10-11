@@ -161,6 +161,40 @@
       "actualUserInventory": "unknown"
     },
     {
+      "id": "61649.dat",
+      "color": 4,
+      "colorName": "Red",
+      "quantity": 3,
+      "inventoryAlias": "61649",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 6,
+          "colorMatch": true,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "90265.dat",
+      "color": 15,
+      "colorName": "White",
+      "quantity": 3,
+      "inventoryAlias": "90265",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "White",
+          "quantity": 6,
+          "colorMatch": true,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
       "id": "3011.dat",
       "color": 14,
       "colorName": "Yellow",

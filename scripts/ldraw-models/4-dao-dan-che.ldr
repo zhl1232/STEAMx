@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
-0 // DEV-ONLY INCOMPLETE: cockpit/window identities and hidden fork-to-clip capture pending.
+0 // DEV-ONLY INCOMPLETE: cockpit geometry and hidden fork-to-clip capture pending; official window assemblies restored.
 0 // All14 source PDF pages viewed. Source SHA256 0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a.
 0 // Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD.
 0 // Source p1: four gray2x4 screw bearings, four wheel hubs, four tyres.
@@ -42,7 +42,13 @@
 1 1 160 -202 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -40 -202 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // Source p6: three red2x4x3 frames with white four-pane opening windows OMITTED; candidates2332ac01/4253c01 unverified.
+0 // Source p6: three official61649 red open-back frames and90265 white four-pane windows, with matched closed hinge axes.
+1 4 160 -346 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 225.5 -274 -160 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 160 -346 120 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 94.5 -274 160 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -40 -346 0 0 0 1 0 1 0 -1 0 0 61649.dat
+1 15 -80 -274 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
 0 STEP
 0 // Source p7: four yellow and two blue bricks form rear cab roof support columns.
 1 14 0 -250 -120 1 0 0 0 1 0 0 0 1 3011.dat
@@ -92,6 +98,6 @@
 1 1 -80 -524 0 0 0 -1 0 1 0 1 0 0 2302b.dat
 1 1 -80 -524 80 0 0 -1 0 1 0 1 0 0 2302b.dat
 0 // p14 final view, no additions.
-0 // No inferred hidden cockpit/window geometry added. Roof partly unsupported until missing windows restored.
+0 // No inferred hidden cockpit geometry added. Three official frame/window assemblies restored; hidden fork support still requires fit review.
 0 // Fork and lower clip fit, hub screw depth and top curve grid require rendered/source review.
 0 // Pending user confirmation; no physical support, movement or toy firing validation.

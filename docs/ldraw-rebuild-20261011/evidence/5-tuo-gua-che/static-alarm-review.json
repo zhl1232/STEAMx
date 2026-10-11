@@ -1,6 +1,6 @@
 {
   "slug": "5-tuo-gua-che",
-  "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+  "sourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
   "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10",
   "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
   "rawCheckerLog": "static-checker.log",
@@ -8,12 +8,12 @@
   "alarms": [],
   "additionalFindings": [
     {
-      "classification": "real_risk",
-      "finding": "Cab/canopy and white windows omitted: roof support incomplete."
+      "classification": "insufficient_evidence",
+      "finding": "Tow axle capture and articulation unverified."
     },
     {
       "classification": "insufficient_evidence",
-      "finding": "Tow axle capture and articulation unverified."
+      "finding": "4 official61649+90265 window assemblies source-constrained and installed in source. Frame bottom seated on existing blue brick top; closed hinges exact. Cab/canopy remain omitted; no physical hinge/load validation. Current final and cumulative pixels reviewed; physical fit and acceptance remain pending."
     }
   ],
   "sourceEvidence": "source-review.md plus existing source page files/ledger; no new source pixel inspection claimed in this static review",
@@ -23,5 +23,10 @@
     "Pending user confirmation; incomplete mechanisms/omitted source components are not publishable."
   ],
   "accepted": false,
-  "physicalValidation": false
+  "physicalValidation": false,
+  "status": "source_updated_current_render_pixels_reviewed_pending_user_confirmation",
+  "placements": 117,
+  "windowRepairEvidence": "../window-repair-20261011.json",
+  "newWindowAssemblies": 4,
+  "rawCheckerLogSha256": "ecc7df48b885c4d94395146fd62974ed07b41fe766f68aa6587cd465106d17fd"
 }

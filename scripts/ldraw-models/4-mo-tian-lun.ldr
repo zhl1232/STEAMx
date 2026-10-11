@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // All13 source pages actually viewed. No physical verification or user acceptance.
-0 // INCOMPLETE: p12 eight red four-pane window assemblies identity/geometry not established; omitted. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.
+0 // INCOMPLETE: p12 four 61649+90265 window assemblies placed; four more known assemblies omitted pending seating/orientation evidence. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.
 0 // Existing approved Toolo approximations: fit, thread engagement and load support remain manual.
 0 // SOURCE PAGE 1 - green24x24 base andeight black Toolo blocks in stepped pedestal
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
@@ -80,5 +80,14 @@
 1 1 40 -972 417 0 0 1 -1 0 0 0 -1 0 44524.dat
 1 1 288 -644 417 0 0 1 -1 0 0 0 -1 0 44524.dat
 0 STEP
-0 // SOURCE PAGE 12 - eightredfour-pane windowcab parts unavailable
-0 // UNKNOWN p12 windowframe/pane candidates4253c01/2332ac01/61649 plus90265, mold version not verified. All8 omitted; no substituteboxes.
+0 // SOURCE PAGE 12 - four source-visible lower window assemblies; four hidden second assemblies remain unplaced
+1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+0 // KNOWN OMITTED p12 four additional61649+90265 assemblies: second frame seating/orientation remains unresolved. Source target8 each; placed4 each.
+0 // Inventory9090-2 has6 red61649 and6 white90265; complete target8 each needs2 extra ofeach; current4 each doesnot exceed that reference.

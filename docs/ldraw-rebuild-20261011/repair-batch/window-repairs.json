@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-11T09:01:29.974284+00:00",
+  "restoredSetsByCourse": {
+    "5-tuo-gua-che": 4,
+    "4-dao-dan-che": 3,
+    "4-mo-tian-lun": 4
+  },
+  "restoredPhysicalPieces": 22,
+  "knownOmittedWindowPieces": 10,
+  "fullFerrisTargetInventoryDeficit": {
+    "61649": 2,
+    "90265": 2
+  },
+  "currentlyPlacedFerrisWindowPartsWithinStock": true,
+  "accepted": false,
+  "physicalValidation": false
+}

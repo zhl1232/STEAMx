@@ -11,3 +11,11 @@ INCOMPLETE：页4橙色汽车座/前格栅底座未核编号，6344仅候选；�
 ## D final pixel review
 Actually viewed original iso, iso-rear and top for e18bd0c3/revision1c69fd23 and compared source p18. Whole tractor/trailer framed; five alternating wall courses and static tow stack broadly correspond. Cabin/canopy/white windows remain omitted; upper roof has unresolved support, not an accepted floating assembly. Tow-pin retention/articulation not physically verified. current-pixel-review.json binds exact image/source hashes. No source changes; cumulative steps pending.
 
+
+## Window repair20261011 — supersedes window omission only
+Source page5 actually re-opened. Restored4 red61649 completely-open-back frames with white90265 four-equal-pane windows, 8 DAT placements. Official geometry hinge centres match relative translation(65.5,72,-40); source open back/front/hinges plus9090 reference corroborate identities. Frame bottoms seat on existing blue brick tops, so this repair does not depend on missing cab. Current source has117 placements, unchanged step count.
+Remaining cab/canopy omitted and mechanical limitations persist. Prior final/steps evidence applies only to old source: new render and pixel review required. Reference kit is not an exclusive course BOM; actual user inventory unknown. See ../window-repair-20261011.json. No physical/user acceptance.
+
+Source SHA256 02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687. Raw checker0errors; new final/steps pending.
+
+Window repair new source02ec1a77/revision59682e1b: actual final3 originals and17 cumulative frames reviewed, p5 source reopened. Four outward white panes/hinges, red frame bases and roof top support visually agree. Cab/canopy and tow-fit limits remain. No physical/user acceptance.

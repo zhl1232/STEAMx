@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T08:41:48.317Z",
+  "generatedAt": "2026-10-11T09:01:56.326Z",
   "summary": {
     "courses": 69,
     "rawAlarmCourses": 24,
@@ -74,10 +74,10 @@
     },
     {
       "slug": "4-dao-dan-che",
-      "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
       "checkShaMatches": true,
       "staticReport": "preparation/4-dao-dan-che/static-alarm-review.json",
-      "staticReportSha256": "0e7c905404bde7046c1e8e20bb968fd54c2a03d47b61a52a02ece6ad8e5fc822",
+      "staticReportSha256": "539c7c38c71840777358c7c4ff43096e5078881ad95dcdd4d74da4078d0c589a",
       "staticReportSourceShaMatches": true,
       "rawErrorGroups": 0,
       "expandedAlarmItems": 0,
@@ -230,10 +230,10 @@
     },
     {
       "slug": "4-mo-tian-lun",
-      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
       "checkShaMatches": true,
       "staticReport": "preparation/4-mo-tian-lun/static-alarm-review.json",
-      "staticReportSha256": "d66e5db5ad7961c6f1259dc99ec50dca4afd109c86f27af9642f59b9dd9121aa",
+      "staticReportSha256": "967a87bdcb2a1bcd6803444e271445b8aea31a0a155c237a6fdf8c5be53e0529",
       "staticReportSourceShaMatches": true,
       "rawErrorGroups": 0,
       "expandedAlarmItems": 0,
@@ -916,10 +916,10 @@
     },
     {
       "slug": "5-tuo-gua-che",
-      "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "modelSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
       "checkShaMatches": true,
       "staticReport": "preparation/5-tuo-gua-che/static-alarm-review.json",
-      "staticReportSha256": "a9dbb4938f7bdaacba04f7c139b09ee1abb093dfb7243d01f2174d762e2fce82",
+      "staticReportSha256": "2ec55027fc7540fae690c07c9cb005aa0afe44a3723bdf301a0b676ff64bc80b",
       "staticReportSourceShaMatches": true,
       "rawErrorGroups": 0,
       "expandedAlarmItems": 0,

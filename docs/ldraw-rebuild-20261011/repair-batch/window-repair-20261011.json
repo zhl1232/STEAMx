@@ -1,5 +1,5 @@
 {
-  "status": "scratch_candidates_ready_awaiting_parent_pack_window",
+  "status": "two_sources_updated_static_and_current_pixels_reviewed_pending_user_confirmation",
   "sourcePixelEvidence": [
     {
       "slug": "5-tui-tu-ji",
@@ -86,7 +86,7 @@
     {
       "slug": "5-tuo-gua-che",
       "sourcePage": 5,
-      "decision": "source_supported_installation_ready",
+      "decision": "source_installed_pending_render_review",
       "assemblyCount": 4,
       "addedDatPlacements": 8,
       "beforeSourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
@@ -94,12 +94,20 @@
       "candidatePath": "preparation\\5-tuo-gua-che\\window-candidate.ldr",
       "support": "Frame bottom on current blue3011top: trailer frameY=-305 bottom=-161; missileframeY=-346 bottom=-202. Existing roof bricks bottom coincide frame top. Frame studs/underside regular40LDUgrid, no missing cockpit needed for these exact base footprints.",
       "staticChecker": "0errors (manual policy still does not certify physical fit)",
-      "remaining": "Cab/canopy still absent; other previous axle/tow or Toolo fork approximate mesh risks unchanged. New final and affected cumulative steps require pixel review."
+      "remaining": "Cab/canopy still absent; other previous axle/tow or Toolo fork approximate mesh risks unchanged. New final and affected cumulative steps require pixel review.",
+      "afterSourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+      "pixelReview": {
+        "sourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+        "revision": "59682e1b6d1eced6054823969afbe51be1d42064763d9690d1183b6377b52ae4",
+        "final3": true,
+        "all17Steps": true,
+        "accepted": false
+      }
     },
     {
       "slug": "4-dao-dan-che",
       "sourcePage": 6,
-      "decision": "source_supported_installation_ready",
+      "decision": "source_installed_pending_render_review",
       "assemblyCount": 3,
       "addedDatPlacements": 6,
       "beforeSourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
@@ -107,7 +115,15 @@
       "candidatePath": "preparation\\4-dao-dan-che\\window-candidate.ldr",
       "support": "Frame bottom on current blue3011top: trailer frameY=-305 bottom=-161; missileframeY=-346 bottom=-202. Existing roof bricks bottom coincide frame top. Frame studs/underside regular40LDUgrid, no missing cockpit needed for these exact base footprints.",
       "staticChecker": "0errors (manual policy still does not certify physical fit)",
-      "remaining": "Cab/canopy still absent; other previous axle/tow or Toolo fork approximate mesh risks unchanged. New final and affected cumulative steps require pixel review."
+      "remaining": "Cab/canopy still absent; other previous axle/tow or Toolo fork approximate mesh risks unchanged. New final and affected cumulative steps require pixel review.",
+      "afterSourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+      "pixelReview": {
+        "sourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+        "revision": "66d19e61b46ea7a4295fdd7d7b42b7ee0435e17bc0e50a4388c557f4d78b625c",
+        "final3": true,
+        "all13Steps": true,
+        "accepted": false
+      }
     },
     {
       "slug": "5-tui-tu-ji",
@@ -117,10 +133,11 @@
       "beforeSourceSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
       "exactMissingEvidence": "Source red frame stands on orange cockpit rear platform, not directly on yellow body top. Current model omits cockpit entirely; candidate6344 official geometry is not local. Need rearplatform stud plane height/footprint from confirmed cockpit geometry or source dimensional constraint. White pane hinge within red frame is solved.",
       "reasonNotAdded": "Putting144-highframe directly on current yellowY=-177 body top to match existing inferred roof height would bypass the visible orange supporting layer. Cannot count a unsupported/incorrectly seated frame as repair.",
-      "potentialRoofCorrection": "Existing inferred roof and yellow rear cap may need vertical update once orangeplatform datum closes; no source move made."
+      "potentialRoofCorrection": "Existing inferred roof and yellow rear cap may need vertical update once orangeplatform datum closes; no source move made.",
+      "countEvidence": "Source p3 material inset assembled red/white window marked1x; one visible rear frame.1assembly=1red61649+1white90265;2physical parts. Other inset orangecab and pale canopy each1x are separate."
     }
   ],
-  "modelModifiedByThisReview": false,
+  "modelModifiedByThisReview": true,
   "renderStarted": false,
   "accepted": false
 }
