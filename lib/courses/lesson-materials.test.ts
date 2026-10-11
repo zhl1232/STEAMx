@@ -16,6 +16,17 @@ import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
 import { resolveLdrawPart } from './ldraw-part-mapping'
 
 const prefs = mergeLessonMaterialPreferences(5)
+
+it('material accounting never mutates the model BOM or its prepared copy', () => {
+  const original = summarizePackedLdrawBom(readFileSync('public/courses/ldraw/3-hu-die.mpd', 'utf8'))
+  const snapshot = structuredClone(original)
+  const prepared = prepareLessonBomForCourse(5, original)
+  const preparedSnapshot = structuredClone(prepared)
+  compareLessonMaterials(original, mergeKitInventories(prefs.kits), prefs)
+  compareLessonMaterials(prepared, mergeKitInventories(prefs.kits), prefs)
+  expect(original).toStrictEqual(snapshot)
+  expect(prepared).toStrictEqual(preparedSnapshot)
+})
 const entry = (partId: string, colorCode = 4, count = 1): LdrawBomEntry => ({
   partId,
   colorCode,

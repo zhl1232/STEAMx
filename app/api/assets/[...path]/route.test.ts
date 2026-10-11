@@ -27,6 +27,53 @@ afterEach(() => {
 });
 
 describe("asset proxy", () => {
+    it.each(["gzip", "br"])("drops wire lengths and range headers for decoded %s bodies", async (encoding) => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        const body = "0 !COLOUR Light_Bluish_Gray CODE 71 VALUE #A0A5A9 EDGE #333333\n";
+        vi.stubGlobal("fetch", vi.fn<typeof fetch>().mockResolvedValue(new Response(body, {
+            headers: {
+                "Content-Encoding": encoding,
+                "Content-Length": "12",
+                "Content-Range": "bytes 0-11/12",
+                "Accept-Ranges": "bytes",
+            },
+        })));
+        const response = await GET(new NextRequest("http://localhost/api/assets/courses/ldraw/LDConfig-test.ldr"), {
+            params: Promise.resolve({ path: ["courses", "ldraw", "LDConfig-test.ldr"] }),
+        });
+        expect(response.status).toBe(200);
+        for (const name of ["content-length", "content-encoding", "content-range", "accept-ranges"]) {
+            expect(response.headers.has(name)).toBe(false);
+        }
+        expect(await response.text()).toBe(body);
+    });
+
+    it.each([undefined, "identity"])("preserves lengths for identity responses (%s)", async (encoding) => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        const headers = new Headers({ "Content-Length": "4" });
+        if (encoding) headers.set("Content-Encoding", encoding);
+        vi.stubGlobal("fetch", vi.fn<typeof fetch>().mockResolvedValue(new Response("test", { headers })));
+        const response = await GET(new NextRequest("http://localhost/api/assets/projects/test.txt"), {
+            params: Promise.resolve({ path: ["projects", "test.txt"] }),
+        });
+        expect(response.headers.get("content-length")).toBe("4");
+        expect(response.headers.has("content-encoding")).toBe(false);
+        expect(await response.text()).toBe("test");
+    });
+
+    it("rejects encoded partial responses even if the origin ignores identity", async () => {
+        process.env.ASSETS_BASE_URL = "https://assets.example.com";
+        vi.stubGlobal("fetch", vi.fn<typeof fetch>().mockResolvedValue(new Response("decoded", {
+            status: 206,
+            headers: { "Content-Encoding": "gzip", "Content-Range": "bytes 0-3/100" },
+        })));
+        const response = await GET(new NextRequest("http://localhost/api/assets/projects/test.txt", {
+            headers: { Range: "bytes=0-3" },
+        }), { params: Promise.resolve({ path: ["projects", "test.txt"] }) });
+        expect(response.status).toBe(502);
+        expect(response.headers.has("content-range")).toBe(false);
+    });
+
     it("retries a rejected environment referer with the canonical site referer", async () => {
         process.env.ASSETS_BASE_URL = "https://assets.example.com";
         process.env.ASSETS_PROXY_REFERER = "http://127.0.0.1:3000";
@@ -268,6 +315,9 @@ describe("asset proxy", () => {
         );
         const upstreamHeaders = fetchMock.mock.calls[0]?.[1]?.headers as Headers;
         expect(upstreamHeaders.get("Range")).toBe("bytes=0-3");
+        expect(upstreamHeaders.get("Accept-Encoding")).toBe("identity");
+        expect(response.headers.get("content-length")).toBe("4");
+        expect(await response.arrayBuffer()).toEqual(new Uint8Array([0, 1, 2, 3]).buffer);
     });
 
 });

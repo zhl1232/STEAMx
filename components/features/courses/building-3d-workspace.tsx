@@ -1125,6 +1125,12 @@ export function Building3DWorkspace({
                     ? (async () => {
                         ldrawLoader.addDefaultMaterials();
                         await ldrawLoader.preloadMaterials(ldrawColorUrl);
+                        if (!ldrawLoader.getMaterial("71")) {
+                            console.warn("LDraw colour table is incomplete (missing code 71)", ldrawColorUrl);
+                            if (ldrawColorUrl !== DEFAULT_LDRAW_COLOR_URL) {
+                                await ldrawLoader.preloadMaterials(DEFAULT_LDRAW_COLOR_URL);
+                            }
+                        }
                     })()
                     : null;
                 const parseLdrawStepModel = async (mpdText: string) => {
