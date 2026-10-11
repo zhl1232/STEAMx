@@ -34,5 +34,13 @@
     "status": "PASS",
     "invalid": []
   },
-  "inventoryMechanicalDeficits": []
+  "inventoryMechanicalDeficits": [],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 13,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All13 cumulative D frames compared with source13-page contact; originalstep12 inspected. Counterweight, layered well walls, supports and uppershaft sequence correspond. Rope/hook routes absent atsteps3-4; counterweight is resting rather than suspended. Red brake retains sourcep12 static pose rather than alternatep13 pose. Hidden winding/axle retention and physical operation unverified. No new source edits or physical acceptance."
+  }
 }

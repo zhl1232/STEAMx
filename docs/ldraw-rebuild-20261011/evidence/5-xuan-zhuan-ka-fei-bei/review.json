@@ -47,5 +47,13 @@
       "9656DesignTotal": 4,
       "additionalBeyondSingle9656IgnoringColor": 2
     }
-  ]
+  ],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected for crossed support beams and5 gear tables. Figures absent atstep9:10 source people still need exact identities. Crank and gear phase, axle retention and operation under load remain unverified. No new source edits or physical acceptance."
+  }
 }

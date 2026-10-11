@@ -21,3 +21,8 @@ Current model SHA256: 315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983
 ## Revised wing final3 pixel review
 
 Actual current final3 contact sheet and original iso-rear pixels inspected against previously actually viewed source p7/p8/p12. Source31506262 matches local LDR, pack3c96d98f. Two lime wings now visibly separate; iso and top show the intended central gap instead of a joined canopy. Rear view shows each plate group seated above its own clutch/hinge and turntable; no obvious floating wing or new plate intersection at this resolution. This supports visible pose only: exact pin engagement, turntable yaw and provisional20degree hinge angle lack calibrated source evidence. Lower plate footprint and stud-grid offsets preserve support as documented in REVIEW. Two blue horn-end claws remain missing; arm geometry approximate. Complete frame/no blank views. Final3 only, cumulative11 steps not reviewed; accepted false, no physical validation.
+
+
+## Current cumulative pixel review
+
+Current31506262 all11 cumulative frames actually inspected, originalstep7/8 and source7/8 reopened. Separate turntables/hinges/clutches visible before separated lime panels are added; panel mounts and central gap visible, no new unequivocal floating panel. Missing two blue horn claws persist from horn stage5 onward. Approximate limbs,20degree tilt/turntable yaw and source-informed offsets not calibrated; hidden engagement and six-leg stability unverified. Standard --steps record written, accepted=false; no physical validation.

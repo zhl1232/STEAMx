@@ -42,5 +42,13 @@
       "45002Quantity": 5,
       "additionalIgnoringColor": 3
     }
-  ]
+  ],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 12,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All12 cumulative D frames viewed against source12-page contact, originalstep7 inspected for articulated four-arm supports. Blue wings and tails absent atstep11; finalstep repeats incomplete geometry. Dev shortarms use approved section and kit-length interpretation; exact hinge angles/retention unverified. Four cockpit/canopy overlap alarms remain evidence-insufficient. No physical acceptance."
+  }
 }

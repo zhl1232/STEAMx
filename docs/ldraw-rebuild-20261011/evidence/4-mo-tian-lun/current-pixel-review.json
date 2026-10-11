@@ -1,7 +1,7 @@
 {
   "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
   "revision": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
-  "reviewedAt": "2026-10-11T06:11:38.287227+00:00",
+  "reviewedAt": "2026-10-11T08:01:48.234588+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-mo-tian-lun",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "98b5149152069d095ba6dda820c11fa709cd47bf31eeac89b20a1572e84f89ea",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "4a729a538c2e2230df47066a71c74384f540be2657d79f3e93a54af56e218b8b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "e0f4af46b9facb7e1ab66e105374e42134d6907c3b3e4e119c3a2f94076665b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "ed1bfa2caa06db88721ad0eccd1a0440b76267291f8a3a447f38f647b4ec3534",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "632cbc79f7f9371e053f859ab360327f6f78e54056d348b33acafa6b2c2551ee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "f60f83a0f2f94212d8ee8286e970faa3c7d38620d962e4f4f092c91f9066fffb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "73e7670b4afc66675b3cc53d8cbf885002b4feef306578097b132575e83979b2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fc8c93421dcc068340c5aec189750d46b84d2f6d5855f4da58be2b5f815a8f21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9539bdf1c4bb5ba1ade2c4ee30dd517751562b9bd00290036d3b4ec096a0efe8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "dcb332e9485c2bad2e59e2bccee9f99596b11ceece4ee330b10bc8f369e1ae75",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "831156009d5868f24418aff7d2a519f350d5fd5b53fd645f9c17225bb409573e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "dcca46eed5dc05463c25de056a0185107c31db6810fa67b742a3bfef9075edff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "dcca46eed5dc05463c25de056a0185107c31db6810fa67b742a3bfef9075edff",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actual final contact-sheet and full-size iso-rear pixels reviewed. Entire base/cap/radial arms fit all three frames; no crop. Tower,3-tier cap,4 radial Toolo arms,5 turntables and4 blue2x8 plates correspond to source arrangement. Sourcep12 eightwindowcabs omitted; model incomplete. Fork/cube/turntable andbearing interfaces remain provisional, no physical validation. Cumulative steps pending."
+  "limitations": "Actually viewed all12 original cumulative PNGs and reopened sourcep7,p11,p12. Full base, tower, cap and radial arm extents remain framed. Steps1-3 build pedestal/tower/cap;4-6 side mount and central bearing;7 forks;8 arms;9 end clutches;10 seat bearings;11 four hanging blue plates. Current step camera views the tower/back side, partly hiding near-hub and one arm, so it cannot certify hidden connector engagement. Step12 equals11 because eight source window/cab assemblies are omitted, not completed. Sourcep11 front view shows studded blue faces; rear step view shows underside, not evidence of reversed plate installation. Approximate screw capture, radial pivots, seat retention and full rotation/load stability remain provisional. No physical/user acceptance."
 }

@@ -59,5 +59,13 @@
   "matrixCheck": {
     "status": "PASS",
     "invalid": []
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 17,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All17 cumulative D frames compared with source17-page contact; originalstep12 and16 inspected. Chassis/gearbox and boom increments correspond. Steps14-15 omit rope assembly and its winding pulley; step16 hook is visibly suspended without support and remains an incomplete endpoint marker. Sourceboom angle is posed; worm/axle retention and cockpit/canopy overlap unverified. No physical acceptance."
   }
 }

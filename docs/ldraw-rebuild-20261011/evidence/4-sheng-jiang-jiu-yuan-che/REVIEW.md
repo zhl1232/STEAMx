@@ -11,3 +11,9 @@ Source pages were actually viewed; final source pages and relevant joint pages r
 ## Current final pixel review
 
 Current final3 contact sheet and original iso-rear pixels actually inspected against previously viewed source pages. Source hash matches render manifest. Final framing complete. Shortened nose and reduced lift extension visible; canopy/roof and canopy/cockpit collisions remain unresolved and not waived. Full cumulative steps for this revision remain pending. See current-pixel-review.json for exact image hashes. accepted=false; physicalValidation=false.
+
+
+## Current cumulative pixel review
+
+Current5f833583 cumulative12 inspected, originalstep8/10 and source8/9/10 reopened. Roof entersstage8: known actual canopy/roof interference retained despite iso occlusion. White lightbar support corresponds source9. Stage10 lift remains more extended than compact source pose; exact articulated pose and hidden retention still provisional. Platform/fences/figure additions11/12 visible.
+Standard --steps record written; previous current final remains separate valid evidence if pack/hash match. accepted=false; no physical validation.

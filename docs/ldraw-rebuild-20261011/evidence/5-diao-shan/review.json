@@ -60,5 +60,13 @@
     "status": "PASS",
     "invalid": []
   },
-  "partIdentityEvidence": "D:/Codex-task-2-20261011/inputs/pdfbatch1/5-diao-shan/bom-detail-7.jpg and bom-detail-8.jpg actually viewed"
+  "partIdentityEvidence": "D:/Codex-task-2-20261011/inputs/pdfbatch1/5-diao-shan/bom-detail-7.jpg and bom-detail-8.jpg actually viewed",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected. Current67-part source includes two6526 carriers and crossed formed paper leaves before step8 drive gear. Rotor phase, opposed clamp depth and12LDU paper shift remain assembly inference, not source measurement or physical proof. See blade-carrier-evidence.json for static axes/gaps; hidden clamp faces partially occluded in step view. No physical acceptance."
+  }
 }

@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+  "revision": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+  "reviewedAt": "2026-10-11T07:58:11.005144+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ci-xuan-fu-lie-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "ef99bca0b0f0875c3305263a91c14aa21e718e87aa30a0fb206a00c2bd0b1597",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c1fd2f2e157402614181ab26034b5c26b27b537d3e7b6207afdc341573cf1e06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "866b4751bfaa9cce60f7110a40a4c9258ef80903d6911d661b1d7f5e55a70bd3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a8f2ca427d08f6a2918770dc1993546e163a1565557df031063e621e36c7d28c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "af472bcff0494a9e8e6b366c420b9588ae9c8298cf9e37f751c0eb03af1fde5e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e89cc6271091423fa4a7deb076d1904417383aec73359224e92ccd30c3cdb003",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "5776cabdb262a787f61c4ec0f72a6f1313738d6a1ca2f8e20d96a5ad004d654c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9712508520447f271ff0040d2d35a4e8a2ab666a54cfa4fe5f69496e35b617c4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "dc54d4afa2e607cbd0fcc673f1d8ae27689f27daf4f6d529c7bd2325c1a676bb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f9728615af2da74ba9ee7e6b4afd24624582f6ef10c57ad20d9b59d2ed3745f1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "cfd6ecade7484fc5c8211369d01ffabd478b518877e8ec92506851bb0526163d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "d2514a39b809797dc6b517fb021a0b8db9e4a726ad4a764911e14f07dae196de",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all12 cumulative contact panels, enlarged steps5/9/12 and compared source p5/p9/p12. Inverted base sections, six supports, five horizontal Toolo arms/endstop, train platform/guides, two cockpit canopies and cabin/roof accumulate. Macro configuration matches source, but local dev arms and cockpit approximate geometry remain explicit; inverted-base engagement and moving guide clearance unverified. Two step9 canopy/cockpit mesh crossings remain unresolved raw alarms, with fresh triangle evidence ~0.039/0.059LDU signed plane depths; pixels do not waive them or establish physical collision. D source034ec59f pack6a7d0773 equals C legacy pack; this records D steps only. No physical validation or completion claimed."
+}

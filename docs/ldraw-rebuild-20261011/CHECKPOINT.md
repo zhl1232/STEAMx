@@ -1,8 +1,8 @@
 # Development checkpoint status
 
-Snapshot 2026-10-11 07:55 UTC, executor DESKTOP-MNEH90C. The 129-course scope is reproduced: 71 missing sources and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting official Library transfer. The remote source task verified 713 JPG pages in six packages; unavailable upload tools block transfer, not source existence.
+Snapshot 2026-10-11 08:02 UTC, executor DESKTOP-MNEH90C. The 129-course scope is reproduced: 71 missing sources and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting official Library transfer. The remote source task verified 713 JPG pages in six packages; unavailable upload tools block transfer, not source existence.
 
-Current hash-bound checks: 69 final-view reviews and 50 complete cumulative-step reviews. Six corrected courses (sniper, warship, road roller, larva, fish tail and 5+ bulldozer) have renewed final and step pixel evidence. Pixel review records inspection, not approval: larva tail-hinge height, missing parts and mechanical interfaces remain explicit. Separate source/final/steps/static/problem/confirmation dimensions are in COURSE-STATUS-69.md and course-status-69.json.
+Current hash-bound checks: 69 final-view reviews and 56 complete cumulative-step reviews. Six corrected courses (sniper, warship, road roller, larva, fish tail and 5+ bulldozer) have renewed final and step pixel evidence. Pixel review records inspection, not approval: larva tail-hinge height, missing parts and mechanical interfaces remain explicit. Separate source/final/steps/static/problem/confirmation dimensions are in COURSE-STATUS-69.md and course-status-69.json.
 
 All 69 development MPDs were repacked, dependency-closure checked and synchronized to repository previews/. Previous snapshots were hash-verified before replacement under D:/Codex-task-2-20261011/preview-backups/. preview-sync-history.json records exact versions, hashes and free-space checks. New renders stay on D; prior render revisions are archived before replacement.
 

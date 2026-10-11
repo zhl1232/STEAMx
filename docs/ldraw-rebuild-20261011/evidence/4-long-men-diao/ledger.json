@@ -292,7 +292,7 @@
     "matrixInvalid": [],
     "rawCollision": "pass; Toolo manual collision policy means not complete rigid-intersection proof",
     "closure": "pending parent serial pack",
-    "pixels": "Current19fc8cda final3 actually reviewed; sourcep7 plate direction supported, lower8LDU support remains provisional. No cumulative steps acceptance."
+    "pixels": "Current19fc final3 and all12 original cumulative frames actually viewed; no framing loss. Known omissions and8LDU provisional support unchanged."
   },
   "limitations": [
     "Upper/lower Toolo loop mounting depth andapproximate fork geometry need final pixel andphysical fit review.",
@@ -370,5 +370,13 @@
     "observations": "Actually viewed source p7 and all three full PNGs for 19fc8cda. Frame, wheels and top assembly are not cropped. Top view confirms inverted 40666 long axis across beam Z, consistent with p7. Inverted red3437 remains beneath fork bases. Upper plate overlap48LDU and lower redbrick edge overlap8LDU come from coordinate analysis; pixels do not certify stud registration or load support. Two iso views look nearly symmetric and do not resolve hidden mating surfaces. Fork/arm fit remains provisional; candidate stud-aligned bases would collide with supplied approximate arms. Missing cord/pulley/longhook and existing source limitations remain. No cumulative step or physical acceptance.",
     "accepted": false,
     "physicalValidation": false
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+    "stepCount": 12,
+    "allOriginalFramesActuallyViewed": true,
+    "observations": "Actually inspected all12 original cumulative PNGs, alongside previous final3/sourcep7 and source-step ledger. Each frame fully contains its current model. Steps1-4 add wheel bases and striped piers;5 beam;6 red caps;7 transverse inverted plate and forks;8 hanging arms;9 lower red/gray carrier. Steps10-12 remain visually unchanged because missing cord/pulley/hook assemblies are deliberately omitted; this is incomplete, not evidence those source steps are built. Inverted40666 direction agrees with sourcep7. Lowerred3437/base8LDU edge overlap, stud registration and supplied approximate fork/arm interfaces remain provisional. No physical/load/motion/user acceptance.",
+    "accepted": false
   }
 }

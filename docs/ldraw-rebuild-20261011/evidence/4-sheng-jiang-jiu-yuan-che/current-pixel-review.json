@@ -1,7 +1,7 @@
 {
   "sourceSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
   "revision": "866524574d348ce54fc41111af426280d3018ba29ef766ecc3072629edf45873",
-  "reviewedAt": "2026-10-11T06:10:32.392260+00:00",
+  "reviewedAt": "2026-10-11T07:56:44.903720+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-sheng-jiang-jiu-yuan-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "4af97e1410a7f0884c5212b4e03d0fbb05833cddff375f6c562d200256774046",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "798f62abd39f234173f568f48f99f1c10ac7f0e122d143b3ba7d5d8ca4f26230",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "4bd8c8c6707e6d1ea393d13afce56d07e18e1bc6db14f007e21b97f9f755ac21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "682aeafec47043885795e1180f48a2e9a0d7564861e97246f51c63ee89d48fcb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "854a6d954b60f7e6cc833bd98b2f507be5777ee9de038b587731619dd5c819ae",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "7f9d12c067aade95ac42b4ac5866cde956fee3787debfd66b77b0e7c6b375ca3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8576a6157fcb4bc4e48d9390d1abb48f0a33f01fb2d4141c4b92e2f50681619a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "b5ee345ec7a7c2e762dd6f355d17ed8e8bc6ccf61bf4aaf9a5187eea4d597233",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "be0d615d12e2352d034a967a83b91420932e48324b7013bc8d5e9058da83f46c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "e2717e10b392491a005f1898c1230c474e77d7020c02baf8c654b6626329be86",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "ab0e93522fcd30d9404094487726300a18bcf06ec50a522784557967ccc8e4a7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "bcbcd7d94774c22e89c25f84db51174e631212754451fecf2af572fff04bf74d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "91526349018c000200bc538c1fd200a4d01335e07c8ecfce3aa80fa410e08a49",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected current final3 contact sheet plus full iso-rear pixels; source SHA5f833583 matches local LDR. Shortened cockpit front overhang and lower zigzag platform are visible and closer to source-page13 proportions. Complete frame, no blank render. The known canopy/roof collision and canopy/cockpit overlap remain unresolved; roof visually obscures the canopy upper rear edge and this pixel inspection does not waive either checker failure. Approximate short-arm geometry, hinge engagement, stability and exact figure print remain unverified. Only final3 reviewed, no new cumulative-step certification; accepted false."
+  "limitations": "Actually inspected all12 current5f833583 cumulative frames, originalstep8/10 and sourcep8/9/10. Stage1 separate chassis subassemblies bridge at2; roof addition8 retains known actual canopy/roof mesh interference, view occlusion cannot waive it. Light bar white support corresponds source9. Lift chain stage10 remains visibly more extended than compact source pose, precise hinge fit/pose unresolved; platform/fences/figure appear at11/12. Manual support and physical stability unverified; inspection is not acceptance."
 }

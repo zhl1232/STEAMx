@@ -47,5 +47,13 @@
     "limit": "Radial clearance at least1.183LDU means press-fit not proven; no physical validation. No generic collisionPASS claim."
   },
   "collisionAssessment": "Previous uniform6292 cavity radius exemption REVOKED. Current inner rim pairs each have197 strict triangle crossings; outer pairs0 does not establish clearance. Nominal candidate still has52 inner crossings and source lacks hidden seating depth. See tyre-assembly-decision.json and static-alarm-review.json.",
-  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied"
+  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": false,
+    "limitations": "All10 cumulative D frames viewed against source10-page contact; originalstep1 inspected. Wheel outer flanges protrude more than source silhouette; this is consistent with unresolved axle-stack issue, not accepted fit. Four inner rim pairs have197 strict triangle crossings each; old uniform tyre-radius exemption revoked. Four source drivebelts omitted atsteps6-7. Gear/body increments otherwise match broad construction. D steps only; old C final separately handled by main."
+  }
 }

@@ -46,5 +46,13 @@
     "status": "PASS",
     "invalid": []
   },
-  "inventoryMechanicalDeficits": []
+  "inventoryMechanicalDeficits": [],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 12,
+    "currentDfinalActuallyReviewed": false,
+    "limitations": "All12 cumulative D frames screened against source12-page contact; originalstep8 and11 inspected. Sourcep4 blue wings andp5 tail absent; empty step4 expected. Two dev6294 ears use prior approved approximation; ear angular pose remains inferred. Trunk/ear increments seen but cumulative rear camera occludes several front interfaces, so no new support-clearance acceptance. This records only D steps, not D final views. Existing source-matched C final evidence handled separately by main. No physical validation."
+  }
 }

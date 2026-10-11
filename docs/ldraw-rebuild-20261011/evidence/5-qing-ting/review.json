@@ -69,5 +69,13 @@
     "p7 tyre/rim AABB overlap: official6292 minimum radial faceboundary42.183>6527max41.1? known flange max41; geometry clear but press-fit not proven."
   ],
   "collisionAssessment": "Previous uniform6292 cavity radius exemption REVOKED. Current inner rim pairs each have197 strict triangle crossings; outer pairs0 does not establish clearance. Nominal candidate still has52 inner crossings and source lacks hidden seating depth. See tyre-assembly-decision.json and static-alarm-review.json.",
-  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied"
+  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": false,
+    "limitations": "All10 cumulative D frames viewed against source10-page contact; originalstep5 inspected. Tail retains adjacent pulley edge risks and near-body1LDU risk; no source-backed stagger identified. Eye wheels have2 inner rim pairs with197 strict triangle crossings each; uniform tyre-radius exemption revoked. Source wing/leg/pond additions correspond but hidden retention and exact angles remain inferred. D steps only; old C final separately handled by main. No physical acceptance."
+  }
 }

@@ -259,7 +259,7 @@
     "matrixInvalid": [],
     "rawCollision": "pass; Toolo manual collision policy means not complete rigid-intersection proof",
     "closure": "pending parent serial pack",
-    "pixels": "pending parent serial final+step render"
+    "pixels": "Current6c174f6c final3 and all12 original cumulative frames actually viewed; no framing loss. Rear step camera hides some interfaces; p12 eight windows omitted."
   },
   "limitations": [
     "Tower side mount uses source screw interface; approximate thread retention not certified.",
@@ -288,5 +288,13 @@
       -1,
       0
     ]
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+    "revision": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+    "stepCount": 12,
+    "allOriginalFramesActuallyViewed": true,
+    "observations": "Actually viewed all12 original cumulative PNGs and reopened sourcep7,p11,p12. Full base, tower, cap and radial arm extents remain framed. Steps1-3 build pedestal/tower/cap;4-6 side mount and central bearing;7 forks;8 arms;9 end clutches;10 seat bearings;11 four hanging blue plates. Current step camera views the tower/back side, partly hiding near-hub and one arm, so it cannot certify hidden connector engagement. Step12 equals11 because eight source window/cab assemblies are omitted, not completed. Sourcep11 front view shows studded blue faces; rear step view shows underside, not evidence of reversed plate installation. Approximate screw capture, radial pivots, seat retention and full rotation/load stability remain provisional. No physical/user acceptance.",
+    "accepted": false
   }
 }

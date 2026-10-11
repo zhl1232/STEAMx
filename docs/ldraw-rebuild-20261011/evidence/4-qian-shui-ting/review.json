@@ -35,5 +35,13 @@
     "invalid": []
   },
   "inventoryMechanicalDeficits": [],
-  "pixelRevisionReason": "Flipped longarm localY from-Y to+Y, openend400 now reaches bracket pivot(0,-393,48)"
+  "pixelRevisionReason": "Flipped longarm localY from-Y to+Y, openend400 now reaches bracket pivot(0,-393,48)",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames viewed against source10-page contact, originalstep8 inspected. Corrected longarm open end visibly joins lower periscope bracket. Missing sourcep6 propeller remains absent. Approved approximate Toolo parts, inferred hinge retention and cockpit/canopy overlap remain unresolved. No physical acceptance."
+  }
 }

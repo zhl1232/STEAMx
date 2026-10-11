@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-11T07:55:16.358348+00:00",
-  "localCheckpointCommit": "86e9f71",
+  "generatedAt": "2026-10-11T08:02:11.197461+00:00",
+  "localCheckpointCommit": "a938657",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 50,
-    "draft-final-pixels-reviewed-steps-pending": 19,
-    "source-verified-remotely-awaiting-transfer": 60
+    "draft-final-and-all-steps-pixels-reviewed": 56,
+    "source-verified-remotely-awaiting-transfer": 60,
+    "draft-final-pixels-reviewed-steps-pending": 13
   },
   "writtenSources": 69,
   "finalReviewed": 69,
-  "allStepsReviewed": 50,
+  "allStepsReviewed": 56,
   "partIssueFamiliesIncludingFlexibleRoutes": 29,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
@@ -74,9 +74,9 @@
     {
       "slug": "4-ci-xuan-fu-lie-che",
       "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -119,9 +119,9 @@
     {
       "slug": "4-du-jiao-xian",
       "sourceSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -182,18 +182,18 @@
     {
       "slug": "4-long-men-diao",
       "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-mo-tian-lun",
       "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -236,9 +236,9 @@
     {
       "slug": "4-sheng-jiang-jiu-yuan-che",
       "sourceSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -281,9 +281,9 @@
     {
       "slug": "4-tui-tu-ji",
       "sourceSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
