@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-11T10:56:23.833377+00:00",
+  "generatedAt": "2026-10-11T11:40:41.180989+00:00",
   "summary": {
-    "reconstructedOrInProgressCourses": 76,
+    "reconstructedOrInProgressCourses": 86,
     "deferredCourses": 11,
-    "partIssueFamilies": 30,
+    "partIssueFamilies": 31,
     "byIssueCategory": {
       "confirmed_id_missing_geometry": 6,
-      "candidate_id_missing_geometry": 2,
+      "candidate_id_missing_geometry": 3,
       "known_id_unverified_license": 1,
       "flexible_route_unverified": 2,
       "candidate_flexible_geometry": 1,
@@ -16,19 +16,19 @@
       "unidentified_figure_components": 1,
       "inventory_id_missing_geometry_source_match_provisional": 2
     },
-    "knownPartConnectionOmissionGroups": 8,
+    "knownPartConnectionOmissionGroups": 10,
     "interfaceRecordsExcludedFromUnknownCounts": true,
     "unbuiltCoursesExcluded": true,
     "acceptedCourses": 0,
     "localExtractedOfficialParts": 6,
     "candidatePartOmissionGroups": 0,
-    "staticReviewCourses": 76,
+    "staticReviewCourses": 86,
     "staticReviewStaleSourceHashes": 0,
-    "tyreInterfaceCourses": 8,
-    "knownConnectionOmittedPieces": 44
+    "tyreInterfaceCourses": 9,
+    "knownConnectionOmittedPieces": 55
   },
   "staticReviewSnapshot": {
-    "at": "2026-10-11T10:56:23.833377+00:00",
+    "at": "2026-10-11T11:40:41.180989+00:00",
     "method": "Current SHA-bound static reports; cumulative/expanded alarm records are not independent totals.",
     "reviews": [
       {
@@ -1719,6 +1719,230 @@
         "physicalValidation": false
       },
       {
+        "slug": "5-ce-feng-yi",
+        "report": "preparation/5-ce-feng-yi/static-alarm-review.json",
+        "reportSha256": "3ec3b29a8bb718853981fca8dd847ff810194dd43460a77a1af6b2b8f2dd307c",
+        "modelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "reportedModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-ce-ju-yi",
+        "report": "preparation/5-ce-ju-yi/static-alarm-review.json",
+        "reportSha256": "349ceee5a1844289e14b52872fa719a2225f86ba96fc219cc4836def8a0cc2a1",
+        "modelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "reportedModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "insufficient_evidence": 4,
+          "real_risk": 6
+        },
+        "alarms": [
+          {
+            "sourceLine": 32,
+            "otherSourceLine": 28,
+            "lineNumbers": [
+              32,
+              28
+            ],
+            "raw": "- step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29",
+            "classification": "insufficient_evidence",
+            "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+          },
+          {
+            "sourceLine": 32,
+            "otherSourceLine": 29,
+            "lineNumbers": [
+              32,
+              29
+            ],
+            "raw": "- step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29",
+            "classification": "insufficient_evidence",
+            "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+          },
+          {
+            "sourceLine": 33,
+            "otherSourceLine": 30,
+            "lineNumbers": [
+              33,
+              30
+            ],
+            "raw": "- step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31",
+            "classification": "insufficient_evidence",
+            "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+          },
+          {
+            "sourceLine": 33,
+            "otherSourceLine": 31,
+            "lineNumbers": [
+              33,
+              31
+            ],
+            "raw": "- step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31",
+            "classification": "insufficient_evidence",
+            "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+          },
+          {
+            "sourceLine": 42,
+            "otherSourceLine": 39,
+            "lineNumbers": [
+              42,
+              39
+            ],
+            "raw": "- step 5: 5-ce-ju-yi_l42 overlaps 5-ce-ju-yi_l39",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          },
+          {
+            "sourceLine": 43,
+            "otherSourceLine": 40,
+            "lineNumbers": [
+              43,
+              40
+            ],
+            "raw": "- step 5: 5-ce-ju-yi_l43 overlaps 5-ce-ju-yi_l40",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          },
+          {
+            "sourceLine": 53,
+            "otherSourceLine": 50,
+            "lineNumbers": [
+              53,
+              50
+            ],
+            "raw": "- step 6: 5-ce-ju-yi_l53 overlaps 5-ce-ju-yi_l50",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          },
+          {
+            "sourceLine": 54,
+            "otherSourceLine": 51,
+            "lineNumbers": [
+              54,
+              51
+            ],
+            "raw": "- step 6: 5-ce-ju-yi_l54 overlaps 5-ce-ju-yi_l51",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          },
+          {
+            "sourceLine": 62,
+            "otherSourceLine": 59,
+            "lineNumbers": [
+              62,
+              59
+            ],
+            "raw": "- step 7: 5-ce-ju-yi_l62 overlaps 5-ce-ju-yi_l59",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          },
+          {
+            "sourceLine": 63,
+            "otherSourceLine": 60,
+            "lineNumbers": [
+              63,
+              60
+            ],
+            "raw": "- step 7: 5-ce-ju-yi_l63 overlaps 5-ce-ju-yi_l60",
+            "classification": "real_risk",
+            "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+          }
+        ],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-cha-che",
+        "report": "preparation/5-cha-che/static-alarm-review.json",
+        "reportSha256": "96df9a599c4215c1ab23508487f21061bb175a0f0394ad22df608128b3276196",
+        "modelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "reportedModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "approved_approximate_cockpit_interface_unverified": 1
+        },
+        "alarms": [
+          {
+            "lines": [
+              64,
+              65
+            ],
+            "step": 7,
+            "parts": [
+              "31196c01.dat",
+              "6345.dat"
+            ],
+            "sourceSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+            "placements": [
+              {
+                "page": 7,
+                "line": 64,
+                "id": "31196c01.dat",
+                "color": 25,
+                "transform": [
+                  80,
+                  -271.797667,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  -1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "page": 7,
+                "line": 65,
+                "id": "6345.dat",
+                "color": 46,
+                "transform": [
+                  -68,
+                  -305.797667,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "classification": "approved_approximate_cockpit_interface_unverified",
+            "reason": "Source cabin and windscreen use the existing approved relative pose; raw overlap retained. 31196c01 is approximate, hidden shell/sill/hinge fit unverified. The raw bounding-region checker is not a surface proof.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false
+          }
+        ],
+        "additionalFindings": [
+          "31196c01 cockpit is an existing approved approximate mesh; hidden sockets and canopy attachment remain unverified.",
+          "6523 gear at local X40 faces inward; 6530 gear wheels match source, but axle radial and axial retention and loaded rolling are not physically verified.",
+          "Front and rear linkage pivots are separated by 240 LDU; actual seven-hole beam endpoints are +/-120. Four-bar geometry is represented in source raised pose, not a motion simulation.",
+          "Gearbox bore axes and worm/gear heights are taken from actual 31624 DAT (worm Y=-72, output Y=-168); tooth phase and actual contact need mesh/mechanical review.",
+          "Crank pins are local Y20..60 at local Z80. Layer centres 60/100/140 are separated by 40 LDU; pins point inward through adjacent 40-LDU beam thickness, but axial locks/clearance are not certified.",
+          "p19 load is separate on the ground, not attached to the fork."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "5-chou-you-ji",
         "report": "preparation/5-chou-you-ji/static-alarm-review.json",
         "reportSha256": "7315acc4ac0ddfa6841b15de93cd4887c3366f0b573ef5a8512eea32c4482663",
@@ -1738,6 +1962,198 @@
             "finding": "Hidden eccentric-to-flywheel linkage is unresolved; static pose does not demonstrate pumping."
           }
         ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "report": "preparation/5-ci-xuan-fu-lie-che/static-alarm-review.json",
+        "reportSha256": "b2de776043a15184b90cf8e2b9c441c92e27d939db5c00c75b30c91c78140fb5",
+        "modelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "reportedModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "insufficient_evidence": 2
+        },
+        "alarms": [
+          {
+            "step": 9,
+            "lines": [
+              135,
+              134
+            ],
+            "parts": [
+              "6345.dat",
+              "31196c01.dat"
+            ],
+            "classification": "insufficient_evidence",
+            "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+          },
+          {
+            "step": 9,
+            "lines": [
+              137,
+              136
+            ],
+            "parts": [
+              "6345.dat",
+              "31196c01.dat"
+            ],
+            "classification": "insufficient_evidence",
+            "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+          }
+        ],
+        "additionalFindings": [
+          "All16 original pages actually viewed. Four green deck plates bridge five six-layer piers. Blue4x8 deck segments and transverse2x4 connectors follow p8 layout; source has no magnets, maglev is the course title not a verified levitation mechanism.",
+          "Each chassis side has40LDU thick guide beam centeredZ60, then40LDU inner/outer crank bodies centeredZ100/140 on8L shaft endingZ160. Source p5/6/7 shows8cranks per chassis but hides far-side pin indexing: chosen inner horizontal / outer downward phase is manual and needs an underside/end view. No magnetic, rotating or retention function certified.",
+          "Two cockpit meshes are existing approved approximations; canopy uses approved relative R and offset(0,-34,-148). Exact molded fit not certified.",
+          "Twelve61649 frames plus twelve90265 panes represent12source window assemblies; mold revision hidden in source. Official closed-pane relative offset retained, not an invented12extra sourcepieces."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-da-cha-de-xiao-niu",
+        "report": "preparation/5-da-cha-de-xiao-niu/static-alarm-review.json",
+        "reportSha256": "803735bde149a6936ec00cd7a3633e76a9d8c810fcdd1e857f3590c3aa3df9b7",
+        "modelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "reportedModelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "insufficient_evidence": 4
+        },
+        "alarms": [
+          {
+            "lines": [
+              50,
+              37
+            ],
+            "classification": "insufficient_evidence",
+            "parts": [
+              "3011.dat",
+              "75350.dat"
+            ],
+            "evidence": "Step6 upperpost against yaw60deg swing arm. Source p6 shows posts behind moving arms, but exact yaw/axial stack inferred. Raw proxy overlap retained; must inspect render and mesh before claiming clearance. No arbitrary displacement to suppress alarm."
+          },
+          {
+            "lines": [
+              51,
+              37
+            ],
+            "classification": "insufficient_evidence",
+            "parts": [
+              "3011.dat",
+              "75350.dat"
+            ],
+            "evidence": "Step6 upperpost against yaw60deg swing arm. Source p6 shows posts behind moving arms, but exact yaw/axial stack inferred. Raw proxy overlap retained; must inspect render and mesh before claiming clearance. No arbitrary displacement to suppress alarm."
+          },
+          {
+            "lines": [
+              53,
+              39
+            ],
+            "classification": "insufficient_evidence",
+            "parts": [
+              "3011.dat",
+              "75350.dat"
+            ],
+            "evidence": "Step6 upperpost against yaw60deg swing arm. Source p6 shows posts behind moving arms, but exact yaw/axial stack inferred. Raw proxy overlap retained; must inspect render and mesh before claiming clearance. No arbitrary displacement to suppress alarm."
+          },
+          {
+            "lines": [
+              54,
+              39
+            ],
+            "classification": "insufficient_evidence",
+            "parts": [
+              "3011.dat",
+              "75350.dat"
+            ],
+            "evidence": "Step6 upperpost against yaw60deg swing arm. Source p6 shows posts behind moving arms, but exact yaw/axial stack inferred. Raw proxy overlap retained; must inspect render and mesh before claiming clearance. No arbitrary displacement to suppress alarm."
+          }
+        ],
+        "additionalFindings": {
+          "false_positive": [],
+          "real_risk": [],
+          "insufficient_evidence": [
+            {
+              "partOrCandidate": "31622/6529",
+              "sourceQuantity": 3,
+              "location": "right-angle input gear train",
+              "missingEvidence": "Axial seating and tooth phase inferred from source; crown contact against both24 gears not physically tested",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "75350/6526",
+              "sourceQuantity": 2,
+              "location": "two moving arm pivots",
+              "missingEvidence": "60degree open pose inferred visually; gear driven phase and underside bearing/stud interference remain unverified",
+              "classification": "known-interface-unverified"
+            }
+          ]
+        },
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-da-di-shu",
+        "report": "preparation/5-da-di-shu/static-alarm-review.json",
+        "reportSha256": "f9ffea2a2a780f55a8cc2337e17185f4173f5126010ab39456bc8d32d57f61c0",
+        "modelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "reportedModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {
+          "false_positive": [],
+          "real_risk": [],
+          "insufficient_evidence": [
+            {
+              "partOrCandidate": "6530/6529",
+              "sourceQuantity": 5,
+              "location": "front five gear train",
+              "missingEvidence": "Nominal40/24 pitch centres160; static teeth phase/contact and manual rotation not certified",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "6526+6523",
+              "sourceQuantity": 3,
+              "location": "lower eccentric/follower pin joint",
+              "missingEvidence": "Coaxial layout follows source but integral carrier pin and inserted axle hidden engagement need sectional/physical evidence; not an automatically solved linkage",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "42029",
+              "sourceQuantity": 3,
+              "location": "tube holder rings",
+              "missingEvidence": "Existing CCAL2-labelled locally repaired mesh; independent provenance report does not independently close original upstream licensing; no new repair; dimensions and ring seat manual",
+              "classification": "known-id-existing-local-repair"
+            },
+            {
+              "partOrCandidate": "31452/42029",
+              "sourceQuantity": 3,
+              "location": "lower tube flange/ring",
+              "missingEvidence": "Tube localZ flange and historic holder axis inferred numerically; radial/depth tolerance and freedom of movement require actual mesh/physical check",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "22119/6524",
+              "sourceQuantity": 3,
+              "location": "three low-rest balls and dynamic motion",
+              "missingEvidence": "Source raised ball centre candidateY-608 would leave143LDU unsupported gap. Actual tube minimum bore exceeds ball radius, so rim cannot support it. Low static rest centreY-465 preserves identities/count but dynamic coupling, stability and full motion remain unverified. Nominal sphere clearance is only geometric evidence.",
+              "classification": "source-pose-adjustment-unverified-motion"
+            },
+            {
+              "classification": "known-id-existing-local-repair",
+              "part": "42029.dat",
+              "evidence": "../independent-qa/42029-geometry-provenance.json",
+              "limits": "80 local mesh triangles repaired max1.1645LDU; repository CCAL2 label, Studio original license absent, upstream chain not independently verified; not previous user approval"
+            }
+          ]
+        },
         "accepted": false,
         "physicalValidation": false
       },
@@ -2072,6 +2488,79 @@
         "physicalValidation": false
       },
       {
+        "slug": "5-dan-che",
+        "report": "preparation/5-dan-che/static-alarm-review.json",
+        "reportSha256": "70093ad77dfe10ce80fb76e9f609f825baa8eb989ecc136af172f8b2e610dd81",
+        "modelSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+        "reportedModelSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "false_positive_aabb": 4
+        },
+        "alarms": [
+          {
+            "step": 2,
+            "lines": [
+              21,
+              18
+            ],
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "classification": "false_positive_aabb",
+            "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+          },
+          {
+            "step": 2,
+            "lines": [
+              22,
+              19
+            ],
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "classification": "false_positive_aabb",
+            "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+          },
+          {
+            "step": 4,
+            "lines": [
+              38,
+              35
+            ],
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "classification": "false_positive_aabb",
+            "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+          },
+          {
+            "step": 4,
+            "lines": [
+              39,
+              36
+            ],
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "classification": "false_positive_aabb",
+            "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+          }
+        ],
+        "additionalFindings": [
+          "All9 source pages viewed. Page8 totalBOM and page9 alternate pose are not counted as added parts. Four paired40T gears are the wheels; no tyres substituted.",
+          "Official75349 and75350 share6517s01 circular brick bore localY24. Source-selected top/lower axes are(±120,-144)/(±160,-72), distance82.365041; beam hole centers two40 pitches apart, so lower axle is2.365041 eccentric to its15LDU-radius beam bore. Recursive6522 shaft radial envelope9.000237 leaves conservative3.634722 radial clearance. This is a nominal clearance fit, not forced rigid deformation, exact concentricity or physical retention certification.",
+          "Handle/pedal integral crank pins and axial retention are manual; no dynamic or physical verification. Handle/pedal8L identification is based stack extent, source finalBOM groups8shafts without separate lengths; exact lengths require inventory/measurement confirmation."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "5-dan-gan-yun-dong-yuan",
         "report": "preparation/5-dan-gan-yun-dong-yuan/static-alarm-review.json",
         "reportSha256": "d5c4d81d8e357a4b0ae616a9418bf444c8a5f7c9d4847d393166171dbe7993f0",
@@ -2187,6 +2676,54 @@
         "physicalValidation": false
       },
       {
+        "slug": "5-e-yu",
+        "report": "preparation/5-e-yu/static-alarm-review.json",
+        "reportSha256": "0dcec774cb3b34e851c69351088bd85a31b6fede6884fd8806a773b3dda7b7f5",
+        "modelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "reportedModelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {
+          "source-supported": 2,
+          "evidence-insufficient": 4
+        },
+        "alarms": [
+          {
+            "key": "plates",
+            "classification": "source-supported",
+            "evidence": "p1 three4196 6x12 plates plus4672b 4x8 end-to-end. p2/p10/p11 bricks and staggered underside plates bridge seams; initial source stage contains unconnected plates until those bridging steps."
+          },
+          {
+            "key": "gearbox",
+            "classification": "evidence-insufficient",
+            "evidence": "Official31624 originbottomY0; worm31625 centeredY-72 axisX;24-tooth6529 centeredY-168 axisZ matches molded housing centres. Tooth phase, physical contact and actual torque transmission not tested."
+          },
+          {
+            "key": "jaw",
+            "classification": "evidence-insufficient",
+            "evidence": "p7 green8L axle atX-360,Y-168,Z axis passes through housing output and long75350 hole centers. Gray worm input distinctXaxis. Side6526 crank integral pins offset80 alongjaw enter adjacent holes. Jaw currently source horizontal pose, teeth below do not imply opening clearance through full rotation."
+          },
+          {
+            "key": "feet",
+            "classification": "evidence-insufficient",
+            "evidence": "p12 four individual6L axles, two per leg station, centeredZ±140 so solids do not overlap across centre (innerends±20). Inner crank only partial axle engagement; outer foot main bore atY48 and lower boreY128 meet retainer pin spacing80. Shaft end retention, inner crank phase and mirrored paw motion not physically verified."
+          },
+          {
+            "key": "eye",
+            "classification": "evidence-insufficient",
+            "evidence": "Sourcep9 eye brick has a white highlight. Existing official3437pe1 used; it also carries a second-eye side that source does not fully expose. Print variation remains pending, not a substituted generic unprinted brick."
+          },
+          {
+            "key": "eye-base-support",
+            "classification": "source-supported",
+            "evidence": "p9 six head-back parts now Z +/-80: ordinary 3011 undersides land on 75350 rail studs at same Z; source shows separated eye stacks. Old +/-40 lateral offset removed."
+          }
+        ],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "5-fan-chuan",
         "report": "preparation/5-fan-chuan/static-alarm-review.json",
         "reportSha256": "9aa7fdd40d19b78e7f8bba167e2528334053ee161c4e2490eb284dc389d29433",
@@ -2196,6 +2733,631 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "report": "preparation/5-fan-dou-che/static-alarm-review.json",
+        "reportSha256": "fe354d74185b7ef1106b6ac268ffbf981a31c635a6a99f7c4769723eec8f32f2",
+        "modelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "reportedModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "confirmed_mesh_surface_crossing_known_parts": 4,
+          "raw_alarm_not_confirmed_by_strict_surface_test": 4,
+          "approved_approximate_cockpit_interface_unverified": 1
+        },
+        "alarms": [
+          {
+            "lines": [
+              23,
+              24
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 23,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  -80,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 24,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  -80,
+                  -57,
+                  -100,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            ],
+            "classification": "confirmed_mesh_surface_crossing_known_parts",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 52,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              23,
+              25
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 23,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  -80,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 25,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  -80,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              }
+            ],
+            "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 0,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              26,
+              27
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 26,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  -80,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 27,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  -80,
+                  -57,
+                  100,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              }
+            ],
+            "classification": "confirmed_mesh_surface_crossing_known_parts",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 52,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              26,
+              28
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 26,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  -80,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 28,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  -80,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            ],
+            "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 0,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              30,
+              31
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 30,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  240,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 31,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  240,
+                  -57,
+                  -100,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            ],
+            "classification": "confirmed_mesh_surface_crossing_known_parts",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 52,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              30,
+              32
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 30,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  240,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 32,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  240,
+                  -57,
+                  -140,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              }
+            ],
+            "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 0,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              33,
+              34
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 33,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  240,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 34,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  240,
+                  -57,
+                  100,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  -1
+                ]
+              }
+            ],
+            "classification": "confirmed_mesh_surface_crossing_known_parts",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 52,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              33,
+              35
+            ],
+            "step": 2,
+            "parts": [
+              "6292.dat",
+              "6527.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 2,
+                "line": 33,
+                "id": "6292.dat",
+                "color": 0,
+                "transform": [
+                  240,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              {
+                "page": 2,
+                "line": 35,
+                "id": "6527.dat",
+                "color": 14,
+                "transform": [
+                  240,
+                  -57,
+                  140,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            ],
+            "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+            "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false,
+            "meshEvidence": {
+              "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+              "strictSurfaceCrossingTrianglePairs": 0,
+              "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+            }
+          },
+          {
+            "lines": [
+              38,
+              39
+            ],
+            "step": 3,
+            "parts": [
+              "31196c01.dat",
+              "6345.dat"
+            ],
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+            "placements": [
+              {
+                "page": 3,
+                "line": 38,
+                "id": "31196c01.dat",
+                "color": 25,
+                "transform": [
+                  -120,
+                  -105,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  -1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "page": 3,
+                "line": 39,
+                "id": "6345.dat",
+                "color": 46,
+                "transform": [
+                  -268,
+                  -139,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "classification": "approved_approximate_cockpit_interface_unverified",
+            "reason": "Source cabin and windscreen use the existing approved relative pose; raw overlap retained. 31196c01 is approximate, hidden shell/sill/hinge fit unverified. The raw bounding-region checker is not a surface proof.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false
+          }
+        ],
+        "additionalFindings": [
+          "31196c01 is an existing approved photo approximation; canopy relative pose retained but hidden sockets and hinge are unverified.",
+          "6292 cavity is asymmetric. Two 6527 wheels per tyre are source-backed, but actual mesh/physical tyre compression and retention are unresolved; no blanket collision waiver.",
+          "Front and rear linkage roots differ by 24 LDU because p4 adds a plate and p5 adds a brick. Upper deck pose solves exact 280 LDU pin separation with rear crank below 1 degree from vertical; source supports the raised pose but this fine angular solution is provisional, not measured.",
+          "p10 loose blue load orientation is not attached or mechanically retained."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-feng-che-fang",
+        "report": "preparation/5-feng-che-fang/static-alarm-review.json",
+        "reportSha256": "959f132823b8167cbd947c91451b1aefbd24f6fca9fe1d628000e9d9bdbeee77",
+        "modelSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+        "reportedModelSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {
+          "known-omission": 1,
+          "source-supported": 1,
+          "evidence-insufficient": 2
+        },
+        "alarms": [
+          {
+            "key": "roof-eaves",
+            "classification": "known-omission",
+            "evidence": "p5 high-resolution source and parent independent count agree21 upper blue3011+6 lower eaves.12x12 red support isX[-240,240]; source lower2x12 eaves eachX[240,320] or[-320,-240], with no positive stud overlap.6 blue3011 omitted, no invented interior support.21 upper bricks lowered directly onto red plates,40LDU edge overhang with at least40 support. Preview roof height differs from source; not faithful complete roof."
+          },
+          {
+            "key": "door",
+            "classification": "source-supported",
+            "evidence": "p2 five48LDU courses=240; official92094 actualheight240. White89849 origin(65.5,127,-40) relative frame aligns three hinge heights65/127/189 with door local-62/0/62. No claim of latch or swing validation."
+          },
+          {
+            "key": "tower",
+            "classification": "evidence-insufficient",
+            "evidence": "p8 eight rear yellow bricks plus two forward prongs, leaving80LDU axle-tower gap. PillarsX±80 accept320LDU6521 shafts, outside6527X±140. Vertical75350 is held by two horizontal shafts atY-528/-648; its bottom is suspended by those shafts, not claimed as a stud foundation. Top shaft through front-facing upright brick and crank retention is not fully confirmed by source or mesh intersection."
+          },
+          {
+            "key": "rotor",
+            "classification": "evidence-insufficient",
+            "evidence": "Two6525 beams on separate depth planes40LDU apart; blade plates point their underside forward with each24LDU side-build thickness accounted. Blue plate ends at beam face; yellow ends at blue stud plane. Brick-to-beam grip and hidden hub retainer need physical/source verification; static pose does not certify free rotation or wind operation."
+          }
+        ],
         "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
@@ -5376,6 +6538,524 @@
       "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
+      "slug": "5-fan-dou-che",
+      "modelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "parts": [
+        "6292.dat",
+        "6527.dat"
+      ],
+      "source": "preparation/5-fan-dou-che/static-alarm-review.json",
+      "reportSha256": "fe354d74185b7ef1106b6ac268ffbf981a31c635a6a99f7c4769723eec8f32f2",
+      "alarmRecords": [
+        {
+          "lines": [
+            23,
+            24
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 23,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                -80,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 24,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                -80,
+                -57,
+                -100,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "classification": "confirmed_mesh_surface_crossing_known_parts",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 52,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            23,
+            25
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 23,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                -80,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 25,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                -80,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            }
+          ],
+          "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 0,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            26,
+            27
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 26,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                -80,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 27,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                -80,
+                -57,
+                100,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            }
+          ],
+          "classification": "confirmed_mesh_surface_crossing_known_parts",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 52,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            26,
+            28
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 26,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                -80,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 28,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                -80,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 0,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            30,
+            31
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 30,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                240,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 31,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                240,
+                -57,
+                -100,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "classification": "confirmed_mesh_surface_crossing_known_parts",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 52,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            30,
+            32
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 30,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                240,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 32,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                240,
+                -57,
+                -140,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            }
+          ],
+          "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 0,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            33,
+            34
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 33,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                240,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 34,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                240,
+                -57,
+                100,
+                -1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                -1
+              ]
+            }
+          ],
+          "classification": "confirmed_mesh_surface_crossing_known_parts",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 52 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 52,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        },
+        {
+          "lines": [
+            33,
+            35
+          ],
+          "step": 2,
+          "parts": [
+            "6292.dat",
+            "6527.dat"
+          ],
+          "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+          "placements": [
+            {
+              "page": 2,
+              "line": 33,
+              "id": "6292.dat",
+              "color": 0,
+              "transform": [
+                240,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "page": 2,
+              "line": 35,
+              "id": "6527.dat",
+              "color": 14,
+              "transform": [
+                240,
+                -57,
+                140,
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+          "reason": "Source p2 specifies two 6527 per 6292. Asymmetric tyre cavity and inner pulley require actual mesh evidence; no blanket tyre exception or physical approval. See tyre-profile.json and tyre-triangles.json. Recursive strict surface test: 0 crossing triangle pairs. Zero excludes neither containment nor coplanarity; positive is mesh evidence, not physical verdict.",
+          "resolution": "retained-unresolved-not-clear",
+          "accepted": false,
+          "meshEvidence": {
+            "path": "preparation/5-fan-dou-che/tyre-triangles.json",
+            "strictSurfaceCrossingTrianglePairs": 0,
+            "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94"
+          }
+        }
+      ],
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
+    },
+    {
       "slug": "5-huo-jian",
       "modelSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
       "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
@@ -7304,266 +8984,1313 @@
       "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     }
   ],
-  "batch10Intake": {
-    "at": "2026-10-11T10:56:23.833377+00:00",
+  "batch11Intake": {
+    "at": "2026-10-11T11:40:41.180989+00:00",
     "courses": [
-      "4-da-long-xia",
-      "4-qiu-qian",
-      "4-shou-ge-ji",
-      "4-tang-lang",
-      "4-tuo-gua-che",
-      "4-zhong-guo-long",
-      "4-zuan-tu-che"
+      "5-ce-feng-yi",
+      "5-ce-ju-yi",
+      "5-cha-che",
+      "5-ci-xuan-fu-lie-che",
+      "5-da-cha-de-xiao-niu",
+      "5-da-di-shu",
+      "5-dan-che",
+      "5-e-yu",
+      "5-fan-dou-che",
+      "5-feng-che-fang"
     ],
     "inventoryEvidence": [
       {
-        "slug": "4-zhong-guo-long",
-        "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
-        "part": "28331 /74844",
+        "slug": "5-dan-che",
+        "currentModelSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+        "part": "6527.dat",
+        "sourcePages": [],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "6527.dat",
+          "referenceID": "6527",
+          "sourceRequired": 16,
+          "verified9656StockAllColors": 15,
+          "extraBeyond9656IgnoringColor": 1,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-dan-che/ledger.json"
+      },
+      {
+        "slug": "5-dan-che",
+        "currentModelSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+        "part": "6530.dat",
+        "sourcePages": [],
+        "additional": 2,
+        "ownerEvidence": {
+          "part": "6530.dat",
+          "referenceID": "6530",
+          "sourceRequired": 4,
+          "verified9656StockAllColors": 2,
+          "extraBeyond9656IgnoringColor": 2,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-dan-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "4268.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "4268.dat",
+          "referenceID": "4268",
+          "sourceRequired": 2,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "3011.dat",
+        "sourcePages": [],
+        "additional": 58,
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "referenceID": "3011",
+          "sourceRequired": 70,
+          "verified9656StockAllColors": 12,
+          "extraBeyond9656IgnoringColor": 58,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "4196.dat",
+        "sourcePages": [],
+        "additional": 3,
+        "ownerEvidence": {
+          "part": "4196.dat",
+          "referenceID": "4196",
+          "sourceRequired": 4,
+          "verified9656StockAllColors": 1,
+          "extraBeyond9656IgnoringColor": 3,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "75350.dat",
+        "sourcePages": [],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "75350.dat",
+          "referenceID": "6515",
+          "sourceRequired": 3,
+          "verified9656StockAllColors": 2,
+          "extraBeyond9656IgnoringColor": 1,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "6525.dat",
+        "sourcePages": [],
+        "additional": 2,
+        "ownerEvidence": {
+          "part": "6525.dat",
+          "referenceID": "6525",
+          "sourceRequired": 6,
+          "verified9656StockAllColors": 4,
+          "extraBeyond9656IgnoringColor": 2,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "6521.dat",
+        "sourcePages": [],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "6521.dat",
+          "referenceID": "6521",
+          "sourceRequired": 6,
+          "verified9656StockAllColors": 5,
+          "extraBeyond9656IgnoringColor": 1,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "6526.dat",
+        "sourcePages": [],
+        "additional": 18,
+        "ownerEvidence": {
+          "part": "6526.dat",
+          "referenceID": "6526",
+          "sourceRequired": 24,
+          "verified9656StockAllColors": 6,
+          "extraBeyond9656IgnoringColor": 18,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "4672.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "4672.dat",
+          "referenceID": "4672",
+          "sourceRequired": 4,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "40666.dat",
+        "sourcePages": [],
+        "additional": 9,
+        "ownerEvidence": {
+          "part": "40666.dat",
+          "referenceID": "40666",
+          "sourceRequired": 11,
+          "verified9656StockAllColors": 2,
+          "extraBeyond9656IgnoringColor": 9,
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "31196c01.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "31196c01.dat",
+          "referenceID": "31196c01",
+          "sourceRequired": 2,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "6345.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6345.dat",
+          "referenceID": "6345",
+          "sourceRequired": 2,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "61649.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "61649.dat",
+          "referenceID": "61649",
+          "sourceRequired": 12,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+        "part": "90265.dat",
+        "sourcePages": [],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "90265.dat",
+          "referenceID": "90265",
+          "sourceRequired": 12,
+          "verified9656StockAllColors": null,
+          "extraBeyond9656IgnoringColor": "unknown",
+          "sourceColorNotReplaced": true
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ci-xuan-fu-lie-che/ledger.json"
+      },
+      {
+        "slug": "5-ce-ju-yi",
+        "currentModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "part": "75350.dat",
+        "sourcePages": [
+          1,
+          2,
+          7
+        ],
+        "additional": 3,
+        "ownerEvidence": {
+          "partId": "75350.dat",
+          "color": "Red",
+          "installedQuantity": 5,
+          "inventoryRows": [
+            {
+              "set": "9656-1",
+              "part_num": "6515",
+              "color": "Red",
+              "quantity": 2
+            }
+          ],
+          "additionalVsSingle9656": 3,
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+          "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-ju-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-ju-yi",
+        "currentModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "part": "40666.dat",
         "sourcePages": [
           1
         ],
-        "required": 4,
-        "referenceQuantity": 2,
-        "additional": 2,
-        "color": null,
-        "basis": "one45002 reference",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-zhong-guo-long/ledger.json"
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "40666.dat",
+          "color": "Blue",
+          "installedQuantity": 3,
+          "inventoryRows": [
+            {
+              "set": "9090-2",
+              "part_num": "40666",
+              "color": "Blue",
+              "quantity": 12
+            }
+          ],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-ju-yi/ledger.json"
       },
       {
-        "slug": "4-zhong-guo-long",
-        "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
-        "part": "6294",
+        "slug": "5-ce-ju-yi",
+        "currentModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "part": "6527.dat",
         "sourcePages": [
-          10
-        ],
-        "required": 2,
-        "referenceQuantity": 1,
-        "additional": 1,
-        "color": "orange",
-        "basis": "one45002 orange reference",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-zhong-guo-long/ledger.json"
-      },
-      {
-        "slug": "4-da-long-xia",
-        "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
-        "part": "76057 /31184c01",
-        "sourcePages": [
-          3,
           4,
-          6
-        ],
-        "required": 7,
-        "referenceQuantity": 1,
-        "additional": 6,
-        "color": "red",
-        "basis": "one45002 red reference; pageBOM2+3+2",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-da-long-xia/ledger.json"
-      },
-      {
-        "slug": "4-da-long-xia",
-        "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
-        "part": "28336 /45202",
-        "sourcePages": [
-          6,
-          7,
-          8
-        ],
-        "required": 8,
-        "referenceQuantity": 4,
-        "additional": 4,
-        "color": null,
-        "basis": "complete source needs8;4 placed and4 connection-omitted; no double count",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-da-long-xia/ledger.json"
-      },
-      {
-        "slug": "4-tuo-gua-che",
-        "currentModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
-        "part": "76395 /86599",
-        "sourcePages": [
-          1,
-          6,
-          9,
-          11
-        ],
-        "required": 8,
-        "referenceQuantity": 7,
-        "additional": 1,
-        "color": "black",
-        "basis": "owner sourceBOM4+1+2+1",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-tuo-gua-che/ledger.json"
-      },
-      {
-        "slug": "4-shou-ge-ji",
-        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
-        "part": "76057",
-        "sourcePages": [
-          2,
-          3,
-          4,
-          6,
-          7
-        ],
-        "required": 13,
-        "referenceQuantity": 7,
-        "additional": 6,
-        "color": null,
-        "basis": "one45002 all-color scenario; do not add to yellow-only12",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
-      },
-      {
-        "slug": "4-shou-ge-ji",
-        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
-        "part": "76057",
-        "sourcePages": [
-          2,
-          3,
-          4,
-          6,
-          7
-        ],
-        "required": 13,
-        "referenceQuantity": 1,
-        "additional": 12,
-        "color": "yellow",
-        "basis": "one45002 exact-yellow scenario; alternative to all-color6",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
-      },
-      {
-        "slug": "4-shou-ge-ji",
-        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
-        "part": "86601",
-        "sourcePages": [
-          5
-        ],
-        "required": 4,
-        "referenceQuantity": 1,
-        "additional": 3,
-        "color": null,
-        "basis": "one45002 inventory ID; no6670c01 equivalence inferred",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
-      },
-      {
-        "slug": "4-tang-lang",
-        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
-        "part": "28336 /45202",
-        "sourcePages": [
+          5,
           6,
           7,
           9
         ],
-        "required": 5,
-        "referenceQuantity": 4,
-        "additional": 1,
-        "color": null,
-        "basis": "one45002 owner placements2+1+2",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-tang-lang/ledger.json"
-      },
-      {
-        "slug": "4-tang-lang",
-        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
-        "part": "74957",
-        "sourcePages": [
-          6,
-          7,
-          10
-        ],
-        "required": 5,
-        "referenceQuantity": 2,
         "additional": 3,
-        "color": null,
-        "basis": "one45002 owner placements2+1+2",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-tang-lang/ledger.json"
+        "ownerEvidence": {
+          "partId": "6527.dat",
+          "color": "Yellow",
+          "installedQuantity": 18,
+          "inventoryRows": [
+            {
+              "set": "9656-1",
+              "part_num": "6527",
+              "color": "Yellow",
+              "quantity": 15
+            }
+          ],
+          "additionalVsSingle9656": 3,
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-ju-yi/ledger.json"
       },
       {
-        "slug": "4-tang-lang",
-        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
-        "part": "40666",
+        "slug": "5-ce-ju-yi",
+        "currentModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "part": "31624.dat",
         "sourcePages": [
-          10,
-          11,
-          12
+          8
         ],
-        "required": 12,
-        "referenceQuantity": 10,
-        "additional": 2,
-        "color": "green unresolved",
-        "basis": "conditional: source green shade unresolved versus9090 Bright Green; owner placements2+4+6",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-tang-lang/ledger.json"
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "31624.dat",
+          "color": "White",
+          "installedQuantity": 1,
+          "inventoryRows": [],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-ju-yi/ledger.json"
       },
       {
-        "slug": "4-zuan-tu-che",
-        "currentModelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
-        "part": "76395 /86599",
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "4196.dat",
+        "sourcePages": [
+          1
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "4196.dat",
+          "color": "Red",
+          "installedQuantity": 2,
+          "inventoryRows": [
+            {
+              "set": "9090-2",
+              "part_num": "4196",
+              "color": "Red",
+              "quantity": 2
+            }
+          ],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "3011.dat",
         "sourcePages": [
           1,
+          2,
+          3
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "3011.dat",
+          "color": "Blue",
+          "installedQuantity": 12,
+          "inventoryRows": [
+            {
+              "set": "9090-2",
+              "part_num": "3011",
+              "color": "Blue",
+              "quantity": 26
+            },
+            {
+              "set": "9076-1",
+              "part_num": "3011",
+              "color": "Blue",
+              "quantity": 4
+            }
+          ],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2,
+          3
+        ],
+        "additional": 23,
+        "ownerEvidence": {
+          "partId": "3011.dat",
+          "color": "Yellow",
+          "installedQuantity": 28,
+          "inventoryRows": [
+            {
+              "set": "9656-1",
+              "part_num": "3011",
+              "color": "Yellow",
+              "quantity": 5
+            }
+          ],
+          "additionalVsSingle9656": 23,
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2,
+          3
+        ],
+        "additional": 19,
+        "ownerEvidence": {
+          "partId": "3011.dat",
+          "color": "Red",
+          "installedQuantity": 23,
+          "inventoryRows": [
+            {
+              "set": "9090-2",
+              "part_num": "3011",
+              "color": "Red",
+              "quantity": 20
+            },
+            {
+              "set": "9656-1",
+              "part_num": "3011",
+              "color": "Red",
+              "quantity": 4
+            },
+            {
+              "set": "9076-1",
+              "part_num": "3011",
+              "color": "Red",
+              "quantity": 4
+            }
+          ],
+          "additionalVsSingle9656": 19,
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "75350.dat",
+        "sourcePages": [
+          4,
+          5
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "partId": "75350.dat",
+          "color": "Red",
+          "installedQuantity": 6,
+          "inventoryRows": [
+            {
+              "set": "9656-1",
+              "part_num": "6515",
+              "color": "Red",
+              "quantity": 2
+            }
+          ],
+          "additionalVsSingle9656": 4,
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+          "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "40666.dat",
+        "sourcePages": [
+          5
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "40666.dat",
+          "color": "Blue",
+          "installedQuantity": 8,
+          "inventoryRows": [
+            {
+              "set": "9090-2",
+              "part_num": "40666",
+              "color": "Blue",
+              "quantity": 12
+            }
+          ],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "part": "98220.dat",
+        "sourcePages": [
           6
         ],
-        "required": 9,
-        "referenceQuantity": 7,
+        "additional": "unknown",
+        "ownerEvidence": {
+          "partId": "98220.dat",
+          "color": "Red",
+          "installedQuantity": 4,
+          "inventoryRows": [],
+          "additionalVsSingle9656": "unknown",
+          "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-ce-feng-yi/ledger.json"
+      },
+      {
+        "slug": "5-feng-che-fang",
+        "currentModelSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+        "part": "3011.dat",
+        "sourcePages": [
+          2,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "additional": 21,
+        "ownerEvidence": {
+          "id": "3011.dat",
+          "color": "Blue",
+          "sourceQuantity": 47,
+          "referenceSet": "9090-2",
+          "referenceQuantity": 26,
+          "extraBeyondOneReferenceSet": 21
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-feng-che-fang/ledger.json"
+      },
+      {
+        "slug": "5-e-yu",
+        "currentModelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "part": "3011.dat",
+        "sourcePages": [
+          2,
+          3,
+          4,
+          7,
+          9,
+          10
+        ],
+        "additional": 19,
+        "ownerEvidence": {
+          "id": "3011.dat",
+          "color": "Lime",
+          "sourceQuantity": 29,
+          "referenceSet": "9090-2",
+          "referenceQuantity": 10,
+          "extraBeyondOneReferenceSet": 19
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-e-yu/ledger.json"
+      },
+      {
+        "slug": "5-e-yu",
+        "currentModelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "part": "3011.dat",
+        "sourcePages": [
+          2,
+          3,
+          4,
+          7,
+          9,
+          10
+        ],
+        "additional": 10,
+        "ownerEvidence": {
+          "id": "3011.dat",
+          "color": "Green",
+          "sourceQuantity": 13,
+          "referenceSet": "9656-1",
+          "referenceQuantity": 3,
+          "extraBeyondOneReferenceSet": 10
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-e-yu/ledger.json"
+      },
+      {
+        "slug": "5-e-yu",
+        "currentModelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "part": "6526.dat",
+        "sourcePages": [
+          7,
+          12,
+          13
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "id": "6526.dat",
+          "color": "Yellow",
+          "sourceQuantity": 10,
+          "referenceSet": "9656-1",
+          "referenceQuantity": 6,
+          "extraBeyondOneReferenceSet": 4
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-e-yu/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "6490.dat",
+        "sourcePages": [
+          1
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "6490.dat",
+          "color": "Green",
+          "colorCode": 2,
+          "quantity": 1,
+          "catalogId": "6490",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "75349.dat",
+        "sourcePages": [
+          1,
+          9
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "id": "75349.dat",
+          "color": "Red",
+          "colorCode": 4,
+          "quantity": 5,
+          "catalogId": "6517",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6517",
+              "color": "Red",
+              "quantity": 4,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 4,
+          "extraNeeded": 1,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "6530.dat",
+        "sourcePages": [
+          3
+        ],
         "additional": 2,
-        "color": null,
-        "basis": "one45002 owner pageBOM8+1",
-        "userPhysicalStock": "unknown",
-        "notAdditionalToOtherScenarios": true,
-        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
-        "evidencePath": "preparation/4-zuan-tu-che/ledger.json"
+        "ownerEvidence": {
+          "id": "6530.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 4,
+          "catalogId": "6530",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6530",
+              "color": "Yellow",
+              "quantity": 2,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 2,
+          "extraNeeded": 2,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "3011.dat",
+        "sourcePages": [
+          4,
+          5,
+          6,
+          9,
+          19
+        ],
+        "additional": 15,
+        "ownerEvidence": {
+          "id": "3011.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 20,
+          "catalogId": "3011",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "3011",
+              "color": "Green",
+              "quantity": 3,
+              "exactColor": false
+            },
+            {
+              "set": "9656-1",
+              "id": "3011",
+              "color": "Red",
+              "quantity": 4,
+              "exactColor": false
+            },
+            {
+              "set": "9656-1",
+              "id": "3011",
+              "color": "Yellow",
+              "quantity": 5,
+              "exactColor": true
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Blue",
+              "quantity": 26,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Bright Green",
+              "quantity": 20,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Lime",
+              "quantity": 10,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Medium Blue",
+              "quantity": 10,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Orange",
+              "quantity": 10,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3011",
+              "color": "Red",
+              "quantity": 20,
+              "exactColor": false
+            }
+          ],
+          "referenceStock": 5,
+          "extraNeeded": 15,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "6345.dat",
+        "sourcePages": [
+          7
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "6345.dat",
+          "color": "Trans-Yellow",
+          "colorCode": 46,
+          "quantity": 1,
+          "catalogId": "6345",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "31624.dat",
+        "sourcePages": [
+          10
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "31624.dat",
+          "color": "White",
+          "colorCode": 15,
+          "quantity": 1,
+          "catalogId": "31624",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "31624",
+              "color": "Trans-Clear",
+              "quantity": 1,
+              "exactColor": false
+            }
+          ],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "6526.dat",
+        "sourcePages": [
+          11,
+          13,
+          17,
+          18
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "id": "6526.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 7,
+          "catalogId": "6526",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6526",
+              "color": "Yellow",
+              "quantity": 6,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 6,
+          "extraNeeded": 1,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "part": "6524.dat",
+        "sourcePages": [
+          12,
+          13,
+          14,
+          18
+        ],
+        "additional": 6,
+        "ownerEvidence": {
+          "id": "6524.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 8,
+          "catalogId": "6524",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6524",
+              "color": "Yellow",
+              "quantity": 2,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 2,
+          "extraNeeded": 6,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-cha-che/ledger.json"
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "currentModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "part": "75350.dat",
+        "sourcePages": [
+          1,
+          8
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "id": "75350.dat",
+          "color": "Red",
+          "colorCode": 4,
+          "quantity": 4,
+          "catalogId": "6515",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6515",
+              "color": "Red",
+              "quantity": 2,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 2,
+          "extraNeeded": 2,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-fan-dou-che/ledger.json"
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "currentModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "part": "6345.dat",
+        "sourcePages": [
+          3
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "6345.dat",
+          "color": "Trans-Yellow",
+          "colorCode": 46,
+          "quantity": 1,
+          "catalogId": "6345",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-fan-dou-che/ledger.json"
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "currentModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "part": "6526.dat",
+        "sourcePages": [
+          6,
+          7
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "id": "6526.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 8,
+          "catalogId": "6526",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6526",
+              "color": "Yellow",
+              "quantity": 6,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 6,
+          "extraNeeded": 2,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-fan-dou-che/ledger.json"
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "currentModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "part": "31021p01.dat",
+        "sourcePages": [
+          9
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "31021p01.dat",
+          "color": "White",
+          "colorCode": 15,
+          "quantity": 4,
+          "catalogId": "31021p01",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-fan-dou-che/ledger.json"
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2,
+          5,
+          6,
+          7
+        ],
+        "additional": 21,
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "sourceQuantity": 33,
+          "9656AllColors": 12,
+          "additionalAgainstOne9656IgnoringColor": 21
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-di-shu/ledger.json"
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "part": "6530.dat",
+        "sourcePages": [
+          3
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "6530.dat",
+          "sourceQuantity": 3,
+          "9656AllColors": 2,
+          "additionalAgainstOne9656IgnoringColor": 1
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-di-shu/ledger.json"
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "part": "6523.dat",
+        "sourcePages": [
+          3,
+          4
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "6523.dat",
+          "sourceQuantity": 5,
+          "9656AllColors": 4,
+          "additionalAgainstOne9656IgnoringColor": 1
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-di-shu/ledger.json"
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "part": "6524.dat",
+        "sourcePages": [
+          4,
+          9
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "6524.dat",
+          "sourceQuantity": 3,
+          "9656AllColors": 2,
+          "additionalAgainstOne9656IgnoringColor": 1
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-di-shu/ledger.json"
+      },
+      {
+        "slug": "5-da-cha-de-xiao-niu",
+        "currentModelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "part": "2302.dat",
+        "sourcePages": [
+          1,
+          8,
+          12
+        ],
+        "additional": 8,
+        "ownerEvidence": {
+          "part": "2302.dat",
+          "sourceQuantity": 12,
+          "9656AllColors": 4,
+          "additionalAgainstOne9656IgnoringColor": 8
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-cha-de-xiao-niu/ledger.json"
+      },
+      {
+        "slug": "5-da-cha-de-xiao-niu",
+        "currentModelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          6,
+          7,
+          8,
+          10,
+          11,
+          13
+        ],
+        "additional": 20,
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "sourceQuantity": 32,
+          "9656AllColors": 12,
+          "additionalAgainstOne9656IgnoringColor": 20
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-cha-de-xiao-niu/ledger.json"
+      },
+      {
+        "slug": "5-da-cha-de-xiao-niu",
+        "currentModelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "part": "75350.dat",
+        "sourcePages": [
+          2,
+          4,
+          7
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "part": "75350.dat",
+          "sourceQuantity": 6,
+          "9656AllColors": 2,
+          "additionalAgainstOne9656IgnoringColor": 4
+        },
+        "missingEvidence": "Actual user stock and full allowed-set/color reconciliation unknown; missing row is not zero. Listed pages from owner per-page BOM, not fresh pixel review.",
+        "evidencePath": "preparation/5-da-cha-de-xiao-niu/ledger.json"
       }
     ],
     "resolvedOrNonOmitted": [
       {
-        "slug": "4-qiu-qian",
-        "currentModelSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
-        "placements": 104,
+        "slug": "5-dan-che",
+        "currentModelSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
         "omissions": 0,
-        "sourcePages": [
-          6,
-          7,
-          8
-        ],
-        "note": "Earlier13 omissions obsolete; nominal lower support and seated figure restored. Manual exact screw/clutch retention remains unverified."
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
       },
       {
-        "slug": "4-zuan-tu-che",
-        "currentModelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+        "slug": "5-ci-xuan-fu-lie-che",
+        "currentModelSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
         "omissions": 0,
-        "note": "52 placed. End stud-grid8LDU mismatch and cockpit/hood raw collision retained as interface risks, not invented omitted pieces."
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-ce-feng-yi",
+        "currentModelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-e-yu",
+        "currentModelSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-cha-che",
+        "currentModelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-fan-dou-che",
+        "currentModelSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
+      },
+      {
+        "slug": "5-da-cha-de-xiao-niu",
+        "currentModelSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+        "omissions": 0,
+        "note": "No current owner-declared omissions; manual interface/identity-variant risks remain, not physical acceptance"
       }
     ],
     "boundary": "Inventory deficits are per-course references, not summed simultaneous requirements. Source and raw checker evidence do not constitute physical validation.",
-    "accepted": false
+    "accepted": false,
+    "geometryProvenanceRisks": [
+      {
+        "slug": "5-ce-ju-yi",
+        "currentModelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+        "part": "61898f",
+        "report": "preparation/independent-qa/61898f-official-geometry-recheck.json",
+        "sha256": "bae1eae803df057f934eb09f462380af202a623223c2d147067252d5d2dd69c5",
+        "classification": "known_or_candidate_id_missing_geometry; retained in partIssueOccurrences",
+        "notUnknownIdentity": true
+      },
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "part": "42029",
+        "report": "preparation/independent-qa/42029-geometry-provenance.json",
+        "sha256": "3bb21e88954194fd33c77dc5933ac70627c3b5ac1d22d99adb39a32437cd9882",
+        "classification": "existing_local_geometry_repair_provenance_and_interface_risk; NOT missinggeometry orunknownID",
+        "notUnknownIdentity": true
+      }
+    ],
+    "nonOmissionPoseAdjustments": [
+      {
+        "slug": "5-da-di-shu",
+        "currentModelSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+        "sourcePages": [
+          9,
+          10
+        ],
+        "installedBalls": 3,
+        "omittedBalls": 0,
+        "pose": "low resting on existing followers, differs from high source display; no invented extension",
+        "evidence": "preparation/5-da-di-shu/ball-support-audit.json",
+        "limitations": "Tube opening minR65.856109 exceeds ball conservativeR65; opening cannot retain it. Low pose nearest follower-top ideal-sphere gap0.014914LDU is approximate geometric support only; no dynamic/stability proof"
+      }
+    ],
+    "integrationRules": [
+      "61898f remains partIssue family;403 is access failure not absence.",
+      "42029 is existing geometry with repair/license trace limits, not a missing geometry family.",
+      "Do not merge stock scenarios or infer actual user holdings.",
+      "No raw checker pass constitutes physical assembly verification."
+    ]
   }
 }

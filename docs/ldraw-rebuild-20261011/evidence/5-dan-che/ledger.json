@@ -1,0 +1,239 @@
+{
+  "slug": "5-dan-che",
+  "sourceSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+  "previousModelSha256": "c79a493b0d406ade14c49968e906c3131eec2a2de6b3f9b542d91a297b15227d",
+  "placementCount": 44,
+  "stepCount": 7,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "central support and two raised mounting ends",
+      "placedBOM": {
+        "75349.dat": 3,
+        "3011.dat": 1,
+        "75350.dat": 1,
+        "40666.dat": 2
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "rear seven-hole paired links; two mounting axles and retainers",
+      "placedBOM": {
+        "6524.dat": 2,
+        "6522.dat": 2,
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "rear double40-tooth gear wheel",
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 2,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "front eleven-hole steering links; two body axles",
+      "placedBOM": {
+        "6525.dat": 2,
+        "6522.dat": 2,
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "front double40-tooth gear wheel",
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 2,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "handle axle, two cranks and yellow curved seat; source8 summary only",
+      "placedBOM": {
+        "6521.dat": 1,
+        "6527.dat": 2,
+        "6526.dat": 2,
+        "2302.dat": 1
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "central pedal shaft and opposite cranks; source9 shows alternate pose, no new BOM",
+      "placedBOM": {
+        "6521.dat": 1,
+        "6527.dat": 2,
+        "6526.dat": 2
+      }
+    }
+  ],
+  "placedBOM": {
+    "75349.dat": 3,
+    "3011.dat": 1,
+    "75350.dat": 1,
+    "40666.dat": 2,
+    "6524.dat": 2,
+    "6522.dat": 6,
+    "6527.dat": 16,
+    "6530.dat": 4,
+    "6525.dat": 2,
+    "6521.dat": 2,
+    "6526.dat": 4,
+    "2302.dat": 1
+  },
+  "sourcePageBOM": {
+    "1": {
+      "75349.dat": 3,
+      "3011.dat": 1,
+      "75350.dat": 1,
+      "40666.dat": 2
+    },
+    "2": {
+      "6524.dat": 2,
+      "6522.dat": 2,
+      "6527.dat": 4
+    },
+    "3": {
+      "6522.dat": 1,
+      "6530.dat": 2,
+      "6527.dat": 2
+    },
+    "4": {
+      "6525.dat": 2,
+      "6522.dat": 2,
+      "6527.dat": 4
+    },
+    "5": {
+      "6522.dat": 1,
+      "6530.dat": 2,
+      "6527.dat": 2
+    },
+    "6": {
+      "6521.dat": 1,
+      "6527.dat": 2,
+      "6526.dat": 2,
+      "2302.dat": 1
+    },
+    "7": {
+      "6521.dat": 1,
+      "6527.dat": 2,
+      "6526.dat": 2
+    }
+  },
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All9 source pages viewed. Page8 totalBOM and page9 alternate pose are not counted as added parts. Four paired40T gears are the wheels; no tyres substituted.",
+    "Official75349 and75350 share6517s01 circular brick bore localY24. Source-selected top/lower axes are(±120,-144)/(±160,-72), distance82.365041; beam hole centers two40 pitches apart, so lower axle is2.365041 eccentric to its15LDU-radius beam bore. Recursive6522 shaft radial envelope9.000237 leaves conservative3.634722 radial clearance. This is a nominal clearance fit, not forced rigid deformation, exact concentricity or physical retention certification.",
+    "Handle/pedal integral crank pins and axial retention are manual; no dynamic or physical verification. Handle/pedal8L identification is based stack extent, source finalBOM groups8shafts without separate lengths; exact lengths require inventory/measurement confirmation."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryExtraNeeded": [
+    {
+      "part": "75349.dat",
+      "referenceID": "6517",
+      "sourceRequired": 3,
+      "verified9656StockAllColors": 4,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "3011.dat",
+      "referenceID": "3011",
+      "sourceRequired": 1,
+      "verified9656StockAllColors": 12,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "75350.dat",
+      "referenceID": "6515",
+      "sourceRequired": 1,
+      "verified9656StockAllColors": 2,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "40666.dat",
+      "referenceID": "40666",
+      "sourceRequired": 2,
+      "verified9656StockAllColors": 2,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6524.dat",
+      "referenceID": "6524",
+      "sourceRequired": 2,
+      "verified9656StockAllColors": 2,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6522.dat",
+      "referenceID": "6522",
+      "sourceRequired": 6,
+      "verified9656StockAllColors": 7,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6527.dat",
+      "referenceID": "6527",
+      "sourceRequired": 16,
+      "verified9656StockAllColors": 15,
+      "extraBeyond9656IgnoringColor": 1,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6530.dat",
+      "referenceID": "6530",
+      "sourceRequired": 4,
+      "verified9656StockAllColors": 2,
+      "extraBeyond9656IgnoringColor": 2,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6525.dat",
+      "referenceID": "6525",
+      "sourceRequired": 2,
+      "verified9656StockAllColors": 4,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6521.dat",
+      "referenceID": "6521",
+      "sourceRequired": 2,
+      "verified9656StockAllColors": 5,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "6526.dat",
+      "referenceID": "6526",
+      "sourceRequired": 4,
+      "verified9656StockAllColors": 6,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    },
+    {
+      "part": "2302.dat",
+      "referenceID": "2302",
+      "sourceRequired": 1,
+      "verified9656StockAllColors": 4,
+      "extraBeyond9656IgnoringColor": 0,
+      "sourceColorNotReplaced": true
+    }
+  ],
+  "inventoryCaveat": "Single9656 reference, all colors aggregated only whereIDmapping established; missing row unknown for other permitted bulksets, not automaticallyzero. Actual userstock unknown.",
+  "matrixValidation": {
+    "badDeterminants": [],
+    "allProperRotations": true
+  }
+}

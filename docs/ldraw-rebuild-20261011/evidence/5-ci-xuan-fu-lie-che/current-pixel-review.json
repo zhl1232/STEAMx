@@ -1,0 +1,105 @@
+{
+  "sourceSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+  "revision": "db379240a8cd5443a6ab7bf647a5b8433c382acde98354e12b794ba0c720035e",
+  "reviewedAt": "2026-10-11T11:17:58.207001+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ci-xuan-fu-lie-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "2588c1f380f8aea4c86fb31b456dbc60e05a925382dc644faab820513b72f93d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "79e6ebd0e49769ec712700ed10c51a393f04e95bf2ab218c609905faad52dc65",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d4dda68bc54adc5200d3c4eb1a44216616398607d62441c49ea5e55f57fd2107",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e1e69e95e85a61ec698e664e4a371ebdc63fd4d834283ae97b506fb6b38d4947",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "001998f6a394b24a81c7f419198ed0e78b0c51788b0e3b7c46c3bc285c5c6f6c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "301aedfa8071f688dff129aa89a3a5d972f42e546f2250271df9029c470c948f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "478fe756c1522f8b5e1d49edf72678ed4f7045f44fe9079e8aaeb78147da60cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "844fbbe3d25eeff1c91d584fa503e2d33eda48712d66d08d059f618c59640419",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "f6b44d20f5612a7aeb889dd620adc771316cf388646ff16685c364aa9c1f6f77",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "416d4c45a04beb11ea2767c1bb64a1127454bf9a82bbace34e179e574106ed8e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "a47e1e68612ecc75a8b23c12bbfe5e6581e7c9467ba4a3e0a38e4705671026c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "2af3dda3c920921d4dab9aa660f3e8f2e50500de6f1483564ad9999618140f28",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f346d596bc5b826dea9bbce3fa59918dbed4bd387a10e68f6fe76560c32022c2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "6a15d4f7665252448a186fda78784bd212583363da211156e314cb97e8efea29",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "78609f94bb07f8f4085debf47b3d2347202a87d0996b38236c6638158bc37331",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "c15d02a3571296f91945ae8af542309a852ef5700bb43729be0a4005d876f36c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "f8884567504f8d904e5c6cb81be9d3ee5ed34f4567f876159cee8f34c349d56a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "2588c1f380f8aea4c86fb31b456dbc60e05a925382dc644faab820513b72f93d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all15 cumulative step frames, then original step5 PNG against source p5. Piers/deck additions1-3, three chassis4-7, blue bridge8, opposing cockpits9, yellow backs10, window groups11-13, gap stacks14 and roof15 all remain visible and complete in frame. Six visible hanging crank links and far-side matching sets are present. Inner horizontal/outer downward crank phase remains a manual interpretation of hidden stack; source p5 lacks end/underside detail. Keep both cockpit/canopy proxy alarms insufficient-evidence and all inventory deficits. Maglev is source title; model does not claim magnets, levitation, moving retention or physical validation. No source edit."
+}

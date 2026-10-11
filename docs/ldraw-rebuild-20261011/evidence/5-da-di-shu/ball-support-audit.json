@@ -1,0 +1,38 @@
+{
+  "sourceSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+  "tubeSections": [
+    {
+      "localZ": 0.01,
+      "minSegmentRadius": 65.85610920602282
+    },
+    {
+      "localZ": 1,
+      "minSegmentRadius": 65.85610920602282
+    },
+    {
+      "localZ": 60,
+      "minSegmentRadius": 65.85610920602282
+    },
+    {
+      "localZ": 117,
+      "minSegmentRadius": 65.85610920602282
+    },
+    {
+      "localZ": 119.99,
+      "minSegmentRadius": 65.85610920602282
+    }
+  ],
+  "ballConservativeRadius": 65,
+  "openingSupportsBall": false,
+  "followerTopY": -400,
+  "nearestTopZOffset": 1.3924999999999983,
+  "ballCentreY": -465,
+  "sphericalGapAtClosestTop": 0.014914106303322683,
+  "scope": "Section-edge closest points include line interiors. Ideal radius65 bounds official faceted sphere; tip is slight conservative gap, not physical stability or dynamic proof.",
+  "pose": "Low resting pose authorized; differs from high source presentation, no invented extension",
+  "geometryFiles": [
+    "31452.dat",
+    "22119.dat",
+    "6524.dat"
+  ]
+}

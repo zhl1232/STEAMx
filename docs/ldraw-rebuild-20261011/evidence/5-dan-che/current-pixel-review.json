@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+  "revision": "742b2c0c8021aab19a2017cc9ce2602e60b432056bf4db7cb0c68299c4e14f3d",
+  "reviewedAt": "2026-10-11T11:23:09.256172+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-dan-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "97e02782fa8f18187e044a407b61c3ed1eaef9eb29b4d24404db92526e2e8d30",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "5e6b0fd54b2c96c9ce186810227add54fd95df58c0fda76c8d1217d0fce44f61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "46500d2d3244fce1054ded2a4df5f4919a21e8c2fc39bdb2ec33bbca797b47f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bdcdd5613a802aa8abbb8984e4e05046b555ccf6a10053a34b12da144ece15cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "33543582ad444804c704c0b83c099602a3a03773f0756c8bedc7e770b2ffd4e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "c7416fb9781936c83db45c95be79c1b3b7bf5a7a7376f18bdd8daf6a7dff1cb8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "0ad97eeb7ecafd1986513949786f5f72662b47d9d1d9f38c13bd66be934bea79",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "463197a492d4f5772dc445ecd8071bdba3ae4c399faf2222e4d2c60a0aecbf5c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c646928bd9ad1b184590934af936eae2942aaf9a66c8144665223423229f3eb7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "97e02782fa8f18187e044a407b61c3ed1eaef9eb29b4d24404db92526e2e8d30",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all7 cumulative frames plus original step6 PNG. Both handle crank free pins now point toward seat (+X), matching source p6; step7 pedal assembly remains opposite phase. Steps1-5 retain original central brick stack, paired7/11hole forks and double40T gear wheels. Complete model in frame. Four pulley AABB alarms retain recursive-radius separation classification, not cleared by pixels. Brick/beam axis centers remain eccentric2.365041 within nominal conservative3.634722 circular radial clearance; physical retention, stability, shaft length identification at handle/pedals and motion unverified. Extra9656 loose pulley1 and40T gears2 still required by source BOM. No new source edits or acceptance."
+}

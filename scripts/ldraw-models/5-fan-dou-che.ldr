@@ -1,40 +1,81 @@
-0 5+ 翻斗车 (Dump Truck) - DUPLO draft for manual repair
+0 Dump truck - source reconstruction; unaccepted development draft
 0 Name: 5-fan-dou-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+翻斗车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Raised dump bed, side rails, linkage and orange cab are simplified.
-
-0 // STEP 1 - wheeled chassis and cab
-1 4 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 1 -240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 -400 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -300 -144 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Source PDF SHA256 7b45a34404cfa6fdc1d86be1e359c54735a59288e6a5567b24980d2c6b513d8b; all 11 pages actually viewed.
+0 // Approved cockpit approximation; tyre cavity and crank retention remain provisional.
+0 // SOURCE PAGE 1: seven blue plates and four perforated bricks make 14 x 4 stud chassis
+1 1 -240 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -160 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -80 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 80 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 240 -33 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -200 -81 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -81 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -200 -81 40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -81 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 2 - black lift frame
-1 0 -40 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 120 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -192 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 14 160 -192 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+0 // SOURCE PAGE 2: two green transverse axles, eight pulley wheels and four tyres
+1 2 -80 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 0 -80 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 -80 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -80 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 -80 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -80 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 240 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 0 240 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 240 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 240 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 240 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 240 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 240 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-
-0 // STEP 3 - raised dump bed
-1 4 40 -240 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 15 200 -282 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 4 360 -324 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 15 520 -366 -120 0.966 0.259 0 -0.259 0.966 0 0 0 1 3011.dat
-1 4 260 -324 -40 0.966 0.259 0 -0.259 0.966 0 0 0 1 4196.dat
+0 // SOURCE PAGE 3: orange cockpit, pale yellow screen and yellow rear extension
+1 25 -120 -105 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -268 -139 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 14 0 -129 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 4 - white rails and rear lip
-1 15 80 -318 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 15 240 -360 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 15 400 -402 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 3437.dat
-1 0 560 -408 -240 0.966 0.259 0 -0.259 0.966 0 0 0 1 40666.dat
-1 4 -420 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4: blue plate bridges deck and extension; red axle brick
+1 1 -40 -153 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -40 -201 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 5: rear support two yellow bricks and red axle brick
+1 14 240 -129 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -177 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -225 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 6: one grey axle and four yellow cranks; flat-to-flat thickness 40 LDU
+1 7 -80 -177 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -80 -177 -60 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 0 -177 -100 1 0 0 0 0 -1 0 1 0 6526.dat
+1 14 -80 -177 60 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 0 -177 100 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 7: one grey axle and four yellow cranks; flat-to-flat thickness 40 LDU
+1 7 200 -201 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -201 -60 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 280 -201 -100 0.999917 0 -0.012874 -0.012874 0 -0.999917 0 1 0 6526.dat
+1 14 200 -201 60 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 280 -201 100 -0.999917 0 -0.012874 0.012874 0 -0.999917 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 8: two ten-stud perforated beams on four integral crank pins
+1 4 117.502041 -291.194596 -40 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 75350.dat
+1 4 117.502041 -291.194596 40 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 9: six-by-twelve deck and four striped safety fences
+1 4 115.445466 -315.106319 0 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 4196.dat
+1 15 -12.339448 -400.470339 -100 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 31021p01.dat
+1 15 -12.339448 -400.470339 100 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 31021p01.dat
+1 15 226.777783 -421.036085 -100 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 31021p01.dat
+1 15 226.777783 -421.036085 100 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 10: two blue small and three long bricks form end walls and loose load
+1 1 -87.932042 -345.791644 -40 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 3437.dat
+1 1 -92.045191 -393.61509 0 0 0.0856906086497576 0.9963217951993392 0 0.9963217951993392 -0.0856906086497576 -1 0 0 3011.dat
+1 1 310.596676 -380.067887 -40 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 3437.dat
+1 1 306.483527 -427.891333 0 0 0.0856906086497576 0.9963217951993392 0 0.9963217951993392 -0.0856906086497576 -1 0 0 3011.dat
+1 1 111.332317 -362.929765 0 0.996322 0.085691 0 -0.085691 0.996322 0 0 0 1 3011.dat

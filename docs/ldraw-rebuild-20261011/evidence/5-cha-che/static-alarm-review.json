@@ -1,0 +1,113 @@
+{
+  "slug": "5-cha-che",
+  "modelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+  "reviewedAt": "2026-10-11T11:32:02.349Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-cha-che.ldr",
+    "sha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+    "exit": 2,
+    "output": "\nFAIL [5-cha-che.ldr] 1 error(s), 93 placement(s):\n  - step 7: 5-cha-che_l65 overlaps 5-cha-che_l64\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        64,
+        65
+      ],
+      "step": 7,
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "sourceSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+      "placements": [
+        {
+          "page": 7,
+          "line": 64,
+          "id": "31196c01.dat",
+          "color": 25,
+          "transform": [
+            80,
+            -271.797667,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 7,
+          "line": 65,
+          "id": "6345.dat",
+          "color": 46,
+          "transform": [
+            -68,
+            -305.797667,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "classification": "approved_approximate_cockpit_interface_unverified",
+      "reason": "Source cabin and windscreen use the existing approved relative pose; raw overlap retained. 31196c01 is approximate, hidden shell/sill/hinge fit unverified. The raw bounding-region checker is not a surface proof.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    }
+  ],
+  "rawPairCount": 1,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-cha-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "limitations": [
+    "31196c01 cockpit is an existing approved approximate mesh; hidden sockets and canopy attachment remain unverified.",
+    "6523 gear at local X40 faces inward; 6530 gear wheels match source, but axle radial and axial retention and loaded rolling are not physically verified.",
+    "Front and rear linkage pivots are separated by 240 LDU; actual seven-hole beam endpoints are +/-120. Four-bar geometry is represented in source raised pose, not a motion simulation.",
+    "Gearbox bore axes and worm/gear heights are taken from actual 31624 DAT (worm Y=-72, output Y=-168); tooth phase and actual contact need mesh/mechanical review.",
+    "Crank pins are local Y20..60 at local Z80. Layer centres 60/100/140 are separated by 40 LDU; pins point inward through adjacent 40-LDU beam thickness, but axial locks/clearance are not certified.",
+    "p19 load is separate on the ground, not attached to the fork."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "Current source5fcb0673/revisionc587a268 final3 and all19steps actually reviewed; standard current-pixel-review.json binds hashes, not acceptance"
+}

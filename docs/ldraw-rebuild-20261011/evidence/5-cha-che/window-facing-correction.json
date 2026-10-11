@@ -1,0 +1,11 @@
+{
+  "slug": "5-cha-che",
+  "modelSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+  "beforeSha256": "ba2249c79623150f1f69336cfdc70d95222d9cd6990bb2ca98e90762650cb674",
+  "sourceEvidence": "PDF page8 and page20 actual pixels: white pane is outside at vehicle rear, opposite canopy",
+  "change": "61649 at unchanged center(120,G-288,0) rotates Ry+90 to Ry-90; 90265 remains frame-relative(65.5,72,-40), yielding world(160,G-216,65.5). Same support stud rows and dimensions; no extra parts.",
+  "oldPixels": "revision731265c248b3f0a0d0e647862b0ef88d850a729bfbf901f9520a50294a1e6b65 inspected but obsolete after correction",
+  "currentPixels": "Current source5fcb0673/revisionc587a268 final3 and all19steps actually reviewed; standard current-pixel-review.json binds hashes, not acceptance",
+  "accepted": false,
+  "actualReviewObservation": "step8 and final iso show white pane outside rear(+X), matching sourcep8/p20. No support/row change."
+}

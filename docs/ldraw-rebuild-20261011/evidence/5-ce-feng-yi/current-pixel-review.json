@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+  "revision": "894b4acd40a5a12f9e33eec9fa226ced6c30fe9c11af8d0dda122ae3e0dee526",
+  "reviewedAt": "2026-10-11T11:20:51.104490+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ce-feng-yi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "0d66fbb190a856ffa2e5c69cb250b58e632ba206661212d3e2622296472c9a44",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "926f06a5946eae6fdf2f50be0bcce91c5126219cc8d152fb885d638940987a69",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "551de2c952dc5f4c720e5c271f4f630b642793bcd5231c476c91b479cd8e9a3d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "f05b9e8fe10715c82ab76c67e8ce699495bbcf25b5af35eb665e8157b2cd2601",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "9305fe0897335d4b8df5a77e11654948e47954122419a788ad77a25a691b0b7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e8299be33769fcdf83b0acf7163a193792cb25bf1cce25d01045559d0619bba2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "110fbe8ab361d0af6a6cf6d21a0b23992b80f509aca2b404499e5091e0bbb083",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "6aca1ea310f8fee352fb0d698b46b68e541bfdb3b87f7c0c93ec008d60f358d8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "0d66fbb190a856ffa2e5c69cb250b58e632ba206661212d3e2622296472c9a44",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final3 and all6 cumulative frames reviewed; original step2/step4 PNGs inspected against source p2 and prior all7-page review. Observation coverage only, accepted=false. Alternate-layer ledges now visible; one-axis40LDU offset remains an inferred approximation of source staggered footprint, not confirmation of exact ring-corner layout or hidden brick arrangement. Top cap, central mast and crossed rotor are visible in expected sequence; vertical axle passage/bearing retention not physically established. Cup tangential direction retained; official98220 inner tube extendsY72 despite metadata48; exact cup/6527 axial engagement and shaft retention still manual. No physical or user acceptance."
+}

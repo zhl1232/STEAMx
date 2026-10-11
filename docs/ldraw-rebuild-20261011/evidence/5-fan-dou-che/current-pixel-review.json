@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "61bdc2a76423fe250e42c8542251554a81d7fc20c2e7a8540fa9417119370f94",
+  "revision": "25f0c388cf91ca9b3a7bcacfdf6bfd7536bdbe306a459433e5bc85b25c3862a0",
+  "reviewedAt": "2026-10-11T11:32:43.485376+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-fan-dou-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "7fd0f9e63c5d3e59fc2abe0e10fbbcc8a63c7582236c621829a864200e42ed2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "4c559fbdc5fe295b114407ce3c55e5ec52a768d0cb5e7b28b14555a04abfa366",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "35823326c4857f2d4127bd54cbe3bdef97c37d100139f2270d223f4a6a5fd7e8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "48ec248d35a52920894ded21d90b977e024b91c28f59eca6f08d28200a580937",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "4fa4ce50b982c809346959e16cc667eb31b5931304eeec4f3635f09aabde1a39",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "091807bc51b81c62fc6057a71dbf2c58dcc62708703f0455ab0b79213425162f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e5d1862d78c6ad7e52caa25fc686d4d3b6b31b402773d271b44a3e30d9e5a464",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "1307787f8b2647458d248cc739cb68ee914835c9b39bf11032bfbc422b6dac1b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c0dea0b623512d38b5750e132effcde7ec3ccf62ce7990837491af06f79fbae8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ad095e04d91d1ca000f3731f5e53180c1043381545aa3dea711af698e8ab6ec1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "8a7bd9a1abfcf92b74e5a88cbbaa09082c992b27a8356551885f3791769607d4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "b86c20a7b91d880a3863df5258fd9fb9f0e691fe1423827337bc76be32f69abd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7fd0f9e63c5d3e59fc2abe0e10fbbcc8a63c7582236c621829a864200e42ed2d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 original PNGs and all10 cumulative-step contact frames, plus original step6 against source p6. No clipping or newly established structural source error. Retain asymmetric tyre: four inner wheels each52 strict triangle crossings; outer0 not clearance proof; cockpit approved approximation/canopy overlap, fine four-bar slope inferred, grey axle protrusion and loose blue load pose not physically confirmed. Not acceptance."
+}

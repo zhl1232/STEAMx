@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+  "revision": "6cc0faded4049d6f66b38258706464378a8853d7944e1e13b56a8c3b5ab5db15",
+  "reviewedAt": "2026-10-11T11:36:48.360720+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-e-yu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "495afd7b39fe133b7cbb58202d47f670f30327cc2f26660e2b4d9d1ad248b6d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "ccbb660a84c506db3c39885e001fac0f1c8022d826ee2779ab5ae9c6fc36e122",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d8a0d617fe798d7113be4416ae6388356a592db1574994f80f64fccd96bf305a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "38c0f7dbe4e0c7eea3d531baacc4a4d1d32dbe27d452093a7ee4b68d5a0453b3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8b6892bed47c71a16ed2c8ab01c55911015e4a7b1ce0342405db550af6543e53",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "a348155a422376950758df51888c2c15871a512d933f070ebe7331e2a2ca4ff9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "39b833fb0660d323a318a6db2cc4f3395784698e107cc45724c536defe89d05c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "f3b577770d93a2abfa669aedc23507a7a09a27d7b602fa346d45e94fe06b6efd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "781b583a097d032ce1ffa7e1a89b53eb7f0edce388cceb59439577a7e32af15d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "1669da44f9c422f58769ff1051897e7e782de52ed134a2938635ecb69840e844",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "5b25fad21b96b40e1344372e838ac3cb016178930a785dc6c429430aa90fc162",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "0d45ebc2b5a4d2a871e202bc1382706ff7ea451a754add907ff2376ffa5c032e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "6160a86ca7f366109e7c426ea3444c2e90662aad151d37b9c0b1d7cd53427735",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "a6cda5630cca391381f81eb1184a76cb64803822b40ff1d3cab3665bb6d6f4b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "54a9b87609601978f4beaf52307b41ee70545b7e6409e826da68a636166b0c7b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "495afd7b39fe133b7cbb58202d47f670f30327cc2f26660e2b4d9d1ad248b6d2",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "实际查看当前三视图原PNG、全部13累计步骤联系表及step-9原PNG，对照源p9：六件头后组件位于Z正负80，两组绿3011落在各自红75350顶面，中央两stud间隔可见；未发现新增可确认源对应错位。仅记录观察覆盖，不是装配通过。100件、13步骤；机构齿相、孔轴啮合深度、内侧曲柄接合与足部保持、完整活动行程和3437pe1眼印变体仍待验证，未作实物验收。"
+}

@@ -1,0 +1,107 @@
+{
+  "slug": "5-feng-che-fang",
+  "lessonId": 256,
+  "courseId": 7,
+  "sourceSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+  "pdf": {
+    "name": "5+风车房搭建说明.pdf",
+    "relative_path": "5+/5+风车房搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2509813,
+    "sha256": "3face9fb7cb33df7e0460df1d782b4ecf620e54227731dfba222d97fa58782e7",
+    "source_url": "https://pan.quark.cn/list#/docpdf/03dff7f44e934baa9ab15d4f4dbe1a09",
+    "slug": "5-feng-che-fang",
+    "lesson_id": 256,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "assemblySteps": 13,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-01.jpg",
+      "sha256": "f8307fd34976153a89020eb99407d1a860389e8f14d5cdc0f6f9e23f3e786988",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-02.jpg",
+      "sha256": "bb88ad9ecec0c84c5c336c8b20e1f6be736cd6bb3873e407751045150f811282",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-03.jpg",
+      "sha256": "5a06e3df2c08e793dbece3e1b662ae9dd5c5de4d53cc48fc2a020f9cf4d50635",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-04.jpg",
+      "sha256": "f58fdadd64b6daa4933b690c1712d5aff59faf250273020cea0b6133f8ed6796",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-05.jpg",
+      "sha256": "461dab64bd3da78d2101ebe60a524d57cbf8d16cb6e159bd4813ca8266807b1a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-06.jpg",
+      "sha256": "7d313349a651a8eea1480b8e680f995cc27f60ecaf0c640ee4a7ea9e7e6d7222",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-07.jpg",
+      "sha256": "88856286169d0e9b3ddabc201e6cbb8d1762a0bd75c7b8b8b770fdf8778b1956",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-08.jpg",
+      "sha256": "2bb00f2ff586c26126edda91d811f8e4904212dc6a6a4ab28c860537dcd07f7c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-09.jpg",
+      "sha256": "17bd209e86a0639d5e0471a3c6f787d9aa524b6b672b5bebecf9f50c2253f6b0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-10.jpg",
+      "sha256": "53bed1d1ce571ff2e01965feff235fa2036ec1b3657a5f19344d1b458f10a6ae",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-11.jpg",
+      "sha256": "b6e5494506ecb8af983bea6339b4919ae8b23240e49f094ef8728bbd6a3f22fb",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-12.jpg",
+      "sha256": "6126adb97d24f7b4e7a2488cad03603cb87fa1b0945b50e3d9c19ed4f6bb5bd6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-13.jpg",
+      "sha256": "2178fa87060b21b07c26169e9781fc634b7818ffdd8958301f717c6dba1c2d39",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-feng-che-fang\\page-14.jpg",
+      "sha256": "9e587bfbaea3264fabdf527d5449a8566feb0d85e7118ffa8d62d0a7f259dfaf",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "finalOverviewPage": 14,
+  "accepted": false
+}

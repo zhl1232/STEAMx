@@ -1,0 +1,13 @@
+{
+  "beforeSha256": "311002f79af4610c007e432c66281ed2d59a46a5f7b453c3ed712ca3eea83d3e",
+  "afterSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+  "sourcePage": 6,
+  "changedLines": [
+    52
+  ],
+  "changedSteps": [
+    6,
+    7
+  ],
+  "reason": "Source p6 shows both handle crank free pins directed toward rear/seat (+X); previous negative-Z crank incorrectly pointed opposite. Rotated that crank around existing shaft only, retaining origin and axial slab. Proper determinant+1; no new parts or source-BOM change."
+}

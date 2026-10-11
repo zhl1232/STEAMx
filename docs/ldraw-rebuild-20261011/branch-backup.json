@@ -1,16 +1,16 @@
 {
-  "locallySourcedDrafts": 69,
-  "addedPiecesThisRound": 24,
+  "verifiedAt": "2026-10-11T10:59:13.661465+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
+  "localSha": "eb25e23a7722e96c9126bba0a19db65733368be6",
+  "remoteSha": "eb25e23a7722e96c9126bba0a19db65733368be6",
   "actionsBranchTotalCount": 0,
-  "knownOmittedPieces": 33,
-  "awaitingSourceTransfer": 60,
-  "verifiedAt": "2026-10-11T09:04:30.5342953Z",
-  "accepted": 0,
-  "remainingPartIssueFamilies": 28,
-  "finalViewsReviewed": 69,
-  "localSha": "b665ce556ff10c6458d1e1e342434da25fc372a0",
-  "knownPartOmissionGroups": 6,
-  "allStepsReviewed": 69,
-  "remoteSha": "b665ce556ff10c6458d1e1e342434da25fc372a0"
+  "locallySourcedDrafts": 76,
+  "remainingLocalImports": 53,
+  "librarySourcesAvailable": 129,
+  "finalViewsReviewed": 76,
+  "allStepsReviewed": 76,
+  "remainingPartIssueFamilies": 30,
+  "knownPartOmissionGroups": 8,
+  "knownOmittedPieces": 44,
+  "accepted": 0
 }

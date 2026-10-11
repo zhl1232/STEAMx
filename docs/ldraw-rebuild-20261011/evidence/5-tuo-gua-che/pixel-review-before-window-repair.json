@@ -1,0 +1,115 @@
+{
+  "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+  "revision": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+  "reviewedAt": "2026-10-11T08:12:51.495395+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tuo-gua-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "09ea4acc0f4edad7f41d6bca05edd7e7613515f3966703e237434f5023c070a6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "751643e4be835b9f8f378e5b911ff2bb71acdb3cc9b1299cc6aa3587ca8e1ca7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "96948a6900cfb9c1f1c121f3b820e535e41101f0dd0a64fffdd344e7fc884b69",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "1a0cc668302d17dc09f8684da7142e603eddd64530a8990a858e4a545c3a71a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "30b97f5bda9e99303e8efa2cc341234eb94701fc1a51522de0133293f0940ead",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "ad1601e94b39850057d36278a2108b99c85abdeec6c7f7b0acdcb1a728dcdb8a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "8e38ffd27bcd84568976026f10db553d1abaa261c91b72ad6d1b678cd4ef2952",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8e38ffd27bcd84568976026f10db553d1abaa261c91b72ad6d1b678cd4ef2952",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "64f8d26204e8cbc81cf85191aa57280e0801991e1419aafc772b455a0c3330db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2d759e9f5f03c4aab3f0d4cfcf27b24c788a94cee251f8cbf63c4cbe3216a617",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "1ddf73a337c756d03e3a36bc37fa9d5a34c23e35375323c7b5dcdac4801ce1ba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "e239316b5243ec8ffeda5492f0eff61625cb1367fa0874585f7ff8380366c4a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "fb3357b174955d75f07691afede9cabef6e9e8036abbff788c0e39c55100499c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "c781609dcd098ef7d8edfe926e897011b816259e567414ca4b4a68314e0cc098",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "5390c2eaffe1bd7528faeefd9236817172742ca0461d5a1b9662432c8b6c8054",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "76a198a97b6a271291d0bf02502ef6049c4628707d3db3f0a4ce657cf6b1ee81",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "e734ec01de9b2d9455049637e3d4aba335ed9e4b114138db727964102210f7b9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "30ee494424525aaaffdeb5097ab8566e475c8c21a72274234c794333fa568fca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "50711c68962a25e064e2c4aa965161a1f534fb5751614cf0479df881c152e6e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "09ea4acc0f4edad7f41d6bca05edd7e7613515f3966703e237434f5023c070a6",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all17 D cumulative contact frames and originals step5,13,17; compared source p5,p13,p18. Tractor/trailer rails, gear wheels, floor, stepped blue roof, vertical tow axle/three retainers and five cargo-wall courses follow visible source additions. Source p4 cab/canopy and p5 four white-pane windows omitted: step5 has no visible addition and roof is incompletely supported. Tow pin capture/articulation physically unresolved. Current final3 hash-matched evidence retained. INCOMPLETE, pending user confirmation, no physical validation."
+}
