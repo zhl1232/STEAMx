@@ -27,7 +27,7 @@ export function MobileProjectSteps({ steps, practicePending = false, observation
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">
-          {`${practicePending ? "实践准备" : observationOnly ? "观看要点" : "探索步骤"}${!practicePending && steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
+          {`${practicePending ? "按说明书操作" : observationOnly ? "观看要点" : "探索步骤"}${steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
         </h2>
         {steps.length > 0 ? (
           <button
@@ -40,6 +40,7 @@ export function MobileProjectSteps({ steps, practicePending = false, observation
           </button>
         ) : null}
       </div>
+      {practicePending ? <p className="mb-3 text-sm leading-6 text-muted-foreground">按材料包里的说明书一步步操作；用量、配比和组装方式以说明书为准。</p> : null}
       {steps.length > 0 ? (
         <ol className="space-y-2">
           {steps.map((step, index) => {

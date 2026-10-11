@@ -18,7 +18,7 @@ export function ScienceProjectNotes({ sample }: { sample: ScienceSample }) {
         {sample.extensionQuestions ? <ScienceExtensionQuestions projectId={sample.id} questions={sample.extensionQuestions} /> : null}
       </details>
       <div className="space-y-2">
-        <h2 className="text-lg font-semibold">{sample.mode === 'preparation' ? '准备时的问题' : sample.mode === 'observation' ? '观看时想一想' : '实验中遇到的问题'}</h2>
+        <h2 className="text-lg font-semibold">{sample.mode === 'preparation' ? '动手时的问题' : sample.mode === 'observation' ? '观看时想一想' : '实验中遇到的问题'}</h2>
         {sample.faq.map(item => (
           <details key={item.question} className="rounded-md border border-border p-3">
             <summary className="cursor-pointer text-sm font-medium">{item.question}</summary>

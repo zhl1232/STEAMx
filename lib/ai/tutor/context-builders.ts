@@ -633,11 +633,11 @@ async function buildProjectContext(
     project.problem_statement ? `问题：${sanitizeTutorUGC(project.problem_statement, 200)}` : '',
     science ? `页面拓展：${science.extension}\n页面可选提问：${science.questions.join("；")}\n页面观察：${science.observation}\n页面原理：${science.principle}\n安全提示：${science.safety}` : '',
     materialText ? `材料：${materialText}` : '',
-    stepSummary ? `页面${science?.mode === 'observation' ? '观看要点' : science?.mode === 'preparation' ? '准备与观察要点' : '步骤'}（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
+    stepSummary ? `页面${science?.mode === 'observation' ? '观看要点' : science?.mode === 'preparation' ? '步骤（细节以材料包说明书为准）' : '步骤'}（按当前页面顺序，编号和标题必须照抄）：\n${stepSummary}` : '',
     science?.mode === 'observation'
       ? `【项目定位】仅观看与讨论，不指导复现或扩写操作。${science.demonstrationReason ?? ''}引用页面观看要点时保留原编号和标题。`
       : science?.mode === 'preparation'
-        ? '【项目定位】实践准备，页面不是完整操作教程。仅讨论已公开的过程、观察、原理和安全；不得补造用量、步骤或引导学生仅凭本页开始操作。'
+        ? '【项目定位】材料包实验：学生会收到材料包和说明书。可以按页面步骤讲解和引导动手；用量、配比、组装细节以材料包说明书为准，不要自行编造具体用量或配方，页面没写的细节提醒学生对照说明书或请家长帮忙。'
         : `【学生页面上有】项目详情、材料清单和步骤列表。${buildStepReferenceInstruction('项目步骤')}需要学生动手时，直接引导他看页面里的材料清单或对应步骤标题，不要把整页内容重新念一遍。`,
   ]
     .filter(Boolean)

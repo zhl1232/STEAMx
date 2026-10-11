@@ -36,8 +36,8 @@ test.each(['development', 'production'])('exact approved55 content and tutor agr
  for (const item of legacy) expect(getScienceSample(item.id)).toEqual(item)
 })
 test('public safety modes and static alternative remain explicit', () => {
- expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(22)
- expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(24)
+ expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(34)
+ expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(12)
  expect(reviewed.filter(x => x.mode === 'observation')).toHaveLength(9)
  expect(getScienceSample(1269)?.extension).toContain('不用身体尝试其他电路')
  expect(getScienceSample(1249)?.safety).toContain('不安排儿童制作')
