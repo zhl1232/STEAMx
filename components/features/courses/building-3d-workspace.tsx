@@ -29,6 +29,7 @@ import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
+import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
@@ -50,6 +51,7 @@ type LoadedThreeCore = {
 };
 
 type LoadedLdraw = {
+    createLdrawEdgeRenderer: typeof import("@/lib/utils/ldraw-edges").createLdrawEdgeRenderer;
     LDrawLoader: typeof import("three/examples/jsm/loaders/LDrawLoader.js").LDrawLoader;
     LDrawConditionalLineMaterial: typeof import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js").LDrawConditionalLineMaterial;
 };
@@ -394,7 +396,9 @@ function loadLdrawRuntime(): Promise<LoadedLdraw> {
     ldrawRuntimePromise = Promise.all([
         import("three/examples/jsm/loaders/LDrawLoader.js"),
         import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js"),
-    ]).then(([ldraw, ldrawLine]) => ({
+        import("@/lib/utils/ldraw-edges"),
+    ]).then(([ldraw, ldrawLine, edges]) => ({
+        createLdrawEdgeRenderer: edges.createLdrawEdgeRenderer,
         LDrawLoader: ldraw.LDrawLoader,
         LDrawConditionalLineMaterial: ldrawLine.LDrawConditionalLineMaterial,
     }));
@@ -824,7 +828,8 @@ export function Building3DWorkspace({
     const [failedVideos, setFailedVideos] = useState<Set<string>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
     const [isImmersive, setIsImmersive] = useState(false);
-    const [bom, setBom] = useState<LdrawBom | null>(null);
+    const [rawBom, setBom] = useState<LdrawBom | null>(null);
+    const bom = useMemo(() => rawBom ? prepareLessonBomForCourse(courseId, rawBom) : null, [courseId, rawBom]);
     const [bomLoading, setBomLoading] = useState(false);
     const [modelRetry, setModelRetry] = useState(0);
     const isMobileViewport = useSyncExternalStore(
@@ -1044,6 +1049,14 @@ export function Building3DWorkspace({
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 renderer.shadowMap.enabled = true;
                 mount.appendChild(renderer.domElement);
+                // Dev-only, read-only measurements for the active builder canvas.
+                if (process.env.NODE_ENV !== "production") {
+                    (renderer.domElement as HTMLCanvasElement & { ldrawStats?: () => unknown }).ldrawStats = () => ({
+                        calls: renderer.info.render.calls,
+                        lines: renderer.info.render.lines,
+                        geometries: renderer.info.memory.geometries,
+                    });
+                }
 
                 const controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true;
@@ -1054,6 +1067,7 @@ export function Building3DWorkspace({
                 let frame = 0;
                 let resizeObserver: ResizeObserver | null = null;
                 let disposed = false;
+                let edgeRenderer: ReturnType<LoadedLdraw["createLdrawEdgeRenderer"]> | null = null;
                 const cleanupScene = () => {
                     if (disposed) return;
                     disposed = true;
@@ -1061,6 +1075,11 @@ export function Building3DWorkspace({
                     resizeObserver?.disconnect();
                     controls.dispose();
                     disposeObject3D(scene);
+                    edgeRenderer?.dispose();
+                    scene.clear();
+                    if (process.env.NODE_ENV !== "production") {
+                        delete (renderer.domElement as HTMLCanvasElement & { ldrawStats?: () => unknown }).ldrawStats;
+                    }
                     renderer.renderLists.dispose();
                     renderer.dispose();
                     renderer.forceContextLoss();
@@ -1119,10 +1138,19 @@ export function Building3DWorkspace({
                     return loader;
                 };
                 const ldrawLoader = content.ldrawModelUrl ? createLdrawLoader() : null;
+                if (ldrawLoader && ldrawRuntime) {
+                    edgeRenderer = ldrawRuntime.createLdrawEdgeRenderer((code) => ldrawLoader.getMaterial(code));
+                }
                 const ldrawMaterialsPromise = ldrawLoader
                     ? (async () => {
                         ldrawLoader.addDefaultMaterials();
                         await ldrawLoader.preloadMaterials(ldrawColorUrl);
+                        if (!ldrawLoader.getMaterial("71")) {
+                            console.warn("LDraw colour table is incomplete (missing code 71)", ldrawColorUrl);
+                            if (ldrawColorUrl !== DEFAULT_LDRAW_COLOR_URL) {
+                                await ldrawLoader.preloadMaterials(DEFAULT_LDRAW_COLOR_URL);
+                            }
+                        }
                     })()
                     : null;
                 const parseLdrawStepModel = async (mpdText: string) => {
@@ -1140,6 +1168,7 @@ export function Building3DWorkspace({
                         },
                     );
                     prepareLdrawStepModel(model);
+                    if (!cancelled) edgeRenderer?.prepare(model);
                     return model;
                 };
 

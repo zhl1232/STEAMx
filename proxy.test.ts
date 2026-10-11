@@ -11,6 +11,29 @@ function makeRequest(url: string, host: string, cookie?: string) {
 }
 
 describe("proxy canonical host redirect", () => {
+  describe.each(["steamx.cc", "www.steamx.cc"])("legacy host %s", (host) => {
+    it.each(["/", "/explore", "/robots.txt", "/sitemap.xml"])(
+      "only sends noindex on %s",
+      (path) => {
+        const response = proxy(makeRequest(`https://${host}${path}`, host));
+
+        expect(response.status).toBe(301);
+        expect(response.headers.get("x-robots-tag")).toBe("noindex");
+        expect(response.headers.get("x-robots-tag")).not.toContain("nofollow");
+      },
+    );
+  });
+
+  it.each(["/", "/explore", "/robots.txt", "/sitemap.xml"])(
+    "keeps www.steam.bj.cn redirects indexable on %s",
+    (path) => {
+      const response = proxy(makeRequest(`https://www.steam.bj.cn${path}`, "www.steam.bj.cn"));
+
+      expect(response.status).toBe(301);
+      expect(response.headers.get("x-robots-tag")).toBeNull();
+    },
+  );
+
   it("301s legacy steamx hosts to steam.bj.cn with path and query", () => {
     const apex = proxy(makeRequest("https://steamx.cc/explore?q=bird", "steamx.cc"));
     const www = proxy(makeRequest("https://www.steamx.cc/explore?q=bird", "www.steamx.cc"));
@@ -38,9 +61,29 @@ describe("proxy canonical host redirect", () => {
     expect(dev.status).not.toBe(301);
     expect(primary.headers.get("x-robots-tag")).toBeNull();
     expect(local.headers.get("x-robots-tag")).toBeNull();
-    expect(dev.headers.get("x-robots-tag")).toBeNull();
     expect(local.headers.get("location")).toBeNull();
     expect(primary.headers.get("location")).toBeNull();
+  });
+
+  it("noindexes dev.steamx.cc and other public non-production hosts site-wide", () => {
+    const hosts = ["dev.steamx.cc", "preview.steamx.cc", "random-name.trycloudflare.com"];
+    for (const host of hosts) {
+      for (const path of ["/", "/explore", "/robots.txt", "/sitemap.xml"]) {
+        const res = proxy(makeRequest(`https://${host}${path}`, host));
+        expect(res.status).not.toBe(301);
+        expect(res.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+      }
+    }
+  });
+
+  it("keeps steam.bj.cn, loopback and internal hosts free of X-Robots-Tag", () => {
+    const hosts = ["steam.bj.cn", "STEAM.BJ.CN:443", "localhost:3000", "127.0.0.1:3000", "[::1]:3000", "web"];
+    for (const host of hosts) {
+      for (const path of ["/", "/explore", "/robots.txt", "/sitemap.xml"]) {
+        const res = proxy(makeRequest(`http://localhost${path}`, host));
+        expect(res.headers.get("x-robots-tag")).toBeNull();
+      }
+    }
   });
 
   it("keeps crawler discovery files free of recommendation cookies", () => {

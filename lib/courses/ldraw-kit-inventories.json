@@ -1,0 +1,1357 @@
+{
+  "9090-2": {
+    "setNum": "9090-2",
+    "name": "XL Bulk Set / 大颗粒基础套装",
+    "totalQuantity": 564,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "11248c01",
+        "name": "Duplo Car Base 2 x 6 with Fake Bolts, Open Hitch End and Yellow Wheels",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 3
+      },
+      {
+        "partNum": "11248c01",
+        "name": "Duplo Car Base 2 x 6 with Fake Bolts, Open Hitch End and Yellow Wheels",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 3
+      },
+      {
+        "partNum": "11248c02",
+        "name": "Duplo Car Base 2 x 6 with Fake Bolts, Open Hitch End and Red Wheels",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 3
+      },
+      {
+        "partNum": "12602",
+        "name": "Duplo Fence Railing 1 x 6, with 6 Posts",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 8
+      },
+      {
+        "partNum": "12602",
+        "name": "Duplo Fence Railing 1 x 6, with 6 Posts",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 8
+      },
+      {
+        "partNum": "12602",
+        "name": "Duplo Fence Railing 1 x 6, with 6 Posts",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 8
+      },
+      {
+        "partNum": "15449",
+        "name": "Duplo Hook",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "2222",
+        "name": "Duplo Crane Base 2 x 2 with Hook Holder",
+        "colorId": 179,
+        "colorName": "Flat Silver",
+        "quantity": 1
+      },
+      {
+        "partNum": "2223",
+        "name": "Duplo Ladder Stand",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "2224",
+        "name": "Duplo Ladder 8 Rung",
+        "colorId": 70,
+        "colorName": "Reddish Brown",
+        "quantity": 1
+      },
+      {
+        "partNum": "2291",
+        "name": "Duplo Brick 2 x 10",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "2300",
+        "name": "Duplo Brick 2 x 6",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "2300",
+        "name": "Duplo Brick 2 x 6",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "2300",
+        "name": "Duplo Brick 2 x 6",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "2300",
+        "name": "Duplo Brick 2 x 6",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "2301",
+        "name": "Duplo Brick 2 x 3 x 2 with Curve",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "2301",
+        "name": "Duplo Brick 2 x 3 x 2 with Curve",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "2301",
+        "name": "Duplo Brick 2 x 3 x 2 with Curve",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "2301",
+        "name": "Duplo Brick 2 x 3 x 2 with Curve",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 4
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 10
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 10
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 10
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 10
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 24
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 26
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 10
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 20
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 10
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 10
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 20
+      },
+      {
+        "partNum": "31111",
+        "name": "Duplo Brick 2 x 4 x 2",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "31213",
+        "name": "Duplo Brick 2 x 4 x 2 Curved Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "31213",
+        "name": "Duplo Brick 2 x 4 x 2 Curved Top",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 20
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 40
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 20
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 20
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 50
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 40
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 40
+      },
+      {
+        "partNum": "3437pr0049",
+        "name": "Duplo Brick 2 x 2 with Eye with White Spot and Varied Color Curve inside a Black Circle Print on Both Sides",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437pr0049",
+        "name": "Duplo Brick 2 x 2 with Eye with White Spot and Varied Color Curve inside a Black Circle Print on Both Sides",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437pr0049",
+        "name": "Duplo Brick 2 x 2 with Eye with White Spot and Varied Color Curve inside a Black Circle Print on Both Sides",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 10
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 10
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 12
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 12
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 12
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 10
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 10
+      },
+      {
+        "partNum": "4196",
+        "name": "Duplo Plate 6 x 12",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "4198",
+        "name": "Duplo Brick 2 x 4 x 2 Rounded Ends",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "4198",
+        "name": "Duplo Brick 2 x 4 x 2 Rounded Ends",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "4547215",
+        "name": "Ideas Card 1 For Set 9090-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "4547216",
+        "name": "Ideas Card 2 For Set 9090-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "47219pr0002",
+        "name": "Duplo Figure Child with Side Ponytail, with Magenta Legs, White Top with Two Flowers, White Arms, Tan Hair with Side Ponytail",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 2
+      },
+      {
+        "partNum": "47510pr0002",
+        "name": "Duplo Figure Child with Pigtails Black, with Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "47511c01pr0002",
+        "name": "Duplo Figure Child with Cap Red, with Blue Shirt with 'SKATE' Print - Freckles - Medium Blue Legs",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "47511pr0001",
+        "name": "Duplo Figure Child with Cap Lime, with White Shirt under Blue Coveralls with worms in Pocket - Blue Legs",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 2
+      },
+      {
+        "partNum": "61649",
+        "name": "Duplo Door / Window Frame Flat Front Surface, Completely Open Back",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 6
+      },
+      {
+        "partNum": "6394",
+        "name": "Duplo Brick 2 x 4 x 2 with 2 x 2 Square Arch",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "90265",
+        "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 6
+      }
+    ]
+  },
+  "9076-1": {
+    "setNum": "9076-1",
+    "name": "Tubes Experiment Set / 管道实验套装",
+    "totalQuantity": 153,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "31191",
+        "name": "Duplo Ball Tube exit with round doorway 2 x 6 x 5",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 3
+      },
+      {
+        "partNum": "31191",
+        "name": "Duplo Ball Tube exit with round doorway 2 x 6 x 5",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "31193",
+        "name": "Duplo Ball Tube Exit Door",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "31193pr0007",
+        "name": "Duplo Ball Tube Door with Smiling Face Print",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "31453",
+        "name": "Duplo Brick 2 x 6 Lower Flap Extensions",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 1
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 484,
+        "colorName": "Dark Orange",
+        "quantity": 4
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 8
+      },
+      {
+        "partNum": "3437pr0067",
+        "name": "Duplo Brick 2 x 2 with Eye with White Spot Print, on Two Sides - Type 1",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 8
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "4199",
+        "name": "Duplo Brick 2 x 8",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "42029",
+        "name": "Duplo Plate 2 x 4 with Round Tube Holder",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "44524",
+        "name": "Duplo Plate 2 x 8",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "4672",
+        "name": "Duplo Plate 4 x 8",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "47510pr0002",
+        "name": "Duplo Figure Child with Pigtails Black, with Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "47510pr0006",
+        "name": "Duplo Figure Child with Pigtails Reddish Brown, with Magenta Legs, and Shirt with Flowers Print",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 1
+      },
+      {
+        "partNum": "47511pr0005",
+        "name": "Duplo Figure Child with Cap Red, with Light Bright Blue Shirt under Green Coveralls - Dark Brown Face and Hands - Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "47511pr0007",
+        "name": "Duplo Figure Child with Cap Red, with White Shirt with 'SKATE' Print - Red Legs",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 1
+      },
+      {
+        "partNum": "51708",
+        "name": "Duplo Flagpole / Antenna 1 x 9",
+        "colorId": 70,
+        "colorName": "Reddish Brown",
+        "quantity": 2
+      },
+      {
+        "partNum": "51725",
+        "name": "Duplo Flag Wavy 2 x 5 with Slits",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "51725",
+        "name": "Duplo Flag Wavy 2 x 5 with Slits",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "54189",
+        "name": "Storage Bin, Dacta, Large (new style)",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "54190",
+        "name": "Storage Bin Lid, Dacta [For New Style Trays]",
+        "colorId": 47,
+        "colorName": "Trans-Clear",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102439",
+        "name": "Activity Card 1, Set 9076-1 / 45016-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102440",
+        "name": "Activity Card 2, Set 9076-1 / 45016-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102441",
+        "name": "Activity Card 3, Set 9076-1 / 45016-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102442",
+        "name": "Activity Card 4, Set 9076-1 / 45016-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6490",
+        "name": "Duplo Plate 8 x 16",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      }
+    ]
+  },
+  "9656-1": {
+    "setNum": "9656-1",
+    "name": "Early Simple Machines / 早期简单机械",
+    "totalQuantity": 108,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 5
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 2,
+        "colorName": "Green",
+        "quantity": 3
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "31622",
+        "name": "Duplo Technic Gear 24 Tooth Crown",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "31623",
+        "name": "Duplo Technic Axle 8L with Paddle Wheel Gear",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "31624",
+        "name": "Duplo Technic Gearbox [Dacta Screw Block]",
+        "colorId": 47,
+        "colorName": "Trans-Clear",
+        "quantity": 1
+      },
+      {
+        "partNum": "31625",
+        "name": "Duplo Technic Tube with Worm Gear",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 2,
+        "colorName": "Green",
+        "quantity": 3
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 3
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "4196",
+        "name": "Duplo Plate 6 x 12",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "4198pr9981",
+        "name": "Duplo Brick 2 x 4 x 2 Rounded Ends with Large Centered Eyes Print",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "4199",
+        "name": "Duplo Brick 2 x 8",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "47510pr0002",
+        "name": "Duplo Figure Child with Pigtails Black, with Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "47511pr0006",
+        "name": "Duplo Figure Child with Cap Lime, with Blue Shirt with 'SKATE' Print - Medium Nougat Face and Hands - Medium Blue Legs",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "61898a",
+        "name": "Circle with Eye Print",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 2
+      },
+      {
+        "partNum": "61898b",
+        "name": "Dial with Numbers Print",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "61898c",
+        "name": "Sheet, Rectangle 24 x 28 with 2 Square Holes",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "61898d",
+        "name": "Propeller 2 Blade 40 Diameter",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "61898e",
+        "name": "Sheet, Rectangle 26 x 12 with 2 Square Holes",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "61898f",
+        "name": "Propeller 2 Blade 26 Diameter",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "6292",
+        "name": "Duplo Toolo Tyre / Tire",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 4
+      },
+      {
+        "partNum": "6394",
+        "name": "Duplo Brick 2 x 4 x 2 with 2 x 2 Square Arch",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "6515",
+        "name": "Duplo Technic Brick 2 x 10 with 9 holes",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "6517",
+        "name": "Duplo Technic Brick 2 x 4 with 3 Holes",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "6521",
+        "name": "Duplo Technic Axle 8",
+        "colorId": 2,
+        "colorName": "Green",
+        "quantity": 5
+      },
+      {
+        "partNum": "6522",
+        "name": "Duplo Technic Axle 6",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 7
+      },
+      {
+        "partNum": "6523",
+        "name": "Duplo Technic Axle 5L with Paddle Wheel Gear 8 Tooth",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "6524",
+        "name": "Duplo Technic Beam 7",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "6525",
+        "name": "Duplo Technic Beam 11",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "6526",
+        "name": "Duplo Technic Crank Handle",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 6
+      },
+      {
+        "partNum": "6527",
+        "name": "Duplo Technic Wedge Belt Wheel",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 15
+      },
+      {
+        "partNum": "6529",
+        "name": "Duplo Technic Gear 4 x 4, 24 Tooth",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "6530",
+        "name": "Duplo Technic Gear 6 x 6, 40 Tooth",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "71059",
+        "name": "Rubber Belt Extra Large (Round Cross Section) - Approx. 7 x 7",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "75536",
+        "name": "Duplo Technic Wedge Belt Wheel with 28L Cord and Duplo Hook Short With Crossbar",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      }
+    ]
+  },
+  "45002-1": {
+    "setNum": "45002-1",
+    "name": "Tech Machines Set / 科技机械套装",
+    "totalQuantity": 99,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "10111c01pr0005",
+        "name": "Duplo Figure with Headset and Cap Yellow, with Blue Legs, Brown Vest with Zippers over Black Shirt, Blue Crescent Eyes",
+        "colorId": 70,
+        "colorName": "Reddish Brown",
+        "quantity": 1
+      },
+      {
+        "partNum": "13355",
+        "name": "Duplo Plate 2 x 3 with 4 Studs and Hinge",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "13358",
+        "name": "Duplo Train Crossing Gate Base / Crane Base with Bottom Hole",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "14013c01",
+        "name": "Duplo Winch Drum Narrow Ridged with String and Black Hook",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "14094",
+        "name": "Duplo Dump Truck Bed 4 x 4 x 2 (Tipper)",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "17562",
+        "name": "Duplo Windscreen 4 x 4 x 2 Curved",
+        "colorId": 46,
+        "colorName": "Trans-Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 5
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 2
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 19,
+        "colorName": "Tan",
+        "quantity": 3
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 3
+      },
+      {
+        "partNum": "44970",
+        "name": "Duplo Toolo Tyre (Tire) with Deep Tread",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 8
+      },
+      {
+        "partNum": "45146",
+        "name": "Duplo Windscreen Roll Cage",
+        "colorId": 179,
+        "colorName": "Flat Silver",
+        "quantity": 3
+      },
+      {
+        "partNum": "45202",
+        "name": "Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 4
+      },
+      {
+        "partNum": "47202pr9999",
+        "name": "Duplo Figure with Construction Helmet Orange, with Orange Vest over Blue Long Sleeve Shirt, Nougat Face and Hands, and Dark Bluish Gray Legs",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 2
+      },
+      {
+        "partNum": "51262",
+        "name": "Duplo Plate 8 x 8",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "51269",
+        "name": "Duplo Shovel / Spade with 'D' Handle",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "54189",
+        "name": "Storage Bin, Dacta, Large (new style)",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "54190",
+        "name": "Storage Bin Lid, Dacta [For New Style Trays]",
+        "colorId": 47,
+        "colorName": "Trans-Clear",
+        "quantity": 1
+      },
+      {
+        "partNum": "58629pr0002",
+        "name": "Duplo Cement Mixer Bucket with Red Stripes",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102437",
+        "name": "Activity Card 1, Set 45002-1 / 45015-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6102438",
+        "name": "Activity Card 2, Set 45002-1 / 45015-1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "6294",
+        "name": "Duplo Toolo Scoop 6 x 4 x 3",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 1
+      },
+      {
+        "partNum": "6310",
+        "name": "Duplo Toolo Digger Bucket with 3 teeth",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 1
+      },
+      {
+        "partNum": "71981",
+        "name": "Duplo Tread, Thick Cleats",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 4
+      },
+      {
+        "partNum": "74844",
+        "name": "Duplo Toolo Arm 2 x 11 with Triangular Set Screw End",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 2
+      },
+      {
+        "partNum": "74847",
+        "name": "Duplo Toolo Arm 2 x 6 with Triangular Set Screw and Clip Ends",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 5
+      },
+      {
+        "partNum": "74864",
+        "name": "Duplo Toolo Tool Screwdriver",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "74957",
+        "name": "Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 2
+      },
+      {
+        "partNum": "75115pr0006",
+        "name": "Duplo Figure with Parted Wavy Hair Black, Shirt with Collar, Pocket, and 4 Buttons",
+        "colorId": 73,
+        "colorName": "Medium Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "75115pr0012",
+        "name": "Duplo Figure with Parted Wavy Hair Black, with Medium Nougat Face, and Shirt with Collar and Stripe Print (Hispanic Dad)",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 1
+      },
+      {
+        "partNum": "75121pr0008",
+        "name": "Duplo Figure Bob / Pageboy Hair Reddish Brown, with Medium Nougat Face - Bright Green Top with Buttons and Pockets - Orange Legs",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "86594",
+        "name": "Duplo Toolo Turntable 4 x 4 Base with Yellow Top Plate",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 2
+      },
+      {
+        "partNum": "86599",
+        "name": "Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 7
+      },
+      {
+        "partNum": "86601",
+        "name": "Duplo Toolo, Propeller, 3 Blades",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "92938",
+        "name": "Duplo Wheelbarrow with Thick Black Wheels",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "95219",
+        "name": "Duplo Cement Mixer Bucket Base",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "99565c01",
+        "name": "Duplo Toolo Wheel with Action Wheeler Screw Short",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 16
+      }
+    ]
+  }
+}

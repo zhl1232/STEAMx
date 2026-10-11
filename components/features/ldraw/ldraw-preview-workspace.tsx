@@ -220,6 +220,9 @@ export function LdrawPreviewWorkspace() {
         // 预载入色彩定义
         try {
           await loader.preloadMaterials(COLOR_CONFIG_URL)
+          if (!loader.getMaterial('71')) {
+            console.warn('LDraw colour table is incomplete (missing code 71)', COLOR_CONFIG_URL)
+          }
         } catch {
           // 若加载不到则使用默认材质
         }
