@@ -21,6 +21,7 @@ Current part issues, source pages and evidence gaps are in `unknown-parts-regist
 
 ## Publication boundary
 
-No production MPD, review whitelist, public model, database or OSS asset is changed. No course is marked user-confirmed. No workflow is changed or deliberately triggered. No PR, merge, deployment or push has occurred at this checkpoint. Future branch push must first recheck branch-trigger conditions.
+No production MPD, review whitelist, public model, database or OSS asset is changed. No course is marked user-confirmed. No workflow is changed or deliberately triggered. The user authorized incremental backup pushes to this development branch. See branch-backup.json for the verified remote SHA and Actions query. No PR, merge or deployment has occurred. Each future branch push must first recheck branch-trigger conditions.
 
 The branch remains under construction; consult per-course evidence rather than treating this snapshot as final acceptance.
+

@@ -1,7 +1,7 @@
 {
   "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
   "revision": "955f224e6b25e814e602183da92d6652dfb869d4a88640b32a14f8ec2ba58cc7",
-  "reviewedAt": "2026-10-11T06:16:55.186876+00:00",
+  "reviewedAt": "2026-10-11T07:47:43.376886+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-chun-jie-wu-shi",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,77 @@
       "view": "top",
       "sha256": "4d941a0734523ebd8f136c77e680d6c78ff11c12f9197c3a151716951de12f04",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2ba58135e3ae878292dd25db52e9e6397e64bc86a4ef86d6148bad61ca90e86e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "843275ae8bfb651450eb0c485993652cf33d3b69d5383f4a42fd4b16c408a15e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "96decb72a6659a6154fd9ad2afa079d08dc8d4bdf7c14bd438a4f5062deadedc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4aff80b21ea99670b8c9da6ecfd57b3137885a37118c42535d550943c89275ed",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "eb36cb2ef2a5d30016e6779f87fbb0be33273b1f2531eef96bdd483b30976766",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c152402326e0c0e79f54171cf9a343df8d749e2af927b686507798c7ce56ebea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "dcc8fc56062b7403ae83e65a8f1dda3ade081a83d102c612405efbffd4592c2c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "b1096a3cc81a1aa4df9a0584a74294913c21ada616d84e53f5483068438a73ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "b23329799466bdfd080d1308bff19a7f9cc605336e01f274d75b9b09bb9da947",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7d2904f6e96aed4c57b2134d00e331a6fa87420384c750dd95801f67961a1c10",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "9f11e45f84e63f60c7b2910ccd010b342b816f06c9003563b95cf04d2413fc7b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "b9200b9dc44a68dd336a534967fbea037af9bf648195f94046d0577ec0c35c55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "b9200b9dc44a68dd336a534967fbea037af9bf648195f94046d0577ec0c35c55",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually reviewed current final3 contact sheet plus original iso and iso-rear, comparing sourcep8/9/13. Forward-shifted upper jaw now clears rear yellow stop without raised extra course; former striped intersection and excessive jawheight removed. No further visible interpenetration or floating identified in these views. Two yellow concave ear pieces remain omitted, giving visibly incomplete head silhouette. Toolo meshes and articulated leg/tail/cheek poses remain approximate; exact screw fit/load retention not physically verified. Cumulative steps not reviewed this run; not human accepted."
+  "limitations": "All13 cumulative D frames actually screened against source13-page contact; originalstep9 and12 inspected. Previously corrected upper-jaw forward placement stays clear of yellow rear stop. Body/leg layers and head additions follow source. Two concave yellow ears remain omitted, approved Toolo approximation and inferred hinge poses retained. No physical or human acceptance."
 }

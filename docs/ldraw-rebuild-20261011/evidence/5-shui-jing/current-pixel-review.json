@@ -1,7 +1,7 @@
 {
   "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
   "revision": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
-  "reviewedAt": "2026-10-11T06:25:15.156861+00:00",
+  "reviewedAt": "2026-10-11T07:54:59.186375+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shui-jing",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,77 @@
       "view": "top",
       "sha256": "b2d4788d0d5e0aedab09e6a24b9bf916699beff961844a6eb8ee865421c46a34",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "47f76af4b0a0a9d266c5c611276e762b30a45dd251916d96edd1daa8c9e7069e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "a58b67bc8b1e44c20bfadc0db3c90e2170d8be0b9ceb72be91a83750498fc2d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "a58b67bc8b1e44c20bfadc0db3c90e2170d8be0b9ceb72be91a83750498fc2d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a58b67bc8b1e44c20bfadc0db3c90e2170d8be0b9ceb72be91a83750498fc2d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "4bd502788cd579ff5abe6404c35567ae61568fe9c487016f5a515b7d5e126b1c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "31324ad972480ba3463ad8915334c56a2a1ae4afff2037c6d5ab0e89c5b41476",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "c1ff8615d56d9fd6046b657baf5e081807b95354d833411f0426374e92c14043",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "5d1b305f4500aa5889f157b365af5ee8f16b34cfee2458e6402380bdc4071f5a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "7121a5a165846ec195914e6783f61d8f502ebc32e056156fb0ad9567f3dd4f6d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "d122f63c09f0283e4c0fd16c9a91d602d0b27863c9fa935c6d4d24f7e92e0577",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "773c55f44d3148b84fd20cb536f4c8c792e551cde957422ca7b6fbbfa8cac818",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "49a8639445b3f4840f630fd2127378bd9dc80da5c7c9b916fbbe8ca9c71de2cc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "49a8639445b3f4840f630fd2127378bd9dc80da5c7c9b916fbbe8ca9c71de2cc",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Current full-frame final3 plus original iso inspected against source contactpages1-13 and enlargedp11/12. Well walls/towers, upper bridge bearings, coupled green shaft, pulleys, gear/crank and tilted brake correspond to sourcep12 static pose. No new visible support mismatch found. Rope routes and hooks omitted: model does not implement counterweight suspension or prove lifting operation. Brake angle/contact, axial retention and physical operation remain unverified. Steps not reviewed in this run."
+  "limitations": "All13 cumulative D frames compared with source13-page contact; originalstep12 inspected. Counterweight, layered well walls, supports and uppershaft sequence correspond. Rope/hook routes absent atsteps3-4; counterweight is resting rather than suspended. Red brake retains sourcep12 static pose rather than alternatep13 pose. Hidden winding/axle retention and physical operation unverified. No new source edits or physical acceptance."
 }

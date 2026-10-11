@@ -1,7 +1,7 @@
 {
   "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
   "revision": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
-  "reviewedAt": "2026-10-11T06:44:46.570848+00:00",
+  "reviewedAt": "2026-10-11T07:54:51.273824+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-diao-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,97 @@
       "view": "top",
       "sha256": "d5437f41e7ce95f22127011333ad7bf8e200f3bc105e46d85848fcaaa5f60d5a",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "dccf180fffcc20d5990e8a9e5513fdfee1bee77e65c52bc2bb49655fc8551a5e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "441946e023996611811acda18c72ac6b7dfc6882e08ade77961fa235b7755d66",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "2a48ca2e6daeed57ab04f7ebe577f81b5da7be87b7d6ee5d0bf870c285f40432",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "0dc418ff188388f6ab2cb0976681c8d4a4a43d433f58c5037400bd5f8628218f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "08f99c63ef62ba3c5facfc4fcc05ec69163b6c41de937464cd7d16d022970623",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e46d60afbfa2115f7bb3dcad6d827d0faff6d24343032149bcf196210330460d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "f2a5353c0f87fe3ec3b7557bc6574d3e1ee548ef37e349f5ea888a928cd67e4a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "070b433c0dfafeb67f1798a08b1692185454c94b8778e1d7f81263c3bfed5bf1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "824d9c1b4dd685264dc191421aa4e56a424e011abb7ec5f8f1fe5be6fa1b4fc4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "4e318e2d7203d60bfa173aa3dbd787d5538ede38ae41772252525390b2a6cf62",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "19e950a5dca19ea6924d80e5c9a0311ec8512b09a3f85d8a60ba3793e64faa7c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "947b896f22e147ae22703342dddfd95e0addfa35ff1d3fd282eb77683f81402d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "a807407d395cc6922d86d64cdd0e4c1f2bb449bb6e01f4534d0de94caa8f519a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "a807407d395cc6922d86d64cdd0e4c1f2bb449bb6e01f4534d0de94caa8f519a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "a807407d395cc6922d86d64cdd0e4c1f2bb449bb6e01f4534d0de94caa8f519a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "880c7246dd0030daaa427a3a4398fb496198234827b94bfc33c77d836de93d72",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "880c7246dd0030daaa427a3a4398fb496198234827b94bfc33c77d836de93d72",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Current final3 sheet and original iso actually inspected against source17page contact and enlargedp11/13/16. Gear-wheel chassis, upper turntable, official gearbox axes and two-rail boom correspond. Hook is visibly unsupported because rope and extra winding pulley are omitted; it is only an endpoint marker, not verified suspension. Thin canopy/cockpit alert, approximate cockpit and mechanical retention/gear mesh remain unresolved. No claim of complete operable crane; steps not reviewed this run."
+  "limitations": "All17 cumulative D frames compared with source17-page contact; originalstep12 and16 inspected. Chassis/gearbox and boom increments correspond. Steps14-15 omit rope assembly and its winding pulley; step16 hook is visibly suspended without support and remains an incomplete endpoint marker. Sourceboom angle is posed; worm/axle retention and cockpit/canopy overlap unverified. No physical acceptance."
 }

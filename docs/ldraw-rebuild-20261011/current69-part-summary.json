@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-11T07:01:58.578Z",
+  "generatedAt": "2026-10-11T07:46:09.412Z",
   "summary": {
     "reconstructedOrInProgressCourses": 69,
     "deferredCourses": 11,
-    "partIssueFamilies": 30,
+    "partIssueFamilies": 29,
     "byIssueCategory": {
       "confirmed_id_missing_geometry": 6,
       "candidate_id_missing_geometry": 2,
@@ -11,16 +11,19 @@
       "flexible_route_unverified": 2,
       "candidate_flexible_geometry": 1,
       "unidentified_source_shape": 8,
-      "candidate_identity_unresolved": 8,
+      "candidate_identity_unresolved": 7,
       "candidate_mould_or_assembly": 1,
       "unidentified_figure_components": 1
     },
-    "knownPartConnectionOmissionGroups": 3,
+    "knownPartConnectionOmissionGroups": 4,
     "interfaceRecordsExcludedFromUnknownCounts": true,
     "unbuiltCoursesExcluded": true,
     "acceptedCourses": 0,
     "localExtractedOfficialParts": 6,
-    "candidatePartOmissionGroups": 1
+    "candidatePartOmissionGroups": 0,
+    "staticReviewCourses": 69,
+    "staticReviewStaleSourceHashes": 0,
+    "tyreInterfaceCourses": 8
   },
   "at": "2026-10-11T06:15:35.231Z",
   "addedCourses": [
@@ -928,48 +931,724 @@
     ]
   },
   "latestBillboardFinding": {
-    "key": "candidate:billboard-under-beam-carrier",
-    "category": "candidate_identity_unresolved",
-    "name": "Billboard yellow crank/carrier beneath upper poster beam",
-    "confirmedId": null,
-    "candidates": [
-      "6526.dat"
-    ],
-    "missingEvidence": [
-      "One source p6 BOM carrier is omitted from current 55-part model; candidate identity and complete shaft/secondary-pin engagement remain unverified."
-    ],
-    "sourcesTried": [
-      "preparation/5-yi-dong-guang-gao-pai/review.json#unknown",
-      "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
-    ],
-    "geometryLicense": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
-    "geometryAvailability": {
-      "candidateId": "6526.dat",
-      "localAvailable": true,
-      "file": "STEAMx/scripts/ldraw-models/parts/6526.dat",
-      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
-      "boundary": "Availability of candidate geometry does not confirm source identity or fitted assembly."
-    },
-    "approximationBoundary": "No substitute or new geometry inserted; source unchanged.",
-    "occurrences": [
+    "confirmedId": "6526.dat",
+    "status": "known omitted; placement unresolved",
+    "source": "preparation/5-yi-dong-guang-gao-pai/step6-carrier-evidence.json"
+  },
+  "staticReviewSnapshot": {
+    "at": "2026-10-11T07:46:09.246Z",
+    "courses": 69,
+    "staleReports": [],
+    "method": "69 current reports read and bound to local model SHA; author classifications preserved per course, not summed across overlapping manual reports.",
+    "ownerReportedClassificationSnapshots": [
       {
-        "slug": "5-yi-dong-guang-gao-pai",
-        "sourcePage": 6,
-        "location": "yellow carrier below upper poster beam",
-        "quantity": 1,
-        "placed": false,
-        "candidateId": "6526.dat",
-        "source": [
-          "preparation/5-yi-dong-guang-gao-pai/review.json",
-          "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
-        ],
-        "missingEvidence": "BOM1x and visible arm/pin match candidate; current step6 contains two6527 pulleys and75350 only. Both pulley axial positions and secondary-pin mating need review."
+        "owner": "monkey",
+        "falsePositive": 4,
+        "meshRisk": 14,
+        "insufficient": 19
+      },
+      {
+        "owner": "pdfbatch",
+        "falsePositive": 2,
+        "meshRisk": 11,
+        "insufficient": 13
+      },
+      {
+        "owner": "balance",
+        "falsePositive": 3,
+        "meshRisk": 8,
+        "insufficient": 15
       }
     ],
-    "affectedCourses": [
-      "5-yi-dong-guang-gao-pai"
+    "ownerCountBoundary": "These are scoped author snapshots supplied by parent, not independent global totals; manual pair overlap prevents blind addition.",
+    "reviews": [
+      {
+        "slug": "4-cha-che",
+        "modelSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+        "report": "preparation/4-cha-che/static-alarm-review.json",
+        "reportSha256": "ac3db5da720a7340693df4e967ea421a40d8b2c478e531bc2d89c66bf4cddb46",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-chun-jie-wu-shi",
+        "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+        "report": "preparation/4-chun-jie-wu-shi/static-alarm-review.json",
+        "reportSha256": "f46ca1fd5867f3f5bf71f56c0c5baa0109ab00e34b6b571337f870cd76bef581",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-ci-xuan-fu-lie-che",
+        "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+        "report": "preparation/4-ci-xuan-fu-lie-che/static-alarm-review.json",
+        "reportSha256": "963f2f85c1a96f0276fc0f63381ec0e0b125b7fc811f00f2454feb192dbc280f",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_risk": 2
+        }
+      },
+      {
+        "slug": "4-da-xiang",
+        "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+        "report": "preparation/4-da-xiang/static-alarm-review.json",
+        "reportSha256": "bcf25b009cc0597b2e8c1e424f6c3494d1b24e75193716fe015d4e2b0a9cb6a0",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-du-jiao-xian",
+        "modelSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+        "report": "preparation/4-du-jiao-xian/static-alarm-review.json",
+        "reportSha256": "e7409b5987837194561bb4bf49f1895ca94c75ffb6ec15323de4f88e4ef32a43",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-e-yu",
+        "modelSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+        "report": "preparation/4-e-yu/static-alarm-review.json",
+        "reportSha256": "579dc4fb7fb50acbc3273a83480927d9cb6c794fa55b1d2ca17646766af81eba",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-ji-guan-qiang",
+        "modelSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+        "report": "preparation/4-ji-guan-qiang/static-alarm-review.json",
+        "reportSha256": "751d66192b4c1b5361e0e540a89cf4b6611ccbb93d0f82614ad0ea48bfa25429",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-ju-ji-qiang",
+        "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+        "report": "preparation/4-ju-ji-qiang/static-alarm-review.json",
+        "reportSha256": "d035209a27890cca3a55c44ea0e5e2950985fdb4b83d3877062b55be180f9382",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-jun-jian",
+        "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
+        "report": "preparation/4-jun-jian/static-alarm-review.json",
+        "reportSha256": "9de22f48cfd8f3333694714fb7344c92e0420ca503d6b7113516e13a7e1598b8",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "supported-bounding-volume-false-positive": 1
+        }
+      },
+      {
+        "slug": "4-ke-ji",
+        "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+        "report": "preparation/4-ke-ji/static-alarm-review.json",
+        "reportSha256": "3eeb654291d3fba8631cd58ab8b6a998524971ce1fa434dd73757e21a2e38094",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "4-kuai-ting",
+        "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+        "report": "preparation/4-kuai-ting/static-alarm-review.json",
+        "reportSha256": "ad3c1b4fdce785296804e4b7e121b59b0819570d805c2469f86a9c693105fa93",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-long-men-diao",
+        "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+        "report": "preparation/4-long-men-diao/static-alarm-review.json",
+        "reportSha256": "dbb668cdec79317e66ee77272d61739f6149876ef34bd4e9316cdafacf8989a4",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-mo-tian-lun",
+        "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+        "report": "preparation/4-mo-tian-lun/static-alarm-review.json",
+        "reportSha256": "d66e5db5ad7961c6f1259dc99ec50dca4afd109c86f27af9642f59b9dd9121aa",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-qian-shui-ting",
+        "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+        "report": "preparation/4-qian-shui-ting/static-alarm-review.json",
+        "reportSha256": "f58e626f1d513f83ec9e5683a0327806a2bf24c3509a58dff71ac9eaf9c868ad",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "4-qing-ting",
+        "modelSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+        "report": "preparation/4-qing-ting/static-alarm-review.json",
+        "reportSha256": "3d98761ba0a4edb2f9292f0ea50b1680d2c7e29ee3d66e7df5141244130fc5a9",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-sai-che",
+        "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+        "report": "preparation/4-sai-che/static-alarm-review.json",
+        "reportSha256": "ad8e7e5dad09c34fe7343d675f20ad9ac5ce36d327ce03166afb75a2782fb5b3",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-sheng-jiang-jiu-yuan-che",
+        "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+        "report": "preparation/4-sheng-jiang-jiu-yuan-che/static-alarm-review.json",
+        "reportSha256": "45c03769dbda144dcc6a449f2fad34927cb3be679083a6c91a4e79f6ee0688e5",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient-evidence-near-contact": 1,
+          "real-rendered-mesh-interference": 1
+        }
+      },
+      {
+        "slug": "4-sun-wu-kong",
+        "modelSha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
+        "report": "preparation/4-sun-wu-kong/static-alarm-review.json",
+        "reportSha256": "32f0d2a22a3174bede3ce479c2e0b8f4dbaaa64ac2a93f6f24ff6374e7f26ac1",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-ta-diao",
+        "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+        "report": "preparation/4-ta-diao/static-alarm-review.json",
+        "reportSha256": "d29827804611af7b4ae2c8183a63e7b8f367e9814d8077891f441f070e0f8148",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient-evidence-near-contact": 1
+        }
+      },
+      {
+        "slug": "4-tui-tu-ji",
+        "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+        "report": "preparation/4-tui-tu-ji/static-alarm-review.json",
+        "reportSha256": "06ba03a73bf4cea49d42129aa9b9d479098a16ce15df4103ba33105630bde754",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-wa-li",
+        "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+        "report": "preparation/4-wa-li/static-alarm-review.json",
+        "reportSha256": "3bd11c1f7c29764e26a44e446011e2bf5b690fe6911742cbf8bf937f1d398471",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-wu-ren-ji",
+        "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+        "report": "preparation/4-wu-ren-ji/static-alarm-review.json",
+        "reportSha256": "c6e192cc81c1d9903c365a21ffa5085ccbc1cb0d71d0b45d69aa9ff1cb35152a",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-xiang-wei-she",
+        "modelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+        "report": "preparation/4-xiang-wei-she/static-alarm-review.json",
+        "reportSha256": "574558dded3bf884fdc338126ebd52552c306b9714cea94882f9d4650f4a2647",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-xiao-tu-zi",
+        "modelSha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+        "report": "preparation/4-xiao-tu-zi/static-alarm-review.json",
+        "reportSha256": "9f27421743d4da537bd78d7fc523e5e3fcbc1b7f754264988d061a421e48a85b",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-xie-zi",
+        "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+        "report": "preparation/4-xie-zi/static-alarm-review.json",
+        "reportSha256": "f7a06fae9a97cf011ecf26616f691e22ef7cbe976e96735a9f2cc9ce909c4298",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-xuan-zhuan-fei-ji",
+        "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+        "report": "preparation/4-xuan-zhuan-fei-ji/static-alarm-review.json",
+        "reportSha256": "d375df2557a12514dedb8a8773441c735274bae6a1eade177a66196a840b1558",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 4
+        }
+      },
+      {
+        "slug": "4-ya-lu-ji",
+        "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
+        "report": "preparation/4-ya-lu-ji/static-alarm-review.json",
+        "reportSha256": "21d11f5645fb1baeae21337480f9d034c67efe0961b84ed3d6bbfa130ee93d2b",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient-evidence-near-contact": 1
+        }
+      },
+      {
+        "slug": "4-yao-yao-ma",
+        "modelSha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
+        "report": "preparation/4-yao-yao-ma/static-alarm-review.json",
+        "reportSha256": "d726a647382a457f877408e1c92c96fc104b433d840744886b796225905a4783",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-yi-long",
+        "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+        "report": "preparation/4-yi-long/static-alarm-review.json",
+        "reportSha256": "31addb8b2a02cdc0c95f8fc39ba6abf58b2999d5e718400aa11198f6bbe05816",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-you-wen",
+        "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+        "report": "preparation/4-you-wen/static-alarm-review.json",
+        "reportSha256": "2487eb5c8be4235cfe3031390a851160534cd40d19851e9ad7bda4abf2374195",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "4-zhi-sheng-ji",
+        "modelSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+        "report": "preparation/4-zhi-sheng-ji/static-alarm-review.json",
+        "reportSha256": "6e5c5722ab89e8837cdc80d2e4d30f35179cd1047ebaddcefca5481d8ec089f1",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient-evidence-near-contact": 1
+        }
+      },
+      {
+        "slug": "4-zhi-zhu",
+        "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+        "report": "preparation/4-zhi-zhu/static-alarm-review.json",
+        "reportSha256": "60695c9fd964717943f18c5a14595466ee02875cbcd1b0a1c88533aa1c3d1071",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-bing-qiu-yun-dong-yuan",
+        "modelSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+        "report": "preparation/5-bing-qiu-yun-dong-yuan/static-alarm-review.json",
+        "reportSha256": "0f6a83faf58f6d42e666a8cc8536fab38cac00607b122d0020daa397f5b62e64",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "false_positive_bounding_box": 1,
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "5-chou-you-ji",
+        "modelSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+        "report": "preparation/5-chou-you-ji/static-alarm-review.json",
+        "reportSha256": "7315acc4ac0ddfa6841b15de93cd4887c3366f0b573ef5a8512eea32c4482663",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-da-zhuang-ji",
+        "modelSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+        "report": "preparation/5-da-zhuang-ji/static-alarm-review.json",
+        "reportSha256": "d9374258a5d50fdf8f3748f9dce075cb228206f72939c729b7ed341db99d3e8a",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 5,
+          "true_risk": 4
+        }
+      },
+      {
+        "slug": "5-dan-gan-yun-dong-yuan",
+        "modelSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+        "report": "preparation/5-dan-gan-yun-dong-yuan/static-alarm-review.json",
+        "reportSha256": "d5c4d81d8e357a4b0ae616a9418bf444c8a5f7c9d4847d393166171dbe7993f0",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-di-qiu-yi",
+        "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+        "report": "preparation/5-di-qiu-yi/static-alarm-review.json",
+        "reportSha256": "a4c38ba5d290d78e836c0cf6ac77603609ca4bb90f8a014ff17144e10ba801cb",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-diao-che",
+        "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+        "report": "preparation/5-diao-che/static-alarm-review.json",
+        "reportSha256": "a64a501b10a66696796df8b0b76d1e188d480eb6e4bc09ac92ac2eba92e4010a",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "5-diao-shan",
+        "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+        "report": "preparation/5-diao-shan/static-alarm-review.json",
+        "reportSha256": "912c4c66097dc93f228f600304c5b0c145bbe9174ab0465041bdb19faf39f679",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-fan-chuan",
+        "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+        "report": "preparation/5-fan-chuan/static-alarm-review.json",
+        "reportSha256": "9aa7fdd40d19b78e7f8bba167e2528334053ee161c4e2490eb284dc389d29433",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-huan-wei-che",
+        "modelSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+        "report": "preparation/5-huan-wei-che/static-alarm-review.json",
+        "reportSha256": "fdbc2aaa62bc6371c5bb3ce73ae9b57523bf8862e221a33565ee0adc4f3aff10",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "5-huo-jian",
+        "modelSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+        "report": "preparation/5-huo-jian/static-alarm-review.json",
+        "reportSha256": "c513e9461152738b2309564bc8aa8a7503d7b010ee93d6dc8ee0c3306398f101",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "true_risk": 6,
+          "insufficient_evidence": 6
+        }
+      },
+      {
+        "slug": "5-ji-xie-shou",
+        "modelSha256": "85dde2e70992e95911ea5bba501acb7e72a38a9f11951d27bc8640c2f6f394a4",
+        "report": "preparation/5-ji-xie-shou/static-alarm-review.json",
+        "reportSha256": "7cb25e87a70295cdd6e661f28a937c4785e46667731541c31f532b5bd5485cdb",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-jiao-ban-qi",
+        "modelSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+        "report": "preparation/5-jiao-ban-qi/static-alarm-review.json",
+        "reportSha256": "daddf0da5f3c1dacab81dd96c3132f407a51d6a5102dc14629434d24946c6adc",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "false_positive_bounding_box": 2
+        }
+      },
+      {
+        "slug": "5-ma-tou-diao-ji",
+        "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+        "report": "preparation/5-ma-tou-diao-ji/static-alarm-review.json",
+        "reportSha256": "e6775325a7936bee038445c554b0790d78ed401882845a5174eadb0bc9683889",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        }
+      },
+      {
+        "slug": "5-mian-bao-ji",
+        "modelSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+        "report": "preparation/5-mian-bao-ji/static-alarm-review.json",
+        "reportSha256": "93b1d6334cc40404046166810755d51c6ba4ef4706c6b0ab18df716cbd3f05ee",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-ping-heng-cheng",
+        "modelSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+        "report": "preparation/5-ping-heng-cheng/static-alarm-review.json",
+        "reportSha256": "5ee4d65833ba5620b9e24d460262534cc29ab8033d0abe1a960f1cc1fbda44fc",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-qing-ting",
+        "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+        "report": "preparation/5-qing-ting/static-alarm-review.json",
+        "reportSha256": "440b7eec348d6b427003c096c193db85081e347d49180254e310658a80a57d94",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "false_positive": 2,
+          "real_risk": 5,
+          "insufficient_evidence": 2
+        }
+      },
+      {
+        "slug": "5-ren-li-shui-che",
+        "modelSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+        "report": "preparation/5-ren-li-shui-che/static-alarm-review.json",
+        "reportSha256": "809d716918a10531484dd293f82bf456a552c0c13cb7f8a4ed72c45c539a63e8",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-shou-yao-zuan-zi",
+        "modelSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+        "report": "preparation/5-shou-yao-zuan-zi/static-alarm-review.json",
+        "reportSha256": "0332a602c3d7ccf151e6bcbdd128c6eff8d6ba2b50b30ddd7f6ce369f701b3ec",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-shui-jing",
+        "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+        "report": "preparation/5-shui-jing/static-alarm-review.json",
+        "reportSha256": "e217e9a07d893c68fdda456201b9184d654af741e232302b78cafa75a8843579",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-ti-xian-mu-ou",
+        "modelSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+        "report": "preparation/5-ti-xian-mu-ou/static-alarm-review.json",
+        "reportSha256": "0091f97cd7e9d8250c7cffeab2ebca30240978523f4bcb30cd6950a7ee8b9af6",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-tou-lan-ji",
+        "modelSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+        "report": "preparation/5-tou-lan-ji/static-alarm-review.json",
+        "reportSha256": "c835ceeee9d465caaaed2578f73d0026777578bf437e2471b803f92bdbbde45d",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-tou-shi-che",
+        "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+        "report": "preparation/5-tou-shi-che/static-alarm-review.json",
+        "reportSha256": "9681535027a839491e380bdf5e14ddd2241ef4c7ec03720be4da0ff39b228e5e",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "true_risk": 4,
+          "insufficient_evidence": 4,
+          "false_positive_aabb": 4
+        }
+      },
+      {
+        "slug": "5-tui-tu-ji",
+        "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+        "report": "preparation/5-tui-tu-ji/static-alarm-review.json",
+        "reportSha256": "c698489b5ff5f8c8697e852f875c949e34991855f02f56479eb997b1a3dabb90",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_mesh_risk": 4,
+          "insufficient_evidence": 4
+        }
+      },
+      {
+        "slug": "5-tuo-gua-che",
+        "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+        "report": "preparation/5-tuo-gua-che/static-alarm-review.json",
+        "reportSha256": "a9dbb4938f7bdaacba04f7c139b09ee1abb093dfb7243d01f2174d762e2fce82",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-wo-lun-diao-qiao",
+        "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+        "report": "preparation/5-wo-lun-diao-qiao/static-alarm-review.json",
+        "reportSha256": "0ae1500b2fe0595df02b7290ebe79f07c6f622733d028e4702f590418a6f4d2b",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-xiao-niao-de-chi-bang",
+        "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+        "report": "preparation/5-xiao-niao-de-chi-bang/static-alarm-review.json",
+        "reportSha256": "cc06794d8169f409a83ce19b8eabc02776a04cb76cc87066d92b4c282834d5ab",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-xuan-yi-fei-ji",
+        "modelSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+        "report": "preparation/5-xuan-yi-fei-ji/static-alarm-review.json",
+        "reportSha256": "842df6ce45ec265cce2672dc0d22d659a4b7a066d6407c88b59f8959b519c586",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_risk": 4,
+          "insufficient_evidence": 4
+        }
+      },
+      {
+        "slug": "5-xuan-zhuan-deng-long",
+        "modelSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+        "report": "preparation/5-xuan-zhuan-deng-long/static-alarm-review.json",
+        "reportSha256": "9c5037361246da4072a750fc8c890218cec9e1527d9a45f30d04e3f8025ec9b5",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-xuan-zhuan-ka-fei-bei",
+        "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+        "report": "preparation/5-xuan-zhuan-ka-fei-bei/static-alarm-review.json",
+        "reportSha256": "02df5974763b25083db22e15c94bfb8466bb9d29c57e8322f12d8924b963bf28",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-ya-mian-ji",
+        "modelSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+        "report": "preparation/5-ya-mian-ji/static-alarm-review.json",
+        "reportSha256": "e27757fe9a67265b24b7eb06eac4ffe65cbaef64ef5c71b57f3b4ef506210b83",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-yao-yao-che",
+        "modelSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
+        "report": "preparation/5-yao-yao-che/static-alarm-review.json",
+        "reportSha256": "26a9b0fa5d4d8eff2fe493f051b845663a4e059d5d6b3a26d829225292ddfcb6",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-yi-dong-guang-gao-pai",
+        "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+        "report": "preparation/5-yi-dong-guang-gao-pai/static-alarm-review.json",
+        "reportSha256": "9591b5607ff77d541a5bec2cfc807ccc48ceeec9451ac59f34e746c4a23d9d7a",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_risk": 2
+        }
+      },
+      {
+        "slug": "5-yu-er-de-wei-ba",
+        "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+        "report": "preparation/5-yu-er-de-wei-ba/static-alarm-review.json",
+        "reportSha256": "63b5d808039d5ef6aa2e99600f88eee87050919b5a9fc2e468904c457a1d991f",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_mesh_risk": 2,
+          "insufficient_evidence": 2
+        }
+      },
+      {
+        "slug": "5-yu-hang-yuan-xun-lian-ji",
+        "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+        "report": "preparation/5-yu-hang-yuan-xun-lian-ji/static-alarm-review.json",
+        "reportSha256": "753a0fcc8c3ccf2e6f9f1fad76ced478cdcd2494f97071495a6ac0db459cf0da",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      },
+      {
+        "slug": "5-zhuan-wan-xiao-che",
+        "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+        "report": "preparation/5-zhuan-wan-xiao-che/static-alarm-review.json",
+        "reportSha256": "5559d8787a666df7ae4cf6dfb5bca1907df4926ba131967d55799f2fdde35845",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "real_risk": 2,
+          "insufficient_evidence": 8
+        }
+      },
+      {
+        "slug": "4-diao-che",
+        "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+        "report": "preparation/4-diao-che/static-alarm-review.json",
+        "reportSha256": "32f11080ecbf6c750a756194c7d08a8d358b6e07af5519b8789a3c890f7d5875",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {
+          "insufficient_evidence": 2
+        }
+      },
+      {
+        "slug": "4-dao-dan-che",
+        "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+        "report": "preparation/4-dao-dan-che/static-alarm-review.json",
+        "reportSha256": "0e7c905404bde7046c1e8e20bb968fd54c2a03d47b61a52a02ece6ad8e5fc822",
+        "reportMatchesCurrentSource": true,
+        "classificationCounts": {}
+      }
     ],
-    "issueCountUnit": "One candidate identity family, not a confirmed part ID",
-    "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6"
-  }
+    "alarmCoverage": {
+      "courses": 69,
+      "rawAlarmCourses": 24,
+      "rawErrorGroups": 79,
+      "expandedAlarmItems": 97,
+      "staleCheckHashes": 0,
+      "staleStaticReportHashes": 0,
+      "unexplainedRawPairMentions": 0
+    }
+  },
+  "knownTyreInterfaceRisks": [
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "modelSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+      "source": "preparation/5-bing-qiu-yun-dong-yuan/static-alarm-review.json",
+      "reportSha256": "0f6a83faf58f6d42e666a8cc8536fab38cac00607b122d0020daa397f5b62e64",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "modelSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+      "source": "preparation/5-da-zhuang-ji/static-alarm-review.json",
+      "reportSha256": "d9374258a5d50fdf8f3748f9dce075cb228206f72939c729b7ed341db99d3e8a",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-huo-jian",
+      "modelSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+      "source": "preparation/5-huo-jian/static-alarm-review.json",
+      "reportSha256": "c513e9461152738b2309564bc8aa8a7503d7b010ee93d6dc8ee0c3306398f101",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-qing-ting",
+      "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "source": "preparation/5-qing-ting/static-alarm-review.json",
+      "reportSha256": "440b7eec348d6b427003c096c193db85081e347d49180254e310658a80a57d94",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "source": "preparation/5-tou-shi-che/static-alarm-review.json",
+      "reportSha256": "9681535027a839491e380bdf5e14ddd2241ef4c7ec03720be4da0ff39b228e5e",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+      "source": "preparation/5-tui-tu-ji/static-alarm-review.json",
+      "reportSha256": "c698489b5ff5f8c8697e852f875c949e34991855f02f56479eb997b1a3dabb90",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "modelSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+      "source": "preparation/5-xuan-yi-fei-ji/static-alarm-review.json",
+      "reportSha256": "842df6ce45ec265cce2672dc0d22d659a4b7a066d6407c88b59f8959b519c586",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    },
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+      "source": "preparation/5-yu-er-de-wei-ba/static-alarm-review.json",
+      "reportSha256": "63b5d808039d5ef6aa2e99600f88eee87050919b5a9fc2e468904c457a1d991f",
+      "category": "known_licensed_parts_geometry_interface_risk_not_unknown_ID",
+      "boundary": "Positive strict triangle crossings establish supplied mesh intersections, not physical rubber interference. Zero does not exclude coplanarity, containment or fit failure. Uniform42.183 cavity exemption revoked; corrected orientation is not blanket clearance."
+    }
+  ]
 }

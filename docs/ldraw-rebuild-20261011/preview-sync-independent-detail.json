@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T07:08:07.044Z",
+  "generatedAt": "2026-10-11T07:44:58.208Z",
   "scope": "69 current drafts only, excludes deferred11; independent read-only current-source snapshot",
   "method": "Matrices and DAT/MPD text checked. Materialized PDFs SHA-checked. Existing authors source-view claims indexed, not new pixel inspection or physical validation. No browser/render/repack/model mutations.",
   "summary": {
@@ -282,10 +282,10 @@
           "claim": "0 // All15 PDF pages viewed; purely decorative brick toy, no functional mechanism."
         }
       ],
-      "modelSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+      "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
       "placements": 67,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "89eddec0779aa8ee6a8065177742ca06005406ed6e6f284e999907b68d90a0e2",
+      "developmentMpdSha256": "9b3e6d53fdcd148d9afb5221adbdd3ffc52664fa4c3eb05c1c947fd681b950d2",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -310,10 +310,10 @@
           "claim": "0 // All 20 source PDF pages actually viewed. No physical verification."
         }
       ],
-      "modelSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+      "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
       "placements": 129,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
+      "developmentMpdSha256": "4a2f82afb4bad971b298872268e168134568c4a3e6d114643f9e939d0bbf0a7a",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -868,10 +868,10 @@
           "claim": "0 // All 13 source PDF pages actually viewed. No physical verification."
         }
       ],
-      "modelSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+      "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
       "placements": 48,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "cffb45efabcbb2a27c6ef8049c9cce340096d9fb90d4847d4f27da5c04378473",
+      "developmentMpdSha256": "e55f4ad7602344691e76f1e2f11c859c692e879b83e4fe5ccad1ff5f7cc24402",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -976,10 +976,10 @@
           "claim": "0 // All 12 source pages actually viewed. No physical verification."
         }
       ],
-      "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
       "placements": 41,
       "maxMatrixError": 9.704091308293528e-9,
-      "developmentMpdSha256": "8f2776316efcd9435df7cce2f0556530a41d20a0d3cc6659759096b0d14fa85c",
+      "developmentMpdSha256": "10e313e4264d4411c6ee6cc51818dcffcb973dff59b11fd044edf081d875ce49",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -1594,10 +1594,10 @@
           "claim": "已实际看完9页源图，SHA见source.json。与4+推土机独立。源稿49件8步，页9为成品侧视图。已实现双红长孔底架、两绿轴四轮、黄色车体、前端双7孔铲臂及曲柄、竖直铲背和四凹曲铲面、8件散放积木。"
         }
       ],
-      "modelSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
+      "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
       "placements": 49,
       "maxMatrixError": 5.254099999518758e-7,
-      "developmentMpdSha256": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
+      "developmentMpdSha256": "95805bf6f233a52d72606ff501be98dee70805507c38874f154e576c5475ce7b",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -1828,10 +1828,10 @@
           "claim": "All 10 source pages were actually viewed before the resource pause. Source identity and SHA256 are in source.json (1f52d929…be5c495). Model contains 195 placements and 9 cumulative steps. Page 10 is the final view without additions. Generat"
         }
       ],
-      "modelSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
+      "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
       "placements": 195,
       "maxMatrixError": 6.188980001819999e-7,
-      "developmentMpdSha256": "8208c3f80ff49471058c7bd5abd148e083e6ebd2af65e4cbfe2212a31cedadba",
+      "developmentMpdSha256": "00cce469bc21f97c85c08942979b7ba58dbc223e3362ac78abaaac8e62e9a818",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false

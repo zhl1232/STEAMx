@@ -1,7 +1,7 @@
 {
   "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
   "revision": "dfa1331fccd6346d8322d57bf75e75b58cf41fbe0c785789c2d836e3faa25405",
-  "reviewedAt": "2026-10-11T06:32:25.388340+00:00",
+  "reviewedAt": "2026-10-11T07:51:21.188763+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-dan-gan-yun-dong-yuan",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,67 @@
       "view": "top",
       "sha256": "036a7f669549f7df6d9a845edeeec5ac9ab33bbdbef678f41559bd640fcea7ec",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "54ccb16e1779253ab9b1c3e5f54042332018ba135213da904ca37b10cb0ac37b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "d708f88417cd3e420de387d7ec0e19c414504284073b8e59a4fb310ffd3ae177",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "3af173af9bbaf6a549794e3878029a74bc5be370579744e7814448744f3b09f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "bea89e59847145a70a0cc34d0ffa69f1a4455441c53e85f390fe1e9cdbf7e63c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "9c8e091efb5063aff92db6b3d75e125018d879847348a58999c5e8a58ca46d31",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "317360c1a8c038cd2645a6617b249bd8291d53ab069ae864516293aca979ab4e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "041e05ebbce0c74c8c12cb7fb166138b0fa77acb57e93f01e9e429a3bafb0f5c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2d67482bbfeac670aac10ef05c6efa70ce8ededd69cb0fef588504305d4f35da",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "bda4b7eb63307be746d6e7b80194b8bebf5e759cc4201898180394a23addfb3b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f419819c20e280005add501fdd78c5de93872ae694b86a8b21adb2e64af269fe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "f419819c20e280005add501fdd78c5de93872ae694b86a8b21adb2e64af269fe",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Current full-frame final3 and original iso inspected against source11page contact and enlargedp6/p10. Confirmed source title单杠运动员 maps this course slug单杆运动员. Paired spliced uprights, sideways foundation, joined green top shaft/31625, hanging shoulder and hip assemblies, eye head and inward-facing shoe studs correspond. No new visible float or interference found. Shoe underside/beam retention and hidden foundation/splice locking remain unverified; no physical validation or dynamic rotation test. Cumulative steps not reviewed in this run."
+  "limitations": "All11 cumulative D frames compared with source11-page contact; originalstep6 inspected. Pillar/splice additions, two arms joined by31625 sleeve, torso/head/legs/shoes sequence correspond. Source title maps to this website slug. Foundation hidden retention and shoes tube-on-beam connection remain unverified; no dynamic or physical acceptance."
 }

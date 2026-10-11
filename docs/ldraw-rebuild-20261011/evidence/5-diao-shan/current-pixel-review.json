@@ -1,7 +1,7 @@
 {
   "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
   "revision": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
-  "reviewedAt": "2026-10-11T06:49:03.252838+00:00",
+  "reviewedAt": "2026-10-11T07:51:00.925154+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-diao-shan",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,62 @@
       "view": "top",
       "sha256": "e62306c3957b3761143a8ceaa368011dccaca318cfa345f78f8cbd12c7cd2f60",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "5d8101158bdbfc87f024878a964575bfd66afb09a0188ea353bc0b32f514c065",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8e6a91eb330ff7c476e774074cee187e1f75ab9d2bbdb89f4afded3461ab0557",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b29c9bfd3f74a408ba17d6a4a144494dd2b7a9cf9f94383b176f75caf858f2e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b80c388fa607ab7e93ed88632108cc7f9057bd04fd600c3d591334714df0a255",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "78fdd753ef351e1d5a694cab56956f2faf1d64fa4c78efe1369f0679ea22c1ef",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "38a7da75be72e4039a50ab87c22c1a6cb1ebffe759ee4bea970f01944578b1ac",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "7bd1062f0377f8ad92170782482558a24f9a272dc9d946b927cdcdedb099a6d7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "30eaeb555054f17a0492f4337747fd404cce1932b91e805d62fb726fdf59e5ce",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4654edfb25041557664764b03e36e5dd4f1353c43263d219050a7ac26169767a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "4654edfb25041557664764b03e36e5dd4f1353c43263d219050a7ac26169767a",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "D full-frame final3 and original iso/rear inspected against sourcep7. Two6526 carriers added to67-part source08253354. Carrier, shaft and crossed formed61898bc01 paper placement visible without new gross intersection. Official hole/pin geometry establishes static alignment;12LDU sheet displacement is assembly inference, not source measurement. Min beam-to-paper surface gaps24.177/37.340LDU, upper carrier-to-beam4LDU; lower shaft protrudes5LDU. See blade-carrier-evidence.json. Clamp phase/depth and physical friction remain unverified; current cumulative steps not reviewed."
+  "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected. Current67-part source includes two6526 carriers and crossed formed paper leaves before step8 drive gear. Rotor phase, opposed clamp depth and12LDU paper shift remain assembly inference, not source measurement or physical proof. See blade-carrier-evidence.json for static axes/gaps; hidden clamp faces partially occluded in step view. No physical acceptance."
 }
