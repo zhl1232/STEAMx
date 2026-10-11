@@ -1,6 +1,7 @@
 import type { Project } from '@/lib/mappers/types'
 import samples from './science-samples.data.json'
 import reviewedData from './science-reviewed.data.json'
+import extensionDrafts from './science-extensions.dev.json'
 
 export type ScienceSample = typeof samples[number] & { mode?: 'activity' | 'observation' | 'preparation'; instructionGap?: string; demonstrationReason?: string; sourceRelation?: 'alternative'; extensionQuestions?: string[] }
 const reviewed = reviewedData as ScienceSample[]
@@ -10,9 +11,14 @@ export function isReviewedScienceProject(id: string | number): boolean {
   return reviewed.some(sample => sample.id === Number(id))
 }
 
-/** The released 55 share one content version in development and production. Legacy 59 retain their database guard. */
+/** Only development previews matching extension drafts. Legacy 59 retain their database guard. */
 export function getScienceSample(id: string | number): ScienceSample | null {
-  return reviewed.find(sample => sample.id === Number(id)) ?? samples.find(sample => sample.id === Number(id)) ?? null
+  const released = reviewed.find(sample => sample.id === Number(id))
+  if (released && process.env.NODE_ENV === 'development') {
+    const draft = extensionDrafts.find(item => item.id === released.id && item.title === released.title)
+    if (draft) return { ...released, extension: draft.extension, extensionQuestions: [...draft.extensionQuestions] }
+  }
+  return released ?? samples.find(sample => sample.id === Number(id)) ?? null
 }
 
 export function scienceSampleIds(): number[] {

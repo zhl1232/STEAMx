@@ -1,5 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import drafts from '@/lib/project/science-extensions.dev.json'
+import { getScienceSample } from '@/lib/project/science-samples'
 import { ScienceExtensionQuestions } from './science-extension-questions'
 import { TutorProvider, useTutorContext } from '../tutor/tutor-context'
 const state = vi.hoisted(() => ({ user: { id: 'a' } as { id: string } | null, login: vi.fn() }))
@@ -23,4 +25,17 @@ test('guest gets login prompt without a queued draft or auto-send callback', () 
  fireEvent.click(screen.getByText('为什么喷发？'))
  expect(state.login.mock.calls[0][0]).toBeUndefined()
  expect(JSON.parse(screen.getByTestId('draft').textContent!).draft).toBeNull()
+})
+
+afterEach(() => vi.unstubAllEnvs())
+test('all three development questions prefill the exact text and project id', () => {
+ vi.stubEnv('NODE_ENV', 'development')
+ const draft = drafts.find(item => item.extensionQuestions.length === 3)!
+ const sample = getScienceSample(draft.id)!
+ expect(sample.extensionQuestions).toEqual(draft.extensionQuestions)
+ render(<TutorProvider><ScienceExtensionQuestions projectId={sample.id} questions={sample.extensionQuestions!} /><Probe /></TutorProvider>)
+ for (const question of draft.extensionQuestions) {
+  fireEvent.click(screen.getByRole('button', { name: question }))
+  expect(JSON.parse(screen.getByTestId('draft').textContent!)).toEqual({ draft: { text: question, userId: 'a', projectId: String(draft.id) }, send: null, open: true })
+ }
 })

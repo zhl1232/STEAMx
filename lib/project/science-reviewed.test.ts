@@ -1,6 +1,7 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import reviewed from './science-reviewed.data.json'
 import legacy from './science-samples.data.json'
+import drafts from './science-extensions.dev.json'
 import { applyScienceSample, getScienceSample, getScienceSampleForProject, scienceSampleIds } from './science-samples'
 import { getScienceTutorContent } from '@/lib/ai/tutor/science-context'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
@@ -13,15 +14,17 @@ test.each(['development', 'production'])('exact approved55 content and tutor agr
  expect(scienceSampleIds()).toHaveLength(114)
  const questions: string[] = []
  for (const item of reviewed) {
+  const draft = env === 'development' ? drafts.find(row => row.id === item.id && row.title === item.title) : undefined
+  const expected = draft ? {...item, extension:draft.extension, extensionQuestions:draft.extensionQuestions} : item
   const stale = {id:item.id, title:item.title, category:'科学', description:'OLD', materials:['OLD'], steps:[{title:'OLD',description:'OLD'}], faq:[{question:'OLD',answer:'OLD'}], reflection:'OLD', image:'cover.webp', videoUrl:'original.mp4'} as Project
   const result = applyScienceSample(stale)
   expect(result).toMatchObject({description:item.description, materials:item.materials, steps:item.steps, faq:item.faq, reflection:item.principle, image:stale.image, videoUrl:stale.videoUrl})
   expect(stale.description).toBe('OLD')
-  expect(getScienceSampleForProject(result)).toEqual(item)
+  expect(getScienceSampleForProject(result)).toEqual(expected)
   expect(applyScienceSample({...stale,title:'renamed'}).description).toBe('OLD')
   expect(applyScienceSample({...stale,category:'积木'}).description).toBe('OLD')
   const tutor = getScienceTutorContent(item.id,item.title,'科学')!
-  expect(tutor).toMatchObject({description:result.description, materials:result.materials,steps:result.steps,extension:item.extension,questions:item.extensionQuestions,mode:item.mode ?? 'activity'})
+  expect(tutor).toMatchObject({description:result.description, materials:result.materials,steps:result.steps,extension:expected.extension,questions:expected.extensionQuestions,mode:item.mode ?? 'activity'})
   expect(tutor).not.toHaveProperty('instructionGap')
   expect(tutor).not.toHaveProperty('sources')
   expect(item.extension.split('\n\n')).toHaveLength(2)

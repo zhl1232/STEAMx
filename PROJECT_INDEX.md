@@ -807,3 +807,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - 2026-10-09 科学扩展：66 条缺材料/步骤的视频项目逐条处理，54 条新稿加原 5 条共 59 条 dev 覆盖，12 条保留阻碍；已完整的 709 条不覆盖。指南最多读取 6 条 dev 候选，避免随目录扩大而全量取详情。批次证据与补充输入清单见 `docs/science-expansion-2026-10-09/`；部分安全对照活动为明确标注的编辑补充，未做实物验证。
 
 - 2026-10-10 科学55项正式内容：`science-reviewed.data.json`为精确55项已审核版本，详情数据库公开审核后按ID/标题/分类匹配覆盖，与小迪`getScienceTutorContent`使用同一份正文和定位。development/production一致，旧59保护不变、旧10稿不引入；preparation/observation不生成HowTo。两段拓展及两问只预填，保留草稿与账号/项目隔离。教学参考收口为站内入口/图片灯箱，保留备案、版权文件、登录支付。来源与发布边界见`docs/science55-release-2026-10-10/`；无需DB/OSS写入，列表和搜索数据库摘要未改。
+
+- `lib/project/science-extensions.dev.json`：首批 28 项「拓展探索」开发预览；仅 `NODE_ENV=development` 且 ID、标题与正式审核项一致时，通过 `getScienceSample` 新对象覆盖 extension / extensionQuestions，页面与小迪共享。其他字段及 production/test 正式内容不变。
