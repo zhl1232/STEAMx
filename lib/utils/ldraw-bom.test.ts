@@ -12,6 +12,7 @@ import {
   summarizePackedLdrawBom,
 } from '@/lib/utils/ldraw-bom'
 import { getPackedLdrawStepCount } from '@/lib/utils/ldraw-mpd'
+import { prepareLessonBomForCourse } from '@/lib/courses/lesson-materials'
 
 const LDRAW_DIRECTORY = path.resolve(process.cwd(), 'public/courses/ldraw')
 
@@ -178,6 +179,22 @@ describe('summarizePackedLdrawBom', () => {
 
 describe('describeLdrawPartName', () => {
   it.each([
+    ['76395.dat', 'Toolo 4 x 6 x 1 (Local simplified part)', '4×6 螺丝积木'],
+    ['parts\\31196C01.DAT', 'LOCAL SIMPLIFIED photo-informed geometry', '驾驶舱'],
+    ['6527', 'Duplo Wheel with 2 Belt Groves', '皮带轮'],
+    ['75349.dat', 'Duplo Brick 2 x 4 with Holes', '2×4 带孔积木'],
+    ['6517.dat', '', '2×4 带孔积木'],
+    ['6524.dat', '', '7 孔梁'],
+  ])('按零件号 %s 优先使用家长可读名称', (id, description, expected) => {
+    expect(describeLdrawPartName(description, id)).toBe(expected)
+  })
+
+  it('表外零件继续使用通用描述器', () => {
+    expect(describeLdrawPartName('Duplo Brick 2 x 4', '3011.dat')).toBe('2×4 积木')
+    expect(describeLdrawPartName('Unknown Part', 'unknown.dat')).toBe('Unknown Part')
+  })
+
+  it.each([
     ['Duplo Brick  2 x  4', '2×4 积木'],
     ['Duplo Brick  2 x  3 with Curved Top', '2×3 积木（弧顶）'],
     ['Duplo Brick  2 x  2 with Eye Pattern on Two Sides', '2×2 积木（眼睛）'],
@@ -197,6 +214,32 @@ describe('describeLdrawPartName', () => {
     expect(describeLdrawPartName('Technic Axle Connector')).toBe('Technic Axle Connector')
     expect(describeLdrawPartName('')).toBe('')
   })
+})
+
+describe('课程材料中文名称覆盖', () => {
+  it.each([[5, '3-'], [6, '4-'], [7, '5-']] as const)(
+    '课程 %i 的全部 %s 模型在准备后全课和分步清单均无英文名称',
+    (courseId, prefix) => {
+      const files = readdirSync(LDRAW_DIRECTORY).filter(
+        (file) => file.startsWith(prefix) && file.endsWith('.mpd'),
+      )
+      expect(files.length).toBeGreaterThan(0)
+      const failures: string[] = []
+      for (const file of files) {
+        const bom = prepareLessonBomForCourse(
+          courseId,
+          summarizePackedLdrawBom(readFileSync(path.join(LDRAW_DIRECTORY, file), 'utf8')),
+        )
+        expect(bom.entries.length, file).toBeGreaterThan(0)
+        for (const entry of [...bom.entries, ...bom.steps.flatMap((step) => step.entries)]) {
+          if (/[A-Za-z]{3,}/.test(entry.partName) || !/[\u3400-\u9fff]/.test(entry.partName)) {
+            failures.push(`${file}: ${entry.partId} → ${entry.partName}`)
+          }
+        }
+      }
+      expect(failures).toEqual([])
+    },
+  )
 })
 
 describe('describeLdrawColorName', () => {

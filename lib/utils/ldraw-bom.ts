@@ -160,11 +160,72 @@ function cleanPartDescription(description: string): string {
   return description.replace(/^[~=_]+/, '').trim()
 }
 
+// 课程 5/6/7 的特殊零件：按零件号命名，避免本地几何描述或通用类别误导家长。
+const PART_NAMES_ZH: Readonly<Record<string, string>> = {
+  '76395': '4×6 螺丝积木',
+  '76057': '2×4 螺丝积木',
+  '28336': '2×2 叉臂螺丝积木',
+  '28334': '短连杆',
+  '28331': '长连杆',
+  '74957': '2×2 卡扣螺丝积木',
+  '99565': '螺丝轮毂',
+  '44970': '越野轮胎',
+  '60535': '旋转底座',
+  '71981': '履带',
+  '6294': '铲斗',
+  '31196c01': '驾驶舱',
+  '6345': '弧形挡风玻璃',
+  '6521': '8 格轴',
+  '6522': '6 格轴',
+  '6523': '5 格齿轮轴',
+  '6525': '11 孔梁',
+  '6524': '7 孔梁',
+  '6526': '摇把',
+  '6527': '皮带轮',
+  '6529': '24 齿齿轮',
+  '6530': '40 齿齿轮',
+  '31622': '冠齿轮',
+  '6292': '轮胎',
+  '75349': '2×4 带孔积木',
+  '6517': '2×4 带孔积木',
+  '75350': '2×10 带孔积木',
+  '6515': '2×10 带孔积木',
+  '31193': '滚球管小门',
+  '31453': '2×6 带翼积木',
+  '13355': '2×2 活动连接板',
+  '6474': '2×2 斜坡积木',
+  '47198p03': '小人手臂',
+  '47199': '小人帽子',
+  '47203p03': '小人上身',
+  '47204': '小人腰部',
+  '47205': '小人腿部',
+  '47206p01': '小人头部',
+  '47207': '小人连接棒',
+  '31111p02': '长颈鹿腿部积木',
+  '31111p03': '长颈鹿身体积木',
+  '31111p04': '长颈鹿头部积木',
+  '31111p05': '老虎腿部积木',
+  '31111p06': '老虎身体积木',
+  '31111p07': '老虎头部积木',
+  '31111p08': '鳄鱼腿部积木',
+  '31111p09': '鳄鱼身体积木',
+  '31111p0a': '鳄鱼头部积木',
+  '31111p0b': '火烈鸟腿部积木',
+  '31111p0c': '火烈鸟身体积木',
+  '31111p0d': '火烈鸟头部积木',
+  '31111p0e': '斑马腿部积木',
+  '31111p0f': '斑马身体积木',
+  '31111p0g': '斑马头部积木',
+}
+
 /**
  * LDraw 英文零件描述 → 面向学员的中文名，如
- * `Duplo Brick  2 x  4` → `2×4 积木`；识别不了时保留英文描述。
+ * `Duplo Brick  2 x  4` → `2×4 积木`；优先查零件号表，其余保留通用描述器。
  */
-export function describeLdrawPartName(description: string): string {
+export function describeLdrawPartName(description: string, partId?: string): string {
+  const id = partId ? normalizePartId(partId).replace(/\.dat$/, '') : ''
+  if (Object.hasOwn(PART_NAMES_ZH, id)) return PART_NAMES_ZH[id]
+
   const cleaned = cleanPartDescription(description)
   if (!cleaned) return ''
 
@@ -308,7 +369,7 @@ export function summarizePackedLdrawBom(
       else {
         stepEntries.set(key, {
           partId,
-          partName: describeLdrawPartName(description) || partId,
+          partName: describeLdrawPartName(description, partId) || partId,
           partDescription: cleanPartDescription(description),
           colorCode,
           colorName: color ? describeLdrawColorName(color.name) : `色号 ${colorCode}`,
