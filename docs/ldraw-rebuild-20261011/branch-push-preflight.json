@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-11T07:52:00Z",
+  "remoteMain": "2bb4a9237749bb2a023642bf71f8bc240bb3a6c4",
+  "branch": "models/129-course-source-rebuild-20261011",
+  "workflowFiles": [
+    {
+      "path": ".github/workflows/apply-content-triage-2026-08-13.yml",
+      "gitBlobSha": "7d671925be1277b8626565925c0bf22b89c25318"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "gitBlobSha": "67682c9330fc6c13a3611766569231ef99bdc126"
+    },
+    {
+      "path": ".github/workflows/ops-assets-signing-secret.yml",
+      "gitBlobSha": "d28dc70424761b0a5ae4b00a23d0171327215bcc"
+    },
+    {
+      "path": ".github/workflows/ops-auth-phone-provider.yml",
+      "gitBlobSha": "c2ca65a4bd43c7751d6591bdfe01f86f5b6f775a"
+    },
+    {
+      "path": ".github/workflows/ops-nginx-googlebot-logs.yml",
+      "gitBlobSha": "88c51d6521e4c22f8eab502863cba84e207e9285"
+    },
+    {
+      "path": ".github/workflows/ops-readonly-media-inspect.yml",
+      "gitBlobSha": "2f6ea3489f14c8ab2ad69638cf3202f256074492"
+    },
+    {
+      "path": ".github/workflows/ops-yandex-html-verify.yml",
+      "gitBlobSha": "84fb3164c1ec296a0b8f8ed89c4f2a2000c1cb01"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "gitBlobSha": "515e222dbe2eae9d1a66fac8502e9d9331023464"
+    }
+  ],
+  "remoteAndLocalWorkflowBlobsEqual": true,
+  "matchingPushTriggers": [],
+  "triggerSummary": {
+    "release": "push main or v* tags; manual",
+    "triage": "push main with path filters; manual",
+    "ci": "pull_request main or workflow_call",
+    "otherFive": "workflow_dispatch only"
+  },
+  "prePushBranchRuns": 0,
+  "authorization": "User requested incremental branch backup pushes; no PR, main merge, workflow mutation or deployment."
+}
