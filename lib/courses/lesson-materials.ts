@@ -80,6 +80,13 @@ export interface KitInventory {
 
 export const kitInventories: Record<string, KitInventory> = inventories
 
+export const DUPLO_8X8_PLATE_STUDS = 64
+/** 按优先顺序消耗：先用两块 4×8，再用较大的 8×16；不包含 2×8。 */
+export const AREA_PLATE_SUBSTITUTES = [
+  { partNum: '4672', studs: 32, areaLabel: '4×8 薄板' },
+  { partNum: '6490', studs: 128, areaLabel: '8×16 薄板' },
+] as const
+
 export function mergeKitInventories(kits: KitSelection[]): KitInventoryPart[] {
   const merged = new Map<string, KitInventoryPart>()
   for (const kit of kits) {
@@ -116,6 +123,8 @@ export interface MaterialRequirement extends LdrawBomEntry {
     colorName: string
     quantity: number
     substitute: boolean
+    /** 面积替代时，实际消耗的薄板尺寸。 */
+    areaLabel?: string
   }[]
   /** 由人物散件折算而来 */
   figureFolded?: boolean
@@ -226,6 +235,57 @@ function allocateStock(
   }
 }
 
+/** 普通分配后，仅用剩余薄板面积覆盖必需的 8×8；整块消耗，多余面积不回库存。 */
+export function allocateAreaPlateSubstitutes(
+  entries: MaterialRequirement[],
+  stock: KitInventoryPart[],
+  prefs: LessonMaterialPreferences,
+): void {
+  const demands = entries
+    .filter((entry) =>
+      normalizeLdrawPartId(entry.partId) === '51262' &&
+      entry.missing > 0 && !isOptional(entry, prefs) && !isUnknown(entry),
+    )
+    .map((entry) => ({
+      entry,
+      originalMissing: entry.missing,
+      studsStillNeeded: entry.missing * DUPLO_8X8_PLATE_STUDS,
+    }))
+
+  // 全部需求先取同色，避免其它颜色替代先占用后续行的同色库存。
+  for (const substituteColor of [false, true]) {
+    if (substituteColor && !prefs.acceptColorSubstitutes) continue
+    for (const demand of demands) {
+      const colorId = resolveLdrawColor(demand.entry.colorCode)
+      for (const plate of AREA_PLATE_SUBSTITUTES) {
+        for (const part of stock) {
+          if (demand.studsStillNeeded <= 0 || part.quantity <= 0 || part.partNum !== plate.partNum) continue
+          if (!substituteColor && (colorId === undefined || part.colorId !== colorId)) continue
+
+          const quantity = Math.min(part.quantity, Math.ceil(demand.studsStillNeeded / plate.studs))
+          part.quantity -= quantity
+          demand.studsStillNeeded -= quantity * plate.studs
+          demand.entry.allocations.push({
+            partNum: part.partNum,
+            colorId: part.colorId,
+            colorName: part.colorName,
+            quantity,
+            substitute: true,
+            areaLabel: plate.areaLabel,
+          })
+        }
+      }
+    }
+  }
+
+  for (const { entry, originalMissing, studsStillNeeded } of demands) {
+    const piecesCovered = originalMissing - Math.ceil(Math.max(0, studsStillNeeded) / DUPLO_8X8_PLATE_STUDS)
+    entry.missing -= piecesCovered
+    entry.matched += piecesCovered
+    entry.substituted += piecesCovered
+  }
+}
+
 export function compareLessonMaterials(
   bom: LdrawBom,
   inventory: KitInventoryPart[],
@@ -274,6 +334,7 @@ export function compareLessonMaterials(
   }
 
   allocateStock(remaining, stock, prefs)
+  allocateAreaPlateSubstitutes(remaining, stock, prefs)
 
   for (const entry of remaining) {
     if (isUnknown(entry)) {

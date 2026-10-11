@@ -35,6 +35,25 @@ it('server render shows plain-language headline and no engineering terms', () =>
   expect(renderToStaticMarkup(<LessonMaterialsPreparation courseId={8} entries={entries} partCount={partCount} />)).toBe('')
 })
 
+it.each([
+  { count: 1, reserveSmallPlates: false, detail: '用 2 块亮绿色 4×8 薄板代替' },
+  { count: 2, reserveSmallPlates: true, detail: '用 1 块亮绿色 8×16 薄板代替' },
+  { count: 2, reserveSmallPlates: false, detail: '用 2 块亮绿色 4×8 薄板、1 块亮绿色 8×16 薄板代替' },
+])('explains area substitutions in Chinese: $detail', ({ count, reserveSmallPlates, detail }) => {
+  const plates = [{ ...entry('51262.dat', 71, count, '8×8 薄板', '浅蓝灰色'), structural: true }]
+  if (reserveSmallPlates) plates.push({ ...entry('4672a.dat', 10, 2, '4×8 薄板', '亮绿色'), structural: true })
+  const html = renderToStaticMarkup(<LessonMaterialsPreparation courseId={5} entries={plates} partCount={count + (reserveSmallPlates ? 2 : 0)} />)
+
+  expect(html).toContain('用你的套装可以搭完')
+  expect(html).not.toContain('需要补买')
+  expect(html).toContain('可以用其它颜色或零件代替')
+  expect(html).toContain('大的薄板可以拼成小的')
+  expect(html).toContain(detail)
+  const content = document.createElement('div')
+  content.innerHTML = html
+  for (const term of ['LDraw', 'Rebrickable', '51262', '4672', '6490']) expect(content.textContent).not.toContain(term)
+})
+
 it('steppers recalculate instantly and persist to localStorage', async () => {
   render(<LessonMaterialsPreparation courseId={5} entries={entries} partCount={partCount} />)
   expect(await screen.findByText('还差 1 种、共 2 块')).toBeTruthy()

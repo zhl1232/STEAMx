@@ -95,6 +95,118 @@ it('optional plates become required only by explicit preference or structural wh
   ).toBe(1)
 })
 
+it('covers a structural 8×8 with two same-color 4×8 plates without mutating inputs', () => {
+  const model = bom({ ...entry('51262.dat'), structural: true })
+  const inventory = [stock('4672', 4, 2)]
+  const original = structuredClone({ model, inventory })
+  const result = compareLessonMaterials(model, inventory, { ...prefs, acceptColorSubstitutes: false })
+
+  expect(result.stats).toMatchObject({ requiredMissing: 0, matched: 1, substituted: 1 })
+  expect(result.entries[0]).toMatchObject({ status: 'colorSubstitute', missing: 0 })
+  expect(result.colorSubstitutes[0].allocations).toEqual([
+    { partNum: '4672', colorId: 4, colorName: '4', quantity: 2, substitute: true, areaLabel: '4×8 薄板' },
+  ])
+  expect({ model, inventory }).toEqual(original)
+})
+
+it.each([true, false])('covers two 8×8 with a different-color 8×16 only when recoloring is %s', (acceptColorSubstitutes) => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat', 71, 2), structural: true }),
+    [stock('6490', 10)],
+    { ...prefs, acceptColorSubstitutes },
+  )
+
+  expect(result.stats).toMatchObject({
+    requiredMissing: acceptColorSubstitutes ? 0 : 2,
+    matched: acceptColorSubstitutes ? 2 : 0,
+    substituted: acceptColorSubstitutes ? 2 : 0,
+  })
+  expect(result.entries[0].allocations).toEqual(acceptColorSubstitutes ? [
+    { partNum: '6490', colorId: 10, colorName: '10', quantity: 1, substitute: true, areaLabel: '8×16 薄板' },
+  ] : [])
+})
+
+it('reserves all normally needed 8×16 plates before area substitution', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat'), structural: true }, entry('6490.dat', 1, 2)),
+    [stock('6490', 4, 2)],
+    prefs,
+  )
+
+  expect(result.requiredMissing).toEqual([expect.objectContaining({ partId: '51262.dat', missing: 1 })])
+  expect(result.entries[0].allocations).toEqual([])
+  expect(result.entries[1]).toMatchObject({ matched: 2, missing: 0 })
+})
+
+it('leaves a step-0-only 8×8 optional even when area stock is available', () => {
+  const model = bom(entry('51262.dat', 71))
+  model.steps = [{ stepIndex: 0, partCount: 1, entries: model.entries }]
+  const result = compareLessonMaterials(
+    prepareLessonBomForCourse(5, model), [stock('4672', 71, 2), stock('6490', 10)], prefs,
+  )
+
+  expect(result.optionalMissing).toEqual([expect.objectContaining({ partId: '51262.dat', missing: 1 })])
+  expect(result.colorSubstitutes).toEqual([])
+  expect(result.entries[0].allocations).toEqual([])
+  expect(result.stats).toMatchObject({ requiredMissing: 0, matched: 0, substituted: 0 })
+})
+
+it.each([{ includeOptionalBaseplates: true }, { structuralBaseplates: ['51262.dat'] }])(
+  'area-substitutes optional-shaped plates when preferences make them required: %j', (overrides) => {
+    const result = compareLessonMaterials(bom(entry('51262.dat')), [stock('4672', 4, 2)], { ...prefs, ...overrides })
+    expect(result.stats).toMatchObject({ requiredMissing: 0, optionalMissing: 0, substituted: 1 })
+  },
+)
+
+it('keeps uncovered whole pieces required while reporting partial area substitutions', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat', 4, 2), structural: true }), [stock('4672', 4, 3)], prefs,
+  )
+
+  expect(result.stats).toMatchObject({ requiredMissing: 1, matched: 1, substituted: 1 })
+  expect(result.requiredMissing[0]).toBe(result.colorSubstitutes[0])
+  expect(result.entries[0].allocations[0]).toMatchObject({ partNum: '4672', quantity: 3, substitute: true })
+})
+
+it('combines area across colors and plate sizes, preferring 4×8 within a color pass', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat', 4, 3), structural: true }),
+    [stock('6490', 4), stock('4672', 4), stock('4672', 1)],
+    prefs,
+  )
+
+  expect(result.stats).toMatchObject({ requiredMissing: 0, matched: 3, substituted: 3 })
+  expect(result.entries[0].allocations.map((a) => [a.partNum, a.colorId, a.quantity])).toEqual([
+    ['4672', 4, 1], ['6490', 4, 1], ['4672', 1, 1],
+  ])
+})
+
+it('reserves same-color area stock for later rows before using other colors', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat', 1), structural: true }, { ...entry('51262.dat', 4), structural: true }),
+    [stock('4672', 4, 2)], prefs,
+  )
+  expect(result.entries.map((row) => row.status)).toEqual(['requiredMissing', 'colorSubstitute'])
+})
+
+it('takes a whole 8×16 for one 8×8 and never reuses its wasted area', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat', 4), structural: true }, { ...entry('51262.dat', 1), structural: true }),
+    [stock('6490')], prefs,
+  )
+  expect(result.entries.map((row) => row.missing)).toEqual([0, 1])
+  expect(result.entries[0].allocations[0]).toMatchObject({ partNum: '6490', quantity: 1 })
+})
+
+it('does not use 2×8 plates or count a single 4×8 as a complete 8×8', () => {
+  const result = compareLessonMaterials(
+    bom({ ...entry('51262.dat'), structural: true }), [stock('44524', 4, 10), stock('4672')], prefs,
+  )
+  expect(result.stats).toMatchObject({ requiredMissing: 1, matched: 0, substituted: 0 })
+  expect(result.colorSubstitutes).toEqual([])
+  expect(result.entries[0].allocations.map((a) => a.partNum)).toEqual(['4672'])
+})
+
 it('folds child figure parts into complete-figure demand', () => {
   const folded = foldFigureComponents([
     req('47205.dat', 2),
@@ -339,10 +451,15 @@ it('covers the real Eiffel Tower with default small-class Duplo kits', () => {
   }
   const result = compareLessonMaterials(prepared, mergeKitInventories(prefs.kits), prefs)
   expect(prepared.partCount).toBe(74)
-  expect(result.requiredMissing).toEqual([expect.objectContaining({
-    partId: '51262.dat', colorCode: 71, count: 2, missing: 2, structural: true,
-  })])
+  expect(result.requiredMissing).toEqual([])
+  expect(result.colorSubstitutes).toContainEqual(expect.objectContaining({
+    partId: '51262.dat', colorCode: 71, count: 2, missing: 0, substituted: 2, structural: true,
+    allocations: [
+      expect.objectContaining({ partNum: '4672', quantity: 2, areaLabel: '4×8 薄板' }),
+      expect.objectContaining({ partNum: '6490', quantity: 1, areaLabel: '8×16 薄板' }),
+    ],
+  }))
   for (const row of result.entries) expect(standIns).not.toContain(row.partId)
   expect(result.stats.matched).toBeGreaterThanOrEqual(70)
-  expect(summarizeMaterialOutcome(result).missingPieces).toBe(2)
+  expect(summarizeMaterialOutcome(result)).toMatchObject({ status: 'complete', missingPieces: 0 })
 })

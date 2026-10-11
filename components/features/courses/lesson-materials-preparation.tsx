@@ -210,9 +210,9 @@ export function LessonMaterialsPreparation({
       {/* 可替代 */}
       {result.colorSubstitutes.length > 0 ? (
         <Fold
-          title="可以用其它颜色代替"
+          title="可以用其它颜色或零件代替"
           count={result.stats.substituted}
-          hint="套装里这个形状有，只是颜色或图案不一样，搭出来结构一样，不用另买。"
+          hint="颜色或图案不一样可以换着用，大的薄板可以拼成小的，按下面的提示搭就不用另买。"
         >
           <ul className="grid gap-2 sm:grid-cols-2">
             {result.colorSubstitutes.map((entry) => (
@@ -275,9 +275,14 @@ function rowKey(entry: MaterialRequirement) {
 }
 
 function substituteDetail(entry: MaterialRequirement): string {
-  const used = entry.allocations
-    .filter((a) => a.substitute)
-    .map((a) => `${describeLdrawColorName(a.colorName)} ${a.quantity} 块`);
+  const substitutions = entry.allocations.filter((a) => a.substitute);
+  if (substitutions.some((a) => a.areaLabel)) {
+    const used = substitutions.map((a) =>
+      `${a.quantity} 块${describeLdrawColorName(a.colorName)}${a.areaLabel ? ` ${a.areaLabel}` : "同款零件"}`,
+    );
+    return `用 ${used.join("、")}代替`;
+  }
+  const used = substitutions.map((a) => `${describeLdrawColorName(a.colorName)} ${a.quantity} 块`);
   return used.length ? `可以用 ${used.join("、")}` : "";
 }
 
