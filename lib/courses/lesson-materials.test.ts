@@ -556,21 +556,21 @@ it('describes a printed door replaced by a plain door in the same color', () => 
 })
 
 it.each([
-  { partDifference: '不同图案的', expected: '可用不同图案的黄色2×2 积木（眼睛） 3 块、可以用 红色 1 块' },
+  { partDifference: '不同图案的', expected: '可用不同图案的黄色2×2 积木（花朵） 3 块、可以用 红色 1 块' },
   { expected: '可以用 黄色 3 块、可以用 红色 1 块' },
   { areaLabel: '4×8 薄板', expected: '用 3 块黄色 4×8 薄板、1 块红色同款零件代替' },
 ])('merges matching substitute phrases and sums quantities: $expected', ({ partDifference, areaLabel, expected }) => {
   const allocation = {
-    partNum: '3437pr0001', colorId: 14, colorName: 'Yellow', quantity: 2,
+    partNum: '3437pr9998', colorId: 14, colorName: 'Yellow', quantity: 2,
     substitute: true, partDifference, areaLabel,
   }
   const row = {
     ...req('3437.dat', 4),
-    partName: '2×2 积木（眼睛）',
+    partName: '2×2 积木（花朵）',
     allocations: [
       allocation,
       { partNum: '3437', colorId: 4, colorName: 'Red', quantity: 1, substitute: true },
-      { ...allocation, partNum: '3437pr0002', colorName: '黄色', quantity: 1 },
+      { ...allocation, partNum: '3437pr9999', colorName: '黄色', quantity: 1 },
       { ...allocation, quantity: 5, substitute: false },
     ],
   }
@@ -632,7 +632,7 @@ it('uses eye stock before plain stock and counts only the plain remainder as a s
 it.each([
   ['3437', 4, 'Red', 'Duplo Brick 2 x 2', '可用无图案的红色2×2 积木 1 块'],
   ['3437', 14, 'Yellow', 'Duplo Brick 2 x 2', '可用无图案的黄色2×2 积木 1 块'],
-  ['3437pr0067', 14, 'Yellow', 'Duplo Brick 2 x 2 with Eye Print', '可用不同图案的黄色2×2 积木（眼睛） 1 块'],
+  ['3437pr0067', 14, 'Yellow', 'Duplo Brick 2 x 2 with Eye Print', '可以用 黄色 1 块'],
 ])('plain or differently colored eyes keep substitute wording: %s, %s', (partNum, colorId, colorName, name, detail) => {
   const result = compareLessonMaterials(bom({ ...entry('3437pe1.dat'), partName: '2×2 积木（眼睛）' }),
     [{ ...stock(partNum, colorId), colorName, name }], prefs)
@@ -647,4 +647,16 @@ it('does not use other prints or other eye shapes as equivalent eye stock', () =
     { ...stock('4198pr0001'), name: 'Duplo Brick with Eyes Print' },
   ], prefs)
   expect(result.stats).toMatchObject({ requiredMissing: 1, matched: 0, substituted: 0 })
+})
+
+it('describes two differently colored equivalent eyes using only color and quantity', () => {
+  const result = compareLessonMaterials(bom(entry('3437pe1.dat', 4, 2)), [
+    { ...stock('3437pr0067', 10, 2), colorName: 'Bright Green', name: 'Duplo Brick 2 x 2 with Eye Print' },
+  ], prefs)
+  const row = result.entries[0]
+  expect(substituteDetail(row)).toBe('可以用 亮绿色 2 块')
+  // Older allocation payloads may still carry a print difference.
+  expect(substituteDetail({ ...row, allocations: row.allocations.map((a) => ({
+    ...a, partDifference: '不同图案的',
+  })) })).toBe('可以用 亮绿色 2 块')
 })

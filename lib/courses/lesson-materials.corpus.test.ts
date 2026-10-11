@@ -3,7 +3,7 @@ import { expect, it } from 'vitest'
 import { describeLdrawColorName, parseLdrawColorTable, summarizePackedLdrawBom } from '../utils/ldraw-bom'
 import { KIT_CATALOG } from './course-kit-config'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
-import { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse, sameDisplayColor, substituteDetail } from './lesson-materials'
+import { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse, substituteDetail } from './lesson-materials'
 
 const directory = 'public/courses/ldraw'
 const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'utf8'))
@@ -25,9 +25,8 @@ it('all 160 lessons render only meaningful substitutions with default and all-fo
           .map((phrase) => phrase.replace(/\d+ 块/g, '').trim())
         if (new Set(phrases).size !== phrases.length) failures.push(`${file}: repeated phrase: ${detail}`)
         for (const a of row.allocations.filter((a) => a.substitute)) {
-          if (a.partDifference === '不同图案的' && (a.partName ?? row.partName).includes('（眼睛）') &&
-            sameDisplayColor(row, { ...a, name: a.partName ?? row.partName })) {
-            failures.push(`${file}: same-color eye print reported as substitute: ${detail}`)
+          if (a.partDifference === '不同图案的' && (a.partName ?? row.partName).includes('（眼睛）')) {
+            failures.push(`${file}: equivalent eye print reported as different pattern: ${detail}`)
           }
           const color = describeLdrawColorName(a.colorName)
           if (color === row.colorName && !a.partDifference && (!a.areaLabel || a.areaLabel === row.partName)) {

@@ -210,7 +210,7 @@ export function sameDisplayColor(entry: LdrawBomEntry, part: KitInventoryPart): 
 function describePartDifference(entry: MaterialRequirement, part: KitInventoryPart): string | undefined {
   const id = normalizeLdrawPartId(entry.partId)
   if (id === part.partNum || entry.mapping.flags.kitColor) return
-  if (entry.mapping.flags.eyePrintEquivalent && isDuploEyePrint(part.partNum, part.name) && sameDisplayColor(entry, part)) return
+  if (entry.mapping.flags.eyePrintEquivalent && isDuploEyePrint(part.partNum, part.name)) return
   if (!entry.mapping.flags.printedFlexible && !entry.mapping.flags.colorFlexible) return
   const print = /(?:pe[0-9a-z]*|pr[0-9a-z]+|p[0-9a-z]+)$/i
   const requiredPrint = print.test(id)
@@ -228,10 +228,12 @@ export function substituteDetail(entry: MaterialRequirement): string {
   const quantities = new Map<string, number>()
   for (const a of substitutions) {
     const color = describeLdrawColorName(a.colorName)
+    const difference = entry.mapping.flags.eyePrintEquivalent && isDuploEyePrint(a.partNum, a.partName ?? '')
+      ? undefined : a.partDifference
     const phrase = hasArea
-      ? `${color}${a.areaLabel ? ` ${a.areaLabel}` : a.partDifference ?? '同款零件'}`
-      : a.partDifference
-        ? `可用${a.partDifference}${color}${a.partName ?? entry.partName}`
+      ? `${color}${a.areaLabel ? ` ${a.areaLabel}` : difference ?? '同款零件'}`
+      : difference
+        ? `可用${difference}${color}${a.partName ?? entry.partName}`
         : `可以用 ${color}`
     quantities.set(phrase, (quantities.get(phrase) ?? 0) + a.quantity)
   }

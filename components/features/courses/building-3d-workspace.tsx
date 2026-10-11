@@ -51,6 +51,7 @@ type LoadedThreeCore = {
 };
 
 type LoadedLdraw = {
+    createLdrawEdgeRenderer: typeof import("@/lib/utils/ldraw-edges").createLdrawEdgeRenderer;
     LDrawLoader: typeof import("three/examples/jsm/loaders/LDrawLoader.js").LDrawLoader;
     LDrawConditionalLineMaterial: typeof import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js").LDrawConditionalLineMaterial;
 };
@@ -395,7 +396,9 @@ function loadLdrawRuntime(): Promise<LoadedLdraw> {
     ldrawRuntimePromise = Promise.all([
         import("three/examples/jsm/loaders/LDrawLoader.js"),
         import("three/examples/jsm/materials/LDrawConditionalLineMaterial.js"),
-    ]).then(([ldraw, ldrawLine]) => ({
+        import("@/lib/utils/ldraw-edges"),
+    ]).then(([ldraw, ldrawLine, edges]) => ({
+        createLdrawEdgeRenderer: edges.createLdrawEdgeRenderer,
         LDrawLoader: ldraw.LDrawLoader,
         LDrawConditionalLineMaterial: ldrawLine.LDrawConditionalLineMaterial,
     }));
@@ -1046,6 +1049,14 @@ export function Building3DWorkspace({
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 renderer.shadowMap.enabled = true;
                 mount.appendChild(renderer.domElement);
+                // Dev-only, read-only measurements for the active builder canvas.
+                if (process.env.NODE_ENV !== "production") {
+                    (renderer.domElement as HTMLCanvasElement & { ldrawStats?: () => unknown }).ldrawStats = () => ({
+                        calls: renderer.info.render.calls,
+                        lines: renderer.info.render.lines,
+                        geometries: renderer.info.memory.geometries,
+                    });
+                }
 
                 const controls = new OrbitControls(camera, renderer.domElement);
                 controls.enableDamping = true;
@@ -1056,6 +1067,7 @@ export function Building3DWorkspace({
                 let frame = 0;
                 let resizeObserver: ResizeObserver | null = null;
                 let disposed = false;
+                let edgeRenderer: ReturnType<LoadedLdraw["createLdrawEdgeRenderer"]> | null = null;
                 const cleanupScene = () => {
                     if (disposed) return;
                     disposed = true;
@@ -1063,6 +1075,11 @@ export function Building3DWorkspace({
                     resizeObserver?.disconnect();
                     controls.dispose();
                     disposeObject3D(scene);
+                    edgeRenderer?.dispose();
+                    scene.clear();
+                    if (process.env.NODE_ENV !== "production") {
+                        delete (renderer.domElement as HTMLCanvasElement & { ldrawStats?: () => unknown }).ldrawStats;
+                    }
                     renderer.renderLists.dispose();
                     renderer.dispose();
                     renderer.forceContextLoss();
@@ -1121,6 +1138,9 @@ export function Building3DWorkspace({
                     return loader;
                 };
                 const ldrawLoader = content.ldrawModelUrl ? createLdrawLoader() : null;
+                if (ldrawLoader && ldrawRuntime) {
+                    edgeRenderer = ldrawRuntime.createLdrawEdgeRenderer((code) => ldrawLoader.getMaterial(code));
+                }
                 const ldrawMaterialsPromise = ldrawLoader
                     ? (async () => {
                         ldrawLoader.addDefaultMaterials();
@@ -1148,6 +1168,7 @@ export function Building3DWorkspace({
                         },
                     );
                     prepareLdrawStepModel(model);
+                    if (!cancelled) edgeRenderer?.prepare(model);
                     return model;
                 };
 
