@@ -1,0 +1,96 @@
+{
+  "sourceSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+  "revision": "ee69bd1547c4ddbecde7f42c5eaaf23b3e0191539b92dd17871e4d664f989c29",
+  "reviewedAt": "2026-10-11T14:51:37.960736+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhi-sheng-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "0d392d5a2ed9da9298d6666662b3d5a4e9974349cd2688974af52c2883644bc9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "b539803a282420eb7f94ef6bdf0033904e8bf51ab23f5a9b2d965158e2befc7f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4beb0217b7f9980454cf6da654db87feb7724754770b09a6e5aeac4e6ead5ab1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "ac0f36ee940e99bdb575f8a84aa5d003b642fc7c12c9d282bdc92d4e5f42543c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "abde0ada110a3d5b2fdd6e597a2bcc5e863bbb4b6605467c244188052dfb822c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "51576858a6f8aaa94678edb3e6fc23ce2a439e8bc5cee58f760a53887e24415b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "105a97b12909378e0ec40c6689864fe5b466eeda4773e02b90fa5d43a6246f2c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "de220cb8cb5af534d5b3b80fce7498f30f207cca1ce8e78c785c5a95d4d08ab9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "b0b2ecd5ed3316f36c050b6563b5bfa1c9a5857c39599618978c963c33fdad51",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3547f7609c095947f7c200b355f405589004b0529b4eac8b1900a03380a5e26f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2cf5ba7aa5e1abb137163fc37baeef46865ef90970f1ec18153cfad4205a947f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "8575decdac7e3784217e59f5986e0403362af16582837b55f26d1d66a7b94079",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "66313165ddf8135547a0b253891ceaf8c4b7cc55db7bf5748c2122c80c6dc34a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "0d392d5a2ed9da9298d6666662b3d5a4e9974349cd2688974af52c2883644bc9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "0d392d5a2ed9da9298d6666662b3d5a4e9974349cd2688974af52c2883644bc9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "0d392d5a2ed9da9298d6666662b3d5a4e9974349cd2688974af52c2883644bc9",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current iso, iso-rear, top original PNGs and all 13 step original PNGs plus current contact sheet. Reopened source p2,p5,p9,p11,p14. No new definite silhouette/orientation error observed: canopy faces forward, stepped tail and 4x4 cap correspond, main/tail crossed beams retain separate layers. Existing approximate cockpit/canopy rim mesh intersections remain; gear phase, shaft retention, hidden tail bond and rotor full sweep are unverified. Steps12/13 intentionally show no new placements because source p12 two flexible runs are omitted pending ID/material/route evidence; not missing rendered steps or assembly acceptance.",
+  "actualReviewMethod": "All three final original PNGs and all thirteen step original PNGs individually viewed, plus current step contact sheet; source p2,p5,p9,p11,p14 reopened against prior full fourteen-page inspection."
+}

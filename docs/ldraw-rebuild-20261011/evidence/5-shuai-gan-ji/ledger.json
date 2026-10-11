@@ -1573,7 +1573,7 @@
     "P7 grayaxle engagesrotatingbeam22LDU; offsetcrankpin40LDU,centerpassages used; platform mechanical strength/sweep remains unverified.",
     "P8 three6brick rings match12yellow+6blueBOM; hiddenbackseams inferred with alternatingbond."
   ],
-  "verification": "Raw geometry and central render pending",
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
   "inventory": "9656/9090 known rows compared; combined color availability unknown where incomplete",
   "modelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-shuai-gan-ji.ldr",

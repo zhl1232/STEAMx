@@ -1,0 +1,81 @@
+0 5-zhi-sheng-ji - source-based dev-only reconstruction
+0 Name: 5-zhi-sheng-ji.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: Red6x12plate and two-layer yellow8stud foundation
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 2: Staggered lower red rails and existing cockpit/hood
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -80 -192 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 25 200 -168 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 19 348 -202 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+0 // Source page 3: Tail extension and two upper bearing supports
+1 4 -160 -240 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -440 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -288 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -200 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 4: Upper bridge and two yellow tail bricks
+1 4 -40 -336 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -480 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 5: Stepped tail fin4yellowbricks
+1 14 -520 -384 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -560 -432 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -600 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -520 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: 40T yellow gear on gray6L side axle, opposite pulley
+1 7 -40 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -40 -168 -80 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -40 -168 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 7: 24T red input gear at160LDU centre distance with crank and opposite pulley
+1 7 -200 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 -200 -168 -80 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 -200 -168 -120 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 -200 -168 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 8: Green8L vertical rotor axle with downward-facing blue crown
+1 2 -40 -336 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 1 -40 -268 0 1 0 0 0 0 1 0 -1 0 31622.dat
+0 STEP
+0 // Source page 9: Two11-hole rotor blades and two opposed drive cranks
+1 14 -40 -356 0 1 0 0 0 -1 0 0 0 -1 6526.dat
+1 14 -40 -396 0 1 0 0 0 1 0 0 0 1 6525.dat
+1 14 -40 -436 0 0 0 1 0 1 0 -1 0 0 6525.dat
+1 14 -40 -476 0 0 0 1 0 1 0 -1 0 0 6526.dat
+0 STEP
+0 // Source page 10: Tail green8Lshaft andtwo belt pulleys
+1 2 -360 -264 80 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -360 -264 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -360 -264 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 11: Two7-hole tail blades and opposed cranks
+1 14 -360 -264 100 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 -360 -264 140 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -360 -264 180 1 0 0 0 0 -1 0 1 0 6524.dat
+1 14 -360 -264 220 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // Source page 12: Source right2x flexible transmission runs omitted: ID/material/path not proven; no artificial rod
+0 STEP
+0 // Source page 13: Fit two flexible runs onrear pulleys; unresolved material/return path remains omitted. No newrigidparts.
+0 // PENDING: Two flexible runs from p12 right2x omitted; stock thumbnail1x not treated as total. Candidate71059 is inventory only, not confirmed ID. p13/p14 route behind tail-to-aft pulley and aft-to-forward pulley is partly occluded; crossing/return segments and material unknown. No fabricated flexible geometry.
+0 // PENDING: Cab31196c01 is prior-approved approximate geometry, including threaded sockets and canopy seat; official6345 does not make assembly exact. Cockpit stud clutch and canopy retention require verification.
+0 // PENDING: 40T and24T gear axes160LDU apart nominally; crown centre offsets100Y/80Z nominal orthogonal mesh. Tooth phase/depth, friction and shaft retention unverified.
+0 // PENDING: Main and tail blades use40LDU thick beam stack and opposed crank pins at80LDU eccentricity. Exact hole/pin fit and full sweep need mechanical verification.
+0 // PENDING: Tail boom hidden bond/overhang and rotor static orientation inferred from source images; no scale transforms.
+0 // Source page 14: finished view, no duplicated placements.

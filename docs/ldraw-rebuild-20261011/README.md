@@ -1,6 +1,8 @@
 <!-- CURRENT-DEVELOPMENT -->
 # Current development status
 
+[129课开发稿交付与复核入口](HANDOFF-129.md)
+
 See [当前说明](本轮核查说明.md), [逐课状态](COURSE-STATUS-CURRENT.md), and [current independent QA](current-development-QA.json). Files explicitly named 69 are historical snapshots; current counts and hashes come from these links.
 <!-- END-CURRENT-DEVELOPMENT -->
 
@@ -13,8 +15,8 @@ This is an in-progress development branch, not a release or course approval.
 - Base: `bbcdaddd417feba086f0683aa1bd3e6c5878d96a`.
 - Branch: `models/129-course-source-rebuild-20261011`.
 - Audit reproduced: 300 courses, 160 with published 3D; this scope contains 71 missing source models and 58 simplified source drafts. Eleven other incomplete/review cases are recorded separately in `deferred-11.json`.
-- Source coverage: all 129 source lessons are available in Library (122 PDFs / 1,487 pages and seven image-based lessons / 93 pages). 126 lessons are locally materialized and verified; 3 await sequential local import. Remote source availability is not local reconstruction completion.
-- Current local work contains 126 source-backed development drafts, with 126 current final-view reviews and 126 full-step reviews. Development MPDs are synchronized into previews/ after hash-verified backup on D. See preview-sync.json, preview-sync-history.json and CHECKPOINT.md. The verified pushed checkpoint is separately recorded in branch-backup.json; source edits require repacking and renewed pixel review.
+- Source coverage: all 129 source lessons are available in Library (122 PDFs / 1,487 pages and seven image-based lessons / 93 pages). 129 lessons are locally materialized and verified; 0 await sequential local import. Remote source availability is not local reconstruction completion.
+- Current local work contains 129 source-backed development drafts, with 129 current final-view reviews and 129 full-step reviews. Development MPDs are synchronized into previews/ after hash-verified backup on D. See preview-sync.json, preview-sync-history.json and CHECKPOINT.md. The verified pushed checkpoint is separately recorded in branch-backup.json; source edits require repacking and renewed pixel review.
 - `progress-129.json` records each course, source coverage, current reconstruction status, model hash and limitations. A rewritten LDR is **not** a completed/approved model.
 
 ## Validation boundary

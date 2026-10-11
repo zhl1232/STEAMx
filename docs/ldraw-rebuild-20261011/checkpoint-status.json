@@ -1,14 +1,13 @@
 {
-  "generatedAt": "2026-10-11T14:33:05.105095+00:00",
-  "localCheckpointCommit": "3f884f6",
+  "generatedAt": "2026-10-11T14:52:35.608725+00:00",
+  "localCheckpointCommit": "9f99f4d",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 126,
-    "source-verified-remotely-awaiting-transfer": 3
+    "draft-final-and-all-steps-pixels-reviewed": 129
   },
-  "writtenSources": 126,
-  "finalReviewed": 126,
-  "allStepsReviewed": 126,
+  "writtenSources": 129,
+  "finalReviewed": 129,
+  "allStepsReviewed": 129,
   "partIssueFamiliesIncludingFlexibleRoutes": 32,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
@@ -62,9 +61,10 @@
     "5-xuan-zhuan-ka-fei-bei",
     "5-ya-mian-ji",
     "5-yu-shua-qi",
+    "5-zhi-sheng-ji",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T14:33:00.744409+00:00",
+  "unknownRegistryGeneratedAt": "2026-10-11T14:52:31.430595+00:00",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -1193,28 +1193,28 @@
     },
     {
       "slug": "5-zhe-die-ti",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-zhi-sheng-ji",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-zhu-ge-lian-nu",
-      "sourceSha256": null,
-      "status": "source-verified-remotely-awaiting-transfer",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

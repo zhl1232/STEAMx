@@ -1,0 +1,191 @@
+{
+  "method": "Independent read of official recursive face geometry. Radial section includes nearest point along polygon section segments, not just face-edge endpoints; conservative radial envelopes, not full angular collision test.",
+  "profiles": [
+    {
+      "z": -30,
+      "lo": 27.806483288115064,
+      "hi": 49.80963257669031
+    },
+    {
+      "z": -26,
+      "lo": 24.123622938320157,
+      "hi": 53.48391926477721
+    },
+    {
+      "z": -23.1,
+      "lo": 23.55748663177589,
+      "hi": 54.47708672687695
+    },
+    {
+      "z": -22.9,
+      "lo": 23.539048433771036,
+      "hi": 54.49893523289353
+    },
+    {
+      "z": -20,
+      "lo": 23.539048433771036,
+      "hi": 54.815738570139544
+    },
+    {
+      "z": -10,
+      "lo": 40.910613294650545,
+      "hi": 55.9081638710663
+    },
+    {
+      "z": 0.1,
+      "lo": 40.910613294650545,
+      "hi": 56.98962454414029
+    },
+    {
+      "z": 20,
+      "lo": 40.910613294650545,
+      "hi": 54.81568043398527
+    },
+    {
+      "z": 30,
+      "lo": 40.910613294650545,
+      "hi": 49.80965106825253
+    }
+  ],
+  "examples": [
+    {
+      "mode": "corrected-primary",
+      "worst": {
+        "z": -19.987699999999844,
+        "tyreInner": 23.539048433771036,
+        "wheelOuter": 24.000605992349442,
+        "gap": -0.46155755857840575
+      }
+    },
+    {
+      "mode": "wrong-primary-reversed",
+      "worst": {
+        "z": -17.987699999999816,
+        "tyreInner": 23.539048433771036,
+        "wheelOuter": 41.00248042496942,
+        "gap": -17.463431991198384
+      }
+    },
+    {
+      "mode": "corrected-secondary",
+      "worst": {
+        "z": -22.987699999999887,
+        "tyreInner": 23.539048433771036,
+        "wheelOuter": 24.000605992349442,
+        "gap": -0.46155755857840575
+      }
+    }
+  ],
+  "boundary": "Supports primary pulley facing same localZ as6292 and opposed secondary atlocalZ=-40. Small negative conservative polygon envelopes need angular face test; do not claim positive1.183 clearance or pressfit proof. Original reports unbound to model SHA and audit/candidate identical, so they alone do not demonstrate before/after.",
+  "currentModels": [
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "sha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+      "tyreAndPulleyLines": [
+        {
+          "line": 22,
+          "text": "1 14 360 -216 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 23,
+          "text": "1 14 360 -216 -100 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 24,
+          "text": "1 0 360 -216 -100 -1 0 0 0 1 0 0 0 -1 6292.dat"
+        },
+        {
+          "line": 25,
+          "text": "1 14 360 -216 60 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 26,
+          "text": "1 14 360 -216 100 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 27,
+          "text": "1 0 360 -216 100 1 0 0 0 1 0 0 0 1 6292.dat"
+        },
+        {
+          "line": 43,
+          "text": "1 14 200 -120 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 45,
+          "text": "1 14 200 -120 60 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 56,
+          "text": "1 14 -360 -356 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+        },
+        {
+          "line": 57,
+          "text": "1 14 -360 -264 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+        },
+        {
+          "line": 58,
+          "text": "1 14 -360 -168 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+        },
+        {
+          "line": 59,
+          "text": "1 14 -360 -76 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+        }
+      ]
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "sha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+      "tyreAndPulleyLines": [
+        {
+          "line": 12,
+          "text": "1 14 -160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 13,
+          "text": "1 14 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 14,
+          "text": "1 0 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat"
+        },
+        {
+          "line": 15,
+          "text": "1 14 -160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 16,
+          "text": "1 14 -160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 17,
+          "text": "1 0 -160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat"
+        },
+        {
+          "line": 19,
+          "text": "1 14 160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 20,
+          "text": "1 14 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 21,
+          "text": "1 0 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat"
+        },
+        {
+          "line": 22,
+          "text": "1 14 160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat"
+        },
+        {
+          "line": 23,
+          "text": "1 14 160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat"
+        },
+        {
+          "line": 24,
+          "text": "1 0 160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat"
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-10-11T07:14:28.744Z"
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T14:33:07.358679+00:00",
+  "generatedAt": "2026-10-11T14:52:37.732919+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -302,6 +302,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -363,6 +364,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -390,6 +392,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -912,6 +915,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -1365,6 +1369,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -1456,6 +1461,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -1741,6 +1747,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -1813,6 +1820,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -1839,6 +1847,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -2012,6 +2021,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -2185,6 +2195,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -2391,6 +2402,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -2843,6 +2855,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -2962,6 +2975,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3237,6 +3251,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3286,6 +3301,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3362,6 +3378,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3391,6 +3408,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3414,6 +3432,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3932,6 +3951,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -3957,6 +3977,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -4342,6 +4363,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -4370,6 +4392,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -4651,6 +4674,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -4951,6 +4975,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true,
       "sourcePoseCorrectionPendingOrReviewed": "Raised forearm correction must be assessed against its current source-bound pose evidence and pixel review; thread closure remains unverified."
     },
@@ -5055,6 +5080,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5527,6 +5553,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5598,6 +5625,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5733,6 +5761,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5763,6 +5792,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5788,6 +5818,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -5921,6 +5952,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -6373,6 +6405,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -6704,6 +6737,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -6730,6 +6764,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -7243,6 +7278,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -7268,6 +7304,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -7402,6 +7439,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -7611,6 +7649,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8123,6 +8162,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8148,6 +8188,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8171,6 +8212,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8196,6 +8238,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8293,6 +8336,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8316,6 +8360,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8793,6 +8838,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8816,6 +8862,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8842,6 +8889,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8868,6 +8916,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8893,6 +8942,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8918,6 +8968,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8945,6 +8996,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -8970,6 +9022,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9447,6 +9500,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9474,6 +9528,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9497,6 +9552,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9565,6 +9621,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9588,6 +9645,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9632,6 +9690,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9655,6 +9714,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9678,6 +9738,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9704,6 +9765,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9729,6 +9791,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9755,6 +9818,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9780,6 +9844,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9803,6 +9868,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9828,6 +9894,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9851,6 +9918,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9876,6 +9944,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -9899,6 +9968,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -10622,6 +10692,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -10732,6 +10803,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11452,6 +11524,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11480,6 +11553,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11505,6 +11579,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11530,6 +11605,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11587,6 +11663,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11699,6 +11776,7 @@
         }
       ],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11749,6 +11827,7 @@
         }
       ],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11776,6 +11855,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -11814,6 +11894,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -12320,6 +12401,7 @@
       ],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -12346,6 +12428,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -12369,6 +12452,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13235,6 +13319,7 @@
       ],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13298,6 +13383,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13321,6 +13407,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13346,6 +13433,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13371,6 +13459,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -13848,6 +13937,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -14348,6 +14438,7 @@
       ],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -14398,6 +14489,7 @@
         }
       ],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -14962,6 +15054,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -15437,6 +15530,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -15922,6 +16016,7 @@
       ],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -15948,6 +16043,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16106,6 +16202,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16219,6 +16316,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16309,6 +16407,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16344,6 +16443,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16407,6 +16507,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16455,6 +16556,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16515,6 +16617,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16541,6 +16644,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16598,6 +16702,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16627,7 +16732,8 @@
           ],
           "name": "Rubber drive belt candidate",
           "missingEvidence": [
-            "Source belt ID/length and approved flexed depiction"
+            "Source belt ID/length and approved flexed depiction",
+            "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity."
           ],
           "sourcesTried": [
             "9656 inventory",
@@ -16650,11 +16756,43 @@
                 "candidate": "71059",
                 "missing": "identity/length and approved flexible depiction; no arbitrary lines substituted"
               }
+            },
+            {
+              "slug": "5-zhi-sheng-ji",
+              "currentModelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 2,
+              "part": "source-flexible-transmission",
+              "proposedFamilyKey": "71059",
+              "existingFamily": true,
+              "category": "candidate_identity_and_flexible_route_unresolved",
+              "ownerEvidence": {
+                "sourcePage": 12,
+                "sourceQuantity": 2,
+                "location": "Two rear-side flexible transmissions shown installed p13/p14",
+                "candidateIds": [
+                  "71059",
+                  "string from stock"
+                ],
+                "missingEvidence": "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity.",
+                "omitted": true
+              },
+              "missingEvidence": "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity.",
+              "evidencePath": "preparation/5-zhi-sheng-ji/ledger.json",
+              "accepted": false,
+              "identityConfidence": "71059 inventory candidate only; source also permits cord; exact material and closed-loop geometry unproven",
+              "sourcePage": 12,
+              "modelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+              "source": "preparation/5-zhi-sheng-ji/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "aliases": [],
           "affectedCourses": [
-            "5-xuan-yi-fei-ji"
+            "5-xuan-yi-fei-ji",
+            "5-zhi-sheng-ji"
           ],
           "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
         }
@@ -16668,6 +16806,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16691,6 +16830,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16778,6 +16918,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16805,6 +16946,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16848,6 +16990,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17024,6 +17167,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17049,6 +17193,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17128,6 +17273,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17151,6 +17297,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17231,6 +17378,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17293,6 +17441,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17335,6 +17484,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17401,6 +17551,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17424,6 +17575,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17472,6 +17624,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17497,6 +17650,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17553,6 +17707,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17724,6 +17879,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17823,6 +17979,7 @@
           "accepted": false
         }
       ],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -17846,6 +18003,243 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "modelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-zhe-die-ti/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "f66ea4ab60e31b2ddbc5f26955738501ee4103bbf43af1f6a2d720ae12a49bca",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [
+        {
+          "slug": "5-zhe-die-ti",
+          "currentModelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "pages": [
+                1,
+                13
+              ],
+              "type": "reasonable_static_pose",
+              "action": "30degree half opening;80LDU stagger of hinge halves follows real thickness"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        },
+        {
+          "slug": "5-zhe-die-ti",
+          "currentModelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "pages": [
+                10,
+                11,
+                12
+              ],
+              "type": "nominal_string_and_hook_layout",
+              "action": "existing official hook/pulleys placed without claiming load-bearing attachment; string line schematic"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        }
+      ],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [
+        {
+          "slug": "5-zhe-die-ti",
+          "currentModelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+          "ownerEvidence": {
+            "page": 10,
+            "count": 1,
+            "identity": "source string;75536 set component family",
+            "representation": "one type2 schematic line",
+            "missingEvidence": "exact length, tied ends, routing and retention",
+            "physicalValidation": false,
+            "countsInRigidPlacements": false,
+            "flexiblePartResolved": false,
+            "supportOrCollisionEvidence": false,
+            "hiddenRoutingInvented": false,
+            "onlyVisibleSpanSchematic": true
+          },
+          "classification": "schematic_or_unresolved_flexible_item_not_rigid_geometry_completion",
+          "accepted": false
+        }
+      ],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "modelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-zhi-sheng-ji/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "7498b3b1e49676f0d9ed87c2c81cf0130f9f7dc647e2a9fa8e7d646439bbc595",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// Source page 13: Fit two flexible runs onrear pulleys; unresolved material/return path remains omitted. No newrigidparts.",
+        "// PENDING: Two flexible runs from p12 right2x omitted; stock thumbnail1x not treated as total. Candidate71059 is inventory only, not confirmed ID. p13/p14 route behind tail-to-aft pulley and aft-to-forward pulley is partly occluded; crossing/return segments and material unknown. No fabricated flexible geometry.",
+        "// PENDING: Cab31196c01 is prior-approved approximate geometry, including threaded sockets and canopy seat; official6345 does not make assembly exact. Cockpit stud clutch and canopy retention require verification."
+      ],
+      "partIssueFamilies": [
+        {
+          "key": "71059",
+          "category": "candidate_flexible_geometry",
+          "confirmedId": null,
+          "candidates": [
+            "71059"
+          ],
+          "name": "Rubber drive belt candidate",
+          "missingEvidence": [
+            "Source belt ID/length and approved flexed depiction",
+            "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity."
+          ],
+          "sourcesTried": [
+            "9656 inventory",
+            "source rotor-planep6/p7"
+          ],
+          "geometryLicense": "No flexible geometry newly authored",
+          "approximationBoundary": null,
+          "occurrences": [
+            {
+              "slug": "5-xuan-yi-fei-ji",
+              "sourcePage": "6-7",
+              "location": "four black rubber belts",
+              "quantity": null,
+              "missingEvidence": "identity/length and approved flexible depiction; no arbitrary lines substituted",
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xuan-yi-fei-ji/review.json",
+              "pointer": "unknown/0",
+              "rawObservation": {
+                "page": "6-7",
+                "part": "four black rubber belts",
+                "candidate": "71059",
+                "missing": "identity/length and approved flexible depiction; no arbitrary lines substituted"
+              }
+            },
+            {
+              "slug": "5-zhi-sheng-ji",
+              "currentModelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 2,
+              "part": "source-flexible-transmission",
+              "proposedFamilyKey": "71059",
+              "existingFamily": true,
+              "category": "candidate_identity_and_flexible_route_unresolved",
+              "ownerEvidence": {
+                "sourcePage": 12,
+                "sourceQuantity": 2,
+                "location": "Two rear-side flexible transmissions shown installed p13/p14",
+                "candidateIds": [
+                  "71059",
+                  "string from stock"
+                ],
+                "missingEvidence": "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity.",
+                "omitted": true
+              },
+              "missingEvidence": "Thin unlabelled line; no colour/material, closed-loop profile, length, unstretched diameter or section evidence. Right2x denotes two runs; left1x stock thumbnail is not total quantity.",
+              "evidencePath": "preparation/5-zhi-sheng-ji/ledger.json",
+              "accepted": false,
+              "identityConfidence": "71059 inventory candidate only; source also permits cord; exact material and closed-loop geometry unproven",
+              "sourcePage": 12,
+              "modelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+              "source": "preparation/5-zhi-sheng-ji/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            }
+          ],
+          "aliases": [],
+          "affectedCourses": [
+            "5-xuan-yi-fei-ji",
+            "5-zhi-sheng-ji"
+          ],
+          "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
+        }
+      ],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [
+        {
+          "slug": "5-zhi-sheng-ji",
+          "currentModelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+          "ownerEvidence": {
+            "id": "31196c01.dat",
+            "geometrySha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+            "notes": [
+              "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+              "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+              "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+              "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+              "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+              "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+              "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+              "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+              "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+              "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+              "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+              "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+              "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+              "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+              "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+              "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+            ]
+          },
+          "classification": "existing_geometry_or_placement_approximation_not_unknownID",
+          "accepted": false
+        }
+      ],
+      "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "modelSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-zhu-ge-lian-nu/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "49c1bcb83e7dc60991a09c1a4c9e8224a706b10b250a2dd21cace588392500cd",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -18019,6 +18413,7 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "nonRigidSourceItems": [],
       "visualReviewMeansObservationNotPass": true
     }
   ]

@@ -2288,7 +2288,7 @@
     "Source pose closed; no dualpose duplicate, no physical validation.",
     "Currentfinal showsgreen8L hinge shafts abovegear by44LDU beyondupperface. Source exactexposure/stack notfullyresolved; no automatic shortening."
   ],
-  "verification": "Raw geometry and central render pending",
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
   "inventory": "9656/9090 known rows compared; combined color availability unknown where incomplete",
   "modelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-shuang-kai-da-men.ldr",

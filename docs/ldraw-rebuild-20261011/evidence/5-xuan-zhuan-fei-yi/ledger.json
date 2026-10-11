@@ -2095,14 +2095,14 @@
       "notes": null
     }
   },
-  "render": "pending main pack/render and pixel inspection",
+  "render": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
   "validation": {
     "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
     "rawCheckerExit": 2,
     "matrixInvalid": [],
     "closureMissing": [],
     "staticReport": "static-alarm-review.json",
-    "pixels": "pending main render"
+    "pixels": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance."
   },
   "unknownIdentityParts": [],
   "sourcePositionUncertainties": [

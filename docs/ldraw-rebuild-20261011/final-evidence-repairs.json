@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-11T14:50:24.176438+00:00",
+  "updatedStalePendingFields": [
+    {
+      "slug": "5-hua-ban-che",
+      "field": "verification",
+      "modelSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868"
+    },
+    {
+      "slug": "5-kai-ye-zi-qi",
+      "field": "verification",
+      "modelSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f"
+    },
+    {
+      "slug": "5-shuai-gan-ji",
+      "field": "verification",
+      "modelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd"
+    },
+    {
+      "slug": "5-shuang-kai-da-men",
+      "field": "verification",
+      "modelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5"
+    },
+    {
+      "slug": "5-ta-diao",
+      "field": "render",
+      "modelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa"
+    },
+    {
+      "slug": "5-ta-diao",
+      "field": "validation.pixels",
+      "modelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "field": "render",
+      "modelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "field": "validation.pixels",
+      "modelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "field": "render",
+      "modelSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "field": "validation.pixels",
+      "modelSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e"
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "field": "render",
+      "modelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883"
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "field": "validation.pixels",
+      "modelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883"
+    }
+  ],
+  "sharedEvidence": [
+    {
+      "path": "shared-evidence/checkpoint-checks.json",
+      "sha256": "96a419577fa73488be86b4d035bae2add13504af9c7b2838f89f242adf7a3c48"
+    },
+    {
+      "path": "shared-evidence/owned-mesh-alarm-diagnostic.json",
+      "sha256": "a6aa89e672251a0f3fc6384245e54eb199523814d77c29496382935ab17829b6"
+    },
+    {
+      "path": "shared-evidence/tyre-profile-independent.json",
+      "sha256": "b3bd9e6d20da73386d766fab6626e0dc5ba2b93edaf15c7583bf7566b9c3a6f7"
+    }
+  ],
+  "sourceModelChanges": false
+}

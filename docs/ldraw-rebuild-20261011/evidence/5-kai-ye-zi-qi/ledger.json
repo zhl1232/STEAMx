@@ -1461,7 +1461,7 @@
   "unknownIds": [],
   "omitted": [],
   "status": "INCOMPLETE source reconstruction; pending rendered and mechanical review",
-  "verification": "raw checker and parent renderer pending",
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
   "inventory": "Source BOM authoritative; 9656+9090 quantity check pending",
   "modelSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-kai-ye-zi-qi.ldr",

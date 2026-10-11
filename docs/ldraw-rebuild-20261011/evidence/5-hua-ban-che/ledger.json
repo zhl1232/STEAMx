@@ -1647,7 +1647,7 @@
   "unknownIds": [],
   "omitted": [],
   "status": "INCOMPLETE source reconstruction; pending rendered and mechanical review",
-  "verification": "raw checker and parent renderer pending",
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
   "inventory": "Source BOM authoritative; 9656+9090 quantity check pending",
   "modelSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-hua-ban-che.ldr",

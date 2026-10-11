@@ -1,0 +1,35 @@
+[
+  {
+    "name": "5+折叠梯搭建说明.pdf",
+    "relative_path": "5+/5+折叠梯搭建说明.pdf",
+    "pages": 13,
+    "bytes": 1697589,
+    "sha256": "dd38b3de4668b325ba237804f3d53b21ee98ee63434cff5b4073b4a66c9e0cce",
+    "source_url": "https://pan.quark.cn/list#/docpdf/7d22965521224a52bceb75e7d60a6257",
+    "slug": "5-zhe-die-ti",
+    "lesson_id": 326,
+    "course_id": 7
+  },
+  {
+    "name": "5+直升机搭建说明.pdf",
+    "relative_path": "5+/5+直升机搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2182210,
+    "sha256": "f4f953e358ea3a438d9f4a43a38383040843bfcdfcc173e4fa1c1b603bc82e87",
+    "source_url": "https://pan.quark.cn/list#/docpdf/3a9d2d9de99040c1aacdacd86305a3e3",
+    "slug": "5-zhi-sheng-ji",
+    "lesson_id": 327,
+    "course_id": 7
+  },
+  {
+    "name": "5+诸葛连弩搭建说明.pdf",
+    "relative_path": "5+/5+诸葛连弩搭建说明.pdf",
+    "pages": 7,
+    "bytes": 849203,
+    "sha256": "127d34a5df345434dfc0005e37b4709409469379dd1fed0d500d7f238baa9f95",
+    "source_url": "https://pan.quark.cn/list#/docpdf/6fac1e0c4b864e3eabd638f06942b3d2",
+    "slug": "5-zhu-ge-lian-nu",
+    "lesson_id": 328,
+    "course_id": 7
+  }
+]

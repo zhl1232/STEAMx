@@ -875,6 +875,27 @@
     "output": "\nFAIL [5-zhan-chi-gao-fei.ldr] 2 error(s), 69 placement(s):\n  - step 3: 5-zhan-chi-gao-fei_l58 overlaps 5-zhan-chi-gao-fei_l52\n  - step 4: 5-zhan-chi-gao-fei_l68 overlaps 5-zhan-chi-gao-fei_l62\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
+    "path": "scripts/ldraw-models/5-zhe-die-ti.ldr",
+    "sha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-zhe-die-ti.ldr] 111 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-zhi-sheng-ji.ldr",
+    "sha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-zhi-sheng-ji.ldr] 1 error(s), 43 placement(s):\n  - step 2: 5-zhi-sheng-ji_l19 overlaps 5-zhi-sheng-ji_l18\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-zhu-ge-lian-nu.ldr",
+    "sha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-zhu-ge-lian-nu.ldr] 53 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
     "path": "scripts/ldraw-models/5-zhuan-wan-xiao-che.ldr",
     "sha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
     "exit": 2,

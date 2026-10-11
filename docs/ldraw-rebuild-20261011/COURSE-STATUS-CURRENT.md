@@ -129,4 +129,7 @@ Hash-bound local development checks. Reviewed pixels and static explanations are
 | 雨刷器 (5-yu-shua-qi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-shua-qi/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-shua-qi/) | No |
 | 栅栏升降杆 (5-zha-lan-sheng-jiang-gan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zha-lan-sheng-jiang-gan/static-alarm-review.json) | [Approximate geometry; Installed identity candidate](evidence/5-zha-lan-sheng-jiang-gan/) | No |
 | 展翅高飞 (5-zhan-chi-gao-fei) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhan-chi-gao-fei/static-alarm-review.json) | [Recorded limitations](evidence/5-zhan-chi-gao-fei/) | No |
+| 折叠梯 (5-zhe-die-ti) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhe-die-ti/static-alarm-review.json) | [Source layout adjusted; Flexible item represented schematically](evidence/5-zhe-die-ti/) | No |
+| 直升机 (5-zhi-sheng-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhi-sheng-ji/static-alarm-review.json) | [Approximate geometry](evidence/5-zhi-sheng-ji/) | No |
+| 诸葛连弩 (5-zhu-ge-lian-nu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhu-ge-lian-nu/static-alarm-review.json) | [Recorded limitations](evidence/5-zhu-ge-lian-nu/) | No |
 | 转弯小车 (5-zhuan-wan-xiao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhuan-wan-xiao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-zhuan-wan-xiao-che/) | No |

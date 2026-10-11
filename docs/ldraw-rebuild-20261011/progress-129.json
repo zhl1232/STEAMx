@@ -1,12 +1,11 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T14:29:34.269311+00:00",
+  "generatedAt": "2026-10-11T14:48:08.493306+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
-  "sourceBlocker": "No missing-source blocker: all129 sources are reported available in Library (122 PDFs and7 existing JPG lessons). This executor has locally materialized 126; remaining3 are queued for official local import, not missing and not yet model-complete.",
+  "sourceBlocker": "No missing-source blocker: all129 sources are reported available in Library (122 PDFs and7 existing JPG lessons). This executor has locally materialized 129; remaining0 are queued for official local import, not missing and not yet model-complete.",
   "summary": {
-    "reconstructed-development-draft-pending-validation": 126,
-    "source-verified-remotely-awaiting-transfer": 3
+    "reconstructed-development-draft-pending-validation": 129
   },
   "courses": [
     {
@@ -3291,7 +3290,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3353,7 +3352,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3382,7 +3381,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3412,7 +3411,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3439,7 +3438,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3496,7 +3495,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3523,7 +3522,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3670,7 +3669,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3697,7 +3696,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3727,7 +3726,7 @@
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
       "currentDevelopmentSourceRebuilt": true,
-      "currentDevelopmentPreviewPresent": false,
+      "currentDevelopmentPreviewPresent": true,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_d2160f6150108191a10d67d8ef83c95a",
@@ -3748,17 +3747,21 @@
       "slug": "5-zhe-die-ti",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_496af2c7bdd88191a0d7b434cb9e764d",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+      "placements": 111,
+      "steps": 12,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -3771,17 +3774,26 @@
       "slug": "5-zhi-sheng-ji",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_496af2c7bdd88191a0d7b434cb9e764d",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+      "placements": 43,
+      "steps": 13,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// Source page 13: Fit two flexible runs onrear pulleys; unresolved material/return path remains omitted. No newrigidparts.",
+        "// PENDING: Two flexible runs from p12 right2x omitted; stock thumbnail1x not treated as total. Candidate71059 is inventory only, not confirmed ID. p13/p14 route behind tail-to-aft pulley and aft-to-forward pulley is partly occluded; crossing/return segments and material unknown. No fabricated flexible geometry.",
+        "// PENDING: Cab31196c01 is prior-approved approximate geometry, including threaded sockets and canopy seat; official6345 does not make assembly exact. Cockpit stud clutch and canopy retention require verification."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -3794,17 +3806,21 @@
       "slug": "5-zhu-ge-lian-nu",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_496af2c7bdd88191a0d7b434cb9e764d",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+      "placements": 53,
+      "steps": 6,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -3836,7 +3852,7 @@
       ]
     }
   ],
-  "locallyMaterializedSourceCourses": 126,
+  "locallyMaterializedSourceCourses": 129,
   "authoritativeLibraryCatalog": {
     "libraryFileId": "libfile_da69e9aaa1748191b9c6a9482c255b06",
     "version": 3,
@@ -3845,10 +3861,10 @@
     "boundary": "Library coverage is separate from local course import and model completion."
   },
   "reportedUpstreamSourceQueue": {
-    "activeBatch": 15,
+    "activeBatch": 16,
     "reportedAvailableInLibraryCourses": 129,
     "reportedStillDownloadingCourses": 0,
-    "note": "All129 sources available. Batch14 checkpoint3f884f6 verified:116 reviewed drafts. Batch15 tenPDF106pages locally verified, owners modeling. Finalbatch16 follows.",
+    "note": "All129 sources officially materialized and verified. Batch15 checkpoint9f99f4d verified126 reviewed drafts; final batch16 threePDF34pages modeling.",
     "queue": [
       {
         "batch": 11,
@@ -3948,7 +3964,7 @@
           "5+眼镜蛇",
           "5+雨刷器"
         ],
-        "status": "officially-materialized-verified-106-pages-models-in-progress"
+        "status": "pushed-verified-9f99f4d-126-reviewed-drafts"
       },
       {
         "batch": 16,
@@ -3961,7 +3977,7 @@
           "5+直升机",
           "5+诸葛连弩"
         ],
-        "status": "queued-library-reference-not-locally-materialized"
+        "status": "officially-materialized-verified-34-pages-models-in-progress"
       }
     ]
   }

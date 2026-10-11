@@ -1,0 +1,1304 @@
+{
+  "generatedAt": "2026-10-11T14:54:16.034745+00:00",
+  "scope": "Final129 frozen-source read-only evidence audit after final refresh; no source/docs mutations.",
+  "statusGeneratedAt": "2026-10-11T14:52:37.732919+00:00",
+  "coursesAudited": 129,
+  "courseSlugs": [
+    "4-cha-che",
+    "4-chun-jie-wu-shi",
+    "4-ci-xuan-fu-lie-che",
+    "4-da-long-xia",
+    "4-da-xiang",
+    "4-dao-dan-che",
+    "4-diao-che",
+    "4-du-jiao-xian",
+    "4-e-yu",
+    "4-ji-guan-qiang",
+    "4-ju-ji-qiang",
+    "4-jun-jian",
+    "4-ke-ji",
+    "4-kuai-ting",
+    "4-long-men-diao",
+    "4-mo-tian-lun",
+    "4-qian-shui-ting",
+    "4-qing-ting",
+    "4-qiu-qian",
+    "4-sai-che",
+    "4-sheng-jiang-jiu-yuan-che",
+    "4-shou-ge-ji",
+    "4-sun-wu-kong",
+    "4-ta-diao",
+    "4-tang-lang",
+    "4-tui-tu-ji",
+    "4-tuo-gua-che",
+    "4-wa-li",
+    "4-wu-ren-ji",
+    "4-xiang-wei-she",
+    "4-xiao-tu-zi",
+    "4-xie-zi",
+    "4-xuan-zhuan-fei-ji",
+    "4-ya-lu-ji",
+    "4-yao-yao-ma",
+    "4-yi-long",
+    "4-you-wen",
+    "4-zhi-sheng-ji",
+    "4-zhi-zhu",
+    "4-zhong-guo-long",
+    "4-zuan-tu-che",
+    "5-bing-qiu-yun-dong-yuan",
+    "5-ce-feng-yi",
+    "5-ce-ju-yi",
+    "5-cha-che",
+    "5-chou-you-ji",
+    "5-ci-xuan-fu-lie-che",
+    "5-da-cha-de-xiao-niu",
+    "5-da-di-shu",
+    "5-da-zhuang-ji",
+    "5-dan-che",
+    "5-dan-gan-yun-dong-yuan",
+    "5-di-qiu-yi",
+    "5-diao-che",
+    "5-diao-shan",
+    "5-e-yu",
+    "5-fan-chuan",
+    "5-fan-dou-che",
+    "5-feng-che-fang",
+    "5-ge-cao-ji",
+    "5-hai-dao-chuan",
+    "5-hu-die",
+    "5-hua-ban-che",
+    "5-huan-wei-che",
+    "5-huo-jian",
+    "5-ji-gu-shou",
+    "5-ji-xie-shou",
+    "5-jiao-ban-qi",
+    "5-kai-ye-zi-qi",
+    "5-la-ji-che",
+    "5-lan-che",
+    "5-long-men-diao",
+    "5-ma-tou-diao-ji",
+    "5-mian-bao-ji",
+    "5-nian-yao-ren-zai",
+    "5-ping-heng-cheng",
+    "5-ping-heng-da-shi",
+    "5-qi-dian-chuan",
+    "5-qing-sao-che",
+    "5-qing-ting",
+    "5-qiu-qian",
+    "5-re-qi-qiu",
+    "5-ren-li-shui-che",
+    "5-san-lun-che",
+    "5-sheng-jiang-dian-ti",
+    "5-shou-tui-fei-ji",
+    "5-shou-yao-zuan-zi",
+    "5-shuai-gan-ji",
+    "5-shuang-kai-da-men",
+    "5-shui-jing",
+    "5-shui-zha",
+    "5-si-qu-che",
+    "5-ta-diao",
+    "5-ti-xian-mu-ou",
+    "5-tian-ping",
+    "5-tou-lan-ji",
+    "5-tou-shi-che",
+    "5-tui-tu-ji",
+    "5-tuo-gua-che",
+    "5-tuo-yuan-ji",
+    "5-wo-lun-diao-qiao",
+    "5-xi-yi-ji",
+    "5-xiao-huo-che",
+    "5-xiao-niao-de-chi-bang",
+    "5-xiao-song-shu-qi-che",
+    "5-xuan-yi-fei-ji",
+    "5-xuan-zhuan-ai-xin",
+    "5-xuan-zhuan-can-ting",
+    "5-xuan-zhuan-deng-long",
+    "5-xuan-zhuan-fei-yi",
+    "5-xuan-zhuan-ka-fei-bei",
+    "5-xuan-zhuan-men",
+    "5-xuan-zhuan-mu-ma",
+    "5-xuan-zhuan-wu-tai",
+    "5-ya-lu-ji",
+    "5-ya-mian-ji",
+    "5-ya-shui-jing",
+    "5-yan-jing-she",
+    "5-yao-yao-che",
+    "5-yi-dong-guang-gao-pai",
+    "5-yu-er-de-wei-ba",
+    "5-yu-hang-yuan-xun-lian-ji",
+    "5-yu-shua-qi",
+    "5-zha-lan-sheng-jiang-gan",
+    "5-zhan-chi-gao-fei",
+    "5-zhe-die-ti",
+    "5-zhi-sheng-ji",
+    "5-zhu-ge-lian-nu",
+    "5-zhuan-wan-xiao-che"
+  ],
+  "mapping": {
+    "auditCount": 129,
+    "catalogCount": 129,
+    "uniqueSlugs": 129,
+    "duplicates": [],
+    "issues": [],
+    "outsideCurrent126": [],
+    "flatAndNestedSourcePdfHashIssues": []
+  },
+  "filesScanned": 594,
+  "referencesResolved": 393,
+  "missingOwnReferences": [],
+  "sourceHashClaimMismatches": [],
+  "docVsPrepCopyMismatches": [],
+  "externalOrUnresolvedReferences": [
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ci-xuan-fu-lie-che\\ledger.json",
+      "ref": ".tmp/cockpit-photo-review-0911/source-hashes.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-long-men-diao",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-long-men-diao\\ledger.json",
+      "ref": "Seeassembly-candidates.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-qing-ting",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qing-ting\\ledger.json",
+      "ref": "C://Users//arron//Documents//Codex//2026-10-11//task-2//inputs//inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-qing-ting",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qing-ting\\ledger.json",
+      "ref": "inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-shou-ge-ji",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-shou-ge-ji\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-tang-lang",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xiang-wei-she\\ledger.json",
+      "ref": "C://Users//arron//Documents//Codex//2026-10-11//task-2//inputs//inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xiang-wei-she\\ledger.json",
+      "ref": "inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\ledger.json",
+      "ref": ".tmp/cockpit-photo-review-0911/source-hashes.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-ce-feng-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ce-feng-yi\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-ce-ju-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ce-ju-yi\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-da-cha-de-xiao-niu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-cha-de-xiao-niu\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch11//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-da-cha-de-xiao-niu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-cha-de-xiao-niu\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-da-di-shu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-di-shu\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch11//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-da-di-shu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-di-shu\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-hu-die",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-hu-die\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch12//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-hu-die",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-hu-die\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-hua-ban-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-hua-ban-che\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-ji-gu-shou",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ji-gu-shou\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch12//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-kai-ye-zi-qi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-kai-ye-zi-qi\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-lan-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-lan-che\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch12//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-lan-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-lan-che\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-lan-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-lan-che\\static-alarm-review.json",
+      "ref": "Seealarm-projection.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-nian-yao-ren-zai",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-nian-yao-ren-zai\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch12//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-qi-dian-chuan\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch13//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-qi-dian-chuan\\ledger.json",
+      "ref": ".tmp/cockpit-photo-review-0911/source-hashes.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-qi-dian-chuan\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-re-qi-qiu\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch13//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-re-qi-qiu\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-shui-zha",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-shui-zha\\REVIEW.md",
+      "ref": "inrecursive-geometry.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-ta-diao",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ta-diao\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch14//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-ta-diao",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ta-diao\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tou-shi-che\\REVIEW.md",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tou-shi-che\\current-bom-evidence.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xi-yi-ji",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xi-yi-ji\\REVIEW.md",
+      "ref": "inrecursive-geometry.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-can-ting\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch14//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-can-ting\\ledger.json",
+      "ref": ".tmp/waterpark-0911/flag/geometry-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-can-ting\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch15//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-mu-ma\\source.json",
+      "ref": "D://Codex-task-2-20261011//inputs//pdfbatch15//materialization-verification.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-mu-ma\\ledger.json",
+      "ref": "inputs/inventory-evidence.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-zha-lan-sheng-jiang-gan",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-zha-lan-sheng-jiang-gan\\ledger.json",
+      "ref": ".tmp/cockpit-photo-review-0911/source-hashes.json",
+      "kind": "external-or-unresolved-json-reference"
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-zhi-sheng-ji\\ledger.json",
+      "ref": ".tmp/cockpit-photo-review-0911/source-hashes.json",
+      "kind": "external-or-unresolved-json-reference"
+    }
+  ],
+  "focusSlugs": [
+    "4-tang-lang",
+    "4-zuan-tu-che",
+    "5-xuan-zhuan-fei-yi",
+    "5-ya-shui-jing"
+  ],
+  "focusResolvedReferences": [
+    {
+      "slug": "4-tang-lang",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\ledger.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\current-pixel-review.json"
+    },
+    {
+      "slug": "4-tang-lang",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\ledger.json",
+      "ref": "pose-mesh-results.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\pose-mesh-results.json"
+    },
+    {
+      "slug": "4-tang-lang",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\static-alarm-review.json",
+      "ref": "pose-mesh-results.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\pose-mesh-results.json"
+    },
+    {
+      "slug": "4-tang-lang",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\REVIEW.md",
+      "ref": "ledger.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tang-lang\\ledger.json"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\ledger.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\current-pixel-review.json"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\static-alarm-review.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\current-pixel-review.json"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\static-alarm-review.json",
+      "ref": "preparation/4-zuan-tu-che/ledger.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\ledger.json"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\static-alarm-review.json",
+      "ref": "tip-inward-candidate.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\tip-inward-candidate.json"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\REVIEW.md",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zuan-tu-che\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "coupler-triangles.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-triangles.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "preparation//5-xuan-zhuan-fei-yi//current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "static-alarm-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\static-alarm-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\ledger.json",
+      "ref": "tube-seating-candidate-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tube-seating-candidate-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\static-alarm-review.json",
+      "ref": "coupler-triangles.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-triangles.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\static-alarm-review.json",
+      "ref": "tube-seating-candidate-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tube-seating-candidate-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\static-alarm-review.json",
+      "ref": "tyre-profile.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tyre-profile.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\static-alarm-review.json",
+      "ref": "tyre-triangles.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tyre-triangles.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\REVIEW.md",
+      "ref": "coupler-down40-candidate.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-down40-candidate.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\REVIEW.md",
+      "ref": "coupler-triangles.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-triangles.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\REVIEW.md",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\REVIEW.md",
+      "ref": "tube-seating-candidate-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tube-seating-candidate-review.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tube-seating-candidate-review.json",
+      "ref": "coupler-down40-candidate.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-down40-candidate.json"
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\tube-seating-candidate-review.json",
+      "ref": "coupler-triangles.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-fei-yi\\coupler-triangles.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\ledger.json",
+      "ref": "blue-local-second-look.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\blue-local-second-look.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\ledger.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\static-alarm-review.json",
+      "ref": "blue-local-second-look.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\blue-local-second-look.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\static-alarm-review.json",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\REVIEW.md",
+      "ref": "blue-local-second-look.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\blue-local-second-look.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\REVIEW.md",
+      "ref": "current-pixel-review.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\current-pixel-review.json"
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "from": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\REVIEW.md",
+      "ref": "ledger.json",
+      "target": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-shui-jing\\ledger.json"
+    }
+  ],
+  "limits": "References to remote inputs, rendering PNGs and shared metadata are separately classified; name-only links can be ambiguous. This does not validate PDF pixels/physical geometry. Active agents may change files after timestamp.",
+  "schemaAvailabilityNotes": [
+    {
+      "slug": "4-cha-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-cha-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-cha-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-cha-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-chun-jie-wu-shi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-chun-jie-wu-shi\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-chun-jie-wu-shi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-chun-jie-wu-shi\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-da-xiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-da-xiang\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-da-xiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-da-xiang\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-dao-dan-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-diao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-diao-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-diao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-diao-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-du-jiao-xian\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-du-jiao-xian\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-e-yu",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-e-yu\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-e-yu",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-e-yu\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ji-guan-qiang\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ji-guan-qiang\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ju-ji-qiang\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ju-ji-qiang\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-jun-jian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-jun-jian\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-jun-jian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-jun-jian\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ke-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ke-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ke-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ke-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-kuai-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-kuai-ting\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-kuai-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-kuai-ting\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qian-shui-ting\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qian-shui-ting\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-qing-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qing-ting\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-qing-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-qing-ting\\current-pixel-review.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sai-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sai-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sai-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sai-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sheng-jiang-jiu-yuan-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sheng-jiang-jiu-yuan-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sheng-jiang-jiu-yuan-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sheng-jiang-jiu-yuan-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sun-wu-kong",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sun-wu-kong\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-sun-wu-kong",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-sun-wu-kong\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ta-diao",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ta-diao\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ta-diao",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ta-diao\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tui-tu-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-tui-tu-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-wu-ren-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-wu-ren-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xiang-wei-she\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xiao-tu-zi\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xiao-tu-zi\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xuan-zhuan-fei-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-xuan-zhuan-fei-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ya-lu-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-ya-lu-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-yao-yao-ma\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-yao-yao-ma\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-you-wen",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-you-wen\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-you-wen",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-you-wen\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zhi-sheng-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\4-zhi-sheng-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-bing-qiu-yun-dong-yuan\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-chou-you-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-chou-you-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-zhuang-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-da-zhuang-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-dan-gan-yun-dong-yuan",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-dan-gan-yun-dong-yuan\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-dan-gan-yun-dong-yuan",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-dan-gan-yun-dong-yuan\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-diao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-diao-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-diao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-diao-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-diao-shan",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-diao-shan\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-diao-shan",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-diao-shan\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-huan-wei-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-huan-wei-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-huo-jian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-huo-jian\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-huo-jian",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-huo-jian\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ji-xie-shou",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ji-xie-shou\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ji-xie-shou",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ji-xie-shou\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-jiao-ban-qi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-jiao-ban-qi\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-jiao-ban-qi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-jiao-ban-qi\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ma-tou-diao-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ma-tou-diao-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-mian-bao-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-mian-bao-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ping-heng-cheng",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ping-heng-cheng\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ping-heng-cheng",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ping-heng-cheng\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-qing-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-qing-ting\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-qing-ting",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-qing-ting\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ren-li-shui-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ren-li-shui-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-shou-yao-zuan-zi\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-shui-jing",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-shui-jing\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-shui-jing",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-shui-jing\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ti-xian-mu-ou\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ti-xian-mu-ou\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tou-lan-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tou-shi-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tou-shi-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tui-tu-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-tuo-gua-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-tuo-gua-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-yi-fei-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-yi-fei-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-zhuan-deng-long",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-deng-long\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-zhuan-deng-long",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-deng-long\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-ka-fei-bei\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-xuan-zhuan-ka-fei-bei\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-mian-ji\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-ya-mian-ji\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-yao-yao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-yao-yao-che\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-yao-yao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-yao-yao-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-yi-dong-guang-gao-pai\\source.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-yi-dong-guang-gao-pai\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-yu-er-de-wei-ba\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "kind": "missing-core",
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\evidence\\5-zhuan-wan-xiao-che\\ledger.json",
+      "interpretation": "Historical alternate schema; standardized filename absence alone is not a missing explicit reference."
+    }
+  ],
+  "currentNestedHashClaimMismatches": [],
+  "currentPixelRenderRevisionMismatches": [],
+  "stalePendingTextAlongsideCurrentPixels": [],
+  "sharedReportVerification": [
+    {
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\shared-evidence\\checkpoint-checks.json",
+      "exists": true,
+      "sha256": "96a419577fa73488be86b4d035bae2add13504af9c7b2838f89f242adf7a3c48",
+      "comparedTo": "STEAMx\\docs\\ldraw-rebuild-20261011\\raw-checks-snapshot.json",
+      "exactBytesMatch": true
+    },
+    {
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\shared-evidence\\owned-mesh-alarm-diagnostic.json",
+      "exists": true,
+      "sha256": "a6aa89e672251a0f3fc6384245e54eb199523814d77c29496382935ab17829b6",
+      "comparedTo": "preparation\\owned-mesh-alarm-diagnostic.json",
+      "exactBytesMatch": true
+    },
+    {
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\shared-evidence\\tyre-profile-independent.json",
+      "exists": true,
+      "sha256": "b3bd9e6d20da73386d766fab6626e0dc5ba2b93edaf15c7583bf7566b9c3a6f7",
+      "comparedTo": "preparation\\independent-qa\\tyre-profile-independent.json",
+      "exactBytesMatch": true
+    }
+  ],
+  "previousFourOwnReportRepairsVerified": [
+    {
+      "slug": "5-hua-ban-che",
+      "filename": "handle-passage-samples.json",
+      "exists": true,
+      "exactPrepCopy": true,
+      "sha256": "5db912c623b5e27d8ccc5d477652cef7236afdb97918791b1cc35ad1b53d96f7"
+    },
+    {
+      "slug": "5-ta-diao",
+      "filename": "neighbour-wheel-overlap.json",
+      "exists": true,
+      "exactPrepCopy": true,
+      "sha256": "f0d4470cd852cb44e10747d353910377536e9d1aeb38e6bf3d4155a5a5390340"
+    },
+    {
+      "slug": "5-tuo-yuan-ji",
+      "filename": "joint-solution.json",
+      "exists": true,
+      "exactPrepCopy": true,
+      "sha256": "368cc8f21c7e4048235d5376eb2da27cac05431e51ec076e5223120ae48a51fc"
+    },
+    {
+      "slug": "5-xuan-zhuan-can-ting",
+      "filename": "flagpole-pixel-check.json",
+      "exists": true,
+      "exactPrepCopy": true,
+      "sha256": "abc82496c8d38a764af08c0cab37c2fd96cae695aa62c4bed672c43c3f65411f"
+    }
+  ],
+  "repairRecord": {
+    "path": "STEAMx\\docs\\ldraw-rebuild-20261011\\final-evidence-repairs.json",
+    "sha256": "18c2217264770a755c53191b57529365821fee04684091c834c1218e8e3cd514"
+  },
+  "summary": {
+    "courses": 129,
+    "mapping129UniqueAndIdConsistent": true,
+    "explicitOwnMissingUnique": 0,
+    "currentSourceHashMismatches": 0,
+    "pixelRenderRevisionMismatches": 0,
+    "docPrepCopyMismatches": 0,
+    "stalePendingFields": 0,
+    "previousFourOwnReportsClosed": true,
+    "sharedReportsClosedAndExact": true
+  },
+  "remainingReferenceNotes": "External/raw paths to locally materialized input verification and inventory or historical .tmp sources are not newly asserted portable. They remain listed separately; 103 alternate-schema filename absences are not explicit-link failures. Source pixels and physical fit are outside this read-only audit."
+}

@@ -1,0 +1,3352 @@
+{
+  "at": "2026-10-11T14:42:19.844548+00:00",
+  "scope": "Independent actual source pixels, local DAT provenance/closure. No model mutation or physical acceptance.",
+  "sourceVerification": "pdfbatch16-source-verification.json",
+  "sourceImages": [
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-01.jpg",
+      "sha256": "0edff57af039c88eb3f9eb8cffd13326344a78e5ffe4b4e3185f21ba03646d62",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-02.jpg",
+      "sha256": "2b324706d69736612fc03a3c5a7caf458964f1df9b6a373184b6c685d93694dd",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-03.jpg",
+      "sha256": "36d7e4ab7dc9945ccfb10bd705bbc054e214ee0c0d4b52458564c6c06b757b90",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-04.jpg",
+      "sha256": "2d89a6e1cf12a47faf332c616c740e3752068c04245cc8c41260d3463591fea3",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-05.jpg",
+      "sha256": "01ee50b7eaa2a01c46ec8bb7d7e8f03cef74b0ba2aa13860fb779b520cd3ac22",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-06.jpg",
+      "sha256": "ce3b514c0cb11405949ed634a00070c2699e6e009b9c4e49e7f2de6a01adbf5e",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-07.jpg",
+      "sha256": "db65fc3081a192c4c200f3596827831a0164c0733c710cf455b08dd68af460d4",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-08.jpg",
+      "sha256": "23825c1fc17cbc349b5843d3dbe78815ff62639393e973cd871cb584fcb3af77",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-09.jpg",
+      "sha256": "720269c0658351a772eedc0b8743c2d733c13d972a507e703df037a88c4d033e",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-10.jpg",
+      "sha256": "e3208874aa0db3367ffbc32f06b35bccb00927a29c734ddb1ab55e7c7b7c6c4a",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-11.jpg",
+      "sha256": "4c5975d4f6be4dc53d218b0af1af57e795df74d199c51b5003dd785757faaa58",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-12.jpg",
+      "sha256": "11b9178aea2cc06992bdfda608c2a0727ca9ef43bf3d2b6315c22df62e829ee1",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhe-die-ti\\page-13.jpg",
+      "sha256": "e54cba25d632f10ac00a17acc6bd7a9e6b2c8f2a2697cd707b563fb69b443687",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-01.jpg",
+      "sha256": "c23eb488385670d589ec776c2b68cac3b184fd2d0299f1161b7e18f07d395a81",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-02.jpg",
+      "sha256": "58583ac7231b99fbef65f54c2c5ed9eebd8330496931cd16bf69952249e94cb8",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-03.jpg",
+      "sha256": "44c59e4b4635caef8d03e59147e8658dda95cfb491bfe4bb1ccf067c6044b92d",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-04.jpg",
+      "sha256": "a5ddecbe8ffe48e7810e178420ff17a20ea5de225a0050fecf86d2312f8c3910",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-05.jpg",
+      "sha256": "242d64baf51cdd53e1b948a09eb2f5159f50f85fe29aff50b50b68e02c772490",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-06.jpg",
+      "sha256": "a734de7ddc772b3bc7001a49e6813a6b4121b2cae7d1e2a68d9cb7bd97c43782",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-07.jpg",
+      "sha256": "b59e9cd7b78c17ad0070c26bfccd1d2028f40b067f3c7b180bf6a7858bc9986a",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-08.jpg",
+      "sha256": "5f2372bd1796425317817f81644e8983cda040ab115fe25659c34e0b78f609ec",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-09.jpg",
+      "sha256": "b1fb151ec2fe3d0d16d5a2e04643d1a66508585d6d51d6c005bf354b58c948d5",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-10.jpg",
+      "sha256": "f2fe521711b058369f83f415ac6385eced0bd8043aac71a92e54e65625c19d94",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-11.jpg",
+      "sha256": "efab605a6a270e444f03015ce3a64a9a147e1627f0682176d68875a63d775295",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-12.jpg",
+      "sha256": "ba7d7cdddf0febbf442c9d38a666bc53e70f0a7da791835639a56c8fa5f3dd84",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-13.jpg",
+      "sha256": "c91dc455005dca73900ba477e877998393c8c8768a55454ebecde837cc841bbe",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhi-sheng-ji\\page-14.jpg",
+      "sha256": "653f2cccb0f4f1bac82616ac005a6765ffb077c05ca06894eb7fe201532142ed",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-1.jpg",
+      "sha256": "798255d96228669c0ff11da777b2916fd47de56b818290b757fd26a0a5baa5e4",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-2.jpg",
+      "sha256": "96ed70a1068242780e05a21c12694bb1decc56d77d9264d64ee22c6d828894ba",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-3.jpg",
+      "sha256": "7575b6357e471e6dee21619560d395259ec6f1f1a98a0b66ae9e22333da8cb00",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-4.jpg",
+      "sha256": "b17288a24836496c35f080b3d31810faf84d60504718f50904562c3670274261",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-5.jpg",
+      "sha256": "8e2f883f94aafdc0626f9081c6f4256d1db14bfc7c7c6bfe4306abda08a6fca7",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-6.jpg",
+      "sha256": "bea7bcfdb35eb5a7484a0726d581b79213db81ad7c44d2201747de48957af542",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-7.jpg",
+      "sha256": "6347941e1a365855835d9f1305b01c623404d46fc77a2d1c174536cbf31d976f",
+      "actuallyViewed": true
+    }
+  ],
+  "findings": [
+    {
+      "slugs": [
+        "5-zhe-die-ti"
+      ],
+      "pages": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "classification": "cord_identity_and_route_unresolved_rigid_parts_available",
+      "parts": [
+        "4663.dat",
+        "6527.dat",
+        "6523.dat"
+      ],
+      "evidence": "All13pages actually viewed. p10 one cord; p11 one pulley and one short crossbar hook; p12 one additional pulley and two blue geared5L axles. Total pulley6 from p1four+p11one+p12one. Rope-plus-pulley/hook assembly75536 is candidate inventory relation, never count rigid parts twice.",
+      "limitations": "Cord exact length/route/knots and loaded retention unverified. Rigid4663Official2024-02 and6527/6523Official2017-01 CCBY4 locally available."
+    },
+    {
+      "slugs": [
+        "5-zhi-sheng-ji"
+      ],
+      "pages": [
+        2,
+        12,
+        13,
+        14
+      ],
+      "classification": "known_cab_approximation_and_flexible_belt_candidate",
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "evidence": "All14pages actually viewed. p2 orange cab plus cream canopy broad source family, existing31196c01 local approximation and official6345. p12 upper-right strip depiction explicitly2x versus upper-left miniature1x; final rear face has pulley connection runs.",
+      "limitations": "Two flexible drive elements candidate; exact material, loop topology, lengths unknown; do not silently treat2strips as one physical cord or imply validated transmission. Cab geometry remains approximation."
+    },
+    {
+      "slugs": [
+        "5-zhu-ge-lian-nu"
+      ],
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "classification": "existing_known_rigid_parts_source_count",
+      "parts": [
+        "75350.dat",
+        "40666.dat",
+        "3011.dat",
+        "6523.dat",
+        "6527.dat",
+        "6521.dat",
+        "6524.dat",
+        "6525.dat"
+      ],
+      "evidence": "All7pages actually viewed. p1fourlongredbeams; p2tenyellowplates; p3two5Lgearedblueaxles+twopulleys; p4fourshortyellowlinks+twogreenaxles+twolongyellowlinks; p5sixblue2x4; p6tenyellow+tenred2x4 andonelongyellowlink.",
+      "limitations": "Longlink length/source pose and hiddenretention remain owner geometry checks. Final source is a classroom brick model; no functionality or physical acceptance."
+    }
+  ],
+  "localGeometryClosure": {
+    "4663.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4663.dat",
+      "sha256": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51",
+      "header": [
+        "0 Duplo Hook Short with Cross Bar and String Hole",
+        "0 Name: 4663.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Crane",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "7-8cyli.dat",
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cylc.dat",
+        "4-4ring3.dat",
+        "3-4cylo.dat",
+        "3-4chrd.dat",
+        "3-4ring3.dat",
+        "1-4chrd.dat",
+        "4-4cyli.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "rect2p.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "rect2p.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "rect1.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-16cylo.dat",
+        "1-16edge.dat",
+        "1-16ring2.dat",
+        "1-16ring2.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "1-16ring4.dat",
+        "1-16ring4.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "2-4cylo.dat",
+        "1-16cylo.dat",
+        "2-4cylo.dat",
+        "1-16cylo.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "1-16edge.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylo.dat",
+        "2-4ring3.dat",
+        "1-16cylo.dat",
+        "1-16ring3.dat",
+        "2-4cylo.dat",
+        "3-8ring6.dat",
+        "1-16cylo.dat",
+        "3-16ring6.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylo.dat",
+        "2-4ring3.dat",
+        "1-16cylo.dat",
+        "1-16ring3.dat",
+        "2-4cylo.dat",
+        "3-8ring6.dat",
+        "1-16cylo.dat",
+        "3-16ring6.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "1-8edge.dat",
+        "1-8edge.dat"
+      ]
+    },
+    "7-8cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-8cyli.dat",
+      "sha256": "65877ef8bdc2f6162bc5db53d62e6bde48349969e3370afa99623e082d6eee23",
+      "header": [
+        "0 Cylinder 0.875",
+        "0 Name: 7-8cyli.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0 !HISTORY 2024-01-14 [Holly-Wood] Complete regeneration, original by guyvivan"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+      "header": [
+        "0 Circle 1.0",
+        "0 Name: 4-4edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2005-12-28 [PTadmin] Official Update 2005-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4cylc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylc.dat",
+      "sha256": "0183cffc7f56a2f3e5e3511f0d07ac484d3039c2d41bee802a94344ec95ec8bd",
+      "header": [
+        "0 Cylinder Closed 1.0",
+        "0 Name: 4-4cylc.dat",
+        "0 Author: Alex Taylor [anathema]",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2008-12-29 [cwdee] Removed one disc",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4disc.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "4-4disc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4disc.dat",
+      "sha256": "a00b5547776f61a7389d303616987c76b3c4de86ad8ec32f22857e1bd5e5e40f",
+      "header": [
+        "0 Disc 1.0",
+        "0 Name: 4-4disc.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+      "header": [
+        "0 Cylinder 1.0",
+        "0 Name: 4-4cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement; merged headers from files in distributions LDraw 0.27 and Complete."
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4ring3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+      "header": [
+        "0 Ring  3 x 1.0",
+        "0 Name: 4-4ring3.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-04-05 [hafhead] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cylo.dat",
+      "sha256": "b7ff6f92e06cea3815be42f757f17cd28350f2a4ff18dd1a11de0db3626ec44b",
+      "header": [
+        "0 Cylinder Open 0.75",
+        "0 Name: 3-4cylo.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2011-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "3-4edge.dat",
+        "3-4edge.dat",
+        "3-4cyli.dat"
+      ]
+    },
+    "3-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4edge.dat",
+      "sha256": "d7f5aff979bc227b601abbb8e0226d6055d08eafb5faaf507b3055f712cd4c04",
+      "header": [
+        "0 Circle 0.75",
+        "0 Name: 3-4edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cyli.dat",
+      "sha256": "4a54732476cf4eaad2c9f7b40a3cef24db025132004328e4e84c0666cd217533",
+      "header": [
+        "0 Cylinder 0.75",
+        "0 Name: 3-4cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement; compacted code",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-4chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4chrd.dat",
+      "sha256": "0d6ab4757a7825257f175b7eb5457897bb93487d3b1b938e1ca0ab760fb8ed9a",
+      "header": [
+        "0 Chord 0.75",
+        "0 Name: 3-4chrd.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2015-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-4ring3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4ring3.dat",
+      "sha256": "540acda3cc2567820cbba2ea67320bab8c80a99cc94d974cf70b58c1c32573cd",
+      "header": [
+        "0 Ring  3 x 0.75",
+        "0 Name: 3-4ring3.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-06-11 [pneaster] Corrected Values",
+        "0 !HISTORY 2004-11-06 [PTadmin] Official Update 2004-04"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+      "header": [
+        "0 Chord 0.25",
+        "0 Name: 1-4chrd.dat",
+        "0 Author: Max Martin Richter [MMR1988]",
+        "0 !LDRAW_ORG Primitive UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02",
+        "0 !HISTORY 2007-10-09 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4cyls.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyls.dat",
+      "sha256": "aaee6ffe6e4a191d6cad4496677132eb0349303d6e48c13c7a2240dcea1db621",
+      "header": [
+        "0 Cylinder Sloped 0.25",
+        "0 Name: 1-4cyls.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-07-03 [sbliss] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763",
+      "header": [
+        "0 Circle 0.5",
+        "0 Name: 2-4edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4ndis.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925",
+      "header": [
+        "0 Disc Negative 0.5",
+        "0 Name: 2-4ndis.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement; compacted code",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4ndis.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543",
+      "header": [
+        "0 Disc Negative 1.0",
+        "0 Name: 4-4ndis.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement; compacted code",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f",
+      "header": [
+        "0 Cylinder Open 0.5",
+        "0 Name: 2-4cylo.dat",
+        "0 Author: Max Martin Richter [MMR1988]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "2-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6",
+      "header": [
+        "0 Cylinder 0.5",
+        "0 Name: 2-4cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement; compacted code",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "rect3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+      "header": [
+        "0 Rectangle with 3 Edges",
+        "0 Name: rect3.dat",
+        "0 Author: Mark Kennedy [mkennedy]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4cylc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cylc.dat",
+      "sha256": "b172c10584f59fa091f454276ecd5c0c707eba007934a23ccac9307007b1a1e9",
+      "header": [
+        "0 Cylinder Closed 0.5",
+        "0 Name: 2-4cylc.dat",
+        "0 Author: Alex Taylor [anathema]",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4disc.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "2-4disc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4disc.dat",
+      "sha256": "dcb05df95858362d5d6581c2ad7cf92e7e054cab60e580a2240ae043b07b9f2c",
+      "header": [
+        "0 Disc 0.5",
+        "0 Name: 2-4disc.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4ring1.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ring1.dat",
+      "sha256": "a04bfc7ffeeb56f92a83aaa60429939e896facb5a407f93a50f24fd1b2b1706d",
+      "header": [
+        "0 Ring  1 x 0.5",
+        "0 Name: 2-4ring1.dat",
+        "0 Author: Chris Dee [cwdee]",
+        "0 !LDRAW_ORG Primitive UPDATE 2003-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2000-09-30 [PTadmin] Official Update 2000-02",
+        "0 !HISTORY 2002-08-31 [izanette] Modified with WINDZ for BFC compliance"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "rect2p.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+      "header": [
+        "0 Rectangle with 2 Parallel Edges",
+        "0 Name: rect2p.dat",
+        "0 Author: Donald Sutter [technog]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4cylc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylc.dat",
+      "sha256": "fdcb54ba2e2731cbb86ea6b2fddb25c7dda060a7780629a72003e0278805dd30",
+      "header": [
+        "0 Cylinder Closed 0.25",
+        "0 Name: 1-4cylc.dat",
+        "0 Author: Mark Kennedy [mkennedy]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-4edge.dat",
+        "1-4edge.dat",
+        "1-4disc.dat",
+        "1-4cyli.dat"
+      ]
+    },
+    "1-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4edge.dat",
+      "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467",
+      "header": [
+        "0 Circle 0.25",
+        "0 Name: 1-4edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2007-06-22 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4disc.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4disc.dat",
+      "sha256": "cf481d56b2c13dc2a6bcfe5eadb6577f2435b3f2f50fcdca199be76525d773ca",
+      "header": [
+        "0 Disc 0.25",
+        "0 Name: 1-4disc.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement.",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyli.dat",
+      "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10",
+      "header": [
+        "0 Cylinder 0.25",
+        "0 Name: 1-4cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement.",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylo.dat",
+      "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af",
+      "header": [
+        "0 Cylinder Open 0.25",
+        "0 Name: 1-4cylo.dat",
+        "0 Author: Max Martin Richter [MMR1988]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-4edge.dat",
+        "1-4edge.dat",
+        "1-4cyli.dat"
+      ]
+    },
+    "1-4ndis.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4ndis.dat",
+      "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c",
+      "header": [
+        "0 Disc Negative 0.25",
+        "0 Name: 1-4ndis.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC Statement",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "rect1.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb",
+      "header": [
+        "0 Rectangle with 1 Edge",
+        "0 Name: rect1.dat",
+        "0 Author: Chris Dee [cwdee]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cylo.dat",
+      "sha256": "6cef884c4f96ec15f5bd1428264af2efba4443cb1e47ead116a8a094febefc67",
+      "header": [
+        "0 Cylinder Open 0.0625",
+        "0 Name: 1-16cylo.dat",
+        "0 Author: Max Martin Richter [MMR1988]",
+        "0 !LDRAW_ORG Primitive UPDATE 2014-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-16cyli.dat",
+        "1-16edge.dat",
+        "1-16edge.dat"
+      ]
+    },
+    "1-16cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cyli.dat",
+      "sha256": "b60f031d9dfd0995c1741992a5695ee3789419886e8189dead961d05f75f7bfc",
+      "header": [
+        "0 Cylinder 0.0625",
+        "0 Name: 1-16cyli.dat",
+        "0 Author: Marc Klein [marckl]",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01",
+        "0 !HISTORY 2004-12-11 [nielsk] Recreated using Primitive Generator, Edge lines fixed, BFC changed to CCW"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c",
+      "header": [
+        "0 Circle 0.0625",
+        "0 Name: 1-16edge.dat",
+        "0 Author: Marc Klein [marckl]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01",
+        "0 !HISTORY 2007-06-22 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16ring2.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring2.dat",
+      "sha256": "c8fd7bff229ffc832496ae5e7e1bcbb0c246629abbf72a660699772ab87d91a6",
+      "header": [
+        "0 Ring  2 x 0.0625",
+        "0 Name: 1-16ring2.dat",
+        "0 Author: Steve Bliss [sbliss]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0 !HISTORY 2024-03-23 [OrionP] Moved from 1-16rin2.dat"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16ring4.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring4.dat",
+      "sha256": "9a5cc68e4201eff6d1172793a09a9b11f6ded5fe41c3cd9042a8dc4648831042",
+      "header": [
+        "0 Ring  4 x 0.0625",
+        "0 Name: 1-16ring4.dat",
+        "0 Author: Magnus Forsberg [MagFors]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01",
+        "0 !HISTORY 2024-03-23 [OrionP] Moved from 1-16rin4.dat"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "2-4ring3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ring3.dat",
+      "sha256": "83daf728f0285b7471139e3fd5335603e548300307c0bb8615a4d3f76ca8dde0",
+      "header": [
+        "0 Ring  3 x 0.5",
+        "0 Name: 2-4ring3.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2003-01-21 [cavehop] Update Added BFC and some header info"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16ring3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring3.dat",
+      "sha256": "fc42cc8def33dca0ba2bf372688e5c373d54783041e693ec6ed79da5974e48b7",
+      "header": [
+        "0 Ring  3 x 0.0625",
+        "0 Name: 1-16ring3.dat",
+        "0 Author: Steve Bliss [sbliss]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0 !HISTORY 2024-03-23 [OrionP] Moved from 1-16rin3.dat"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-8ring6.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8ring6.dat",
+      "sha256": "0cf20ca63e4428e0c7e6c9b54933845d1354b584546b53304455235012457477",
+      "header": [
+        "0 Ring  6 x 0.375",
+        "0 Name: 3-8ring6.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0 !HISTORY 2024-01-31 [Holly-Wood] Complete regeneration, original by guyvivan"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-16ring6.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16ring6.dat",
+      "sha256": "d022cec8faeaf430893137b3c0fc5b31eccfa5aba98571cefc7f785507a63335",
+      "header": [
+        "0 Ring  6 x 0.1875",
+        "0 Name: 3-16ring6.dat",
+        "0 Author: Alex Taylor [anathema]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01",
+        "0 !HISTORY 2024-03-23 [OrionP] Moved from 3-16rin6.dat"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-16chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+      "header": [
+        "0 Chord 0.1875",
+        "0 Name: 3-16chrd.dat",
+        "0 Author: Niels Karsdorp [nielsk]",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-8edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8edge.dat",
+      "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab",
+      "header": [
+        "0 Circle 0.125",
+        "0 Name: 1-8edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2007-06-22 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "6527.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "header": [
+        "0 Duplo Wheel with 2 Belt Groves",
+        "0 Name: 6527.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines, Pulley"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "4-4ring5.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "4-4cylo.dat",
+        "4-4ring5.dat",
+        "48\\4-4cylo.dat",
+        "48\\4-4aring.dat",
+        "48\\4-4aring.dat",
+        "48\\4-4aring.dat",
+        "48\\4-4cylo.dat",
+        "48\\4-4ring9.dat",
+        "48\\4-4cylo.dat",
+        "48\\4-4aring.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t02i1111.dat",
+        "t02i1111.dat",
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "1-8chrd.dat",
+        "1-16chrd.dat",
+        "1-16chrd.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat"
+      ]
+    },
+    "4-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+      "header": [
+        "0 Cylinder Open 1.0",
+        "0 Name: 4-4cylo.dat",
+        "0 Author: Mark Kennedy [mkennedy]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "t04i2500.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t04i2500.dat",
+      "sha256": "16a0e74be0e6e149ea99ffd6aff98b3406c19fc7727d0453b1fe1572cf4e40bb",
+      "header": [
+        "0 Torus Inside  1 x 0.2500 x 0.25",
+        "0 Name: t04i2500.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02",
+        "0 !HISTORY 2007-12-20 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4ring5.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring5.dat",
+      "sha256": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1",
+      "header": [
+        "0 Ring  5 x 1.0",
+        "0 Name: 4-4ring5.dat",
+        "0 Author: Mark Kennedy [mkennedy]",
+        "0 !LDRAW_ORG Primitive UPDATE 2025-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2001-10-23 [pneaster] resequenced quads, corrected winding.",
+        "0 !HISTORY 2001-12-29 [pneaster] Added BFC."
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "48/4-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cylo.dat",
+      "sha256": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6",
+      "header": [
+        "0 Hi-Res Cylinder Open 1.0",
+        "0 Name: 48\\4-4cylo.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2011-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48\\4-4edge.dat",
+        "48\\4-4edge.dat",
+        "48\\4-4cyli.dat"
+      ]
+    },
+    "48/4-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4edge.dat",
+      "sha256": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7",
+      "header": [
+        "0 Hi-Res Circle 1.0",
+        "0 Name: 48\\4-4edge.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48\\1-4edge.dat",
+        "48\\1-4edge.dat",
+        "48\\1-4edge.dat",
+        "48\\1-4edge.dat"
+      ]
+    },
+    "48/1-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4edge.dat",
+      "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6",
+      "header": [
+        "0 Hi-Res Circle 0.25",
+        "0 Name: 48\\1-4edge.dat",
+        "0 Author: Magnus Forsberg [MagFors]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1999-07-05 [PTadmin] Official Update 1999-05",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "48/4-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cyli.dat",
+      "sha256": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2",
+      "header": [
+        "0 Hi-Res Cylinder 1.0",
+        "0 Name: 48\\4-4cyli.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2012-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48\\1-4cyli.dat",
+        "48\\1-4cyli.dat",
+        "48\\1-4cyli.dat",
+        "48\\1-4cyli.dat"
+      ]
+    },
+    "48/1-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4cyli.dat",
+      "sha256": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b",
+      "header": [
+        "0 Hi-Res Cylinder 0.25",
+        "0 Name: 48\\1-4cyli.dat",
+        "0 Author: Magnus Forsberg [MagFors]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1999-07-05 [PTadmin] Official Update 1999-05",
+        "0 !HISTORY 2002-02-28 [hafhead] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "48/4-4aring.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4aring.dat",
+      "sha256": "4c0d575f91df941b5d3313427d699813cc3cf9f09c334cbad7a0eceeaf98f573",
+      "header": [
+        "0 Adapter Ring Hi-Res to Normal 1.0",
+        "0 Name: 48\\4-4aring.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2010-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "48/4-4ring9.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring9.dat",
+      "sha256": "d8de1753705319aa11a189b579323b778c9b6cf4869360e698c64a8a0cdbf3d2",
+      "header": [
+        "0 Hi-Res Ring  9 x 1.0",
+        "0 Name: 48\\4-4ring9.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2012-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48\\1-4ring9.dat",
+        "48\\1-4ring9.dat",
+        "48\\1-4ring9.dat",
+        "48\\1-4ring9.dat"
+      ]
+    },
+    "48/1-4ring9.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4ring9.dat",
+      "sha256": "08cf8697a97526c9636b00578b792ef8452d3f74d7615e3a1d5644417908b42a",
+      "header": [
+        "0 Hi-Res Ring  9 x 0.25",
+        "0 Name: 48\\1-4ring9.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG 48_Primitive UPDATE 2014-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "t04i1304.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t04i1304.dat",
+      "sha256": "e23d62de56e98c40060f11106d93688dd6a53d5d92507673c4d3690184769cfc",
+      "header": [
+        "0 Torus Inside  1 x 0.1304 x 0.25",
+        "0 Name: t04i1304.dat",
+        "0 Author: Paul Easter [pneaster]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-11-30 [PTadmin] Official Update 2002-05",
+        "0 !HISTORY 2007-10-09 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "t02i1111.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t02i1111.dat",
+      "sha256": "827358bfc070521d4cfafac88fb7f74c41bd75e4ca712e13e28afc34c3533e40",
+      "header": [
+        "0 Torus Inside  1 x 0.1111 x 0.5",
+        "0 Name: t02i1111.dat",
+        "0 Author: Santeri Piippo [arezey]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02",
+        "0 !HISTORY 2013-09-27 [MMR1988] Recreated to fix condlines"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-8chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8chrd.dat",
+      "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74",
+      "header": [
+        "0 Chord 0.125",
+        "0 Name: 1-8chrd.dat",
+        "0 Author: Orion Pobursky [OrionP]",
+        "0 !LDRAW_ORG Primitive UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02",
+        "0 !HISTORY 2007-06-22 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-16chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16chrd.dat",
+      "sha256": "e429dd760eb6f0cf460a74e6ebf52c023bedbdea82de7801efa1694b5a1a82e8",
+      "header": [
+        "0 Chord 0.0625",
+        "0 Name: 1-16chrd.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2015-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "empty.dat"
+      ]
+    },
+    "empty.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\empty.dat",
+      "sha256": "192c9b9ee2e425cfbc9e9b12ff61ee0f05ae1cb0c12dc37d5590adb6abb65128",
+      "header": [
+        "0 Empty",
+        "0 Name: empty.dat",
+        "0 Author: Steffen [Steffen]",
+        "0 !LDRAW_ORG Primitive UPDATE 2025-08",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01",
+        "0 !HISTORY 2025-08-13 [OrionP] Fix comments"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-8cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8cylo.dat",
+      "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf",
+      "header": [
+        "0 Cylinder Open 0.125",
+        "0 Name: 1-8cylo.dat",
+        "0 Author: Tim Gould [timgould]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-8cyli.dat"
+      ]
+    },
+    "1-8cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8cyli.dat",
+      "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4",
+      "header": [
+        "0 Cylinder 0.125",
+        "0 Name: 1-8cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02",
+        "0 !HISTORY 2004-12-11 [nielsk] Recreated using Primitive Generator, Edge lines fixed, BFC changed to CCW"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "rect.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+      "header": [
+        "0 Rectangle",
+        "0 Name: rect.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-04-05 [hafhead] Added BFC statement",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-8cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8cylo.dat",
+      "sha256": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd",
+      "header": [
+        "0 Cylinder Open 0.375",
+        "0 Name: 3-8cylo.dat",
+        "0 Author: J.C. Tchang [tchang]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "3-8edge.dat",
+        "3-8edge.dat",
+        "3-8cyli.dat"
+      ]
+    },
+    "3-8edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8edge.dat",
+      "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5",
+      "header": [
+        "0 Circle 0.375",
+        "0 Name: 3-8edge.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-8cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8cyli.dat",
+      "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206",
+      "header": [
+        "0 Cylinder 0.375",
+        "0 Name: 3-8cyli.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-05-08 [OrionP] Made BFC compliant",
+        "0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "6523.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6523.dat",
+      "sha256": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+      "header": [
+        "0 Duplo Axle  5 with Gear  8 Tooth",
+        "0 Name: 6523.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "daxle.dat",
+        "s\\6523s01.dat",
+        "s\\6523s01.dat",
+        "s\\6523s01.dat",
+        "s\\6523s01.dat"
+      ]
+    },
+    "daxle.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\daxle.dat",
+      "sha256": "1e110f59ba51341b23228ff5aa0b423dede60ee8d01d80cb6ec63c96f6d1c25f",
+      "header": [
+        "0 Duplo Axle",
+        "0 Name: daxle.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat"
+      ]
+    },
+    "box2-5.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box2-5.dat",
+      "sha256": "8f297b754f87da1dbe19eec8704a5ce03a23b794ccd7cd015508e3758a206174",
+      "header": [
+        "0 Box with 2 Faces without 5 Edges",
+        "0 Name: box2-5.dat",
+        "0 Author: Steffen [Steffen]",
+        "0 !LDRAW_ORG Primitive UPDATE 2003-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "s/6523s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6523s01.dat",
+      "sha256": "0465d5bc6982a8a7012c898d09d88e944408def249c758a89a556a1f4d4cc6f2",
+      "header": [
+        "0 ~Duplo Axle with Gear  8 Tooth  2 Teeth",
+        "0 Name: s\\6523s01.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Subpart UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "dtooth8.dat",
+        "dtooth8.dat",
+        "rect.dat",
+        "rect.dat"
+      ]
+    },
+    "dtooth8.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtooth8.dat",
+      "sha256": "550fd28020126ad96cfe47e86af9651d253924dec43fa052254345fed7f6977d",
+      "header": [
+        "0 Single Tooth for Duplo Gear  8 Tooth",
+        "0 Name: dtooth8.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat"
+      ]
+    },
+    "31196c01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31196c01.dat",
+      "sha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+      "header": [
+        "0 Duplo Toolo Cockpit 4 x 6 - LOCAL SIMPLIFIED photo-informed geometry",
+        "0 Name: 31196c01.dat",
+        "0 Author: Local project reconstruction",
+        "0 !LDRAW_ORG Unofficial_Part",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 // User authorized photo-based refinement 2026-09-11; supplied multi-angle and top/rear detail photos.",
+        "0 // Original local approximation, NOT official or dimensionally certified.",
+        "0 // Toolo inserts and side bores are photo approximations; threads, underside sockets and snap retention remain unverified.",
+        "0 // Nose -Z; rear deck z=0..80; mounting plane y=24; height revised from catalog/photo proportions; hinge fit unverified.",
+        "0 BFC CERTIFY CCW"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s/31196c01-local-screw.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "s/31196c01-local-screw.dat"
+      ]
+    },
+    "s/31196c01-local-screw.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31196c01-local-screw.dat",
+      "sha256": "7b3c0700fd3c5d5248976012f4f9afc1d54cb3d1e00a3b92114dab27443a850d",
+      "header": [
+        "0 Toolo screw head - LOCAL SIMPLIFIED subpart for 31196c01",
+        "0 Name: s/31196c01-local-screw.dat",
+        "0 Author: Local project reconstruction",
+        "0 !LDRAW_ORG Unofficial_Subpart",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 // Photo-based captive screw head; no verified standalone catalog ID.",
+        "0 // Threads, shank length and retaining features unresolved.",
+        "0 BFC CERTIFY CCW",
+        "4 16 12.000000 0.000000 0.000000 11.897338 0.000000 1.566314 4.500000 0.000000 0.592436 4.500000 0.000000 0.000000",
+        "4 16 12.000000 5.000000 0.000000 11.897338 5.000000 1.566314 11.897338 0.000000 1.566314 12.000000 0.000000 0.000000"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "stud7.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+      "header": [
+        "0 Stud Duplo Open",
+        "0 Name: stud7.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4ring3.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "6345.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6345.dat",
+      "sha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179",
+      "header": [
+        "0 Duplo Windscreen  4 x  4 x  2 Curved",
+        "0 Name: 6345.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Windscreen",
+        "0 !KEYWORDS Rebrickable 17562"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s\\6345s01.dat",
+        "s\\6345s01.dat",
+        "rect1.dat",
+        "4-4cylo.dat",
+        "4-4con0.dat",
+        "4-4ndis.dat",
+        "1-16cylo.dat",
+        "3-16cylo.dat",
+        "1-4cylo.dat",
+        "5-16cylo.dat",
+        "8\\2-4cylo.dat"
+      ]
+    },
+    "s/6345s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6345s01.dat",
+      "sha256": "2d0bcf43911c18fcb2d4f0a711cdeca6a43a80e246986f9bb34f5ff4a065184f",
+      "header": [
+        "0 ~Duplo Windscreen  4 x  4 x  2 Curved Half",
+        "0 Name: s\\6345s01.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Subpart UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2023-10-31 [OrionP] Official Update 2023-05",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "5-16chrd.dat",
+        "8\\2-4chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-4cylo.dat",
+        "1-4cylo.dat",
+        "4-4ndis.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "rect3.dat",
+        "1-4chrd.dat",
+        "2-4ndis.dat",
+        "1-8ndis.dat",
+        "1-8ndis.dat",
+        "rect3.dat"
+      ]
+    },
+    "5-16chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16chrd.dat",
+      "sha256": "53926ed51a8b6757ef36240cd7520ac1f8db16e4650e3618a09d8146f89ddd98",
+      "header": [
+        "0 Chord 0.3125",
+        "0 Name: 5-16chrd.dat",
+        "0 Author: Niels Karsdorp [nielsk]",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "8/2-4chrd.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4chrd.dat",
+      "sha256": "2caebc5de687f190e7ef2f25724665284bf0139e4db42844d0e2691128b9c0ea",
+      "header": [
+        "0 Chord 0.5",
+        "0 Name: 8\\2-4chrd.dat",
+        "0 Author: Magnus Forsberg [MagFors]",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-16cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cylo.dat",
+      "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c",
+      "header": [
+        "0 Cylinder Open 0.1875",
+        "0 Name: 3-16cylo.dat",
+        "0 Author: J.C. Tchang [tchang]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "3-16edge.dat",
+        "3-16edge.dat",
+        "3-16cyli.dat"
+      ]
+    },
+    "3-16edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16edge.dat",
+      "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9",
+      "header": [
+        "0 Circle 0.1875",
+        "0 Name: 3-16edge.dat",
+        "0 Author: Donald Sutter [technog]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3-16cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cyli.dat",
+      "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8",
+      "header": [
+        "0 Cylinder 0.1875",
+        "0 Name: 3-16cyli.dat",
+        "0 Author: Mark Kennedy [mkennedy]",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01",
+        "0 !HISTORY 2004-12-11 [nielsk] Recreated using Primitive Generator, Edge lines fixed, BFC changed to CCW"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "1-8ndis.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8ndis.dat",
+      "sha256": "97e394834789794c8635261fa604ad8e69b4c6872d0cd8d7506408b80023f408",
+      "header": [
+        "0 Disc Negative 0.125",
+        "0 Name: 1-8ndis.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-03-23 [sbliss] Added BFC statement",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "4-4con0.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4con0.dat",
+      "sha256": "b9e568215ff9786203c7d8e7ee4b7f99b72222a097c7663c732c4ecae77eaf9c",
+      "header": [
+        "0 Cone  0 x 1.0",
+        "0 Name: 4-4con0.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03",
+        "0 !HISTORY 2024-01-11 [Holly-Wood] Complete re-write, original by WilliamH"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "5-16cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16cylo.dat",
+      "sha256": "3468b4f9bf29026d7266da964f4298eea5d4bfa30f09d80e11abfb39cc9df797",
+      "header": [
+        "0 Cylinder Open 0.3125",
+        "0 Name: 5-16cylo.dat",
+        "0 Author: Max Martin Richter [MMR1988]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "5-16cyli.dat",
+        "5-16edge.dat",
+        "5-16edge.dat"
+      ]
+    },
+    "5-16cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16cyli.dat",
+      "sha256": "3a46e175cd13f2343645b5ba1be54f1f2fdf446cf28392383d511d85eaa7665a",
+      "header": [
+        "0 Cylinder 0.3125",
+        "0 Name: 5-16cyli.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "5-16edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16edge.dat",
+      "sha256": "17a9ae47e68e98286d27fc7be4a48e1110d1cae0d3abff658f3378a552857fc3",
+      "header": [
+        "0 Circle 0.3125",
+        "0 Name: 5-16edge.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "8/2-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cylo.dat",
+      "sha256": "cf7a9969c8d7396d17966b65c8ea48ea36445e98580dc76d18e5aa1fc5afd54f",
+      "header": [
+        "0 Cylinder Open 0.5",
+        "0 Name: 8\\2-4cylo.dat",
+        "0 Author: Magnus Forsberg [MagFors]",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "8\\2-4edge.dat",
+        "8\\2-4cyli.dat",
+        "8\\2-4edge.dat"
+      ]
+    },
+    "8/2-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4edge.dat",
+      "sha256": "3154ed3f142d644552b2533457c13c56ef326b0f7d31ea425585d6cdde2a3129",
+      "header": [
+        "0 Circle 0.5",
+        "0 Name: 8\\2-4edge.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2016-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "8/2-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cyli.dat",
+      "sha256": "9e5869a3bf444fcda1cc9908ef96ce782b53fc68f94eaf6903a0dbca6c582215",
+      "header": [
+        "0 Cylinder 0.5",
+        "0 Name: 8\\2-4cyli.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2016-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "75350.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "header": [
+        "0 Duplo Brick  2 x 10 with Holes",
+        "0 Name: 75350.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS BrickLink 6515c01, dacta, Early Simple Machines, Rebrickable 6515"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "6516.dat",
+        "6515.dat"
+      ]
+    },
+    "6516.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6516.dat",
+      "sha256": "fe40233cc54af0f327a7c2763bbca95cd0dca04138394b2183b3c04a4f479762",
+      "header": [
+        "0 ~Duplo Brick  2 x 10 with Holes Top",
+        "0 Name: 6516.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "rect.dat",
+        "rect.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "rect.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "s\\6518s01.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat"
+      ]
+    },
+    "s/6518s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6518s01.dat",
+      "sha256": "19de774d52518b29da21768f5c3f9cf2d62eeaae82a7ff2203d7faeb197d3adb",
+      "header": [
+        "0 ~Duplo Brick  2 x  4 with Holes Top Segment",
+        "0 Name: s\\6518s01.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Subpart UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat"
+      ]
+    },
+    "stud7a.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7a.dat",
+      "sha256": "d0bde5b1dd75800ce1f4e0751947c1f378bd0ceb8aa1e4ceb8df7ede58123ff2",
+      "header": [
+        "0 Stud Duplo Open without Base Edge",
+        "0 Name: stud7a.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyli.dat",
+        "4-4ring3.dat"
+      ]
+    },
+    "6515.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6515.dat",
+      "sha256": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057",
+      "header": [
+        "0 ~Duplo Brick  2 x 10 with Holes Bottom",
+        "0 Name: 6515.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2020-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "s\\6517s01.dat",
+        "stud8a.dat",
+        "s\\6517s01.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat"
+      ]
+    },
+    "s/6517s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6517s01.dat",
+      "sha256": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b",
+      "header": [
+        "0 ~Duplo Brick  2 x  4 with Holes Bottom Segment",
+        "0 Name: s\\6517s01.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Subpart UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "4-4ring3.dat",
+        "1-4cyls.dat",
+        "2-4cyli.dat",
+        "3-8cyli.dat",
+        "3-8edge.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4cyli.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-16edge.dat",
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-16edge.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "2-4edge.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "box4-1.dat"
+      ]
+    },
+    "box4-1.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d",
+      "header": [
+        "0 Box with 4 Faces without 1 Edge",
+        "0 Name: box4-1.dat",
+        "0 Author: Tore Eriksson [Tore_Eriksson]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-07-15 [PTadmin] Official Update 1998-07",
+        "0 !HISTORY 2002-04-05 [hafhead] Made BFC compliant"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "stud8a.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud8a.dat",
+      "sha256": "291cbfdb54441d6457a3e17155a8741cc8424a01f8e9b99a7c9a015085aacfb9",
+      "header": [
+        "0 Stud Duplo Tube without Base Edge",
+        "0 Name: stud8a.dat",
+        "0 Author: Michael Heidemann [mikeheide]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyli.dat",
+        "4-4ring7.dat"
+      ]
+    },
+    "4-4ring7.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3",
+      "header": [
+        "0 Ring  7 x 1.0",
+        "0 Name: 4-4ring7.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-04-05 [hafhead] Added BFC statement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "40666.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "header": [
+        "0 Duplo Plate  2 x  4",
+        "0 Name: 40666.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "box5.dat",
+        "box5.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat"
+      ]
+    },
+    "stud8.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud8.dat",
+      "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115",
+      "header": [
+        "0 Stud Duplo Tube",
+        "0 Name: stud8.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4ring7.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "box5.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+      "header": [
+        "0 Box with 5 Faces and All Edges",
+        "0 Name: box5.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-04-03 [sbliss] Modified for BFC compliance",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "3011.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "header": [
+        "0 Duplo Brick  2 x  4",
+        "0 Name: 3011.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s\\3011s01.dat"
+      ]
+    },
+    "s/3011s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\3011s01.dat",
+      "sha256": "f2538222ec8c4baeb2609224fa99dc6be61f5eb8b5a1d616f9ac7202ff605ea1",
+      "header": [
+        "0 ~Duplo Brick  2 x  4 without Front and Back Faces",
+        "0 Name: s\\3011s01.dat",
+        "0 Author: Takeshi Takahashi [RainbowDolphin]",
+        "0 !LDRAW_ORG Subpart UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stug8-1x3.dat",
+        "box5.dat",
+        "box3u2p.dat",
+        "stug7-2x2.dat",
+        "stug7-2x2.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat"
+      ]
+    },
+    "stug8-1x3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug8-1x3.dat",
+      "sha256": "684517fda2f33699b9a32dba81c833ae848c18e9ef9c006ad2f6a18119529c5c",
+      "header": [
+        "0 Stud Duplo Tube Group  1 x  3",
+        "0 Name: stug8-1x3.dat",
+        "0 Author: Steffen [Steffen]",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat"
+      ]
+    },
+    "box3u2p.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u2p.dat",
+      "sha256": "df73118b95f23d693c3b7d25c57c483db3bf61ae017d757848119955d28d59e0",
+      "header": [
+        "0 Box with 3 Faces without 2 Parallel Edges",
+        "0 Name: box3u2p.dat",
+        "0 Author: Niels Karsdorp [nielsk]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-03-12 [PTadmin] Official Update 2003-01",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "stug7-2x2.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-2x2.dat",
+      "sha256": "c986982b4b6a8fc6552ef73b9aba4f9c107db8c2bfb6a6afdcb87ffc77c659a5",
+      "header": [
+        "0 Stud Duplo Open Group  2 x  2",
+        "0 Name: stug7-2x2.dat",
+        "0 Author: Steffen [Steffen]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat"
+      ]
+    },
+    "6521.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6521.dat",
+      "sha256": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+      "header": [
+        "0 Duplo Axle  8",
+        "0 Name: 6521.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "daxle.dat"
+      ]
+    },
+    "6524.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6524.dat",
+      "sha256": "bce610a72909858c956df7b8e2637d104fe0d12406566e79099aa438c90f9f38",
+      "header": [
+        "0 Duplo Beam  7",
+        "0 Name: 6524.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "box4o8a.dat",
+        "box4o8a.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat"
+      ]
+    },
+    "2-4ring5.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ring5.dat",
+      "sha256": "acf918ddea2d0d23ce7f01c344709dec8763bceccc1edafb704f4611fcb43753",
+      "header": [
+        "0 Ring  5 x 0.5",
+        "0 Name: 2-4ring5.dat",
+        "0 Author: George Barnes [glbarnes]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "box4o8a.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4o8a.dat",
+      "sha256": "2144edea417bbc55c261e3731ea86d52ac50c7cb651b4879f55ec39966fd0f5b",
+      "header": [
+        "0 Box with 4 Faces (2 Parallel Pairs) without Top and Bottom Edges",
+        "0 Name: box4o8a.dat",
+        "0 Author: Steffen [Steffen]",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02",
+        "0 !HISTORY 2007-06-24 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "dconnhole.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dconnhole.dat",
+      "sha256": "9ad0feac865117b511daa4ed6730c85d62af042fdba6dc103c947880b44ce8db",
+      "header": [
+        "0 Duplo Connector Hole",
+        "0 Name: dconnhole.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4ring4.dat",
+        "4-4ring3.dat",
+        "4-4ring4.dat",
+        "4-4ring3.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "box3u5p.dat"
+      ]
+    },
+    "4-4ring4.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring4.dat",
+      "sha256": "e046737f05ca843c7fc32bbfe9f5b26f3409c5b42b786d8809aa789faf761154",
+      "header": [
+        "0 Ring  4 x 1.0",
+        "0 Name: 4-4ring4.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10",
+        "0 !HISTORY 2002-04-08 [BrickCaster] Modified for BFC compliance"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "box3u5p.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u5p.dat",
+      "sha256": "0f52d5c372a303f508113ace2c7cba6d52b46171052e76a88266679a74f17ea5",
+      "header": [
+        "0 Box with  3 Faces without  5 Edges",
+        "0 Name: box3u5p.dat",
+        "0 Author: Willy Tschager [Holly-Wood]",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        "0 !HISTORY 2024-01-02 [Holly-Wood] Complete re-write, original by WilliamH"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "dnpeghole.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dnpeghole.dat",
+      "sha256": "6cff58c58325e6e956a8a9988012f83103b49c1505f890d3dfb9ea9c13fb0065",
+      "header": [
+        "0 Duplo Peg Hole Negative",
+        "0 Name: dnpeghole.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01",
+        ""
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "rect1.dat",
+        "rect1.dat",
+        "box3u8p.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "box3u8p.dat",
+        "2-4edge.dat",
+        "2-4edge.dat"
+      ]
+    },
+    "box3u8p.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u8p.dat",
+      "sha256": "0f6187106f023d041dcfd2a24e9f5a2a0c37b5c41b0ff171267ae776a8f16760",
+      "header": [
+        "0 Box with 3 Faces and 4 Parallel Edges",
+        "0 Name: box3u8p.dat",
+        "0 Author: James Jessiman",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2002-12-13 [hafhead] Made BFC compliant",
+        "0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    "6525.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6525.dat",
+      "sha256": "4a3408b13fa1c52872e2b8dcf963feee2228f15ec371e3f8d9b4bf76c8e1ce12",
+      "header": [
+        "0 Duplo Beam 11",
+        "0 Name: 6525.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "box4o8a.dat",
+        "box4o8a.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat"
+      ]
+    }
+  },
+  "missingDependencies": [],
+  "summary": {
+    "actualSourcePagesViewed": 34,
+    "findings": 3,
+    "localDatFiles": 115,
+    "missingDependencies": 0
+  }
+}
