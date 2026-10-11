@@ -4,8 +4,10 @@ import { STEAM_PATHNAME_HEADER, STEAM_SEARCH_HEADER } from "@/lib/auth/login-red
 import { REC_VIEWER_COOKIE } from "@/lib/recommendations/viewer";
 import {
   buildCanonicalHostRedirectUrl,
+  shouldNoIndexNonProductionHost,
   shouldNoIndexSteamxHost,
   X_ROBOTS_TAG_NOINDEX,
+  X_ROBOTS_TAG_NOINDEX_NOFOLLOW,
 } from "@/lib/seo/canonical-host";
 
 const REC_VIEWER_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
@@ -27,6 +29,20 @@ function withSteamPathHeaders(request: NextRequest) {
 }
 
 export function proxy(request: NextRequest) {
+  const response = handleProxy(request);
+  // 保留已有头；兜底也优先保证旧域只带 noindex，不依赖 301 分支。
+  if (!response.headers.has("X-Robots-Tag")) {
+    const host = request.headers.get("host") ?? request.nextUrl.host;
+    if (shouldNoIndexSteamxHost(host)) {
+      response.headers.set("X-Robots-Tag", X_ROBOTS_TAG_NOINDEX);
+    } else if (shouldNoIndexNonProductionHost(host)) {
+      response.headers.set("X-Robots-Tag", X_ROBOTS_TAG_NOINDEX_NOFOLLOW);
+    }
+  }
+  return response;
+}
+
+function handleProxy(request: NextRequest): NextResponse {
   const apexRedirectUrl = buildCanonicalHostRedirectUrl({
     host: request.headers.get("host") ?? request.nextUrl.host,
     pathname: request.nextUrl.pathname,
