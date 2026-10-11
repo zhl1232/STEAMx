@@ -1,0 +1,1422 @@
+{
+  "slug": "5-yan-jing-she",
+  "modelSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+  "checkedAt": "2026-10-11T14:18:13.351Z",
+  "scope": "Actual local recursive DAT dependency availability and file hashes; not a collision, licensing approval, or physical fit certification.",
+  "rootReferences": [
+    "6525.dat",
+    "6522.dat",
+    "6527.dat",
+    "40666.dat",
+    "75349.dat",
+    "4672.dat",
+    "3011.dat",
+    "3437.dat",
+    "3437pe1.dat"
+  ],
+  "fileCount": 81,
+  "missing": [],
+  "closureAvailable": true,
+  "files": [
+    {
+      "reference": "6525.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/6525.dat",
+      "sha256": "4a3408b13fa1c52872e2b8dcf963feee2228f15ec371e3f8d9b4bf76c8e1ce12",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring5.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "box4o8a.dat",
+        "box4o8a.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat",
+        "dconnhole.dat",
+        "dconnhole.dat",
+        "dnpeghole.dat",
+        "dnpeghole.dat"
+      ]
+    },
+    {
+      "reference": "2-4cylo.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f",
+      "author": "0 Author: Max Martin Richter [MMR1988]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    {
+      "reference": "2-4edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "2-4cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "2-4ring5.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4ring5.dat",
+      "sha256": "acf918ddea2d0d23ce7f01c344709dec8763bceccc1edafb704f4611fcb43753",
+      "author": "0 Author: George Barnes [glbarnes]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "2-4ring3.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4ring3.dat",
+      "sha256": "83daf728f0285b7471139e3fd5335603e548300307c0bb8615a4d3f76ca8dde0",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "box4o8a.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box4o8a.dat",
+      "sha256": "2144edea417bbc55c261e3731ea86d52ac50c7cb651b4879f55ec39966fd0f5b",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "dconnhole.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/dconnhole.dat",
+      "sha256": "9ad0feac865117b511daa4ed6730c85d62af042fdba6dc103c947880b44ce8db",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4ring4.dat",
+        "4-4ring3.dat",
+        "4-4ring4.dat",
+        "4-4ring3.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "box3u5p.dat"
+      ]
+    },
+    {
+      "reference": "4-4cylo.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+      "author": "0 Author: Mark Kennedy [mkennedy]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    {
+      "reference": "4-4edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4-4cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4-4ring4.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4ring4.dat",
+      "sha256": "e046737f05ca843c7fc32bbfe9f5b26f3409c5b42b786d8809aa789faf761154",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4-4ring3.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "box3u5p.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box3u5p.dat",
+      "sha256": "0f52d5c372a303f508113ace2c7cba6d52b46171052e76a88266679a74f17ea5",
+      "author": "0 Author: Willy Tschager [Holly-Wood]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "dnpeghole.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/dnpeghole.dat",
+      "sha256": "6cff58c58325e6e956a8a9988012f83103b49c1505f890d3dfb9ea9c13fb0065",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "rect1.dat",
+        "rect1.dat",
+        "box3u8p.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "box3u8p.dat",
+        "2-4edge.dat",
+        "2-4edge.dat"
+      ]
+    },
+    {
+      "reference": "rect1.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb",
+      "author": "0 Author: Chris Dee [cwdee]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "box3u8p.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box3u8p.dat",
+      "sha256": "0f6187106f023d041dcfd2a24e9f5a2a0c37b5c41b0ff171267ae776a8f16760",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "6522.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "daxle.dat"
+      ]
+    },
+    {
+      "reference": "daxle.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/daxle.dat",
+      "sha256": "1e110f59ba51341b23228ff5aa0b423dede60ee8d01d80cb6ec63c96f6d1c25f",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "1-8cylo.dat",
+        "1-8chrd.dat",
+        "1-8chrd.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat"
+      ]
+    },
+    {
+      "reference": "1-8cylo.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-8cylo.dat",
+      "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf",
+      "author": "0 Author: Tim Gould [timgould]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-8cyli.dat"
+      ]
+    },
+    {
+      "reference": "1-8edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-8edge.dat",
+      "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-8cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-8cyli.dat",
+      "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-8chrd.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-8chrd.dat",
+      "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74",
+      "author": "0 Author: Orion Pobursky [OrionP]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "box2-5.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box2-5.dat",
+      "sha256": "8f297b754f87da1dbe19eec8704a5ce03a23b794ccd7cd015508e3758a206174",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "6527.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "4-4ring5.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "t04i2500.dat",
+        "4-4cylo.dat",
+        "4-4ring5.dat",
+        "48/4-4cylo.dat",
+        "48/4-4aring.dat",
+        "48/4-4aring.dat",
+        "48/4-4aring.dat",
+        "48/4-4cylo.dat",
+        "48/4-4ring9.dat",
+        "48/4-4cylo.dat",
+        "48/4-4aring.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t04i1304.dat",
+        "t02i1111.dat",
+        "t02i1111.dat",
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "1-8chrd.dat",
+        "1-16chrd.dat",
+        "1-16chrd.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat",
+        "3-8cylo.dat"
+      ]
+    },
+    {
+      "reference": "t04i2500.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/t04i2500.dat",
+      "sha256": "16a0e74be0e6e149ea99ffd6aff98b3406c19fc7727d0453b1fe1572cf4e40bb",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4-4ring5.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4ring5.dat",
+      "sha256": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1",
+      "author": "0 Author: Mark Kennedy [mkennedy]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "48/4-4cylo.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/4-4cylo.dat",
+      "sha256": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48/4-4edge.dat",
+        "48/4-4edge.dat",
+        "48/4-4cyli.dat"
+      ]
+    },
+    {
+      "reference": "48/4-4edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/4-4edge.dat",
+      "sha256": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48/1-4edge.dat",
+        "48/1-4edge.dat",
+        "48/1-4edge.dat",
+        "48/1-4edge.dat"
+      ]
+    },
+    {
+      "reference": "48/1-4edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/1-4edge.dat",
+      "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6",
+      "author": "0 Author: Magnus Forsberg [MagFors]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "48/4-4cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/4-4cyli.dat",
+      "sha256": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48/1-4cyli.dat",
+        "48/1-4cyli.dat",
+        "48/1-4cyli.dat",
+        "48/1-4cyli.dat"
+      ]
+    },
+    {
+      "reference": "48/1-4cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/1-4cyli.dat",
+      "sha256": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b",
+      "author": "0 Author: Magnus Forsberg [MagFors]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "48/4-4aring.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/4-4aring.dat",
+      "sha256": "4c0d575f91df941b5d3313427d699813cc3cf9f09c334cbad7a0eceeaf98f573",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "48/4-4ring9.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/4-4ring9.dat",
+      "sha256": "d8de1753705319aa11a189b579323b778c9b6cf4869360e698c64a8a0cdbf3d2",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "48/1-4ring9.dat",
+        "48/1-4ring9.dat",
+        "48/1-4ring9.dat",
+        "48/1-4ring9.dat"
+      ]
+    },
+    {
+      "reference": "48/1-4ring9.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/48/1-4ring9.dat",
+      "sha256": "08cf8697a97526c9636b00578b792ef8452d3f74d7615e3a1d5644417908b42a",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-4chrd.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+      "author": "0 Author: Max Martin Richter [MMR1988]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4-4ndis.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "t04i1304.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/t04i1304.dat",
+      "sha256": "e23d62de56e98c40060f11106d93688dd6a53d5d92507673c4d3690184769cfc",
+      "author": "0 Author: Paul Easter [pneaster]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "t02i1111.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/t02i1111.dat",
+      "sha256": "827358bfc070521d4cfafac88fb7f74c41bd75e4ca712e13e28afc34c3533e40",
+      "author": "0 Author: Santeri Piippo [arezey]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "3-16chrd.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+      "author": "0 Author: Niels Karsdorp [nielsk]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-16chrd.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-16chrd.dat",
+      "sha256": "e429dd760eb6f0cf460a74e6ebf52c023bedbdea82de7801efa1694b5a1a82e8",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "empty.dat"
+      ]
+    },
+    {
+      "reference": "empty.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/empty.dat",
+      "sha256": "192c9b9ee2e425cfbc9e9b12ff61ee0f05ae1cb0c12dc37d5590adb6abb65128",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "rect.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "rect2p.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+      "author": "0 Author: Donald Sutter [technog]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "3-8cylo.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/3-8cylo.dat",
+      "sha256": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd",
+      "author": "0 Author: J.C. Tchang [tchang]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "3-8edge.dat",
+        "3-8edge.dat",
+        "3-8cyli.dat"
+      ]
+    },
+    {
+      "reference": "3-8edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/3-8edge.dat",
+      "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "3-8cyli.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/3-8cyli.dat",
+      "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "40666.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "author": "0 Author: Paul Schelleman [schellie]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "box5.dat",
+        "box5.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat"
+      ]
+    },
+    {
+      "reference": "stud8.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stud8.dat",
+      "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115",
+      "author": "0 Author: Willy Tschager [Holly-Wood]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4ring7.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    {
+      "reference": "4-4ring7.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "box5.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "stud7.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+      "author": "0 Author: Willy Tschager [Holly-Wood]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4ring3.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    {
+      "reference": "box4-1.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d",
+      "author": "0 Author: Tore Eriksson [Tore_Eriksson]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "75349.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "6518.dat",
+        "6517.dat"
+      ]
+    },
+    {
+      "reference": "6518.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/6518.dat",
+      "sha256": "d4be191ea0f0baa5755beb53a617bf5c52186422a63abc2a14ea546ee3b9d356",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "s/6518s01.dat",
+        "s/6518s01.dat",
+        "s/6518s01.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat"
+      ]
+    },
+    {
+      "reference": "s/6518s01.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/s/6518s01.dat",
+      "sha256": "19de774d52518b29da21768f5c3f9cf2d62eeaae82a7ff2203d7faeb197d3adb",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "stud7a.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat"
+      ]
+    },
+    {
+      "reference": "stud7a.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stud7a.dat",
+      "sha256": "d0bde5b1dd75800ce1f4e0751947c1f378bd0ceb8aa1e4ceb8df7ede58123ff2",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyli.dat",
+        "4-4ring3.dat"
+      ]
+    },
+    {
+      "reference": "2-4ndis.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "6517.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/6517.dat",
+      "sha256": "37473e8e483ce2426b493e96ba2e4098e36e125fa6d368f0db1b3ed47da5867a",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s/6517s01.dat",
+        "stud8a.dat",
+        "s/6517s01.dat",
+        "stud8a.dat",
+        "s/6517s01.dat",
+        "stud8a.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "s/6517s01.dat",
+        "s/6517s01.dat",
+        "s/6517s01.dat"
+      ]
+    },
+    {
+      "reference": "s/6517s01.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/s/6517s01.dat",
+      "sha256": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "4-4ring3.dat",
+        "1-4cyls.dat",
+        "2-4cyli.dat",
+        "3-8cyli.dat",
+        "3-8edge.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4cyli.dat",
+        "2-4edge.dat",
+        "2-4ring3.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-16edge.dat",
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-16edge.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "2-4edge.dat",
+        "2-4cylc.dat",
+        "2-4cylc.dat",
+        "box4-1.dat"
+      ]
+    },
+    {
+      "reference": "1-4cyls.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-4cyls.dat",
+      "sha256": "aaee6ffe6e4a191d6cad4496677132eb0349303d6e48c13c7a2240dcea1db621",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-16edge.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c",
+      "author": "0 Author: Marc Klein [marckl]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "2-4cylc.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4cylc.dat",
+      "sha256": "b172c10584f59fa091f454276ecd5c0c707eba007934a23ccac9307007b1a1e9",
+      "author": "0 Author: Alex Taylor [anathema]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4disc.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    {
+      "reference": "2-4disc.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/2-4disc.dat",
+      "sha256": "dcb05df95858362d5d6581c2ad7cf92e7e054cab60e580a2240ae043b07b9f2c",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "stud8a.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stud8a.dat",
+      "sha256": "291cbfdb54441d6457a3e17155a8741cc8424a01f8e9b99a7c9a015085aacfb9",
+      "author": "0 Author: Michael Heidemann [mikeheide]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyli.dat",
+        "4-4ring7.dat"
+      ]
+    },
+    {
+      "reference": "rect3.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+      "author": "0 Author: Mark Kennedy [mkennedy]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "4672.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/4672.dat",
+      "sha256": "f6272bb4f95334769cfb0efaabe65d9f3edc51e9dfe3d019c6ecd11717a95f02",
+      "author": "0 Author: [PTadmin]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "4672a.dat"
+      ]
+    },
+    {
+      "reference": "4672a.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/4672a.dat",
+      "sha256": "ecc4887b0f3c231d8c5f8542b347b159a93f30b66b018a8215e9c706cb0022c6",
+      "author": "0 Author: Tony Hafner [hafhead]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s/4672s01.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat",
+        "box3u5p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u8p.dat",
+        "boxjcyl4.dat",
+        "boxjcyl4.dat",
+        "box3u5p.dat"
+      ]
+    },
+    {
+      "reference": "s/4672s01.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/s/4672s01.dat",
+      "sha256": "caff3d3dc789e72ea1630accbf695de56f057e49a360520ad2fc1baa80d30773",
+      "author": "0 Author: Magnus Forsberg [MagFors]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "box5.dat",
+        "box5.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "stug7-4x4.dat",
+        "stug7-4x4.dat"
+      ]
+    },
+    {
+      "reference": "stug7-4x4.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stug7-4x4.dat",
+      "sha256": "da5870b90b631f66400a1dd09f4337870c1d22bed1067bf962aee07b35a25e3d",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stug7-2x2.dat",
+        "stug7-2x2.dat",
+        "stug7-2x2.dat",
+        "stug7-2x2.dat"
+      ]
+    },
+    {
+      "reference": "stug7-2x2.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stug7-2x2.dat",
+      "sha256": "c986982b4b6a8fc6552ef73b9aba4f9c107db8c2bfb6a6afdcb87ffc77c659a5",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat"
+      ]
+    },
+    {
+      "reference": "boxjcyl4.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/boxjcyl4.dat",
+      "sha256": "10720f260ee1985fabc0245547e29bb1b41a8059e15fce5a61908b637f55ff01",
+      "author": "0 Author: Philippe Hurbain [Philo]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "1-8edge.dat",
+        "rect3.dat",
+        "rect3.dat"
+      ]
+    },
+    {
+      "reference": "3011.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "author": "0 Author: Tony Hafner [hafhead]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s/3011s01.dat"
+      ]
+    },
+    {
+      "reference": "s/3011s01.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/s/3011s01.dat",
+      "sha256": "f2538222ec8c4baeb2609224fa99dc6be61f5eb8b5a1d616f9ac7202ff605ea1",
+      "author": "0 Author: Takeshi Takahashi [RainbowDolphin]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stug8-1x3.dat",
+        "box5.dat",
+        "box3u2p.dat",
+        "stug7-2x2.dat",
+        "stug7-2x2.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat"
+      ]
+    },
+    {
+      "reference": "stug8-1x3.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/stug8-1x3.dat",
+      "sha256": "684517fda2f33699b9a32dba81c833ae848c18e9ef9c006ad2f6a18119529c5c",
+      "author": "0 Author: Steffen [Steffen]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "stud8.dat",
+        "stud8.dat"
+      ]
+    },
+    {
+      "reference": "box3u2p.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/box3u2p.dat",
+      "sha256": "df73118b95f23d693c3b7d25c57c483db3bf61ae017d757848119955d28d59e0",
+      "author": "0 Author: Niels Karsdorp [nielsk]",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "3437.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+      "author": "0 Author: Tony Hafner [hafhead]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "s/3437s01.dat"
+      ]
+    },
+    {
+      "reference": "s/3437s01.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/s/3437s01.dat",
+      "sha256": "e2148866706324fdf35726bacf1e6235484c8caf1ae4f454112f9bbead372b99",
+      "author": "0 Author: Takeshi Takahashi [RainbowDolphin]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "box5.dat",
+        "box3u2p.dat",
+        "stug7-2x2.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat"
+      ]
+    },
+    {
+      "reference": "3437pe1.dat",
+      "path": "STEAMx/scripts/ldraw-models/parts/3437pe1.dat",
+      "sha256": "1a20595792b07ebe8494bb1b02d0ce3add952af574e2b0444467928719f3e3c8",
+      "author": "0 Author: Tony Hafner [hafhead]",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": [
+        "stud8.dat",
+        "box5.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "rect.dat",
+        "rect.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat",
+        "1-4disc.dat",
+        "1-4ndis.dat"
+      ]
+    },
+    {
+      "reference": "1-4ndis.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-4ndis.dat",
+      "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    },
+    {
+      "reference": "1-4disc.dat",
+      "path": "STEAMx/scripts/ldraw-models/p/1-4disc.dat",
+      "sha256": "cf481d56b2c13dc2a6bcfe5eadb6577f2435b3f2f50fcdca199be76525d773ca",
+      "author": "0 Author: James Jessiman",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "dependencies": []
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

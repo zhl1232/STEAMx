@@ -1335,7 +1335,15 @@
   "accepted": false,
   "userConfirmed": false,
   "physicalVerified": false,
-  "currentPixels": "current6769 final3 and all11 cumulative steps actually viewed; current-pixel-review.json",
+  "currentPixels": {
+    "sourceSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+    "revision": "e1c5bd3bef8198f1995e9f2bd76a8f52a860309fca842b95453e026ebdb20b29",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  },
   "sourceBomByPage": [
     {
       "page": 1,

@@ -1,0 +1,2515 @@
+{
+  "slug": "5-xuan-zhuan-men",
+  "pages": 12,
+  "source": {
+    "name": "5+旋转门搭建说明.pdf",
+    "relative_path": "5+/5+旋转门搭建说明.pdf",
+    "pages": 12,
+    "bytes": 1753548,
+    "sha256": "3b21d3707866902d602a5067694d49c4c25a83ebfdbc62ab100d85a039727c11",
+    "source_url": "https://pan.quark.cn/list#/docpdf/169c96a284684291a32a86c51182ba22",
+    "slug": "5-xuan-zhuan-men",
+    "lesson_id": 312,
+    "course_id": 7,
+    "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5+/5+旋转门搭建说明.pdf",
+    "localBytesVerified": true,
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-01.jpg",
+        "sha256": "c3bde9a075f7d6c67d6549a2d6e3099d76314d422343803915d55285df5bbb71",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-02.jpg",
+        "sha256": "83504e17fbb24284bea5298d65adfae186fce87cc8218a39da6cd87cb9cee24d",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-03.jpg",
+        "sha256": "29d9959bf0214432d5f0e4b375c7a2385e1e9bf4769b013aecb3806608cd6773",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-04.jpg",
+        "sha256": "8367515b4fcd5d415b05e04d39a127aa7c46807393d9dca541f53e440058f11c",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-05.jpg",
+        "sha256": "9ec6469fbffde2d67e4d0a2c17eef757abe963e20b7b792bd85b37073e4d4fae",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-06.jpg",
+        "sha256": "226d8087a8caebaa3cb9eaabe2d2aba231fa1fb847549bb0656a3421914eee66",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-07.jpg",
+        "sha256": "f46c119141ae77268e8831441c732835d8c7ec56134ac4d6df107694aa0c161e",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-08.jpg",
+        "sha256": "f648e996d69f26acca8e84ace4190abe17a165a30845c566ba3257b764838db4",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-09.jpg",
+        "sha256": "d90e13df2f3ec7340200f7d3dba3121c0cd1635f356c76412f0be509680c4765",
+        "pixelsViewed": true
+      },
+      {
+        "page": 10,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-10.jpg",
+        "sha256": "165b001ba268bdfcbb68861d123b9e3f5498c69db19f87cf67f6eb6a6c7cb4f1",
+        "pixelsViewed": true
+      },
+      {
+        "page": 11,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-11.jpg",
+        "sha256": "fd2a16f4cbdc8df55ce5ed835b811889cebf9a68dbd5044ad0f18b767bb208b7",
+        "pixelsViewed": true
+      },
+      {
+        "page": 12,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-12.jpg",
+        "sha256": "243cc7b040dd723049faf781f987de31d39a69c96c7c99ccf68dfcab20590a4b",
+        "pixelsViewed": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "Base and central pivot bearing",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 2
+    },
+    {
+      "sourcePage": 2,
+      "note": "Two 10-layer alternating towers,20 red+20 yellow",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-10",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-11",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-12",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-13",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -336,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-14",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -336,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-17",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -432,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-18",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -432,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-19",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-20",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-21",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-22",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-23",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            280,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-24",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            360,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-25",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-26",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-27",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            280,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-28",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            360,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-29",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-30",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-31",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            280,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-32",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            360,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-33",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -336,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-34",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -336,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-35",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            280,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-36",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            360,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-37",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -432,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-38",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -432,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-39",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            280,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-40",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            360,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom mates previous stud plane; alternate bond",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 42
+    },
+    {
+      "sourcePage": 3,
+      "note": "Lower vertical gray6L shaft and pulley seat",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower end y-24 enters central vertical brick passage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -68,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Nominal bearing thrust washer; axial play unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 44
+    },
+    {
+      "sourcePage": 4,
+      "note": "Crossed long-brick bottom, four yellow wing fillers",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -136,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -184,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -184,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -136,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -184,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -136,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 50
+    },
+    {
+      "sourcePage": 5,
+      "note": "Three new yellow bricks on each of four wings",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -232,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -232,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -232,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -232,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -280,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -280,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -280,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -280,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -328,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -328,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-11",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -328,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-12",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -328,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 62
+    },
+    {
+      "sourcePage": 6,
+      "note": "Interlocked upper cross and four fillers",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -376,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -376,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -376,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -424,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -424,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -424,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 68
+    },
+    {
+      "sourcePage": 7,
+      "note": "Upper pivot gray shaft and crank",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -516,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Extends y-628..-388 through upper crossed pivot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -444,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Main axle hole vertical, crank base bottom y-416; pin on adjacent wing, exact clutch pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 70
+    },
+    {
+      "sourcePage": 8,
+      "note": "Header3 bearing bricks and four thin red joint plates",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Outer40LDU overlaps tower; spans header joint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            200,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Outer40LDU overlaps tower; spans header joint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -552,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -552,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            280,
+            -552,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-6",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -576,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-7",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            200,
+            -576,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 77
+    },
+    {
+      "sourcePage": 9,
+      "note": "Raised upper bearing bridge",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -624,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            200,
+            -624,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "80LDU end overlaps risers; center nominal axle guide",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 80
+    },
+    {
+      "sourcePage": 10,
+      "note": "Top gray input shaft, blue crown, red orthogonal gear and rear crank/pulley",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -648,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            0,
+            -648,
+            -60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Crown facing vertical red gear; phase/depth pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -588,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Vertical shaft gear fits72LDU header opening; nominal orthogonal mesh",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -648,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -648,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 85
+    },
+    {
+      "sourcePage": 11,
+      "note": "Separate tilted small bearing on right-hand upper shaft with2 pulley retainers",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            120,
+            -648,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Upper longbrick hole x120,y+24; shaft Z -160..80",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            132,
+            -668.78461,
+            -100
+          ],
+          "matrix": [
+            0.866025,
+            -0.5,
+            0,
+            0.5,
+            0.866025,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Central side hole aligned Z to shaft;30deg source-supported pose",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -648,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -648,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 89
+    }
+  ],
+  "unknownIds": [],
+  "installedCandidates": [],
+  "knownConnectionsOmitted": [],
+  "pending": [
+    "Top orthogonal gear phase/depth and shaft retention remain unverified; axis seats inferred from actual hole grid, not physical validation.",
+    "Bottom/top pivot bearing clearance and full door sweep require mechanical verification.",
+    "P8 four thin plates inferred from BOM/profile; hidden overlap bond chosen to support header.",
+    "P11 tilted bearing is nominal 30 degrees on separate top-row shaft; source pose angle not measured.",
+    "Lower pulley actual axial extent +/-20 seats on y-48 bearing; lower crossed brick bottom y-88. Door shifted8LDU from first layout to eliminate real12/8LDU thrust-seat overlap; fixed header retained."
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Awaiting central render and actual pixels",
+  "modelSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-xuan-zhuan-men.ldr",
+  "totalPlacements": 89,
+  "bom": {
+    "4268.dat|2": 1,
+    "75349.dat|4": 4,
+    "3011.dat|4": 22,
+    "3011.dat|14": 40,
+    "6522.dat|7": 4,
+    "6527.dat|14": 4,
+    "75350.dat|4": 6,
+    "6526.dat|14": 2,
+    "40666.dat|4": 4,
+    "31622.dat|1": 1,
+    "6529.dat|4": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "4268.dat|2": 1,
+        "75349.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "3011.dat|4": 20,
+        "3011.dat|14": 20
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "6522.dat|7": 1,
+        "6527.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "75350.dat|4": 2,
+        "3011.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "3011.dat|14": 12
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "3011.dat|14": 4,
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "6522.dat|7": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "40666.dat|4": 4,
+        "75350.dat|4": 1,
+        "75349.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "installed": {
+        "3011.dat|4": 2,
+        "75350.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 10,
+      "installed": {
+        "6522.dat|7": 1,
+        "31622.dat|1": 1,
+        "6529.dat|4": 1,
+        "6527.dat|14": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 11,
+      "installed": {
+        "6522.dat|7": 1,
+        "75349.dat|4": 1,
+        "6527.dat|14": 2
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryByPart": [
+    {
+      "partId": "4268.dat",
+      "color": "Green",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 22,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 18,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 40,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 35,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 6,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 4,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "40666.dat",
+      "color": "Red",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 12
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31622.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6529.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-xuan-zhuan-men.ldr] 89 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "recursiveGeometryEvidence": "recursive-geometry.json",
+  "pixelObservation": {
+    "sourceSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+    "revision": "9371aa10dc15a1def754833861f78ce89665a3c7180c33d0f0fda3087fb4e676",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 11,
+    "observations": "Actually viewed current iso/iso-rear/top original PNGs and all11 cumulative contact tiles, step4 original; rechecked source final p12. Crossed door wings, alternating towers, header stack and inclined right bearing correspond in overall arrangement; no new definite source error observed. Door thrust seat8LDU correction retained. Hidden header thin-plate bond, rotating sweep, upper/lower pivot retention, crown/red gear phase/depth and30degree bearing pose remain nominal and unverified. This is pixel observation, not physical or functional acceptance.",
+    "accepted": false
+  }
+}

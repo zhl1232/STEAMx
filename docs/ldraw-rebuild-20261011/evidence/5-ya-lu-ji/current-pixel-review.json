@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+  "revision": "d3d10096c74af9091a677c41889731b1668b29d30e9cf49a2e50f6cb375c0593",
+  "reviewedAt": "2026-10-11T14:09:15.165937+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ya-lu-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4a7f12b00a6bd7960ac917b3a99629871a953901e283de853ad3f58d686004ae",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "5ec2172b869f88afcccf93b82eefb0b9f881b7f4b701eb8c5262a900da21affb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e00ec709777069c4d82c4d38110d6b3cd9c9502f8c4a070191015a191cbd4243",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3139006b22ea473bb8e72beffd5382c05a719f83834bdf472dbe7674025477e0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c7c208214fb88de191f22483bf8941dcd114c8d25636d8f48bc077f77e10ba81",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "47505b2109696adc052bbad3358336be5ac47fbb10e665cf3a2df2c71e957f0d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a44119fbcb935bdd1bbdc45c90c6ac5bb7938607f0869cc7cdbbacfd00fd0712",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "80866e2ea3f30d32bc58df48ff3f4b836fff9996b67153c2f18de1daa7560d85",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "a25248e788ea9dfa6455d89609538370865c80833bdfa5a53018ebbe65101df0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "4a7f12b00a6bd7960ac917b3a99629871a953901e283de853ad3f58d686004ae",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all final3 and7 cumulative stages contact sheets; original step4 and6 inspected, sourcep8 rechecked. Four red road gears, four yellow drum gears,2long arms, roof/frame and10obstacle bricks retained. Source matching limited by existing cab/hood approximation; hood opaque cream19 appears darker under render lighting; exact contour/colour unverified. Two raw cabhood and hoodroof overlaps remain unresolved. Arm drop and obstacle positions are documented pose/layout adjustments. No clipping seen; no physical or user acceptance."
+}

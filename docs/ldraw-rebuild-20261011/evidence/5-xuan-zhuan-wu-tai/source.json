@@ -1,0 +1,59 @@
+{
+  "manifest": {
+    "name": "5+旋转舞台搭建说明.pdf",
+    "relative_path": "5+/5+旋转舞台搭建说明.pdf",
+    "pages": 7,
+    "bytes": 893467,
+    "sha256": "e05d1bdd52518854e44969a6fb9ffd531aa834948e5751a6985c38bdcb19c0af",
+    "source_url": "https://pan.quark.cn/list#/docpdf/9573d0eee9364c09b35260eed0331c97",
+    "slug": "5-xuan-zhuan-wu-tai",
+    "lesson_id": 314,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-1.jpg",
+      "sha256": "5542e18ee5d5ffabc53275cbd57ed457368a91fe32dd39b6014350def507c540",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-2.jpg",
+      "sha256": "4341aed80d9841acd52be7366af9d6a49297ac5c4870248a469f018d32934487",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-3.jpg",
+      "sha256": "26eee1549263cdb79fc1230915d494772a053506b08f6cab1e0f078a17fd360e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-4.jpg",
+      "sha256": "ee1c2bf49aa1a2f73e531add917cc79d58c32cc35b3ae05e2e8d031eb9d5e970",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-5.jpg",
+      "sha256": "27bfd18c9a832cc435843152a1d80f6dbcfb7c47395d3e9835cbc71ea65a4441",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-6.jpg",
+      "sha256": "b6447cf8646728e11184f6483729500826af0548ec132242ac6fb0ce6d7407c5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-wu-tai\\page-7.jpg",
+      "sha256": "15d05a24bf556a4209d21e9d44fd4b2f57494a67b4671735c318a3d9f2a8d476",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

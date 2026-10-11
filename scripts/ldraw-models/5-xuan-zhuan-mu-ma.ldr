@@ -1,0 +1,118 @@
+0 5-xuan-zhuan-mu-ma - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-xuan-zhuan-mu-ma.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 c3deb8c53fee9c1d2e4e83f1974856d8afa8abe9dbdf4c986eb24fa665eedbd6
+0 // All14 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Baseplate and twelve source striped perimeter fences
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 15 -260 -96 -360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -96 -260 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 -20 -96 -360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -96 -20 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 220 -96 -360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -96 220 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 -220 -96 360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -360 -96 -220 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 20 -96 360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -360 -96 20 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 260 -96 360 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -360 -96 260 0 0 -1 0 1 0 1 0 0 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 2 - Ten alternating red/yellow 4x4 tower layers, twenty bricks
+1 14 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 3 - Two fixed short beams with aligned vertical centre bores
+1 4 0 -528 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -576 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 4 - Vertical shaft and lower red gear thrust surface
+1 8 0 -640 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 4 0 -596 0 1 0 0 0 0 -1 0 1 0 6529.dat
+0 // UNVERIFIED 6521 - 8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.
+0 STEP
+0 // SOURCE PAGE 5 - Two perpendicular rotating long beams
+1 4 0 -664 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 0 -712 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 6 - Four long beam arm extensions
+1 4 0 -712 -240 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 -240 -760 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -712 240 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 240 -760 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 7 - Perpendicular short centre cap and top pulley
+1 4 0 -760 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 0 -780 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 8 - Four vertical seat shafts and four top retaining cranks
+1 8 400 -640 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 400 -780 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 8 -400 -640 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -400 -780 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 8 0 -592 400 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 0 -732 400 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 8 0 -592 -400 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 0 -732 -400 1 0 0 0 1 0 0 0 1 6526.dat
+0 // UNVERIFIED 6521 - 8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.
+0 STEP
+0 // SOURCE PAGE 9 - First suspended shortbeam and retaining pulley/crank
+1 4 440 -568 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 400 -588 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 14 400 -500 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 10 - First brick-built horse body
+1 4 480 -520 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -472 0 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+1 4 480 -424 0 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 520 -376 0 1 0 0 0 1 0 0 0 1 6394.dat
+0 STEP
+0 // SOURCE PAGE 11 - Next complete suspended brick-built horse
+1 4 0 -520 440 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 0 -540 400 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 0 -452 400 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 0 -472 480 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 0 -424 480 -1 0 0 0 1 0 0 0 -1 3437pe1.dat
+1 4 0 -376 480 1 0 0 0 1 0 0 0 1 2302b.dat
+1 1 0 -328 520 0 0 -1 0 1 0 1 0 0 6394.dat
+0 STEP
+0 // SOURCE PAGE 12 - Next complete suspended brick-built horse
+1 4 -440 -568 0 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 14 -400 -588 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 14 -400 -500 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -480 -520 0 -1 0 0 0 1 0 0 0 -1 3437.dat
+1 14 -480 -472 0 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 4 -480 -424 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -520 -376 0 -1 0 0 0 1 0 0 0 -1 6394.dat
+0 STEP
+0 // SOURCE PAGE 13 - Next complete suspended brick-built horse
+1 4 0 -520 -440 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 0 -540 -400 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 14 0 -452 -400 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 0 -472 -480 0 0 1 0 1 0 -1 0 0 3437.dat
+1 14 0 -424 -480 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 4 0 -376 -480 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 1 0 -328 -520 0 0 1 0 1 0 -1 0 0 6394.dat
+0 // UNVERIFIED seat assembly - Rigid source-backed hanging assemblies retain all known parts. Crankmainhole friction/axle locking and exact display yaw not certified; four horses use radial inferred pose, lower8L stack gives104LDU exposed gap. No motion/load validation.
+0 // Source final page adds no parts.

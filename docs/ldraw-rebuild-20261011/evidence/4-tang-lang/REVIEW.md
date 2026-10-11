@@ -25,3 +25,20 @@ The raised/elbowed front-arm brick frames in source p5 remain unresolved; the cu
 Revisited p4/5/6 and final p14. The two added 76057 bricks per forearm form a raised/overlapping outline, but the proximal mating face and distal underside engagement are hidden in the shared perspective. Actual simplified DAT top screw indicator is at local (-20,0,20), so a proposed upright brick at (288,-16,40), Rz90 would put its screw line at Y=-36/Z=60 and cannot be justified by a generic Y24 body-hole assumption. This candidate was rejected, not installed. A horizontal staggered-pair alternative also lacks an exposed receiving stud/hole row.
 
 Needed: a longitudinal front-face view exposing the body hole and proximal screw-bearing face, plus a side view with the upper distal brick lifted to show the proximal receiver and underside contact. Current straight forearms remain explicitly incorrect/unaccepted. No guessed forearm change was made. The detailed two-candidate analysis is in ledger.forearmInterfaceReview. The nominal leg screw alignment earlier mentioned is likewise an approximate body-height statement, not proven mechanical closure. Stable LDR SHA remains b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157.
+
+
+## Raised forearm repair 42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069
+
+Source p5/p6/p13/p14 actually revisited. Four existing bricks now form two upright proximal / horizontal raised distal arms. Forks/clutches and two distal caps follow; two formerly misplaced proximal caps now occupy front body top as source-constrained allocation inference. Still 58 placements, 13 steps. Previous b106 LDR and reports retained in history-b106-*; old pixel record is stale.
+
+- Approved approximate 76057 screw indicator at world Z -20/+60 differs 20 LDU from front-body hole candidates -40/0/+40. This is unresolved thread registration, not clearance-accepted attachment.
+- Proximal body nominal X240 face abuts body end X240; its upper edge Y-76 touches distal bottom Y-76 over X240..288. Stud/thread and load bearing retention remain unproved.
+- Recursive strict crossings include each proximal/body 614 pairs, each front relocated cap/proximal 620, each inherited fork/clutch 372. These remain real mesh risks with approximate geometry, not dismissed by source appearance.
+- P13 six body/two distal cap allocation is source-constrained display inference. Exact hidden positions are not unique; front caps use existing black front-body top.
+- Known 4433c01 exhaust pair omitted for unavailable geometry; no invented substitute.
+- All previous leg/wing/head/eye interface limitations still apply; this repair does not clear them.
+
+Awaiting current serial render. No interface or physical acceptance.
+
+
+Current 42a6865e / revision9fe3c40d images actually reviewed: three final original PNGs, all13 step frames plus original5/6/13; sourcep5/6/13/14 revisited. Raised elbows visibly improve the rejected straight layout. Terminals remain more horizontal/compact, missing exhausts remain absent, and body-cap allocation is inference. Existing20LDU thread mismatch and614/620/372 strict-crossing risks remain unresolved. This records visual review only, not mechanical acceptance; no LDR changed during review.

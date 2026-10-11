@@ -29,16 +29,16 @@
 1 72 -160 224 128 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
 0 // Source page 5: four gray bricks extend two forward forearms
-1 72 320 0 -80 1 0 0 0 1 0 0 0 1 76057.dat
-1 72 480 0 -80 1 0 0 0 1 0 0 0 1 76057.dat
-1 72 320 0 80 1 0 0 0 1 0 0 0 1 76057.dat
-1 72 480 0 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 240 4 -40 0 1 0 -1 0 0 0 0 1 76057.dat
+1 72 320 -124 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 240 4 40 0 1 0 -1 0 0 0 0 1 76057.dat
+1 72 320 -124 40 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
 0 // Source page 6: two Toolo forks and clutch blocks; two known exhaust assemblies omitted
-1 72 608 24 -80 0 -1 0 1 0 0 0 0 1 28336.dat
-1 72 733 24 -32 0 -1 0 1 0 0 0 0 1 74957.dat
-1 72 608 24 80 0 -1 0 1 0 0 0 0 1 28336.dat
-1 72 733 24 128 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 448 -100 -40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 573 -100 8 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 448 -100 40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 573 -100 88 0 -1 0 1 0 0 0 0 1 74957.dat
 0 STEP
 0 // Source page 7: upright neck fork, one short arm, top clutch
 1 72 160 -48 0 0 0 1 0 1 0 -1 0 0 28336.dat
@@ -84,10 +84,10 @@
 1 2 40 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
 1 2 -160 -48 40 -1 0 0 0 1 0 0 0 -1 2302.dat
 1 2 40 -96 40 1 0 0 0 1 0 0 0 1 2302.dat
-1 2 320 -48 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 2 320 -48 80 1 0 0 0 1 0 0 0 1 2302.dat
-1 2 480 -48 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 2 480 -48 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 160 -48 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 160 -48 40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 320 -172 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 320 -172 40 1 0 0 0 1 0 0 0 1 2302.dat
 0 // PENDING: Source14pages actuallyviewed;13constructionsteps retained.
 0 // PENDING: P2-5sidebuilt graybrickleg exact orientations and branchlocations inferred from oblique source; manualthreadcontacts unvalidated.
 0 // PENDING: P6two4433c01 exhausts omitted for missinggeometry.
@@ -96,7 +96,8 @@
 0 // PENDING: P13bodycurvecovers positions require fullview review; physicalfit pending.
 0 // PENDING: Corrected P3sidebuilt footcap origin uses48LDUheight; P6fork/clutch direction uses actuallocalbottom/pivot signs; P10wings spread to opposite sides.
 0 // PENDING: Exactgreen shade unresolved;9090BrightGreen reference cannot silently prove sourcecolor.
-0 // PENDING: P5 front forearm brick frames remain uncertain: current straight extension differs from source raised/elbowed silhouette; require interface reconstruction before acceptance.
 0 // PENDING: P2-4 side-threaded leg frames corrected by visible stud normal and body-hole height; exact end-thread linkage and p3 cap contact remain manual.
 0 // PENDING: P10-12 wing pitch -60 degrees is a source-based display inference, not measured articulation or physical validation.
 0 // Source page 14: finished view, no duplicated placements.
+0 // P5 repair: proximal upright, distal horizontal raised; body/arm and elbow faces nominally touch, hidden thread engagement remains unresolved.
+0 // P13 repair: six body covers and two raised distal covers; front body allocation inferred from source, exact mold interface unvalidated.

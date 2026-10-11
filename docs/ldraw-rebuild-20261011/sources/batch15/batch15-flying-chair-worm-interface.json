@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-11T14:12:19.805400+00:00",
+  "slug": "5-xuan-zhuan-fei-yi",
+  "sourceImages": [
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-04.jpg",
+      "sha256": "cfb994d7c66a55757619e90912f4cf85fa0797b6db302c24e5f3d00eee9879b4",
+      "actuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-05.jpg",
+      "sha256": "dadb5bf32c64b3749394631230f171086b8b2ef3088882c3fab7ad7aae425cad",
+      "actuallyViewed": true
+    }
+  ],
+  "sourceObservations": [
+    "P4 BOM blue short gearedaxles2; one shownvertical withgearabovehorizontal redbrick.",
+    "P5 BOM longblueaxle1,blueworm1,yellowcrank1; drawing depicts longaxiscoincident with lowerverticalaxle,blueworm covers transition; insideconnection notvisible."
+  ],
+  "actualGeometry": {
+    "part": "31625.dat",
+    "sha256": "5ab61278f8b7c3164bd8dc806aca4a22bd242629030add1d59531abfb4662439",
+    "license": "Official2019-03 CC BY4",
+    "axis": "localZ",
+    "ends": [
+      -60,
+      60
+    ],
+    "centralRestrictedBore": [
+      -20,
+      20
+    ],
+    "outerTubeInnerRadius": 26.25,
+    "centralBore": "Noncircular sector/cross constraints approximatelyR9..12; cannot treat full120LDUtube asR26.25passage",
+    "evidence": "ActualDAT type1 narrowcentralcylinder startsZ-20 extends40; faces betweenZ+-20 andinternalwebZ+-2 explicit in DAT."
+  },
+  "priorEvidence": [
+    {
+      "path": "preparation\\5-qiu-qian\\worm-axle-triangles.json",
+      "sha256": "81fd7f12f2ae2ba7c21b6ead4188e7e03d39e5b556a12ca6c5e62cb811cd221d",
+      "boundSourceSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357"
+    },
+    {
+      "path": "preparation\\5-qiu-qian\\worm-phase-results.json",
+      "sha256": "8fdee4e9dbc3775fe0938f713b395a3ebc43be3781ed4b7196657decf66f7e59",
+      "boundSourceSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357"
+    }
+  ],
+  "priorResult": "Old swing two31623 into31625 pose had77/85stricttrianglecrossings; tested axialphase22.5,45,90 didnotremove. These are priorpose results, not currentflyingchair collisioncounts.",
+  "currentRecommendation": [
+    "Keep source-known twoaxles and31625 nominalcoaxial source positions with explicitunresolvedsupport/torque interface. Do not inventcoupler geometry or claimclamping.",
+    "Ensure axial solidintervals of lower6523 andupper31623 meetatmostatface; do notoverlap axles to make sourceheight fit.",
+    "Check each axle restricted-bore engagement and gearcollar againstactualcentralweb; wide tubeenddoesnotprove fit.",
+    "If exact sourceposition conflicts actualgeometry, retain labeledsource-supported display relationship and reportactualinterference, ratherthan deletingknownpieces or silentlyraisingstack."
+  ],
+  "limitations": "Read-only sourceandDAT review; no currentmodelplacement pairmeshcheck performed and no physicalvalidation.",
+  "accepted": false,
+  "physicalValidation": false
+}

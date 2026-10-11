@@ -1,0 +1,103 @@
+{
+  "slug": "5-xuan-zhuan-mu-ma",
+  "sourceSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+  "previousDraftSha256": "ee9da345e679816568987c97fe4c01c5996e89da489f3d2bd5391cf71e8c9c1d",
+  "manifest": {
+    "name": "5+旋转木马搭建说明.pdf",
+    "relative_path": "5+/5+旋转木马搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2429473,
+    "sha256": "c3deb8c53fee9c1d2e4e83f1974856d8afa8abe9dbdf4c986eb24fa665eedbd6",
+    "source_url": "https://pan.quark.cn/list#/docpdf/f9cba978f88d4b1a855bec024c83b6d0",
+    "slug": "5-xuan-zhuan-mu-ma",
+    "lesson_id": 313,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-01.jpg",
+      "sha256": "aba61ea57487c0e63ba8b51e8c281ef3b156b0207dcae800e129bf576176a224",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-02.jpg",
+      "sha256": "13da4f3d3b9c7fcfb5ccdeb27ff7be325e5c9a2a9f4a6c8ebed5a614fa834dfb",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-03.jpg",
+      "sha256": "7e5b7556b7dd895ec36f49e98f3b17a1f7c86dcbcf3780ac6546610a16024902",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-04.jpg",
+      "sha256": "aad86adabd5aaa12dcc5ac29ec124e7349f9497c59a5fe49b40bccf8af294811",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-05.jpg",
+      "sha256": "b55f15c98b8b4452d6830b0c84120828b0b914b82f87793cfa0c575f97f0be38",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-06.jpg",
+      "sha256": "bcdecfd0cbb5728ec4eb869bbdd7bf969468115165d0ae67e37416bb2e481318",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-07.jpg",
+      "sha256": "3e45b396cbc4812a8f13ca08d7a696c4bf8f444d590be4ce4e3a0965a4320cf9",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-08.jpg",
+      "sha256": "10c7ebceb704e54e0661567589384befcf7a24e7e2940f5edf1d2755ce54e822",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-09.jpg",
+      "sha256": "5cfedab139f168fcaff3b13cec344a844ccd47fcc7f13afaa083a196d2da178b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-10.jpg",
+      "sha256": "503152bcc6ed639b6ae6902aaeb93f358a2f126dd2a46bebe980c005addd1455",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-11.jpg",
+      "sha256": "9789efadfe13b2b09aaf763575636cb002f4f949fff06907038507acc939f23d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-12.jpg",
+      "sha256": "4543545b48ddfc4dbf002d7a918ebc08c6a5d086eae3ef8f6c58b0a2da5d8d37",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-13.jpg",
+      "sha256": "287b2eaceefb0e03628fc01b99ff59dc2438f88c7fd90e0ab7199dd2e3191eb0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-mu-ma\\page-14.jpg",
+      "sha256": "f815b2a90e908a812c525e71e37b2f7151a9d3d59c0938a0869ada8a86854e6d",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

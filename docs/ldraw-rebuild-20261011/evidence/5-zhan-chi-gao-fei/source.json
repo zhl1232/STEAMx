@@ -1,0 +1,65 @@
+{
+  "manifest": {
+    "name": "5+展翅高飞搭建说明.pdf",
+    "relative_path": "5+/5+展翅高飞搭建说明.pdf",
+    "pages": 8,
+    "bytes": 1229601,
+    "sha256": "87a6e2200c2b3ece0c38f2a12b083568604e0ef73ecc42988b6dfe86bbfe9fb3",
+    "source_url": "https://pan.quark.cn/list#/docpdf/c34fa83ac2434e76aeed5b5309f37f14",
+    "slug": "5-zhan-chi-gao-fei",
+    "lesson_id": 325,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "9a6f7f55774d0180af30c943343cfc62fce3f664372b123ccef55fc0221661b3",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-1.jpg",
+      "sha256": "5bc8ef99e5f09115cbcc0a9c24913a6f832c41ca0106abd4f71ed32334d26c2a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-2.jpg",
+      "sha256": "2275482b3c8dac859990615e21ad5e65f9cc12c7252e0f142cfd2f5e038c6fbf",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-3.jpg",
+      "sha256": "395881601b526e330dad45e34010144e32c53148339c6b9e35fa7a9e593810dd",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-4.jpg",
+      "sha256": "4fd8d4bceaf3ed06f69a16d8952b88943760911fe3385e29da43e1f7bcbf9395",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-5.jpg",
+      "sha256": "17e2cf0133608956b5231b1c87b38c6bb342953c0f5b7b379b1d7565dd6473a7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-6.jpg",
+      "sha256": "9cfcfb8cc327318e317c62ae6a7ec5bd6652f1e7c42329d72b9d503f2c4b6fd7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-7.jpg",
+      "sha256": "da26e03fe113a50d75f18ea84d19ff94c9e4cb1c05dbcf635b8cc16ba083e6ae",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-zhan-chi-gao-fei\\page-8.jpg",
+      "sha256": "3c8de0df657a5242c8378bcda54e97ca9a69f7025b672c72edd142a2e4e5ed49",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

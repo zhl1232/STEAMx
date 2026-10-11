@@ -180,5 +180,18 @@
     "cFreeAfter": 1245519872,
     "allCurrentSourceAndMpdHashesVerified": true,
     "accepted": false
+  },
+  {
+    "at": "2026-10-11T14:30:09.106924+00:00",
+    "previousCheckpoint": "3f884f6",
+    "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\3f884f6",
+    "oldMpdCount": 116,
+    "currentMpdCount": 126,
+    "oldBytes": 108162900,
+    "currentBytes": 114097575,
+    "cFreeBefore": 1212325888,
+    "cFreeAfter": 1206358016,
+    "allCurrentSourceAndMpdHashesVerified": true,
+    "accepted": false
   }
 ]

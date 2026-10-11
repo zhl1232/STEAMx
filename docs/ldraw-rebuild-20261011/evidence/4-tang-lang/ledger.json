@@ -395,32 +395,32 @@
           "partId": "76057.dat",
           "color": 72,
           "position": [
-            320,
-            0,
-            -80
+            240,
+            4,
+            -40
           ],
           "matrix": [
-            1,
-            0,
-            0,
             0,
             1,
+            0,
+            -1,
+            0,
             0,
             0,
             0,
             1
           ],
-          "support": "End faces meetX240/400; first joins frontbody face, second extends forward. Source oblique exactbranchrow unresolved.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p5-2",
           "partId": "76057.dat",
           "color": 72,
           "position": [
-            480,
-            0,
-            -80
+            320,
+            -124,
+            -40
           ],
           "matrix": [
             1,
@@ -433,40 +433,40 @@
             0,
             1
           ],
-          "support": "End faces meetX240/400; first joins frontbody face, second extends forward. Source oblique exactbranchrow unresolved.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p5-3",
           "partId": "76057.dat",
           "color": 72,
           "position": [
-            320,
-            0,
-            80
+            240,
+            4,
+            40
           ],
           "matrix": [
-            1,
-            0,
-            0,
             0,
             1,
+            0,
+            -1,
+            0,
             0,
             0,
             0,
             1
           ],
-          "support": "End faces meetX240/400; first joins frontbody face, second extends forward. Source oblique exactbranchrow unresolved.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p5-4",
           "partId": "76057.dat",
           "color": 72,
           "position": [
-            480,
-            0,
-            80
+            320,
+            -124,
+            40
           ],
           "matrix": [
             1,
@@ -479,8 +479,8 @@
             0,
             1
           ],
-          "support": "End faces meetX240/400; first joins frontbody face, second extends forward. Source oblique exactbranchrow unresolved.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         }
       ],
       "cumulativePlacements": 19
@@ -494,9 +494,9 @@
           "partId": "28336.dat",
           "color": 72,
           "position": [
-            608,
-            24,
-            -80
+            448,
+            -100,
+            -40
           ],
           "matrix": [
             0,
@@ -509,17 +509,17 @@
             0,
             1
           ],
-          "support": "BottomX560 onforearmendX560; pivot local(0,-65,48) maps(673,24,z+48).",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p6-2",
           "partId": "74957.dat",
           "color": 72,
           "position": [
-            733,
-            24,
-            -32
+            573,
+            -100,
+            8
           ],
           "matrix": [
             0,
@@ -532,17 +532,17 @@
             0,
             1
           ],
-          "support": "Tongue localY60 mapsX673 matching forkpivot; exhaustendpoint omitted.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p6-3",
           "partId": "28336.dat",
           "color": 72,
           "position": [
-            608,
-            24,
-            80
+            448,
+            -100,
+            40
           ],
           "matrix": [
             0,
@@ -555,17 +555,17 @@
             0,
             1
           ],
-          "support": "BottomX560 onforearmendX560; pivot local(0,-65,48) maps(673,24,z+48).",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p6-4",
           "partId": "74957.dat",
           "color": 72,
           "position": [
-            733,
-            24,
-            128
+            573,
+            -100,
+            88
           ],
           "matrix": [
             0,
@@ -578,8 +578,8 @@
             0,
             1
           ],
-          "support": "Tongue localY60 mapsX673 matching forkpivot; exhaustendpoint omitted.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         }
       ],
       "cumulativePlacements": 23
@@ -1348,9 +1348,9 @@
           "partId": "2302.dat",
           "color": 2,
           "position": [
-            320,
+            160,
             -48,
-            -80
+            -40
           ],
           "matrix": [
             1,
@@ -1363,17 +1363,17 @@
             0,
             1
           ],
-          "support": "ForearmtopY0 supports sourcegreenbodycovers; exact long-axis offset pending source render.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p13-6",
           "partId": "2302.dat",
           "color": 2,
           "position": [
-            320,
+            160,
             -48,
-            80
+            40
           ],
           "matrix": [
             1,
@@ -1386,17 +1386,17 @@
             0,
             1
           ],
-          "support": "ForearmtopY0 supports sourcegreenbodycovers; exact long-axis offset pending source render.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p13-7",
           "partId": "2302.dat",
           "color": 2,
           "position": [
-            480,
-            -48,
-            -80
+            320,
+            -172,
+            -40
           ],
           "matrix": [
             1,
@@ -1409,17 +1409,17 @@
             0,
             1
           ],
-          "support": "ForearmtopY0 supports sourcegreenbodycovers; exact long-axis offset pending source render.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         },
         {
           "id": "p13-8",
           "partId": "2302.dat",
           "color": 2,
           "position": [
-            480,
-            -48,
-            80
+            320,
+            -172,
+            40
           ],
           "matrix": [
             1,
@@ -1432,8 +1432,8 @@
             0,
             1
           ],
-          "support": "ForearmtopY0 supports sourcegreenbodycovers; exact long-axis offset pending source render.",
-          "confidence": "inferred"
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
         }
       ],
       "cumulativePlacements": 58
@@ -1619,7 +1619,7 @@
       }
     ]
   },
-  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+  "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-tang-lang.ldr",
   "totalPlacements": 58,
   "bom": {
@@ -1859,7 +1859,8 @@
     "fullDependencyClosure": "pending main pack",
     "finalPixelsReviewed": false,
     "cumulativePixelsReviewed": false,
-    "physicalValidation": false
+    "physicalValidation": false,
+    "pixelReview": "current-pixel-review.json; all final/13steps actually reviewed"
   },
   "pixelCorrection": {
     "rejectedSourceSha256": "59acfbcc93af7b5d57b5ba09e7f6a26c44e8767222b1925be791d10774b2aa0f",
@@ -1961,5 +1962,120 @@
       "Side orthographic view of one p5 two-brick forearm with distal upper brick lifted: expose proximal receiving face, engaged stud/side-hole row and distal underside. A dimensioned 76057 screw/underside interface drawing would also resolve the approximate-DAT uncertainty."
     ],
     "decision": "Do not invent a new transformed installation. Keep current draft explicitly incorrect/unaccepted in this area until those interfaces are established. Main may render the already-corrected leg/wing draft for diagnosis only."
+  },
+  "forearmPoseRepair": {
+    "beforeSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+    "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+    "changedIds": [
+      "p5-1",
+      "p5-2",
+      "p5-3",
+      "p5-4",
+      "p6-1",
+      "p6-2",
+      "p6-3",
+      "p6-4",
+      "p13-5",
+      "p13-6",
+      "p13-7",
+      "p13-8"
+    ],
+    "status": "pixel-reviewed-silhouette-improved-manual-interface-unresolved",
+    "nominalProximalBodyBox": {
+      "x": [
+        240,
+        288
+      ],
+      "y": [
+        -76,
+        84
+      ]
+    },
+    "distalBottomY": -76,
+    "proximalScrewIndicators": [
+      [
+        240,
+        24,
+        -20
+      ],
+      [
+        240,
+        24,
+        60
+      ]
+    ],
+    "bodyEndHoleCenters": [
+      [
+        240,
+        24,
+        -40
+      ],
+      [
+        240,
+        24,
+        0
+      ],
+      [
+        240,
+        24,
+        40
+      ]
+    ],
+    "limitation": "20 LDU transverse screw-indicator mismatch is unresolved, not accepted via clearance. Face adjacency is display pose only. Source sleeve/hidden thread mapping cannot be proven with approved approximate DAT.",
+    "risks": [
+      "Approved approximate 76057 screw indicator at world Z -20/+60 differs 20 LDU from front-body hole candidates -40/0/+40. This is unresolved thread registration, not clearance-accepted attachment.",
+      "Proximal body nominal X240 face abuts body end X240; its upper edge Y-76 touches distal bottom Y-76 over X240..288. Stud/thread and load bearing retention remain unproved.",
+      "Recursive strict crossings include each proximal/body 614 pairs, each front relocated cap/proximal 620, each inherited fork/clutch 372. These remain real mesh risks with approximate geometry, not dismissed by source appearance.",
+      "P13 six body/two distal cap allocation is source-constrained display inference. Exact hidden positions are not unique; front caps use existing black front-body top.",
+      "Known 4433c01 exhaust pair omitted for unavailable geometry; no invented substitute.",
+      "All previous leg/wing/head/eye interface limitations still apply; this repair does not clear them."
+    ],
+    "recursiveMeshEvidence": "pose-mesh-results.json"
+  },
+  "currentPixelObservation": {
+    "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+    "sourcePagesActuallyRevisited": [
+      5,
+      6,
+      13,
+      14
+    ],
+    "finalOriginalsActuallyViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "keyOriginalStepsActuallyViewed": [
+      5,
+      6,
+      13
+    ],
+    "raisedElbowSilhouetteImproved": true,
+    "remainingVisibleDifferences": [
+      "terminal display more horizontal/compact than source; source articulation not uniquely measured",
+      "two hanging4433c01 exhausts absent for missinggeometry",
+      "six body cap allocation remains inferred rather than uniquely source-confirmed"
+    ],
+    "mechanicalAcceptance": false,
+    "risksRetained": [
+      "20LDU thread registration mismatch",
+      "614 proximal/body,620 cap/proximal,372 fork/clutch strict crossing triangle pairs per assembly",
+      "all existing leg/head/wing interface limitations"
+    ]
   }
 }

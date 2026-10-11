@@ -1,0 +1,127 @@
+{
+  "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+  "sourcePagesActuallyReinspected": [
+    2,
+    3,
+    10,
+    11,
+    12
+  ],
+  "restored": {
+    "page": 11,
+    "part": "3011.dat",
+    "position": [
+      160,
+      -720,
+      0
+    ],
+    "rotation": [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      -1,
+      0,
+      0
+    ],
+    "bodyBounds": [
+      [
+        120,
+        200
+      ],
+      [
+        -720,
+        -672
+      ],
+      [
+        -80,
+        80
+      ]
+    ],
+    "supports": [
+      {
+        "part": "3011 yellow p3",
+        "centre": [
+          240,
+          -672,
+          -80
+        ],
+        "contactXZ": [
+          [
+            160,
+            200
+          ],
+          [
+            -80,
+            -40
+          ]
+        ]
+      },
+      {
+        "part": "3011 yellow p3",
+        "centre": [
+          240,
+          -672,
+          80
+        ],
+        "contactXZ": [
+          [
+            160,
+            200
+          ],
+          [
+            40,
+            80
+          ]
+        ]
+      }
+    ],
+    "interpretation": "Hidden bridge inference consistent with p11 known extra brick. Nominal four stud centres; not physically load verified."
+  },
+  "remainingCandidates": [
+    {
+      "page": 12,
+      "part": "3011.dat",
+      "candidate": [
+        -160,
+        -816,
+        0
+      ],
+      "rotation": "E",
+      "conflict": "Frame31191 same X plane spans[-200,-120], Y[-864,-624], Z[-120,120]. Candidate entire bodyY[-816,-768] enters opening rim region; actual frame wall around opening cannot be replaced by bbox exemption."
+    },
+    {
+      "page": 12,
+      "part": "3011.dat",
+      "candidate": [
+        -160,
+        -864,
+        0
+      ],
+      "conflict": "Would occupy top48LDU band of frame across full width160, including real frame top crossbar. Not a stud cap; cap must beY-912."
+    },
+    {
+      "page": 12,
+      "candidate": [
+        160,
+        -816,
+        0
+      ],
+      "conflict": "Near lever end alternative crosses sloped red75350 aroundY-789..-741 in centralZ+/-40; not adopted."
+    },
+    {
+      "page": 12,
+      "candidate": [
+        160,
+        -864,
+        0
+      ],
+      "conflict": "Can nominally bear one40LDUreturn-column and clear lever, but closes source handle-side notch ratherthanfarframeend; insufficient source layout evidence."
+    }
+  ],
+  "p2Reinspection": "Outer8stud edge andfour heightcourses retained; earlier10x10threecourse thought was an unconfirmed alternative, not a source correction. Quantity24 alone does not distinguish them. No source geometry changed here.",
+  "physicalValidation": false,
+  "accepted": false
+}

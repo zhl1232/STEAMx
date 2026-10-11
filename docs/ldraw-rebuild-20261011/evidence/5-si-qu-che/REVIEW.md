@@ -14,3 +14,5 @@
 原检查 exit 2，1 个准确行号报警对；原文保存在collision.txt，逐对解释在static-alarm-review.json。矩阵最大正交误差 0，无缩放/反射。库存差额见current-bom-evidence.json，不能据参考套装断言用户实物库存。
 
 当前6769/e1c5bd3b已实际复核final3及全部11累计步并record True/True。H框层厚和双蜗杆/冠齿位置对应源p6/p7；无新步骤错序或裁切。源p12罩为乳黄色实色画法，当前46号色透明，真实材料透明度无证据，连同舱体突出轮廓明确列为近似偏差；不声称材料准确或实物连接通过。
+
+原检查 exit 2，1 个准确行号报警对；原文保存在collision.txt，逐对解释在static-alarm-review.json。矩阵最大正交误差 0，无缩放/反射。库存差额见current-bom-evidence.json，不能据参考套装断言用户实物库存。

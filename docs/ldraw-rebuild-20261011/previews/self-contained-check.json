@@ -306,7 +306,7 @@
         "embeddedGeometryEqualsLocal": true
       }
     ],
-    "mpdSha256": "f39a6ad17b4f4c6a3525cb89d02bf2b7772327255469df47343feb9d22d1b1f3"
+    "mpdSha256": "9fe3c40d7c6a7f4b1587a0b0bcd8077a1a612b6393b70f0cff927bca3312597e"
   },
   {
     "file": "4-tui-tu-ji.mpd",
@@ -526,7 +526,7 @@
         "embeddedGeometryEqualsLocal": true
       }
     ],
-    "mpdSha256": "26c206872ea4d1688c69e32f6b1d1d5b4b2931914de9a0b094f0ed3b8f7e2411"
+    "mpdSha256": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035"
   },
   {
     "file": "5-bing-qiu-yun-dong-yuan.mpd",
@@ -1005,6 +1005,13 @@
     "mpdSha256": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c"
   },
   {
+    "file": "5-xuan-zhuan-fei-yi.mpd",
+    "selfContained": true,
+    "blocks": 131,
+    "devGeometryChecks": [],
+    "mpdSha256": "d6a521abb44ec19e580a8bf36a1abba97c2a65d36bbaf61d4dd136e84d022091"
+  },
+  {
     "file": "5-xuan-zhuan-ka-fei-bei.mpd",
     "selfContained": true,
     "blocks": 111,
@@ -1012,11 +1019,53 @@
     "mpdSha256": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc"
   },
   {
+    "file": "5-xuan-zhuan-men.mpd",
+    "selfContained": true,
+    "blocks": 107,
+    "devGeometryChecks": [],
+    "mpdSha256": "9371aa10dc15a1def754833861f78ce89665a3c7180c33d0f0fda3087fb4e676"
+  },
+  {
+    "file": "5-xuan-zhuan-mu-ma.mpd",
+    "selfContained": true,
+    "blocks": 118,
+    "devGeometryChecks": [],
+    "mpdSha256": "fb34f7a6cff5f0cda89d8908eae82fae14ae6e61474080e4a084e244a2d61463"
+  },
+  {
+    "file": "5-xuan-zhuan-wu-tai.mpd",
+    "selfContained": true,
+    "blocks": 104,
+    "devGeometryChecks": [],
+    "mpdSha256": "6f0fb57be77ba84d42d8893da0866b8eb6f6872534c53788eeb9f53cd460861b"
+  },
+  {
+    "file": "5-ya-lu-ji.mpd",
+    "selfContained": true,
+    "blocks": 144,
+    "devGeometryChecks": [],
+    "mpdSha256": "d3d10096c74af9091a677c41889731b1668b29d30e9cf49a2e50f6cb375c0593"
+  },
+  {
     "file": "5-ya-mian-ji.mpd",
     "selfContained": true,
     "blocks": 93,
     "devGeometryChecks": [],
     "mpdSha256": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958"
+  },
+  {
+    "file": "5-ya-shui-jing.mpd",
+    "selfContained": true,
+    "blocks": 143,
+    "devGeometryChecks": [],
+    "mpdSha256": "93569731d0997072415b519034004f2598e5757b6960fd0a714c5ec46b29324c"
+  },
+  {
+    "file": "5-yan-jing-she.mpd",
+    "selfContained": true,
+    "blocks": 82,
+    "devGeometryChecks": [],
+    "mpdSha256": "98a539effbce79f029161af1b1c353d800efdeb82c3f5cea535b650dd33b5a10"
   },
   {
     "file": "5-yao-yao-che.mpd",
@@ -1045,6 +1094,27 @@
     "blocks": 106,
     "devGeometryChecks": [],
     "mpdSha256": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194"
+  },
+  {
+    "file": "5-yu-shua-qi.mpd",
+    "selfContained": true,
+    "blocks": 119,
+    "devGeometryChecks": [],
+    "mpdSha256": "ebbd23d74e543e5edcc1c418326639d220ee7e82909db0b803e08a81fcdcefd7"
+  },
+  {
+    "file": "5-zha-lan-sheng-jiang-gan.mpd",
+    "selfContained": true,
+    "blocks": 171,
+    "devGeometryChecks": [],
+    "mpdSha256": "575b4905247033fcf489f5511ed114b428599450ec1637c91aa1c436effac48f"
+  },
+  {
+    "file": "5-zhan-chi-gao-fei.mpd",
+    "selfContained": true,
+    "blocks": 113,
+    "devGeometryChecks": [],
+    "mpdSha256": "890dd0f5f02d368bc1fe6d79086b9ebf1d4e64cce9f0b16ba094c46c8741cfa8"
   },
   {
     "file": "5-zhuan-wan-xiao-che.mpd",

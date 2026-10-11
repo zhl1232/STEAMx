@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+  "revision": "575b4905247033fcf489f5511ed114b428599450ec1637c91aa1c436effac48f",
+  "reviewedAt": "2026-10-11T14:31:39.602334+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zha-lan-sheng-jiang-gan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "7d0aa81b113e9cd74672fad9be83b2fba106c5c19c825da54ec2029f32982e7f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "34106b46cdaafcc77915d99deb2766e647e7f2dab0e83dd6613e564ab4e1cc52",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "f521e8d582b86fee1cc40f07a6a3290000bef7ddc09313dd8ef4cf2129da7d3f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "8e45da4da989625e19736ab401f3b43cf2c271d87e85eff2decefacf18211593",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c0677fd464806ddc2ab57e2546dbe2e5dfe5b93bb9cc1a2749ad7f5b6a09526a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "6cbe3f5b0e68fa8bb578d1629ff0e6e70b3a142eb26ab542c67a48936982b358",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "bc95834d136a92ed24b1a065716f4a8bdcaeb6858985102d5e3fc94cad927c26",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b172dc1988caaf7bdd42ebd44eb2ddab9f01445bd7326c7bf89cf2d97924b790",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3a8cbf4de0542d8b4e3cd4a97d6d08d7e6de78ff59cf046348d5b549a872456b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2c9cb296ded7ea9a0287967094afbb0226a365bcba0dcf457ae017eb64898db3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "4eeb92b1db0ff77afd5c7004b902fb01ae43e200a5fc6e39dc241ce4d450e283",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9326874f132f06bf896fe1485f835be5371d8f6c9c78cd0f2182a665a7cd3fbb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7d0aa81b113e9cd74672fad9be83b2fba106c5c19c825da54ec2029f32982e7f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Individually viewed all three final and all ten cumulative original PNGs; stale contact sheets deliberately not used. Actual source p4/p11 comparison reused from immediately preceding review.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all13 current original PNGs individually: iso, iso-rear, top, step1 through step10; no stale contact sheet used. Compared short rail upper end and lower extensions against sourcep4/p11 already actually reviewed. Three6524 rails now use upper endpoint holes and extend two pitches below lower pivot, matching source shape; no additional definite pose error observed. Existing nominal door/frame108 strict crossing pairs per instance, cockpit/hood4pairs, hidden support shaft z40 tie, worm phase and retention remain unresolved. Pixel observation does not accept assembly or physical function."
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T13:55:08.114307+00:00",
+  "generatedAt": "2026-10-11T14:33:07.358679+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -246,7 +246,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -265,9 +265,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -626,7 +634,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -645,9 +653,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -2195,7 +2211,8 @@
           "missingEvidence": [
             "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
             "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
-            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -2290,6 +2307,36 @@
               "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
               "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
               "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
@@ -2297,6 +2344,7 @@
             "4-tuo-gua-che",
             "5-sheng-jiang-dian-ti",
             "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
             "5-zhuan-wan-xiao-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
@@ -3608,7 +3656,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -3627,9 +3675,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -4143,7 +4199,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -4162,9 +4218,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -4591,19 +4655,20 @@
     },
     {
       "slug": "4-tang-lang",
-      "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+      "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-tang-lang/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "57ac58ccb86ce658900acf7defddee9b880e53a08bd31ec9643a8e54404b41e2",
+      "staticInterpretationReportSha256": "bede199e5b2c462313aca977ccb720ff1544fbf1c17cbba21846a212f0d90ee9",
       "unresolvedSourceComments": [
         "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
         "// PENDING: P6two4433c01 exhausts omitted for missinggeometry.",
         "// PENDING: P7shortarmdev28334 usesapprovedapproximategeometry; sourcepose notmeasured.",
-        "// PENDING: Exactgreen shade unresolved;9090BrightGreen reference cannot silently prove sourcecolor."
+        "// PENDING: Exactgreen shade unresolved;9090BrightGreen reference cannot silently prove sourcecolor.",
+        "// P5 repair: proximal upright, distal horizontal raised; body/arm and elbow faces nominally touch, hidden thread engagement remains unresolved."
       ],
       "partIssueFamilies": [
         {
@@ -4830,7 +4895,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -4849,9 +4914,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -4872,14 +4945,14 @@
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
-      "stage": "development-known-source-pose-error",
+      "stage": "development-checks-in-progress",
       "knownPartConnectionOmissions": [],
       "explicitSourceAdjustments": [],
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
       "visualReviewMeansObservationNotPass": true,
-      "knownIncorrectSourcePose": "Source p5 forearm is raised/elbowed; current straight forearm remains incorrect. Candidate receiving faces and hole positions unresolved; see ledger.forearmInterfaceReview."
+      "sourcePoseCorrectionPendingOrReviewed": "Raised forearm correction must be assessed against its current source-bound pose evidence and pixel review; thread closure remains unverified."
     },
     {
       "slug": "4-tui-tu-ji",
@@ -5226,7 +5299,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -5245,9 +5318,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -5273,7 +5354,8 @@
           "missingEvidence": [
             "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
             "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
-            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -5368,6 +5450,36 @@
               "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
               "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
               "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
@@ -5375,6 +5487,7 @@
             "4-tuo-gua-che",
             "5-sheng-jiang-dian-ti",
             "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
             "5-zhuan-wan-xiao-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
@@ -6503,7 +6616,7 @@
                 6
               ],
               "quantity": 2,
-              "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "currentModelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "proposedFamilyKey": "4433c01",
               "category": "confirmed_id_missing_geometry",
               "mapping": "knownOmitted field means missing geometry here, not connection omission",
@@ -6522,9 +6635,17 @@
               "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
               "accepted": false,
               "sourcePage": 6,
-              "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+              "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
               "source": "preparation/4-tang-lang/ledger.json",
-              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias.",
+              "historicalModelBindings": [
+                {
+                  "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+                  "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+                }
+              ],
+              "currentDecisionEvidence": "preparation/4-tang-lang/ledger.json",
+              "correctionBoundary": "Identity/omission grouping remains unchanged; revised pose and actual mesh risks are authoritative in current owner ledger/static/pixel reports. No physical validation."
             }
           ],
           "aliases": [
@@ -8006,14 +8127,14 @@
     },
     {
       "slug": "4-zuan-tu-che",
-      "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+      "modelSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/4-zuan-tu-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "a0a28eb6de9a1df0167c78b7ccd6f6a53cd932ada7aac26bedeb1abc20d2d417",
+      "staticInterpretationReportSha256": "752c2057f0172b65fdf2b15993c15fa7fd06bc9da8f2dff3b8b3a1e27b4ebce2",
       "unresolvedSourceComments": [
         "4+ 4-zuan-tu-che - source reconstruction INCOMPLETE dev draft"
       ],
@@ -12943,7 +13064,8 @@
           "missingEvidence": [
             "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
             "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
-            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -13038,6 +13160,36 @@
               "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
               "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
               "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
@@ -13045,6 +13197,7 @@
             "4-tuo-gua-che",
             "5-sheng-jiang-dian-ti",
             "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
             "5-zhuan-wan-xiao-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
@@ -14206,7 +14359,7 @@
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-si-qu-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "80effd4b77ee66ed597baa76aef93213722ae91334f81e425f052b24367de2bd",
+      "staticInterpretationReportSha256": "72bd3a570354b6d1a5003f57770289e5797c308756cd6a1ee91a46fb065b45b9",
       "unresolvedSourceComments": [],
       "partIssueFamilies": [],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
@@ -16655,6 +16808,49 @@
       "visualReviewMeansObservationNotPass": true
     },
     {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "modelSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-xuan-zhuan-fei-yi/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "540a23f9bfe3f0e9ff1a8cbdbd73bae2c70b28f8dbc11ed7b51e2765c512b73c",
+      "unresolvedSourceComments": [
+        "5-xuan-zhuan-fei-yi - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [
+        {
+          "slug": "5-xuan-zhuan-fei-yi",
+          "currentModelSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+          "ownerEvidence": {
+            "ownerField": "observedSourceDifferences",
+            "ownerEvidence": {
+              "sourcePage": 5,
+              "component": "31625 tube seating",
+              "current": "BottomY-232 is40LDU above fixedbeam top-192; upperlongshaft collar protrudes above tube.",
+              "source": "Sourcep5 tube appears to reach beamtop; exact internal axle insertion hidden.",
+              "status": "Retained known40LDU appearance mismatch after down40candidate failed internal interface review; see tube-seating-candidate-review.json. Source frozen998a."
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        }
+      ],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
       "slug": "5-xuan-zhuan-ka-fei-bei",
       "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
       "sourceDraft": "rewritten-from-viewed-local-source",
@@ -16680,7 +16876,8 @@
           "missingEvidence": [
             "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
             "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
-            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -16775,6 +16972,36 @@
               "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
               "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
               "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
@@ -16782,6 +17009,7 @@
             "4-tuo-gua-che",
             "5-sheng-jiang-dian-ti",
             "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
             "5-zhuan-wan-xiao-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"
@@ -16796,6 +17024,213 @@
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-xuan-zhuan-men",
+      "modelSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-xuan-zhuan-men/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "454409debd63c3de8f61b303a61315853aa541de4df0654883d5e04ee2172128",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "modelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-xuan-zhuan-mu-ma/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "8935e811c20f42b08f0f859d9ea341ecc9b3ecfcfcd254c91cffd51fcf1ceadb",
+      "unresolvedSourceComments": [
+        "5-xuan-zhuan-mu-ma - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [
+        {
+          "slug": "5-xuan-zhuan-mu-ma",
+          "currentModelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+          "ownerEvidence": {
+            "partOrCandidate": "6521",
+            "sourceQuantity": 1,
+            "location": "p4 centre shaft",
+            "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+            "classification": "installed-identity-candidate"
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        },
+        {
+          "slug": "5-xuan-zhuan-mu-ma",
+          "currentModelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+          "ownerEvidence": {
+            "partOrCandidate": "6521",
+            "sourceQuantity": 4,
+            "location": "p8 four seat shafts",
+            "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+            "classification": "installed-identity-candidate"
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        },
+        {
+          "slug": "5-xuan-zhuan-mu-ma",
+          "currentModelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+          "ownerEvidence": {
+            "partOrCandidate": "6521",
+            "sourceQuantity": 1,
+            "location": "p4 centre shaft",
+            "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+            "classification": "installed-identity-candidate"
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        },
+        {
+          "slug": "5-xuan-zhuan-mu-ma",
+          "currentModelSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+          "ownerEvidence": {
+            "partOrCandidate": "6521",
+            "sourceQuantity": 4,
+            "location": "p8 four seat shafts",
+            "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+            "classification": "installed-identity-candidate"
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        }
+      ],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-xuan-zhuan-wu-tai",
+      "modelSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-xuan-zhuan-wu-tai/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "fa0e5bc63352c3d23c8c19d02bfa0d1c04fcea7ca24492ca284be70e60100032",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-ya-lu-ji",
+      "modelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-ya-lu-ji/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "4c6c3059c5b77e22d6bb1c5d6dea977af7073245103ef37249adedc48e32a905",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [
+        {
+          "slug": "5-ya-lu-ji",
+          "currentModelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "page": 7,
+              "type": "reasonable_scene_layout",
+              "action": "ten source obstacle bricks kept on stud grid, positions inferred from diagram"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        }
+      ],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [
+        {
+          "slug": "5-ya-lu-ji",
+          "currentModelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+          "ownerEvidence": {
+            "id": "31196c01.dat",
+            "page": 4,
+            "approval": "existing local user-approved approximation"
+          },
+          "classification": "existing_geometry_or_placement_approximation_not_unknownID",
+          "accepted": false
+        },
+        {
+          "slug": "5-ya-lu-ji",
+          "currentModelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+          "ownerEvidence": {
+            "id": "6345.dat",
+            "page": 4,
+            "approval": "existing local user-approved approximation"
+          },
+          "classification": "existing_geometry_or_placement_approximation_not_unknownID",
+          "accepted": false
+        }
+      ],
+      "installedIdentityCandidates": [
+        {
+          "slug": "5-ya-lu-ji",
+          "currentModelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+          "ownerEvidence": {
+            "parts": [
+              "61649.dat",
+              "90265.dat"
+            ],
+            "assemblyQuantity": 1,
+            "sourcePages": [
+              4
+            ],
+            "ownerEvidence": "61649+90265 selected from known inventory and source four-pane red frame. Pane uses frame-relative(65.5,72,-40) transformed with proper matrix; frame rear-facing (+X), white window faces rear.",
+            "status": "installed_window_candidate_not_source_confirmed"
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        }
+      ],
       "visualReviewMeansObservationNotPass": true
     },
     {
@@ -16855,6 +17290,114 @@
       "stage": "development-checks-in-progress",
       "knownPartConnectionOmissions": [],
       "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-ya-shui-jing",
+      "modelSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 0,
+      "staticInterpretationReport": "evidence/5-ya-shui-jing/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "16f06e53265424dbb0e8397ed8c56ce479f143a11a1902afff71fcadda49bf6f",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [
+        {
+          "slug": "5-ya-shui-jing",
+          "category": "known_parts_omitted_connection_unresolved",
+          "totalPieces": 2,
+          "items": [
+            {
+              "page": 12,
+              "id": "3011",
+              "quantity": 2,
+              "missingEvidence": "p12 elevenblue2x4+three2x2: nine2x4+three2x2 implemented, twoendwallbricks omitted ratherthanintersectroundframe; sourcecount clear, placementunknown."
+            }
+          ],
+          "gap": "p12 elevenblue2x4+three2x2: nine2x4+three2x2 implemented, twoendwallbricks omitted ratherthanintersectroundframe; sourcecount clear, placementunknown.",
+          "currentDecisionEvidence": "preparation/5-ya-shui-jing/ledger.json",
+          "modelSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+          "accepted": false,
+          "physicalValidation": false
+        }
+      ],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-yan-jing-she",
+      "modelSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-yan-jing-she/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "6c53add5e741cadf3cd956739eef056f7a42e18eb40c8a6227a518dd8c0058b8",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [
+        {
+          "slug": "5-yan-jing-she",
+          "currentModelSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "page": 5,
+              "type": "source_hidden_connection",
+              "action": "one stud row along beam holes, physical fit unverified"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        },
+        {
+          "slug": "5-yan-jing-she",
+          "currentModelSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "page": 6,
+              "type": "reasonable_hidden_crossbond",
+              "action": "head reinforcement partial40LDU overlap; exact source quantities retained"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        },
+        {
+          "slug": "5-yan-jing-she",
+          "currentModelSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+          "ownerEvidence": {
+            "ownerField": "sourceDiscrepancies",
+            "ownerEvidence": {
+              "page": 9,
+              "type": "reasonable_layering",
+              "action": "snout depth follows actual24/48LDU thickness; unseen placement inferred"
+            }
+          },
+          "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+          "accepted": false
+        }
+      ],
       "sourceBackedSupportExceptions": [],
       "knownApproximateGeometry": [],
       "installedIdentityCandidates": [],
@@ -17013,18 +17556,16 @@
       "visualReviewMeansObservationNotPass": true
     },
     {
-      "slug": "5-zhuan-wan-xiao-che",
-      "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "slug": "5-yu-shua-qi",
+      "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
-      "staticInterpretationReport": "evidence/5-zhuan-wan-xiao-che/static-alarm-review.json",
+      "staticInterpretationReport": "evidence/5-yu-shua-qi/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "5559d8787a666df7ae4cf6dfb5bca1907df4926ba131967d55799f2fdde35845",
-      "unresolvedSourceComments": [
-        "// INCOMPLETE: p14 multipart printed driver identity unknown; omitted rather than substituted."
-      ],
+      "staticInterpretationReportSha256": "0973b70a45bd830285ad0faf532f28894c7a5858e6c1dbd0e6535828ad3328fd",
+      "unresolvedSourceComments": [],
       "partIssueFamilies": [
         {
           "key": "unknown:child-figure-variants",
@@ -17035,7 +17576,8 @@
           "missingEvidence": [
             "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
             "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
-            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
           ],
           "sourcesTried": [
             "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -17130,6 +17672,36 @@
               "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
               "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
               "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
             }
           ],
           "affectedCourses": [
@@ -17137,6 +17709,302 @@
             "4-tuo-gua-che",
             "5-sheng-jiang-dian-ti",
             "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
+            "5-zhuan-wan-xiao-che"
+          ],
+          "issueCountUnit": "part identity/family; not physical piece count"
+        }
+      ],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zha-lan-sheng-jiang-gan",
+      "modelSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-zha-lan-sheng-jiang-gan/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "35d223db98e184b4786782edb0186b9c851a51b33451223782129a2e25011f90",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// PENDING: P10 Toolo cockpit uses previously approved approximate geometry; no new approximation. Chassis cockpit clutch and hood retention not physically certified; parked car pose separate from stud base inferred."
+      ],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [
+        {
+          "slug": "5-zha-lan-sheng-jiang-gan",
+          "currentModelSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+          "ownerEvidence": {
+            "id": "31196c01.dat",
+            "geometrySha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+            "notes": [
+              "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+              "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+              "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+              "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+              "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+              "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+              "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+              "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+              "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+              "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+              "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+              "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+              "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+              "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+              "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+              "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+            ]
+          },
+          "classification": "existing_geometry_or_placement_approximation_not_unknownID",
+          "accepted": false
+        }
+      ],
+      "installedIdentityCandidates": [
+        {
+          "slug": "5-zha-lan-sheng-jiang-gan",
+          "currentModelSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+          "ownerEvidence": {
+            "sourcePage": 2,
+            "part": "6525.dat",
+            "quantity": 1,
+            "evidence": "BOM long beam and installed tall post;11-hole chosen, lower hidden-hole arrangement not unique."
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        },
+        {
+          "slug": "5-zha-lan-sheng-jiang-gan",
+          "currentModelSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+          "ownerEvidence": {
+            "sourcePage": 8,
+            "parts": [
+              "92094.dat",
+              "2205.dat"
+            ],
+            "quantity": 2,
+            "evidence": "Tall red frame and white four upper panes plus solid lower panel; exact back mould hidden. Real hinge coordinates used."
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        },
+        {
+          "slug": "5-zha-lan-sheng-jiang-gan",
+          "currentModelSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+          "ownerEvidence": {
+            "sourcePage": 10,
+            "parts": [
+              "10715p02.dat",
+              "31196c01.dat",
+              "6345.dat"
+            ],
+            "quantity": 1,
+            "evidence": "Yellow fake-bolt wheels, red2x6 tow chassis, orange ribbed Toolo cockpit, pale curved hood; cockpit approximation already approved; source-specific underside not visible."
+          },
+          "classification": "installed_source_candidate_not_omission",
+          "accepted": false
+        }
+      ],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zhan-chi-gao-fei",
+      "modelSha256": "9a6f7f55774d0180af30c943343cfc62fce3f664372b123ccef55fc0221661b3",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-zhan-chi-gao-fei/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "716f15b9566a13b9516df4b95cf8cb2ce3817829a45808a0942dc6cdca59589e",
+      "unresolvedSourceComments": [],
+      "partIssueFamilies": [],
+      "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
+      "userConfirmed": false,
+      "physicalValidationPerformed": false,
+      "stage": "development-checks-in-progress",
+      "knownPartConnectionOmissions": [],
+      "explicitSourceAdjustments": [],
+      "sourceBackedSupportExceptions": [],
+      "knownApproximateGeometry": [],
+      "installedIdentityCandidates": [],
+      "visualReviewMeansObservationNotPass": true
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "sourceDraft": "rewritten-from-viewed-local-source",
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "rawStaticCheckerExit": 2,
+      "staticInterpretationReport": "evidence/5-zhuan-wan-xiao-che/static-alarm-review.json",
+      "staticInterpretationMatchesCurrentSource": true,
+      "staticInterpretationReportSha256": "5559d8787a666df7ae4cf6dfb5bca1907df4926ba131967d55799f2fdde35845",
+      "unresolvedSourceComments": [
+        "// INCOMPLETE: p14 multipart printed driver identity unknown; omitted rather than substituted."
+      ],
+      "partIssueFamilies": [
+        {
+          "key": "unknown:child-figure-variants",
+          "category": "unidentified_figure_components",
+          "name": "Source child figure component/print variants",
+          "confirmedId": null,
+          "candidates": [],
+          "missingEvidence": [
+            "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
+            "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
+            "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+            "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+          ],
+          "sourcesTried": [
+            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+          ],
+          "geometryLicense": null,
+          "approximationBoundary": "No new geometry invented",
+          "occurrences": [
+            {
+              "slug": "5-xuan-zhuan-ka-fei-bei",
+              "sourcePage": 9,
+              "location": "tenchild figures omitted",
+              "quantity": 10,
+              "source": [
+                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xuan-zhuan-ka-fei-bei/review.json",
+                "scripts/ldraw-models/5-xuan-zhuan-ka-fei-bei.ldr"
+              ],
+              "missingEvidence": "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+            },
+            {
+              "slug": "5-zhuan-wan-xiao-che",
+              "sourcePage": 14,
+              "location": "multipartprinted driver omitted",
+              "quantity": 1,
+              "source": [
+                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-zhuan-wan-xiao-che/source-review.md",
+                "scripts/ldraw-models/5-zhuan-wan-xiao-che.ldr"
+              ],
+              "missingEvidence": "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+            },
+            {
+              "slug": "4-jun-jian",
+              "sourcePage": 19,
+              "location": "twodecomposed officialfigures alreadyrepresented, exacttorso/armprintvariants notsource-certified",
+              "quantity": 2,
+              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-jun-jian\\ledger.md",
+              "missingEvidence": "Existingofficial componentgeometry isnot evidence ofexactsource decoration. Not an omittedfigureclaim."
+            },
+            {
+              "slug": "4-tuo-gua-che",
+              "sourcePages": [
+                7
+              ],
+              "quantity": 8,
+              "currentModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "category": "unidentified_figure_components",
+              "mapping": "tow p4 independent comparison supports4433c01 but owner still candidate; retain conflict; figure quantity8 means components of one figure",
+              "existingFamily": true,
+              "ownerEvidence": {
+                "page": 7,
+                "quantity": 8,
+                "part": "split seated figure",
+                "candidateIds": [],
+                "status": "omitted",
+                "missingEvidence": "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted."
+              },
+              "evidencePath": "preparation/4-tuo-gua-che/ledger.json",
+              "missingEvidence": "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
+              "accepted": false,
+              "sourcePage": 7,
+              "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+              "source": "preparation/4-tuo-gua-che/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-sheng-jiang-dian-ti",
+              "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+              "sourcePages": [
+                4
+              ],
+              "quantity": 16,
+              "part": "unknown-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 4,
+                "id": "unknown-figure-components",
+                "color": "mixed",
+                "quantity": 16,
+                "category": "unknown-ID",
+                "candidate": "47203p03 green chest white8 torso family; exact blue/red assemblies and constituent variants unresolved",
+                "missingEvidence": "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+              },
+              "missingEvidence": "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute.",
+              "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 2,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 4,
+              "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+              "source": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            },
+            {
+              "slug": "5-yu-shua-qi",
+              "currentModelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "sourcePages": [
+                12
+              ],
+              "quantity": 8,
+              "part": "unresolved-figure-components",
+              "proposedFamilyKey": "unknown:child-figure-variants",
+              "existingFamily": true,
+              "category": "identity_variant_unresolved",
+              "ownerEvidence": {
+                "page": 12,
+                "id": "unresolved-figure-components",
+                "color": "mixed",
+                "quantity": 8,
+                "category": "unknown-ID",
+                "evidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure."
+              },
+              "missingEvidence": "p12 inset:1pin+2hands+1head+1whitelegunit+1redtorso+1yellowhip/feetunit+1redcap; exactvariant and component IDs unconfirmed; figure omitted, no substituted modernfigure.",
+              "evidencePath": "preparation/5-yu-shua-qi/ledger.json",
+              "accepted": false,
+              "quantityUnit": "physical figure components",
+              "assemblyQuantity": 1,
+              "identityConfidence": "Available child component geometry does not resolve exact full source variant",
+              "sourcePage": 12,
+              "modelSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+              "source": "preparation/5-yu-shua-qi/ledger.json",
+              "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+            }
+          ],
+          "affectedCourses": [
+            "4-jun-jian",
+            "4-tuo-gua-che",
+            "5-sheng-jiang-dian-ti",
+            "5-xuan-zhuan-ka-fei-bei",
+            "5-yu-shua-qi",
             "5-zhuan-wan-xiao-che"
           ],
           "issueCountUnit": "part identity/family; not physical piece count"

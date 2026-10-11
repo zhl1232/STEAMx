@@ -1,0 +1,13 @@
+# Swing ride - incomplete source-based draft
+
+Source SHA `998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e`:67 placements,9 steps. All10 source pages actually viewed. Recursive geometry closure130 files,0 missing; proper rigid matrices. Four shortbeam seats,8seven-hole links and all source shafts/wheels retained. No custom geometry or omitted known components.
+
+Source p4/p5 identifies shortblue6523, longblue31623 and31625 tube but hides internal coupling. Current two vertical shaft endpoints meet atY-292 without shaft/shaft overlap; tube spans[-352,-232]. Its40LDU gap overfixedbeam and carrier104LDU interval are assembly inferences, not source measurements. Strict current surface tests find77 tube/shortshaft and85 tube/longshaft crossing triangle pairs (coupler-triangles.json). These are real geometry risks; the source-known tube and shafts remain explicitly unresolved, not replaced or claimed functional. Carrier friction and axial retention also remain manual.
+
+Four paired seven-hole links use a source-inferred35degree outward static phase,240LDU end-hole spacing and4LDU nominal redbeam side clearance.6L crossshafts span240; pulley outerfaces extend4LDU beyond shaftend. Swing/load/locking are unverified.
+
+Raw checker5 alarms:4perpendicularwheel AABB warnings are disproved for these exact geometries by radius41/axialhalf20 bounding-cylinder separation (positive8.757LDU gap), detailed static report. The remaining6292 tyre/6527 pair had0strict triangle crossings but remains evidence-insufficient, not physicalfitPASS. Recursion, pixels or rawPASS cannot prove mechanical operation.
+
+Current render revision `d6a521abb44ec19e580a8bf36a1abba97c2a65d36bbaf61d4dd136e84d022091`: all3final PNGs and all9step PNGs actually viewed individually;12hashes in current-pixel-review.json. Rechecked sourcep5/p10. Source unchanged.
+
+Visible source difference: the current31625 bottom is40LDU above fixedbeam and upperlongshaft collar protrudes above its mouth, while sourcep5 appears to show tube down tobeamtop. This inferred seating remains unresolved; it is not claimed exactsourcecorrespondence. Tube-only40LDU downward candidate was actually evaluated and rejected: shortshaft strictcrossings rose77 to630; upperlongshaft stops20LDU short of shifted central axle profile, so its0crossings indicates disengagement, not fit. See tube-seating-candidate-review.json and coupler-down40-candidate.json. Original998a remains frozen with77/85risks and visible40LDU mismatch. Current pixel observation is not whole-model source agreement or physical acceptance. accepted=false; physicalValidation=false.

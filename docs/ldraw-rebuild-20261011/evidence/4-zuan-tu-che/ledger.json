@@ -99,7 +99,7 @@
       "pixelsActuallyViewed": true
     }
   ],
-  "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+  "modelSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
   "status": "incomplete-dev-draft",
   "accepted": false,
   "userConfirmed": false,
@@ -1334,9 +1334,7 @@
         }
       ],
       "support": [
-        "Base underside on turntable; pivot x601,y-72, axisZ; approximate fork envelope",
-        "Base underside on turntable; pivot x601,y-72, axisZ; approximate fork envelope",
-        "Yellow bottom plane x536 seated across fork base tops; source central pad"
+        "Fork placements unchanged; root yellow pin axes verticalY atX601/Z+-88; previous support text axisZ is historical and corrected."
       ],
       "omitted": [],
       "actualPlacements": [
@@ -1421,7 +1419,7 @@
         }
       ],
       "support": [
-        "Source long arms show broad cheek faces upward and yellow pins vertical; corrected orthonormal transform, pivot positions determined by approximate fork48LDU offset."
+        "Unchanged vertical root axes;400LDU arms yaw6.892degrees inward. Nominal fit only; actual mesh crossing evidence retained."
       ],
       "omitted": [],
       "actualPlacements": [
@@ -1430,19 +1428,19 @@
           "id": "dev-129/28331.dat",
           "color": 71,
           "position": [
-            1001,
+            998.1095566717074,
             -105.378574,
-            -88
+            -40
           ],
           "matrix": [
-            0,
-            -1,
+            0.12,
+            -0.9927738916792685,
             0,
             0,
             0,
             1,
-            -1,
-            0,
+            -0.9927738916792685,
+            -0.12,
             0
           ]
         },
@@ -1451,19 +1449,19 @@
           "id": "dev-129/28331.dat",
           "color": 71,
           "position": [
-            1001,
+            998.1095566717074,
             -105.378574,
-            88
+            40
           ],
           "matrix": [
-            0,
-            -1,
+            -0.12,
+            -0.9927738916792685,
             0,
             0,
             0,
             1,
-            -1,
-            0,
+            -0.9927738916792685,
+            0.12,
             0
           ]
         }
@@ -1485,7 +1483,7 @@
         }
       ],
       "support": [
-        "Clutch tip/body proximity follows source; axis/retention and exact pin depth unresolved with approximate geometry."
+        "End boxes counterrotated parallel and shifted toZ+-40, adjacent80LDU body widths. Tongue/capture provisional with positive mesh intersections."
       ],
       "omitted": [],
       "actualPlacements": [
@@ -1494,9 +1492,9 @@
           "id": "74957.dat",
           "color": 71,
           "position": [
-            1071,
+            1068.1095566717074,
             -105.378574,
-            -88
+            -40
           ],
           "matrix": [
             0,
@@ -1515,9 +1513,9 @@
           "id": "74957.dat",
           "color": 71,
           "position": [
-            1071,
+            1068.1095566717074,
             -105.378574,
-            88
+            40
           ],
           "matrix": [
             0,
@@ -1549,7 +1547,7 @@
         }
       ],
       "support": [
-        "Yellow bar meets front face planes but inner clutch stud-row8LDU misregistration remains unresolved; no snapping/fit acceptance."
+        "Yellow3011 nominal underside meets both adjacent clutch stud faces at fourZcolumns -60,-20,20,60; no residual8LDU grid error. Local simplified clutch stud geometry/retention not physically validated."
       ],
       "omitted": [],
       "actualPlacements": [
@@ -1558,7 +1556,7 @@
           "id": "3011.dat",
           "color": 14,
           "position": [
-            1119,
+            1116.1095566717074,
             -105.378574,
             0
           ],
@@ -1579,7 +1577,7 @@
           "id": "3437.dat",
           "color": 14,
           "position": [
-            1167,
+            1164.1095566717074,
             -105.378574,
             0
           ],
@@ -1825,13 +1823,13 @@
     "p2 approved cockpit approximation retained; exact hidden mold/hinge fit unverified.",
     "p3/4 approximate99565+44970 tire/rim geometry, axle depth and tire compression not certified.",
     "p6-11 cantilever screw/turntable/fork/clutch capture provisional; no motion/load acceptance.",
-    "Corrected p8 fork axes are verticalY; p9 arm open near end now x601 and closed far end1001, same pivot spacing400. Rootfork48LDU lateral estimate yields arm/endclutch centersZ+/-88. End yellow2x4 spans+/-80 with studgrid8LDU mismatch to clutch inner rows+/-68; connection unresolved, not physical acceptance."
+    "P9 two rigid400LDU arms yaw inward6.892102579deg about unchanged roots(601,-105.378574,+/-88). End axes(998.109556672,-105.378574,+/-40); p10 clutch bodies now adjacent with full4-column stud grid matching p11 yellow3011. This is source-supported nominal pose adjustment, not verified fit. Recursive strict surface crossings persist at root/arm428,426 and arm/clutch90,92 triangle pairs; old values430/430/88/88. Double-arm crossing0 does not prove clear fit. Approximate74957 tongue/28331 tip retention and counterrotation remain unresolved."
   ],
   "validation": {
     "rawCollisionExit": 2,
     "rawCollision": "\nFAIL [4-zuan-tu-che.ldr] 1 error(s), 52 placement(s):\n  - step 2: 4-zuan-tu-che_l22 overlaps 4-zuan-tu-che_l21\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
-    "closure": "pending main repack",
-    "pixels": "Actually reviewed current final3 and all11 cumulative stages via contact sheet, with original step8-11 inspected for corrected fork/arm axes. Source p8/p9 vertical yellow pins and broad arm faces now correspond. Six window faces, roof, chassis, eight wheels and cumulative additions match reviewed source sequence; full model framed. End clutch centersZ+/-88 versus yellow bar standard stud rows leave documented8LDU mismatch; clip engagement and physical retention unresolved. Existing cockpit31196c01/hood6345 raw overlap remains explicitly reported, not waived. Approved approximate wheels/thread/arms; no motion/load or physical/user acceptance.",
+    "closure": "pending parent repack",
+    "pixels": "Actual current final3 original PNG and all11 steps current contact sheet inspected; original step9/10/11 enlarged, sourcep9-12 compared andp11 rechecked. Inward6.892degree arms retain root axes and now yield adjacent end boxes/full four-column yellow bridge. Old96LDU body gap and8LDU inner-column mismatch corrected nominally. Existing positive strict mesh crossings root/arm428,426 and arm/clutch90,92 remain unresolved; no verified capture/counterrotation/physical support. Raw cabhood overlap and approved approximate wheels/cab/arms retained. No clipping seen; pixel review is not physical or user acceptance.",
     "matrixInvalid": []
   },
   "verificationLevel": "structurally checked only",
@@ -1846,6 +1844,22 @@
     }
   ],
   "inventoryCaveat": "Reference single-set stock only; actual user stock unknown. Source colors preserved. No unrelated replacement parts introduced.",
-  "currentPixelEvidence": "current-pixel-review.json",
-  "currentPixels": "final3 and all11steps actually reviewed with retained limitations"
+  "currentPixelEvidence": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  },
+  "currentPixels": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
 }

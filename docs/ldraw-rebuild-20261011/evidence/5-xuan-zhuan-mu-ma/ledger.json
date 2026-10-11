@@ -1,0 +1,2479 @@
+{
+  "slug": "5-xuan-zhuan-mu-ma",
+  "sourceSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+  "partCount": 81,
+  "stepCount": 13,
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Baseplate and twelve source striped perimeter fences",
+      "placements": [
+        {
+          "part": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "24x24 base",
+          "line": 10
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -260,
+            -96,
+            -360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase studs; windmill corners avoid double posts",
+          "line": 11
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            360,
+            -96,
+            -260
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 12
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -20,
+            -96,
+            -360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase studs; windmill corners avoid double posts",
+          "line": 13
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            360,
+            -96,
+            -20
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 14
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            220,
+            -96,
+            -360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase studs; windmill corners avoid double posts",
+          "line": 15
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            360,
+            -96,
+            220
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 16
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -220,
+            -96,
+            360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase",
+          "line": 17
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -360,
+            -96,
+            -220
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 18
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            20,
+            -96,
+            360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase",
+          "line": 19
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -360,
+            -96,
+            20
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 20
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            260,
+            -96,
+            360
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 onbase",
+          "line": 21
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -360,
+            -96,
+            260
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 onbase",
+          "line": 22
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "4268.dat": 1,
+        "31021p01.dat": 12
+      },
+      "sourceBom": {
+        "4268.dat": 1,
+        "31021p01.dat": 12
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Ten alternating red/yellow 4x4 tower layers, twenty bricks",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 25
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 26
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 27
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 28
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 29
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 30
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 31
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 32
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 33
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 34
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 35
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 36
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -336,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 37
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -336,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 38
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 39
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 40
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -432,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 41
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -432,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 42
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 43
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "two2x4 bricks form4x4 layer; alternate seam orientation",
+          "line": 44
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 20
+      },
+      "sourceBom": {
+        "3011.dat": 20
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Two fixed short beams with aligned vertical centre bores",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -528,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "48LDU layer; vertical centre bore retains axle",
+          "line": 47
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -576,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "48LDU layer; vertical centre bore retains axle",
+          "line": 48
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 2
+      },
+      "sourceBom": {
+        "75349.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Vertical shaft and lower red gear thrust surface",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 8,
+          "position": [
+            0,
+            -640,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L candidate spansY[-800,-480]; end inside fixed bore, avoids solid tower",
+          "line": 51
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -596,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "lowergearface-576 onfixedbeam top; nominal thrust seat",
+          "line": 52
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "6521",
+          "sourceQuantity": 1,
+          "location": "p4 centre shaft",
+          "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+          "classification": "installed-identity-candidate"
+        }
+      ],
+      "placedBom": {
+        "6521.dat": 1,
+        "6529.dat": 1
+      },
+      "sourceBom": {
+        "6521.dat": 1,
+        "6529.dat": 1
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Two perpendicular rotating long beams",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -664,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "lowerface-616 ongear upperface; centre axleY",
+          "line": 56
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -712,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "48LDU cross layer; stud registration exact",
+          "line": 57
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 2
+      },
+      "sourceBom": {
+        "75350.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Four long beam arm extensions",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -712,
+            -240
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "160LDU overlap onlowercentral beam, avoidsuppercentral beam atZ40boundary",
+          "line": 60
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -760,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "160LDU overlap onuppercentral beam, central2stud gap forcap",
+          "line": 61
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -712,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "160LDU overlap onlowercentral beam, avoidsuppercentral beam atZ40boundary",
+          "line": 62
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            240,
+            -760,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "160LDU overlap onuppercentral beam, central2stud gap forcap",
+          "line": 63
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 4
+      },
+      "sourceBom": {
+        "75350.dat": 4
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Perpendicular short centre cap and top pulley",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -760,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "central2studwide gap between extensions; bottomoncentralupper beam",
+          "line": 66
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -780,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "bottom-760 oncap; shafttop-800 flushpulleytop",
+          "line": 67
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 1,
+        "6527.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 1,
+        "6527.dat": 1
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Four vertical seat shafts and four top retaining cranks",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 8,
+          "position": [
+            400,
+            -640,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L candidate spansarmtop-40..+280; sourcehanging shaft, nominalclamp stack",
+          "line": 70
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            400,
+            -780,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bodybottom sitsarmtop; offsetpin80towardcentre enters arm vertical bore",
+          "line": 71
+        },
+        {
+          "part": "6521.dat",
+          "color": 8,
+          "position": [
+            -400,
+            -640,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L candidate spansarmtop-40..+280; sourcehanging shaft, nominalclamp stack",
+          "line": 72
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -400,
+            -780,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bodybottom sitsarmtop; offsetpin80towardcentre enters arm vertical bore",
+          "line": 73
+        },
+        {
+          "part": "6521.dat",
+          "color": 8,
+          "position": [
+            0,
+            -592,
+            400
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L candidate spansarmtop-40..+280; sourcehanging shaft, nominalclamp stack",
+          "line": 74
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -732,
+            400
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "bodybottom sitsarmtop; offsetpin80towardcentre enters arm vertical bore",
+          "line": 75
+        },
+        {
+          "part": "6521.dat",
+          "color": 8,
+          "position": [
+            0,
+            -592,
+            -400
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L candidate spansarmtop-40..+280; sourcehanging shaft, nominalclamp stack",
+          "line": 76
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -732,
+            -400
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bodybottom sitsarmtop; offsetpin80towardcentre enters arm vertical bore",
+          "line": 77
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "6521",
+          "sourceQuantity": 4,
+          "location": "p8 four seat shafts",
+          "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+          "classification": "installed-identity-candidate"
+        }
+      ],
+      "placedBom": {
+        "6521.dat": 4,
+        "6526.dat": 4
+      },
+      "sourceBom": {
+        "6521.dat": 4,
+        "6526.dat": 4
+      }
+    },
+    {
+      "sourcePage": 9,
+      "title": "First suspended shortbeam and retaining pulley/crank",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            440,
+            -568,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "seatbeam shaft through inner2x2 half; bottomarmtop240",
+          "line": 81
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            400,
+            -588,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "mainholevertical; source crank retention remainsmanual",
+          "line": 82
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            400,
+            -500,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "upperfaceatseatbottom240; shaftend280 flushlowerface",
+          "line": 83
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1
+      }
+    },
+    {
+      "sourcePage": 10,
+      "title": "First brick-built horse body",
+      "placements": [
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            480,
+            -520,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "redhead topunderouterhalf shortbeam, bottom+288",
+          "line": 86
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            480,
+            -472,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "eye brick beneath redhead; pattern orientation sourcecandidate",
+          "line": 87
+        },
+        {
+          "part": "2302b.dat",
+          "color": 4,
+          "position": [
+            480,
+            -424,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "curvednose inward, topunder eye; underside+384",
+          "line": 88
+        },
+        {
+          "part": "6394.dat",
+          "color": 1,
+          "position": [
+            520,
+            -376,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bluebody top undernose supported2x2 half; rectangular cutout sourceconfirmed",
+          "line": 89
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      },
+      "sourceBom": {
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      }
+    },
+    {
+      "sourcePage": 11,
+      "title": "Next complete suspended brick-built horse",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -520,
+            440
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "seatbeam shaft through inner2x2 half; bottomarmtop240",
+          "line": 92
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -540,
+            400
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "mainholevertical; source crank retention remainsmanual",
+          "line": 93
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -452,
+            400
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "upperfaceatseatbottom240; shaftend280 flushlowerface",
+          "line": 94
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            0,
+            -472,
+            480
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "redhead topunderouterhalf shortbeam, bottom+288",
+          "line": 95
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            0,
+            -424,
+            480
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "eye brick beneath redhead; pattern orientation sourcecandidate",
+          "line": 96
+        },
+        {
+          "part": "2302b.dat",
+          "color": 4,
+          "position": [
+            0,
+            -376,
+            480
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "curvednose inward, topunder eye; underside+384",
+          "line": 97
+        },
+        {
+          "part": "6394.dat",
+          "color": 1,
+          "position": [
+            0,
+            -328,
+            520
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bluebody top undernose supported2x2 half; rectangular cutout sourceconfirmed",
+          "line": 98
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      }
+    },
+    {
+      "sourcePage": 12,
+      "title": "Next complete suspended brick-built horse",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            -440,
+            -568,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "seatbeam shaft through inner2x2 half; bottomarmtop240",
+          "line": 101
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -400,
+            -588,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "mainholevertical; source crank retention remainsmanual",
+          "line": 102
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -400,
+            -500,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "upperfaceatseatbottom240; shaftend280 flushlowerface",
+          "line": 103
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            -480,
+            -520,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "redhead topunderouterhalf shortbeam, bottom+288",
+          "line": 104
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -472,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "eye brick beneath redhead; pattern orientation sourcecandidate",
+          "line": 105
+        },
+        {
+          "part": "2302b.dat",
+          "color": 4,
+          "position": [
+            -480,
+            -424,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "curvednose inward, topunder eye; underside+384",
+          "line": 106
+        },
+        {
+          "part": "6394.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -376,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "bluebody top undernose supported2x2 half; rectangular cutout sourceconfirmed",
+          "line": 107
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      }
+    },
+    {
+      "sourcePage": 13,
+      "title": "Next complete suspended brick-built horse",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -520,
+            -440
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "seatbeam shaft through inner2x2 half; bottomarmtop240",
+          "line": 110
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -540,
+            -400
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "mainholevertical; source crank retention remainsmanual",
+          "line": 111
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -452,
+            -400
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "upperfaceatseatbottom240; shaftend280 flushlowerface",
+          "line": 112
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            0,
+            -472,
+            -480
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "redhead topunderouterhalf shortbeam, bottom+288",
+          "line": 113
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            0,
+            -424,
+            -480
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "eye brick beneath redhead; pattern orientation sourcecandidate",
+          "line": 114
+        },
+        {
+          "part": "2302b.dat",
+          "color": 4,
+          "position": [
+            0,
+            -376,
+            -480
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "curvednose inward, topunder eye; underside+384",
+          "line": 115
+        },
+        {
+          "part": "6394.dat",
+          "color": 1,
+          "position": [
+            0,
+            -328,
+            -520
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bluebody top undernose supported2x2 half; rectangular cutout sourceconfirmed",
+          "line": 116
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "seat assembly",
+          "sourceQuantity": 4,
+          "location": "p9-13",
+          "missingEvidence": "Rigid source-backed hanging assemblies retain all known parts. Crankmainhole friction/axle locking and exact display yaw not certified; four horses use radial inferred pose, lower8L stack gives104LDU exposed gap. No motion/load validation.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1,
+        "3437.dat": 1,
+        "3437pe1.dat": 1,
+        "2302b.dat": 1,
+        "6394.dat": 1
+      }
+    }
+  ],
+  "bom": {
+    "4268.dat": 1,
+    "31021p01.dat": 12,
+    "3011.dat": 20,
+    "75349.dat": 7,
+    "6521.dat": 5,
+    "6529.dat": 1,
+    "75350.dat": 6,
+    "6527.dat": 5,
+    "6526.dat": 8,
+    "3437.dat": 4,
+    "3437pe1.dat": 4,
+    "2302b.dat": 4,
+    "6394.dat": 4
+  },
+  "inventoryReference": "inputs/inventory-evidence.json;9656 mechanical and9090 basic bricks. Source BOM defines use; missing inventory rows are unknown, not zero.",
+  "inventoryMechanicalComparison": [
+    {
+      "part": "3011.dat",
+      "sourceQuantity": 20,
+      "9656AllColors": 12,
+      "additionalAgainstOne9656IgnoringColor": 8
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 7,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 3
+    },
+    {
+      "part": "6521.dat",
+      "sourceQuantity": 5,
+      "9656AllColors": 5,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6529.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 6,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 4
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 5,
+      "9656AllColors": 15,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6526.dat",
+      "sourceQuantity": 8,
+      "9656AllColors": 6,
+      "additionalAgainstOne9656IgnoringColor": 2
+    },
+    {
+      "part": "3437.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 8,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6394.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 2
+    }
+  ],
+  "directGeometryHashes": {
+    "4268.dat": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+    "31021p01.dat": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+    "75349.dat": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+    "6521.dat": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+    "6529.dat": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+    "75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "6526.dat": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+    "3437.dat": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+    "3437pe1.dat": "1a20595792b07ebe8494bb1b02d0ce3add952af574e2b0444467928719f3e3c8",
+    "2302b.dat": "b914434b9d8763495fa0fc65f634d94c59642fb1c3f24cb6335234f7f426fbb2",
+    "6394.dat": "e300a3ddaf0c603bce9aea25f525e328f72f800a9f08530994e8ddb70414a91c"
+  },
+  "geometryMetadata": {
+    "4268.dat": {
+      "name": "Duplo Baseplate 24 x 24",
+      "bbox": {
+        "xMin": -480,
+        "xMax": 480,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -480,
+        "zMax": 480
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "31021p01.dat": {
+      "name": "Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": 0,
+        "yMax": 96,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 96
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official patterned fence copied from .agents/skills/image-to-ldraw/.cache/ldraw-library/extracted/ldraw/parts/31021p01.dat to scripts/ldraw-models/parts/31021p01.dat on 2026-07-08.",
+        "Uses the same placement and collision box as 31021.dat; red stripe pattern geometry is decorative."
+      ]
+    },
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "75349.dat": {
+      "name": "Duplo Brick  2 x  4 with Holes",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "6521.dat": {
+      "name": "Duplo Axle  8",
+      "bbox": {
+        "xMin": -160,
+        "xMax": 160,
+        "yMin": -9.000230793000002,
+        "yMax": 9.000230793000002,
+        "zMin": -9.000230793000002,
+        "zMax": 9.000230793000002
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "6529.dat": {
+      "name": "Duplo Gear 24 Tooth",
+      "bbox": {
+        "xMin": -64.14420731645001,
+        "xMax": 64.14420731645001,
+        "yMin": -64.14420731645001,
+        "yMax": 64.14420731645001,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "75350.dat": {
+      "name": "Duplo Brick  2 x 10 with Holes",
+      "bbox": {
+        "xMin": -200,
+        "xMax": 200,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "6527.dat": {
+      "name": "Duplo Wheel with 2 Belt Grooves",
+      "bbox": {
+        "xMin": -44,
+        "xMax": 44,
+        "yMin": -44,
+        "yMax": 44,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "User confirmed 6527 as the rocket wheel hub/pulley on 2026-07-09.",
+        "Official LDraw 6527.dat and required primitives copied from the fixed official LDraw cache to scripts/ldraw-models on 2026-07-09; source header: LDraw Official UPDATE 2017-01, CC BY 4.0.",
+        "Support is manual because the pulley is placed as a decorative cylindrical rocket booster element."
+      ]
+    },
+    "6526.dat": {
+      "name": "Duplo Beam  3 x  0.5 Liftarm with Axle",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -20,
+        "yMax": 60,
+        "zMin": -24,
+        "zMax": 104
+      },
+      "origin": {
+        "type": "main-hole-center",
+        "holeAxis": "Y",
+        "integralPinOffset": [
+          0,
+          20,
+          80
+        ],
+        "integralPinAxis": "Y"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "3437.dat": {
+      "name": "Duplo Brick 2 x 2",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "3437pe1.dat": {
+      "name": "Duplo Brick  2 x  2 with Eye with White Spot on 2 Sides Pattern",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "2302b.dat": {
+      "name": "Duplo Brick  2 x  3 with Curved Top",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "2026-09-08: coordinate envelope and stud-bearing top corrected from official local 2302b.dat and its subparts. Conservative full slope envelope retained; it is not a filled rectangular brick."
+      ]
+    },
+    "6394.dat": {
+      "name": "Duplo Brick  2 x  4 x  2 with 2 x  2 Cutout on Bottom",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 96,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 96
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official 6394.dat faces define a 2x2 rectangular bottom cutout: x=-40..40, y=48..96, across z=-40..40. Collision volumes preserve the two legs and upper beam."
+      ]
+    }
+  },
+  "render": "pending main pack/render and pixel inspection",
+  "validation": {
+    "sourceSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+    "rawCheckerExit": 2,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "staticReport": "static-alarm-review.json",
+    "pixels": "pending main render"
+  },
+  "unknownIdentityParts": [
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 1,
+      "location": "p4 centre shaft",
+      "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+      "classification": "installed-identity-candidate"
+    },
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 4,
+      "location": "p8 four seat shafts",
+      "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+      "classification": "installed-identity-candidate"
+    }
+  ],
+  "sourcePositionUncertainties": [
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 1,
+      "location": "p4 centre shaft",
+      "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+      "classification": "installed-identity-candidate"
+    },
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 4,
+      "location": "p8 four seat shafts",
+      "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+      "classification": "installed-identity-candidate"
+    },
+    {
+      "partOrCandidate": "seat assembly",
+      "sourceQuantity": 4,
+      "location": "p9-13",
+      "missingEvidence": "Rigid source-backed hanging assemblies retain all known parts. Crankmainhole friction/axle locking and exact display yaw not certified; four horses use radial inferred pose, lower8L stack gives104LDU exposed gap. No motion/load validation.",
+      "classification": "known-interface-unverified"
+    }
+  ],
+  "installedIdentityCandidates": [
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 1,
+      "location": "p4 centre shaft",
+      "missingEvidence": "8L candidate required by224LDU rotating stack plus fixed bore engagement; icon alone does not uniquely confirm length. No physical retention test.",
+      "classification": "installed-identity-candidate"
+    },
+    {
+      "partOrCandidate": "6521",
+      "sourceQuantity": 4,
+      "location": "p8 four seat shafts",
+      "missingEvidence": "8L installed candidate gives88LDU upperassembly and128LDU lowerassembly with104LDU exposed gap; seat height follows this supported static pose, exact source axlelength not unique.",
+      "classification": "installed-identity-candidate"
+    }
+  ],
+  "knownOmitted": [],
+  "geometryApproximationParts": [],
+  "sourceBomNotes": {
+    "1": "12 patterned fences plus4268",
+    "2": "10red3011 and10yellow3011",
+    "3": "2shortbeams",
+    "4": "1verticalshaft and1red24T",
+    "5": "2longbeams",
+    "6": "4longbeams",
+    "7": "1shortbeam and1pulley",
+    "8": "4shafts and4cranks",
+    "9": "1shortbeam,1crank,1pulley",
+    "10": "3437,3437pe1,2302b,6394 each1",
+    "11-13": "each complete horse repeats source7parts"
+  },
+  "currentPixelReview": {
+    "sourceSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+    "revision": "fb34f7a6cff5f0cda89d8908eae82fae14ae6e61474080e4a084e244a2d61463",
+    "path": "preparation\\5-xuan-zhuan-mu-ma\\current-pixel-review.json",
+    "finalViews": 3,
+    "steps": 13,
+    "imagesActuallyReviewed": 16,
+    "accepted": false
+  }
+}

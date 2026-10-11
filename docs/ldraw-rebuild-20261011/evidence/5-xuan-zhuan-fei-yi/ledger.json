@@ -1,0 +1,2191 @@
+{
+  "slug": "5-xuan-zhuan-fei-yi",
+  "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+  "partCount": 67,
+  "stepCount": 9,
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Six yellow foundation bricks form two source U feet",
+      "placements": [
+        {
+          "part": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source24x24 base",
+          "line": 10
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "middle4stud crossbar",
+          "line": 11
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outer U ends, grid registered",
+          "line": 12
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outer U ends, grid registered",
+          "line": 13
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "middle4stud crossbar",
+          "line": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outer U ends, grid registered",
+          "line": 15
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outer U ends, grid registered",
+          "line": 16
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "4268.dat": 1,
+        "3011.dat": 6
+      },
+      "sourceBom": {
+        "4268.dat": 1,
+        "3011.dat": 6
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Lower red longbeam and four outward yellow curved slopes",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-48 onmiddlefeet; sideholeY-72",
+          "line": 19
+        },
+        {
+          "part": "2302b.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outwardcurves capfeet, topbearing2x2 excludes curvedoverhang",
+          "line": 20
+        },
+        {
+          "part": "2302b.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "outwardcurves capfeet, topbearing2x2 excludes curvedoverhang",
+          "line": 21
+        },
+        {
+          "part": "2302b.dat",
+          "color": 14,
+          "position": [
+            160,
+            -96,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "outwardcurves capfeet, topbearing2x2 excludes curvedoverhang",
+          "line": 22
+        },
+        {
+          "part": "2302b.dat",
+          "color": 14,
+          "position": [
+            160,
+            -96,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "outwardcurves capfeet, topbearing2x2 excludes curvedoverhang",
+          "line": 23
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 1,
+        "2302b.dat": 4
+      },
+      "sourceBom": {
+        "75350.dat": 1,
+        "2302b.dat": 4
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Two yellow pillars and upper longbeam",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "flat support spanscurve flat tops and lowerbeam",
+          "line": 26
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "flat support spanscurve flat tops and lowerbeam",
+          "line": 27
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-144 onendpillars; 48LDU centralgap above lowerbeam",
+          "line": 28
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 2,
+        "75350.dat": 1
+      },
+      "sourceBom": {
+        "3011.dat": 2,
+        "75350.dat": 1
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Two blue axles, crown gear, hand tyre/pulley and rear red gear",
+      "placements": [
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            0,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "horizontal5LshaftZ through lowercentre sidehole",
+          "line": 31
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -72,
+            -80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "front positive flange facesoutwards, inside tyre matchingaxis",
+          "line": 32
+        },
+        {
+          "part": "6292.dat",
+          "color": 0,
+          "position": [
+            0,
+            -72,
+            -80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source singlepulley inside asymmetric tyre; local mesh contact remainsmanual",
+          "line": 33
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -72,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "rear red24Tgear, sourcep10",
+          "line": 34
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            0,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "vertical5Lshaft endsY[-292,-92], collarY-232; upperbeam verticalbore",
+          "line": 35
+        },
+        {
+          "part": "31622.dat",
+          "color": 1,
+          "position": [
+            0,
+            -120,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "crowngear occupies48gap; positiveZ teeth face down toward redgear; engagement phase unverified",
+          "line": 36
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "crown/red gear and tyre handwheel",
+          "sourceQuantity": 1,
+          "location": "p4,p10",
+          "missingEvidence": "Source identities retained. Orthogonal gear contact, axle seat depth and asymmetric6292/6527 mesh require local inspection; no generic tyre false-positive exemption.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6523.dat": 2,
+        "6527.dat": 1,
+        "6292.dat": 1,
+        "6529.dat": 1,
+        "31622.dat": 1
+      },
+      "sourceBom": {
+        "6523.dat": 2,
+        "6527.dat": 1,
+        "6292.dat": 1,
+        "6529.dat": 1,
+        "31622.dat": 1
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Worm tube as source shaft coupler, long upper axle and yellow carrier",
+      "placements": [
+        {
+          "part": "31625.dat",
+          "color": 1,
+          "position": [
+            0,
+            -292,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "120LDU tube around nonoverlapping axle end seamY-292; inferred position, not proven locking",
+          "line": 40
+        },
+        {
+          "part": "31623.dat",
+          "color": 1,
+          "position": [
+            0,
+            -452,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8Lgearshaft endY-292 meets loweraxle end; no solid shaft interpenetration. Upperend-612",
+          "line": 41
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -456,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "mainholeY, offsetpinX80 pointsup; bodytop-476 supports lowerheadbeam. Axial retention unresolved",
+          "line": 42
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "31625 shaft coupling and6526 carrier",
+          "sourceQuantity": 1,
+          "location": "p5",
+          "missingEvidence": "Two shafts meet end-to-endY-292, tube spans[-352,-232]. Tube40LDU above upperbeam and carrier104LDU above tube are inferred from actual nonoverlap stack, not source measured. Tube/shaft coupling engagement, friction and carrier axial retention remain source-backed support exceptions. No invented connector.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "31625.dat": 1,
+        "31623.dat": 1,
+        "6526.dat": 1
+      },
+      "sourceBom": {
+        "31625.dat": 1,
+        "31623.dat": 1,
+        "6526.dat": 1
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Two crossed rotating longbeams and top pulley",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -524,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-476 oncarrierbody, pinX80 entersverticalbore",
+          "line": 46
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -572,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "crossbeam bottom-524 onlowerbeam studs",
+          "line": 47
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -592,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "bottom-572 onupperbeam, shafttop-612flushpulleytop",
+          "line": 48
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 2,
+        "6527.dat": 1
+      },
+      "sourceBom": {
+        "75350.dat": 2,
+        "6527.dat": 1
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Four blue outward curved caps",
+      "placements": [
+        {
+          "part": "2302b.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -572,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "source caps onlowerbeam ends; curvedsideoutward",
+          "line": 51
+        },
+        {
+          "part": "2302b.dat",
+          "color": 1,
+          "position": [
+            160,
+            -572,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source caps onlowerbeam ends; curvedsideoutward",
+          "line": 52
+        },
+        {
+          "part": "2302b.dat",
+          "color": 1,
+          "position": [
+            0,
+            -620,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source caps onupperbeam ends",
+          "line": 53
+        },
+        {
+          "part": "2302b.dat",
+          "color": 1,
+          "position": [
+            0,
+            -620,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source caps onupperbeam ends",
+          "line": 54
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "2302b.dat": 4
+      },
+      "sourceBom": {
+        "2302b.dat": 4
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Eight seven-hole swinging links on four upper cross axles",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            160,
+            -500,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "6Laxis spans240 throughredbeam80 andtwo40thicklinks; outsidewheels extend4LDU pastends",
+          "line": 57
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            228.829172,
+            -401.701755,
+            -64.0
+          ],
+          "matrix": [
+            -0.819152044,
+            0,
+            0.573576436,
+            0.573576436,
+            0,
+            0.819152044,
+            0.0,
+            1,
+            0.0
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 58
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            160,
+            -500,
+            -104
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 59
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            228.829172,
+            -401.701755,
+            64.0
+          ],
+          "matrix": [
+            -0.819152044,
+            0,
+            0.573576436,
+            0.573576436,
+            0,
+            0.819152044,
+            0.0,
+            1,
+            0.0
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 60
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            160,
+            -500,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 61
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -160,
+            -500,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6Laxis spans240 throughredbeam80 andtwo40thicklinks; outsidewheels extend4LDU pastends",
+          "line": 62
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            -228.829172,
+            -401.701755,
+            64.0
+          ],
+          "matrix": [
+            0.819152044,
+            0,
+            -0.573576436,
+            0.573576436,
+            0,
+            0.819152044,
+            0.0,
+            -1,
+            0.0
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 63
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -500,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 64
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            -228.829172,
+            -401.701755,
+            -64.0
+          ],
+          "matrix": [
+            0.819152044,
+            0,
+            -0.573576436,
+            0.573576436,
+            0,
+            0.819152044,
+            0.0,
+            -1,
+            0.0
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 65
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -500,
+            -104
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 66
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -548,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "6Laxis spans240 throughredbeam80 andtwo40thicklinks; outsidewheels extend4LDU pastends",
+          "line": 67
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            64.0,
+            -449.701755,
+            228.829172
+          ],
+          "matrix": [
+            0.0,
+            -1,
+            0.0,
+            0.573576436,
+            0,
+            0.819152044,
+            -0.819152044,
+            0,
+            0.573576436
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 68
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            104,
+            -548,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 69
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            -64.0,
+            -449.701755,
+            228.829172
+          ],
+          "matrix": [
+            0.0,
+            -1,
+            0.0,
+            0.573576436,
+            0,
+            0.819152044,
+            -0.819152044,
+            0,
+            0.573576436
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 70
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -104,
+            -548,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 71
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -548,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6Laxis spans240 throughredbeam80 andtwo40thicklinks; outsidewheels extend4LDU pastends",
+          "line": 72
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            -64.0,
+            -449.701755,
+            -228.829172
+          ],
+          "matrix": [
+            0.0,
+            1,
+            0.0,
+            0.573576436,
+            0,
+            0.819152044,
+            0.819152044,
+            0,
+            -0.573576436
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 73
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -104,
+            -548,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 74
+        },
+        {
+          "part": "6524.dat",
+          "color": 14,
+          "position": [
+            64.0,
+            -449.701755,
+            -228.829172
+          ],
+          "matrix": [
+            0.0,
+            1,
+            0.0,
+            0.573576436,
+            0,
+            0.819152044,
+            0.819152044,
+            0,
+            -0.573576436
+          ],
+          "support": "firstholelocalZ-120 meetsupperaxis; end-to-end240,35degreeoutward staticphase source inferred",
+          "line": 75
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            104,
+            -548,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "wheelinnerface84 meetslinkouterface84; nominalouter124 extends4pastaxis",
+          "line": 76
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "swinging link pose",
+          "sourceQuantity": 8,
+          "location": "p8",
+          "missingEvidence": "35degrees fromvertical is source-shape inferred staticphase, not exact measured angle. Paired7hole beams keep240LDU endpoint distance and4LDU clearance fromredbeam sides. Motion envelope not tested.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6522.dat": 4,
+        "6524.dat": 8,
+        "6527.dat": 8
+      },
+      "sourceBom": {
+        "6522.dat": 4,
+        "6524.dat": 8,
+        "6527.dat": 8
+      }
+    },
+    {
+      "sourcePage": 9,
+      "title": "Four lower cross axles, four shortbeam seats and eight wheels",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            297.658345,
+            -303.403509,
+            0.0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "loweraxle throughlastlinkholes andseat centre sidehole",
+          "line": 80
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            297.658345,
+            -327.403509,
+            0.0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "uprightseat sideholelocal(0,24,0) coincides loweraxis, seat remainslevel",
+          "line": 81
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            297.658345,
+            -303.403509,
+            -104.0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 82
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            297.658345,
+            -303.403509,
+            104.0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 83
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -297.658345,
+            -303.403509,
+            0.0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "loweraxle throughlastlinkholes andseat centre sidehole",
+          "line": 84
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            -297.658345,
+            -327.403509,
+            0.0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "uprightseat sideholelocal(0,24,0) coincides loweraxis, seat remainslevel",
+          "line": 85
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -297.658345,
+            -303.403509,
+            104.0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 86
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -297.658345,
+            -303.403509,
+            -104.0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 87
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0.0,
+            -351.403509,
+            297.658345
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "loweraxle throughlastlinkholes andseat centre sidehole",
+          "line": 88
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0.0,
+            -375.403509,
+            297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "uprightseat sideholelocal(0,24,0) coincides loweraxis, seat remainslevel",
+          "line": 89
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            104.0,
+            -351.403509,
+            297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 90
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -104.0,
+            -351.403509,
+            297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 91
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0.0,
+            -351.403509,
+            -297.658345
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "loweraxle throughlastlinkholes andseat centre sidehole",
+          "line": 92
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0.0,
+            -375.403509,
+            -297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "uprightseat sideholelocal(0,24,0) coincides loweraxis, seat remainslevel",
+          "line": 93
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -104.0,
+            -351.403509,
+            -297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 94
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            104.0,
+            -351.403509,
+            -297.658345
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "wheelretention outside pairedlinks, nominal4LDU endoverhang",
+          "line": 95
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "seat retention",
+          "sourceQuantity": 4,
+          "location": "p9",
+          "missingEvidence": "Source seat/axle/link geometry retained. Shaft/pulleyfriction, sideclearance underload and spinning balance not certified; no people or unsourcedconnector added.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6522.dat": 4,
+        "75349.dat": 4,
+        "6527.dat": 8
+      },
+      "sourceBom": {
+        "6522.dat": 4,
+        "75349.dat": 4,
+        "6527.dat": 8
+      }
+    }
+  ],
+  "bom": {
+    "4268.dat": 1,
+    "3011.dat": 8,
+    "75350.dat": 4,
+    "2302b.dat": 8,
+    "6523.dat": 2,
+    "6527.dat": 18,
+    "6292.dat": 1,
+    "6529.dat": 1,
+    "31622.dat": 1,
+    "31625.dat": 1,
+    "31623.dat": 1,
+    "6526.dat": 1,
+    "6522.dat": 8,
+    "6524.dat": 8,
+    "75349.dat": 4
+  },
+  "inventoryReference": "inputs/inventory-evidence.json;9656 mechanical and9090 basic bricks. Source BOM defines use; missing inventory rows are unknown, not zero.",
+  "inventoryMechanicalComparison": [
+    {
+      "part": "3011.dat",
+      "sourceQuantity": 8,
+      "9656AllColors": 12,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 2
+    },
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 18,
+      "9656AllColors": 15,
+      "additionalAgainstOne9656IgnoringColor": 3
+    },
+    {
+      "part": "6292.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6529.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "31622.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "31625.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 1,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "31623.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6526.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 6,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 8,
+      "9656AllColors": 7,
+      "additionalAgainstOne9656IgnoringColor": 1
+    },
+    {
+      "part": "6524.dat",
+      "sourceQuantity": 8,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 6
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    }
+  ],
+  "directGeometryHashes": {
+    "4268.dat": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+    "75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "2302b.dat": "b914434b9d8763495fa0fc65f634d94c59642fb1c3f24cb6335234f7f426fbb2",
+    "6523.dat": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+    "6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "6292.dat": "cde0daf6b533785bda13a5091830d59a3b0e828b69a2c7c7baeba5d2f076995e",
+    "6529.dat": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+    "31622.dat": "f3f46ef936923e8bbbf3cc1f8105d6f72e42a827beaf08313bfcb383937fb30a",
+    "31625.dat": "5ab61278f8b7c3164bd8dc806aca4a22bd242629030add1d59531abfb4662439",
+    "31623.dat": "033a68ef26d5f0061b7c3bf4a07a521528ee2f1594d93bcefd7d8bda78b43309",
+    "6526.dat": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+    "6522.dat": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+    "6524.dat": "bce610a72909858c956df7b8e2637d104fe0d12406566e79099aa438c90f9f38",
+    "75349.dat": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c"
+  },
+  "geometryMetadata": {
+    "4268.dat": {
+      "name": "Duplo Baseplate 24 x 24",
+      "bbox": {
+        "xMin": -480,
+        "xMax": 480,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -480,
+        "zMax": 480
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "75350.dat": {
+      "name": "Duplo Brick  2 x 10 with Holes",
+      "bbox": {
+        "xMin": -200,
+        "xMax": 200,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "2302b.dat": {
+      "name": "Duplo Brick  2 x  3 with Curved Top",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "2026-09-08: coordinate envelope and stud-bearing top corrected from official local 2302b.dat and its subparts. Conservative full slope envelope retained; it is not a filled rectangular brick."
+      ]
+    },
+    "6523.dat": {
+      "name": "Duplo Axle 5 with Gear 8 Tooth",
+      "bbox": {
+        "xMin": -100,
+        "xMax": 100,
+        "yMin": -21.074868,
+        "yMax": 21.074868,
+        "zMin": -21.074868,
+        "zMax": 21.074868
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X",
+        "gearCenterX": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry UPDATE 2017-01 downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/6523.dat; original headers retained.",
+        "Recursive face-vertex bbox and dependency closure checked; gear engagement, phase, bearing clearance and physical fit require manual review.",
+        "Gear plane near X=40 (faces X=38..44); axle endpoints -100,+100."
+      ]
+    },
+    "6527.dat": {
+      "name": "Duplo Wheel with 2 Belt Grooves",
+      "bbox": {
+        "xMin": -44,
+        "xMax": 44,
+        "yMin": -44,
+        "yMax": 44,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "User confirmed 6527 as the rocket wheel hub/pulley on 2026-07-09.",
+        "Official LDraw 6527.dat and required primitives copied from the fixed official LDraw cache to scripts/ldraw-models on 2026-07-09; source header: LDraw Official UPDATE 2017-01, CC BY 4.0.",
+        "Support is manual because the pulley is placed as a decorative cylindrical rocket booster element."
+      ]
+    },
+    "6292.dat": {
+      "name": "Duplo Tyre 25/53 x 19",
+      "bbox": {
+        "xMin": -57,
+        "xMax": 57,
+        "yMin": -57,
+        "yMax": 57,
+        "zMin": -31,
+        "zMax": 31
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 62
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "User confirmed 6292 as the rocket tyre on 2026-07-09.",
+        "Metadata corrected from an auto-generated 53-stud rectangle to the official LDraw tyre extents (about 114 x 114 x 62 LDU).",
+        "Official LDraw 6292.dat and subparts s/6292s01.dat/s/6292s02.dat copied from the fixed official LDraw cache to scripts/ldraw-models on 2026-07-09; source header: LDraw Official UPDATE 2018-02, CC BY 4.0.",
+        "Support is manual because this round tyre is used decoratively in the rocket booster instead of as a stud-stacked structural brick."
+      ]
+    },
+    "6529.dat": {
+      "name": "Duplo Gear 24 Tooth",
+      "bbox": {
+        "xMin": -64.14420731645001,
+        "xMax": 64.14420731645001,
+        "yMin": -64.14420731645001,
+        "yMax": 64.14420731645001,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "31622.dat": {
+      "name": "Duplo Gear 24 Tooth Crown",
+      "bbox": {
+        "xMin": -64.67,
+        "xMax": 64.67,
+        "yMin": -64.67,
+        "yMax": 64.67,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/31622.dat; original source headers retained.",
+        "Source-image identification: 31622 crown gear in 5-xuan-yi-fei-ji p5, 31624 gearbox in 5-huan-wei-che p4.",
+        "Recursive face-vertex bounding box and complete local dependency closure checked. Shaft/gear/box mating, gear phase and motion require manual assembly review, not physical certification."
+      ]
+    },
+    "31625.dat": {
+      "name": "Duplo Worm Gear",
+      "bbox": {
+        "xMin": -39.9597,
+        "xMax": 39.9597,
+        "yMin": -40,
+        "yMax": 39.4919,
+        "zMin": -60,
+        "zMax": 60
+      },
+      "origin": {
+        "type": "worm-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/31625.dat. Original file headers retained.",
+        "Face-vertex bbox computed recursively through complete local dependency closure. Replaces auto-generated rectangular estimates where present.",
+        "Actual tube axis Z, ends +/-60; nominal body radius30 with worm teeth beyond. Exact shaft engagement and physical operation not verified."
+      ]
+    },
+    "31623.dat": {
+      "name": "Duplo Axle 8 with Gear 8 Tooth",
+      "bbox": {
+        "xMin": -160,
+        "xMax": 160,
+        "yMin": -21.074868,
+        "yMax": 21.074868,
+        "zMin": -21.074868,
+        "zMax": 21.074868
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X",
+        "gearPlaneX": 100,
+        "gearFaceX": [
+          98,
+          104
+        ]
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 UPDATE2017-01, downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/31623.dat.",
+        "Axle X endpoints +/-160, gear plane X100, faces98..104. Source 5-diao-shan p7 long blue axle candidate: short6523 insufficient to pass144LDU beam stack; check visible end protrusion against source.",
+        "Recursive face bbox and 12-file local closure checked; physical fit and motion not certified."
+      ]
+    },
+    "6526.dat": {
+      "name": "Duplo Beam  3 x  0.5 Liftarm with Axle",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -20,
+        "yMax": 60,
+        "zMin": -24,
+        "zMax": 104
+      },
+      "origin": {
+        "type": "main-hole-center",
+        "holeAxis": "Y",
+        "integralPinOffset": [
+          0,
+          20,
+          80
+        ],
+        "integralPinAxis": "Y"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "6522.dat": {
+      "name": "Duplo Axle  6",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -9.000230793000002,
+        "yMax": 9.000230793000002,
+        "zMin": -9.000230793000002,
+        "zMax": 9.000230793000002
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "6524.dat": {
+      "name": "Duplo Beam 7",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -20,
+        "yMax": 20,
+        "zMin": -144,
+        "zMax": 144
+      },
+      "origin": {
+        "type": "beam-center",
+        "longAxis": "Z",
+        "holeAxis": "Y",
+        "holePitchLdu": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry, UPDATE2017-01, downloaded unchanged from established gkjohnson/ldraw-parts-library mirror on2026-10-11; official library web response inspected independently.",
+        "Same Beam11 cross-section; end radii24, hole centers -120..120 at40LDU, body half-thickness20 from official DAT. Manual through-hole contact review required, no physical validation."
+      ]
+    },
+    "75349.dat": {
+      "name": "Duplo Brick  2 x  4 with Holes",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    }
+  },
+  "render": "pending main pack/render and pixel inspection",
+  "validation": {
+    "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+    "rawCheckerExit": 2,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "staticReport": "static-alarm-review.json",
+    "pixels": "pending main render"
+  },
+  "unknownIdentityParts": [],
+  "sourcePositionUncertainties": [
+    {
+      "partOrCandidate": "crown/red gear and tyre handwheel",
+      "sourceQuantity": 1,
+      "location": "p4,p10",
+      "missingEvidence": "Source identities retained. Orthogonal gear contact, axle seat depth and asymmetric6292/6527 mesh require local inspection; no generic tyre false-positive exemption.",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "31625 shaft coupling and6526 carrier",
+      "sourceQuantity": 1,
+      "location": "p5",
+      "missingEvidence": "Two shafts meet end-to-endY-292, tube spans[-352,-232]. Tube40LDU above upperbeam and carrier104LDU above tube are inferred from actual nonoverlap stack, not source measured. Tube/shaft coupling engagement, friction and carrier axial retention remain source-backed support exceptions. No invented connector.",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "swinging link pose",
+      "sourceQuantity": 8,
+      "location": "p8",
+      "missingEvidence": "35degrees fromvertical is source-shape inferred staticphase, not exact measured angle. Paired7hole beams keep240LDU endpoint distance and4LDU clearance fromredbeam sides. Motion envelope not tested.",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "seat retention",
+      "sourceQuantity": 4,
+      "location": "p9",
+      "missingEvidence": "Source seat/axle/link geometry retained. Shaft/pulleyfriction, sideclearance underload and spinning balance not certified; no people or unsourcedconnector added.",
+      "classification": "known-interface-unverified"
+    }
+  ],
+  "knownOmitted": [],
+  "installedIdentityCandidates": [],
+  "geometryApproximationParts": [],
+  "manualGeometryRisks": [
+    {
+      "classification": "real_risk",
+      "lines": [
+        40,
+        35
+      ],
+      "evidence": "77 current recursive noncoplanar triangle crossings between official31625 and 6523.dat. See coupler-triangles.json. Two shaftendplanes meet withoutshaftoverlap but tube internalgear/shaft profile remains unresolved. Source component identities retained; no invented coupler/no interference clearance claim."
+    },
+    {
+      "classification": "real_risk",
+      "lines": [
+        40,
+        41
+      ],
+      "evidence": "85 current recursive noncoplanar triangle crossings between official31625 and 31623.dat. See coupler-triangles.json. Two shaftendplanes meet withoutshaftoverlap but tube internalgear/shaft profile remains unresolved. Source component identities retained; no invented coupler/no interference clearance claim."
+    }
+  ],
+  "sourceBomNotes": {
+    "1": "4268 plus6yellow3011",
+    "2": "4yellow2302b plus1longbeam",
+    "3": "2yellow3011 plus1longbeam",
+    "4": "2blue6523,1crown31622,1red6529,1tyre6292,1pulley6527",
+    "5": "31625,31623,6526 each1",
+    "6": "2longbeams and1pulley",
+    "7": "4blue2302b",
+    "8": "4gray6Laxles,8seven-holelinks,8pulleys",
+    "9": "4gray6Laxles,4shortbeamseats,8pulleys"
+  },
+  "currentPixelReview": {
+    "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+    "revision": "d6a521abb44ec19e580a8bf36a1abba97c2a65d36bbaf61d4dd136e84d022091",
+    "path": "preparation\\5-xuan-zhuan-fei-yi\\current-pixel-review.json",
+    "finalViews": 3,
+    "cumulativeSteps": 9,
+    "imagesActuallyReviewed": 12,
+    "accepted": false,
+    "physicalValidation": false,
+    "observations": "Actually viewed all three current final PNGs and all nine cumulative step PNGs individually, then rechecked source p5/p10. Four source seats, paired links and base retained. Tube bottom40LDU above fixedbeam and exposed uppershaft collar are visible inferred seating differences from source p5, whose tube appears to reach beamtop; not asserted source-exact. Coupler77/85 triangle-crossing risks, tyre fit uncertainty,35degree swing pose and friction/retention remain. No physical acceptance."
+  },
+  "observedSourceDifferences": [
+    {
+      "sourcePage": 5,
+      "component": "31625 tube seating",
+      "current": "BottomY-232 is40LDU above fixedbeam top-192; upperlongshaft collar protrudes above tube.",
+      "source": "Sourcep5 tube appears to reach beamtop; exact internal axle insertion hidden.",
+      "status": "Retained known40LDU appearance mismatch after down40candidate failed internal interface review; see tube-seating-candidate-review.json. Source frozen998a."
+    }
+  ],
+  "candidateDecision": "Tube down40 rejected: shortshaft630strictcrossings vs77; longshaftend misses central profile20LDU. Original77/85risks retained."
+}

@@ -1,0 +1,87 @@
+{
+  "name": "5+旋转门搭建说明.pdf",
+  "relative_path": "5+/5+旋转门搭建说明.pdf",
+  "pages": 12,
+  "bytes": 1753548,
+  "sha256": "3b21d3707866902d602a5067694d49c4c25a83ebfdbc62ab100d85a039727c11",
+  "source_url": "https://pan.quark.cn/list#/docpdf/169c96a284684291a32a86c51182ba22",
+  "slug": "5-xuan-zhuan-men",
+  "lesson_id": 312,
+  "course_id": 7,
+  "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5+/5+旋转门搭建说明.pdf",
+  "localBytesVerified": true,
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-01.jpg",
+      "sha256": "c3bde9a075f7d6c67d6549a2d6e3099d76314d422343803915d55285df5bbb71",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-02.jpg",
+      "sha256": "83504e17fbb24284bea5298d65adfae186fce87cc8218a39da6cd87cb9cee24d",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-03.jpg",
+      "sha256": "29d9959bf0214432d5f0e4b375c7a2385e1e9bf4769b013aecb3806608cd6773",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-04.jpg",
+      "sha256": "8367515b4fcd5d415b05e04d39a127aa7c46807393d9dca541f53e440058f11c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-05.jpg",
+      "sha256": "9ec6469fbffde2d67e4d0a2c17eef757abe963e20b7b792bd85b37073e4d4fae",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-06.jpg",
+      "sha256": "226d8087a8caebaa3cb9eaabe2d2aba231fa1fb847549bb0656a3421914eee66",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-07.jpg",
+      "sha256": "f46c119141ae77268e8831441c732835d8c7ec56134ac4d6df107694aa0c161e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-08.jpg",
+      "sha256": "f648e996d69f26acca8e84ace4190abe17a165a30845c566ba3257b764838db4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-09.jpg",
+      "sha256": "d90e13df2f3ec7340200f7d3dba3121c0cd1635f356c76412f0be509680c4765",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-10.jpg",
+      "sha256": "165b001ba268bdfcbb68861d123b9e3f5498c69db19f87cf67f6eb6a6c7cb4f1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-11.jpg",
+      "sha256": "fd2a16f4cbdc8df55ce5ed835b811889cebf9a68dbd5044ad0f18b767bb208b7",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch15/5-xuan-zhuan-men/page-12.jpg",
+      "sha256": "243cc7b040dd723049faf781f987de31d39a69c96c7c99ccf68dfcab20590a4b",
+      "pixelsViewed": true
+    }
+  ]
+}

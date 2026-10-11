@@ -1,0 +1,83 @@
+{
+  "sourceSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+  "beforeSourceSha256": "93e2f677d17f64e8b3f15a78121c937b253a0af9c983ee2ed4079817aebe2e17",
+  "sourcePagesActuallyReinspected": [
+    1,
+    4
+  ],
+  "sourceCountUnchanged": {
+    "3011": 4,
+    "40666": 6
+  },
+  "sourceEvidence": "p4 inverted underside visibly H shaped, central crossbrace spansfull8stud chassiswidth andouterplate caps connect bearingarms; previous two-course centralcolumn contradictedthis shape. Exact hiddenseams are nominal40pitch alignment inference.",
+  "before": {
+    "bricksPerBrace": "two verticalcourses",
+    "maxY": 144,
+    "tyreMaxY": 105.000314198,
+    "groundClearance": -38.999685802
+  },
+  "after": {
+    "bricksPerBrace": "two adjacent2x4 inonecourse",
+    "brickOrigins": [
+      [
+        -80,
+        24,
+        -120
+      ],
+      [
+        80,
+        24,
+        -120
+      ],
+      [
+        -80,
+        24,
+        120
+      ],
+      [
+        80,
+        24,
+        120
+      ]
+    ],
+    "centrePlateOrigins": [
+      [
+        0,
+        72,
+        -120
+      ],
+      [
+        0,
+        72,
+        120
+      ]
+    ],
+    "outerPlateOrigins": [
+      [
+        -120,
+        72,
+        -200
+      ],
+      [
+        120,
+        72,
+        -200
+      ],
+      [
+        -120,
+        72,
+        200
+      ],
+      [
+        120,
+        72,
+        200
+      ]
+    ],
+    "maxY": 96,
+    "groundClearance": 9.000314198,
+    "support": "fournewbricks studconnectbase. Centreplates crossbrickseam; eachouterplate bridgesbearing andbrace onnominalstudgrid."
+  },
+  "physicalValidation": false,
+  "accepted": false
+}

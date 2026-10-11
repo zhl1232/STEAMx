@@ -1,10 +1,10 @@
 {
   "slug": "4-zuan-tu-che",
-  "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
-  "reviewedAt": "2026-10-11T10:28:45.477Z",
+  "modelSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+  "reviewedAt": "2026-10-11T14:24:08.333Z",
   "originalCheck": {
-    "path": "scripts/ldraw-models/4-zuan-tu-che.ldr",
-    "sha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-zuan-tu-che.ldr",
+    "sha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
     "exit": 2,
     "output": "\nFAIL [4-zuan-tu-che.ldr] 1 error(s), 52 placement(s):\n  - step 2: 4-zuan-tu-che_l22 overlaps 4-zuan-tu-che_l21\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
     "stableDuringCheck": true
@@ -17,11 +17,19 @@
     "p2 approved cockpit approximation retained; exact hidden mold/hinge fit unverified.",
     "p3/4 approximate99565+44970 tire/rim geometry, axle depth and tire compression not certified.",
     "p6-11 cantilever screw/turntable/fork/clutch capture provisional; no motion/load acceptance.",
-    "Corrected p8 fork axes are verticalY; p9 arm open near end now x601 and closed far end1001, same pivot spacing400. Rootfork48LDU lateral estimate yields arm/endclutch centersZ+/-88. End yellow2x4 spans+/-80 with studgrid8LDU mismatch to clutch inner rows+/-68; connection unresolved, not physical acceptance."
+    "P9 two rigid400LDU arms yaw inward6.892102579deg about unchanged roots(601,-105.378574,+/-88). End axes(998.109556672,-105.378574,+/-40); p10 clutch bodies now adjacent with full4-column stud grid matching p11 yellow3011. This is source-supported nominal pose adjustment, not verified fit. Recursive strict surface crossings persist at root/arm428,426 and arm/clutch90,92 triangle pairs; old values430/430/88/88. Double-arm crossing0 does not prove clear fit. Approximate74957 tongue/28331 tip retention and counterrotation remain unresolved."
   ],
   "rawAlarmsStatus": "One cockpit/hood pair explicitly explained by same approved assembly-relative transform; raw FAIL retained, not suppressed or treated as proof of clear fit.",
   "sourceEvidence": "preparation/4-zuan-tu-che/ledger.json",
-  "currentPixels": "final3 and all11steps actually reviewed with retained limitations",
+  "currentPixels": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  },
   "rawAlarms": [
     {
       "step": 2,
@@ -39,7 +47,15 @@
     }
   ],
   "matrixInvalid": [],
-  "currentPixelEvidence": "current-pixel-review.json",
+  "currentPixelEvidence": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  },
   "alarms": [
     {
       "step": 2,
@@ -54,7 +70,7 @@
       "classification": "known_approved_assembly_contact_requires_manual_review",
       "evidence": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported.",
       "limits": "Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim.",
-      "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+      "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
       "rawPair": [
         "4-zuan-tu-che_l22",
         "4-zuan-tu-che_l21"
@@ -77,5 +93,15 @@
     }
   ],
   "rawAlarmsLegacyNote": "rawAlarms retained as prior author evidence; alarms is the normalized current per-pair index for QA. Both refer to same single raw pair, not two errors.",
-  "pairMappingUpdatedAt": "2026-10-11T10:55:41.159Z"
+  "pairMappingUpdatedAt": "2026-10-11T10:55:41.159Z",
+  "manualInterfaceReview": {
+    "evidence": "tip-inward-candidate.json",
+    "classification": "positive_mesh_crossings_on_approved_approximate_interfaces",
+    "nominalStudGridCorrected": true,
+    "physicalValidation": false
+  },
+  "matrixReview": {
+    "maximumOrthogonalityError": 6.368277016832735e-10,
+    "properRigidTransforms": true
+  }
 }

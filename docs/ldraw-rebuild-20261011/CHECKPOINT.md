@@ -1,10 +1,10 @@
 # 当前开发稿核查说明
 
-更新：2026-10-11T13:55:08.246944+00:00。
+更新：2026-10-11T14:33:07.500055+00:00。
 
-目标仍为129课（71缺源稿、58简化稿）。本机实际收到116课原始资料，13课尚未本机正式转入。队列中的Library资料与上游解码数另外记录，不算本机收件或建模完成。
+目标仍为129课（71缺源稿、58简化稿）。本机实际收到126课原始资料，3课尚未本机正式转入。队列中的Library资料与上游解码数另外记录，不算本机收件或建模完成。
 
-当前按本机实看源图重建116课；与当前源稿绑定的关键视图复看116课、全部累计步骤复看116课。这些是开发核查记录，未标用户确认或实物验证。
+当前按本机实看源图重建126课；与当前源稿绑定的关键视图复看126课、全部累计步骤复看126课。这些是开发核查记录，未标用户确认或实物验证。
 
 - [逐课状态](COURSE-STATUS-CURRENT.md)与[129课进度](progress-129.json)。
 - [当前证据覆盖](checkpoint-status.json)、[开发预览](previews/)、[逐课证据](evidence/)。
@@ -16,4 +16,4 @@
 
 继续分批备份至[同一独立分支](https://github.com/zhl1232/STEAMx/tree/models/129-course-source-rebuild-20261011)。原160个发布模型、生产数据库、OSS、白名单及workflow不变，不开PR、不合main、不部署。原始PDF/JPG不提交Git。
 
-明确未解决：螳螂前臂仍不符源图；钻土车末端仍有8 LDU孔排误配。像素已复核仅表示实际观察覆盖，不表示模型或连接通过。
+Explicit limits: Mantis: source-pose correction recorded; current pixel evidence and unresolved geometry/interfaces remain authoritative. Drill vehicle: source-pose correction recorded; current pixel evidence and unresolved geometry/interfaces remain authoritative. Reviewed pixels record observation, not acceptance or physical assembly proof.

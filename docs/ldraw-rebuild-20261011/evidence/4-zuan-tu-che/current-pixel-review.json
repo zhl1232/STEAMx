@@ -1,23 +1,23 @@
 {
-  "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
-  "revision": "26c206872ea4d1688c69e32f6b1d1d5b4b2931914de9a0b094f0ed3b8f7e2411",
-  "reviewedAt": "2026-10-11T10:48:23.543969+00:00",
+  "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+  "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+  "reviewedAt": "2026-10-11T14:29:52.185018+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zuan-tu-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "8cb42a9c2254f0586f965e8b8bff69faf884b3618741bf0963bec4cd5c8c2e24",
+      "sha256": "17fef5ff5390ceefcd6a7591f9ab979fcdf91fe26c8e32f4056c44eb76c6e722",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "5c0a75a102e494febffbe5e173f5db08d0ac1fbfd4a0b6c1954202cc1333603b",
+      "sha256": "cfb13303cf060304bdd6b1ae866b0040c19eedd76615597cd85bf79050484dee",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "00ced4360862f42a03da3280ebed5a44277e45ad44c0c3a2d1c583e3eb50973f",
+      "sha256": "ff29dfbe10c9957c95800dd3f16648785187c883e161c45f90c24952b0796c1d",
       "pixelsActuallyReviewed": true
     },
     {
@@ -62,17 +62,17 @@
     },
     {
       "view": "step-9",
-      "sha256": "fc89ced961aaf123353eb44ccfe41bfd801638751a54c62e92314f6181a98383",
+      "sha256": "92d9463f4139c2d223fe665d02f4c7d64c24d5be2c33329aa98f5823592d13ba",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-10",
-      "sha256": "6b2bf5ad05ffdb3a8b75217b40bf493199de7bb31635b7dcf614d2125236321b",
+      "sha256": "c632846de1f086039d1f71524f9efc7c92af14117355592f0b5a0c76e8bce795",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-11",
-      "sha256": "8cb42a9c2254f0586f965e8b8bff69faf884b3618741bf0963bec4cd5c8c2e24",
+      "sha256": "17fef5ff5390ceefcd6a7591f9ab979fcdf91fe26c8e32f4056c44eb76c6e722",
       "pixelsActuallyReviewed": true
     }
   ],
@@ -81,5 +81,5 @@
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually reviewed current final3 and all11 cumulative stages via contact sheet, with original step8-11 inspected for corrected fork/arm axes. Source p8/p9 vertical yellow pins and broad arm faces now correspond. Six window faces, roof, chassis, eight wheels and cumulative additions match reviewed source sequence; full model framed. End clutch centersZ+/-88 versus yellow bar standard stud rows leave documented8LDU mismatch; clip engagement and physical retention unresolved. Existing cockpit31196c01/hood6345 raw overlap remains explicitly reported, not waived. Approved approximate wheels/thread/arms; no motion/load or physical/user acceptance."
+  "limitations": "Actual current final3 original PNG and all11 steps current contact sheet inspected; original step9/10/11 enlarged, sourcep9-12 compared andp11 rechecked. Inward6.892degree arms retain root axes and now yield adjacent end boxes/full four-column yellow bridge. Old96LDU body gap and8LDU inner-column mismatch corrected nominally. Existing positive strict mesh crossings root/arm428,426 and arm/clutch90,92 remain unresolved; no verified capture/counterrotation/physical support. Raw cabhood overlap and approved approximate wheels/cab/arms retained. No clipping seen; pixel review is not physical or user acceptance."
 }

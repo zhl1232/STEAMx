@@ -1,19 +1,66 @@
 {
-  "slug": "4-tang-lang",
-  "sourceSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+  "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+  "beforeSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
   "rawExitCode": 0,
-  "rawOutput": "OK [4-tang-lang.ldr] 58 placements; 1 passed, 0 failed.",
+  "rawOutput": "OK [4-tang-lang.ldr] 58 placement(s)\nChecked 1 requested LDR source model(s). 1 passed, 0 failed.",
   "alarms": [],
+  "rawTool": "STEAMx/.agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs",
   "manualRisks": [
-    "Toolo manual collision/support policy means raw PASS is not exhaustive.",
-    "P2-4 leg side-facing frame corrected from source stud normals/body-hole height; end-thread closure, exact side coupling and cap retention still manual.",
-    "P5 front arms remain straight in current draft, whereas source shows raised/elbowed brick frame; unresolved and not accepted.",
-    "P6 4433c01 x2 omitted: known identity, unavailable licensed geometry.",
-    "P7 Toolo neck fork/clutch/shortarm prior-approved approximate geometry, no physical validation.",
-    "P10-12 source-tailward wing pitch -60 degrees inferred; clutch articulation/clearance pending new rendered views.",
-    "P5 DAT screw indicator is local[-20,0,20], not a generic centered screw; upright and stacked alternatives lack unique body-hole/underside evidence and are not installed. P2-4 prior nominal screw-alignment wording is only a body-height estimate, not verified screw closure."
+    "Approved approximate 76057 screw indicator at world Z -20/+60 differs 20 LDU from front-body hole candidates -40/0/+40. This is unresolved thread registration, not clearance-accepted attachment.",
+    "Proximal body nominal X240 face abuts body end X240; its upper edge Y-76 touches distal bottom Y-76 over X240..288. Stud/thread and load bearing retention remain unproved.",
+    "Recursive strict crossings include each proximal/body 614 pairs, each front relocated cap/proximal 620, each inherited fork/clutch 372. These remain real mesh risks with approximate geometry, not dismissed by source appearance.",
+    "P13 six body/two distal cap allocation is source-constrained display inference. Exact hidden positions are not unique; front caps use existing black front-body top.",
+    "Known 4433c01 exhaust pair omitted for unavailable geometry; no invented substitute.",
+    "All previous leg/wing/head/eye interface limitations still apply; this repair does not clear them."
   ],
+  "recursiveMeshEvidence": "pose-mesh-results.json",
   "accepted": false,
   "physicalValidation": false,
-  "pixelStatus": "Prior 59acfbcc render rejected for pose differences; b106384e awaiting rerender"
+  "pixelStatus": "current final3 and all13steps actually reviewed; not mechanical acceptance",
+  "currentPixelObservation": {
+    "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+    "sourcePagesActuallyRevisited": [
+      5,
+      6,
+      13,
+      14
+    ],
+    "finalOriginalsActuallyViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "keyOriginalStepsActuallyViewed": [
+      5,
+      6,
+      13
+    ],
+    "raisedElbowSilhouetteImproved": true,
+    "remainingVisibleDifferences": [
+      "terminal display more horizontal/compact than source; source articulation not uniquely measured",
+      "two hanging4433c01 exhausts absent for missinggeometry",
+      "six body cap allocation remains inferred rather than uniquely source-confirmed"
+    ],
+    "mechanicalAcceptance": false,
+    "risksRetained": [
+      "20LDU thread registration mismatch",
+      "614 proximal/body,620 cap/proximal,372 fork/clutch strict crossing triangle pairs per assembly",
+      "all existing leg/head/wing interface limitations"
+    ]
+  }
 }

@@ -1,0 +1,82 @@
+{
+  "partCount": 143,
+  "missingParts": [],
+  "stepCount": 7,
+  "revision": "d3d10096c74af9091a677c41889731b1668b29d30e9cf49a2e50f6cb375c0593",
+  "sourceSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+  "stepRenderMethod": "cumulative source truncated at STEP, repacked",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "staticSingleRender": true,
+  "outputRoot": "D:/Codex-task-2-20261011/rendered-evidence",
+  "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top",
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7"
+  ],
+  "latestRunViews": [
+    "iso",
+    "iso-rear",
+    "top",
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7"
+  ],
+  "logs": [
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    }
+  ],
+  "viewport": {
+    "width": 1000,
+    "height": 720
+  },
+  "elapsedMs": 45015
+}

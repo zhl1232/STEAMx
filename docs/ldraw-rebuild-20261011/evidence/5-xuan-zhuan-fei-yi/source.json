@@ -1,0 +1,79 @@
+{
+  "slug": "5-xuan-zhuan-fei-yi",
+  "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+  "previousDraftSha256": null,
+  "manifest": {
+    "name": "5+旋转飞椅搭建说明.pdf",
+    "relative_path": "5+/5+旋转飞椅搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1759020,
+    "sha256": "02d4eff7a940029db28365edf47eec38f2c21f62626e38b0650b1176b6801f37",
+    "source_url": "https://pan.quark.cn/list#/docpdf/fc65556c59814851bed98a8d9a847c9f",
+    "slug": "5-xuan-zhuan-fei-yi",
+    "lesson_id": 310,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-01.jpg",
+      "sha256": "347c6a02f7a124364272bbc381c607fe67068ee192581cc6a74f33b7177c9a6c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-02.jpg",
+      "sha256": "bd2c2e516b39bed79d235633c0611f0e75e018148655ac156df425f206d0ebf1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-03.jpg",
+      "sha256": "9901ad3a9825e6e6827b3dbde2015bb2ff420a4b30f6a0b1566436492069c60a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-04.jpg",
+      "sha256": "cfb994d7c66a55757619e90912f4cf85fa0797b6db302c24e5f3d00eee9879b4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-05.jpg",
+      "sha256": "dadb5bf32c64b3749394631230f171086b8b2ef3088882c3fab7ad7aae425cad",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-06.jpg",
+      "sha256": "53cdd31b17a10469051707b37644cb54a6499ccde355934405d2e92d665e2032",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-07.jpg",
+      "sha256": "59f692ab326f6c986a100f9604a37e5f6399d00fd47475071e28fd47670a3a1a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-08.jpg",
+      "sha256": "7fe8b784e28685ccc698ab43edd3166bc85b6a66a6c82f11296c0cf6ea533216",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-09.jpg",
+      "sha256": "2c66c8957f31f9e2fbf92ce9573a8e071da1f85b7144bf9ccb8bf3af8a2ea05e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-xuan-zhuan-fei-yi\\page-10.jpg",
+      "sha256": "1552ab85ec123811b5e0f92d013c3275a9d6c2e4ae4adf189b7329b90cc7d4e0",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

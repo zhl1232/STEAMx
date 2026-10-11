@@ -1,0 +1,942 @@
+{
+  "slug": "5-ya-shui-jing",
+  "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+  "status": "incomplete-development-preview",
+  "verificationLevel": "structurally checked only",
+  "implementedPlacements": 136,
+  "sourcePhysicalCount": 138,
+  "knownOmittedPhysicalCount": 2,
+  "pages": [
+    {
+      "page": 1,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "4",
+          "quantity": 24
+        },
+        {
+          "id": "6490.dat",
+          "color": "2",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 25,
+      "cumulativePlacements": 25,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-01.jpg"
+    },
+    {
+      "page": 2,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "4",
+          "quantity": 24
+        }
+      ],
+      "implementedCount": 24,
+      "cumulativePlacements": 49,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-02.jpg"
+    },
+    {
+      "page": 3,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 30
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 32,
+      "cumulativePlacements": 81,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-03.jpg"
+    },
+    {
+      "page": 4,
+      "sourcePageBOM": [
+        {
+          "id": "3437.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 85,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-04.jpg"
+    },
+    {
+      "page": 5,
+      "sourcePageBOM": [
+        {
+          "id": "6521.dat",
+          "color": "2",
+          "quantity": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 89,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-05.jpg"
+    },
+    {
+      "page": 6,
+      "sourcePageBOM": [
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 3,
+      "cumulativePlacements": 92,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-06.jpg"
+    },
+    {
+      "page": 7,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 1
+        },
+        {
+          "id": "6524.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6526.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 5,
+      "cumulativePlacements": 97,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-07.jpg"
+    },
+    {
+      "page": 8,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 101,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-08.jpg"
+    },
+    {
+      "page": 9,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 1
+        },
+        {
+          "id": "3011.dat",
+          "color": "25",
+          "quantity": 3
+        },
+        {
+          "id": "3437.dat",
+          "color": "25",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 107,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-09.jpg"
+    },
+    {
+      "page": 10,
+      "sourcePageBOM": [
+        {
+          "id": "31191.dat",
+          "color": "14",
+          "quantity": 1
+        },
+        {
+          "id": "31195.dat",
+          "color": "4",
+          "quantity": 1
+        },
+        {
+          "id": "31452.dat",
+          "color": "1",
+          "quantity": 1
+        },
+        {
+          "id": "31452.dat",
+          "color": "14",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 111,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-10.jpg"
+    },
+    {
+      "page": 11,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "1",
+          "quantity": 9
+        },
+        {
+          "id": "3437.dat",
+          "color": "1",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 13,
+      "cumulativePlacements": 124,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-11.jpg"
+    },
+    {
+      "page": 12,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "1",
+          "quantity": 11
+        },
+        {
+          "id": "3437.dat",
+          "color": "1",
+          "quantity": 3
+        }
+      ],
+      "implementedCount": 12,
+      "cumulativePlacements": 136,
+      "omissions": [
+        {
+          "page": 12,
+          "id": "3011.dat",
+          "color": 1,
+          "quantity": 2,
+          "category": "known-connection/layout",
+          "evidence": "p12 elevenblue2x4+three2x2: nine2x4+three2x2 implemented, twoendwallbricks omitted ratherthanintersectroundframe; sourcecount clear, placementunknown."
+        }
+      ],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-ya-shui-jing\\page-12.jpg"
+    }
+  ],
+  "omissions": [
+    {
+      "page": 12,
+      "id": "3011.dat",
+      "color": 1,
+      "quantity": 2,
+      "category": "known-connection/layout",
+      "evidence": "p12 elevenblue2x4+three2x2: nine2x4+three2x2 implemented, twoendwallbricks omitted ratherthanintersectroundframe; sourcecount clear, placementunknown."
+    }
+  ],
+  "unknownIdentity": [],
+  "missingGeometry": [],
+  "knownConnectionOmissions": [
+    {
+      "page": 12,
+      "id": "3011.dat",
+      "color": 1,
+      "quantity": 2,
+      "category": "known-connection/layout",
+      "evidence": "p12 elevenblue2x4+three2x2: nine2x4+three2x2 implemented, twoendwallbricks omitted ratherthanintersectroundframe; sourcecount clear, placementunknown."
+    }
+  ],
+  "approvedApproximateGeometry": [],
+  "implementedBOM": [
+    {
+      "id": "3011.dat",
+      "color": "1",
+      "quantity": 18
+    },
+    {
+      "id": "3011.dat",
+      "color": "14",
+      "quantity": 31
+    },
+    {
+      "id": "3011.dat",
+      "color": "25",
+      "quantity": 3
+    },
+    {
+      "id": "3011.dat",
+      "color": "4",
+      "quantity": 48
+    },
+    {
+      "id": "31191.dat",
+      "color": "14",
+      "quantity": 1
+    },
+    {
+      "id": "31195.dat",
+      "color": "4",
+      "quantity": 1
+    },
+    {
+      "id": "31452.dat",
+      "color": "1",
+      "quantity": 1
+    },
+    {
+      "id": "31452.dat",
+      "color": "14",
+      "quantity": 1
+    },
+    {
+      "id": "3437.dat",
+      "color": "1",
+      "quantity": 9
+    },
+    {
+      "id": "3437.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "3437.dat",
+      "color": "25",
+      "quantity": 2
+    },
+    {
+      "id": "40666.dat",
+      "color": "1",
+      "quantity": 2
+    },
+    {
+      "id": "6490.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "6521.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "6522.dat",
+      "color": "7",
+      "quantity": 2
+    },
+    {
+      "id": "6524.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6526.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6527.dat",
+      "color": "14",
+      "quantity": 4
+    },
+    {
+      "id": "75349.dat",
+      "color": "4",
+      "quantity": 3
+    },
+    {
+      "id": "75350.dat",
+      "color": "4",
+      "quantity": 2
+    }
+  ],
+  "partGeometry": [
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "header": [
+        "0 Duplo Brick  2 x  4",
+        "0 Name: 3011.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "31191.dat",
+      "sha256": "efa72fc523ca19a5414a06360ca81b520831e74c887f133c97afcca8a244ea1d",
+      "header": [
+        "0 Duplo Ball Tube Exit with Round Doorway  2 x  6 x  5",
+        "0 Name: 31191.dat",
+        "0 Author: Gerald Lasser [GeraldLasser]",
+        "0 !LDRAW_ORG Part UPDATE 2025-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Brick",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "31195.dat",
+      "sha256": "9714624ca1f87c8632c05ded4b15d73f39c9349b7431e3e9ed707375eb2bdf09",
+      "header": [
+        "0 Duplo Ball Tube 45 Degrees",
+        "0 Name: 31195.dat",
+        "0 Author: Gerald Lasser [GeraldLasser]",
+        "0 !LDRAW_ORG Part UPDATE 2025-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 !HELP 120 LDU radius",
+        "",
+        "0 BFC CERTIFY CCW",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "31452.dat",
+      "sha256": "6dbb1579465641561c68025708f107dda930d31f87300cc10fed6939dd28257b",
+      "header": [
+        "0 Duplo Ball Tube Straight",
+        "0 Name: 31452.dat",
+        "0 Author: Gerald Lasser [GeraldLasser]",
+        "0 !LDRAW_ORG Part UPDATE 2025-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2025-03-30 [OrionP] Official Update 2025-03",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+      "header": [
+        "0 Duplo Brick  2 x  2",
+        "0 Name: 3437.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "header": [
+        "0 Duplo Plate  2 x  4",
+        "0 Name: 40666.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6490.dat",
+      "sha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830",
+      "header": [
+        "0 Duplo Plate  8 x 16",
+        "0 Name: 6490.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6521.dat",
+      "sha256": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+      "header": [
+        "0 Duplo Axle  8",
+        "0 Name: 6521.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "header": [
+        "0 Duplo Axle  6",
+        "0 Name: 6522.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6524.dat",
+      "sha256": "bce610a72909858c956df7b8e2637d104fe0d12406566e79099aa438c90f9f38",
+      "header": [
+        "0 Duplo Beam  7",
+        "0 Name: 6524.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6526.dat",
+      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+      "header": [
+        "0 Duplo Beam  3 x  0.5 Liftarm with Axle",
+        "0 Name: 6526.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2025-07",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Crank, dacta, Early Simple Machines, handle"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "header": [
+        "0 Duplo Wheel with 2 Belt Groves",
+        "0 Name: 6527.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines, Pulley"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+      "header": [
+        "0 Duplo Brick  2 x  4 with Holes",
+        "0 Name: 75349.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "header": [
+        "0 Duplo Brick  2 x 10 with Holes",
+        "0 Name: 75350.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS BrickLink 6515c01, dacta, Early Simple Machines, Rebrickable 6515"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    }
+  ],
+  "risks": [
+    {
+      "key": "source-count",
+      "classification": "visible-with-hidden-seam-inference",
+      "evidence": "All13 sourcepagesactuallyviewed. p1 24red2x4+green8x16; p2 24red2x4; p3 30yellow2x4+two2x2. p7 two7hole6524 confirmedbyholes. p11 9blue2x4+four2x2; p12 11blue2x4+three2x2. No sourcecountcontradiction asserted."
+    },
+    {
+      "key": "well-seams",
+      "classification": "source-supported-with-inferred-hidden-layout",
+      "evidence": "p1 six6x6pinwheelcourses of4bricks,2x2hole. p2 four8x8perimetercourses of6bricks,4x4hole,40LDUoverhang supported onlowercourse. p3 three10x10pinwheelcourses of8bricks,6x6opening. Topsidewalls4long+2square, twoadditionalyellowplatforms extendmechanism. Eachplatform atX240,Y-672,Z+/-80 overlaps40LDUontoexistingouterringX120..200; actualcantileverload capacityunverified. Followup p2 pixels rechecked: outeredge stud count remains8, fourheightcourses consistent with24bricks; temporary10x10threecourse suspicion notadopted. Not a count-onlyproof."
+    },
+    {
+      "key": "pivot-adjustment",
+      "classification": "explicit-reasonable-layout-adjustment",
+      "evidence": "Toavoidbluewall/6527intersection, pairedbluesquares andredshortbearings centreX280,Z+/-80; shaftY-744. Green6521 spansZ+/-160, wheels+/-140. Lever75350 pivotuseslocalholeX80, innerpinlocal-160,240LDUspan; chosen10degreehandle-downphase. Thiswidenssourcehiddenbearingplacement; sourcepreciseholes/offsetsnotunique. No piece scaling orinventedspacers."
+    },
+    {
+      "key": "pump-linkage",
+      "classification": "source-backed-pose-with-motion-unverified",
+      "evidence": "Innerleverpin=(280-240cos10,-744-240sin10), outer7holebeamsZ+/-60 withtop/bottomholes240LDUapart. Gray6Lshafts bothends. Two6526 externalcaps atZ+/-100 haveintegralpin80belowtop, inwardinto7beam. Nominalaxescoincide; shaftretention andcompletepumptravel notvalidated."
+    },
+    {
+      "key": "piston",
+      "classification": "explicit-hidden-layout-adjustment",
+      "evidence": "Verticalred75349 localX->+Y/localY->+X, topstudsface-X, originat(innerpinX-24,lowerpinY+40). p9 threeorange2x4,twoorange2x2 andyellow2x4 retained ininterlockedsidebuiltlayers, shiftedinwardtoavoidwellwall. Precisesourcehiddenpistonlayoutnotuniquelyvisible; colours/count/externalgroupretained, nohydraulicfunctionclaim."
+    },
+    {
+      "key": "tube-identity-and-seating",
+      "classification": "official-geometry-candidate-installation",
+      "evidence": "p10 sixstudroundframe/45degreeelbow/twostraights matchofficial31191,31195,31452 visiblefeatures andexistinglicensedDAT. Frame240LDUhigh seatedonendwalltop-624 sooriginY-864; roundholecentreY-754. ElboworiginatframeplaneX-160, orientationmapslocalZoutward-X/localXup-Y. Actualelbowexit(-35.148,0,84.852), tangent45degrees usedtoattachstraight120LDUsegments. Rim78/80 nominalseating andsocketfit/intersections requiremesh/physicalconfirmation; no resizedframe/tubes."
+    },
+    {
+      "key": "upper-blue-omissions",
+      "classification": "known-connection/layout",
+      "evidence": "p11 ninthblue3011 restored at(160,-720,0),E. ItsbottomY-672 bridges two sourceyellowplatforms centred(240,-672,+/-80), with40x40LDU bearing overlaps atX160..200/Z40..80 andZ-80..-40, fournominalstudcentres total. Partialbearing/loadretention unverified. Two p12blue3011 remainomitted: farendX-160,Y-816/-864 intersectsactual31191frame; nearendX160,Y-816 intrudeslever. A highercap needsdifferentheight orchanges sourceopening andisnot silentlysubstituted. Detailedcandidates: blue-local-second-look.json."
+    },
+    {
+      "key": "static-limit",
+      "classification": "evidence-insufficient",
+      "evidence": "Correctedknownwall/piston andwall/pulleyintersections beforecurrentchecker. Exit0 isnot assemblysupport, retention, fullmotion, liquidpump,orphysicalacceptance. Currentfinal3/all12stepactualpixelreviewpending; noChrome/Studio used."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "9090-2",
+      "9656-1"
+    ],
+    "setIsNotCourseBOM": true,
+    "userStock": "unknown",
+    "comparisons": [
+      {
+        "id": "3011.dat",
+        "color": "Blue",
+        "sourceQuantity": 20,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 26
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Yellow",
+        "sourceQuantity": 31,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 26,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Orange",
+        "sourceQuantity": 3,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 10
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Red",
+        "sourceQuantity": 48,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 20
+          },
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 28,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31191.dat",
+        "color": "Yellow",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31195.dat",
+        "color": "Red",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31452.dat",
+        "color": "Blue",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31452.dat",
+        "color": "Yellow",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3437.dat",
+        "color": "Blue",
+        "sourceQuantity": 9,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 40
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3437.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 3
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3437.dat",
+        "color": "Orange",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 20
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Blue",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 12
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6490.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6521.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6522.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 7
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6524.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6526.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 6
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6527.dat",
+        "color": "Yellow",
+        "sourceQuantity": 4,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 15
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75349.dat",
+        "color": "Red",
+        "sourceQuantity": 3,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75350.dat",
+        "color": "Red",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      }
+    ]
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "93569731d0997072415b519034004f2598e5757b6960fd0a714c5ec46b29324c",
+    "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 12,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

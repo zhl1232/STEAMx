@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+  "revision": "ebbd23d74e543e5edcc1c418326639d220ee7e82909db0b803e08a81fcdcefd7",
+  "reviewedAt": "2026-10-11T14:32:27.354436+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-shua-qi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "9648b5dd080419364f763fbb2f56c4e2592e97b1d3e57fe1fa0d3e6c7d2fccfd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "04e3f15184570415fbc3d9d29c2d7246f79ea2dd41617b27d01ab4d9c1720211",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "904bd62707fdb1ae1149727c6644198643d83af548119d030bbd6d9dc230b185",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bcdae8682df78c3483a77452fb0a921c91d1b0e270d3365e1dbe9fd24ff20437",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "1364606f438ece1ceeb8a9616212b64a8b44f47bcc1df4436783dcbe6434d2c5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "d741e8654acafe18f3d030941be63144307c3417aaa40fdb77e3ce93144e3e17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "9465bc92037827c5a67b8fbf7efbc026f8f319cbfb2831fdb222d54507690515",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "efb7ae50223270712d78bc5af915c216898bac5befdf7a57ba0a088443992c55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "fb66d91936652f980c7195c6be01d19a3d6a0b6dd8a8ccf77303b725ca84b434",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "42f4c6ac16eb148a17f39ceb649458c0041612add7450449b9e37759aec29072",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7116f882ae57813b8d2fca70f8e33d6f1f4150534b03f02205c609c5d53c86ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "2b36964b5d90012cb6c00d06696f4a600e5759fc876288f1fdf4588301a5bcde",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "5be6e0781a991ba19878e3da35eaa536bfc666e46bc01c8fa1ae0a440b0becb1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "3a9b8b7f3ebca9d4ed634b1f732ea6d7bb83b2e362f9e0e696cd7eda866b9094",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "9648b5dd080419364f763fbb2f56c4e2592e97b1d3e57fe1fa0d3e6c7d2fccfd",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final contact sheet, all twelve cumulative frames, original step4 PNG and all three final original PNGs; re-viewed original source p4. Revised same-course Hbrace removes the previous visibly overdeep central feet while keeping four3011 andsix40666. Nominal DATgroundgap9.000314LDU is consistent with the observed shorter underside; underside contact seams are partly occluded in upright camera views and are not proved by pixels. No further unambiguous placement error observed. Eight figure components remain omitted; four tyre/rim alarms, rim retention, sideways bladeplate grip, gear phase and full swept mechanism remain unresolved. Coverage only, not physical rolling or assembly acceptance."
+}

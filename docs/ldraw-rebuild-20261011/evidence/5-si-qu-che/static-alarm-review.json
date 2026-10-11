@@ -1,7 +1,7 @@
 {
   "slug": "5-si-qu-che",
   "modelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
-  "reviewedAt": "2026-10-11T13:29:05.259Z",
+  "reviewedAt": "2026-10-11T14:04:52.029Z",
   "originalCheck": {
     "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-si-qu-che.ldr",
     "sha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
@@ -63,8 +63,8 @@
           ]
         }
       ],
-      "classification": "existing_approved_approximation_interface_unresolved",
-      "reason": "Current lines76/77 are approved local31196c01 cockpit and6345 windshield at inherited relative transform. Source p9/p12 shows this family; overlap remains unresolved surrogate mating, not a proved false positive and not physical clearance.",
+      "classification": "known_part_interface_requires_mesh_review",
+      "reason": "Raw overlap retained for manual per-interface assessment. Sources and exact local axes/plate thickness are documented in ledger; automatic bounds are not proof of clear mating or a physical collision.",
       "resolution": "retained-unresolved-not-clear",
       "accepted": false
     }
@@ -102,6 +102,13 @@
   "userConfirmed": false,
   "physicalValidation": false,
   "checkerPassIsNotConnectionAcceptance": true,
-  "currentPixels": "current6769 final3 and all11 cumulative steps actually viewed; current-pixel-review.json",
-  "pixelReviewFile": "preparation/5-si-qu-che/current-pixel-review.json"
+  "currentPixels": {
+    "sourceSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+    "revision": "e1c5bd3bef8198f1995e9f2bd76a8f52a860309fca842b95453e026ebdb20b29",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
 }

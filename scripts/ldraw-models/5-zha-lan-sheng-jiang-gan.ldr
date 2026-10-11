@@ -1,0 +1,102 @@
+0 5-zha-lan-sheng-jiang-gan - source-based dev-only reconstruction
+0 Name: 5-zha-lan-sheng-jiang-gan.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: Plate base and paired bearing pedestals
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -200 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -200 -72 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 -200 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -168 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -200 -192 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 -40 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -40 -72 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 -40 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -168 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -40 -192 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // Source page 2: Two green8L support axles, four washers and upright long beam
+1 14 -120 -248 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+1 2 -120 -48 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -260 -48 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 20 -48 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 2 -120 -144 40 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -260 -144 40 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 20 -144 40 0 0 1 0 1 0 -1 0 0 6527.dat
+0 STEP
+0 // Source page 3: Two11-hole crossbars, gray upper and green lower pivot shafts,3washers and driven crank
+1 14 -80 -448 200 0 -1 0 1 0 0 0 0 1 6525.dat
+1 14 -80 -288 200 0 -1 0 1 0 0 0 0 1 6525.dat
+1 7 -100 -448 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -160 -448 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -40 -448 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 2 0 -288 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -160 -288 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -40 -288 0 0 -1 0 1 0 0 0 0 1 6526.dat
+0 STEP
+0 // Source page 4: Three7-hole vertical rails, six short blue geared shafts and yellow retainers
+1 14 -120 -328 120 0 1 0 0 0 -1 -1 0 0 6524.dat
+1 1 -100 -448 120 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -448 120 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -100 -288 120 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -288 120 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -120 -328 240 0 1 0 0 0 -1 -1 0 0 6524.dat
+1 1 -100 -448 240 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -448 240 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -100 -288 240 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -288 240 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -120 -328 360 0 1 0 0 0 -1 -1 0 0 6524.dat
+1 1 -100 -448 360 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -448 360 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -100 -288 360 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 -160 -288 360 0 0 1 0 1 0 -1 0 0 6527.dat
+0 STEP
+0 // Source page 5: Gearbox pedestal
+1 14 80 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 80 -72 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 80 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: Real gearbox with worm and red output on existing green lower axle
+1 15 80 -120 0 0 0 1 0 1 0 -1 0 0 31624.dat
+1 4 80 -288 0 0 0 1 0 1 0 -1 0 0 6529.dat
+1 1 80 -192 0 1 0 0 0 1 0 0 0 1 31625.dat
+1 7 80 -192 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 80 -192 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 80 -192 -100 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // Source page 7: Second6x12plate and two blue joint bricks
+1 2 480 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 240 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 8: Opposed tall red doorframes and white4-pane door leaves on blue base
+1 1 560 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 560 -288 -40 1 0 0 0 1 0 0 0 1 92094.dat
+1 15 625.5 -252 -83.5 -1 0 0 0 1 0 0 0 -1 2205.dat
+1 1 560 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 560 -288 40 -1 0 0 0 1 0 0 0 -1 92094.dat
+1 15 494.5 -252 83.5 1 0 0 0 1 0 0 0 1 2205.dat
+0 STEP
+0 // Source page 9: Blue lintels and four outward-curved yellow roof bricks
+1 1 560 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 560 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 520 -384 -40 1 0 0 0 1 0 0 0 1 2302b.dat
+1 14 520 -384 40 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 14 600 -384 -40 1 0 0 0 1 0 0 0 1 2302b.dat
+1 14 600 -384 40 -1 0 0 0 1 0 0 0 -1 2302b.dat
+0 STEP
+0 // Source page 10: Separate parked car: wheeled chassis, approved cockpit and official curved hood
+1 4 360 -48 320 1 0 0 0 1 0 0 0 1 10715p02.dat
+1 25 360 -72 320 1 0 0 0 1 0 0 0 1 31196c01.dat
+1 19 360 -106 172 -1 0 0 0 0 1 0 1 0 6345.dat
+0 // PENDING: P2 fixed support shaft heights differ96LDU while beam hole pitch40. Lower shaft passes lowest beam hole; upper green shaft moved to adjacent side bore z40 to tie supports without intersecting stalk. This hidden layout is inferred; source does not prove both shafts cross stalk. Cantilever stability/stop remains unverified.
+0 // PENDING: P2 long stalk interpreted6525; source occludes bottom holes.11-hole identity and support pose need render/source followup.
+0 // PENDING: Worm output green axle, crank integral pin and11/7-hole parallelogram use actual40pitch; phase/retention/load and moving sweep unverified.
+0 // PENDING: P8 92094+2205 candidates use actual hinge x65.5,frameY65/127/189 versus doorY29/91/153; exact frame back mould not shown.
+0 // PENDING: P10 Toolo cockpit uses previously approved approximate geometry; no new approximation. Chassis cockpit clutch and hood retention not physically certified; parked car pose separate from stud base inferred.
+0 // PENDING: Door hinge shaft radius2.5 centered3.5LDU ahead of framefront, between socketz-6..-1. Exact spring/snap interference remains diagnostic risk, not waived.
+0 // PENDING: Actual recursive mesh: door/frame108 strict crossing pairs per instance at hinges; approved cockpit/hood4 pairs at lower rim. Not classified as false positives; see full diagnostic.
+0 // Source page 11: finished view, no duplicated placements.
