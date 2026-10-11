@@ -4,8 +4,12 @@
  */
 
 export interface PartFlags {
+  /** 模型配色仅为示意，以实际分配的套装颜色为准。 */
+  kitColor?: boolean
   colorFlexible?: boolean
   printedFlexible?: boolean
+  /** 已确认存在形状差异的替代件中文名称；普通别名不在此列。 */
+  shapeAlternatives?: Record<string, string>
   /** 人物散件：由核算层折算成「完整小人」件数，不单独报未知 */
   figureComponent?: 'child' | 'adult'
   /** 每件散件折算的小人份额：手臂默认 0.5，其余 1 */
@@ -53,6 +57,10 @@ export const SYSTEM_TO_DUPLO_STAND_INS: Record<
   '3811': { partId: '4268.dat', partName: '24×24 底板', partDescription: 'Duplo Baseplate 24 x 24' },
 }
 
+const kitColorParts = new Set(
+  "76395 76057 28336 28334 28331 60535 74957 99565 6294 44970 71981 31196c01 6521 6522 6523 6524 6525 6526 6527 6528 6529 6530 31622 31623 31624 31625 6292 6515 6517 75349 75350 75536".split(" "),
+)
+
 const aliases: Record<string, ResolvedLdrawPart> = {
   // Toolo / Duplo Technic：已核对的零件别名
   '76395': { partNums: ['86599'], flags: {} }, // element 6182798
@@ -83,8 +91,8 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   '2301b': { partNums: ['2301'], flags: {} },
   '2302b': { partNums: ['2302'], flags: {} },
   // 弧顶 2×4：优先用套装里的 31213（2×4×2 弧顶）抵扣，否则记为缺 98223
-  '98223': { partNums: ['31213', '98223'], flags: { colorFlexible: true } },
-  '98223b': { partNums: ['31213', '98223'], flags: { colorFlexible: true } },
+  '98223': { partNums: ['31213', '98223'], flags: { colorFlexible: true, shapeAlternatives: { '31213': '2×4×2 弧顶积木' } } },
+  '98223b': { partNums: ['31213', '98223'], flags: { colorFlexible: true, shapeAlternatives: { '31213': '2×4×2 弧顶积木' } } },
   // 球
   '22119': { partNums: ['41250'], flags: {} },
   // 圆端砖 / 眼睛砖
@@ -152,7 +160,7 @@ export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
   }
 
   const alias = aliases[id]
-  if (alias) return { partNums: [...alias.partNums], flags: { ...alias.flags } }
+  if (alias) return { partNums: [...alias.partNums], flags: { ...alias.flags, ...(kitColorParts.has(id) ? { kitColor: true } : {}) } }
 
   // 人物散件通配（未逐条写进 aliases 的印花变体）
   if (/^47198/.test(id)) return { partNums: [], flags: { figureComponent: 'child', figureUnits: 0.5 } }
@@ -172,6 +180,7 @@ export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
     return { partNums: ['31111'], flags: { printedFlexible: true } }
   }
 
+  if (kitColorParts.has(id)) return { partNums: [id], flags: { kitColor: true } }
   if (reviewedShapes.has(id)) return { partNums: [id], flags: {} }
 
   for (const base of stripPrintAndMold(id)) {
@@ -179,11 +188,11 @@ export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
       const a = aliases[base]
       return {
         partNums: [...a.partNums],
-        flags: { ...a.flags, printedFlexible: true },
+        flags: { ...a.flags, printedFlexible: !id.endsWith("b"), ...(kitColorParts.has(base) ? { kitColor: true } : {}) },
       }
     }
     if (reviewedShapes.has(base)) {
-      return { partNums: [base], flags: { printedFlexible: true } }
+      return { partNums: [base], flags: { printedFlexible: !id.endsWith("b"), ...(kitColorParts.has(base) ? { kitColor: true } : {}) } }
     }
   }
 

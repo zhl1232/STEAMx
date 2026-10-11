@@ -1,4 +1,3 @@
-import { PartThumbnail } from "@/components/features/courses/part-thumbnail";
 import { LessonPartsUnavailable } from "@/components/features/courses/lesson-parts-unavailable";
 import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import Link from "next/link";
@@ -14,8 +13,7 @@ import { lookupLdrawBom } from "@/lib/courses/ldraw-bom-source";
 import { listStoreProductsForContext } from "@/lib/store/service";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
-import { LessonMaterialsPreparation } from "@/components/features/courses/lesson-materials-preparation";
-import type { LdrawBom } from "@/lib/utils/ldraw-bom";
+import { LessonMaterialsPreparation, MaterialPartTable as PartTable } from "@/components/features/courses/lesson-materials-preparation";
 
 type PageProps = { params: Promise<{ courseId: string; lessonId: string }> };
 
@@ -127,7 +125,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
 
             </>
           }
-        />
+        >
 
         <details className="group border-t border-border/70 md:rounded-xl md:border-0 md:bg-background" open={!hasKitComparison(courseId)}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3 md:p-5 [&::-webkit-details-marker]:hidden">
@@ -180,6 +178,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
             </div>
           </details>
         ) : null}
+        </LessonMaterialsPreparation>
       </main>
     </div>
   );
@@ -191,30 +190,5 @@ function Stat({ label, value }: { label: string; value: string }) {
       <dt className="inline text-xs text-muted-foreground">{label} </dt>
       <dd className="inline text-xs font-bold tabular-nums text-foreground">{value}</dd>
     </div>
-  );
-}
-
-function PartTable({ entries }: { entries: LdrawBom["entries"] }) {
-  return (
-    <ul className="grid divide-y divide-border/70 md:grid-cols-2 md:gap-x-8 md:[&>li:nth-last-child(2):nth-child(odd)]:border-b-0">
-      {entries.map((entry) => (
-        <li
-          key={`${entry.partId}|${entry.colorCode}`}
-          className="flex items-center justify-between gap-3 py-3"
-          title={entry.partDescription || undefined}
-        >
-          <span className="flex min-w-0 items-center gap-2">
-            <PartThumbnail partId={entry.partId} colorCode={entry.colorCode} colorHex={entry.colorHex} />
-            <span className="min-w-0 text-sm font-medium leading-snug text-foreground">
-              {entry.colorName}
-              {entry.partName}
-            </span>
-          </span>
-          <span className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground">
-            ×{entry.count}
-          </span>
-        </li>
-      ))}
-    </ul>
   );
 }

@@ -88,7 +88,7 @@ it.each([
   ['6524', '6524'],
   ['75536', '75536'],
 ])('reviewed mechanical part %s', (id, partNum) => {
-  expect(resolveLdrawPart(`${id}.dat`)).toEqual({ partNums: [partNum], flags: {} })
+  expect(resolveLdrawPart(`${id}.dat`)).toEqual({ partNums: [partNum], flags: { kitColor: true } })
 })
 
 it.each([0, 19, 46, 47, 71, 72])('resolves exact color %s', (color) => {

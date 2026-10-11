@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { CheckCircle2, ChevronDown, Minus, PackageSearch, Plus, ShoppingBasket } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { describeLdrawColorName, type LdrawBomEntry } from "@/lib/utils/ldraw-bom";
+import type { LdrawBomEntry } from "@/lib/utils/ldraw-bom";
 import {
   KIT_CATALOG,
   getDefaultKitCounts,
@@ -25,6 +25,7 @@ import {
   compareLessonMaterials,
   mergeKitInventories,
   summarizeMaterialOutcome,
+  substituteDetail,
   type MaterialRequirement,
 } from "@/lib/courses/lesson-materials";
 import { PartThumbnail } from "./part-thumbnail";
@@ -41,6 +42,7 @@ export interface LessonMaterialsPreparationProps {
   /** 测试/预览用：跳过 localStorage，直接用这组套数 */
   initialCounts?: KitCounts;
   intro?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function LessonMaterialsPreparation({
@@ -49,6 +51,7 @@ export function LessonMaterialsPreparation({
   partCount,
   initialCounts,
   intro,
+  children,
 }: LessonMaterialsPreparationProps) {
   const [counts, setCounts] = useState<KitCounts>(() => initialCounts ?? getDefaultKitCounts(courseId));
   const [loaded, setLoaded] = useState(Boolean(initialCounts));
@@ -75,7 +78,7 @@ export function LessonMaterialsPreparation({
     );
   }, [counts, courseId, entries, partCount]);
 
-  if (!hasKitComparison(courseId)) return intro ?? null;
+  if (!hasKitComparison(courseId)) return <>{intro}{children}</>;
 
   const outcome = summarizeMaterialOutcome(result);
   const totalKits = Object.values(counts).reduce((n, c) => n + c, 0);
@@ -87,6 +90,7 @@ export function LessonMaterialsPreparation({
     setCounts((prev) => ({ ...prev, [setNum]: Math.min(MAX_KIT_COPIES, Math.max(0, prev[setNum] + delta)) }));
 
   return (
+    <AllocationContext.Provider value={result.entries}>
     <section className="space-y-3 md:space-y-5" aria-labelledby="kit-check-heading">
       <h2 id="kit-check-heading" className="sr-only">
         用我的套装能不能搭
@@ -260,6 +264,8 @@ export function LessonMaterialsPreparation({
         </p>
       ) : null}
     </section>
+    {children}
+    </AllocationContext.Provider>
   );
 }
 
@@ -272,19 +278,7 @@ function safeLocalStorage(): Storage | null {
 }
 
 function rowKey(entry: MaterialRequirement) {
-  return `${entry.partId}|${entry.colorCode}`;
-}
-
-function substituteDetail(entry: MaterialRequirement): string {
-  const substitutions = entry.allocations.filter((a) => a.substitute);
-  if (substitutions.some((a) => a.areaLabel)) {
-    const used = substitutions.map((a) =>
-      `${a.quantity} 块${describeLdrawColorName(a.colorName)}${a.areaLabel ? ` ${a.areaLabel}` : "同款零件"}`,
-    );
-    return `用 ${used.join("、")}代替`;
-  }
-  const used = substitutions.map((a) => `${describeLdrawColorName(a.colorName)} ${a.quantity} 块`);
-  return used.length ? `可以用 ${used.join("、")}` : "";
+  return `${entry.partId}|${entry.modelColorCode ?? entry.colorCode}`;
 }
 
 function PartRow({
@@ -342,5 +336,37 @@ function Fold({
       </summary>
       <div className="pb-3 md:px-5 md:pb-5">{children}</div>
     </details>
+  );
+}
+
+const AllocationContext = createContext<MaterialRequirement[]>([]);
+
+export function MaterialPartTable({ entries }: { entries: LdrawBomEntry[] }) {
+  const allocated = useContext(AllocationContext);
+  return (
+    <ul className="grid divide-y divide-border/70 md:grid-cols-2 md:gap-x-8 md:[&>li:nth-last-child(2):nth-child(odd)]:border-b-0">
+      {entries.map((original) => {
+        const match = allocated.find((row) => row.partId === original.partId && row.modelColorCode === original.colorCode);
+        const entry = match?.mapping.flags.kitColor ? { ...original, colorCode: match.colorCode, colorName: match.colorName, colorHex: match.colorHex } : original;
+        return (
+          <li
+            key={`${original.partId}|${original.colorCode}`}
+            className="flex items-center justify-between gap-3 py-3"
+            title={entry.partDescription || undefined}
+          >
+            <span className="flex min-w-0 items-center gap-2">
+              <PartThumbnail partId={entry.partId} colorCode={entry.colorCode} colorHex={entry.colorHex} />
+              <span className="min-w-0 text-sm font-medium leading-snug text-foreground">
+                {entry.colorName}
+                {entry.partName}
+              </span>
+            </span>
+            <span className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground">
+              ×{entry.count}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

@@ -1,3 +1,5 @@
+import kitColors from './ldraw-kit-colors.json'
+import { describeLdrawColorName, describeLdrawPartName } from '../utils/ldraw-bom'
 import inventories from './ldraw-kit-inventories.json'
 import { hasKitComparison, type KitSelection } from './course-kit-config'
 import type { LessonMaterialPreferences } from './lesson-material-preferences'
@@ -112,6 +114,8 @@ export type MaterialStatus =
   | 'unknown'
 
 export interface MaterialRequirement extends LdrawBomEntry {
+  /** 保留模型行标识，套装实配色不改变 React key 或分步关联。 */
+  modelColorCode?: number
   status: MaterialStatus
   mapping: ResolvedLdrawPart
   matched: number
@@ -125,6 +129,9 @@ export interface MaterialRequirement extends LdrawBomEntry {
     substitute: boolean
     /** 面积替代时，实际消耗的薄板尺寸。 */
     areaLabel?: string
+    /** 实际图案或形状变化，而非允许替代的策略标记。 */
+    partDifference?: string
+    partName?: string
   }[]
   /** 由人物散件折算而来 */
   figureFolded?: boolean
@@ -186,6 +193,52 @@ export function foldFigureComponents(
   return { remaining, figureDemand, folded }
 }
 
+const colorInfo = (id: number) => (kitColors as Record<string, { name: string; hex: string }>)[id]
+
+/** 比较用户实际看到的颜色，涵盖旧灰/蓝灰、棕色等所有同名色族。 */
+export function sameDisplayColor(entry: LdrawBomEntry, part: KitInventoryPart): boolean {
+  const required = describeLdrawColorName(
+    /[\u3400-\u9fff]/.test(entry.colorName) && !entry.colorName.startsWith('色号 ')
+      ? entry.colorName
+      : colorInfo(entry.colorCode)?.name ?? entry.colorName,
+  )
+  const available = describeLdrawColorName(part.colorName)
+  return required === available || resolveLdrawColor(entry.colorCode) === part.colorId
+}
+
+function describePartDifference(entry: MaterialRequirement, part: KitInventoryPart): string | undefined {
+  const id = normalizeLdrawPartId(entry.partId)
+  if (id === part.partNum || entry.mapping.flags.kitColor) return
+  if (!entry.mapping.flags.printedFlexible && !entry.mapping.flags.colorFlexible) return
+  const print = /(?:pe[0-9a-z]*|pr[0-9a-z]+|p[0-9a-z]+)$/i
+  const requiredPrint = print.test(id)
+  const actualPrint = print.test(part.partNum)
+  if (requiredPrint || actualPrint) {
+    return actualPrint ? (requiredPrint ? '不同图案的' : '带图案的') : '无图案的'
+  }
+  if (entry.mapping.flags.shapeAlternatives?.[part.partNum]) return '不同尺寸的'
+}
+
+/** 页面与全课程回归共用的替代说明；同色替代必须说明零件差异。 */
+export function substituteDetail(entry: MaterialRequirement): string {
+  const substitutions = entry.allocations.filter((a) => a.substitute)
+  const hasArea = substitutions.some((a) => a.areaLabel)
+  const quantities = new Map<string, number>()
+  for (const a of substitutions) {
+    const color = describeLdrawColorName(a.colorName)
+    const phrase = hasArea
+      ? `${color}${a.areaLabel ? ` ${a.areaLabel}` : a.partDifference ?? '同款零件'}`
+      : a.partDifference
+        ? `可用${a.partDifference}${color}${a.partName ?? entry.partName}`
+        : `可以用 ${color}`
+    quantities.set(phrase, (quantities.get(phrase) ?? 0) + a.quantity)
+  }
+  const detail = [...quantities].map(([phrase, quantity]) =>
+    hasArea ? `${quantity} 块${phrase}` : `${phrase} ${quantity} 块`,
+  ).join('、')
+  return hasArea ? `用 ${detail}代替` : detail
+}
+
 function allocateStock(
   entries: MaterialRequirement[],
   stock: KitInventoryPart[],
@@ -198,29 +251,20 @@ function allocateStock(
   for (const substitutePass of [false, true] as const) {
     for (const entry of order) {
       if (isUnknown(entry)) continue
-      const colorId = resolveLdrawColor(entry.colorCode)
-      if (substitutePass && colorId !== undefined && !prefs.acceptColorSubstitutes) continue
+      if (substitutePass && !prefs.acceptColorSubstitutes) continue
 
       for (const partNum of entry.mapping.partNums) {
         for (const part of stock) {
           if (!entry.missing || part.quantity <= 0 || part.partNum !== partNum) continue
-          const exact = colorId !== undefined && part.colorId === colorId
-          // substitutePass=false → 只要精确色；=true → 只要非精确（或颜色未知）
-          if (colorId !== undefined) {
-            if (exact === substitutePass) continue
-          } else if (!substitutePass) {
-            continue
-          }
+          const exact = !!entry.mapping.flags.kitColor || sameDisplayColor(entry, part)
+          if (exact === substitutePass) continue
 
           const quantity = Math.min(entry.missing, part.quantity)
           part.quantity -= quantity
           entry.missing -= quantity
           entry.matched += quantity
-          const substitute =
-            !exact ||
-            !!entry.mapping.flags.printedFlexible ||
-            !!entry.mapping.flags.colorFlexible ||
-            !!entry.figureFolded
+          const partDifference = describePartDifference(entry, part)
+          const substitute = !exact || !!partDifference || !!entry.figureFolded
           if (substitute) entry.substituted += quantity
           entry.allocations.push({
             partNum,
@@ -228,6 +272,12 @@ function allocateStock(
             colorName: part.colorName,
             quantity,
             substitute,
+            ...(partDifference ? {
+              partDifference,
+              partName: entry.mapping.flags.shapeAlternatives?.[partNum] ??
+                (/[\u3400-\u9fff]/.test(describeLdrawPartName(part.name, partNum))
+                  ? describeLdrawPartName(part.name, partNum) : entry.partName),
+            } : {}),
           })
         }
       }
@@ -256,11 +306,10 @@ export function allocateAreaPlateSubstitutes(
   for (const substituteColor of [false, true]) {
     if (substituteColor && !prefs.acceptColorSubstitutes) continue
     for (const demand of demands) {
-      const colorId = resolveLdrawColor(demand.entry.colorCode)
       for (const plate of AREA_PLATE_SUBSTITUTES) {
         for (const part of stock) {
           if (demand.studsStillNeeded <= 0 || part.quantity <= 0 || part.partNum !== plate.partNum) continue
-          if (!substituteColor && (colorId === undefined || part.colorId !== colorId)) continue
+          if (!substituteColor && !sameDisplayColor(demand.entry, part)) continue
 
           const quantity = Math.min(part.quantity, Math.ceil(demand.studsStillNeeded / plate.studs))
           part.quantity -= quantity
@@ -295,6 +344,7 @@ export function compareLessonMaterials(
   const stock = inventory.map((part) => ({ ...part }))
   const raw: MaterialRequirement[] = bom.entries.map((entry) => ({
     ...entry,
+    modelColorCode: entry.colorCode,
     mapping: resolver(entry.partId),
     status: 'satisfied' as MaterialStatus,
     matched: 0,
@@ -337,6 +387,15 @@ export function compareLessonMaterials(
   allocateAreaPlateSubstitutes(remaining, stock, prefs)
 
   for (const entry of remaining) {
+    if (entry.mapping.flags.kitColor && entry.allocations.length) {
+      // 多色库存按分配最多的颜色展示；相同数量保留首次分配颜色。
+      const quantities = new Map<number, number>()
+      for (const a of entry.allocations) quantities.set(a.colorId, (quantities.get(a.colorId) ?? 0) + a.quantity)
+      const primary = [...entry.allocations].sort((a, b) => quantities.get(b.colorId)! - quantities.get(a.colorId)!)[0]
+      entry.colorCode = primary.colorId
+      entry.colorName = describeLdrawColorName(primary.colorName)
+      entry.colorHex = colorInfo(primary.colorId)?.hex ?? entry.colorHex
+    }
     if (isUnknown(entry)) {
       entry.status = 'unknown'
     } else if (entry.missing) {

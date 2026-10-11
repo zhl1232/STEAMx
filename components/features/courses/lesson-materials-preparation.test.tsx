@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { beforeEach, expect, it } from 'vitest'
 import type { LdrawBomEntry } from '@/lib/utils/ldraw-bom'
 import { kitCountsStorageKey } from '@/lib/courses/lesson-material-preferences'
-import { LessonMaterialsPreparation } from './lesson-materials-preparation'
+import { LessonMaterialsPreparation, MaterialPartTable } from './lesson-materials-preparation'
 
 const entry = (partId: string, colorCode: number, count: number, partName: string, colorName = '红色'): LdrawBomEntry => ({
   partId,
@@ -86,4 +86,20 @@ it.each([6, 7])('course %s starts with its mechanical kit plus both base kits', 
   expect(JSON.parse(window.localStorage.getItem(kitCountsStorageKey(courseId))!)).toEqual({
     '9090-2': 2, '9076-1': 1, '45002-1': courseId === 6 ? 1 : 0, '9656-1': courseId === 7 ? 1 : 0,
   })
+})
+
+
+it('updates full and step row colors from the selected kit and restores model colors when removed', async () => {
+  const mechanical = [entry('28331.dat', 7, 1, '短连杆', '浅灰色')]
+  render(<LessonMaterialsPreparation courseId={6} entries={mechanical} partCount={1}>
+    <MaterialPartTable entries={mechanical} />
+    <MaterialPartTable entries={mechanical} />
+  </LessonMaterialsPreparation>)
+  expect(await screen.findAllByText('深灰色短连杆')).toHaveLength(2)
+  expect(screen.queryByText('可以用其它颜色或零件代替')).toBeNull()
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: '科技机械套装减少一套' }))
+  })
+  expect(screen.getAllByText('浅灰色短连杆').length).toBeGreaterThanOrEqual(2)
+  expect(screen.queryByText('深灰色短连杆')).toBeNull()
 })

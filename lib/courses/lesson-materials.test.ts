@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { expect, it } from 'vitest'
 import { summarizePackedLdrawBom, type LdrawBomEntry, type LdrawBom } from '../utils/ldraw-bom'
 import {
+  substituteDetail,
   prepareLessonBomForCourse,
   compareLessonMaterials,
   foldFigureComponents,
@@ -513,4 +514,71 @@ it('keeps course 5 step positions and empty steps while converting stand-in name
   expect(prepared.steps[1].entries).toEqual([])
   expect(prepared.steps[2].entries[0]).toMatchObject({ partId: '3437.dat', partName: '2×2 积木' })
   expect(prepared.stepCount).toBe(3)
+})
+
+
+it.each([[7, 71, '浅灰色', 'Light Bluish Gray'], [8, 72, '深灰色', 'Dark Bluish Gray'], [6, 70, '棕色', 'Reddish Brown'], [19, 19, '米色', 'Tan']])(
+  'treats displayed color family %s / %s as exact even with substitutions disabled',
+  (modelColor, kitColor, colorName, kitName) => {
+    const result = compareLessonMaterials(bom({ ...entry('3011.dat', modelColor), colorName }),
+      [{ ...stock('3011', kitColor), colorName: kitName }], { ...prefs, acceptColorSubstitutes: false })
+    expect(result.entries[0]).toMatchObject({ status: 'satisfied', substituted: 0, missing: 0 })
+  },
+)
+
+it('kit colors follow the majority allocation and retain the model color with no stock', () => {
+  const model = bom({ ...entry('28331.dat', 7, 4), colorName: '浅灰色' })
+  const result = compareLessonMaterials(model, [
+    { ...stock('74844', 71, 1), colorName: 'Light Bluish Gray' },
+    { ...stock('74844', 72, 3), colorName: 'Dark Bluish Gray' },
+  ], { ...prefs, acceptColorSubstitutes: false })
+  expect(result.entries[0]).toMatchObject({ colorName: '深灰色', colorCode: 72, substituted: 0, missing: 0 })
+  expect(result.colorSubstitutes).toEqual([])
+  expect(compareLessonMaterials(model, [], prefs).entries[0].colorName).toBe('浅灰色')
+  expect(model.entries[0].colorCode).toBe(7)
+})
+
+it('describes a printed door replaced by a plain door in the same color', () => {
+  const result = compareLessonMaterials(bom({ ...entry('90265p01.dat', 15), colorName: '白色', partName: '1×4×4 门' }),
+    [{ ...stock('90265', 15), colorName: 'White' }], prefs)
+  expect(substituteDetail(result.entries[0])).toBe('可用无图案的白色1×4×4 门 1 块')
+})
+
+it.each([
+  { partDifference: '不同图案的', expected: '可用不同图案的黄色2×2 积木（眼睛） 3 块、可以用 红色 1 块' },
+  { expected: '可以用 黄色 3 块、可以用 红色 1 块' },
+  { areaLabel: '4×8 薄板', expected: '用 3 块黄色 4×8 薄板、1 块红色同款零件代替' },
+])('merges matching substitute phrases and sums quantities: $expected', ({ partDifference, areaLabel, expected }) => {
+  const allocation = {
+    partNum: '3437pr0001', colorId: 14, colorName: 'Yellow', quantity: 2,
+    substitute: true, partDifference, areaLabel,
+  }
+  const row = {
+    ...req('3437.dat', 4),
+    partName: '2×2 积木（眼睛）',
+    allocations: [
+      allocation,
+      { partNum: '3437', colorId: 4, colorName: 'Red', quantity: 1, substitute: true },
+      { ...allocation, partNum: '3437pr0002', colorName: '黄色', quantity: 1 },
+      { ...allocation, quantity: 5, substitute: false },
+    ],
+  }
+  expect(substituteDetail(row)).toBe(expected)
+  expect(row.allocations.map((a) => a.quantity)).toEqual([2, 1, 1, 5])
+})
+
+it('same part and mold-only variants are ordinary matches despite flexibility', () => {
+  for (const partId of ['90265b.dat', '90265.dat']) {
+    const result = compareLessonMaterials(bom(entry(partId, 15)), [stock('90265', 15)], prefs,
+      partId === '90265.dat' ? () => ({ partNums: ['90265'], flags: { printedFlexible: true, colorFlexible: true } }) : undefined)
+    expect(result.entries[0].status).toBe('satisfied')
+    expect(substituteDetail(result.entries[0])).toBe('')
+  }
+})
+
+
+it('equivalent plain door aliases do not invent a difference from catalog wording', () => {
+  const result = compareLessonMaterials(bom({ ...entry('89849.dat', 15), colorName: '白色', partName: '1×4×4 门' }),
+    [{ ...stock('90265', 15), colorName: 'White', name: 'Duplo Door / Window with Four Equal Square Cornered Panes' }], prefs)
+  expect(result.colorSubstitutes).toEqual([])
 })
