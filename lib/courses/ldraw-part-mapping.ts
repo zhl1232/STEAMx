@@ -21,8 +21,14 @@ export interface ResolvedLdrawPart {
 
 export type PartResolver = (partId: string) => ResolvedLdrawPart
 
-/** 套装里完整小人的 Rebrickable 零件号（9090/9076 库存） */
+/** 四套教育库存的完整小人（含成人）；保留 CHILD 常量名以兼容调用方 */
 export const KIT_CHILD_FIGURE_PART_NUMS = [
+  '10111c01pr0005',
+  '47202pr9999',
+  '75115pr0006',
+  '75115pr0012',
+  '75121pr0008',
+  '47511pr0006',
   '47219pr0002',
   '47510pr0002',
   '47510pr0006',
@@ -48,6 +54,18 @@ export const SYSTEM_TO_DUPLO_STAND_INS: Record<
 }
 
 const aliases: Record<string, ResolvedLdrawPart> = {
+  // Toolo / Duplo Technic：已核对的零件别名
+  '76395': { partNums: ['86599'], flags: {} }, // element 6182798
+  '76057': { partNums: ['31184c01'], flags: {} }, // element 6182720
+  '28336': { partNums: ['45202'], flags: {} }, // element 6162848
+  '28334': { partNums: ['74847'], flags: {} }, // element 6162840
+  '28331': { partNums: ['74844'], flags: {} }, // element 6162831
+  '60535': { partNums: ['86594'], flags: {} }, // element 6182698
+  '74957': { partNums: ['74957'], flags: {} }, // element 6139202
+  '99565': { partNums: ['99565c01'], flags: {} },
+  '31196c01': { partNums: ['31196c01'], flags: {} },
+  '75349': { partNums: ['6517'], flags: {} },
+  '75350': { partNums: ['6515'], flags: {} },
   // 车底盘
   '10715': { partNums: ['11248c01', '11248c02'], flags: { colorFlexible: true } },
   '10715p01': { partNums: ['11248c02'], flags: {} },
@@ -103,7 +121,8 @@ const reviewedShapes = new Set(
   (
     '61649 90265 3011 3437 40666 6490 31452 31195 42029 31191 4196 2302 4199 2291 ' +
     '51708 2301 51725 31193 6394 2300 4672 31453 31111 13355 6510 92094 10199 ' +
-    '63871 11198 6345 3664 6474 31213 44524 4198 12602 11248c01 11248c02 41250'
+    '63871 11198 6345 3664 6474 31213 44524 4198 12602 11248c01 11248c02 41250 ' +
+    '44970 71981 6294 6521 6522 6523 6525 6526 6527 6529 6530 31622 31623 31624 31625 6292 6515 6517 6524 75536'
   ).split(/\s+/),
 )
 
@@ -142,12 +161,9 @@ export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
   if (/^47206/.test(id)) return { partNums: [], flags: { figureComponent: 'child', figureUnits: 1 } }
   if (/^47207/.test(id)) return { partNums: [], flags: { figureComponent: 'child', figureUnits: 1 } }
   if (/^63710/.test(id)) return { partNums: [], flags: { figureComponent: 'adult', figureUnits: 1 } }
-  if (/^47219|^47510|^47511/.test(id)) {
+  if ((KIT_CHILD_FIGURE_PART_NUMS as readonly string[]).includes(id) || /^47219|^47510|^47511/.test(id)) {
     return { partNums: [id], flags: { colorFlexible: true } }
   }
-
-  // 本地简化 Toolo：套装无对应件
-  if (/^31196/.test(id)) return { partNums: [], flags: { unknown: true } }
 
   // 印花砖 → 素色基础号
   if (/^31111p[0-9a-z]+$/.test(id)) {
@@ -175,7 +191,7 @@ export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
 /** 仅收录已核对的经典色；其余按形状匹配并标为换色。 */
 const colors: Record<number, number> = {
   0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
-  10: 10, 14: 14, 15: 15, 25: 25, 27: 27, 70: 70, 71: 71, 72: 72, 73: 73,
+  10: 10, 14: 14, 15: 15, 19: 19, 46: 46, 47: 47, 25: 25, 27: 27, 70: 70, 71: 71, 72: 72, 73: 73,
 }
 
 export function resolveLdrawColor(colorCode: number): number | undefined {

@@ -13,8 +13,8 @@ export type KitCounts = Record<KitSetNum, number>
 
 const DEFAULT_KITS_BY_COURSE: Record<number, Partial<KitCounts>> = {
   5: { '9090-2': 1, '9076-1': 1 },
-  6: { '45002-1': 1 },
-  7: { '9656-1': 1 },
+  6: { '45002-1': 1, '9090-2': 1, '9076-1': 1 },
+  7: { '9656-1': 1, '9090-2': 1, '9076-1': 1 },
 }
 
 /** 这门课是否提供套装对比（小班/中班/大班积木课）。 */

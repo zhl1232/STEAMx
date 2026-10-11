@@ -19,8 +19,8 @@ function memoryStorage(seed: Record<string, string> = {}) {
 describe('kit defaults', () => {
   it('follows course level', () => {
     expect(getDefaultKitCounts(5)).toEqual({ '9090-2': 1, '9076-1': 1, '45002-1': 0, '9656-1': 0 })
-    expect(getDefaultKitCounts(6)).toEqual({ '9090-2': 0, '9076-1': 0, '45002-1': 1, '9656-1': 0 })
-    expect(getDefaultKitCounts(7)).toEqual({ '9090-2': 0, '9076-1': 0, '45002-1': 0, '9656-1': 1 })
+    expect(getDefaultKitCounts(6)).toEqual({ '9090-2': 1, '9076-1': 1, '45002-1': 1, '9656-1': 0 })
+    expect(getDefaultKitCounts(7)).toEqual({ '9090-2': 1, '9076-1': 1, '45002-1': 0, '9656-1': 1 })
     expect(getDefaultKitCounts(8)).toEqual({ '9090-2': 0, '9076-1': 0, '45002-1': 0, '9656-1': 0 })
     expect(hasKitComparison(5) && hasKitComparison(6) && hasKitComparison(7)).toBe(true)
     expect(hasKitComparison(8)).toBe(false)

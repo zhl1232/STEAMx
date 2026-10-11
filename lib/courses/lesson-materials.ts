@@ -152,7 +152,7 @@ function isOptional(
 /**
  * 把人物散件折成「需要几个完整小人」。
  * 规则：手臂按 0.5 计，头/身/髋/腿/帽/铰链按 1 计；取各角色折算后的最大值（向上取整）。
- * 成人小人暂与儿童共用套装小人库存（套装无成人件）。
+ * 成人与儿童散件共用完整小人库存（含成人）。
  */
 export function foldFigureComponents(
   entries: MaterialRequirement[],
@@ -316,7 +316,7 @@ export function compareLessonMaterials(
   if (figureDemand > 0) {
     remaining.push({
       partId: `${VIRTUAL_CHILD_FIGURE}.dat`,
-      partName: '完整小人（儿童）',
+      partName: '完整小人（含成人）',
       partDescription:
         '由模型中的头、身体、手臂、腿等人物散件折算；用套装里的完整小人抵扣',
       colorCode: 15,

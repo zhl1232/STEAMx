@@ -252,17 +252,17 @@ it('figure shortage becomes required missing, not unknown', () => {
   expect(result.requiredMissing[0].partName).toContain('小人')
 })
 
-it('system bricks and 98223b are known; only local Toolo stays unknown', () => {
+it('known cockpit is missing, not unknown, without its kit', () => {
   const result = compareLessonMaterials(
     bom(entry('3001.dat', 4, 2), entry('98223b.dat'), entry('31196c01.dat')),
     [stock('31213', 4, 1)],
     prefs,
   )
-  expect(result.unknown.map((e) => e.partId)).toEqual(['31196c01.dat'])
-  expect(result.stats.unknown).toBe(1)
-  // 98223b satisfied via 31213; 3001 required missing
-  expect(result.requiredMissing.map((e) => e.partId)).toEqual(['3001.dat'])
-  expect(result.stats.requiredMissing).toBe(2)
+  expect(result.unknown).toEqual([])
+  expect(result.stats.unknown).toBe(0)
+  // 98223b satisfied via 31213; brick and cockpit require inventory
+  expect(result.requiredMissing.map((e) => e.partId)).toEqual(['3001.dat', '31196c01.dat'])
+  expect(result.stats.requiredMissing).toBe(3)
 })
 
 it('car, fence and eye aliases draw from actual inventory', () => {
@@ -278,8 +278,8 @@ it('copies merge quantities and defaults remain isolated', () => {
   const one = mergeKitInventories([{ setNum: '9090-2', copies: 1 }])
   const two = mergeKitInventories([{ setNum: '9090-2', copies: 2 }])
   expect(two.reduce((n, e) => n + e.quantity, 0)).toBe(2 * one.reduce((n, e) => n + e.quantity, 0))
-  expect(mergeLessonMaterialPreferences(6).kits).toEqual([{ setNum: '45002-1', copies: 1 }])
-  expect(mergeLessonMaterialPreferences(7).kits).toEqual([{ setNum: '9656-1', copies: 1 }])
+  expect(mergeLessonMaterialPreferences(6).kits).toEqual([{ setNum: '9090-2', copies: 1 }, { setNum: '9076-1', copies: 1 }, { setNum: '45002-1', copies: 1 }])
+  expect(mergeLessonMaterialPreferences(7).kits).toEqual([{ setNum: '9090-2', copies: 1 }, { setNum: '9076-1', copies: 1 }, { setNum: '9656-1', copies: 1 }])
   expect(mergeLessonMaterialPreferences(8).kits).toEqual([])
   expect(() => mergeLessonMaterialPreferences(5, { kits: [{ setNum: '9090-2', copies: -1 }] })).toThrow()
   for (const set of Object.values(kitInventories)) {
@@ -325,7 +325,7 @@ it('stacks any combination of kit copies', () => {
 it('summarizes outcome for the headline', () => {
   const short = compareLessonMaterials(bom(entry('3011.dat', 4, 3), entry('4196.dat', 4, 2)), [stock('3011', 4, 1)], prefs)
   expect(summarizeMaterialOutcome(short)).toEqual({ status: 'short', missingKinds: 2, missingPieces: 4, specialPieces: 0 })
-  const ok = compareLessonMaterials(bom(entry('3011.dat'), entry('31196c01.dat')), [stock('3011')], prefs)
+  const ok = compareLessonMaterials(bom(entry('3011.dat'), entry('unreviewed-xyz.dat')), [stock('3011')], prefs)
   expect(summarizeMaterialOutcome(ok)).toEqual({ status: 'complete', missingKinds: 0, missingPieces: 0, specialPieces: 1 })
 })
 
@@ -462,4 +462,37 @@ it('covers the real Eiffel Tower with default small-class Duplo kits', () => {
   for (const row of result.entries) expect(standIns).not.toContain(row.partId)
   expect(result.stats.matched).toBeGreaterThanOrEqual(70)
   expect(summarizeMaterialOutcome(result)).toMatchObject({ status: 'complete', missingPieces: 0 })
+})
+
+
+it('real middle-class excavator has no unknown parts with default kits', () => {
+  const model = summarizePackedLdrawBom(readFileSync('public/courses/ldraw/4-wa-tu-ji.mpd', 'utf8'))
+  const defaults = mergeLessonMaterialPreferences(6)
+  const result = compareLessonMaterials(prepareLessonBomForCourse(6, model), mergeKitInventories(defaults.kits), defaults)
+  expect(model.partCount).toBeGreaterThan(0)
+  expect(result.unknown).toEqual([])
+})
+
+it.each(['10111c01pr0005', '47202pr9999', '75115pr0006', '75115pr0012', '75121pr0008', '47511pr0006'])(
+  'folded figure demand consumes complete figure %s', (partNum) => {
+    const result = compareLessonMaterials(bom(entry('63710.dat')), [stock(partNum)], prefs)
+    expect(result.figureDemand).toBe(1)
+    expect(result.stats.requiredMissing).toBe(0)
+    expect(result.entries.find((row) => row.partName === '完整小人（含成人）')?.allocations).toEqual([
+      expect.objectContaining({ partNum, quantity: 1 }),
+    ])
+  },
+)
+
+it.each([6, 7])('course %s applies structural stand-in and area substitution rules', (courseId) => {
+  const model = bom(entry('41539.dat', 71))
+  model.steps = [{ stepIndex: 1, partCount: 1, entries: model.entries }]
+  const prepared = prepareLessonBomForCourse(courseId, model)
+  const defaults = mergeLessonMaterialPreferences(courseId)
+  expect(prepared.entries[0]).toMatchObject({ partId: '51262.dat', structural: true })
+  for (const inventory of [[stock('4672', 71, 2)], [stock('6490', 71)]]) {
+    const result = compareLessonMaterials(prepared, inventory, defaults)
+    expect(result.requiredMissing).toEqual([])
+    expect(result.colorSubstitutes).toHaveLength(1)
+  }
 })

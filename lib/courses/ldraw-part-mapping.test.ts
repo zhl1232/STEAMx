@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
+import { resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
 
 it.each([
   ['10715.dat', ['11248c01', '11248c02']],
@@ -50,7 +50,50 @@ it('auto-strips print suffix to reviewed shape', () => {
   expect(resolveLdrawPart('2302pr0001.dat').flags.printedFlexible).toBe(true)
 })
 
-it('local Toolo stays unknown', () => {
-  expect(resolveLdrawPart('31196c01.dat').flags.unknown).toBe(true)
+it('unreviewed parts stay unknown', () => {
   expect(resolveLdrawPart('unreviewed-xyz.dat').flags.unknown).toBe(true)
+})
+
+it.each([
+  ['76395', '86599'],
+  ['76057', '31184c01'],
+  ['28336', '45202'],
+  ['28334', '74847'],
+  ['28331', '74844'],
+  ['60535', '86594'],
+  ['74957', '74957'],
+  ['99565', '99565c01'],
+  ['31196c01', '31196c01'],
+  ['75349', '6517'],
+  ['75350', '6515'],
+  ['44970', '44970'],
+  ['71981', '71981'],
+  ['6294', '6294'],
+  ['6521', '6521'],
+  ['6522', '6522'],
+  ['6523', '6523'],
+  ['6525', '6525'],
+  ['6526', '6526'],
+  ['6527', '6527'],
+  ['6529', '6529'],
+  ['6530', '6530'],
+  ['31622', '31622'],
+  ['31623', '31623'],
+  ['31624', '31624'],
+  ['31625', '31625'],
+  ['6292', '6292'],
+  ['6515', '6515'],
+  ['6517', '6517'],
+  ['6524', '6524'],
+  ['75536', '75536'],
+])('reviewed mechanical part %s', (id, partNum) => {
+  expect(resolveLdrawPart(`${id}.dat`)).toEqual({ partNums: [partNum], flags: {} })
+})
+
+it.each([0, 19, 46, 47, 71, 72])('resolves exact color %s', (color) => {
+  expect(resolveLdrawColor(color)).toBe(color)
+})
+
+it('leaves unreviewed colors for substitution rules', () => {
+  expect(resolveLdrawColor(9999)).toBeUndefined()
 })
