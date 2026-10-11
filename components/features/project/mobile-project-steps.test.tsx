@@ -68,8 +68,8 @@ it("uses viewing language for empty points and untitled points", () => {
   expect(screen.getByText("观看要点 1")).toBeInTheDocument()
 })
 
-it('shows manual guidance and the step count for preparation projects', () => {
+it('shows the exploration step count without generic manual guidance for preparation projects', () => {
   render(<MobileProjectSteps steps={steps} practicePending />)
-  expect(screen.getByRole('heading', { name: '按说明书操作（共 2 步）' })).toBeInTheDocument()
-  expect(screen.getByText('按材料包里的说明书一步步操作；用量、配比和组装方式以说明书为准。')).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: '探索步骤（共 2 步）' })).toBeInTheDocument()
+  expect(screen.queryByText(/按材料包里的说明书一步步操作/)).not.toBeInTheDocument()
 })

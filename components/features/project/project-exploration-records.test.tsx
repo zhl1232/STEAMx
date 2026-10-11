@@ -96,3 +96,9 @@ it.each([ProjectExplorationRecordsBlock, ProjectExplorationRecordsHorizontal])("
   expect(screen.getByText("观看后可交流发现与问题，也可记录心得；无需制作或上传作品。")).toBeInTheDocument()
   expect(screen.queryByText("完成一次探索后，上传作品，记录就会出现在这里。")).not.toBeInTheDocument()
 })
+
+it.each([ProjectExplorationRecordsBlock, ProjectExplorationRecordsHorizontal])("invites preparation records without generic manual guidance", (Component) => {
+  render(<Component projectId={552} completions={[]} practicePending />)
+  expect(screen.getByText("完成探索后，可以记录过程和发现。")).toBeInTheDocument()
+  expect(screen.queryByText(/说明书/)).not.toBeInTheDocument()
+})

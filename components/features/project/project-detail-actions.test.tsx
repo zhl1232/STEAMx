@@ -255,7 +255,7 @@ it("offers viewing guidance without starting a project or requiring an upload", 
   expect(mocks.startExploration).not.toHaveBeenCalled()
 })
 
-it('manual-guided preparation entry opens exploration records', async () => {
+it('preparation entry opens exploration records', async () => {
   vi.clearAllMocks()
   mocks.user = { id: 'fixture-user' }
   mocks.exploring = false
@@ -267,15 +267,15 @@ it('manual-guided preparation entry opens exploration records', async () => {
   expect(mocks.startExploration).not.toHaveBeenCalled()
 })
 
-it('guides guests to the kit manual before recording their exploration', () => {
+it('lets guests view steps and sign in to record their exploration', () => {
   vi.clearAllMocks()
   mocks.user = null
   mocks.exploring = false
   mocks.completed = false
   render(<ProjectDetailActions projectId={552} projectTitle="平衡鸟" variant="hero" practicePending />)
-  expect(screen.getByText('查看材料与步骤无需登录；动手时按材料包里的说明书操作，用量和组装方式以说明书为准。')).toBeInTheDocument()
+  expect(screen.getByText('查看材料与步骤无需登录；登录后可记录探索过程和发现。')).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: '登录记录探索过程' }))
   expect(mocks.promptLogin).toHaveBeenCalledWith(expect.any(Function), expect.objectContaining({
-    description: '登录后可记录探索过程；动手时按材料包说明书一步步操作',
+    description: '登录后可记录探索过程',
   }))
 })

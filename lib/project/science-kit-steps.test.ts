@@ -1,6 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { MobileProjectSteps } from '@/components/features/project/mobile-project-steps'
 
 import reviewed from './science-reviewed.data.json'
 import legacy from './science-samples.data.json'
@@ -32,11 +35,30 @@ describe('science kit instructions', () => {
   })
 
   it.each([
-    ['components/features/project/project-detail-actions.tsx', '查看材料与步骤无需登录；动手时按材料包里的说明书操作，用量和组装方式以说明书为准。'],
-    ['components/features/project/project-detail-actions.tsx', '登录后可记录探索过程；动手时按材料包说明书一步步操作'],
-    ['components/features/project/project-exploration-records.tsx', '按材料包说明书完成探索后，可以记录过程和发现。'],
-    ['components/features/project/mobile-project-steps.tsx', '按材料包里的说明书一步步操作；用量、配比和组装方式以说明书为准。'],
-    ['app/project/[id]/page.tsx', '按材料包里的说明书一步步操作；用量、配比和组装方式以说明书为准。'],
+    'app/project/[id]/page.tsx',
+    'components/features/project/mobile-project-steps.tsx',
+    'components/features/project/project-section-nav.tsx',
+    'components/features/project/mobile-project-meta-chips.tsx',
+    'components/features/project/project-detail-actions.tsx',
+    'components/features/project/project-exploration-records.tsx',
+  ])('%s avoids generic manual guidance and discouraging copy', file => {
+    const source = readFileSync(resolve(process.cwd(), file), 'utf8')
+    for (const phrase of ['按材料包里的说明书一步步操作', '操作步骤 · 按材料包说明书', '按说明书操作']) {
+      expect(source).not.toContain(phrase)
+    }
+    expectEncouraging(source)
+  })
+
+  it('renders preparation steps with the ordinary heading and only step-specific manual guidance', () => {
+    const item = reviewed.find(row => row.id === 552)!
+    const html = renderToStaticMarkup(createElement(MobileProjectSteps, { steps: item.steps, practicePending: true }))
+    expect(html).toContain(`探索步骤（共 ${item.steps.length} 步）`)
+    expect(html).not.toContain('按材料包里的说明书一步步操作')
+    expect(html).toContain('说明书')
+    expectEncouraging(html)
+  })
+
+  it.each([
     ['lib/ai/tutor/context-builders.ts', '【项目定位】材料包实验：学生会收到材料包和说明书。可以按页面步骤讲解和引导动手；用量、配比、组装细节以材料包说明书为准，不要自行编造具体用量或配方，页面没写的细节提醒学生对照说明书或请家长帮忙。'],
   ])('%s keeps the approved manual guidance: %s', (file, copy) => {
     const source = readFileSync(resolve(process.cwd(), file), 'utf8')

@@ -36,11 +36,25 @@ test.each(['development', 'production'])('exact approved55 content and tutor agr
  for (const item of legacy) expect(getScienceSample(item.id)).toEqual(item)
 })
 test('public safety modes and static alternative remain explicit', () => {
- expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(34)
- expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(12)
+ expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(35)
+ expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(11)
  expect(reviewed.filter(x => x.mode === 'observation')).toHaveLength(9)
  expect(getScienceSample(1269)?.extension).toContain('不用身体尝试其他电路')
  expect(getScienceSample(1249)?.safety).toContain('不安排儿童制作')
  expect(getScienceSample(700)?.sourceRelation).toBe('alternative')
  expect(getScienceSample(700)?.safety).toContain('不抛掷')
+})
+
+test('907 exposes the verified straw activity and its four steps in HowTo', () => {
+ const item = getScienceSample(907)!
+ expect(item.mode).toBe('activity')
+ expect(item).not.toHaveProperty('instructionGap')
+ expect(item.steps.map(step => step.title)).toEqual(['准备材料', '剪口并弯折', '插进水里吹', '上下移动听一听'])
+ expect(item.steps[1].description).toContain('四分之三深，不要剪断')
+ expect(item.steps[1].description).toContain('角度尽量接近直角')
+ const project = applyScienceSample({ id: item.id, title: item.title, category: '科学' } as Project)
+ const graph = buildProjectJsonLd({ ...project, mode: item.mode })['@graph'] ?? []
+ expect(graph.find(node => node['@type'] === 'HowTo')).toMatchObject({
+  step: item.steps.map((step, index) => ({ '@type': 'HowToStep', position: index + 1, name: step.title, text: step.description })),
+ })
 })

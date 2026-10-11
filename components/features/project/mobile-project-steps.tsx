@@ -13,7 +13,7 @@ const SUMMARY_GRID_WITH_THUMB =
 const SUMMARY_GRID_NO_THUMB =
   "grid min-h-[54px] cursor-pointer list-none grid-cols-[30px_minmax(0,1fr)_20px] items-center gap-2.5 px-2.5 py-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
 
-export function MobileProjectSteps({ steps, practicePending = false, observationOnly = false }: { steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
+export function MobileProjectSteps({ steps, observationOnly = false }: { steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
   const [openStates, setOpenStates] = useState<boolean[]>(() => steps.map((_, index) => index === 0))
   const allExpanded = steps.length > 0 && openStates.length === steps.length && openStates.every(Boolean)
   const toggleExpandAll = () => {
@@ -27,7 +27,7 @@ export function MobileProjectSteps({ steps, practicePending = false, observation
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">
-          {`${practicePending ? "按说明书操作" : observationOnly ? "观看要点" : "探索步骤"}${steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
+          {`${observationOnly ? "观看要点" : "探索步骤"}${steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
         </h2>
         {steps.length > 0 ? (
           <button
@@ -40,7 +40,6 @@ export function MobileProjectSteps({ steps, practicePending = false, observation
           </button>
         ) : null}
       </div>
-      {practicePending ? <p className="mb-3 text-sm leading-6 text-muted-foreground">按材料包里的说明书一步步操作；用量、配比和组装方式以说明书为准。</p> : null}
       {steps.length > 0 ? (
         <ol className="space-y-2">
           {steps.map((step, index) => {

@@ -22,7 +22,7 @@ export interface ProjectSectionNavProps {
   className?: string
 }
 
-export function ProjectSectionNav({ variant = "horizontal", mobile = false, practicePending = false, viewingGuide = false, className }: ProjectSectionNavProps) {
+export function ProjectSectionNav({ variant = "horizontal", mobile = false, viewingGuide = false, className }: ProjectSectionNavProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function ProjectSectionNav({ variant = "horizontal", mobile = false, prac
               activeId === targetId && "bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
             )}
           >
-            {practicePending && id === "project-steps" ? "按说明书操作" : viewingGuide && id === "project-materials" ? "观看准备" : viewingGuide && id === "project-steps" ? "观看要点" : label}
+            {viewingGuide && id === "project-materials" ? "观看准备" : viewingGuide && id === "project-steps" ? "观看要点" : label}
           </a>
         )
       })}

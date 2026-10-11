@@ -180,7 +180,7 @@ export function ProjectDetailActions({
         void startSafely()
       }, {
         title: practicePending ? "登录记录探索过程" : viewingGuide ? "登录记录观看心得" : isObservation ? "登录以开始观察" : "登录以开始我的项目",
-        description: practicePending ? "登录后可记录探索过程；动手时按材料包说明书一步步操作" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
+        description: practicePending ? "登录后可记录探索过程" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
       })
       return
     }
@@ -277,7 +277,7 @@ export function ProjectDetailActions({
         </div>
         {!user ? (
           <p className="text-xs leading-5 text-muted-foreground">
-            {practicePending ? "查看材料与步骤无需登录；动手时按材料包里的说明书操作，用量和组装方式以说明书为准。" : viewingGuide ? "观看准备与要点无需登录；可记录观看心得，无需制作或上传作品。" : "查看材料与步骤无需登录；登录后可记录过程和上传作品。"}
+            {practicePending ? "查看材料与步骤无需登录；登录后可记录探索过程和发现。" : viewingGuide ? "观看准备与要点无需登录；可记录观看心得，无需制作或上传作品。" : "查看材料与步骤无需登录；登录后可记录过程和上传作品。"}
           </p>
         ) : null}
       </div>

@@ -104,7 +104,7 @@ function ExplorationRecordsEmptyState({ action, practicePending = false, viewing
     <div className="app-empty-state py-8">
       <p className="text-sm font-semibold text-foreground">还没有探索记录</p>
       <p className="mt-1 text-xs leading-5 text-muted-foreground">
-        {practicePending ? "按材料包说明书完成探索后，可以记录过程和发现。" : viewingGuide ? "观看后可交流发现与问题，也可记录心得；无需制作或上传作品。" : "完成一次探索后，上传作品，记录就会出现在这里。"}
+        {practicePending ? "完成探索后，可以记录过程和发现。" : viewingGuide ? "观看后可交流发现与问题，也可记录心得；无需制作或上传作品。" : "完成一次探索后，上传作品，记录就会出现在这里。"}
       </p>
       {action ? <div className="mt-4 flex justify-center">{action}</div> : null}
     </div>

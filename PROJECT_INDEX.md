@@ -818,4 +818,4 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - 2026-10-10 科学55项正式内容：`science-reviewed.data.json`为精确55项已审核版本，详情数据库公开审核后按ID/标题/分类匹配覆盖，与小迪`getScienceTutorContent`使用同一份正文和定位。development/production一致，旧59保护不变、旧10稿不引入；preparation/observation不生成HowTo。两段拓展及两问只预填，保留草稿与账号/项目隔离。教学参考收口为站内入口/图片灯箱，保留备案、版权文件、登录支付。来源与发布边界见`docs/science55-release-2026-10-10/`；无需DB/OSS写入，列表和搜索数据库摘要未改。
 
-- 2026-10-11 材料包说明书引导：15 项审核科学内容补全操作步骤，当前 activity 34 / preparation 12 / observation 9；准备模式在桌面、移动端显示步骤数及按说明书操作提示，探索记录与小迪统一说明用量、配比和组装细节以材料包说明书为准。`lib/project/science-kit-steps.test.ts` 防止劝退文案回归并检查步骤与说明书引导；仅修改本地内容与展示，无数据库变更。
+- 2026-10-11 科学步骤文案与吸管实验：15 项审核科学内容补全操作步骤；907「欢叫的吸管」按已核实的 1098 完整版素材补全剪口、弯折和吹气步骤，改为 activity，当前 activity 35 / preparation 11 / observation 9。准备模式与普通项目共用步骤标题和数量，移除页面通用说明书提示，仅在确有需要的具体步骤中提说明书；小迪内部用量、配比和组装细节约束保持不变。`lib/project/science-kit-steps.test.ts` 防止劝退词与通用提示回归；仅修改本地内容与展示，无数据库变更。
