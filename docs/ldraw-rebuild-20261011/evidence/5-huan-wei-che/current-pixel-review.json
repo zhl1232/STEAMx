@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+  "revision": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
+  "reviewedAt": "2026-10-11T08:03:27.484739+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-huan-wei-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "32bbca47b285c1b9ee03a3bc589bfe6fb9a1c1d9476b3363875bc65c72481827",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "dce69ce7b60658eccc3441746d7f79fab50d4152868d42cf213ce334a4618a66",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "caea472181403044f44fa1438bd005479d0d48e4265cd50cb8d590c0cd66d8d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "2cbc4a4ae9676d52ecbb64408bdcfb66482247a7a9075b76eae2304dc8089176",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "3854849ab9918e119612bcb378dec4bd353ba49378afba624e18460bde1d8267",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "bc576cd27f6c01b0fd05245bfc9eccd3e22856fec940498e7a150aa572add1e0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9ba34c8b52164849a9060852b6599665aca869ec1f32ae7287dbdd0fd079a1a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9e160035bd91ba9d4f4a4a54b820feae5df4fed6a6ba114f32995831a0351966",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "63a8bd9194db8f34e9a864714a19b8d5b3cfe7dbb4738b7946ad8d7234884587",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "ee40e17310ac2b1cbd0365cfa44fc457bc31d126ac57b8961b325229cad9f724",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "386c4721a35341659c489a596e09fd7e9f3d358c681d3cbe19346938a0564625",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "fcb41bb3673b2a67af091d35f3432c91c971aac517add33dd107bf7230619b22",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "19b470bcc1694044083263cd53cd4361c6b70524bc7f53dc60a4133ec54f2e21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "6507796108c899d2e180cb85dd4b312ac20874af395ffb5e4862f2285398aec7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "24bebb9cca08e1ab85d1889b015c8c6332ff70e02ed0c829e3ae2f1c48af39ac",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened all15 D cumulative frames for59318358, enlarged original step9 and rechecked source page9. Chassis/cab, blue sidewalls, worm gearbox, arms and bracket, two real98220 inverted bowl sections, raised red body/cover and yellow lid accumulate visibly; no blank/cropped frame. Exact arm/gear engagement and cylinder clamp retention remain unresolved; source resemblance does not prove a secure joint. Approximate31196c01 cockpit with official6345 still has unresolved static overlap. This pass reviews D steps only, not D final3; C legacy final evidence remains separate. No physical/user acceptance."
+}

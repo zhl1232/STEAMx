@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+  "revision": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+  "reviewedAt": "2026-10-11T08:04:47.595120+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ti-xian-mu-ou",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "2825f91a7228d4d3b43fc956d65add69cd03c528927ae33e87d2fb913f008c24",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "47ae6150b94e51e04893fdc100620ce9a1ffba410c9576bfa55c8391674cc77c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "4ab7490fbe41f8735abbd89759a6991307cc8b50aa2c0942ea892eb449def168",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1d699a45d8b8e1dca06d1d4dbe5347e8bc86fc649163a0f93d51a5198aac4c83",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "cb60fa60ddaad5be864a1fb0e44e0fa178ec252531170754be7581ae80ec0923",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "86f40db2c9ae357e2ffb502bb0bb57aca6a87e7098f8b1f75d6ab7faef0c86db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "dee318323ca5c0c1de02691580c16264c7fa2b96e15de42ff3548179e5636edf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "dee318323ca5c0c1de02691580c16264c7fa2b96e15de42ff3548179e5636edf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "a71072d39346647e8ae3a4d7ecb7124557abe454fe1ff8457dc404abd0822141",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened all9 D cumulative frames for57e05392 and enlarged step9 original; rechecked source page8. Body, limbs, foot gears, hand gears/shafts, schematic strings, hooks/pulleys then overhead frame are visible. Steps7/8 intentionally share rigid geometry: source8 attaches existing hooks rather than adding parts, but current fixed hook pose does not demonstrate engagement. Strings remain schematic with unmeasured length/knot and hook retention/tension unresolved; intermediate suspended hardware is not a support proof. This pass reviews D steps only; legacy C final evidence separate. No source changes or physical/user acceptance."
+}

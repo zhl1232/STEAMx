@@ -1,7 +1,7 @@
 {
   "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
   "revision": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
-  "reviewedAt": "2026-10-11T06:36:38.077262+00:00",
+  "reviewedAt": "2026-10-11T08:07:03.917845+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tou-shi-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,14 +19,67 @@
       "view": "top",
       "sha256": "28bb77700bcc4f46485f297f0c5cd43d5234c288e2f32314d87f58a6562ceb4b",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "61796bf6254620d29e97393afafb49d2e28b631c685d8769943c6525ac966fd9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "5042e3f3fbbbc3e6ab36ce5e157e576a7248702b153be7ea52b8aa564cc662cf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "35461fd2abaf6963cfef229cf22041f2cbc757d5b2815ef092a664313c730b24",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "5d574cf8195d88907866e054f84dfd71bbbae41f288c7c0f4cff02e4d771191e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "5397ac960e75a97c4aea44a5f35647b3064d0714dc38e014fd34e8faa9f2f219",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e3fe555c1ac0b3354aadd9547c138b3ee4bd115fbee90bb2d9caa909e4c900f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "0475ce4d4d97ae305c262af4e07fad1ee214da67c3375b6656b3a843e15f6b7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "94ee932690f69090d08b3880759dbc5aced0dbe1c7189403b5b50126cf296e9c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actual pixel-review coverage above records appearance only. The previous uniform tyre cavity clearance claim is revoked. ## Superseding actual tyre-mesh review\nUniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA 74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c has 4 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 4 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.",
-  "supersedingGeometryLimitations": "## Superseding actual tyre-mesh review\nUniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA 74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c has 4 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 4 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.",
-  "priorLimitationsSupersededForTyreClearance": "Actually reviewed all three current original D PNGs for74298d1a and source pages6,7,12. Four support legs now match the visible page6 structure; upper paired long levers match page7 presence despite omission from its material inset. Source12 basket/payload remains visibly absent:17 known-ID pieces have unresolved connections, so incomplete and not accepted. Lever pose and bearing depth remain inferred;12 raw AABB pairs are not physical validation. Verified9656-1 inventory has6525 quantity4 versus6 required, so2 extra beyond one standard set; actual user holdings unknown. No cumulative steps reviewed for this revision."
+  "limitations": "Actually screened all11 D cumulative frames for74298d1a and enlarged step6 original. Four legs now visibly accumulate as front pair then rear pair; top levers, rear axle and extensions are visible. Steps10/11 add no rigid geometry because unresolved basket/payload assembly is explicitly omitted, not renderer loss. Total17 known-ID pieces remain omitted; no completion claim. Current tyre geometry has four pairs with225 strict triangle crossings each, four zero-result pairs insufficient; four noncoaxial tyre/retainer pairs separately have conservative5.99693LDU radial separation. Uniform42.183 tyre cavity exemption revoked. Kit6525 requirement6 versus reference4 needs2 extra. Pixel review does not establish retention/physical assembly; no source edits or user acceptance."
 }

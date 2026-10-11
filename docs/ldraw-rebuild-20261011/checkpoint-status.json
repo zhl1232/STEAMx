@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-11T08:02:11.197461+00:00",
-  "localCheckpointCommit": "a938657",
+  "generatedAt": "2026-10-11T08:07:50.999699+00:00",
+  "localCheckpointCommit": "17415ef",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 56,
+    "draft-final-and-all-steps-pixels-reviewed": 62,
     "source-verified-remotely-awaiting-transfer": 60,
-    "draft-final-pixels-reviewed-steps-pending": 13
+    "draft-final-pixels-reviewed-steps-pending": 7
   },
   "writtenSources": 69,
   "finalReviewed": 69,
-  "allStepsReviewed": 56,
+  "allStepsReviewed": 62,
   "partIssueFamiliesIncludingFlexibleRoutes": 29,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
@@ -110,9 +110,9 @@
     {
       "slug": "4-diao-che",
       "sourceSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -635,26 +635,19 @@
     {
       "slug": "5-huan-wei-che",
       "sourceSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "5-huo-jian",
       "sourceSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
-      "frameEdgeAuditPendingViews": [
-        "step-4",
-        "step-5",
-        "step-7",
-        "step-8",
-        "step-9",
-        "step-10"
-      ],
+      "allCumulativeStepsActuallyReviewed": true,
+      "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
@@ -723,9 +716,9 @@
     {
       "slug": "5-ma-tou-diao-ji",
       "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -912,9 +905,9 @@
     {
       "slug": "5-ti-xian-mu-ou",
       "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -939,9 +932,9 @@
     {
       "slug": "5-tou-shi-che",
       "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

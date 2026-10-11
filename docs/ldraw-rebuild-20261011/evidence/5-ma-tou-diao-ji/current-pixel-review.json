@@ -1,7 +1,7 @@
 {
   "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
   "revision": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
-  "reviewedAt": "2026-10-11T06:30:32.231722+00:00",
+  "reviewedAt": "2026-10-11T08:07:00.646825+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ma-tou-diao-ji",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,82 @@
       "view": "top",
       "sha256": "1ee7853f047cf782594c34693c07e30cce7fdb73230d9d735921897bc20f3244",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "322c9e256e163eb2c29673f36716431f559a9368fc5be0456ce9c9858adadf44",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "9bf382782128c7143e90017d9aba4f7d4f938fd5a3bc53b3ff85d41acf172bbe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "4d4671306a0b5215fd7e374a6d3045f8c041a3219c19940575dc5318e4bfbabf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b47809ce23df67d488ca5333438caabdec6197cc924a81ca2f93f5442e599b58",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "cfca52f94090230ad35c08c12c03b31c72149c68612cd53e35faebc18a78d642",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "05fd1d19d21b9bca5395302a397beeb49e65a27f4707d590c7b6dba8fd84944f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "af979fe61b6e2b5ac61c58152b1377978d0b6b36ccd198c53628f5d774dcc721",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2beccb484eab65ac0ebacd8bf9a9633426d87e530ecb193904e2e2f160c3b91f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "824122df03758fc61f03c22b1d1e91131b98d44decf7d0c9d0f8b01dc37cb19c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "336a9caecc1ea8fa1b19307dbdc9076b30600e692cc72edb77b70da409084234",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "b2a5c2ff90008bb95b1cb7278fd48861e08326ce4da6ef64a74bcf92175e9e5c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "f6977fa838f30cb25f744f01f197f9575f2ea98839b62e2968bae9bb46578d70",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "e2a1d5444e5a07ae062c3f09828da4ab3a63c8c088dd265ec0a9a79d9cffdce6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "c5c4f9cef369cea633f0f122d5e511de2b08a7390d8fd678fa38b3c209ec3100",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected original iso, iso-rear, top against source page15 and previously reviewed page10. Full base, boom, roof and hook in frame. Three alternating columns, bridge, rotating chassis and cockpit source arrangement remain recognizable. Missing lower pivot axle/two retainers are explicit known-ID connection omissions. Current parallel boom-at-upper-pivot placement remains provisional; source shows a lower bearing whose arm engagement is obscured. Canopy-shell fit and estimated string route remain unresolved. No new source-certain correction identified; not source-fidelity/physical/user acceptance. Cumulative steps not reviewed."
+  "limitations": "Actually viewed all14 D cumulative original PNGs for8cbf8cff and rechecked source page10. Three striped piers, bridge, rotating body, cantilever cab, boom, winding shaft, schematic cord then hook/guide gear accumulate without crop or blank frames. Source10 lower grey pivot plus two retainers remain omitted: three known-ID parts with unresolved engagement; current both booms at upper pivot remain provisional. Blue cab platform support, cord routing/tension, crank pin engagement and approximate cockpit/windscreen interface remain unverified. Four-pane window mold variation remains uncertain. Pixel visibility does not establish physical support; no source edits or user acceptance."
 }
