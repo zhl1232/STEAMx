@@ -1,0 +1,701 @@
+{
+  "slug": "5-tian-ping",
+  "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+  "status": "incomplete-development-preview",
+  "verificationLevel": "structurally checked only",
+  "implementedPlacements": 74,
+  "sourcePhysicalCount": 78,
+  "knownOmittedPhysicalCount": 4,
+  "pages": [
+    {
+      "page": 1,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 3
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 1
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 6,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-01.jpg"
+    },
+    {
+      "page": 2,
+      "sourcePageBOM": [
+        {
+          "id": "4268.dat",
+          "color": "2",
+          "quantity": 1
+        },
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6525.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 9,
+      "cumulativePlacements": 15,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-02.jpg"
+    },
+    {
+      "page": 3,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 7,
+      "cumulativePlacements": 22,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-03.jpg"
+    },
+    {
+      "page": 4,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6525.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 8,
+      "cumulativePlacements": 30,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-04.jpg"
+    },
+    {
+      "page": 5,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 34,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-05.jpg"
+    },
+    {
+      "page": 6,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 4
+        },
+        {
+          "id": "6525.dat",
+          "color": "14",
+          "quantity": 4
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 8
+        }
+      ],
+      "implementedCount": 16,
+      "cumulativePlacements": 50,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-06.jpg"
+    },
+    {
+      "page": 7,
+      "sourcePageBOM": [
+        {
+          "id": "source-rope",
+          "color": "0",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 0,
+      "cumulativePlacements": 50,
+      "omissions": [
+        {
+          "page": 7,
+          "id": "source-rope",
+          "color": 0,
+          "quantity": 4,
+          "category": "known-item geometry/path omitted",
+          "candidate": "75536 rope/pulley/hook assembly string",
+          "missingEvidence": "p7 single rope substep is repeated4x atp8. Exact length, knots and winding not given; known6527 and4663 retained, no invented flexible DAT."
+        }
+      ],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-07.jpg"
+    },
+    {
+      "page": 8,
+      "sourcePageBOM": [
+        {
+          "id": "4663.dat",
+          "color": "14",
+          "quantity": 4
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 8,
+      "cumulativePlacements": 58,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-08.jpg"
+    },
+    {
+      "page": 9,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 64,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-09.jpg"
+    },
+    {
+      "page": 10,
+      "sourcePageBOM": [
+        {
+          "id": "31021p01.dat",
+          "color": "15",
+          "quantity": 8
+        },
+        {
+          "id": "51262.dat",
+          "color": "7",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 10,
+      "cumulativePlacements": 74,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-10.jpg"
+    }
+  ],
+  "omissions": [
+    {
+      "page": 7,
+      "id": "source-rope",
+      "color": 0,
+      "quantity": 4,
+      "category": "known-item geometry/path omitted",
+      "candidate": "75536 rope/pulley/hook assembly string",
+      "missingEvidence": "p7 single rope substep is repeated4x atp8. Exact length, knots and winding not given; known6527 and4663 retained, no invented flexible DAT."
+    }
+  ],
+  "unknownIdentity": [],
+  "missingGeometry": [
+    {
+      "page": 7,
+      "id": "source-rope",
+      "color": 0,
+      "quantity": 4,
+      "category": "known-item geometry/path omitted",
+      "candidate": "75536 rope/pulley/hook assembly string",
+      "missingEvidence": "p7 single rope substep is repeated4x atp8. Exact length, knots and winding not given; known6527 and4663 retained, no invented flexible DAT."
+    }
+  ],
+  "knownConnectionOmissions": [],
+  "approvedApproximateGeometry": [],
+  "implementedBOM": [
+    {
+      "id": "3011.dat",
+      "color": "14",
+      "quantity": 3
+    },
+    {
+      "id": "31021p01.dat",
+      "color": "15",
+      "quantity": 8
+    },
+    {
+      "id": "40666.dat",
+      "color": "1",
+      "quantity": 1
+    },
+    {
+      "id": "4268.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "4663.dat",
+      "color": "14",
+      "quantity": 4
+    },
+    {
+      "id": "51262.dat",
+      "color": "7",
+      "quantity": 2
+    },
+    {
+      "id": "6522.dat",
+      "color": "7",
+      "quantity": 13
+    },
+    {
+      "id": "6525.dat",
+      "color": "14",
+      "quantity": 8
+    },
+    {
+      "id": "6527.dat",
+      "color": "14",
+      "quantity": 30
+    },
+    {
+      "id": "75349.dat",
+      "color": "4",
+      "quantity": 1
+    },
+    {
+      "id": "75350.dat",
+      "color": "4",
+      "quantity": 3
+    }
+  ],
+  "partGeometry": [
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "header": [
+        "0 Duplo Brick  2 x  4",
+        "0 Name: 3011.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "31021p01.dat",
+      "sha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+      "header": [
+        "0 Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+        "0 Name: 31021p01.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Fence",
+        "0 !KEYWORDS Rebrickable 31021pr0001, Set 2000415"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "header": [
+        "0 Duplo Plate  2 x  4",
+        "0 Name: 40666.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "4268.dat",
+      "sha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+      "header": [
+        "0 Duplo Baseplate 24 x 24",
+        "0 Name: 4268.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2018-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CW",
+        "",
+        "0 !CATEGORY Baseplate",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "4663.dat",
+      "sha256": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51",
+      "header": [
+        "0 Duplo Hook Short with Cross Bar and String Hole",
+        "0 Name: 4663.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Crane",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "51262.dat",
+      "sha256": "2311dc62a2f7314469e0adadd673dc5b7b2fa57cbffbb1c7155dc47d3c43fbb7",
+      "header": [
+        "0 Duplo Plate  8 x  8",
+        "0 Name: 51262.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "header": [
+        "0 Duplo Axle  6",
+        "0 Name: 6522.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6525.dat",
+      "sha256": "4a3408b13fa1c52872e2b8dcf963feee2228f15ec371e3f8d9b4bf76c8e1ce12",
+      "header": [
+        "0 Duplo Beam 11",
+        "0 Name: 6525.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "header": [
+        "0 Duplo Wheel with 2 Belt Groves",
+        "0 Name: 6527.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines, Pulley"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+      "header": [
+        "0 Duplo Brick  2 x  4 with Holes",
+        "0 Name: 75349.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "header": [
+        "0 Duplo Brick  2 x 10 with Holes",
+        "0 Name: 75350.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS BrickLink 6515c01, dacta, Early Simple Machines, Rebrickable 6515"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    }
+  ],
+  "risks": [
+    {
+      "key": "foundation",
+      "classification": "source-supported",
+      "evidence": "p1 yellow3011 feetX+/-160 rotatedE, long75350 atY-96; centre yellow3011/blue40666/red75349 stack gives base/tower axesY-72 and-192 separated120, exactly3beam hole pitches. p2 adds24x24 base under subassembly."
+    },
+    {
+      "key": "upright-splice",
+      "classification": "source-supported-with-pose-inference",
+      "evidence": "Lower11beams centreY-272,Z+/-60; holesY-72/-192 hold foundation andY-352/-432 hold vertical long brick. Vertical75350 centreY-512,originX-24 maps localX to-Y and localY to+X. Upper11beams centreY-752; lower join holesY-592/-672 connect same verticalbrick, top holeY-952 holds crossbar. All selected hole offsets multiples40 and paired shaft lines nominally coincide. Exact separation inferred from visible source bonds; no scale changes."
+    },
+    {
+      "key": "crossbar",
+      "classification": "source-supported-with-hidden-placement-inference",
+      "evidence": "p5 top75350 axisY-952, centredX0. p6 four horizontal11beams centresX+/-280,Z+/-60, anchored atX+/-80 and+/-160. Inner ends leave central verticalbeam clearance; outermost holesX+/-480 hold suspension axles. Precise extension selected on40LDU hole grid from source; final sourcematching pixels pending."
+    },
+    {
+      "key": "adjacent-wheels",
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "key": "trays-and-hooks",
+      "classification": "source-backed-support-exception",
+      "evidence": "Four known4663 hooks atX+/-480,Z+/-100,Y-420; two51262 8x8 trays topY-300. Eight31021p01 fences use outer plate studrowsX/Z+/-140, ends+/-100 to avoid colliding corner posts. Rope winds atY-952; precise hanging height and hook contact are inferred. p8 isolated hooks/trays need temporary handling; final source suspension retained although rope mesh absent. No claim that displayed trays float independently or that hook/fence connection carries load."
+    },
+    {
+      "key": "motion",
+      "classification": "evidence-insufficient",
+      "evidence": "Central linkage constraints, pulley retention, string travel and actual balance response not physically tested. No Studio use, no physical pass. Await final3 plus all10 cumulative-step pixels."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "9090-2",
+      "9656-1"
+    ],
+    "setIsNotCourseBOM": true,
+    "userStock": "unknown",
+    "comparisons": [
+      {
+        "id": "3011.dat",
+        "color": "Yellow",
+        "sourceQuantity": 3,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31021p01.dat",
+        "color": "White",
+        "sourceQuantity": 8,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Blue",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 12
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4268.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4663.dat",
+        "color": "Yellow",
+        "sourceQuantity": 4,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "51262.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6522.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 13,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 7
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 6,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6525.dat",
+        "color": "Yellow",
+        "sourceQuantity": 8,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 4,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6527.dat",
+        "color": "Yellow",
+        "sourceQuantity": 30,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 15
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 15,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75349.dat",
+        "color": "Red",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75350.dat",
+        "color": "Red",
+        "sourceQuantity": 3,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "source-rope",
+        "color": "Black",
+        "sourceQuantity": 4,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      }
+    ]
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "2c0b7a80978fc0ecc7ebb214b61c0ba91cb56979410ff43349521b60ddd502cc",
+    "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 10,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

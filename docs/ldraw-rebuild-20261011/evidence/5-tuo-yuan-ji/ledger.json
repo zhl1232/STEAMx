@@ -1,0 +1,721 @@
+{
+  "slug": "5-tuo-yuan-ji",
+  "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+  "status": "development-preview-with-explicit-layout-adjustment-and-static-risks",
+  "verificationLevel": "structurally checked only",
+  "implementedPlacements": 45,
+  "sourcePhysicalCount": 45,
+  "knownOmittedPhysicalCount": 0,
+  "pages": [
+    {
+      "page": 1,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 6
+        },
+        {
+          "id": "6490.dat",
+          "color": "2",
+          "quantity": 1
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 8,
+      "cumulativePlacements": 8,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-01.jpg"
+    },
+    {
+      "page": 2,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 3
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 12,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-02.jpg"
+    },
+    {
+      "page": 3,
+      "sourcePageBOM": [
+        {
+          "id": "2302b.dat",
+          "color": "1",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 1,
+      "cumulativePlacements": 13,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-03.jpg"
+    },
+    {
+      "page": 4,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 1
+        },
+        {
+          "id": "6526.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6530.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 5,
+      "cumulativePlacements": 18,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-04.jpg"
+    },
+    {
+      "page": 5,
+      "sourcePageBOM": [
+        {
+          "id": "6521.dat",
+          "color": "2",
+          "quantity": 1
+        },
+        {
+          "id": "6525.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        }
+      ],
+      "implementedCount": 7,
+      "cumulativePlacements": 25,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-05.jpg"
+    },
+    {
+      "page": 6,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 29,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-06.jpg"
+    },
+    {
+      "page": 7,
+      "sourcePageBOM": [
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "40666.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 35,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-07.jpg"
+    },
+    {
+      "page": 8,
+      "sourcePageBOM": [
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 2,
+      "cumulativePlacements": 37,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-08.jpg"
+    },
+    {
+      "page": 9,
+      "sourcePageBOM": [
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "40666.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 1
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 43,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-09.jpg"
+    },
+    {
+      "page": 10,
+      "sourcePageBOM": [
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 2,
+      "cumulativePlacements": 45,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-10.jpg"
+    }
+  ],
+  "omissions": [],
+  "unknownIdentity": [],
+  "missingGeometry": [],
+  "knownConnectionOmissions": [],
+  "approvedApproximateGeometry": [],
+  "implementedBOM": [
+    {
+      "id": "2302b.dat",
+      "color": "1",
+      "quantity": 1
+    },
+    {
+      "id": "3011.dat",
+      "color": "14",
+      "quantity": 9
+    },
+    {
+      "id": "40666.dat",
+      "color": "1",
+      "quantity": 4
+    },
+    {
+      "id": "40666.dat",
+      "color": "14",
+      "quantity": 4
+    },
+    {
+      "id": "6490.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "6521.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "6522.dat",
+      "color": "7",
+      "quantity": 3
+    },
+    {
+      "id": "6525.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6526.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6527.dat",
+      "color": "14",
+      "quantity": 10
+    },
+    {
+      "id": "6530.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "75349.dat",
+      "color": "4",
+      "quantity": 4
+    },
+    {
+      "id": "75350.dat",
+      "color": "4",
+      "quantity": 2
+    }
+  ],
+  "partGeometry": [
+    {
+      "id": "2302b.dat",
+      "sha256": "b914434b9d8763495fa0fc65f634d94c59642fb1c3f24cb6335234f7f426fbb2",
+      "header": [
+        "0 Duplo Brick  2 x  3 with Curved Top",
+        "0 Name: 2302b.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2025-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Brick",
+        "0 !KEYWORDS BrickLink 2302, Rebrickable 2302"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "header": [
+        "0 Duplo Brick  2 x  4",
+        "0 Name: 3011.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "header": [
+        "0 Duplo Plate  2 x  4",
+        "0 Name: 40666.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6490.dat",
+      "sha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830",
+      "header": [
+        "0 Duplo Plate  8 x 16",
+        "0 Name: 6490.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6521.dat",
+      "sha256": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+      "header": [
+        "0 Duplo Axle  8",
+        "0 Name: 6521.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "header": [
+        "0 Duplo Axle  6",
+        "0 Name: 6522.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6525.dat",
+      "sha256": "4a3408b13fa1c52872e2b8dcf963feee2228f15ec371e3f8d9b4bf76c8e1ce12",
+      "header": [
+        "0 Duplo Beam 11",
+        "0 Name: 6525.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6526.dat",
+      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+      "header": [
+        "0 Duplo Beam  3 x  0.5 Liftarm with Axle",
+        "0 Name: 6526.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2025-07",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Crank, dacta, Early Simple Machines, handle"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "header": [
+        "0 Duplo Wheel with 2 Belt Groves",
+        "0 Name: 6527.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines, Pulley"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6530.dat",
+      "sha256": "9037cefa788cb7f97424c6c5d4ff3c9cea63200ee7a8251d55aed32246028b48",
+      "header": [
+        "0 Duplo Gear 40 Tooth",
+        "0 Name: 6530.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2019-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+      "header": [
+        "0 Duplo Brick  2 x  4 with Holes",
+        "0 Name: 75349.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "header": [
+        "0 Duplo Brick  2 x 10 with Holes",
+        "0 Name: 75350.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS BrickLink 6515c01, dacta, Early Simple Machines, Rebrickable 6515"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    }
+  ],
+  "risks": [
+    {
+      "key": "source-bond",
+      "classification": "source-supported",
+      "evidence": "6490 green8x16 plate, tall six3011 courses plus75349 atX-200 and short threecourses plus75349 atX200, nominal shaftsY-312/-168. Sourcep3 single2302b blue cap rotatedE over3of4topstud columns. No reuse of old draft."
+    },
+    {
+      "key": "drive-stack",
+      "classification": "source-supported-with-axial-risk",
+      "evidence": "p4 grey6522 Z-axis span+/-120,6530 gearsZ+/-60 and6526 cranksZ+/-100. Local crank normal points outward, eccentric80LDU pins use opposite high/low phasesY-248/-88. Gear teeth have no mating gear in this source, no gear engagement claim."
+    },
+    {
+      "key": "handle-stack",
+      "classification": "source-supported",
+      "evidence": "p5 green6521 axle length320 holds inner6527 centresZ+/-60,11beams atZ+/-100 and outer6527 atZ+/-140. Each beam pivots at centrehole with lower extreme200LDU away. Base coordinates/pitch and proper matrices retained."
+    },
+    {
+      "key": "four-bar-solution",
+      "classification": "explicit-pose-inference",
+      "evidence": "joint-solution.json binds current source. Lower handle pin is intersection of radius200 about(-200,-312) and radius440 about its crank pin(200,-248/-88); choose lower branch. Result pins(-218.739227,-112.879832) and(-239.116925,-115.862634). Nominal200and440 distances close exactly. This is a reasonable source-like crank phase/pose inference, not validation of the complete swept mechanism."
+    },
+    {
+      "key": "pedal-bond",
+      "classification": "source-supported-with-hidden-layout-inference",
+      "evidence": "Each pedal comprises co-planar75350 longbrick and75349 shortbrick,14stud total. Joint atlocalX-200 cross-bonded by blue40666 above/below atX-200; yellow40666 pair atX120. Lower handle shaft throughshortcentreX-280 andcrank pin throughlongholeX160 yield440span. All source6parts per side retained. Source visible layered caps support this arrangement; exact hidden bond inferred."
+    },
+    {
+      "key": "crank-pin-retention",
+      "classification": "evidence-insufficient",
+      "evidence": "Pedal planesZ+/-160, body spansabsZ120..200. 6526 eccentric pins reachabsZ120..160, only40LDU nominal insertion into80LDUbrickdepth; sufficient grip is not proved. Lower axle centresabsZ160 span40..280 withinnerwheel60,beam100,pedal160 andouterwheels220/260. No axial stack collision inferred from bbox alone; retention/shaftholes require physical check."
+    },
+    {
+      "key": "validation",
+      "classification": "evidence-insufficient",
+      "evidence": "Raw checker exit0 does not prove exercise-machine operation, clearance throughout cycle, load stability or shaft retention. Static source-like pose only; no Studio/physical testing. Await final3 and all10 cumulative-step pixel inspection."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "9090-2",
+      "9656-1"
+    ],
+    "setIsNotCourseBOM": true,
+    "userStock": "unknown",
+    "comparisons": [
+      {
+        "id": "2302b.dat",
+        "color": "Blue",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 10
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Yellow",
+        "sourceQuantity": 9,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 4,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Blue",
+        "sourceQuantity": 4,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 12
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Yellow",
+        "sourceQuantity": 4,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 2,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6490.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6521.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6522.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 3,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 7
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6525.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6526.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 6
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6527.dat",
+        "color": "Yellow",
+        "sourceQuantity": 10,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 15
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6530.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75349.dat",
+        "color": "Red",
+        "sourceQuantity": 4,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75350.dat",
+        "color": "Red",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      }
+    ]
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "6a5858c3d71d57bf202cae7e70d79c072bd54362d9cce8330f486674f3f11f9b",
+    "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 10,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

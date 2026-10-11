@@ -1,0 +1,56 @@
+{
+  "slug": "5-tuo-yuan-ji",
+  "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+  "allRecursiveFacesLoaded": true,
+  "parts": [
+    {
+      "id": "6490.dat",
+      "faceCount": 8445
+    },
+    {
+      "id": "3011.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "75349.dat",
+      "faceCount": 2726
+    },
+    {
+      "id": "2302b.dat",
+      "faceCount": 454
+    },
+    {
+      "id": "6522.dat",
+      "faceCount": 34
+    },
+    {
+      "id": "6530.dat",
+      "faceCount": 1812
+    },
+    {
+      "id": "6526.dat",
+      "faceCount": 674
+    },
+    {
+      "id": "6521.dat",
+      "faceCount": 34
+    },
+    {
+      "id": "6525.dat",
+      "faceCount": 1804
+    },
+    {
+      "id": "6527.dat",
+      "faceCount": 1029
+    },
+    {
+      "id": "75350.dat",
+      "faceCount": 7502
+    },
+    {
+      "id": "40666.dat",
+      "faceCount": 590
+    }
+  ],
+  "physicalValidation": false
+}

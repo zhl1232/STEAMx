@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+  "revision": "0141c013f7f4e6dd00f1f5c8b502a98d4a41d51b23af3db6fd5ad9606ae72f7d",
+  "reviewedAt": "2026-10-11T13:53:44.107282+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-song-shu-qi-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "67e086b4d10c11416852f236ccbe705da345fa1725b3a1021bd806bb8d6fc88a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "d1450791ed5e7321d4d8902fd75b7f8834442a18c91a53adebe23d447790dbd9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "9a61b0c765bd57ded3875c5b892a225eaffbd02b2673756d6a53127089c1e1a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2b15e2cddafd2fba1d83b5cac5c2b432101f30c01ab83fa5832e017c622e7d9b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "b0e5d622f9a539a5d1a9b5beeeb6647d50e9719c653b26df91dc5a617f2ac2bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "4f36bb5bb3b67d335fda284c80bf400481352b81707b559b5d833ebd12f36ddd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "414a0fe654a8024c510023c3fcab177cb5a65309f05e9948184fe13152d9c348",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "4a85f2617243a7cfa9e42ee7a8a10e6681ede4ea1de1fadcd6e738aaec89660a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "29c81ba07125b100b4d548c4b53fa6b6d32eaaccc7094f5e48d47fea07c01994",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "47258c9283fb73a41677c713e288defcf4e68a84b16dff2a19b6cb1acb31477d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7b32af3c85dae979806c1fb519fdeca23896268802b5f276e5c7a80e5d6ca687",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "68ffb8cd7f578c58ea499a4bed539820899acaa4407b34875240446f4db18cff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9796581c1a6564a13d6bbd9c7040b80726c138610d0069a6a4847bc4aadfe8e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "d3e90a1556491d88f8d3604c87c3bbc0975c0c5a1ca48526a0d8ff23838d9f49",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "67e086b4d10c11416852f236ccbe705da345fa1725b3a1021bd806bb8d6fc88a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all12 cumulative steps contact sheets, plus original step8 and iso-rear and source page8. Two erroneous inner upper-joint pulleys are absent. Source BOM is4 blue6523 and2 pulley6527; two lower blue axles remain explicitly omitted for unresolved connection with integral6526pins, not a source contradiction. All frames contain model without clipping. Existing15degree crank pose,1.203LDU upper bore eccentricity, hidden ear crossbond and unverified eye backside retained. Pixel review only; no physical acceptance."
+}

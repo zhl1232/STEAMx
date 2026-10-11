@@ -1,0 +1,3055 @@
+{
+  "slug": "5-xiao-huo-che",
+  "sourceSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+  "previousDraftSha256": "d3ad4701c1297d41cdee78af568ffc17a85c6a97c2bf396bd954d4c70ce8b372",
+  "placementCount": 122,
+  "stepCount": 16,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "Engine twin long bearing bricks",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 6,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 7,
+          "step": 1
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 2
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "Engine two8L axles, four40T rolling gears and four retainers",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            -160,
+            24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 10,
+          "step": 2
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 11,
+          "step": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            -140
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "line": 12,
+          "step": 2
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 13,
+          "step": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 14,
+          "step": 2
+        },
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            160,
+            24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 15,
+          "step": 2
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            160,
+            24,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 16,
+          "step": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            160,
+            24,
+            -140
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "line": 17,
+          "step": 2
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            160,
+            24,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 18,
+          "step": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            160,
+            24,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 19,
+          "step": 2
+        }
+      ],
+      "placedBOM": {
+        "6521.dat": 2,
+        "6530.dat": 4,
+        "6526.dat": 4
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "Engine two11-hole side rods and four5L geared blue pins",
+      "placements": [
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            40,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "line": 22,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -120,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "line": 23,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            200,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "line": 24,
+          "step": 3
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            40,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "line": 25,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -120,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "line": 26,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            200,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "line": 27,
+          "step": 3
+        }
+      ],
+      "placedBOM": {
+        "6525.dat": 2,
+        "6523.dat": 4
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Engine front extension and seven transverse blue plates",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 30,
+          "step": 4
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 31,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 32,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 33,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 34,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 35,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 36,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            80,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 37,
+          "step": 4
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            160,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 38,
+          "step": 4
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 2,
+        "40666.dat": 7
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "Seven yellow body bricks and two concave front scoop pieces",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -320,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 41,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -240,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 42,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 43,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 44,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 45,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 46,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 47,
+          "step": 5
+        },
+        {
+          "part": "2301b.dat",
+          "color": 14,
+          "position": [
+            -380,
+            -72,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 48,
+          "step": 5
+        },
+        {
+          "part": "2301b.dat",
+          "color": 14,
+          "position": [
+            -380,
+            -72,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 49,
+          "step": 5
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 7,
+        "2301b.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Large red deck and two front blue plates",
+      "placements": [
+        {
+          "part": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 52,
+          "step": 6
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -360,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 53,
+          "step": 6
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            -280,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 54,
+          "step": 6
+        }
+      ],
+      "placedBOM": {
+        "4196.dat": 1,
+        "40666.dat": 2
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "Double long red boiler sill with five round-top bricks",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 57,
+          "step": 7
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 58,
+          "step": 7
+        },
+        {
+          "part": "98223b.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 59,
+          "step": 7
+        },
+        {
+          "part": "98223b.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 60,
+          "step": 7
+        },
+        {
+          "part": "98223b.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 61,
+          "step": 7
+        },
+        {
+          "part": "98223b.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 62,
+          "step": 7
+        },
+        {
+          "part": "98223b.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 63,
+          "step": 7
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 2,
+        "98223b.dat": 5
+      }
+    },
+    {
+      "sourcePage": 8,
+      "description": "Four alternating yellow/red hollow cabin layers",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -144,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 66,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 67,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 68,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -144,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 69,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -192,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 70,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -192,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 71,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            200,
+            -192,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 72,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            160,
+            -192,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 73,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -240,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 74,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 75,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -240,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 76,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -240,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 77,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -288,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 78,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -288,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 79,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            200,
+            -288,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 80,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            160,
+            -288,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 81,
+          "step": 8
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 16
+      }
+    },
+    {
+      "sourcePage": 9,
+      "description": "Yellow cabin cap, three blue chimney bricks and two offset smoke bricks",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -336,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 84,
+          "step": 9
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -336,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 85,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 1,
+          "position": [
+            120,
+            -384,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 86,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 1,
+          "position": [
+            120,
+            -432,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 87,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 1,
+          "position": [
+            120,
+            -480,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 88,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 9,
+          "position": [
+            160,
+            -528,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 89,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 9,
+          "position": [
+            200,
+            -576,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 90,
+          "step": 9
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 2,
+        "3437.dat": 5
+      }
+    },
+    {
+      "sourcePage": 10,
+      "description": "Coach twin long bearing bricks",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            720,
+            0,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 93,
+          "step": 10
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            720,
+            0,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 94,
+          "step": 10
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 2
+      }
+    },
+    {
+      "sourcePage": 11,
+      "description": "Coach rolling gears and axles",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            560,
+            24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 97,
+          "step": 11
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            560,
+            24,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 98,
+          "step": 11
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            560,
+            24,
+            -140
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "line": 99,
+          "step": 11
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            560,
+            24,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 100,
+          "step": 11
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            560,
+            24,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 101,
+          "step": 11
+        },
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            880,
+            24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 102,
+          "step": 11
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            880,
+            24,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 103,
+          "step": 11
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            880,
+            24,
+            -140
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "line": 104,
+          "step": 11
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            880,
+            24,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 105,
+          "step": 11
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            880,
+            24,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 106,
+          "step": 11
+        }
+      ],
+      "placedBOM": {
+        "6521.dat": 2,
+        "6530.dat": 4,
+        "6526.dat": 4
+      }
+    },
+    {
+      "sourcePage": 12,
+      "description": "Coach side rods and blue geared pins",
+      "placements": [
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            760,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "line": 109,
+          "step": 12
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            600,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "line": 110,
+          "step": 12
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            920,
+            24,
+            -180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "line": 111,
+          "step": 12
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            760,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "line": 112,
+          "step": 12
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            600,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "line": 113,
+          "step": 12
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            920,
+            24,
+            180
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "line": 114,
+          "step": 12
+        }
+      ],
+      "placedBOM": {
+        "6525.dat": 2,
+        "6523.dat": 4
+      }
+    },
+    {
+      "sourcePage": 13,
+      "description": "Coach front red extension and blue plate deck",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            440,
+            0,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 117,
+          "step": 13
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            440,
+            0,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 118,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            400,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 119,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            480,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 120,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            560,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 121,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            640,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 122,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            720,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 123,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            800,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 124,
+          "step": 13
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            880,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 125,
+          "step": 13
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 2,
+        "40666.dat": 7
+      }
+    },
+    {
+      "sourcePage": 14,
+      "description": "Six yellow coach bricks plus two6L bridging bricks under engine deck overhang",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 128,
+          "step": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 129,
+          "step": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 130,
+          "step": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            720,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 131,
+          "step": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            800,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 132,
+          "step": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            880,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 133,
+          "step": 14
+        },
+        {
+          "part": "2300.dat",
+          "color": 14,
+          "position": [
+            320,
+            -72,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 134,
+          "step": 14
+        },
+        {
+          "part": "2300.dat",
+          "color": 14,
+          "position": [
+            320,
+            -72,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 135,
+          "step": 14
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 6,
+        "2300.dat": 2
+      }
+    },
+    {
+      "sourcePage": 15,
+      "description": "Six installed window identity candidates:61649 red frames with90265 white leaves",
+      "placements": [
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            520,
+            -216,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 138,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            585.5,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 139,
+          "step": 15
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            520,
+            -216,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 140,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            454.5,
+            -144,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 141,
+          "step": 15
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            680,
+            -216,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 142,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            745.5,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 143,
+          "step": 15
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            680,
+            -216,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 144,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            614.5,
+            -144,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 145,
+          "step": 15
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            840,
+            -216,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 146,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            905.5,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 147,
+          "step": 15
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            840,
+            -216,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 148,
+          "step": 15
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            774.5,
+            -144,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 149,
+          "step": 15
+        }
+      ],
+      "placedBOM": {
+        "61649.dat": 6,
+        "90265.dat": 6
+      }
+    },
+    {
+      "sourcePage": 16,
+      "description": "Front coach closure and three blue roof plates;p17 final",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            400,
+            -120,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 152,
+          "step": 16
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            400,
+            -168,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 153,
+          "step": 16
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            400,
+            -216,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 154,
+          "step": 16
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            520,
+            -240,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 155,
+          "step": 16
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            680,
+            -240,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 156,
+          "step": 16
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            840,
+            -240,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 157,
+          "step": 16
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 3,
+        "40666.dat": 3
+      }
+    }
+  ],
+  "placedBOM": {
+    "75350.dat": 6,
+    "6521.dat": 4,
+    "6530.dat": 8,
+    "6526.dat": 8,
+    "6525.dat": 4,
+    "6523.dat": 8,
+    "3011.dat": 38,
+    "40666.dat": 19,
+    "2301b.dat": 2,
+    "4196.dat": 1,
+    "98223b.dat": 5,
+    "3437.dat": 5,
+    "2300.dat": 2,
+    "61649.dat": 6,
+    "90265.dat": 6
+  },
+  "targetVisibleBOM": {
+    "75350.dat": 6,
+    "6521.dat": 4,
+    "6530.dat": 8,
+    "6526.dat": 8,
+    "6525.dat": 4,
+    "6523.dat": 8,
+    "3011.dat": 38,
+    "40666.dat": 19,
+    "2301b.dat": 2,
+    "4196.dat": 1,
+    "98223b.dat": 5,
+    "3437.dat": 5,
+    "2300.dat": 2,
+    "61649.dat": 6,
+    "90265.dat": 6
+  },
+  "targetVisibleCount": 122,
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All17 source pages actually viewed. Two chassis groups and all printed step quantities reconstructed; source six assembled windows represented by12 constituent frame/leaf placements.",
+    "Window installed identity candidate61649+90265 matches inventory red6/white6 and flat four-pane outline; source upper pane proportions/mould version not uniquely established. Nominal leaf relative(65.5,72,-40), no scaling; hinge and frame interfaces manual pending mesh/pixels.",
+    "Engine and coach side gears centers separated320;11-hole rods use holes atlocalZ+-160, blue5L axes at40LDU radial gear holes. Blue5L axis centerZ+-180 extends absolute80..280, reaches gear off-axis bore80..120 and rod160..200, its8T flange at220 nominally outside rod. Gear/rod axial separation40 maintained by source crank layer; retention and mesh checked separately, no physical motion claim.",
+    "Train body front scoops official2301b are two-stud high-end concave parts; not approximate invented pieces. Curved boiler five98223b official parts.",
+    "Coach yellow6L bridge fromX200..440 contacts underside engine plate overhangX200..240 while supported on coach blue plates fromX360; source-hidden offset inferred to maintain stud supports, no extra parts. Physical bending/clutch/rolling linkage motion unverified.",
+    "Recursive blue axle/gear and axle/rod interfaces produce72 strict crossings each (16 tested pairs); six frame/leaf candidates171 each. Preserve interface risks even though axes and visible placements are source based. Window mould/hinge location not uniquely established."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryComparison": [
+    {
+      "part": "75350.dat",
+      "targetQuantity": 6,
+      "referencePart": "6515",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 4,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6521.dat",
+      "targetQuantity": 4,
+      "referencePart": "6521",
+      "reference9656AllColors": 5,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6530.dat",
+      "targetQuantity": 8,
+      "referencePart": "6530",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 6,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6526.dat",
+      "targetQuantity": 8,
+      "referencePart": "6526",
+      "reference9656AllColors": 6,
+      "extraIgnoringColor": 2,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6525.dat",
+      "targetQuantity": 4,
+      "referencePart": "6525",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6523.dat",
+      "targetQuantity": 8,
+      "referencePart": "6523",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 4,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "3011.dat",
+      "targetQuantity": 38,
+      "referencePart": "3011",
+      "reference9656AllColors": 12,
+      "extraIgnoringColor": 26,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "40666.dat",
+      "targetQuantity": 19,
+      "referencePart": "40666",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 17,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "2301b.dat",
+      "targetQuantity": 2,
+      "referencePart": "2301b",
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "status": "unknown, missing reference not zero"
+    },
+    {
+      "part": "4196.dat",
+      "targetQuantity": 1,
+      "referencePart": "4196",
+      "reference9656AllColors": 1,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "98223b.dat",
+      "targetQuantity": 5,
+      "referencePart": "98223b",
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "status": "unknown, missing reference not zero"
+    },
+    {
+      "part": "3437.dat",
+      "targetQuantity": 5,
+      "referencePart": "3437",
+      "reference9656AllColors": 8,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "2300.dat",
+      "targetQuantity": 2,
+      "referencePart": "2300",
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "status": "unknown, missing reference not zero"
+    },
+    {
+      "part": "61649.dat",
+      "targetQuantity": 6,
+      "referencePart": "61649",
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "status": "unknown, missing reference not zero"
+    },
+    {
+      "part": "90265.dat",
+      "targetQuantity": 6,
+      "referencePart": "90265",
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "status": "unknown, missing reference not zero"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+    "rawAlarmPairCount": 5,
+    "closureMissing": [],
+    "matrixInvalid": [],
+    "pixels": "current final3 and all16 cumulative steps actually inspected, original step16 and sourcep17 rechecked",
+    "recursiveMeshEvidence": "interface-mesh-results.json"
+  },
+  "sourcePrintedAssemblyNote": {
+    "page15": "Source6 assembled windows are12 mesh placements (6frames+6leaves); no extra windows.",
+    "sourcePrintedTotalAssemblies": 116,
+    "placedConstituentCount": 122
+  },
+  "installedIdentityCandidates": [
+    {
+      "page": 15,
+      "partGroup": [
+        "61649.dat",
+        "90265.dat"
+      ],
+      "quantity": 6,
+      "status": "installed candidate, not exact source mould confirmation",
+      "sourceEvidence": "four panes and flat rounded rectangular perimeter; inventory red6/white6; upper pane ratio still uncertain",
+      "relativeTransform": "leafI relative frameI=(65.5,72,-40)",
+      "geometry": "official parts without stretching; mesh171 each retains hinge fit risk"
+    }
+  ],
+  "pixelReview": {
+    "sourceSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+    "revision": "8bd2e07efdfb9b27125d11dcf7ae25f133eeeddf9cccc4b5356a924c79ad20c5",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "file": "current-pixel-review.json"
+  }
+}

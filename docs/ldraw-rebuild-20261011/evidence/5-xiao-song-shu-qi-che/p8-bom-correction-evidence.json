@@ -1,0 +1,92 @@
+{
+  "sourceSha256": "6a7281c8e3eb643c9d73723abde9ea95465d60b29fae040abb1605c27a2b25b2",
+  "revision": "d680c3028b7cea74dad48ec779a123220ac1d2ff64c7e0705f669aadfb6eb4e2",
+  "actualImagesViewed": [
+    "iso",
+    "iso-rear",
+    "top",
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9",
+    "step-10",
+    "step-11",
+    "step-12"
+  ],
+  "sourceRecheckedPages": [
+    2,
+    8,
+    9,
+    12,
+    13
+  ],
+  "sourceP8": {
+    "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xiao-song-shu-qi-che/page-08.jpg",
+    "sha256": "90064c893678ba3d60da284380a896fd85a32a3d4247deb6ccbf26484021e849",
+    "actualBOM": {
+      "6527.dat": 2,
+      "6523.dat": 4,
+      "6524.dat": 2
+    },
+    "previousMisreading": {
+      "6527.dat": 4,
+      "6523.dat": 2
+    },
+    "cause": "Model author reversed adjacent source BOM quantity labels. Withdraw prior claim of source color/quantity discrepancy."
+  },
+  "geometryConstraint": {
+    "part": "6526.dat",
+    "freeHole": [
+      0,
+      0,
+      0
+    ],
+    "fixedAxleRoot": [
+      0,
+      20,
+      80
+    ],
+    "fixedAxleTip": [
+      0,
+      60,
+      80
+    ],
+    "currentLowerRodThickness": 40,
+    "conclusion": "Adding a second blue axle coaxial with the occupied lower rod hole intersects the existing integral crank axle. Reversing crank places integral axle at grey wheel shaft; no verified alternate-hole route yet."
+  },
+  "proposedCorrection": "Remove two extra inner upper-joint pulleys; retain two lower blue axles as known-ID connection omission unless alternate connection is evidenced. Do not modify while parent snapshot active.",
+  "accepted": false,
+  "physicalValidation": false,
+  "pixelReviewStatus": "Actual pixels inspected; newly identified BOM error requires revision and rerender.",
+  "correctedSourceSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+  "proposalApplied": true,
+  "candidates": [
+    {
+      "name": "Current crank pin and added coaxial blue axle",
+      "result": "Rejected: integral pin fills rod hole thickness40; blue shaft would overlap it."
+    },
+    {
+      "name": "Reverse crank with free hole at rod joint",
+      "result": "Rejected under current source-supported wheel layout: integral pin goes to wheel centre and overlaps grey through axle."
+    },
+    {
+      "name": "Change crank phase alone",
+      "result": "Does not resolve coaxial occupancy, so no phase-only solution."
+    },
+    {
+      "name": "Use alternate wheel hole",
+      "result": "No source evidence fixes which eccentric hole and resulting arm geometry. Not implemented."
+    }
+  ],
+  "correctedRenderReview": {
+    "revision": "0141c013f7f4e6dd00f1f5c8b502a98d4a41d51b23af3db6fd5ad9606ae72f7d",
+    "evidence": "current-pixel-review.json",
+    "removedExtraPulleysObserved": true,
+    "twoLowerAxlesStillOmitted": true
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+  "revision": "e1c5bd3bef8198f1995e9f2bd76a8f52a860309fca842b95453e026ebdb20b29",
+  "reviewedAt": "2026-10-11T13:34:57.678306+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-si-qu-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "6863c5a1e3b4a7e89cc3a49c66414f94a7ae4043315599b841748698f07fda1d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1d5cceeef46866cb30ddd9e726457d034c334603e233029831b0105f2febf5f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "353c25e7f3c0921b69324a24a94e6738944123034cce63b10ac57232b25ba115",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e7e8c095f9df125440d7bcd409c325eae485db5b75db687825cd96d7db2809da",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "02dfa4fa4705bbf93c3ac6cde86b1fd8d2c3493db7199d4dbf1264b728818734",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "c3be64cf8acaf086c696db43798a25598daca5200374a89b03320e925adb37b6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4ae0d857cee58ec25b3850b077e5869947d82b218ef9bf1ace4c23967a6023dd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "d9b25a205cc9f1bbc0d0824773cfaae821b3f6d4627cd9b82d0fd1eaafa9fd5e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c42119738847bb4437d305da83ce83185089994cf9e102455c415be03300d902",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "647d2d4614175616265eb1ea9f1843338ff473c50d03b893d2f789ee41c3a54f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "d42d7a27a9d67410dbf82a0569a15428eac4b83129e5a61edac2317404e2326a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9ede1c328d0ec02046644b5ba1c47ec202e459e7dd486e92e039208b5b425255",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "96040f1c33e0cf040584a8c1cdd2f358e2804534e02bd75f69039190dc596343",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "6863c5a1e3b4a7e89cc3a49c66414f94a7ae4043315599b841748698f07fda1d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 and all11 cumulative step frames in sheets, matched all12 previously viewed source pages, especially H-frame p6/p7 and opposite final p12. H-frame layering, paired worm/crown assemblies, central red gears and four wheel spacing correspond; no new step-order discrepancy or frame clipping. Important limitation: source p12 depicts opaque milky-yellow hood, current inherited color46 renders transparent; exact material/transparency is NOT established. Existing approved cockpit has protruding nose/contour difference and hood overlap; retained as approximation, not exact reconstruction. Gear meshes/shaft coupling and support load remain unverified; pixel review is not physical acceptance."
+}

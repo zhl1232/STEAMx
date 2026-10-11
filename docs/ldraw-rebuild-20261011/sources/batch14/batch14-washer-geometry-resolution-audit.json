@@ -1,0 +1,56 @@
+{
+  "at": "2026-10-11T13:49:02.127312+00:00",
+  "oldSourceSha256": "ac3039959ec5b6039cd21b50ec89a3733255e798484845452543641111315a6f",
+  "currentSourceSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+  "oldMethod": "Recursive actualDAT type3/4vertices, exactqualified lookup; no basenamefallback. Origins/bounds only, not meshpair or physicalvalidation.",
+  "currentMethod": "Recursive type3/4 vertices: local DAT first, then exact-name blocks from existing published MPDs; each resolved source is recorded in provenance. No basenamefallback. Origins/bounds only, not meshpair or physicalvalidation.",
+  "oldPartReport": {
+    "id": "11198.dat",
+    "triangles": 1376,
+    "bbox": [
+      [
+        -80,
+        80
+      ],
+      [
+        -11,
+        96
+      ],
+      [
+        -40,
+        40
+      ]
+    ],
+    "closureLoaded": true
+  },
+  "local11198Exists": false,
+  "publishedMPDSource": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd",
+  "publishedMPDSha256": "178660f5ef97ee11f5c7038fc17a2fd5a021037e85becf9a3b342e4256f1a17c",
+  "embedded11198Header": [
+    "0 Duplo Arch  2 x  4 x  2",
+    "0 Name: 11198.dat",
+    "0 Author: Philippe Hurbain [Philo]",
+    "0 !LDRAW_ORG Part UPDATE 2022-01",
+    "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+    "",
+    "0 BFC CERTIFY CCW",
+    "",
+    "0 !CATEGORY Arch",
+    ""
+  ],
+  "embedded11198TextSha256": "059c8b43d178a45678f85472db84b2d296f0e9415a6b8a4a6bb1cad0b2c0a189",
+  "current6394Provenance": {
+    "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6394.dat",
+    "sha256": "e300a3ddaf0c603bce9aea25f525e328f72f800a9f08530994e8ddb70414a91c"
+  },
+  "conclusion": "Old qualified-exact statement omitted a legitimate exact-name published-MPD fallback; closureLoaded did not mean local DAT or correct source identity. Current script and report disclose resolution sources; current6394 is local actual DAT. Old round11198 source identity rejected; do not import11198 for this lesson.",
+  "oldProvenancePresent": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "old11198Provenance": {
+    "source": "3-jing-che.mpd",
+    "sha256": "059c8b43d178a45678f85472db84b2d296f0e9415a6b8a4a6bb1cad0b2c0a189"
+  },
+  "embeddedShaMatchesRecorded": true,
+  "hashMethod": "UTF8 embedded block text preserves original CRLF, matching owner Node readFileSync/string digest."
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "5-xiao-song-shu-qi-che",
+  "modelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+  "bodyPivot": [
+    40,
+    -296
+  ],
+  "crankPin": [
+    -162.72593389687455,
+    -83.29447639179834
+  ],
+  "computedJoint": [
+    -198.73826474671247,
+    -320.5772444698065
+  ],
+  "lowerArmLength": 240.00000000000003,
+  "connectingRodLength": 240,
+  "upperBodyPivot": [
+    40,
+    -440
+  ],
+  "upperFrontPivot": [
+    -198.7969849055888,
+    -416
+  ],
+  "upperArmLength": 240.00000000000003,
+  "nominalFrontHole": [
+    -200,
+    -416
+  ],
+  "frontHoleEccentricity": 1.2030150944111995,
+  "physicalValidation": false
+}

@@ -154,5 +154,31 @@
     "cFreeAfter": 1268563968,
     "allCurrentSourceAndMpdHashesVerified": true,
     "accepted": false
+  },
+  {
+    "at": "2026-10-11T13:48:30.449291+00:00",
+    "previousCheckpoint": "1f3fb8d",
+    "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\1f3fb8d",
+    "oldMpdCount": 106,
+    "currentMpdCount": 116,
+    "oldBytes": 103815596,
+    "currentBytes": 108162956,
+    "cFreeBefore": 1252753408,
+    "cFreeAfter": 1248440320,
+    "allCurrentSourceAndMpdHashesVerified": true,
+    "accepted": false
+  },
+  {
+    "at": "2026-10-11T13:52:28.807501+00:00",
+    "previousCheckpoint": "1f3fb8d",
+    "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\1f3fb8d-batch14-squirrel-correction",
+    "oldMpdCount": 116,
+    "currentMpdCount": 116,
+    "oldBytes": 108162956,
+    "currentBytes": 108162900,
+    "cFreeBefore": 1245650944,
+    "cFreeAfter": 1245519872,
+    "allCurrentSourceAndMpdHashesVerified": true,
+    "accepted": false
   }
 ]

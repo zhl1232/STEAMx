@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+  "revision": "241bad19cf9e7a5c38e13746ff4631d52a9405148652b12ed48f87c202aaeca0",
+  "reviewedAt": "2026-10-11T13:35:41.532108+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-ai-xin",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3b83f126e025c86039468c5b93bb1d31b5d3f575532c4ed7b9cbe5a78154d4c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "12a120cba36035be6f67d9fa3b46dfef93f77595fbb5990b129970bcdde162d5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "5e0adba80a2ceba9cbb4071aa959fa39bf86ca047ad267a54d55ebec82fe6421",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "425754c5610cff8d11f63d890732a94c316132dae5ee214218f91e081c355784",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f0a96c869ab6436753a0b46e66e257012771a5bb9a6235c3738f8b4c5cd3f80c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8e13ab7a4358456cbc2e7a22710a1b299f806ff77317403beaca45ee947e7917",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "69191d83f423e09490ea5c822e156e25c28de575136dfa7fc1be847dde988887",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "e9d840ef5588048445ee13c2c0696631669af005f76b966bef6d91eb3c288f51",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "450c0f33a709bf7fd15741162de6d3081b48883f70ce79aef3bd5deee7bdc4a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6fe50a287abae7ee450f96c5be234937c20f3927211fa26c4e6146833900c59b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e29200c1e9360d294f703dd2c75f124d88f4481cad8bf0ce97d2c6b5074c6dea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "0a5b96ddf90b9204df83f0405b68d1db9c2360ef343c17b9a2937d5146d8c3cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "3b83f126e025c86039468c5b93bb1d31b5d3f575532c4ed7b9cbe5a78154d4c6",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final3 and all10 cumulative frames against all11 source pages previously viewed. Yellow staggered square frame, red center bearing, crank and perpendicular gear pair, elevated long support beam and symmetric stepped two-lobe heart follow source sequence. Source-hidden phase/layout and underside support assumptions remain explicit. Raw proxy PASS does not clear recursive axle/bore174/172/152, crank156 or gear319 strict crossings. No new obvious visual source mismatch; material fit, retention, rotating motion and load are not validated."
+}

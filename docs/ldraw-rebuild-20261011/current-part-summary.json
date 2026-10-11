@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-11T13:19:11.948457+00:00",
+  "generatedAt": "2026-10-11T13:55:04.999657+00:00",
   "summary": {
-    "reconstructedOrInProgressCourses": 106,
+    "reconstructedOrInProgressCourses": 116,
     "deferredCourses": 11,
     "partIssueFamilies": 32,
     "byIssueCategory": {
@@ -17,19 +17,19 @@
       "inventory_id_missing_geometry_source_match_provisional": 2,
       "known_flat_sheet_formed_geometry_unavailable": 1
     },
-    "knownPartConnectionOmissionGroups": 12,
+    "knownPartConnectionOmissionGroups": 13,
     "interfaceRecordsExcludedFromUnknownCounts": true,
     "unbuiltCoursesExcluded": true,
     "acceptedCourses": 0,
     "localExtractedOfficialParts": 6,
     "candidatePartOmissionGroups": 0,
-    "staticReviewCourses": 106,
+    "staticReviewCourses": 116,
     "staticReviewStaleSourceHashes": 0,
     "tyreInterfaceCourses": 12,
-    "knownConnectionOmittedPieces": 59
+    "knownConnectionOmittedPieces": 61
   },
   "staticReviewSnapshot": {
-    "at": "2026-10-11T13:19:11.948457+00:00",
+    "at": "2026-10-11T13:55:04.999657+00:00",
     "method": "Current SHA-bound static reports; cumulative/expanded alarm records are not independent totals.",
     "reviews": [
       {
@@ -6106,6 +6106,327 @@
         "physicalValidation": false
       },
       {
+        "slug": "5-shui-zha",
+        "report": "preparation/5-shui-zha/static-alarm-review.json",
+        "reportSha256": "52b0bc2086b58372785e11df28b91a2e47b697aa8a546351296804a6fe29ffe4",
+        "modelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "reportedModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-si-qu-che",
+        "report": "preparation/5-si-qu-che/static-alarm-review.json",
+        "reportSha256": "80effd4b77ee66ed597baa76aef93213722ae91334f81e425f052b24367de2bd",
+        "modelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "reportedModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "existing_approved_approximation_interface_unresolved": 1
+        },
+        "alarms": [
+          {
+            "lines": [
+              76,
+              77
+            ],
+            "step": 9,
+            "parts": [
+              "31196c01.dat",
+              "6345.dat"
+            ],
+            "sourceSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+            "placements": [
+              {
+                "page": 9,
+                "line": 76,
+                "id": "31196c01.dat",
+                "color": 25,
+                "transform": [
+                  -240,
+                  -248,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  -1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "page": 9,
+                "line": 77,
+                "id": "6345.dat",
+                "color": 46,
+                "transform": [
+                  -388,
+                  -282,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "classification": "existing_approved_approximation_interface_unresolved",
+            "reason": "Current lines76/77 are approved local31196c01 cockpit and6345 windshield at inherited relative transform. Source p9/p12 shows this family; overlap remains unresolved surrogate mating, not a proved false positive and not physical clearance.",
+            "resolution": "retained-unresolved-not-clear",
+            "accepted": false
+          }
+        ],
+        "additionalFindings": [
+          "P1/P2 six plates tile each H exactly: four longitudinal atX+-120,Z+-120, two transverse atX0,Z+-80; all24LDU. Red48LDU axle beams Y-128..-80; upper plates top-152 and yellow risers top-200; deck top-224.",
+          "P3/P4 two independent grey6522 per axle meet atZ0. Worm31625 length120 and crown31622 thickness40 share160LDU cavity: front wormZ20/crownZ-60, rearwormZ-20/crownZ60. Interface end planes meet but recursive shape mating, gear phase and torque transfer are not verified. No false glued single axle.",
+          "P5 central axle axisX atY-104,Z0; pulleysX+-60 occupy40LDU beside central brick facesX+-40, red gearsX+-100 reach shaft ends+-120. Worm/crown/red tooth intersections and drive motion remain manual risks, not cleared by raw bounds.",
+          "Road wheels6530 radius103.798 atY-104 approximately share ground, no scaling. Outer pulleys extend shafts only to+-240, with plane contacts atZ+-200.",
+          "P9 uses existing approved31196c01 simplified cockpit and6345 hood mounting. Source perspective identifies family, not exact hidden4x4/4x6 interface. Cab hood or curved fender overlap must be retained and not silently excused.",
+          "Front cockpit silhouette extends beyond source deck because approved local surrogate has larger nose; source colors and four-stud width preserved. No invented exact replacement.",
+          "Source p12 hood is rendered opaque milky yellow; inherited color46 produces transparent preview. Actual transparency/material is not confirmed, and protruding cockpit nose differs from source silhouette. Explicit visual approximation, not accurate material claim."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-ta-diao",
+        "report": "preparation/5-ta-diao/static-alarm-review.json",
+        "reportSha256": "44b5461de8585c1d72af263313629b65ff8f0a87fd4e6a0ade19fb5711ac0b6a",
+        "modelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "reportedModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "real_risk": 4
+        },
+        "alarms": [
+          {
+            "lineA": 64,
+            "lineB": 61,
+            "classification": "real_risk",
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "centreDistanceLdu": 80,
+            "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+            "overlapWitnessWorld": [
+              200.0,
+              -600.0,
+              -121.5
+            ],
+            "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+            "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+            "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+          },
+          {
+            "lineA": 65,
+            "lineB": 62,
+            "classification": "real_risk",
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "centreDistanceLdu": 80,
+            "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+            "overlapWitnessWorld": [
+              200.0,
+              -600.0,
+              121.5
+            ],
+            "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+            "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+            "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+          },
+          {
+            "lineA": 74,
+            "lineB": 71,
+            "classification": "real_risk",
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "centreDistanceLdu": 80,
+            "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+            "overlapWitnessWorld": [
+              -40.0,
+              -600.0,
+              -121.5
+            ],
+            "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+            "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+            "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+          },
+          {
+            "lineA": 75,
+            "lineB": 72,
+            "classification": "real_risk",
+            "parts": [
+              "6527.dat",
+              "6527.dat"
+            ],
+            "centreDistanceLdu": 80,
+            "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+            "overlapWitnessWorld": [
+              -40.0,
+              -600.0,
+              121.5
+            ],
+            "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+            "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+            "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+          }
+        ],
+        "additionalFindings": {
+          "false_positive": [],
+          "real_risk": [
+            {
+              "lineA": 64,
+              "lineB": 61,
+              "classification": "real_risk",
+              "parts": [
+                "6527.dat",
+                "6527.dat"
+              ],
+              "centreDistanceLdu": 80,
+              "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+              "overlapWitnessWorld": [
+                200.0,
+                -600.0,
+                -121.5
+              ],
+              "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+              "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+              "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+            },
+            {
+              "lineA": 65,
+              "lineB": 62,
+              "classification": "real_risk",
+              "parts": [
+                "6527.dat",
+                "6527.dat"
+              ],
+              "centreDistanceLdu": 80,
+              "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+              "overlapWitnessWorld": [
+                200.0,
+                -600.0,
+                121.5
+              ],
+              "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+              "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+              "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+            },
+            {
+              "lineA": 74,
+              "lineB": 71,
+              "classification": "real_risk",
+              "parts": [
+                "6527.dat",
+                "6527.dat"
+              ],
+              "centreDistanceLdu": 80,
+              "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+              "overlapWitnessWorld": [
+                -40.0,
+                -600.0,
+                -121.5
+              ],
+              "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+              "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+              "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+            },
+            {
+              "lineA": 75,
+              "lineB": 72,
+              "classification": "real_risk",
+              "parts": [
+                "6527.dat",
+                "6527.dat"
+              ],
+              "centreDistanceLdu": 80,
+              "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+              "overlapWitnessWorld": [
+                -40.0,
+                -600.0,
+                121.5
+              ],
+              "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+              "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+              "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+            }
+          ],
+          "insufficient_evidence": [
+            {
+              "partOrCandidate": "three6522 shafts",
+              "sourceQuantity": 3,
+              "location": "p3 braces",
+              "missingEvidence": "6L inferred fromgrey sourceaxis; fixed240LDU shaft vs outerwheelspan248 leaves4LDU wheel-end overhang on eachside. Nominal nonzero insertion is not locking proof.",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "orthogonal rotation geartrain",
+              "sourceQuantity": 1,
+              "location": "p4",
+              "missingEvidence": "Red24T/blue40T axes and nominalheight derived fromsource andpartthickness; exact phase/mesh/collision/load retention unverified. 6Lverticalshaftlength inferred from unobstructedactualspan; source6Lvs8Lnotuniquelyproven, candidate retained.",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "75536 stringcomponent",
+              "sourceQuantity": 1,
+              "location": "p9-11 winch-to-hook",
+              "missingEvidence": "Known assemblyuses6527and4663; exact cordlength/winding/knot andflexiblegeometry notavailable. Do notinventlinegeometry.",
+              "classification": "known-geometry-omitted"
+            },
+            {
+              "partOrCandidate": "hook support",
+              "sourceQuantity": 1,
+              "location": "p10-16",
+              "missingEvidence": "Sourceexplicitstring supports4663; currentcordmesh absent, vertical360LDU drop isillustrationinference notmeasuredlength. No actualsupport/hoistingvalidation.",
+              "classification": "source-support-exception"
+            },
+            {
+              "partOrCandidate": "tip shaft6521 vs6522",
+              "sourceQuantity": 1,
+              "location": "p11",
+              "missingEvidence": "Sourceicon alone ambiguous6L/8L. 8L installedidentitycandidate hasenoughnominal328LDUstack with4LDUendoverhang; 6L cannotspan shownstack. Must confirmactualsourceaxislength andwheelordering.",
+              "classification": "installed-identity-candidate"
+            },
+            {
+              "partOrCandidate": "brakelever angle",
+              "sourceQuantity": 1,
+              "location": "p12",
+              "missingEvidence": "45degree rigidpose inferredfromimage,notmeasured; exactcontactred24gear andshaftstack retention remainmanual.",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "counterweight hiddenlayout",
+              "sourceQuantity": 1,
+              "location": "p14-15",
+              "missingEvidence": "5blue+6yellowsourceBOM retained. Allsidebuilt layers use48LDU normal thickness; doubleyellowdepth andsinglehiddenbluebacking are allowedhiddenlayout inference,notmeasuredcounterweight. Momentbalance/swingclearance notvalidated.",
+              "classification": "source-layout-inference"
+            }
+          ]
+        },
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "5-ti-xian-mu-ou",
         "report": "preparation/5-ti-xian-mu-ou/static-alarm-review.json",
         "reportSha256": "0091f97cd7e9d8250c7cffeab2ebca30240978523f4bcb30cd6950a7ee8b9af6",
@@ -6116,6 +6437,58 @@
         "classificationCounts": {},
         "alarms": [],
         "additionalFindings": "String is schematic; exact lengths, knots and hook retention unresolved.",
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-tian-ping",
+        "report": "preparation/5-tian-ping/static-alarm-review.json",
+        "reportSha256": "8c926f6c7b94231e8b974e472d6c9a3ea563c88199daf573cb52586b71d5c134",
+        "modelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "reportedModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {
+          "source-supported": 1,
+          "source-supported-with-pose-inference": 1,
+          "source-supported-with-hidden-placement-inference": 1,
+          "real-mesh-risk": 1,
+          "source-backed-support-exception": 1,
+          "evidence-insufficient": 1
+        },
+        "alarms": [
+          {
+            "key": "foundation",
+            "classification": "source-supported",
+            "evidence": "p1 yellow3011 feetX+/-160 rotatedE, long75350 atY-96; centre yellow3011/blue40666/red75349 stack gives base/tower axesY-72 and-192 separated120, exactly3beam hole pitches. p2 adds24x24 base under subassembly."
+          },
+          {
+            "key": "upright-splice",
+            "classification": "source-supported-with-pose-inference",
+            "evidence": "Lower11beams centreY-272,Z+/-60; holesY-72/-192 hold foundation andY-352/-432 hold vertical long brick. Vertical75350 centreY-512,originX-24 maps localX to-Y and localY to+X. Upper11beams centreY-752; lower join holesY-592/-672 connect same verticalbrick, top holeY-952 holds crossbar. All selected hole offsets multiples40 and paired shaft lines nominally coincide. Exact separation inferred from visible source bonds; no scale changes."
+          },
+          {
+            "key": "crossbar",
+            "classification": "source-supported-with-hidden-placement-inference",
+            "evidence": "p5 top75350 axisY-952, centredX0. p6 four horizontal11beams centresX+/-280,Z+/-60, anchored atX+/-80 and+/-160. Inner ends leave central verticalbeam clearance; outermost holesX+/-480 hold suspension axles. Precise extension selected on40LDU hole grid from source; final sourcematching pixels pending."
+          },
+          {
+            "key": "adjacent-wheels",
+            "classification": "real-mesh-risk",
+            "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+          },
+          {
+            "key": "trays-and-hooks",
+            "classification": "source-backed-support-exception",
+            "evidence": "Four known4663 hooks atX+/-480,Z+/-100,Y-420; two51262 8x8 trays topY-300. Eight31021p01 fences use outer plate studrowsX/Z+/-140, ends+/-100 to avoid colliding corner posts. Rope winds atY-952; precise hanging height and hook contact are inferred. p8 isolated hooks/trays need temporary handling; final source suspension retained although rope mesh absent. No claim that displayed trays float independently or that hook/fence connection carries load."
+          },
+          {
+            "key": "motion",
+            "classification": "evidence-insufficient",
+            "evidence": "Central linkage constraints, pulley retention, string travel and actual balance response not physically tested. No Studio use, no physical pass. Await final3 plus all10 cumulative-step pixels."
+          }
+        ],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -6830,6 +7203,62 @@
         "physicalValidation": false
       },
       {
+        "slug": "5-tuo-yuan-ji",
+        "report": "preparation/5-tuo-yuan-ji/static-alarm-review.json",
+        "reportSha256": "e5e08c568952104bacdaf5fa303922028a8014130aa7004215197696af5e2048",
+        "modelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "reportedModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {
+          "source-supported": 2,
+          "source-supported-with-axial-risk": 1,
+          "explicit-pose-inference": 1,
+          "source-supported-with-hidden-layout-inference": 1,
+          "evidence-insufficient": 2
+        },
+        "alarms": [
+          {
+            "key": "source-bond",
+            "classification": "source-supported",
+            "evidence": "6490 green8x16 plate, tall six3011 courses plus75349 atX-200 and short threecourses plus75349 atX200, nominal shaftsY-312/-168. Sourcep3 single2302b blue cap rotatedE over3of4topstud columns. No reuse of old draft."
+          },
+          {
+            "key": "drive-stack",
+            "classification": "source-supported-with-axial-risk",
+            "evidence": "p4 grey6522 Z-axis span+/-120,6530 gearsZ+/-60 and6526 cranksZ+/-100. Local crank normal points outward, eccentric80LDU pins use opposite high/low phasesY-248/-88. Gear teeth have no mating gear in this source, no gear engagement claim."
+          },
+          {
+            "key": "handle-stack",
+            "classification": "source-supported",
+            "evidence": "p5 green6521 axle length320 holds inner6527 centresZ+/-60,11beams atZ+/-100 and outer6527 atZ+/-140. Each beam pivots at centrehole with lower extreme200LDU away. Base coordinates/pitch and proper matrices retained."
+          },
+          {
+            "key": "four-bar-solution",
+            "classification": "explicit-pose-inference",
+            "evidence": "joint-solution.json binds current source. Lower handle pin is intersection of radius200 about(-200,-312) and radius440 about its crank pin(200,-248/-88); choose lower branch. Result pins(-218.739227,-112.879832) and(-239.116925,-115.862634). Nominal200and440 distances close exactly. This is a reasonable source-like crank phase/pose inference, not validation of the complete swept mechanism."
+          },
+          {
+            "key": "pedal-bond",
+            "classification": "source-supported-with-hidden-layout-inference",
+            "evidence": "Each pedal comprises co-planar75350 longbrick and75349 shortbrick,14stud total. Joint atlocalX-200 cross-bonded by blue40666 above/below atX-200; yellow40666 pair atX120. Lower handle shaft throughshortcentreX-280 andcrank pin throughlongholeX160 yield440span. All source6parts per side retained. Source visible layered caps support this arrangement; exact hidden bond inferred."
+          },
+          {
+            "key": "crank-pin-retention",
+            "classification": "evidence-insufficient",
+            "evidence": "Pedal planesZ+/-160, body spansabsZ120..200. 6526 eccentric pins reachabsZ120..160, only40LDU nominal insertion into80LDUbrickdepth; sufficient grip is not proved. Lower axle centresabsZ160 span40..280 withinnerwheel60,beam100,pedal160 andouterwheels220/260. No axial stack collision inferred from bbox alone; retention/shaftholes require physical check."
+          },
+          {
+            "key": "validation",
+            "classification": "evidence-insufficient",
+            "evidence": "Raw checker exit0 does not prove exercise-machine operation, clearance throughout cycle, load stability or shaft retention. Static source-like pose only; no Studio/physical testing. Await final3 and all10 cumulative-step pixel inspection."
+          }
+        ],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "5-wo-lun-diao-qiao",
         "report": "preparation/5-wo-lun-diao-qiao/static-alarm-review.json",
         "reportSha256": "0ae1500b2fe0595df02b7290ebe79f07c6f622733d028e4702f590418a6f4d2b",
@@ -6839,6 +7268,107 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "report": "preparation/5-xi-yi-ji/static-alarm-review.json",
+        "reportSha256": "57ccc7eb6a06aab53f23caa2e23ce9c1166553bedf4827d4462768bb95d0805f",
+        "modelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "reportedModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "report": "preparation/5-xiao-huo-che/static-alarm-review.json",
+        "reportSha256": "2162425c331ffc872cae7f06a5796e38d78ecc8ffee1aae430745999c8b4a45e",
+        "modelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "reportedModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "false_positive": 5
+        },
+        "alarms": [
+          {
+            "step": 7,
+            "lines": [
+              60,
+              59
+            ],
+            "parts": [
+              "98223b.dat",
+              "98223b.dat"
+            ],
+            "raw": "- step 7: 5-xiao-huo-che_l60 overlaps 5-xiao-huo-che_l59",
+            "classification": "false_positive",
+            "evidence": "Actual recursive DAT X intervals touch at one boundary only, overlapX=0; strict triangle crossings0. 98223b actual widthX80 unlike legacy proxy orientation. This excludes positive volume overlap for these five pairs only."
+          },
+          {
+            "step": 7,
+            "lines": [
+              61,
+              60
+            ],
+            "parts": [
+              "98223b.dat",
+              "98223b.dat"
+            ],
+            "raw": "- step 7: 5-xiao-huo-che_l61 overlaps 5-xiao-huo-che_l60",
+            "classification": "false_positive",
+            "evidence": "Actual recursive DAT X intervals touch at one boundary only, overlapX=0; strict triangle crossings0. 98223b actual widthX80 unlike legacy proxy orientation. This excludes positive volume overlap for these five pairs only."
+          },
+          {
+            "step": 7,
+            "lines": [
+              62,
+              61
+            ],
+            "parts": [
+              "98223b.dat",
+              "98223b.dat"
+            ],
+            "raw": "- step 7: 5-xiao-huo-che_l62 overlaps 5-xiao-huo-che_l61",
+            "classification": "false_positive",
+            "evidence": "Actual recursive DAT X intervals touch at one boundary only, overlapX=0; strict triangle crossings0. 98223b actual widthX80 unlike legacy proxy orientation. This excludes positive volume overlap for these five pairs only."
+          },
+          {
+            "step": 7,
+            "lines": [
+              63,
+              62
+            ],
+            "parts": [
+              "98223b.dat",
+              "98223b.dat"
+            ],
+            "raw": "- step 7: 5-xiao-huo-che_l63 overlaps 5-xiao-huo-che_l62",
+            "classification": "false_positive",
+            "evidence": "Actual recursive DAT X intervals touch at one boundary only, overlapX=0; strict triangle crossings0. 98223b actual widthX80 unlike legacy proxy orientation. This excludes positive volume overlap for these five pairs only."
+          },
+          {
+            "step": 8,
+            "lines": [
+              70,
+              63
+            ],
+            "parts": [
+              "3011.dat",
+              "98223b.dat"
+            ],
+            "raw": "- step 8: 5-xiao-huo-che_l70 overlaps 5-xiao-huo-che_l63",
+            "classification": "false_positive",
+            "evidence": "Actual recursive DAT X intervals touch at one boundary only, overlapX=0; strict triangle crossings0. 98223b actual widthX80 unlike legacy proxy orientation. This excludes positive volume overlap for these five pairs only."
+          }
+        ],
         "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
@@ -6854,6 +7384,29 @@
         "classificationCounts": {},
         "alarms": [],
         "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-xiao-song-shu-qi-che",
+        "report": "preparation/5-xiao-song-shu-qi-che/static-alarm-review.json",
+        "reportSha256": "0bb7e60c294013b7e1c8de324593d71f9acfc7bfca1cff7fc30712ec5f17de5b",
+        "modelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "reportedModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          "P1 four underside plates are a source-obscured tie arrangement, three along spine and one transverse atrear. Rear outside short bricks overhang plate by40LDU laterally but each retains40LDU bearing width; no floating added pieces.",
+          "P2 front gears atZ+-60, cranks outside at+-100 so native crank pins reachZ+-120..160 and support connecting rods centred+-140. Rear wheels at+-140. Four road gears radius103.798 allY-104, approximately level without scaling.",
+          "P4 tail each4x4 layer moves+40LDU backward and48 upward, retaining120LDU overlap. Source alternating red/orange six layers counted12 bricks.",
+          "P7/P8 actual seven-hole rod endpoint distance240, crank80. With source48LDU layer heights, perfect horizontal+vertical pose is inconsistent: exact two-circle joint solution with15degree crank phase is explicitly used, no rod scaling. Original zero-phase produced13.3LDU pulley radial envelope interference; current95.42LDU centre spacing exceeds two44LDU radii but does not verify dynamic sweep. P7 lower arms and P8 connecting rods have small visible angle adjustment relative to source illustration.",
+          "P8 actual BOM is4blue6523,2pulley6527,2beam6524. Previous reversed quantity reading is withdrawn. Two upper blue axles and two outer pulley collars placed; two lower blue axles are known-ID connection omissions. Lower rod holes are already occupied by integral6526pins; reversing crank would conflict with grey wheel shaft. Phase changes do not free a coaxial occupied hole. No invented coupler or shortened shaft. Upper shafts and retention remain unverified.",
+          "P9 upper rods240 bridge24LDU bearing height difference. Front axle atX-198.7969849055888 is1.203LDU off nominal red holeX-200; explicit pose/clearance assumption, actual bore play not certified. This is kept as known connection risk, not unknown ID.",
+          "P10 red mouth is24LDU40666plate, yellow corner bricks48LDU; opening retained. P11 exact eye backside pattern not visible,3437pe1 chosen for visible white highlight face; pattern back remains unverified.",
+          "P12 source-obscured ear crossbond uses exact9small+1long count and supported stepped silhouette; lower row may differ in hidden seams. Each outer small overlaps underlying head by40LDU; ears top crossbond both supporting small bricks. Tip load and moving stability not verified."
+        ],
         "accepted": false,
         "physicalValidation": false
       },
@@ -7401,6 +7954,90 @@
             "missing": "Current inner rim has197 strict triangle crossings per wheel; source hidden axial seat depth unresolved. Candidate remains intersecting and unapplied. Previous uniform-radius exemption invalid."
           }
         ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "report": "preparation/5-xuan-zhuan-ai-xin/static-alarm-review.json",
+        "reportSha256": "d5e0531d2e90a912867a951e79f33f84e708e08b330194a724dd7cdfdf1e0be8",
+        "modelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "reportedModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "report": "preparation/5-xuan-zhuan-can-ting/static-alarm-review.json",
+        "reportSha256": "75c7e5253f7fe6cfafc2c85dd4c1e7b80b37372ca8934ca476c36b39fdbf1e7b",
+        "modelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "reportedModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "insufficient_evidence": 1
+        },
+        "alarms": [
+          {
+            "lineA": 127,
+            "lineB": 126,
+            "parts": [
+              "51725.dat",
+              "51708.dat"
+            ],
+            "classification": "insufficient_evidence",
+            "evidence": "Sourcep9 flag onpole and nominalclip-on-shaft; localflagspan relativepole[-278,-200.3] inside certifiedstraightshaft[-288.6,-8]. Solidbbox overlap expected, but no currentsurfaceintersection/clipfit proof; not cleared as falsepositive."
+          }
+        ],
+        "additionalFindings": {
+          "false_positive": [],
+          "real_risk": [],
+          "insufficient_evidence": [
+            {
+              "partOrCandidate": "hidden base fill",
+              "sourceQuantity": 1,
+              "location": "p1",
+              "missingEvidence": "12x12 solid18yellow,10x10 minus2x2 centre12blue,8x8 solid8yellow,6x6ring4blue exactly26yellow16blue; source exposed silhouette and BOM support this hidden arrangement, not a measured interior.",
+              "classification": "source-layout-inference"
+            },
+            {
+              "partOrCandidate": "gear train and rotating carrier",
+              "sourceQuantity": 1,
+              "location": "p3-4",
+              "missingEvidence": "Blue40/red24 orthogonal axes inferred from source; gear surface engagement, carrierlocking and verticalshaft insertion depth unverified. Manual interfaces are not rawPASS certification.",
+              "classification": "known-interface-unverified"
+            },
+            {
+              "partOrCandidate": "61649+90265 window candidate",
+              "sourceQuantity": 6,
+              "location": "p5 six red/whitewindow assemblies",
+              "missingEvidence": "Sourcevariant not uniquely proven: inventory lists exact6red61649 and6white90265; flatroundouterprofile best candidate vs4809doublecurve/31022strongarch. Sourceupperpane proportions differ. 2332a hingeZ-45 vs61649-40 remains5LDUvariantambiguity; currentnominalsocket origin and leaf fit not certified. No geometry scaled.",
+              "classification": "installed-identity-candidate"
+            },
+            {
+              "partOrCandidate": "candidate frame cap support",
+              "sourceQuantity": 4,
+              "location": "p8",
+              "missingEvidence": "Caps have nominal144LDU officialframe support; exact sourceframevariant and assembled load-bearing remain manual.",
+              "classification": "installed-identity-candidate"
+            },
+            {
+              "lineA": 127,
+              "lineB": 126,
+              "parts": [
+                "51725.dat",
+                "51708.dat"
+              ],
+              "classification": "insufficient_evidence",
+              "evidence": "Sourcep9 flag onpole and nominalclip-on-shaft; localflagspan relativepole[-278,-200.3] inside certifiedstraightshaft[-288.6,-8]. Solidbbox overlap expected, but no currentsurfaceintersection/clipfit proof; not cleared as falsepositive."
+            }
+          ]
+        },
         "accepted": false,
         "physicalValidation": false
       },
@@ -10972,69 +11609,99 @@
       "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     }
   ],
-  "batch13Intake": {
-    "at": "2026-10-11T13:19:11.948457+00:00",
+  "batch14Intake": {
+    "at": "2026-10-11T13:55:04.999657+00:00",
     "courses": [
-      "5-ping-heng-da-shi",
-      "5-qi-dian-chuan",
-      "5-qing-sao-che",
-      "5-qiu-qian",
-      "5-re-qi-qiu",
-      "5-san-lun-che",
-      "5-sheng-jiang-dian-ti",
-      "5-shou-tui-fei-ji",
-      "5-shuai-gan-ji",
-      "5-shuang-kai-da-men"
+      "5-shui-zha",
+      "5-si-qu-che",
+      "5-ta-diao",
+      "5-tian-ping",
+      "5-tuo-yuan-ji",
+      "5-xi-yi-ji",
+      "5-xiao-huo-che",
+      "5-xiao-song-shu-qi-che",
+      "5-xuan-zhuan-ai-xin",
+      "5-xuan-zhuan-can-ting"
     ],
     "inventoryEvidence": [
       {
-        "slug": "5-san-lun-che",
-        "currentModelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
-        "part": "75349.dat",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "31625.dat",
         "sourcePages": [
-          1,
-          5,
-          7
+          3,
+          4
         ],
-        "additional": 2,
+        "additional": 1,
         "ownerEvidence": {
-          "id": "75349.dat",
-          "color": "Red",
-          "colorCode": 4,
-          "quantity": 6,
-          "catalogId": "6517",
+          "id": "31625.dat",
+          "color": "Blue",
+          "colorCode": 1,
+          "quantity": 2,
+          "catalogId": "31625",
           "referenceInventories": [
             {
               "set": "9656-1",
-              "id": "6517",
-              "color": "Red",
-              "quantity": 4,
+              "id": "31625",
+              "color": "Blue",
+              "quantity": 1,
               "exactColor": true
             }
           ],
-          "referenceStock": 4,
+          "referenceStock": 1,
+          "extraNeeded": 1,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "6530.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "id": "6530.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 4,
+          "catalogId": "6530",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6530",
+              "color": "Yellow",
+              "quantity": 2,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 2,
           "extraNeeded": 2,
           "stockStatus": "extra_required",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-san-lun-che/ledger.json",
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-san-lun-che",
-        "currentModelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
         "part": "3011.dat",
         "sourcePages": [
-          1,
-          8,
-          9
+          7,
+          9,
+          10
         ],
-        "additional": 7,
+        "additional": 1,
         "ownerEvidence": {
           "id": "3011.dat",
           "color": "Yellow",
           "colorCode": 14,
-          "quantity": 12,
+          "quantity": 6,
           "catalogId": "3011",
           "referenceInventories": [
             {
@@ -11102,25 +11769,25 @@
             }
           ],
           "referenceStock": 5,
-          "extraNeeded": 7,
+          "extraNeeded": 1,
           "stockStatus": "extra_required",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-san-lun-che/ledger.json",
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-san-lun-che",
-        "currentModelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
         "part": "51262.dat",
         "sourcePages": [
-          6
+          8
         ],
         "additional": null,
         "ownerEvidence": {
           "id": "51262.dat",
-          "color": "Light Bluish Gray",
-          "colorCode": 7,
+          "color": "Blue",
+          "colorCode": 1,
           "quantity": 1,
           "catalogId": "51262",
           "referenceInventories": [
@@ -11137,15 +11804,113 @@
           "stockStatus": "color_or_identity_stock_unverified",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-san-lun-che/ledger.json",
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-san-lun-che",
-        "currentModelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
-        "part": "31021p01.dat",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "4672.dat",
+        "sourcePages": [
+          8
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "4672.dat",
+          "color": "Blue",
+          "colorCode": 1,
+          "quantity": 1,
+          "catalogId": "4672",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "6345.dat",
+        "sourcePages": [
+          9
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "6345.dat",
+          "color": "Trans-Yellow",
+          "colorCode": 46,
+          "quantity": 1,
+          "catalogId": "6345",
+          "referenceInventories": [],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "2302.dat",
         "sourcePages": [
           10
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "id": "2302.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 2,
+          "catalogId": "2302",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "2302",
+              "color": "Red",
+              "quantity": 4,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "2302",
+              "color": "Blue",
+              "quantity": 10,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "2302",
+              "color": "Bright Green",
+              "quantity": 10,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "2302",
+              "color": "Red",
+              "quantity": 10,
+              "exactColor": false
+            }
+          ],
+          "referenceStock": null,
+          "extraNeeded": null,
+          "stockStatus": "color_or_identity_stock_unverified",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+        "part": "31021p01.dat",
+        "sourcePages": [
+          11
         ],
         "additional": null,
         "ownerEvidence": {
@@ -11160,146 +11925,140 @@
           "stockStatus": "color_or_identity_stock_unverified",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-san-lun-che/ledger.json",
+        "evidencePath": "preparation/5-si-qu-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
         "part": "3011.dat",
         "sourcePages": [
           1,
           2,
-          3,
-          5,
           6,
-          7
+          14,
+          15
         ],
-        "additional": 104,
+        "additional": 8,
         "ownerEvidence": {
-          "id": "3011.dat",
-          "color": "Yellow",
-          "sourceQuantity": 109,
-          "referenceRows": [
-            {
-              "set": "9656-1",
-              "quantity": 5
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 104,
-          "absenceNotInferred": true
+          "part": "3011.dat",
+          "sourceQuantity": 20,
+          "9656AllColors": 12,
+          "additionalAgainstOne9656IgnoringColor": 8
         },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+        "evidencePath": "preparation/5-ta-diao/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "part": "75350.dat",
+        "sourcePages": [
+          1,
+          2,
+          5
+        ],
+        "additional": 1,
+        "ownerEvidence": {
+          "part": "75350.dat",
+          "sourceQuantity": 3,
+          "9656AllColors": 2,
+          "additionalAgainstOne9656IgnoringColor": 1
+        },
+        "evidencePath": "preparation/5-ta-diao/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "part": "6522.dat",
+        "sourcePages": [
+          3,
+          4,
+          7,
+          8,
+          11,
+          13
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "part": "6522.dat",
+          "sourceQuantity": 9,
+          "9656AllColors": 7,
+          "additionalAgainstOne9656IgnoringColor": 2
+        },
+        "evidencePath": "preparation/5-ta-diao/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "part": "6527.dat",
+        "sourcePages": [
+          3,
+          5,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "additional": 8,
+        "ownerEvidence": {
+          "part": "6527.dat",
+          "sourceQuantity": 23,
+          "9656AllColors": 15,
+          "additionalAgainstOne9656IgnoringColor": 8
+        },
+        "evidencePath": "preparation/5-ta-diao/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "part": "6525.dat",
+        "sourcePages": [
+          3,
+          7,
+          8
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "part": "6525.dat",
+          "sourceQuantity": 6,
+          "9656AllColors": 4,
+          "additionalAgainstOne9656IgnoringColor": 2
+        },
+        "evidencePath": "preparation/5-ta-diao/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "31021p01.dat",
         "sourcePages": [
-          4
+          10
         ],
         "additional": "unknown",
         "ownerEvidence": {
           "id": "31021p01.dat",
           "color": "White",
-          "sourceQuantity": 2,
+          "sourceQuantity": 8,
           "referenceRows": [],
           "extraBeyondLargestVerifiedSingleSet": "unknown",
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "3437.dat",
-        "sourcePages": [
-          1,
-          2,
-          3,
-          5,
-          6
-        ],
-        "additional": 35,
-        "ownerEvidence": {
-          "id": "3437.dat",
-          "color": "Yellow",
-          "sourceQuantity": 38,
-          "referenceRows": [
-            {
-              "set": "9656-1",
-              "quantity": 3
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 35,
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "40666.dat",
-        "sourcePages": [
-          2,
-          3,
-          5,
-          6,
-          7,
-          12
-        ],
-        "additional": 14,
-        "ownerEvidence": {
-          "id": "40666.dat",
-          "color": "Blue",
-          "sourceQuantity": 26,
-          "referenceRows": [
-            {
-              "set": "9090-2",
-              "quantity": 12
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 14,
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "4196.dat",
-        "sourcePages": [
-          2,
-          3,
-          5
-        ],
-        "additional": 1,
-        "ownerEvidence": {
-          "id": "4196.dat",
-          "color": "Red",
-          "sourceQuantity": 3,
-          "referenceRows": [
-            {
-              "set": "9090-2",
-              "quantity": 2
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 1,
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "4268.dat",
         "sourcePages": [
-          1
+          2
         ],
         "additional": "unknown",
         "ownerEvidence": {
@@ -11310,835 +12069,229 @@
           "extraBeyondLargestVerifiedSingleSet": "unknown",
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "4663.dat",
         "sourcePages": [
-          9
+          7,
+          8
         ],
         "additional": "unknown",
         "ownerEvidence": {
           "id": "4663.dat",
           "color": "Yellow",
-          "sourceQuantity": 2,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "6530.dat",
-        "sourcePages": [
-          10
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "6530.dat",
-          "color": "Red",
-          "sourceQuantity": 2,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "75349.dat",
-        "sourcePages": [
-          11,
-          12
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "75349.dat",
-          "color": "Red",
           "sourceQuantity": 4,
           "referenceRows": [],
           "extraBeyondLargestVerifiedSingleSet": "unknown",
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "75350.dat",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "part": "51262.dat",
         "sourcePages": [
-          7
+          10
         ],
         "additional": "unknown",
         "ownerEvidence": {
-          "id": "75350.dat",
-          "color": "Red",
+          "id": "51262.dat",
+          "color": "Light Bluish Gray",
           "sourceQuantity": 2,
           "referenceRows": [],
           "extraBeyondLargestVerifiedSingleSet": "unknown",
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "source-rope",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "part": "6522.dat",
         "sourcePages": [
-          8
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "source-rope",
-          "color": "Black",
-          "sourceQuantity": 2,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "unknown-figure-components",
-        "sourcePages": [
-          4
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "unknown-figure-components",
-          "color": "unknown",
-          "sourceQuantity": 16,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
-        "part": "unknown-window-frame-and-leaf",
-        "sourcePages": [
-          13
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "unknown-window-frame-and-leaf",
-          "color": "unknown",
-          "sourceQuantity": 8,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-sheng-jiang-dian-ti/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "4268.dat",
-        "sourcePages": [
-          1
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "partId": "4268.dat",
-          "color": "Green",
-          "installedQuantity": 1,
-          "verifiedRows": [],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "3011.dat",
-        "sourcePages": [
-          1
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "partId": "3011.dat",
-          "color": "Blue",
-          "installedQuantity": 27,
-          "verifiedRows": [
-            {
-              "set": "9090-2",
-              "color": "Blue",
-              "quantity": 26
-            },
-            {
-              "set": "9076-1",
-              "color": "Blue",
-              "quantity": 4
-            }
-          ],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "3011.dat",
-        "sourcePages": [
-          1
-        ],
-        "additional": 20,
-        "ownerEvidence": {
-          "partId": "3011.dat",
-          "color": "Red",
-          "installedQuantity": 24,
-          "verifiedRows": [
-            {
-              "set": "9090-2",
-              "color": "Red",
-              "quantity": 20
-            },
-            {
-              "set": "9656-1",
-              "color": "Red",
-              "quantity": 4
-            },
-            {
-              "set": "9076-1",
-              "color": "Red",
-              "quantity": 4
-            }
-          ],
-          "extraVsSingle9656": 20,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "75349.dat",
-        "sourcePages": [
-          1,
           2,
+          3,
           4,
+          5,
           6,
-          7
+          9
         ],
         "additional": 6,
         "ownerEvidence": {
-          "partId": "75349.dat",
-          "color": "Red",
-          "installedQuantity": 10,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Red",
-              "quantity": 4
-            }
-          ],
-          "extraVsSingle9656": 6,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "75350.dat",
-        "sourcePages": [
-          1,
-          3
-        ],
-        "additional": 1,
-        "ownerEvidence": {
-          "partId": "75350.dat",
-          "color": "Red",
-          "installedQuantity": 3,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Red",
-              "quantity": 2
-            }
-          ],
-          "extraVsSingle9656": 1,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "6526.dat",
-        "sourcePages": [
-          2,
-          4,
-          8
-        ],
-        "additional": 1,
-        "ownerEvidence": {
-          "partId": "6526.dat",
-          "color": "Yellow",
-          "installedQuantity": 7,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Yellow",
-              "quantity": 6
-            }
-          ],
-          "extraVsSingle9656": 1,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "40666.dat",
-        "sourcePages": [
-          3
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "partId": "40666.dat",
-          "color": "Blue",
-          "installedQuantity": 2,
-          "verifiedRows": [
-            {
-              "set": "9090-2",
-              "color": "Blue",
-              "quantity": 12
-            }
-          ],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
-        "part": "4196.dat",
-        "sourcePages": [
-          5
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "partId": "4196.dat",
-          "color": "Green",
-          "installedQuantity": 2,
-          "verifiedRows": [],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
-        },
-        "evidencePath": "preparation/5-shuang-kai-da-men/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "3011.dat",
-        "sourcePages": [
-          1,
-          2,
-          3,
-          4,
-          10
-        ],
-        "additional": 15,
-        "ownerEvidence": {
-          "id": "3011.dat",
-          "color": "Blue",
-          "sourceQuantity": 41,
-          "referenceRows": [
-            {
-              "set": "9090-2",
-              "quantity": 26
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 15,
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "3011.dat",
-        "sourcePages": [
-          1,
-          2,
-          3,
-          4,
-          10
-        ],
-        "additional": 8,
-        "ownerEvidence": {
-          "id": "3011.dat",
-          "color": "Red",
-          "sourceQuantity": 28,
-          "referenceRows": [
-            {
-              "set": "9090-2",
-              "quantity": 20
-            },
-            {
-              "set": "9656-1",
-              "quantity": 4
-            }
-          ],
-          "extraBeyondLargestVerifiedSingleSet": 8,
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "4198p01.dat",
-        "sourcePages": [
-          7
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "4198p01.dat",
-          "color": "Yellow",
-          "sourceQuantity": 1,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "4268.dat",
-        "sourcePages": [
-          1
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "4268.dat",
-          "color": "Green",
-          "sourceQuantity": 1,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "6522.dat",
-        "sourcePages": [
-          8,
-          9
-        ],
-        "additional": 1,
-        "ownerEvidence": {
           "id": "6522.dat",
           "color": "Light Bluish Gray",
-          "sourceQuantity": 8,
+          "sourceQuantity": 13,
           "referenceRows": [
             {
               "set": "9656-1",
               "quantity": 7
             }
           ],
-          "extraBeyondLargestVerifiedSingleSet": 1,
+          "extraBeyondLargestVerifiedSingleSet": 6,
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "part": "6525.dat",
+        "sourcePages": [
+          2,
+          4,
+          6
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "id": "6525.dat",
+          "color": "Yellow",
+          "sourceQuantity": 8,
+          "referenceRows": [
+            {
+              "set": "9656-1",
+              "quantity": 4
+            }
+          ],
+          "extraBeyondLargestVerifiedSingleSet": 4,
+          "absenceNotInferred": true
+        },
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "6527.dat",
         "sourcePages": [
+          2,
+          3,
+          4,
           5,
+          6,
+          7,
           8,
           9
         ],
-        "additional": 2,
+        "additional": 15,
         "ownerEvidence": {
           "id": "6527.dat",
           "color": "Yellow",
-          "sourceQuantity": 17,
+          "sourceQuantity": 30,
           "referenceRows": [
             {
               "set": "9656-1",
               "quantity": 15
             }
           ],
-          "extraBeyondLargestVerifiedSingleSet": 2,
+          "extraBeyondLargestVerifiedSingleSet": 15,
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "75349.dat",
         "sourcePages": [
-          6,
-          9
+          1
         ],
         "additional": "unknown",
         "ownerEvidence": {
           "id": "75349.dat",
-          "color": "Red",
-          "sourceQuantity": 6,
-          "referenceRows": [],
-          "extraBeyondLargestVerifiedSingleSet": "unknown",
-          "absenceNotInferred": true
-        },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
-        "part": "75350.dat",
-        "sourcePages": [
-          5
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "id": "75350.dat",
           "color": "Red",
           "sourceQuantity": 1,
           "referenceRows": [],
           "extraBeyondLargestVerifiedSingleSet": "unknown",
           "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-ping-heng-da-shi/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "part": "75350.dat",
         "sourcePages": [
           1,
-          5,
-          7,
-          8
+          3,
+          5
         ],
         "additional": "unknown",
         "ownerEvidence": {
-          "part": "75350.dat",
-          "referencePart": "6515",
-          "targetQuantity": 6,
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 4,
-          "note": "missingrow unknown, notzero"
+          "id": "75350.dat",
+          "color": "Red",
+          "sourceQuantity": 3,
+          "referenceRows": [],
+          "extraBeyondLargestVerifiedSingleSet": "unknown",
+          "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6522.dat",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+        "part": "source-rope",
         "sourcePages": [
-          2,
-          3,
-          6,
           7
         ],
         "additional": "unknown",
         "ownerEvidence": {
-          "part": "6522.dat",
-          "referencePart": "6522",
-          "targetQuantity": 6,
-          "reference9656AllColors": 7,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
+          "id": "source-rope",
+          "color": "Black",
+          "sourceQuantity": 4,
+          "referenceRows": [],
+          "extraBeyondLargestVerifiedSingleSet": "unknown",
+          "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
+        "evidencePath": "preparation/5-tian-ping/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6527.dat",
-        "sourcePages": [
-          2,
-          3,
-          6,
-          7,
-          10
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6527.dat",
-          "referencePart": "6527",
-          "targetQuantity": 15,
-          "reference9656AllColors": 15,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6292.dat",
-        "sourcePages": [
-          2
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6292.dat",
-          "referencePart": "6292",
-          "targetQuantity": 2,
-          "reference9656AllColors": 4,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6530.dat",
-        "sourcePages": [
-          3
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6530.dat",
-          "referencePart": "6530",
-          "targetQuantity": 2,
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
         "part": "75349.dat",
         "sourcePages": [
-          4
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "75349.dat",
-          "referencePart": "6517",
-          "targetQuantity": 1,
-          "reference9656AllColors": 4,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6521.dat",
-        "sourcePages": [
-          4
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6521.dat",
-          "referencePart": "6521",
-          "targetQuantity": 1,
-          "reference9656AllColors": 5,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6529.dat",
-        "sourcePages": [
-          4
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6529.dat",
-          "referencePart": "6529",
-          "targetQuantity": 1,
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "40666.dat",
-        "sourcePages": [
+          1,
           5,
-          8
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "40666.dat",
-          "referencePart": "40666",
-          "targetQuantity": 5,
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 3,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6525.dat",
-        "sourcePages": [
           6
         ],
-        "additional": "unknown",
+        "additional": 4,
         "ownerEvidence": {
-          "part": "6525.dat",
-          "referencePart": "6525",
-          "targetQuantity": 2,
-          "reference9656AllColors": 4,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "6526.dat",
-        "sourcePages": [
-          9,
-          10
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6526.dat",
-          "referencePart": "6526",
-          "targetQuantity": 2,
-          "reference9656AllColors": 6,
-          "extraIgnoringColor": 0,
-          "note": "missingrow unknown, notzero"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-        "part": "61898cc01.dat",
-        "sourcePages": [
-          9,
-          10
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "61898cc01.dat",
-          "referencePart": "61898",
-          "targetQuantity": 2,
-          "reference9656AllColors": null,
-          "extraIgnoringColor": null,
-          "note": "formed sheet is component of61898 multishape pack; pack quantity not per-propeller count"
-        },
-        "evidencePath": "preparation/5-shou-tui-fei-ji/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qi-dian-chuan",
-        "currentModelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
-        "part": "40666.dat",
-        "sourcePages": [
-          5,
-          7
-        ],
-        "additional": 72,
-        "ownerEvidence": {
-          "part": "40666.dat",
-          "sourceQuantity": 74,
-          "9656AllColors": 2,
-          "additionalAgainstOne9656IgnoringColor": 72
-        },
-        "evidencePath": "preparation/5-qi-dian-chuan/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "6523.dat",
-        "sourcePages": [
-          1,
-          7
-        ],
-        "additional": 2,
-        "ownerEvidence": {
-          "id": "6523.dat",
-          "color": "Blue",
-          "colorCode": 1,
-          "quantity": 6,
-          "catalogId": "6523",
+          "id": "75349.dat",
+          "color": "Red",
+          "colorCode": 4,
+          "quantity": 8,
+          "catalogId": "6517",
           "referenceInventories": [
             {
               "set": "9656-1",
-              "id": "6523",
-              "color": "Blue",
+              "id": "6517",
+              "color": "Red",
               "quantity": 4,
               "exactColor": true
             }
           ],
           "referenceStock": 4,
-          "extraNeeded": 2,
+          "extraNeeded": 4,
           "stockStatus": "extra_required",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
         "part": "6530.dat",
         "sourcePages": [
           2
@@ -12164,168 +12317,58 @@
           "stockStatus": "extra_required",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "40666.dat",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "part": "4199.dat",
         "sourcePages": [
-          3,
-          11
+          3
         ],
-        "additional": 4,
+        "additional": null,
         "ownerEvidence": {
-          "id": "40666.dat",
-          "color": "Yellow",
-          "colorCode": 14,
-          "quantity": 6,
-          "catalogId": "40666",
+          "id": "4199.dat",
+          "color": "Blue",
+          "colorCode": 1,
+          "quantity": 2,
+          "catalogId": "4199",
           "referenceInventories": [
             {
               "set": "9656-1",
-              "id": "40666",
-              "color": "Yellow",
-              "quantity": 2,
-              "exactColor": true
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
-              "color": "Blue",
-              "quantity": 12,
-              "exactColor": false
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
-              "color": "Bright Green",
-              "quantity": 10,
-              "exactColor": false
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
-              "color": "Lime",
-              "quantity": 10,
-              "exactColor": false
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
-              "color": "Medium Blue",
-              "quantity": 10,
-              "exactColor": false
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
-              "color": "Orange",
-              "quantity": 10,
-              "exactColor": false
-            },
-            {
-              "set": "9090-2",
-              "id": "40666",
+              "id": "4199",
               "color": "Red",
-              "quantity": 12,
+              "quantity": 2,
               "exactColor": false
             }
           ],
-          "referenceStock": 2,
-          "extraNeeded": 4,
-          "stockStatus": "extra_required",
-          "physicalStockVerified": false
-        },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "6490.dat",
-        "sourcePages": [
-          4
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "id": "6490.dat",
-          "color": "Green",
-          "colorCode": 2,
-          "quantity": 1,
-          "catalogId": "6490",
-          "referenceInventories": [],
           "referenceStock": null,
           "extraNeeded": null,
           "stockStatus": "color_or_identity_stock_unverified",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "4672.dat",
-        "sourcePages": [
-          5
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "id": "4672.dat",
-          "color": "Lime",
-          "colorCode": 27,
-          "quantity": 1,
-          "catalogId": "4672",
-          "referenceInventories": [],
-          "referenceStock": null,
-          "extraNeeded": null,
-          "stockStatus": "color_or_identity_stock_unverified",
-          "physicalStockVerified": false
-        },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "6345.dat",
-        "sourcePages": [
-          6
-        ],
-        "additional": null,
-        "ownerEvidence": {
-          "id": "6345.dat",
-          "color": "Trans-Yellow",
-          "colorCode": 46,
-          "quantity": 1,
-          "catalogId": "6345",
-          "referenceInventories": [],
-          "referenceStock": null,
-          "extraNeeded": null,
-          "stockStatus": "color_or_identity_stock_unverified",
-          "physicalStockVerified": false
-        },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
         "part": "3011.dat",
         "sourcePages": [
-          3,
+          4,
           5,
-          9,
-          11
+          6,
+          10,
+          11,
+          12
         ],
-        "additional": 11,
+        "additional": 8,
         "ownerEvidence": {
           "id": "3011.dat",
           "color": "Yellow",
           "colorCode": 14,
-          "quantity": 16,
+          "quantity": 13,
           "catalogId": "3011",
           "referenceInventories": [
             {
@@ -12393,222 +12436,884 @@
             }
           ],
           "referenceStock": 5,
-          "extraNeeded": 11,
+          "extraNeeded": 8,
           "stockStatus": "extra_required",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
-        "part": "31021p01.dat",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "part": "6524.dat",
         "sourcePages": [
-          10
+          7,
+          8,
+          9
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "id": "6524.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 6,
+          "catalogId": "6524",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "6524",
+              "color": "Yellow",
+              "quantity": 2,
+              "exactColor": true
+            }
+          ],
+          "referenceStock": 2,
+          "extraNeeded": 4,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "part": "3437.dat",
+        "sourcePages": [
+          10,
+          11,
+          12
+        ],
+        "additional": 12,
+        "ownerEvidence": {
+          "id": "3437.dat",
+          "color": "Yellow",
+          "colorCode": 14,
+          "quantity": 15,
+          "catalogId": "3437",
+          "referenceInventories": [
+            {
+              "set": "9656-1",
+              "id": "3437",
+              "color": "Green",
+              "quantity": 3,
+              "exactColor": false
+            },
+            {
+              "set": "9656-1",
+              "id": "3437",
+              "color": "Red",
+              "quantity": 2,
+              "exactColor": false
+            },
+            {
+              "set": "9656-1",
+              "id": "3437",
+              "color": "Yellow",
+              "quantity": 3,
+              "exactColor": true
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Blue",
+              "quantity": 40,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Bright Green",
+              "quantity": 50,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Lime",
+              "quantity": 20,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Medium Blue",
+              "quantity": 20,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Orange",
+              "quantity": 20,
+              "exactColor": false
+            },
+            {
+              "set": "9090-2",
+              "id": "3437",
+              "color": "Red",
+              "quantity": 40,
+              "exactColor": false
+            },
+            {
+              "set": "45002-1",
+              "id": "3437",
+              "color": "Dark Bluish Gray",
+              "quantity": 3,
+              "exactColor": false
+            },
+            {
+              "set": "45002-1",
+              "id": "3437",
+              "color": "Tan",
+              "quantity": 3,
+              "exactColor": false
+            }
+          ],
+          "referenceStock": 3,
+          "extraNeeded": 12,
+          "stockStatus": "extra_required",
+          "physicalStockVerified": false
+        },
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+        "part": "3437pe1.dat",
+        "sourcePages": [
+          11
         ],
         "additional": null,
         "ownerEvidence": {
-          "id": "31021p01.dat",
-          "color": "White",
-          "colorCode": 15,
-          "quantity": 5,
-          "catalogId": "31021p01",
+          "id": "3437pe1.dat",
+          "color": "Red",
+          "colorCode": 4,
+          "quantity": 2,
+          "catalogId": "3437pe1",
           "referenceInventories": [],
           "referenceStock": null,
           "extraNeeded": null,
           "stockStatus": "color_or_identity_stock_unverified",
           "physicalStockVerified": false
         },
-        "evidencePath": "preparation/5-qing-sao-che/ledger.json",
+        "evidencePath": "preparation/5-xiao-song-shu-qi-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-re-qi-qiu",
-        "currentModelSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
-        "part": "3011.dat",
-        "sourcePages": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
-        "additional": 40,
-        "ownerEvidence": {
-          "part": "3011.dat",
-          "sourceQuantity": 52,
-          "9656AllColors": 12,
-          "additionalAgainstOne9656IgnoringColor": 40
-        },
-        "evidencePath": "preparation/5-re-qi-qiu/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
         "part": "75350.dat",
         "sourcePages": [
           1,
-          7
+          7,
+          10
         ],
-        "additional": 1,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "75350.dat",
-          "color": "Red",
-          "installedQuantity": 3,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Red",
-              "quantity": 2
-            }
-          ],
-          "extraVsSingle9656": 1,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "part": "75350.dat",
+          "targetQuantity": 6,
+          "referencePart": "6515",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 4,
+          "status": "known aggregate reference"
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
-        "part": "3011.dat",
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "6521.dat",
         "sourcePages": [
           2,
-          3,
-          4,
-          8
+          11
         ],
-        "additional": 25,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "3011.dat",
-          "color": "Yellow",
-          "installedQuantity": 30,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Yellow",
-              "quantity": 5
-            }
-          ],
-          "extraVsSingle9656": 25,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "part": "6521.dat",
+          "targetQuantity": 4,
+          "referencePart": "6521",
+          "reference9656AllColors": 5,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "6530.dat",
+        "sourcePages": [
+          2,
+          11
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6530.dat",
+          "targetQuantity": 8,
+          "referencePart": "6530",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 6,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "6526.dat",
+        "sourcePages": [
+          2,
+          11
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6526.dat",
+          "targetQuantity": 8,
+          "referencePart": "6526",
+          "reference9656AllColors": 6,
+          "extraIgnoringColor": 2,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "6525.dat",
+        "sourcePages": [
+          3,
+          12
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6525.dat",
+          "targetQuantity": 4,
+          "referencePart": "6525",
+          "reference9656AllColors": 4,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "6523.dat",
+        "sourcePages": [
+          3,
+          12
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6523.dat",
+          "targetQuantity": 8,
+          "referencePart": "6523",
+          "reference9656AllColors": 4,
+          "extraIgnoringColor": 4,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "3011.dat",
+        "sourcePages": [
+          4,
+          5,
+          8,
+          9,
+          13,
+          14,
+          16
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "targetQuantity": 38,
+          "referencePart": "3011",
+          "reference9656AllColors": 12,
+          "extraIgnoringColor": 26,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "40666.dat",
+        "sourcePages": [
+          4,
+          6,
+          13,
+          16
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "40666.dat",
+          "targetQuantity": 19,
+          "referencePart": "40666",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 17,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "2301b.dat",
+        "sourcePages": [
+          5
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "2301b.dat",
+          "targetQuantity": 2,
+          "referencePart": "2301b",
+          "reference9656AllColors": null,
+          "extraIgnoringColor": null,
+          "status": "unknown, missing reference not zero"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "4196.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "4196.dat",
+          "targetQuantity": 1,
+          "referencePart": "4196",
+          "reference9656AllColors": 1,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "98223b.dat",
+        "sourcePages": [
+          7
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "98223b.dat",
+          "targetQuantity": 5,
+          "referencePart": "98223b",
+          "reference9656AllColors": null,
+          "extraIgnoringColor": null,
+          "status": "unknown, missing reference not zero"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
         "part": "3437.dat",
         "sourcePages": [
-          3
+          9
         ],
-        "additional": 1,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "3437.dat",
-          "color": "Yellow",
-          "installedQuantity": 4,
-          "verifiedRows": [
-            {
-              "set": "9656-1",
-              "color": "Yellow",
-              "quantity": 3
-            }
-          ],
-          "extraVsSingle9656": 1,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "part": "3437.dat",
+          "targetQuantity": 5,
+          "referencePart": "3437",
+          "reference9656AllColors": 8,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
-        "part": "40666.dat",
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "2300.dat",
+        "sourcePages": [
+          14
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "2300.dat",
+          "targetQuantity": 2,
+          "referencePart": "2300",
+          "reference9656AllColors": null,
+          "extraIgnoringColor": null,
+          "status": "unknown, missing reference not zero"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "61649.dat",
+        "sourcePages": [
+          15
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "61649.dat",
+          "targetQuantity": 6,
+          "referencePart": "61649",
+          "reference9656AllColors": null,
+          "extraIgnoringColor": null,
+          "status": "unknown, missing reference not zero"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "part": "90265.dat",
+        "sourcePages": [
+          15
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "90265.dat",
+          "targetQuantity": 6,
+          "referencePart": "90265",
+          "reference9656AllColors": null,
+          "extraIgnoringColor": null,
+          "status": "unknown, missing reference not zero"
+        },
+        "evidencePath": "preparation/5-xiao-huo-che/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "4196.dat",
+        "sourcePages": [
+          1
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "4196.dat",
+          "targetQuantity": 2,
+          "referencePart": "4196",
+          "reference9656AllColors": 1,
+          "extraIgnoringColor": 1,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2,
+          3,
+          8,
+          9,
+          10
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "targetQuantity": 34,
+          "referencePart": "3011",
+          "reference9656AllColors": 12,
+          "extraIgnoringColor": 22,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "75350.dat",
+        "sourcePages": [
+          3,
+          7
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "75350.dat",
+          "targetQuantity": 2,
+          "referencePart": "6515",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "3437.dat",
+        "sourcePages": [
+          3,
+          8,
+          9,
+          10
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "3437.dat",
+          "targetQuantity": 5,
+          "referencePart": "3437",
+          "reference9656AllColors": 8,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "75349.dat",
         "sourcePages": [
           4
         ],
-        "additional": null,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "40666.dat",
-          "color": "Red",
-          "installedQuantity": 4,
-          "verifiedRows": [
-            {
-              "set": "9090-2",
-              "color": "Red",
-              "quantity": 12
-            }
-          ],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "part": "75349.dat",
+          "targetQuantity": 2,
+          "referencePart": "6517",
+          "reference9656AllColors": 4,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
-        "part": "6529.dat",
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6521.dat",
+        "sourcePages": [
+          5
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6521.dat",
+          "targetQuantity": 1,
+          "referencePart": "6521",
+          "reference9656AllColors": 5,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6530.dat",
+        "sourcePages": [
+          5
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6530.dat",
+          "targetQuantity": 1,
+          "referencePart": "6530",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6527.dat",
+        "sourcePages": [
+          5
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6527.dat",
+          "targetQuantity": 1,
+          "referencePart": "6527",
+          "reference9656AllColors": 15,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6526.dat",
         "sourcePages": [
           5,
           6
         ],
-        "additional": 1,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "6529.dat",
-          "color": "Red",
-          "installedQuantity": 3,
-          "verifiedRows": [
+          "part": "6526.dat",
+          "targetQuantity": 2,
+          "referencePart": "6526",
+          "reference9656AllColors": 6,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6522.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6522.dat",
+          "targetQuantity": 1,
+          "referencePart": "6522",
+          "reference9656AllColors": 7,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+        "part": "6529.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "part": "6529.dat",
+          "targetQuantity": 1,
+          "referencePart": "6529",
+          "reference9656AllColors": 2,
+          "extraIgnoringColor": 0,
+          "status": "known aggregate reference"
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-ai-xin/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2,
+          6,
+          8
+        ],
+        "additional": 54,
+        "ownerEvidence": {
+          "part": "3011.dat",
+          "sourceQuantity": 66,
+          "9656AllColors": 12,
+          "additionalAgainstOne9656IgnoringColor": 54
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-can-ting/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "part": "4196.dat",
+        "sourcePages": [
+          5,
+          9
+        ],
+        "additional": 3,
+        "ownerEvidence": {
+          "part": "4196.dat",
+          "sourceQuantity": 4,
+          "9656AllColors": 1,
+          "additionalAgainstOne9656IgnoringColor": 3
+        },
+        "evidencePath": "preparation/5-xuan-zhuan-can-ting/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "part": "3011.dat",
+        "sourcePages": [
+          1,
+          2
+        ],
+        "additional": 4,
+        "ownerEvidence": {
+          "id": "3011.dat",
+          "color": "Yellow",
+          "sourceQuantity": 9,
+          "referenceRows": [
             {
               "set": "9656-1",
-              "color": "Red",
+              "quantity": 5
+            }
+          ],
+          "extraBeyondLargestVerifiedSingleSet": 4,
+          "absenceNotInferred": true
+        },
+        "evidencePath": "preparation/5-tuo-yuan-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "part": "40666.dat",
+        "sourcePages": [
+          7,
+          9
+        ],
+        "additional": 2,
+        "ownerEvidence": {
+          "id": "40666.dat",
+          "color": "Yellow",
+          "sourceQuantity": 4,
+          "referenceRows": [
+            {
+              "set": "9656-1",
               "quantity": 2
             }
           ],
-          "extraVsSingle9656": 1,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "extraBeyondLargestVerifiedSingleSet": 2,
+          "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-tuo-yuan-ji/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
-        "part": "51262.dat",
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "part": "6490.dat",
         "sourcePages": [
-          7
+          1
         ],
-        "additional": null,
+        "additional": "unknown",
         "ownerEvidence": {
-          "partId": "51262.dat",
-          "color": "Light Bluish Gray",
-          "installedQuantity": 1,
-          "verifiedRows": [],
-          "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "id": "6490.dat",
+          "color": "Green",
+          "sourceQuantity": 1,
+          "referenceRows": [],
+          "extraBeyondLargestVerifiedSingleSet": "unknown",
+          "absenceNotInferred": true
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-tuo-yuan-ji/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "part": "75349.dat",
+        "sourcePages": [
+          1,
+          2,
+          7,
+          9
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "id": "75349.dat",
+          "color": "Red",
+          "sourceQuantity": 4,
+          "referenceRows": [],
+          "extraBeyondLargestVerifiedSingleSet": "unknown",
+          "absenceNotInferred": true
+        },
+        "evidencePath": "preparation/5-tuo-yuan-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+        "part": "75350.dat",
+        "sourcePages": [
+          7,
+          9
+        ],
+        "additional": "unknown",
+        "ownerEvidence": {
+          "id": "75350.dat",
+          "color": "Red",
+          "sourceQuantity": 2,
+          "referenceRows": [],
+          "extraBeyondLargestVerifiedSingleSet": "unknown",
+          "absenceNotInferred": true
+        },
+        "evidencePath": "preparation/5-tuo-yuan-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "40666.dat",
+        "sourcePages": [
+          1,
+          8
+        ],
+        "additional": 13,
+        "ownerEvidence": {
+          "partId": "40666.dat",
+          "color": "Yellow",
+          "installedQuantity": 15,
+          "verifiedRows": [
+            {
+              "set": "9656-1",
+              "color": "Yellow",
+              "quantity": 2
+            }
+          ],
+          "extraVsSingle9656": 13,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
         "part": "3011.dat",
         "sourcePages": [
-          2,
+          1,
           3,
           4,
+          5,
+          7,
           8
         ],
         "additional": null,
         "ownerEvidence": {
           "partId": "3011.dat",
           "color": "Blue",
-          "installedQuantity": 6,
+          "installedQuantity": 30,
           "verifiedRows": [
             {
               "set": "9090-2",
@@ -12622,291 +13327,454 @@
             }
           ],
           "extraVsSingle9656": null,
-          "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+          "combinedAvailability": "unknown if no row;9090 incomplete"
         },
-        "evidencePath": "preparation/5-shuai-gan-ji/ledger.json",
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "4268.dat",
-        "sourcePages": [
-          1
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "4268.dat",
-          "targetQuantity": 1,
-          "referencePart": "4268",
-          "reference9656AllColors": null,
-          "extraIgnoringColor": null,
-          "status": "unknown notzero"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "3011.dat",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "4196.dat",
         "sourcePages": [
           1,
           2
         ],
-        "additional": "unknown",
+        "additional": null,
         "ownerEvidence": {
-          "part": "3011.dat",
-          "targetQuantity": 6,
-          "referencePart": "3011",
-          "reference9656AllColors": 12,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
+          "partId": "4196.dat",
+          "color": "Red",
+          "installedQuantity": 2,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Red",
+              "quantity": 2
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
         },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "75349.dat",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "4268.dat",
         "sourcePages": [
-          2,
-          8
+          3
         ],
-        "additional": "unknown",
+        "additional": null,
         "ownerEvidence": {
-          "part": "75349.dat",
-          "targetQuantity": 5,
-          "referencePart": "6517",
-          "reference9656AllColors": 4,
-          "extraIgnoringColor": 1,
-          "status": "known aggregate reference"
+          "partId": "4268.dat",
+          "color": "Green",
+          "installedQuantity": 1,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
         },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "40666.dat",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "3011.dat",
         "sourcePages": [
-          2
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "40666.dat",
-          "targetQuantity": 2,
-          "referencePart": "40666",
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6522.dat",
-        "sourcePages": [
-          3,
-          4
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6522.dat",
-          "targetQuantity": 4,
-          "referencePart": "6522",
-          "reference9656AllColors": 7,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6527.dat",
-        "sourcePages": [
+          1,
           3,
           4,
-          5
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6527.dat",
-          "targetQuantity": 10,
-          "referencePart": "6527",
-          "reference9656AllColors": 15,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6525.dat",
-        "sourcePages": [
-          3,
-          4,
-          7
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6525.dat",
-          "targetQuantity": 4,
-          "referencePart": "6525",
-          "reference9656AllColors": 4,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "31623.dat",
-        "sourcePages": [
           5,
-          6
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "31623.dat",
-          "targetQuantity": 3,
-          "referencePart": "31623",
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 1,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "31625.dat",
-        "sourcePages": [
-          5
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "31625.dat",
-          "targetQuantity": 1,
-          "referencePart": "31625",
-          "reference9656AllColors": 1,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6529.dat",
-        "sourcePages": [
-          5,
-          6
-        ],
-        "additional": "unknown",
-        "ownerEvidence": {
-          "part": "6529.dat",
-          "targetQuantity": 2,
-          "referencePart": "6529",
-          "reference9656AllColors": 2,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
-        },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
-        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6526.dat",
-        "sourcePages": [
-          6,
           7,
           8
         ],
-        "additional": "unknown",
+        "additional": 26,
         "ownerEvidence": {
-          "part": "6526.dat",
-          "targetQuantity": 7,
-          "referencePart": "6526",
-          "reference9656AllColors": 6,
-          "extraIgnoringColor": 1,
-          "status": "known aggregate reference"
+          "partId": "3011.dat",
+          "color": "Red",
+          "installedQuantity": 30,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Red",
+              "quantity": 20
+            },
+            {
+              "set": "9656-1",
+              "color": "Red",
+              "quantity": 4
+            },
+            {
+              "set": "9076-1",
+              "color": "Red",
+              "quantity": 4
+            }
+          ],
+          "extraVsSingle9656": 26,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
         },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       },
       {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
-        "part": "6521.dat",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "3437.dat",
         "sourcePages": [
-          8
+          3,
+          4,
+          5
         ],
-        "additional": "unknown",
+        "additional": null,
         "ownerEvidence": {
-          "part": "6521.dat",
-          "targetQuantity": 1,
-          "referencePart": "6521",
-          "reference9656AllColors": 5,
-          "extraIgnoringColor": 0,
-          "status": "known aggregate reference"
+          "partId": "3437.dat",
+          "color": "Blue",
+          "installedQuantity": 16,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Blue",
+              "quantity": 40
+            },
+            {
+              "set": "9076-1",
+              "color": "Blue",
+              "quantity": 8
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
         },
-        "evidencePath": "preparation/5-qiu-qian/ledger.json",
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "4672.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "4672.dat",
+          "color": "Lime",
+          "installedQuantity": 2,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "31624.dat",
+        "sourcePages": [
+          9
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "31624.dat",
+          "color": "White",
+          "installedQuantity": 1,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+        "part": "4663.dat",
+        "sourcePages": [
+          12
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "4663.dat",
+          "color": "Yellow",
+          "installedQuantity": 2,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-shui-zha/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "4196.dat",
+        "sourcePages": [
+          1
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "4196.dat",
+          "color": "Red",
+          "installedQuantity": 2,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Red",
+              "quantity": 2
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "31191.dat",
+        "sourcePages": [
+          1
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "31191.dat",
+          "color": "Yellow",
+          "installedQuantity": 1,
+          "verifiedRows": [
+            {
+              "set": "9076-1",
+              "color": "Yellow",
+              "quantity": 3
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "3011.dat",
+        "sourcePages": [
+          2,
+          5,
+          7,
+          9,
+          10
+        ],
+        "additional": 18,
+        "ownerEvidence": {
+          "partId": "3011.dat",
+          "color": "Yellow",
+          "installedQuantity": 23,
+          "verifiedRows": [
+            {
+              "set": "9656-1",
+              "color": "Yellow",
+              "quantity": 5
+            }
+          ],
+          "extraVsSingle9656": 18,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "3011.dat",
+        "sourcePages": [
+          2,
+          5,
+          7,
+          9,
+          10
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "3011.dat",
+          "color": "Blue",
+          "installedQuantity": 24,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Blue",
+              "quantity": 26
+            },
+            {
+              "set": "9076-1",
+              "color": "Blue",
+              "quantity": 4
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "3437.dat",
+        "sourcePages": [
+          2,
+          5,
+          7,
+          9
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "3437.dat",
+          "color": "Blue",
+          "installedQuantity": 2,
+          "verifiedRows": [
+            {
+              "set": "9090-2",
+              "color": "Blue",
+              "quantity": 40
+            },
+            {
+              "set": "9076-1",
+              "color": "Blue",
+              "quantity": 8
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "31195.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "31195.dat",
+          "color": "Blue",
+          "installedQuantity": 2,
+          "verifiedRows": [
+            {
+              "set": "9076-1",
+              "color": "Blue",
+              "quantity": 4
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "31195.dat",
+        "sourcePages": [
+          6
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "31195.dat",
+          "color": "Yellow",
+          "installedQuantity": 1,
+          "verifiedRows": [
+            {
+              "set": "9076-1",
+              "color": "Yellow",
+              "quantity": 4
+            }
+          ],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "51262.dat",
+        "sourcePages": [
+          13
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "51262.dat",
+          "color": "Light Bluish Gray",
+          "installedQuantity": 1,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
+        "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "part": "6394.dat",
+        "sourcePages": [
+          13
+        ],
+        "additional": null,
+        "ownerEvidence": {
+          "partId": "6394.dat",
+          "color": "Blue",
+          "installedQuantity": 1,
+          "verifiedRows": [],
+          "extraVsSingle9656": null,
+          "combinedAvailability": "unknown if no row;9090 incomplete"
+        },
+        "evidencePath": "preparation/5-xi-yi-ji/ledger.json",
         "missingEvidence": "Actual user stock unknown; preserve owner reference-set/color scenario, do not sum scenarios or turn null into zero."
       }
     ],
     "resolvedOrNonOmitted": [
       {
-        "slug": "5-san-lun-che",
-        "currentModelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       },
       {
-        "slug": "5-shuang-kai-da-men",
-        "currentModelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       },
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-xuan-zhuan-ai-xin",
+        "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       },
       {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       },
       {
-        "slug": "5-shuai-gan-ji",
-        "currentModelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
-        "omissions": 0,
-        "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
-      },
-      {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
         "omissions": 0,
         "note": "No owner-declared omissions in current snapshot; retains manual interfaces/approximate geometry/static alarms. Not physical acceptance."
       }
@@ -12923,39 +13791,27 @@
     "resolvedGeometryProvenance": [],
     "knownApproximateGeometry": [
       {
-        "slug": "5-qi-dian-chuan",
-        "currentModelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
-        "ownerEvidence": {
-          "part": "31196c01.dat",
-          "quantity": 1,
-          "status": "existing local simplified geometry; not new user acceptance",
-          "relatedOfficialPart": "6345.dat canopy official geometry, original approval relative pose reused but this assembly contact not validated"
-        },
-        "classification": "existing_geometry_or_placement_approximation_not_unknownID",
-        "accepted": false
-      },
-      {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
         "ownerEvidence": {
           "id": "31196c01.dat",
+          "page": 9,
           "count": 1,
-          "page": 6,
-          "status": "existing-user-approved-simplified-geometry",
-          "boundary": "source p6/p12 orange cockpit and pale hood match existing31196c01/6345 family; front/back perspective does not uniquely prove4x4 versus4x6 base. Existing approved surrogate only, no new geometry or physical fit"
+          "status": "existing-approved-simplified-cockpit",
+          "boundary": "same source family, hidden exact footprint not proven; local surrogate nose/sidewalls larger; no new geometry"
         },
         "classification": "existing_geometry_or_placement_approximation_not_unknownID",
         "accepted": false
       },
       {
-        "slug": "5-qing-sao-che",
-        "currentModelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+        "slug": "5-si-qu-che",
+        "currentModelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
         "ownerEvidence": {
           "id": "6345.dat",
+          "page": 9,
           "count": 1,
-          "page": 6,
-          "status": "existing-user-approved-windshield-assembly-placement",
-          "boundary": "hood local transform inherited; cab/hood overlap retained as known approximation interface, not acceptance"
+          "status": "existing-approved-mounting-transform",
+          "boundary": "inherited cockpit-to-hood placement, fit not certified"
         },
         "classification": "existing_geometry_or_placement_approximation_not_unknownID",
         "accepted": false
@@ -12963,75 +13819,36 @@
     ],
     "sourceBackedSupportExceptions": [
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
         "ownerEvidence": {
-          "key": "temporary-header-support",
-          "classification": "source-backed-staging-exception",
-          "evidence": "p5 two central blue platesX+/-80,Z80 temporarily need hand support. P6 yellow bricksX+/-160 span tower and central plates by80LDU each; upper stud clutch cross-bonds them into rigid header. Centre yellow and p7red joint cross-bond with other layers. No extra support brick invented, no claim that isolatedp5 stage self-supports."
+          "partOrCandidate": "hook support",
+          "sourceQuantity": 1,
+          "location": "p10-16",
+          "missingEvidence": "Sourceexplicitstring supports4663; currentcordmesh absent, vertical360LDU drop isillustrationinference notmeasuredlength. No actualsupport/hoistingvalidation.",
+          "classification": "source-support-exception"
         },
         "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
         "accepted": false
       },
       {
-        "slug": "5-sheng-jiang-dian-ti",
-        "currentModelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "slug": "5-tian-ping",
+        "currentModelSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
         "ownerEvidence": {
-          "key": "suspended-cars",
+          "key": "trays-and-hooks",
           "classification": "source-backed-support-exception",
-          "evidence": "Parent authorized source-backed hanging pose despite omitted rope geometry. p9 known4663 atX+/-320,Y-558,Z-80, hook bottomY-456; p12 red75349 topY-456 with blue40666 underneathY-408, blue6523 centreY-432/Z-100 and rear6527 Z-20. Source shows rope to hook and car between lower2floors. Exact height/depth inferred; no rope mesh, eye knot, hook grip, guide fit, load support or motion proven. These known parts intentionally retained; NOT a physical-support pass."
+          "evidence": "Four known4663 hooks atX+/-480,Z+/-100,Y-420; two51262 8x8 trays topY-300. Eight31021p01 fences use outer plate studrowsX/Z+/-140, ends+/-100 to avoid colliding corner posts. Rope winds atY-952; precise hanging height and hook contact are inferred. p8 isolated hooks/trays need temporary handling; final source suspension retained although rope mesh absent. No claim that displayed trays float independently or that hook/fence connection carries load."
         },
         "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
         "accepted": false
       },
       {
-        "slug": "5-qi-dian-chuan",
-        "currentModelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
         "ownerEvidence": {
-          "partOrCandidate": "rail support",
-          "sourceQuantity": 2,
-          "location": "p1/p7 paper-to-water",
-          "missingEvidence": "Source rails sit on omitted bent sheet; keep source-backed spatial relation, do not claim support closure.",
-          "classification": "source-support-exception"
-        },
-        "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
-        "accepted": false
-      },
-      {
-        "slug": "5-qi-dian-chuan",
-        "currentModelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
-        "ownerEvidence": {
-          "partOrCandidate": "paper hull water contact",
-          "sourceQuantity": 1,
-          "location": "p7-8",
-          "missingEvidence": "Hull height places omitted paper belowrails overwater; no invented support or claim of flotation/physicalvalidation.",
-          "classification": "source-support-exception"
-        },
-        "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
-        "accepted": false
-      },
-      {
-        "slug": "5-re-qi-qiu",
-        "currentModelSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
-        "ownerEvidence": {
-          "partOrCandidate": "4663 suspension",
-          "sourceQuantity": 4,
-          "location": "p10-11 yellow hooks",
-          "missingEvidence": "Official hooks added with basket onp12; flexible string geometry absent but sourcep11-13 explicitly supports hanging relationship.",
-          "classification": "source-support-exception"
-        },
-        "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
-        "accepted": false
-      },
-      {
-        "slug": "5-re-qi-qiu",
-        "currentModelSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
-        "ownerEvidence": {
-          "partOrCandidate": "basket suspension",
-          "sourceQuantity": 1,
-          "location": "p12-13",
-          "missingEvidence": "Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified.",
-          "classification": "source-support-exception"
+          "ownerField": "pending",
+          "evidence": "Gate selectedslightlyraised48LDU pose matchinglater source; cordomitted meansno certifiedlifting/support,notfloating waiver.",
+          "classification": "source-backed-support-exception"
         },
         "classification": "placed_source_relationship_with_open_support_graph_not_omission_or_physicalpass",
         "accepted": false
@@ -13039,34 +13856,59 @@
     ],
     "explicitSourceAdjustments": [
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-xiao-song-shu-qi-che",
+        "currentModelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
         "ownerEvidence": {
-          "key": "waist-hidden-bond",
-          "classification": "explicit-layout-adjustment",
-          "evidence": "p3 eight blue3011 arranged as14x6 perimeter with hidden10x2 opening; each has40LDU overlap onto lower12x4 red platform. Top12x4 red course cross-bonds. Visible outer one-stud ledge preserved, hidden exact bond not uniquely shown."
+          "ownerField": "sourceDiscrepancies",
+          "ownerEvidence": {
+            "page": 12,
+            "type": "reasonable_hidden_crossbond",
+            "action": "9small+1long maintained with every piece supported; no invented filler"
+          }
         },
         "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
         "accepted": false
       },
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-tuo-yuan-ji",
+        "currentModelSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
         "ownerEvidence": {
-          "key": "upper-bar-expanded",
-          "classification": "explicit-layout-adjustment",
-          "evidence": "p6 source top blue appears to fully cover short red ends, whereas implemented18stud span leaves outer2stud red tops exposed. Same-axis75349 and75350 confirmed by independent source inspection. Upper short centresX+/-280 adjacent to long ends+/-200; blue caps centred+/-200 overlap each80LDU. Lower blue centre+/-280 and short red atY+72. Fourteen-stud co-planar version overlaps solid parts; no reliable hidden stagger established. Parent approved this physically cross-bonded development candidate under user's reasonable-shape-adjustment authorization, not exact source or acceptance."
+          "key": "four-bar-solution",
+          "classification": "explicit-pose-inference",
+          "evidence": "joint-solution.json binds current source. Lower handle pin is intersection of radius200 about(-200,-312) and radius440 about its crank pin(200,-248/-88); choose lower branch. Result pins(-218.739227,-112.879832) and(-239.116925,-115.862634). Nominal200and440 distances close exactly. This is a reasonable source-like crank phase/pose inference, not validation of the complete swept mechanism."
         },
         "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
         "accepted": false
       },
       {
-        "slug": "5-ping-heng-da-shi",
-        "currentModelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "slug": "5-shui-zha",
+        "currentModelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
         "ownerEvidence": {
-          "key": "four-bar",
-          "classification": "explicit-pose-adjustment",
-          "evidence": "Upper side pins72LDU apart vertically. Lower red brick end holes80LDU apart transformed to(77.459667,20) inXY. Solving equal400LDU beam endpoint distances yields exact nominal four-bar closure. ShaftsZ span+/-120; red bodiesZ+/-40, back wheelsZ-60, front beamZ60 and front wheelZ100. Two independent source columns are inferred; chosen tilt clears waist and does not claim exact source angle or moving validation."
+          "ownerField": "pending",
+          "evidence": "Gate selectedslightlyraised48LDU pose matchinglater source; cordomitted meansno certifiedlifting/support,notfloating waiver.",
+          "classification": "explicit-pose-inference"
+        },
+        "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+        "accepted": false
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "ownerEvidence": {
+          "ownerField": "pending",
+          "evidence": "31195 officialports chainedexactly; alternatebendroll180 chosen tofollowdownwardoutletshape,not measuredsource3Droll; no scaling.",
+          "classification": "explicit-pose-inference"
+        },
+        "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
+        "accepted": false
+      },
+      {
+        "slug": "5-xi-yi-ji",
+        "currentModelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+        "ownerEvidence": {
+          "ownerField": "pending",
+          "evidence": "Lid30degreepose inferred; twoaxles240LDUstack resolved usingreal48LDUbrackets+40LDUcranks+80LDUrails. Sweep/physicalstrength pending.",
+          "classification": "explicit-pose-inference"
         },
         "classification": "explicit_source_difference_not_exact_reconstruction_or_physical_acceptance",
         "accepted": false
@@ -13074,54 +13916,170 @@
     ],
     "installedIdentityCandidates": [
       {
-        "slug": "5-shou-tui-fei-ji",
-        "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
         "ownerEvidence": {
-          "part": "61898cc01.dat",
-          "quantity": 2,
-          "sourcePages": [
-            9,
-            10,
-            11
-          ],
-          "status": "Strong longer-blade candidate, exact source sheet identity not uniquely proven by oblique illustration.",
-          "ownerEvidence": {
-            "previousSourceSha256": "6b5a98045ca9ae5e0a3334ab410a5a768eb9d7b50f39bccc3f32e67e9ee61aa4",
-            "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
-            "sourcePages": [
-              9,
-              10,
-              11
-            ],
-            "change": "Two official formed propeller placements changed from 61898bc01 to longer 61898cc01; unchanged rigid transforms and 0/80 hole locations. No scaling or new approximate DAT.",
-            "identityStatus": "Strong longer-blade candidate, exact source sheet identity not uniquely proven by oblique illustration.",
-            "observations": "Actual old final and step10 pixels showed short broad paddles. Source p9-p11 has substantially longer blades relative to 80 LDU carrier holes. cc formed Z span722 vs bc526. Whole XZ AABB is misleading because opposed leaves are laterally offset; independent rotated bounding widths ratio cc3.46 vs bc3.30.",
-            "independentEvidence": "../batch13-propeller-oriented-width.json",
-            "officialSource": "https://library.ldraw.org/library/official/parts/61898cc01.dat",
-            "license": "CC BY 4.0",
-            "unchangedGeometry": "All wheel and handle transforms unchanged. Existing mesh findings remain applicable to those unchanged pairs; original mesh output retains original source binding.",
-            "currentPixels": "Reviewed current final3/all10; longer span closer, broad top silhouette remains candidate uncertainty",
-            "risks": [
-              "Exact blade shape/identity remains candidate",
-              "Tyre inner hubs 52 strict crossings each; upper handle hubs22 each remain",
-              "Sheet fold, separation, carrier clamping and motion not physically validated",
-              "Two formed cc sheets in source cross phase have 56 strict triangle crossings near bent central bands; flexible sheet/contact retention is unverified, no source-unfounded separation added."
-            ]
-          }
+          "part": "6522.dat",
+          "sourcePage": 4,
+          "role": "verticalturntableshaft",
+          "reason": "240LDU spanbetweenbeam andcutout; 320LDU wouldintrudelowerpillar orroof",
+          "unresolved": "Source6Lvs8L identity not uniquely determined fromcolour/icon"
         },
         "classification": "installed_source_candidate_not_omission",
         "accepted": false
       },
       {
-        "slug": "5-qiu-qian",
-        "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
         "ownerEvidence": {
-          "sourcePages": [
-            5,
-            9
+          "part": "6521.dat",
+          "sourcePage": 11,
+          "role": "winchshaft",
+          "reason": "Source328LDU transversecomponentstack needs8Lcandidate;36LDU insertionat4LDUendoverhang",
+          "unresolved": "Actualsourceaxlelength andretainerordering unverified"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "ownerEvidence": {
+          "partOrCandidate": "tip shaft6521 vs6522",
+          "sourceQuantity": 1,
+          "location": "p11",
+          "missingEvidence": "Sourceicon alone ambiguous6L/8L. 8L installedidentitycandidate hasenoughnominal328LDUstack with4LDUendoverhang; 6L cannotspan shownstack. Must confirmactualsourceaxislength andwheelordering.",
+          "classification": "installed-identity-candidate"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "ownerEvidence": {
+          "ownerField": "unknownIdentityParts",
+          "ownerEvidence": {
+            "part": "6522.dat",
+            "sourcePage": 4,
+            "role": "verticalturntableshaft",
+            "reason": "240LDU spanbetweenbeam andcutout; 320LDU wouldintrudelowerpillar orroof",
+            "unresolved": "Source6Lvs8L identity not uniquely determined fromcolour/icon"
+          },
+          "status": "installed_axle_length_candidate_not_source_confirmed"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-ta-diao",
+        "currentModelSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+        "ownerEvidence": {
+          "ownerField": "unknownIdentityParts",
+          "ownerEvidence": {
+            "part": "6521.dat",
+            "sourcePage": 11,
+            "role": "winchshaft",
+            "reason": "Source328LDU transversecomponentstack needs8Lcandidate;36LDU insertionat4LDUendoverhang",
+            "unresolved": "Actualsourceaxlelength andretainerordering unverified"
+          },
+          "status": "installed_axle_length_candidate_not_source_confirmed"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "ownerEvidence": {
+          "page": 15,
+          "partGroup": [
+            "61649.dat",
+            "90265.dat"
           ],
-          "part": "31625.dat",
-          "status": "strong_source_contour_and_inventory_match; internal mating manual"
+          "quantity": 6,
+          "status": "installed candidate, not exact source mould confirmation",
+          "sourceEvidence": "four panes and flat rounded rectangular perimeter; inventory red6/white6; upper pane ratio still uncertain",
+          "relativeTransform": "leafI relative frameI=(65.5,72,-40)",
+          "geometry": "official parts without stretching; mesh171 each retains hinge fit risk"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xiao-huo-che",
+        "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+        "ownerEvidence": {
+          "parts": [
+            "61649.dat",
+            "90265.dat"
+          ],
+          "assemblyQuantity": 6,
+          "sourcePages": [
+            15
+          ],
+          "ownerEvidence": "Window installed identity candidate61649+90265 matches inventory red6/white6 and flat four-pane outline; source upper pane proportions/mould version not uniquely established. Nominal leaf relative(65.5,72,-40), no scaling; hinge and frame interfaces manual pending mesh/pixels.",
+          "status": "installed_candidate_not_omitted_not_confirmed"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "ownerEvidence": {
+          "sourcePage": 5,
+          "quantity": 6,
+          "frame": "61649.dat",
+          "leaf": "90265.dat",
+          "reason": "45002stock sixred61649/sixwhite90265 and best flatroundouterprofile; alternative4809/31022 weaker shape",
+          "unresolved": "Sourceupperpanes visiblytaller; currentleaf4equalpanes. Framehinges2332aZ-45 vs61649Z-40 ambiguous5LDU. Nominalleaf origin(65.5,72,-40) not fitcertified.",
+          "research": "preparation/independent-qa/cable-window-candidate-comparison.json"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "ownerEvidence": {
+          "partOrCandidate": "61649+90265 window candidate",
+          "sourceQuantity": 6,
+          "location": "p5 six red/whitewindow assemblies",
+          "missingEvidence": "Sourcevariant not uniquely proven: inventory lists exact6red61649 and6white90265; flatroundouterprofile best candidate vs4809doublecurve/31022strongarch. Sourceupperpane proportions differ. 2332a hingeZ-45 vs61649-40 remains5LDUvariantambiguity; currentnominalsocket origin and leaf fit not certified. No geometry scaled.",
+          "classification": "installed-identity-candidate"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "ownerEvidence": {
+          "partOrCandidate": "candidate frame cap support",
+          "sourceQuantity": 4,
+          "location": "p8",
+          "missingEvidence": "Caps have nominal144LDU officialframe support; exact sourceframevariant and assembled load-bearing remain manual.",
+          "classification": "installed-identity-candidate"
+        },
+        "classification": "installed_source_candidate_not_omission",
+        "accepted": false
+      },
+      {
+        "slug": "5-xuan-zhuan-can-ting",
+        "currentModelSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+        "ownerEvidence": {
+          "ownerField": "unknownIdentityParts",
+          "ownerEvidence": {
+            "sourcePage": 5,
+            "quantity": 6,
+            "frame": "61649.dat",
+            "leaf": "90265.dat",
+            "reason": "45002stock sixred61649/sixwhite90265 and best flatroundouterprofile; alternative4809/31022 weaker shape",
+            "unresolved": "Sourceupperpanes visiblytaller; currentleaf4equalpanes. Framehinges2332aZ-45 vs61649Z-40 ambiguous5LDU. Nominalleaf origin(65.5,72,-40) not fitcertified.",
+            "research": "preparation/independent-qa/cable-window-candidate-comparison.json"
+          },
+          "status": "installed_window_candidate_not_source_confirmed"
         },
         "classification": "installed_source_candidate_not_omission",
         "accepted": false

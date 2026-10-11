@@ -1,0 +1,52 @@
+{
+  "slug": "5-tian-ping",
+  "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+  "allRecursiveFacesLoaded": true,
+  "parts": [
+    {
+      "id": "3011.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "75350.dat",
+      "faceCount": 7502
+    },
+    {
+      "id": "40666.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "75349.dat",
+      "faceCount": 2726
+    },
+    {
+      "id": "4268.dat",
+      "faceCount": 18410
+    },
+    {
+      "id": "6525.dat",
+      "faceCount": 1804
+    },
+    {
+      "id": "6522.dat",
+      "faceCount": 34
+    },
+    {
+      "id": "6527.dat",
+      "faceCount": 1029
+    },
+    {
+      "id": "4663.dat",
+      "faceCount": 574
+    },
+    {
+      "id": "51262.dat",
+      "faceCount": 4414
+    },
+    {
+      "id": "31021p01.dat",
+      "faceCount": 252
+    }
+  ],
+  "physicalValidation": false
+}

@@ -1,0 +1,128 @@
+0 5-xuan-zhuan-can-ting - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-xuan-zhuan-can-ting.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 31f4879cb2f4a744513219a38e5e51fe080c00f633d3a391e907ca1cf3fa2cf7
+0 // All10 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Four-tier stepped base with source brick counts
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -160 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -160 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 160 -96 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -96 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -96 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -160 -96 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -96 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -96 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -120 -96 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -192 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -40 -192 -80 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -192 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -192 80 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 // UNVERIFIED hidden base fill - 12x12 solid18yellow,10x10 minus2x2 centre12blue,8x8 solid8yellow,6x6ring4blue exactly26yellow16blue; source exposed silhouette and BOM support this hidden arrangement, not a measured interior.
+0 STEP
+0 // SOURCE PAGE 2 - Eight alternating four-by-four tower layers
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -576 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -576 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 3 - Two short red support beams and side crank gear shaft
+1 4 0 -624 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -672 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -648 0 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 0 -648 -80 1 0 0 0 0 1 0 -1 0 6526.dat
+1 1 0 -648 80 1 0 0 0 1 0 0 0 1 6530.dat
+1 7 0 -680 0 0 -1 0 1 0 0 0 0 1 6522.dat
+0 STEP
+0 // SOURCE PAGE 4 - Perpendicular gear, yellow carrier and rotating long beam
+1 4 0 -692 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 14 0 -732 0 0 0 1 0 -1 0 1 0 0 6526.dat
+1 4 0 -800 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 // UNVERIFIED gear train and rotating carrier - Blue40/red24 orthogonal axes inferred from source; gear surface engagement, carrierlocking and verticalshaft insertion depth unverified. Manual interfaces are not rawPASS certification.
+0 STEP
+0 // SOURCE PAGE 5 - Two green floor plates and six explicit official window candidates
+1 2 0 -824 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 0 -824 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -160 -968 -200 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -94.5 -896 -240 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 0 -968 -200 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 65.5 -896 -240 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 160 -968 -200 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 225.5 -896 -240 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -160 -968 200 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -225.5 -896 240 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 0 -968 200 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -65.5 -896 240 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 160 -968 200 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 94.5 -896 240 -1 0 0 0 1 0 0 0 -1 90265.dat
+0 // UNVERIFIED 61649+90265 window candidate - Sourcevariant not uniquely proven: inventory lists exact6red61649 and6white90265; flatroundouterprofile best candidate vs4809doublecurve/31022strongarch. Sourceupperpane proportions differ. 2332a hingeZ-45 vs61649-40 remains5LDUvariantambiguity; currentnominalsocket origin and leaf fit not certified. No geometry scaled.
+0 STEP
+0 // SOURCE PAGE 6 - Central two-layer square table and two blue seats
+1 14 0 -872 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -872 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -920 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -920 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -160 -872 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -872 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 7 - Two patterned end fences
+1 15 -220 -920 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 220 -920 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 8 - Four blue roof-support cap bricks over source window rows
+1 1 -80 -1016 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -1016 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -1016 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -1016 200 1 0 0 0 1 0 0 0 1 3011.dat
+0 // UNVERIFIED candidate frame cap support - Caps have nominal144LDU officialframe support; exact sourceframevariant and assembled load-bearing remain manual.
+0 STEP
+0 // SOURCE PAGE 9 - Two green roof plates and official slitted flag on pole
+1 2 0 -1040 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 0 -1040 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 6 20 -1056 20 1 0 0 0 1 0 0 0 1 51708.dat
+1 4 20 -1306 20 1 0 0 0 1 0 0 0 1 51725.dat
+0 // Source final page adds no parts.

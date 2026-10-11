@@ -1,0 +1,2503 @@
+{
+  "slug": "5-xi-yi-ji",
+  "pages": 14,
+  "source": {
+    "name": "5+洗衣机搭建说明.pdf",
+    "relative_path": "5+/5+洗衣机搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2127190,
+    "sha256": "9e8ce233c9d2259396f2bc29a3fbd76865b916b37b3c329fe3f0d4639c17d90c",
+    "source_url": "https://pan.quark.cn/list#/docpdf/f909f95af0c54817bf20a5de5fa9083b",
+    "slug": "5-xi-yi-ji",
+    "lesson_id": 302,
+    "course_id": 7,
+    "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5+/5+洗衣机搭建说明.pdf",
+    "localBytesVerified": true,
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-01.jpg",
+        "sha256": "939c360a0c7dd335812140763b2946ff3fb549a791d9073273a5efeb901049a8",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-02.jpg",
+        "sha256": "800813f938fc1b642c82eadc41080777ce2e5b78cbb17c4d9386ac60ab4ea960",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-03.jpg",
+        "sha256": "cefb1990636ef74d4589bee152856b40e2aae770d53cd015919e3cec76df5808",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-04.jpg",
+        "sha256": "fd2fcf814aed74580593b16d29510304b01ec48b35070a843dcc5e4606694f56",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-05.jpg",
+        "sha256": "196cc6cc7919ada25380de85800c98b0352a0d5e63648de8c26769f266a2e5c3",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-06.jpg",
+        "sha256": "07661b3aa8953feabee007550c1aed911e9744e9e913c3000c1f1b43b2010203",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-07.jpg",
+        "sha256": "f02b160ad7ef79f17920e06d4648bae6062c979305d80aede8733c10d457f416",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-08.jpg",
+        "sha256": "5cdb5367225aa6659883dd27aed703de4d11277f79ca5441dbdc01472a0dd6df",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-09.jpg",
+        "sha256": "af90bbb61ef3ae7b1ea00b8b645b930b57012b7269a0fcfe0fe24bccf046d384",
+        "pixelsViewed": true
+      },
+      {
+        "page": 10,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-10.jpg",
+        "sha256": "5382487dbe071fb551ea19c0e00f18d54ee4eb6fcb9e8a6ae0d1262e8255f0fe",
+        "pixelsViewed": true
+      },
+      {
+        "page": 11,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-11.jpg",
+        "sha256": "9aff742da9b7102a9efce4fb84c7327c923f4d7c7707de05de11b7f010a917af",
+        "pixelsViewed": true
+      },
+      {
+        "page": 12,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-12.jpg",
+        "sha256": "6fd501fafae3a32c829ed3f01dea8d295f353017b169f14093d4bf6a13b2ab62",
+        "pixelsViewed": true
+      },
+      {
+        "page": 13,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-13.jpg",
+        "sha256": "6e24437dcaba13d084efdd43067e79255bc3bf62857c766d1107029829599773",
+        "pixelsViewed": true
+      },
+      {
+        "page": 14,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-14.jpg",
+        "sha256": "61e0d7fe15f46fb51a35b1f5774d64cde216b6957113914bf1733c09f659f84a",
+        "pixelsViewed": true
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-01.jpg",
+      "sha256": "939c360a0c7dd335812140763b2946ff3fb549a791d9073273a5efeb901049a8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-02.jpg",
+      "sha256": "800813f938fc1b642c82eadc41080777ce2e5b78cbb17c4d9386ac60ab4ea960",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-03.jpg",
+      "sha256": "cefb1990636ef74d4589bee152856b40e2aae770d53cd015919e3cec76df5808",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-04.jpg",
+      "sha256": "fd2fcf814aed74580593b16d29510304b01ec48b35070a843dcc5e4606694f56",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-05.jpg",
+      "sha256": "196cc6cc7919ada25380de85800c98b0352a0d5e63648de8c26769f266a2e5c3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-06.jpg",
+      "sha256": "07661b3aa8953feabee007550c1aed911e9744e9e913c3000c1f1b43b2010203",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-07.jpg",
+      "sha256": "f02b160ad7ef79f17920e06d4648bae6062c979305d80aede8733c10d457f416",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-08.jpg",
+      "sha256": "5cdb5367225aa6659883dd27aed703de4d11277f79ca5441dbdc01472a0dd6df",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-09.jpg",
+      "sha256": "af90bbb61ef3ae7b1ea00b8b645b930b57012b7269a0fcfe0fe24bccf046d384",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-10.jpg",
+      "sha256": "5382487dbe071fb551ea19c0e00f18d54ee4eb6fcb9e8a6ae0d1262e8255f0fe",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-11.jpg",
+      "sha256": "9aff742da9b7102a9efce4fb84c7327c923f4d7c7707de05de11b7f010a917af",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-12.jpg",
+      "sha256": "6fd501fafae3a32c829ed3f01dea8d295f353017b169f14093d4bf6a13b2ab62",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-13.jpg",
+      "sha256": "6e24437dcaba13d084efdd43067e79255bc3bf62857c766d1107029829599773",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-14.jpg",
+      "sha256": "61e0d7fe15f46fb51a35b1f5774d64cde216b6957113914bf1733c09f659f84a",
+      "pixelsViewed": true
+    }
+  ],
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "Two6x12baseplates androundtubeexitframe",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "12x12baseflat ground",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "12x12baseflat ground",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "31191.dat",
+          "color": 14,
+          "position": [
+            40,
+            -240,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Actual240height framebottom0 seatsbase",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 3
+    },
+    {
+      "sourcePage": 2,
+      "note": "Yellowwalllayer around6studframe",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontleftoffcenterdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            200,
+            -48,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontrightdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-9",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 12
+    },
+    {
+      "sourcePage": 3,
+      "note": "Internal4studholebearing andverticalgray6Lshaft",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            40,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Baseplate-supportedbearing",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            40,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "NativeYcentralpassage,lowerendY-24 insidebrick",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 14
+    },
+    {
+      "sourcePage": 4,
+      "note": "40toothhorizontalgear",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            40,
+            -80,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Gearbottom-60 approxstudtips-59; axialclearance/rotationpending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 15
+    },
+    {
+      "sourcePage": 5,
+      "note": "Bluelayer andgearshaftretainer",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -96,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontleftoffcenterdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            200,
+            -96,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontrightdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -96,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -96,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -96,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -96,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -96,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -96,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -96,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            40,
+            -120,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Retaineronshaftabove40T; sourceexactheight hidden",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 25
+    },
+    {
+      "sourcePage": 6,
+      "note": "Threeofficial45degreeballtubes,connectedports withalternatingbendplane",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "31195.dat",
+          "color": 1,
+          "position": [
+            40,
+            -130,
+            -240
+          ],
+          "matrix": [
+            -6.123233995736766e-17,
+            -1,
+            7.498798913309288e-33,
+            -1,
+            6.123233995736766e-17,
+            1.2246467991473532e-16,
+            -1.2246467991473532e-16,
+            0,
+            -1
+          ],
+          "support": "Tubechain officialinlet/outlet points; alternating180roll preservesnetdownwardoutlet;sourceposeapproximationwithoutscaling",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "31195.dat",
+          "color": 14,
+          "position": [
+            40,
+            -94.85199999999999,
+            -324.852
+          ],
+          "matrix": [
+            -7.916687710296066e-17,
+            1,
+            4.3297802811774664e-17,
+            0.7071067811865475,
+            2.5363265666181656e-17,
+            0.7071067811865476,
+            0.7071067811865476,
+            8.659560562354934e-17,
+            -0.7071067811865475
+          ],
+          "support": "Tubechain officialinlet/outlet points; alternating180roll preservesnetdownwardoutlet;sourceposeapproximationwithoutscaling",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "31195.dat",
+          "color": 1,
+          "position": [
+            40.00000000000001,
+            -59.70596454790382,
+            -409.7048137423857
+          ],
+          "matrix": [
+            1.47827945580917e-16,
+            -1,
+            8.659560562354933e-17,
+            -1,
+            -1.4782794558091698e-16,
+            2.220446049250313e-16,
+            -2.220446049250313e-16,
+            -8.659560562354937e-17,
+            -1
+          ],
+          "support": "Tubechain officialinlet/outlet points; alternating180roll preservesnetdownwardoutlet;sourceposeapproximationwithoutscaling",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 28
+    },
+    {
+      "sourcePage": 7,
+      "note": "Thirdyellowlayer withrearholebearing andlongblueinputshaft",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -144,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontleftoffcenterdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            200,
+            -144,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontrightdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -144,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -144,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -144,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-9",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-10",
+          "partId": "31623.dat",
+          "color": 1,
+          "position": [
+            40,
+            -120,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Long8Lshaft along-Z;gearplaneZ100 insiderearwall",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 38
+    },
+    {
+      "sourcePage": 8,
+      "note": "Crowntransfergear andexternalcrank",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            40,
+            -120,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Crownfacinginterior; axisZ transfersvertical40T,phase/depth pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            40,
+            -120,
+            300
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "MainholeZ,80up handle outside rearwall",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 9,
+      "note": "Bluefourth/yellowfifthwalllayers",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -192,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontleftoffcenterdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            200,
+            -192,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontrightdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -192,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -192,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -192,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -192,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -192,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -192,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -192,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-10",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -240,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontleftoffcenterdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-11",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontrightdoorflank",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-12",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -240,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-13",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-14",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -240,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Rearwallbond;centralholebearing inthirdlayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-17",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-18",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Sidewall,sourcecountmatches8four+1square",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 58
+    },
+    {
+      "sourcePage": 10,
+      "note": "Eightblue4studbricks formthree-sidedupperrim withrearcornerstubs",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Fullside rim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -288,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontmiddle rimjoinscorners;rearcenter8studgap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -288,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frontmiddle rimjoinscorners;rearcenter8studgap",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 66
+    },
+    {
+      "sourcePage": 11,
+      "note": "Two10studlidbearingrails",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -336,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-288 onsidewallrim",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -336,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-288 onsidewallrim",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 68
+    },
+    {
+      "sourcePage": 12,
+      "note": "Two6Lhingeshafts,twobrackets,twocranks andtwoouterretainers;30degreeopenedpose",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -160,
+            -312,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "240LDUstack innercrank40..80/bracket80..160/rail160..240/outerwheel240..280 mirrored",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -260,
+            -312,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Outerhingeretainer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-3",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -352.78461,
+            137.358984
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.5,
+            0.866025,
+            0,
+            -0.866025,
+            -0.5,
+            0
+          ],
+          "support": "NativeholelocalX-40 iscommonpivot,secondhole80alongtiltedlid",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-4",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -60,
+            -312,
+            160
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -0.866025,
+            0,
+            -0.5,
+            0.5,
+            0,
+            -0.866025
+          ],
+          "support": "Mainhole onpivotshaft;integralpin80towardfront engagesbracketsecondhole;axialclearancepending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-5",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            160,
+            -312,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "240LDUstack innercrank40..80/bracket80..160/rail160..240/outerwheel240..280 mirrored",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            260,
+            -312,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Outerhingeretainer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-7",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            120,
+            -352.78461,
+            137.358984
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.5,
+            0.866025,
+            0,
+            -0.866025,
+            -0.5,
+            0
+          ],
+          "support": "NativeholelocalX-40 iscommonpivot,secondhole80alongtiltedlid",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-8",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            60,
+            -312,
+            160
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0.866025,
+            0,
+            -0.5,
+            -0.5,
+            0,
+            -0.866025
+          ],
+          "support": "Mainhole onpivotshaft;integralpin80towardfront engagesbracketsecondhole;axialclearancepending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 76
+    },
+    {
+      "sourcePage": 13,
+      "note": "8x8graylidplate andblue2x4x2archhandle",
+      "placements": [
+        {
+          "id": "p13-1",
+          "partId": "51262.dat",
+          "color": 7,
+          "position": [
+            0,
+            -413.569219,
+            80.076952
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.866025,
+            0.5,
+            0,
+            -0.5,
+            0.866025
+          ],
+          "support": "Platebottom sharesbracketstudplane;opening30deg sourcepose adjustment",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-2",
+          "partId": "6394.dat",
+          "color": 1,
+          "position": [
+            0,
+            -496.707658,
+            128.076952
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.866025,
+            0.5,
+            0,
+            -0.5,
+            0.866025
+          ],
+          "support": "96heightactualarch bottommateslidstudplane",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 78
+    }
+  ],
+  "pending": [
+    "31195 officialports chainedexactly; alternatebendroll180 chosen tofollowdownwardoutletshape,not measuredsource3Droll; no scaling.",
+    "Roundframe actual240height andopeningcenterlocalY110 used; tubeinletatfrontfaceZ-240,nominalportR66versusframeR80; connectionretention notphysicallyverified.",
+    "Rearinput31623 lengthselectedfromlongBOM; crown40T axesnominal,phase/depth unverified.",
+    "P5pulley axialseat partlyhidden; selectedabove40Tgear,notclaimedunique.",
+    "Lid30degreepose inferred; twoaxles240LDUstack resolved usingreal48LDUbrackets+40LDUcranks+80LDUrails. Sweep/physicalstrength pending.",
+    "Wallseams hidden inferred withinexactper-page8four+1square counts; no unavailablecomponents omitted."
+  ],
+  "unknownIds": [],
+  "omitted": [],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Awaiting raw/recursive checks and main rendering",
+  "inventory": "Verified9656/9090 colorrows; combined availability unknown if incomplete",
+  "modelSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-xi-yi-ji.ldr",
+  "totalPlacements": 78,
+  "bom": {
+    "4196.dat|4": 2,
+    "31191.dat|14": 1,
+    "3011.dat|14": 23,
+    "3437.dat|14": 3,
+    "75349.dat|4": 4,
+    "6522.dat|7": 3,
+    "6530.dat|14": 1,
+    "3011.dat|1": 24,
+    "3437.dat|1": 2,
+    "6527.dat|14": 3,
+    "31195.dat|1": 2,
+    "31195.dat|14": 1,
+    "31623.dat|1": 1,
+    "31622.dat|1": 1,
+    "6526.dat|14": 3,
+    "75350.dat|4": 2,
+    "51262.dat|7": 1,
+    "6394.dat|1": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "4196.dat|4": 2,
+        "31191.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "3011.dat|14": 8,
+        "3437.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "75349.dat|4": 1,
+        "6522.dat|7": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "6530.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "3011.dat|1": 8,
+        "3437.dat|1": 1,
+        "6527.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "31195.dat|1": 2,
+        "31195.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "3011.dat|14": 7,
+        "3437.dat|14": 1,
+        "75349.dat|4": 1,
+        "31623.dat|1": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "31622.dat|1": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "installed": {
+        "3011.dat|1": 8,
+        "3437.dat|1": 1,
+        "3011.dat|14": 8,
+        "3437.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 10,
+      "installed": {
+        "3011.dat|1": 8
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 11,
+      "installed": {
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 12,
+      "installed": {
+        "6522.dat|7": 2,
+        "6527.dat|14": 2,
+        "75349.dat|4": 2,
+        "6526.dat|14": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 13,
+      "installed": {
+        "51262.dat|7": 1,
+        "6394.dat|1": 1
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryByPart": [
+    {
+      "partId": "4196.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31191.dat",
+      "color": "Yellow",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9076-1",
+          "color": "Yellow",
+          "quantity": 3
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 23,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 18,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3437.dat",
+      "color": "Yellow",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 3
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6530.dat",
+      "color": "Yellow",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 24,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3437.dat",
+      "color": "Blue",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 40
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 8
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31195.dat",
+      "color": "Blue",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31195.dat",
+      "color": "Yellow",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9076-1",
+          "color": "Yellow",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31623.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31622.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "51262.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6394.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-xi-yi-ji.ldr] 78 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "recursiveGeometryEvidence": "recursive-geometry.json",
+  "knownConnectionsOmitted": [],
+  "handleCorrection": {
+    "oldSourceSha256": "ac3039959ec5b6039cd21b50ec89a3733255e798484845452543641111315a6f",
+    "sourcePage": 13,
+    "oldPart": "11198.dat",
+    "newPart": "6394.dat",
+    "evidence": "Source p13 actual pixels show square 2x2 bottom opening. Official local 6394.dat has x +/-80,z +/-40, body y0..96; opening x +/-40,y48..96. Same 96-height bottom seating preserves pose without scaling.",
+    "oldGeometryResolution": "11198 and three dependencies were exact-name blocks read from published 3-jing-che.mpd, not local DAT. Valid closure did not establish correct source identity.",
+    "oldRenderRevision": "81161e6a9f806fcd19b1e39ab3c30eb3618d0110716e0617ca8aebe0ffecfbb1",
+    "newRenderPending": false,
+    "currentRenderRevision": "b0cc56a7a2163f0b440cea9f6a28a34b1d6da5bffbdfb83416e3b550abc7b473",
+    "currentShapeActuallyReviewed": true
+  },
+  "pixelObservation": {
+    "sourceSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+    "revision": "b0cc56a7a2163f0b440cea9f6a28a34b1d6da5bffbdfb83416e3b550abc7b473",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 13,
+    "observations": "Actually reviewed current final3 contact views and all13 cumulative step tiles; opened step13 original PNG and source p13/p14 originals. Corrected6394 now has source square bottom opening, seated on tilted gray lid; prior11198 round arch revision is historical rejected identity evidence only. No further definite source-placement error found in box layers, inlet tube sequence, rear shaft or lid progression. Hidden tube rolls/wall seams, p5 pulley seat, crown gear depth/phase, tube-frame retention and lid pivot sweep/strength remain unverified; observation is not physical acceptance.",
+    "accepted": false
+  }
+}

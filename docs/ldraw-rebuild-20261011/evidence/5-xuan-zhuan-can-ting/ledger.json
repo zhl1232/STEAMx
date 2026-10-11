@@ -1,0 +1,2846 @@
+{
+  "slug": "5-xuan-zhuan-can-ting",
+  "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+  "partCount": 98,
+  "stepCount": 9,
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Four-tier stepped base with source brick counts",
+      "placements": [
+        {
+          "part": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source24x24 baseplate",
+          "line": 10
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 11
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 12
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 13
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 15
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 16
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 17
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 18
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 19
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 20
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 21
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 22
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 23
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 24
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 25
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 26
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 27
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 28
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 29
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 30
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 31
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 32
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 33
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 34
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 35
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 36
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 37
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -96,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 38
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -96,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 39
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -96,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 40
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -144,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 41
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 42
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 43
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -144,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 44
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -144,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 45
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 46
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 47
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -144,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 48
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -192,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 49
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -192,
+            -80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 50
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -192,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 51
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -192,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source tier footprint; hidden filling/seams inferred to exactly satisfy26yellow16blue and studregistered support",
+          "line": 52
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "hidden base fill",
+          "sourceQuantity": 1,
+          "location": "p1",
+          "missingEvidence": "12x12 solid18yellow,10x10 minus2x2 centre12blue,8x8 solid8yellow,6x6ring4blue exactly26yellow16blue; source exposed silhouette and BOM support this hidden arrangement, not a measured interior.",
+          "classification": "source-layout-inference"
+        }
+      ],
+      "placedBom": {
+        "4268.dat": 1,
+        "3011.dat": 42
+      },
+      "sourceBom": {
+        "4268.dat": 1,
+        "3011.dat": 42
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Eight alternating four-by-four tower layers",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 56
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 57
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 58
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 59
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -336,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 60
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -336,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 61
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 62
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 63
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -432,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 64
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -432,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 65
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 66
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 67
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -528,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 68
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -528,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 69
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -576,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 70
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -576,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "8layers×2 bricks source8yellow8blue; normal48LDU layers, staggeredstudbond",
+          "line": 71
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 16
+      },
+      "sourceBom": {
+        "3011.dat": 16
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Two short red support beams and side crank gear shaft",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -624,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two48LDU beams on tower top-576",
+          "line": 74
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two48LDU beams on tower top-576",
+          "line": 75
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            0,
+            -648,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source blue five-stud gearaxle through upperbeam sidehole; spanZ±100",
+          "line": 76
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -648,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "front crank extendsdown80; integralpin pointsfront-Z",
+          "line": 77
+        },
+        {
+          "part": "6530.dat",
+          "color": 1,
+          "position": [
+            0,
+            -648,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source blue40T wheel on rearshaft; actual mesh clearance still manual",
+          "line": 78
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -680,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source grey6L verticalshaft through upperbeam top bore; ends-800..-560; lower end insertion into support cavity manual",
+          "line": 79
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 2,
+        "6523.dat": 1,
+        "6526.dat": 1,
+        "6530.dat": 1,
+        "6522.dat": 1
+      },
+      "sourceBom": {
+        "75349.dat": 2,
+        "6523.dat": 1,
+        "6526.dat": 1,
+        "6530.dat": 1,
+        "6522.dat": 1
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Perpendicular gear, yellow carrier and rotating long beam",
+      "placements": [
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -692,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "red24T lies on upperbeam top-672; axisY; sourceperpendiculargear pairing retained but teeth mesh not certified",
+          "line": 82
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -732,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "carrier mainholeaxisY; sidepin atX80 pointsup into longbeam verticalbore; bodyfaces-752/-712",
+          "line": 83
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -800,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "longbeam bottom-752 bears on carrierbody; centralshaft endsatbeamtop-800; nominal pin engagement40LDU atX80",
+          "line": 84
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "gear train and rotating carrier",
+          "sourceQuantity": 1,
+          "location": "p3-4",
+          "missingEvidence": "Blue40/red24 orthogonal axes inferred from source; gear surface engagement, carrierlocking and verticalshaft insertion depth unverified. Manual interfaces are not rawPASS certification.",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6529.dat": 1,
+        "6526.dat": 1,
+        "75350.dat": 1
+      },
+      "sourceBom": {
+        "6529.dat": 1,
+        "6526.dat": 1,
+        "75350.dat": 1
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Two green floor plates and six explicit official window candidates",
+      "placements": [
+        {
+          "part": "4196.dat",
+          "color": 2,
+          "position": [
+            0,
+            -824,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two6x12plates make12x12floor; each overlaps central2studlongbeam byone stud40LDU",
+          "line": 88
+        },
+        {
+          "part": "4196.dat",
+          "color": 2,
+          "position": [
+            0,
+            -824,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "two6x12plates make12x12floor; each overlaps central2studlongbeam byone stud40LDU",
+          "line": 89
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -968,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 90
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            -94.5,
+            -896,
+            -240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 91
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            0,
+            -968,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 92
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            65.5,
+            -896,
+            -240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 93
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            160,
+            -968,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 94
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            225.5,
+            -896,
+            -240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 95
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -968,
+            200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 96
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            -225.5,
+            -896,
+            240
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 97
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            0,
+            -968,
+            200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 98
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            -65.5,
+            -896,
+            240
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 99
+        },
+        {
+          "part": "61649.dat",
+          "color": 4,
+          "position": [
+            160,
+            -968,
+            200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: official4x2x3 openbackframe,45002inventory red6 exactlymatches source6; frame144height supports caps",
+          "line": 100
+        },
+        {
+          "part": "90265.dat",
+          "color": 15,
+          "position": [
+            94.5,
+            -896,
+            240
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "installed identity candidate: officialwhiteflatroundcorner4panes,inventory6; relative(65.5,72,-40), sourceupperpanes appear taller than this equalpane candidate",
+          "line": 101
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "61649+90265 window candidate",
+          "sourceQuantity": 6,
+          "location": "p5 six red/whitewindow assemblies",
+          "missingEvidence": "Sourcevariant not uniquely proven: inventory lists exact6red61649 and6white90265; flatroundouterprofile best candidate vs4809doublecurve/31022strongarch. Sourceupperpane proportions differ. 2332a hingeZ-45 vs61649-40 remains5LDUvariantambiguity; currentnominalsocket origin and leaf fit not certified. No geometry scaled.",
+          "classification": "installed-identity-candidate"
+        }
+      ],
+      "placedBom": {
+        "4196.dat": 2,
+        "61649.dat": 6,
+        "90265.dat": 6
+      },
+      "sourceBom": {
+        "4196.dat": 2,
+        "61649.dat": 6,
+        "90265.dat": 6
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Central two-layer square table and two blue seats",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -872,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "fouryellow2x4bricks form4x4 two-layer table; interlockinghiddenlayout inferred",
+          "line": 105
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -872,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "fouryellow2x4bricks form4x4 two-layer table; interlockinghiddenlayout inferred",
+          "line": 106
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -920,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "fouryellow2x4bricks form4x4 two-layer table; interlockinghiddenlayout inferred",
+          "line": 107
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -920,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "fouryellow2x4bricks form4x4 two-layer table; interlockinghiddenlayout inferred",
+          "line": 108
+        },
+        {
+          "part": "3437.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -872,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "blue2x2seat on greenfloor,sourcep6",
+          "line": 109
+        },
+        {
+          "part": "3437.dat",
+          "color": 1,
+          "position": [
+            160,
+            -872,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "blue2x2seat on greenfloor,sourcep6",
+          "line": 110
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 4,
+        "3437.dat": 2
+      },
+      "sourceBom": {
+        "3011.dat": 4,
+        "3437.dat": 2
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Two patterned end fences",
+      "placements": [
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -220,
+            -920,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "6stud fence runsZ betweenwindowrows; feet atfloor-824",
+          "line": 113
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            220,
+            -920,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "6stud fence runsZ betweenwindowrows; feet atfloor-824",
+          "line": 114
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "31021p01.dat": 2
+      },
+      "sourceBom": {
+        "31021p01.dat": 2
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Four blue roof-support cap bricks over source window rows",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -1016,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcewindowtop-968; capbottom-968 supported by candidate official144highframes",
+          "line": 117
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -1016,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcewindowtop-968; capbottom-968 supported by candidate official144highframes",
+          "line": 118
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -1016,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcewindowtop-968; capbottom-968 supported by candidate official144highframes",
+          "line": 119
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -1016,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcewindowtop-968; capbottom-968 supported by candidate official144highframes",
+          "line": 120
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "candidate frame cap support",
+          "sourceQuantity": 4,
+          "location": "p8",
+          "missingEvidence": "Caps have nominal144LDU officialframe support; exact sourceframevariant and assembled load-bearing remain manual.",
+          "classification": "installed-identity-candidate"
+        }
+      ],
+      "placedBom": {
+        "3011.dat": 4
+      },
+      "sourceBom": {
+        "3011.dat": 4
+      }
+    },
+    {
+      "sourcePage": 9,
+      "title": "Two green roof plates and official slitted flag on pole",
+      "placements": [
+        {
+          "part": "4196.dat",
+          "color": 2,
+          "position": [
+            0,
+            -1040,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "roof bottom-1016 onbluecaprows; two6x12 plates,12x12 square",
+          "line": 124
+        },
+        {
+          "part": "4196.dat",
+          "color": 2,
+          "position": [
+            0,
+            -1040,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "roof bottom-1016 onbluecaprows; two6x12 plates,12x12 square",
+          "line": 125
+        },
+        {
+          "part": "51708.dat",
+          "color": 6,
+          "position": [
+            20,
+            -1056,
+            20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source brownpole; basebottom16 touchesroof-1040 on40LDU gridstudcentre20,20",
+          "line": 126
+        },
+        {
+          "part": "51725.dat",
+          "color": 4,
+          "position": [
+            20,
+            -1306,
+            20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "officialslittedflag matchesp9; clipspan relativepole[-278,-200.3] inside straightshaft[-288.6,-8], fit/clampmanual",
+          "line": 127
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "4196.dat": 2,
+        "51708.dat": 1,
+        "51725.dat": 1
+      },
+      "sourceBom": {
+        "4196.dat": 2,
+        "51708.dat": 1,
+        "51725.dat": 1
+      }
+    }
+  ],
+  "bom": {
+    "4268.dat": 1,
+    "3011.dat": 66,
+    "75349.dat": 2,
+    "6523.dat": 1,
+    "6526.dat": 2,
+    "6530.dat": 1,
+    "6522.dat": 1,
+    "6529.dat": 1,
+    "75350.dat": 1,
+    "4196.dat": 4,
+    "61649.dat": 6,
+    "90265.dat": 6,
+    "3437.dat": 2,
+    "31021p01.dat": 2,
+    "51708.dat": 1,
+    "51725.dat": 1
+  },
+  "inventoryReference": "inputs/inventory-evidence.json;9656 mechanical and9090 basic bricks. Source BOM defines use; missing inventory rows are unknown, not zero.",
+  "inventoryMechanicalComparison": [
+    {
+      "part": "3011.dat",
+      "sourceQuantity": 66,
+      "9656AllColors": 12,
+      "additionalAgainstOne9656IgnoringColor": 54
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6526.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 6,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 7,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6529.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "4196.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 1,
+      "additionalAgainstOne9656IgnoringColor": 3
+    },
+    {
+      "part": "3437.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 8,
+      "additionalAgainstOne9656IgnoringColor": 0
+    }
+  ],
+  "directGeometryHashes": {
+    "4268.dat": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+    "75349.dat": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+    "6523.dat": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+    "6526.dat": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+    "6530.dat": "9037cefa788cb7f97424c6c5d4ff3c9cea63200ee7a8251d55aed32246028b48",
+    "6522.dat": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+    "6529.dat": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+    "75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "4196.dat": "ef8c75cd6d3df465054dd39e5ddfd357e320102f61ec3b4d72b0d16e7a494317",
+    "61649.dat": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8",
+    "90265.dat": "e2c13bb59f14aaf887969736f299dd424959c15e2be6ba1a3206efe9fcc77259",
+    "3437.dat": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+    "31021p01.dat": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+    "51708.dat": "87d56c60376b81bce9e3209ba48e2f29ec571aee8d928496fe40316155ec0a9b",
+    "51725.dat": "55df719f62a0a278cb993ddeffa00f51d47f594006c12d2e5212d0f312d1daab"
+  },
+  "geometryMetadata": {
+    "4268.dat": {
+      "name": "Duplo Baseplate 24 x 24",
+      "bbox": {
+        "xMin": -480,
+        "xMax": 480,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -480,
+        "zMax": 480
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "75349.dat": {
+      "name": "Duplo Brick  2 x  4 with Holes",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "6523.dat": {
+      "name": "Duplo Axle 5 with Gear 8 Tooth",
+      "bbox": {
+        "xMin": -100,
+        "xMax": 100,
+        "yMin": -21.074868,
+        "yMax": 21.074868,
+        "zMin": -21.074868,
+        "zMax": 21.074868
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X",
+        "gearCenterX": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry UPDATE 2017-01 downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/6523.dat; original headers retained.",
+        "Recursive face-vertex bbox and dependency closure checked; gear engagement, phase, bearing clearance and physical fit require manual review.",
+        "Gear plane near X=40 (faces X=38..44); axle endpoints -100,+100."
+      ]
+    },
+    "6526.dat": {
+      "name": "Duplo Beam  3 x  0.5 Liftarm with Axle",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -20,
+        "yMax": 60,
+        "zMin": -24,
+        "zMax": 104
+      },
+      "origin": {
+        "type": "main-hole-center",
+        "holeAxis": "Y",
+        "integralPinOffset": [
+          0,
+          20,
+          80
+        ],
+        "integralPinAxis": "Y"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "6530.dat": {
+      "name": "Duplo Gear 40 Tooth",
+      "bbox": {
+        "xMin": -103.797666854,
+        "xMax": 103.797666854,
+        "yMin": -103.797666854,
+        "yMax": 103.797666854,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "6522.dat": {
+      "name": "Duplo Axle  6",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -9.000230793000002,
+        "yMax": 9.000230793000002,
+        "zMin": -9.000230793000002,
+        "zMax": 9.000230793000002
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "6529.dat": {
+      "name": "Duplo Gear 24 Tooth",
+      "bbox": {
+        "xMin": -64.14420731645001,
+        "xMax": 64.14420731645001,
+        "yMin": -64.14420731645001,
+        "yMax": 64.14420731645001,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "75350.dat": {
+      "name": "Duplo Brick  2 x 10 with Holes",
+      "bbox": {
+        "xMin": -200,
+        "xMax": 200,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "4196.dat": {
+      "name": "Duplo Plate 6 x 12",
+      "bbox": {
+        "xMin": -240,
+        "xMax": 240,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -120,
+        "zMax": 120
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "61649.dat": {
+      "name": "Duplo Door Frame  2 x  4 x  3 with Completely Open Back",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 144,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 144
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Auto-generated: rectangular approximation for window-door part. Actual geometry may differ significantly."
+      ]
+    },
+    "90265.dat": {
+      "name": "Duplo Window  1 x  4 x  3 with Flat Top with 4 Same Size Panes",
+      "bbox": {
+        "xMin": -133.5,
+        "xMax": 2.5,
+        "yMin": -60,
+        "yMax": 60,
+        "zMin": -2.5,
+        "zMax": 2.5
+      },
+      "origin": {
+        "type": "hinge-origin",
+        "originToTop": -60,
+        "originToBottom": 60
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Verified against local official 90265.dat (2022-01, CC BY 4.0) and s/27382s02.dat on 2026-09-07. Hinge-origin pane body bounds X=-133.5..2.5, Y=-60..60, Z=-2.5..2.5.",
+        "Closed installation in 61649.dat uses frame-relative offset (65.5,72,-40). Manual hinge support/collision review is required; this is not a top-centered structural brick."
+      ]
+    },
+    "3437.dat": {
+      "name": "Duplo Brick 2 x 2",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "31021p01.dat": {
+      "name": "Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": 0,
+        "yMax": 96,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 96
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official patterned fence copied from .agents/skills/image-to-ldraw/.cache/ldraw-library/extracted/ldraw/parts/31021p01.dat to scripts/ldraw-models/parts/31021p01.dat on 2026-07-08.",
+        "Uses the same placement and collision box as 31021.dat; red stripe pattern geometry is decorative."
+      ]
+    },
+    "51708.dat": {
+      "name": "Duplo Flagpole / Antenna  1 x  9",
+      "bbox": {
+        "xMin": -16,
+        "xMax": 16,
+        "yMin": -314.6,
+        "yMax": 16,
+        "zMin": -16,
+        "zMax": 16
+      },
+      "origin": {
+        "type": "official DAT origin",
+        "originToTop": -314.6,
+        "originToBottom": 16
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "2026-09-11: recursive official geometry bounds replace generic rectangular guesses. Flag clips onto pole shaft; conservative bounding box includes its clip opening. See .tmp/waterpark-0911/flag/geometry-evidence.json.",
+        "2026-09-13: Only local Y=-288.6..-8 is certified within the radius-6 straight shaft. The radius-13 ball centered at Y=-301.6 and widened base are excluded from this interval. Analytic clearance must bound the entire mating part inside this range; the overall collision box remains conservative for other pairs."
+      ]
+    },
+    "51725.dat": {
+      "name": "Duplo Flag Wavy  2 x  5 with Slits",
+      "bbox": {
+        "xMin": -11,
+        "xMax": 158.3,
+        "yMin": -28,
+        "yMax": 49.7,
+        "zMin": -12.885,
+        "zMax": 3.5
+      },
+      "origin": {
+        "type": "official DAT origin",
+        "originToTop": -28,
+        "originToBottom": 49.7
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "2026-09-11: recursive official geometry bounds replace generic rectangular guesses. Flag clips onto pole shaft; conservative bounding box includes its clip opening. See .tmp/waterpark-0911/flag/geometry-evidence.json."
+      ]
+    }
+  },
+  "render": "pending main pack/render and pixel inspection",
+  "validation": {
+    "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+    "rawCheckerExit": 2,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "staticReport": "static-alarm-review.json",
+    "pixels": "pending main render",
+    "rawAlarmPairs": 1
+  },
+  "unknownIdentityParts": [
+    {
+      "sourcePage": 5,
+      "quantity": 6,
+      "frame": "61649.dat",
+      "leaf": "90265.dat",
+      "reason": "45002stock sixred61649/sixwhite90265 and best flatroundouterprofile; alternative4809/31022 weaker shape",
+      "unresolved": "Sourceupperpanes visiblytaller; currentleaf4equalpanes. Framehinges2332aZ-45 vs61649Z-40 ambiguous5LDU. Nominalleaf origin(65.5,72,-40) not fitcertified.",
+      "research": "preparation/independent-qa/cable-window-candidate-comparison.json"
+    }
+  ],
+  "sourcePositionUncertainties": [
+    {
+      "partOrCandidate": "hidden base fill",
+      "sourceQuantity": 1,
+      "location": "p1",
+      "missingEvidence": "12x12 solid18yellow,10x10 minus2x2 centre12blue,8x8 solid8yellow,6x6ring4blue exactly26yellow16blue; source exposed silhouette and BOM support this hidden arrangement, not a measured interior.",
+      "classification": "source-layout-inference"
+    },
+    {
+      "partOrCandidate": "gear train and rotating carrier",
+      "sourceQuantity": 1,
+      "location": "p3-4",
+      "missingEvidence": "Blue40/red24 orthogonal axes inferred from source; gear surface engagement, carrierlocking and verticalshaft insertion depth unverified. Manual interfaces are not rawPASS certification.",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "61649+90265 window candidate",
+      "sourceQuantity": 6,
+      "location": "p5 six red/whitewindow assemblies",
+      "missingEvidence": "Sourcevariant not uniquely proven: inventory lists exact6red61649 and6white90265; flatroundouterprofile best candidate vs4809doublecurve/31022strongarch. Sourceupperpane proportions differ. 2332a hingeZ-45 vs61649-40 remains5LDUvariantambiguity; currentnominalsocket origin and leaf fit not certified. No geometry scaled.",
+      "classification": "installed-identity-candidate"
+    },
+    {
+      "partOrCandidate": "candidate frame cap support",
+      "sourceQuantity": 4,
+      "location": "p8",
+      "missingEvidence": "Caps have nominal144LDU officialframe support; exact sourceframevariant and assembled load-bearing remain manual.",
+      "classification": "installed-identity-candidate"
+    }
+  ],
+  "installedIdentityCandidates": [
+    {
+      "sourcePage": 5,
+      "quantity": 6,
+      "frame": "61649.dat",
+      "leaf": "90265.dat",
+      "reason": "45002stock sixred61649/sixwhite90265 and best flatroundouterprofile; alternative4809/31022 weaker shape",
+      "unresolved": "Sourceupperpanes visiblytaller; currentleaf4equalpanes. Framehinges2332aZ-45 vs61649Z-40 ambiguous5LDU. Nominalleaf origin(65.5,72,-40) not fitcertified.",
+      "research": "preparation/independent-qa/cable-window-candidate-comparison.json"
+    }
+  ],
+  "knownOmitted": [],
+  "geometryApproximationParts": [],
+  "sourceBomNotes": {
+    "1": "26yellow3011,16blue3011,4268x1 hiddenfill inferred exactcounts",
+    "5": "Two4196 + sixassembledwindows represented as6frame+6leaf (12DAT placements)",
+    "9": "Two4196 + one51708 + one51725"
+  },
+  "currentPixelReview": {
+    "path": "preparation/5-xuan-zhuan-can-ting/current-pixel-review.json",
+    "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+    "revision": "44344e83001738c3139f00600adc932445e285faee6ad211b052fae5bf84fe6a",
+    "finalViews": 3,
+    "cumulativeSteps": 9,
+    "imagesActuallyReviewed": 12,
+    "accepted": false,
+    "physicalValidation": false,
+    "observations": "Actual current final3 and all9 cumulative steps viewed, including full step4/8 and source p9/10. Six official installed window candidates retain pane-proportion/5LDU hinge variant uncertainty; gear engagement and flag clip fit remain manual. Source p9/10 shows whole flagpole base and ball; official51708 unscaled placement retained, no proved height error. This is pixel observation, not physical acceptance."
+  }
+}

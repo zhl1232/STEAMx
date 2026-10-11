@@ -1,0 +1,107 @@
+{
+  "slug": "5-si-qu-che",
+  "modelSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+  "reviewedAt": "2026-10-11T13:29:05.259Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-si-qu-che.ldr",
+    "sha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+    "exit": 2,
+    "output": "\nFAIL [5-si-qu-che.ldr] 1 error(s), 60 placement(s):\n  - step 9: 5-si-qu-che_l77 overlaps 5-si-qu-che_l76\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        76,
+        77
+      ],
+      "step": 9,
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "sourceSha256": "6769d2a1470ed9cd4747bcbcc0797d3dccbdf7a49d7fad94b1bf4ead6ae763e1",
+      "placements": [
+        {
+          "page": 9,
+          "line": 76,
+          "id": "31196c01.dat",
+          "color": 25,
+          "transform": [
+            -240,
+            -248,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 9,
+          "line": 77,
+          "id": "6345.dat",
+          "color": 46,
+          "transform": [
+            -388,
+            -282,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "classification": "existing_approved_approximation_interface_unresolved",
+      "reason": "Current lines76/77 are approved local31196c01 cockpit and6345 windshield at inherited relative transform. Source p9/p12 shows this family; overlap remains unresolved surrogate mating, not a proved false positive and not physical clearance.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    }
+  ],
+  "rawPairCount": 1,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-si-qu-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "limitations": [
+    "P1/P2 six plates tile each H exactly: four longitudinal atX+-120,Z+-120, two transverse atX0,Z+-80; all24LDU. Red48LDU axle beams Y-128..-80; upper plates top-152 and yellow risers top-200; deck top-224.",
+    "P3/P4 two independent grey6522 per axle meet atZ0. Worm31625 length120 and crown31622 thickness40 share160LDU cavity: front wormZ20/crownZ-60, rearwormZ-20/crownZ60. Interface end planes meet but recursive shape mating, gear phase and torque transfer are not verified. No false glued single axle.",
+    "P5 central axle axisX atY-104,Z0; pulleysX+-60 occupy40LDU beside central brick facesX+-40, red gearsX+-100 reach shaft ends+-120. Worm/crown/red tooth intersections and drive motion remain manual risks, not cleared by raw bounds.",
+    "Road wheels6530 radius103.798 atY-104 approximately share ground, no scaling. Outer pulleys extend shafts only to+-240, with plane contacts atZ+-200.",
+    "P9 uses existing approved31196c01 simplified cockpit and6345 hood mounting. Source perspective identifies family, not exact hidden4x4/4x6 interface. Cab hood or curved fender overlap must be retained and not silently excused.",
+    "Front cockpit silhouette extends beyond source deck because approved local surrogate has larger nose; source colors and four-stud width preserved. No invented exact replacement.",
+    "Source p12 hood is rendered opaque milky yellow; inherited color46 produces transparent preview. Actual transparency/material is not confirmed, and protruding cockpit nose differs from source silhouette. Explicit visual approximation, not accurate material claim."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "current6769 final3 and all11 cumulative steps actually viewed; current-pixel-review.json",
+  "pixelReviewFile": "preparation/5-si-qu-che/current-pixel-review.json"
+}

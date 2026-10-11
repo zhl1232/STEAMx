@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+  "revision": "b0cc56a7a2163f0b440cea9f6a28a34b1d6da5bffbdfb83416e3b550abc7b473",
+  "reviewedAt": "2026-10-11T13:50:53.124076+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xi-yi-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "39a6fbae87367728e51394ba460dd3268c51fa50e65de0017b172e1c288fa8e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c8e2bbb1e3124790d32ed29d95fbced64cd487635c9e0f5ca4a8927f79332560",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "da150d236ef9fe224af269c82147b2ad571bcd5150f75b88511ddf456937656d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "99e9d1b29de9fe68486c1b004db02e844e4437882861bb313eeb56b817b82be1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "72909a5ed11a0e6550af330c0f81a34d85e6af741ca19c5b00355b0badfc1cbc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "608745a389ce07ac7a8e35a72c9286a32601bae9e2085c93792a34a303aa8907",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c0e6c8b440594354e8daf4dc288e6816befaaa65d7fea3488b7f32fb0538d191",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "9cd22afd07b7dbab39ad3a9f321949183eb4b752aae49b638cf3cdd01f63d090",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "f9e9f1a2406f5531a0e8b04d91fab06f038588d62a53328500a5b99cf89ce3f1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e1e94b6c826757ca2d0974052903ddb70a927c7960527c637c4522b428c39e12",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7ae1caa513303b5d845c972622fd5fa23bb7ed210f08aa12cc70038c281fc63c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "86c595bccfb248f558fbce66f8a0fca0d89094692c7e7099cbe48799986e29eb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7217f768d6ec3930df3f9266da4d571ab5a9e09c876b770634ed8ae975cbd7bb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "26e33fef381f23fa0b5a54b128fb6cad1eda74ae40db78541f2f20ec26362c5b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "67bb147c2ec8d65334d81de26656746dfd01c5ce8b969cdbb6bdeb4f5d3db4a7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "39a6fbae87367728e51394ba460dd3268c51fa50e65de0017b172e1c288fa8e5",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 contact views and all13 cumulative step tiles; opened step13 original PNG and source p13/p14 originals. Corrected6394 now has source square bottom opening, seated on tilted gray lid; prior11198 round arch revision is historical rejected identity evidence only. No further definite source-placement error found in box layers, inlet tube sequence, rear shaft or lid progression. Hidden tube rolls/wall seams, p5 pulley seat, crown gear depth/phase, tube-frame retention and lid pivot sweep/strength remain unverified; observation is not physical acceptance."
+}

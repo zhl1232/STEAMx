@@ -1,0 +1,110 @@
+{
+  "sourceSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+  "revision": "8bd2e07efdfb9b27125d11dcf7ae25f133eeeddf9cccc4b5356a924c79ad20c5",
+  "reviewedAt": "2026-10-11T13:44:31.960740+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-huo-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "a1d8f906f737f8f7cc1bf938e7b87961dafad08de768b4883d87744c7328b158",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "a88aa5132d3f3b16efa1cc3c7aec6e6a212ab9c394ffa19fa064fb787b225e65",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "c574cc7c22d9f80b10b94ccb2707d695df4bf8ad6becbb55d680c04c1da4e42c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "61796bf6254620d29e97393afafb49d2e28b631c685d8769943c6525ac966fd9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "401d8e70cae125e3a65e58c5f03d0587d4e308efd395c607421dfbfa7d87f3cf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "80e4d0ea6ff662682ae4549688fab1e8faafb4efbf3ab5c588d4e9f3000ca1da",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "fb3143d5a1262a1f1b319fb355c161fb5f28715e60bda627b6ac61246c8de0e4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "eb0b1ff0cf00f5eb98c7dd91271775ef6e5bc3d3ec0878d511b4a709293b557d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "32b254f6114bcbf5f64ce76bed107f70c1a2c83d0fed1e50ce405af2a75c34f2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "10771bf0c99c7a9e2c39e3f3950de3f3800d8d9bf1669854c1c500d775b0929b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "ab47490f5532401ea38072885f93a0c46d812566244bffe28b1d970ffd9683ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "429c6702bd80e4329362e41086d1ce57a7587649191cc2b6245c8c1bc4ab84ac",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "8dc4a2ad3b340cfe18778b124cdcd4a28da02d7c5463577ae3cdc0abb8b61e13",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "d5b8d2ebdbb3c69a4e96f7ae7c4e681b4ba27b5b124b3b21a9b67ff0823cc50b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "7196c314952c6b1b592e2d89f5a89fef09250405434464dddebc1c4d63cedaff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "fd8e34cd34fbec8827a5e7b11f833b09cc6d814bd3fd0880e24a2472dfce63f9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "b28ebac93e81067259cdb52ffdf1877fec19f502041d3adcbb79d722345c41e2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "c45713a747be52bed530af5cd331b5d918e5b4720b5abf9d88ea8a630f1bf93c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "a1d8f906f737f8f7cc1bf938e7b87961dafad08de768b4883d87744c7328b158",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final iso/iso-rear/top and all16 cumulative frames, plus original step16; re-viewed source finalp17. Twin concave front scoops, five curved boiler bricks, four-layer cabin, chimney/smoke, two sets of four40T wheels and side rods, coach bridge and six windows match visible sequence and overall outline. Source-hidden bridge overlap and crank phases remain inferred layout. Six61649+90265 windows are installed identity candidates; source upper pane proportions and exact mould/hinge variant are not uniquely confirmed. Existing16 blue axle/interface pairs72 strict crossings each and six window171 each remain, with no physical retention or rolling motion validation. Five curved-brick proxy alarms excluded only by exact face-boundary contact. No new clear visual correction identified."
+}
