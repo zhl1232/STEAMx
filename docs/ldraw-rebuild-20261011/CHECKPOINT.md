@@ -8,7 +8,7 @@ Independent 69-course QA checked 4,975 placements: no malformed/scaled/reflected
 
 Current raw static checker: 69 stable-source runs, 45 exit 0 and 24 exit 2. AABB diagnostics and omitted-part/connection limitations remain in individual reports. The current registry contains 30 issue families spanning identity, geometry, licensing and flexible routing; known-part omissions and inventory deficits are separate.
 
-Local checkpoint 4e28e5c preserved all 69 current source drafts and independent QA; this follow-up snapshot adds cumulative-step review evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The repository still contains 59 older MPDs and must be synchronized before delivery. The D closure/self-contained reports bind all 69 current source hashes.
+Local checkpoint 4e28e5c preserved all 69 current source drafts and independent QA; this follow-up snapshot adds cumulative-step review evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The former 59 repository MPDs were SHA-verified in D:/Codex-task-2-20261011/preview-backups/0202668; all 69 current MPDs have now been synchronized into the repository after disk-space checks (preview-sync.json). The D closure/self-contained reports bind all 69 current source hashes.
 
 No production models, public assets, application/workflow/package files, approval whitelist or data have been changed. No push, PR, merge, deployment or CI trigger. Six licensed part bodies extracted from existing published MPDs retain provenance in embedded-part-extraction.json.
 

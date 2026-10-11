@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-11T07:04:37.392264+00:00",
+  "previousCheckpoint": "0202668",
+  "backupDirectory": "D:\\Codex-task-2-20261011\\preview-backups\\0202668",
+  "oldMpdCount": 59,
+  "currentMpdCount": 69,
+  "oldBytes": 63170724,
+  "currentBytes": 75853754,
+  "cFreeBefore": 1356455936,
+  "cFreeAfter": 1343754240,
+  "allCurrentSourceAndMpdHashesVerified": true,
+  "accepted": false
+}
