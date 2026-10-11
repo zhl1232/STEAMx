@@ -1,3 +1,4 @@
+import { PartThumbnail } from "@/components/features/courses/part-thumbnail";
 import { LessonPartsUnavailable } from "@/components/features/courses/lesson-parts-unavailable";
 import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import Link from "next/link";
@@ -203,11 +204,7 @@ function PartTable({ entries }: { entries: LdrawBom["entries"] }) {
           title={entry.partDescription || undefined}
         >
           <span className="flex min-w-0 items-center gap-2">
-            <span
-              aria-hidden
-              className="h-4 w-4 shrink-0 rounded-sm border border-black/15 dark:border-white/25"
-              style={{ backgroundColor: entry.colorHex }}
-            />
+            <PartThumbnail partId={entry.partId} colorCode={entry.colorCode} colorHex={entry.colorHex} />
             <span className="min-w-0 text-sm font-medium leading-snug text-foreground">
               {entry.colorName}
               {entry.partName}

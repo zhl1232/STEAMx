@@ -66,6 +66,8 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   '31196c01': { partNums: ['31196c01'], flags: {} },
   '75349': { partNums: ['6517'], flags: {} },
   '75350': { partNums: ['6515'], flags: {} },
+  // Duplo Windscreen 4 x 4 x 2 Curved（45002 的透明黄色挡风玻璃）
+  '6345': { partNums: ['17562', '6345'], flags: {} },
   // 车底盘
   '10715': { partNums: ['11248c01', '11248c02'], flags: { colorFlexible: true } },
   '10715p01': { partNums: ['11248c02'], flags: {} },

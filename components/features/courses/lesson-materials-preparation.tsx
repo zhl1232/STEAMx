@@ -27,7 +27,7 @@ import {
   summarizeMaterialOutcome,
   type MaterialRequirement,
 } from "@/lib/courses/lesson-materials";
-import { getPartThumbnail } from "@/lib/courses/part-thumbnails";
+import { PartThumbnail } from "./part-thumbnail";
 
 /** 套装里没有、也不在 LDraw 官方库的特殊件，给一个家长能看懂的名字。 */
 const SPECIAL_PART_NAMES: Record<string, string> = {
@@ -296,23 +296,9 @@ function PartRow({
   detail?: string;
   children: React.ReactNode;
 }) {
-  const thumb = getPartThumbnail(entry.partId, entry.colorCode);
   return (
     <li className="flex min-w-0 items-center gap-3 py-2.5">
-      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white">
-        {thumb ? (
-          <Image src={thumb.src} alt="" width={48} height={48} className="h-11 w-11 object-contain" />
-        ) : (
-          <span aria-hidden className="h-7 w-9 rounded-sm" style={{ backgroundColor: entry.colorHex }} />
-        )}
-        {thumb && !thumb.exactColor ? (
-          <span
-            aria-hidden
-            className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full border border-white"
-            style={{ backgroundColor: entry.colorHex }}
-          />
-        ) : null}
-      </span>
+      <PartThumbnail partId={entry.partId} colorCode={entry.colorCode} colorHex={entry.colorHex} size={44} />
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-1.5 text-sm font-bold leading-snug text-foreground">
           <span

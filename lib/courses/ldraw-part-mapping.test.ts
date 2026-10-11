@@ -2,6 +2,7 @@ import { expect, it } from 'vitest'
 import { resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
 
 it.each([
+  ['6345.dat', ['17562', '6345']],
   ['10715.dat', ['11248c01', '11248c02']],
   ['10715p01.dat', ['11248c02']],
   ['10715p02.dat', ['11248c01']],
