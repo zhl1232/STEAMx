@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+  "revision": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
+  "reviewedAt": "2026-10-11T06:44:46.570848+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-diao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "880c7246dd0030daaa427a3a4398fb496198234827b94bfc33c77d836de93d72",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "a7d7234eaf0e05a10597529a3b89e6d6be050094b4487fb5b620e879d94a9f20",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d5437f41e7ce95f22127011333ad7bf8e200f3bc105e46d85848fcaaa5f60d5a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current final3 sheet and original iso actually inspected against source17page contact and enlargedp11/13/16. Gear-wheel chassis, upper turntable, official gearbox axes and two-rail boom correspond. Hook is visibly unsupported because rope and extra winding pulley are omitted; it is only an endpoint marker, not verified suspension. Thin canopy/cockpit alert, approximate cockpit and mechanical retention/gear mesh remain unresolved. No claim of complete operable crane; steps not reviewed this run."
+}

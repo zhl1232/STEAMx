@@ -1720,7 +1720,7 @@
           "partId": "6521.dat",
           "color": 2,
           "position": [
-            -560,
+            -540,
             -504,
             0
           ],
@@ -1735,7 +1735,7 @@
             0,
             1
           ],
-          "support": "Nominal8L axle axisX between pier and tiltedframe",
+          "support": "Nominal8L axle axisX between pier and tiltedframe Shift20LDU inward so320LDU axle spans X380..700 (mirrored left): innergear/crank bore and outercrank hole are captured.",
           "confidence": "inferred"
         },
         {
@@ -1794,17 +1794,17 @@
             0
           ],
           "matrix": [
+            -1.2246467991473532e-16,
+            -1,
             0,
+            0,
+            0,
+            -1,
             1,
-            0,
-            0,
-            0,
-            -1,
-            -1,
-            0,
+            -1.2246467991473532e-16,
             0
           ],
-          "support": "Outside crank; pin direction inferred",
+          "support": "Outside crank; pin direction inferred Mirror left crank to place its axle bore atX-700, on shaft endpoint.",
           "confidence": "inferred"
         },
         {
@@ -1858,7 +1858,7 @@
           "partId": "6521.dat",
           "color": 2,
           "position": [
-            560,
+            540,
             -504,
             0
           ],
@@ -1873,7 +1873,7 @@
             0,
             1
           ],
-          "support": "Nominal8L axle axisX between pier and tiltedframe",
+          "support": "Nominal8L axle axisX between pier and tiltedframe Shift20LDU inward so320LDU axle spans X380..700 (mirrored left): innergear/crank bore and outercrank hole are captured.",
           "confidence": "inferred"
         },
         {
@@ -2401,15 +2401,85 @@
     },
     {
       "sourcePage": 5,
-      "note": "two red gears and geared axle: omitted until axes are resolved",
-      "placements": [],
-      "cumulativePlacements": 103
+      "note": "sourcep5 two red24tooth gears and one short blue5L geared axle on left side",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -380,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Sourcep5 red gear pair inside left beam,120LDU axis separation; gear atX-380 meets beam faceX-400. Teeth phase and actual rotation are unverified.",
+          "confidence": "source-identified"
+        },
+        {
+          "id": "p5-2",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -380,
+            -602.298245,
+            68.829172
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Sourcep5 red gear pair inside left beam,120LDU axis separation; gear atX-380 meets beam faceX-400. Teeth phase and actual rotation are unverified.",
+          "confidence": "source-identified"
+        },
+        {
+          "id": "p5-3",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -602.298245,
+            68.829172
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0.573576,
+            0.819152,
+            0,
+            0.819152,
+            -0.573576
+          ],
+          "support": "Sourcep5 short geared shaft alongX through upper left beam hole. Geared end points outward, ordinary end captures inner red gear; retention provisional.",
+          "confidence": "source-identified"
+        }
+      ],
+      "cumulativePlacements": 106
     },
     {
       "sourcePage": 6,
       "note": "red and blue gears plus two geared axles: omitted until axes are resolved",
       "placements": [],
-      "cumulativePlacements": 103
+      "cumulativePlacements": 106
     },
     {
       "sourcePage": 7,
@@ -2485,13 +2555,13 @@
           "confidence": "inferred"
         }
       ],
-      "cumulativePlacements": 106
+      "cumulativePlacements": 109
     },
     {
       "sourcePage": 8,
       "note": "central worm, four pulley spacers and shaft: connection pending, omitted",
       "placements": [],
-      "cumulativePlacements": 106
+      "cumulativePlacements": 109
     }
   ],
   "status": "INCOMPLETE dev-only source reconstruction",
@@ -2565,26 +2635,23 @@
   ],
   "unknownIds": [
     {
-      "sourcePages": [
-        5,
-        6
-      ],
-      "location": "four gears and three geared shafts",
+      "sourcePage": 8,
+      "location": "central ordinary grey axle",
       "candidates": [
-        "6529",
-        "6530",
-        "31622",
-        "6523",
-        "31623"
+        "6522",
+        "6521"
       ],
-      "missingEvidence": "Need identify crown versus ordinary gear and source shaft lengths; no arbitrary substitutes"
+      "missingEvidence": "Length and exact axial endpoints not dimensioned; must support centerbar without arbitrary overlap"
     }
   ],
   "pending": [
     "Tilt55degrees and frame dimensions derived from oblique source; exact rotation angle is inferred.",
     "Central bar is shown in source position but not yet supported because drive linkage unresolved; intentionally incomplete preview.",
     "Sourcepage5-8 mechanical gear/shaft assembly not accepted; parts/axis evidence must be resolved before adding.",
-    "All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown."
+    "All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown.",
+    "Final full-frame review confirms floating central bar. Known omitted gears/short geared shafts reclassified from unknown IDs; adding them requires a defensible connection pose.",
+    "Sourcep5 red gear pair restored using left-frame X-axis holes120LDU apart. Main8L green axles moved20LDU inward to capture inner gear/right inner crank; left outercrank mirrored to its shaft endpoint. Gear phase and dynamic fit unverified.",
+    "Sourcep6 red/crown gears and two short geared shafts remain UNASSEMBLED evidence only; they do not support the floating centerbar."
   ],
   "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
   "knownOmitted": [
@@ -2605,11 +2672,29 @@
       "id": "6527",
       "count": 4,
       "reason": "Requires central shaft registration"
+    },
+    {
+      "sourcePage": 6,
+      "id": "31622.dat",
+      "count": 1,
+      "reason": "Crown tooth profile confirmed; transverse gear mesh/shaft position unresolved"
+    },
+    {
+      "sourcePage": 6,
+      "id": "6529.dat",
+      "count": 1,
+      "reason": "Identified but shaft-relative axial position unresolved; separate evidence only"
+    },
+    {
+      "sourcePage": 6,
+      "id": "6523.dat",
+      "count": 2,
+      "reason": "Identified short geared shafts; top frame hole choices and pinion direction unresolved; separate evidence only"
     }
   ],
-  "modelSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
+  "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-yu-hang-yuan-xun-lian-ji.ldr",
-  "totalPlacements": 106,
+  "totalPlacements": 109,
   "bom": {
     "4268.dat|2": 2,
     "3011.dat|14": 38,
@@ -2620,13 +2705,15 @@
     "6526.dat|14": 3,
     "75350.dat|4": 7,
     "40666.dat|1": 12,
+    "6529.dat|4": 2,
+    "6523.dat|1": 1,
     "40666.dat|14": 2
   },
   "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
   "knownApproximateGeometry": [],
   "checks": {
-    "modelSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
-    "dependencyNodes": 94,
+    "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+    "dependencyNodes": 105,
     "missingDependencies": [],
     "rawCheckerExitCode": 0,
     "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\collision.txt",

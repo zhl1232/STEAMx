@@ -32,3 +32,7 @@ Missing components: 6295 x1 (page11): Toolo Arm with Fake Pulley and Hook; confi
 
 Inventory exact-color rows and extra quantities: bom-inventory.json. Missing9090 rows remain unknown. Driver subparts are a decomposed assembly and must not be counted as eight independent child figures. No Studio or physical verification. No new DAT, shared metadata, review acceptance or production artifact edits. Final/cumulative pixel acceptance awaits parent serial queue.
 Actually viewed iso and iso-rear for source99cebf48. Tower/counterweight/cab and two guy arms load; projected closed-loop endpoints coherent. Missing hook and topUholder remain; no claim of physical stability or cumulative-step verification.
+
+## Current complete-frame final3 review
+
+Actually inspected current D final3 sheet and original iso-rear against source p19. Current99cebf48 matches source manifest; complete frame and no blank views. Layered tower, fences, hanging rear counterweight, cab, forward linkage and rear support arm broadly match source direction; no clear reversed assembly seen. Separate missing components remain6295 fake-pulley/hook arm at suspended lower end (p11) and2223 black U-holder at top (p18). Known approximate Toolo shapes, inferred60LDU clutch pivot, non-grid rear hinge and cockpit/canopy checker overlap remain unresolved; rendered closed-loop appearance is not mechanical fit/stability proof. Final3 only, cumulative18 stages not reviewed, accepted false.

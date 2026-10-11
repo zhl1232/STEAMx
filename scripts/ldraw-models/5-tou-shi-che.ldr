@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28; all twelve pages actually viewed.
-0 // INCOMPLETE: pages5-7 redistribute beams without explicit intermediate motion; A-frame vs lever assignment provisional. Basket cranks and payload omitted pending pin orientation evidence.
+0 // INCOMPLETE: page7 material inset omits2 visibly added long lever beams; extra2 beams required pending source-BOM clarification. Basket cranks and payload omitted pending pin orientation evidence.
 0 // SOURCE PAGE 1: two red chassis hole bricks
 1 4 0 -48 -40 1 0 0 0 1 0 0 0 1 75350.dat
 1 4 0 -48 40 1 0 0 0 1 0 0 0 1 75350.dat
@@ -34,22 +34,25 @@
 1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 0 // SOURCE PAGE 5: two eleven-hole supporting legs; final spread pose provisionally inferred
-1 14 -60 -310.78784 -80 0.953939201 0 0.3 0.3 0 -0.953939201 0 1 0 6525.dat
-1 14 60 -310.78784 80 0.953939201 0 -0.3 -0.3 0 -0.953939201 0 1 0 6525.dat
+1 14 -60 -310.78784 -60 0.953939201 0 0.3 0.3 0 -0.953939201 0 1 0 6525.dat
+1 14 -60 -310.78784 60 0.953939201 0 0.3 0.3 0 -0.953939201 0 1 0 6525.dat
 1 7 -120 -120 0 0 0 1 0 1 0 -1 0 0 6522.dat
 1 14 -120 -120 -100 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -120 -120 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // SOURCE PAGE 6: two long levers, second base shaft and four retainers; source movement sequence unresolved
-1 14 0 -501.575681 -20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
-1 14 0 -501.575681 20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+0 // SOURCE PAGE 6: two rear support legs, second base shaft and four retainers
+1 14 60 -310.78784 -100 0.953939201 0 -0.3 -0.3 0 -0.953939201 0 1 0 6525.dat
+1 14 60 -310.78784 100 0.953939201 0 -0.3 -0.3 0 -0.953939201 0 1 0 6525.dat
 1 2 120 -120 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 -120 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -120 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 120 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -120 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -120 60 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 120 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // SOURCE PAGE 7: green apex bearing axle and two outside retainers
+0 // SOURCE PAGE 7: green apex bearing axle, two outside retainers and two visible lever beams omitted from source material callout
+1 14 0 -501.575681 -20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+1 14 0 -501.575681 20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+0 // SOURCE BOM DISCREPANCY p7: two6525 lever beams visibly appear, but material inset lists only axle+two pulleys. Recorded as2 extra required beams, not silently counted as p6 supports.
 1 2 0 -501.575681 0 0 0 1 0 1 0 -1 0 0 6521.dat
 1 14 0 -501.575681 -140 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 0 -501.575681 140 1 0 0 0 1 0 0 0 1 6527.dat

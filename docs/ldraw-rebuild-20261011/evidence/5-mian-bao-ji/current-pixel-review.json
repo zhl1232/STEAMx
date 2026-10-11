@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+  "revision": "c2f26caab66f4475f54632e3cf17c00f24c020a916506792e92cc4dacae03091",
+  "reviewedAt": "2026-10-11T06:20:53.670911+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-mian-bao-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ce9cf1a4c0e5a0fc81c5026664211060799f0c039040ef5664f165e7c4900b97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "5062f37570b72d254ebf23b80403e8be9c44a63eee4f37dfa61a335940ecc492",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "701e5d752e1cbc91d54b45bbf137c568add043cb9a0685522de0e92dc3209f71",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed original iso, iso-rear, top plus final contact sheet; compared source p15,p17 and mechanism p8. Entire box and both raised bread slices fit frame. Brick counts, alternating walls, two slots and handle broadly correspond. Four hidden cranks and the bread lift/support chain remain unresolved: visible raised slices do not prove mechanical support. No physically validated motion or load test. INCOMPLETE; pending user confirmation; cumulative step pixels not reviewed."
+}

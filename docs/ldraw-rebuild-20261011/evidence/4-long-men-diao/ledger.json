@@ -26,7 +26,7 @@
     12,
     13
   ],
-  "modelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+  "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
   "status": "incomplete-dev-draft",
   "verificationLevel": "structurally checked only",
   "userConfirmed": false,
@@ -292,13 +292,14 @@
     "matrixInvalid": [],
     "rawCollision": "pass; Toolo manual collision policy means not complete rigid-intersection proof",
     "closure": "pending parent serial pack",
-    "pixels": "pending parent serial final+step render"
+    "pixels": "Current19fc8cda final3 actually reviewed; sourcep7 plate direction supported, lower8LDU support remains provisional. No cumulative steps acceptance."
   },
   "limitations": [
     "Upper/lower Toolo loop mounting depth andapproximate fork geometry need final pixel andphysical fit review.",
     "p12 is an attachment instruction; p13 finaloverview has no new parts. Source p10/p11 preserved as explicit omitted stages.",
     "14 alternating2x4 layers per tower; 28 red+28 yellow bricks total. Bare rims per source, no tires.",
-    "p7 connection PROVISIONAL: 40666 long axis X gives Z[-40,40]; two28336 bases centeredZ+/-72 give only8LDUedge overlap with plate. Normal two-row connection unproven. Red3437Y-836 vertical correction alone does not close this interface. Main owns model/hash/render updates."
+    "p7 connection PROVISIONAL: 40666 long axis X gives Z[-40,40]; two28336 bases centeredZ+/-72 give only8LDUedge overlap with plate. Normal two-row connection unproven. Red3437Y-836 vertical correction alone does not close this interface. Main owns model/hash/render updates.",
+    "Afterp7 plateaxisZ correction, topplate-to-fork footprint overlap is48LDU, not8; lowerred3437-to-fork overlap remains8LDU. Studcentres still do not register. Seeassembly-candidates.json; nojointclosure/physicalsupport accepted."
   ],
   "landmarks": {
     "towerCentersX": [
@@ -335,6 +336,39 @@
       "sourcePage": 7,
       "change": "Y-884 to-836, invertedmatrix unchanged",
       "boundary": "Verticalstack correction only; plate/fork8LDUedgeoverlap remains provisional. No physicaloruseracceptance."
+    },
+    {
+      "at": "2026-10-11T06:23:39.827Z",
+      "sourcePages": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "part": "40666.dat",
+      "change": "Onlyp7 invertedplate rotated90degrees aboutworldY: localX nowworldZ, so80x160 footprint acrossbeam. No position/scale/partcount changes.",
+      "reason": "Sourcep7 plate longedge follows transversebeamwidth, with twoinverted2x2 fork bases below. p8/p9 hangers remain on beamfront/back.",
+      "remaining": "Forkbases Z+/-72 do not register to40LDUstudgrid. Plateoverlapnow48LDU each but lowerred3437 remains8LDUedgeoverlap. Sourcealignedforkcentres+/-40 cause suppliedapproximatearm geometry to crossbeamwall."
     }
-  ]
+  ],
+  "previousFinalPixelReview": {
+    "sourceSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+    "revision": "406cf4ff119b1e44dab1f69b833b1ff9d59dcbc41443fd86dffb9a95dbaa4b17",
+    "reviewRecord": "current-pixel-review.json",
+    "finalThreeViewsActuallyReviewed": true,
+    "cumulativeStepsActuallyReviewed": false,
+    "observations": "Red inverted3437 is below gray fork bases after main Y=-836 correction; top view confirms plate-X versus fork-Z geometry. Only8LDUedgeoverlap,normalstudcapture andloadsupport not established. No crop. Cord/pulley/longhook absent.",
+    "accepted": false,
+    "physicalValidation": false
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+    "reviewRecord": "current-pixel-review.json",
+    "finalThreeViewsActuallyReviewed": true,
+    "cumulativeStepsActuallyReviewed": false,
+    "observations": "Actually viewed source p7 and all three full PNGs for 19fc8cda. Frame, wheels and top assembly are not cropped. Top view confirms inverted 40666 long axis across beam Z, consistent with p7. Inverted red3437 remains beneath fork bases. Upper plate overlap48LDU and lower redbrick edge overlap8LDU come from coordinate analysis; pixels do not certify stud registration or load support. Two iso views look nearly symmetric and do not resolve hidden mating surfaces. Fork/arm fit remains provisional; candidate stud-aligned bases would collide with supplied approximate arms. Missing cord/pulley/longhook and existing source limitations remain. No cumulative step or physical acceptance.",
+    "accepted": false,
+    "physicalValidation": false
+  }
 }

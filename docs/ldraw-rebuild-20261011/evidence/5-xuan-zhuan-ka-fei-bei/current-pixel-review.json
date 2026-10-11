@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+  "revision": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+  "reviewedAt": "2026-10-11T06:25:15.035750+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-ka-fei-bei",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "18a56f2a463c54b9230a53960118d3785eb1d40ab4584962d34114f629b12a55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "aae2fefd2fa49d54255c6d8cc2ceea3cbadd3bf5413e7dd1b2b9984fb55f12ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "6865f82464beca553b99ad0ce20c0cac317db8d168f81099334130eed3cdcdea",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current full-frame final3 plus original iso inspected against source contactpages1-10 and enlargedp7. Base banks, cross support, four outer shafts, spacers and5gear tables correspond; no new visible unsupported or intersecting structure found. Ten source figures omitted pending exact body/print IDs. Crank phase is an inferred static pose; gear tooth phase, axle retention, clearance under motion and physical operation unverified. Steps not reviewed in this run."
+}

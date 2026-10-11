@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+  "revision": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+  "reviewedAt": "2026-10-11T06:36:17.631724+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-chou-you-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "d4d90890ef6298fa97b7dc1a174ac606e15052f2ff7410e4edcd7eb1fd9aa0b4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "764d57da0db082a3c77d6c4899d96d297fa0327e804e04d71bde10bd79991f76",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "da1398cbf14c3698cb0dd889a14bf47d6de33ecbf21e4b17687bd75af4a9017f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso, iso-rear and top separately; re-opened source p11,p13. Entire A-frame, rocker, flywheel, well and hook framed. Four support beams retain intended direction after proper-rotation correction. Visible pivot layout broadly corresponds, but source cord is omitted: the hook has no modeled suspension and is not mechanically supported. Flywheel eccentric-to-link capture and hidden transmission still unresolved. Render cannot certify drive operation, load or clearance. No new placement correction justified by these images; no checker exemption. INCOMPLETE/pending user confirmation; cumulative steps not reviewed."
+}

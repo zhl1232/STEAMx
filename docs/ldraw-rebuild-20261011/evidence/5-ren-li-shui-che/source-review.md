@@ -19,3 +19,7 @@
 
 ## 最新三视图像素复核
 已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。
+
+## D final review after proper-rotation correction
+Viewed original iso, iso-rear and top for source38eb303f/revision28a660b4 and compared source p12. Whole model framed; no visible reverse-facing or inside-out beam artifacts. Beam endpoints and paddle layout retained after the determinant correction. Hidden crank capture and synchronized drive still unresolved; static inferred pose does not prove mechanism operation. current-pixel-review.json records exact images with accepted=false and physicalValidation=false. Source unchanged; cumulative-step pixel review pending.
+

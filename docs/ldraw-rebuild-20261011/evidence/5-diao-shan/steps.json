@@ -1137,7 +1137,7 @@
   },
   {
     "page": 7,
-    "description": "long blue official31623 pinion shaft passes three brace layers; two crossed formed61898b sheets; yellow carriers unidentified",
+    "description": "Official31623 through brace sandwich, crossed61898bc01 sheets with opposed6526 carriers; offsetpin pitch80 verified from DAT",
     "placements": [
       {
         "id": "31623.dat",
@@ -1166,7 +1166,7 @@
         "color": 27,
         "position": [
           -80,
-          -344,
+          -332,
           0
         ],
         "matrix": [
@@ -1188,7 +1188,7 @@
         "color": 27,
         "position": [
           -80,
-          -342,
+          -330,
           0
         ],
         "matrix": [
@@ -1204,6 +1204,50 @@
         ],
         "support": "crossed second sheet; 2LDU separation avoids coincident surfaces; original carrier stack thickness unverified",
         "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6526.dat",
+        "color": 14,
+        "position": [
+          -80,
+          -352,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "main axlehole on31623 vertical axis; integral pin at offset80 through own sheet squarehole; opposed carrier; real retention unverified",
+        "confidence": "known exact part, geometry-constrained source pose"
+      },
+      {
+        "id": "6526.dat",
+        "color": 14,
+        "position": [
+          -80,
+          -309,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "main axlehole on31623 vertical axis; integral pin at offset80 through own sheet squarehole; opposed carrier; real retention unverified",
+        "confidence": "known exact part, geometry-constrained source pose"
       }
     ]
   },

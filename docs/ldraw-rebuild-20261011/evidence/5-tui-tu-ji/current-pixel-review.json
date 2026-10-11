@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
+  "revision": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
+  "reviewedAt": "2026-10-11T06:54:51.172511+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tui-tu-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "bb33cca211c379bdc4c85a1c3c7553a07c253ed2a073cd436a8f1b25ef52bba9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "45ba22ee6e2d422ea27944a71dbbf0ec5d77fb005ffffa68b44fd1cba8e62382",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "16cd9146c814fbe7b249fc41d361f87f20d3f25c987f648e9d2842ee82dbc69b",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all three original D final images for source6fd6573259a2/revision9ddc346d, comparing previously inspected source p7,p8,p9. Corrected2301b scoop now opens forward with lower studded lip; previous inverted curve/below-ground backing error visibly resolved. Full model and source loose props framed. Small yellow geometry is visible through/at the green concave face: backing studs/connector intrusion remains a close-profile concern, not cleared by these views. Liftarm/short-crank capture, four tyre/hub checker groups and dynamic clearance remain unresolved. Cabin/canopy/windows omitted and roof unsupported. INCOMPLETE; no physical/user acceptance; cumulative steps not reviewed. No further source changes in this checkpoint pass."
+}

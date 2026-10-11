@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "revision": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+  "reviewedAt": "2026-10-11T06:49:00.345174+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yi-dong-guang-gao-pai",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "f04ee4e05ed68dd4798788b7980b46db77cf548d2c82f04311dd9c7b59d258bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "01887ed71664f97b82af6b56204b2c2239e2967b9c4beb66f516d35f5de7ddc2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e8f1a9ced195f3957891cd020fb6998ad89ecb03681ef33d654af799e5c45a92",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "D full-frame final3 compared against all12 source pages. Giraffe/zebra upright front orientation and blank reverse verified; frame and blue/yellow perimeter correspond. Two central6527 flanges diameter82 inside80LDU printed-column gap retain potential1LDU interference each side. Gear engagement under load unverified; no physical or cumulative-step acceptance."
+}

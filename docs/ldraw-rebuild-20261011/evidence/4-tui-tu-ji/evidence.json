@@ -27,5 +27,5 @@
   "metadataUsedHash": "6daf42baa444910cad96c9eaaa1b39bce0ef59c13ab20a60579692c67cbb8047",
   "accepted": false,
   "status": "incomplete-needs-geometry-source-step-acceptance",
-  "render": "awaiting parent serial queue"
+  "render": "current source final3 pixels actually reviewed; cumulative steps pending"
 }

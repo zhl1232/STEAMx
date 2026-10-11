@@ -7,3 +7,7 @@ INCOMPLETE：页4橙色汽车座/前格栅底座未核编号，6344仅候选；�
 关节：两红长梁顶孔在X280，竖灰轴贯穿；三个黄色轮为上下/中隔套。轴长240，顶/中/下套中心Y-277/-185/-93。实际内侧浮动间隙需渲染复核，未实物验证。每页新增件写在LDR源页注释中。
 
 库存9656只参考，分色数量unknown。源稿可诊断渲染，不能列为完成；pending user confirmation，无生产写入。
+
+## D final pixel review
+Actually viewed original iso, iso-rear and top for e18bd0c3/revision1c69fd23 and compared source p18. Whole tractor/trailer framed; five alternating wall courses and static tow stack broadly correspond. Cabin/canopy/white windows remain omitted; upper roof has unresolved support, not an accepted floating assembly. Tow-pin retention/articulation not physically verified. current-pixel-review.json binds exact image/source hashes. No source changes; cumulative steps pending.
+

@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+  "revision": "3081f6aca354fc12719a4f0e6d690798dd128a98c477e7af8f2b40ea6367c4ba",
+  "reviewedAt": "2026-10-11T06:36:17.536678+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-jiao-ban-qi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "385abc8b8a159e68f35f19fd19af08d5a9372f8f97a2390e236c48ddf8fbacdb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2a782aa6c04b9ff827d3f693d3cd4c769459b94bb5b5116c27932a068005a100",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b5aa3758bc3c24b936a206512057cc3be66bb7b2b590e6a4ee652465fcae3538",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso, iso-rear and top separately; re-opened source p6 and p11. Full base, pillar, raised35deg head, crank and mixer blades are framed. Visible axle/beam supports and raised-head configuration broadly correspond to source final pose; blades are shown above bucket, not a lowered functional mixing pose. Existing nominal gear engagement, axial retention and dynamic blade/bucket clearance are not physically validated; prior mechanical manual-policy limitations remain. No new source-supported placement correction identified; no collision exemptions added. Pending user confirmation; cumulative steps not reviewed in this D revision."
+}

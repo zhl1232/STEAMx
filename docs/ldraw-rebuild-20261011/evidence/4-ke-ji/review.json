@@ -34,7 +34,16 @@
     "28336",
     "31196c01"
   ],
-  "render": "iso and iso-rear pixels inspected against source; cockpit and tower known geometry match broad source structure; blue wing/tail remain missing",
+  "render": {
+    "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "D full-frame final3 inspected against all12 source-page contact. Plane chassis, gray wing supports, cockpit and tower correspond. Confirmed blue45117c01/31239c01 geometry remains absent, so tail silhouette incomplete. Cockpit/canopy thin proxy overlap unresolved; approved simplified Toolo parts retained. No cumulative-step or physical acceptance."
+  },
   "collision": "1 cockpit/canopy proxy overlap, same approved relative seating as 3-jiu-hu-che; metadata records 0.05 LDU proxy contact, no physical fit claim",
   "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",
   "matrixCheck": {

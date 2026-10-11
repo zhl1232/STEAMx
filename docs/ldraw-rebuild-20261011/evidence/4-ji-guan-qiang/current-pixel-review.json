@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+  "revision": "d63cf52b29b29ed79f84cbfd24e94c690aaf73a4fa2474c45c5b8317d77d33ce",
+  "reviewedAt": "2026-10-11T06:39:19.507526+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ji-guan-qiang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e79c8731561d5e995f892e60be5cdf86b40e55030b094c851a7ec864c375c612",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "03001a5847617d2637442b940ad671074d9cd0aa30474e26140f6e603d3d7c53",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "20c9aaf39b2785a214a56a4e0d30b62b10daba19c54a374eadd006aff2d89911",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed complete D final3 sheet and original iso against source page13. Current38a00ef6 matches LDR. Stepped pedestal, paired handle chains, decorative brick barrel and real14094 red tipper visible; no blank/cropped views or clear reversed assembly found. Black2223 holder remains absent. Handle molded geometry is approximate, tipper hinge engagement and temporary barrel/base assembly support remain unverified. Only visual LEGO model; no functional weapon mechanism. Final3 reviewed only, cumulative12 stages not reviewed; accepted false."
+}

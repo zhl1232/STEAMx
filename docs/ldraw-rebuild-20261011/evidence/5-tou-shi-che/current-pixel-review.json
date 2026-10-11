@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+  "revision": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
+  "reviewedAt": "2026-10-11T06:36:38.077262+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tou-shi-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e3f1e9966cda6259101a8205a41d8688440baf18122dc079caa260b572489123",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "28bb77700bcc4f46485f297f0c5cd43d5234c288e2f32314d87f58a6562ceb4b",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed all three current original D PNGs for74298d1a and source pages6,7,12. Four support legs now match the visible page6 structure; upper paired long levers match page7 presence despite omission from its material inset. Source12 basket/payload remains visibly absent:17 known-ID pieces have unresolved connections, so incomplete and not accepted. Lever pose and bearing depth remain inferred;12 raw AABB pairs are not physical validation. Verified9656-1 inventory has6525 quantity4 versus6 required, so2 extra beyond one standard set; actual user holdings unknown. No cumulative steps reviewed for this revision."
+}

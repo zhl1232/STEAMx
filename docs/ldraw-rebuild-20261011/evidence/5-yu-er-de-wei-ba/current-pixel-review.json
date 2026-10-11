@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
+  "revision": "8208c3f80ff49471058c7bd5abd148e083e6ebd2af65e4cbfe2212a31cedadba",
+  "reviewedAt": "2026-10-11T06:26:44.113461+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-er-de-wei-ba",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "f5516dbde556423b89e620cb889ab44650f7d0e665f383ef887402a20a688551",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "0f4dc8a7a567fa57a779710de61912a162ef0032218bebfbff85abdb5b77f647",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "94bbfea32dde34ce4d77fd0c64bf23dc559fa1134de56907ecabefd449a25600",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all three original D images separately for source24e7354c/revision8208c3f8. Both fin cranks now angle toward the tail, resolving the earlier vertical-pose mismatch against source p4/p10. Whole pool and tail remain in frame. The lower fin ends are close to blue water studs; these whole-model pixels do not resolve a positive local clearance and cannot exclude small fin/plate penetration. Keep fin-water clearance unresolved; no mechanical collision exemption or physical acceptance inferred. Tail retention and tyre/hub cavity fit remain unvalidated. Cumulative steps not reviewed; INCOMPLETE/pending user confirmation."
+}

@@ -82,13 +82,13 @@
 0 // Source page 2: four red bearing bricks, two green axles, four pulleys and two cranks
 1 4 -600 -480 0 0 0 1 0 1 0 -1 0 0 75349.dat
 1 4 -600 -528 0 0 0 1 0 1 0 -1 0 0 75349.dat
-1 2 -560 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 2 -540 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
 1 14 -500 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
 1 14 -540 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
-1 14 -720 -504 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 14 -720 -504 0 -1.2246467991473532e-16 -1 0 0 0 -1 1 -1.2246467991473532e-16 0 6526.dat
 1 4 600 -480 0 0 0 1 0 1 0 -1 0 0 75349.dat
 1 4 600 -528 0 0 0 1 0 1 0 -1 0 0 75349.dat
-1 2 560 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 2 540 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
 1 14 500 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
 1 14 540 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
 1 14 720 -504 0 0 1 0 0 0 -1 -1 0 0 6526.dat
@@ -116,7 +116,10 @@
 0 // Source page 4: one internal yellow crank
 1 14 400 -504 0 0 1 0 -0.573576 0 -0.819152 -0.819152 0 0.573576 6526.dat
 0 STEP
-0 // Source page 5: two red gears and geared axle: omitted until axes are resolved
+0 // Source page 5: sourcep5 two red24tooth gears and one short blue5L geared axle on left side
+1 4 -380 -504 0 0 0 1 0.819152 0.573576 0 -0.573576 0.819152 0 6529.dat
+1 4 -380 -602.298245 68.829172 0 0 1 0.819152 0.573576 0 -0.573576 0.819152 0 6529.dat
+1 1 -440 -602.298245 68.829172 -1 0 0 0 0.573576 0.819152 0 0.819152 -0.573576 6523.dat
 0 STEP
 0 // Source page 6: red and blue gears plus two geared axles: omitted until axes are resolved
 0 STEP
@@ -130,4 +133,7 @@
 0 // PENDING: Central bar is shown in source position but not yet supported because drive linkage unresolved; intentionally incomplete preview.
 0 // PENDING: Sourcepage5-8 mechanical gear/shaft assembly not accepted; parts/axis evidence must be resolved before adding.
 0 // PENDING: All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown.
+0 // PENDING: Final full-frame review confirms floating central bar. Known omitted gears/short geared shafts reclassified from unknown IDs; adding them requires a defensible connection pose.
+0 // PENDING: Sourcep5 red gear pair restored using left-frame X-axis holes120LDU apart. Main8L green axles moved20LDU inward to capture inner gear/right inner crank; left outercrank mirrored to its shaft endpoint. Gear phase and dynamic fit unverified.
+0 // PENDING: Sourcep6 red/crown gears and two short geared shafts remain UNASSEMBLED evidence only; they do not support the floating centerbar.
 0 // Source page 9: finished view, no duplicated placements.

@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+  "revision": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+  "reviewedAt": "2026-10-11T06:47:32.513861+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tuo-gua-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "09ea4acc0f4edad7f41d6bca05edd7e7613515f3966703e237434f5023c070a6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "751643e4be835b9f8f378e5b911ff2bb71acdb3cc9b1299cc6aa3587ca8e1ca7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "96948a6900cfb9c1f1c121f3b820e535e41101f0dd0a64fffdd344e7fc884b69",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso, iso-rear and top separately, compared source p18. Both wheelbases, five alternating trailer wall courses and vertical tow pin/pulleys framed. Source cabin, canopy and opening white windows are explicitly omitted, leaving a visibly incomplete tractor and floating upper roof portions. Tow joint appears aligned in static pose but axial retention and full articulation not physically validated. No new source-proven placement correction; no collision exemptions. INCOMPLETE/pending user confirmation; cumulative steps not reviewed."
+}

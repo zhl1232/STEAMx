@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+  "revision": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
+  "reviewedAt": "2026-10-11T06:48:57.327674+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ke-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "eb5c1a47af1e49c5359e3605f3fd8857083574cf8c57fef9eb53efe542de0b31",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "779b3a2f4520414c38c611db8b5144bfab2e4626dea7312c49d914de5840ad6b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "9295afbc132ddf1eb3656493dd160e40a13ee4e4e4b41b0f189a96efef41280e",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "D full-frame final3 inspected against all12 source-page contact. Plane chassis, gray wing supports, cockpit and tower correspond. Confirmed blue45117c01/31239c01 geometry remains absent, so tail silhouette incomplete. Cockpit/canopy thin proxy overlap unresolved; approved simplified Toolo parts retained. No cumulative-step or physical acceptance."
+}

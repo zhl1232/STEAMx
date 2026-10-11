@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+  "revision": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
+  "reviewedAt": "2026-10-11T06:21:17.089357+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-jun-jian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3b98a1b01cf6e86bc2104736b0cbf80ba092e958f3300eb7e410396a5ae3c779",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "49c3e3bd9d54d203f229c7605f727b42e9eaf59384d71d0759add62b87e31f44",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b4105d9ed7bf21acea2514074b271339fbba851756b96f1dd0dbb2d2c2ed7a70",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current D final3 contact sheet and full iso PNG inspected against source p20 and rim detail p11. SHAe37fb1dd matches local LDR. Cabin tiers, fore/aft orientation, four upper rims, flag and forward paired long arms correspond broadly; no clear reversed structural assembly identified. Complete framing/no blank view. Yellow mixer rear assembly absent as documented. Local Toolo/rim appearance and exact figure print differ from source; layered hull seams, temporary overhang support and flag/pole checker overlap remain unresolved. Only final3 reviewed, cumulative19 stages and physical fitting not certified; accepted false."
+}

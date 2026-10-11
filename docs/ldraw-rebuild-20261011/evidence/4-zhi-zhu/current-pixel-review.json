@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+  "revision": "38ee77e98f2346bfbb94a0c6ce1704948bde7c18cec671b35cf8f177aabb5ba1",
+  "reviewedAt": "2026-10-11T06:43:21.670290+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zhi-zhu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e7689c659c5b68f4a576ec363fd9543a8df5221c468fbe2cbe406f0e0fd0dd55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "6bd60c8ec02414d2734bc634dd5454db8ebd18d96fe4e4b05162f3c21a938f8c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a3e89e21684bdbdd1a913a0e68164f85df0bb1e28bc89dad733816593333c85f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All3 complete independent PNGs actually inspected against sourcep4/6/7/8/9. Eight short-arm legs, paired eye rims/mandibles and4orange+4yellow curved cover bricks match broad layout; no new macro pose correction indicated. Rear yellow drum58629family and cradle95219c01candidate remain OMITTED; exact assembly variant/usable geometry not resolved,42235 excluded. Dev28334 legs are known-ID approximate240LDU geometry,45degree pose inferred; clasp/screw fit, ground contact and stability not physically validated. Missing drum/base means INCOMPLETE. All cumulative steps still pending."
+}

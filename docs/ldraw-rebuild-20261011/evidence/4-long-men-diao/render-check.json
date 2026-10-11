@@ -2,8 +2,8 @@
   "partCount": 37,
   "missingParts": [],
   "stepCount": 12,
-  "revision": "406cf4ff119b1e44dab1f69b833b1ff9d59dcbc41443fd86dffb9a95dbaa4b17",
-  "sourceSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+  "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+  "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "staticSingleRender": true,
@@ -36,5 +36,5 @@
     "width": 1000,
     "height": 720
   },
-  "elapsedMs": 17186
+  "elapsedMs": 16377
 }

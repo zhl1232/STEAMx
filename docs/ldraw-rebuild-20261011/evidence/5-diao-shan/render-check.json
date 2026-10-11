@@ -2,23 +2,21 @@
   "partCount": 130,
   "missingParts": [],
   "stepCount": 10,
-  "revision": "3ea8ab171325fc20ceb665af44787230d4a8fe5f3bc69d513c2e54a5806db038",
-  "sourceSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+  "revision": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
+  "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "staticSingleRender": true,
+  "outputRoot": "D:/Codex-task-2-20261011/rendered-evidence",
   "renderedViews": [
     "iso",
     "iso-rear",
-    "top",
-    "step-1",
-    "step-2",
-    "step-3",
-    "step-4",
-    "step-5",
-    "step-6",
-    "step-7",
-    "step-8",
-    "step-9",
-    "step-10"
+    "top"
+  ],
+  "latestRunViews": [
+    "iso",
+    "iso-rear",
+    "top"
   ],
   "logs": [
     {
@@ -32,46 +30,11 @@
     {
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
-    },
-    {
-      "type": "log",
-      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
     }
-  ]
+  ],
+  "viewport": {
+    "width": 1000,
+    "height": 720
+  },
+  "elapsedMs": 25375
 }

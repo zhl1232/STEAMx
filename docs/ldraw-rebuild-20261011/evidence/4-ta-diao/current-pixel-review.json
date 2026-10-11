@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+  "revision": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
+  "reviewedAt": "2026-10-11T06:42:31.546171+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ta-diao",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "8716cca5119e26b9f8454af69a29a0a0ed432c16e145fac42a80a5842051b3f8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "3dcb663577b1edca2c887b63bf7d561f89fd4560dd381f611c2148590e3b4963",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d1efd4f422588362d4a67d14f68e5d4f9fa8626c0e2926da30cedd423d53daf2",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current D final3 sheet and original iso-rear against source p19. Current99cebf48 matches source manifest; complete frame and no blank views. Layered tower, fences, hanging rear counterweight, cab, forward linkage and rear support arm broadly match source direction; no clear reversed assembly seen. Separate missing components remain6295 fake-pulley/hook arm at suspended lower end (p11) and2223 black U-holder at top (p18). Known approximate Toolo shapes, inferred60LDU clutch pivot, non-grid rear hinge and cockpit/canopy checker overlap remain unresolved; rendered closed-loop appearance is not mechanical fit/stability proof. Final3 only, cumulative18 stages not reviewed, accepted false."
+}

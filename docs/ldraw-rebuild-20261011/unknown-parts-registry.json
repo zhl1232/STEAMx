@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T06:15:35.234Z",
+  "generatedAt": "2026-10-11T06:48:22.044Z",
   "scope": "Changed/new LDRs plus exactly deferred11; unbuilt courses are not unknown-part records",
   "acceptance": false,
   "method": "Reuse current course JSON ledgers/reviews + current LDR unresolved comments and actual approximation placements. Group confirmed aliases using prior research. Generic interfaces kept separate from missing part IDs.",
@@ -217,7 +217,7 @@
     {
       "slug": "4-long-men-diao",
       "scope": "reconstructed-or-in-progress",
-      "modelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+      "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
       "reportSources": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-long-men-diao/ledger.json"
       ],
@@ -724,7 +724,7 @@
     {
       "slug": "5-diao-shan",
       "scope": "reconstructed-or-in-progress",
-      "modelSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+      "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
       "reportSources": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-shan/review.json"
       ],
@@ -886,12 +886,13 @@
     {
       "slug": "5-tou-shi-che",
       "scope": "reconstructed-or-in-progress",
-      "modelSha256": "44dd3717204dc4b61731369b93bcb3cbbf688953a59386907998f11a6526bb70",
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
       "reportSources": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-shi-che/REVIEW.md"
       ],
       "rawObservations": 13,
-      "approximatePartIds": []
+      "approximatePartIds": [],
+      "placedCount": 48
     },
     {
       "slug": "5-tui-tu-ji",
@@ -916,12 +917,13 @@
     {
       "slug": "5-wo-lun-diao-qiao",
       "scope": "reconstructed-or-in-progress",
-      "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+      "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
       "reportSources": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-wo-lun-diao-qiao/ledger.json"
       ],
       "rawObservations": 10,
-      "approximatePartIds": []
+      "approximatePartIds": [],
+      "placedCount": 176
     },
     {
       "slug": "5-xiao-niao-de-chi-bang",
@@ -1006,12 +1008,13 @@
     {
       "slug": "5-yu-hang-yuan-xun-lian-ji",
       "scope": "reconstructed-or-in-progress",
-      "modelSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
       "reportSources": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yu-hang-yuan-xun-lian-ji/ledger.json"
       ],
       "rawObservations": 12,
-      "approximatePartIds": []
+      "approximatePartIds": [],
+      "placedCount": 109
     },
     {
       "slug": "5-zhuan-wan-xiao-che",
@@ -19295,13 +19298,16 @@
   "gantryConnectionBoundary": {
     "slug": "4-long-men-diao",
     "sourcePage": 7,
-    "category": "interface_provisional_not_unknown_id",
+    "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "category": "interface_provisional_not_unknown_ID",
     "parts": [
       "40666",
       "28336",
-      "3437"
+      "3437",
+      "dev-129/28334"
     ],
-    "gap": "40666 longaxis X gives Z[-40,40]; fork bases centeredZ+/-72 spanZ[32,112] and[-112,-32], only8LDUedge overlap. Normal two-row2x4connection not established.3437 proposedY-836 fixes vertical stack only; no closure claim. Main owns model/hash/render updates."
+    "gap": "Source-backedplate longaxisZ corrected. Topplate overlapnow48LDU perbase; lowerred3437 remains8LDUedgeoverlap andstudregistration absent. IdealbaseZ+/-40 alignsgridbutcurrentapproximatearmintersectsbeamwall12LDU. Do not claimclosure.",
+    "candidateEvidence": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-long-men-diao\\assembly-candidates.json"
   },
   "partIssues": [
     {
@@ -20866,8 +20872,8 @@
       "sourcesTried": [
         "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
       ],
-      "geometryLicense": null,
-      "approximationBoundary": "No new geometry invented",
+      "geometryLicense": "Existing71981 localapprovedapproximation isavailable underCC BY4.0; sourceidentity andcurrentbeltfit remainunverified",
+      "approximationBoundary": "Existing2026-09-12approvedfixeddisplayloop only; noarticulation/tension/sprocketengagement proven. Four sourcebelts omitted untilidentity/fit resolved.",
       "occurrences": [
         {
           "slug": "4-tui-tu-ji",
@@ -20884,7 +20890,15 @@
       "affectedCourses": [
         "4-tui-tu-ji"
       ],
-      "issueCountUnit": "part identity/family; not physical piece count"
+      "issueCountUnit": "part identity/family; not physical piece count",
+      "geometryAvailability": {
+        "id": "71981.dat",
+        "file": "scripts/ldraw-models/parts/71981.dat",
+        "sha256": "cb78c4b136ba8dea895ef3bc2f951681ca1247fdf838427af2eaf5eea4c6829d",
+        "author": "0 Author: STEAMX local reconstruction",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "localAvailable": true
+      }
     },
     {
       "key": "candidate:double-curved-brick",
@@ -21111,50 +21125,20 @@
             "scripts/ldraw-models/5-zhuan-wan-xiao-che.ldr"
           ],
           "missingEvidence": "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+        },
+        {
+          "slug": "4-jun-jian",
+          "sourcePage": 19,
+          "location": "twodecomposed officialfigures alreadyrepresented, exacttorso/armprintvariants notsource-certified",
+          "quantity": 2,
+          "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-jun-jian\\ledger.md",
+          "missingEvidence": "Existingofficial componentgeometry isnot evidence ofexactsource decoration. Not an omittedfigureclaim."
         }
       ],
       "affectedCourses": [
         "5-xuan-zhuan-ka-fei-bei",
-        "5-zhuan-wan-xiao-che"
-      ],
-      "issueCountUnit": "part identity/family; not physical piece count"
-    },
-    {
-      "key": "candidate:liftbridge-input-shafts",
-      "category": "candidate_identity_unresolved",
-      "name": "Liftbridge gearbox input shafts",
-      "confirmedId": null,
-      "candidates": [
-        "6522",
-        "6523",
-        "31623"
-      ],
-      "missingEvidence": [
-        "BOM silhouette/colour alone cannot distinguish plain shaft andgeared axle length."
-      ],
-      "sourcesTried": [
-        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-      ],
-      "geometryLicense": null,
-      "approximationBoundary": "No new geometry invented",
-      "occurrences": [
-        {
-          "slug": "5-wo-lun-diao-qiao",
-          "sourcePage": [
-            6,
-            7
-          ],
-          "location": "gearboxinput shafts",
-          "quantity": 2,
-          "source": [
-            "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-wo-lun-diao-qiao/ledger.json",
-            "scripts/ldraw-models/5-wo-lun-diao-qiao.ldr"
-          ],
-          "missingEvidence": "BOM silhouette/colour alone cannot distinguish plain shaft andgeared axle length."
-        }
-      ],
-      "affectedCourses": [
-        "5-wo-lun-diao-qiao"
+        "5-zhuan-wan-xiao-che",
+        "4-jun-jian"
       ],
       "issueCountUnit": "part identity/family; not physical piece count"
     },
@@ -21191,47 +21175,6 @@
       ],
       "affectedCourses": [
         "5-wo-lun-diao-qiao"
-      ],
-      "issueCountUnit": "part identity/family; not physical piece count"
-    },
-    {
-      "key": "candidate:training-gears-shafts",
-      "category": "candidate_identity_unresolved",
-      "name": "Training rig gears andgeared shafts",
-      "confirmedId": null,
-      "candidates": [
-        "6529",
-        "6530",
-        "31622",
-        "6523",
-        "31623"
-      ],
-      "missingEvidence": [
-        "Crown versus spur gear andsource shaft lengths unresolved; no arbitrary substitute."
-      ],
-      "sourcesTried": [
-        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-      ],
-      "geometryLicense": null,
-      "approximationBoundary": "No new geometry invented",
-      "occurrences": [
-        {
-          "slug": "5-yu-hang-yuan-xun-lian-ji",
-          "sourcePage": [
-            5,
-            6
-          ],
-          "location": "fourgears plus threegeared shafts",
-          "quantity": 7,
-          "source": [
-            "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yu-hang-yuan-xun-lian-ji/ledger.json",
-            "scripts/ldraw-models/5-yu-hang-yuan-xun-lian-ji.ldr"
-          ],
-          "missingEvidence": "Crown versus spur gear andsource shaft lengths unresolved; no arbitrary substitute."
-        }
-      ],
-      "affectedCourses": [
-        "5-yu-hang-yuan-xun-lian-ji"
       ],
       "issueCountUnit": "part identity/family; not physical piece count"
     },
@@ -21411,6 +21354,38 @@
         }
       ],
       "issueCountUnit": "One unidentifiedfamily, not a confirmedID"
+    },
+    {
+      "key": "unknown:warship-mixer-assembly",
+      "category": "unidentified_source_shape",
+      "name": "Yellow mixer/drum assembly on rear turret",
+      "confirmedId": null,
+      "candidates": [],
+      "relatedResearchOnly": [
+        "58629 drum family and95219c01 cradle researched forspider; identity not transferred tothis source"
+      ],
+      "missingEvidence": [
+        "Sourcep16 exactpart orassembly IDs andlicensed source-matchinggeometry notconfirmed; omitted"
+      ],
+      "sourcesTried": [
+        "4-jun-jian/evidence.json andledger.md latestauthorreview; no newnetwork orpixelidentityclaim inregistryupdate"
+      ],
+      "geometryLicense": null,
+      "approximationBoundary": "Omitted, no inventedplaceholder",
+      "affectedCourses": [
+        "4-jun-jian"
+      ],
+      "occurrences": [
+        {
+          "slug": "4-jun-jian",
+          "sourcePage": 16,
+          "location": "rear turret yellowmixer/drum assembly",
+          "quantity": 1,
+          "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-jun-jian\\evidence.json",
+          "missingEvidence": "Identity andgeometry unresolved"
+        }
+      ],
+      "issueCountUnit": "Oneunidentifiedassemblyfamily, not a verifiedcatalogID"
     }
   ],
   "knownPartConnectionOmissions": [
@@ -21464,24 +21439,17 @@
       "source": [
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-shi-che/REVIEW.md",
         "scripts/ldraw-models/5-tou-shi-che.ldr"
-      ]
-    },
-    {
-      "slug": "5-diao-shan",
-      "category": "known_parts_omitted_connection_unresolved",
-      "totalPieces": 2,
-      "items": [
-        {
-          "page": 7,
-          "id": "6526",
-          "quantity": 2
-        }
       ],
-      "gap": "Identityconfirmed; opposed bladeclamp stacking/retention not established.",
-      "source": [
-        "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-shan/review.json",
-        "scripts/ldraw-models/5-diao-shan.ldr"
-      ]
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "placedCount": 48,
+      "targetVisibleCount": 65,
+      "omittedKnownBOM": {
+        "6527.dat": 6,
+        "6522.dat": 2,
+        "6526.dat": 8,
+        "3437.dat": 1
+      },
+      "currentEvidence": "preparation/5-tou-shi-che/current-bom-evidence.json"
     },
     {
       "slug": "5-ma-tou-diao-ji",
@@ -21504,6 +21472,31 @@
         "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
         "scripts/ldraw-models/5-ma-tou-diao-ji.ldr"
       ]
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "category": "known_parts_omitted_connection_unresolved",
+      "totalPieces": 4,
+      "items": [
+        {
+          "page": 6,
+          "id": "6529.dat",
+          "quantity": 1
+        },
+        {
+          "page": 6,
+          "id": "31622.dat",
+          "quantity": 1
+        },
+        {
+          "page": 6,
+          "id": "6523.dat",
+          "quantity": 2
+        }
+      ],
+      "gap": "Gear axial side, crown direction, top beam bore selection and geared-end orientation unresolved. Central bar remains floating; p7/p8 drive linkage also not accepted. Count of 4 covers p6 only, not a certified full-course target.",
+      "source": "preparation/5-yu-hang-yuan-xun-lian-ji/unassembled-p6-evidence.json",
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43"
     }
   ],
   "resolvedGeometry": [
@@ -27972,15 +27965,15 @@
   "summary": {
     "reconstructedOrInProgressCourses": 69,
     "deferredCourses": 11,
-    "partIssueFamilies": 30,
+    "partIssueFamilies": 29,
     "byIssueCategory": {
       "confirmed_id_missing_geometry": 6,
       "candidate_id_missing_geometry": 2,
       "known_id_unverified_license": 1,
       "flexible_route_unverified": 2,
       "candidate_flexible_geometry": 1,
-      "unidentified_source_shape": 7,
-      "candidate_identity_unresolved": 9,
+      "unidentified_source_shape": 8,
+      "candidate_identity_unresolved": 7,
       "candidate_mould_or_assembly": 1,
       "unidentified_figure_components": 1
     },
@@ -28515,5 +28508,234 @@
       }
     ],
     "qaBoundary": "Independent current67.json/CURRENT67.md intentionally preserved at67course time slice. Increment69 is registry/read-only report synthesis, not new69courseQA."
-  }
+  },
+  "confirmedPartInterfaceLimits": [
+    {
+      "slug": "4-jun-jian",
+      "sourcePage": 12,
+      "parts": [
+        {
+          "id": "51725.dat",
+          "file": "scripts/ldraw-models/parts/51725.dat",
+          "sha256": "55df719f62a0a278cb993ddeffa00f51d47f594006c12d2e5212d0f312d1daab",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "localAvailable": true
+        },
+        {
+          "id": "51708.dat",
+          "file": "scripts/ldraw-models/parts/51708.dat",
+          "sha256": "87d56c60376b81bce9e3209ba48e2f29ec571aee8d928496fe40316155ec0a9b",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "localAvailable": true
+        }
+      ],
+      "category": "known_licensed_parts_interface_unresolved_not_unknown_ID",
+      "gap": "Author reports oneflagclip/pole rawchecker overlap. Intendedsourceclip interface doesnot itself proveclearance; fullmatingextent versuscertifiedpolecylinder stillrequiresgeometriccheck. Not missingDAT oridentity.",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-jun-jian\\evidence.json"
+    },
+    {
+      "slug": "5-diao-shan",
+      "sourcePage": 7,
+      "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+      "category": "known_parts_placed_static_fit_inferred_not_physical_validation",
+      "parts": [
+        {
+          "id": "6526.dat",
+          "quantity": 2,
+          "placed": true
+        }
+      ],
+      "source": "preparation/5-diao-shan/blade-carrier-evidence.json",
+      "worldFit": {
+        "rotorAxisXZ": [
+          -80,
+          0
+        ],
+        "beamBottomY": -376,
+        "upperCarrierCenterY": -352,
+        "upperCarrierTopY": -372,
+        "beamGap": 4,
+        "sheetPlanesY": [
+          -332,
+          -330
+        ],
+        "lowerCarrierCenterY": -309,
+        "lowerCarrierBottomY": -289,
+        "blueShaftEndY": -284,
+        "shaftProtrusion": 5,
+        "upperPinAtSheet": [
+          -80,
+          -332,
+          80
+        ],
+        "lowerPinAtSheet": [
+          -160,
+          -329,
+          0
+        ],
+        "sheetThicknessLdu": 1,
+        "lowerPinYSpan": [
+          -369,
+          -329
+        ],
+        "upperPinYSpan": [
+          -332,
+          -292
+        ]
+      },
+      "surfaceCheck": {
+        "method": "Recursively expanded official face polygons; clip sheets inXZ to complete central brace footprint[-200,200]x[-40,40], compare minimumY to underside-376",
+        "results": [
+          {
+            "planeY": -332,
+            "minSurfaceYInsideBraceFootprint": -351.82255339944965,
+            "braceBottomY": -376,
+            "minimumGapToBraceBottom": 24.177446600550354
+          },
+          {
+            "planeY": -330,
+            "minSurfaceYInsideBraceFootprint": -338.6595562020479,
+            "braceBottomY": -376,
+            "minimumGapToBraceBottom": 37.340443797952105
+          }
+        ],
+        "missingDependencies": []
+      },
+      "limitations": [
+        "static assembly inferred from partly occluded source view",
+        "paper-form and thin sheet spacing do not prove friction fit",
+        "no physical validation",
+        "12LDU sheet lowering is assembly deduction from carrier clearance, not a measured source dimension"
+      ]
+    }
+  ],
+  "identityResolutions": [
+    {
+      "slug": "5-wo-lun-diao-qiao",
+      "sourcePages": [
+        6,
+        7
+      ],
+      "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+      "placedCount": 176,
+      "items": [
+        {
+          "id": "6523.dat",
+          "quantity": 2,
+          "placed": true
+        }
+      ],
+      "basis": "Source p6 relative length and external 8-tooth pinion; both placements verified in current LDR. Retention, worm engagement, gear phase and motion still unverified."
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "sourcePages": [
+        5,
+        6
+      ],
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+      "placedCount": 109,
+      "placedPage5": [
+        {
+          "id": "6529.dat",
+          "quantity": 2
+        },
+        {
+          "id": "6523.dat",
+          "quantity": 1
+        }
+      ],
+      "knownUnassembledPage6": [
+        {
+          "id": "6529.dat",
+          "quantity": 1
+        },
+        {
+          "id": "31622.dat",
+          "quantity": 1
+        },
+        {
+          "id": "6523.dat",
+          "quantity": 2
+        }
+      ],
+      "basis": "Owner source evidence and current LDR; p6 IDs resolved but candidate coordinates are not placements or support proof."
+    }
+  ],
+  "stockDeficits": [
+    {
+      "slug": "5-tou-shi-che",
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "placedCount": 48,
+      "targetVisibleCount": 65,
+      "referenceSet": "9656-1",
+      "referenceScope": "One standard set; actual user holdings unknown. Direct ID comparisons only.",
+      "items": [
+        {
+          "part": "6525.dat",
+          "color": "Yellow",
+          "referenceQuantity": 4,
+          "placedQuantity": 6,
+          "targetVisibleQuantity": 6,
+          "extraForPlaced": 2,
+          "extraForTargetVisible": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": "Yellow",
+          "referenceQuantity": 6,
+          "placedQuantity": 0,
+          "targetVisibleQuantity": 8,
+          "extraForPlaced": 0,
+          "extraForTargetVisible": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": "Yellow",
+          "referenceQuantity": 15,
+          "placedQuantity": 22,
+          "targetVisibleQuantity": 28,
+          "extraForPlaced": 7,
+          "extraForTargetVisible": 13
+        }
+      ],
+      "assemblyCaveat": "6527 loose quantity is15; inventory also has2 assemblies75536 containing pulleys. No automatic substitution/disassembly counted. If both assembly pulleys are usable, target28 still requires11 extra, placed22 requires5 extra.",
+      "source": "preparation/5-tou-shi-che/current-bom-evidence.json"
+    }
+  ],
+  "latestLocalReconcile": {
+    "at": "2026-10-11T06:43:25.113Z",
+    "courses": [
+      "5-wo-lun-diao-qiao",
+      "5-yu-hang-yuan-xun-lian-ji",
+      "5-tou-shi-che"
+    ],
+    "historicalRawObservationsPreserved": true,
+    "rawGroupsAreNotCurrentUnresolvedIdentityCounts": true,
+    "independent67SnapshotUnchanged": true
+  },
+  "resolvedKnownOmissions": [
+    {
+      "slug": "5-diao-shan",
+      "category": "known_parts_omitted_connection_unresolved",
+      "totalPieces": 2,
+      "items": [
+        {
+          "page": 7,
+          "id": "6526",
+          "quantity": 2
+        }
+      ],
+      "gap": "Identityconfirmed; opposed bladeclamp stacking/retention not established.",
+      "source": [
+        "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-shan/review.json",
+        "scripts/ldraw-models/5-diao-shan.ldr"
+      ],
+      "resolvedAt": "2026-10-11T06:48:22.042Z",
+      "resolution": "Both6526 carriers now placed; previous omission preserved as history",
+      "currentModelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c"
+    }
+  ]
 }

@@ -5,7 +5,15 @@
   "revision": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
   "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "staticSingleRender": true,
+  "outputRoot": "D:/Codex-task-2-20261011/rendered-evidence",
   "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "latestRunViews": [
     "iso",
     "iso-rear",
     "top"
@@ -23,5 +31,10 @@
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
     }
-  ]
+  ],
+  "viewport": {
+    "width": 1000,
+    "height": 720
+  },
+  "elapsedMs": 12191
 }

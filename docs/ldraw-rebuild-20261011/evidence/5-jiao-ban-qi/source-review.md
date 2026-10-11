@@ -31,3 +31,7 @@ raw checker：85 placements，2 errors，只剩 p5 两组邻轮AABB交叠（L58/
 
 ## 最新三视图像素复核
 已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。
+
+## D final pixel review
+Original iso, iso-rear, top actually viewed; source p6 and p11 re-opened. Entire raised head and blades framed. Axle/beam supports broadly follow the raised source pose; blade position above the vessel is not a lowered mixing configuration. No newly demonstrated exterior position error. Gear engagement, axial retention and dynamic blade/vessel clearance remain unvalidated. current-pixel-review.json binds new full-bbox images. No source edits, no relaxed checker policy, no physical/user acceptance. Cumulative steps not inspected in this D revision.
+

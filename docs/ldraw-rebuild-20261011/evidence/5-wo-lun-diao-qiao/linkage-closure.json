@@ -1,0 +1,24 @@
+{
+  "output": [
+    480,
+    -1032
+  ],
+  "deck": [
+    80,
+    -600
+  ],
+  "upperJoint": [
+    81.28221952302371,
+    -999.9979448860892
+  ],
+  "upperHoleDistance": 400.00000000000006,
+  "lowerHoleDistance": 400.00000000000006,
+  "scaleApplied": false,
+  "sourcePages": [
+    6,
+    8,
+    10,
+    12
+  ],
+  "angleEvidence": "Kinematic inference from known holes/part lengths, not source measurement"
+}

@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+  "revision": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
+  "reviewedAt": "2026-10-11T06:46:16.060726+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-bing-qiu-yun-dong-yuan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "9dc29abb2a4ec785e4a47e0b6bf14dac63f2e13125338f442b00f25f1c58dd4c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "a0118ac9d001b5ad1fdf7a91c0326039368b6344fdf2dd18db19f5c0954fc38f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "3af0f0ec5510b0d8ad3b6cff8532ec917a63a7976403aa2b57e59eef9c8122e6",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso, iso-rear and top separately, compared source p9,p13. Entire body, stick and ball framed; head curves, shoulder plates, front red/blue gears and rolling feet broadly correspond. Rear tyre/pulley cavity fit and hidden axle engagement remain limited by manual checks; dynamic stick/gear clearance and physical play not validated. No new visible placement correction identified. Pending user confirmation; cumulative D steps not reviewed."
+}

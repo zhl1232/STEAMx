@@ -1,0 +1,37 @@
+{
+  "sourceSha256": "d59036bbb1d0702634064734e2a12bc14e5e4eb3b24ec9e89546247faa311652",
+  "packRevision": "058066995b3bcbfd37421c4f3cd19209ec9a7962ba2d62c537cbf48b69c561b2",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "sourcePagesRechecked": [
+    10
+  ],
+  "views": [
+    {
+      "view": "iso",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\iso.png",
+      "sha256": "c25541bec4e94cfba15a3f5e7d116fe933d80a19b9a591d125404f3504563ad1"
+    },
+    {
+      "view": "iso-rear",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\iso-rear.png",
+      "sha256": "89d5c7c5b5431e430adbbafa855c6b659be01dee26057442ff9d40e644dc449f"
+    },
+    {
+      "view": "top",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\top.png",
+      "sha256": "c4a7f7d037165918d3dbd079abd794c25ba64fd91ce804f946b3c40ae4c2f046"
+    }
+  ],
+  "completeFrameVisible": true,
+  "deviations": [
+    "Both wings incorrectly point down; source final has both raised, with asymmetric angle.",
+    "Head and beak are side-by-side at equal bottom level; source head rests over the beak.",
+    "Crown-to-red gear registration remains unresolved; bounding geometry suggests an approximately16LDU axial-edge gap, not confirmed mesh."
+  ],
+  "action": "Raise wings into one static pose, put beak under head and raise head48LDU. Retain mechanical pending status.",
+  "allStepsReviewed": false,
+  "physicalValidation": false
+}

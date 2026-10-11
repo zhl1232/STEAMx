@@ -18,3 +18,7 @@ Official catalog geometry used for 75349/75350 complete holed assemblies, 6521â€
 - p12 rear bumper seating and p14 guardrail supports need rendered close views.
 
 No new rendering started during the resource pause. Old camera views elsewhere may crop boundaries and do not transfer acceptance to this model. bom-reference.json contains quantities/reference comparison; actual user's per-color inventory unknown. Source/model hashes and rigid-matrix audit are in draft-audit.json. Final closure/MPD/cumulative render review assigned to parent.
+
+## D final pixel review
+
+Viewed original iso,iso-rear,top separately for2b8694d9/revision88a44cbf; re-opened source p5,p7,p15. Entire car is framed. Front tie-rod/crossbeam, blue crown/red gear orientation and cab guardrails broadly match. Driver omission remains explicit. The6 raw checker collision groups below the front knuckles cannot be cleared from these partially occluded views; keep all as unresolved. No silent depth shifts or relaxed checks. No proof of gear engagement or steering motion. Unified current-pixel-review.json records observed image hashes, accepted=false and physicalValidation=false. Source unchanged; cumulative steps pending.

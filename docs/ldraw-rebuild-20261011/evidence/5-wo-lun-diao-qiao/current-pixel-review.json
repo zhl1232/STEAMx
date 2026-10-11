@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+  "revision": "5278ad9f1fdbe2f5ee36334e71b092e330cb66457f4a08603b65ccc59424b96d",
+  "reviewedAt": "2026-10-11T06:34:14.706617+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-wo-lun-diao-qiao",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "66fac486c4768404ebdc021d02f3e17fa8137814bc001bb181ebb358df414a04",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "fda716d25bd3052f04b67f008c2697a50b335d0e80167c57e192a0f3526d0309",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a120e6b26b51ef6e35c5ce8c6c700130f3ade9df7dd2279bb5c1ffd728733552",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current c633fc25 and pack5278ad9f: all3 complete PNGs actually inspected. Slightly sloped upper arms and near-vertical lower arms now visually meet bridge-hole height; savedLDR endpoint/orthonormal check confirms400LDU lengths without scaling. Sourcep6 short input6523 present. Exact worm/gear phase, axle retention, motion collision and physical load remain unverified; source car variants still omitted. No all-step or complete-source acceptance."
+}

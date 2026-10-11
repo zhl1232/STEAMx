@@ -4,28 +4,31 @@
   "verification": "structurally checked only",
   "sourcePages": 10,
   "sourcePixels": "10-page contact sheet and enlarged structural pages viewed",
-  "modelSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+  "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
   "unknown": [
     {
       "page": 7,
-      "part": "two yellow6526 blade carriers",
-      "candidate": "6526 identity confirmed by enlarged p7/p8 identical BOM icons",
-      "missing": "exact opposed clamp stacking/retention pose; known parts omitted pending fitting evidence"
-    },
-    {
-      "page": 7,
-      "part": "61898bc01 blade cross stack",
-      "missing": "formed official13x26 sheets visually fit source; 2LDU stack/rotor phase inferred, no physical clamp verification"
+      "part": "two official6526 blade carriers and61898bc01 cross stack",
+      "missing": "IDs and80LDU offset hole correspondence confirmed; opposed clamp depth/rotor phase inferred, friction and physical clamp retention untested"
     },
     {
       "page": 8,
       "part": "gear mesh and crank retention",
-      "missing": "source-backed axes and120LDU spacing; mechanical fit not physically tested"
+      "missing": "source-backed axes and120LDU spacing; physical mesh/retention untested"
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
-  "render": "Latest iso pixels inspected against source; known source silhouette and omitted-part boundary reviewed. Elephant also iso-rear inspected. Does not constitute full step/physical acceptance.",
+  "render": {
+    "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "D full-frame final3 and original iso/rear inspected against sourcep7. Two6526 carriers added to67-part source08253354. Carrier, shaft and crossed formed61898bc01 paper placement visible without new gross intersection. Official hole/pin geometry establishes static alignment;12LDU sheet displacement is assembly inference, not source measurement. Min beam-to-paper surface gaps24.177/37.340LDU, upper carrier-to-beam4LDU; lower shaft protrudes5LDU. See blade-carrier-evidence.json. Clamp phase/depth and physical friction remain unverified; current cumulative steps not reviewed."
+  },
   "rawCollisionChecker": "PASS",
   "inventoryMechanicalDeficits": [
     {

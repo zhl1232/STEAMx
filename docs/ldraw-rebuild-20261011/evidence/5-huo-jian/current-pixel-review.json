@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+  "revision": "363c6e195eefb5cee608189730c133a91838be863d9f9501925904bd3871150f",
+  "reviewedAt": "2026-10-11T06:46:39.646912+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-huo-jian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e475c617ff0ccfbc62f9c79b48cbfcf5334692cf1cf087d49531e780f8c4feea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2bb66b0398934ff3adbb5d0a0900599e447a636b8d68f193ff13a156b39897f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "9d257cf659629118d74765ea3aa85dabe4d7ca2f5f9cd83ab0329464a96701bd",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current D iso, iso-rear and top originals for5ef2f72f and source pages3,10,11. Complete framing shows six tyre-supported base positions, yellow/red/blue stepped rocket with yellow tip, three green service platforms and six yellow outreach beams. Existing32LDU base/body clearance adjustment remains a deliberate source deviation; exact axle support/depth and outreach-beam retention remain unverified. Keep prior official-geometry evidence for12 tyre/pulley AABB pairs: tyre inner radial boundary42.183 vs flange41 gives1.183LDU radial gap, not proof of friction retention or physical assembly. No new correction established from these views; cumulative steps were not reviewed in this pass."
+}

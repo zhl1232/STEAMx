@@ -26,7 +26,16 @@
   "knownApproximate": [
     "31196c01"
   ],
-  "render": "Latest iso pixels inspected against source; dragonfly stance/pond and crane frame/gears agree broad source shape. Crane hook visibly unsupported due absent rope; dragonfly tail pulley edge constraints remain.",
+  "render": {
+    "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Current fullframe/sourcep11,13,16 reviewed. Hook still visibly unsupported due missing rope, explicitly incomplete; remaining structure corresponds. See current-pixel-review.json for exact PNG hashes."
+  },
   "rawCollisionChecker": "FAIL; manual assessment required",
   "collisionAssessment": [
     "Only raw error is6345 windshield vs prior approved31196c01 thin cockpit shell; adopted same paired transform as4-ke-ji, surface tolerance remains manual.",

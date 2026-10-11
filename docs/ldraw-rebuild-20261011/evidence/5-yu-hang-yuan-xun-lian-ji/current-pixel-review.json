@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+  "revision": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194",
+  "reviewedAt": "2026-10-11T06:34:14.799301+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-hang-yuan-xun-lian-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "c64fab060d19a1c66c3248d2c5ff2f589a26c77358c465faaffe7dc2fd1abb9c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2ed146bf6c0771fa17d00deef85187bb1308bbb39453218555fd00cf313d4c5b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "bc635bcaecccb5673311f6fea78acbfaa65dfa8ab23fcef79066a40f6b561df5",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current4cb0310f and pack59a03c8a: all3 complete PNGs actually inspected. Sourcep5 red side-gear pair and short geared shaft restored; frame/base retained. CENTRAL BAR REMAINS VISIBLY FLOATING: p6 transmission andp7/8 central shaft/cranks are not assembled. Known p6 parts are evidence-only and do not support centerbar. No structural, all-step, functional or physical acceptance."
+}

@@ -30,3 +30,7 @@ Unknowns: [{"id":"unknown","count":1,"page":16,"role":"yellow cement mixer/drum 
 
 Checker: FAIL1: official51725 flagclip/51708 pole conservative bounding-box overlap; source interface is actual intended clip, but exact clearance not evaluated here.
 Exact-color inventory rows and deficits inbom-inventory.json; absent9090rows areunknown, notzero. No Studio or physical verification, no acceptance, commit, publication, review flags or sharedDAT/metadata edits. Cumulative/final pixels await parent renderer.
+
+## Current complete-frame final3 pixel review
+
+Actual current D final3 contact sheet and full iso PNG inspected against source p20 and rim detail p11. SHAe37fb1dd matches local LDR. Cabin tiers, fore/aft orientation, four upper rims, flag and forward paired long arms correspond broadly; no clear reversed structural assembly identified. Complete framing/no blank view. Yellow mixer rear assembly absent as documented. Local Toolo/rim appearance and exact figure print differ from source; layered hull seams, temporary overhang support and flag/pole checker overlap remain unresolved. Only final3 reviewed, cumulative19 stages and physical fitting not certified; accepted false. See current-pixel-review.json for image SHA256 and revision. No LDR change from this review.

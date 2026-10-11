@@ -1,18 +1,16 @@
 # Development checkpoint status
 
-As of 2026-10-11 06:14 UTC, 69 of 129 target courses have locally verified source material and rewritten development LDRs; 60 await source transfer. Source totals: 62 PDFs / 774 pages plus seven original-image courses. This is not model acceptance.
+Snapshot 2026-10-11 06:55 UTC, executor DESKTOP-MNEH90C. The 129-course audit is reproduced: 71 missing source models and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting Library transfer. The remote source task verified 713 JPG pages across six packages; upload tools are unavailable there. These 60 are not received or built locally.
 
-Local Git checkpoint `4b19be5` preserves 59 development MPDs. Working sources and evidence are newer. New large previews are on the authorized D scratch directory to avoid C disk pressure; the branch preview directory is not yet synchronized to all 69 sources. Current pixel claims are bound to source/image hashes in `checkpoint-status.json`; old cropped renders were excluded. All accepted flags remain false.
+69 current source versions have final-view pixel reviews; 12 have all cumulative steps reviewed. The other 57 still need step review. All remain unaccepted development drafts, with no physical validation. See hash-bound checkpoint-status.json.
 
-Static single-frame rendering and full bounding-box camera fitting have been validated on subsequent batches. Screenshots and browser profiles are written to D. At most two courses render serially per batch. 43 rebuildable C MPD caches were SHA-verified on D before removal (46,816,879 bytes recovered). Original sources were retained.
+Independent 69-course QA checked 4,975 placements: no malformed/scaled/reflected matrices, source/status issues, or stale/unclosed MPDs. 5,933 embedded DAT blocks matched 392 local part files. All accepted flags are false. This does not prove source completeness, support or mechanical motion.
 
-Current limitations include unavailable source-shaped parts, approximate previously approved Toolo geometry, source-supported but not physically tested joints, rescue-vehicle canopy/roof collision, and provisional gantry support. Recent pixel checks led to corrections in the submarine, lion dance, globe, bird wings, rescue vehicle and larva. Corrections need fresh hash-bound downstream checks; old reviews do not validate changed versions.
+Current raw static checker: 69 stable-source runs, 45 exit 0 and 24 exit 2. AABB diagnostics and omitted-part/connection limitations remain in individual reports. The current registry contains 29 issue families spanning identity, geometry, licensing and flexible routing; known-part omissions and inventory deficits are separate.
 
-`partIssues` in the current scratch registry contains 30 issue families spanning identity, geometry, licensing and flexible routing. It is not a count of unknown part IDs. Known-part connection omissions remain separate. The registry now includes both newest courses; the independent 67-course QA remains a dated snapshot.
+Previous local checkpoint 21a1283 preserved 69 source drafts; this snapshot saves subsequent corrections and evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The repository still contains 59 older MPDs and must be synchronized before delivery. The D closure/self-contained reports bind all 69 current source hashes.
 
-Six exact licensed part bodies were extracted from existing published MPD dependencies with author/license preserved; see `embedded-part-extraction.json`. Published MPDs themselves were unchanged. No public assets, application files, workflow files, package manifests, production data, PR, push or deployment were changed.
-
-Current raw checks: 69 stable-source runs, 45 exit 0 and 24 exit 2. All 69 D development MPDs have closed dependencies and source hashes matching this snapshot. This does not prove source completeness or assembly safety.
+No production models, public assets, application/workflow/package files, approval whitelist or data have been changed. No push, PR, merge, deployment or CI trigger. Six licensed part bodies extracted from existing published MPDs retain provenance in embedded-part-extraction.json.
 
 ## Historical 59-course resource checkpoint
 # Local resource checkpoint

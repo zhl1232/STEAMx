@@ -3167,7 +3167,7 @@
     },
     {
       "sourcePage": 6,
-      "note": "one official gearbox, worm, red24tooth gear and crank; input shaft identity pending",
+      "note": "official gearbox,worm,redgear,upper axle,crank and source-identified short geared input axle",
       "placements": [
         {
           "id": "p6-1",
@@ -3283,13 +3283,36 @@
           ],
           "support": "Input crank at side of box; inputshaft6522/6523/31623 unresolved and omitted",
           "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            520,
+            -936,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sourcep6 shorter geared axle than adjacent6L ordinary axle identifies5L6523. Gear at outer gearbox side; retention/gearphase still provisional.",
+          "confidence": "source-identified"
         }
       ],
-      "cumulativePlacements": 141
+      "cumulativePlacements": 142
     },
     {
       "sourcePage": 7,
-      "note": "one official gearbox, worm, red24tooth gear and crank; input shaft identity pending",
+      "note": "official gearbox,worm,redgear,upper axle,crank and source-identified short geared input axle",
       "placements": [
         {
           "id": "p7-1",
@@ -3405,9 +3428,32 @@
           ],
           "support": "Input crank at side of box; inputshaft6522/6523/31623 unresolved and omitted",
           "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -936,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Sourcep6 shorter geared axle than adjacent6L ordinary axle identifies5L6523. Gear at outer gearbox side; retention/gearphase still provisional.",
+          "confidence": "source-identified"
         }
       ],
-      "cumulativePlacements": 146
+      "cumulativePlacements": 148
     },
     {
       "sourcePage": 8,
@@ -3418,22 +3464,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            -280,
-            -1032,
+            -280.64110976151187,
+            -1015.9989724430445,
             -60
           ],
           "matrix": [
+            -0.08000513778477711,
             0,
+            0.9967944511924407,
+            0.9967944511924407,
             0,
-            1,
-            1,
-            0,
-            0,
+            0.08000513778477711,
             0,
             1,
             0
           ],
-          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "support": "400LDU end-hole pitch. Two-link circle-intersection pose from gearbox output to bridge hole; slope is inferred, not measured source angle.",
           "confidence": "inferred"
         },
         {
@@ -3441,22 +3487,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            -280,
-            -1032,
+            -280.64110976151187,
+            -1015.9989724430445,
             60
           ],
           "matrix": [
+            -0.08000513778477711,
             0,
+            0.9967944511924407,
+            0.9967944511924407,
             0,
-            1,
-            1,
-            0,
-            0,
+            0.08000513778477711,
             0,
             1,
             0
           ],
-          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "support": "400LDU end-hole pitch. Two-link circle-intersection pose from gearbox output to bridge hole; slope is inferred, not measured source angle.",
           "confidence": "inferred"
         },
         {
@@ -3464,22 +3510,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            280,
-            -1032,
+            280.64110976151187,
+            -1015.9989724430445,
             -60
           ],
           "matrix": [
+            0.08000513778477711,
             0,
+            0.9967944511924407,
+            0.9967944511924407,
             0,
-            1,
-            1,
-            0,
-            0,
+            -0.08000513778477711,
             0,
             1,
             0
           ],
-          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "support": "400LDU end-hole pitch. Two-link circle-intersection pose from gearbox output to bridge hole; slope is inferred, not measured source angle.",
           "confidence": "inferred"
         },
         {
@@ -3487,22 +3533,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            280,
-            -1032,
+            280.64110976151187,
+            -1015.9989724430445,
             60
           ],
           "matrix": [
+            0.08000513778477711,
             0,
+            0.9967944511924407,
+            0.9967944511924407,
             0,
-            1,
-            1,
-            0,
-            0,
+            -0.08000513778477711,
             0,
             1,
             0
           ],
-          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "support": "400LDU end-hole pitch. Two-link circle-intersection pose from gearbox output to bridge hole; slope is inferred, not measured source angle.",
           "confidence": "inferred"
         },
         {
@@ -3598,7 +3644,7 @@
           "confidence": "inferred"
         }
       ],
-      "cumulativePlacements": 154
+      "cumulativePlacements": 156
     },
     {
       "sourcePage": 9,
@@ -3609,22 +3655,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            -80,
-            -832,
+            -80.64110976151186,
+            -799.9989724430445,
             -100
           ],
           "matrix": [
-            -1,
+            -0.9999948622152229,
             0,
+            0.003205548807559282,
+            0.003205548807559282,
             0,
-            0,
-            0,
-            1,
+            0.9999948622152229,
             0,
             1,
             0
           ],
-          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3632,22 +3678,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            -80,
-            -832,
+            -80.64110976151186,
+            -799.9989724430445,
             100
           ],
           "matrix": [
-            -1,
+            -0.9999948622152229,
             0,
+            0.003205548807559282,
+            0.003205548807559282,
             0,
-            0,
-            0,
-            1,
+            0.9999948622152229,
             0,
             1,
             0
           ],
-          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3655,8 +3701,8 @@
           "partId": "6521.dat",
           "color": 2,
           "position": [
-            -80,
-            -1032,
+            -81.28221952302371,
+            -999.9979448860892,
             0
           ],
           "matrix": [
@@ -3670,7 +3716,7 @@
             0,
             0
           ],
-          "support": "320LDU crossshaft through paired upper joints",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3678,8 +3724,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            -80,
-            -1032,
+            -81.28221952302371,
+            -999.9979448860892,
             -140
           ],
           "matrix": [
@@ -3693,7 +3739,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3701,8 +3747,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            -80,
-            -1032,
+            -81.28221952302371,
+            -999.9979448860892,
             -20
           ],
           "matrix": [
@@ -3716,7 +3762,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3724,8 +3770,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            -80,
-            -1032,
+            -81.28221952302371,
+            -999.9979448860892,
             20
           ],
           "matrix": [
@@ -3739,7 +3785,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3747,8 +3793,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            -80,
-            -1032,
+            -81.28221952302371,
+            -999.9979448860892,
             140
           ],
           "matrix": [
@@ -3762,7 +3808,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3770,22 +3816,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            80,
-            -832,
+            80.64110976151186,
+            -799.9989724430445,
             -100
           ],
           "matrix": [
-            -1,
+            -0.9999948622152229,
             0,
+            -0.003205548807559282,
+            -0.003205548807559282,
             0,
-            0,
-            0,
-            1,
+            0.9999948622152229,
             0,
             1,
             0
           ],
-          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3793,22 +3839,22 @@
           "partId": "6525.dat",
           "color": 14,
           "position": [
-            80,
-            -832,
+            80.64110976151186,
+            -799.9989724430445,
             100
           ],
           "matrix": [
-            -1,
+            -0.9999948622152229,
             0,
+            -0.003205548807559282,
+            -0.003205548807559282,
             0,
-            0,
-            0,
-            1,
+            0.9999948622152229,
             0,
             1,
             0
           ],
-          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3816,8 +3862,8 @@
           "partId": "6521.dat",
           "color": 2,
           "position": [
-            80,
-            -1032,
+            81.28221952302371,
+            -999.9979448860892,
             0
           ],
           "matrix": [
@@ -3831,7 +3877,7 @@
             0,
             0
           ],
-          "support": "320LDU crossshaft through paired upper joints",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3839,8 +3885,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            80,
-            -1032,
+            81.28221952302371,
+            -999.9979448860892,
             -140
           ],
           "matrix": [
@@ -3854,7 +3900,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3862,8 +3908,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            80,
-            -1032,
+            81.28221952302371,
+            -999.9979448860892,
             -20
           ],
           "matrix": [
@@ -3877,7 +3923,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3885,8 +3931,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            80,
-            -1032,
+            81.28221952302371,
+            -999.9979448860892,
             20
           ],
           "matrix": [
@@ -3900,7 +3946,7 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         },
         {
@@ -3908,8 +3954,8 @@
           "partId": "6527.dat",
           "color": 14,
           "position": [
-            80,
-            -1032,
+            81.28221952302371,
+            -999.9979448860892,
             140
           ],
           "matrix": [
@@ -3923,11 +3969,11 @@
             0,
             1
           ],
-          "support": "Pulley spacers outside joined liftarm layers",
+          "support": "Upper cross pin/vertical liftarm position solved using unchanged400LDU hole pitch; connection coaxial, physical travel still unverified.",
           "confidence": "inferred"
         }
       ],
-      "cumulativePlacements": 168
+      "cumulativePlacements": 170
     },
     {
       "sourcePage": 10,
@@ -3939,7 +3985,7 @@
           "color": 2,
           "position": [
             -80,
-            -632,
+            -600,
             0
           ],
           "matrix": [
@@ -3953,7 +3999,7 @@
             0,
             0
           ],
-          "support": "Through vertical bottomholes; bridge bearing atY-600 differs32LDU and is unresolved",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         },
         {
@@ -3962,7 +4008,7 @@
           "color": 14,
           "position": [
             -80,
-            -632,
+            -600,
             -140
           ],
           "matrix": [
@@ -3976,7 +4022,7 @@
             0,
             1
           ],
-          "support": "Lower retainers; not proof of bridge linkage",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         },
         {
@@ -3985,7 +4031,7 @@
           "color": 14,
           "position": [
             -80,
-            -632,
+            -600,
             140
           ],
           "matrix": [
@@ -3999,7 +4045,7 @@
             0,
             1
           ],
-          "support": "Lower retainers; not proof of bridge linkage",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         },
         {
@@ -4008,7 +4054,7 @@
           "color": 2,
           "position": [
             80,
-            -632,
+            -600,
             0
           ],
           "matrix": [
@@ -4022,7 +4068,7 @@
             0,
             0
           ],
-          "support": "Through vertical bottomholes; bridge bearing atY-600 differs32LDU and is unresolved",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         },
         {
@@ -4031,7 +4077,7 @@
           "color": 14,
           "position": [
             80,
-            -632,
+            -600,
             -140
           ],
           "matrix": [
@@ -4045,7 +4091,7 @@
             0,
             1
           ],
-          "support": "Lower retainers; not proof of bridge linkage",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         },
         {
@@ -4054,7 +4100,7 @@
           "color": 14,
           "position": [
             80,
-            -632,
+            -600,
             140
           ],
           "matrix": [
@@ -4068,17 +4114,17 @@
             0,
             1
           ],
-          "support": "Lower retainers; not proof of bridge linkage",
+          "support": "Lower shaft shares exact bridge bearing Y-600 and X+/-80; two400LDU links now close without scale transforms.",
           "confidence": "inferred"
         }
       ],
-      "cumulativePlacements": 174
+      "cumulativePlacements": 176
     },
     {
       "sourcePage": 11,
       "note": "two small cars omitted pending exact chassis variant",
       "placements": [],
-      "cumulativePlacements": 174
+      "cumulativePlacements": 176
     }
   ],
   "status": "INCOMPLETE dev-only source reconstruction",
@@ -4170,19 +4216,6 @@
   ],
   "unknownIds": [
     {
-      "sourcePages": [
-        6,
-        7
-      ],
-      "location": "two gearbox input shafts",
-      "candidates": [
-        "6522",
-        "6523",
-        "31623"
-      ],
-      "missingEvidence": "BOM silhouette/colour alone does not distinguish geared shaft from ordinary axle"
-    },
-    {
       "sourcePage": 11,
       "location": "two red/yellow car bases",
       "candidates": [
@@ -4194,15 +4227,15 @@
     }
   ],
   "pending": [
-    "Vertical liftarm bottomY-632 versus deck bearingY-600 leaves32LDU registration discrepancy; source course heights retained, do not claim functional linkage.",
-    "Gearbox actual bore centers verified from official DAT; input shafts omitted until identified; gear tooth phase, axle retention and travel unverified.",
     "Two small cars omitted; exact variants unresolved.",
-    "Pier cap stud registration and arm collars must be visually reviewed; no physical support certification."
+    "Pier cap stud registration and arm collars must be visually reviewed; no physical support certification.",
+    "Static linkage solved by equal-radius circle intersection: upper arms slope about4.59degrees, vertical arms lean about0.184degrees. This inferred admissible pose resolves32LDU discrepancy without scaling; source does not dimension the angles.",
+    "Input6523 ID supported by sourcep6 BOM relative length and visible external8tooth pinion. Shaft retention, worm engagement, gear phase and collision through motion remain unverified."
   ],
   "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
-  "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+  "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
   "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-wo-lun-diao-qiao.ldr",
-  "totalPlacements": 174,
+  "totalPlacements": 176,
   "bom": {
     "4268.dat|2": 2,
     "3011.dat|14": 76,
@@ -4215,18 +4248,43 @@
     "31625.dat|1": 2,
     "6529.dat|4": 2,
     "6526.dat|14": 6,
+    "6523.dat|1": 2,
     "6525.dat|14": 8,
     "6527.dat|14": 12
   },
   "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
   "knownApproximateGeometry": [],
   "checks": {
-    "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
-    "dependencyNodes": 131,
+    "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+    "dependencyNodes": 134,
     "missingDependencies": [],
     "rawCheckerExitCode": 0,
     "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\collision.txt",
     "physicalFit": false,
     "rendering": "Central queue pending; no independent browser launched"
+  },
+  "linkageClosure": {
+    "output": [
+      480,
+      -1032
+    ],
+    "deck": [
+      80,
+      -600
+    ],
+    "upperJoint": [
+      81.28221952302371,
+      -999.9979448860892
+    ],
+    "upperHoleDistance": 400.00000000000006,
+    "lowerHoleDistance": 400.00000000000006,
+    "scaleApplied": false,
+    "sourcePages": [
+      6,
+      8,
+      10,
+      12
+    ],
+    "angleEvidence": "Kinematic inference from known holes/part lengths, not source measurement"
   }
 }

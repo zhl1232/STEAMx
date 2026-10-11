@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+  "revision": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
+  "reviewedAt": "2026-10-11T06:49:03.252838+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-diao-shan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4654edfb25041557664764b03e36e5dd4f1353c43263d219050a7ac26169767a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "4f545f3ee57ef053b4236f6362d02acf45439796c6a9ae7c1385f316ef7ffef9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e62306c3957b3761143a8ceaa368011dccaca318cfa345f78f8cbd12c7cd2f60",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "D full-frame final3 and original iso/rear inspected against sourcep7. Two6526 carriers added to67-part source08253354. Carrier, shaft and crossed formed61898bc01 paper placement visible without new gross intersection. Official hole/pin geometry establishes static alignment;12LDU sheet displacement is assembly inference, not source measurement. Min beam-to-paper surface gaps24.177/37.340LDU, upper carrier-to-beam4LDU; lower shaft protrudes5LDU. See blade-carrier-evidence.json. Clamp phase/depth and physical friction remain unverified; current cumulative steps not reviewed."
+}

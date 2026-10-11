@@ -39,3 +39,7 @@
 
 ## 最新三视图像素复核
 已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。
+
+## D final pixel review
+Original iso, iso-rear, top actually viewed; source p11 and p13 re-opened. A-frame, rocker, flywheel and well fully framed; proper-rotation beam correction shows no visible reversed beam. Source cord is absent and the displayed hook therefore has no modeled suspension; this remains an explicit unsupported component, not an approved free-floating part. Hidden flywheel eccentric/link capture and transmission remain unresolved. current-pixel-review.json records exact image versions and INCOMPLETE limitations. No source edits or collision-policy changes. Cumulative steps pending; no physical/user acceptance.
+

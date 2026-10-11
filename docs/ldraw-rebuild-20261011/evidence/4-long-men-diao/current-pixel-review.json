@@ -1,23 +1,23 @@
 {
-  "sourceSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
-  "revision": "406cf4ff119b1e44dab1f69b833b1ff9d59dcbc41443fd86dffb9a95dbaa4b17",
-  "reviewedAt": "2026-10-11T06:17:20.512085+00:00",
+  "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+  "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+  "reviewedAt": "2026-10-11T06:48:21.801381+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-long-men-diao",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "3b7e55450c7b0241d7dc6c977fcdb49fd0a12a30b93c0f656e9546942f94796a",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "e9c363aae173a3a7b2eabb6a8a8e4b66f1fb1e5b4a1447d3c96fd0779606d3fd",
+      "sha256": "c3869a76e63a4c645983a5f1414f3895a1bd6b8f5dd8901118e91c1b19efc0b9",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "a36cc6ae52b7cb9ece8884cd8fb512f54ec47cd85a295d11792ad65d4d6f5bb4",
+      "sha256": "c520b86f8f55474bf96b81833a25f044f1c5a231f56ff6f5fea78d13b7407c86",
       "pixelsActuallyReviewed": true
     }
   ],
@@ -26,5 +26,5 @@
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actual final3 contact sheet and full-size iso/top pixels reviewed against source page7 and previously viewed pages1-13. All towers,feet,wheels,beam andhanger fit frame, no crop. Red inverted3437 now visibly sits below the gray fork bases with Y=-836; vertical ordering is improved. Top view exposes red40666 long axisX versus gray fork bases extended alongZ; only8LDUedge overlap remains and normal stud capture/load support is NOT established. Hanger mounting remains provisional, not physically verified. Sourcep10-12 cord/pulley/longhook omitted. Existing approximate rims/forks are visibly simplified. Cumulative-step review still pending; no acceptance."
+  "limitations": "Actually viewed source p7 and all three full PNGs for 19fc8cda. Frame, wheels and top assembly are not cropped. Top view confirms inverted 40666 long axis across beam Z, consistent with p7. Inverted red3437 remains beneath fork bases. Upper plate overlap48LDU and lower redbrick edge overlap8LDU come from coordinate analysis; pixels do not certify stud registration or load support. Two iso views look nearly symmetric and do not resolve hidden mating surfaces. Fork/arm fit remains provisional; candidate stud-aligned bases would collide with supplied approximate arms. Missing cord/pulley/longhook and existing source limitations remain. No cumulative step or physical acceptance."
 }

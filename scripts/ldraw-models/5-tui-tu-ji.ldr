@@ -38,27 +38,27 @@
 1 27 80 -393 0 1 0 0 0 1 0 0 0 1 4672b.dat
 0 STEP
 0 // Source page 4: two7-hole liftarms plus gray pivot axle and two short cranks.
-1 14 -176 -81 -60 -0.6 0 -0.8 -0.8 0 0.6 0 1 0 6524.dat
+1 14 -195.654658 -121 -60 -0.266667 0 -0.963789 -0.963789 0 0.266667 0 1 0 6524.dat
 1 14 -80 -153 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
-1 14 -176 -81 60 -0.6 0 -0.8 -0.8 0 0.6 0 1 0 6524.dat
+1 14 -195.654658 -121 60 -0.266667 0 -0.963789 -0.963789 0 0.266667 0 1 0 6524.dat
 1 14 -80 -153 100 0 0 -1 -1 0 0 0 1 0 6526.dat
 1 71 -80 -153 0 0 0 1 0 1 0 -1 0 0 6522.dat
 0 STEP
 0 // Source page 5: vertical front red bearing brick, axle and two short cranks.
-1 4 -296 -9 0 0 1 0 1 0 0 0 0 -1 75349.dat
-1 71 -272 -9 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 -272 -9 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
-1 14 -272 -9 100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 4 -335.309317 -89 0 0 1 0 1 0 0 0 0 -1 75349.dat
+1 71 -311.309317 -89 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -311.309317 -89 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -311.309317 -89 100 0 0 -1 -1 0 0 0 1 0 6526.dat
 0 STEP
 0 // Source page 6: blue spacer plate and lime4x8 vertical blade backing.
-1 1 -320 -9 0 0 1 0 1 0 0 0 0 -1 40666.dat
-1 27 -344 -9 0 0 1 0 0 0 1 1 0 0 4672b.dat
+1 1 -359.309317 -89 0 0 1 0 1 0 0 0 0 -1 40666.dat
+1 27 -383.309317 -89 0 0 1 0 0 0 1 1 0 0 4672b.dat
 0 STEP
-0 // Source page 7: four green2x3x2 concave blade bricks; source three-stud curvature matches official2301b, not smaller11169.
-1 2 -440 -29 -120 0 1 0 0 0 -1 -1 0 0 2301b.dat
-1 2 -440 -29 -40 0 1 0 0 0 -1 -1 0 0 2301b.dat
-1 2 -440 -29 40 0 1 0 0 0 -1 -1 0 0 2301b.dat
-1 2 -440 -29 120 0 1 0 0 0 -1 -1 0 0 2301b.dat
+0 // Source page 7: four green2x3x2 concave blade bricks, concavity forward and lip down; official2301b, not smaller11169.
+1 2 -479.309317 -29 -120 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 -40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 120 0 1 0 0 0 1 1 0 0 2301b.dat
 0 STEP
 0 // Source page 8: loose yellow/lime blocks and plates to push, shown separately on floor.
 1 14 -580 -48 -140 1 0 0 0 1 0 0 0 1 3437.dat

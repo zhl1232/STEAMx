@@ -10,24 +10,19 @@
       "page": "2-6",
       "part": "moving drivetrain and poster pivot",
       "missing": "static source axes only; gear engagement and rotation under load unverified"
-    },
-    {
-      "page": 7,
-      "part": "animal print orientation",
-      "missing": "official pattern IDs match catalog names; final pixel orientation needs render comparison"
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": {
+    "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
     "viewsActuallyInspected": [
       "iso",
       "iso-rear",
       "top"
     ],
-    "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
     "cumulativeStepsActuallyInspected": false,
-    "finding": "Source structure visually coherent; omissions/mechanical risks in unknown list remain unresolved. No physical validation."
+    "finding": "D full-frame final3 compared against all12 source pages. Giraffe/zebra upright front orientation and blank reverse verified; frame and blue/yellow perimeter correspond. Two central6527 flanges diameter82 inside80LDU printed-column gap retain potential1LDU interference each side. Gear engagement under load unverified; no physical or cumulative-step acceptance."
   },
   "rawCollisionChecker": "FAIL; two central pulley/pattern brick edge overlaps",
   "collisionAssessment": "Two printed columns have80LDU inner gap; official6527 flange diameter82LDU, potential1LDU edge interference each side remains, not certified. Other frame/wall collisions corrected by readingp10 BOM5 full+4 square bricks and retaining red bridge end gaps.",
@@ -54,5 +49,6 @@
       "9656DesignTotal": 2,
       "additionalBeyondSingle9656IgnoringColor": 4
     }
-  ]
+  ],
+  "patternPixelReview": "Official giraffe and zebra front upright orientation, blank reverse, compared against sourcep7 and current full-frame final3; resolved visual-orientation item."
 }

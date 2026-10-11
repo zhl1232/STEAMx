@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+  "revision": "570807af1d966a470bac9a33060907d8d9a8e066a058d071c69d294bde6c976d",
+  "reviewedAt": "2026-10-11T06:39:19.578587+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zhi-sheng-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ccd608c1bb912cc58252e3c0d81a1b1a722b886e5494d2135133758c9c75d816",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "aa5acdb56a82d0ebf7d9c766618fe0ad60270748970666d0e847608e8c207d71",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "aa04ca1db48b966a6abfe27058ab2314fb5d13d71699ecba69b28ffd58e57e59",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed complete D final3 sheet and original iso-rear against source page16. Current475f81ed matches LDR. Cross-shaped blue/yellow rotor, windowed body, cockpit, side skids and raised paired tail arms correspond broadly; complete framing and no blank view. Both6670c01 tail propellers remain absent. Cockpit/canopy checker overlap retained, not waived by visible seating. Local Toolo geometry, exact canopy/hinge fit, tail20degree angle and skid support remain provisional. Final3 only; cumulative15 stages not reviewed; accepted false, no physical verification."
+}

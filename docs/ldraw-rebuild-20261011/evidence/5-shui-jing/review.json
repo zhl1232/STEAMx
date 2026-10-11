@@ -20,14 +20,14 @@
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": {
+    "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
     "viewsActuallyInspected": [
       "iso",
       "iso-rear",
       "top"
     ],
-    "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
     "cumulativeStepsActuallyInspected": false,
-    "finding": "Source structure visually coherent; omissions/mechanical risks in unknown list remain unresolved. No physical validation."
+    "finding": "Current full-frame render and source detail pages compared; no new visible support mismatch. Existing missing figures or rope/hooks remain. Exact PNG hashes in current-pixel-review.json."
   },
   "rawCollisionChecker": "PASS",
   "matrixCheck": {

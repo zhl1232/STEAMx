@@ -43,7 +43,7 @@
   },
   {
     "path": "scripts/ldraw-models/4-du-jiao-xian.ldr",
-    "sha256": "b7068e095a294a4ce1bebe23e98a3568fc9bb01e23106ed2079aa7e74b59a42e",
+    "sha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
     "exit": 0,
     "stableDuringCheck": true,
     "output": "OK   [4-du-jiao-xian.ldr] 50 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
@@ -92,7 +92,7 @@
   },
   {
     "path": "scripts/ldraw-models/4-long-men-diao.ldr",
-    "sha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+    "sha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
     "exit": 0,
     "stableDuringCheck": true,
     "output": "OK   [4-long-men-diao.ldr] 93 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
@@ -281,10 +281,10 @@
   },
   {
     "path": "scripts/ldraw-models/5-diao-shan.ldr",
-    "sha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+    "sha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
     "exit": 0,
     "stableDuringCheck": true,
-    "output": "OK   [5-diao-shan.ldr] 65 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+    "output": "OK   [5-diao-shan.ldr] 67 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-fan-chuan.ldr",
@@ -386,14 +386,14 @@
   },
   {
     "path": "scripts/ldraw-models/5-tou-shi-che.ldr",
-    "sha256": "44dd3717204dc4b61731369b93bcb3cbbf688953a59386907998f11a6526bb70",
+    "sha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
     "exit": 2,
     "stableDuringCheck": true,
-    "output": "\nFAIL [5-tou-shi-che.ldr] 14 error(s), 46 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l14\n  - step 6: 5-tou-shi-che_l48 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l49 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+    "output": "\nFAIL [5-tou-shi-che.ldr] 12 error(s), 48 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-tui-tu-ji.ldr",
-    "sha256": "b0ddc630248e907318e7b65cdcdcb76cf039dc496e41580f99fabf60ea4470d8",
+    "sha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
     "exit": 2,
     "stableDuringCheck": true,
     "output": "\nFAIL [5-tui-tu-ji.ldr] 4 error(s), 49 placement(s):\n  - step 1: 5-tui-tu-ji_l14 overlaps 5-tui-tu-ji_l12; 5-tui-tu-ji_l14 overlaps 5-tui-tu-ji_l13\n  - step 1: 5-tui-tu-ji_l17 overlaps 5-tui-tu-ji_l15; 5-tui-tu-ji_l17 overlaps 5-tui-tu-ji_l16\n  - step 1: 5-tui-tu-ji_l21 overlaps 5-tui-tu-ji_l19; 5-tui-tu-ji_l21 overlaps 5-tui-tu-ji_l20\n  - step 1: 5-tui-tu-ji_l24 overlaps 5-tui-tu-ji_l22; 5-tui-tu-ji_l24 overlaps 5-tui-tu-ji_l23\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
@@ -407,10 +407,10 @@
   },
   {
     "path": "scripts/ldraw-models/5-wo-lun-diao-qiao.ldr",
-    "sha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+    "sha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
     "exit": 0,
     "stableDuringCheck": true,
-    "output": "OK   [5-wo-lun-diao-qiao.ldr] 174 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+    "output": "OK   [5-wo-lun-diao-qiao.ldr] 176 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-xiao-niao-de-chi-bang.ldr",
@@ -463,17 +463,17 @@
   },
   {
     "path": "scripts/ldraw-models/5-yu-er-de-wei-ba.ldr",
-    "sha256": "e0f4f467a71caaa5e3257f144b9362fa9ee03676ca50b91446d75385bb55abe2",
+    "sha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
     "exit": 2,
     "stableDuringCheck": true,
     "output": "\nFAIL [5-yu-er-de-wei-ba.ldr] 2 error(s), 195 placement(s):\n  - step 2: 5-yu-er-de-wei-ba_l24 overlaps 5-yu-er-de-wei-ba_l22; 5-yu-er-de-wei-ba_l24 overlaps 5-yu-er-de-wei-ba_l23\n  - step 2: 5-yu-er-de-wei-ba_l27 overlaps 5-yu-er-de-wei-ba_l25; 5-yu-er-de-wei-ba_l27 overlaps 5-yu-er-de-wei-ba_l26\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-yu-hang-yuan-xun-lian-ji.ldr",
-    "sha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
+    "sha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
     "exit": 0,
     "stableDuringCheck": true,
-    "output": "OK   [5-yu-hang-yuan-xun-lian-ji.ldr] 106 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+    "output": "OK   [5-yu-hang-yuan-xun-lian-ji.ldr] 109 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-zhuan-wan-xiao-che.ldr",

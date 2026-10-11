@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+  "revision": "88a44cbf11cd3bc9e215bd063cd3f760d61d191e5aeaad479238b3c8c76754c7",
+  "reviewedAt": "2026-10-11T06:30:43.736870+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhuan-wan-xiao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e1aa364db687e36076f5298bba5883965e36cef313db9ac8dc842ab1ea53afc2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "de01756862e9162a2aa66e8891c0d664b4c0e9b24e8d5ff35c743e1007b54bcc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b5a97b333c72074914273bb90c0da500a4f3f6988e256baec1f3c83fc2325c78",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed original iso, iso-rear and top separately and source p5,p7,p15. Entire model framed. Front crossbeam/tie rod, blue crown/red horizontal gear and cockpit guardrails broadly correspond; omitted driver remains incomplete. Six raw checker collision groups at lower kingpin/tie-pin retainers and horizontal wheel spacers remain unresolved; occlusion and whole-model pixel scale do not prove clearance. Nominal gear arrangement is not verified meshing, steering travel or physical function. No transforms changed or checks relaxed. INCOMPLETE/pending user confirmation; cumulative steps not reviewed."
+}

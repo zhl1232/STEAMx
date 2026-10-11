@@ -1,0 +1,38 @@
+{
+  "sourceSha256": "1a80828b992a904a900536018723dde8a9246c1cd851555266425ea62e47b67a",
+  "packRevision": "d3650bbfbc022dd09877a5c695319f59b99cd44ed53746ecbd8454d3201b71dd",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "sourcePagesRechecked": [
+    18,
+    19
+  ],
+  "views": [
+    {
+      "view": "iso",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-di-qiu-yi\\iso.png",
+      "sha256": "1da2add9a768a94005d05518fa01a1d69c91b8b04dc9f2c431ac23ccf59c0501"
+    },
+    {
+      "view": "iso-rear",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-di-qiu-yi\\iso-rear.png",
+      "sha256": "7240f450722ff249e1aef1401e370fbfde7e8479dd2783f1381c46ea7bd2f4a8"
+    },
+    {
+      "view": "top",
+      "pixelsViewed": true,
+      "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-di-qiu-yi\\top.png",
+      "sha256": "00844d54257081421bfa84ab7f0555fb7710bccf898fbd8558ae6b9fb0dc71db"
+    }
+  ],
+  "completeFrameVisible": true,
+  "sourceCorrespondence": "Layered hollow globe, alternating side support, base and pole bearings agree in overall shape. Two local corrections required.",
+  "deviations": [
+    "Upper grey shaft extends about48LDU above collar versus roughly16 in sourcep18.",
+    "Upper yellow cap should be offset one stud rearwards relative to lower cap; original draft had aligned cap courses."
+  ],
+  "action": "Lower upper shaft32LDU; shift upper two cap bricks40LDU rearwards. New model requires rerender.",
+  "allStepsReviewed": false,
+  "physicalValidation": false
+}

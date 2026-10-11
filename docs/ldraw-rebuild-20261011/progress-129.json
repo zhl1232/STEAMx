@@ -1,12 +1,12 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T06:14:03.834041+00:00",
+  "generatedAt": "2026-10-11T06:54:13.648806+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
-  "sourceBlocker": "69 locally materialized courses; 60 await transfer. Parent reports official Quark downloads have recovered and is fetching remaining sources slowly; batch9 crane and missile truck have been materialized and verified. Previous failure cause remains undetermined, no account ban established. Do not access the unapproved local source directory.",
+  "sourceBlocker": "69 locally materialized courses; 60 await verified Library transfer. Parent reports original JPGs located on separately connected PC-20260523FVXD at the user-authorized Desktop/pdf-preview folder. This executor remains DESKTOP-MNEH90C; that remote path is not treated as local. All remaining 60 courses are matched on that remote PC: 713 decoded JPG pages with continuity and final-page checks. Six packages cannot yet be uploaded because official Library prepare_uploads/finalize_uploads tools are unavailable there; no Library IDs exist. These 60 are awaiting transfer, not missing at source and not locally received or built.",
   "summary": {
     "reconstructed-development-draft-pending-validation": 69,
-    "awaiting-source": 60
+    "source-verified-remotely-awaiting-transfer": 60
   },
   "courses": [
     {
@@ -106,7 +106,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -209,12 +209,13 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "b7068e095a294a4ce1bebe23e98a3568fc9bb01e23106ed2079aa7e74b59a42e",
+      "modelSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
       "placements": 50,
       "steps": 11,
       "headerLimitations": [
         "// INCOMPLETE: blue horn-end claw pair unresolved; hinge articulation and wing offsets provisional.",
-        "// MISSING blue opposed horn-end claws x2 from p5."
+        "// MISSING blue opposed horn-end claws x2 from p5.",
+        "// Wing p8 revision: plate pair shifted rear80LDU and outward40LDU on stud grid; 80LDU central gap. Turntable/hinge anchors unchanged, exact swivel angle unresolved."
       ]
     },
     {
@@ -387,12 +388,13 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+      "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
       "placements": 93,
       "steps": 12,
       "headerLimitations": [
         "4+ Gantry crane - incomplete source reconstruction draft",
         "// INCOMPLETE: p10 cord andp11 compact pulley holder/pulley/long black hook lack confirmed complete geometry; omitted. Suspended Toolo loop estimated interfaces.",
+        "// p7 source direction correction: red2x4 plate longaxis across beam Z; fork base grid registration remains unresolved.",
         "// SOURCE PAGE 10 - cord preparation omitted: length androute unknown",
         "// UNKNOWN p10 cord physical length and material; no fabricated geometry.",
         "// UNKNOWN p11 compact U holder candidate2223, small gray pulley andlong black hook: not4663 short hook; exact IDs/geometry unavailable.",
@@ -494,7 +496,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -562,7 +564,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -634,7 +636,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -679,7 +681,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1006,7 +1008,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1024,7 +1026,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1064,7 +1066,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1082,7 +1084,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1100,7 +1102,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1144,7 +1146,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1162,7 +1164,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1180,7 +1182,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1222,7 +1224,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1319,8 +1321,8 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
-      "placements": 65,
+      "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+      "placements": 67,
       "steps": 10,
       "headerLimitations": [
         "5-diao-shan - source reconstruction, INCOMPLETE dev-only",
@@ -1342,7 +1344,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1388,7 +1390,7 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1406,7 +1408,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1424,7 +1426,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1442,7 +1444,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1460,7 +1462,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1478,7 +1480,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1545,7 +1547,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1609,7 +1611,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1627,7 +1629,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1645,7 +1647,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1663,7 +1665,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1733,7 +1735,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1775,7 +1777,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1793,7 +1795,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1811,7 +1813,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1855,7 +1857,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1873,7 +1875,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1916,7 +1918,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1934,7 +1936,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -1952,7 +1954,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -1992,7 +1994,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2010,7 +2012,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2054,7 +2056,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2072,7 +2074,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2090,7 +2092,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2132,7 +2134,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2178,13 +2180,12 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "44dd3717204dc4b61731369b93bcb3cbbf688953a59386907998f11a6526bb70",
-      "placements": 46,
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "placements": 48,
       "steps": 11,
       "headerLimitations": [
         "Catapult - incomplete source reconstruction",
-        "// INCOMPLETE: pages5-7 redistribute beams without explicit intermediate motion; A-frame vs lever assignment provisional. Basket cranks and payload omitted pending pin orientation evidence.",
-        "// SOURCE PAGE 6: two long levers, second base shaft and four retainers; source movement sequence unresolved",
+        "// INCOMPLETE: page7 material inset omits2 visibly added long lever beams; extra2 beams required pending source-BOM clarification. Basket cranks and payload omitted pending pin orientation evidence.",
         "// SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted",
         "// OMITTED p10 basket axle and two retainers together with unresolved cranks; not placed as unsupported partial basket.",
         "// OMITTED p11 basket axle and two retainers together with unresolved cranks/payload."
@@ -2207,7 +2208,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "b0ddc630248e907318e7b65cdcdcb76cf039dc496e41580f99fabf60ea4470d8",
+      "modelSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
       "placements": 49,
       "steps": 8,
       "headerLimitations": [
@@ -2254,7 +2255,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2275,8 +2276,8 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
-      "placements": 174,
+      "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+      "placements": 176,
       "steps": 11,
       "headerLimitations": [
         "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
@@ -2297,7 +2298,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2315,7 +2316,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2358,7 +2359,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2404,7 +2405,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2422,7 +2423,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2466,7 +2467,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2511,7 +2512,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2529,7 +2530,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2547,7 +2548,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2565,7 +2566,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2608,7 +2609,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2626,7 +2627,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2695,10 +2696,12 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "e0f4f467a71caaa5e3257f144b9362fa9ee03676ca50b91446d75385bb55abe2",
+      "modelSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
       "placements": 195,
       "steps": 9,
-      "headerLimitations": []
+      "headerLimitations": [
+        "// Source page 4: gray lower fin axle, retainers and fins angled45deg tailward; source p4/p10 pose approximate, water clearance pending."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2717,14 +2720,15 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
-      "placements": 106,
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+      "placements": 109,
       "steps": 8,
       "headerLimitations": [
         "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
         "// Source page 7: central red bar and two yellow end plates; drive cranks/shaft unresolved",
         "// PENDING: Central bar is shown in source position but not yet supported because drive linkage unresolved; intentionally incomplete preview.",
-        "// PENDING: All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown."
+        "// PENDING: All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown.",
+        "// PENDING: Final full-frame review confirms floating central bar. Known omitted gears/short geared shafts reclassified from unknown IDs; adding them requires a defensible connection pose."
       ]
     },
     {
@@ -2741,7 +2745,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2759,7 +2763,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2777,7 +2781,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_not_attempted"
     },
@@ -2795,7 +2799,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2813,7 +2817,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },
@@ -2831,7 +2835,7 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "source-verified-remotely-awaiting-transfer",
       "accepted": false,
       "sourceCoverage": "download_timed_out"
     },

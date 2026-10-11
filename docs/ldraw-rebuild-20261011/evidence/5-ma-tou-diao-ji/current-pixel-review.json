@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+  "revision": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
+  "reviewedAt": "2026-10-11T06:30:32.231722+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ma-tou-diao-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "c5c4f9cef369cea633f0f122d5e511de2b08a7390d8fd678fa38b3c209ec3100",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "ad3715d4678c5409354cc0d153f4e9b7c2de4daf0844f9f503b51070b4af528f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "1ee7853f047cf782594c34693c07e30cce7fdb73230d9d735921897bc20f3244",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso, iso-rear, top against source page15 and previously reviewed page10. Full base, boom, roof and hook in frame. Three alternating columns, bridge, rotating chassis and cockpit source arrangement remain recognizable. Missing lower pivot axle/two retainers are explicit known-ID connection omissions. Current parallel boom-at-upper-pivot placement remains provisional; source shows a lower bearing whose arm engagement is obscured. Canopy-shell fit and estimated string route remain unresolved. No new source-certain correction identified; not source-fidelity/physical/user acceptance. Cumulative steps not reviewed."
+}

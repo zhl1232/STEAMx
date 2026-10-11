@@ -2,10 +2,18 @@
   "partCount": 124,
   "missingParts": [],
   "stepCount": 11,
-  "revision": "f4c83121d36eef2455af68ddaf8493a75b787e7da0d9c0864f8ec51d29610647",
-  "sourceSha256": "2b7664b4c6f10f5e143109ef1596c6f250e5a79f7dbc4757ab7b01af1d3c1d9a",
+  "revision": "dfa1331fccd6346d8322d57bf75e75b58cf41fbe0c785789c2d836e3faa25405",
+  "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "staticSingleRender": true,
+  "outputRoot": "D:/Codex-task-2-20261011/rendered-evidence",
   "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "latestRunViews": [
     "iso",
     "iso-rear",
     "top"
@@ -23,5 +31,10 @@
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
     }
-  ]
+  ],
+  "viewport": {
+    "width": 1000,
+    "height": 720
+  },
+  "elapsedMs": 9454
 }

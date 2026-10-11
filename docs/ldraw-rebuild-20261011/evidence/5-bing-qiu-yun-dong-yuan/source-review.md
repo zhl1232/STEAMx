@@ -19,3 +19,7 @@ raw checker首次51件四项错误：两项头旧metadata、一项相邻轮（�
 
 ## 最新三视图像素复核
 已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。
+
+## D final pixel review
+Actually viewed original iso, iso-rear and top, comparing source p9 and p13. Body, curved head, gear front, stick, ball and rolling feet fully framed and broadly correspond. Rear tyre/pulley cavity and hidden axle engagement remain limited by earlier profile/metadata checks; dynamic stick travel and physical play unverified. current-pixel-review.json binds exact source/revision. No source edits, no new exceptions. Cumulative D steps pending.
+

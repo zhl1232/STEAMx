@@ -151,57 +151,59 @@
 1 1 480 -864 -40 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 480 -864 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // Source page 6: one official gearbox, worm, red24tooth gear and crank; input shaft identity pending
+0 // Source page 6: official gearbox,worm,redgear,upper axle,crank and source-identified short geared input axle
 1 15 480 -864 0 1 0 0 0 1 0 0 0 1 31624.dat
 1 1 480 -936 0 0 0 1 0 1 0 -1 0 0 31625.dat
 1 4 480 -1032 0 1 0 0 0 1 0 0 0 1 6529.dat
 1 2 480 -1032 0 0 0 1 0 1 0 -1 0 0 6521.dat
 1 14 600 -936 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 1 520 -936 0 1 0 0 0 1 0 0 0 1 6523.dat
 0 STEP
-0 // Source page 7: one official gearbox, worm, red24tooth gear and crank; input shaft identity pending
+0 // Source page 7: official gearbox,worm,redgear,upper axle,crank and source-identified short geared input axle
 1 15 -480 -864 0 1 0 0 0 1 0 0 0 1 31624.dat
 1 1 -480 -936 0 0 0 1 0 1 0 -1 0 0 31625.dat
 1 4 -480 -1032 0 1 0 0 0 1 0 0 0 1 6529.dat
 1 2 -480 -1032 0 0 0 1 0 1 0 -1 0 0 6521.dat
 1 14 -600 -936 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 1 -520 -936 0 -1 0 0 0 1 0 0 0 -1 6523.dat
 0 STEP
 0 // Source page 8: four horizontal eleven-hole liftarms and four outer crank locks
-1 14 -280 -1032 -60 0 0 1 1 0 0 0 1 0 6525.dat
-1 14 -280 -1032 60 0 0 1 1 0 0 0 1 0 6525.dat
-1 14 280 -1032 -60 0 0 1 1 0 0 0 1 0 6525.dat
-1 14 280 -1032 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 -280.64110976151187 -1015.9989724430445 -60 -0.08000513778477711 0 0.9967944511924407 0.9967944511924407 0 0.08000513778477711 0 1 0 6525.dat
+1 14 -280.64110976151187 -1015.9989724430445 60 -0.08000513778477711 0 0.9967944511924407 0.9967944511924407 0 0.08000513778477711 0 1 0 6525.dat
+1 14 280.64110976151187 -1015.9989724430445 -60 0.08000513778477711 0 0.9967944511924407 0.9967944511924407 0 -0.08000513778477711 0 1 0 6525.dat
+1 14 280.64110976151187 -1015.9989724430445 60 0.08000513778477711 0 0.9967944511924407 0.9967944511924407 0 -0.08000513778477711 0 1 0 6525.dat
 1 14 -480 -1032 -100 1 0 0 0 0 -1 0 1 0 6526.dat
 1 14 -480 -1032 100 1 0 0 0 0 -1 0 1 0 6526.dat
 1 14 480 -1032 -100 1 0 0 0 0 -1 0 1 0 6526.dat
 1 14 480 -1032 100 1 0 0 0 0 -1 0 1 0 6526.dat
 0 STEP
 0 // Source page 9: four vertical liftarms, two top cross axles and eight pulley spacers
-1 14 -80 -832 -100 -1 0 0 0 0 1 0 1 0 6525.dat
-1 14 -80 -832 100 -1 0 0 0 0 1 0 1 0 6525.dat
-1 2 -80 -1032 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 -80 -1032 -140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -80 -1032 -20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -80 -1032 20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -80 -1032 140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 80 -832 -100 -1 0 0 0 0 1 0 1 0 6525.dat
-1 14 80 -832 100 -1 0 0 0 0 1 0 1 0 6525.dat
-1 2 80 -1032 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 80 -1032 -140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 80 -1032 -20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 80 -1032 20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 80 -1032 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80.64110976151186 -799.9989724430445 -100 -0.9999948622152229 0 0.003205548807559282 0.003205548807559282 0 0.9999948622152229 0 1 0 6525.dat
+1 14 -80.64110976151186 -799.9989724430445 100 -0.9999948622152229 0 0.003205548807559282 0.003205548807559282 0 0.9999948622152229 0 1 0 6525.dat
+1 2 -81.28221952302371 -999.9979448860892 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -81.28221952302371 -999.9979448860892 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -81.28221952302371 -999.9979448860892 -20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -81.28221952302371 -999.9979448860892 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -81.28221952302371 -999.9979448860892 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 80.64110976151186 -799.9989724430445 -100 -0.9999948622152229 0 -0.003205548807559282 -0.003205548807559282 0 0.9999948622152229 0 1 0 6525.dat
+1 14 80.64110976151186 -799.9989724430445 100 -0.9999948622152229 0 -0.003205548807559282 -0.003205548807559282 0 0.9999948622152229 0 1 0 6525.dat
+1 2 81.28221952302371 -999.9979448860892 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 81.28221952302371 -999.9979448860892 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 81.28221952302371 -999.9979448860892 -20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 81.28221952302371 -999.9979448860892 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 81.28221952302371 -999.9979448860892 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // Source page 10: two lower cross axles and four pulley retainers
-1 2 -80 -632 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 -80 -632 -140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -80 -632 140 1 0 0 0 1 0 0 0 1 6527.dat
-1 2 80 -632 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 80 -632 -140 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 80 -632 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 -80 -600 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -80 -600 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -600 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 80 -600 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 80 -600 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 80 -600 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // Source page 11: two small cars omitted pending exact chassis variant
-0 // PENDING: Vertical liftarm bottomY-632 versus deck bearingY-600 leaves32LDU registration discrepancy; source course heights retained, do not claim functional linkage.
-0 // PENDING: Gearbox actual bore centers verified from official DAT; input shafts omitted until identified; gear tooth phase, axle retention and travel unverified.
 0 // PENDING: Two small cars omitted; exact variants unresolved.
 0 // PENDING: Pier cap stud registration and arm collars must be visually reviewed; no physical support certification.
+0 // PENDING: Static linkage solved by equal-radius circle intersection: upper arms slope about4.59degrees, vertical arms lean about0.184degrees. This inferred admissible pose resolves32LDU discrepancy without scaling; source does not dimension the angles.
+0 // PENDING: Input6523 ID supported by sourcep6 BOM relative length and visible external8tooth pinion. Shaft retention, worm engagement, gear phase and collision through motion remain unverified.
 0 // Source page 12: finished view, no duplicated placements.

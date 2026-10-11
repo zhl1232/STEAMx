@@ -5,7 +5,8 @@ This is an in-progress development branch, not a release or course approval.
 - Base: `bbcdaddd417feba086f0683aa1bd3e6c5878d96a`.
 - Branch: `models/129-course-source-rebuild-20261011`.
 - Audit reproduced: 300 courses, 160 with published 3D; this scope contains 71 missing source models and 58 simplified source drafts. Eleven other incomplete/review cases are recorded separately in `deferred-11.json`.
-- Source coverage at this checkpoint: 60 PDF lessons and 7 image-based lessons received through Library and locally materialized; 62 still await source material. Quark read/download failures have an undetermined cause; no account ban was established. Timeout does not establish absence. PDFs and source photos are working evidence and are not bundled into this repository. The unapproved `D:/pdf预览` directory is not used.
+- Source coverage: 62 PDF lessons (774 pages) and seven image-based lessons are locally materialized through Library. The remaining 60 courses were matched on PC-20260523FVXD: 713 JPG pages across six packages, with decoding, continuity and final-page checks reported by the source task. Official Library upload preparation/finalization tools are unavailable on that PC, so no file IDs exist and transfer is blocked. Those 60 are not locally received or reconstructed. The active executor remains DESKTOP-MNEH90C; remote paths are not local paths.
+- Local checkpoint `21a1283` preserves 69 development source drafts. Because C storage is constrained, new large MPDs and rendered evidence are kept at `D:/Codex-task-2-20261011/rendered-evidence`; the repository's 59 MPDs remain an older preservation snapshot. `d-preview-closure.json` and `d-preview-self-contained-check.json` describe a dated D snapshot by hashes, not later source revisions. Repack and synchronize before final delivery.
 - `progress-129.json` records each course, source coverage, current reconstruction status, model hash and limitations. A rewritten LDR is **not** a completed/approved model.
 
 ## Validation boundary
@@ -14,9 +15,9 @@ Models are rebuilt after looking at source-page pixels. The workflow includes so
 
 The stock preview's building-step visibility filter hid some cumulative geometry; development step previews now use source text truncated at the requested STEP and are repacked independently. Earlier filtered screenshots do not establish step acceptance.
 
-The repository packer's POSIX path separator check also skipped new local DATs on Windows and could fall back to a published same-basename part. Only the local development copy was adapted to use `path.sep`, preserving containment checks. Affected earlier pixel reviews were withdrawn. The new `previews/self-contained-check.json` verifies embedded development geometry against its actual local source. Production packer code remains unchanged.
+The repository packer's POSIX path separator check also skipped new local DATs on Windows and could fall back to a published same-basename part. Only the local development copy was adapted to use `path.sep`, preserving containment checks. Affected earlier pixel reviews were withdrawn. The dated `previews/self-contained-check.json` and newer D snapshot reports verify embedded development geometry against its actual local source. Production packer code remains unchanged.
 
-Known special-part identities without reusable geometry are listed in `unknown-parts.md`. Prior approved simplified parts retain their approximation labels. The `parts/dev-129/` namespace isolates arm length corrections and reused approximate scoop geometry from published part files. Set-level inventory evidence is not a lesson BOM; incomplete set rows remain unknown.
+Current part issues, source pages and evidence gaps are in `unknown-parts-registry.json` (`partIssues`), with known-part connection omissions and inventory shortfalls separated. `unknown-parts.md` retains earlier research notes. Prior approved simplified parts retain their approximation labels. The `parts/dev-129/` namespace isolates arm length corrections and reused approximate scoop geometry from published part files. Set-level inventory evidence is not a lesson BOM; incomplete set rows remain unknown.
 
 ## Publication boundary
 

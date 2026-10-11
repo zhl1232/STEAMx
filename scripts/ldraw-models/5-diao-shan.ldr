@@ -75,10 +75,13 @@
 1 4 0 -520 0 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 
-0 // STEP 7 - long blue official31623 pinion shaft passes three brace layers; two crossed formed61898b sheets; yellow carriers unidentified
+0 // STEP 7 - long blue official31623 pinion shaft passes three brace layers; two crossed formed61898b sheets, opposed official6526 carriers; hole pitch80, clamp pose inferred
 1 1 -80 -444 0 0 1 0 -1 0 0 0 0 1 31623.dat
-1 27 -80 -344 0 1 0 0 0 1 0 0 0 1 61898bc01.dat
-1 27 -80 -342 0 0 0 -1 0 1 0 1 0 0 61898bc01.dat
+1 27 -80 -332 0 1 0 0 0 1 0 0 0 1 61898bc01.dat
+1 27 -80 -330 0 0 0 -1 0 1 0 1 0 0 61898bc01.dat
+0 // carrier upper pin at(-80,-332,80), lower pin starts(-160,-329,0) through sheetY[-330,-329]; each matches sheet offset hole80
+1 14 -80 -352 0 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 -80 -309 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
 0 STEP
 
 0 // STEP 8 - known large yellow gear, vertical Axle6, crank and lower yellow retainer

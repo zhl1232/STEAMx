@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+  "revision": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+  "reviewedAt": "2026-10-11T06:30:43.819547+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ren-li-shui-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "35147ab8c70066e5b14f8c0eac4c4a4452c4b17273e0a07c27059490544fd49d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "da1f0b79061fb37b464e92d3f1ffcc5a1deeae4920a307127fd20a27baf5ac00",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "8aeb59158a02e1c39e13073391985d8e61b55bcf0ed68af66ccce8e56276574d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed original iso, iso-rear and top separately for source38eb303f after determinant correction and compared source p12. All base, head/hat, beam ends and paddle plates framed. Corrected proper rotations show no visible reversed/inside-out beams; arm endpoints and cross-shaped waterwheel remain in source arrangement. Body/arm pose is an inferred static pose; hidden crank linkage and synchronized drive remain unresolved. No physical engagement, dynamic clearance or load validation. INCOMPLETE/pending user confirmation; cumulative steps not reviewed."
+}

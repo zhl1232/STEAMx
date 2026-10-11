@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+  "revision": "3c96d98f4a2d2e3eb62eb92c180d86bbc09b7547a4189a2822eddca3d8c497a2",
+  "reviewedAt": "2026-10-11T06:36:25.098400+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-du-jiao-xian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "16b716e1d98174d9fdce8ccb30154d893d5d94cd7e04771854434c81c0a0957a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "03425aef225b2fd4066809a12ed6909643eb222d0afebcfc452b6441c5ece262",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "832891f28579098705d3427561898d3b59feec616ec46fb712987b866b822320",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final3 contact sheet and original iso-rear pixels inspected against previously actually viewed source p7/p8/p12. Source31506262 matches local LDR, pack3c96d98f. Two lime wings now visibly separate; iso and top show the intended central gap instead of a joined canopy. Rear view shows each plate group seated above its own clutch/hinge and turntable; no obvious floating wing or new plate intersection at this resolution. This supports visible pose only: exact pin engagement, turntable yaw and provisional20degree hinge angle lack calibrated source evidence. Lower plate footprint and stud-grid offsets preserve support as documented in REVIEW. Two blue horn-end claws remain missing; arm geometry approximate. Complete frame/no blank views. Final3 only, cumulative11 steps not reviewed; accepted false, no physical validation."
+}

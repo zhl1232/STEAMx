@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+  "revision": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
+  "reviewedAt": "2026-10-11T06:25:15.156861+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shui-jing",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "49a8639445b3f4840f630fd2127378bd9dc80da5c7c9b916fbbe8ca9c71de2cc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "3b57687d9c0f5e023d3180e4fd0a3842538b8de464622fe4d0dbe2c623a5ab17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b2d4788d0d5e0aedab09e6a24b9bf916699beff961844a6eb8ee865421c46a34",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current full-frame final3 plus original iso inspected against source contactpages1-13 and enlargedp11/12. Well walls/towers, upper bridge bearings, coupled green shaft, pulleys, gear/crank and tilted brake correspond to sourcep12 static pose. No new visible support mismatch found. Rope routes and hooks omitted: model does not implement counterweight suspension or prove lifting operation. Brake angle/contact, axial retention and physical operation remain unverified. Steps not reviewed in this run."
+}

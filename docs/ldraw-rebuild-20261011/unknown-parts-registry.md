@@ -1,6 +1,6 @@
 # Current part-issue registry:69-course increment
 
-69 source drafts +11 deferred. 30 part-issue families, including candidates, unavailablegeometry, licenses andflexible-route issues; this is not an unknown-ID count. Knownconnection omissions andstockshortages remain separate. No acceptance.
+69 source drafts +11 deferred. 29 part-issue families, including candidates, unavailablegeometry, licenses andflexible-route issues; this is not an unknown-ID count. Knownconnection omissions andstockshortages remain separate. No acceptance.
 
 |Issue / ID or candidates|Affected courses / sourcepages|Gap|
 |---|---|---|
@@ -42,3 +42,20 @@
 - 4-dao-dan-che uses10 black76395/86599 against7 inone45002 reference set: extra3 required relative tothatset. This is stock quantity, not unknownID/missingDAT. Actualuserstock unknown.
 - Six extracted officialparts (4672,4672a,75350,6516,6515,44524) have localSHA matching provenance. Allavailable; sourceauthor/license retained.
 - current67.json/CURRENT67.md remains unchanged at its67-course QA time slice. This registryincrement doesnot certify69courseQA.
+
+## Explicit omissions after latest final review
+
+- Military ship p16 yellow mixer/drum assembly is now a top-level part issue. Exact identity and geometry remain unknown; spider mixer IDs are only related research, not confirmation.
+- Military ship p19 uses real official figure components, but exact print/arm variants are unverified. Its flag51725/pole51708 are locally available with licenses: their interface overlap is a connection issue, not missing geometry.
+- Bulldozer p3/4 four tracks andp5 orangeblade were already covered.71981 has existing approved CC BY4.0 approximate geometry; source identity/fit remains unverified. The blade has no confirmed ID or licensedmesh.
+- Gantry p7 plate now follows source longaxisZ; upperoverlap48LDU, lowerredbrickoverlap8LDU, studgrid stillunresolved. Candidate analysis is separate from acceptance.
+
+## Local identity and stock reconciliation
+
+- Current issue families: 29. Liftbridge input shafts and training rig gears/shafts have resolved IDs and no longer count as unresolved identities. Historical raw observations are retained, not current counts.
+- Liftbridge c633fc25 now contains both 6523 shafts (p6/7); engagement and retention remain unverified.
+- Training rig p5 has two 6529 gears and one 6523 shaft. Page 6 has four known unassembled pieces (6529, 31622, two 6523); hypothesis coordinates do not support its floating central bar.
+- Catapult 74298d1a contains 48 of the source-visible 65 pieces; 17 known pieces remain omitted. Against one 9656-1 set: 6525 needs 2 extra for both placed/target; 6526 needs 2 extra for target; 6527 needs 7 extra for placed or 13 for target. No automatic disassembly of 75536 counted; actual holdings unknown.
+- No model, shared docs or historical 67-course QA changes.
+
+- Fan08253354: both p7 6526 carriers are now placed. Prior omission archived; static carrier/sheet fit is inferred and no friction or physical validation is claimed. Current known omission groups:3; identity issue families unchanged29.
