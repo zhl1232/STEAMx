@@ -1,0 +1,4232 @@
+{
+  "slug": "5-wo-lun-diao-qiao",
+  "pages": 12,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "two24x24 bases and two eleven-course piers:56 yellow,32blue ordinary bricks",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            -480,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Ground baseplate",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            480,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Ground baseplate",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -192,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -192,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-17",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -192,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-18",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -192,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-19",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-20",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-21",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-22",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-23",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -288,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-24",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -288,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-25",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -288,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-26",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -288,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-27",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -336,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-28",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -336,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-29",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -336,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-30",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -336,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-31",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -384,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-32",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -384,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-33",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -384,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-34",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -384,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-35",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -432,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-36",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -432,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-37",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -432,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-38",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -432,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-39",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -480,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-40",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -480,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-41",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -480,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-42",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -480,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-43",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -528,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-44",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -528,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-45",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -528,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-46",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -528,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-47",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-48",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-49",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-50",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-51",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-52",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-53",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-54",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-55",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-56",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-57",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -144,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-58",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -144,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-59",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -192,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-60",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -192,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-61",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -192,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-62",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -192,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-63",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-64",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-65",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            520,
+            -240,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-66",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            520,
+            -240,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-67",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -288,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-68",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -288,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-69",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -288,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-70",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -288,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-71",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -336,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-72",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -336,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-73",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -336,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-74",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -336,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-75",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -384,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-76",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -384,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-77",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -384,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-78",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -384,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-79",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -432,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-80",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -432,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-81",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -432,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-82",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -432,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-83",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -480,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-84",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -480,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-85",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -480,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-86",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            480,
+            -480,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Cross-bonds previous course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-87",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -528,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-88",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -528,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-89",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            520,
+            -528,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-90",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            520,
+            -528,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating seam direction in4x8 pier",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 90
+    },
+    {
+      "sourcePage": 2,
+      "note": "eight yellow bricks form two U caps",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -576,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back of U overlaps outer pier studs by40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -576,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back of U overlaps outer pier studs by40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -576,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "U arms, bottom-528",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -576,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "U arms, bottom-528",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -576,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back of U overlaps outer pier studs by40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -576,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back of U overlaps outer pier studs by40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -576,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "U arms, bottom-528",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -576,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "U arms, bottom-528",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 98
+    },
+    {
+      "sourcePage": 3,
+      "note": "four red2x2 and four red perforated2x4 bearing bricks",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "3437.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -624,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On back U corners",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -440,
+            -624,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On U arms, bore axisZ atY-600",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "3437.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -624,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On back U corners",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -440,
+            -624,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On U arms, bore axisZ atY-600",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "3437.dat",
+          "color": 4,
+          "position": [
+            560,
+            -624,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On back U corners",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-6",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            440,
+            -624,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On U arms, bore axisZ atY-600",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-7",
+          "partId": "3437.dat",
+          "color": 4,
+          "position": [
+            560,
+            -624,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On back U corners",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-8",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            440,
+            -624,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "On U arms, bore axisZ atY-600",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 106
+    },
+    {
+      "sourcePage": 4,
+      "note": "four red ten-stud beams form paired bridge deck; two green axle hinges",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -624,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "End-to-end20stud span and4stud width; pivots atx+/-400",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -624,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "End-to-end20stud span and4stud width; pivots atx+/-400",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -624,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "End-to-end20stud span and4stud width; pivots atx+/-400",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -624,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "End-to-end20stud span and4stud width; pivots atx+/-400",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -400,
+            -600,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "AxleZ through bridge and pier bearing holes; nominal320 length",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            400,
+            -600,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "AxleZ through bridge and pier bearing holes; nominal320 length",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 112
+    },
+    {
+      "sourcePage": 5,
+      "note": "twelve blue and twelve yellow bricks raise and cap the two gateways",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -672,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -672,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -720,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -720,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -768,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -768,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -816,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -816,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -816,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -440,
+            -816,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-11",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -864,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "4x4 gearbox plinth",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -864,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "4x4 gearbox plinth",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-13",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -672,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-14",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -672,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -720,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -720,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-17",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -768,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-18",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            440,
+            -768,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gateway side pillars; center remains open",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-19",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -816,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-20",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            440,
+            -816,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-21",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -816,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-22",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            520,
+            -816,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Full bridge across gateway",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-23",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -864,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "4x4 gearbox plinth",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-24",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            480,
+            -864,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "4x4 gearbox plinth",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 136
+    },
+    {
+      "sourcePage": 6,
+      "note": "one official gearbox, worm, red24tooth gear and crank; input shaft identity pending",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "31624.dat",
+          "color": 15,
+          "position": [
+            480,
+            -864,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom at plinthY-864; actual inputX at-936/outputZ at-1032",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "31625.dat",
+          "color": 1,
+          "position": [
+            480,
+            -936,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "AxisX through actual input bore(0,-72,0)",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            480,
+            -1032,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "AxisZ actual output bore(0,-168,0); phase not validated",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            480,
+            -1032,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Upper output axle alongZ, actual hole center",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            600,
+            -936,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Input crank at side of box; inputshaft6522/6523/31623 unresolved and omitted",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 141
+    },
+    {
+      "sourcePage": 7,
+      "note": "one official gearbox, worm, red24tooth gear and crank; input shaft identity pending",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "31624.dat",
+          "color": 15,
+          "position": [
+            -480,
+            -864,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom at plinthY-864; actual inputX at-936/outputZ at-1032",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "31625.dat",
+          "color": 1,
+          "position": [
+            -480,
+            -936,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "AxisX through actual input bore(0,-72,0)",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -480,
+            -1032,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "AxisZ actual output bore(0,-168,0); phase not validated",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -480,
+            -1032,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Upper output axle alongZ, actual hole center",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -600,
+            -936,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Input crank at side of box; inputshaft6522/6523/31623 unresolved and omitted",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 146
+    },
+    {
+      "sourcePage": 8,
+      "note": "four horizontal eleven-hole liftarms and four outer crank locks",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -1032,
+            -60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -1032,
+            60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            280,
+            -1032,
+            -60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            280,
+            -1032,
+            60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "End holes atouter480 andinner80; longaxisX holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -1032,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper output shaft lock; integralpin direction is inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-6",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -480,
+            -1032,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper output shaft lock; integralpin direction is inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-7",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            480,
+            -1032,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper output shaft lock; integralpin direction is inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-8",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            480,
+            -1032,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper output shaft lock; integralpin direction is inferred",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 154
+    },
+    {
+      "sourcePage": 9,
+      "note": "four vertical liftarms, two top cross axles and eight pulley spacers",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -832,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -832,
+            100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -80,
+            -1032,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "320LDU crossshaft through paired upper joints",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -1032,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -1032,
+            -20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -1032,
+            20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-7",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -1032,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-8",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            80,
+            -832,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-9",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            80,
+            -832,
+            100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "TopY-1032, bottomY-632, holeaxisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-10",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            80,
+            -1032,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "320LDU crossshaft through paired upper joints",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-11",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -1032,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-12",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -1032,
+            -20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-13",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -1032,
+            20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-14",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -1032,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pulley spacers outside joined liftarm layers",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 168
+    },
+    {
+      "sourcePage": 10,
+      "note": "two lower cross axles and four pulley retainers",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -80,
+            -632,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Through vertical bottomholes; bridge bearing atY-600 differs32LDU and is unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -632,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower retainers; not proof of bridge linkage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -632,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower retainers; not proof of bridge linkage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-4",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            80,
+            -632,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Through vertical bottomholes; bridge bearing atY-600 differs32LDU and is unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -632,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower retainers; not proof of bridge linkage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            80,
+            -632,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower retainers; not proof of bridge linkage",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 174
+    },
+    {
+      "sourcePage": 11,
+      "note": "two small cars omitted pending exact chassis variant",
+      "placements": [],
+      "cumulativePlacements": 174
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "awaiting raw check and central rendering",
+  "source": {
+    "name": "5+蜗轮吊桥搭建说明.pdf",
+    "relative_path": "5+/5+蜗轮吊桥搭建说明.pdf",
+    "pages": 12,
+    "bytes": 2344946,
+    "sha256": "fd90e92e5d3e394831a70a5df4e406b8ccb8c8cd4b457351e316f6800949bd4f",
+    "source_url": "https://pan.quark.cn/list#/docpdf/81f9b993773c46cebc1b86f2b20f0156",
+    "slug": "5-wo-lun-diao-qiao",
+    "lesson_id": 301,
+    "course_id": 7
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-01.jpg",
+      "sha256": "22e56b5b997667fc4c310df40df893459b52b850686fa310b2452fdfc9526948",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-02.jpg",
+      "sha256": "b373cc6602d16f0713446e06a57b78372aef27e0e3066ffcdf48784642ab726a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-03.jpg",
+      "sha256": "22f3405aa21f4c260750b219c9503932b527b32fdafdc13d88364cd884214f4d",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-04.jpg",
+      "sha256": "36504cef5432093e07004a7102f33714b79cc257057f03acc6047453f5b31e53",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-05.jpg",
+      "sha256": "29bfbfde342c99f4f2a9ad4219c2e694ac6a0f66873b018ab137c5fd32d80b14",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-06.jpg",
+      "sha256": "fd4c157d9b8b8d8a969972495b383e4d4cd361223b6478c82812eced09028c3b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-07.jpg",
+      "sha256": "0ed4565265fc5104c85b11b58d464e9577e2f4a6690905a300fa5319d7482622",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-08.jpg",
+      "sha256": "2f908d361abd3e17bee292a0aa53f9689754ff014d9459898b6b2654d1ab023d",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-09.jpg",
+      "sha256": "c01fec598b93ce364eda4cb8caee5f283d9273da4ead4ec38c05334c8300b1f1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-10.jpg",
+      "sha256": "b71c5f5777bd2b07ff4a7ed4b39a6fe4b6406e545fb0e4c8518eeae9e4e66a16",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-11.jpg",
+      "sha256": "790c745b732ab002fca2c90ac7d5731d8235d87455b1d99083d89ad06b174a5a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\source-12.jpg",
+      "sha256": "4fe6f8d3bb36bacceb90ecb206a9086219a10da5918a9ff6d1f87de56bbdbcc9",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [
+    {
+      "sourcePages": [
+        6,
+        7
+      ],
+      "location": "two gearbox input shafts",
+      "candidates": [
+        "6522",
+        "6523",
+        "31623"
+      ],
+      "missingEvidence": "BOM silhouette/colour alone does not distinguish geared shaft from ordinary axle"
+    },
+    {
+      "sourcePage": 11,
+      "location": "two red/yellow car bases",
+      "candidates": [
+        "74656",
+        "10715p01",
+        "10715p02"
+      ],
+      "missingEvidence": "Exact wheel/base variant not confirmed"
+    }
+  ],
+  "pending": [
+    "Vertical liftarm bottomY-632 versus deck bearingY-600 leaves32LDU registration discrepancy; source course heights retained, do not claim functional linkage.",
+    "Gearbox actual bore centers verified from official DAT; input shafts omitted until identified; gear tooth phase, axle retention and travel unverified.",
+    "Two small cars omitted; exact variants unresolved.",
+    "Pier cap stud registration and arm collars must be visually reviewed; no physical support certification."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-wo-lun-diao-qiao.ldr",
+  "totalPlacements": 174,
+  "bom": {
+    "4268.dat|2": 2,
+    "3011.dat|14": 76,
+    "3011.dat|1": 44,
+    "3437.dat|4": 4,
+    "75349.dat|4": 4,
+    "75350.dat|4": 4,
+    "6521.dat|2": 8,
+    "31624.dat|15": 2,
+    "31625.dat|1": 2,
+    "6529.dat|4": 2,
+    "6526.dat|14": 6,
+    "6525.dat|14": 8,
+    "6527.dat|14": 12
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "checks": {
+    "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+    "dependencyNodes": 131,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 0,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-wo-lun-diao-qiao\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched"
+  }
+}

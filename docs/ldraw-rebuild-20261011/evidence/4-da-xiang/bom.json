@@ -1,44 +1,282 @@
-[
-  {
-    "part": "76395.dat",
-    "color": 0,
-    "quantity": 7,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "76057.dat",
-    "color": 72,
-    "quantity": 18,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "99565.dat",
-    "color": 71,
-    "quantity": 6,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "44970.dat",
-    "color": 0,
-    "quantity": 4,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "60535.dat",
-    "color": 0,
-    "quantity": 1,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "28336.dat",
-    "color": 72,
-    "quantity": 5,
-    "kitQuantity": "unknown"
-  },
-  {
-    "part": "74957.dat",
-    "color": 72,
-    "quantity": 3,
-    "kitQuantity": "unknown"
-  }
-]
+{
+  "scope": "source top-level; assembled DAT nested components not double-counted; colors not normalized; incomplete9090 absent rows UNKNOWN",
+  "aliases": "75349/75350 complete assemblies versus6517/6515 inventory base designs; metadata/crosswalk review still required",
+  "records": [
+    {
+      "ldrawPart": "28336.dat",
+      "ldrawColor": 72,
+      "quantity": 5,
+      "inventoryPartCandidate": "45202",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "45202",
+              "color": "Dark Bluish Gray",
+              "quantity": 4
+            }
+          ],
+          "visibleDesignTotal": 4,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "44970.dat",
+      "ldrawColor": 0,
+      "quantity": 4,
+      "inventoryPartCandidate": "44970",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "44970",
+              "color": "Black",
+              "quantity": 8
+            }
+          ],
+          "visibleDesignTotal": 8,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "60535.dat",
+      "ldrawColor": 0,
+      "quantity": 1,
+      "inventoryPartCandidate": "86594",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "86594",
+              "color": "Black",
+              "quantity": 2
+            }
+          ],
+          "visibleDesignTotal": 2,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "74957.dat",
+      "ldrawColor": 72,
+      "quantity": 3,
+      "inventoryPartCandidate": "74957",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "74957",
+              "color": "Dark Bluish Gray",
+              "quantity": 2
+            }
+          ],
+          "visibleDesignTotal": 2,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "76057.dat",
+      "ldrawColor": 72,
+      "quantity": 18,
+      "inventoryPartCandidate": "31184c01",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "31184c01",
+              "color": "Dark Bluish Gray",
+              "quantity": 5
+            },
+            {
+              "part_num": "31184c01",
+              "color": "Red",
+              "quantity": 1
+            },
+            {
+              "part_num": "31184c01",
+              "color": "Yellow",
+              "quantity": 1
+            }
+          ],
+          "visibleDesignTotal": 7,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "76395.dat",
+      "ldrawColor": 0,
+      "quantity": 7,
+      "inventoryPartCandidate": "86599",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "86599",
+              "color": "Black",
+              "quantity": 7
+            }
+          ],
+          "visibleDesignTotal": 7,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "99565.dat",
+      "ldrawColor": 71,
+      "quantity": 6,
+      "inventoryPartCandidate": "99565",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    },
+    {
+      "ldrawPart": "dev-129/6294.dat",
+      "ldrawColor": 25,
+      "quantity": 2,
+      "inventoryPartCandidate": "6294",
+      "inventoryEvidence": {
+        "9090-2": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": false
+        },
+        "45002-1": {
+          "matchingRows": [
+            {
+              "part_num": "6294",
+              "color": "Orange",
+              "quantity": 1
+            }
+          ],
+          "visibleDesignTotal": 1,
+          "completeInventory": true
+        },
+        "9656-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        },
+        "9076-1": {
+          "matchingRows": [],
+          "visibleDesignTotal": 0,
+          "completeInventory": true
+        }
+      }
+    }
+  ]
+}

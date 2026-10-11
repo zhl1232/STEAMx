@@ -1,0 +1,74 @@
+[
+  {
+    "page": 1,
+    "note": "three black Toolo base blocks; four bare gray rims",
+    "start": 9,
+    "placements": 7
+  },
+  {
+    "page": 2,
+    "note": "14 red+14 yellow2x4 bricks,14 alternating cross-bonded layers",
+    "start": 18,
+    "placements": 28
+  },
+  {
+    "page": 3,
+    "note": "second wheeled base",
+    "start": 48,
+    "placements": 7
+  },
+  {
+    "page": 4,
+    "note": "second alternating tower",
+    "start": 57,
+    "placements": 28
+  },
+  {
+    "page": 5,
+    "note": "seven black Toolo blocks: four lower, three upper bridging seams",
+    "start": 87,
+    "placements": 7
+  },
+  {
+    "page": 6,
+    "note": "four red2x3 curved bricks cap exposed ends",
+    "start": 96,
+    "placements": 4
+  },
+  {
+    "page": 7,
+    "note": "inverted red2x4 plate,2x2 brick andtwo Toolo base forks",
+    "start": 102,
+    "placements": 4
+  },
+  {
+    "page": 8,
+    "note": "two downward2x6 arms andtwo clutch blocks",
+    "start": 108,
+    "placements": 4
+  },
+  {
+    "page": 9,
+    "note": "three gray2x4 blocks andone red2x4 plate for lower cradle",
+    "start": 114,
+    "placements": 4
+  },
+  {
+    "page": 10,
+    "note": "cord preparation omitted: length androute unknown",
+    "start": 120,
+    "placements": 0
+  },
+  {
+    "page": 11,
+    "note": "pulley assembly omitted",
+    "start": 123,
+    "placements": 0
+  },
+  {
+    "page": 12,
+    "note": "attachment instruction retained; no new rigid geometry",
+    "start": 126,
+    "placements": 0
+  }
+]

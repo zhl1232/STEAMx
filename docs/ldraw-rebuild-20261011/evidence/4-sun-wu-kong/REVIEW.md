@@ -45,3 +45,4 @@ dev-129/28334（4个）、28336（2个）、76395（4个）28336/76395沿用仓�
 
 2026-10-11：父发现Windows scratch packer路径检查可误回退旧MPD同basename，旧像素验收撤回。等待dev-129/28334正确闭包与sourceSha标识的新渲染；LDR不改。
 2026-10-11新本地闭包三视角已实际复核：sourceSha f208ed5e / MPD revision ad1f519d，dev短臂完整加载。最终三视角通过外观复核；当前依赖版累计8–12步待复核，不据旧steps声称整体验收。
+2026-10-11最终更新：正确本地DAT闭包、sourceSha f208ed5e的12个累计steps已逐图实际复核（steps-contact-new.png），均非空；腿/桥/躯干/脸/冠/两臂/裙/棒顺序对应12源步骤。结合三视角，现可标renderer-verified only；机械近似接口及用户验收仍未完成。

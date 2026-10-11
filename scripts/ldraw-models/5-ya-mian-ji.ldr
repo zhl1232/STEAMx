@@ -1,0 +1,75 @@
+0 Noodle roller - unaccepted source reconstruction
+0 Name: 5-ya-mian-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF SHA256 22ff8d6cdae198e55d06549efdb0c60dcae0f45270a948fe40bc2d38462dc1fa; six source pages actually viewed.
+0 // INCOMPLETE: two loose tray axles omitted: source material and finished colours differ; length/pose unresolved. Gear phase and shaft retention require manual check.
+0 // SOURCE PAGE 1: green 8x16 plate and two 4x6 four-layer blue pillars
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 1 -240 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 2: six blue stepped supports and two red ten-stud hole beams
+1 1 -200 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -336 -80 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 -200 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -336 80 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 3: two green eight-stud shafts carrying four yellow 40T roller gears
+1 2 -80 -312 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -80 -312 -20 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -80 -312 20 1 0 0 0 1 0 0 0 1 6530.dat
+1 2 120 -312 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 120 -312 -20 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 120 -312 20 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+0 // SOURCE PAGE 4: two remaining blue supports, three retainers and hand crank
+1 1 -160 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -312 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -312 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -312 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -312 140 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 5: inverted grey tray with two-layer yellow ring; loose shafts unresolved
+1 7 0 24 -400 1 0 0 0 -1 0 0 0 -1 51262.dat
+1 14 -80 0 -520 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 -80 0 -280 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 80 0 -520 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 80 0 -280 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 -120 0 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
+1 14 120 0 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
+1 14 -80 -48 -520 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 -80 -48 -280 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 80 -48 -520 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 80 -48 -280 1 0 0 0 -1 0 0 0 -1 3011.dat
+1 14 -120 -48 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
+1 14 120 -48 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
+0 // Source page6 final. Loose tray shafts are not substituted or fabricated.

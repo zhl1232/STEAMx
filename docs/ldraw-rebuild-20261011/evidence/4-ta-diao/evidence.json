@@ -1,0 +1,28 @@
+{
+  "slug": "4-ta-diao",
+  "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+  "placements": 84,
+  "accepted": false,
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
+  "metadataUsedHash": "d60f8a7d0878adc5d5aac71525c156864ed4171871d09581c9d1d09c38367c10",
+  "sourceSha256": "96e0335e657bdbdeffc6d644c464ea69b25e29a6a6502b7d27bf0232e0309b43",
+  "sourcePages": 19,
+  "allSourcePixelsViewed": true,
+  "sourceStages": 18,
+  "missing": [
+    {
+      "id": "6295",
+      "count": 1,
+      "page": 11,
+      "role": "Toolo Arm with Fake Pulley and Hook; confirmed catalog photo, missing geometry"
+    },
+    {
+      "id": "2223",
+      "count": 1,
+      "page": 18,
+      "role": "compact black double-ear U holder; no authorized geometry available"
+    }
+  ],
+  "checker": "FAIL1: known canopy/cockpit bounding-box proxy overlap; not waived; manual support review also required",
+  "render": "awaiting parent serial renderer"
+}

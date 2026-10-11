@@ -58,3 +58,4 @@ Parent discovered scratch packer Windows path-boundary issue: dev-part basename 
 Actually viewed repaired-packer iso/iso-rear sourceShad1fa3f6bb531d6e21610da13dd6f9e0b3861301b373f3a3927be10da69541ced. Twin handle chains load and tracksource silhouette, base/barrel visible; missing blackholder candidate2223 and redtipper14094 remain omitted. Neither current mesh nor substitutes available per missing_parts. Stepimages not yet reviewed.
 
 Sourcep12redtipper now filled with real CC BY4 unofficial14094 mesh and dependency closure from missing_parts. Hinge-origin(0,-405,0), R=[0,0,-1;0,1,0;1,0,0], bed opens toward+X and bottomY5 rests on yellowplateY=-400. Requires updated pixels. Onlyblack2223remains missing.
+Latest final iso/iso-rear ACTUALLY VIEWED for source38a00ef6. Real14094 red tipper appears at barrel root; no obvious rendered overlap, hinge attachment still inferred. No cumulative-step or physical-fit acceptance asserted.

@@ -20,3 +20,4 @@ Inventory counts/deficits: bom-inventory.json matched percolour; absent rows rem
 missing_parts catalogue photo comparison confirms long narrow3blade6670c01, parentRebrickable evidence86601 alias. No available DAT found.45002containsone; helicopter requires2(extra1), drone4(extra3).
 
 First final2views actually inspected (sourceShaae82ca5e): radial arms, side panels and legs visible; props omitted as recorded. Camera rim axis was48LDU below its own mount side-bore; movedY-24→-72 to align the transformed inverted basebody hole. Camera hinge/clutch joining still inferred; final revision needs pixels.
+Latest final iso/iso-rear ACTUALLY VIEWED for source6fbd18c0. Corrected camera rim sits higher against underside mount; four missing propellers remain. No cumulative-step or physical-fit acceptance asserted.

@@ -1,0 +1,17 @@
+{
+  "coaxialTyreWheel": {
+    "sameCenter": true,
+    "worst": {
+      "z": 0.012299999999934301,
+      "wheelOuter": 41.00248042496942,
+      "tyreInner": 40.99803625797216,
+      "clearance": -0.004444166997259913
+    },
+    "note": "One6527 at tyrecenter; second6527 is behind redgear. Matched nominal24mmLDU hub and41LDU flange/cavity; triangulated circle rounding may differ by<0.02LDU. Sampling is not physical interference proof."
+  },
+  "neighborPulley": {
+    "axisDistance": 80,
+    "depthOffset": 20,
+    "evidence": "Same6527 pair profile computation as mixer contacts-report, conservatively14.997LDU radial separation."
+  }
+}

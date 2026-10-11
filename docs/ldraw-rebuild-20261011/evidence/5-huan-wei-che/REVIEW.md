@@ -30,3 +30,8 @@ raw checker 84 placements：仅step2舱罩交界1个错误（line28/29）。其�
 未知/待证接口：第7–9页抓框短曲柄的销方向及轴深、两圆砖桶是否真正夹紧（候选6526+98220，缺剖面/实物支撑证据）；第11页31622/6529右角啮合和6523齿轴端深（编号已核，缺细节视角与运动证据）；第14页盖倾角由成品估计，轴孔位置有支持，未模拟运动或荷载。套装逐色数量unknown。
 
 开发MPD/最终三视角等待父队列。当前为有明确待修接口的草稿，不属于验收完成。无用户确认、无实物验证、未发布。
+2026-10-11：98220官方几何落地后确认body为72而非旧metadata的48；上片倒置原点由-288改为-312，与下片原点-240相隔72，未缩放。对应最新LDR需重新渲染复核。
+最新LDR 59318358EF0427A86F641FBBC05A7A924F29CC3047DAD7775C1A7BDD34B6F78D。已修p7/p8两曲柄镜像为正常旋转，轴线和销不变；桶已按72LDU修正。checker仍仅舱罩1项错误。
+
+## Latest final pixel review
+Actually inspected iso, iso-rear and top for source SHA 59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d, packed revision 4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976. All three views load with no missingParts. Source structure, colours and silhouette reviewed; no new rigid-body correction identified in these views. Existing mechanical support/axle depth/canopy/tyre fit uncertainties above remain unresolved. This is renderer verification, not physical or user acceptance. Cumulative step pixels still pending.

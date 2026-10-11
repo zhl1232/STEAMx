@@ -17,8 +17,26 @@
       "missing": "underside-tube retention not verified"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": "iso pixels inspected against source p10: paired columns, side built foundation, shoulder/hip shafts, worm sleeve and body visually agree; shoes/hidden clamps still unverified",
-  "rawCollisionChecker": "PASS"
+  "rawCollisionChecker": "PASS",
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6524.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  }
 }

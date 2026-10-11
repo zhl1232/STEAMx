@@ -1,9 +1,9 @@
 {
-  "partCount": 116,
+  "partCount": 134,
   "missingParts": [],
   "stepCount": 12,
-  "revision": "afe81abb353263424afb7f3263f5ed67daa77295ff5d189eb0e0661ec2ff7c5c",
-  "sourceSha256": "b818833a94a9f6ed4885c5d8fa6d2f776b427ccb600348aaad548c29c825ef95",
+  "revision": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+  "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
   "renderedViews": [
     "iso",

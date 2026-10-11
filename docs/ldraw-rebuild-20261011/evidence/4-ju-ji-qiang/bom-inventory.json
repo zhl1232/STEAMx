@@ -187,7 +187,7 @@
     "catalog": "99565",
     "inventoryRows": [],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "unknown; absent row is not zero"
   },
   {
     "id": "dev-129/28331.dat",

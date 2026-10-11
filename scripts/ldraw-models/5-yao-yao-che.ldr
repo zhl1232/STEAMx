@@ -48,10 +48,10 @@
 1 14 0 -168 -140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // SOURCE PAGE 5: four inner crank links, pins down eighty LDU toward seat bearings
-1 14 -120 -168 -120 1 0 0 0 0 1 0 1 0 6526.dat
-1 14 120 -168 -120 1 0 0 0 0 1 0 1 0 6526.dat
-1 14 -120 -168 120 -1 0 0 0 0 1 0 -1 0 6526.dat
-1 14 120 -168 120 -1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 -120 -168 -120 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 120 -168 -120 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -120 -168 120 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 120 -168 120 1 0 0 0 0 1 0 -1 0 6526.dat
 0 STEP
 0 // SOURCE PAGE 6: two red moving-seat beams connected to four crank pins
 1 4 0 -112 -40 1 0 0 0 1 0 0 0 1 75350.dat

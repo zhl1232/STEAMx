@@ -1,0 +1,28 @@
+{
+  "slug": "4-ya-lu-ji",
+  "modelSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+  "placements": 48,
+  "accepted": false,
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
+  "metadataUsedHash": "0260e99981382a38aa1bd12ce599d252f1db9ec2e7f93b836856b5d06f6e5df1",
+  "sourceSha256": "76dfe5eff752c0d0aec0a51a22081cec6398f1a34f038dc94631ae0ba2400746",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "sourceStages": 12,
+  "missing": [
+    {
+      "id": "4433c01",
+      "count": 1,
+      "page": 7,
+      "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
+    },
+    {
+      "id": "unknown",
+      "count": 2,
+      "page": 12,
+      "role": "blue roller cylinder/barrel; source actual pixels supplied to parts researcher"
+    }
+  ],
+  "checker": "FAIL1: known canopy/cockpit bounding-box proxy overlap; not waived; manual support review also required",
+  "render": "awaiting parent serial renderer"
+}

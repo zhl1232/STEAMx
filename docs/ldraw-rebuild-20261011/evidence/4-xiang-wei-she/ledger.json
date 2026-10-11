@@ -1,0 +1,1436 @@
+{
+  "slug": "4-xiang-wei-she",
+  "sourceDir": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇",
+  "totalPages": 16,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "p1: two black 4x6 jaw bricks with two-stud stagger",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            80,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "lower jaw foundation",
+          "confidence": "visible"
+        },
+        {
+          "id": "p1-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "upper brick bottom48 on lower brick top48; four-stud overlap",
+          "confidence": "visible"
+        }
+      ],
+      "cumulativePlacements": 2
+    },
+    {
+      "sourcePage": 2,
+      "note": "p2: two paired fork bases and two clutch blocks form raised jaw hinge",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            160,
+            0,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "base bottom48 on exposed rear two columns of lower jaw",
+          "confidence": "visible"
+        },
+        {
+          "id": "p2-2",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            208,
+            -125,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "clutch lower tongue intended at pivot y=-65; geometry engagement pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            160,
+            0,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "base bottom48 on exposed rear two columns of lower jaw",
+          "confidence": "visible"
+        },
+        {
+          "id": "p2-4",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            208,
+            -125,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "clutch lower tongue intended at pivot y=-65; geometry engagement pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 6
+    },
+    {
+      "sourcePage": 3,
+      "note": "p3: two black upper jaw bricks in the same stagger",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            128,
+            -173,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom -125 on both clutch tops; fore/aft 48LDU shift follows estimated fork pivot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            48,
+            -221,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom -173 on first upper jaw brick; four-stud overlap",
+          "confidence": "visible"
+        }
+      ],
+      "cumulativePlacements": 8
+    },
+    {
+      "sourcePage": 4,
+      "note": "p4: two bare grey wheel-rim eyes and two yellow 2x4 mouth bricks",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            -32,
+            -197,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "screw eye shares side-hole height upper jaw top+24; rim axle fit manual",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            -32,
+            -197,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "screw eye shares side-hole height upper jaw top+24; rim axle fit manual",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -32,
+            -125,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "yellow brick studs join underside of upper jaw at y=-125; front overhang source p4",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -32,
+            -125,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "yellow brick studs join underside of upper jaw at y=-125; front overhang source p4",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 12
+    },
+    {
+      "sourcePage": 5,
+      "note": "p5: two red 2x4 tongue plates",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -24,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 on lower jaw; front40LDU intentional overhang visible p5",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            80,
+            -24,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom0 on lower jaw; front40LDU intentional overhang visible p5",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 14
+    },
+    {
+      "sourcePage": 6,
+      "note": "p6: first body brick and side-mounted grey connection brick",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            320,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "adjacent lower body segment; intended side-screw bridge from jaw",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            200,
+            72,
+            128
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "side connector bottom face z80; spans jaw/body seam x200",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 16
+    },
+    {
+      "sourcePage": 7,
+      "note": "p7: first upper body brick; articulated next lower segment and connector",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            320,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source p7 upper brick has one-stud stagger and bridges jaw/body seam; bottom48; sourcep7 comparison: shifted40LDU behind neckfork, avoiding rendered penetration",
+          "confidence": "visible"
+        },
+        {
+          "id": "p7-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            661.421356,
+            48,
+            141.421356
+          ],
+          "matrix": [
+            0.707107,
+            0,
+            -0.707107,
+            0,
+            1,
+            0,
+            0.707107,
+            0,
+            0.707107
+          ],
+          "support": "source visible 45-degree approximate articulation at rear joint; contact unresolved; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            480,
+            72,
+            88
+          ],
+          "matrix": [
+            0.92388,
+            0.382683,
+            0,
+            0,
+            0,
+            1,
+            0.382683,
+            -0.92388,
+            0
+          ],
+          "support": "source side joint; exact pivot and hidden screw engagement pending; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 19
+    },
+    {
+      "sourcePage": 8,
+      "note": "p8: second upper body brick, next lower segment and connector",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            604.852814,
+            0,
+            84.852814
+          ],
+          "matrix": [
+            0.707107,
+            0,
+            -0.707107,
+            0,
+            1,
+            0,
+            0.707107,
+            0,
+            0.707107
+          ],
+          "support": "source p8 upper brick staggered two studs backwards on articulated lower segment; bottom48; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p8-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            922.842712,
+            48,
+            282.842712
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source articulated lower segment; connection to preceding body pending; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            802.842712,
+            72,
+            322.842712
+          ],
+          "matrix": [
+            0.92388,
+            0.382683,
+            0,
+            0,
+            0,
+            1,
+            0.382683,
+            -0.92388,
+            0
+          ],
+          "support": "source side joint; exact hidden screws pending; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 22
+    },
+    {
+      "sourcePage": 9,
+      "note": "p9: third upper body brick, bent lower tail and connector",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            842.842712,
+            0,
+            282.842712
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source p9 upper brick staggered two studs backwards; bottom48; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p9-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            962.842712,
+            48,
+            482.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "tail direction turns in source p9; precise plan angle and support pending; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            1090.842712,
+            72,
+            362.842712
+          ],
+          "matrix": [
+            0.707107,
+            0.707107,
+            0,
+            0,
+            0,
+            1,
+            0.707107,
+            -0.707107,
+            0
+          ],
+          "support": "source side joint; hidden pivot pending; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 25
+    },
+    {
+      "sourcePage": 10,
+      "note": "p10: tail-end side connector and small fork",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            962.842712,
+            72,
+            650.842712
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "bottomface z602.842712 meets end face of lower tail; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            962.842712,
+            72,
+            698.842712
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "support": "base bottomface joins outer studs of grey connector; source p10 fork prongs point upwards, not down; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 27
+    },
+    {
+      "sourcePage": 11,
+      "note": "p11: red/lime/yellow 2x4 plates across first upper segment",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            240,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on upper black body; 4stud transverse by2stud longitudinal; sourcep7 comparison: shifted40LDU behind neckfork, avoiding rendered penetration",
+          "confidence": "visible"
+        },
+        {
+          "id": "p11-2",
+          "partId": "40666.dat",
+          "color": 27,
+          "position": [
+            320,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on upper black body; 4stud transverse by2stud longitudinal; sourcep7 comparison: shifted40LDU behind neckfork, avoiding rendered penetration",
+          "confidence": "visible"
+        },
+        {
+          "id": "p11-3",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            400,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on upper black body; 4stud transverse by2stud longitudinal; sourcep7 comparison: shifted40LDU behind neckfork, avoiding rendered penetration",
+          "confidence": "visible"
+        }
+      ],
+      "cumulativePlacements": 30
+    },
+    {
+      "sourcePage": 12,
+      "note": "p12: red/lime/yellow 2x4 plates across second upper segment",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            548.284271,
+            -24,
+            28.284271
+          ],
+          "matrix": [
+            0.707107,
+            0,
+            0.707107,
+            0,
+            1,
+            0,
+            -0.707107,
+            0,
+            0.707107
+          ],
+          "support": "bottom0 on matching rotated upper brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p12-2",
+          "partId": "40666.dat",
+          "color": 27,
+          "position": [
+            604.852814,
+            -24,
+            84.852814
+          ],
+          "matrix": [
+            0.707107,
+            0,
+            0.707107,
+            0,
+            1,
+            0,
+            -0.707107,
+            0,
+            0.707107
+          ],
+          "support": "bottom0 on matching rotated upper brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p12-3",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            661.421356,
+            -24,
+            141.421356
+          ],
+          "matrix": [
+            0.707107,
+            0,
+            0.707107,
+            0,
+            1,
+            0,
+            -0.707107,
+            0,
+            0.707107
+          ],
+          "support": "bottom0 on matching rotated upper brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        }
+      ],
+      "cumulativePlacements": 33
+    },
+    {
+      "sourcePage": 13,
+      "note": "p13: three colour plates on third upper segment and two yellow curved tail bricks",
+      "placements": [
+        {
+          "id": "p13-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            762.842712,
+            -24,
+            282.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on matching upper body brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p13-2",
+          "partId": "40666.dat",
+          "color": 27,
+          "position": [
+            842.842712,
+            -24,
+            282.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on matching upper body brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p13-3",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            922.842712,
+            -24,
+            282.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on matching upper body brick; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p13-4",
+          "partId": "2302.dat",
+          "color": 14,
+          "position": [
+            922.842712,
+            0,
+            562.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom48 on exposed last portion of tail; curved nose faces tail end; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-5",
+          "partId": "2302.dat",
+          "color": 14,
+          "position": [
+            1002.842712,
+            0,
+            562.842712
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom48 on exposed last portion of tail; curved nose faces tail end; downstream follows neck40LDU correction",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 38
+    },
+    {
+      "sourcePage": 14,
+      "note": "p14: one yellow teaching subassembly, 4 large bricks and 2 square bricks; shown in final p15 rotated pose",
+      "placements": [
+        {
+          "id": "p14-1",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            782.842712,
+            16,
+            648
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "independent subassembly ground at y96; source p14 lower protruding square; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p14-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            782.842712,
+            56,
+            600
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "bottom48 connects central studs to lower square, intentional symmetric overhang; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p14-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            782.842712,
+            -24,
+            600
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "bottom48 connects central studs to lower square, intentional symmetric overhang; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p14-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            742.842712,
+            16,
+            552
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "cross-bonded second 4x4 layer; bottom0; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p14-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            822.842712,
+            16,
+            552
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "cross-bonded second 4x4 layer; bottom0; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        },
+        {
+          "id": "p14-6",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            782.842712,
+            16,
+            504
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "top central square, bottom-48; final p15/16 ninety-degree pose, one assembly only, ground edge y96; no claimed tail attachment; downstream follows neck40LDU correction",
+          "confidence": "visible"
+        }
+      ],
+      "cumulativePlacements": 44
+    },
+    {
+      "sourcePage": 15,
+      "note": "p15: same subassembly turned90deg in final presentation; additional square attachment unresolved, no duplicate inset",
+      "placements": [],
+      "cumulativePlacements": 44
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Page15 depicts the same yellow6-piece subassembly rotated90deg. Only one final rotated assembly is kept. The additional yellow3437 has an occluded/unresolved connection and is omitted.",
+    "Yellow subassembly is grounded beside the tail as a separate displayed assembly. Its mechanical attachment to the tail fork is not established by the source views; do not claim it is connected.",
+    "Body articulated joints p7-9 have source-inferred provisional 45/0/90 degree plan poses; hidden screw axes and support require renderer/mesh correction before completion.",
+    "Head clutch/fork pin positions use existing unmeasured geometry and need interface review.",
+    "All Toolo IDs are known; geometry remains Local simplified part. Partial45002 inventory comparison is recorded; combined9090+45002 colour accounting remains unknown."
+  ],
+  "status": "draft-incomplete-pending-interface-and-render-review",
+  "verification": "Source-based dev draft; final three views reviewed; omitted pieces and cumulative-step work remain.",
+  "inventoryByColour": "Partial comparison now possible from received inventory-evidence.json; complete combined9090+45002 accounting still pending",
+  "evidence": {
+    "sourcePages": [
+      {
+        "page": 1,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-1.jpg",
+        "sha256": "bd61339b07652b7a7b227335019dd067ae2118c129d3568f2270226320539b7b",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-2.jpg",
+        "sha256": "9c0d077e9cf502c8c5361a35b7c9b8334f00180466ed669542adfeb0dda63901",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-3.jpg",
+        "sha256": "9821a2a0df7c3f624b1e90e0c947fcef3be6f919d1ef389c9fb75d33afbbf3aa",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-4.jpg",
+        "sha256": "c035eca4e6317c5a09b34bb4b3f2cdd495a57d6686f3d8ca9c853c682cfb862b",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-5.jpg",
+        "sha256": "b817954f57c8bbe9d312183621411242b18329e8da984783c6d756877a3706b0",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-6.jpg",
+        "sha256": "ef59197e2f2a5eb0b754179d81db4abae7f60a84be9bf85cb31881016147c5e7",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-7.jpg",
+        "sha256": "ab1e956943121b82719b3df65b9c649f2b68a49d1786411252b4ee3c235afe8d",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-8.jpg",
+        "sha256": "9747b0f27b536c14202b60710a26193d6dfb35fbf00880841a3336569de708d0",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-9.jpg",
+        "sha256": "590a4c77a6fe9a2539428174f7d8f1db3bfdd198b61c24577fc84380b62a6987",
+        "pixelsViewed": true
+      },
+      {
+        "page": 10,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-10.jpg",
+        "sha256": "65d11d58dc70db909cfb57c75dde21676855c44bcdc6b9797aade6dafca15629",
+        "pixelsViewed": true
+      },
+      {
+        "page": 11,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-11.jpg",
+        "sha256": "7d16c54cb7b85c18579dcc05d931966294055c1fcad97b74db40972531cefd38",
+        "pixelsViewed": true
+      },
+      {
+        "page": 12,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-12.jpg",
+        "sha256": "6b5add79d9afc638f25e76278e93a59e1c562c7c93c30e0afd9637082c146bfb",
+        "pixelsViewed": true
+      },
+      {
+        "page": 13,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-13.jpg",
+        "sha256": "c802d393574c578c4e8dcaa97da2e55d1568223b7061d970ee593dc17ed4a901",
+        "pixelsViewed": true
+      },
+      {
+        "page": 14,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-14.jpg",
+        "sha256": "a46f4bb94dcec900820b25682446a7cfe5b6af16855264c79c041e28cd6fb1c1",
+        "pixelsViewed": true
+      },
+      {
+        "page": 15,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-15.jpg",
+        "sha256": "d2ead7a1c562fe019e694c6b0978df0856818c1b5004d9c2f6993de36680eefb",
+        "pixelsViewed": true
+      },
+      {
+        "page": 16,
+        "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\source-1\\4响尾蛇\\4+响尾蛇搭建说明-16.jpg",
+        "sha256": "b30151642d5d1dc7a0260ce4bf8d76fc89e736875bcd8c765fa5263f18e01262",
+        "pixelsViewed": true
+      }
+    ],
+    "metadataSha256": "294f3ea56d174b3f10266517f86d89a97662ab8559fdf7e0ab2ac12fd1802d2c"
+  },
+  "omittedKnownParts": [
+    {
+      "sourcePage": 15,
+      "id": "3437.dat",
+      "color": 14,
+      "count": 1,
+      "reason": "addition is shown but attachment and duplicate-pose semantics unresolved"
+    }
+  ],
+  "modelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-xiang-wei-she.ldr",
+  "totalPlacements": 44,
+  "bom": {
+    "76395.dat|0": 11,
+    "28336.dat|72": 3,
+    "74957.dat|72": 2,
+    "99565.dat|71": 2,
+    "3011.dat|14": 6,
+    "40666.dat|4": 5,
+    "76057.dat|72": 5,
+    "40666.dat|27": 3,
+    "40666.dat|14": 3,
+    "2302.dat|14": 2,
+    "3437.dat|14": 2
+  },
+  "knownApproximateGeometry": [
+    {
+      "id": "76395.dat",
+      "geometrySha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "geometrySha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "geometrySha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "geometrySha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "geometrySha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    }
+  ],
+  "axes": "LDraw Y down; body/head longitudinal X; transverse Z; stud pitch 40 LDU. Exact orthonormal rotations only.",
+  "checks": {
+    "checkedModelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+    "recursiveDependencyNodes": 36,
+    "missingDependencies": [],
+    "checkerScriptSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10",
+    "collisionReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xiang-wei-she\\collision.txt",
+    "collisionResult": "Raw checker44 placements passes after sourcep7 neck and downstream40LDU correction; manual geometry means not mesh proof",
+    "renderStatus": "Previous revision15 cumulative steps and top pixels viewed; neck penetration identified and corrected. Current final+affected-step render pending.",
+    "transformDeterminants": [
+      1,
+      1.000001
+    ]
+  },
+  "inventoryEvidence": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\inputs\\inventory-evidence.json",
+    "sha256": "a6e4d1ab4f29a0462f03047a4d7cf66bb278890505b4900f49afba914140304d",
+    "verifiedBy": "Parent-delivered source evidence; this agent read local inventory rows and alias records"
+  },
+  "inventoryDeficits": [
+    {
+      "projectId": "76395.dat",
+      "catalogAlias": "86599",
+      "color": "Black",
+      "required": 11,
+      "in45002": 7,
+      "extraNeeded": 4
+    }
+  ],
+  "revisions": [
+    "Initial2 colour-plate collisions traced to missing upper/lower source stagger. Rebuilt p7-9 poses and downstream positions; no acceptedOverlap exemption added.",
+    "One-stud first upper-body stagger and two-stud following upper-body staggers remain inferred source placements.",
+    "Current raw checker passes, but side connector exact placement is pending source-matched top/side render and joint evidence.",
+    "Sourcep7 raw-manual-check false negative: first upper body crossed neckfork. Moved upper body and its three sourcep11 covers one stud40LDU alongX; no geometry exemption.",
+    "Translated downstream articulated body40LDU alongX with first upper-body correction to preserve source-inferred plan clearances; no altered part matrices or dimensions."
+  ],
+  "visualReview": {
+    "reusedUnchangedSteps": [
+      {
+        "step": 1,
+        "sha256": "3f5ee9229bc5a845d48fab3b26203cba90aaa6f9d45d2d4911a1df3c83756a67",
+        "pixelsViewed": true
+      },
+      {
+        "step": 2,
+        "sha256": "335945059c6568272f839cdc670530ad67e57308e0a76560e5c7ccbd19ad032e",
+        "pixelsViewed": true
+      },
+      {
+        "step": 3,
+        "sha256": "17688331b6510963f2a1324cd01e491137ab6ea003f0ceb7189fd1df2a23cd2d",
+        "pixelsViewed": true
+      },
+      {
+        "step": 4,
+        "sha256": "32235411abea2e7d926352ad5e692c44b470d6358724cbebaebfa809d2bbb4b2",
+        "pixelsViewed": true
+      },
+      {
+        "step": 5,
+        "sha256": "91f646e64fbc36575f1db54b05b7703755d3fe7866e50fd9375bea500b95bb72",
+        "pixelsViewed": true
+      },
+      {
+        "step": 6,
+        "sha256": "8914a69ff570ab2363b6ef706b67d8b6771611b3a58dfdd0a598e8090e5a2c8b",
+        "pixelsViewed": true
+      }
+    ],
+    "affectedStepsAwaitingRender": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "findings": [
+      "One yellow assembly only; page15 additional yellow3437 omitted.",
+      "Neckfork/upperbody penetration in prior render corrected by40LDU shift.",
+      "Side-body screw engagements remain provisional and not mechanically validated."
+    ]
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+    "packRevision": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+    "note": "Corrected neck/body position removes previous penetration. Single yellow tail subassembly retained. Source page15 extra3437 connection remains omitted; articulation contacts still provisional. Changed steps7-15 pending.",
+    "views": [
+      {
+        "view": "iso",
+        "pixelsViewed": true,
+        "sha256": "65309c25cfef6f1aa8fbd3c70d2f884bef823d086bb5820d6ba3fc2f289a821e"
+      },
+      {
+        "view": "iso-rear",
+        "pixelsViewed": true,
+        "sha256": "d3e1565f3c9ec01413f1049cf43c34025007e2ff64c9f849130b1fe2112ff63a"
+      },
+      {
+        "view": "top",
+        "pixelsViewed": true,
+        "sha256": "4efab49e6f57df91df47667e6ce2d319b199b7f36d2a01575a3e846a437107e0"
+      }
+    ],
+    "steps": "pending cumulative/source-version review",
+    "physicalValidation": false
+  }
+}

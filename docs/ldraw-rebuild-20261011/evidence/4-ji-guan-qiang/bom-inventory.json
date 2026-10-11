@@ -7,7 +7,7 @@
     "catalog": "4268",
     "inventoryRows": [],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "unknown; absent row is not zero"
   },
   {
     "id": "76395.dat",
@@ -206,7 +206,7 @@
     "catalog": "99565",
     "inventoryRows": [],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "unknown; absent row is not zero"
   },
   {
     "id": "40666.dat",
@@ -226,6 +226,26 @@
       }
     ],
     "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "14094.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 1,
+    "catalog": "14094",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "14094",
+        "name": "Duplo Dump Truck Bed 4 x 4 x 2 (Tipper)",
+        "color": "Red",
+        "quantity": 1,
+        "part_url": "https://rebrickable.com/parts/14094/duplo-dump-truck-bed-4-x-4-x-2-tipper/",
+        "raw_description": "14094 Duplo Dump Truck Bed 4 x 4 x 2 (Tipper) in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
     "quantityStatus": "matched exact colour rows"
   }
 ]

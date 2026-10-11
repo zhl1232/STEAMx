@@ -1,0 +1,85 @@
+0 Catapult - incomplete source reconstruction
+0 Name: 5-tou-shi-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28; all twelve pages actually viewed.
+0 // INCOMPLETE: pages5-7 redistribute beams without explicit intermediate motion; A-frame vs lever assignment provisional. Basket cranks and payload omitted pending pin orientation evidence.
+0 // SOURCE PAGE 1: two red chassis hole bricks
+1 4 0 -48 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -48 40 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 2: four tyres with double pulleys and two green axles
+1 2 -160 -24 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 0 -160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 -160 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 -160 -24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 2 160 -24 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 0 160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 160 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 160 -24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // SOURCE PAGE 3: yellow longitudinal support rail
+1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 4: upper red pivot beam
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 5: two eleven-hole supporting legs; final spread pose provisionally inferred
+1 14 -80 -303.303028 -80 0.916515139 0 0.4 0.4 0 -0.916515139 0 1 0 6525.dat
+1 14 80 -303.303028 80 0.916515139 0 -0.4 -0.4 0 -0.916515139 0 1 0 6525.dat
+1 7 -160 -120 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -120 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -120 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 6: two long levers, second base shaft and four retainers; source movement sequence unresolved
+1 14 0 -486.606056 -20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+1 14 0 -486.606056 20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+1 2 160 -120 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -160 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 7: green apex bearing axle and two outside retainers
+1 2 0 -486.606056 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 0 -486.606056 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -486.606056 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 8: grey rear lever axle with four pulley weights
+1 7 -173.205081 -386.606056 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -173.205081 -386.606056 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -173.205081 -386.606056 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -173.205081 -386.606056 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -173.205081 -386.606056 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 9: two seven-hole extension rails and two grey linking axles
+1 14 207.846097 -606.606056 -60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6524.dat
+1 14 207.846097 -606.606056 60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6524.dat
+1 7 103.923048 -546.606056 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 103.923048 -546.606056 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 103.923048 -546.606056 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 173.205081 -586.606056 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 173.205081 -586.606056 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 173.205081 -586.606056 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted
+1 7 277.128129 -646.606056 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 277.128129 -646.606056 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 277.128129 -646.606056 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 // OMITTED p10 four 6526 cranks: bent pin orientation and attachment depth obscured.
+0 STEP
+0 // SOURCE PAGE 11: basket near shaft and retainers; four cranks and payload support omitted
+1 7 207.846097 -606.606056 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 207.846097 -606.606056 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 207.846097 -606.606056 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 // OMITTED p11 four 6526 cranks and one blue3437 payload until basket support is established.
+0 // Source page12 final. Current beam assignment/angles are provisional static visual hypothesis, not source-verified mechanical assembly.

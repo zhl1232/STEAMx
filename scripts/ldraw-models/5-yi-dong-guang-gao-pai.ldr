@@ -1,0 +1,98 @@
+0 5-yi-dong-guang-gao-pai - source reconstruction, INCOMPLETE dev-only
+0 Name: 5-yi-dong-guang-gao-pai.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF batch04 manifest, SHA256 70641ca2b095eb8d16fdced4d59d0cc09a9745251e332e0c5dd50106684a4c68
+0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - two-layer four-bar red square chassis
+1 4 0 0 -160 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 160 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -160 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 160 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat
+0 STEP
+
+0 // STEP 2 - input blue shaft with red and blue drive gears
+1 1 0 24 -160 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 0 24 -240 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 0 24 -80 1 0 0 0 1 0 0 0 1 31622.dat
+0 STEP
+
+0 // STEP 3 - four blue geared axles and yellow road gear wheels
+1 1 -160 24 -160 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -160 24 -240 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 1 -160 24 160 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 -160 24 240 1 0 0 0 1 0 0 0 1 6530.dat
+1 1 160 24 -160 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 160 24 -240 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 1 160 24 160 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 160 24 240 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+
+0 // STEP 4 - central long bearing beam
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+
+0 // STEP 5 - vertical green shaft and red driven gear
+1 2 0 -150 0 0 1 0 -1 0 0 0 0 1 6521.dat
+1 4 0 -28 0 1 0 0 0 0 -1 0 1 0 6529.dat
+0 STEP
+
+0 // STEP 6 - upper rotating poster beam with two retaining pulleys
+1 14 0 -148 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 0 -236 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+
+0 // STEP 7 - six official animal-pattern bricks, yellow cap and blue curved cap
+1 15 -120 -312 0 1 0 0 0 1 0 0 0 1 31111p02.dat
+1 15 -120 -408 0 1 0 0 0 1 0 0 0 1 31111p03.dat
+1 15 -120 -504 0 1 0 0 0 1 0 0 0 1 31111p04.dat
+1 15 120 -312 0 1 0 0 0 1 0 0 0 1 31111p0e.dat
+1 15 120 -408 0 1 0 0 0 1 0 0 0 1 31111p0f.dat
+1 15 120 -504 0 1 0 0 0 1 0 0 0 1 31111p0g.dat
+1 14 -80 -552 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -552 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -600 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -600 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 80 -600 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 8 - front lower yellow gap infill
+1 14 -40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 9 - rear lower yellow gap infill
+1 14 -40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 10 - upper yellow perimeter:5full bricks and4squares, with two red bridge end gaps
+1 14 40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 11 - eight curved blue perimeter caps with two yellow centre sections
+1 14 0 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -144 -160 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 120 -144 -160 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 0 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -144 160 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 120 -144 160 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 -160 -144 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 1 -160 -144 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 160 -144 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 1 160 -144 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+
+0 // STEP 12 - finished view only

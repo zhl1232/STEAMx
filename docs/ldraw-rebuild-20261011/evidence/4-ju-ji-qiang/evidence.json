@@ -1,8 +1,8 @@
 {
   "slug": "4-ju-ji-qiang",
-  "modelSha256": "786d2bffbaabebed65914829041c5e1a9aaba30837b93c6c5b8c6aab5b853c17",
+  "modelSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
   "placements": 67,
-  "status": "incomplete-pending-source-and-step-acceptance",
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
   "accepted": false,
   "metadataUsedHash": "d79adf404b34ebbb84fcf97b1f611f6ae93699d0e24dffcdf35e324171274b58",
   "source": {

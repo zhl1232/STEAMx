@@ -1,28 +1,22 @@
 {
   "slug": "4-ji-guan-qiang",
-  "status": "incomplete-pending-source-and-step-acceptance",
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
   "sourceSha256": "a44f50db1002915ed2baca1e6ac59ada63363e5d46aada816e44ada453e5b515",
   "sourcePages": 13,
   "allSourcePixelsViewed": true,
-  "modelSha256": "d1fa3f6bb531d6e21610da13dd6f9e0b3861301b373f3a3927be10da69541ced",
-  "placements": 40,
+  "modelSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+  "placements": 41,
   "sourceStages": 12,
   "missing": [
     {
-      "id": "unknown",
+      "id": "2223",
       "count": 1,
       "page": 10,
-      "role": "black U shaped holder, candidate under review"
-    },
-    {
-      "id": "unknown",
-      "count": 1,
-      "page": 12,
-      "role": "red bucket/seat, candidate under review"
+      "role": "compact black U holder missing geometry"
     }
   ],
   "checker": "PASS raw LDR; manual support/collision parts excluded by existing catalog policy, no added exemptions",
-  "metadataUsedHash": "4908bc49335f72d15688613f6db768d6c7d981c814273b776fabbb79ebbd231c",
-  "render": "awaiting parent serial renderer",
+  "metadataUsedHash": "91830d2a721bd6d70fbb15ae6b7b763f4818e28e36c20ea6d7bda98ef9ec538d",
+  "render": "14094 bucket added using actual unofficial CC-BY4 mesh; revised final pixels pending",
   "accepted": false
 }

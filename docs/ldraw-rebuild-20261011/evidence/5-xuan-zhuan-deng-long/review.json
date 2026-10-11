@@ -1,0 +1,28 @@
+{
+  "slug": "5-xuan-zhuan-deng-long",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 11,
+  "sourcePixels": "All11 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+  "unknown": [
+    {
+      "page": "6-9",
+      "part": "vertical shaft and gear drive",
+      "missing": "gear tooth phase, clamping and moving clearances remain unverified"
+    },
+    {
+      "page": 10,
+      "part": "hanging7hole arms",
+      "missing": "pin retention and free swinging clearance need review"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": "pending main integrator",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": []
+}

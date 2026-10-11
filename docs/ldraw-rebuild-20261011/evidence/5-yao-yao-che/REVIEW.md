@@ -25,3 +25,7 @@ raw LDR checker：60 placements，pass，无普通砖实体相撞。齿轴使用
 
 开发MPD依赖闭包及三视角/累计步骤像素复核由父串行队列提供；这些未完成前不标renderer-verified。未用户确认，不生产挂载或数据库写入。
 2026-10-11：父队列cc2135ac三视角iso/iso-rear/top已实际查看；大齿/两侧轴列、座椅靠背、前罩和绿8号司机均正确可见，无明显新实体穿插。人物姿态与源最后页一致范围内，但关节/机构转动未验证。当前累计9steps待渲染复核。
+版本更新：p5四曲柄镜像矩阵修为det+1正常旋转，轴线和销位置不变。最新LDR 2845DA5BC5021692A84C20F4E3BF59D3A3566D407F514151A82318CCD9BC0C18，checker60pass；旧cc2135ac像素仅参考，需新版final。
+
+## Latest final pixel review
+Actually inspected iso, iso-rear and top for source SHA 2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18, packed revision 4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8. All three views load with no missingParts. Source structure, colours and silhouette reviewed; no new rigid-body correction identified in these views. Existing mechanical support/axle depth/canopy/tyre fit uncertainties above remain unresolved. This is renderer verification, not physical or user acceptance. Cumulative step pixels still pending.

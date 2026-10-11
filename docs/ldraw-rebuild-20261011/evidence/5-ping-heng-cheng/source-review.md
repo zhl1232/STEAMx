@@ -64,3 +64,5 @@ MPD render-check.json记录missingParts=[]、stepCount=9；partCount=97是打包
 
 
 新版正确解析本地DAT的146a2e57三视图已实际查看，模型外形/端部托盘/曲柄与上一版一致；累计步骤仍待复验。
+
+`n## 最新累计步骤复核`n已实际查看 source 146a2e57 的累计 step-1.png 至 step-9.png 全部像素。底座/塔身/四连杆/托盘横置曲柄及最后护栏逐步一致，无新增可见错误。状态：final and cumulative steps renderer-verified only / pending user confirmation；未作实物验证。

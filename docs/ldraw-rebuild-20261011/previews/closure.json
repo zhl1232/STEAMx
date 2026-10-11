@@ -33,6 +33,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "4-du-jiao-xian",
+    "sourceSha256": "b7068e095a294a4ce1bebe23e98a3568fc9bb01e23106ed2079aa7e74b59a42e",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 42,
+    "missingParts": [],
+    "stepCount": 11,
+    "revision": "4ea5ef89f407e6fececed026e8d1a0154e7ceb442783f061c4f4fad4862f003c",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "4-e-yu",
     "sourceSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
     "developmentOnly": true,
@@ -66,6 +77,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "4-jun-jian",
+    "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 122,
+    "missingParts": [],
+    "stepCount": 19,
+    "revision": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "4-ke-ji",
     "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
     "developmentOnly": true,
@@ -74,6 +96,39 @@
     "missingParts": [],
     "stepCount": 12,
     "revision": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "4-long-men-diao",
+    "sourceSha256": "4b21a9c1e4baf808a0ed085d0e44bc684d2c09fb9b9b7b08d1ae02c6862fec2e",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 37,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "73e5ed2f3b5c74e8dbaa62c76a20922a1409907eb2803285627b1da97a6e8ef3",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "4-mo-tian-lun",
+    "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 36,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "4-qian-shui-ting",
+    "sourceSha256": "ec280756c158b00cd15f9bcc80b5c447ff485e429f59027b4adbb9e7994f0eac",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 65,
+    "missingParts": [],
+    "stepCount": 10,
+    "revision": "81b7343b9865a731ead8c8fab3ab0ed3f6114865fb25b6a28545876b3c59c35c",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -99,6 +154,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "4-sheng-jiang-jiu-yuan-che",
+    "sourceSha256": "a4daf386f99a2da98cef6fa0c71b1ca48fe83bfb3d96e9b02adc49c77c259e59",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 125,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "da1cbd7d0012ab7bef8f857b7835098d7ca0ba8b61ecb70f340fa21161a3aa2b",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "4-sun-wu-kong",
     "sourceSha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
     "developmentOnly": true,
@@ -110,14 +176,36 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "4-ta-diao",
+    "sourceSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 73,
+    "missingParts": [],
+    "stepCount": 18,
+    "revision": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "4-tui-tu-ji",
+    "sourceSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 49,
+    "missingParts": [],
+    "stepCount": 9,
+    "revision": "c8cbd8c1a052763b6b0e1f529e39ccfa46dca7aecdd464ac97deff0e28756dff",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "4-wa-li",
-    "sourceSha256": "2f024d32d56958cf276824d76b259f940dcad1ebc3cdb72405e27d6dff9fb55b",
+    "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
     "developmentOnly": true,
     "accepted": false,
     "partCount": 66,
     "missingParts": [],
     "stepCount": 14,
-    "revision": "9a4f5d9128a37f35a56989785bf988f222ddbbfe2179764776e38e2557d29b7a",
+    "revision": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -165,6 +253,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "4-ya-lu-ji",
+    "sourceSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 129,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "cffb45efabcbb2a27c6ef8049c9cce340096d9fb90d4847d4f27da5c04378473",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "4-yao-yao-ma",
     "sourceSha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
     "developmentOnly": true,
@@ -173,6 +272,17 @@
     "missingParts": [],
     "stepCount": 19,
     "revision": "b718bce6389b4f7770146d60b968b728bb5e0280d4e1d6bcd07adcd0bc2f78d4",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "4-yi-long",
+    "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 7,
+    "missingParts": [],
+    "stepCount": 14,
+    "revision": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -199,24 +309,35 @@
   },
   {
     "slug": "5-bing-qiu-yun-dong-yuan",
-    "sourceSha256": "5f6ebadb1ca4cb026dc6afd63454949eb8102620b32dc52360cba576c0bb54db",
+    "sourceSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
     "developmentOnly": true,
     "accepted": false,
     "partCount": 150,
     "missingParts": [],
     "stepCount": 12,
-    "revision": "f737b4161c1cac82bcb899b716ec3284c80e20465aca2b44a9c5f592b19e0c3a",
+    "revision": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
     "slug": "5-chou-you-ji",
-    "sourceSha256": "b818833a94a9f6ed4885c5d8fa6d2f776b427ccb600348aaad548c29c825ef95",
+    "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
     "developmentOnly": true,
     "accepted": false,
-    "partCount": 116,
+    "partCount": 134,
     "missingParts": [],
     "stepCount": 12,
-    "revision": "afe81abb353263424afb7f3263f5ed67daa77295ff5d189eb0e0661ec2ff7c5c",
+    "revision": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-da-zhuang-ji",
+    "sourceSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 115,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "1fd758cbe2defda2a4e5748765ada46be3ebd4b8cf4e7d4c0f2d43484067b26a",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -231,6 +352,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "5-diao-che",
+    "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 151,
+    "missingParts": [],
+    "stepCount": 17,
+    "revision": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "5-diao-shan",
     "sourceSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
     "developmentOnly": true,
@@ -242,14 +374,25 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "5-fan-chuan",
+    "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 113,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "5-huan-wei-che",
-    "sourceSha256": "8261a3929b4d5804b2ba0a69c7b029e0bbe9e7b0c4f87e8a6e0c17b35eeb7259",
+    "sourceSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
     "developmentOnly": true,
     "accepted": false,
     "partCount": 163,
     "missingParts": [],
     "stepCount": 15,
-    "revision": "d153a06c1e6a52a959f0ec856b53866b4e0c41b881772634dd9ae72465d55fbe",
+    "revision": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -286,6 +429,17 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "5-ma-tou-diao-ji",
+    "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 157,
+    "missingParts": [],
+    "stepCount": 14,
+    "revision": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "5-ping-heng-cheng",
     "sourceSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
     "developmentOnly": true,
@@ -298,24 +452,112 @@
   },
   {
     "slug": "5-qing-ting",
-    "sourceSha256": "b16d75b6a2ce32bb694e38152209ab116d0ce5c96f7e1543dadb2cf657a08eee",
+    "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
     "developmentOnly": true,
     "accepted": false,
-    "partCount": 94,
+    "partCount": 110,
     "missingParts": [],
     "stepCount": 10,
-    "revision": "4eeeff733f516b2edfacf60fb667076037fde82a563361ec2ee59a5a70bcf75e",
+    "revision": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
     "slug": "5-ren-li-shui-che",
-    "sourceSha256": "5057d473526f3c4236f7e2c8aa66fd3b2c66a83abae6c981fcd38e0fee08114e",
+    "sourceSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
     "developmentOnly": true,
     "accepted": false,
-    "partCount": 128,
+    "partCount": 130,
     "missingParts": [],
     "stepCount": 11,
-    "revision": "a732eae470cb210297ce19b9d63855b396cbe03f7698a197876bd72cc2b60081",
+    "revision": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-shou-yao-zuan-zi",
+    "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 109,
+    "missingParts": [],
+    "stepCount": 9,
+    "revision": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-shui-jing",
+    "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 93,
+    "missingParts": [],
+    "stepCount": 13,
+    "revision": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-ti-xian-mu-ou",
+    "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 138,
+    "missingParts": [],
+    "stepCount": 9,
+    "revision": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-tou-lan-ji",
+    "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 91,
+    "missingParts": [],
+    "stepCount": 9,
+    "revision": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-tou-shi-che",
+    "sourceSha256": "0944d76919ccab1a669d5d622b87ae8bd5dacdfa268bb44e86b0616bad024020",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 84,
+    "missingParts": [],
+    "stepCount": 11,
+    "revision": "3ebcae23c451ec3b47f56d8ca9c0e8832fc97296c57769d25e6ba0f06a8818eb",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-tui-tu-ji",
+    "sourceSha256": "b0ddc630248e907318e7b65cdcdcb76cf039dc496e41580f99fabf60ea4470d8",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 104,
+    "missingParts": [],
+    "stepCount": 8,
+    "revision": "b83ff3b8da4ae9ed371c2b76d1f55903d3d4af89cc0ed5ad776853118e315874",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-tuo-gua-che",
+    "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 82,
+    "missingParts": [],
+    "stepCount": 17,
+    "revision": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-wo-lun-diao-qiao",
+    "sourceSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 131,
+    "missingParts": [],
+    "stepCount": 11,
+    "revision": "c8eeff96e85103105a7620db6ae78568e85e9bb9baf0b1014b8c0519d3cbc69c",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
@@ -330,14 +572,80 @@
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {
+    "slug": "5-xuan-zhuan-deng-long",
+    "sourceSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 111,
+    "missingParts": [],
+    "stepCount": 11,
+    "revision": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-xuan-zhuan-ka-fei-bei",
+    "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 110,
+    "missingParts": [],
+    "stepCount": 10,
+    "revision": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-ya-mian-ji",
+    "sourceSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 92,
+    "missingParts": [],
+    "stepCount": 5,
+    "revision": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
     "slug": "5-yao-yao-che",
-    "sourceSha256": "cc2135ac295b338696650bfcb5ff599f1881818250b97a5f86cc34d3ff772b3c",
+    "sourceSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
     "developmentOnly": true,
     "accepted": false,
     "partCount": 163,
     "missingParts": [],
     "stepCount": 9,
-    "revision": "5623d4a476811d8e1eadc63b7818046997e2212a8dd26587ae04f9bf0473c0a1",
+    "revision": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-yi-dong-guang-gao-pai",
+    "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 100,
+    "missingParts": [],
+    "stepCount": 12,
+    "revision": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-yu-er-de-wei-ba",
+    "sourceSha256": "e0f4f467a71caaa5e3257f144b9362fa9ee03676ca50b91446d75385bb55abe2",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 110,
+    "missingParts": [],
+    "stepCount": 9,
+    "revision": "1b6e7088baa4a6e50da4ac5a7c63f3a2f6e54387583a1f2cba522419847b89a9",
+    "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
+  },
+  {
+    "slug": "5-yu-hang-yuan-xun-lian-ji",
+    "sourceSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
+    "developmentOnly": true,
+    "accepted": false,
+    "partCount": 94,
+    "missingParts": [],
+    "stepCount": 8,
+    "revision": "4c783838c8b98a52df3bce6b851d9e8e0576e1ca46a5d007a5005b09797b398b",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   }
 ]

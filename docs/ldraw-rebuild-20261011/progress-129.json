@@ -1,12 +1,12 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T04:44:21.688266+00:00",
+  "generatedAt": "2026-10-11T05:25:16.322696+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
   "sourceBlocker": "Quark read/download failures, cause undetermined. No account ban established. 67 courses available; remaining 62 await an authorized source. Do not access unapproved D:/pdf预览.",
   "summary": {
-    "reconstructed-development-draft-pending-validation": 31,
-    "source-available-not-reconstructed": 36,
+    "reconstructed-development-draft-pending-validation": 59,
+    "source-available-not-reconstructed": 8,
     "awaiting-source": 62
   },
   "courses": [
@@ -100,7 +100,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "中班大颗粒积木",
@@ -164,7 +164,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "中班大颗粒积木",
@@ -180,9 +180,16 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b7068e095a294a4ce1bebe23e98a3568fc9bb01e23106ed2079aa7e74b59a42e",
+      "placements": 50,
+      "steps": 11,
+      "headerLimitations": [
+        "// INCOMPLETE: blue horn-end claw pair unresolved; hinge articulation and wing offsets provisional.",
+        "// MISSING blue opposed horn-end claws x2 from p5."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -273,9 +280,16 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+      "placements": 129,
+      "steps": 19,
+      "headerLimitations": [
+        "// INCOMPLETE: yellow mixer assembly missing ID/geometry; layered hull overhang support and exact source seams require review.",
+        "// MISSING yellow cement mixer assembly on rear turret. No bucket substitute."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -336,9 +350,20 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "4b21a9c1e4baf808a0ed085d0e44bc684d2c09fb9b9b7b08d1ae02c6862fec2e",
+      "placements": 93,
+      "steps": 12,
+      "headerLimitations": [
+        "4+ Gantry crane - incomplete source reconstruction draft",
+        "// INCOMPLETE: p10 cord andp11 compact pulley holder/pulley/long black hook lack confirmed complete geometry; omitted. Suspended Toolo loop estimated interfaces.",
+        "// SOURCE PAGE 10 - cord preparation omitted: length androute unknown",
+        "// UNKNOWN p10 cord physical length and material; no fabricated geometry.",
+        "// UNKNOWN p11 compact U holder candidate2223, small gray pulley andlong black hook: not4663 short hook; exact IDs/geometry unavailable.",
+        "// UNKNOWN p12 omitted pulley/rope/hook would attach below lower cradle; retention unresolved."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -354,9 +379,17 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "placements": 52,
+      "steps": 12,
+      "headerLimitations": [
+        "4+ Ferris wheel - incomplete source reconstruction draft",
+        "// INCOMPLETE: p12 eight red four-pane window assemblies identity/geometry not established; omitted. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.",
+        "// UNKNOWN p12 windowframe/pane candidates4253c01/2332ac01/61649 plus90265, mold version not verified. All8 omitted; no substituteboxes."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -372,9 +405,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "ec280756c158b00cd15f9bcc80b5c447ff485e429f59027b4adbb9e7994f0eac",
+      "placements": 41,
+      "steps": 10,
+      "headerLimitations": [
+        "4-qian-shui-ting - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step.",
+        "// STEP 6 - two grey stern support blocks; three-blade Toolo propeller unresolved and omitted"
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -420,7 +462,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "中班大颗粒积木",
@@ -462,9 +504,15 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "a4daf386f99a2da98cef6fa0c71b1ca48fe83bfb3d96e9b02adc49c77c259e59",
+      "placements": 73,
+      "steps": 12,
+      "headerLimitations": [
+        "// Toolo arm geometry approximate, linkage load and stability unverified."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -482,7 +530,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "中班大颗粒积木",
@@ -525,9 +573,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+      "placements": 84,
+      "steps": 18,
+      "headerLimitations": [
+        "// INCOMPLETE: 6295 fake-pulley hook and2223 compact U holder missing geometry; hook assembly cannot be completed. Toolo support loop provisional.",
+        "// Toolo custom DATs are known-ID approximate geometry, not exact manufactured fit.",
+        "// MISSING6295 Toolo Arm with Fake Pulley and Hook at lower vertical arm; not a gripper.",
+        "// MISSING2223 compact black U holder at top; no13355 substitution."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -545,7 +602,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "中班大颗粒积木",
@@ -561,9 +618,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+      "placements": 47,
+      "steps": 9,
+      "headerLimitations": [
+        "// INCOMPLETE: orange shovel missing ID/geometry; source track candidate71981 not yet certified; four belts omitted.",
+        "// MISSING two rear source caterpillar belts;71981 candidate, no identity substitution.",
+        "// MISSING two front source caterpillar belts.",
+        "// MISSING orange Toolo bulldozer blade; source p5, hinge axle at328,by-113,0."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -581,7 +647,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "中班大颗粒积木",
@@ -600,7 +666,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "2f024d32d56958cf276824d76b259f940dcad1ebc3cdb72405e27d6dff9fb55b",
+      "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
       "placements": 47,
       "steps": 14,
       "headerLimitations": [
@@ -745,9 +811,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+      "placements": 48,
+      "steps": 12,
+      "headerLimitations": [
+        "// INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
+        "// Toolo custom DATs are known-ID approximate geometry, not exact manufactured fit.",
+        "// MISSING 4433c01 Toolo exhaust at left hood/cab edge; source-confirmed identity.",
+        "// MISSING blue roller cylinders x2, source p12; identity unresolved."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -788,9 +863,17 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+      "placements": 35,
+      "steps": 14,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// Source page 13: known Toolo blue wing45117c01 and tail31239c01 omitted: missing verified geometry",
+        "// PENDING: Known fork/arm geometry remains approximate; no physical stability or screw engagement claimed."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -876,7 +959,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "中班大颗粒积木",
@@ -894,7 +977,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -913,7 +996,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "5f6ebadb1ca4cb026dc6afd63454949eb8102620b32dc52360cba576c0bb54db",
+      "modelSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
       "placements": 51,
       "steps": 12,
       "headerLimitations": []
@@ -934,7 +1017,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -952,7 +1035,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -989,13 +1072,13 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "b818833a94a9f6ed4885c5d8fa6d2f776b427ccb600348aaad548c29c825ef95",
-      "placements": 63,
+      "modelSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+      "placements": 64,
       "steps": 12,
       "headerLimitations": [
-        "// INCOMPLETE: p4/p5 flexible cord and independent hook geometry pending; crank-to-large-gear joint needs precise source evidence.",
+        "// INCOMPLETE: p4/p5 flexible cord geometry pending; crank-to-large-gear joint needs precise source evidence.",
         "// UNKNOWN p4 cord length/form: source black line, combination inventory75536 contains28Lcord; no fabricatedDAT.",
-        "// UNKNOWN p5 yellow short crossbarhook of assembly75536; candidate6528; finalposition beneath right pulley."
+        "// p5 official4663 hook matched source+catalog; eye positioned above hollowweight, exact knot and cord path unknown."
       ]
     },
     {
@@ -1014,7 +1097,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1032,7 +1115,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1050,7 +1133,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1066,9 +1149,15 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+      "placements": 83,
+      "steps": 12,
+      "headerLimitations": [
+        "// INCOMPLETE: cockpit canopy fit, axle depth, handle crank attachment and hammer four-bar hole selection remain manual."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1086,7 +1175,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1146,9 +1235,17 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+      "placements": 61,
+      "steps": 17,
+      "headerLimitations": [
+        "5-diao-che - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-17 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1192,7 +1289,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1208,9 +1305,19 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+      "placements": 107,
+      "steps": 12,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// Source page 11: main official formed sail and pulley/coupler set; shafts unresolved",
+        "// Source page 12: two narrow sails and pulley/coupler sets; shafts unresolved",
+        "// PENDING: Six mast shafts omitted: source shows green rods but6521 versus6522 length and coupler insertion depth cannot be resolved. Sail/pulley/coupler components are positioned from official sheet hole centers, structurally incomplete without shafts.",
+        "// PENDING: Colour inventory9090 unknown; mechanical gear function and floating stability not validated."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1246,7 +1353,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1264,7 +1371,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1282,7 +1389,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1318,7 +1425,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1337,7 +1444,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "8261a3929b4d5804b2ba0a69c7b029e0bbe9e7b0c4f87e8a6e0c17b35eeb7259",
+      "modelSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
       "placements": 84,
       "steps": 15,
       "headerLimitations": [
@@ -1385,7 +1492,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1449,7 +1556,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1485,7 +1592,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1503,7 +1610,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1519,9 +1626,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "placements": 83,
+      "steps": 14,
+      "headerLimitations": [
+        "// INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.",
+        "// OMITTED UNRESOLVED p10: second 6522 grey axle and two 6527 retainers; source shows lower pivot but exact arm engagement/depth obscured. Do not duplicate grey axle at p11 blue winding shaft. Both boom placements remain provisional at the visible upper pivot."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1557,7 +1671,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1599,7 +1713,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1617,7 +1731,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1635,7 +1749,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1654,14 +1768,13 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "312388798fec6f8a69641fbf17648d472ac4987ade9166179fff05fbb1975ae0",
-      "placements": 56,
+      "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "placements": 62,
       "steps": 10,
       "headerLimitations": [
         "5-qing-ting - source reconstruction, INCOMPLETE dev-only",
         "// STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.",
-        "// No physical validation. Missing parts are omitted and recorded per source step.",
-        "// STEP 9 - UNRESOLVED printed pond plate and five flowers omitted pending exact pond design"
+        "// No physical validation. Missing parts are omitted and recorded per source step."
       ]
     },
     {
@@ -1680,7 +1793,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1698,7 +1811,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1717,12 +1830,11 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "5057d473526f3c4236f7e2c8aa66fd3b2c66a83abae6c981fcd38e0fee08114e",
+      "modelSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
       "placements": 62,
       "steps": 11,
       "headerLimitations": [
-        "// INCOMPLETE: p9 eyes pattern4198pr9981 absent (plain4198 body retained); p5/p11 hidden crank-to-shaft connection unresolved.",
-        "// Source page 9: yellowplate, rounded yellowhead and bluecurvedhat. Plain4198 is exactbody only; source large-eyes print stillmissing.",
+        "// INCOMPLETE: p5/p11 hidden crank-to-shaft connection unresolved.",
         "// Source page 11: green lowerArm axle8, two pulleys and shortcrank. Exact hidden linkage to rear drive crank is unresolved."
       ]
     },
@@ -1742,7 +1854,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1760,7 +1872,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1794,9 +1906,13 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+      "placements": 40,
+      "steps": 9,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -1814,7 +1930,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1832,7 +1948,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1848,9 +1964,17 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+      "placements": 117,
+      "steps": 13,
+      "headerLimitations": [
+        "5-shui-jing - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1868,7 +1992,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_timed_out"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1904,7 +2028,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -1920,9 +2044,15 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+      "placements": 56,
+      "steps": 9,
+      "headerLimitations": [
+        "// Strings are schematic type2 lines, not numbered rigid parts. Knot, actual length, tension and hook retention unresolved."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1956,9 +2086,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+      "placements": 57,
+      "steps": 9,
+      "headerLimitations": [
+        "// Source page 3: first five red plates: incomplete lower hoop layer.",
+        "// INCOMPLETE: shortcrank double-stack depth and ball cup contact need render/manual review."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1974,9 +2111,18 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "0944d76919ccab1a669d5d622b87ae8bd5dacdfa268bb44e86b0616bad024020",
+      "placements": 54,
+      "steps": 11,
+      "headerLimitations": [
+        "Catapult - incomplete source reconstruction",
+        "// INCOMPLETE: pages5-7 redistribute beams without explicit intermediate motion; A-frame vs lever assignment provisional. Basket cranks and payload omitted pending pin orientation evidence.",
+        "// SOURCE PAGE 6: two long levers, second base shaft and four retainers; source movement sequence unresolved",
+        "// SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted"
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1992,9 +2138,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b0ddc630248e907318e7b65cdcdcb76cf039dc496e41580f99fabf60ea4470d8",
+      "placements": 49,
+      "steps": 8,
+      "headerLimitations": [
+        "// INCOMPLETE: orange vehicle cabin, pale canopy placement, red-white window IDs pending.",
+        "// Source page 3: yellow rear roof support and lime4x8 roof; cab/window missing parts remain explicit."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2010,9 +2163,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "placements": 109,
+      "steps": 17,
+      "headerLimitations": [
+        "// INCOMPLETE pending true cab and four white-window assemblies; no placeholder geometry.",
+        "// Source page 5: four red frames with white four-pane opening, unresolved complete part ID: no fictitious geometry."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2046,9 +2206,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "0e2019ec0ad06cbe651be67eb6c293beb900b13e96bc3e2577e0caeee00639c6",
+      "placements": 174,
+      "steps": 11,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// PENDING: Two small cars omitted; exact variants unresolved."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2066,7 +2233,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2084,7 +2251,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2120,7 +2287,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2166,7 +2333,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2184,7 +2351,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2200,9 +2367,17 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+      "placements": 52,
+      "steps": 11,
+      "headerLimitations": [
+        "5-xuan-zhuan-deng-long - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-11 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2220,7 +2395,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2236,9 +2411,18 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+      "placements": 63,
+      "steps": 10,
+      "headerLimitations": [
+        "5-xuan-zhuan-ka-fei-bei - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step.",
+        "// STEP 9 - UNRESOLVED source ten child figures; exact body/print composition required, omitted"
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2256,7 +2440,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2274,7 +2458,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2310,7 +2494,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2326,9 +2510,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+      "placements": 58,
+      "steps": 5,
+      "headerLimitations": [
+        "// INCOMPLETE: two loose tray axles omitted: source material and finished colours differ; length/pose unresolved. Gear phase and shaft retention require manual check.",
+        "// SOURCE PAGE 5: inverted grey tray with two-layer yellow ring; loose shafts unresolved"
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2364,7 +2555,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2383,7 +2574,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "cc2135ac295b338696650bfcb5ff599f1881818250b97a5f86cc34d3ff772b3c",
+      "modelSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
       "placements": 60,
       "steps": 9,
       "headerLimitations": []
@@ -2402,9 +2593,17 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "placements": 55,
+      "steps": 12,
+      "headerLimitations": [
+        "5-yi-dong-guang-gao-pai - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2420,9 +2619,13 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "e0f4f467a71caaa5e3257f144b9362fa9ee03676ca50b91446d75385bb55abe2",
+      "placements": 195,
+      "steps": 9,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2438,9 +2641,18 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "ef9d15cf1aa252bf6297c0f5d5007ce5d09181681ced0dc71a69310bf4bbcde0",
+      "placements": 106,
+      "steps": 8,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// Source page 7: central red bar and two yellow end plates; drive cranks/shaft unresolved",
+        "// PENDING: Central bar is shown in source position but not yet supported because drive linkage unresolved; intentionally incomplete preview.",
+        "// PENDING: All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2458,7 +2670,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",
@@ -2494,7 +2706,7 @@
       "reviewExists": false,
       "workStatus": "awaiting-source",
       "accepted": false,
-      "sourceCoverage": "not_yet_attempted"
+      "sourceCoverage": "download_not_attempted"
     },
     {
       "grade": "大班大颗粒积木",

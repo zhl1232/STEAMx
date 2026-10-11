@@ -1,0 +1,58 @@
+{
+  "slug": "5-yi-dong-guang-gao-pai",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 12,
+  "sourcePixels": "All12 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "unknown": [
+    {
+      "page": "2-6",
+      "part": "moving drivetrain and poster pivot",
+      "missing": "static source axes only; gear engagement and rotation under load unverified"
+    },
+    {
+      "page": 7,
+      "part": "animal print orientation",
+      "missing": "official pattern IDs match catalog names; final pixel orientation needs render comparison"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": {
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Source structure visually coherent; omissions/mechanical risks in unknown list remain unresolved. No physical validation."
+  },
+  "rawCollisionChecker": "FAIL; two central pulley/pattern brick edge overlaps",
+  "collisionAssessment": "Two printed columns have80LDU inner gap; official6527 flange diameter82LDU, potential1LDU edge interference each side remains, not certified. Other frame/wall collisions corrected by readingp10 BOM5 full+4 square bricks and retaining red bridge end gaps.",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 5,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 1
+    },
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 6,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 4
+    }
+  ]
+}

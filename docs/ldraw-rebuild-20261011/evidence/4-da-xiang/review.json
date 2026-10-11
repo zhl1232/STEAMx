@@ -29,7 +29,7 @@
       "missing": "confirmed6294 uses prior approximation; source pose inferred, physical clip engagement not verified"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [
     "76395",
     "76057",
@@ -40,6 +40,11 @@
     "74957",
     "dev-129/6294"
   ],
-  "render": "b5788dd1 iso/rear inspected: ears too far forward; this source moves ears to head sides, new render pending",
-  "rawCollisionChecker": "PASS"
+  "render": "Latest iso pixels inspected against source; known source silhouette and omitted-part boundary reviewed. Elephant also iso-rear inspected. Does not constitute full step/physical acceptance.",
+  "rawCollisionChecker": "PASS",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": []
 }

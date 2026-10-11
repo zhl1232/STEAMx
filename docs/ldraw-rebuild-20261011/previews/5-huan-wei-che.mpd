@@ -59,20 +59,20 @@
 1 2 480 -216 0 0 0 1 0 1 0 -1 0 0 6521.dat
 0 STEP
 0 // SOURCE PAGE 7: four crank links form two sides of grabbing square
-1 14 480 -216 -140 1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 480 -216 -140 -1 0 0 0 0 -1 0 -1 0 6526.dat
 1 14 480 -296 -180 0 0 1 -1 0 0 0 -1 0 6526.dat
 1 14 480 -216 140 1 0 0 0 0 -1 0 1 0 6526.dat
 1 14 480 -296 180 0 0 1 1 0 0 0 1 0 6526.dat
 0 STEP
 0 // SOURCE PAGE 8: four crank links complete square
-1 14 560 -296 -140 -1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 560 -296 -140 1 0 0 0 0 1 0 -1 0 6526.dat
 1 14 560 -216 -180 0 0 -1 1 0 0 0 -1 0 6526.dat
 1 14 560 -296 140 -1 0 0 0 0 1 0 1 0 6526.dat
 1 14 560 -216 180 0 0 -1 -1 0 0 0 1 0 6526.dat
 0 STEP
 0 // SOURCE PAGE 9: two inverted red round bricks held within grabbing frame
 1 4 520 -240 0 1 0 0 0 -1 0 0 0 -1 98220.dat
-1 4 520 -288 0 1 0 0 0 -1 0 0 0 -1 98220.dat
+1 4 520 -312 0 1 0 0 0 -1 0 0 0 -1 98220.dat
 0 STEP
 0 // SOURCE PAGE 10: red ring with two 2x4 holed bricks
 1 4 -240 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat

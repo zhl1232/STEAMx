@@ -1,0 +1,1484 @@
+{
+  "slug": "4-wa-li",
+  "pages": 15,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "three transverse black Toolo bricks make a two-lower one-upper chassis",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -80,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower chassis",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            80,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower chassis",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 cross-bonds lower seam",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 3
+    },
+    {
+      "sourcePage": 2,
+      "note": "four wheel rims and two fixed-loop caterpillar belts",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            -80,
+            24,
+            -144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Rim axles meet chassis side-holes; fixed belt geometry wheel-centre mismatch remains approx",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            80,
+            24,
+            -144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Rim axles meet chassis side-holes; fixed belt geometry wheel-centre mismatch remains approx",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "71981.dat",
+          "color": 0,
+          "position": [
+            0,
+            24,
+            -144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Existing approved fixed racetrack loop; no articulation/tension proof",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            -80,
+            24,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Rim axles meet chassis side-holes; fixed belt geometry wheel-centre mismatch remains approx",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            80,
+            24,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Rim axles meet chassis side-holes; fixed belt geometry wheel-centre mismatch remains approx",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "71981.dat",
+          "color": 0,
+          "position": [
+            0,
+            24,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Existing approved fixed racetrack loop; no articulation/tension proof",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 9
+    },
+    {
+      "sourcePage": 3,
+      "note": "yellow round-door frame, blue door omitted for provenance/fit review",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "31191.dat",
+          "color": 14,
+          "position": [
+            120,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Frame bottom0 on exposed lower-front chassis, aperture faces+X",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 10
+    },
+    {
+      "sourcePage": 4,
+      "note": "four yellow2x4 and two2x2 bricks: two back courses and first side course",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back wallcourse; bottom seats on preceding course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes6stud-wide back wall without overlap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back wallcourse; bottom seats on preceding course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -96,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes6stud-wide back wall without overlap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -96,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -96,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 16
+    },
+    {
+      "sourcePage": 5,
+      "note": "three yellow2x4 and one2x2 brick, next U-shaped course",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -144,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back wallcourse; bottom seats on preceding course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -144,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes6stud-wide back wall without overlap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 20
+    },
+    {
+      "sourcePage": 6,
+      "note": "six yellow2x4 and two2x2 bricks, two additional U-shaped courses",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -192,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back wallcourse; bottom seats on preceding course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -192,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes6stud-wide back wall without overlap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -192,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -192,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -240,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Back wallcourse; bottom seats on preceding course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -240,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes6stud-wide back wall without overlap",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sidewall bottom seats on raised chassis or preceding course; ends meet back/front frame",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 28
+    },
+    {
+      "sourcePage": 7,
+      "note": "two black4x6 bricks close the torso top",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -80,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-240 on yellow walls and doorwayframe; spans open cavity",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            80,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-240 on yellow walls and doorwayframe; spans open cavity",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 30
+    },
+    {
+      "sourcePage": 8,
+      "note": "two black4x6 side-built shoulder plates",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -264,
+            -168
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottom face z+/-120 meets top torso side; local width160 becomes vertical Corrected Rx sign: bottom points inward and top studs outward; earlier render gap withdrawn.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -264,
+            168
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottom face z+/-120 meets top torso side; local width160 becomes vertical Corrected Rx sign: bottom points inward and top studs outward; earlier render gap withdrawn.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 32
+    },
+    {
+      "sourcePage": 9,
+      "note": "two side-facing Toolo turntables",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "60535.dat",
+          "color": 0,
+          "position": [
+            0,
+            -264,
+            -208
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottom face z+/-168 seats on shoulderplate; captive yellow top is part of host Corrected Rx sign: bottom points inward and top studs outward; earlier render gap withdrawn.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "60535.dat",
+          "color": 0,
+          "position": [
+            0,
+            -264,
+            208
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottom face z+/-168 seats on shoulderplate; captive yellow top is part of host Corrected Rx sign: bottom points inward and top studs outward; earlier render gap withdrawn.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 34
+    },
+    {
+      "sourcePage": 10,
+      "note": "two fork brackets on shoulder turntables",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            0,
+            -264,
+            -256
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottom facez+/-208; forward forkpivot(48,-264,+/-321)",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            0,
+            -264,
+            256
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottom facez+/-208; forward forkpivot(48,-264,+/-321)",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 36
+    },
+    {
+      "sourcePage": 11,
+      "note": "two forward short Toolo arms",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            248,
+            -264,
+            -321
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ],
+          "support": "Openhook200 at shoulder pivot; closed pin atx248",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            248,
+            -264,
+            321
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Openhook200 at shoulder pivot; closed pin atx248",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 38
+    },
+    {
+      "sourcePage": 12,
+      "note": "two orange scoop hands",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            248,
+            -264,
+            -321
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Scoop pivot axis toY at forearm pin; source vertical shell pose inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-2",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            248,
+            -264,
+            321
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Scoop pivot axis toY at forearm pin; source vertical shell pose inferred",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 13,
+      "note": "two upright neckfork bases",
+      "placements": [
+        {
+          "id": "p13-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            0,
+            -336,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-288 on roof, pivot(48,-401,z)",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            0,
+            -336,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-288 on roof, pivot(48,-401,z)",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 42
+    },
+    {
+      "sourcePage": 14,
+      "note": "two clutch neck blocks, one grey2x4 head and two rim eyes",
+      "placements": [
+        {
+          "id": "p14-1",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            48,
+            -461,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lower tongue60 meets neckforkpivot; mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-2",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            48,
+            -461,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lower tongue60 meets neckforkpivot; mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            48,
+            -509,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-461 across both clutch tops",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-4",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            112,
+            -485,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Forward facing eye rim axleX contacts headfront x88",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-5",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            112,
+            -485,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Forward facing eye rim axleX contacts headfront x88",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 47
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Source-based dev draft; current final views reviewed; omissions and cumulative-step review remain.",
+  "source": {
+    "name": "4+瓦力搭建说明.pdf",
+    "relative_path": "4+/4+瓦力搭建说明.pdf",
+    "pages": 15,
+    "bytes": 2795243,
+    "sha256": "4c1fd432f80a49fe0fd79cd0672b94d27ddf422fe22c64fba1bdf9b67be9905e",
+    "source_url": "https://pan.quark.cn/list#/docpdf/4bec85f69c004ec7bd73ab63dac57d5a",
+    "slug": "4-wa-li",
+    "lesson_id": 204,
+    "course_id": 6
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-01.jpg",
+      "sha256": "e9c80df8d4ccf6224fc1eac6307b1b8739c168eeb90ebce2f9aab0758ea6f049",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-02.jpg",
+      "sha256": "4105a611015f8bd1c1b3f93c415c3b54a7db25fcfd0d70b0956a18a9b26ac1be",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-03.jpg",
+      "sha256": "1c190f62af1b004d95ecac9632d3547a56d3c2deb85fd0cdbbbccc2275c3f9d4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-04.jpg",
+      "sha256": "646f37360a8866d6b1ab90f123600c8a762caaec0bfa709ec5d93fd604c70bd4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-05.jpg",
+      "sha256": "70b3ec480b90b608321caa8749f1f657cf6b7d623979799397c7f4d3c3edfa58",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-06.jpg",
+      "sha256": "aa2765500cbf927c694f760d6a58f022a5e5f7835a168fc0982990090f6b50b7",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-07.jpg",
+      "sha256": "e72b03a1780285813243eabd03b383a791fe19d97f10e83851f11e6ca6955629",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-08.jpg",
+      "sha256": "4728f812b62505169b22112d06f60faf05b846b4e1220b278cb259e0054c130e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-09.jpg",
+      "sha256": "fa287a81510b0bb76d0be6e9d4c81712fd79e369197e6d788ac72fde6ef3ff02",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-10.jpg",
+      "sha256": "15df6e3706b03cd8c2db75dd330a9d4614fa4fae607008717dde74be765ca828",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-11.jpg",
+      "sha256": "ac407f2dc73e0f4186b34c582b13e750f6a1ab33dba4b8f914e9956ab91526d8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-12.jpg",
+      "sha256": "d6b26a7f5b54559d34e34aff1f023ff113a25cad246384aad2dbc833df168d1b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-13.jpg",
+      "sha256": "40cb849e91ce9a2f3e9877c934cbf2f8137dd608aa54083f7510962bf2e317f4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-14.jpg",
+      "sha256": "12bb75a30c0d493a39a0b944827dd822e217725fe4b55806bf7938f0ce15e801",
+      "pixelsViewed": true
+    },
+    {
+      "page": 15,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\source-15.jpg",
+      "sha256": "b343aa9cc287379cb71f9b5f3f2b41af0ffa7491ada64adf4b36d0e5dbedff02",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Known blue31193 door omitted: existing historical mesh has unresolved provenance and hinge placement.",
+    "Fixed71981 belt loop has estimated180LDU centre separation versus source-visible160LDU chassis wheel spacing; no scaling, fit/tension remains pending.",
+    "Side shoulder studs/screws, clasp joints and scoop contacts use approximate Toolo geometry; exact fit not certified.",
+    "Source-derived wall-course quantities are preserved; central rendered comparison of roof/doorway and arm joints remains required."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "omittedKnownParts": [
+    {
+      "id": "31193.dat",
+      "color": 1,
+      "count": 1,
+      "sourcePage": 3,
+      "reason": "Known ID but historical local mesh lacks author/license header; provisional hinge fit only. Omitted from distributable dev package pending cleared source."
+    }
+  ],
+  "inventoryDeficits": [
+    {
+      "id": "dev-129/6294.dat",
+      "required": 2,
+      "in45002": 1,
+      "extraNeeded": 1
+    }
+  ],
+  "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-wa-li.ldr",
+  "totalPlacements": 47,
+  "bom": {
+    "76395.dat|0": 7,
+    "99565.dat|71": 6,
+    "71981.dat|0": 2,
+    "31191.dat|14": 1,
+    "3011.dat|14": 13,
+    "3437.dat|14": 5,
+    "60535.dat|0": 2,
+    "28336.dat|72": 4,
+    "dev-129/28334.dat|72": 2,
+    "dev-129/6294.dat|25": 2,
+    "74957.dat|72": 2,
+    "76057.dat|72": 1
+  },
+  "metadataSha256": "6e11f39ebfb238372002e10f1bd82642d85144f633f11192a34849c39a29e9b4",
+  "knownApproximateGeometry": [
+    {
+      "id": "76395.dat",
+      "geometrySha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "geometrySha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "71981.dat",
+      "geometrySha256": "cb78c4b136ba8dea895ef3bc2f951681ca1247fdf838427af2eaf5eea4c6829d",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for71981.",
+        "Fixed racetrack loop280x100 LDU before tread ribs, width40, wall7, all image estimates.",
+        "Continuous hollow belt with48 transverse ribs and two rows of inner lugs. No articulation, tension or sprocket engagement claim.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/4141820.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "60535.dat",
+      "geometrySha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6",
+      "notes": [
+        "User approved local simplified modelling 2026-09-12.",
+        "Reference https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg retrieved2026-09-12.",
+        "CC BY 4.0 local geometry, no official mesh used.",
+        "Twelve yellow hollow studs on40LDU grid. Yellow rotating disk on square base, rear mounting boss estimated from image.",
+        "Disk/base/boss thicknesses12/12/16LDU and mechanism dimensions estimated. Rotation bearing/thread/retention not exact; physical fit requires manual review.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "geometrySha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "geometrySha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "dev-129/6294.dat",
+      "geometrySha256": "7656908c017d5f95d2fa2b178144d740d4a748f27eb3cf3677a9f44c10f07d0f",
+      "notes": [
+        "Unchanged geometry extracted from published4-wa-tu-ji.mpd 6294.dat, with original2026-09-27 user-approval header and CC BY4.0 local author retained. Name moved into dev-129 namespace only.",
+        "Not official exact geometry; molded clip fit/pivot dimensions were inferred from4188816 photo. Elephant source page8 requires two;45002 inventory has one orange, extra required1.",
+        "Elephant articulated ear pose remains inferred pending rendered comparison, not physical validation."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "geometrySha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "geometrySha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    }
+  ],
+  "checks": {
+    "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+    "dependencyNodes": 66,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 0,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched"
+  },
+  "pixelDiagnostic": {
+    "withdrawnSource": "2f024d32d56958cf276824d76b259f940dcad1ebc3cdb72405e27d6dff9fb55b",
+    "allThreeViewsViewed": true,
+    "finding": "Shoulder plates and turntables had bases facing outwards, making visible gaps. Rx sign corrected at source pages8,9; all arm subassemblies retain their outer positions. Current final rendering and affected steps pending."
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+    "packRevision": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+    "note": "Corrected shoulder orientations confirmed in all three views: plates meet body and yellow turntables face outward. Head and tracked chassis match macro reference; blue31193 door remains omitted, track tension/spacing unverified, scoop shells are conspicuously approximate.",
+    "views": [
+      {
+        "view": "iso",
+        "pixelsViewed": true,
+        "sha256": "4e42ea44699930f742298d127f110ce58e4360b61edf89a0a6767c6bfdb49664"
+      },
+      {
+        "view": "iso-rear",
+        "pixelsViewed": true,
+        "sha256": "2c5f861f7e01f0621d462d635a582f269f29c7efdca8495e0cbfe7bf947e597e"
+      },
+      {
+        "view": "top",
+        "pixelsViewed": true,
+        "sha256": "eeed094c964a8965e5cd543cb5d622c9e1e5f6a041be4bbaf6cdab9bd6949c81"
+      }
+    ],
+    "steps": "pending new cumulative review",
+    "physicalValidation": false
+  }
+}

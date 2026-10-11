@@ -1,0 +1,84 @@
+0 String puppet - unaccepted source reconstruction
+0 Name: 5-ti-xian-mu-ou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10; all ten pages viewed.
+0 // Strings are schematic type2 lines, not numbered rigid parts. Knot, actual length, tension and hook retention unresolved.
+0 // SOURCE PAGE 1: red body, head, two long crossbars, three grey axles and six pulleys
+1 4 0 -400 0 0 0 1 1 0 0 0 1 0 75350.dat
+1 4 0 -648 24 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 0 -744 24 1 0 0 0 1 0 0 0 1 73162p01.dat
+1 14 0 -560 -40 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 0 -280 -40 0 0 1 1 0 0 0 1 0 6525.dat
+1 7 0 -624 24 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -624 -56 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -624 128 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -560 24 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -560 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -560 84 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -280 24 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -280 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -280 84 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 2: two seven-hole legs on grey hip axles with pulley retainers
+1 14 -200 -160 -80 1 0 0 0 0 1 0 -1 0 6524.dat
+1 7 -200 -280 -60 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -200 -280 -120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -200 -280 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -160 -80 1 0 0 0 0 1 0 -1 0 6524.dat
+1 7 200 -280 -60 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -280 -120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -280 0 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 3: two raised seven-hole forearms with grey shafts and pulley retainers
+1 14 -260 -663.923048 -80 0.866025404 0 -0.5 -0.5 0 -0.866025404 0 1 0 6524.dat
+1 7 -200 -560 -60 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -200 -560 -120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -200 -560 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 260 -663.923048 -80 0.866025404 0 0.5 0.5 0 -0.866025404 0 1 0 6524.dat
+1 7 200 -560 -60 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -560 -120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -560 0 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 4: two feet each with 40T and 24T gear, axle and two pulley retainers
+1 7 -200 -40 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -200 -40 -120 1 0 0 0 1 0 0 0 1 6530.dat
+1 4 -200 -40 -160 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 -200 -40 -200 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -200 -40 -40 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 200 -40 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -40 -120 1 0 0 0 1 0 0 0 1 6530.dat
+1 4 200 -40 -160 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 200 -40 -200 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -40 -40 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 5: two blue hand axles and two red hand gears
+1 1 -320 -767.846097 -80 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -320 -767.846097 -140 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 320 -767.846097 -80 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 320 -767.846097 -140 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // SOURCE PAGE 6: two source strings shown schematically; final routed length is not measured
+2 0 -320 -1212 -36 -320 -857.8460969082653 -36
+2 0 320 -1212 -36 320 -857.8460969082653 -36
+0 STEP
+0 // SOURCE PAGE 7: two hook-and-pulley string assemblies
+1 14 -320 -1256 -36 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -320 -857.846097 -36 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 320 -1256 -36 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 320 -857.846097 -36 1 0 0 0 1 0 0 0 1 4663.dat
+0 STEP
+0 // SOURCE PAGE 8: attach hooks to raised hands; no additional rigid parts
+0 // Hook pose and string tension are source-derived visual estimates; no mechanical acceptance.
+0 STEP
+0 // SOURCE PAGE 9: two red holed top beams joined by two blue bricks, two axles and back pulleys
+1 4 -200 -1280 24 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -1280 24 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -1328 24 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -1232 24 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 -320 -1256 24 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -320 -1256 84 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 320 -1256 24 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 320 -1256 84 1 0 0 0 1 0 0 0 1 6527.dat
+0 // SOURCE PAGE10 final view, no additions.

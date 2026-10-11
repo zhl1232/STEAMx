@@ -7,7 +7,7 @@
     "catalog": "4268",
     "inventoryRows": [],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "unknown; absent row is not zero"
   },
   {
     "id": "3437.dat",
@@ -157,7 +157,7 @@
     "catalog": "6345",
     "inventoryRows": [],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "unknown; absent row is not zero"
   },
   {
     "id": "3011.dat",
@@ -202,12 +202,22 @@
   {
     "id": "90265.dat",
     "color": 15,
-    "colorName": "unknown",
+    "colorName": "White",
     "required": 4,
     "catalog": "90265",
-    "inventoryRows": [],
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "90265",
+        "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+        "color": "White",
+        "quantity": 6,
+        "part_url": "https://rebrickable.com/parts/90265/duplo-door-window-with-four-equal-square-cornered-panes/",
+        "raw_description": "90265 Duplo Door / Window with Four Equal Square Cornered Panes in White Duplo, Quatro and Primo"
+      }
+    ],
     "extra45002": "unknown",
-    "quantityStatus": "unknown; no inferred zero"
+    "quantityStatus": "matched exact colour rows"
   },
   {
     "id": "60535.dat",

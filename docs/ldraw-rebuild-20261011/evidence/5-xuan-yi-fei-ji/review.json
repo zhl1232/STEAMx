@@ -18,7 +18,7 @@
       "missing": "rendered joint inspection and source-specific gear phase; manual metadata does not certify motion"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": "iso pixels inspected: source body/wing/gear arrangement matches broad structure; four crossed drivebelts visibly absent, correctly INCOMPLETE",
   "collisionAssessment": {
@@ -28,5 +28,17 @@
     "assembly": "Positive wheel: tyre Z59..121; inward rim flange42..60 and hub60..80; outward rim flange120..138 and hub100..120. Four wheel units symmetric. Tyre annular material remains outside rim radial41.",
     "limit": "Radial clearance at least1.183LDU means press-fit not proven; no physical validation. No generic collisionPASS claim."
   },
-  "rawCollisionChecker": "FAIL; see collision.txt and manual assessment"
+  "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  }
 }

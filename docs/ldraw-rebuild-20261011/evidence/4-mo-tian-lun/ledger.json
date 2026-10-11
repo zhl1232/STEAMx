@@ -1,0 +1,292 @@
+{
+  "slug": "4-mo-tian-lun",
+  "source": {
+    "name": "4+摩天轮搭建说明.pdf",
+    "relative_path": "4+/4+摩天轮搭建说明.pdf",
+    "pages": 13,
+    "bytes": 2332939,
+    "sha256": "6e2cab2c357f42a41890c349b2f3d8609aa9618e8be2afbae3503ae8e73a319f",
+    "source_url": "https://pan.quark.cn/list#/docpdf/7949199da22c40ff81807a2a07ee32eb",
+    "slug": "4-mo-tian-lun",
+    "lesson_id": 180,
+    "course_id": 6
+  },
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+  "status": "incomplete-dev-draft",
+  "verificationLevel": "structurally checked only",
+  "userConfirmed": false,
+  "physicalVerified": false,
+  "steps": [
+    {
+      "page": 1,
+      "note": "green24x24 base andeight black Toolo blocks in stepped pedestal",
+      "start": 9,
+      "placements": 9
+    },
+    {
+      "page": 2,
+      "note": "fourteen upright black Toolo tower layers",
+      "start": 20,
+      "placements": 14
+    },
+    {
+      "page": 3,
+      "note": "six yellow bricks in3/2/1 cap",
+      "start": 36,
+      "placements": 6
+    },
+    {
+      "page": 4,
+      "note": "sideways black4x6 against tower front",
+      "start": 44,
+      "placements": 1
+    },
+    {
+      "page": 5,
+      "note": "central turntable on sideblock",
+      "start": 47,
+      "placements": 1
+    },
+    {
+      "page": 6,
+      "note": "front rotating4x6",
+      "start": 50,
+      "placements": 1
+    },
+    {
+      "page": 7,
+      "note": "four2x2 base forks radially oriented",
+      "start": 53,
+      "placements": 4
+    },
+    {
+      "page": 8,
+      "note": "four2x6 radial arms",
+      "start": 59,
+      "placements": 4
+    },
+    {
+      "page": 9,
+      "note": "fourclutch blocks at radial end pivots",
+      "start": 65,
+      "placements": 4
+    },
+    {
+      "page": 10,
+      "note": "fourseat turntables",
+      "start": 71,
+      "placements": 4
+    },
+    {
+      "page": 11,
+      "note": "fourblue2x8 hanging plates",
+      "start": 77,
+      "placements": 4
+    },
+    {
+      "page": 12,
+      "note": "eightredfour-pane windowcab parts unavailable",
+      "start": 83,
+      "placements": 0
+    }
+  ],
+  "placements": 52,
+  "bom": [
+    {
+      "id": "4268.dat",
+      "color": 2,
+      "quantity": 1,
+      "name": "Duplo Baseplate 24 x 24",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "quantity": 24,
+      "name": "Toolo 4 x 6 x 1 with thread and screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3011.dat",
+      "color": 14,
+      "quantity": 6,
+      "name": "Duplo Brick 2 x 4",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "60535.dat",
+      "color": 0,
+      "quantity": 5,
+      "name": "Duplo turntable with screw",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "28336.dat",
+      "color": 71,
+      "quantity": 4,
+      "name": "Duplo 2x2 with arm thread screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "color": 71,
+      "quantity": 4,
+      "name": "Duplo Toolo fork arm 28334 (dev-129 length correction)",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "74957.dat",
+      "color": 71,
+      "quantity": 4,
+      "name": "Duplo clutch element with thread",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "44524.dat",
+      "color": 1,
+      "quantity": 4,
+      "name": "Duplo Plate  2 x  8",
+      "geometryStatus": "Official"
+    }
+  ],
+  "unknown": [
+    {
+      "page": 12,
+      "part": "red four-pane window assemblies",
+      "quantity": 8,
+      "candidates": [
+        "4253c01",
+        "2332ac01",
+        "61649 +90265"
+      ],
+      "missing": "Frame/pane family andmold/geometry unverified; all8 omitted"
+    }
+  ],
+  "knownApproximations": [
+    {
+      "id": "76395.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "60535.dat",
+      "notes": [
+        "User approved local simplified modelling 2026-09-12.",
+        "Reference https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg retrieved2026-09-12.",
+        "CC BY 4.0 local geometry, no official mesh used.",
+        "Twelve yellow hollow studs on40LDU grid. Yellow rotating disk on square base, rear mounting boss estimated from image.",
+        "Disk/base/boss thicknesses12/12/16LDU and mechanism dimensions estimated. Rotation bearing/thread/retention not exact; physical fit requires manual review.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    }
+  ],
+  "inventoryExtraNeeded": [
+    {
+      "id": "76395.dat",
+      "set": "45002-1",
+      "required": 24,
+      "verifiedSingleSet": 7,
+      "extra": 17
+    },
+    {
+      "id": "60535.dat",
+      "set": "45002-1",
+      "required": 5,
+      "verifiedSingleSet": 2,
+      "extra": 3
+    }
+  ],
+  "validation": {
+    "matrixInvalid": [],
+    "rawCollision": "pass; Toolo manual collision policy means not complete rigid-intersection proof",
+    "closure": "pending parent serial pack",
+    "pixels": "pending parent serial final+step render"
+  },
+  "limitations": [
+    "Tower side mount uses source screw interface; approximate thread retention not certified.",
+    "Four radial arms andseat bearings are static source pose, no motion/physical verification.",
+    "p12 omitted windows leave seat structures incomplete; p13 finaloverview no additions.",
+    "Source blue plates identified by8 stud rows as44524; actual placement uses320LDU length and24LDU thickness."
+  ],
+  "landmarks": {
+    "base": 24,
+    "towerTopY": -864,
+    "capTopY": -1008,
+    "hub": [
+      0,
+      -784,
+      329
+    ],
+    "armOuterRadius": 288,
+    "frontFacingLocalTransform": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      -1,
+      0
+    ]
+  }
+}

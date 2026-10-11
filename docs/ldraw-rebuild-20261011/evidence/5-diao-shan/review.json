@@ -8,9 +8,9 @@
   "unknown": [
     {
       "page": 7,
-      "part": "two small yellow carriers",
-      "candidate": "6526 unresolved",
-      "missing": "exact identity and blade axial clamp; omitted"
+      "part": "two yellow6526 blade carriers",
+      "candidate": "6526 identity confirmed by enlarged p7/p8 identical BOM icons",
+      "missing": "exact opposed clamp stacking/retention pose; known parts omitted pending fitting evidence"
     },
     {
       "page": 7,
@@ -23,8 +23,39 @@
       "missing": "source-backed axes and120LDU spacing; mechanical fit not physically tested"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
-  "render": "65piece iso pixels inspected; support/gear layout agrees source, wrong pink29 corrected to lime27; revised color render pending",
-  "rawCollisionChecker": "PASS"
+  "render": "Latest iso pixels inspected against source; known source silhouette and omitted-part boundary reviewed. Elephant also iso-rear inspected. Does not constitute full step/physical acceptance.",
+  "rawCollisionChecker": "PASS",
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 9,
+      "9656DesignTotal": 7,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 17,
+      "9656DesignTotal": 15,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 7,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "partIdentityEvidence": "D:/Codex-task-2-20261011/inputs/pdfbatch1/5-diao-shan/bom-detail-7.jpg and bom-detail-8.jpg actually viewed"
 }

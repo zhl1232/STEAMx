@@ -1,0 +1,123 @@
+0 Dock crane - unaccepted source reconstruction
+0 Name: 5-ma-tou-diao-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa; all fifteen source pages viewed.
+0 // INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.
+0 // 31196c01 is the previously approved local approximation. String is a schematic type2 line.
+0 // SOURCE PAGE 1: green base and three six-layer alternating blue/yellow columns
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 2: two green 6x12 plates bridge columns
+1 2 -240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // SOURCE PAGE 3: red chassis beam between two yellow eleven-hole side beams
+1 4 -240 -360 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -240 -336 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 -240 -336 60 0 0 1 1 0 0 0 1 0 6525.dat
+0 STEP
+0 // SOURCE PAGE 4: two green shafts and eight yellow crank retainers
+1 2 -400 -336 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -400 -336 -100 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 -400 -336 -140 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -400 -336 100 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 -400 -336 140 1 0 0 0 0 1 0 -1 0 6526.dat
+1 2 -80 -336 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -80 -336 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -80 -336 -140 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -80 -336 100 0 0 -1 1 0 0 0 -1 0 6526.dat
+1 14 -80 -336 140 1 0 0 0 0 1 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 5: yellow 40T slewing bearing and vertical grey axle
+1 14 -160 -380 0 1 0 0 0 0 1 0 -1 0 6530.dat
+1 7 -160 -420 0 0 1 0 -1 0 0 0 0 1 6522.dat
+0 STEP
+0 // SOURCE PAGE 6: two upper red beams separated by yellow end plates
+1 4 -240 -448 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -360 -472 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -120 -472 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -240 -520 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 7: top yellow pulley retainer on vertical axle
+1 14 -160 -540 0 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 8: four blue bricks form rear cockpit platform
+1 1 -40 -568 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -568 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -568 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -568 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 9: red cockpit, pale yellow canopy, rear window, yellow cap and lime roof
+1 4 0 -592 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -148 -626 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 40 -760 0 0 0 1 0 1 0 -1 0 0 61649.dat
+1 15 0 -688 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
+1 14 40 -808 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -40 -832 0 1 0 0 0 1 0 0 0 1 4672b.dat
+0 STEP
+0 // SOURCE PAGE 10: two inclined eleven-hole boom beams, two grey axles and four pulleys
+1 14 -514.715287 -659.830409 -80 0.819152044 0 -0.573576436 -0.573576436 0 -0.819152044 0 1 0 6525.dat
+1 14 -514.715287 -659.830409 80 0.819152044 0 -0.573576436 -0.573576436 0 -0.819152044 0 1 0 6525.dat
+1 7 -400 -496 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -400 -496 -120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -400 -496 120 1 0 0 0 1 0 0 0 1 6527.dat
+0 // OMITTED UNRESOLVED p10: second 6522 grey axle and two 6527 retainers; source shows lower pivot but exact arm engagement/depth obscured. Do not duplicate grey axle at p11 blue winding shaft. Both boom placements remain provisional at the visible upper pivot.
+0 STEP
+0 // SOURCE PAGE 11: blue geared winding shaft, yellow pulley and crank
+1 1 -560.601402 -725.362572 0 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 -560.601402 -725.362572 160 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -560.601402 -725.362572 -160 0 0 -1 -1 0 0 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 12: source string shown as schematic straight hanging segment
+2 0 -629.4305745404184 -779.6608177155967 0 -629.4305745404184 -336 0
+0 STEP
+0 // SOURCE PAGE 13: hook-and-pulley hanging assembly
+1 14 -629.430575 -823.660818 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -629.430575 -336 0 1 0 0 0 1 0 0 0 1 4663.dat
+0 STEP
+0 // SOURCE PAGE 14: top guide axle, two yellow pulleys and red 24T gear
+1 7 -629.430575 -823.660818 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -629.430575 -823.660818 -40 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -629.430575 -823.660818 40 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 -629.430575 -823.660818 -100 1 0 0 0 1 0 0 0 1 6529.dat
+0 // SOURCE PAGE15 final, no additions.
+0 // 35deg boom angle is an image estimate. Source upper/lower mounting depth and hoist path need a closer back view.
+0 // Window uses 61649+90265 because source confirms 2x4x3 outline and four equal flat panes; old/new frame mould detail obscured.

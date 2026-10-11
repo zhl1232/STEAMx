@@ -4,26 +4,63 @@
   "verification": "structurally checked only",
   "sourcePages": 10,
   "sourcePixels": "All10 source pages visually inspected; p1/3/5/6/8 enlarged",
-  "modelSha256": "b16d75b6a2ce32bb694e38152209ab116d0ce5c96f7e1543dadb2cf657a08eee",
+  "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
   "unknown": [
-    {
-      "page": 9,
-      "part": "printed pond baseplate",
-      "missing": "exact printed ID and licensed geometry"
-    },
-    {
-      "page": 9,
-      "part": "five single-stud five-petal flowers",
-      "candidate": "6510",
-      "missing": "held with absent base to avoid unsupported ornaments"
-    },
     {
       "page": "5-8",
       "part": "mechanical axle/wing connections",
       "missing": "manual angular pose and hidden retention; static source reconstruction only"
+    },
+    {
+      "page": 5,
+      "part": "adjacent tail pulley flanges",
+      "missing": "source80LDU hole pitch versus official82LDU flange diameter leaves2LDU potential clash; source faithfully retained for review"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
-  "render": "pending main integrator"
+  "render": "Latest iso pixels inspected against source; dragonfly stance/pond and crane frame/gears agree broad source shape. Crane hook visibly unsupported due absent rope; dragonfly tail pulley edge constraints remain.",
+  "rawCollisionChecker": "FAIL; manual assessment required",
+  "collisionAssessment": [
+    "p3 transverse upper bar and lower pulley AABB overlap: closest cross-section corner offset(40,24) has radial distance46.65>pulleyR41, so outside actual circle.",
+    "p5 two adjacent tail pulley flanges: hole centres80, diameter82, potential2LDU physical interference remains unapproved. Lower pulley beside body end overlaps up to1LDU radius; unresolved.",
+    "p7 tyre/rim AABB overlap: official6292 minimum radial faceboundary42.183>6527max41.1? known flange max41; geometry clear but press-fit not proven."
+  ],
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 10,
+      "9656DesignTotal": 7,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "6525.dat",
+      "sourceQuantity": 5,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 1
+    },
+    {
+      "part": "6526.dat",
+      "sourceQuantity": 14,
+      "9656DesignTotal": 6,
+      "additionalBeyondSingle9656IgnoringColor": 8
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 18,
+      "9656DesignTotal": 15,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 3,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 1
+    }
+  ],
+  "matrixReview": "Two mirrored distal6526 cranks corrected by flipping localX; all placement matrices rigid det+1",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  }
 }

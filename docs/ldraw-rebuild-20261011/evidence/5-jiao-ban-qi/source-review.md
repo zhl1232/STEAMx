@@ -27,3 +27,7 @@ raw checker：85 placements，2 errors，只剩 p5 两组邻轮AABB交叠（L58/
 库存9656仅参考，不等于本课硬指定。需按最终BOM与inventory-evidence.json分色复核；蓝、黄砖数量显著超过参考库存，桶底灰8×8、绿24×24不在参考套装。不得自行换色或缩减模型。未知：源图遮挡的轴向深度，真实可运动范围、齿相与柔性容差；不是未知编号。
 
 最新像素复验：84c2b5f3 源版 iso/iso-rear/top 已实际查看，上臂分离与滑轮错位无可见穿插。源 p11 为抬头演示，搅拌叶位于桶外上方，不能声称当前在桶内搅拌。发现输入曲柄销应朝上，已仅翻转该6526轴向，待新版final复验。
+
+
+## 最新三视图像素复核
+已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。

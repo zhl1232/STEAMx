@@ -15,6 +15,7 @@ Source: Library `libfile_fae16f1e8c10819194b9b37eb3b7a0e2`, 15-page PDF, materia
 
 - Each source page maps to `preparation/4-cha-che/steps.json` placements.
 - Final renders: `preparation/4-cha-che/{iso,iso-rear,top}.png`.
+- Current corrected-packer final pixels reviewed for source `f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c`, pack revision `c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89`: iso, rear and top. The separate pallet and missing fork tools are visible; no claim of physical support by omitted forks.
 - All current placed components pass the repository raw LDR checker, including assembled driver.
 - Inventory evidence is set-level, not a course BOM; incomplete 9090 rows cannot be treated as zero stock.
 - No production assets, approval records, published whitelist or databases changed.

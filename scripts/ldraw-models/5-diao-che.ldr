@@ -1,37 +1,119 @@
-0 5+ 吊车 (Crane Truck) - DUPLO draft for manual repair
+0 5-diao-che - source reconstruction, INCOMPLETE dev-only
 0 Name: 5-diao-che.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+吊车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Boom, hook line, gear wheels and small truck body are simplified.
-
-0 // STEP 1 - wheeled crane chassis
-1 14 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 1 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 1 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -260 -144 -80 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Source PDF batch03, lesson249 course7, SHA256 fc5ab2b26cfa8e653fadcd1dac66e9d21bce1ef454c7d78e25ac6e61dc300c0c
+0 // STATUS: INCOMPLETE; source pages 1-17 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - four red holed wheel supports
+1 4 -240 0 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -240 0 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 0 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 0 120 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
-0 // STEP 2 - blue turntable and mast
-1 1 80 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 80 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -240 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 160 -192 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+0 // STEP 2 - green8x16 plate joins all four supports
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
 
-0 // STEP 3 - yellow boom
-1 14 220 -288 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 14 340 -360 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 14 460 -432 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 14 580 -504 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 3 - four blue short geared axles for yellow gear wheels
+1 1 -240 24 -120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 -240 24 120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 240 24 -120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 240 24 120 0 0 -1 0 1 0 1 0 0 6523.dat
 0 STEP
 
-0 // STEP 4 - hook and front detail
-1 8 640 -408 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 8 640 -304 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 520 -96 -80 1 0 0 0 1 0 0 0 1 42029.dat
-1 4 -360 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - four yellow underside reinforcement bricks
+1 14 -80 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 0 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 0 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 5 - six blue underside thin plates bridge brick seams
+1 1 -160 48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -160 48 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 48 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 160 48 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 6 - four40tooth gear wheels on outer axle ends
+1 14 -240 24 -200 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 -240 24 200 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 240 24 -200 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 240 24 200 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+
+0 // STEP 7 - red Toolo cockpit with pale yellow6345 windscreen; prior approved simplified cockpit
+1 4 160 -48 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 46 308 -82 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+
+0 // STEP 8 - blue rear perimeter and central red pivot bearing
+1 1 -240 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -72 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -120 -72 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 9 - eight blue crosswise platform bricks bridge the side rails
+1 1 -200 -120 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -200 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -120 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -40 -120 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -40 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -120 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -120 80 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+
+0 // STEP 10 - vertical grey pivot axle with horizontal yellow gear turntable
+1 71 -160 -112 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -160 -140 0 1 0 0 0 0 -1 0 1 0 6530.dat
+0 STEP
+
+0 // STEP 11 - two red holed bricks support official31624 gearbox
+1 4 -160 -208 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -160 -256 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 47 -160 -256 0 1 0 0 0 1 0 0 0 1 31624.dat
+0 STEP
+
+0 // STEP 12 - worm drive shaft, blue31625 sleeve, red24gear, yellow crank and retainer
+1 71 -160 -328 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 1 -160 -328 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 14 -260 -328 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 14 -60 -328 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 -160 -424 0 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+
+0 // STEP 13 - two Beam11 boom rails held by two keyed cranks on output axle;45degree static display
+1 71 -160 -424 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -18.578599999999994 -565.4214 -60 0.707107 0 0.707107 0.707107 0 -0.707107 0 1 0 6525.dat
+1 14 -160 -424 -100 0.707107 0 0.707107 0.707107 0 -0.707107 0 1 0 6526.dat
+1 14 -18.578599999999994 -565.4214 60 0.707107 0 0.707107 0.707107 0 -0.707107 0 1 0 6525.dat
+1 14 -160 -424 100 -0.707107 0 0.707107 -0.707107 0 -0.707107 0 -1 0 6526.dat
+0 STEP
+
+0 // STEP 14 - source rope supplied separately; exact length and flexible routing pending
+0 STEP
+
+0 // STEP 15 - source4663 hook; rope and separate rope-end6527 pulley omitted pending route
+0 STEP
+
+0 // STEP 16 - distal boom axle with three pulleys; known hook retained as suspended endpoint
+1 71 122.84280000000001 -706.8428 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 122.84280000000001 -706.8428 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 122.84280000000001 -706.8428 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 122.84280000000001 -706.8428 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 122.84280000000001 -406.8428 0 1 0 0 0 1 0 0 0 1 4663.dat
+0 STEP
+
+0 // STEP 17 - finished view only

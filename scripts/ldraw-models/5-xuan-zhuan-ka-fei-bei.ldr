@@ -1,0 +1,100 @@
+0 5-xuan-zhuan-ka-fei-bei - source reconstruction, INCOMPLETE dev-only
+0 Name: 5-xuan-zhuan-ka-fei-bei.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF batch04 manifest, SHA256 cf28a944b973fb632a398a94463528eaa558a2a2053d6b5c2cd74bdb2247c54a
+0 // STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - three interlocked ring layers:16yellow and8blue bricks
+1 14 -120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -48 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -48 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 160 -96 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -96 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -160 -96 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -120 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -144 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -144 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -144 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+
+0 // STEP 2 - two red banks, each two layers; single holed bearing on front upper row
+1 4 -80 -192 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 -160 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -240 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -240 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 3 - blue input axle, yellow crank and red24tooth gear
+1 1 -40 -216 -160 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -40 -216 -240 1 0 0 0 0 1 0 -1 0 6526.dat
+1 4 -40 -216 -80 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+
+0 // STEP 4 - red bridge and vertical green shaft with blue crown gear beneath
+1 4 -40 -288 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 2 -40 -350 0 0 1 0 -1 0 0 0 0 1 6521.dat
+1 1 -40 -220 0 1 0 0 0 0 -1 0 1 0 31622.dat
+0 STEP
+
+0 // STEP 5 - two stacked centre pulleys and crossed11hole arms
+1 14 -40 -308 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -40 -348 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -40 -388 0 0 0 -1 0 1 0 1 0 0 6525.dat
+1 14 -40 -428 0 1 0 0 0 1 0 0 0 1 6525.dat
+0 STEP
+
+0 // STEP 6 - four vertical grey ride shafts and lower pulley retainers
+1 71 -240 -468 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -240 -348 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 71 160 -468 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 160 -348 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 71 -40 -468 -200 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -40 -388 -200 1 0 0 0 0 1 0 -1 0 6527.dat
+1 71 -40 -468 200 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -40 -388 200 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+
+0 // STEP 7 - two height equalizing pulleys, five coplanar40tooth gear tables
+1 14 -240 -428 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -428 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -240 -468 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 14 160 -468 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 14 -40 -468 -200 1 0 0 0 0 -1 0 1 0 6530.dat
+1 14 -40 -468 200 1 0 0 0 0 -1 0 1 0 6530.dat
+1 14 -40 -468 0 1 0 0 0 0 -1 0 1 0 6530.dat
+0 STEP
+
+0 // STEP 8 - five red holed seating bricks on gear studs
+1 4 -240 -536 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 160 -536 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -40 -536 -200 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -40 -536 200 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -40 -536 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 9 - UNRESOLVED source ten child figures; exact body/print composition required, omitted
+0 STEP
+
+0 // STEP 10 - finished view only

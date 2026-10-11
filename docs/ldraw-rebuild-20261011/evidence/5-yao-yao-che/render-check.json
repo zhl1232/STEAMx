@@ -2,15 +2,59 @@
   "partCount": 163,
   "missingParts": [],
   "stepCount": 9,
-  "revision": "5623d4a476811d8e1eadc63b7818046997e2212a8dd26587ae04f9bf0473c0a1",
-  "sourceSha256": "cc2135ac295b338696650bfcb5ff599f1881818250b97a5f86cc34d3ff772b3c",
+  "revision": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+  "sourceSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
   "renderedViews": [
     "iso",
     "iso-rear",
-    "top"
+    "top",
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9"
+  ],
+  "latestRunViews": [
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9"
   ],
   "logs": [
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
     {
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"

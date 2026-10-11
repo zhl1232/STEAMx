@@ -12,15 +12,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -34,15 +34,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -56,15 +56,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -78,15 +78,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -100,15 +100,15 @@
           -60
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          -1,
-          0,
-          0,
-          0,
-          -1,
-          0
+          0.0,
+          0.0,
+          1.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -122,15 +122,15 @@
           -60
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          -1,
-          0,
-          0,
-          0,
-          -1,
-          0
+          0.0,
+          0.0,
+          1.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -144,15 +144,15 @@
           -60
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          -1
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -166,15 +166,15 @@
           60
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0,
-          1,
-          0
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -188,15 +188,15 @@
           60
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          1,
-          0,
-          0,
-          0,
-          1,
-          0
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -210,15 +210,15 @@
           60
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -238,15 +238,15 @@
           -100
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          -1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -260,15 +260,15 @@
           -100
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          -1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -282,15 +282,15 @@
           -100
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          -1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -304,15 +304,15 @@
           100
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          1,
-          0
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -326,15 +326,15 @@
           100
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          1,
-          0
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -348,15 +348,15 @@
           100
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          1,
-          0
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -376,15 +376,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -398,15 +398,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -420,15 +420,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -442,15 +442,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -470,15 +470,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -492,15 +492,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -520,15 +520,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -542,15 +542,15 @@
           0
         ],
         "matrix": [
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0,
-          0,
-          0,
-          1
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -564,15 +564,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -586,15 +586,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          -1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -608,15 +608,15 @@
           0
         ],
         "matrix": [
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0,
-          0,
-          0,
-          1
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -630,15 +630,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -652,15 +652,15 @@
           0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          -1,
-          0
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -680,15 +680,15 @@
           -160
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -702,14 +702,14 @@
           -360.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
           1.0,
-          0,
+          0.0,
+          1.0,
+          0.0,
           -0.0,
           -0.0,
-          0,
+          0.0,
           -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
@@ -724,14 +724,14 @@
           -360.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
           1.0,
-          0,
+          0.0,
+          1.0,
+          0.0,
           -0.0,
           -0.0,
-          0,
+          0.0,
           -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
@@ -746,15 +746,15 @@
           -160
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -768,15 +768,15 @@
           -160
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -790,15 +790,15 @@
           160
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -812,14 +812,14 @@
           260.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
+          1.0,
+          0.0,
           -0.5,
-          0,
+          0.0,
           -0.866025,
           -0.866025,
-          0,
+          0.0,
           0.5
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
@@ -834,14 +834,14 @@
           260.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
+          1.0,
+          0.0,
           -0.5,
-          0,
+          0.0,
           -0.866025,
           -0.866025,
-          0,
+          0.0,
           0.5
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
@@ -856,15 +856,15 @@
           160
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -878,15 +878,15 @@
           160
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -906,15 +906,15 @@
           0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -928,15 +928,15 @@
           -60
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -950,15 +950,15 @@
           -120
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          -1
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -972,15 +972,15 @@
           -90
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          -1
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -994,15 +994,15 @@
           60
         ],
         "matrix": [
-          -1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          -1
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1016,15 +1016,15 @@
           120
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1038,15 +1038,15 @@
           90
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1066,15 +1066,15 @@
           -560.0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1088,15 +1088,15 @@
           -560.0
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1110,14 +1110,14 @@
           -560.0
         ],
         "matrix": [
-          0,
-          -1,
-          0,
-          1.0,
-          0,
+          -0.0,
+          -1.0,
+          0.0,
+          -1.0,
           0.0,
           0.0,
-          0,
+          -0.0,
+          0.0,
           -1.0
         ],
         "support": "axle through distal wing hole; crank orientation inferred from source; no physical retention verification",
@@ -1132,15 +1132,15 @@
           -560.0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1154,14 +1154,14 @@
           -560.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
           1.0,
-          0,
+          0.0,
+          1.0,
           0.0,
           0.0,
-          0,
+          0.0,
+          0.0,
           -1.0
         ],
         "support": "axle through distal wing hole; crank orientation inferred from source; no physical retention verification",
@@ -1176,15 +1176,15 @@
           360.0
         ],
         "matrix": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          1
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1198,15 +1198,15 @@
           360.0
         ],
         "matrix": [
-          0,
-          0,
-          -1,
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
+          0.0,
+          0.0,
+          -1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1220,14 +1220,14 @@
           360.0
         ],
         "matrix": [
-          0,
-          -1,
-          0,
-          -0.5,
-          0,
+          -0.0,
+          -1.0,
+          0.0,
+          0.5,
+          0.0,
           0.866025,
-          0.866025,
-          0,
+          -0.866025,
+          0.0,
           0.5
         ],
         "support": "axle through distal wing hole; crank orientation inferred from source; no physical retention verification",
@@ -1242,15 +1242,15 @@
           360.0
         ],
         "matrix": [
-          0,
-          0,
-          1,
-          0,
-          1,
-          0,
-          -1,
-          0,
-          0
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          -1.0,
+          0.0,
+          0.0
         ],
         "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
         "confidence": "inferred placement; visible source part"
@@ -1264,14 +1264,14 @@
           360.0
         ],
         "matrix": [
-          0,
-          1,
-          0,
+          0.0,
+          1.0,
+          0.0,
           -0.5,
-          0,
+          0.0,
           0.866025,
           0.866025,
-          0,
+          0.0,
           0.5
         ],
         "support": "axle through distal wing hole; crank orientation inferred from source; no physical retention verification",
@@ -1281,8 +1281,141 @@
   },
   {
     "page": 9,
-    "description": "UNRESOLVED printed pond plate and five flowers omitted pending exact pond design",
-    "placements": []
+    "description": "official2296p01 pond scene beside mechanical dragonfly; five small flowers",
+    "placements": [
+      {
+        "id": "2296p01.dat",
+        "color": 2,
+        "position": [
+          680,
+          128,
+          800
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6510.dat",
+        "color": 1,
+        "position": [
+          400,
+          80,
+          640
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6510.dat",
+        "color": 4,
+        "position": [
+          520,
+          80,
+          560
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6510.dat",
+        "color": 14,
+        "position": [
+          640,
+          80,
+          640
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6510.dat",
+        "color": 4,
+        "position": [
+          760,
+          80,
+          560
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6510.dat",
+        "color": 1,
+        "position": [
+          880,
+          80,
+          640
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
   },
   {
     "page": 10,

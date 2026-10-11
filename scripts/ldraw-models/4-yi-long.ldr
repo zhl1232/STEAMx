@@ -1,42 +1,73 @@
-0 4+ 翼龙 (Pterodactyl) - DUPLO draft for manual repair
+0 4-yi-long - source-based dev-only reconstruction
 0 Name: 4-yi-long.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+翼龙 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Wing panels, head crest, claws, tail and Technic hinges are simplified.
-
-0 // STEP 1 - black body and legs
-1 0 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 8 -80 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 8 120 -48 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 25 -180 -24 -180 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 220 -24 180 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: three black Toolo bricks form the T footprint
+1 0 0 0 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 0 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - wide dark wings
-1 0 -220 -168 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 -360 -240 -220 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 -500 -312 -280 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -220 -168 160 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 0 -500 -300 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 0 -640 -380 340 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // Source page 2: four black Toolo bricks tie the T and broaden its forward crossbar
+1 0 -40 -48 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 160 -48 -120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -48 120 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 3 - neck and head
-1 0 -160 -192 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 -160 -312 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 -160 -400 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -220 -448 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -260 -496 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: three black upper bricks
+1 0 -40 -96 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -96 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 160 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 4 - tail, crest and claws
-1 0 320 -120 300 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 440 -168 420 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 1 -240 -520 -300 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 25 -260 -24 -300 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 260 -24 300 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 4: rear fork and long tail arm
+1 72 -80 -144 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -410.842712 -491.842712 0 -0.707107 0.707107 0 0.707107 0.707107 0 0 0 -1 dev-129/28331.dat
+0 STEP
+0 // Source page 5: front fork and vertical long neck
+1 72 160 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 208 -609 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
+0 STEP
+0 // Source page 6: two side-built front foot brackets
+1 72 288 -24 -160 0 -1 0 0 0 1 -1 0 0 28336.dat
+1 72 288 -24 160 0 -1 0 0 0 1 -1 0 0 28336.dat
+0 STEP
+0 // Source page 7: two orange rake blades: omitted until confirmed geometry
+0 STEP
+0 // Source page 8: two yellow lower rear Toolo bricks
+1 14 -160 48 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -160 48 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 9: two rear forks and two horizontal short arms
+1 72 -288 72 -80 0 1 0 0 0 -1 -1 0 0 28336.dat
+1 72 -553 24 -80 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 -288 72 80 0 1 0 0 0 -1 -1 0 0 28336.dat
+1 72 -553 24 80 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // Source page 10: two further orange rake blades: omitted until confirmed geometry
+0 STEP
+0 // Source page 11: neck clutch and two offset red Toolo jaw bricks
+1 72 208 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 4 328 -669 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 248 -717 0 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 12: two upper red Toolo bricks and paired wheel eyes
+1 4 248 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 248 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 208 -693 -64 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 208 -693 64 1 0 0 0 0 -1 0 1 0 99565.dat
+0 STEP
+0 // Source page 13: known Toolo blue wing45117c01 and tail31239c01 omitted: missing verified geometry
+0 STEP
+0 // Source page 14: six black Toolo bricks in two stepped wing rows
+1 0 0 -144 -200 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -192 -360 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -240 -520 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -144 200 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -192 360 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -240 520 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // PENDING: Orange rake blades4 and confirmed Toolo blue wing/tail shells omitted.
+0 // PENDING: T footprint, head brick stagger and rear/foot joint positions inferred from oblique source; must compare central render.
+0 // PENDING: Known fork/arm geometry remains approximate; no physical stability or screw engagement claimed.
+0 // Source page 15: finished view, no duplicated placements.

@@ -26,3 +26,4 @@ Inventory counts/deficits: bom-inventory.json matched percolour; absent rows rem
 Explicit endpoint correction before render: both bipod base pivots now(800,-120,±153), coincident with long-arm open pivots; trigger decorative hinge pivot now(40,12,0) matching estimated clutch tongue; rear lowerblack shiftedtoX-240 so grip touches its underside. Old provisional transforms replaced.
 
 First repaired-packer final2views actually inspected (sourceSha64dc9c3d): stock was too broad/short relative tosource13–15. Rebuilt 24stockbricks into4x6stud footprint,8courses; previous8x6x4 arrangement rejected. One source13centre brick projects40LDU to engage core top. Final revised stock needs new pixels.
+Latest final iso/iso-rear ACTUALLY VIEWED for source89de66d9. Revised4x6x8course stock has tall narrow source-like silhouette. Exact stock seams/core articulation remain provisional. No cumulative-step or physical-fit acceptance asserted.

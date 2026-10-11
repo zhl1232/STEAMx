@@ -1,37 +1,83 @@
-0 4+ 压路机 (Road Roller) - DUPLO draft for manual repair
+0 4+ Road roller - source reconstruction draft
 0 Name: 4-ya-lu-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+压路机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Front roller drum, linkage, cab windows and rear wheels are simplified.
-
-0 // STEP 1 - rear rolling chassis
-1 0 40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 240 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.
+0 // All 13 source PDF pages actually viewed. No physical verification.
+0 // Toolo custom DATs are known-ID approximate geometry, not exact manufactured fit.
+0 // SOURCE PAGE 1
+1 0 -160 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 -129.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -129.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - yellow front hood and red cab
-1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -20 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 140 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 220 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 80 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 71 -160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -160 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -160 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 160 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 160 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
-
-0 // STEP 3 - gray roller arms
-1 8 -220 -72 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -220 -72 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 -340 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 -340 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 3
+1 14 -200 -129.378574 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 200 -129.378574 -40 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 200 -129.378574 80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 4 - blue roller drum and exhaust
-1 1 -480 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -600 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -720 -96 0 0 0 1 0 -1 0 1 0 0 31452.dat
-1 8 320 -192 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 7 320 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4
+1 14 -160 -177.378574 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -160 -225.378574 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -160 -177.378574 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -160 -225.378574 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 4 200 -177.378574 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -153.378574 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 226 -68 -187.378574 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 4 160 -321.378574 -40 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 225.5 -249.378574 -80 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 160 -345.378574 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 160 -321.378574 40 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 94.5 -249.378574 80 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 160 -345.378574 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 7
+0 // MISSING 4433c01 Toolo exhaust at left hood/cab edge; source-confirmed identity.
+0 STEP
+0 // SOURCE PAGE 8
+1 15 100 -177.378574 0 0 0 -1 0 1 0 1 0 0 47205.dat
+1 15 94 -214.378574 0 0 0 -1 0 1 0 1 0 0 47207.dat
+1 15 94 -214.378574 0 0 0 -1 0 1 0 1 0 0 47204.dat
+1 4 94 -214.378574 0 0 0 -1 0 1 0 1 0 0 47203p03.dat
+1 15 93.5 -241.378574 0 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 15 93.5 -241.378574 0 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 14 92 -256.378574 0 0 0 -1 0 1 0 1 0 0 47206p01.dat
+1 4 92 -256.378574 0 0 0 -1 0 1 0 1 0 0 47199.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 72 -160 -201.378574 -128 0 0 -1 -1 0 0 0 1 0 28336.dat
+1 72 -408 -201.378574 -193 0 1 0 0 0 1 1 0 0 dev-129/28334.dat
+1 72 -160 -201.378574 128 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 72 -408 -201.378574 193 0 1 0 0 0 1 1 0 0 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 10
+1 72 -468 -201.378574 -193 0 1 0 0 0 1 1 0 0 74957.dat
+1 72 -516 -201.378574 -120 0 1 0 0 0 1 1 0 0 76057.dat
+1 72 -468 -201.378574 193 0 1 0 0 0 1 1 0 0 74957.dat
+1 72 -516 -201.378574 120 0 1 0 0 0 1 1 0 0 76057.dat
+0 // Frame centres provisional: source has inward-spanning side-built bricks; cylinder axle/holder relation requires geometry.
+0 STEP
+0 // SOURCE PAGE 11
+1 14 -516 -201.378574 0 0 1 0 0 0 1 1 0 0 3437.dat
+1 4 -540 -201.378574 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 4 -444 -201.378574 0 0 -1 0 0 0 -1 1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 12
+0 // MISSING blue roller cylinders x2, source p12; identity unresolved.
+0 // SOURCE PAGE13 final image, no new parts.

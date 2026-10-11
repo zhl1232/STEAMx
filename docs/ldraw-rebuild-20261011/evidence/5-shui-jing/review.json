@@ -1,0 +1,38 @@
+{
+  "slug": "5-shui-jing",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 13,
+  "sourcePixels": "All13 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+  "unknown": [
+    {
+      "page": "3-5/11",
+      "part": "two75536 rope/hook assemblies",
+      "missing": "flexible rope route and two4663 hook engagement; pulleys present, ropes/hooks omitted"
+    },
+    {
+      "page": 12,
+      "part": "tilted brake",
+      "missing": "angle inferred; no certified gear restraint or moving clearance"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": {
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Source structure visually coherent; omissions/mechanical risks in unknown list remain unresolved. No physical validation."
+  },
+  "rawCollisionChecker": "PASS",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": []
+}

@@ -1,0 +1,151 @@
+0 5+ Tractor trailer - source reconstruction draft
+0 Name: 5-tuo-gua-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY; all18 PDF source pages visually inspected.
+0 // INCOMPLETE pending true cab and four white-window assemblies; no placeholder geometry.
+0 // Source page 1: four short holebricks in two rails; blue plates bridge each seam from below.
+1 4 -80 -89 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -89 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -41 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -80 -89 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -89 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -41 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 2: four short blue geared half-axles and four red24tooth gear wheels.
+1 1 -120 -65 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -120 -65 -180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 -120 -65 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 -120 -65 180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 120 -65 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 120 -65 -180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 120 -65 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 120 -65 180 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // Source page 3: gray8x8 floor connects two rails.
+1 7 0 -113 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // Source page 4: four blue sidewall bricks; orange cab and pale canopy ID verification pending.
+1 1 -80 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 5: four red frames with white four-pane opening, unresolved complete part ID: no fictitious geometry.
+0 STEP
+0 // Source page 6: seven yellow inner support bricks.
+1 14 -80 -161 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -161 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -161 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -161 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -209 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -209 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -209 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 7: red2x10 towbar and three blue inner roof supports.
+1 4 120 -257 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 -120 -305 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -305 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -305 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 8: eight blue2x4 roof bricks over8x8 footprint.
+1 1 -80 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -353 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -353 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -353 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -353 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 9: six blue2x4 bricks, centered6x8 raised roof.
+1 1 -80 -401 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -401 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -401 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -401 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -401 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -401 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 10: trailer two long rails with blue halfaxles and red gearwheels.
+1 4 720 -89 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 720 -89 120 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 560 -65 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 560 -65 -180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 560 -65 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 560 -65 180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 880 -65 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 880 -65 -180 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 880 -65 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 880 -65 180 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // Source page 11: green8x16 trailer deck.
+1 2 720 -113 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // Source page 12: nine blue wall bricks; lower towbar replaces opening atfront.
+1 1 480 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -161 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -161 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 1000 -161 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 440 -161 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 13: vertical gray axle through overlapping top bores of both drawbars, three pulley retainers.
+1 71 280 -209 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 280 -277 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 280 -185 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 280 -93 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 14: ten yellow bricks form closed second wall ring.
+1 14 440 -209 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -209 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1000 -209 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1000 -209 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -209 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 720 -209 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 880 -209 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -209 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 720 -209 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 880 -209 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 15: ten blue bricks in third ring.
+1 1 480 -257 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -257 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -257 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -257 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -257 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -257 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -257 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -257 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -257 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 1000 -257 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 16: ten yellow bricks in fourth ring.
+1 14 440 -305 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -305 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1000 -305 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1000 -305 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -305 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 720 -305 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 880 -305 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -305 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 720 -305 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 880 -305 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 17: ten blue bricks in fifth ring.
+1 1 480 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -353 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 960 -353 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -353 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 1000 -353 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // p18 final side view. No parts added.
+0 // Pending cab/window source evidence and renderer validation; pending user confirmation.

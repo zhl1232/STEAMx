@@ -25,7 +25,7 @@
       "missing": "source color estimate, kit color quantity not established"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [
     "76395",
     "76057",
@@ -36,5 +36,10 @@
   ],
   "render": "iso and iso-rear pixels inspected against source; cockpit and tower known geometry match broad source structure; blue wing/tail remain missing",
   "collision": "1 cockpit/canopy proxy overlap, same approved relative seating as 3-jiu-hu-che; metadata records 0.05 LDU proxy contact, no physical fit claim",
-  "rawCollisionChecker": "FAIL; see collision.txt and manual assessment"
+  "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": []
 }

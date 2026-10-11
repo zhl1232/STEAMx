@@ -51,12 +51,12 @@
 1 0 80 -288 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
 0 // Source page 8: two black4x6 side-built shoulder plates
-1 0 0 -264 -168 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 0 -264 168 1 0 0 0 0 -1 0 1 0 76395.dat
+1 0 0 -264 -168 1 0 0 0 0 -1 0 1 0 76395.dat
+1 0 0 -264 168 1 0 0 0 0 1 0 -1 0 76395.dat
 0 STEP
 0 // Source page 9: two side-facing Toolo turntables
-1 0 0 -264 -208 1 0 0 0 0 1 0 -1 0 60535.dat
-1 0 0 -264 208 1 0 0 0 0 -1 0 1 0 60535.dat
+1 0 0 -264 -208 1 0 0 0 0 -1 0 1 0 60535.dat
+1 0 0 -264 208 1 0 0 0 0 1 0 -1 0 60535.dat
 0 STEP
 0 // Source page 10: two fork brackets on shoulder turntables
 1 72 0 -264 -256 0 0 1 1 0 0 0 1 0 28336.dat

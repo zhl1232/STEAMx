@@ -34,3 +34,5 @@ Parent discovered scratch packer Windows path-boundary issue: dev-part basename 
 Actual final3view pixels checked after packer repair: canopy sits on shell, windows/fuselage/skids/rotor/border load. Tail was visibly too low relative to sourcep6–16; corrected to20degree upward sweep, closed end(623.877048,-401.808057), with open fork unchanged at(248,-265). Both terminal clutches followed. New tail version requires re-render. Known shape simplifications remain.
 
 missing_parts catalogue photo comparison confirms long narrow3blade6670c01, parentRebrickable evidence86601 alias. No available DAT found.45002containsone; helicopter requires2(extra1), drone4(extra3).
+
+Latest actual pixels: iso and iso-rear source475f81ed, pack570807af were viewed after tail20degree upward correction. Long arms clear the rear deck in these views, no obvious tail/body collision. Two missing6670c01 props still make tail incomplete; no cumulative-step acceptance asserted.

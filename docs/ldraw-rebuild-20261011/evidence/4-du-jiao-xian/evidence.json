@@ -1,0 +1,24 @@
+{
+  "slug": "4-du-jiao-xian",
+  "lessonId": 147,
+  "courseId": 6,
+  "sourceSha256": "11db2740e2f5d1e5b0cb002f777ef700e1ac1d2dbbe127fabf506dbb00b31919",
+  "sourcePages": 12,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "b7068e095a294a4ce1bebe23e98a3568fc9bb01e23106ed2079aa7e74b59a42e",
+  "placements": 50,
+  "sourceStages": 11,
+  "missing": [
+    {
+      "id": "unknown",
+      "count": 2,
+      "page": 5,
+      "role": "blue opposed claws on horn end; specific identity and geometry missing"
+    }
+  ],
+  "checker": "PASS50",
+  "metadataUsedHash": "4fc549f4b11befec308e39d65c0e9160823acf2e5206405f91b8c3dfd98a533c",
+  "accepted": false,
+  "status": "incomplete-needs-geometry-source-step-acceptance",
+  "render": "awaiting parent serial queue"
+}

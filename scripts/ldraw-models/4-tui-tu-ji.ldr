@@ -1,40 +1,76 @@
-0 4+ 推土机 (Bulldozer) - DUPLO draft for manual repair
+0 4+ Bulldozer - source reconstruction draft
 0 Name: 4-tui-tu-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+推土机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Treads, plow blade, windows and rear body details are simplified.
-
-0 // STEP 1 - black tracked chassis
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // INCOMPLETE: orange shovel missing ID/geometry; source track candidate71981 not yet certified; four belts omitted.
+0 // All 10 source PDF pages actually viewed. No physical verification.
+0 // SOURCE PAGE 1
+1 0 -240 -77.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 -77.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -77.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 240 -77.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -160 -125.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -125.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -125.08421408 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - red lower body and white windows
-1 4 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -120 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 40 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 200 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 4 -280 -125.08421408 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -125.08421408 80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 3 - yellow roof and exhaust
-1 14 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 7 260 -192 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 260 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3
+1 71 -240 -53.08421408 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 -240 -53.08421408 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 71 -80 -53.08421408 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 -80 -53.08421408 145 1 0 0 0 0 -1 0 1 0 99565.dat
+0 // MISSING two rear source caterpillar belts;71981 candidate, no identity substitution.
 0 STEP
-
-0 // STEP 4 - orange front blade and arms
-1 0 -260 -120 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -260 -120 100 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 25 -420 -96 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -580 0 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -720 84 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
+0 // SOURCE PAGE 4
+1 71 80 -53.08421408 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 80 -53.08421408 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 71 240 -53.08421408 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 240 -53.08421408 145 1 0 0 0 0 -1 0 1 0 99565.dat
+0 // MISSING two front source caterpillar belts.
+0 STEP
+0 // SOURCE PAGE 5
+1 72 280 -125.08421408 0 0 0 1 0 1 0 -1 0 0 28336.dat
+0 // MISSING orange Toolo bulldozer blade; source p5, hinge axle at328,by-113,0.
+0 STEP
+0 // SOURCE PAGE 6
+1 4 -200 -173.08421408 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -173.08421408 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -173.08421408 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -173.08421408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -173.08421408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -173.08421408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -173.08421408 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -173.08421408 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -173.08421408 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 4 120 -269.08421408 -80 1 0 0 0 1 0 0 0 1 4198.dat
+1 4 120 -269.08421408 0 1 0 0 0 1 0 0 0 1 4198.dat
+1 4 120 -269.08421408 80 1 0 0 0 1 0 0 0 1 4198.dat
+0 //4198 official double-rounded2x4x2 identity inferred from both rounded ends and4stud top; catalog confirmation pending.
+0 STEP
+0 // SOURCE PAGE 8
+1 4 -200 -317.08421408 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -134.5 -245.08421408 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -40 -317.08421408 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 25.5 -245.08421408 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -200 -317.08421408 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -265.5 -245.08421408 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -40 -317.08421408 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -105.5 -245.08421408 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -240 -221.08421408 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -269.08421408 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -317.08421408 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 14 -200 -341.08421408 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -40 -341.08421408 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -200 -341.08421408 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -40 -341.08421408 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -200 -341.08421408 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -40 -341.08421408 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE10 final view only.
