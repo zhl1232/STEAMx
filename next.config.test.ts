@@ -59,3 +59,12 @@ describe('sitemap routing', () => {
   })
 })
 
+
+describe('retired project redirects', () => {
+  it('redirects the retired detail and nested paths with HTTP 301', async () => {
+    expect(await nextConfig.redirects()).toEqual(expect.arrayContaining([
+      { source: '/project/907', destination: '/project/1098', statusCode: 301 },
+      { source: '/project/907/:path*', destination: '/project/1098/:path*', statusCode: 301 },
+    ]))
+  })
+})

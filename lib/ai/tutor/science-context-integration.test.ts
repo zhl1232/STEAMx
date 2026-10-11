@@ -46,9 +46,9 @@ test('server approval gates precede released override and current page extension
  expect(denied.summary).toBe('项目不存在。')
 })
 
-test('907 tutor context uses the verified activity steps', async () => {
- const sample = getScienceSample(907)!
- const scene = await buildTutorSceneContext(database(true, sample.title).client as never, 'mock-user', 'project', '907')
+test('1098 tutor context uses the verified activity steps', async () => {
+ const sample = getScienceSample(1098)!
+ const scene = await buildTutorSceneContext(database(true, sample.title).client as never, 'mock-user', 'project', '1098')
  expect(sample.mode).toBe('activity')
  for (const step of sample.steps) expect(scene.summary).toContain(step.description)
  expect(scene.summary).toContain(sample.safety)

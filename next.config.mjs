@@ -1,3 +1,7 @@
+import { readFileSync } from 'node:fs'
+
+const projectSuccessors = JSON.parse(readFileSync(new URL('./lib/project/project-successors.json', import.meta.url), 'utf8'))
+
 /** @type {import('next').NextConfig} */
 
 function buildAssetsRemotePatterns() {
@@ -86,6 +90,10 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      ...Object.entries(projectSuccessors).flatMap(([id, successorId]) => [
+        { source: `/project/${id}`, destination: `/project/${successorId}`, statusCode: 301 },
+        { source: `/project/${id}/:path*`, destination: `/project/${successorId}/:path*`, statusCode: 301 },
+      ]),
       {
         source: '/settings/about',
         destination: '/about',

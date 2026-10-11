@@ -13,7 +13,7 @@ const discouragingPhrases = [
   '待核清', '以观看为主', '尚待补充', '操作资料补齐',
   '不是完整操作教程', '不照搬热水',
 ]
-const patchedIds = [552, 642, 810, 822, 847, 869, 893, 907, 949, 964, 985, 1021, 1102, 1116, 1189]
+const patchedIds = [552, 642, 810, 822, 847, 869, 893, 949, 964, 985, 1021, 1098, 1102, 1116, 1189]
 
 function expectEncouraging(copy: string) {
   for (const phrase of discouragingPhrases) expect(copy).not.toContain(phrase)
