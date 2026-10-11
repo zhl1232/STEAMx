@@ -32,3 +32,6 @@ Known geometry/connection uncertainty:
 Wheel shafts co-linear, ordinary tower layers interlock, side blue plates support chassis. No assertion of motion/load validation. Set quantities unknown. Final3view and all12 cumulative step pixels pending parent rendering; no user acceptance.
 
 Current b7e4e587 placements all determinant+1. Final/steps pixels still pending.
+
+## Superseding actual tyre-mesh review
+Uniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238 has 4 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 4 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.

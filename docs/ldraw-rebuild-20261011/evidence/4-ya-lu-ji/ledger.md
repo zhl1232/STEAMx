@@ -33,3 +33,9 @@ Source p9/10 re-opened after all12 cumulative cells. Earliest p9 error: hingeY-2
 
 Current model SHA256: 4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c
 Prior pixel record remains historical for its stored old hash. No acceptance or physical verification.
+
+
+## Current complete-frame cumulative pixel inspection
+
+Current4e8c62fa: final3 and all12 cumulative frames actually inspected; originalstep9 and source9/10 reopened. Front frame at yellow76057 side-bore level, corrected downward48LDU. Missing exhaust/blue cylinders, canopy near-contact and Toolo precision remain unresolved.
+Standard current-pixel-review.json records image hashes/revision. accepted=false; no physical validation. Prior-revision records are historical only.

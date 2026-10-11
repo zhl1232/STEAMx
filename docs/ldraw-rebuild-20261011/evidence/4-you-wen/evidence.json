@@ -5,13 +5,13 @@
   "sourceSha256": "61ff94911554dee67ab7e25e9f90c43ae5b8c70b3560d6058e46e79b13c634c5",
   "sourcePages": 12,
   "allSourcePixelsViewed": true,
-  "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+  "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
   "placements": 41,
   "sourceStages": 11,
   "missing": [],
-  "checker": "PASS41 under existing checker manual-part policy; Toolo hidden engagement, head and tail interfaces and physical support remain unverified.",
+  "checker": "PASS41; manual interfaces unverified",
   "metadataUsedHash": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
   "accepted": false,
   "status": "draft-pending-geometry-source-step-acceptance",
-  "render": "current source final3 pixels actually reviewed; full cumulative steps pending"
+  "render": "pending rerender after source5-6 tail correction"
 }

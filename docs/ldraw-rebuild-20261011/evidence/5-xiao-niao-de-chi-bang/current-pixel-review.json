@@ -1,7 +1,7 @@
 {
   "sourceSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
   "revision": "eeea5e02fe46389775b3b33fdc2ea0d1edd36b8bf099bbfbd405945623d54182",
-  "reviewedAt": "2026-10-11T06:17:04.599113+00:00",
+  "reviewedAt": "2026-10-11T07:32:27.946934+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,57 @@
       "view": "top",
       "sha256": "1b955b4bcf1adf9f7f2d694ecc1667141c8dc33c69eaeada75890b28d8d014f9",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "6664dc940379ff6c558e4d2a34f7e7abe2938f24d535ca7941b4e59df4238c61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8ebc7db4b2842e461d65b4e2d9b10cf59bddbbda00d6ad31a4b0b252ca20ca5c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "0fb31d40ea1fb3e473fb41c7c6ab44941e35e4c2463259d71329128422bde20a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "14115228f0461f6c6444294788037afb5d060ba873e7063f350ba514f496693d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "2d02b88547f8c94e316fb991ee3a3c1c212198be5840020596c2eeb2cb0741c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "4206e5663363bd26579b2b440bca1b0f1521a07a54b0b951aee4fa6880316f35",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fae5961dad221f30b1c1075598d80a17b0e6644ee9e335de3c11e1631c4b6bd3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "ebaf4d16da8c7fc7a791b02ceb31674521fb8e560b1dab0307b55c0776d89eb1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "354ad0ae697e2a117f85bc324e65c44e402ecb66f5759f79e0794afdef8d5138",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "All three complete PNGs actually inspected for sourceb93c63ad. Both wings now raise in one asymmetric static pose; head rests over beak, correcting earlier sourcep10 mismatches. Gear IDs and broad body/wing/tail silhouette retained. Crown-to-red gear interface, shaft retention, exact source depth registration and driven wing angles remain unresolved; possible approx16LDU mesh-edge gap is not accepted. All cumulative steps pending; no complete-source or physical acceptance."
+  "limitations": "Actually viewed all9 cumulative contact panels, enlarged step7 and compared source p7. Tower, body, yellow/red/blue gears, wing roots, head/beak and wing plates accumulate. Current wing roots deliberately shifted to avoid prior beam overlap; exact source depth and gear-tooth engagement remain uncertain, including possible16LDU edge gap. Wing angles are static chosen poses; no working mechanism or physical validation claimed. Same-hash final3 retained; provisional pending connection verification."
 }

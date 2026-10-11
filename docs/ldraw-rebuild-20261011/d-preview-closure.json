@@ -342,13 +342,13 @@
   },
   {
     "slug": "4-you-wen",
-    "sourceSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+    "sourceSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
     "developmentOnly": true,
     "accepted": false,
     "partCount": 38,
     "missingParts": [],
     "stepCount": 11,
-    "revision": "8f2776316efcd9435df7cce2f0556530a41d20a0d3cc6659759096b0d14fa85c",
+    "revision": "10e313e4264d4411c6ee6cc51818dcffcb973dff59b11fd044edf081d875ce49",
     "warning": "Closure only; missing source components may be intentionally omitted and recorded in the LDR. Pixel and construction acceptance are separate."
   },
   {

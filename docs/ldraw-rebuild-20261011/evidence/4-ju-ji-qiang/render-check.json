@@ -2,13 +2,16 @@
   "partCount": 23,
   "missingParts": [],
   "stepCount": 14,
-  "revision": "89eddec0779aa8ee6a8065177742ca06005406ed6e6f284e999907b68d90a0e2",
-  "sourceSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+  "revision": "9b3e6d53fdcd148d9afb5221adbdd3ffc52664fa4c3eb05c1c947fd681b950d2",
+  "sourceSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "staticSingleRender": true,
   "outputRoot": "D:/Codex-task-2-20261011/rendered-evidence",
   "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top",
     "step-1",
     "step-2",
     "step-3",
@@ -25,6 +28,9 @@
     "step-14"
   ],
   "latestRunViews": [
+    "iso",
+    "iso-rear",
+    "top",
     "step-1",
     "step-2",
     "step-3",
@@ -96,11 +102,23 @@
     {
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
     }
   ],
   "viewport": {
     "width": 1000,
     "height": 720
   },
-  "elapsedMs": 43298
+  "elapsedMs": 55349
 }

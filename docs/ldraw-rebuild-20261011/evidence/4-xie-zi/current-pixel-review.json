@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+  "revision": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+  "reviewedAt": "2026-10-11T07:27:47.420351+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-xie-zi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "168d30dfac622cb24a99d9c491bbfa1fe9589d3d2803638d9c9f143d978e3442",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "9ab0449730a490ec942b7934d57e8ecc2f5e94f3594e2b62d6d4cb312345e658",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "1a29221157871101f89047e0514221a5fdebeca0a78bbdca5e9a2ac6ef3d2840",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e972fc7247f6c38cdf387129f365a121fa6799b9593df90f85e377c09f690505",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b05db533c821188064456486e5a007250391c33e3b4767e51b4af1648a805093",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "844e3ee4227c2a6517334f87e6f0d93f54e28bf00e297622f8e569da00f0b029",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "7e00b444c97c0a798540a995b2440c567074b9d4b0ef1ac58604d99346afdce2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7decdc0b189551d70bc23262ed9a879edfc278f9da8e5a98215fd1ce11f96959",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "26649525b8f0b8c5ce1efd1b2d5c6228795d54f2795f397a1d51fcad0887da51",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "dcfab713b1dbb2e48a053ce5537b55d5659ecfcf27d81ccb1abfb858fc8bdec2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "66eab56b8fef682a7aff7c6244bdb226e86423a1818ac8b5a4e1206808f6b340",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all11 cumulative contact panels and enlarged step10; compared source p10. Six legs, two claws/four scoop halves, three tail arms and red covers accumulate. Source6295 hooked fake-pulley tail end remains omitted for missing verified geometry; tail angle is approximate, not full source reproduction. Scoop and Toolo local geometry remain approximate and physical fit unvalidated. D source8a81cff8 pack19283dff exactly match C render metadata; records D steps only, legacy final3 is separate. INCOMPLETE."
+}

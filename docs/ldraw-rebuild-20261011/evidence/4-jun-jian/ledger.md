@@ -41,3 +41,9 @@ Source p2/3/4 re-opened after all19 cumulative cells. Corrected earliest p2: fou
 
 Current model SHA256: 01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623
 Prior pixel record remains historical for its stored old hash. No acceptance or physical verification.
+
+
+## Current complete-frame cumulative pixel inspection
+
+Current01a43d48: final3 and all19 cumulative frames actually inspected, originalsstep2/5 and source2/3/4/5 reopened. New four-stud-deep ends match source, half-brick end support visible at each tier and deck2stud overhang retained. Missing yellow mixer, temporary stability and approximate Toolo fit remain unresolved; flag/pole proxy diagnostic unchanged.
+Standard current-pixel-review.json records image hashes/revision. accepted=false; no physical validation. Prior-revision records are historical only.

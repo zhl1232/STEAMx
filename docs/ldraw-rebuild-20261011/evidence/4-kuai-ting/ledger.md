@@ -23,3 +23,7 @@ All13pages visually inspected using existingsource4pagecontact sheets, with p3,p
 Unknowns:[{"id":"unknown","count":2,"page":8,"role":"blue opposed Toolo wing/claw pair, same source visual family as beetle horn; candidate identity not verified"},{"id":"unknown","candidate":"6669c01/6670c01","count":2,"page":11,"role":"three-blade bow propellers; source-family distinction unresolved, no geometry substituted"}]
 
 Checker:PASS118. Exactcolour inventory rows/extraquantities inbom-inventory.json. Missing9090 rows unknown. No Studio, physicalverification, acceptance, commit, publication or sharedDAT/metadataedits. Final/cumulative static pixels pending parentqueue.
+
+## Current cumulative pixel review
+
+Actually inspected12 cumulative cells and re-opened source6 alongside earlier source reading. Hull, side walls, rear sidebuilt panel, turntable and figure/water base appear in sequence;8 bluewing/claw pair and11 two props intentionally omitted. Rear yellow board seam/orientation and hidden clutch fit remain provisional; no additional unequivocal correction derived from current source. Earlier stages are handled subassemblies before display water base, not proven independent stable builds. All cells nonblank/framed; no physical validation or acceptance.

@@ -1,0 +1,55 @@
+{
+  "sourceSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+  "revision": "56e636e1490e9224210fdbc859f3434d1a1fc7aa2a1cd33b394079d11fcc2ab4",
+  "reviewedAt": "2026-10-11T07:29:54.496885+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-wu-ren-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "dcbacfe10d79ecd3101f51dec108d99c7a59194bb8e1f7ba6a22849d623dc6fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "97c67366ad8ff1b8fd20d611b5e54b65bb2c87ed1deef39bbbbe2413c2d01dbd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "27c4c098ee0e6b166e830836f17659236c8291be468efc75cda294833f0c1d1b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a7d09c0a1fb86ca7d2dc8827b73313ec1224c4c8b82afd4715900c3dd7106d53",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "dc173f8a8b2430ac555e47b5e7fcecb2d5e79ca470cc8b817bd677bc3fea3824",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "dc173f8a8b2430ac555e47b5e7fcecb2d5e79ca470cc8b817bd677bc3fea3824",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "cee8bfe5321faf8e2bc79b60c6396f62f1450f75816d64ed30691e282e770d86",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "aa331b609d86370f2c344098d4ff921cbe671018d46253ccd7b1d38a58b886fb",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected8 cumulative cells and original step8 PNG against source8; camera occluded in D iso, so separately re-opened C iso-rear with identical source6fbd18c0/pack56e636e1 to see it. Deck/panels/radial bases/arms/clutches/legs visible in sequence;6 unchanged because four6670c01 props omitted. Camera shows below body but hidden mount remains inferred. D step review only; C final is separate historical evidence, no D final assertion or physical acceptance."
+}

@@ -1,10 +1,25 @@
 {
-  "sourceSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
-  "revision": "89eddec0779aa8ee6a8065177742ca06005406ed6e6f284e999907b68d90a0e2",
-  "reviewedAt": "2026-10-11T07:13:36.715187+00:00",
+  "sourceSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+  "revision": "9b3e6d53fdcd148d9afb5221adbdd3ffc52664fa4c3eb05c1c947fd681b950d2",
+  "reviewedAt": "2026-10-11T07:39:46.208179+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ju-ji-qiang",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
+    {
+      "view": "iso",
+      "sha256": "bb26b0ed48220de7aedea57cb89eff78b2b67c42236df8d2e624dc6af75d3438",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2134e53877793133a397961e2bb6f730c104a70afe222805e37e5a8785ba2486",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "ce8522305fe60c71bec7c74c8b9d791e62bd66f75a92615d2c0247473203171b",
+      "pixelsActuallyReviewed": true
+    },
     {
       "view": "step-1",
       "sha256": "b265eff492e6b21d85d74316a1f6d664afd6d496eaf6b1496075e31ced3a3e78",
@@ -62,24 +77,24 @@
     },
     {
       "view": "step-12",
-      "sha256": "753f9d469cc12e5ce48d57ffbe2fc0ed200b918f33f908685ed9f8abbf2e4cc0",
+      "sha256": "8113db084b2a8745182fe15bf44b5341d69cc7d07473f863a62e83aa79df3ec7",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-13",
-      "sha256": "281984b592a82160e4180109179a1686724d501b53d8e37b0090c48c60fe6edb",
+      "sha256": "fa4194b8630b5c269707c529d6e401f42555717f4682ce39a2ec097a67c991d1",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-14",
-      "sha256": "3f0070031ed5aa6407e376a8b73feb225020bab0400515bb1cc9f88474446188",
+      "sha256": "bb26b0ed48220de7aedea57cb89eff78b2b67c42236df8d2e624dc6af75d3438",
       "pixelsActuallyReviewed": true
     }
   ],
-  "finalAllThreeViewsReviewed": false,
+  "finalAllThreeViewsReviewed": true,
   "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected all14 cumulative cells against earlier full source reading; rechecked source p13/p14. Found a real stage13 support error: upper stock bricks float before14 fills the gap; source13 shows attached upper/lower rear clamp bricks. Revision now planned from earliest failing stage13; this record documents flawed source89de66d9 only and is not assembly acceptance. Other source additions visible without blank/cropping;2223 missing. No final3 claim made because D manifest currently contains steps only."
+  "limitations": "Inspected all current e52362b5 final3 and 14 cumulative cells, original step13, source p13/14. Upper clamp contact confirmed on actual DAT triangles at Y=-144 (three shared-plane witnesses in step13-contact-evidence.json), not floating gap. Source12 grip one-stud position and final14 stock seams remain source-informed provisional; missing2223, approximate Toolo fit and retention unverified. No physical validation."
 }

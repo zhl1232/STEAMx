@@ -21,3 +21,7 @@ missing_parts catalogue photo comparison confirms long narrow3blade6670c01, pare
 
 First final2views actually inspected (sourceShaae82ca5e): radial arms, side panels and legs visible; props omitted as recorded. Camera rim axis was48LDU below its own mount side-bore; movedY-24→-72 to align the transformed inverted basebody hole. Camera hinge/clutch joining still inferred; final revision needs pixels.
 Latest final iso/iso-rear ACTUALLY VIEWED for source6fbd18c0. Corrected camera rim sits higher against underside mount; four missing propellers remain. No cumulative-step or physical-fit acceptance asserted.
+
+## Current cumulative pixel review
+
+Actually inspected8 cumulative cells and original step8 PNG against source8; camera occluded in D iso, so separately re-opened C iso-rear with identical source6fbd18c0/pack56e636e1 to see it. Deck/panels/radial bases/arms/clutches/legs visible in sequence;6 unchanged because four6670c01 props omitted. Camera shows below body but hidden mount remains inferred. D step review only; C final is separate historical evidence, no D final assertion or physical acceptance.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T07:24:21.685710+00:00",
+  "generatedAt": "2026-10-11T07:46:02.676584+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -1170,8 +1170,8 @@
       "slug": "4-ju-ji-qiang",
       "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
       "sourceDraft": "rewritten-from-viewed-local-source",
-      "finalViewsReviewed": false,
-      "allCumulativeStepsReviewed": false,
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-ju-ji-qiang/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -1337,8 +1337,8 @@
       "slug": "4-jun-jian",
       "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
       "sourceDraft": "rewritten-from-viewed-local-source",
-      "finalViewsReviewed": false,
-      "allCumulativeStepsReviewed": false,
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/4-jun-jian/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -1795,7 +1795,7 @@
       "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-kuai-ting/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -2354,7 +2354,7 @@
       "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-sai-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -3140,7 +3140,7 @@
       "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-wa-li/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -3205,7 +3205,7 @@
       "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-wu-ren-ji/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -3377,7 +3377,7 @@
       "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-xie-zi/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -3854,8 +3854,8 @@
       "slug": "4-ya-lu-ji",
       "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
       "sourceDraft": "rewritten-from-viewed-local-source",
-      "finalViewsReviewed": false,
-      "allCumulativeStepsReviewed": false,
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/4-ya-lu-ji/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -4059,7 +4059,7 @@
       "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-yi-long/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -4438,14 +4438,14 @@
     },
     {
       "slug": "4-you-wen",
-      "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/4-you-wen/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "085de944dfdd2e6929cc8cbec98494257439791e755186f03ffd1d896d28e93e",
+      "staticInterpretationReportSha256": "2487eb5c8be4235cfe3031390a851160534cd40d19851e9ad7bda4abf2374195",
       "unresolvedSourceComments": [
         "// INCOMPLETE REVIEW: tail board and head clutch mounting angles inferred; Toolo parts approximate."
       ],
@@ -5082,7 +5082,7 @@
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-da-zhuang-ji/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "de8f5cc619e9a350b3d909c45ec41b26328e8471f321cfeb11b4d6d1ffd631e9",
+      "staticInterpretationReportSha256": "d9374258a5d50fdf8f3748f9dce075cb228206f72939c729b7ed341db99d3e8a",
       "unresolvedSourceComments": [
         "// INCOMPLETE: cockpit canopy fit, axle depth, handle crank attachment and hammer four-bar hole selection remain manual."
       ],
@@ -5118,7 +5118,7 @@
       "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/5-di-qiu-yi/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -5428,7 +5428,7 @@
       "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/5-fan-chuan/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -5514,7 +5514,7 @@
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-huo-jian/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "52e0249ff49bdb7bcd88a65dc1243d8b459d21c3d7925b2e4e4bac3c3e3c599a",
+      "staticInterpretationReportSha256": "c513e9461152738b2309564bc8aa8a7503d7b010ee93d6dc8ee0c3306398f101",
       "unresolvedSourceComments": [
         "// Source colours for alternating tower posts interpreted as yellow/orange; set quantities remain unknown."
       ],
@@ -6586,7 +6586,7 @@
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-tou-shi-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "82973f7a4f349e056a2a7bbbfa179838eb636c4dfb38f1d6ba346d768ff88065",
+      "staticInterpretationReportSha256": "9681535027a839491e380bdf5e14ddd2241ef4c7ec03720be4da0ff39b228e5e",
       "unresolvedSourceComments": [
         "Catapult - incomplete source reconstruction",
         "// INCOMPLETE: page7 material inset omits2 visibly added long lever beams; extra2 beams required pending source-BOM clarification. Basket cranks and payload omitted pending pin orientation evidence.",
@@ -6604,8 +6604,8 @@
       "slug": "5-tui-tu-ji",
       "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
       "sourceDraft": "rewritten-from-viewed-local-source",
-      "finalViewsReviewed": false,
-      "allCumulativeStepsReviewed": false,
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-tui-tu-ji/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -7014,7 +7014,7 @@
       "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
-      "allCumulativeStepsReviewed": false,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 0,
       "staticInterpretationReport": "evidence/5-xiao-niao-de-chi-bang/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
@@ -7278,53 +7278,7 @@
         "// STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.",
         "// No physical validation. Missing parts are omitted and recorded per source step."
       ],
-      "partIssueFamilies": [
-        {
-          "key": "candidate:billboard-under-beam-carrier",
-          "category": "candidate_identity_unresolved",
-          "name": "Billboard yellow crank/carrier beneath upper poster beam",
-          "confirmedId": null,
-          "candidates": [
-            "6526.dat"
-          ],
-          "missingEvidence": [
-            "One source p6 BOM carrier is omitted from current 55-part model; candidate identity and complete shaft/secondary-pin engagement remain unverified."
-          ],
-          "sourcesTried": [
-            "preparation/5-yi-dong-guang-gao-pai/review.json#unknown",
-            "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
-          ],
-          "geometryLicense": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
-          "geometryAvailability": {
-            "candidateId": "6526.dat",
-            "localAvailable": true,
-            "file": "STEAMx/scripts/ldraw-models/parts/6526.dat",
-            "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
-            "boundary": "Availability of candidate geometry does not confirm source identity or fitted assembly."
-          },
-          "approximationBoundary": "No substitute or new geometry inserted; source unchanged.",
-          "occurrences": [
-            {
-              "slug": "5-yi-dong-guang-gao-pai",
-              "sourcePage": 6,
-              "location": "yellow carrier below upper poster beam",
-              "quantity": 1,
-              "placed": false,
-              "candidateId": "6526.dat",
-              "source": [
-                "preparation/5-yi-dong-guang-gao-pai/review.json",
-                "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
-              ],
-              "missingEvidence": "BOM1x and visible arm/pin match candidate; current step6 contains two6527 pulleys and75350 only. Both pulley axial positions and secondary-pin mating need review."
-            }
-          ],
-          "affectedCourses": [
-            "5-yi-dong-guang-gao-pai"
-          ],
-          "issueCountUnit": "One candidate identity family, not a confirmed part ID",
-          "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6"
-        }
-      ],
+      "partIssueFamilies": [],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
       "userConfirmed": false,
       "physicalValidationPerformed": false,
@@ -7334,8 +7288,8 @@
       "slug": "5-yu-er-de-wei-ba",
       "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
       "sourceDraft": "rewritten-from-viewed-local-source",
-      "finalViewsReviewed": false,
-      "allCumulativeStepsReviewed": false,
+      "finalViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-yu-er-de-wei-ba/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,

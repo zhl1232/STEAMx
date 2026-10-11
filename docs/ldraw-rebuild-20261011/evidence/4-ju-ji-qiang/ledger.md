@@ -43,3 +43,9 @@ Source p12/13/14 re-opened after all14 cumulative cells. Stage13 floating upper 
 
 Current model SHA256: e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388
 Prior pixel record remains historical for its stored old hash. No acceptance or physical verification.
+
+
+## Current complete-frame cumulative pixel inspection
+
+Current e52362b5: final3 and all14 cumulative frames actually inspected, step13 original and source13/14 reopened. Shared-plane DAT triangle witnesses at(-300,-144,+/-38),(-282,-144,0) prove rendered black l16/yellow l79 surface contact; see step13-contact-evidence.json. Iso obscures this rear-middle support. Exact stock14 seams and grip12 position remain provisional; missing2223 and physical fit unresolved.
+Standard current-pixel-review.json records image hashes/revision. accepted=false; no physical validation. Prior-revision records are historical only.

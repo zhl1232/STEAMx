@@ -55,3 +55,7 @@
 Parent discovered scratch packer Windows path-boundary issue: dev-part basename could fall back to old embedded MPD. All prior dev-129 arm pixel/length acceptance is WITHDRAWN pending regenerated MPD with sourceSha evidence. Do not change LDR dimensions based on old rendered ratios. Source page reads, explicit axle-coordinate calculations and raw checker results remain recorded; they are not render certification.
 
 Actually viewed repaired-packer iso/iso-rear sourceSha36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94. Wheels/body/caps/three arm chains load; known missing exhaust/wing leave rear silhouette incomplete. Yellowrear connectors orientation remains provisional awaiting missing wing evidence. No new obvious penetration observed; hidden joints not certified.
+
+## Current cumulative pixel review
+
+Actually inspected12 cumulative cells against all previously viewed source pages and re-opened source13. Body/wheels/rear stack/roof linkage and side panels appear in expected order. Stage3 exhaust4433c01 x2 omitted;6 spoiler45117c01 omitted. No new clear wrong-direction or floating assembly found at this scale; approximate roof-arm joints and axle fits remain unverified. Records D steps only, not new D final3; C final evidence remains separate. No physical validation or acceptance.

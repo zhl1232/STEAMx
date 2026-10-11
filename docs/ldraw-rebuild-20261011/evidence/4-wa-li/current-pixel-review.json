@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+  "revision": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+  "reviewedAt": "2026-10-11T07:27:47.331594+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-wa-li",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "89fff5c7cd9d643cbd7dc7bac7492947e7008238bcc5a554f6b15168ca8571fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "0415f6af566dae0d8ac89aa955b17caa648a62fc52880a863c7539953c1089c2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "65f8864befdbda9c98726ea3e5c249a4750f8967b1629e4b056c5867a07590a2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b3eb2e5fa8c5589d024e59e9c9bbf82d65d938c108c1b9f1485fe28e25e64b3c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "80a5eb528c1874d879194301dcf55bf652f354a88fefd3de704b54c81d4fe14d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "2c493665d39698873f2617e947f14d1ef560a48e281d3620200f0345d466bc7a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ca4a76f053ffec6a5c414f7dfff0629518b8496728a484e44e6220d3dacca2db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "b645d1d0082393d018bf4dd0cbd6c57f2bea6f3c0e71ce66888c82bee30efdb7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "ff65db17ae10f567ae3804ae264f4fc7858c156c03ac09102402417a19a9a120",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7f33573e82ca2c704673454fb841420378f7778dc500ce394cec08cc8a2e5ad2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "dedc3394f39bf232b7dda615d5fe5a133fb89753b9e3664b7f862d601ecca8a3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "a3af4a3de701b48bf20f3a7cf398de750e92b5d19617ce7e6d1411c1e3bb33e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "9a4de3a44b57795cec4cc2d080dac5f15eeb899637a5d8e2ecb5043fe0f5ac77",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "9dec49f57cebb0443e74285d0101dcba0be782bd8965fa3d274bf9ca19d811a3",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all14 cumulative contact panels and enlarged step11; compared source p11. Base/tracks/yellow body/shoulders/arms/scoops/eyes accumulate, shoulder faces remain corrected. Missing source blue31193 door remains obvious; no substitute credited. Track centers180 vs wheel centers160LDU unresolved, Toolo arms and scoop approximate; physical engagement not validated. D source412af45e packf2dc2532 exactly match old C render metadata; this records D steps only, legacy final3 is separate. INCOMPLETE."
+}

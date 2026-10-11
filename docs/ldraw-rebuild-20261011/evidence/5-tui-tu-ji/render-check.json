@@ -2,8 +2,8 @@
   "partCount": 104,
   "missingParts": [],
   "stepCount": 8,
-  "revision": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
-  "sourceSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
+  "revision": "95805bf6f233a52d72606ff501be98dee70805507c38874f154e576c5475ce7b",
+  "sourceSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
   "stepRenderMethod": "cumulative source truncated at STEP, repacked",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "staticSingleRender": true,
@@ -22,6 +22,9 @@
     "step-8"
   ],
   "latestRunViews": [
+    "iso",
+    "iso-rear",
+    "top",
     "step-1",
     "step-2",
     "step-3",
@@ -63,11 +66,23 @@
     {
       "type": "log",
       "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
     }
   ],
   "viewport": {
     "width": 1000,
     "height": 720
   },
-  "elapsedMs": 23362
+  "elapsedMs": 29169
 }

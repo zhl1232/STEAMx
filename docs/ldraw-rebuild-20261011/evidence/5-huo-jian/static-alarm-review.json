@@ -23,12 +23,14 @@
         "1 0 -240 -40 -200 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -39,7 +41,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -58,10 +61,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -72,7 +77,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     },
     {
       "step": 3,
@@ -89,12 +95,14 @@
         "1 0 -240 -40 200 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -105,7 +113,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -124,10 +133,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -138,7 +149,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     },
     {
       "step": 3,
@@ -155,12 +167,14 @@
         "1 0 0 -40 -200 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -171,7 +185,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -190,10 +205,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -204,7 +221,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     },
     {
       "step": 3,
@@ -221,12 +239,14 @@
         "1 0 0 -40 200 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -237,7 +257,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -256,10 +277,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -270,7 +293,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     },
     {
       "step": 3,
@@ -287,12 +311,14 @@
         "1 0 -320 -40 0 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -303,7 +329,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -322,10 +349,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -336,7 +365,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     },
     {
       "step": 3,
@@ -353,12 +383,14 @@
         "1 0 80 -40 0 1 0 0 0 0 1 0 -1 0 6292.dat"
       ],
       "action": "No LDR change; raw checker result preserved.",
-      "classification": "insufficient_evidence",
+      "classification": "true_risk",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -369,7 +401,8 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225
     },
     {
       "step": 3,
@@ -388,10 +421,12 @@
       "action": "No LDR change; raw checker result preserved.",
       "classification": "insufficient_evidence",
       "evidence": [
+        "preparation/5-huo-jian/tyre-current-transforms.json",
+        "preparation/5-huo-jian/tyre-current-triangles.json",
         "preparation/independent-qa/tyre-profile-independent.json"
       ],
-      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
-      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
       "supersededConclusion": {
         "classification": "false_positive_aabb",
         "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
@@ -402,16 +437,17 @@
           "pulleyMaxRadiusLDU": 41.00248042496941,
           "nominalRadialGapLDU": 1.180519575030587
         }
-      }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0
     }
   ],
   "alarmCount": 12,
   "classificationCounts": {
     "false_positive_aabb": 0,
-    "true_risk": 0,
-    "insufficient_evidence": 12
+    "true_risk": 6,
+    "insufficient_evidence": 6
   },
-  "remainingNonAlarmLimitations": "32LDU base/body lift remains a source deviation; vertical axle support, wheel retention and six outreach beam retention unresolved.",
+  "remainingNonAlarmLimitations": "32LDU base/body lift remains a source deviation; vertical axle support, wheel retention and six outreach beam retention unresolved. Former uniform42.183LDU cavity/1.183 clearance claim is revoked. See current tyre triangle evidence; model remains unaccepted.",
   "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
   "rawPassDoesNotProveSupportOrSourceFidelity": true,
   "accepted": false,

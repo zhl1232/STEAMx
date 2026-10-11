@@ -1,17 +1,16 @@
 {
-  "generatedAt": "2026-10-11T07:24:21.298097+00:00",
-  "localCheckpointCommit": "4e28e5c",
+  "generatedAt": "2026-10-11T07:44:21.746433+00:00",
+  "localCheckpointCommit": "4d07590",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 24,
-    "draft-final-pixels-reviewed-steps-pending": 40,
-    "source-verified-remotely-awaiting-transfer": 60,
-    "draft-visual-review-pending": 5
+    "draft-final-and-all-steps-pixels-reviewed": 39,
+    "draft-final-pixels-reviewed-steps-pending": 30,
+    "source-verified-remotely-awaiting-transfer": 60
   },
   "writtenSources": 69,
-  "finalReviewed": 64,
-  "allStepsReviewed": 24,
-  "partIssueFamiliesIncludingFlexibleRoutes": 30,
+  "finalReviewed": 69,
+  "allStepsReviewed": 39,
+  "partIssueFamiliesIncludingFlexibleRoutes": 29,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
     "4-chun-jie-wu-shi",
@@ -50,10 +49,9 @@
     "5-xuan-yi-fei-ji",
     "5-xuan-zhuan-ka-fei-bei",
     "5-ya-mian-ji",
-    "5-yi-dong-guang-gao-pai",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T07:01:58.578Z",
+  "unknownRegistryGeneratedAt": "2026-10-11T07:27:09.039Z",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -148,18 +146,18 @@
     {
       "slug": "4-ju-ji-qiang",
       "sourceSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
-      "status": "draft-visual-review-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-jun-jian",
       "sourceSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
-      "status": "draft-visual-review-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -175,9 +173,9 @@
     {
       "slug": "4-kuai-ting",
       "sourceSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -229,9 +227,9 @@
     {
       "slug": "4-sai-che",
       "sourceSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -301,18 +299,18 @@
     {
       "slug": "4-wa-li",
       "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-wu-ren-ji",
       "sourceSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -337,9 +335,9 @@
     {
       "slug": "4-xie-zi",
       "sourceSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -355,9 +353,9 @@
     {
       "slug": "4-ya-lu-ji",
       "sourceSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
-      "status": "draft-visual-review-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -373,18 +371,18 @@
     {
       "slug": "4-yi-long",
       "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-you-wen",
-      "sourceSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "sourceSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -538,9 +536,9 @@
     {
       "slug": "5-di-qiu-yi",
       "sourceSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -574,9 +572,9 @@
     {
       "slug": "5-fan-chuan",
       "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -950,9 +948,9 @@
     {
       "slug": "5-tui-tu-ji",
       "sourceSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
-      "status": "draft-visual-review-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -1004,9 +1002,9 @@
     {
       "slug": "5-xiao-niao-de-chi-bang",
       "sourceSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -1157,9 +1155,9 @@
     {
       "slug": "5-yu-er-de-wei-ba",
       "sourceSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
-      "status": "draft-visual-review-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": false,
-      "allCumulativeStepsActuallyReviewed": false,
+      "status": "draft-final-and-all-steps-pixels-reviewed",
+      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

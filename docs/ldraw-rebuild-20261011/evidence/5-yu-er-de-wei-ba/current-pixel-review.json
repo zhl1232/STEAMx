@@ -1,30 +1,75 @@
 {
-  "sourceSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
-  "revision": "8208c3f80ff49471058c7bd5abd148e083e6ebd2af65e4cbfe2212a31cedadba",
-  "reviewedAt": "2026-10-11T06:26:44.113461+00:00",
+  "sourceSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+  "revision": "00cce469bc21f97c85c08942979b7ba58dbc223e3362ac78abaaac8e62e9a818",
+  "reviewedAt": "2026-10-11T07:40:43.404901+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-er-de-wei-ba",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "f5516dbde556423b89e620cb889ab44650f7d0e665f383ef887402a20a688551",
+      "sha256": "aee44b1a5467f5a9db850cbc50bf7a4dfb41fa33e9a131903a0c08b13ca631ca",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "0f4dc8a7a567fa57a779710de61912a162ef0032218bebfbff85abdb5b77f647",
+      "sha256": "a12fecd37879458e2d3185bd6adfa8bb6ba12afb69999ad69f85e027462b88a2",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "94bbfea32dde34ce4d77fd0c64bf23dc559fa1134de56907ecabefd449a25600",
+      "sha256": "afc4361903499b2eebe530c3eb64b18dce3f703b01e82cd3dd7db094597f87db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3cab358c9845b356cd08c30ee1e23d994948e5726d4a4e553362b68c5b0b7be1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "ffcd563b8f50671bd88ad1b2d572d23ed1468292483a4d5d94f91f323e47ff70",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "08f922fc9cb6db35fc397f80252113f23bbe3c317abe542ac07394d0465166fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "63283b11f8e4c4038f61ad5f6c5db7f8bb7f188f1e78017ee308d6cd049571c8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "35c0a109d33eaa19711234e62d4631c795379a4e1dce88fd4ac344c3e475b986",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "956cf8eb1b4e2adffef3a0370c954ac25f43ea99e5b11cce11fb1a5dfd11fbff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "98cb31be93062b340f2d4b52c1f1984f2cf3e72e90436550ce64d5dafad2b2b8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2406d6c22b4f5611358a3403ce71835563348d5fffbbc15e92139f41df2b57f2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "aee44b1a5467f5a9db850cbc50bf7a4dfb41fa33e9a131903a0c08b13ca631ca",
       "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected all three original D images separately for source24e7354c/revision8208c3f8. Both fin cranks now angle toward the tail, resolving the earlier vertical-pose mismatch against source p4/p10. Whole pool and tail remain in frame. The lower fin ends are close to blue water studs; these whole-model pixels do not resolve a positive local clearance and cannot exclude small fin/plate penetration. Keep fin-water clearance unresolved; no mechanical collision exemption or physical acceptance inferred. Tail retention and tyre/hub cavity fit remain unvalidated. Cumulative steps not reviewed; INCOMPLETE/pending user confirmation."
+  "limitations": "Actually inspected new D final contact and all three original PNGs plus cumulative steps1-9 contact individually; rechecked source p4 and p10. Tyre outside orientation now matches source appearance; remaining R24 inner-hub mesh surface crossings are not physical-fit clearance or proof of real interference. Fin45deg tailward pose remains source-inferred and exact bbox crosses water surface; tail retention/hidden hinge stack unresolved. Pixel review only; incomplete structural validation and pending user confirmation."
 }

@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+  "revision": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+  "reviewedAt": "2026-10-11T07:32:28.042378+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-fan-chuan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "e030ff31a92fc167bec4bae738b814139d0a9a29beb0eb30db4960b4f639ab7f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "2ab57f1fff24e64887da7414161d558acc7d705b098b7c68542bfcffb450f91d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e55404da13c8d98b200763455f2ebd6516ea83065b89c57f3bdc8bd1ff062aef",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "9b3d3d2d1076f18bd59e65f5d89df3259fcd7fc074171618d97bc0d6b0700e0e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "1b426f3642c4da376a6aa1a732c2334e434ecbc1c2c7eda5bfabc4173025c6ea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "cc9ff8496c7911c78426a40d0f7656c51737e0c460a74c1b9b5f48eb3fb65b45",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9c796a3307f89c2ca6ea65a13d6b0e892561b5bcb9c8fd59ab2e44cce2baece6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "f2507fa1068acf576c4d9c9f340b5e978cd09e8759d9c5d016d02c82bdb31ba9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "7258c6899937ac7f5635045c58feb6411a51873e621fccdb058dadb5a8acf7bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "7cff2af9035c1976c2bf3f86f8d90943cb19e329663d1a250b55d42f3be9e2a2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "1a773aa76a6a22260bff25b06334c539e83b72a4f330b238b67b2064aa170c3a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "92a420e761ea4d1e7114d60db1d3570185e7dd62e73d09e8172547783683bb00",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all12 cumulative contact panels, enlarged step12 and compared source p12. Layered hull, overhanging gray deck, cabin/windows/roof, barriers, tailbeam/gear and3 sails accumulate. Six mast shafts remain omitted because6521vs6522 length and31625 join unresolved; sails/collars/connectors therefore have no credited physical support. Exact sail geometry available but arrangement still incomplete. D packc3db9ba9 equals C legacy final pack, so this records D steps only; no new D final claimed. INCOMPLETE, no physical validation."
+}

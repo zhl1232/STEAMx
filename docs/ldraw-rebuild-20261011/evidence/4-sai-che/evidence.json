@@ -23,6 +23,6 @@
   ],
   "checker": "PASS raw LDR; manual support/collision parts excluded by existing catalog policy, no added exemptions",
   "metadataUsedHash": "35281b23d98e545b64fbfb0c733b44d0e1ab3336fe458ea992a0d64cb17c24ce",
-  "render": "awaiting parent serial renderer",
+  "render": "current D cumulative steps actually reviewed; final3=False in D record; prior C final evidence remains separate",
   "accepted": false
 }

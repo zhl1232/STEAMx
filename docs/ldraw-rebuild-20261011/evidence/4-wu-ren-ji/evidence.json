@@ -13,6 +13,6 @@
   },
   "additiveStages": 8,
   "checker": "PASS rawLDR; Toolo manual-policy parts require explicit review",
-  "render": "awaiting parent queue",
+  "render": "current D cumulative steps actually reviewed; final3=False in D record; prior C final evidence remains separate",
   "remaining": "Four propellers missing. All9sourcepages actually viewed. RawcheckerPASS32placements. No rendered pixels yet. Body tiling/leg positions/camera should be checked against source once rendered."
 }

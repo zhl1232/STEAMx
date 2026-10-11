@@ -27,3 +27,6 @@ checker仅剩12个6527/6292重叠，每轮胎对应两个嵌入轮毂；两件�
 
 ## Latest final pixel review
 Actually inspected iso, iso-rear and top for source SHA 5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393, packed revision 363c6e195eefb5cee608189730c133a91838be863d9f9501925904bd3871150f. All three views load with no missingParts. Source structure, colours and silhouette reviewed; no new rigid-body correction identified in these views. Existing mechanical support/axle depth/canopy/tyre fit uncertainties above remain unresolved. This is renderer verification, not physical or user acceptance. Cumulative step pixels still pending.
+
+## Superseding actual tyre-mesh review
+Uniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA 5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393 has 6 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 6 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.

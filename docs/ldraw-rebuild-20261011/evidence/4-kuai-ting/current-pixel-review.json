@@ -1,7 +1,7 @@
 {
   "sourceSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
   "revision": "e37e25a3d14666bb8461912b2c2f0e5df43b954f7e0d7e0c2e8fb492aa23e7bc",
-  "reviewedAt": "2026-10-11T06:02:52.670369+00:00",
+  "reviewedAt": "2026-10-11T07:29:54.815346+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-kuai-ting",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "81371ca55eb67fad35b0e8318ef86ff23b5b26d325e2eb3d867771def2417b99",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "54f2cdd90255fcbffe270fcec68fc9e5130b12dff897f65aa62bed287a6a213e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "447b9dfba04a567167dcb3437eeddf2899aabdda0bdc1864c48db77720e196d1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "31764fbe560441721680257cb7fbfcb8938dfb9c0a08c66a8c39f09fe114bdb7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "22c3963e677390b64d53680be805e49d688c04d99b501fb482ea50cf9e7edac6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "67a0690816243b5771d544cdd6a230ae9730057b91b6b3dcc115b6a050738516",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "aca6c4eafe24869c0ffb10b4a8981f8f12517dd2cc21f5b76981f8122600ce65",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "52fb65b49db987fdf9d8bc895866432be691b65357af808034a7806981e7b04e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "52fb65b49db987fdf9d8bc895866432be691b65357af808034a7806981e7b04e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4d071a348d98a77131a9f2b9f2b840fe06d96812c7671bfff05bc2088d0837eb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "e95669b49303a0feaf4e035330edbe45bd0a9f2513c065047914b9ab53114f2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "e95669b49303a0feaf4e035330edbe45bd0a9f2513c065047914b9ab53114f2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "dc4c3d1a5a49c6b71aa243f6db924ff6717bc7188b23d9011a27de96c7cf179a",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected D final iso, iso-rear and top contact-sheet pixels against source page13. Complete framing and no blank view. Known two blue wings/claws and two propellers remain absent pending identified available geometry. Yellow rear sidebuilt board alignment and driver/seat offsets are provisional. Existing hull and blue water platform visually coherent; hidden Toolo engagement and buoyancy not validated. Final pixels only; no cumulative-step or acceptance claim."
+  "limitations": "Actually inspected12 cumulative cells and re-opened source6 alongside earlier source reading. Hull, side walls, rear sidebuilt panel, turntable and figure/water base appear in sequence;8 bluewing/claw pair and11 two props intentionally omitted. Rear yellow board seam/orientation and hidden clutch fit remain provisional; no additional unequivocal correction derived from current source. Earlier stages are handled subassemblies before display water base, not proven independent stable builds. All cells nonblank/framed; no physical validation or acceptance."
 }

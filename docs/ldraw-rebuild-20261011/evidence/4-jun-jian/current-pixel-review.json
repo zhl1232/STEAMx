@@ -1,23 +1,23 @@
 {
-  "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
-  "revision": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
-  "reviewedAt": "2026-10-11T07:21:17.661774+00:00",
+  "sourceSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
+  "revision": "4a2f82afb4bad971b298872268e168134568c4a3e6d114643f9e939d0bbf0a7a",
+  "reviewedAt": "2026-10-11T07:39:46.309263+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-jun-jian",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "3b98a1b01cf6e86bc2104736b0cbf80ba092e958f3300eb7e410396a5ae3c779",
+      "sha256": "ea8ef64be0161b8422138e5254848ee46062f6df8b909d02271ef8d9ffae64a7",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "49c3e3bd9d54d203f229c7605f727b42e9eaf59384d71d0759add62b87e31f44",
+      "sha256": "c0b2049352fd21822696dd4581465bec86f2c49ddb7f567d205041881dcc8caf",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "b4105d9ed7bf21acea2514074b271339fbba851756b96f1dd0dbb2d2c2ed7a70",
+      "sha256": "8eba0fe60ba237eb3378edfcdbb21aa08a27278ac0e25d02be03823dad53fa44",
       "pixelsActuallyReviewed": true
     },
     {
@@ -27,92 +27,92 @@
     },
     {
       "view": "step-2",
-      "sha256": "cb5deeba97d3faf0208adf5c8c4fb481aad473da7099b092153b97cf70b3181e",
+      "sha256": "2c32be6e1f244c2987d771adb14b4e7a7df7189c5c2845fe75739f90c87020a4",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-3",
-      "sha256": "8d8fbdef63cc8c8a12de49f222bfc04e5ebb30178f2852ab2ddbcb7333588b97",
+      "sha256": "8391a224aae4a604264b0339a4ec5565e85ff27ce09f2dcef9c37850c0f9a7af",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-4",
-      "sha256": "b1af4d37435d6e0d3183098d9a424e534927bc2bb00e2e7e3e53ef34873d9c48",
+      "sha256": "4ad79cbd2f964497155d29e263657f3d1599f32c2775fa2969c6dcfcc5648184",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-5",
-      "sha256": "bd6aa3b6f828c7ca314ced6eb6abb3bc8b5ce4c99018a71293d8b287403975ab",
+      "sha256": "d2ae0fffd49d0b90a4d9a2712af7cf2cbb3d907fefe7d70dd62d57e9ef208e9b",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-6",
-      "sha256": "4f2ab724e4efa45fd5654ae5427015f56f7bc3ba42941678d91155acce1f9e03",
+      "sha256": "8eb6b6642140947becf6632fff3e8b229c8300eec34b3c992e31f6fb61de5f9c",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-7",
-      "sha256": "870b18c208ce8a11539c2b29a5dbde84658713463894bf72ef6013bd5c4058c0",
+      "sha256": "bba2a90ebb225f1a891ceb3d9b8b1a92521701be232d605543e7bcfdc0642655",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-8",
-      "sha256": "20d2a5ed9b44700f4cadeecdccb04b0da606840e1976253ff01ea4efe62dec89",
+      "sha256": "dc958b030a872c95aad32855c181cec73b41ff8f9d6279d186c5a52b44048b7d",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-9",
-      "sha256": "29eabe51749ea73a75d086bfdaf02311611754cfa73bd99e5a334cc704771a1a",
+      "sha256": "dac5e2d9a0976cf588d39a47c96dfc33c3fc36fd3b0cd52412411925dde5dcba",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-10",
-      "sha256": "1b42e8e563fdbfc37b231525cc3327ff09ed0ab5fbfc678d7cec1bede7d66de8",
+      "sha256": "31837c8e417ae2cde7e286f9908e2f6744423cd68bf8b4e1c3e855283c203ace",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-11",
-      "sha256": "696ca99896e8c4d875559c98a40f96e4ebcc704270063ffffc8cdf5fb7468c52",
+      "sha256": "f7e0e1eea27410eb620df958838fc7ade468e1b662352f183deceb48f7e01812",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-12",
-      "sha256": "c6ec74a66a1abd9692318b7f217986c115d879c7b23eb64fbcaa21b1d542c779",
+      "sha256": "b4abc468685327054a5df17e3bc77cb4085b7b4d617d455db42949892ab310aa",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-13",
-      "sha256": "31a3ffac55562926c7c1c8d1fc969a2fc05d744f2b0b13b6e7405d69ae52779e",
+      "sha256": "de6777fdc55156a7cfb0e0fd99b2c509b83cf11be7ca8e0e36a546dda346af23",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-14",
-      "sha256": "740754eb5f888f3bcb60352a47a22caf3d5127f5d3faeece7a237c4a0e9f8160",
+      "sha256": "3a71904938a86876e393d4dd4d24927559c0a68a42ef05af0215eb558ecaafdf",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-15",
-      "sha256": "fe45a9090694a2d5e7a06c44c9294a5e307a2d6b942bcec23d13e9739686c6f8",
+      "sha256": "f2861d51484f1b0d08fd1ae3ab0f71731ae62903d1e5233ed0ba3f6d5115eeea",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-16",
-      "sha256": "fe45a9090694a2d5e7a06c44c9294a5e307a2d6b942bcec23d13e9739686c6f8",
+      "sha256": "f2861d51484f1b0d08fd1ae3ab0f71731ae62903d1e5233ed0ba3f6d5115eeea",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-17",
-      "sha256": "e77d2f5c4868464752addd4e3e26990188a10f75826de6102208defbff62ec12",
+      "sha256": "f2b7872964532940bc49423456871022ed491b48abc6cc6858719bd4d8ac815a",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-18",
-      "sha256": "e77d2f5c4868464752addd4e3e26990188a10f75826de6102208defbff62ec12",
+      "sha256": "f2b7872964532940bc49423456871022ed491b48abc6cc6858719bd4d8ac815a",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-19",
-      "sha256": "3b98a1b01cf6e86bc2104736b0cbf80ba092e958f3300eb7e410396a5ae3c779",
+      "sha256": "ea8ef64be0161b8422138e5254848ee46062f6df8b909d02271ef8d9ffae64a7",
       "pixelsActuallyReviewed": true
     }
   ],
@@ -121,5 +121,5 @@
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected all19 cumulative cells, source p2/3/4 originals and previous full-source reading. Stage2 reveals real early hull support/count-layout error: source uses four-stud-deep end bands, old ring assumed two-stud depth and excessive24stud length; old stages3/4 likewise too long. Correction planned from stage2. Source16 intentionally unchanged due missing yellow mixer,18 detail only,19 figures visible. Final3 retained for old hash only, not assembly acceptance; flag/pole proxy finding in static-alarm-review remains separate."
+  "limitations": "Inspected current01a43d48 final3 and all19 cumulative cells, original step2/5, reopened source p2/3/4/5. Four-stud-deep ends and20/24/28stud ring lengths now correspond to source; each tier half-brick end overlap and deck2stud overhang remain visible. No new unsupported ring end seen. Missing yellow mixer retained; Toolo approximate interfaces, temporary overhang stability, flag/pole proxy diagnostic not physical proof."
 }
