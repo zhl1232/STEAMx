@@ -12,8 +12,8 @@ function database(approved: boolean, title: string) {
    return q
  } } }
 }
-test('server approval gates precede released override and current page extension replaces stale DB copy', async () => {
- vi.stubEnv('NODE_ENV', 'development')
+test.each(['development', 'production', 'test'])('server approval gates precede released override and page extension replaces stale DB copy in %s', async env => {
+ vi.stubEnv('NODE_ENV', env)
  const sample = getScienceSample(1213)!
  const db = database(true, sample.title)
  const scene = await buildTutorSceneContext(db.client as never, 'mock-user', 'project', '1213')
@@ -54,4 +54,14 @@ test('1098 tutor context uses the verified activity steps', async () => {
  expect(scene.summary).toContain(sample.safety)
  expect(scene.summary).not.toContain('步骤（细节以材料包说明书为准）')
  expect(scene.summary).not.toContain('旧步骤')
+})
+
+test.each(['development', 'production', 'test'])('478 released extension reaches tutor scene in %s', async env => {
+ vi.stubEnv('NODE_ENV', env)
+ const sample = getScienceSample(478)!
+ expect(sample.extension).toContain('脾气不同的小朋友')
+ expect(sample.extensionQuestions?.some(question => question.includes('蜂蜜'))).toBe(true)
+ const scene = await buildTutorSceneContext(database(true, sample.title).client as never, 'mock-user', 'project', '478')
+ expect(scene.summary).toContain(sample.extension)
+ for (const question of sample.extensionQuestions!) expect(scene.summary).toContain(question)
 })

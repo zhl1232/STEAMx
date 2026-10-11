@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import drafts from '@/lib/project/science-extensions.dev.json'
+import reviewed from '@/lib/project/science-reviewed.data.json'
 import { getScienceSample } from '@/lib/project/science-samples'
 import { ScienceExtensionQuestions } from './science-extension-questions'
 import { TutorProvider, useTutorContext } from '../tutor/tutor-context'
@@ -28,9 +28,9 @@ test('guest gets login prompt without a queued draft or auto-send callback', () 
 })
 
 afterEach(() => vi.unstubAllEnvs())
-test('all three development questions prefill the exact text and project id', () => {
- vi.stubEnv('NODE_ENV', 'development')
- const draft = drafts.find(item => item.extensionQuestions.length === 3)!
+test.each(['development', 'production', 'test'])('all three released questions prefill the exact text and project id in %s', env => {
+ vi.stubEnv('NODE_ENV', env)
+ const draft = reviewed.find(item => item.extensionQuestions.length === 3)!
  const sample = getScienceSample(draft.id)!
  expect(sample.extensionQuestions).toEqual(draft.extensionQuestions)
  render(<TutorProvider><ScienceExtensionQuestions projectId={sample.id} questions={sample.extensionQuestions!} /><Probe /></TutorProvider>)

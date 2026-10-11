@@ -2,8 +2,8 @@ import { afterEach, expect, test, vi } from 'vitest'
 import { getScienceSample } from '@/lib/project/science-samples'
 import { getScienceTutorContent } from './science-context'
 afterEach(() => vi.unstubAllEnvs())
-test('released context contains page content without internal editorial metadata', () => {
-  vi.stubEnv('NODE_ENV', 'development')
+test.each(['development', 'production', 'test'])('released context contains page content without internal editorial metadata in %s', env => {
+  vi.stubEnv('NODE_ENV', env)
   const sample = getScienceSample(1213)!
   const content = getScienceTutorContent(1213, sample.title, '科学')!
   expect(content.extension).toBe(sample.extension)
@@ -15,7 +15,7 @@ test('released context contains page content without internal editorial metadata
   expect(getScienceTutorContent(1213, sample.title, '其他')).toBeNull()
   vi.stubEnv('NODE_ENV', 'production')
   const released = getScienceSample(1213)!
-  expect(released.extension).toContain('浮石')
+  expect(released.extension).toContain('这是不烫的泡沫，不是真的岩浆')
   expect(getScienceTutorContent(1213, sample.title, '科学')).toEqual({ ...content, extension: released.extension, questions: released.extensionQuestions })
   expect(getScienceTutorContent(710, '高出杯沿的水', '科学')).toBeNull()
 })
