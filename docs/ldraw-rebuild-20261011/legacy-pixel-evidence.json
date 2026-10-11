@@ -1,0 +1,506 @@
+{
+  "indexedAt": "2026-10-11T08:13:41.328241+00:00",
+  "method": "Hash inventory for earlier explicitly recorded owner pixel attestations. This indexing is not a new visual review and does not infer inspection from file existence. Only unchanged source and matching package revisions are included; clipped revisions excluded.",
+  "courses": [
+    {
+      "slug": "4-cha-che",
+      "sourceSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+      "revision": "c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-cha-che",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "229f6d492763e037c73b1726f32aeeb89e5adeeb7bfdf7eeaa62ffc205bfb763"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "8e5624f54161f6eafb9e21971a4511f6a74ab6d145fd4df67414c5e1453ec5f8"
+        },
+        {
+          "view": "top",
+          "sha256": "03a6bdb818da73c562c73e70369381a9ea74f451e085630b35de9570cb08e478"
+        }
+      ]
+    },
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+      "revision": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "b44a3e99bef3b936f833360b13c5dee2b7b0d82897476e852989875db40f9ddf"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "662f084bc1aff0844896b6256817bff04f565565d21b223db5851417db253fca"
+        },
+        {
+          "view": "top",
+          "sha256": "fd38ded351728064e60c408f8529bed6db6c37dba9a10120d25e95eda6e1bfc8"
+        }
+      ]
+    },
+    {
+      "slug": "4-da-xiang",
+      "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+      "revision": "b0e2089a0e4b3b68490dabe62eae78a0a34c82d49f35ddd12a0ca67b853d1771",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-da-xiang",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "25b39e601a423826d7ed46c5ffabb63f5d77b2b67a880e7e6eaee1a1d7843295"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "bc057edbe288a2ecd619635e3de60647379513a8ec4f7d65c8a8c5402f270281"
+        },
+        {
+          "view": "top",
+          "sha256": "103a5c9224c46b6900d81507bfbd4d3ec1ff2dfd9392d560dbe208f1aab8824d"
+        }
+      ]
+    },
+    {
+      "slug": "4-e-yu",
+      "sourceSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+      "revision": "9e7cc1055e330823c51da709276649636d2e693ed13837e7df69baa7f8a59eac",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-e-yu",
+      "previousOwnerFinalViewAttestation": false,
+      "previousOwnerAllStepsAttestation": true,
+      "images": [
+        {
+          "view": "step-1",
+          "sha256": "39f57075469b4e0b4e337f15ff0f4183d62edd865886ecc10b1b53eb841bee8b"
+        },
+        {
+          "view": "step-2",
+          "sha256": "413430e323369d0d42ba6c5be280bd5aaeaee9551ef257f09cfde16ad3106be2"
+        },
+        {
+          "view": "step-3",
+          "sha256": "e6f6a88af9864e08f155301314692826c61c1b497522eef2d68dda2d53312de6"
+        },
+        {
+          "view": "step-4",
+          "sha256": "b9d5fc180995c22247874b4e5b004d81eba5ab13df3319eacd510009682096b7"
+        },
+        {
+          "view": "step-5",
+          "sha256": "18f1b4855fa378b3007214fee2cd7fc62b4d8f8310b6d11871ba100a802cf004"
+        },
+        {
+          "view": "step-6",
+          "sha256": "39c0135787e8ea2cb7875b01fe0f523e38c339e9fa1e51e0e2092e93d0932800"
+        },
+        {
+          "view": "step-7",
+          "sha256": "3a51881c19a94fe12a4dff31f199183f2ec50dfb23d07b22e434c617d24cff7f"
+        },
+        {
+          "view": "step-8",
+          "sha256": "adff73831c292960c4334b4d061e00e795a127e4238c0a36968c69ce0f94b466"
+        },
+        {
+          "view": "step-9",
+          "sha256": "85637c9b81dfe990b03fa9d80c5260414abef762128b266647a68d4b92fbddd7"
+        },
+        {
+          "view": "step-10",
+          "sha256": "f6c9b866cf77dda479c6ddb10bd5812d18228ceb2b941544f0a800507ee19b6b"
+        }
+      ]
+    },
+    {
+      "slug": "4-qing-ting",
+      "sourceSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+      "revision": "bfdf751c0cf4b906dd4b8763b5741c8b908dace1562ccad861c6d78f7b5562bc",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-qing-ting",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": true,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "165c044ebbbac9905705e58cd9836d64671e22621c498f150e8cc85082acb65c"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "2a0efb947ba5c3f123947f2ac5fa055f610eb56f35fe48a030e01085bb21c667"
+        },
+        {
+          "view": "top",
+          "sha256": "921f19a21c324aa3755e5de01176ab773fa76742045ea29d4734cd1b0e987e9e"
+        },
+        {
+          "view": "step-1",
+          "sha256": "5726ef3a7d67d905de4a9aa2b2c46dba9c48be67fa5771b1f0353c763da67879"
+        },
+        {
+          "view": "step-2",
+          "sha256": "a3d5e45bb8426cc82da00cb3f694d136bda3b8a7111ab356c0f82a7c3781429e"
+        },
+        {
+          "view": "step-3",
+          "sha256": "ad951a3e3661eec961877d757dac2f8db5ac35105f7565a3d221a77b247a3393"
+        },
+        {
+          "view": "step-4",
+          "sha256": "6eaee7e48b493f4fb88ca618351ccc96d75c053a8bac2772f3c55ef13281e97e"
+        },
+        {
+          "view": "step-5",
+          "sha256": "352a6de4c768d2e2e8f638afb212b6085ab6ac364b0e3df6c25cdd1c82d36a0f"
+        },
+        {
+          "view": "step-6",
+          "sha256": "5270b44f770f65514345b1a8022721f076fc73f8968fb2b0ac1c5a858422815b"
+        },
+        {
+          "view": "step-7",
+          "sha256": "38bb5a278886af7b2e4dd41a0e89cf126660002c6cbdc282bdaf041144a61f43"
+        },
+        {
+          "view": "step-8",
+          "sha256": "165c044ebbbac9905705e58cd9836d64671e22621c498f150e8cc85082acb65c"
+        }
+      ]
+    },
+    {
+      "slug": "4-sai-che",
+      "sourceSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+      "revision": "ae4f343c773a5bad18cffda4df47099f68cefa41c986aa3119c26ff5498b65a6",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-sai-che",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "fb50a82d59364dacfb66b37711597ceb6a3f2184a2cdc865a5067be752cb30c1"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "0317bc543016d9ec9ea5a262a1f1bdb26f0511b292928459bd9f84014ba0d763"
+        },
+        {
+          "view": "top",
+          "sha256": "48c3fa21598d65626e097caba87ea5e8ae128009ed7e446380e784509862cbf5"
+        }
+      ]
+    },
+    {
+      "slug": "4-wa-li",
+      "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+      "revision": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wa-li",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "4e42ea44699930f742298d127f110ce58e4360b61edf89a0a6767c6bfdb49664"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "2c5f861f7e01f0621d462d635a582f269f29c7efdca8495e0cbfe7bf947e597e"
+        },
+        {
+          "view": "top",
+          "sha256": "eeed094c964a8965e5cd543cb5d622c9e1e5f6a041be4bbaf6cdab9bd6949c81"
+        }
+      ]
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "sourceSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+      "revision": "56e636e1490e9224210fdbc859f3434d1a1fc7aa2a1cd33b394079d11fcc2ab4",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-wu-ren-ji",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "fb0006ca3270c8365bdb3701e68e9f8dedbb4b37971d837aeace1acc7e5e1592"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "1ad36688ba7be037efc68bc9a1b300ba98bf1ded1d18cdd124165d64fbd7c0d1"
+        },
+        {
+          "view": "top",
+          "sha256": "896570a6ffd71dcb806ee69862fb9be57dce98938f147516acbbd3d8097eb70f"
+        }
+      ]
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "sourceSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+      "revision": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xiang-wei-she",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "65309c25cfef6f1aa8fbd3c70d2f884bef823d086bb5820d6ba3fc2f289a821e"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "d3e1565f3c9ec01413f1049cf43c34025007e2ff64c9f849130b1fe2112ff63a"
+        },
+        {
+          "view": "top",
+          "sha256": "4efab49e6f57df91df47667e6ce2d319b199b7f36d2a01575a3e846a437107e0"
+        }
+      ]
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "sourceSha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+      "revision": "7d041650503807614b9036de54c592657cc2c41d8a863b4a65f6070c374312bc",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xiao-tu-zi",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "893a74796b69168a7724f3be6b9458dbbdf672ee4454fd3898628dbe3eb0c06c"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "7a9d82c56df7fd9831f350fe8009d7efd5e31ca72e272f7b327246283b076c84"
+        },
+        {
+          "view": "top",
+          "sha256": "a53136a6e84dbeedb693b79e363ee88e2a9331e88cc79d2b24e3264f373e1332"
+        }
+      ]
+    },
+    {
+      "slug": "4-xie-zi",
+      "sourceSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+      "revision": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "83a62bd27b828f9268bb66ff6380f223f64d07a1a2190ea0b28cf8f14a0210a9"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "f02ef60bfb9fadb3c9a5195cec98658d9c6542a3d8b525d6f5e5d5e719a759ec"
+        },
+        {
+          "view": "top",
+          "sha256": "5a30760da866d5436ebb011b2da981ccb69914b648426dea32b22d94f9d8be9b"
+        }
+      ]
+    },
+    {
+      "slug": "4-yi-long",
+      "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+      "revision": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-yi-long",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "a2f85766fc6e69c7c2ec47a8215a2a0c47dedeccab1821afbf0fb4dbc66cc51d"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "3ea1bc732b660bb4dfaa77c119a5a0fb5d05f069578995421158cc5faeef6fab"
+        },
+        {
+          "view": "top",
+          "sha256": "b3289c51b2bc0dec97c5d2a78cd2b83d470fc624b5976a0166a83f49e66c39b4"
+        }
+      ]
+    },
+    {
+      "slug": "5-fan-chuan",
+      "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+      "revision": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-fan-chuan",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "9852885368aa087f331abae81fe66885c40193d6e48dc412fc4aa3e918af1783"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "b1820060a1652c130ced309b0b465ca42e5df34a506bc7b5d248d13f0a8d9693"
+        },
+        {
+          "view": "top",
+          "sha256": "a5fe0097580d032c5f8c5e4ecdc8cf79100148b6050d6b7b69f2a9d484fba331"
+        }
+      ]
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "sourceSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+      "revision": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-huan-wei-che",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "f8d6cd17adf206d29d51788ca0ad1b84cd7d396647a60a0d2399782b81184679"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "4727aeafac89779b2c1df04250ccad93dbe1795fe0287a79698750e957aaf6a3"
+        },
+        {
+          "view": "top",
+          "sha256": "0b2a48683b80a5db718b1b17e28bd6da88e19cf51e84720c5cff48d0a7a44ca3"
+        }
+      ]
+    },
+    {
+      "slug": "5-ping-heng-cheng",
+      "sourceSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+      "revision": "9f4ae1ccee7b0406163727527dd51a7c513f7ef2b951d079e0157d03f1f05cbf",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ping-heng-cheng",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "72dba0829d1024f66d47cd585a43d67e1ab829eb5005904f4f1bd5c6b314e872"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "70a75465ff5327b9104b12bd50b59c6f15e7d43a4d598ce6d8ff8c266fcf13e3"
+        },
+        {
+          "view": "top",
+          "sha256": "1dcb8930d45f06d135bd64dab3302a4610138e9b44ec5c9cdb68149c7ec19f3b"
+        }
+      ]
+    },
+    {
+      "slug": "5-qing-ting",
+      "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "revision": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qing-ting",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "2fc81ce76765b1257211872f6711a7b2e0b3f15152134c0794f47fd4aa94fbb0"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "64eac5533668e8a34b35aca01858474e60063168b68ce9396fd40b3889a9b57a"
+        },
+        {
+          "view": "top",
+          "sha256": "f0c3d8011b63ddfa528953b55dc9c2ecb18ac8b55e86341bf2f8418d14bfa0f7"
+        }
+      ]
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+      "revision": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-yao-zuan-zi",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "87b11f2cd2d3e5294187e168d8dab7133253f35636316f923f1f1cc7cfb8a592"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "94f7b84acac8bddee0b3d65d5e0d95af878362fd6d198d9bb752886ddde19c5b"
+        },
+        {
+          "view": "top",
+          "sha256": "a3348422470868767abd5cc8411e4d889c5d4422b4907580c104205a380aa8d0"
+        }
+      ]
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+      "revision": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ti-xian-mu-ou",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "664a73ee974982641617ef06e0729ac0a262c295a13912922e71a98c681b68bc"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "5b21ff4c030303259d82d40a3cd04d92214af44fc47add0db5f9265156f801c1"
+        },
+        {
+          "view": "top",
+          "sha256": "04286c7b991c7def5d0a2be4f106cd6fc1a8e5604e4c394eebf64b3a659ae592"
+        }
+      ]
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+      "revision": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-tou-lan-ji",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "e0e616c1bee361dfcc63c1022fe998bcdc095a7a13fbe6347efc6a2fbaaedf9a"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "0a256caac0549b450f95dd501e3f47a9b82aad496bb6e0424b4c3508f92fd250"
+        },
+        {
+          "view": "top",
+          "sha256": "c952e75e126b04ebbea1b93ee3988b00cb9344728b8bc04de50ee62f8f5456db"
+        }
+      ]
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "sourceSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+      "revision": "6756d001d1c72eacf9604c2d1f65e07852f267a65f7e907999c443069a04b18d",
+      "evidenceDirectory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-xuan-yi-fei-ji",
+      "previousOwnerFinalViewAttestation": true,
+      "previousOwnerAllStepsAttestation": false,
+      "images": [
+        {
+          "view": "iso",
+          "sha256": "00988b9114f51057f40d7bb6ddc428f3e1b272ad205c7b20922c3aca88fdef98"
+        },
+        {
+          "view": "iso-rear",
+          "sha256": "af2d736ddf4b099c2d6a0153584dceaf5ca77ba447cb79f5ab6d158f009798e0"
+        },
+        {
+          "view": "top",
+          "sha256": "f7d64c5b0c273a1995f6fe6dc6f7a171784f2fe9a49c00ecd2d6c44b9530c959"
+        }
+      ]
+    }
+  ]
+}

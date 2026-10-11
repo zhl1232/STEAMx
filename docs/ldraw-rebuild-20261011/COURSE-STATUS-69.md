@@ -8,7 +8,7 @@ Hash-bound local development checks. Reviewed pixels and static explanations are
 | 春节舞狮 (4-chun-jie-wu-shi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-chun-jie-wu-shi/static-alarm-review.json) | [Recorded limitations](evidence/4-chun-jie-wu-shi/) | No |
 | 磁悬浮列车 (4-ci-xuan-fu-lie-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ci-xuan-fu-lie-che/static-alarm-review.json) | [Recorded limitations](evidence/4-ci-xuan-fu-lie-che/) | No |
 | 大象 (4-da-xiang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-da-xiang/static-alarm-review.json) | [Recorded limitations](evidence/4-da-xiang/) | No |
-| 导弹车 (4-dao-dan-che) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/4-dao-dan-che/static-alarm-review.json) | [Recorded limitations](evidence/4-dao-dan-che/) | No |
+| 导弹车 (4-dao-dan-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-dao-dan-che/static-alarm-review.json) | [Recorded limitations](evidence/4-dao-dan-che/) | No |
 | 吊车 (4-diao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-diao-che/static-alarm-review.json) | [Recorded limitations](evidence/4-diao-che/) | No |
 | 独角仙 (4-du-jiao-xian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-du-jiao-xian/static-alarm-review.json) | [Recorded limitations](evidence/4-du-jiao-xian/) | No |
 | 鳄鱼 (4-e-yu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-e-yu/static-alarm-review.json) | [Recorded limitations](evidence/4-e-yu/) | No |
@@ -38,8 +38,8 @@ Hash-bound local development checks. Reviewed pixels and static explanations are
 | 幼蚊 (4-you-wen) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-you-wen/static-alarm-review.json) | [Recorded limitations](evidence/4-you-wen/) | No |
 | 直升机 (4-zhi-sheng-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zhi-sheng-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-zhi-sheng-ji/) | No |
 | 蜘蛛 (4-zhi-zhu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zhi-zhu/static-alarm-review.json) | [Recorded limitations](evidence/4-zhi-zhu/) | No |
-| 冰球运动员 (5-bing-qiu-yun-dong-yuan) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-bing-qiu-yun-dong-yuan/static-alarm-review.json) | [Recorded limitations](evidence/5-bing-qiu-yun-dong-yuan/) | No |
-| 抽油机 (5-chou-you-ji) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-chou-you-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-chou-you-ji/) | No |
+| 冰球运动员 (5-bing-qiu-yun-dong-yuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-bing-qiu-yun-dong-yuan/static-alarm-review.json) | [Recorded limitations](evidence/5-bing-qiu-yun-dong-yuan/) | No |
+| 抽油机 (5-chou-you-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-chou-you-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-chou-you-ji/) | No |
 | 打桩机 (5-da-zhuang-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-da-zhuang-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-da-zhuang-ji/) | No |
 | 单杆运动员 (5-dan-gan-yun-dong-yuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-dan-gan-yun-dong-yuan/static-alarm-review.json) | [Recorded limitations](evidence/5-dan-gan-yun-dong-yuan/) | No |
 | 地球仪 (5-di-qiu-yi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-di-qiu-yi/static-alarm-review.json) | [Recorded limitations](evidence/5-di-qiu-yi/) | No |
@@ -51,17 +51,17 @@ Hash-bound local development checks. Reviewed pixels and static explanations are
 | 机械手 (5-ji-xie-shou) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ji-xie-shou/static-alarm-review.json) | [Recorded limitations](evidence/5-ji-xie-shou/) | No |
 | 搅拌器 (5-jiao-ban-qi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-jiao-ban-qi/static-alarm-review.json) | [Recorded limitations](evidence/5-jiao-ban-qi/) | No |
 | 码头吊机 (5-ma-tou-diao-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ma-tou-diao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-ma-tou-diao-ji/) | No |
-| 面包机 (5-mian-bao-ji) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-mian-bao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-mian-bao-ji/) | No |
+| 面包机 (5-mian-bao-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-mian-bao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-mian-bao-ji/) | No |
 | 平衡秤 (5-ping-heng-cheng) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ping-heng-cheng/static-alarm-review.json) | [Recorded limitations](evidence/5-ping-heng-cheng/) | No |
 | 蜻蜓 (5-qing-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-qing-ting/static-alarm-review.json) | [Recorded limitations](evidence/5-qing-ting/) | No |
-| 人力水车 (5-ren-li-shui-che) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-ren-li-shui-che/static-alarm-review.json) | [Recorded limitations](evidence/5-ren-li-shui-che/) | No |
+| 人力水车 (5-ren-li-shui-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ren-li-shui-che/static-alarm-review.json) | [Recorded limitations](evidence/5-ren-li-shui-che/) | No |
 | 手摇钻子 (5-shou-yao-zuan-zi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shou-yao-zuan-zi/static-alarm-review.json) | [Recorded limitations](evidence/5-shou-yao-zuan-zi/) | No |
 | 水井 (5-shui-jing) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shui-jing/static-alarm-review.json) | [Recorded limitations](evidence/5-shui-jing/) | No |
 | 提线木偶 (5-ti-xian-mu-ou) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ti-xian-mu-ou/static-alarm-review.json) | [Recorded limitations](evidence/5-ti-xian-mu-ou/) | No |
 | 投篮机 (5-tou-lan-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tou-lan-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-tou-lan-ji/) | No |
 | 投石车 (5-tou-shi-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tou-shi-che/static-alarm-review.json) | [Recorded limitations](evidence/5-tou-shi-che/) | No |
 | 推土机 (5-tui-tu-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tui-tu-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-tui-tu-ji/) | No |
-| 拖挂车 (5-tuo-gua-che) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-tuo-gua-che/static-alarm-review.json) | [Recorded limitations](evidence/5-tuo-gua-che/) | No |
+| 拖挂车 (5-tuo-gua-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tuo-gua-che/static-alarm-review.json) | [Recorded limitations](evidence/5-tuo-gua-che/) | No |
 | 蜗轮吊桥 (5-wo-lun-diao-qiao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-wo-lun-diao-qiao/static-alarm-review.json) | [Recorded limitations](evidence/5-wo-lun-diao-qiao/) | No |
 | 小鸟的翅膀 (5-xiao-niao-de-chi-bang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xiao-niao-de-chi-bang/static-alarm-review.json) | [Recorded limitations](evidence/5-xiao-niao-de-chi-bang/) | No |
 | 旋翼飞机 (5-xuan-yi-fei-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-yi-fei-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-yi-fei-ji/) | No |
@@ -72,4 +72,4 @@ Hash-bound local development checks. Reviewed pixels and static explanations are
 | 移动广告牌 (5-yi-dong-guang-gao-pai) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yi-dong-guang-gao-pai/static-alarm-review.json) | [Recorded limitations](evidence/5-yi-dong-guang-gao-pai/) | No |
 | 鱼儿的尾巴 (5-yu-er-de-wei-ba) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-er-de-wei-ba/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-er-de-wei-ba/) | No |
 | 宇航员训练机 (5-yu-hang-yuan-xun-lian-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-hang-yuan-xun-lian-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-hang-yuan-xun-lian-ji/) | No |
-| 转弯小车 (5-zhuan-wan-xiao-che) | Rebuilt | Reviewed | Pending current version | [Current report](evidence/5-zhuan-wan-xiao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-zhuan-wan-xiao-che/) | No |
+| 转弯小车 (5-zhuan-wan-xiao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhuan-wan-xiao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-zhuan-wan-xiao-che/) | No |

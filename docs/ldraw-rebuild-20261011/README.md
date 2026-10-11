@@ -2,6 +2,8 @@
 
 This is an in-progress development branch, not a release or course approval.
 
+中文入口：[本轮核查说明](本轮核查说明.md)。
+
 - Base: `bbcdaddd417feba086f0683aa1bd3e6c5878d96a`.
 - Branch: `models/129-course-source-rebuild-20261011`.
 - Audit reproduced: 300 courses, 160 with published 3D; this scope contains 71 missing source models and 58 simplified source drafts. Eleven other incomplete/review cases are recorded separately in `deferred-11.json`.

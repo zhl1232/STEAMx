@@ -1,7 +1,7 @@
 {
   "sourceSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
   "revision": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
-  "reviewedAt": "2026-10-11T06:46:16.060726+00:00",
+  "reviewedAt": "2026-10-11T08:11:43.130434+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-bing-qiu-yun-dong-yuan",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "3af0f0ec5510b0d8ad3b6cff8532ec917a63a7976403aa2b57e59eef9c8122e6",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3f454566e9cb0d04fdaebb8246b367302eb0689ca477e951ebd86fd37fa5e7c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "0fdcfd3548aa9c6f4e437f88cdd8a66648e9397afe56af0c1b6b0a568d8009cc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "fd3bb35436fa8ef62a079b2d33b497e997fcc4603fec45cddae608a3ad3a73f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4e55659edbf8bf2f9aa1b36c37de63cbc4fa88429bc5d545dcd2742fc5a322ab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "e77edfda472b0a1fa07f599e7bf95990ded6038af46ba1caa43267508c6a8f6e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "b33264aff2ad608f80530a529c75ec2edb2b31e6914ac88b4ed1967f81906e42",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9f7e0521359306e12d4f96950cbb33893ea30450088c11cc070290cf608d6baa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7fe7ae07c5627a17389a4cc07b8cf6aa67c7d1e2fa624c5ea941ebd140d32d6f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "10f1fb79064274f6b8ba783dc364b2459d594fbfc86b6f0da45d09d698b35557",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "5ef3986caf44ab6821b683fd3063eef0d832a351b1e6364dcf5c00e6cb58ea26",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "ae0900b42fdf66853efdce1dc7a791b2410e60e96ce171494efc62432ab53164",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "9dc29abb2a4ec785e4a47e0b6bf14dac63f2e13125338f442b00f25f1c58dd4c",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected original iso, iso-rear and top separately, compared source p9,p13. Entire body, stick and ball framed; head curves, shoulder plates, front red/blue gears and rolling feet broadly correspond. Rear tyre/pulley cavity fit and hidden axle engagement remain limited by manual checks; dynamic stick/gear clearance and physical play not validated. No new visible placement correction identified. Pending user confirmation; cumulative D steps not reviewed."
+  "limitations": "Actually viewed all12 D cumulative original PNGs, re-opened source p8 and p13. Chassis/body/long rear rails/head/retainers/rear tyre/gears/stick/ball additions correspond to source sequence. Tyre asymmetric-cavity contact not physically validated; zero strict triangle crossings excludes neither coplanar overlap nor containment. Gear phase, axle retention and strike swept volume unresolved. Ball is source free prop. Existing final3 retained by exact hashes. Renderer pixels reviewed only, pending user confirmation and no physical validation."
 }

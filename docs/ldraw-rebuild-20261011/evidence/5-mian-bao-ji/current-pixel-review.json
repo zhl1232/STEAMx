@@ -1,7 +1,7 @@
 {
   "sourceSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
   "revision": "c2f26caab66f4475f54632e3cf17c00f24c020a916506792e92cc4dacae03091",
-  "reviewedAt": "2026-10-11T06:20:53.670911+00:00",
+  "reviewedAt": "2026-10-11T08:13:57.863473+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-mian-bao-ji",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,92 @@
       "view": "top",
       "sha256": "701e5d752e1cbc91d54b45bbf137c568add043cb9a0685522de0e92dc3209f71",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "caddae07acf347ce84816fd2e12091ac229c650ba2e8fc1fb6c47b230a90edef",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "0f1177e4fd97e7ce66c567b846b4245caf969a5c2d262b63801d7d68b41186f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8a19025a2025dd6a0f36bac40e99bdd0962f2a53e48eee4f43aab843318e5870",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b12b658ba8f300df74e0d16017e4b98c339f51ec7bbb6db7448c48448d34d252",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8d7332e14d271564f2e53c5094005d6833e7b5a536904a70cbea54731a5cd1f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "bc5ef41abf6a8826557fc4b1de3d8c5eace56fa09002482d10bb813bfe73e8c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8e5f70c8a6a5ab3ad48394819a5c3179d22c4185fa76df7f86e75a3f15126aea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "63aec6943c0dad10da18311ff973fe93a19c6c8441043e4d9235da12d80117c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "fb2a1842d4742f33aefd9f80f02764a49040c38bee70ff4f242c1a427d9b8b07",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9e9d13a42fcc7f85e5b6668c9f0b9ce7d2901877367019bef41fd2e6aeb730ff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "62f53f5df727432b0d3e248803260811074f0153666dcfb04c085d717d013648",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "7aaa874f4e4725cf10c6ed9b58b8cfd5178abc830411d558339945f536d26561",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "a36b3da08583392cd629863ddcde0e70abd948366fe2cf73ed40af66ecf43c4b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "973c688075040d33af3ddda91d6527e1767146b2b080d3ee1847b9afc9b4b5c2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "3cdb37c8f6cc7813d7f26cbfd1b3f00ad031d5ad73d04730e15177f3b7ccabdd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "ce9cf1a4c0e5a0fc81c5026664211060799f0c039040ef5664f165e7c4900b97",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually viewed original iso, iso-rear, top plus final contact sheet; compared source p15,p17 and mechanism p8. Entire box and both raised bread slices fit frame. Brick counts, alternating walls, two slots and handle broadly correspond. Four hidden cranks and the bread lift/support chain remain unresolved: visible raised slices do not prove mechanical support. No physically validated motion or load test. INCOMPLETE; pending user confirmation; cumulative step pixels not reviewed."
+  "limitations": "Actually inspected all16 D cumulative contact frames, original steps8,16 and source p8,p17. Walls, central supports, diagonal levers, pulley handle, top slots and two raised bread blocks visible in sequence. Source p8 four cranks remain unresolved/omitted; step8 has no corresponding visible crank addition. Bread-to-lift support and hidden mechanism incomplete; raised static bread is not a validated mechanism. Topplate layout inferred. Existing final3 hash-matched evidence retained. INCOMPLETE, no physical validation, pending user confirmation."
 }
