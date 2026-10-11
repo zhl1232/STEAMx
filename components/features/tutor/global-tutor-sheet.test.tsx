@@ -6,10 +6,10 @@ import { GlobalTutorFab } from './global-tutor-fab'
 import { TutorProvider, useTutorContext } from './tutor-context'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 
-const mock = vi.hoisted(() => ({ noop: vi.fn(), tool: vi.fn(), dispatch: undefined as undefined | ((call: TutorToolCall) => Promise<boolean>) }))
+const mock = vi.hoisted(() => ({ noop: vi.fn(), tool: vi.fn(), userId: 'a', dispatch: undefined as undefined | ((call: TutorToolCall) => Promise<boolean>) }))
 let pathname = '/project/1213'
 vi.mock('next/navigation', () => ({ usePathname: () => pathname }))
-vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: { id: 'a' } }) }))
+vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: { id: mock.userId } }) }))
 vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mock.noop }) }))
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: mock.noop }) }))
 vi.mock('@tanstack/react-query', () => ({ useQuery: () => ({}), useQueryClient: () => ({}) }))
@@ -40,6 +40,7 @@ function Harness() {
 beforeEach(() => {
   vi.clearAllMocks()
   pathname = '/project/1213'
+  mock.userId = 'a'
   vi.stubGlobal('innerHeight', 800)
   vi.stubGlobal('visualViewport', undefined)
   vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
@@ -108,4 +109,18 @@ it('uses native Enter/Space activation and tracks the keyboard visual viewport i
   act(() => viewport.dispatchEvent(new Event('resize')))
   expect(panel).toHaveAttribute('data-sheet-keyboard', 'false')
   expect(panel).toHaveAttribute('data-sheet-snap', 'half')
+})
+
+it('keeps text and pending photos across pages and clears them on account change', async () => {
+  const { rerender } = render(<GlobalTutorFab open onToggle={mock.noop} context={{ contextType: 'project', contextId: '1' }} />)
+  fireEvent.change(screen.getByRole('textbox'), { target: { value: '未发草稿' } })
+  fireEvent.change(screen.getByRole('dialog').querySelector('input[type="file"]')!, { target: { files: [new File(['photo'], 'photo.png', { type: 'image/png' })] } })
+  await screen.findByAltText('待发图片')
+  rerender(<GlobalTutorFab open onToggle={mock.noop} context={{ contextType: 'project', contextId: '2' }} />)
+  expect(screen.getByRole('textbox')).toHaveValue('未发草稿')
+  expect(screen.getByAltText('待发图片')).toBeInTheDocument()
+  mock.userId = 'b'
+  rerender(<GlobalTutorFab open onToggle={mock.noop} context={{ contextType: 'project', contextId: '2' }} />)
+  expect(screen.getByRole('textbox')).toHaveValue('')
+  expect(screen.queryByAltText('待发图片')).not.toBeInTheDocument()
 })

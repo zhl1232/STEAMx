@@ -277,6 +277,8 @@ export function GlobalTutorFab({
 
   const {
     messages,
+    displayMessages = messages,
+    hasCarried = false,
     setMessages,
     busy,
     toolPendingCount,
@@ -290,6 +292,7 @@ export function GlobalTutorFab({
   } = useTutorChatStream({
     contextKey,
     epoch: sessionQuery.data?.epoch,
+    sceneTitle: sessionQuery.data?.scene?.title,
     context,
     stageIndex,
     lessonStepIndex,
@@ -415,17 +418,22 @@ export function GlobalTutorFab({
     }
   }, [open, mounted])
 
-  // 切换场景（换页面/换阶段）时清空旧话题残留的编排层状态
+  const draftUserRef = useRef(user?.id)
+
+  // 场景信息随页面刷新，未发草稿仅在身份变化时清空。
   useEffect(() => {
     setGreeting(null)
     setSceneTitle('')
-    setPendingImages([])
+    if (draftUserRef.current !== user?.id) {
+      setPendingImages([])
+      setInput('')
+    }
+    draftUserRef.current = user?.id
     setSuggestedImages([])
     setMascotFeedback(null)
-    setInput('')
     setQuota(null)
     setUploadingImage(false)
-  }, [contextKey])
+  }, [contextKey, user?.id])
 
   useEffect(() => {
     if (!sessionQuery.data) return
@@ -552,7 +560,7 @@ export function GlobalTutorFab({
             fabPlacement === 'compact' && panelStyles.compact,
           )}
         >
-          <TutorMobileSheet sheet={sheet} summary={tutorSheetSummary(messages)}>
+          <TutorMobileSheet sheet={sheet} summary={tutorSheetSummary(displayMessages)}>
           <div {...sheet.headerProps} className={cn(panelStyles.header, "flex shrink-0 items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3 py-2")}>
             <span className="relative h-11 w-10 shrink-0 overflow-visible drop-shadow-[0_8px_12px_hsl(var(--brand-blue)/0.18)]">
               <span className="absolute left-1/2 top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
@@ -630,8 +638,8 @@ export function GlobalTutorFab({
           <TutorMessageList
             view={view}
             isAuthenticated={Boolean(user)}
-            messages={messages}
-            greeting={greeting}
+            messages={displayMessages}
+            greeting={hasCarried ? null : greeting}
             busy={busy || history.startingNewTopic}
             streamPhase={streamPhase}
             recoveryAction={failedMessage ? {

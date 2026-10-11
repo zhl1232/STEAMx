@@ -7,7 +7,8 @@ import { zhCN } from 'date-fns/locale'
 
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { TutorMessageContent } from '@/components/features/tutor/tutor-message-content'
-import type { TutorChatMessage } from '@/components/features/tutor/use-tutor-chat-stream'
+import type { TutorChatMessage } from './use-tutor-chat-stream'
+import type { TutorDisplayMessage } from './tutor-carryover'
 import type {
   TutorHistoryDetail,
   TutorHistoryItem,
@@ -25,7 +26,7 @@ import { BRAND_FULL_NAME } from '@/lib/brand'
 export type TutorMessageListProps = {
   view: TutorPanelView
   isAuthenticated: boolean
-  messages: TutorChatMessage[]
+  messages: TutorDisplayMessage[]
   greeting: TutorGreeting | null
   busy: boolean
   streamPhase?: 'preparing' | 'generating' | null
@@ -283,6 +284,7 @@ export function TutorMessageList({
 
       {isAuthenticated && view === 'chat' &&
         messages.map((message, i) => {
+          if (message.role === 'divider') return <p key={i} className="py-1 text-center text-xs text-muted-foreground">{message.content}</p>
           const speechKey = message.speechKey ?? `chat-${i}`
           return message.role === 'assistant' ? (
             <TutorBubble
