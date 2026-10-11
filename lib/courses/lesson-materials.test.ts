@@ -496,3 +496,21 @@ it.each([6, 7])('course %s applies structural stand-in and area substitution rul
     expect(result.colorSubstitutes).toHaveLength(1)
   }
 })
+
+
+it('keeps course 5 step positions and empty steps while converting stand-in names', () => {
+  const model = bom(entry('3001.dat', 4, 2), entry('3003.dat'))
+  model.steps = [
+    { stepIndex: 0, partCount: 2, entries: [entry('3001.dat', 4, 2)] },
+    { stepIndex: 1, partCount: 0, entries: [] },
+    { stepIndex: 2, partCount: 1, entries: [entry('3003.dat')] },
+  ]
+  model.stepCount = 3
+  const prepared = prepareLessonBomForCourse(5, model)
+  expect(prepared.steps.map((step) => step.stepIndex)).toEqual([0, 1, 2])
+  expect(prepared.steps.map((step) => step.partCount)).toEqual([2, 0, 1])
+  expect(prepared.steps[0].entries[0]).toMatchObject({ partId: '3011.dat', partName: '2×4 积木', count: 2 })
+  expect(prepared.steps[1].entries).toEqual([])
+  expect(prepared.steps[2].entries[0]).toMatchObject({ partId: '3437.dat', partName: '2×2 积木' })
+  expect(prepared.stepCount).toBe(3)
+})

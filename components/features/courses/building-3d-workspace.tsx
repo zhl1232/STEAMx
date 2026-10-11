@@ -29,6 +29,7 @@ import { toLessonCompletionToast } from "./lesson-completion-toast";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
+import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
@@ -824,7 +825,8 @@ export function Building3DWorkspace({
     const [failedVideos, setFailedVideos] = useState<Set<string>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
     const [isImmersive, setIsImmersive] = useState(false);
-    const [bom, setBom] = useState<LdrawBom | null>(null);
+    const [rawBom, setBom] = useState<LdrawBom | null>(null);
+    const bom = useMemo(() => rawBom ? prepareLessonBomForCourse(courseId, rawBom) : null, [courseId, rawBom]);
     const [bomLoading, setBomLoading] = useState(false);
     const [modelRetry, setModelRetry] = useState(0);
     const isMobileViewport = useSyncExternalStore(
