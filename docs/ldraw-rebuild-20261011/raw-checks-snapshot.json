@@ -21,6 +21,13 @@
     "output": "\nFAIL [4-ci-xuan-fu-lie-che.ldr] 2 error(s), 92 placement(s):\n  - step 9: 4-ci-xuan-fu-lie-che_l88 overlaps 4-ci-xuan-fu-lie-che_l87\n  - step 9: 4-ci-xuan-fu-lie-che_l90 overlaps 4-ci-xuan-fu-lie-che_l89\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
+    "path": "scripts/ldraw-models/4-da-long-xia.ldr",
+    "sha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-da-long-xia.ldr] 27 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
     "path": "scripts/ldraw-models/4-da-xiang.ldr",
     "sha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
     "exit": 0,
@@ -119,6 +126,13 @@
     "output": "OK   [4-qing-ting.ldr] 26 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
+    "path": "scripts/ldraw-models/4-qiu-qian.ldr",
+    "sha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-qiu-qian.ldr] 104 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
     "path": "scripts/ldraw-models/4-sai-che.ldr",
     "sha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
     "exit": 0,
@@ -131,6 +145,13 @@
     "exit": 2,
     "stableDuringCheck": true,
     "output": "\nFAIL [4-sheng-jiang-jiu-yuan-che.ldr] 2 error(s), 73 placement(s):\n  - step 4: 4-sheng-jiang-jiu-yuan-che_l29 overlaps 4-sheng-jiang-jiu-yuan-che_l28\n  - step 8: 4-sheng-jiang-jiu-yuan-che_l68 overlaps 4-sheng-jiang-jiu-yuan-che_l29\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-shou-ge-ji.ldr",
+    "sha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-shou-ge-ji.ldr] 41 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/4-sun-wu-kong.ldr",
@@ -147,11 +168,25 @@
     "output": "\nFAIL [4-ta-diao.ldr] 1 error(s), 84 placement(s):\n  - step 12: 4-ta-diao_l95 overlaps 4-ta-diao_l94\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
+    "path": "scripts/ldraw-models/4-tang-lang.ldr",
+    "sha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-tang-lang.ldr] 58 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
     "path": "scripts/ldraw-models/4-tui-tu-ji.ldr",
     "sha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
     "exit": 0,
     "stableDuringCheck": true,
     "output": "OK   [4-tui-tu-ji.ldr] 47 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-tuo-gua-che.ldr",
+    "sha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-tuo-gua-che.ldr] 53 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/4-wa-li.ldr",
@@ -236,6 +271,20 @@
     "exit": 0,
     "stableDuringCheck": true,
     "output": "OK   [4-zhi-zhu.ldr] 41 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-zhong-guo-long.ldr",
+    "sha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-zhong-guo-long.ldr] 42 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-zuan-tu-che.ldr",
+    "sha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [4-zuan-tu-che.ldr] 1 error(s), 52 placement(s):\n  - step 2: 4-zuan-tu-che_l22 overlaps 4-zuan-tu-che_l21\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-bing-qiu-yun-dong-yuan.ldr",

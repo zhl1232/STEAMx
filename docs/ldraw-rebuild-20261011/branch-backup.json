@@ -1,10 +1,16 @@
 {
-  "purpose": "User-authorized incremental development backup; unfinished issues retained",
-  "url": "https://github.com/zhl1232/STEAMx/tree/models/129-course-source-rebuild-20261011",
-  "approval": false,
-  "remoteSha": "086b0a9f09c2f5dd7d769b7bcd928ee04caa3f3c",
+  "locallySourcedDrafts": 69,
+  "addedPiecesThisRound": 24,
   "branch": "models/129-course-source-rebuild-20261011",
-  "verifiedAt": "2026-10-11T08:44:40Z",
-  "localSha": "086b0a9f09c2f5dd7d769b7bcd928ee04caa3f3c",
-  "actionsBranchTotalCount": 0
+  "actionsBranchTotalCount": 0,
+  "knownOmittedPieces": 33,
+  "awaitingSourceTransfer": 60,
+  "verifiedAt": "2026-10-11T09:04:30.5342953Z",
+  "accepted": 0,
+  "remainingPartIssueFamilies": 28,
+  "finalViewsReviewed": 69,
+  "localSha": "b665ce556ff10c6458d1e1e342434da25fc372a0",
+  "knownPartOmissionGroups": 6,
+  "allStepsReviewed": 69,
+  "remoteSha": "b665ce556ff10c6458d1e1e342434da25fc372a0"
 }

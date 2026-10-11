@@ -810,5 +810,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 2026-10-11 model reconstruction development evidence
 
-- docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record.
+- docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record. Current evolving counts: COURSE-STATUS-CURRENT.md, progress-129.json and current-development-QA.json; files named69 remain historical snapshots.
 - scripts/ldraw-models/parts/dev-129/: isolated approximate geometry for source-based development models; does not replace published part geometry.

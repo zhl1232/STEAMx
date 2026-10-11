@@ -1,3 +1,11 @@
+<!-- CURRENT-DEVELOPMENT -->
+# Current development status
+
+See [当前说明](本轮核查说明.md), [逐课状态](COURSE-STATUS-CURRENT.md), and [current independent QA](current-development-QA.json). Files explicitly named 69 are historical snapshots; current counts and hashes come from these links.
+<!-- END-CURRENT-DEVELOPMENT -->
+
+
+
 # 129-course development reconstruction
 
 This is an in-progress development branch, not a release or course approval.

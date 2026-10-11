@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-10-11T10:51:20.331515+00:00",
+  "branch": "models/129-course-source-rebuild-20261011",
+  "remoteMainWorkflowBlobsEqualBase": true,
+  "workflowChanges": false,
+  "workflows": [
+    {
+      "name": "apply-content-triage-2026-08-13.yml",
+      "sha": "7d671925be1277b8626565925c0bf22b89c25318"
+    },
+    {
+      "name": "ci.yml",
+      "sha": "67682c9330fc6c13a3611766569231ef99bdc126"
+    },
+    {
+      "name": "ops-assets-signing-secret.yml",
+      "sha": "d28dc70424761b0a5ae4b00a23d0171327215bcc"
+    },
+    {
+      "name": "ops-auth-phone-provider.yml",
+      "sha": "c2ca65a4bd43c7751d6591bdfe01f86f5b6f775a"
+    },
+    {
+      "name": "ops-nginx-googlebot-logs.yml",
+      "sha": "88c51d6521e4c22f8eab502863cba84e207e9285"
+    },
+    {
+      "name": "ops-readonly-media-inspect.yml",
+      "sha": "2f6ea3489f14c8ab2ad69638cf3202f256074492"
+    },
+    {
+      "name": "ops-yandex-html-verify.yml",
+      "sha": "84fb3164c1ec296a0b8f8ed89c4f2a2000c1cb01"
+    },
+    {
+      "name": "release.yml",
+      "sha": "515e222dbe2eae9d1a66fac8502e9d9331023464"
+    }
+  ],
+  "triggersReviewed": {
+    "ci": "pull_request main or workflow_call",
+    "release": "push main or v* tag or manual",
+    "triage": "push main and matching paths or manual",
+    "fiveOpsWorkflows": "manual only"
+  },
+  "plannedOperation": "push current HEAD to existing named branch; no PR, tags, workflow dispatch or production changes",
+  "matchingPushTrigger": false
+}

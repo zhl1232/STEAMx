@@ -1,0 +1,28 @@
+{
+  "slug": "4-zhong-guo-long",
+  "sourceSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK [4-zhong-guo-long.ldr] 42 placement(s); combined two-model checker exit0.",
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "remainingNonAlarmLimitations": [
+    "Four400LDU long-arm links follow source chain; neck uses two visible clutch blocks and one fork. All transformations are rigid, no scaling.",
+    "Vertical leg2x4 bricks deliberately overlap80LDU along their160LDU dimension while second layer is offset48LDU outward on stud faces, matching source layered construction; hidden screw/thread engagement still manual.",
+    "Four wing/blade parts omitted, with identities/candidate mappings and missing mesh evidence explicit. Existing dev6294 scoop approximation is reused only for rear bucket shape.",
+    "45002 reference has only2 long arms and1 orange6294: source needs4 long arms and2 scoops, thus extra2 long arms and1 scoop beyond one45002 set. Full kit color/BOM comparison pending; no physical/user acceptance."
+  ],
+  "omittedCount": 4,
+  "matrixValidation": {
+    "badDeterminants": [],
+    "allProperRotations": true
+  },
+  "pixelReview": "Actual current final3 and all12 cumulative step frames viewed; original iso-rear inspected; source p2/8/10/13 revisited. See current-pixel-review.json. Four omissions and manual-fit limitations remain.",
+  "accepted": false,
+  "physicalValidation": false
+}

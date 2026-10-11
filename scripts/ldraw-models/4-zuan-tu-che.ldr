@@ -1,39 +1,80 @@
-0 4+ 钻土车 (Drilling Truck) - DUPLO draft for manual repair
+0 4+ 4-zuan-tu-che - source reconstruction INCOMPLETE dev draft
 0 Name: 4-zuan-tu-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+钻土车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Drill boom, conical bit, cabin windows and multi-wheel chassis are simplified.
-
-0 // STEP 1 - long wheeled truck chassis
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // All12 source PDF pages actually viewed. No user/physical acceptance.
+0 // Existing approved Toolo approximations only; source interfaces and hidden retention provisional.
+0 // SOURCE PAGE 1 - Five lower and three overlapping upper Toolo chassis bricks
+1 0 -320 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -160 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 320 -81.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -240 -129.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 -129.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -129.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - red body and yellow cab
-1 4 -240 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -120 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -240 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 80 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2 - Rear red2x2+2x4 and red Toolo cockpit with pale yellow hood
+1 4 -360 -129.378574 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -360 -129.378574 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 240 -105.378574 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 226 388 -139.378574 0 0 -1 0 0 0 1 -1 0 0 6345.dat
 0 STEP
-
-0 // STEP 3 - black drill support
-1 0 300 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 420 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 540 -120 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 660 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 3 - Four rim/tyre pairs on chassis side
+1 71 -320 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -320 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 160 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 320 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 320 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
 0 STEP
-
-0 // STEP 4 - yellow drill bit and warning cap
-1 14 760 -120 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 14 860 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 8 340 -240 -240 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 4 220 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Four rim/tyre pairs on chassis side
+1 71 -320 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -320 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -160 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -160 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 160 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 160 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 320 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 320 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+0 STEP
+0 // SOURCE PAGE 5 - Six red/white windows and6x12 roof
+1 4 -240 -273.378574 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -174.5 -201.378574 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -240 -273.378574 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -305.5 -201.378574 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -80 -273.378574 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -14.5 -201.378574 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -80 -273.378574 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -145.5 -201.378574 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 80 -273.378574 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 145.5 -201.378574 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 80 -273.378574 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 14.5 -201.378574 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -80 -297.378574 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // SOURCE PAGE 6 - Front sideways Toolo mounting brick
+1 0 448 -105.378574 0 0 -1 0 0 0 -1 1 0 0 76395.dat
+0 STEP
+0 // SOURCE PAGE 7 - Front turntable
+1 0 488 -105.378574 0 0 -1 0 0 0 -1 1 0 0 60535.dat
+0 STEP
+0 // SOURCE PAGE 8 - Twin Toolo forks and yellow2x2 center
+1 71 536 -105.378574 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 71 536 -105.378574 40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 14 584 -105.378574 0 0 -1 0 0 0 -1 1 0 0 3437.dat
+0 STEP
+0 // SOURCE PAGE 9 - Two long2x11 Toolo arms
+1 71 1001 -105.378574 -88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+1 71 1001 -105.378574 88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+0 STEP
+0 // SOURCE PAGE 10 - Two end clutch blocks
+1 71 1071 -105.378574 -88 0 -1 0 0 0 -1 1 0 0 74957.dat
+1 71 1071 -105.378574 88 0 -1 0 0 0 -1 1 0 0 74957.dat
+0 STEP
+0 // SOURCE PAGE 11 - Yellow end2x4 then2x2 striking pads
+1 14 1119 -105.378574 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 1167 -105.378574 0 0 -1 0 0 0 -1 1 0 0 3437.dat

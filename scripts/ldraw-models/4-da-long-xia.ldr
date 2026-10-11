@@ -1,40 +1,59 @@
-0 4+ 大龙虾 (Lobster) - DUPLO draft for manual repair
+0 4+ 4-da-long-xia - source reconstruction INCOMPLETE dev draft
 0 Name: 4-da-long-xia.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+大龙虾 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Claws, legs and antennae are simplified with available parts.
-
-0 // STEP 1 - red body
-1 4 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // All11 source PDF pages actually viewed. No user/physical acceptance.
+0 // Existing approved Toolo approximations only; source interfaces and hidden retention provisional.
+0 // SOURCE PAGE 1 - Two bottom Toolo4x6 bricks and transverse upper brick
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 40 -96 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - head and tail
-1 4 -300 -144 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 -400 -168 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 300 -120 0 0 0 1 0 1 0 -1 0 0 31195.dat
-1 4 420 -120 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // SOURCE PAGE 2 - Eight exhaust-pipe legs omitted: confirmed identity, no licensed geometry
+0 // OMITTED 8 x 4433c01: No matching licensed official/unofficial DAT in current verified search
 0 STEP
-
-0 // STEP 3 - legs
-1 8 -160 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 8 0 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 8 160 -48 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 8 -160 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 8 0 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 8 160 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3 - Tail2x4+2x2 and transverse head2x4
+1 4 -240 -96 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 -120 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
 0 STEP
-
-0 // STEP 4 - claws
-1 8 -520 -168 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -600 -240 -180 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
-1 8 -520 -168 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 8 -520 -168 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 31195.dat
-1 14 -360 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -360 -216 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Three red Toolo2x4 forming stepped head
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 160 -144 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 200 -192 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 STEP
+0 // SOURCE PAGE 5 - Two bare rims as eyes
+1 71 200 -168 -105 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 200 -168 105 1 0 0 0 0 -1 0 1 0 99565.dat
+0 STEP
+0 // SOURCE PAGE 6 - Two side red Toolo bricks and two fork bases
+1 4 200 -72 -104 0.707106781 0.707106781 0 0 0 -1 -0.707106781 0.707106781 0 76057.dat
+1 71 194.343145751 -72 -166.225396744 0 0.707106781 0.707106781 1 0 0 0 0.707106781 -0.707106781 28336.dat
+1 4 200 -72 104 0.707106781 0.707106781 0 0 0 1 0.707106781 -0.707106781 0 76057.dat
+1 71 194.343145751 -72 166.225396744 0 0.707106781 0.707106781 -1 0 0 0 -0.707106781 0.707106781 28336.dat
+0 STEP
+0 // SOURCE PAGE 7 - Two clutch cubes and four forks
+1 71 231.819805153 -72 -295.625937702 0.707106781 -0.707106781 0 0 0 -1 0.707106781 0.707106781 0 74957.dat
+0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved.
+0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved.
+1 71 231.819805153 -72 295.625937702 0.707106781 -0.707106781 0 0 0 1 -0.707106781 -0.707106781 0 74957.dat
+0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved.
+0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved.
+0 STEP
+0 // SOURCE PAGE 8 - Two forward fork roots and two long arms
+1 71 288 -120 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 71 753 -120 -88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+1 71 288 -120 40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 71 753 -120 88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+0 STEP
+0 // SOURCE PAGE 9 - Known tail wing omitted, no licensed geometry
+0 // OMITTED 1 x 31239c01: No matching licensed official/unofficial geometry
+0 STEP
+0 // SOURCE PAGE 10 - Five curved red2x3 bricks and head2x4 plate
+1 4 -240 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -120 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -160 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -40 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 80 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 200 -216 0 0 0 1 0 1 0 -1 0 0 40666.dat

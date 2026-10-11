@@ -1,0 +1,145 @@
+{
+  "slug": "4-qiu-qian",
+  "sourceSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+  "previousModelSha256": "e0b9ca1ca6888011a0d7b44972f4b42bcaafba817b7586479b3f287a3e0fe127",
+  "placementCount": 104,
+  "stepCount": 7,
+  "sourcePages": 8,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "base and four five-layer inward-stepping red/yellow feet",
+      "placedBOM": {
+        "4268.dat": 1,
+        "3011.dat": 40
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "sixth red step pairs and seventh yellow bridging layer",
+      "placedBOM": {
+        "3011.dat": 14
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "two five-layer striped4x4 towers",
+      "placedBOM": {
+        "3011.dat": 20
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "two Toolo4x6 caps and eight red curved roof bricks",
+      "placedBOM": {
+        "76395.dat": 2,
+        "2302.dat": 8
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "two inward-facing turntables and angled Toolo fork blocks",
+      "placedBOM": {
+        "60535.dat": 2,
+        "28336.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "short arms with inverted clutch blocks and inward turned seat brackets",
+      "placedBOM": {
+        "dev-129/28334.dat": 2,
+        "74957.dat": 2,
+        "76057.dat": 2
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "supported seat and assembled child",
+      "placedBOM": {
+        "76395.dat": 1,
+        "47205.dat": 1,
+        "47207.dat": 1,
+        "47204.dat": 1,
+        "47203p03.dat": 1,
+        "47198p03.dat": 2,
+        "47206p01.dat": 1,
+        "47199.dat": 1
+      }
+    }
+  ],
+  "sourcePageBOM": {
+    "1": {
+      "4268": 1,
+      "3011 yellow": 24,
+      "3011 red": 16
+    },
+    "2": {
+      "3011 red": 8,
+      "3011 yellow": 6
+    },
+    "3": {
+      "3011 yellow": 8,
+      "3011 red": 12
+    },
+    "4": {
+      "2302 red": 8,
+      "76395": 2
+    },
+    "5": {
+      "60535": 2,
+      "28336": 2
+    },
+    "6": {
+      "74957": 2,
+      "76057": 2,
+      "28334": 2
+    },
+    "7": {
+      "76395": 1,
+      "figure components": 8
+    },
+    "8": {}
+  },
+  "placedBOM": {
+    "4268.dat": 1,
+    "3011.dat": 74,
+    "76395.dat": 3,
+    "2302.dat": 8,
+    "60535.dat": 2,
+    "28336.dat": 2,
+    "dev-129/28334.dat": 2,
+    "74957.dat": 2,
+    "76057.dat": 2,
+    "47205.dat": 1,
+    "47207.dat": 1,
+    "47204.dat": 1,
+    "47203p03.dat": 1,
+    "47198p03.dat": 2,
+    "47206p01.dat": 1,
+    "47199.dat": 1
+  },
+  "omitted": [],
+  "knownApproximateParts": [
+    "76395.dat",
+    "60535.dat",
+    "28336.dat",
+    "dev-129/28334.dat",
+    "74957.dat",
+    "76057.dat"
+  ],
+  "limitations": [
+    "Two steppedA-frame brick supports follow literal additions:40 first-stage bricks,14 bridge-stage bricks and20 tower bricks. Stud overlap is explicit; widths/heights on40/48LDU grid.",
+    "Turntable/fork/short-arm geometry is previously approved approximation; static pose inferred from source p5/6, hidden retention not certified.",
+    "Source p6/7/8 and independent pixel review establish nominal seat-support topology: inverted clutch tongue reaches short-arm axis; turned brackets support seat underside. Approximate screw/clip geometry remains manual fit, not exact CAD retention or physical validation."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "targetSourcePieceCount": 104,
+  "omittedCount": 0,
+  "matrixValidation": {
+    "badDeterminants": [],
+    "allProperRotations": true
+  },
+  "topLevelDependenciesPresent": true
+}

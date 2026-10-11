@@ -1,0 +1,81 @@
+{
+  "slug": "4-zuan-tu-che",
+  "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+  "reviewedAt": "2026-10-11T10:28:45.477Z",
+  "originalCheck": {
+    "path": "scripts/ldraw-models/4-zuan-tu-che.ldr",
+    "sha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+    "exit": 2,
+    "output": "\nFAIL [4-zuan-tu-che.ldr] 1 error(s), 52 placement(s):\n  - step 2: 4-zuan-tu-che_l22 overlaps 4-zuan-tu-che_l21\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "limitations": [
+    "p1 longitudinal stagger and source screw interfaces inferred from visible stud rows; source matching awaits render.",
+    "p2 approved cockpit approximation retained; exact hidden mold/hinge fit unverified.",
+    "p3/4 approximate99565+44970 tire/rim geometry, axle depth and tire compression not certified.",
+    "p6-11 cantilever screw/turntable/fork/clutch capture provisional; no motion/load acceptance.",
+    "Corrected p8 fork axes are verticalY; p9 arm open near end now x601 and closed far end1001, same pivot spacing400. Rootfork48LDU lateral estimate yields arm/endclutch centersZ+/-88. End yellow2x4 spans+/-80 with studgrid8LDU mismatch to clutch inner rows+/-68; connection unresolved, not physical acceptance."
+  ],
+  "rawAlarmsStatus": "One cockpit/hood pair explicitly explained by same approved assembly-relative transform; raw FAIL retained, not suppressed or treated as proof of clear fit.",
+  "sourceEvidence": "preparation/4-zuan-tu-che/ledger.json",
+  "currentPixels": "final3 and all11steps actually reviewed with retained limitations",
+  "rawAlarms": [
+    {
+      "step": 2,
+      "lines": [
+        21,
+        22
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "classification": "known_approved_assembly_contact_requires_manual_review",
+      "evidence": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported.",
+      "limits": "Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim."
+    }
+  ],
+  "matrixInvalid": [],
+  "currentPixelEvidence": "current-pixel-review.json",
+  "alarms": [
+    {
+      "step": 2,
+      "lines": [
+        21,
+        22
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "classification": "known_approved_assembly_contact_requires_manual_review",
+      "evidence": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported.",
+      "limits": "Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim.",
+      "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+      "rawPair": [
+        "4-zuan-tu-che_l22",
+        "4-zuan-tu-che_l21"
+      ],
+      "placements": [
+        {
+          "line": 21,
+          "id": "31196c01.dat",
+          "ldr": "1 4 240 -105.378574 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+        },
+        {
+          "line": 22,
+          "id": "6345.dat",
+          "ldr": "1 226 388 -139.378574 0 0 -1 0 0 0 1 -1 0 0 6345.dat"
+        }
+      ],
+      "reason": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported. Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim.",
+      "resolution": "retained-unresolved-manual-contact",
+      "accepted": false
+    }
+  ],
+  "rawAlarmsLegacyNote": "rawAlarms retained as prior author evidence; alarms is the normalized current per-pair index for QA. Both refer to same single raw pair, not two errors.",
+  "pairMappingUpdatedAt": "2026-10-11T10:55:41.159Z"
+}

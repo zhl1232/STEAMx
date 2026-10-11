@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T09:01:30.134651+00:00",
+  "generatedAt": "2026-10-11T10:56:23.833377+00:00",
   "scope": "Changed/new LDRs plus exactly deferred11; unbuilt courses are not unknown-part records",
   "acceptance": false,
   "method": "Reuse current course JSON ledgers/reviews + current LDR unresolved comments and actual approximation placements. Group confirmed aliases using prior research. Generic interfaces kept separate from missing part IDs.",
@@ -1069,6 +1069,83 @@
         "74957.dat"
       ],
       "addedInRegistryIncrement": 69
+    },
+    {
+      "slug": "4-da-long-xia",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-da-long-xia/ledger.json",
+        "preparation/4-da-long-xia/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de"
+    },
+    {
+      "slug": "4-qiu-qian",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-qiu-qian/ledger.json",
+        "preparation/4-qiu-qian/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026"
+    },
+    {
+      "slug": "4-shou-ge-ji",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-shou-ge-ji/ledger.json",
+        "preparation/4-shou-ge-ji/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a"
+    },
+    {
+      "slug": "4-tang-lang",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-tang-lang/ledger.json",
+        "preparation/4-tang-lang/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157"
+    },
+    {
+      "slug": "4-tuo-gua-che",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-tuo-gua-che/ledger.json",
+        "preparation/4-tuo-gua-che/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480"
+    },
+    {
+      "slug": "4-zhong-guo-long",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-zhong-guo-long/ledger.json",
+        "preparation/4-zhong-guo-long/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08"
+    },
+    {
+      "slug": "4-zuan-tu-che",
+      "scope": "reconstructed-or-in-progress",
+      "reportSources": [
+        "preparation/4-zuan-tu-che/ledger.json",
+        "preparation/4-zuan-tu-che/source.json"
+      ],
+      "rawObservations": 0,
+      "approximatePartIds": [],
+      "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751"
     }
   ],
   "groups": [
@@ -19317,7 +19394,11 @@
       "candidates": [],
       "name": "Toolo exhaust pipe",
       "missingEvidence": [
-        "Reusable geometry with clear license"
+        "Reusable geometry with clear license",
+        "No matching licensed official/unofficial DAT in current verified search",
+        "Candidate screwdriver assembly shape; exact matching source identity and approved mesh absent. Not represented by a cylinder.",
+        "licensed reusable geometry; absent from local library",
+        "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute."
       ],
       "sourcesTried": [
         "local parts/p and embedded MPDs",
@@ -19437,6 +19518,121 @@
               ]
             }
           ]
+        },
+        {
+          "slug": "4-da-long-xia",
+          "sourcePages": [
+            2
+          ],
+          "quantity": 8,
+          "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+          "proposedFamilyKey": "4433c01",
+          "category": "confirmed_id_missing_geometry",
+          "mapping": "confirmed family per owner source/catalog evidence",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "id": "4433c01",
+            "aliases": [
+              "45149"
+            ],
+            "quantity": 8,
+            "category": "confirmed_id_missing_geometry",
+            "sourcePart": "gray jointed exhaust pipes used as legs",
+            "gap": "No matching licensed official/unofficial DAT in current verified search",
+            "tried": "preparation/official-geometry-recheck-20261011.json"
+          },
+          "evidencePath": "preparation/4-da-long-xia/ledger.json",
+          "missingEvidence": "No matching licensed official/unofficial DAT in current verified search",
+          "accepted": false,
+          "sourcePage": 2,
+          "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+          "source": "preparation/4-da-long-xia/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        },
+        {
+          "slug": "4-tuo-gua-che",
+          "sourcePages": [
+            4
+          ],
+          "quantity": 1,
+          "currentModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+          "proposedFamilyKey": "4433c01",
+          "category": "candidate_identity_unresolved",
+          "mapping": "tow p4 independent comparison supports4433c01 but owner still candidate; retain conflict; figure quantity8 means components of one figure",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "page": 4,
+            "quantity": 1,
+            "part": "vertical exhaust/tool",
+            "candidateIds": [
+              "4433c01"
+            ],
+            "status": "omitted",
+            "missingEvidence": "Candidate screwdriver assembly shape; exact matching source identity and approved mesh absent. Not represented by a cylinder."
+          },
+          "evidencePath": "preparation/4-tuo-gua-che/ledger.json",
+          "missingEvidence": "Candidate screwdriver assembly shape; exact matching source identity and approved mesh absent. Not represented by a cylinder.",
+          "accepted": false,
+          "sourcePage": 4,
+          "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+          "source": "preparation/4-tuo-gua-che/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        },
+        {
+          "slug": "4-shou-ge-ji",
+          "sourcePages": [
+            6
+          ],
+          "quantity": 1,
+          "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "proposedFamilyKey": "4433c01",
+          "category": "confirmed_id_missing_geometry",
+          "mapping": "confirmed existing family",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "part": "4433c01",
+            "quantity": 1,
+            "sourcePosition": "one side exhaust at cockpit/rear deck boundary",
+            "identity": "previous catalogue photograph evidence matches perforated stepped cylinder",
+            "missingEvidence": "licensed reusable geometry; absent from local library",
+            "geometryRecheckEvidence": "preparation/missing-parts/REPORT.md"
+          },
+          "evidencePath": "preparation/4-shou-ge-ji/ledger.json",
+          "missingEvidence": "licensed reusable geometry; absent from local library",
+          "accepted": false,
+          "sourcePage": 6,
+          "modelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "source": "preparation/4-shou-ge-ji/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        },
+        {
+          "slug": "4-tang-lang",
+          "sourcePages": [
+            6
+          ],
+          "quantity": 2,
+          "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+          "proposedFamilyKey": "4433c01",
+          "category": "confirmed_id_missing_geometry",
+          "mapping": "knownOmitted field means missing geometry here, not connection omission",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "sourcePage": 6,
+            "id": "4433c01.dat",
+            "aliases": [
+              "45149"
+            ],
+            "count": 2,
+            "location": "two forward claws/exhaust-like ends",
+            "reason": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute."
+          },
+          "evidencePath": "preparation/4-tang-lang/ledger.json",
+          "missingEvidence": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute.",
+          "accepted": false,
+          "sourcePage": 6,
+          "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+          "source": "preparation/4-tang-lang/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
         }
       ],
       "aliases": [
@@ -19444,7 +19640,11 @@
       ],
       "affectedCourses": [
         "4-cha-che",
+        "4-da-long-xia",
         "4-sai-che",
+        "4-shou-ge-ji",
+        "4-tang-lang",
+        "4-tuo-gua-che",
         "4-ya-lu-ji"
       ],
       "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
@@ -19456,7 +19656,8 @@
       "candidates": [],
       "name": "Toolo wing with2x4 central brick",
       "missingEvidence": [
-        "Reusable geometry with clear license"
+        "Reusable geometry with clear license",
+        "Exact assembly identity mapping and approved local mesh unavailable; ordinary31215 is different and not substituted."
       ],
       "sourcesTried": [
         "local and embedded MPDs",
@@ -19622,6 +19823,36 @@
           "missingEvidence": [
             "Reusable geometry with clear license"
           ]
+        },
+        {
+          "slug": "4-zhong-guo-long",
+          "sourcePages": [
+            5
+          ],
+          "quantity": 1,
+          "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "proposedFamilyKey": "45117c01",
+          "category": "candidate_identity_unresolved",
+          "mapping": "candidate family only; do not upgrade occurrence identity from existing family category",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "page": 5,
+            "part": "blue Toolo wing",
+            "quantity": 1,
+            "candidates": [
+              "45117c01",
+              "45116",
+              "86593"
+            ],
+            "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable; ordinary31215 is different and not substituted."
+          },
+          "evidencePath": "preparation/4-zhong-guo-long/ledger.json",
+          "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable; ordinary31215 is different and not substituted.",
+          "accepted": false,
+          "sourcePage": 5,
+          "modelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "source": "preparation/4-zhong-guo-long/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
         }
       ],
       "aliases": [
@@ -19633,7 +19864,8 @@
         "4-ke-ji",
         "4-sai-che",
         "4-xuan-zhuan-fei-ji",
-        "4-yi-long"
+        "4-yi-long",
+        "4-zhong-guo-long"
       ],
       "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
     },
@@ -19644,7 +19876,9 @@
       "candidates": [],
       "name": "Toolo rear spoiler",
       "missingEvidence": [
-        "Reusable geometry with clear license"
+        "Reusable geometry with clear license",
+        "Exact assembly identity mapping and approved local mesh unavailable.",
+        "No matching licensed official/unofficial geometry"
       ],
       "sourcesTried": [
         "local and embedded MPDs",
@@ -19764,16 +19998,77 @@
           "missingEvidence": [
             "Reusable geometry with clear license"
           ]
+        },
+        {
+          "slug": "4-zhong-guo-long",
+          "sourcePages": [
+            5
+          ],
+          "quantity": 1,
+          "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "proposedFamilyKey": "31239c01",
+          "category": "candidate_identity_unresolved",
+          "mapping": "candidate family only; do not upgrade occurrence identity from existing family category",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "page": 5,
+            "part": "blue Toolo tail",
+            "quantity": 1,
+            "candidates": [
+              "31239c01",
+              "76223"
+            ],
+            "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable."
+          },
+          "evidencePath": "preparation/4-zhong-guo-long/ledger.json",
+          "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable.",
+          "accepted": false,
+          "sourcePage": 5,
+          "modelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "source": "preparation/4-zhong-guo-long/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        },
+        {
+          "slug": "4-da-long-xia",
+          "sourcePages": [
+            9
+          ],
+          "quantity": 1,
+          "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+          "proposedFamilyKey": "31239c01",
+          "category": "confirmed_id_missing_geometry",
+          "mapping": "confirmed family per owner source/catalog evidence",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "id": "31239c01",
+            "aliases": [
+              "76223"
+            ],
+            "quantity": 1,
+            "category": "confirmed_id_missing_geometry",
+            "sourcePart": "red Toolo tail wing",
+            "gap": "No matching licensed official/unofficial geometry",
+            "tried": "preparation/official-geometry-recheck-20261011.json"
+          },
+          "evidencePath": "preparation/4-da-long-xia/ledger.json",
+          "missingEvidence": "No matching licensed official/unofficial geometry",
+          "accepted": false,
+          "sourcePage": 9,
+          "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+          "source": "preparation/4-da-long-xia/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
         }
       ],
       "aliases": [
         "76223"
       ],
       "affectedCourses": [
+        "4-da-long-xia",
         "4-da-xiang",
         "4-ke-ji",
         "4-xuan-zhuan-fei-ji",
-        "4-yi-long"
+        "4-yi-long",
+        "4-zhong-guo-long"
       ],
       "issueCountUnit": "part identity/family; occurrences are not distinct IDs"
     },
@@ -20779,7 +21074,8 @@
       "confirmedId": null,
       "candidates": [],
       "missingEvidence": [
-        "No reliable ID from current source/inventory research; not6294 scoop."
+        "No reliable ID from current source/inventory research; not6294 scoop.",
+        "Catalog underside/attachment view and verified real designID; cannot split or distort6294 to mimic shape."
       ],
       "sourcesTried": [
         "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -20797,10 +21093,39 @@
             "scripts/ldraw-models/4-yi-long.ldr"
           ],
           "missingEvidence": "No reliable ID from current source/inventory research; not6294 scoop."
+        },
+        {
+          "slug": "4-zhong-guo-long",
+          "sourcePages": [
+            10
+          ],
+          "quantity": 2,
+          "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "proposedFamilyKey": "unknown:orange-toothed-blade",
+          "category": "unidentified_source_shape",
+          "mapping": "candidate family only; do not upgrade occurrence identity from existing family category",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "page": 10,
+            "part": "orange wide toothed blade",
+            "quantity": 2,
+            "candidates": [
+              "Toolo front blade identity unresolved; not6294"
+            ],
+            "missingEvidence": "Catalog underside/attachment view and verified real designID; cannot split or distort6294 to mimic shape."
+          },
+          "evidencePath": "preparation/4-zhong-guo-long/ledger.json",
+          "missingEvidence": "Catalog underside/attachment view and verified real designID; cannot split or distort6294 to mimic shape.",
+          "accepted": false,
+          "sourcePage": 10,
+          "modelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+          "source": "preparation/4-zhong-guo-long/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
         }
       ],
       "affectedCourses": [
-        "4-yi-long"
+        "4-yi-long",
+        "4-zhong-guo-long"
       ],
       "issueCountUnit": "part identity/family; not physical piece count"
     },
@@ -20968,9 +21293,9 @@
         }
       ],
       "affectedCourses": [
+        "4-dao-dan-che",
         "5-tui-tu-ji",
-        "5-tuo-gua-che",
-        "4-dao-dan-che"
+        "5-tuo-gua-che"
       ],
       "issueCountUnit": "part identity/family; not physical piece count"
     },
@@ -21013,8 +21338,8 @@
         }
       ],
       "affectedCourses": [
-        "5-ma-tou-diao-ji",
-        "4-diao-che"
+        "4-diao-che",
+        "5-ma-tou-diao-ji"
       ],
       "issueCountUnit": "part identity/family; not physical piece count",
       "beforeSupportedWindowRepair": {
@@ -21136,7 +21461,8 @@
       "confirmedId": null,
       "candidates": [],
       "missingEvidence": [
-        "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+        "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute.",
+        "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted."
       ],
       "sourcesTried": [
         "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
@@ -21173,12 +21499,40 @@
           "quantity": 2,
           "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-jun-jian\\ledger.md",
           "missingEvidence": "Existingofficial componentgeometry isnot evidence ofexactsource decoration. Not an omittedfigureclaim."
+        },
+        {
+          "slug": "4-tuo-gua-che",
+          "sourcePages": [
+            7
+          ],
+          "quantity": 8,
+          "currentModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+          "proposedFamilyKey": "unknown:child-figure-variants",
+          "category": "unidentified_figure_components",
+          "mapping": "tow p4 independent comparison supports4433c01 but owner still candidate; retain conflict; figure quantity8 means components of one figure",
+          "existingFamily": true,
+          "ownerEvidence": {
+            "page": 7,
+            "quantity": 8,
+            "part": "split seated figure",
+            "candidateIds": [],
+            "status": "omitted",
+            "missingEvidence": "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted."
+          },
+          "evidencePath": "preparation/4-tuo-gua-che/ledger.json",
+          "missingEvidence": "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted.",
+          "accepted": false,
+          "sourcePage": 7,
+          "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+          "source": "preparation/4-tuo-gua-che/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
         }
       ],
       "affectedCourses": [
+        "4-jun-jian",
+        "4-tuo-gua-che",
         "5-xuan-zhuan-ka-fei-bei",
-        "5-zhuan-wan-xiao-che",
-        "4-jun-jian"
+        "5-zhuan-wan-xiao-che"
       ],
       "issueCountUnit": "part identity/family; not physical piece count"
     },
@@ -21426,6 +21780,93 @@
         }
       ],
       "issueCountUnit": "Oneunidentifiedassemblyfamily, not a verifiedcatalogID"
+    },
+    {
+      "key": "86601",
+      "category": "inventory_id_missing_geometry_source_match_provisional",
+      "confirmedId": null,
+      "candidates": [
+        "86601"
+      ],
+      "missingEvidence": [
+        "licensed accurate DAT and local attachment origin; no invented blade mesh"
+      ],
+      "occurrences": [
+        {
+          "slug": "4-shou-ge-ji",
+          "sourcePages": [
+            5
+          ],
+          "quantity": 4,
+          "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "proposedFamilyKey": "86601",
+          "category": "inventory_id_missing_geometry_source_match_provisional",
+          "mapping": "new separate86601 source-inventory occurrence;6670c01 is candidate link only, not alias or automatic merge",
+          "existingFamily": false,
+          "ownerEvidence": {
+            "part": "86601",
+            "quantity": 4,
+            "sourcePosition": "four exposed side attachments around yellow cutter arms",
+            "identity": "inventory-confirmed candidate matched source three-blade form; geometry unavailable locally",
+            "missingEvidence": "licensed accurate DAT and local attachment origin; no invented blade mesh",
+            "canonicalCandidate": "6670c01 family;86601 is source-set inventory ID, not proven filename equivalence",
+            "geometryRecheckEvidence": "preparation/independent-qa/harvester-official-geometry-recheck.json"
+          },
+          "evidencePath": "preparation/4-shou-ge-ji/ledger.json",
+          "missingEvidence": "licensed accurate DAT and local attachment origin; no invented blade mesh",
+          "accepted": false,
+          "sourcePage": 5,
+          "modelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "source": "preparation/4-shou-ge-ji/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        }
+      ],
+      "affectedCourses": [
+        "4-shou-ge-ji"
+      ]
+    },
+    {
+      "key": "45146",
+      "category": "inventory_id_missing_geometry_source_match_provisional",
+      "confirmedId": null,
+      "candidates": [
+        "45146"
+      ],
+      "missingEvidence": [
+        "licensed geometry and cockpit attachment transform"
+      ],
+      "occurrences": [
+        {
+          "slug": "4-shou-ge-ji",
+          "sourcePages": [
+            6
+          ],
+          "quantity": 1,
+          "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "proposedFamilyKey": "45146",
+          "category": "inventory_id_missing_geometry_source_match_provisional",
+          "mapping": "new45146 family",
+          "existingFamily": false,
+          "ownerEvidence": {
+            "part": "45146",
+            "quantity": 1,
+            "sourcePosition": "cockpit roll cage",
+            "identity": "inventory confirmed roll-cage candidate; not6345 windscreen",
+            "missingEvidence": "licensed geometry and cockpit attachment transform",
+            "geometryRecheckEvidence": "preparation/independent-qa/harvester-official-geometry-recheck.json"
+          },
+          "evidencePath": "preparation/4-shou-ge-ji/ledger.json",
+          "missingEvidence": "licensed geometry and cockpit attachment transform",
+          "accepted": false,
+          "sourcePage": 6,
+          "modelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+          "source": "preparation/4-shou-ge-ji/ledger.json",
+          "boundary": "Occurrence-specific identity confidence is authoritative; family grouping does not confirm an alias."
+        }
+      ],
+      "affectedCourses": [
+        "4-shou-ge-ji"
+      ]
     }
   ],
   "knownPartConnectionOmissions": [
@@ -21668,6 +22109,48 @@
       "gap": "Source1x window assembly identified but orange6344 cockpit rear support geometry/height unresolved; no floating replacement.",
       "currentDecisionEvidence": "preparation/window-repair-20261011.json",
       "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b"
+    },
+    {
+      "slug": "4-da-long-xia",
+      "category": "known_parts_omitted_connection_unresolved",
+      "totalPieces": 4,
+      "items": [
+        {
+          "page": 7,
+          "id": "28336.dat",
+          "quantity": 4,
+          "missingEvidence": "Two fork bases per side cannot yet be assigned a proven support face on the single clutch cube; removed prior disconnected placements. Available approved geometry, not unknown ID or missing geometry."
+        }
+      ],
+      "gap": "Two fork bases per side cannot yet be assigned a proven support face on the single clutch cube; removed prior disconnected placements. Available approved geometry, not unknown ID or missing geometry.",
+      "currentDecisionEvidence": "preparation/4-da-long-xia/ledger.json",
+      "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+      "accepted": false,
+      "physicalValidation": false
+    },
+    {
+      "slug": "4-tuo-gua-che",
+      "category": "known_parts_omitted_connection_unresolved",
+      "totalPieces": 7,
+      "items": [
+        {
+          "page": 6,
+          "id": "3011",
+          "quantity": 5,
+          "missingEvidence": "Source rear wall visible but hidden arrangement under roof is not uniquely resolved. 3 horizontal courses144 versus side-built green160 creates16LDU difference; no stretching or invented shim. Roof is supported at side-built topsY=-290, rear wall remains missing."
+        },
+        {
+          "page": 8,
+          "id": "40666",
+          "quantity": 2,
+          "missingEvidence": "One white2x4 plate above and one below green tow beam visible, but cab attachment depends on unclosed rear-wall geometry; not floated or driven into side-built green bricks."
+        }
+      ],
+      "gap": "Source rear wall visible but hidden arrangement under roof is not uniquely resolved. 3 horizontal courses144 versus side-built green160 creates16LDU difference; no stretching or invented shim. Roof is supported at side-built topsY=-290, rear wall remains missing. One white2x4 plate above and one below green tow beam visible, but cab attachment depends on unclosed rear-wall geometry; not floated or driven into side-built green bricks.",
+      "currentDecisionEvidence": "preparation/4-tuo-gua-che/ledger.json",
+      "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+      "accepted": false,
+      "physicalValidation": false
     }
   ],
   "resolvedGeometry": [
@@ -28134,9 +28617,9 @@
     }
   ],
   "summary": {
-    "reconstructedOrInProgressCourses": 69,
+    "reconstructedOrInProgressCourses": 76,
     "deferredCourses": 11,
-    "partIssueFamilies": 28,
+    "partIssueFamilies": 30,
     "byIssueCategory": {
       "confirmed_id_missing_geometry": 6,
       "candidate_id_missing_geometry": 2,
@@ -28146,17 +28629,19 @@
       "unidentified_source_shape": 8,
       "candidate_identity_unresolved": 6,
       "known_part_hidden_mould_variant_unverified": 1,
-      "unidentified_figure_components": 1
+      "unidentified_figure_components": 1,
+      "inventory_id_missing_geometry_source_match_provisional": 2
     },
-    "knownPartConnectionOmissionGroups": 6,
+    "knownPartConnectionOmissionGroups": 8,
     "interfaceRecordsExcludedFromUnknownCounts": true,
     "unbuiltCoursesExcluded": true,
     "acceptedCourses": 0,
     "localExtractedOfficialParts": 6,
     "candidatePartOmissionGroups": 0,
-    "staticReviewCourses": 69,
+    "staticReviewCourses": 76,
     "staticReviewStaleSourceHashes": 0,
-    "tyreInterfaceCourses": 8
+    "tyreInterfaceCourses": 8,
+    "knownConnectionOmittedPieces": 44
   },
   "increment69": {
     "at": "2026-10-11T06:15:35.231Z",
@@ -38047,8 +38532,8 @@
     }
   ],
   "staticReviewSnapshot": {
-    "at": "2026-10-11T09:01:30.134651+00:00",
-    "method": "Current SHA-bound owner static interpretations; no global sum across expanded/overlapping alarm records.",
+    "at": "2026-10-11T10:56:23.833377+00:00",
+    "method": "Current SHA-bound static reports; cumulative/expanded alarm records are not independent totals.",
     "reviews": [
       {
         "slug": "4-cha-che",
@@ -38101,7 +38586,7 @@
         "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
         "reportedModelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 2,
         "classificationCounts": {
           "real_risk": 2
         },
@@ -38202,6 +38687,26 @@
         "physicalValidation": false
       },
       {
+        "slug": "4-da-long-xia",
+        "report": "preparation/4-da-long-xia/static-alarm-review.json",
+        "reportSha256": "4dc34affa8a8ed89f92525254df048e4c42f0ee8aeb5da83aa9e27bddd8639f2",
+        "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+        "reportedModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          "p4 continuous red back corrected using visible two sequential3-hole long sides. Tail upper curves overlap and bridge lower curved tiers; source physical stud retention remains unverified.",
+          "p2 eight missing legs mean intended ground stance cannot be reconstructed; body placed on plane for preview only, not claimed leg support.",
+          "p6-8 side fork/clutch chain angles and screw capture are source-pose approximations with unresolved hidden connection depth.",
+          "p9 missing tail wing leaves silhouette incomplete.",
+          "p7 four known fork bases omitted because exact mounting/support unresolved; not counted as unknown identities or missing geometry."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "4-da-xiang",
         "report": "preparation/4-da-xiang/static-alarm-review.json",
         "reportSha256": "bcf25b009cc0597b2e8c1e424f6c3494d1b24e75193716fe015d4e2b0a9cb6a0",
@@ -38239,6 +38744,94 @@
         "physicalValidation": false
       },
       {
+        "slug": "4-dao-dan-che",
+        "report": "preparation/4-dao-dan-che/static-alarm-review.json",
+        "reportSha256": "539c7c38c71840777358c7c4ff43096e5078881ad95dcdd4d74da4078d0c589a",
+        "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+        "reportedModelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          {
+            "classification": "insufficient_evidence",
+            "finding": "Approved approximations76057/76395/99565/44970/28336/74957 have no official dimensional fit guarantee; fork and clip engagement remain unverified."
+          },
+          {
+            "classification": "insufficient_evidence",
+            "finding": "3 official61649+90265 window assemblies source-constrained and installed in source. Frame bottom seated on existing blue brick top; closed hinges exact. Cab/canopy remain omitted; no physical hinge/load validation. Current final and cumulative pixels reviewed; physical fit and acceptance remain pending."
+          }
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-diao-che",
+        "report": "preparation/4-diao-che/static-alarm-review.json",
+        "reportSha256": "32f11080ecbf6c750a756194c7d08a8d358b6e07af5519b8789a3c890f7d5875",
+        "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+        "reportedModelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "insufficient_evidence": 2
+        },
+        "alarms": [
+          {
+            "step": 4,
+            "lines": [
+              35,
+              34
+            ],
+            "parts": [
+              "6345.dat",
+              "31196c01.dat"
+            ],
+            "placements": [
+              "1 46 228 -154 0 0 -1 0 0 0 1 -1 0 0 6345.dat",
+              "1 4 80 -120 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+            ],
+            "action": "No LDR change; raw checker result preserved.",
+            "classification": "insufficient_evidence",
+            "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+            "evidence": [
+              "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+              "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+              "preparation/4-diao-che/REVIEW.md source/visual record"
+            ],
+            "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+          },
+          {
+            "step": 6,
+            "lines": [
+              45,
+              44
+            ],
+            "parts": [
+              "6345.dat",
+              "31196c01.dat"
+            ],
+            "placements": [
+              "1 46 -268 -242 0 0 1 0 0 0 1 1 0 0 6345.dat",
+              "1 1 -120 -208 0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+            ],
+            "action": "No LDR change; raw checker result preserved.",
+            "classification": "insufficient_evidence",
+            "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+            "evidence": [
+              "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+              "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+              "preparation/4-diao-che/REVIEW.md source/visual record"
+            ],
+            "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+          }
+        ],
+        "additionalFindings": "Large gray Toolo hook remains unidentified/omitted; short-arm geometry and cockpit are approved approximations, not exact mechanical verification.",
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
         "slug": "4-du-jiao-xian",
         "report": "preparation/4-du-jiao-xian/static-alarm-review.json",
         "reportSha256": "e7409b5987837194561bb4bf49f1895ca94c75ffb6ec15323de4f88e4ef32a43",
@@ -38248,7 +38841,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38262,7 +38855,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38276,7 +38869,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38290,7 +38883,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38368,7 +38961,7 @@
             "unchangedPairAcrossCorrection": true
           }
         ],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38436,7 +39029,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38596,10 +39189,28 @@
         "modelSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
         "reportedModelSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-qiu-qian",
+        "report": "preparation/4-qiu-qian/static-alarm-review.json",
+        "reportSha256": "cb9f32900a18588e3400dd59f742b8af125724a65e79dd8c7dd46cfa7cad0ee6",
+        "modelSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+        "reportedModelSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          "Two steppedA-frame brick supports follow literal additions:40 first-stage bricks,14 bridge-stage bricks and20 tower bricks. Stud overlap is explicit; widths/heights on40/48LDU grid.",
+          "Turntable/fork/short-arm geometry is previously approved approximation; static pose inferred from source p5/6, hidden retention not certified.",
+          "Source p6/7/8 and independent pixel review establish nominal seat-support topology: inverted clutch tongue reaches short-arm axis; turned brackets support seat underside. Approximate screw/clip geometry remains manual fit, not exact CAD retention or physical validation."
+        ],
         "accepted": false,
         "physicalValidation": false
       },
@@ -38613,7 +39224,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38820,7 +39431,32 @@
             "action": "Moving cockpit forward cleared roof but contradicted source overhang; lowering cockpit loses mounting-plane alignment. Accurate cockpit/canopy interface evidence or authorized geometry correction required; no guessed reliable edit."
           }
         ],
-        "additionalFindings": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-shou-ge-ji",
+        "report": "preparation/4-shou-ge-ji/static-alarm-review.json",
+        "reportSha256": "30f67cf20ea5a04481186be5ad7eccd444522eca6ba014e04f2cdd7a4104ebf5",
+        "modelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+        "reportedModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": {
+          "false_positive": [],
+          "real_risk": [],
+          "insufficient_evidence": [
+            "Rear/middle wheel side-hole indexes nominally selected on40LDU grid; must compare main preview against sourcep2/9; no arbitrary off-grid axle",
+            "Front arm transverse spacing and bridge overlap inferred from sourcep3/4 two-stud widths; preview pending",
+            "74957 clip pivot relies on approved approximate28336 pivot y-65,z48; exact molded latch engagement unverified",
+            "14094 pan rests on source yellow screw brick; no native hinge modeled or certified",
+            "Corrected front roots transverse on lower exposed chassis strip x240..320. Their inner halves overlap the chassis and upper longitudinal bricks have80x80 nominal stud support; exact screw retention remains unverified.",
+            "Approximate31196c01 width192 versus source nominal160 corridor leaves16LDU envelope overlap per side. Pixel inspection does not certify no true mesh collision; retained instead of moving source bricks."
+          ]
+        },
         "accepted": false,
         "physicalValidation": false
       },
@@ -38941,7 +39577,29 @@
             "action": "No reliable position change justified by sub-millildu numerical crossing; retain alarm until robust tolerance/solid/contact and physical interface evidence."
           }
         ],
-        "additionalFindings": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-tang-lang",
+        "report": "preparation/4-tang-lang/static-alarm-review.json",
+        "reportSha256": "57ac58ccb86ce658900acf7defddee9b880e53a08bd31ec9643a8e54404b41e2",
+        "modelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+        "reportedModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          "Toolo manual collision/support policy means raw PASS is not exhaustive.",
+          "P2-4 leg side-facing frame corrected from source stud normals/body-hole height; end-thread closure, exact side coupling and cap retention still manual.",
+          "P5 front arms remain straight in current draft, whereas source shows raised/elbowed brick frame; unresolved and not accepted.",
+          "P6 4433c01 x2 omitted: known identity, unavailable licensed geometry.",
+          "P7 Toolo neck fork/clutch/shortarm prior-approved approximate geometry, no physical validation.",
+          "P10-12 source-tailward wing pitch -60 degrees inferred; clutch articulation/clearance pending new rendered views.",
+          "P5 DAT screw indicator is local[-20,0,20], not a generic centered screw; upright and stacked alternatives lack unique body-hole/underside evidence and are not installed. P2-4 prior nominal screw-alignment wording is only a body-height estimate, not verified screw closure."
+        ],
         "accepted": false,
         "physicalValidation": false
       },
@@ -38955,7 +39613,52 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-tuo-gua-che",
+        "report": "preparation/4-tuo-gua-che/static-alarm-review.json",
+        "reportSha256": "bca144a48a1c8fd12c9e5f37dd63be2c063850cbccd634670bdb3ec7fced78cb",
+        "modelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+        "reportedModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+        "reportMatchesCurrentSource": true,
+        "rawExit": null,
+        "classificationCounts": {
+          "evidence-insufficient": 2,
+          "real-incomplete-structure": 1,
+          "real-incomplete-connection": 1,
+          "source-supported": 1
+        },
+        "alarms": [
+          {
+            "key": "p4-capture",
+            "classification": "evidence-insufficient",
+            "detail": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance."
+          },
+          {
+            "key": "p5-p6-height",
+            "classification": "real-incomplete-structure",
+            "detail": "Roof supported by the tops of two sideways green3011 atY=-290. Five rear-wall bricks omitted;160 side dimension versus144 three-course height leaves16LDU mismatch. No rear support acceptance."
+          },
+          {
+            "key": "p8-tow-support",
+            "classification": "real-incomplete-connection",
+            "detail": "Tow beam bottomY=-194 rests on turntable topY=-194 atx=-400; its front endX=-160 abuts side-built rear stud plane. White reinforcement and tractor attachment absent: trailer assembly is supported but the tractor/trailer joint is not structurally closed. Sourcep8 is temporary subassembly untilp11, no standalone support claim."
+          },
+          {
+            "key": "toolo-wheel-mating",
+            "classification": "evidence-insufficient",
+            "detail": "Eight99565/44970 assemblies share axes and bottomground radius57.379; hubs and tires are approved approximate meshes. Screw bore retention, tread fit and turning freedom unverified."
+          },
+          {
+            "key": "p13-fence",
+            "classification": "source-supported",
+            "detail": "Official31021p01 matches two white rails with red rectangular stripes. Four fences sitY=-154 cargo brick top; posts occupy neighboring40LDU studs, no fence floating."
+          }
+        ],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38966,10 +39669,10 @@
         "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
         "reportedModelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38983,7 +39686,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -38994,10 +39697,10 @@
         "modelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
         "reportedModelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39011,7 +39714,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39022,10 +39725,10 @@
         "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
         "reportedModelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39225,7 +39928,7 @@
             "unchangedPairAcrossCorrection": true
           }
         ],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39250,10 +39953,10 @@
         "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
         "reportedModelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39267,7 +39970,7 @@
         "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39374,7 +40077,7 @@
             "action": "No reliable position change justified by sub-millildu numerical crossing; retain alarm until robust tolerance/solid/contact and physical interface evidence."
           }
         ],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39385,10 +40088,86 @@
         "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
         "reportedModelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-zhong-guo-long",
+        "report": "preparation/4-zhong-guo-long/static-alarm-review.json",
+        "reportSha256": "b2e820a27825ce8616eec1d2f81d60a1fb0ad760d5caa8904053c31a85022154",
+        "modelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+        "reportedModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 0,
+        "classificationCounts": {},
+        "alarms": [],
+        "additionalFindings": [
+          "Four400LDU long-arm links follow source chain; neck uses two visible clutch blocks and one fork. All transformations are rigid, no scaling.",
+          "Vertical leg2x4 bricks deliberately overlap80LDU along their160LDU dimension while second layer is offset48LDU outward on stud faces, matching source layered construction; hidden screw/thread engagement still manual.",
+          "Four wing/blade parts omitted, with identities/candidate mappings and missing mesh evidence explicit. Existing dev6294 scoop approximation is reused only for rear bucket shape.",
+          "45002 reference has only2 long arms and1 orange6294: source needs4 long arms and2 scoops, thus extra2 long arms and1 scoop beyond one45002 set. Full kit color/BOM comparison pending; no physical/user acceptance."
+        ],
+        "accepted": false,
+        "physicalValidation": false
+      },
+      {
+        "slug": "4-zuan-tu-che",
+        "report": "preparation/4-zuan-tu-che/static-alarm-review.json",
+        "reportSha256": "a0a28eb6de9a1df0167c78b7ccd6f6a53cd932ada7aac26bedeb1abc20d2d417",
+        "modelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+        "reportedModelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+        "reportMatchesCurrentSource": true,
+        "rawExit": 2,
+        "classificationCounts": {
+          "known_approved_assembly_contact_requires_manual_review": 1
+        },
+        "alarms": [
+          {
+            "step": 2,
+            "lines": [
+              21,
+              22
+            ],
+            "parts": [
+              "31196c01.dat",
+              "6345.dat"
+            ],
+            "classification": "known_approved_assembly_contact_requires_manual_review",
+            "evidence": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported.",
+            "limits": "Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim.",
+            "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+            "rawPair": [
+              "4-zuan-tu-che_l22",
+              "4-zuan-tu-che_l21"
+            ],
+            "placements": [
+              {
+                "line": 21,
+                "id": "31196c01.dat",
+                "ldr": "1 4 240 -105.378574 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+              },
+              {
+                "line": 22,
+                "id": "6345.dat",
+                "ldr": "1 226 388 -139.378574 0 0 -1 0 0 0 1 -1 0 0 6345.dat"
+              }
+            ],
+            "reason": "Exact cockpit-relative R=[-1,0,0;0,0,1;0,1,0], t=(0,-34,-148), composed with common rigid Y-90 rotation. This matches metadata user-corrected2026-09-11 assembly; current raw proxy overlap remains reported. Previous metadata says hollow canopy proxy face thickening can yield contact overlap; no fresh mesh clipping executed for this draft and no physical snap/capture claim.",
+            "resolution": "retained-unresolved-manual-contact",
+            "accepted": false
+          }
+        ],
+        "additionalFindings": [
+          "p1 longitudinal stagger and source screw interfaces inferred from visible stud rows; source matching awaits render.",
+          "p2 approved cockpit approximation retained; exact hidden mold/hinge fit unverified.",
+          "p3/4 approximate99565+44970 tire/rim geometry, axle depth and tire compression not certified.",
+          "p6-11 cantilever screw/turntable/fork/clutch capture provisional; no motion/load acceptance.",
+          "Corrected p8 fork axes are verticalY; p9 arm open near end now x601 and closed far end1001, same pivot spacing400. Rootfork48LDU lateral estimate yields arm/endclutch centersZ+/-88. End yellow2x4 spans+/-80 with studgrid8LDU mismatch to clutch inner rows+/-68; connection unresolved, not physical acceptance."
+        ],
         "accepted": false,
         "physicalValidation": false
       },
@@ -39828,10 +40607,10 @@
         "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
         "reportedModelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -39918,10 +40697,10 @@
         "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
         "reportedModelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -41775,10 +42554,10 @@
         "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
         "reportedModelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -41789,10 +42568,10 @@
         "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
         "reportedModelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -42604,10 +43383,10 @@
         "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
         "reportedModelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
         "reportMatchesCurrentSource": true,
-        "rawExit": null,
+        "rawExit": 0,
         "classificationCounts": {},
         "alarms": [],
-        "additionalFindings": [],
+        "additionalFindings": {},
         "accepted": false,
         "physicalValidation": false
       },
@@ -42763,94 +43542,6 @@
           {
             "classification": "insufficient_evidence",
             "finding": "Orthogonal front-wheel/kingpin spacer contacts, steering gear phase and axle capture unresolved. Printed driver omitted."
-          }
-        ],
-        "accepted": false,
-        "physicalValidation": false
-      },
-      {
-        "slug": "4-diao-che",
-        "report": "preparation/4-diao-che/static-alarm-review.json",
-        "reportSha256": "32f11080ecbf6c750a756194c7d08a8d358b6e07af5519b8789a3c890f7d5875",
-        "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
-        "reportedModelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
-        "reportMatchesCurrentSource": true,
-        "rawExit": 2,
-        "classificationCounts": {
-          "insufficient_evidence": 2
-        },
-        "alarms": [
-          {
-            "step": 4,
-            "lines": [
-              35,
-              34
-            ],
-            "parts": [
-              "6345.dat",
-              "31196c01.dat"
-            ],
-            "placements": [
-              "1 46 228 -154 0 0 -1 0 0 0 1 -1 0 0 6345.dat",
-              "1 4 80 -120 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
-            ],
-            "action": "No LDR change; raw checker result preserved.",
-            "classification": "insufficient_evidence",
-            "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
-            "evidence": [
-              "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
-              "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
-              "preparation/4-diao-che/REVIEW.md source/visual record"
-            ],
-            "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
-          },
-          {
-            "step": 6,
-            "lines": [
-              45,
-              44
-            ],
-            "parts": [
-              "6345.dat",
-              "31196c01.dat"
-            ],
-            "placements": [
-              "1 46 -268 -242 0 0 1 0 0 0 1 1 0 0 6345.dat",
-              "1 1 -120 -208 0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
-            ],
-            "action": "No LDR change; raw checker result preserved.",
-            "classification": "insufficient_evidence",
-            "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
-            "evidence": [
-              "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
-              "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
-              "preparation/4-diao-che/REVIEW.md source/visual record"
-            ],
-            "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
-          }
-        ],
-        "additionalFindings": "Large gray Toolo hook remains unidentified/omitted; short-arm geometry and cockpit are approved approximations, not exact mechanical verification.",
-        "accepted": false,
-        "physicalValidation": false
-      },
-      {
-        "slug": "4-dao-dan-che",
-        "report": "preparation/4-dao-dan-che/static-alarm-review.json",
-        "reportSha256": "539c7c38c71840777358c7c4ff43096e5078881ad95dcdd4d74da4078d0c589a",
-        "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
-        "reportedModelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
-        "reportMatchesCurrentSource": true,
-        "rawExit": null,
-        "classificationCounts": {},
-        "alarms": [],
-        "additionalFindings": [
-          {
-            "classification": "insufficient_evidence",
-            "finding": "Approved approximations76057/76395/99565/44970/28336/74957 have no official dimensional fit guarantee; fork and clip engagement remain unverified."
-          },
-          {
-            "classification": "insufficient_evidence",
-            "finding": "3 official61649+90265 window assemblies source-constrained and installed in source. Frame bottom seated on existing blue brick top; closed hinges exact. Cab/canopy remain omitted; no physical hinge/load validation. Current final and cumulative pixels reviewed; physical fit and acceptance remain pending."
           }
         ],
         "accepted": false,
@@ -49636,7 +50327,7 @@
           "evidence": []
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-da-zhuang-ji",
@@ -49938,7 +50629,7 @@
           "strictSurfaceCrossingTrianglePairs": 0
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-huo-jian",
@@ -50384,7 +51075,7 @@
           "strictSurfaceCrossingTrianglePairs": 0
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-qing-ting",
@@ -50654,7 +51345,7 @@
           "triangleEvidenceFile": "tyre-current-triangles.json"
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-tou-shi-che",
@@ -51108,7 +51799,7 @@
           "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-tui-tu-ji",
@@ -51258,7 +51949,7 @@
           ]
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-xuan-yi-fei-ji",
@@ -51784,7 +52475,7 @@
           "triangleEvidenceFile": "tyre-current-triangles.json"
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     },
     {
       "slug": "5-yu-er-de-wei-ba",
@@ -51866,7 +52557,7 @@
           ]
         }
       ],
-      "boundary": "Strict triangle crossings establish supplied mesh intersections, not physical interference. Zero does not prove clearance; uniform cavity-radius exemptions remain withdrawn."
+      "boundary": "Mesh intersection is not physical interference; zero does not prove clearance. No blanket cavity exemption."
     }
   ],
   "latestOmissionRepair": {
@@ -51896,5 +52587,267 @@
     "currentlyPlacedFerrisWindowPartsWithinStock": true,
     "accepted": false,
     "physicalValidation": false
+  },
+  "batch10Intake": {
+    "at": "2026-10-11T10:56:23.833377+00:00",
+    "courses": [
+      "4-da-long-xia",
+      "4-qiu-qian",
+      "4-shou-ge-ji",
+      "4-tang-lang",
+      "4-tuo-gua-che",
+      "4-zhong-guo-long",
+      "4-zuan-tu-che"
+    ],
+    "inventoryEvidence": [
+      {
+        "slug": "4-zhong-guo-long",
+        "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+        "part": "28331 /74844",
+        "sourcePages": [
+          1
+        ],
+        "required": 4,
+        "referenceQuantity": 2,
+        "additional": 2,
+        "color": null,
+        "basis": "one45002 reference",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-zhong-guo-long/ledger.json"
+      },
+      {
+        "slug": "4-zhong-guo-long",
+        "currentModelSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+        "part": "6294",
+        "sourcePages": [
+          10
+        ],
+        "required": 2,
+        "referenceQuantity": 1,
+        "additional": 1,
+        "color": "orange",
+        "basis": "one45002 orange reference",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-zhong-guo-long/ledger.json"
+      },
+      {
+        "slug": "4-da-long-xia",
+        "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+        "part": "76057 /31184c01",
+        "sourcePages": [
+          3,
+          4,
+          6
+        ],
+        "required": 7,
+        "referenceQuantity": 1,
+        "additional": 6,
+        "color": "red",
+        "basis": "one45002 red reference; pageBOM2+3+2",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-da-long-xia/ledger.json"
+      },
+      {
+        "slug": "4-da-long-xia",
+        "currentModelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+        "part": "28336 /45202",
+        "sourcePages": [
+          6,
+          7,
+          8
+        ],
+        "required": 8,
+        "referenceQuantity": 4,
+        "additional": 4,
+        "color": null,
+        "basis": "complete source needs8;4 placed and4 connection-omitted; no double count",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-da-long-xia/ledger.json"
+      },
+      {
+        "slug": "4-tuo-gua-che",
+        "currentModelSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+        "part": "76395 /86599",
+        "sourcePages": [
+          1,
+          6,
+          9,
+          11
+        ],
+        "required": 8,
+        "referenceQuantity": 7,
+        "additional": 1,
+        "color": "black",
+        "basis": "owner sourceBOM4+1+2+1",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-tuo-gua-che/ledger.json"
+      },
+      {
+        "slug": "4-shou-ge-ji",
+        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+        "part": "76057",
+        "sourcePages": [
+          2,
+          3,
+          4,
+          6,
+          7
+        ],
+        "required": 13,
+        "referenceQuantity": 7,
+        "additional": 6,
+        "color": null,
+        "basis": "one45002 all-color scenario; do not add to yellow-only12",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
+      },
+      {
+        "slug": "4-shou-ge-ji",
+        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+        "part": "76057",
+        "sourcePages": [
+          2,
+          3,
+          4,
+          6,
+          7
+        ],
+        "required": 13,
+        "referenceQuantity": 1,
+        "additional": 12,
+        "color": "yellow",
+        "basis": "one45002 exact-yellow scenario; alternative to all-color6",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
+      },
+      {
+        "slug": "4-shou-ge-ji",
+        "currentModelSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+        "part": "86601",
+        "sourcePages": [
+          5
+        ],
+        "required": 4,
+        "referenceQuantity": 1,
+        "additional": 3,
+        "color": null,
+        "basis": "one45002 inventory ID; no6670c01 equivalence inferred",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-shou-ge-ji/ledger.json"
+      },
+      {
+        "slug": "4-tang-lang",
+        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+        "part": "28336 /45202",
+        "sourcePages": [
+          6,
+          7,
+          9
+        ],
+        "required": 5,
+        "referenceQuantity": 4,
+        "additional": 1,
+        "color": null,
+        "basis": "one45002 owner placements2+1+2",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-tang-lang/ledger.json"
+      },
+      {
+        "slug": "4-tang-lang",
+        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+        "part": "74957",
+        "sourcePages": [
+          6,
+          7,
+          10
+        ],
+        "required": 5,
+        "referenceQuantity": 2,
+        "additional": 3,
+        "color": null,
+        "basis": "one45002 owner placements2+1+2",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-tang-lang/ledger.json"
+      },
+      {
+        "slug": "4-tang-lang",
+        "currentModelSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+        "part": "40666",
+        "sourcePages": [
+          10,
+          11,
+          12
+        ],
+        "required": 12,
+        "referenceQuantity": 10,
+        "additional": 2,
+        "color": "green unresolved",
+        "basis": "conditional: source green shade unresolved versus9090 Bright Green; owner placements2+4+6",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-tang-lang/ledger.json"
+      },
+      {
+        "slug": "4-zuan-tu-che",
+        "currentModelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+        "part": "76395 /86599",
+        "sourcePages": [
+          1,
+          6
+        ],
+        "required": 9,
+        "referenceQuantity": 7,
+        "additional": 2,
+        "color": null,
+        "basis": "one45002 owner pageBOM8+1",
+        "userPhysicalStock": "unknown",
+        "notAdditionalToOtherScenarios": true,
+        "missingEvidence": "Actual user stock and complete color-specific course kit reconciliation unavailable",
+        "evidencePath": "preparation/4-zuan-tu-che/ledger.json"
+      }
+    ],
+    "resolvedOrNonOmitted": [
+      {
+        "slug": "4-qiu-qian",
+        "currentModelSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+        "placements": 104,
+        "omissions": 0,
+        "sourcePages": [
+          6,
+          7,
+          8
+        ],
+        "note": "Earlier13 omissions obsolete; nominal lower support and seated figure restored. Manual exact screw/clutch retention remains unverified."
+      },
+      {
+        "slug": "4-zuan-tu-che",
+        "currentModelSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+        "omissions": 0,
+        "note": "52 placed. End stud-grid8LDU mismatch and cockpit/hood raw collision retained as interface risks, not invented omitted pieces."
+      }
+    ],
+    "boundary": "Inventory deficits are per-course references, not summed simultaneous requirements. Source and raw checker evidence do not constitute physical validation.",
+    "accepted": false
   }
 }

@@ -1,0 +1,102 @@
+{
+  "slug": "4-tuo-gua-che",
+  "lessonId": 202,
+  "courseId": 6,
+  "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+  "pdf": {
+    "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4+\\4+拖挂车搭建说明.pdf",
+    "sha256": "3c89a70687d2dbf3d6061236f2a31a9ace1fb2a5e9ab3e3c5971127b3b391f23",
+    "hashVerified": true,
+    "pages": 14
+  },
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-01.jpg",
+      "sha256": "82c0b052e2d0ec33a7ddd7082835a66e53d52cc0fafdcf31af67c5faae90fcc4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-02.jpg",
+      "sha256": "ad51d0f607dbf43e8455a75a4510d47c9c65f02a1a327c631d1e20c761b18e80",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-03.jpg",
+      "sha256": "46a9507b62c73f9e46c42c883a555b371c4ca43d2c3b01ada99cd0bd922f0d3b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-04.jpg",
+      "sha256": "e48aaec846a8b03163f886a312b737342972bdaa6fdd7abd5f2b50a38132eca2",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-05.jpg",
+      "sha256": "8a51d9628d49ea9dfc466d7cd40a400a82b2e1b10e56611952a813771841d277",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-06.jpg",
+      "sha256": "73afa34dfb7c88b3fbb23e6dbcdd42dc862f51418797166ee00303800b067c7c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-07.jpg",
+      "sha256": "14967fb372124ce3f79ffec11d74f47e801cb1171f135419d23df27672e5dd11",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-08.jpg",
+      "sha256": "0b1d6637f9cf40e91fc6ef1e9058a2defca604e694160037d0f05c5e407473ad",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-09.jpg",
+      "sha256": "c45629afcf3d79764bdbd4c5726f3e48d4a1ae6745d3ea45200f282e6dc62d9f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-10.jpg",
+      "sha256": "104d0f7a90916cf21770143adaac4bcc4e8b9a553ed27e5f30f801c717364357",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-11.jpg",
+      "sha256": "ec81cbe77bc449b6dcfcfa58ef78bde866055d6d01f8fefda9832063a7813bdb",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-12.jpg",
+      "sha256": "095058796545f2dc0184a6ef1028d281b73a01f1191ce4507f701c0fa689213e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-13.jpg",
+      "sha256": "46423f3a504b14121d585a959c6894e49be0d08f436c8e870f074f53003f3019",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-14.jpg",
+      "sha256": "4f8817bdf6c9415814c3741a4d6897c6ccdab7fcd4b34db76e0ba41fa2759a73",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "sourceFinalPage": 14,
+  "assemblySteps": 13,
+  "accepted": false,
+  "secondPixelDrivenCorrection": "Second render actual inspection: green3011 lower body overlapped gray74957 due shared side-built studplaneX=-160. Corrected green3011 originX=-208: its bottomplaneX=-160 seats gray top/studplaneX=-160. Yellow3437 originX=-160 now seats the same green bottomplane on the upper half. Both colors shifted rearwards48LDU, preserving orthonormal SIDE matrix and source cavity-facing-forward direction. Manual stud/underside capture still unverified; no DAT changes."
+}

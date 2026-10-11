@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+  "revision": "61501b03259e531569ef33f1942069d5ce0bd801a2c6c209bacb376fa1848c15",
+  "reviewedAt": "2026-10-11T10:45:52.185327+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zhong-guo-long",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ab4f2071714ad1ed6c69288e1e138d83aeddfc3a5fc27276c48667565739701d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "52b6acc7ed91025601ce5232bbeb7c64b2feb98cf81f5fe67f60072369234404",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a539f897500f47183fb733613221393c419759c9f309045e53b259367e74cebb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "fe8bdf0c37307b076c6234c8b15869a7c2f1a3da41849a745aa52d8bb062c8f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c99b9b39172634d78267a85464e1e747268f58e05c48c0d9fd59c944aa978927",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8f9d7f862d2893f8db529c262f4e3c1a6c90d84b5eb8d98ad985292ec2f9f76f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d7c9b003caa64cd8588e1dd6c43ca709572ce547b17fb814fcc2b31ce1aa82e8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "1c9e3a0a07e151a227b8f854cd1d867ed9663fabb1f49af85ab4e88c0a61b952",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "55caeb6280d309527305869419436ad7a60c6fa180e5d6aca2cda78761b931ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "c5eb93d15187c0599053e9c3dcecbfd696ae7b4c68bb862e665df773c2cd7459",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "98110981435be16598afcf6bb37dedb6345d1a38ede3191eacbc4688764cd98f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "2b17f47d045aad0a29bf7ea99a165c0c9b8a1c23547539e35f705096a8d413dc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "6b5868b18883971d2ac60bec2fbdf00873214946c3439346cb0fc1790858ccdf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "f717f1e2c7c36497fe17dc001a2578af63ee64950127922f7d8021702f7c7bf9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "ab4f2071714ad1ed6c69288e1e138d83aeddfc3a5fc27276c48667565739701d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 contact sheet, all12 cumulative frames, and original iso-rear PNG; compared source p2/p8/p10/p13 again. Steps1-4 show four-link spine, clutch/fork neck and yellow mouth spacer; step5 omits blue Toolo wing/tail; steps6-9 add two paired layered legs and four forward short toe arms; step10 adds rear scoop approximations; steps11-12 add orange side curves. Whole model is in frame. Four source pieces remain omitted: wing/tail(p5) and two front toothed blades(p10). Existing Toolo fork/clutch/scoop geometry changes silhouette and exact engagement remains manual; bucket/ankle hidden retention and dynamic motion are not validated. No new source edit; viewing pixels does not prove screw/clip fit, collision-free CAD or physical acceptance."
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "4-qiu-qian",
+  "sourceSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK [4-qiu-qian.ldr] 104 placement(s); 1 passed, 0 failed.",
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "remainingNonAlarmLimitations": [
+    "Two steppedA-frame brick supports follow literal additions:40 first-stage bricks,14 bridge-stage bricks and20 tower bricks. Stud overlap is explicit; widths/heights on40/48LDU grid.",
+    "Turntable/fork/short-arm geometry is previously approved approximation; static pose inferred from source p5/6, hidden retention not certified.",
+    "Source p6/7/8 and independent pixel review establish nominal seat-support topology: inverted clutch tongue reaches short-arm axis; turned brackets support seat underside. Approximate screw/clip geometry remains manual fit, not exact CAD retention or physical validation."
+  ],
+  "omittedCount": 0,
+  "matrixValidation": {
+    "badDeterminants": [],
+    "allProperRotations": true
+  },
+  "pixelReview": "Actual final3 and all7 cumulative frames reviewed with original step6/iso and source p8. See current-pixel-review.json. Nominal seat-support pose visible; exact Toolo retention/dynamic clearance remain manual.",
+  "accepted": false,
+  "physicalValidation": false
+}

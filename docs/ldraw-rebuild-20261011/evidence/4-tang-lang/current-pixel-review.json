@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+  "revision": "f39a6ad17b4f4c6a3525cb89d02bf2b7772327255469df47343feb9d22d1b1f3",
+  "reviewedAt": "2026-10-11T10:53:25.860905+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-tang-lang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3e87bf00d1e3a584567f51aafdbc932654f0b4329ef2b2b2ede019ff292cae23",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "0c4c55acfca1e6c0b3e9895b3a53135df6fd2be8690c4e324fae176149da05a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "2bbf9f0d0b832c937db765f9e009ee55405d1aa4fb52aec717d4f747a09c8c1e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bf82dc08d0e1634eca80e9aac83705c2213b203b57a1a5162134542930215b9d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f97b2455b5b6d9288056bc96138afd4aaca36a2b83f0c45a5f25be11ca4457b7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "cf2c7d669e25ff67566440a40520327e74edab30c2434cc4b4b7b9024650e0a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "f2a6253c3292c50117e8356f682ede4701406f1293acc91c042068b13defe860",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "6f555ac9b9c4b829f1b64eb921ee72da7b9252380720b66581acf376a4ab2f19",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "cf977e2c38f9f1cd4f01b42a9bda10a2274eee3a551038b6211ff2c6278b61fb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8448f9e09e55e903dbdfba95c86c107eef1e3e663c840111edf8b1d58c944223",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "41bf8c03ca078615835c0ccf6a67824b209ab626bc10ed4d55a93ffe928691c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "e91d8058b8221c9f148324a7c7fa69130cdd3424e8659707c539724e845e8384",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "e89f39b3c3b1db0cf7d1607ab85efa0eda245034e75048af3dc0efd8239df417",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "f7ce05b1d585a27573ad42b93ff7a39e6263a08048050ba237cc400383fe13ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "cd843a53d12f2e4230cc458485812fac89aa2af5c89db6d3ad1eb151ce8e673c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "3e87bf00d1e3a584567f51aafdbc932654f0b4329ef2b2b2ede019ff292cae23",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final three views and all 13 cumulative frames, plus original step-5/iso-rear PNG details. This is observation coverage, NOT acceptance. Source p5 raised/overlapping forearm structure remains incorrectly straight in model; precise receiving face/hole and underside coupling unresolved (ledger.forearmInterfaceReview). Known 4433c01 x2 omitted. Legs now face sideways/downward and wings extend tailward, but exact source articulation, rear-leg junctions, wing-root pitch and Toolo threaded/hinge closure remain manual/unvalidated. Prior-approved approximate Toolo DAT only; raw/edge PASS does not establish source fidelity or physical fit. No physical validation or user acceptance."
+}

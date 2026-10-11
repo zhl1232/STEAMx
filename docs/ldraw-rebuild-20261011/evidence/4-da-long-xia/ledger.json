@@ -1,0 +1,1164 @@
+{
+  "slug": "4-da-long-xia",
+  "source": {
+    "name": "4+大龙虾搭建说明.pdf",
+    "relative_path": "4+/4+大龙虾搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1592831,
+    "sha256": "2518fe79fa3fd396d1d0961b316adf3bca23b6ba453a9a22ac9fdb2f7ae0435e",
+    "source_url": "https://pan.quark.cn/list#/docpdf/59ebbeb8976349b688cf851f617f10a4",
+    "slug": "4-da-long-xia",
+    "lesson_id": 138,
+    "course_id": 6
+  },
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "sourceImages": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-01.jpg",
+      "sha256": "4b096175e0cf03f80f82f090e72ba9d6d0edad09ba377a756dc74464ef57e451",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-02.jpg",
+      "sha256": "92d014595afd7f1f48bd18392e1256c84a42722984599f51c853bf89c418689b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-03.jpg",
+      "sha256": "ec94edc39333e7908b1cb2e8f245ec12f91f5e9b7cc01ae067e96419e76787a1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-04.jpg",
+      "sha256": "f81ffc80064ccaf3530c19143d3224da19dac54622e9d2c12f69d8f6f62d671b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-05.jpg",
+      "sha256": "239630bf54d306e2e8435e7681738dc9f66086e99417f4b60a419307c36d8231",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-06.jpg",
+      "sha256": "c75c8ce2294c954f08b42a935386d84c8e9b5caff59d79a5a4cf81acd235eaf0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-07.jpg",
+      "sha256": "c02e6781e91cff775511eaa2826b8add9e38b21750b803f02f35e4188f2b654e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-08.jpg",
+      "sha256": "c043b26fc864a84f69af1b5a0f46bb715992f7eba10e6f8c5aae820b33828dba",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-09.jpg",
+      "sha256": "3620b7bf44da32fd4e7a41ab615005fa7d6bc2ad24cad82f1ade244e0ca7c180",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-10.jpg",
+      "sha256": "815cfa11bf9789916369fb16c3a44a19633230b1dca5639a4895ba7b9a32befa",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-da-long-xia/page-11.jpg",
+      "sha256": "57835e70bbbd3d58c8a29ee245533cdc59c97c60d0be62cc425cf6199e8d9efb",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+  "status": "incomplete-dev-draft",
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalVerified": false,
+  "steps": [
+    {
+      "page": 1,
+      "note": "Upper Toolo6longX4wideZ atX40; side overhang removed",
+      "start": 8,
+      "placements": 3,
+      "pageBOM": [
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "source stud stack; exact retention unverified",
+        "source stud stack; exact retention unverified",
+        "Upper transverse4x6 bridges both lower bricks; lateral40LDU overhang per working source interpretation, pending render"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 9,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            -120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 10,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 11,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            40,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "note": "Eight exhaust-pipe legs omitted: confirmed identity, no licensed geometry",
+      "start": 13,
+      "placements": 0,
+      "pageBOM": [],
+      "support": [],
+      "omitted": [
+        {
+          "id": "4433c01",
+          "aliases": [
+            "45149"
+          ],
+          "quantity": 8,
+          "category": "confirmed_id_missing_geometry",
+          "sourcePart": "gray jointed exhaust pipes used as legs",
+          "gap": "No matching licensed official/unofficial DAT in current verified search",
+          "tried": "preparation/official-geometry-recheck-20261011.json"
+        }
+      ],
+      "actualPlacements": []
+    },
+    {
+      "page": 3,
+      "note": "Tail2x4+2x2 and transverse head2x4",
+      "start": 16,
+      "placements": 3,
+      "pageBOM": [
+        {
+          "id": "76057.dat",
+          "color": 4
+        },
+        {
+          "id": "3437.dat",
+          "color": 4
+        },
+        {
+          "id": "76057.dat",
+          "color": 4
+        }
+      ],
+      "support": [
+        "source stud stack; exact retention unverified",
+        "source stud stack; exact retention unverified",
+        "source stud stack; exact retention unverified"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 17,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 18,
+          "id": "3437.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 19,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            200,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "note": "Three red Toolo2x4 forming stepped head",
+      "start": 21,
+      "placements": 3,
+      "pageBOM": [
+        {
+          "id": "76057.dat",
+          "color": 4
+        },
+        {
+          "id": "76057.dat",
+          "color": 4
+        },
+        {
+          "id": "76057.dat",
+          "color": 4
+        }
+      ],
+      "support": [
+        "Two longX red76057 centers0/160 abut atX80, bottomy-96 on upperblack; topcrosshead staysX200/y-192."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 22,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            0,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 23,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            160,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 24,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            200,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "note": "Two bare rims as eyes",
+      "start": 26,
+      "placements": 2,
+      "pageBOM": [
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "Head side screw bore; no tyre in source, rim approximation only",
+        "Head side screw bore; no tyre in source, rim approximation only"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 27,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            200,
+            -168,
+            -105
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 28,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            200,
+            -168,
+            105
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "note": "Two side red Toolo bricks and two fork bases",
+      "start": 30,
+      "placements": 4,
+      "pageBOM": [
+        {
+          "id": "76057.dat",
+          "color": 4
+        },
+        {
+          "id": "28336.dat",
+          "color": 71
+        },
+        {
+          "id": "76057.dat",
+          "color": 4
+        },
+        {
+          "id": "28336.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "Red side brick uses rigid diagonal mount inferred from source; first fork base bottom is coplanar to redstud surface. Source-angle and screw capture remain provisional."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 31,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            200,
+            -72,
+            -104
+          ],
+          "matrix": [
+            0.707106781,
+            0.707106781,
+            0,
+            0,
+            0,
+            -1,
+            -0.707106781,
+            0.707106781,
+            0
+          ]
+        },
+        {
+          "line": 32,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            194.343145751,
+            -72,
+            -166.225396744
+          ],
+          "matrix": [
+            0,
+            0.707106781,
+            0.707106781,
+            1,
+            0,
+            0,
+            0,
+            0.707106781,
+            -0.707106781
+          ]
+        },
+        {
+          "line": 33,
+          "id": "76057.dat",
+          "color": 4,
+          "position": [
+            200,
+            -72,
+            104
+          ],
+          "matrix": [
+            0.707106781,
+            0.707106781,
+            0,
+            0,
+            0,
+            1,
+            0.707106781,
+            -0.707106781,
+            0
+          ]
+        },
+        {
+          "line": 34,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            194.343145751,
+            -72,
+            166.225396744
+          ],
+          "matrix": [
+            0,
+            0.707106781,
+            0.707106781,
+            -1,
+            0,
+            0,
+            0,
+            -0.707106781,
+            0.707106781
+          ]
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "note": "Two clutch cubes and four forks",
+      "start": 36,
+      "placements": 2,
+      "pageBOM": [
+        {
+          "id": "74957.dat",
+          "color": 71
+        },
+        {
+          "id": "74957.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "Clutch tongue endpoint reaches first fork pivot in shared local coordinates; pin fit unverified. Four subsequent fork bases intentionally omitted for missing mounting evidence."
+      ],
+      "omitted": [
+        {
+          "page": 7,
+          "id": "28336.dat",
+          "quantity": 4,
+          "category": "known_id_connection_unresolved",
+          "reason": "Two fork bases per side cannot yet be assigned a proven support face on the single clutch cube; removed prior disconnected placements. Available approved geometry, not unknown ID or missing geometry."
+        }
+      ],
+      "actualPlacements": [
+        {
+          "line": 37,
+          "id": "74957.dat",
+          "color": 71,
+          "position": [
+            231.819805153,
+            -72,
+            -295.625937702
+          ],
+          "matrix": [
+            0.707106781,
+            -0.707106781,
+            0,
+            0,
+            0,
+            -1,
+            0.707106781,
+            0.707106781,
+            0
+          ]
+        },
+        {
+          "line": 40,
+          "id": "74957.dat",
+          "color": 71,
+          "position": [
+            231.819805153,
+            -72,
+            295.625937702
+          ],
+          "matrix": [
+            0.707106781,
+            -0.707106781,
+            0,
+            0,
+            0,
+            1,
+            -0.707106781,
+            -0.707106781,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "note": "Two forward fork roots and two long arms",
+      "start": 44,
+      "placements": 4,
+      "pageBOM": [
+        {
+          "id": "28336.dat",
+          "color": 71
+        },
+        {
+          "id": "dev-129/28331.dat",
+          "color": 71
+        },
+        {
+          "id": "28336.dat",
+          "color": 71
+        },
+        {
+          "id": "dev-129/28331.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "Root fork localX axes mapworldY; near longarm openpivot matchesx353,z+/-88 andfarclosedendx753. Approximate fork pin depth/capture unverified."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 45,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            288,
+            -120,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 46,
+          "id": "dev-129/28331.dat",
+          "color": 71,
+          "position": [
+            753,
+            -120,
+            -88
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 47,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            288,
+            -120,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 48,
+          "id": "dev-129/28331.dat",
+          "color": 71,
+          "position": [
+            753,
+            -120,
+            88
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 9,
+      "note": "Known tail wing omitted, no licensed geometry",
+      "start": 50,
+      "placements": 0,
+      "pageBOM": [],
+      "support": [],
+      "omitted": [
+        {
+          "id": "31239c01",
+          "aliases": [
+            "76223"
+          ],
+          "quantity": 1,
+          "category": "confirmed_id_missing_geometry",
+          "sourcePart": "red Toolo tail wing",
+          "gap": "No matching licensed official/unofficial geometry",
+          "tried": "preparation/official-geometry-recheck-20261011.json"
+        }
+      ],
+      "actualPlacements": []
+    },
+    {
+      "page": 10,
+      "note": "Five curved red2x3 bricks and head2x4 plate",
+      "start": 53,
+      "placements": 6,
+      "pageBOM": [
+        {
+          "id": "2302.dat",
+          "color": 4
+        },
+        {
+          "id": "2302.dat",
+          "color": 4
+        },
+        {
+          "id": "2302.dat",
+          "color": 4
+        },
+        {
+          "id": "2302.dat",
+          "color": 4
+        },
+        {
+          "id": "2302.dat",
+          "color": 4
+        },
+        {
+          "id": "40666.dat",
+          "color": 4
+        }
+      ],
+      "support": [
+        "Upper tail curves atX-160/-40 bridge staggered lower curves(-240/-120); overlap flat stud portions rather than edge-only contact; no physical stability verification."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 54,
+          "id": "2302.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -144,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 55,
+          "id": "2302.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -144,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 56,
+          "id": "2302.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -192,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 57,
+          "id": "2302.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -192,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 58,
+          "id": "2302.dat",
+          "color": 4,
+          "position": [
+            80,
+            -192,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 59,
+          "id": "40666.dat",
+          "color": 4,
+          "position": [
+            200,
+            -216,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "finalOverviewPage": 11,
+  "placements": 27,
+  "bom": [
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "quantity": 3,
+      "name": "Toolo 4 x 6 x 1 with thread and screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "76057.dat",
+      "color": 4,
+      "quantity": 7,
+      "name": "Duplo 2 x 4 with screw and thread",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3437.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Brick 2 x 2",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "99565.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo rim with screw",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "28336.dat",
+      "color": 71,
+      "quantity": 4,
+      "name": "Duplo 2x2 with arm thread screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "74957.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo clutch element with thread",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo Toolo fork arm 28331 (dev-129 length correction)",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "2302.dat",
+      "color": 4,
+      "quantity": 5,
+      "name": "Duplo Brick 2 x 3 with Curved Top",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "40666.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Plate 2 x 4",
+      "geometryStatus": "Official"
+    }
+  ],
+  "unknown": [
+    {
+      "id": "4433c01",
+      "aliases": [
+        "45149"
+      ],
+      "quantity": 8,
+      "category": "confirmed_id_missing_geometry",
+      "sourcePart": "gray jointed exhaust pipes used as legs",
+      "gap": "No matching licensed official/unofficial DAT in current verified search",
+      "tried": "preparation/official-geometry-recheck-20261011.json"
+    },
+    {
+      "id": "31239c01",
+      "aliases": [
+        "76223"
+      ],
+      "quantity": 1,
+      "category": "confirmed_id_missing_geometry",
+      "sourcePart": "red Toolo tail wing",
+      "gap": "No matching licensed official/unofficial geometry",
+      "tried": "preparation/official-geometry-recheck-20261011.json"
+    }
+  ],
+  "knownApproximations": [
+    {
+      "id": "76395.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28331.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74844 Arm 2 x 11; total span 440LDU, pivots 0/220/open end400. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    }
+  ],
+  "limitations": [
+    "p4 continuous red back corrected using visible two sequential3-hole long sides. Tail upper curves overlap and bridge lower curved tiers; source physical stud retention remains unverified.",
+    "p2 eight missing legs mean intended ground stance cannot be reconstructed; body placed on plane for preview only, not claimed leg support.",
+    "p6-8 side fork/clutch chain angles and screw capture are source-pose approximations with unresolved hidden connection depth.",
+    "p9 missing tail wing leaves silhouette incomplete.",
+    "p7 four known fork bases omitted because exact mounting/support unresolved; not counted as unknown identities or missing geometry."
+  ],
+  "validation": {
+    "rawCollisionExit": 0,
+    "rawCollision": "OK   [4-da-long-xia.ldr] 27 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "closure": "pending main repack",
+    "pixels": "Actually reviewed current final3 and all10 cumulative stages on contact sheet, then original steps4/6/7/8/10 for red-back and appendage corrections. Upper black brick now longitudinal, red back continuous without previous2stud black gap, tail curves stagger, and long-arm closed tips/vertical yellow pins correspond to source cues. Full model framed. Source additions remain incomplete: eight4433c01 exhaust legs and one31239c01 tail wing lack licensed geometry, plus four28336 fork bases are known geometry but unassembled because supports unresolved;27placed+13omitted=40source target. Side claw angle/tongue engagement, arm root pin depth, curved roof retention and intended eight-leg ground stance remain provisional. Existing approved Toolo approximations do not certify rigid interfaces or load/motion. Pixel inspection only; no physical/user acceptance.",
+    "matrixInvalid": []
+  },
+  "verificationLevel": "structurally checked only",
+  "inventoryExtraNeeded": [
+    {
+      "id": "76057.dat",
+      "verifiedAlias": "31184c01",
+      "color": "Red",
+      "set": "45002-1",
+      "required": 7,
+      "verifiedSingleSet": 1,
+      "extra": 6
+    },
+    {
+      "id": "28336.dat",
+      "verifiedAlias": "45202",
+      "set": "45002-1",
+      "requiredForCompleteSource": 8,
+      "currentlyPlaced": 4,
+      "knownUnassembled": 4,
+      "verifiedSingleSet": 4,
+      "extraForCompleteSource": 4
+    }
+  ],
+  "inventoryCaveat": "Reference single-set stock only; actual user stock unknown. Source colors preserved. No unrelated replacement parts introduced.",
+  "knownOmissions": [
+    {
+      "page": 7,
+      "id": "28336.dat",
+      "quantity": 4,
+      "category": "known_id_connection_unresolved",
+      "reason": "Two fork bases per side cannot yet be assigned a proven support face on the single clutch cube; removed prior disconnected placements. Available approved geometry, not unknown ID or missing geometry."
+    }
+  ],
+  "currentPixelEvidence": "current-pixel-review.json",
+  "currentPixels": {
+    "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "revision": "6f2139891463180220d1386a292efec8371994edf8879d448bb863e39998b7ff",
+    "final3ActuallyReviewed": true,
+    "all10StepsActuallyReviewed": true,
+    "accepted": false
+  }
+}

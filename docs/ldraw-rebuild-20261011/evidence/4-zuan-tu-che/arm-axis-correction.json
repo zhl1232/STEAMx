@@ -1,0 +1,62 @@
+{
+  "beforeSha256": "f2303f1abf25034f7a53a684bd5d7c58f19533ead1d87c8269534b74070b2e04",
+  "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+  "sourcePages": [
+    8,
+    9,
+    10,
+    11
+  ],
+  "changes": [
+    {
+      "page": 8,
+      "before": "1 71 536 -105.378574 -40 0 -1 0 0 0 -1 1 0 0 28336.dat",
+      "after": "1 71 536 -105.378574 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat"
+    },
+    {
+      "page": 8,
+      "before": "1 71 536 -105.378574 40 0 -1 0 0 0 -1 1 0 0 28336.dat",
+      "after": "1 71 536 -105.378574 40 0 -1 0 1 0 0 0 0 1 28336.dat"
+    },
+    {
+      "page": 9,
+      "before": "1 71 601 -153.378574 -40 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat",
+      "after": "1 71 1001 -105.378574 -88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat"
+    },
+    {
+      "page": 9,
+      "before": "1 71 601 -153.378574 40 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat",
+      "after": "1 71 1001 -105.378574 88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 71 1071 -153.378574 -40 0 -1 0 0 0 -1 1 0 0 74957.dat",
+      "after": "1 71 1071 -105.378574 -88 0 -1 0 0 0 -1 1 0 0 74957.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 71 1071 -153.378574 40 0 -1 0 0 0 -1 1 0 0 74957.dat",
+      "after": "1 71 1071 -105.378574 88 0 -1 0 0 0 -1 1 0 0 74957.dat"
+    },
+    {
+      "page": 11,
+      "before": "1 14 1119 -153.378574 0 0 -1 0 0 0 -1 1 0 0 3011.dat",
+      "after": "1 14 1119 -105.378574 0 0 -1 0 0 0 -1 1 0 0 3011.dat"
+    },
+    {
+      "page": 11,
+      "before": "1 14 1167 -153.378574 0 0 -1 0 0 0 -1 1 0 0 3437.dat",
+      "after": "1 14 1167 -105.378574 0 0 -1 0 0 0 -1 1 0 0 3437.dat"
+    }
+  ],
+  "findings": "Original render shows horizontal yellow axle and edge-on narrow arm cheeks; source shows vertical yellow axles and broad upward cheeks. Corrected roots and arms without scaling; preserving realistic acknowledged end stud-grid mismatch from approximate48LDU fork offset.",
+  "accepted": false,
+  "pixels": {
+    "sourceSha256": "1da795ce9abc89c5f3aea4ea773511af955c34727afab1fb11479d5e31f14751",
+    "revision": "26c206872ea4d1688c69e32f6b1d1d5b4b2931914de9a0b094f0ed3b8f7e2411",
+    "final3": true,
+    "all11Steps": true,
+    "accepted": false,
+    "limitations": "Actually reviewed current final3 and all11 cumulative stages via contact sheet, with original step8-11 inspected for corrected fork/arm axes. Source p8/p9 vertical yellow pins and broad arm faces now correspond. Six window faces, roof, chassis, eight wheels and cumulative additions match reviewed source sequence; full model framed. End clutch centersZ+/-88 versus yellow bar standard stud rows leave documented8LDU mismatch; clip engagement and physical retention unresolved. Existing cockpit31196c01/hood6345 raw overlap remains explicitly reported, not waived. Approved approximate wheels/thread/arms; no motion/load or physical/user acceptance."
+  }
+}

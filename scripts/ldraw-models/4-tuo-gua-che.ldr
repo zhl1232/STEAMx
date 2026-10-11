@@ -1,40 +1,87 @@
-0 4+ 拖挂车 (Tow Truck With Trailer) - DUPLO draft for manual repair
+0 4+ Trailer truck - source reconstruction / lesson202
 0 Name: 4-tuo-gua-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+拖挂车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Hitch, trailer railing, lights, cargo and multiple wheel details are simplified.
-
-0 // STEP 1 - tractor chassis and green nose
-1 0 -280 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 -260 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -420 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -420 -144 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY INCOMPLETE. Source PDF SHA256 3c89a70687d2dbf3d6061236f2a31a9ace1fb2a5e9ab3e3c5971127b3b391f23
+0 // Source pages1-14 actually viewed.13 assembly steps; p14 final overview.
+0 // Toolo meshes reuse approved2026-09-12 approximate geometry. No physical fit or user acceptance.
+0 // Missing: exhaust/tool, split figure, rear cab stack and white tow reinforcement plates.
+0 // Source p1: Four black Toolo bricks, staggered two studs
+1 0 -120 -82 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -82 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -130 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 -130 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - cab and black engine deck
-1 0 -60 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 100 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -140 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 20 -144 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 140 -144 20 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source p2: Two bearing bricks, four hubs and four tyres
+1 72 -200 -130 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 280 -82 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 71 -200 -58 -98 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -200 -58 -98 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -200 -58 98 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -200 -58 98 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 280 -58 -98 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 280 -58 -98 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 280 -58 98 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 280 -58 98 1 0 0 0 0 1 0 -1 0 44970.dat
 0 STEP
-
-0 // STEP 3 - trailer base and bed
-1 2 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 400 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 320 -120 -40 1 0 0 0 1 0 0 0 1 4196.dat
-1 15 200 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 320 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 440 -168 -100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source p3: Hood lower bricks, two slopes and yellow Toolo brick
+1 27 160 -178 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 160 -178 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 280 -178 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -226 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 27 200 -226 -40 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 27 200 -226 40 0 0 -1 0 1 0 1 0 0 2302b.dat
 0 STEP
-
-0 // STEP 4 - hitch, load and rear rail
-1 8 120 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 280 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 400 -216 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 480 -192 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 520 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source p4: Side-built clutch/forks; exhaust tool omitted
+1 72 -160 -170 -80 0 1 0 -1 0 0 0 0 1 74957.dat
+1 72 -42 -170 -80 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 -160 -170 80 0 1 0 -1 0 0 0 0 1 74957.dat
+1 72 -42 -170 80 0 -1 0 -1 0 0 0 0 -1 28336.dat
+0 STEP
+0 // Source p5: Side-built green pillars and yellow upper blocks
+1 27 -208 -210 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -160 -250 -80 0 1 0 -1 0 0 0 0 1 3437.dat
+1 27 -208 -210 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -160 -250 80 0 1 0 -1 0 0 0 0 1 3437.dat
+0 STEP
+0 // Source p6: Roof; five rear wall bricks currently unresolved
+1 0 -120 -338 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // Source p7: Split figure omitted, eight physical components
+0 STEP
+0 // Source p8: Green high tow beam; two white plates unresolved
+1 2 -320 -242 0 1 0 0 0 1 0 0 0 1 4199.dat
+0 STEP
+0 // Source p9: Trailer undercarriage and green deck
+1 0 -720 -82 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -400 -82 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 2 -560 -106 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // Source p10: Four trailer hubs and tyres
+1 71 -720 -58 -138 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -720 -58 -138 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -720 -58 138 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -720 -58 138 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -400 -58 -138 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -400 -58 -138 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -400 -58 138 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -400 -58 138 1 0 0 0 0 1 0 -1 0 44970.dat
+0 STEP
+0 // Source p11: Turntable and supporting Toolo block
+1 0 -400 -154 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -400 -194 0 1 0 0 0 1 0 0 0 1 60535.dat
+0 STEP
+0 // Source p12: Six green cargo-deck bricks
+1 2 -720 -154 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -720 -154 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -720 -154 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -154 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -154 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -154 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source p13: Four striped fences
+1 15 -640 -250 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -640 -250 100 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -780 -250 0 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 -500 -250 0 0 0 1 0 1 0 -1 0 0 31021p01.dat

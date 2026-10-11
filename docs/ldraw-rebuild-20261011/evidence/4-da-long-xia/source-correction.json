@@ -1,0 +1,131 @@
+{
+  "beforeSha256": "e01fbbabaed3e7fa0902d5aa33e2db0e9f8b263b7dc40037e50a31bd2bdcd1c1",
+  "sourceSha256": "9415e84ee529fa0db1ac82cc889801b628773fcb5a05262cd9ea6a0a0b390b28",
+  "sourcePages": [
+    1,
+    3,
+    6,
+    7,
+    8,
+    10
+  ],
+  "changes": [
+    {
+      "page": 1,
+      "before": "1 0 80 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat",
+      "after": "1 0 40 -96 0 1 0 0 0 1 0 0 0 1 76395.dat"
+    },
+    {
+      "page": 3,
+      "before": "1 4 -160 -96 0 1 0 0 0 1 0 0 0 1 76057.dat",
+      "after": "1 4 -240 -96 0 1 0 0 0 1 0 0 0 1 76057.dat"
+    },
+    {
+      "page": 3,
+      "before": "1 4 -40 -96 0 1 0 0 0 1 0 0 0 1 3437.dat",
+      "after": "1 4 -120 -96 0 1 0 0 0 1 0 0 0 1 3437.dat"
+    },
+    {
+      "page": 6,
+      "before": "1 4 200 -72 -100 0 0.707106781 0.707106781 1 0 0 0 0.707106781 -0.707106781 76057.dat",
+      "after": "1 4 200 -72 -104 0.707106781 0.707106781 0 0 0 -1 -0.707106781 0.707106781 0 76057.dat"
+    },
+    {
+      "page": 6,
+      "before": "1 71 166.058874503 -32 -133.941125497 0 0.707106781 0.707106781 1 0 0 0 0.707106781 -0.707106781 28336.dat",
+      "after": "1 71 194.343145751 -72 -166.225396744 0 0.707106781 0.707106781 1 0 0 0 0.707106781 -0.707106781 28336.dat"
+    },
+    {
+      "page": 6,
+      "before": "1 4 200 -72 100 0 -0.707106781 0.707106781 1 0 0 0 0.707106781 0.707106781 76057.dat",
+      "after": "1 4 200 -72 104 0.707106781 0.707106781 0 0 0 1 0.707106781 -0.707106781 0 76057.dat"
+    },
+    {
+      "page": 6,
+      "before": "1 71 233.941125497 -32 66.058874503 0 -0.707106781 0.707106781 1 0 0 0 0.707106781 0.707106781 28336.dat",
+      "after": "1 71 194.343145751 -72 166.225396744 0 0.707106781 0.707106781 -1 0 0 0 -0.707106781 0.707106781 28336.dat"
+    },
+    {
+      "page": 7,
+      "before": "1 71 203.535533906 -32 -263.341666454 -0.707106781 0.707106781 0 0 0 1 0.707106781 0.707106781 0 74957.dat",
+      "after": "1 71 231.819805153 -72 -295.625937702 0.707106781 -0.707106781 0 0 0 -1 0.707106781 0.707106781 0 74957.dat"
+    },
+    {
+      "page": 7,
+      "before": "1 71 169.594408409 -32 -297.282791951 0 0.707106781 0.707106781 1 0 0 0 0.707106781 -0.707106781 28336.dat",
+      "after": "0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved."
+    },
+    {
+      "page": 7,
+      "before": "1 71 260.104076401 -32 -319.910208949 0 0.707106781 -0.707106781 -1 0 0 0 0.707106781 0.707106781 28336.dat",
+      "after": "0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved."
+    },
+    {
+      "page": 7,
+      "before": "1 71 363.341666454 -32 103.535533906 -0.707106781 -0.707106781 0 0 0 1 -0.707106781 0.707106781 0 74957.dat",
+      "after": "1 71 231.819805153 -72 295.625937702 0.707106781 -0.707106781 0 0 0 1 -0.707106781 -0.707106781 0 74957.dat"
+    },
+    {
+      "page": 7,
+      "before": "1 71 397.282791951 -32 69.594408409 0 -0.707106781 0.707106781 1 0 0 0 0.707106781 0.707106781 28336.dat",
+      "after": "0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved."
+    },
+    {
+      "page": 7,
+      "before": "1 71 419.910208949 -32 160.104076401 0 -0.707106781 -0.707106781 -1 0 0 0 0.707106781 -0.707106781 28336.dat",
+      "after": "0 // KNOWN OMITTED 28336.dat p7: two additional fork bases per claw cannot yet be placed on a demonstrated stud face without overlap; source joint orientation unresolved."
+    },
+    {
+      "page": 8,
+      "before": "1 71 288 -120 -48 0 -1 0 0 0 -1 1 0 0 28336.dat",
+      "after": "1 71 288 -120 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat"
+    },
+    {
+      "page": 8,
+      "before": "1 71 353 -168 -48 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat",
+      "after": "1 71 753 -120 -88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat"
+    },
+    {
+      "page": 8,
+      "before": "1 71 288 -120 48 0 -1 0 0 0 -1 1 0 0 28336.dat",
+      "after": "1 71 288 -120 40 0 -1 0 1 0 0 0 0 1 28336.dat"
+    },
+    {
+      "page": 8,
+      "before": "1 71 353 -168 48 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat",
+      "after": "1 71 753 -120 88 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -160 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -240 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -40 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -120 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -160 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -240 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -40 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -120 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    }
+  ],
+  "reason": "Actual old final3 and all10 contact-sheet steps compared against reopened source pages. Upper brick lateral projection and long-arm open-end/axis direction were incorrect. Source-backed corrections applied; disconnected four sideforks removed pending support evidence.",
+  "longArm": "LocalY now points-X, localZ axis is worldY; open end atnearX353 and closedend atfarX753, matching source yellow vertical pins. Rootfork axes nowworldY.",
+  "sideChain": "Redlongaxis angled45 inXZ; firstfork base bottom plane matches red studplane. Clutch tongue endpoint exactly meets forkpivot; no physical clip certification. Four downstream fork bases excluded until two supports can be demonstrated.",
+  "accepted": false,
+  "currentFollowupPixelReview": {
+    "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "revision": "6f2139891463180220d1386a292efec8371994edf8879d448bb863e39998b7ff",
+    "final3": true,
+    "all10Steps": true,
+    "accepted": false,
+    "limitations": "Actually reviewed current final3 and all10 cumulative stages on contact sheet, then original steps4/6/7/8/10 for red-back and appendage corrections. Upper black brick now longitudinal, red back continuous without previous2stud black gap, tail curves stagger, and long-arm closed tips/vertical yellow pins correspond to source cues. Full model framed. Source additions remain incomplete: eight4433c01 exhaust legs and one31239c01 tail wing lack licensed geometry, plus four28336 fork bases are known geometry but unassembled because supports unresolved;27placed+13omitted=40source target. Side claw angle/tongue engagement, arm root pin depth, curved roof retention and intended eight-leg ground stance remain provisional. Existing approved Toolo approximations do not certify rigid interfaces or load/motion. Pixel inspection only; no physical/user acceptance."
+  }
+}
