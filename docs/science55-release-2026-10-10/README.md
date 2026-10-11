@@ -25,4 +25,4 @@ science-reviewed.data.json是这55项详情的版本化内容源；getProjectByI
 
 仓库workflow保持原样：PR触发CI / PR Checks（含构建和smoke）；合并main触发Release Deploy（含复用CI、镜像和部署）。不手工额外触发、不重跑已成功流水线。分支保护详情读取接口403，后续以PR checks和正常GitHub合并接口执行为准，不使用admin绕过。
 
-907 与 1098 重复，2026-10-11 起 907 下线并 301 到 1098。审核内容及 sources.json 清单迁入 1098，第一步改为自备材料，总数仍为 55；scope.json 保留原发布 ID、计数与校验值作为历史快照。旧项目不删数据，后续由人工将 907 的 moderation_state 改为 hidden；本次不连接数据库、不写 migration。回滚需删除继任映射并恢复 moderation_state。
+907、997、1010 均与 1098 重复，2026-10-11 起下线并 301 到 1098。审核内容及 sources.json 清单迁入 1098，第一步改为自备材料，总数仍为 55；scope.json 保留原发布 ID、计数与校验值作为历史快照。旧项目不删数据，后续由人工将 907、997、1010 的 moderation_state 改为 hidden；本次不连接数据库、不写 migration。回滚需删除继任映射并恢复 moderation_state。

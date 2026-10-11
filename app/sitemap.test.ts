@@ -59,11 +59,13 @@ describe("sitemap route coverage", () => {
 
   it("excludes retired projects even before their database moderation state is hidden", () => {
     const urls = buildSitemapEntries({
-      projects: [{ id: 907, updated_at: null }, { id: 1098, updated_at: null }],
+      projects: [907, 997, 1010, 1098].map(id => ({ id, updated_at: null })),
       species: [], observations: [], courses: [], lessons: [], works: [], resources: [], challenges: [],
     }).map(entry => new URL(entry.url).pathname);
 
-    expect(urls).not.toContain("/project/907");
+    for (const id of [907, 997, 1010]) {
+      expect(urls).not.toContain(`/project/${id}`);
+    }
     expect(urls).toContain("/project/1098");
   });
 
