@@ -1,0 +1,105 @@
+{
+  "slug": "4-xuan-zhuan-fei-ji",
+  "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+  "checkpointSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+  "reviewedAt": "2026-10-11T07:19:33.074932+00:00",
+  "rawExit": 2,
+  "rawOutput": "\nFAIL [4-xuan-zhuan-fei-ji.ldr] 4 error(s), 71 placement(s):\n  - step 10: 4-xuan-zhuan-fei-ji_l102 overlaps 4-xuan-zhuan-fei-ji_l101\n  - step 10: 4-xuan-zhuan-fei-ji_l104 overlaps 4-xuan-zhuan-fei-ji_l103\n  - step 10: 4-xuan-zhuan-fei-ji_l106 overlaps 4-xuan-zhuan-fei-ji_l105\n  - step 10: 4-xuan-zhuan-fei-ji_l108 overlaps 4-xuan-zhuan-fei-ji_l107\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarmPairCount": 4,
+  "classificationCounts": {
+    "insufficient_evidence": 4
+  },
+  "alarms": [
+    {
+      "lines": [
+        102,
+        101
+      ],
+      "placements": [
+        "1 46 617.4213562373095 -685.5786437626905 0.0 0 -1 0 0 0 1 -1 0 0 6345.dat",
+        "1 1 469.4213562373095 -651.5786437626905 0.0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    },
+    {
+      "lines": [
+        104,
+        103
+      ],
+      "placements": [
+        "1 46 0.0 -685.5786437626905 617.4213562373095 1 0 0 0 0 1 0 -1 0 6345.dat",
+        "1 14 0.0 -651.5786437626905 469.4213562373095 -1 0 0 0 1 0 0 0 -1 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    },
+    {
+      "lines": [
+        106,
+        105
+      ],
+      "placements": [
+        "1 46 -617.4213562373095 -685.5786437626905 0.0 0 1 0 0 0 1 1 0 0 6345.dat",
+        "1 25 -469.4213562373095 -651.5786437626905 0.0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    },
+    {
+      "lines": [
+        108,
+        107
+      ],
+      "placements": [
+        "1 46 0.0 -685.5786437626905 -617.4213562373095 -1 0 0 0 0 1 0 1 0 6345.dat",
+        "1 4 0.0 -651.5786437626905 -469.4213562373095 1 0 0 0 1 0 0 0 1 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    }
+  ],
+  "directPartFileSha256": {
+    "31196c01.dat": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+    "6345.dat": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+  },
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 11,
+      "part": "45117c01 x4 and31239c01 x4",
+      "missing": "identity visually confirmed in earlier source; licensed/approved exact geometry absent, omitted"
+    },
+    {
+      "page": "5-10",
+      "part": "Toolo articulated support",
+      "missing": "45degree outer joints and screw seating inferred from source; rotational clearance and physical retention unverified"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

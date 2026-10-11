@@ -29,7 +29,7 @@
     "60535"
   ],
   "checker": "1 conservative cockpit-canopy proxy overlap; exact face clipping not rerun in this workspace; no exemption added",
-  "render": "current source complete-frame final3 actually reviewed; cumulative steps pending",
+  "render": "current final3 and all cumulative steps actually reviewed; existing missing parts and interfaces remain",
   "accepted": false,
   "metadataUsedHash": "057218a7b538dfd0e1920ca0ddf9f3979a89bcd10d838514e148d201ba0153ab"
 }

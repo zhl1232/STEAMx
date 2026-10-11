@@ -1,0 +1,313 @@
+{
+  "slug": "5-da-zhuang-ji",
+  "sourceSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+  "checkedAtUTC": "2026-10-11T07:07:36.548684+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 2,
+  "rawCheckerOutput": "\nFAIL [5-da-zhuang-ji.ldr] 9 error(s), 83 placement(s):\n  - step 2: 5-da-zhuang-ji_l24 overlaps 5-da-zhuang-ji_l23\n  - step 3: 5-da-zhuang-ji_l32 overlaps 5-da-zhuang-ji_l31\n  - step 3: 5-da-zhuang-ji_l33 overlaps 5-da-zhuang-ji_l31\n  - step 3: 5-da-zhuang-ji_l35 overlaps 5-da-zhuang-ji_l34\n  - step 3: 5-da-zhuang-ji_l36 overlaps 5-da-zhuang-ji_l34\n  - step 3: 5-da-zhuang-ji_l39 overlaps 5-da-zhuang-ji_l38\n  - step 3: 5-da-zhuang-ji_l40 overlaps 5-da-zhuang-ji_l38\n  - step 3: 5-da-zhuang-ji_l42 overlaps 5-da-zhuang-ji_l41\n  - step 3: 5-da-zhuang-ji_l43 overlaps 5-da-zhuang-ji_l41\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [
+    {
+      "step": 2,
+      "lines": [
+        24,
+        23
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "placements": [
+        "1 46 -308 -106 0 0 1 0 0 0 1 1 0 0 6345.dat",
+        "1 25 -160 -72 0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+      "evidence": [
+        "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+        "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+        "preparation/5-da-zhuang-ji/REVIEW.md source/visual record"
+      ],
+      "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+    },
+    {
+      "step": 3,
+      "lines": [
+        32,
+        31
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -80 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -80 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        33,
+        31
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -80 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 -80 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        35,
+        34
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -80 -24 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -80 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        36,
+        34
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -80 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 -80 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        39,
+        38
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 240 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 240 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        40,
+        38
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 240 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 240 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        42,
+        41
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 240 -24 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 240 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    },
+    {
+      "step": 3,
+      "lines": [
+        43,
+        41
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 240 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 240 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "WITHDRAWN uniform42.183 inner-radius exemption: full recursive official DAT tyre has asymmetric axial cavity (negative-Z sections reach radius23.539). Actual placement-specific triangle analysis pending; no collision clearance claimed.",
+      "remainingRisk": "Potential real mesh crossing from rim orientation/axial shift; source unchanged pending actual pair analysis.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      }
+    }
+  ],
+  "alarmCount": 9,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 9
+  },
+  "remainingNonAlarmLimitations": "Pivot-hole selection and192vs200LDU linkage spacing inferred; cockpit fit and tyre retention unresolved.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false,
+  "uniformRadiusExemptionWithdrawnAt": "2026-10-11T07:23:43.612419+00:00"
+}

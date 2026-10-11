@@ -5,7 +5,7 @@
   "sourceSha256": "a994e09191209ddd15cf38a9d97f6fea8d520269bd5366a5f735f6da4524b10b",
   "sourcePages": 20,
   "allSourcePixelsViewed": true,
-  "modelSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+  "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
   "placements": 129,
   "sourceStages": 19,
   "missing": [
@@ -16,9 +16,9 @@
       "role": "yellow cement mixer/drum assembly on rear turret, missing identity/geometry"
     }
   ],
-  "checker": "FAIL1: official51725 flagclip/51708 pole conservative bounding-box overlap; source interface is actual intended clip, but exact clearance not evaluated here",
+  "checker": "FAIL1: step 12: 4-jun-jian_l125 overlaps 4-jun-jian_l124",
   "metadataUsedHash": "47f6516333de1240363901c7a5aef7152aa6c4f852ff53b277353f86eae0fa37",
   "accepted": false,
   "status": "incomplete-needs-geometry-source-step-acceptance",
-  "render": "current source final3 pixels actually reviewed; cumulative steps pending"
+  "render": "awaiting rerender after source-guided cumulative-step correction"
 }

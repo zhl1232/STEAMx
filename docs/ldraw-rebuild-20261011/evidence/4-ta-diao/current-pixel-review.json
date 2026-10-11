@@ -1,7 +1,7 @@
 {
   "sourceSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
   "revision": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
-  "reviewedAt": "2026-10-11T06:42:31.546171+00:00",
+  "reviewedAt": "2026-10-11T07:24:13.792144+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ta-diao",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,102 @@
       "view": "top",
       "sha256": "d1efd4f422588362d4a67d14f68e5d4f9fa8626c0e2926da30cedd423d53daf2",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "f7f8c9c4276684884005c6cff518e3b4d00669f3deeede6b3f0b680138f1481f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "feb236f2055f79ef685ae220e58a0d92f3c72e3b7b7e4afeea75ec7e6b8b6661",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "ca03c0c22591d3825f85cc3abee299346bcafad65ba8fed457056fe4b352203e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1f4b929e1287c3f607eef95d6225a4ca412852ea7cc676412fa6f314c11e133d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "e4eee156c6f735063b18f72be3467023f99bb9b9a8cf636d520ca5f2a25ac3f7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "717b1f537b30496de23ea6ac2e7139f0f17c5a6e045513a803ab11e3c9ce1d27",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "528fc9ad9b05a8d73891f81483fefd783174c43ccd2f13ef6dc917f7534e5a17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "ca297f9eacce70ba9908f72c5c87a31fea846167e02ed50ec695ddd02f269843",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "c4ce0684780da661c06715af002f69720395fd2ca475a53edf609739231804bb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "b4551592e0f4c7d075fef02f76681fc4f4070fa0568ff9647a67752488b13131",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "b35c872013de67ec4e450fc645414b4f43b324d06aa4e9de70463def40ceb310",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "fe792dc5a59c2c3b444cb9181006eee8e57b7a828f1e6d5e5ecca7b67079f733",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "1204a2bdca2f5a07f91f04e4af1abb4e08870cd17c0965ba54132cbab0dd6404",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "8b2ebffb21a8d31e5944b29ab8451bdd65a7687e58e5dfb84d74259da198bc46",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "8bb594e8785a8fb5ecdea4c86f00bc203014478c553d53aa07713154f1e34726",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "50307b3dce38dbcc8bb593e6119f9a99de9de6d93f3c7a9c1c3c829e03a447bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "9ae26cad83975fb1fc32b44b4af54a12c664c63e4e7af4c93f4146234c6af766",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-18",
+      "sha256": "8716cca5119e26b9f8454af69a29a0a0ed432c16e145fac42a80a5842051b3f8",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually inspected current D final3 sheet and original iso-rear against source p19. Current99cebf48 matches source manifest; complete frame and no blank views. Layered tower, fences, hanging rear counterweight, cab, forward linkage and rear support arm broadly match source direction; no clear reversed assembly seen. Separate missing components remain6295 fake-pulley/hook arm at suspended lower end (p11) and2223 black U-holder at top (p18). Known approximate Toolo shapes, inferred60LDU clutch pivot, non-grid rear hinge and cockpit/canopy checker overlap remain unresolved; rendered closed-loop appearance is not mechanical fit/stability proof. Final3 only, cumulative18 stages not reviewed, accepted false."
+  "limitations": "Actually inspected all18 cumulative cells; rechecked source9 hanging counterweight and prior full source evidence. Tower courses, turntable, deck extension, suspended counterweight, fore arms, cab/pillar and guy arms added in expected order. Missing6295 hook at11 and2223 holder at18 remain separate. No blank/cropped cells or new unequivocal placement error found. Hanging counterweight retention, temporary deck support, non-grid rear hinge and approximate closed-loop interfaces not physically certified; canopy near-contact static finding retained. Current final3 retained, no acceptance."
 }

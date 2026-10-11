@@ -15,17 +15,17 @@
       "page": 5,
       "part": "adjacent tail pulley flanges",
       "missing": "source80LDU hole pitch versus official82LDU flange diameter leaves2LDU potential clash; source faithfully retained for review"
+    },
+    {
+      "page": 7,
+      "part": "6292 tyre / two6527 pulley wheel axial stack",
+      "missing": "Current inner rim has197 strict triangle crossings per wheel; source hidden axial seat depth unresolved. Candidate remains intersecting and unapplied. Previous uniform-radius exemption invalid."
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": "Latest iso pixels inspected against source; dragonfly stance/pond and crane frame/gears agree broad source shape. Crane hook visibly unsupported due absent rope; dragonfly tail pulley edge constraints remain.",
   "rawCollisionChecker": "FAIL; manual assessment required",
-  "collisionAssessment": [
-    "p3 transverse upper bar and lower pulley AABB overlap: closest cross-section corner offset(40,24) has radial distance46.65>pulleyR41, so outside actual circle.",
-    "p5 two adjacent tail pulley flanges: hole centres80, diameter82, potential2LDU physical interference remains unapproved. Lower pulley beside body end overlaps up to1LDU radius; unresolved.",
-    "p7 tyre/rim AABB overlap: official6292 minimum radial faceboundary42.183>6527max41.1? known flange max41; geometry clear but press-fit not proven."
-  ],
   "inventoryMechanicalDeficits": [
     {
       "part": "6522.dat",
@@ -62,5 +62,12 @@
   "matrixCheck": {
     "status": "PASS",
     "invalid": []
-  }
+  },
+  "supersededCollisionAssessment": [
+    "p3 transverse upper bar and lower pulley AABB overlap: closest cross-section corner offset(40,24) has radial distance46.65>pulleyR41, so outside actual circle.",
+    "p5 two adjacent tail pulley flanges: hole centres80, diameter82, potential2LDU physical interference remains unapproved. Lower pulley beside body end overlaps up to1LDU radius; unresolved.",
+    "p7 tyre/rim AABB overlap: official6292 minimum radial faceboundary42.183>6527max41.1? known flange max41; geometry clear but press-fit not proven."
+  ],
+  "collisionAssessment": "Previous uniform6292 cavity radius exemption REVOKED. Current inner rim pairs each have197 strict triangle crossings; outer pairs0 does not establish clearance. Nominal candidate still has52 inner crossings and source lacks hidden seating depth. See tyre-assembly-decision.json and static-alarm-review.json.",
+  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied"
 }

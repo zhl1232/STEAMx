@@ -1,0 +1,3565 @@
+{
+  "slug": "4-sheng-jiang-jiu-yuan-che",
+  "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+  "checkpointSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+  "matchesCheckpoint": true,
+  "reviewedAt": "2026-10-11T07:10:56.525634+00:00",
+  "rawExit": 2,
+  "alarms": [
+    {
+      "message": "step 4: 4-sheng-jiang-jiu-yuan-che_l29 overlaps 4-sheng-jiang-jiu-yuan-che_l28",
+      "placements": [
+        {
+          "line": 29,
+          "part": "6345.dat",
+          "sourcePage": 4,
+          "transform": [
+            -388.0,
+            -163.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 694,
+          "actualDatSha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+        },
+        {
+          "line": 28,
+          "part": "31196c01.dat",
+          "sourcePage": 4,
+          "transform": [
+            -240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 1293,
+          "actualDatSha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+        }
+      ],
+      "classification": "insufficient-evidence-near-contact",
+      "meaning": "Same provisional official6345-to-local31196c01 assembly used by all four owned cockpit lessons. Detailed collision regions overlap; cannot simply waive.",
+      "evidence": [
+        "All four exact relative transforms equal matrix[-1,0,0;0,0,1;0,1,0],translation(0,-34,-148) in cockpit coordinates.",
+        "Expanded actual meshes produce4 strict crossing events at only two extremely close witness points, separation about0.0008LDU. This is consistent with rounding/near-contact, not enough to certify zero material intersection or real-scale fit.",
+        "Local31196c01 is explicitly simplified, not certified CAD; source shows canopy seated on cockpit."
+      ],
+      "triangleDiagnostic": {
+        "properSurfaceCrossingCount": 4,
+        "witnessPoints": [
+          [
+            -395.81222066333737,
+            -181.55967686476308,
+            44.071947550742536
+          ],
+          [
+            -395.8119338648847,
+            -181.560233261074,
+            44.07153983147442
+          ],
+          [
+            -395.81222066333737,
+            -181.55967686476308,
+            44.071947550742536
+          ],
+          [
+            -395.8119338648847,
+            -181.560233261074,
+            44.07153983147442
+          ]
+        ],
+        "triangleCounts": [
+          1414,
+          22892
+        ],
+        "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+      },
+      "reliableFixAvailable": false,
+      "action": "No reliable position change justified by sub-millildu numerical crossing; retain alarm until robust tolerance/solid/contact and physical interface evidence."
+    },
+    {
+      "message": "step 8: 4-sheng-jiang-jiu-yuan-che_l68 overlaps 4-sheng-jiang-jiu-yuan-che_l29",
+      "placements": [
+        {
+          "line": 68,
+          "part": "6490.dat",
+          "sourcePage": 8,
+          "transform": [
+            0.0,
+            -321.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        },
+        {
+          "line": 29,
+          "part": "6345.dat",
+          "sourcePage": 4,
+          "transform": [
+            -388.0,
+            -163.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 694,
+          "actualDatSha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+        }
+      ],
+      "classification": "real-rendered-mesh-interference",
+      "meaning": "Canopy physically crosses roof mesh at current source-informed shortened overhang pose.",
+      "evidence": [
+        "Expanded actual DAT surfaces have2000 strict edge/triangle crossing events, duplicates included; first witnesses near(-293.411,-308.521,42.962).",
+        "Roof slab spansY[-321.378574,-297.378574]; canopy enters it. Current final view hides canopy upper rear beneath roof; this is not cured by image framing."
+      ],
+      "triangleDiagnostic": {
+        "properSurfaceCrossingCount": 2000,
+        "witnessPoints": [
+          [
+            -293.4110959142061,
+            -308.52073930269,
+            42.96154525142333
+          ],
+          [
+            -293.4110959142061,
+            -308.52073930269,
+            42.96154525142333
+          ],
+          [
+            -293.4110959142061,
+            -308.52073930269,
+            42.96154525142333
+          ],
+          [
+            -293.4110959142061,
+            -308.52073930269,
+            42.96154525142333
+          ],
+          [
+            -295.1322803413862,
+            -306.8313375264548,
+            44.363683486879175
+          ],
+          [
+            -295.1322803413862,
+            -306.8313375264548,
+            44.363683486879175
+          ]
+        ],
+        "triangleCounts": [
+          1414,
+          107244
+        ],
+        "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+      },
+      "reliableFixAvailable": false,
+      "action": "Moving cockpit forward cleared roof but contradicted source overhang; lowering cockpit loses mounting-plane alignment. Accurate cockpit/canopy interface evidence or authorized geometry correction required; no guessed reliable edit."
+    }
+  ],
+  "manualWarnings": [
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l9 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -200.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l10 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -200.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l11 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            200.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l12 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            200.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l15 6490.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 15,
+          "part": "6490.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -105.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l15 overlaps 4-sheng-jiang-jiu-yuan-che_l9; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "6490.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -105.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        },
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -200.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l15 overlaps 4-sheng-jiang-jiu-yuan-che_l10; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "6490.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -105.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        },
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -200.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l15 overlaps 4-sheng-jiang-jiu-yuan-che_l11; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "6490.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -105.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        },
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            200.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l15 overlaps 4-sheng-jiang-jiu-yuan-che_l12; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "6490.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -105.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        },
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            200.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l18 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 18,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l19 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 19,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l19 overlaps 4-sheng-jiang-jiu-yuan-che_l18; manual collision accepted",
+      "placements": [
+        {
+          "line": 19,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 18,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l20 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 20,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l21 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 21,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l21 overlaps 4-sheng-jiang-jiu-yuan-che_l20; manual collision accepted",
+      "placements": [
+        {
+          "line": 21,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 20,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l22 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 22,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l23 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 23,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l23 overlaps 4-sheng-jiang-jiu-yuan-che_l22; manual collision accepted",
+      "placements": [
+        {
+          "line": 23,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 22,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            -185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l24 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 24,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l25 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 25,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l25 overlaps 4-sheng-jiang-jiu-yuan-che_l24; manual collision accepted",
+      "placements": [
+        {
+          "line": 25,
+          "part": "44970.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 24,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            200.0,
+            -57.378574,
+            185.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l28 31196c01.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 28,
+          "part": "31196c01.dat",
+          "sourcePage": 4,
+          "transform": [
+            -240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 1293,
+          "actualDatSha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l29 6345.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 29,
+          "part": "6345.dat",
+          "sourcePage": 4,
+          "transform": [
+            -388.0,
+            -163.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 694,
+          "actualDatSha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l32 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 32,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -240.0,
+            -153.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l33 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 33,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -153.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l34 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 34,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -153.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l35 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 35,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            240.0,
+            -153.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l36 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 36,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -240.0,
+            -153.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l37 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 37,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -153.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l38 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 38,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -153.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l39 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 39,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            240.0,
+            -153.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l40 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 40,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            280.0,
+            -153.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l43 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 43,
+          "part": "61649.dat",
+          "sourcePage": 6,
+          "transform": [
+            -160.0,
+            -297.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l45 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 45,
+          "part": "61649.dat",
+          "sourcePage": 6,
+          "transform": [
+            0.0,
+            -297.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l47 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 47,
+          "part": "61649.dat",
+          "sourcePage": 6,
+          "transform": [
+            -160.0,
+            -297.378574,
+            120.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l49 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 49,
+          "part": "61649.dat",
+          "sourcePage": 6,
+          "transform": [
+            0.0,
+            -297.378574,
+            120.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l53 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 53,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            160.0,
+            -201.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l54 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 54,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            160.0,
+            -201.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l55 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 55,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -201.378574,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l56 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 56,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -201.378574,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l57 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 57,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            160.0,
+            -249.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l58 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 58,
+          "part": "3437.dat",
+          "sourcePage": 7,
+          "transform": [
+            120.0,
+            -249.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l59 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 59,
+          "part": "3437.dat",
+          "sourcePage": 7,
+          "transform": [
+            200.0,
+            -249.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l60 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 60,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -249.378574,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l61 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 61,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -249.378574,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l62 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 62,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            160.0,
+            -297.378574,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l63 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 63,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            160.0,
+            -297.378574,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l64 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 64,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -297.378574,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l65 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 65,
+          "part": "3011.dat",
+          "sourcePage": 7,
+          "transform": [
+            280.0,
+            -297.378574,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l68 6490.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 68,
+          "part": "6490.dat",
+          "sourcePage": 8,
+          "transform": [
+            0.0,
+            -321.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l69 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 69,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            120.0,
+            -369.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l72 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 72,
+          "part": "3011.dat",
+          "sourcePage": 9,
+          "transform": [
+            -240.0,
+            -369.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l73 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 73,
+          "part": "3011.dat",
+          "sourcePage": 9,
+          "transform": [
+            -240.0,
+            -417.378574,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l74 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 74,
+          "part": "3011.dat",
+          "sourcePage": 9,
+          "transform": [
+            -240.0,
+            -417.378574,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l77 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 77,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l77 overlaps 4-sheng-jiang-jiu-yuan-che_l69; manual collision accepted",
+      "placements": [
+        {
+          "line": 77,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 69,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            120.0,
+            -369.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l78 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 78,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l78 overlaps 4-sheng-jiang-jiu-yuan-che_l77; manual collision accepted",
+      "placements": [
+        {
+          "line": 78,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 77,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l79 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 79,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l79 overlaps 4-sheng-jiang-jiu-yuan-che_l78; manual collision accepted",
+      "placements": [
+        {
+          "line": 79,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 78,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l80 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 80,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l80 overlaps 4-sheng-jiang-jiu-yuan-che_l79; manual collision accepted",
+      "placements": [
+        {
+          "line": 80,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 79,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l81 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 81,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l81 overlaps 4-sheng-jiang-jiu-yuan-che_l80; manual collision accepted",
+      "placements": [
+        {
+          "line": 81,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 80,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            -40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l82 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 82,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l82 overlaps 4-sheng-jiang-jiu-yuan-che_l69; manual collision accepted",
+      "placements": [
+        {
+          "line": 82,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 69,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            120.0,
+            -369.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l83 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 83,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l83 overlaps 4-sheng-jiang-jiu-yuan-che_l82; manual collision accepted",
+      "placements": [
+        {
+          "line": 83,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 82,
+          "part": "28336.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -417.378574,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l84 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 84,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l84 overlaps 4-sheng-jiang-jiu-yuan-che_l83; manual collision accepted",
+      "placements": [
+        {
+          "line": 84,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 83,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -582.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l85 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 85,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l85 overlaps 4-sheng-jiang-jiu-yuan-che_l84; manual collision accepted",
+      "placements": [
+        {
+          "line": 85,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 84,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -682.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l86 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 86,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l86 overlaps 4-sheng-jiang-jiu-yuan-che_l85; manual collision accepted",
+      "placements": [
+        {
+          "line": 86,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 85,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -101.20508076,
+            -782.378574,
+            40.0,
+            0.5,
+            0.8660254,
+            0.0,
+            -0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l89 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 89,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l89 overlaps 4-sheng-jiang-jiu-yuan-che_l81; manual collision accepted",
+      "placements": [
+        {
+          "line": 89,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 81,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            -40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l90 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 90,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l90 overlaps 4-sheng-jiang-jiu-yuan-che_l86; manual collision accepted",
+      "placements": [
+        {
+          "line": 90,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 86,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            72.0,
+            -882.378574,
+            40.0,
+            0.5,
+            -0.8660254,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l91 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 91,
+          "part": "76395.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -990.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l91 overlaps 4-sheng-jiang-jiu-yuan-che_l89; manual collision accepted",
+      "placements": [
+        {
+          "line": 91,
+          "part": "76395.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -990.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 89,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l91 overlaps 4-sheng-jiang-jiu-yuan-che_l90; manual collision accepted",
+      "placements": [
+        {
+          "line": 91,
+          "part": "76395.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -990.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 90,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -942.378574,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l94 31021p01.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 94,
+          "part": "31021p01.dat",
+          "sourcePage": 12,
+          "transform": [
+            72.0,
+            -1086.378574,
+            -60.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l94 overlaps 4-sheng-jiang-jiu-yuan-che_l91; manual collision accepted",
+      "placements": [
+        {
+          "line": 94,
+          "part": "31021p01.dat",
+          "sourcePage": 12,
+          "transform": [
+            72.0,
+            -1086.378574,
+            -60.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1"
+        },
+        {
+          "line": 91,
+          "part": "76395.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -990.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l95 31021p01.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 95,
+          "part": "31021p01.dat",
+          "sourcePage": 12,
+          "transform": [
+            72.0,
+            -1086.378574,
+            60.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sheng-jiang-jiu-yuan-che_l95 overlaps 4-sheng-jiang-jiu-yuan-che_l91; manual collision accepted",
+      "placements": [
+        {
+          "line": 95,
+          "part": "31021p01.dat",
+          "sourcePage": 12,
+          "transform": [
+            72.0,
+            -1086.378574,
+            60.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1"
+        },
+        {
+          "line": 91,
+          "part": "76395.dat",
+          "sourcePage": 11,
+          "transform": [
+            72.0,
+            -990.378574,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    }
+  ],
+  "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+  "remainingCourseLimitations": "Known roof/canopy material interference; linkage load and stability untested; no reliable source-faithful fix using current approximate cockpit certified.",
+  "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+  "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+  "modelEdited": false,
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,41 @@
+{
+  "sourceSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+  "change": "Outer hub and asymmetrical tyre local Z point outward; inner hub reversed at relative localZ=-40. No DAT modification, no expanded collision tolerance.",
+  "witnessLocations": [
+    {
+      "z": -23.001203020250394,
+      "radius": 23.655388492590355
+    },
+    {
+      "z": -23.004817650132807,
+      "radius": 24.000519936724515
+    },
+    {
+      "z": -23.005671111111198,
+      "radius": 23.99722749855863
+    },
+    {
+      "z": -23.00567111111115,
+      "radius": 23.656707042679024
+    },
+    {
+      "z": -23.001203020250394,
+      "radius": 23.655388492590355
+    },
+    {
+      "z": -23.004817650132807,
+      "radius": 24.000519936724515
+    },
+    {
+      "z": -23.005671111111198,
+      "radius": 23.99722749855863
+    },
+    {
+      "z": -23.00567111111115,
+      "radius": 23.656707042679024
+    }
+  ],
+  "conclusion": "Original17LDU gross radial mismatch corrected. Remaining strict mesh crossings lie around nominalR24 contact; may reflect polygon phase/press fit. Actual physical interference is unresolved, not claimed. No further center move without source evidence.",
+  "requiresNewFinalAndSteps": true,
+  "physicalValidation": false
+}

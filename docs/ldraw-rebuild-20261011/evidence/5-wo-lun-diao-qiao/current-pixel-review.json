@@ -1,7 +1,7 @@
 {
   "sourceSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
   "revision": "5278ad9f1fdbe2f5ee36334e71b092e330cb66457f4a08603b65ccc59424b96d",
-  "reviewedAt": "2026-10-11T06:34:14.706617+00:00",
+  "reviewedAt": "2026-10-11T07:16:50.178739+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-wo-lun-diao-qiao",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,67 @@
       "view": "top",
       "sha256": "a120e6b26b51ef6e35c5ce8c6c700130f3ade9df7dd2279bb5c1ffd728733552",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2b24551d4e204b4e0dd7d0bd6623d432aa716731287f84eb31dfa7b902d7bb0b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "2b0f889a67fac782e5ea697761ee55f0d63c236c76d9585434e3fd312486aa7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f6d0d21012d1b8d914a20a7b7c43eb8ad83efce0ab352cf22ba1d3f3f1eaec45",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "431698d92f7a82a361f7981a074e6b705e603b3f4be1dd235605c15503f28161",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "3481a3cb7251e8578add836dcc038c90a80e41d2edaf785ad5c7f09baf4ccb0b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "61ae2e5bd35598b49031547ec01deaaf8b2930ef972da659cc16a2bad4ea19b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "01a82057c25a907edf52b55044cb1d169dda94d7b6c3245035014c33f546c0d5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "cab469a8430f2c48dda08043189a3a3712c40b003bc4a155e1bf6913fa599ff1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "6bd99e7478ec76d452cf2311388d653205d9058526fea5791e09d933a5c85605",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "66fac486c4768404ebdc021d02f3e17fa8137814bc001bb181ebb358df414a04",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "66fac486c4768404ebdc021d02f3e17fa8137814bc001bb181ebb358df414a04",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Current c633fc25 and pack5278ad9f: all3 complete PNGs actually inspected. Slightly sloped upper arms and near-vertical lower arms now visually meet bridge-hole height; savedLDR endpoint/orthonormal check confirms400LDU lengths without scaling. Sourcep6 short input6523 present. Exact worm/gear phase, axle retention, motion collision and physical load remain unverified; source car variants still omitted. No all-step or complete-source acceptance."
+  "limitations": "Actually viewed all11 cumulative contact panels and enlarged step9, compared source p9/p10. Tower/deck/gearboxes/upper arms/lower arms/bottom shafts appear cumulatively and remain framed. No new macroscopic discontinuity seen at inferred closed-link endpoints; this does not prove retention or meshing. Arm angles follow unscaled400LDU circle-closure derivation, not exact source pose or physical validation. Step11 equals10 because2 source cars remain omitted pending exact variants. Existing final3 retained. INCOMPLETE; gear phase, articulation range and physical collisions remain pending."
 }

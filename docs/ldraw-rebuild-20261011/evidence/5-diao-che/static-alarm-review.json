@@ -1,0 +1,56 @@
+{
+  "slug": "5-diao-che",
+  "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+  "checkpointSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+  "reviewedAt": "2026-10-11T07:19:33.060960+00:00",
+  "rawExit": 2,
+  "rawOutput": "\nFAIL [5-diao-che.ldr] 1 error(s), 61 placement(s):\n  - step 7: 5-diao-che_l53 overlaps 5-diao-che_l52\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarmPairCount": 1,
+  "classificationCounts": {
+    "insufficient_evidence": 1
+  },
+  "alarms": [
+    {
+      "lines": [
+        53,
+        52
+      ],
+      "placements": [
+        "1 46 308 -82 0 0 -1 0 0 0 1 -1 0 0 6345.dat",
+        "1 4 160 -48 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    }
+  ],
+  "directPartFileSha256": {
+    "31196c01.dat": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+    "6345.dat": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+  },
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": "14-16",
+      "part": "75536/6527c01 rope assembly",
+      "missing": "4663 hook confirmed; rope flexible geometry/length/routing and extra winding pulley omitted"
+    },
+    {
+      "page": "10-13",
+      "part": "gearbox drive and rotating pillar",
+      "missing": "axes use official gearbox X/inputY-72,Z/outputY-168; gear engagement, pivot retention and mechanics require manual review"
+    },
+    {
+      "page": 7,
+      "part": "31196c01 cockpit",
+      "missing": "prior approved approximate geometry, not exact official mesh"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "4-dao-dan-che",
+  "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+  "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawCheckerLog": "static-checker.log",
+  "rawAlarmPairs": 0,
+  "alarms": [],
+  "additionalFindings": [
+    {
+      "classification": "real_risk",
+      "finding": "Five source cockpit/canopy/window components omitted; roof support incomplete."
+    },
+    {
+      "classification": "real_risk",
+      "finding": "Three adjacent99565 approximate hubs at80LDU spacing with approximate42LDU flange radii have4LDU envelope overlap; authorized approximate geometry is not fit proof."
+    },
+    {
+      "classification": "insufficient_evidence",
+      "finding": "Approved approximations76057/76395/99565/44970/28336/74957 have no official dimensional fit guarantee; fork and clip engagement remain unverified."
+    }
+  ],
+  "sourceEvidence": "source-review.md plus existing source page files/ledger; no new source pixel inspection claimed in this static review",
+  "limits": [
+    "Raw checker manual support/collision policies do not certify support, clearance or assembly. Exit0 does not prove assembly correctness.",
+    "No physical validation. Inventory reference is not the user actual color inventory.",
+    "Pending user confirmation; incomplete mechanisms/omitted source components are not publishable."
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

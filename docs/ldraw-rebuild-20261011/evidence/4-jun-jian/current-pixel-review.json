@@ -1,7 +1,7 @@
 {
   "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
   "revision": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
-  "reviewedAt": "2026-10-11T06:21:17.089357+00:00",
+  "reviewedAt": "2026-10-11T07:21:17.661774+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-jun-jian",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,107 @@
       "view": "top",
       "sha256": "b4105d9ed7bf21acea2514074b271339fbba851756b96f1dd0dbb2d2c2ed7a70",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e030ff31a92fc167bec4bae738b814139d0a9a29beb0eb30db4960b4f639ab7f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "cb5deeba97d3faf0208adf5c8c4fb481aad473da7099b092153b97cf70b3181e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8d8fbdef63cc8c8a12de49f222bfc04e5ebb30178f2852ab2ddbcb7333588b97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b1af4d37435d6e0d3183098d9a424e534927bc2bb00e2e7e3e53ef34873d9c48",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "bd6aa3b6f828c7ca314ced6eb6abb3bc8b5ce4c99018a71293d8b287403975ab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "4f2ab724e4efa45fd5654ae5427015f56f7bc3ba42941678d91155acce1f9e03",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "870b18c208ce8a11539c2b29a5dbde84658713463894bf72ef6013bd5c4058c0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "20d2a5ed9b44700f4cadeecdccb04b0da606840e1976253ff01ea4efe62dec89",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "29eabe51749ea73a75d086bfdaf02311611754cfa73bd99e5a334cc704771a1a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "1b42e8e563fdbfc37b231525cc3327ff09ed0ab5fbfc678d7cec1bede7d66de8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "696ca99896e8c4d875559c98a40f96e4ebcc704270063ffffc8cdf5fb7468c52",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "c6ec74a66a1abd9692318b7f217986c115d879c7b23eb64fbcaa21b1d542c779",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "31a3ffac55562926c7c1c8d1fc969a2fc05d744f2b0b13b6e7405d69ae52779e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "740754eb5f888f3bcb60352a47a22caf3d5127f5d3faeece7a237c4a0e9f8160",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "fe45a9090694a2d5e7a06c44c9294a5e307a2d6b942bcec23d13e9739686c6f8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "fe45a9090694a2d5e7a06c44c9294a5e307a2d6b942bcec23d13e9739686c6f8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "e77d2f5c4868464752addd4e3e26990188a10f75826de6102208defbff62ec12",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-18",
+      "sha256": "e77d2f5c4868464752addd4e3e26990188a10f75826de6102208defbff62ec12",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-19",
+      "sha256": "3b98a1b01cf6e86bc2104736b0cbf80ba092e958f3300eb7e410396a5ae3c779",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actual current D final3 contact sheet and full iso PNG inspected against source p20 and rim detail p11. SHAe37fb1dd matches local LDR. Cabin tiers, fore/aft orientation, four upper rims, flag and forward paired long arms correspond broadly; no clear reversed structural assembly identified. Complete framing/no blank view. Yellow mixer rear assembly absent as documented. Local Toolo/rim appearance and exact figure print differ from source; layered hull seams, temporary overhang support and flag/pole checker overlap remain unresolved. Only final3 reviewed, cumulative19 stages and physical fitting not certified; accepted false."
+  "limitations": "Actually inspected all19 cumulative cells, source p2/3/4 originals and previous full-source reading. Stage2 reveals real early hull support/count-layout error: source uses four-stud-deep end bands, old ring assumed two-stud depth and excessive24stud length; old stages3/4 likewise too long. Correction planned from stage2. Source16 intentionally unchanged due missing yellow mixer,18 detail only,19 figures visible. Final3 retained for old hash only, not assembly acceptance; flag/pole proxy finding in static-alarm-review remains separate."
 }

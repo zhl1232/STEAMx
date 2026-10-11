@@ -1,16 +1,14 @@
 # Development checkpoint status
 
-Snapshot 2026-10-11 07:02 UTC, executor DESKTOP-MNEH90C. The 129-course audit is reproduced: 71 missing source models and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting Library transfer. The remote source task verified 713 JPG pages across six packages; upload tools are unavailable there. These 60 are not received or built locally.
+Snapshot 2026-10-11 07:25 UTC, executor DESKTOP-MNEH90C. 129-course scope reproduced (71 missing sources +58 simplified drafts):69 locally sourced LDRs and60 remotely source-verified courses awaiting official Library transfer. The remote source task verified713 JPG pages in6 packages; missing upload tools block transfer, not source existence.
 
-69 current source versions have final-view pixel reviews; 16 have all cumulative steps reviewed. The other 53 still need step review. All remain unaccepted development drafts, with no physical validation. See hash-bound checkpoint-status.json.
+Current hash-bound checks: 64 final-view reviews, 24 complete cumulative-step reviews. Five corrected source versions await replacement renders: sniper, warship, road roller, fish tail and5+ bulldozer. Historical reviews do not validate those corrected versions. All69 have per-course static interpretation reports; unsupported blanket tyre-clearance assumptions have been withdrawn. Detailed source/final/steps/static/problem/confirmation dimensions are in course-status-69.json.
 
-Independent 69-course QA checked 4,975 placements: no malformed/scaled/reflected matrices, source/status issues, or stale/unclosed MPDs. 5,933 embedded DAT blocks matched 392 local part files. All accepted flags are false. This does not prove source completeness, support or mechanical motion.
+All69 current development MPDs were repacked, closed-dependency checked and synchronized to repository previews/. Verified previous snapshots are at D:/Codex-task-2-20261011/preview-backups/0202668 and /7cd8f11; preview-sync-history.json records hashes and C free-space checks. New rendered evidence stays on D. Different render revisions are archived before replacement.
 
-Current raw static checker: 69 stable-source runs, 45 exit 0 and 24 exit 2. AABB diagnostics and omitted-part/connection limitations remain in individual reports. The current registry contains 30 issue families spanning identity, geometry, licensing and flexible routing; known-part omissions and inventory deficits are separate.
+The current raw checker still reports45 exit0 and24 exit2, all source-stable. Every alarm retains its original output and separate interpretation; no automatic exemptions were added. Zero raw alarms does not prove source completeness, support or movement. Unknown-part registry currently has30 issue families, plus separate known-part omissions and stock deficits; it is not an unknown-ID count.
 
-Local checkpoint 4e28e5c preserved all 69 current source drafts and independent QA; this follow-up snapshot adds cumulative-step review evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The former 59 repository MPDs were SHA-verified in D:/Codex-task-2-20261011/preview-backups/0202668; all 69 current MPDs have now been synchronized into the repository after disk-space checks (preview-sync.json). The D closure/self-contained reports bind all 69 current source hashes.
-
-No production models, public assets, application/workflow/package files, approval whitelist or data have been changed. No push, PR, merge, deployment or CI trigger. Six licensed part bodies extracted from existing published MPDs retain provenance in embedded-part-extraction.json.
+Independent69 QA at06:54 and preview-sync QA are dated evidence snapshots, not claims about later edits. New changes require fresh checks. No physical validation or user approval is asserted. No production/public/application/workflow/package files, whitelist or data changed; no push/PR/merge/deployment/CI trigger.
 
 ## Historical 59-course resource checkpoint
 # Local resource checkpoint

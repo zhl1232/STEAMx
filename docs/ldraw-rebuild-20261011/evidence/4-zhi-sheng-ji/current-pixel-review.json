@@ -1,7 +1,7 @@
 {
   "sourceSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
   "revision": "570807af1d966a470bac9a33060907d8d9a8e066a058d071c69d294bde6c976d",
-  "reviewedAt": "2026-10-11T06:39:19.578587+00:00",
+  "reviewedAt": "2026-10-11T07:24:13.887280+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zhi-sheng-ji",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,87 @@
       "view": "top",
       "sha256": "aa04ca1db48b966a6abfe27058ab2314fb5d13d71699ecba69b28ffd58e57e59",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "005c6ad1d5ca26791318e0a95b3f76176b2e7ef2d987bf1f0badc9a30b41797e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "d21db8874a1f5b24d04c2ecb27f43c4f949d42bda6ec23837a4dda94cc6bf897",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "a05c449ef9aee672f0c5a1c968a10b51be5f7c8d7da157bf4e49f6a9d303a257",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "61fc5a3877f5a37c01dac8bc5f304d3cf02f6824e5a1953b1fd1d1d72d531f26",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "056a47e15eb09e3e3dc19ce8571b1da3a746d0c6466e300a1f85bdc5abc81187",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "26199bcdd2878e27810f8cb5f1eafd3af5cb4576d173226101326f4ec96af5e7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e47d6e4f7d69def0a48c68f12dc65256f9a0f6269c43ce34e43c9960e5ace0c0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6e481995cc29a96a7f621e07a00e449f6e01ed74bf03264b8c0c076e9e5c2f31",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "69ec9a4f83817395b1a0afd0eeac920bc489513084d5c9a17705f4e9c659bc25",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "bec888d01e36cb3e26d9cdb27e91e0fb81d7bf999475974bb9f36dee82ec3ce5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "178b1a67226281cb0ae64bda1d028f661308b0a54a237bd6bd8b3b70ec3d6821",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "5848f223ed7ac9686b900dd299653d64a46a700ca7a00f71601fb652bdcd0ca0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "e233b317f2c947677e762dbf8362849b17368c35daa2b833ced07a3c536c96e9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "1d4ce55aac9f7f48589e832d517db3f37817af7092ab286e02222f2c3ce62eb2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "ccd608c1bb912cc58252e3c0d81a1b1a722b886e5494d2135133758c9c75d816",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually viewed complete D final3 sheet and original iso-rear against source page16. Current475f81ed matches LDR. Cross-shaped blue/yellow rotor, windowed body, cockpit, side skids and raised paired tail arms correspond broadly; complete framing and no blank view. Both6670c01 tail propellers remain absent. Cockpit/canopy checker overlap retained, not waived by visible seating. Local Toolo geometry, exact canopy/hinge fit, tail20degree angle and skid support remain provisional. Final3 only; cumulative15 stages not reviewed; accepted false, no physical verification."
+  "limitations": "Actually inspected all15 cumulative cells plus original step4 PNG and source4; earlier all16 source pages read. Body before skids is a held subassembly, not proof of ground support. Cockpit rear mounting plane matches front black tier top; apparent overhang is visible, no new clear floating-placement error found. Source7 clutches present but two6670c01 props remain omitted. Rotor layers10-15 visible in order, all frames complete/nonblank. Canopy near-contact finding, approximate skid/tail pin fit and20degree tail estimate remain. Final3 retained; no physical validation or acceptance."
 }

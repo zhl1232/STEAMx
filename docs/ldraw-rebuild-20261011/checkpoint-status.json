@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-10-11T07:02:20.326796+00:00",
+  "generatedAt": "2026-10-11T07:24:21.298097+00:00",
   "localCheckpointCommit": "4e28e5c",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 16,
-    "draft-final-pixels-reviewed-steps-pending": 53,
-    "source-verified-remotely-awaiting-transfer": 60
+    "draft-final-and-all-steps-pixels-reviewed": 24,
+    "draft-final-pixels-reviewed-steps-pending": 40,
+    "source-verified-remotely-awaiting-transfer": 60,
+    "draft-visual-review-pending": 5
   },
   "writtenSources": 69,
-  "finalReviewed": 69,
-  "allStepsReviewed": 16,
+  "finalReviewed": 64,
+  "allStepsReviewed": 24,
   "partIssueFamiliesIncludingFlexibleRoutes": 30,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
@@ -138,26 +139,26 @@
     {
       "slug": "4-ji-guan-qiang",
       "sourceSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-ju-ji-qiang",
-      "sourceSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
-      "status": "draft-final-pixels-reviewed-steps-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "sourceSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+      "status": "draft-visual-review-pending",
+      "finalAtLeastTwoViewsActuallyReviewed": false,
       "allCumulativeStepsActuallyReviewed": false,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-jun-jian",
-      "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
-      "status": "draft-final-pixels-reviewed-steps-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "sourceSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
+      "status": "draft-visual-review-pending",
+      "finalAtLeastTwoViewsActuallyReviewed": false,
       "allCumulativeStepsActuallyReviewed": false,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
@@ -264,9 +265,9 @@
     {
       "slug": "4-ta-diao",
       "sourceSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -318,9 +319,9 @@
     {
       "slug": "4-xiang-wei-she",
       "sourceSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -353,9 +354,9 @@
     },
     {
       "slug": "4-ya-lu-ji",
-      "sourceSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
-      "status": "draft-final-pixels-reviewed-steps-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "sourceSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
+      "status": "draft-visual-review-pending",
+      "finalAtLeastTwoViewsActuallyReviewed": false,
       "allCumulativeStepsActuallyReviewed": false,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
@@ -390,18 +391,18 @@
     {
       "slug": "4-zhi-sheng-ji",
       "sourceSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
       "slug": "4-zhi-zhu",
       "sourceSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -850,13 +851,10 @@
     {
       "slug": "5-shou-yao-zuan-zi",
       "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
-      "frameEdgeAuditPendingViews": [
-        "step-1",
-        "step-2"
-      ],
+      "allCumulativeStepsActuallyReviewed": true,
+      "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
@@ -934,9 +932,9 @@
     {
       "slug": "5-tou-lan-ji",
       "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -951,10 +949,10 @@
     },
     {
       "slug": "5-tui-tu-ji",
-      "sourceSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
-      "status": "draft-final-and-all-steps-pixels-reviewed",
-      "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": true,
+      "sourceSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+      "status": "draft-visual-review-pending",
+      "finalAtLeastTwoViewsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": false,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -979,9 +977,9 @@
     {
       "slug": "5-wo-lun-diao-qiao",
       "sourceSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -1158,9 +1156,9 @@
     },
     {
       "slug": "5-yu-er-de-wei-ba",
-      "sourceSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
-      "status": "draft-final-pixels-reviewed-steps-pending",
-      "finalAtLeastTwoViewsActuallyReviewed": true,
+      "sourceSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+      "status": "draft-visual-review-pending",
+      "finalAtLeastTwoViewsActuallyReviewed": false,
       "allCumulativeStepsActuallyReviewed": false,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
@@ -1168,9 +1166,9 @@
     {
       "slug": "5-yu-hang-yuan-xun-lian-ji",
       "sourceSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

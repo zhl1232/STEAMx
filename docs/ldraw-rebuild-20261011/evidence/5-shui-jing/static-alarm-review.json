@@ -1,0 +1,27 @@
+{
+  "slug": "5-shui-jing",
+  "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+  "checkpointSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+  "reviewedAt": "2026-10-11T07:19:33.063262+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [5-shui-jing.ldr] 117 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": "3-5/11",
+      "part": "two75536 rope/hook assemblies",
+      "missing": "flexible rope route and two4663 hook engagement; pulleys present, ropes/hooks omitted"
+    },
+    {
+      "page": 12,
+      "part": "tilted brake",
+      "missing": "angle inferred; no certified gear restraint or moving clearance"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

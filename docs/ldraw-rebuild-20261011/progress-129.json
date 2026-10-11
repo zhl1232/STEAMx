@@ -1,6 +1,6 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T07:00:00.436065+00:00",
+  "generatedAt": "2026-10-11T07:22:23.534372+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
   "sourceBlocker": "69 locally materialized courses; 60 await verified Library transfer. Parent reports original JPGs located on separately connected PC-20260523FVXD at the user-authorized Desktop/pdf-preview folder. This executor remains DESKTOP-MNEH90C; that remote path is not treated as local. All remaining 60 courses are matched on that remote PC: 713 decoded JPG pages with continuity and final-page checks. Six packages cannot yet be uploaded because official Library prepare_uploads/finalize_uploads tools are unavailable there; no Library IDs exist. These 60 are awaiting transfer, not missing at source and not locally received or built.",
@@ -285,7 +285,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+      "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
       "placements": 67,
       "steps": 14,
       "headerLimitations": [
@@ -310,7 +310,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+      "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
       "placements": 129,
       "steps": 19,
       "headerLimitations": [
@@ -859,7 +859,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+      "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
       "placements": 48,
       "steps": 12,
       "headerLimitations": [
@@ -2208,7 +2208,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
+      "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
       "placements": 49,
       "steps": 8,
       "headerLimitations": [
@@ -2696,7 +2696,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
+      "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
       "placements": 195,
       "steps": 9,
       "headerLimitations": [

@@ -1,7 +1,7 @@
 {
   "sourceSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
   "revision": "38ee77e98f2346bfbb94a0c6ce1704948bde7c18cec671b35cf8f177aabb5ba1",
-  "reviewedAt": "2026-10-11T06:43:21.670290+00:00",
+  "reviewedAt": "2026-10-11T07:14:55.469078+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zhi-zhu",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,52 @@
       "view": "top",
       "sha256": "a3e89e21684bdbdd1a913a0e68164f85df0bb1e28bc89dad733816593333c85f",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "168d30dfac622cb24a99d9c491bbfa1fe9589d3d2803638d9c9f143d978e3442",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c9095f837ef27aa02c3e6061056dcba9fb41c61dbe549a2024e9a4b249475f98",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "ce3a9e80142cb4b5ef97aa31f4b3366fe1d4a2317ab2fb4b56230bff60b94c6a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "6d44e01fb2954d1dbfd427387722d4918bd1e5d158659d9c39e8c3456548d68d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8cb27422cc15917cdd993ba421843bcd42259b37add36e1a1d89fce768ddec97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8cb27422cc15917cdd993ba421843bcd42259b37add36e1a1d89fce768ddec97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "bfe12e8cc1d2a7e6e97e8dddeba14d70d43c570322c250bdf0e4906d407d784e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e7689c659c5b68f4a576ec363fd9543a8df5221c468fbe2cbe406f0e0fd0dd55",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "All3 complete independent PNGs actually inspected against sourcep4/6/7/8/9. Eight short-arm legs, paired eye rims/mandibles and4orange+4yellow curved cover bricks match broad layout; no new macro pose correction indicated. Rear yellow drum58629family and cradle95219c01candidate remain OMITTED; exact assembly variant/usable geometry not resolved,42235 excluded. Dev28334 legs are known-ID approximate240LDU geometry,45degree pose inferred; clasp/screw fit, ground contact and stability not physically validated. Missing drum/base means INCOMPLETE. All cumulative steps still pending."
+  "limitations": "Actually screened all 8 current cumulative step panels, enlarged step7, compared source pages6 and7. Body/head/mandibles and eight downward arms accumulate; orange/yellow covers appear in step8. Step6 equals step5 because large yellow mixer drum and cradle are omitted: candidates58629 family and95219c01 remain unresolved geometry/variant, and42235 is excluded. Dev28334 arm geometry and clasp retention remain approximate, stance and physical support unvalidated. Existing same-hash final3 review retained; INCOMPLETE."
 }

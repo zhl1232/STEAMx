@@ -18,12 +18,12 @@
 1 14 120 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 280 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // Source page 2: two black tyre eyes, four yellow hubs and gray transverse head axle.
+0 // Source page 2: two tyre eyes with asymmetrical cavities outward; paired hubs back-to-back, verified official DAT sections.
 1 71 360 -216 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 360 -216 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 360 -216 -60 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 360 -216 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 0 360 -216 -100 1 0 0 0 1 0 0 0 1 6292.dat
-1 14 360 -216 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 360 -216 -100 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 360 -216 60 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 360 -216 100 1 0 0 0 1 0 0 0 1 6527.dat
 1 0 360 -216 100 1 0 0 0 1 0 0 0 1 6292.dat
 0 STEP

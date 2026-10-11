@@ -1,0 +1,61 @@
+{
+  "slug": "4-mo-tian-lun",
+  "reviewedAt": "2026-10-11T07:07:26.283Z",
+  "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+  "originalCheck": {
+    "path": "scripts/ldraw-models/4-mo-tian-lun.ldr",
+    "sha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-mo-tian-lun.ldr] 52 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "checkerPassIsNotConnectionAcceptance": true,
+  "sourceEvidence": "Existing source-page pixel reviews and current ledger; no new browser or physical test",
+  "accepted": false,
+  "physicalValidation": false,
+  "modelChanged": false,
+  "reliableCorrectionAvailable": false,
+  "limitations": [
+    {
+      "pages": [
+        4,
+        5,
+        6
+      ],
+      "parts": [
+        "76395",
+        "60535"
+      ],
+      "finding": "Side-mount cube and central screw turntable rely on source pose and approved approximate thread/shell geometry. Screw capture, load support and rotation are not certified."
+    },
+    {
+      "pages": [
+        7,
+        8,
+        9
+      ],
+      "parts": [
+        "28336",
+        "dev-129/28334",
+        "74957"
+      ],
+      "finding": "Four base forks use regular2x2 grid and proper radial rotations. Approximate pivot-axis coincidence does not certify pin depth, fork-cheek clearance or capture. Supplied200LDU fork arm and clutch interfaces are inferred, not measured."
+    },
+    {
+      "pages": [
+        10,
+        11
+      ],
+      "parts": [
+        "60535",
+        "44524"
+      ],
+      "finding": "Four seat bearings and official plates follow static hanging pose; retention, center of gravity and clearance over a full revolution not tested."
+    },
+    {
+      "page": 12,
+      "finding": "Eight window/cab assemblies omitted. Existing static preview does not establish complete seats or passenger support."
+    }
+  ],
+  "decision": "Keep provisional and INCOMPLETE; no reliable evidence-backed correction identified in this review. Coordinate alignment/raw exit0 cannot waive interface risks."
+}

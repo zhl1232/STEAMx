@@ -1,0 +1,38 @@
+{
+  "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "sourcePage": "D:/Codex-task-2-20261011/inputs/pdfbatch4/5-yi-dong-guang-gao-pai/page-06.jpg",
+  "sourcePixelsActuallyInspected": true,
+  "identity": {
+    "id": "6526.dat",
+    "status": "confirmed from source BOM single yellow crank and visible offset arm beneath upper beam, compared with official DAT and previously established same-part source photos",
+    "sourceQuantity": 1,
+    "currentModelQuantity": 0
+  },
+  "officialGeometry": {
+    "mainSquareHole": {"centre": [0, 0, 0], "axis": "Y", "axialRange": [-20, 20]},
+    "integralAxle": {"start": [0, 20, 80], "end": [0, 60, 80]},
+    "beamTopSquareHolePitchLdu": 40,
+    "sourceBasis": "6526.dat daxlehole/daxle statements; 75350 -> 6516 -> s/6518s01 repeated every40LDU"
+  },
+  "currentWorldLayout": {
+    "lowerBeamTopY": -96,
+    "upperBeamTopY": -216,
+    "upperBeamBottomY": -168,
+    "lowerPulleyOriginY": -148,
+    "lowerPulleyAxialRangeY": [-166, -128],
+    "upperPulleyOriginY": -236,
+    "upperPulleyAxialRangeY": [-254, -216]
+  },
+  "rejectedDirectInsertion": {
+    "proposedMainCentre": [0, -148, 0],
+    "rotation": [0, 0, 1, 0, -1, 0, 1, 0, 0],
+    "mainCylinderWorldY": [-168, -128],
+    "offsetPinWorldStart": [80, -168, 0],
+    "offsetPinWorldEnd": [80, -208, 0],
+    "reason": "This pin would align with a top/bottom hole80LDU from the poster shaft, but the main cylinder shares nearly the full current lower pulley axial interval. Adding it without changing retention placement is not safe."
+  },
+  "sourceDiscrepancy": "Source lower pulley visibly sits at the lower beam; current pulley is closer to upper beam. Its placement and the axial stack must be revised together, not by simply adding6526.",
+  "unresolved": "Exact crank seating depth inside the hollow upper-beam underside, lower pulley seating depth, and shaft engagement cannot be determined uniquely from this view. A flat-bottom assumption puts a relocated lower pulley too close to the crank, so no unverified direct insertion or arbitrary beam-height shift was committed.",
+  "decision": "ID confirmed; placement unresolved; LDR unchanged. Preserve existing pixel records for exact unchanged source and mark model INCOMPLETE.",
+  "physicalValidation": false
+}

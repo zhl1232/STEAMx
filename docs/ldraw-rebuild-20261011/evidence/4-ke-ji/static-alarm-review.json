@@ -1,0 +1,59 @@
+{
+  "slug": "4-ke-ji",
+  "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+  "checkpointSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+  "reviewedAt": "2026-10-11T07:19:33.021584+00:00",
+  "rawExit": 2,
+  "rawOutput": "\nFAIL [4-ke-ji.ldr] 1 error(s), 69 placement(s):\n  - step 4: 4-ke-ji_l48 overlaps 4-ke-ji_l47\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarmPairCount": 1,
+  "classificationCounts": {
+    "insufficient_evidence": 1
+  },
+  "alarms": [
+    {
+      "lines": [
+        48,
+        47
+      ],
+      "placements": [
+        "1 46 -468 -58 80 0 1 0 0 0 1 1 0 0 6345.dat",
+        "1 1 -320 -24 80 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6345 official windscreen versus previously approved simplified31196c01 cockpit. Shared relative seating: local forward offset148LDU and vertical offset-34LDU; source shows intended cockpit assembly. Simplified cockpit surface/proxy prevents certifying the reported thin overlap as a false positive.",
+      "evidence": [
+        "source cockpit assembly page",
+        "current full-frame final3 pixel review",
+        "review.json knownApproximate/collision"
+      ],
+      "action": "Retain raw alarm. Need accurate cockpit geometry or explicit joint clearance validation; prior approximation approval is not collision/physical acceptance."
+    }
+  ],
+  "directPartFileSha256": {
+    "31196c01.dat": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+    "6345.dat": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+  },
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 5,
+      "part": "blue Toolo airplane wing and tail",
+      "candidate": "31239c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": 3,
+      "part": "wing side screw joints",
+      "missing": "licensed geometry",
+      "candidate": "45117c01 confirmed"
+    },
+    {
+      "page": 7,
+      "part": "light-blue curved 2x3 bricks",
+      "candidate": "2302",
+      "missing": "source color estimate, kit color quantity not established"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

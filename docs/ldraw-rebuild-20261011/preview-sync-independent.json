@@ -1,0 +1,649 @@
+{
+  "generatedAt": "2026-10-11T07:08:21.467Z",
+  "checkpointCommit": "7cd8f11 (parent reported)",
+  "method": "Independent byte SHA/equality comparison of repository and D MPDs; repository packages independently parsed against current LDR geometry/STEP and all referenced local DAT geometry.",
+  "summary": {
+    "repositoryMpdCount": 69,
+    "compared": 69,
+    "byteMismatches": 0,
+    "sourceMismatches": 0,
+    "closureFailures": 0,
+    "models": 69,
+    "placements": 4975,
+    "matrixIssues": 0,
+    "sourceIssues": 0,
+    "statusIssues": 0,
+    "mpdIssues": 0,
+    "embeddedDatBlocksCompared": 5933,
+    "uniqueLocalPartFiles": 392,
+    "acceptedTrue": 0
+  },
+  "rows": [
+    {
+      "slug": "4-cha-che",
+      "repoMpdSha256": "c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89",
+      "dMpdSha256": "c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89",
+      "byteIdentical": true,
+      "modelSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-chun-jie-wu-shi",
+      "repoMpdSha256": "955f224e6b25e814e602183da92d6652dfb869d4a88640b32a14f8ec2ba58cc7",
+      "dMpdSha256": "955f224e6b25e814e602183da92d6652dfb869d4a88640b32a14f8ec2ba58cc7",
+      "byteIdentical": true,
+      "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "repoMpdSha256": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+      "dMpdSha256": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+      "byteIdentical": true,
+      "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-da-xiang",
+      "repoMpdSha256": "b0e2089a0e4b3b68490dabe62eae78a0a34c82d49f35ddd12a0ca67b853d1771",
+      "dMpdSha256": "b0e2089a0e4b3b68490dabe62eae78a0a34c82d49f35ddd12a0ca67b853d1771",
+      "byteIdentical": true,
+      "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "repoMpdSha256": "742d7bc694bd8c938617383987ee1d155fc57dcf0d71a085488b8d4608b0246a",
+      "dMpdSha256": "742d7bc694bd8c938617383987ee1d155fc57dcf0d71a085488b8d4608b0246a",
+      "byteIdentical": true,
+      "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-diao-che",
+      "repoMpdSha256": "cb96b1e420517551801fee83a9fdaa004eee433feda4c4ea6abd6b25fd1d867e",
+      "dMpdSha256": "cb96b1e420517551801fee83a9fdaa004eee433feda4c4ea6abd6b25fd1d867e",
+      "byteIdentical": true,
+      "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "repoMpdSha256": "3c96d98f4a2d2e3eb62eb92c180d86bbc09b7547a4189a2822eddca3d8c497a2",
+      "dMpdSha256": "3c96d98f4a2d2e3eb62eb92c180d86bbc09b7547a4189a2822eddca3d8c497a2",
+      "byteIdentical": true,
+      "modelSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-e-yu",
+      "repoMpdSha256": "9e7cc1055e330823c51da709276649636d2e693ed13837e7df69baa7f8a59eac",
+      "dMpdSha256": "9e7cc1055e330823c51da709276649636d2e693ed13837e7df69baa7f8a59eac",
+      "byteIdentical": true,
+      "modelSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "repoMpdSha256": "d63cf52b29b29ed79f84cbfd24e94c690aaf73a4fa2474c45c5b8317d77d33ce",
+      "dMpdSha256": "d63cf52b29b29ed79f84cbfd24e94c690aaf73a4fa2474c45c5b8317d77d33ce",
+      "byteIdentical": true,
+      "modelSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "repoMpdSha256": "89eddec0779aa8ee6a8065177742ca06005406ed6e6f284e999907b68d90a0e2",
+      "dMpdSha256": "89eddec0779aa8ee6a8065177742ca06005406ed6e6f284e999907b68d90a0e2",
+      "byteIdentical": true,
+      "modelSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-jun-jian",
+      "repoMpdSha256": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
+      "dMpdSha256": "45c8bdc7067069e4bcabcc9aacb17ca1a10f6d6c704777ae32a2888f07af06d3",
+      "byteIdentical": true,
+      "modelSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ke-ji",
+      "repoMpdSha256": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
+      "dMpdSha256": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
+      "byteIdentical": true,
+      "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-kuai-ting",
+      "repoMpdSha256": "e37e25a3d14666bb8461912b2c2f0e5df43b954f7e0d7e0c2e8fb492aa23e7bc",
+      "dMpdSha256": "e37e25a3d14666bb8461912b2c2f0e5df43b954f7e0d7e0c2e8fb492aa23e7bc",
+      "byteIdentical": true,
+      "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-long-men-diao",
+      "repoMpdSha256": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+      "dMpdSha256": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+      "byteIdentical": true,
+      "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-mo-tian-lun",
+      "repoMpdSha256": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+      "dMpdSha256": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+      "byteIdentical": true,
+      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "repoMpdSha256": "fe789caab9601d63ce52aa46c2e1e7c763a5678069d4562df330dff3fa9b3180",
+      "dMpdSha256": "fe789caab9601d63ce52aa46c2e1e7c763a5678069d4562df330dff3fa9b3180",
+      "byteIdentical": true,
+      "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-qing-ting",
+      "repoMpdSha256": "bfdf751c0cf4b906dd4b8763b5741c8b908dace1562ccad861c6d78f7b5562bc",
+      "dMpdSha256": "bfdf751c0cf4b906dd4b8763b5741c8b908dace1562ccad861c6d78f7b5562bc",
+      "byteIdentical": true,
+      "modelSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-sai-che",
+      "repoMpdSha256": "ae4f343c773a5bad18cffda4df47099f68cefa41c986aa3119c26ff5498b65a6",
+      "dMpdSha256": "ae4f343c773a5bad18cffda4df47099f68cefa41c986aa3119c26ff5498b65a6",
+      "byteIdentical": true,
+      "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-sheng-jiang-jiu-yuan-che",
+      "repoMpdSha256": "866524574d348ce54fc41111af426280d3018ba29ef766ecc3072629edf45873",
+      "dMpdSha256": "866524574d348ce54fc41111af426280d3018ba29ef766ecc3072629edf45873",
+      "byteIdentical": true,
+      "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-sun-wu-kong",
+      "repoMpdSha256": "ad1f519df8c0fad16be5608340fa44a66b14607734bb9ec2db840d9b39742c86",
+      "dMpdSha256": "ad1f519df8c0fad16be5608340fa44a66b14607734bb9ec2db840d9b39742c86",
+      "byteIdentical": true,
+      "modelSha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ta-diao",
+      "repoMpdSha256": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
+      "dMpdSha256": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
+      "byteIdentical": true,
+      "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "repoMpdSha256": "c8cbd8c1a052763b6b0e1f529e39ccfa46dca7aecdd464ac97deff0e28756dff",
+      "dMpdSha256": "c8cbd8c1a052763b6b0e1f529e39ccfa46dca7aecdd464ac97deff0e28756dff",
+      "byteIdentical": true,
+      "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-wa-li",
+      "repoMpdSha256": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+      "dMpdSha256": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+      "byteIdentical": true,
+      "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "repoMpdSha256": "56e636e1490e9224210fdbc859f3434d1a1fc7aa2a1cd33b394079d11fcc2ab4",
+      "dMpdSha256": "56e636e1490e9224210fdbc859f3434d1a1fc7aa2a1cd33b394079d11fcc2ab4",
+      "byteIdentical": true,
+      "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "repoMpdSha256": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+      "dMpdSha256": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+      "byteIdentical": true,
+      "modelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "repoMpdSha256": "7d041650503807614b9036de54c592657cc2c41d8a863b4a65f6070c374312bc",
+      "dMpdSha256": "7d041650503807614b9036de54c592657cc2c41d8a863b4a65f6070c374312bc",
+      "byteIdentical": true,
+      "modelSha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-xie-zi",
+      "repoMpdSha256": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+      "dMpdSha256": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+      "byteIdentical": true,
+      "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "repoMpdSha256": "a0de6f67c9ba289878c13c65c44b3139cc4bd2f81100f3647b9aa309da833799",
+      "dMpdSha256": "a0de6f67c9ba289878c13c65c44b3139cc4bd2f81100f3647b9aa309da833799",
+      "byteIdentical": true,
+      "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "repoMpdSha256": "cffb45efabcbb2a27c6ef8049c9cce340096d9fb90d4847d4f27da5c04378473",
+      "dMpdSha256": "cffb45efabcbb2a27c6ef8049c9cce340096d9fb90d4847d4f27da5c04378473",
+      "byteIdentical": true,
+      "modelSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "repoMpdSha256": "b718bce6389b4f7770146d60b968b728bb5e0280d4e1d6bcd07adcd0bc2f78d4",
+      "dMpdSha256": "b718bce6389b4f7770146d60b968b728bb5e0280d4e1d6bcd07adcd0bc2f78d4",
+      "byteIdentical": true,
+      "modelSha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-yi-long",
+      "repoMpdSha256": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
+      "dMpdSha256": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
+      "byteIdentical": true,
+      "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-you-wen",
+      "repoMpdSha256": "8f2776316efcd9435df7cce2f0556530a41d20a0d3cc6659759096b0d14fa85c",
+      "dMpdSha256": "8f2776316efcd9435df7cce2f0556530a41d20a0d3cc6659759096b0d14fa85c",
+      "byteIdentical": true,
+      "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "repoMpdSha256": "570807af1d966a470bac9a33060907d8d9a8e066a058d071c69d294bde6c976d",
+      "dMpdSha256": "570807af1d966a470bac9a33060907d8d9a8e066a058d071c69d294bde6c976d",
+      "byteIdentical": true,
+      "modelSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "4-zhi-zhu",
+      "repoMpdSha256": "38ee77e98f2346bfbb94a0c6ce1704948bde7c18cec671b35cf8f177aabb5ba1",
+      "dMpdSha256": "38ee77e98f2346bfbb94a0c6ce1704948bde7c18cec671b35cf8f177aabb5ba1",
+      "byteIdentical": true,
+      "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "repoMpdSha256": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
+      "dMpdSha256": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
+      "byteIdentical": true,
+      "modelSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "repoMpdSha256": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+      "dMpdSha256": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+      "byteIdentical": true,
+      "modelSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "repoMpdSha256": "1fd758cbe2defda2a4e5748765ada46be3ebd4b8cf4e7d4c0f2d43484067b26a",
+      "dMpdSha256": "1fd758cbe2defda2a4e5748765ada46be3ebd4b8cf4e7d4c0f2d43484067b26a",
+      "byteIdentical": true,
+      "modelSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-dan-gan-yun-dong-yuan",
+      "repoMpdSha256": "dfa1331fccd6346d8322d57bf75e75b58cf41fbe0c785789c2d836e3faa25405",
+      "dMpdSha256": "dfa1331fccd6346d8322d57bf75e75b58cf41fbe0c785789c2d836e3faa25405",
+      "byteIdentical": true,
+      "modelSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-di-qiu-yi",
+      "repoMpdSha256": "f7d83518789e4c1eb18bea52a80eb2190eaa7dd87960882290295bf8b968e173",
+      "dMpdSha256": "f7d83518789e4c1eb18bea52a80eb2190eaa7dd87960882290295bf8b968e173",
+      "byteIdentical": true,
+      "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-diao-che",
+      "repoMpdSha256": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
+      "dMpdSha256": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
+      "byteIdentical": true,
+      "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-diao-shan",
+      "repoMpdSha256": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
+      "dMpdSha256": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
+      "byteIdentical": true,
+      "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-fan-chuan",
+      "repoMpdSha256": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+      "dMpdSha256": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+      "byteIdentical": true,
+      "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "repoMpdSha256": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
+      "dMpdSha256": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
+      "byteIdentical": true,
+      "modelSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-huo-jian",
+      "repoMpdSha256": "363c6e195eefb5cee608189730c133a91838be863d9f9501925904bd3871150f",
+      "dMpdSha256": "363c6e195eefb5cee608189730c133a91838be863d9f9501925904bd3871150f",
+      "byteIdentical": true,
+      "modelSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ji-xie-shou",
+      "repoMpdSha256": "fd0b65daf56cc6929bf9bd99e4d2ee74ea1820a7ef14bcf162c1f1e3380e6355",
+      "dMpdSha256": "fd0b65daf56cc6929bf9bd99e4d2ee74ea1820a7ef14bcf162c1f1e3380e6355",
+      "byteIdentical": true,
+      "modelSha256": "85dde2e70992e95911ea5bba501acb7e72a38a9f11951d27bc8640c2f6f394a4",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-jiao-ban-qi",
+      "repoMpdSha256": "3081f6aca354fc12719a4f0e6d690798dd128a98c477e7af8f2b40ea6367c4ba",
+      "dMpdSha256": "3081f6aca354fc12719a4f0e6d690798dd128a98c477e7af8f2b40ea6367c4ba",
+      "byteIdentical": true,
+      "modelSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "repoMpdSha256": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
+      "dMpdSha256": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
+      "byteIdentical": true,
+      "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-mian-bao-ji",
+      "repoMpdSha256": "c2f26caab66f4475f54632e3cf17c00f24c020a916506792e92cc4dacae03091",
+      "dMpdSha256": "c2f26caab66f4475f54632e3cf17c00f24c020a916506792e92cc4dacae03091",
+      "byteIdentical": true,
+      "modelSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ping-heng-cheng",
+      "repoMpdSha256": "9f4ae1ccee7b0406163727527dd51a7c513f7ef2b951d079e0157d03f1f05cbf",
+      "dMpdSha256": "9f4ae1ccee7b0406163727527dd51a7c513f7ef2b951d079e0157d03f1f05cbf",
+      "byteIdentical": true,
+      "modelSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-qing-ting",
+      "repoMpdSha256": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
+      "dMpdSha256": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
+      "byteIdentical": true,
+      "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ren-li-shui-che",
+      "repoMpdSha256": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+      "dMpdSha256": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+      "byteIdentical": true,
+      "modelSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "repoMpdSha256": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+      "dMpdSha256": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+      "byteIdentical": true,
+      "modelSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-shui-jing",
+      "repoMpdSha256": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
+      "dMpdSha256": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
+      "byteIdentical": true,
+      "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "repoMpdSha256": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+      "dMpdSha256": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+      "byteIdentical": true,
+      "modelSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "repoMpdSha256": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+      "dMpdSha256": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+      "byteIdentical": true,
+      "modelSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "repoMpdSha256": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
+      "dMpdSha256": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
+      "byteIdentical": true,
+      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "repoMpdSha256": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
+      "dMpdSha256": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
+      "byteIdentical": true,
+      "modelSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-tuo-gua-che",
+      "repoMpdSha256": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+      "dMpdSha256": "1c69fd233409aaa8df63e0a849201a8835bd8c4cc76860b843595401ee866fa6",
+      "byteIdentical": true,
+      "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-wo-lun-diao-qiao",
+      "repoMpdSha256": "5278ad9f1fdbe2f5ee36334e71b092e330cb66457f4a08603b65ccc59424b96d",
+      "dMpdSha256": "5278ad9f1fdbe2f5ee36334e71b092e330cb66457f4a08603b65ccc59424b96d",
+      "byteIdentical": true,
+      "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-xiao-niao-de-chi-bang",
+      "repoMpdSha256": "eeea5e02fe46389775b3b33fdc2ea0d1edd36b8bf099bbfbd405945623d54182",
+      "dMpdSha256": "eeea5e02fe46389775b3b33fdc2ea0d1edd36b8bf099bbfbd405945623d54182",
+      "byteIdentical": true,
+      "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "repoMpdSha256": "6756d001d1c72eacf9604c2d1f65e07852f267a65f7e907999c443069a04b18d",
+      "dMpdSha256": "6756d001d1c72eacf9604c2d1f65e07852f267a65f7e907999c443069a04b18d",
+      "byteIdentical": true,
+      "modelSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-xuan-zhuan-deng-long",
+      "repoMpdSha256": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c",
+      "dMpdSha256": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c",
+      "byteIdentical": true,
+      "modelSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "repoMpdSha256": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+      "dMpdSha256": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+      "byteIdentical": true,
+      "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "repoMpdSha256": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958",
+      "dMpdSha256": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958",
+      "byteIdentical": true,
+      "modelSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-yao-yao-che",
+      "repoMpdSha256": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+      "dMpdSha256": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+      "byteIdentical": true,
+      "modelSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "repoMpdSha256": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+      "dMpdSha256": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+      "byteIdentical": true,
+      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "repoMpdSha256": "8208c3f80ff49471058c7bd5abd148e083e6ebd2af65e4cbfe2212a31cedadba",
+      "dMpdSha256": "8208c3f80ff49471058c7bd5abd148e083e6ebd2af65e4cbfe2212a31cedadba",
+      "byteIdentical": true,
+      "modelSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "repoMpdSha256": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194",
+      "dMpdSha256": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194",
+      "byteIdentical": true,
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "repoMpdSha256": "88a44cbf11cd3bc9e215bd063cd3f760d61d191e5aeaad479238b3c8c76754c7",
+      "dMpdSha256": "88a44cbf11cd3bc9e215bd063cd3f760d61d191e5aeaad479238b3c8c76754c7",
+      "byteIdentical": true,
+      "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "previewMatchesCurrentSource": true,
+      "dependencyClosure": true
+    }
+  ],
+  "backup": {
+    "path": "D:/Codex-task-2-20261011/preview-backups/0202668",
+    "status": "Parent reports verified59 backup; not independently modified or reverified here"
+  },
+  "boundaries": "No collision/support/physical or user acceptance implied. Fine-grained static alarm reports from active owners are pending a later coverage refresh."
+}

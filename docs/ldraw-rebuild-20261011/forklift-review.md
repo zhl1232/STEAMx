@@ -2,7 +2,7 @@
 
 Source: Library `libfile_fae16f1e8c10819194b9b37eb3b7a0e2`, 15-page PDF, materialized as `inputs/4-cha-che.pdf`. All 15 page pixels inspected before construction. Page 15 is final presentation, with 14 assembly steps.
 
-71 placed components; raw collision checker passed 2026-10-11. Self-contained MPD loaded with 117 dependency files and no missing dependencies; this means only the represented components load, not that all source components are represented. Final iso, rear and top pixels inspected. Original step-filter screenshots must be replaced by cumulative-source renders before step acceptance.
+71 placed components; raw collision checker passed 2026-10-11. Self-contained MPD loaded with 117 dependency files and no missing dependencies; this means only the represented components load, not that all source components are represented. Final iso, rear and top pixels inspected. The original filtered screenshots were superseded: all14 cumulative-source step images were actually reviewed at 05:42 UTC, with source/pack/image hashes in current-pixel-review.json.
 
 ## Remaining blockers
 

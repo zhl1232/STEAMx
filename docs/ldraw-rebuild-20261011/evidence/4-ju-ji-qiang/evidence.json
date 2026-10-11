@@ -1,6 +1,6 @@
 {
   "slug": "4-ju-ji-qiang",
-  "modelSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+  "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
   "placements": 67,
   "status": "incomplete-needs-source-geometry-and-step-acceptance",
   "accepted": false,
@@ -12,7 +12,7 @@
     "allPixelsViewed": true
   },
   "additiveStages": 14,
-  "checker": "PASS rawLDR; Toolo manual-policy parts require explicit review",
-  "render": "awaiting parent queue",
+  "checker": "PASS67; manual warnings remain",
+  "render": "awaiting rerender after source-guided cumulative-step correction",
   "remaining": "Black2223 holder missing. All15sourcepages actually viewed. RawcheckerPASS67placements. Source barrel images may involve re-positioning earlier modules; current cumulative placements preserve source part counts and connected extension concept but do not certify exact source reassembly order. Stock grid and core stagger unresolved pending pixels. No functional weapon mechanism. No rendering yet."
 }

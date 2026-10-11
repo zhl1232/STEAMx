@@ -1,0 +1,18 @@
+{
+  "slug": "4-cha-che",
+  "sourceSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+  "checkedAt": "2026-10-11T07:14:57.394261+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [4-cha-che.ldr] 71 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "remainingNonAlarmLimitations": [
+    "Two source-p8 4433c01 fork pipes omitted: no reusable licensed geometry available.",
+    "Toolo mast and screw parts retain explicitly approximate geometry; engagement and movement unverified.",
+    "Pallet intentionally separate per source p14/15; no support by omitted forks claimed.",
+    "Driver internal retaining pin not represented without identity evidence."
+  ],
+  "pixelEvidence": "current-pixel-review.json, final3 and all14 cumulative steps viewed, source/MPD/image hashes bound.",
+  "noAlarmMeaning": "Only the represented placements produced no raw alarms. Does not validate omitted components, support, physical fit or motion.",
+  "accepted": false,
+  "physicalValidation": false
+}

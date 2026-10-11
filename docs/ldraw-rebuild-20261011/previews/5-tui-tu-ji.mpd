@@ -6,21 +6,21 @@
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV-ONLY; all9 source PDF pages visually inspected.
 0 // INCOMPLETE: orange vehicle cabin, pale canopy placement, red-white window IDs pending.
-0 // Source page 1: two adjacent2x10 chassis rails; two green axles8, four tyres and eight pulley hubs/spacers.
+0 // Source page 1: two chassis rails, green axles8; asymmetric tyre cavities outward with verified back-to-back pulley hubs.
 1 4 0 -81 -40 1 0 0 0 1 0 0 0 1 75350.dat
 1 4 0 -81 40 1 0 0 0 1 0 0 0 1 75350.dat
 1 2 -160 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 -160 -57 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 0 -160 -57 -140 1 0 0 0 1 0 0 0 1 6292.dat
-1 14 -160 -57 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 -160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 -160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
 1 0 -160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
 1 2 160 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
-1 14 160 -57 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 0 160 -57 -140 1 0 0 0 1 0 0 0 1 6292.dat
-1 14 160 -57 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
 1 0 160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
 0 STEP

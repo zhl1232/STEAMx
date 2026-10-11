@@ -1,0 +1,23 @@
+{
+  "slug": "5-ji-xie-shou",
+  "sourceSha256": "85dde2e70992e95911ea5bba501acb7e72a38a9f11951d27bc8640c2f6f394a4",
+  "checkedAtUTC": "2026-10-11T07:07:36.552694+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK   [5-ji-xie-shou.ldr] 36 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "remainingNonAlarmLimitations": "Worm/gear phase, axle depth and rear handle pin retention unresolved.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

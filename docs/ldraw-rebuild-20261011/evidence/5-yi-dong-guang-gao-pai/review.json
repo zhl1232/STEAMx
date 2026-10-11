@@ -14,8 +14,8 @@
     {
       "page": 6,
       "part": "yellow crank/carrier beneath upper poster beam",
-      "candidate": "6526.dat; source BOM1x and visible arm/pin match",
-      "missing": "omitted in current55-part model; shaft retention, secondary-pin engagement and both pulley axial positions need geometry review. Found during all12 cumulative-step pixel review; source deliberately unchanged at checkpoint."
+      "candidate": "6526.dat identity confirmed from source BOM and official geometry",
+      "missing": "placement unresolved: direct insertion at main centre(0,-148,0) overlaps current lower pulley; source lower pulley sits lower. Need joint seating depth/axial-stack reconstruction. See step6-carrier-evidence.json"
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",

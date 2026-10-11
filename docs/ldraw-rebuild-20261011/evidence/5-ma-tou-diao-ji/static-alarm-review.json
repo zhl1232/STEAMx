@@ -1,0 +1,48 @@
+{
+  "slug": "5-ma-tou-diao-ji",
+  "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+  "checkedAtUTC": "2026-10-11T07:07:36.553693+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 2,
+  "rawCheckerOutput": "\nFAIL [5-ma-tou-diao-ji.ldr] 1 error(s), 83 placement(s):\n  - step 9: 5-ma-tou-diao-ji_l90 overlaps 5-ma-tou-diao-ji_l89\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [
+    {
+      "step": 9,
+      "lines": [
+        90,
+        89
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "placements": [
+        "1 46 -148 -626 0 0 1 0 0 0 1 1 0 0 6345.dat",
+        "1 4 0 -592 0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+      "evidence": [
+        "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+        "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+        "preparation/5-ma-tou-diao-ji/REVIEW.md source/visual record"
+      ],
+      "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+    }
+  ],
+  "alarmCount": 1,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 1
+  },
+  "remainingNonAlarmLimitations": "Three known-ID lower pivot/retainer parts omitted; arm pivot assignment unresolved, frame mold variant uncertain, cord schematic.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

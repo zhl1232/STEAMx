@@ -16,18 +16,16 @@
       "page": "1,5,8-9",
       "part": "axle/gear retention and meshing",
       "missing": "rendered joint inspection and source-specific gear phase; manual metadata does not certify motion"
+    },
+    {
+      "page": 1,
+      "part": "6292 tyre / two6527 pulley wheel axial stack",
+      "missing": "Current inner rim has197 strict triangle crossings per wheel; source hidden axial seat depth unresolved. Candidate remains intersecting and unapplied. Previous uniform-radius exemption invalid."
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
   "render": "iso pixels inspected: source body/wing/gear arrangement matches broad structure; four crossed drivebelts visibly absent, correctly INCOMPLETE",
-  "collisionAssessment": {
-    "rawResult": "4 AABB error groups; each tyre overlaps both rim bounding boxes",
-    "tyreInnerRadiusMeshBoundary": 42.183,
-    "wheelFlangeRadius": 41,
-    "assembly": "Positive wheel: tyre Z59..121; inward rim flange42..60 and hub60..80; outward rim flange120..138 and hub100..120. Four wheel units symmetric. Tyre annular material remains outside rim radial41.",
-    "limit": "Radial clearance at least1.183LDU means press-fit not proven; no physical validation. No generic collisionPASS claim."
-  },
   "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",
   "inventoryMechanicalDeficits": [
     {
@@ -40,5 +38,14 @@
   "matrixCheck": {
     "status": "PASS",
     "invalid": []
-  }
+  },
+  "supersededCollisionAssessment": {
+    "rawResult": "4 AABB error groups; each tyre overlaps both rim bounding boxes",
+    "tyreInnerRadiusMeshBoundary": 42.183,
+    "wheelFlangeRadius": 41,
+    "assembly": "Positive wheel: tyre Z59..121; inward rim flange42..60 and hub60..80; outward rim flange120..138 and hub100..120. Four wheel units symmetric. Tyre annular material remains outside rim radial41.",
+    "limit": "Radial clearance at least1.183LDU means press-fit not proven; no physical validation. No generic collisionPASS claim."
+  },
+  "collisionAssessment": "Previous uniform6292 cavity radius exemption REVOKED. Current inner rim pairs each have197 strict triangle crossings; outer pairs0 does not establish clearance. Nominal candidate still has52 inner crossings and source lacks hidden seating depth. See tyre-assembly-decision.json and static-alarm-review.json.",
+  "tyreClearanceReviewStatus": "confirmed inner-pulley surface crossings; candidate insufficient and not applied"
 }
