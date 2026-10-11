@@ -1,3 +1,4 @@
+import { LessonPartsUnavailable } from "@/components/features/courses/lesson-parts-unavailable";
 import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -64,17 +65,7 @@ export default async function LessonPartsPage({ params }: PageProps) {
           <MobilePageHeader title="零件清单" fallbackHref={lessonHref} />
         </div>
         <main id="lesson-parts" className="mx-auto w-full max-w-5xl space-y-3 px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-4 md:space-y-5 md:px-8 md:pt-6 [&_h1]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h2]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_h3]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_details]:scroll-mt-[calc(4rem+env(safe-area-inset-top))] [&_summary]:scroll-mt-[calc(4rem+env(safe-area-inset-top))]">
-          <div className="surface-card rounded-xl p-6 text-center md:p-10">
-            <h1 className="text-xl font-black tracking-tight text-foreground">零件清单正在生成</h1>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-              这节课的清单一时没算出来，刷新一下通常就好了。着急的话也可以直接进课时，搭建界面里同样能看到每一步用的零件。
-            </p>
-            <Button asChild className="mt-5">
-              <Link href={lessonHref} prefetch={false}>
-                进入课时
-              </Link>
-            </Button>
-          </div>
+          <LessonPartsUnavailable key={lessonHref} lessonHref={lessonHref} />
         </main>
       </div>
     );
