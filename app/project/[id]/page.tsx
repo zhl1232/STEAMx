@@ -820,7 +820,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               </div>
               {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
               <div id="project-steps" className="scroll-mt-36">
-                <SectionCard title={`${isSciencePracticePending ? '实践准备' : isScienceViewingGuide ? '观看要点' : '制作步骤'}${!isSciencePracticePending && steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
+                <SectionCard title={`${isScienceViewingGuide ? '观看要点' : '制作步骤'}${steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
                   {steps.length ? (
                     <ol className="divide-y divide-border/60">{steps.map((step, index) => <StepItem viewingGuide={isScienceViewingGuide} key={`${step.title || 'step'}-${index}`} step={step} index={index} />)}</ol>
                   ) : <p className="py-4 text-sm text-muted-foreground">{isScienceViewingGuide ? "暂无观看要点" : "暂无步骤说明"}</p>}

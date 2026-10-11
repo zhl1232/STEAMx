@@ -67,3 +67,9 @@ it("uses viewing language for empty points and untitled points", () => {
   rerender(<MobileProjectSteps steps={[{title: "", description: "观察变化"}]} observationOnly />)
   expect(screen.getByText("观看要点 1")).toBeInTheDocument()
 })
+
+it('shows the exploration step count without generic manual guidance for preparation projects', () => {
+  render(<MobileProjectSteps steps={steps} practicePending />)
+  expect(screen.getByRole('heading', { name: '探索步骤（共 2 步）' })).toBeInTheDocument()
+  expect(screen.queryByText(/按材料包里的说明书一步步操作/)).not.toBeInTheDocument()
+})

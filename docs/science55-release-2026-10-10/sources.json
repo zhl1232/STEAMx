@@ -397,22 +397,6 @@
     ]
   },
   {
-    "id": 907,
-    "title": "欢叫的吸管",
-    "sources": [
-      {
-        "url": "https://acoustics.org/pressroom/httpdocs/161st/Lee.html",
-        "title": "Acoustical Society of America — Air bubbles in water as acoustic resonators",
-        "claim": "水中气泡有体积振动及固有频率，气泡内空气类似弹簧，周围水具有惯性；气泡大小影响频率。"
-      },
-      {
-        "url": "https://dosits.org/galleries/audio-gallery/anthropogenic-sounds/bubble-curtain/",
-        "title": "Discovery of Sound in the Sea — Bubble Curtain",
-        "claim": "打桩时气泡幕利用水气声阻抗差异反射声音，气泡共振吸收声能，降低传播噪声。"
-      }
-    ]
-  },
-  {
     "id": 925,
     "title": "翻滚吧小熊",
     "sources": [
@@ -590,6 +574,22 @@
         "url": "https://www.nidcd.nih.gov/health/how-do-we-hear",
         "title": "NIH/NIDCD — How Do We Hear?",
         "claim": "声音经耳道引起鼓膜及中耳听小骨振动；内耳形成电信号，由听神经传至大脑。"
+      }
+    ]
+  },
+  {
+    "id": 1098,
+    "title": "吸管独奏",
+    "sources": [
+      {
+        "url": "https://acoustics.org/pressroom/httpdocs/161st/Lee.html",
+        "title": "Acoustical Society of America — Air bubbles in water as acoustic resonators",
+        "claim": "水中气泡有体积振动及固有频率，气泡内空气类似弹簧，周围水具有惯性；气泡大小影响频率。"
+      },
+      {
+        "url": "https://dosits.org/galleries/audio-gallery/anthropogenic-sounds/bubble-curtain/",
+        "title": "Discovery of Sound in the Sea — Bubble Curtain",
+        "claim": "打桩时气泡幕利用水气声阻抗差异反射声音，气泡共振吸收声能，降低传播噪声。"
       }
     ]
   },

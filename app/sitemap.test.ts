@@ -57,6 +57,18 @@ describe("sitemap route coverage", () => {
     expect(urls).not.toContain("/courses/3/lessons/5/parts");
   });
 
+  it("excludes retired projects even before their database moderation state is hidden", () => {
+    const urls = buildSitemapEntries({
+      projects: [907, 997, 1010, 1098].map(id => ({ id, updated_at: null })),
+      species: [], observations: [], courses: [], lessons: [], works: [], resources: [], challenges: [],
+    }).map(entry => new URL(entry.url).pathname);
+
+    for (const id of [907, 997, 1010]) {
+      expect(urls).not.toContain(`/project/${id}`);
+    }
+    expect(urls).toContain("/project/1098");
+  });
+
   it("excludes fungi and legacy unclassified species from public detail URLs", () => {
     const urls = buildSitemapEntries({
       projects: [],
