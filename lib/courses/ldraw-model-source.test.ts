@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createHash } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
 
 import {
   LdrawModelMissingError,
@@ -22,7 +23,7 @@ function largeValidModel(name: string, targetBytes = 4 * 1024 * 1024): string {
 }
 
 describe('LDraw model source', () => {
-  afterEach(() => { delete process.env.NEXT_PUBLIC_ASSETS_BASE_URL; vi.useRealTimers(); vi.restoreAllMocks() })
+  afterEach(() => { delete process.env.NEXT_PUBLIC_ASSETS_BASE_URL; vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals() })
 
   it('loads remote-only models and supplies a content hash', async () => {
     process.env.NEXT_PUBLIC_ASSETS_BASE_URL = 'https://assets.example.test'
@@ -46,13 +47,38 @@ describe('LDraw model source', () => {
     await expect(readLdrawModel('html-unique.mpd')).rejects.toBeInstanceOf(LdrawModelUnavailableError)
   })
 
-  it('falls back to an existing local MPD when OSS is unavailable', async () => {
+  it('prefers an existing local MPD without contacting OSS', async () => {
     process.env.NEXT_PUBLIC_ASSETS_BASE_URL = 'https://assets.example.test'
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
 
     const result = await readLdrawModel('3-hu-die.mpd')
     expect(result.source).toBe('local')
     expect(result.text).toContain('0 FILE')
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('resolves a hashed name to matching local source bytes, including cached reads', async () => {
+    process.env.NEXT_PUBLIC_ASSETS_BASE_URL = 'https://assets.example.test'
+    const bytes = await readFile('public/courses/ldraw/3-ai-fei-er-tie-ta.mpd')
+    const hash = createHash('sha256').update(bytes).digest('hex')
+    const model = `3-ai-fei-er-tie-ta-${hash}.mpd`
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('must not fetch')))
+
+    const result = await readLdrawModel(model)
+    expect(result).toMatchObject({ model, source: 'local', sha256: hash, text: bytes.toString() })
+    expect(await readLdrawModel(model)).toBe(result)
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('rejects mismatching local source bytes and fetches the requested immutable version', async () => {
+    process.env.NEXT_PUBLIC_ASSETS_BASE_URL = 'https://assets.example.test'
+    const hash = createHash('sha256').update(valid).digest('hex')
+    const model = `3-ai-fei-er-tie-ta-${hash}.mpd`
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(valid)))
+
+    expect(await readLdrawModel(model)).toMatchObject({ model, source: 'remote', sha256: hash, text: valid })
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(`https://assets.example.test/courses/ldraw/${model}`, expect.any(Object))
   })
 
   it.each(['../escape.mpd', 'nested/escape.mpd', 'model.txt', '.hidden.mpd', ''])('rejects unsafe model names (%s)', async (model) => {
@@ -111,6 +137,7 @@ describe('LDraw model source', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     const pending = expect(readLdrawModel('timeout-unique.mpd')).rejects.toBeInstanceOf(LdrawModelUnavailableError)
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalled())
     await vi.advanceTimersByTimeAsync(12_000)
     await pending
     expect(fetchMock).toHaveBeenCalled()
@@ -128,8 +155,7 @@ describe('LDraw model source', () => {
 
     const sameA = readLdrawModel('dedupe-unique.mpd')
     const sameB = readLdrawModel('dedupe-unique.mpd')
-    await Promise.resolve()
-    expect(fetchMock).toHaveBeenCalledTimes(1)
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
     release()
     await Promise.all([sameA, sameB])
 

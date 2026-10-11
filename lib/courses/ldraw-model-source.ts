@@ -8,7 +8,7 @@ const MODEL_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*\.mpd$/
 const LDRAW_DIRECTORY = path.resolve(process.cwd(), 'public/courses/ldraw')
 export const MAX_LDRAW_MODEL_BYTES = 16 * 1024 * 1024
 const REMOTE_TTL_MS = 60_000
-const FALLBACK_TTL_MS = 10_000
+const LOCAL_TTL_MS = 10_000
 const MAX_MODEL_CACHE_BYTES = 64 * 1024 * 1024
 const REQUEST_TIMEOUT_MS = 12_000
 
@@ -24,6 +24,7 @@ export interface LdrawModel {
   text: string
   sha256: string
   source: LdrawModelSource
+  localFileName?: string
   localFingerprint?: string
 }
 
@@ -99,15 +100,24 @@ function makeModel(model: string, bytes: Uint8Array, source: LdrawModelSource): 
 }
 
 async function readLocal(model: string): Promise<LdrawModel> {
-  const file = localPath(model)
-  let info
-  try { info = await stat(file) } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') throw new LdrawModelMissingError('LDraw model not found')
-    throw error
+  const unhashed = model.replace(/-[a-f0-9]{64}\.mpd$/i, '.mpd')
+  const candidates = unhashed === model ? [model] : [model, unhashed]
+  let lastError: unknown = new LdrawModelMissingError('LDraw model not found')
+  for (const candidate of candidates) {
+    try {
+      const file = localPath(candidate)
+      const info = await stat(file)
+      if (!info.isFile()) throw new LdrawModelMissingError('LDraw model not found')
+      if (info.size > MAX_LDRAW_MODEL_BYTES) throw new LdrawModelTooLargeError('LDraw model is too large')
+      // Validate bytes against the requested immutable name, even for the base file.
+      return { ...makeModel(model, await readFile(file), 'local'), localFileName: candidate,
+        localFingerprint: `${info.mtimeMs}:${info.size}` }
+    } catch (error) {
+      lastError = (error as NodeJS.ErrnoException).code === 'ENOENT'
+        ? new LdrawModelMissingError('LDraw model not found') : error
+    }
   }
-  if (!info.isFile()) throw new LdrawModelMissingError('LDraw model not found')
-  if (info.size > MAX_LDRAW_MODEL_BYTES) throw new LdrawModelTooLargeError('LDraw model is too large')
-  return { ...makeModel(model, await readFile(file), 'local'), localFingerprint: `${info.mtimeMs}:${info.size}` }
+  throw lastError
 }
 
 function remoteBase(): string | null {
@@ -173,32 +183,24 @@ export async function readLdrawModel(model: string): Promise<LdrawModel> {
   if (cached?.source === 'remote') return cached
   if (cached?.source === 'local') {
     try {
-      const info = await stat(localPath(model))
+      const info = await stat(localPath(cached.localFileName ?? model))
       if (`${info.mtimeMs}:${info.size}` === cached.localFingerprint) return cached
-    } catch { /* retry the configured remote source */ }
+    } catch { /* re-resolve the local candidates */ }
     removeCachedModel(cacheKey)
   }
   const existing = inFlight.get(cacheKey)
   if (existing) return existing
   if (base && inFlight.size >= 4) throw new LdrawModelBusyError('Too many LDraw model loads are running')
   const promise = (async () => {
-    if (!base) {
-      const local = await readLocal(model)
-      return local
-    }
     try {
+      const local = await readLocal(model)
+      cacheModel(cacheKey, local, LOCAL_TTL_MS)
+      return local
+    } catch (localError) {
+      if (!base) throw localError
       const remote = await readRemote(model, base)
-      cacheModel(`${base}:${model}`, remote, REMOTE_TTL_MS)
+      cacheModel(cacheKey, remote, REMOTE_TTL_MS)
       return remote
-    } catch (remoteError) {
-      try {
-        const local = await readLocal(model)
-        cacheModel(cacheKey, local, FALLBACK_TTL_MS)
-        return local
-      } catch (localError) {
-        if (remoteError instanceof LdrawModelMissingError && localError instanceof LdrawModelMissingError) throw localError
-        throw remoteError
-      }
     }
   })().finally(() => { if (inFlight.get(cacheKey) === promise) inFlight.delete(cacheKey) })
   inFlight.set(cacheKey, promise)

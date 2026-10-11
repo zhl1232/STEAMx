@@ -4,6 +4,7 @@ import {
   buildCanonicalHostRedirectUrl,
   getRequestHostname,
   PRIMARY_ORIGIN,
+  shouldNoIndexNonProductionHost,
   shouldNoIndexSteamxHost,
 } from "@/lib/seo/canonical-host";
 import { getSiteUrl } from "@/lib/seo/site";
@@ -82,6 +83,22 @@ describe("getSiteUrl", () => {
       }
     }
   });
+});
+
+describe("shouldNoIndexNonProductionHost", () => {
+  it.each([
+    "steamx.cc", "WWW.steamx.cc:443", "steam.bj.cn", "www.steam.bj.cn",
+    "localhost:3000", "127.0.0.1", "[::1]:3000", "web", "", null,
+  ])("excludes %s from noindex, nofollow", (host) => {
+    expect(shouldNoIndexNonProductionHost(host)).toBe(false);
+  });
+
+  it.each(["dev.steamx.cc", "preview.steamx.cc", "x.trycloudflare.com"])(
+    "includes public non-production host %s",
+    (host) => {
+      expect(shouldNoIndexNonProductionHost(host)).toBe(true);
+    },
+  );
 });
 
 describe("shouldNoIndexSteamxHost", () => {

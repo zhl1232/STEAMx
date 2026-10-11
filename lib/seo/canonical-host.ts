@@ -57,6 +57,32 @@ export function shouldNoIndexSteamxHost(hostHeader: string | null | undefined): 
   return STEAMX_NOINDEX_HOST_SET.has(getRequestHostname(hostHeader));
 }
 
+/** 非生产 host（dev.steamx.cc、预览域等）的整站 X-Robots-Tag。 */
+export const X_ROBOTS_TAG_NOINDEX_NOFOLLOW = "noindex, nofollow";
+
+/** 仍可被索引的正式主域（www.steam.bj.cn 会 301 到主域）。 */
+const INDEXABLE_HOST_SET = new Set<string>([PRIMARY_HOST, STEAM_BJ_WWW_HOST]);
+
+function isLoopbackOrIpHost(hostname: string): boolean {
+  if (hostname === "localhost" || hostname.endsWith(".localhost")) return true;
+  if (hostname.includes(":")) return true; // IPv6 literal
+  return /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
+}
+
+/**
+ * dev.steamx.cc / 其它 *.steamx.cc / 预览域等公网非生产 host：整站 noindex, nofollow，避免与 steam.bj.cn 抢收录。
+ * 主域、www.steam.bj.cn 不受影响；localhost、IP、无点内部名、空 host 也不加
+ * （生产 Nginx 部分 location 不透传 Host，Next 会看到 127.0.0.1:3000，不能误伤）。
+ * 显式排除旧域 steamx.cc / www.steamx.cc：仅带 noindex，不加 nofollow，避免干扰百度改版权重迁移；不依赖 301 分支。
+ */
+export function shouldNoIndexNonProductionHost(hostHeader: string | null | undefined): boolean {
+  const hostname = getRequestHostname(hostHeader);
+  if (STEAMX_NOINDEX_HOST_SET.has(hostname)) return false;
+  if (!hostname || !hostname.includes(".")) return false;
+  if (isLoopbackOrIpHost(hostname)) return false;
+  return !INDEXABLE_HOST_SET.has(hostname);
+}
+
 export function isProductionSiteHost(hostHeader: string | null | undefined): boolean {
   return PRODUCTION_SITE_HOST_SET.has(getRequestHostname(hostHeader));
 }

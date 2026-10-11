@@ -137,7 +137,10 @@ async function fetchUpstreamAsset(
     const headers = new Headers({ Referer: value })
     const range = requestHeaders.get('range')
     const ifRange = requestHeaders.get('if-range')
-    if (range) headers.set('Range', range)
+    if (range) {
+      headers.set('Range', range)
+      headers.set('Accept-Encoding', 'identity')
+    }
     if (ifRange) headers.set('If-Range', ifRange)
 
     try {
@@ -346,8 +349,17 @@ async function proxyAsset(
     }
   }
 
+  // Node fetch decodes compressed bodies but retains the upstream wire headers.
+  const encoding = upstream.headers.get('content-encoding')?.trim().toLowerCase()
+  const isIdentity = !encoding || encoding === 'identity'
+  if (!isIdentity && upstream.status === 206) {
+    await upstream.body?.cancel().catch(() => undefined)
+    return NextResponse.json({ error: 'Asset upstream returned an encoded byte range' }, { status: 502 })
+  }
+
   const headers = new Headers()
   for (const header of PASS_THROUGH_HEADERS) {
+    if (!isIdentity && ['content-length', 'content-range', 'accept-ranges'].includes(header)) continue
     const value = upstream.headers.get(header)
     if (value) headers.set(header, value)
   }
