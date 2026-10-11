@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+  "revision": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c",
+  "reviewedAt": "2026-10-11T06:13:07.063875+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-deng-long",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "1e403714a7e64ba42c309bcbf078b2e436fa36e4abfa376e93f21fac25e0be64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "655e155f8aa192583a551b7209ba0493d3e421bd72355f9c2e7fc6dcb4b405b9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "75419eb86336a6804440e68e0725bd89c43a8a639e39415657b12160970ceb5e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "61ff6db83a22c6f5b14a9ba3ff648176c8ba38cd1fe187b72472b2c83974492a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c00eb16f88e33ca6eea9c3bb6a46fc5aa9413f3043e5972c6cd51f3326924a74",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f48b24688762216258441a6a3523a732fad87f95042a6bfad0ee9cee63a6f6e3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "3da033d4f49d3cd027b5b35679486302cc4956be0069276b565c523fc70003ea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "d94aaca22f979aca7c30aa674b6043af488210cea8930dacf6fdfe6e62ebc647",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "9391b384f5327e21aac9cc94cbb965f614a38f6427ebb2f3fcac252fd57d9a0d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "58a2fa576d531060117d11ec21e143a5a5046d60f35703878409615b0c4ba667",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "600c07b53e49138a76612a347c36faf6d64e20ee8ac88d24e8ad3f5061f402f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "3b5d5587e8975e5637873bc2f53d711b90e72ebec242ceff1002cf5b0566473f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "1e403714a7e64ba42c309bcbf078b2e436fa36e4abfa376e93f21fac25e0be64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "1e403714a7e64ba42c309bcbf078b2e436fa36e4abfa376e93f21fac25e0be64",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Re-reviewed current full-frame final3 and all11 cumulative step panels against source PDF pages1-11. Original-size steps6,8,10 additionally inspected for axle/pulley stack, double-sided handle splice and hanging-arm support. Sequence matches source: base1, windows2, cornerstacks3, roof4-5, shaft6, handle/outputgear7, extension8, inputdrive9, hangingarms10, final11. No new visible floating or interpenetration found. Gear tooth phase, mechanical retention/friction and moving clearance remain unverified; not human accepted or physically validated."
+}

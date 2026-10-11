@@ -1,41 +1,97 @@
-0 4+ 导弹车 (Missile Truck) - DUPLO draft for manual repair
+0 4+ Missile toy truck - source reconstruction draft
 0 Name: 4-dao-dan-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+导弹车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Launcher rack, missiles and cabin are simplified.
-
-0 // STEP 1 - wheeled chassis
-1 2 -200 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 -40 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 280 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY INCOMPLETE: cockpit/window identities and hidden fork-to-clip capture pending.
+0 // All14 source PDF pages viewed. Source SHA256 0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a.
+0 // Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD.
+0 // Source p1: four gray2x4 screw bearings, four wheel hubs, four tyres.
+1 72 -200 -82 -120 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 -240 -58 -178 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -240 -58 -178 1 0 0 0 0 -1 0 1 0 44970.dat
+1 72 -200 -82 120 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 -240 -58 178 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -240 -58 178 1 0 0 0 0 1 0 -1 0 44970.dat
+1 72 200 -82 -120 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 240 -58 -178 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 240 -58 -178 1 0 0 0 0 -1 0 1 0 44970.dat
+1 72 200 -82 120 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 240 -58 178 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 240 -58 178 1 0 0 0 0 1 0 -1 0 44970.dat
 0 STEP
-
-0 // STEP 2 - blue/yellow cabin
-1 1 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -180 -192 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 20 -192 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source p2: four black4x6 Toolo bricks, paired across width at front/rear.
+1 0 -200 -130 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -200 -130 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 -130 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 -130 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 3 - black launcher support
-1 0 160 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 320 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 160 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 320 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 220 -192 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+0 // Source p3: green8x16 plate joins chassis ends.
+1 2 0 -154 0 1 0 0 0 1 0 0 0 1 6490.dat
 0 STEP
-
-0 // STEP 4 - raised missile rack
-1 0 260 -264 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 420 -408 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 580 -552 -20 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 1 240 -300 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 1 340 -372 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 1 440 -444 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 14 740 -696 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
+0 // Source p4: two rear black4x6 bricks and two gray angled fork bases.
+1 0 -200 -202 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 72 -200 -250 -80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 0 -200 -202 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 72 -200 -250 80 0 0 -1 0 1 0 1 0 0 28336.dat
+0 STEP
+0 // Source p5: five blue cab surround bricks; red cockpit and pale canopy omitted pending identity/pose.
+1 1 0 -202 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -202 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -202 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -202 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -202 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source p6: three red2x4x3 frames with white four-pane opening windows OMITTED; candidates2332ac01/4253c01 unverified.
+0 STEP
+0 // Source p7: four yellow and two blue bricks form rear cab roof support columns.
+1 14 0 -250 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -298 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -346 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -250 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -298 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -346 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source p8: eight roof bricks arranged four crosswise blue/yellow rows.
+1 1 -40 -394 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -394 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -394 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -394 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -394 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -394 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -394 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -394 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source p9: two gray bottom-clip blocks at fork tips; capture depth inferred.
+1 72 -248 -380 -80 0 0 -1 0 1 0 1 0 0 74957.dat
+1 72 -248 -380 80 0 0 -1 0 1 0 1 0 0 74957.dat
+0 STEP
+0 // Source p10: first transverse black4x6 block on upper clips.
+1 0 -280 -428 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // Source p11: three black4x6 bricks plus yellow long/short rear lip.
+1 0 -120 -428 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -200 -476 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -40 -476 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 14 -320 -476 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -476 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Source p12: three exposed gray screw wheel hubs create toy front tubes; no launch mechanism.
+1 71 58 -452 -80 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 58 -452 0 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 58 -452 80 0 -1 0 1 0 0 0 0 1 99565.dat
+0 STEP
+0 // Source p13: six blue and three yellow curved top bricks, three source rows.
+1 1 -320 -524 -80 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -320 -524 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -320 -524 80 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 -200 -524 -80 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 -200 -524 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 -200 -524 80 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -80 -524 -80 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -80 -524 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -80 -524 80 0 0 -1 0 1 0 1 0 0 2302b.dat
+0 // p14 final view, no additions.
+0 // No inferred hidden cockpit/window geometry added. Roof partly unsupported until missing windows restored.
+0 // Fork and lower clip fit, hub screw depth and top curve grid require rendered/source review.
+0 // Pending user confirmation; no physical support, movement or toy firing validation.

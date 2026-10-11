@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+  "revision": "cb96b1e420517551801fee83a9fdaa004eee433feda4c4ea6abd6b25fd1d867e",
+  "reviewedAt": "2026-10-11T06:14:41.063909+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-diao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ee8e42b657e1f39bdb07f72071f959447eff7f12c2300fc856cf565233bf1fe3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "bf6a2509db1c31e1452bb4f2a76e1d0f34f0f23cb30d999459898546c5f1996e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "61499a34564d637034c2920cccec8e430438330d6e2631c6726403e1ca8f4ddc",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed full original iso.png, iso-rear.png and top.png, then compared source pages8 and12. Entire scene and all three short-arm segments fit frame. Each short arm runs open proximal fork to closed distal pivot; no long-arm substituted. Red front cockpit and blue rear-facing crane cockpit, raised turntable, six wheels and six coloured barriers match source arrangement at scene level. Hook remains explicitly omitted; boom angles/roadblock spacing estimated. Source broad molded arm relief is simplified in approved dev28334 geometry. Both canopy-shell overlap warnings remain unresolved despite visible boundary review; no exact hinge fit or physical/load acceptance. Cumulative steps not yet reviewed."
+}

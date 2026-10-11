@@ -1,0 +1,362 @@
+{
+  "rows": [
+    {
+      "id": "76057.dat",
+      "color": 72,
+      "colorName": "Dark Bluish Gray",
+      "quantity": 4,
+      "inventoryAlias": "31184c01",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Dark Bluish Gray",
+          "quantity": 5,
+          "colorMatch": true,
+          "completeInventory": true
+        },
+        {
+          "set": "45002-1",
+          "color": "Red",
+          "quantity": 1,
+          "colorMatch": false,
+          "completeInventory": true
+        },
+        {
+          "set": "45002-1",
+          "color": "Yellow",
+          "quantity": 1,
+          "colorMatch": false,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "99565.dat",
+      "color": 71,
+      "colorName": "Light Bluish Gray",
+      "quantity": 7,
+      "inventoryAlias": "99565c01",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Light Bluish Gray",
+          "quantity": 16,
+          "colorMatch": true,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "44970.dat",
+      "color": 0,
+      "colorName": "Black",
+      "quantity": 4,
+      "inventoryAlias": "44970",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Black",
+          "quantity": 8,
+          "colorMatch": true,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "colorName": "Black",
+      "quantity": 10,
+      "inventoryAlias": "86599",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Black",
+          "quantity": 7,
+          "colorMatch": true,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "6490.dat",
+      "color": 2,
+      "colorName": "Green",
+      "quantity": 1,
+      "inventoryAlias": "6490",
+      "referenceRows": [],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "28336.dat",
+      "color": 72,
+      "colorName": "Dark Bluish Gray",
+      "quantity": 2,
+      "inventoryAlias": "45202",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Dark Bluish Gray",
+          "quantity": 4,
+          "colorMatch": true,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "3011.dat",
+      "color": 1,
+      "colorName": "Blue",
+      "quantity": 11,
+      "inventoryAlias": "3011",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26,
+          "colorMatch": true,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Bright Green",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Lime",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Orange",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "3011.dat",
+      "color": 14,
+      "colorName": "Yellow",
+      "quantity": 9,
+      "inventoryAlias": "3011",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Bright Green",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Lime",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Orange",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "74957.dat",
+      "color": 72,
+      "colorName": "Dark Bluish Gray",
+      "quantity": 2,
+      "inventoryAlias": "74957",
+      "referenceRows": [
+        {
+          "set": "45002-1",
+          "color": "Dark Bluish Gray",
+          "quantity": 2,
+          "colorMatch": true,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "3437.dat",
+      "color": 14,
+      "colorName": "Yellow",
+      "quantity": 1,
+      "inventoryAlias": "3437",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 40,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Bright Green",
+          "quantity": 50,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Lime",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Medium Blue",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Orange",
+          "quantity": 20,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 40,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "45002-1",
+          "color": "Dark Bluish Gray",
+          "quantity": 3,
+          "colorMatch": false,
+          "completeInventory": true
+        },
+        {
+          "set": "45002-1",
+          "color": "Tan",
+          "quantity": 3,
+          "colorMatch": false,
+          "completeInventory": true
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "2302b.dat",
+      "color": 1,
+      "colorName": "Blue",
+      "quantity": 6,
+      "inventoryAlias": "2302",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 10,
+          "colorMatch": true,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Bright Green",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    },
+    {
+      "id": "2302b.dat",
+      "color": 14,
+      "colorName": "Yellow",
+      "quantity": 3,
+      "inventoryAlias": "2302",
+      "referenceRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Bright Green",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        },
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 10,
+          "colorMatch": false,
+          "completeInventory": false
+        }
+      ],
+      "actualUserInventory": "unknown"
+    }
+  ],
+  "note": "Exact shades are source-inferred;9090 list incomplete; no user stock inference. Source needs3 more black86599 than reference45002."
+}

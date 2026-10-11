@@ -1,0 +1,580 @@
+{
+  "generatedAt": "2026-10-11T06:15:35.234Z",
+  "summary": {
+    "reconstructedOrInProgressCourses": 69,
+    "deferredCourses": 11,
+    "partIssueFamilies": 30,
+    "byIssueCategory": {
+      "confirmed_id_missing_geometry": 6,
+      "candidate_id_missing_geometry": 2,
+      "known_id_unverified_license": 1,
+      "flexible_route_unverified": 2,
+      "candidate_flexible_geometry": 1,
+      "unidentified_source_shape": 7,
+      "candidate_identity_unresolved": 9,
+      "candidate_mould_or_assembly": 1,
+      "unidentified_figure_components": 1
+    },
+    "knownPartConnectionOmissionGroups": 3,
+    "interfaceRecordsExcludedFromUnknownCounts": true,
+    "unbuiltCoursesExcluded": true,
+    "acceptedCourses": 0,
+    "localExtractedOfficialParts": 6
+  },
+  "at": "2026-10-11T06:15:35.231Z",
+  "addedCourses": [
+    "4-diao-che",
+    "4-dao-dan-che"
+  ],
+  "newKnownApproximationUsage": [
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        1,
+        5
+      ],
+      "location": "Toolo 4 x 6 x 1 with thread and screws",
+      "quantity": 4,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "76395.dat",
+      "approvalEvidence": [
+        "User explicitly approved local simplified modelling on 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 10,
+          "page": 1
+        },
+        {
+          "line": 11,
+          "page": 1
+        },
+        {
+          "line": 12,
+          "page": 1
+        },
+        {
+          "line": 41,
+          "page": 5
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        2,
+        6
+      ],
+      "location": "Duplo 2 x 4 with screw and thread",
+      "quantity": 4,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "76057.dat",
+      "approvalEvidence": [
+        "User explicitly approved local simplified modelling on 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 15,
+          "page": 2
+        },
+        {
+          "line": 16,
+          "page": 2
+        },
+        {
+          "line": 17,
+          "page": 2
+        },
+        {
+          "line": 46,
+          "page": 6
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        3
+      ],
+      "location": "Duplo rim with screw",
+      "quantity": 6,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "99565.dat",
+      "approvalEvidence": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565."
+      ],
+      "placements": [
+        {
+          "line": 20,
+          "page": 3
+        },
+        {
+          "line": 22,
+          "page": 3
+        },
+        {
+          "line": 24,
+          "page": 3
+        },
+        {
+          "line": 26,
+          "page": 3
+        },
+        {
+          "line": 28,
+          "page": 3
+        },
+        {
+          "line": 30,
+          "page": 3
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        3
+      ],
+      "location": "Duplo off-road tyre diameter46",
+      "quantity": 6,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "44970.dat",
+      "approvalEvidence": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for44970."
+      ],
+      "placements": [
+        {
+          "line": 21,
+          "page": 3
+        },
+        {
+          "line": 23,
+          "page": 3
+        },
+        {
+          "line": 25,
+          "page": 3
+        },
+        {
+          "line": 27,
+          "page": 3
+        },
+        {
+          "line": 29,
+          "page": 3
+        },
+        {
+          "line": 31,
+          "page": 3
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        4,
+        6
+      ],
+      "location": "Duplo Toolo Cockpit 4 x 6 (local simplified)",
+      "quantity": 2,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "31196c01.dat",
+      "approvalEvidence": [
+        "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+        "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+        "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+        "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+        "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient."
+      ],
+      "placements": [
+        {
+          "line": 34,
+          "page": 4
+        },
+        {
+          "line": 44,
+          "page": 6
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        5
+      ],
+      "location": "Duplo turntable with screw",
+      "quantity": 1,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "60535.dat",
+      "approvalEvidence": [
+        "User approved local simplified modelling 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 40,
+          "page": 5
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        7
+      ],
+      "location": "Duplo 2x2 with arm thread screws",
+      "quantity": 1,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "28336.dat",
+      "approvalEvidence": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image."
+      ],
+      "placements": [
+        {
+          "line": 49,
+          "page": 7
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-diao-che",
+      "sourcePage": [
+        7,
+        8
+      ],
+      "location": "Duplo Toolo fork arm 28334 (dev-129 length correction)",
+      "quantity": 3,
+      "source": "scripts/ldraw-models/4-diao-che.ldr",
+      "geometryFile": "dev-129/28334.dat",
+      "approvalEvidence": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ],
+      "placements": [
+        {
+          "line": 50,
+          "page": 7
+        },
+        {
+          "line": 53,
+          "page": 8
+        },
+        {
+          "line": 54,
+          "page": 8
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Duplo 2 x 4 with screw and thread",
+      "quantity": 4,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "76057.dat",
+      "approvalEvidence": [
+        "User explicitly approved local simplified modelling on 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 10,
+          "page": null
+        },
+        {
+          "line": 13,
+          "page": null
+        },
+        {
+          "line": 16,
+          "page": null
+        },
+        {
+          "line": 19,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Duplo rim with screw",
+      "quantity": 7,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "99565.dat",
+      "approvalEvidence": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565."
+      ],
+      "placements": [
+        {
+          "line": 11,
+          "page": null
+        },
+        {
+          "line": 14,
+          "page": null
+        },
+        {
+          "line": 17,
+          "page": null
+        },
+        {
+          "line": 20,
+          "page": null
+        },
+        {
+          "line": 80,
+          "page": null
+        },
+        {
+          "line": 81,
+          "page": null
+        },
+        {
+          "line": 82,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Duplo off-road tyre diameter46",
+      "quantity": 4,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "44970.dat",
+      "approvalEvidence": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for44970."
+      ],
+      "placements": [
+        {
+          "line": 12,
+          "page": null
+        },
+        {
+          "line": 15,
+          "page": null
+        },
+        {
+          "line": 18,
+          "page": null
+        },
+        {
+          "line": 21,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Toolo 4 x 6 x 1 with thread and screws",
+      "quantity": 10,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "76395.dat",
+      "approvalEvidence": [
+        "User explicitly approved local simplified modelling on 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 24,
+          "page": null
+        },
+        {
+          "line": 25,
+          "page": null
+        },
+        {
+          "line": 26,
+          "page": null
+        },
+        {
+          "line": 27,
+          "page": null
+        },
+        {
+          "line": 33,
+          "page": null
+        },
+        {
+          "line": 35,
+          "page": null
+        },
+        {
+          "line": 70,
+          "page": null
+        },
+        {
+          "line": 73,
+          "page": null
+        },
+        {
+          "line": 74,
+          "page": null
+        },
+        {
+          "line": 75,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Duplo 2x2 with arm thread screws",
+      "quantity": 2,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "28336.dat",
+      "approvalEvidence": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image."
+      ],
+      "placements": [
+        {
+          "line": 34,
+          "page": null
+        },
+        {
+          "line": 36,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePage": [],
+      "location": "Duplo clutch element with thread",
+      "quantity": 2,
+      "source": "scripts/ldraw-models/4-dao-dan-che.ldr",
+      "geometryFile": "74957.dat",
+      "approvalEvidence": [
+        "User explicitly approved local simplified modelling on 2026-09-12."
+      ],
+      "placements": [
+        {
+          "line": 66,
+          "page": null
+        },
+        {
+          "line": 67,
+          "page": null
+        }
+      ],
+      "category": "known_approved_approximation_not_unknown_identity",
+      "geometryLicense": "Existing local DAT license; CC BY4.0 approval/provenance recorded in authorreport andmetadata",
+      "boundary": "Estimated geometry andmanual fit; prior approval does not verify current source-specific interfaces"
+    }
+  ],
+  "inventoryDeficits": [
+    {
+      "slug": "4-dao-dan-che",
+      "id": "76395.dat",
+      "inventoryAlias": "86599",
+      "color": "Black",
+      "required": 10,
+      "referenceSet": "45002-1",
+      "verifiedReferenceQuantity": 7,
+      "extraNeededAgainstOneReferenceSet": 3,
+      "classification": "quantity_deficit_not_unknown_ID_or_missing_geometry",
+      "evidence": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-dao-dan-che\\bom-reference.json",
+      "boundary": "Useractualstock unknown; may supply extra3, no substitution introduced"
+    }
+  ],
+  "interfaceLimitations": [
+    {
+      "slug": "4-diao-che",
+      "sourcePages": [
+        4,
+        6
+      ],
+      "parts": [
+        "31196c01",
+        "6345"
+      ],
+      "gap": "Two remaining raw-checker cockpit/canopy overlap pairs; no automatic exemption. Articulatedboom pose/load support also manual."
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourcePages": [
+        4,
+        9,
+        12
+      ],
+      "parts": [
+        "28336",
+        "74957",
+        "99565"
+      ],
+      "gap": "Clip/fork fullcapture depth unmeasured; upperplatform provisional. Threehubcenters80LDU versus84LDU flange diameter warrantactualpixel/interface review; manualmetadata isnotwaiver."
+    }
+  ],
+  "qaBoundary": "Independent current67.json/CURRENT67.md intentionally preserved at67course time slice. Increment69 is registry/read-only report synthesis, not new69courseQA.",
+  "extractedParts": [
+    {
+      "id": "4672.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+    },
+    {
+      "id": "4672a.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+    },
+    {
+      "id": "75350.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+    },
+    {
+      "id": "6516.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+    },
+    {
+      "id": "6515.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+    },
+    {
+      "id": "44524.dat",
+      "hashMatchesManifest": true,
+      "license": "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt"
+    }
+  ]
+}

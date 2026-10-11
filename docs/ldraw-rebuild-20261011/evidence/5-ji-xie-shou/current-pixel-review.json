@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "85dde2e70992e95911ea5bba501acb7e72a38a9f11951d27bc8640c2f6f394a4",
+  "revision": "fd0b65daf56cc6929bf9bd99e4d2ee74ea1820a7ef14bcf162c1f1e3380e6355",
+  "reviewedAt": "2026-10-11T05:51:58.965047+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ji-xie-shou",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "51a4d5eafa0df285d5fc21b5f227b3eed665c03a5e23d019ade576f939bd1907",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "5a827e8e479ffe813d9cc0f8cdc1e33e7da1f33401f5e4dbd04603788a98f042",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "49b285e876aa62fb2aa536460d8782f6419b89336a68f1e27512fdb70a791f80",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "19cee1d11cfe5471c0b114680b78da3629832cda6c680d78425af74800ecdf25",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "ba37e7d2ccdcbf1976defe36aed051e8b6da3ff5ac92e0d885b4c50a93f055b2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b8c4aa6d94ffa38f7ffd9e53394ded8dc929232dd4a28135b809c9f051020189",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "cc9260c533f290ab69afb4053e48be2191f3d99c17985c2a9c5d839560e50102",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "e8a9d2fb13bf1cb72a0f1f0548c007bc50bcf6236c135b8367271b8dd338aadd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "a0370653b62571096a0c107bcdab2c60693abd081b3697d3c368103262040c4f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "51a4d5eafa0df285d5fc21b5f227b3eed665c03a5e23d019ade576f939bd1907",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected new D-drive final iso/rear/top and all seven cumulative panels. Full green base, hand crank and both claw extremities are inside frame; no blank or clipped step. Sequence visible: base/red support, slew bearing and upper beam, worm gearbox, two long arms, gear train, claw fingers, blue target with tyre. Rear view exposes second claw. Axle insertion depth, obscured rear claw pin engagement, gear phase/mesh and load-bearing grip remain unresolved mechanical checks. No physical or user acceptance."
+}

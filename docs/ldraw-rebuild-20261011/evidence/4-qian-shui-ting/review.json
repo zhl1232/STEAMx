@@ -4,7 +4,7 @@
   "verification": "structurally checked only",
   "sourcePages": 10,
   "sourcePixels": "All10 source pages contact inspected; enlarged structural pages inspected",
-  "modelSha256": "ec280756c158b00cd15f9bcc80b5c447ff485e429f59027b4adbb9e7994f0eac",
+  "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
   "unknown": [
     {
       "page": 6,
@@ -17,7 +17,7 @@
       "missing": "dev longarm uses approved cross-section stretched only by source kit length; joint retention remains inferred"
     }
   ],
-  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [
     "76395",
     "76057",
@@ -28,6 +28,12 @@
     "74957",
     "dev-129/28331"
   ],
-  "render": "pending main integrator",
-  "rawCollisionChecker": "pending"
+  "render": "Source revised after full-frame pixel inspection found a defect; old image review is stale, pending fresh render",
+  "rawCollisionChecker": "1 existing cockpit/windscreen thin-surface overlap; unresolved",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [],
+  "pixelRevisionReason": "Flipped longarm localY from-Y to+Y, openend400 now reaches bracket pivot(0,-393,48)"
 }

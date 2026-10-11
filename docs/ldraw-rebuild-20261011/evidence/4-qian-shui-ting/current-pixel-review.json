@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+  "revision": "fe789caab9601d63ce52aa46c2e1e7c763a5678069d4562df330dff3fa9b3180",
+  "reviewedAt": "2026-10-11T06:09:51.854167+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-qian-shui-ting",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "9263febd5e947d48107f64a2fec5136ec16ebe7379b1c24fdd2cc3224da22486",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "f96f5a70b7cc228b223f505d6d756727c0c2fe4a63d276bc380bc5ebcecfb68b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b046ab1842b6f1ca8370a8780ad0d1926d992f6858d5ddcc8e136a06031cc129",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual full-frame final3 sheet and original iso inspected. Long periscope now joins angled bracket and upper clutch/rims; former floating assembly removed. Hull,8 windows,bow cockpit and stern supports correspond. Missing3-blade propeller, approximate Toolo meshes, canopy thin-surface alert and unverified screw retention remain; no physical validation."
+}

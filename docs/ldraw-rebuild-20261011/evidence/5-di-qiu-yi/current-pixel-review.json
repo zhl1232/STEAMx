@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+  "revision": "f7d83518789e4c1eb18bea52a80eb2190eaa7dd87960882290295bf8b968e173",
+  "reviewedAt": "2026-10-11T06:17:04.509025+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-di-qiu-yi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "86bb6602b684634ef037769d61aa34519d810c1380fd098d114f501829feded5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1ad9ae3ff76b2424b514d33654bc50d4e28476c5c98a4187ff22eafbe64993cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a979f2d2eba1212b3ab241c21151a09d23b86a098f44093c999db673fd251d3b",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All three complete PNGs actually inspected for source8549a6d7. Corrected upper shaft protrusion and offset yellow cap now match sourcep18 macro shape. Hollow ring courses and stepped support remain consistent. Axle/tube capture, cantilever stability and free rotation remain unverified; all cumulative steps pending; no complete-source or physical acceptance."
+}

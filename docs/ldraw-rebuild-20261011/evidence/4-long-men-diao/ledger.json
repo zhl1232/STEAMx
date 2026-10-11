@@ -26,7 +26,7 @@
     12,
     13
   ],
-  "modelSha256": "4b21a9c1e4baf808a0ed085d0e44bc684d2c09fb9b9b7b08d1ae02c6862fec2e",
+  "modelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
   "status": "incomplete-dev-draft",
   "verificationLevel": "structurally checked only",
   "userConfirmed": false,
@@ -297,7 +297,8 @@
   "limitations": [
     "Upper/lower Toolo loop mounting depth andapproximate fork geometry need final pixel andphysical fit review.",
     "p12 is an attachment instruction; p13 finaloverview has no new parts. Source p10/p11 preserved as explicit omitted stages.",
-    "14 alternating2x4 layers per tower; 28 red+28 yellow bricks total. Bare rims per source, no tires."
+    "14 alternating2x4 layers per tower; 28 red+28 yellow bricks total. Bare rims per source, no tires.",
+    "p7 connection PROVISIONAL: 40666 long axis X gives Z[-40,40]; two28336 bases centeredZ+/-72 give only8LDUedge overlap with plate. Normal two-row connection unproven. Red3437Y-836 vertical correction alone does not close this interface. Main owns model/hash/render updates."
   ],
   "landmarks": {
     "towerCentersX": [
@@ -325,5 +326,15 @@
       -120,
       120
     ]
-  }
+  },
+  "revisions": [
+    {
+      "at": "2026-10-11T06:08:02.093Z",
+      "by": "main",
+      "part": "3437.dat",
+      "sourcePage": 7,
+      "change": "Y-884 to-836, invertedmatrix unchanged",
+      "boundary": "Verticalstack correction only; plate/fork8LDUedgeoverlap remains provisional. No physicaloruseracceptance."
+    }
+  ]
 }

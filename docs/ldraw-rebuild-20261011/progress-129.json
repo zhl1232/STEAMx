@@ -1,13 +1,12 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T05:25:16.322696+00:00",
+  "generatedAt": "2026-10-11T06:14:03.834041+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
-  "sourceBlocker": "Quark read/download failures, cause undetermined. No account ban established. 67 courses available; remaining 62 await an authorized source. Do not access unapproved D:/pdf预览.",
+  "sourceBlocker": "69 locally materialized courses; 60 await transfer. Parent reports official Quark downloads have recovered and is fetching remaining sources slowly; batch9 crane and missile truck have been materialized and verified. Previous failure cause remains undetermined, no account ban established. Do not access the unapproved local source directory.",
   "summary": {
-    "reconstructed-development-draft-pending-validation": 59,
-    "source-available-not-reconstructed": 8,
-    "awaiting-source": 62
+    "reconstructed-development-draft-pending-validation": 69,
+    "awaiting-source": 60
   },
   "courses": [
     {
@@ -54,9 +53,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+      "placements": 58,
+      "steps": 13,
+      "headerLimitations": [
+        "4-chun-jie-wu-shi - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step.",
+        "// STEP 10 - two yellow screw blocks and two yellow ear pedestals; concave ears unresolved"
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -144,9 +152,17 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "download_timed_out"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "placements": 60,
+      "steps": 13,
+      "headerLimitations": [
+        "// DEV-ONLY INCOMPLETE: cockpit/window identities and hidden fork-to-clip capture pending.",
+        "// Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD.",
+        "// No inferred hidden cockpit/window geometry added. Roof partly unsupported until missing windows restored."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -162,9 +178,19 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "awaiting-source",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "download_timed_out"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+      "placements": 74,
+      "steps": 11,
+      "headerLimitations": [
+        "Four-plus crane - incomplete source reconstruction",
+        "// INCOMPLETE: p8 Toolo hook identity/geometry absent; omitted, not replaced with string hook4663.",
+        "// Previously approved45002 approximate geometry reused; no new invented IDs. Arm joint angles and canopy fit not physically verified.",
+        "// Unresolved hook attachment at approximately (-635.900,-505.067,0). Source hook has large side discs and fork attachment, not a cord eye.",
+        "// Source page12 finished view. Scene stand spacing and display boom angles estimated from source; set quantities unknown."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -332,9 +358,17 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+      "placements": 118,
+      "steps": 12,
+      "headerLimitations": [
+        "// INCOMPLETE REVIEW: blue wing/claw pair and two3blade props missing geometry/identity evidence; rear block assembly provisional.",
+        "// MISSING blue opposed Toolo wings/claws x2; same visual family as beetle horn end.",
+        "// MISSING two Toolo3blade propellers at bow; source identity family6669c01/6670c01 unresolved, no automatic substitution."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -353,7 +387,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "4b21a9c1e4baf808a0ed085d0e44bc684d2c09fb9b9b7b08d1ae02c6862fec2e",
+      "modelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
       "placements": 93,
       "steps": 12,
       "headerLimitations": [
@@ -408,7 +442,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "ec280756c158b00cd15f9bcc80b5c447ff485e429f59027b4adbb9e7994f0eac",
+      "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
       "placements": 41,
       "steps": 10,
       "headerLimitations": [
@@ -507,7 +541,7 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "a4daf386f99a2da98cef6fa0c71b1ca48fe83bfb3d96e9b02adc49c77c259e59",
+      "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
       "placements": 73,
       "steps": 12,
       "headerLimitations": [
@@ -793,9 +827,18 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+      "placements": 71,
+      "steps": 12,
+      "headerLimitations": [
+        "4-xuan-zhuan-fei-ji - source reconstruction, INCOMPLETE dev-only",
+        "// STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.",
+        "// No physical validation. Missing parts are omitted and recorded per source step.",
+        "// STEP 11 - UNRESOLVED four45117c01 wings and four31239c01 spoilers; omitted"
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -889,9 +932,15 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "placements": 41,
+      "steps": 11,
+      "headerLimitations": [
+        "// INCOMPLETE REVIEW: tail board and head clutch mounting angles inferred; Toolo parts approximate."
+      ]
     },
     {
       "grade": "中班大颗粒积木",
@@ -1217,9 +1266,15 @@
       "sourceExists": true,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+      "placements": 134,
+      "steps": 18,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -1651,9 +1706,18 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+      "placements": 167,
+      "steps": 16,
+      "headerLimitations": [
+        "// DEV-ONLY INCOMPLETE. All17 PDF pages inspected.",
+        "// Hidden bread-lift crank stack and bread support unresolved; no physical mechanism certification.",
+        "// Source page 15: bread slice:12 orange2x2 bricks and2 yellow2x4 plates. Lift support unresolved.",
+        "// Source page 16: bread slice:12 orange2x2 bricks and2 yellow2x4 plates. Lift support unresolved."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2114,14 +2178,16 @@
       "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "0944d76919ccab1a669d5d622b87ae8bd5dacdfa268bb44e86b0616bad024020",
-      "placements": 54,
+      "modelSha256": "44dd3717204dc4b61731369b93bcb3cbbf688953a59386907998f11a6526bb70",
+      "placements": 46,
       "steps": 11,
       "headerLimitations": [
         "Catapult - incomplete source reconstruction",
         "// INCOMPLETE: pages5-7 redistribute beams without explicit intermediate motion; A-frame vs lever assignment provisional. Basket cranks and payload omitted pending pin orientation evidence.",
         "// SOURCE PAGE 6: two long levers, second base shaft and four retainers; source movement sequence unresolved",
-        "// SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted"
+        "// SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted",
+        "// OMITTED p10 basket axle and two retainers together with unresolved cranks; not placed as unsupported partial basket.",
+        "// OMITTED p11 basket axle and two retainers together with unresolved cranks/payload."
       ]
     },
     {
@@ -2267,9 +2333,16 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+      "placements": 48,
+      "steps": 9,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.",
+        "// PENDING: Finalpixel correction raises two wings to15/50degree upward poses and seats head on beak. Crown gear engagement remains unresolved; approx16LDU edge gap is not accepted as a functional mesh. New finalrender required."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2776,9 +2849,15 @@
       "sourceExists": false,
       "mpdExists": false,
       "reviewExists": false,
-      "workStatus": "source-available-not-reconstructed",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
-      "sourceCoverage": "downloaded_pdf"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "placements": 68,
+      "steps": 14,
+      "headerLimitations": [
+        "// INCOMPLETE: p14 multipart printed driver identity unknown; omitted rather than substituted."
+      ]
     }
   ]
 }

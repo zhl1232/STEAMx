@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+  "revision": "eeea5e02fe46389775b3b33fdc2ea0d1edd36b8bf099bbfbd405945623d54182",
+  "reviewedAt": "2026-10-11T06:17:04.599113+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "354ad0ae697e2a117f85bc324e65c44e402ecb66f5759f79e0794afdef8d5138",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "242a47a8a53be34a92c3bfac0f31544f792012cc54d3468c8c6b86a435db50a4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "1b955b4bcf1adf9f7f2d694ecc1667141c8dc33c69eaeada75890b28d8d014f9",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All three complete PNGs actually inspected for sourceb93c63ad. Both wings now raise in one asymmetric static pose; head rests over beak, correcting earlier sourcep10 mismatches. Gear IDs and broad body/wing/tail silhouette retained. Crown-to-red gear interface, shaft retention, exact source depth registration and driven wing angles remain unresolved; possible approx16LDU mesh-edge gap is not accepted. All cumulative steps pending; no complete-source or physical acceptance."
+}

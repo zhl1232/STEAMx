@@ -30,3 +30,5 @@ Known geometry/connection uncertainty:
 - p12 blue hammer brick front/back interpretation needs final pixel/source comparison. Four bricks now clutch onto red stud face in two successive layers, not floating beside it.
 
 Wheel shafts co-linear, ordinary tower layers interlock, side blue plates support chassis. No assertion of motion/load validation. Set quantities unknown. Final3view and all12 cumulative step pixels pending parent rendering; no user acceptance.
+
+Current b7e4e587 placements all determinant+1. Final/steps pixels still pending.

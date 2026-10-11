@@ -1,0 +1,1325 @@
+{
+  "slug": "5-xiao-niao-de-chi-bang",
+  "pages": 10,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "8x16green base and alternating six yellow/six blue bricks",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "6490.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two bricks make4x4 course; one-stud stagger between courses",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 13
+    },
+    {
+      "sourcePage": 2,
+      "note": "two red ordinary bricks as head-body support",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -336,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Eight-stud top beam spans tower",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -336,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Eight-stud top beam spans tower",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 15
+    },
+    {
+      "sourcePage": 3,
+      "note": "two long perforated beams and one short bearing",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Cross beam carries both wing pivots",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            160,
+            -384,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Short spacer on right end of top support",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            120,
+            -432,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Longitudinal body beam above transverse beam",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 18
+    },
+    {
+      "sourcePage": 4,
+      "note": "three ordinary red bricks and two tail plates",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -480,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Body upper course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -480,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Body upper course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -480,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tail support,overhang two studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            360,
+            -504,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tail fan plates on rear brick",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            360,
+            -504,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tail fan plates on rear brick",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 23
+    },
+    {
+      "sourcePage": 5,
+      "note": "yellow40tooth gear pair,grey axle and hand crank",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            160,
+            -408,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Transverse6stud axle through body bearing",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            160,
+            -408,
+            -60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Opposed gear faces on either side of body beam",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            160,
+            -408,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Opposed gear faces on either side of body beam",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            160,
+            -408,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "External crank on rear gear axle; pin pose inferred",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 27
+    },
+    {
+      "sourcePage": 6,
+      "note": "two red24tooth gears and grey axle",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -408,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Second transverse axle,160LDU from yellow gear centers",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -408,
+            -60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "40/24tooth nominal pitch sum160LDU; tooth phase unverified",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -408,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "40/24tooth nominal pitch sum160LDU; tooth phase unverified",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 30
+    },
+    {
+      "sourcePage": 7,
+      "note": "two blue crown gears,two grey axles,two cranks and two red wing root bearings",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -40,
+            -360,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Wing hinge axisX through transverse beam; axial retention inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            20,
+            -360,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Perpendicular crown gear beside red gear; mesh/registration pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -100,
+            -360,
+            -160
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -0.258819,
+            0,
+            -0.965926,
+            -0.965926,
+            0,
+            0.258819
+          ],
+          "support": "Outer wing crank, follows selected static wing angle Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -383.18222,
+            -153.788343
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.258819,
+            0.965926,
+            0,
+            -0.965926,
+            -0.258819,
+            0
+          ],
+          "support": "Wing bearing aroundXhinge; same single final articulated state Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -40,
+            -360,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Wing hinge axisX through transverse beam; axial retention inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            20,
+            -360,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Perpendicular crown gear beside red gear; mesh/registration pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -100,
+            -360,
+            160
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0.766044,
+            0,
+            -0.642788,
+            -0.642788,
+            0,
+            -0.766044
+          ],
+          "support": "Outer wing crank, follows selected static wing angle Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-8",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -375.426903,
+            141.614933
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.766044,
+            0.642788,
+            0,
+            -0.642788,
+            0.766044,
+            0
+          ],
+          "support": "Wing bearing aroundXhinge; same single final articulated state Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 38
+    },
+    {
+      "sourcePage": 8,
+      "note": "yellow curved beak and rounded eye head",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "2302.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -528,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Forward beak overhang on head course",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "4198p01.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Official flat two-eye pattern faces forward-X; bottom on top bodycourse",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 9,
+      "note": "eight red2x4 plates extend both wings",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -427.069963,
+            -224.850752
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.258819,
+            0.965926,
+            0,
+            -0.965926,
+            -0.258819,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -427.069963,
+            -224.850752
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.258819,
+            0.965926,
+            0,
+            -0.965926,
+            -0.258819,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -460.604945,
+            -257.276128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.258819,
+            0.965926,
+            0,
+            -0.965926,
+            -0.258819,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -460.604945,
+            -257.276128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.258819,
+            0.965926,
+            0,
+            -0.965926,
+            -0.258819,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -452.13736,
+            174.652876
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.766044,
+            0.642788,
+            0,
+            -0.642788,
+            0.766044,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-6",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -452.13736,
+            174.652876
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.766044,
+            0.642788,
+            0,
+            -0.642788,
+            0.766044,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-7",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -498.206041,
+            181.979313
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.766044,
+            0.642788,
+            0,
+            -0.642788,
+            0.766044,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-8",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -498.206041,
+            181.979313
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.766044,
+            0.642788,
+            0,
+            -0.642788,
+            0.766044,
+            0
+          ],
+          "support": "Two plates per tier, one-stud overlap; root connection/gear-driven motion remains provisional Source-final corrected upward static pose; exact driven angle remains inferred.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 48
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "awaiting raw check and central rendering",
+  "source": {
+    "name": "5+小鸟的翅膀搭建说明.pdf",
+    "relative_path": "5+/5+小鸟的翅膀搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1396642,
+    "sha256": "d4919d1b8f2f75733f2adf2ee7f66f55a98a85343373e60d8ded505568bb16f0",
+    "source_url": "https://pan.quark.cn/list#/docpdf/de10797c0b184c64ae60dc2b13aa485d",
+    "slug": "5-xiao-niao-de-chi-bang",
+    "lesson_id": 304,
+    "course_id": 7,
+    "renderedPagesDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang"
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-01.jpg",
+      "sha256": "809a75c21568c9be72b4a7d87b17b12866af5ae9692f857f28dc5b111434887e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-02.jpg",
+      "sha256": "3fac07d8b05502dbafec8bdd0ec997b6ccc0f20c857ad12fd0e3a3fe7f5c9a11",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-03.jpg",
+      "sha256": "a4980ac5ab491b9bed7375cdd6b95f0b80da61b7d828abacb48ce57e0147c0d3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-04.jpg",
+      "sha256": "730fc15b23f8bd6c0b4b9416664264ffc46ee9eb6b9953650b58905809ddfa40",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-05.jpg",
+      "sha256": "e98a979fc569c34440985b00241fafb38db06b22a59e0c785c00f9f14ce2a5e1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-06.jpg",
+      "sha256": "16f5e20f922b35a09aeac8c4577df74f0cb54cc38f3458a67eb13f759937d499",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-07.jpg",
+      "sha256": "8ca06324b6c470c88596d9b7e17e88a0eaf4c80b0dd59dd383de47a671c9ed55",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-08.jpg",
+      "sha256": "a4f35091809c7d61d9ce92812f8cf6bda32de315db10f0f2a9de24ec84ddae94",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-09.jpg",
+      "sha256": "3e20ee37da7439638ac5a05c51b2b29b6e9ddef943ecc846137b712311826c5c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\source-pages\\parts-preflight-batch5\\5-xiao-niao-de-chi-bang\\source-10.jpg",
+      "sha256": "1ceaa1a6424b456e94a27a06cb1af9008bd4d974ff6f7e0c212a467890ffd395",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Source 10pages actually viewed. Gear IDs distinguish yellow40tooth6530,red24tooth6529,bluecrown31622; axle lengths and hidden end capture remain inferred.",
+    "Crown gears use perpendicular axes; actual mesh relative to red gears not accepted until key-angle render and interface review.",
+    "Selected wings tilt30degrees symmetrically; source shows one articulated state, no duplicate subassemblies.",
+    "P3beam vertical registration and head/tail stud attachments need finalpixel review; no physical motion certification.",
+    "Finalpixel correction raises two wings to15/50degree upward poses and seats head on beak. Crown gear engagement remains unresolved; approx16LDU edge gap is not accepted as a functional mesh. New finalrender required."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-xiao-niao-de-chi-bang.ldr",
+  "totalPlacements": 48,
+  "bom": {
+    "6490.dat|2": 1,
+    "3011.dat|14": 6,
+    "3011.dat|1": 6,
+    "3011.dat|4": 5,
+    "75350.dat|4": 2,
+    "75349.dat|4": 3,
+    "40666.dat|4": 10,
+    "6522.dat|7": 4,
+    "6530.dat|14": 2,
+    "6526.dat|14": 3,
+    "6529.dat|4": 2,
+    "31622.dat|1": 2,
+    "2302.dat|14": 1,
+    "4198p01.dat|14": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "checks": {
+    "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+    "dependencyNodes": 101,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 0,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-xiao-niao-de-chi-bang\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched"
+  },
+  "previousFinalPixelDiagnostic": {
+    "sourceSha256": "d59036bbb1d0702634064734e2a12bc14e5e4eb3b24ec9e89546247faa311652",
+    "packRevision": "058066995b3bcbfd37421c4f3cd19209ec9a7962ba2d62c537cbf48b69c561b2",
+    "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+    "sourcePagesRechecked": [
+      10
+    ],
+    "views": [
+      {
+        "view": "iso",
+        "pixelsViewed": true,
+        "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\iso.png",
+        "sha256": "c25541bec4e94cfba15a3f5e7d116fe933d80a19b9a591d125404f3504563ad1"
+      },
+      {
+        "view": "iso-rear",
+        "pixelsViewed": true,
+        "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\iso-rear.png",
+        "sha256": "89d5c7c5b5431e430adbbafa855c6b659be01dee26057442ff9d40e644dc449f"
+      },
+      {
+        "view": "top",
+        "pixelsViewed": true,
+        "path": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xiao-niao-de-chi-bang\\top.png",
+        "sha256": "c4a7f7d037165918d3dbd079abd794c25ba64fd91ce804f946b3c40ae4c2f046"
+      }
+    ],
+    "completeFrameVisible": true,
+    "deviations": [
+      "Both wings incorrectly point down; source final has both raised, with asymmetric angle.",
+      "Head and beak are side-by-side at equal bottom level; source head rests over the beak.",
+      "Crown-to-red gear registration remains unresolved; bounding geometry suggests an approximately16LDU axial-edge gap, not confirmed mesh."
+    ],
+    "action": "Raise wings into one static pose, put beak under head and raise head48LDU. Retain mechanical pending status.",
+    "allStepsReviewed": false,
+    "physicalValidation": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+  "revision": "a0de6f67c9ba289878c13c65c44b3139cc4bd2f81100f3647b9aa309da833799",
+  "reviewedAt": "2026-10-11T06:04:27.186753+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-xuan-zhuan-fei-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "77996a038f1ccb116a7c95c1760a5069e2c659e0c67af9fa09ae68461aa3c9c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "25b57493542320681b474571f78d45e4a75e457830c26717dfb882c9bd42e6fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "412c85f32d964156299769536e664fc7b7df5a0a4b17f7ed8c318dda21b72793",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual full-frame final contact sheet plus iso pixels inspected. Overall source tower, radial articulated arms and four cockpits correspond. Four45117c01 wings and four31239c01 spoilers omitted, dev fork meshes approximate; four canopy thin-surface checker warnings remain. Dynamic clearances and physical screw retention unverified. Not human accepted."
+}

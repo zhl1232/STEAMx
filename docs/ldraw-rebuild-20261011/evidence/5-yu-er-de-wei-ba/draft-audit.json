@@ -1,0 +1,57 @@
+{
+  "slug": "5-yu-er-de-wei-ba",
+  "sourceSha256": "e0f4f467a71caaa5e3257f144b9362fa9ee03676ca50b91446d75385bb55abe2",
+  "placements": 195,
+  "steps": 9,
+  "rigidMatrixErrors": [],
+  "topLevelLocalParts": [
+    {
+      "id": "75350.dat",
+      "localDat": false
+    },
+    {
+      "id": "3011.dat",
+      "localDat": true
+    },
+    {
+      "id": "6522.dat",
+      "localDat": true
+    },
+    {
+      "id": "6527.dat",
+      "localDat": true
+    },
+    {
+      "id": "6292.dat",
+      "localDat": true
+    },
+    {
+      "id": "75349.dat",
+      "localDat": true
+    },
+    {
+      "id": "6526.dat",
+      "localDat": true
+    },
+    {
+      "id": "2302b.dat",
+      "localDat": true
+    },
+    {
+      "id": "6521.dat",
+      "localDat": true
+    },
+    {
+      "id": "4268.dat",
+      "localDat": true
+    },
+    {
+      "id": "40666.dat",
+      "localDat": true
+    }
+  ],
+  "dependencyClosure": "Not asserted by this audit; parent MPD packer validates recursive closure",
+  "finalPixelReview": "pending",
+  "cumulativeStepPixelReview": "pending",
+  "status": "INCOMPLETE / pending user confirmation"
+}

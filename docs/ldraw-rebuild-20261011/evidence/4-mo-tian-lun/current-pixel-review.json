@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+  "revision": "373fa5688351fb1fe86bd209a2172b3c8a3bc15d0209f927103e0d5c0b3c533a",
+  "reviewedAt": "2026-10-11T06:11:38.287227+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-mo-tian-lun",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "dcca46eed5dc05463c25de056a0185107c31db6810fa67b742a3bfef9075edff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "becaf721027301ee200eb1a6f1baf81421f5e2cbd545caba5f0b9b9ac6bd760d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "98b5149152069d095ba6dda820c11fa709cd47bf31eeac89b20a1572e84f89ea",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final contact-sheet and full-size iso-rear pixels reviewed. Entire base/cap/radial arms fit all three frames; no crop. Tower,3-tier cap,4 radial Toolo arms,5 turntables and4 blue2x8 plates correspond to source arrangement. Sourcep12 eightwindowcabs omitted; model incomplete. Fork/cube/turntable andbearing interfaces remain provisional, no physical validation. Cumulative steps pending."
+}

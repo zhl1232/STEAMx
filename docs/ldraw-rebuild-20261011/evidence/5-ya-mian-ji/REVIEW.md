@@ -13,3 +13,5 @@ LDR SHA256 10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3. 58 
 Unknown item p5: material bar appears grey while end view appears green; candidates6522 axle6 or6521 axle8. Length, insertion into tray and pose are obscured. Cannot identify solely from colour; no substituted shafts. Source count2 retained as missing.
 
 The tray now rests at same bottom level as green plate; plate underside supports inward-facing studs, two ring layers extend upwards. Ordinary pillar layers touch with grid alignment. Initial58-placement checker passed; tray vertical-origin correction requires final checker rerun. All mechanical retention and gear rolling surfaces need manual review; no new approximate geometry. Set quantities unknown. Final views/step pixels pending parent rendering, not user or physical acceptance.
+
+Latest correction checked: current10c6230f passes raw checker58 placements, all determinants+1. Final/steps pixels still pending.

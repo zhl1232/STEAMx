@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+  "revision": "8f2776316efcd9435df7cce2f0556530a41d20a0d3cc6659759096b0d14fa85c",
+  "reviewedAt": "2026-10-11T06:10:32.489626+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-you-wen",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "cfddf1292ab0a3e77c24ddfd152d94a0740537916e453560949f989298de4290",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "d665912c1c09bfcba52e5720d1ffea37f7ab1fbf2e8792025d0d3ba199b50bf4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "96e3e5d6e3ea1d3383a08ada43d55d2cf165016c1623e5ef6be3f1dedc587bcd",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final3 contact sheet plus full iso-rear pixels; source SHA75bd8b00 matches local LDR. Two long arms now visibly separate into distinct source-like raised angles; eye assembly sits lower, mouth projects down/forward, and rear red board is less steep. Complete frame, no blank render. Head/body and tail-clutch offsets remain source-informed estimates; projected tail/long-arm overlap does not prove clearance, especially for approximate Toolo geometry. Exact pin fit and stability unverified despite existing checker PASS41. Only final3 reviewed, no cumulative-step certification or acceptance."
+}

@@ -19,10 +19,11 @@
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
-  "render": "pending main integrator",
+  "render": "Pending full-bounding-box static render and actual pixel inspection; prior cropped renders cannot establish acceptance",
   "matrixCheck": {
     "status": "PASS",
     "invalid": []
   },
-  "inventoryMechanicalDeficits": []
+  "inventoryMechanicalDeficits": [],
+  "rawCollisionChecker": "PASS"
 }

@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+  "revision": "866524574d348ce54fc41111af426280d3018ba29ef766ecc3072629edf45873",
+  "reviewedAt": "2026-10-11T06:10:32.392260+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-sheng-jiang-jiu-yuan-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "91526349018c000200bc538c1fd200a4d01335e07c8ecfce3aa80fa410e08a49",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "a177f21f65855b1addc7d66828c8b24a1c2132fc55bafca321cf3b9db7a4dd8b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4af97e1410a7f0884c5212b4e03d0fbb05833cddff375f6c562d200256774046",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final3 contact sheet plus full iso-rear pixels; source SHA5f833583 matches local LDR. Shortened cockpit front overhang and lower zigzag platform are visible and closer to source-page13 proportions. Complete frame, no blank render. The known canopy/roof collision and canopy/cockpit overlap remain unresolved; roof visually obscures the canopy upper rear edge and this pixel inspection does not waive either checker failure. Approximate short-arm geometry, hinge engagement, stability and exact figure print remain unverified. Only final3 reviewed, no new cumulative-step certification; accepted false."
+}

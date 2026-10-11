@@ -1,0 +1,216 @@
+{
+  "slug": "4-dao-dan-che",
+  "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+  "placements": 60,
+  "steps": 13,
+  "sourcePagesActuallyViewed": 14,
+  "sourceImagesRoot": "D:/Codex-task-2-20261011/source-pages/4-dao-dan-che",
+  "rigidMatrixErrors": [],
+  "rawChecker": "PASS; Toolo manual policies do not certify fit",
+  "parts": [
+    {
+      "id": "76057.dat",
+      "sha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "name": "Duplo 2 x 4 with screw and thread",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": -11,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "sha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "name": "Duplo rim with screw",
+      "bbox": {
+        "xMin": -42,
+        "xMax": 42,
+        "yMin": -25,
+        "yMax": 24,
+        "zMin": -42,
+        "zMax": 42
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "44970.dat",
+      "sha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd",
+      "name": "Duplo off-road tyre diameter46",
+      "bbox": {
+        "xMin": -57.378574011099815,
+        "xMax": 57.378574011099815,
+        "yMin": -18,
+        "yMax": 18,
+        "zMin": -57.378574011099815,
+        "zMax": 57.378574011099815
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for44970.",
+        "Outer tread diameter115LDU from46mm inventory name; inner diameter76 and width36 estimated.",
+        "Continuous rounded tire body with48 solid staggered tread blocks; not rubber deformation or molded exact pattern.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/4186713.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "76395.dat",
+      "sha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "name": "Toolo 4 x 6 x 1 with thread and screws",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "6490.dat",
+      "sha256": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830",
+      "name": "Duplo Plate  8 x 16",
+      "bbox": {
+        "xMin": -320,
+        "xMax": 320,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -160,
+        "zMax": 160
+      },
+      "status": "Official"
+    },
+    {
+      "id": "28336.dat",
+      "sha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "name": "Duplo 2x2 with arm thread screws",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -85,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 68
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "status": "Official"
+    },
+    {
+      "id": "74957.dat",
+      "sha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "name": "Duplo clutch element with thread",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -11,
+        "yMax": 70,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "status": "Local simplified part",
+      "collisionPolicy": "manual",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+      "name": "Duplo Brick 2 x 2",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "status": "Official"
+    },
+    {
+      "id": "2302b.dat",
+      "sha256": "b914434b9d8763495fa0fc65f634d94c59642fb1c3f24cb6335234f7f426fbb2",
+      "name": "Duplo Brick  2 x  3 with Curved Top",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 40
+      },
+      "status": "Official",
+      "notes": [
+        "2026-09-08: coordinate envelope and stud-bearing top corrected from official local 2302b.dat and its subparts. Conservative full slope envelope retained; it is not a filled rectangular brick."
+      ]
+    }
+  ],
+  "finalPixelReview": "pending",
+  "stepPixelReview": "pending",
+  "status": "INCOMPLETE / pending user confirmation"
+}

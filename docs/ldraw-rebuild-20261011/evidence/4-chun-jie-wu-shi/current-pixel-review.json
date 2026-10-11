@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+  "revision": "955f224e6b25e814e602183da92d6652dfb869d4a88640b32a14f8ec2ba58cc7",
+  "reviewedAt": "2026-10-11T06:16:55.186876+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-chun-jie-wu-shi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "b9200b9dc44a68dd336a534967fbea037af9bf648195f94046d0577ec0c35c55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c308760df35ef48728a41a577bbd6421cb0de433cadd909cf70be6f8cbb2ab83",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4d941a0734523ebd8f136c77e680d6c78ff11c12f9197c3a151716951de12f04",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 contact sheet plus original iso and iso-rear, comparing sourcep8/9/13. Forward-shifted upper jaw now clears rear yellow stop without raised extra course; former striped intersection and excessive jawheight removed. No further visible interpenetration or floating identified in these views. Two yellow concave ear pieces remain omitted, giving visibly incomplete head silhouette. Toolo meshes and articulated leg/tail/cheek poses remain approximate; exact screw fit/load retention not physically verified. Cumulative steps not reviewed this run; not human accepted."
+}

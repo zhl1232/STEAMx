@@ -101,7 +101,8 @@
 0 STEP
 0 // SOURCE PAGE 7 - inverted red2x4 plate,2x2 brick andtwo Toolo base forks
 1 4 0 -932 0 1 0 0 0 -1 0 0 0 -1 40666.dat
-1 4 0 -884 0 1 0 0 0 -1 0 0 0 -1 3437.dat
+0 // p7 correction: inverted red brick body below fork stud plane; plate-to-fork horizontal seating remains provisional.
+1 4 0 -836 0 1 0 0 0 -1 0 0 0 -1 3437.dat
 1 71 0 -884 72 -1 0 0 0 -1 0 0 0 1 28336.dat
 1 71 0 -884 -72 1 0 0 0 -1 0 0 0 -1 28336.dat
 0 STEP

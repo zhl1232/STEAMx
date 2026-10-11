@@ -1,0 +1,106 @@
+0 5+ Steering car - source reconstruction draft
+0 Name: 5-zhuan-wan-xiao-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY. All15 source PDF pages visually inspected.
+0 // INCOMPLETE: p14 multipart printed driver identity unknown; omitted rather than substituted.
+0 // Neutral steering static pose; hidden kingpin/gear linkage requires manual review.
+0 // Source page 1: green8x16 chassis with two front projecting long red rails.
+1 2 0 -200 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 -240 -248 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -240 -248 120 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 2: three red standard bricks and perpendicular red steering input bearing.
+1 4 -280 -248 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -296 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -296 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -344 0 0 0 1 0 1 0 -1 0 0 75349.dat
+0 STEP
+0 // Source page 3: horizontal gray input axle, two pulleys, red controlwheel and blue crown.
+1 71 -280 -320 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 1 -340 -320 0 0 0 1 0 1 0 -1 0 0 31622.dat
+1 14 -220 -320 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -180 -320 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 -140 -320 0 0 0 1 0 1 0 -1 0 0 6529.dat
+0 STEP
+0 // Source page 4: two vertical front kingpins with upper retainers.
+1 71 -400 -180 -120 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 -400 -268 -120 1 0 0 0 0 -1 0 1 0 6527.dat
+1 71 -400 -180 120 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 -400 -268 120 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 5: lower crossbeam, central short crank and vertical blue geared input under red spur gear.
+1 14 -400 -180 0 1 0 0 0 1 0 0 0 1 6524.dat
+1 1 -400 -180 0 0 -1 0 1 0 0 0 0 1 6523.dat
+1 4 -400 -260 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 14 -400 -220 0 0 0 -1 0 1 0 1 0 0 6526.dat
+0 STEP
+0 // Source page 6: two independent front steering knuckles and lower kingpin retainers.
+1 4 -440 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -400 -60 -120 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -440 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -400 -60 120 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 7: tie rod with blue vertical geared pins; lower retainers.
+1 14 -480 -156 0 1 0 0 0 1 0 0 0 1 6524.dat
+1 1 -480 -136 -120 0 1 0 -1 0 0 0 0 1 6523.dat
+1 14 -480 -60 -120 1 0 0 0 0 -1 0 1 0 6527.dat
+1 1 -480 -136 120 0 1 0 -1 0 0 0 0 1 6523.dat
+1 14 -480 -60 120 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 8: independent gray front wheel axles with four spacers.
+1 71 -440 -104 -140 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -440 -104 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -440 -104 -180 1 0 0 0 1 0 0 0 1 6527.dat
+1 71 -440 -104 140 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -440 -104 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -440 -104 180 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 9: two yellow40tooth front gear wheels and outer hub retainers.
+1 14 -440 -104 -220 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -440 -104 -260 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -440 -104 220 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -440 -104 260 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 10: two rear bearing stacks beneath green plate.
+1 4 240 -176 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 -176 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 11: rear blue halfaxles and yellow40tooth wheels.
+1 1 240 -104 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 240 -104 -180 1 0 0 0 1 0 0 0 1 6530.dat
+1 1 240 -104 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 240 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+0 // Source page 12: seven red deck bricks and four yellow rounded rear bumper slopes.
+1 4 80 -248 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -248 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -248 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -248 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -248 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -248 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -248 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -248 -120 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 360 -248 -40 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 360 -248 40 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 360 -248 120 0 0 -1 0 1 0 1 0 0 2302b.dat
+0 STEP
+0 // Source page 13: five red cockpit rim bricks and two yellow front curved seat supports.
+1 4 80 -296 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -296 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -296 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -296 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -296 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -296 -40 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 40 -296 40 0 0 1 0 1 0 -1 0 0 2302b.dat
+0 STEP
+0 // Source page 14: three white/red-striped guardrails; multipart driver unverified, not fabricated.
+1 15 140 -392 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 140 -392 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 300 -392 0 0 0 1 0 1 0 -1 0 0 31021p01.dat
+0 // p15 final side view; no added parts.
+0 // Rear brick/bumper footprint inferred from oblique source; render review pending.
+0 // Pending user confirmation. No physical steering certification.

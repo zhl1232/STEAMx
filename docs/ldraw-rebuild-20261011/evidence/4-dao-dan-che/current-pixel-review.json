@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+  "revision": "742d7bc694bd8c938617383987ee1d155fc57dcf0d71a085488b8d4608b0246a",
+  "reviewedAt": "2026-10-11T06:15:00.475419+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-dao-dan-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "31a700f57c48b2aae6e84b83213fd6db2dce1d144708581718960711d7ecd5cc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "ae6e0c4bf1cebbefa74d4b0df9459c53f8cbb405cb7a198c31866735a7890b7a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "40a8d7f01a1b0c4b026875ed90c0f7f6351d1959ca5967d6d6c4ec580ebf2d8f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected original iso.png, iso-rear.png and top.png separately; re-opened source pages12 and9 for three front hubs and fork/clip interfaces. Complete model is in frame. Source counts and broad stack layout retained, but omitted cockpit/canopy/3 window assemblies leave visibly incomplete cab and partial roof support. Approved approximate99565 geometry visibly differs from source cup/barrel profile. Three neighboring hub flange clearances remain unresolved (nominal84 diameter versus80 spacing), and occluded fork-to-74957 capture is not proven. No collision policy relaxed; no transform change justified by these oblique pixels alone. INCOMPLETE; pixel observation only, not source-fidelity acceptance, physical validation or user confirmation. Cumulative steps not reviewed."
+}

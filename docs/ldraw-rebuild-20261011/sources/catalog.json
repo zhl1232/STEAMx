@@ -79,6 +79,16 @@
       "pdfCount": 2,
       "pages": 26,
       "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 9,
+      "libraryFileId": "libfile_4aac643194648191bb31f5481e4dc7f4",
+      "archiveBytes": 3746477,
+      "archiveSha256": "d7f72e1ee239f003328a67fd268f6f48bd4d6265e75715617ad7961fd1fce5ef",
+      "manifest": "pdfbatch9-manifest.json",
+      "pdfCount": 2,
+      "pages": 26,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
     }
   ],
   "originalImageLibraries": [
@@ -88,5 +98,5 @@
   "auditLibrary": "libfile_272938d514808191b81c2106db86b460",
   "inventoryLibrary": "libfile_072966dc74448191bc9f9aa07a32e57c",
   "geometryLookupLibrary": "libfile_58d8c12cd9a48191966b0a00bad4668c",
-  "scope": "67 available courses; 62 unavailable from current source. No hidden-template account-ban inference."
+  "scope": "69 available courses; 60 unavailable from current source. No hidden-template account-ban inference."
 }

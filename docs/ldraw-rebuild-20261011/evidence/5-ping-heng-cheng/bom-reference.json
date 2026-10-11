@@ -1,0 +1,137 @@
+{
+  "slug": "5-ping-heng-cheng",
+  "mainPlacements": 70,
+  "note": "9656 reference only, not lesson-exclusive kit. Reference zero does not imply part absent in other kits; actual user inventory unknown.75536 includes pulley+cord+hook and is not decomposed here; comparison of6527 may double-count or undercount assembly content.",
+  "rows": [
+    {
+      "partId": "51262.dat",
+      "colorCode": 7,
+      "color": "Light Gray",
+      "quantity": 1,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 1,
+      "referenceMapping": "51262",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "3011.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 10,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 6,
+      "referenceMapping": "3011",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "3011.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 6,
+      "reference9656Quantity": 5,
+      "extraAgainst9656": 1,
+      "referenceMapping": "3011",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "75349.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 4,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6517",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "40666.dat",
+      "colorCode": 1,
+      "color": "Blue",
+      "quantity": 3,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 3,
+      "referenceMapping": "40666",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6525.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 4,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6525",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6522.dat",
+      "colorCode": 0,
+      "color": "Black",
+      "quantity": 10,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 10,
+      "referenceMapping": "6522",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6527.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 16,
+      "reference9656Quantity": 15,
+      "extraAgainst9656": 1,
+      "referenceMapping": "6527",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "75350.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 2,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6515",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6526.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 4,
+      "reference9656Quantity": 6,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6526",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "10199.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 2,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 2,
+      "referenceMapping": "10199",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "3437.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 4,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 2,
+      "referenceMapping": "3437",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "31021p01.dat",
+      "colorCode": 15,
+      "color": "White",
+      "quantity": 4,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 4,
+      "referenceMapping": "31021p01",
+      "actualUserInventory": "unknown"
+    }
+  ]
+}
