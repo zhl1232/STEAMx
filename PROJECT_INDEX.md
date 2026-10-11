@@ -295,6 +295,8 @@
 
 > `/works/[id]` 详情页视觉层次：首屏明确展示作品标题与探索状态；无探索过程的作品使用带媒体计数与缩略图胶囊的作品展台，有探索过程时以时间线为首要内容并在时间线末尾突出最终成果，避免重复渲染主图；作者/支持、来源、探索时间线和留言区使用可辨识的内容面板，来源卡保留项目/课程课时上下文与返回入口，时间线记录卡在移动端保持连续滚动并保留 44px 级操作命中区。
 
+- `components/features/tutor/use-tutor-sheet.ts` + `tutor-mobile-sheet.tsx` — 小迪手机（<768px）三档 bottom sheet：默认半屏（52% 可视高度）、全屏（92%）、60px 摘要条；独立 hook 管理把手与 header 非按钮区域 pointer 拖动、吸附、键盘、pathname/hash/站内链接收起；快速滑动按当前档位一次升降一档，header 点击不切档。`global-tutor-fab.tsx` 接入页面聚焦工具收起，`tutor-sheet-inset.ts` 测量页面可见、贴底且宽度至少半屏/高度不超过 40% 的 fixed/sticky 底栏，排除装饰层与小迪自身；收起时、路由变化下一帧及 300ms 后、window/visualViewport resize 时按帧合并测量，与 `fabBottomInset` 取最大值，通过 `--tutor-sheet-collapsed-bottom` 保留 8px 间隙，无底栏则加安全区。`tutor-panel.module.css` 使用 visualViewport 避让软键盘。收起保留消息/草稿/待发图片，X/Escape 仍关闭；桌面与跨场景草稿清理逻辑不变。
+
 > 小迪行为更新（2026-08-17）：默认不主动把学生过去做过的项目、去过的地点或观察记录拿来做知识回答的收尾；只有用户主动询问个人记录，或回答确实依赖该经历时才自然引用。语音播放遇到浏览器 Web Audio/实时 PCM 失败时自动回退到整段音频，不能因为播放器故障打断文字回复。
 
 ### 3.5 管理后台 (`components/admin/`) — 14 个组件
