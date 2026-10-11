@@ -1,5 +1,22 @@
 import { expect, it } from 'vitest'
-import { resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
+import { isDuploEyePrint, resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
+
+it.each(['3437pe0', '3437pe1', '3437pe2', '3437pe12', '3437pr0049', '3437pr0067', 'parts\\3437PE3.DAT'])(
+  'recognizes equivalent 2×2 eye prints: %s', (id) => {
+    expect(resolveLdrawPart(id)).toMatchObject({
+      partNums: ['3437pr0049', '3437pr0067', '3437'],
+      flags: { eyePrintEquivalent: true, printedFlexible: true },
+    })
+  },
+)
+
+it('recognizes other eye prints by description without broadening to all prints or shapes', () => {
+  expect(resolveLdrawPart('3437p01.dat', 'Duplo Brick 2 x 2 with Eyes Pattern').flags.eyePrintEquivalent).toBe(true)
+  expect(isDuploEyePrint('3437pr9999', 'Duplo Brick 2 x 2 with Eye Print')).toBe(true)
+  expect(isDuploEyePrint('3437pr9999', 'Duplo Brick 2 x 2 with Flower Print')).toBe(false)
+  expect(isDuploEyePrint('3437', '2×2 积木（眼睛）')).toBe(false)
+  expect(isDuploEyePrint('4198pr0001', 'Duplo Brick with Eyes Print')).toBe(false)
+})
 
 it.each([
   ['6345.dat', ['17562', '6345']],

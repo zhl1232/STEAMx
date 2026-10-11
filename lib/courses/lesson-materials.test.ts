@@ -283,7 +283,7 @@ it('car, fence and eye aliases draw from actual inventory', () => {
     [stock('11248c01'), stock('12602'), stock('3437pr0067')],
     prefs,
   )
-  expect(result.stats).toMatchObject({ matched: 3, requiredMissing: 0, substituted: 2 })
+  expect(result.stats).toMatchObject({ matched: 3, requiredMissing: 0, substituted: 1 })
 })
 
 it('copies merge quantities and defaults remain isolated', () => {
@@ -592,4 +592,59 @@ it('equivalent plain door aliases do not invent a difference from catalog wordin
   const result = compareLessonMaterials(bom({ ...entry('89849.dat', 15), colorName: '白色', partName: '1×4×4 门' }),
     [{ ...stock('90265', 15), colorName: 'White', name: 'Duplo Door / Window with Four Equal Square Cornered Panes' }], prefs)
   expect(result.colorSubstitutes).toEqual([])
+})
+
+it.each([
+  ['3437pe0.dat', '3437pr0067', 4, 4, 'Red', 'Red'],
+  ['3437pe2.dat', '3437pr0049', 14, 14, 'Yellow', 'Yellow'],
+  ['3437pr0067.dat', '3437pr0049', 7, 71, 'Light Gray', 'Light Bluish Gray'],
+  ['3437pr0049.dat', '3437pr0067', 6, 70, 'Brown', 'Reddish Brown'],
+  ['3437p01.dat', '3437pr9999', 15, 15, 'White', 'White'],
+])('same-display-color eyes are normal matches: %s → %s', (id, partNum, colorCode, colorId, colorName, stockColor) => {
+  const result = compareLessonMaterials(bom({
+    ...entry(id, colorCode, 2), colorName, partName: '2×2 积木（眼睛）',
+    partDescription: 'Duplo Brick 2 x 2 with Eye Pattern',
+  }), [{ ...stock(partNum, colorId, 2), colorName: stockColor, name: 'Duplo Brick 2 x 2 with Eyes Print' }],
+  { ...prefs, acceptColorSubstitutes: false })
+  expect(result.entries[0]).toMatchObject({ status: 'satisfied', matched: 2, substituted: 0, missing: 0 })
+  expect(result.entries[0].allocations).toEqual([expect.objectContaining({ substitute: false })])
+  expect(substituteDetail(result.entries[0])).toBe('')
+  expect(result.colorSubstitutes).toEqual([])
+  expect(result.stats.substituted).toBe(0)
+})
+
+it('uses eye stock before plain stock and counts only the plain remainder as a substitute', () => {
+  const model = bom({ ...entry('3437pe1.dat', 4, 3), partName: '2×2 积木（眼睛）' })
+  const inventory = [
+    { ...stock('3437', 4, 3), colorName: 'Red', name: 'Duplo Brick 2 x 2' },
+    { ...stock('3437pr9999', 4, 1), colorName: 'Red', name: 'Duplo Brick 2 x 2 with Eye Print' },
+    { ...stock('3437pr0067', 4, 1), colorName: 'Red' },
+  ]
+  const result = compareLessonMaterials(model, inventory, prefs)
+  expect(result.entries[0]).toMatchObject({ matched: 3, substituted: 1, missing: 0 })
+  expect(result.entries[0].allocations.map((a) => [a.partNum, a.quantity, a.substitute])).toEqual([
+    ['3437pr9999', 1, false], ['3437pr0067', 1, false], ['3437', 1, true],
+  ])
+  expect(substituteDetail(result.entries[0])).toBe('可用无图案的红色2×2 积木 1 块')
+  expect(inventory.map((part) => part.quantity)).toEqual([3, 1, 1])
+})
+
+it.each([
+  ['3437', 4, 'Red', 'Duplo Brick 2 x 2', '可用无图案的红色2×2 积木 1 块'],
+  ['3437', 14, 'Yellow', 'Duplo Brick 2 x 2', '可用无图案的黄色2×2 积木 1 块'],
+  ['3437pr0067', 14, 'Yellow', 'Duplo Brick 2 x 2 with Eye Print', '可用不同图案的黄色2×2 积木（眼睛） 1 块'],
+])('plain or differently colored eyes keep substitute wording: %s, %s', (partNum, colorId, colorName, name, detail) => {
+  const result = compareLessonMaterials(bom({ ...entry('3437pe1.dat'), partName: '2×2 积木（眼睛）' }),
+    [{ ...stock(partNum, colorId), colorName, name }], prefs)
+  expect(result.entries[0]).toMatchObject({ status: 'colorSubstitute', matched: 1, substituted: 1, missing: 0 })
+  expect(result.colorSubstitutes).toHaveLength(1)
+  expect(substituteDetail(result.entries[0])).toBe(detail)
+})
+
+it('does not use other prints or other eye shapes as equivalent eye stock', () => {
+  const result = compareLessonMaterials(bom(entry('3437pe1.dat')), [
+    { ...stock('3437pr9999'), name: 'Duplo Brick 2 x 2 with Flower Print' },
+    { ...stock('4198pr0001'), name: 'Duplo Brick with Eyes Print' },
+  ], prefs)
+  expect(result.stats).toMatchObject({ requiredMissing: 1, matched: 0, substituted: 0 })
 })

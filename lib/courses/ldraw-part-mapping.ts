@@ -1,3 +1,5 @@
+import inventories from './ldraw-kit-inventories.json'
+
 /**
  * LDraw 零件号 → Rebrickable 套装零件号。
  * 优先用手写别名；其次按印花/模具后缀回落到已审定的基础号。
@@ -8,6 +10,8 @@ export interface PartFlags {
   kitColor?: boolean
   colorFlexible?: boolean
   printedFlexible?: boolean
+  /** 同形状、同展示色的 2×2 眼睛印刷编号等价；素色砖仍是替代。 */
+  eyePrintEquivalent?: boolean
   /** 已确认存在形状差异的替代件中文名称；普通别名不在此列。 */
   shapeAlternatives?: Record<string, string>
   /** 人物散件：由核算层折算成「完整小人」件数，不单独报未知 */
@@ -23,7 +27,19 @@ export interface ResolvedLdrawPart {
   flags: PartFlags
 }
 
-export type PartResolver = (partId: string) => ResolvedLdrawPart
+export type PartResolver = (partId: string, description?: string) => ResolvedLdrawPart
+
+const eyePrintPartNums = [...new Set(Object.values(inventories).flatMap((kit) =>
+  kit.parts.filter((part) => /^3437pr\d+$/.test(part.partNum) && /\beyes?\b/i.test(part.name))
+    .map((part) => part.partNum),
+))]
+
+/** 限定 3437 的眼睛印刷，避免把其它图案或其它形状的眼睛件视为等价。 */
+export function isDuploEyePrint(partId: string, description = ''): boolean {
+  const id = normalizeLdrawPartId(partId)
+  return /^3437pe\d+$/.test(id) || eyePrintPartNums.includes(id) ||
+    (/^3437p[0-9a-z]+$/.test(id) && /\beyes?\b|眼睛/i.test(description))
+}
 
 /** 四套教育库存的完整小人（含成人）；保留 CHILD 常量名以兼容调用方 */
 export const KIT_CHILD_FIGURE_PART_NUMS = [
@@ -84,9 +100,6 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   // 栅栏近义
   '31021': { partNums: ['12602'], flags: { colorFlexible: true } },
   '31021p01': { partNums: ['12602'], flags: { colorFlexible: true, printedFlexible: true } },
-  // 眼睛砖
-  '3437pe1': { partNums: ['3437pr0049', '3437pr0067', '3437'], flags: { printedFlexible: true } },
-  '3437pe0': { partNums: ['3437pr0049', '3437pr0067', '3437'], flags: { printedFlexible: true } },
   // 模具变体
   '2301b': { partNums: ['2301'], flags: {} },
   '2302b': { partNums: ['2302'], flags: {} },
@@ -152,8 +165,15 @@ export function normalizeLdrawPartId(partId: string): string {
   return partId.trim().replace(/\\/g, '/').split('/').pop()!.toLowerCase().replace(/\.dat$/, '')
 }
 
-export function resolveLdrawPart(partId: string): ResolvedLdrawPart {
+export function resolveLdrawPart(partId: string, description?: string): ResolvedLdrawPart {
   const id = normalizeLdrawPartId(partId)
+
+  if (isDuploEyePrint(id, description)) {
+    return {
+      partNums: [...new Set([...eyePrintPartNums, ...(/^3437pe\d+$/.test(id) ? [] : [id]), '3437'])],
+      flags: { printedFlexible: true, eyePrintEquivalent: true },
+    }
+  }
 
   if (id === VIRTUAL_CHILD_FIGURE) {
     return { partNums: [...KIT_CHILD_FIGURE_PART_NUMS], flags: { colorFlexible: true } }

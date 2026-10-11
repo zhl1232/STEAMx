@@ -5,6 +5,7 @@ import { hasKitComparison, type KitSelection } from './course-kit-config'
 import type { LessonMaterialPreferences } from './lesson-material-preferences'
 import {
   normalizeLdrawPartId,
+  isDuploEyePrint,
   SYSTEM_TO_DUPLO_STAND_INS,
   resolveLdrawColor,
   resolveLdrawPart,
@@ -209,6 +210,7 @@ export function sameDisplayColor(entry: LdrawBomEntry, part: KitInventoryPart): 
 function describePartDifference(entry: MaterialRequirement, part: KitInventoryPart): string | undefined {
   const id = normalizeLdrawPartId(entry.partId)
   if (id === part.partNum || entry.mapping.flags.kitColor) return
+  if (entry.mapping.flags.eyePrintEquivalent && isDuploEyePrint(part.partNum, part.name) && sameDisplayColor(entry, part)) return
   if (!entry.mapping.flags.printedFlexible && !entry.mapping.flags.colorFlexible) return
   const print = /(?:pe[0-9a-z]*|pr[0-9a-z]+|p[0-9a-z]+)$/i
   const requiredPrint = print.test(id)
@@ -253,7 +255,14 @@ function allocateStock(
       if (isUnknown(entry)) continue
       if (substitutePass && !prefs.acceptColorSubstitutes) continue
 
-      for (const partNum of entry.mapping.partNums) {
+      // 库存里的其它眼睛印刷也参与正常匹配，并排在素色 3437 之前。
+      const partNums = entry.mapping.flags.eyePrintEquivalent
+        ? [...new Set([
+          ...stock.filter((part) => isDuploEyePrint(part.partNum, part.name)).map((part) => part.partNum),
+          ...entry.mapping.partNums,
+        ])]
+        : entry.mapping.partNums
+      for (const partNum of partNums) {
         for (const part of stock) {
           if (!entry.missing || part.quantity <= 0 || part.partNum !== partNum) continue
           const exact = !!entry.mapping.flags.kitColor || sameDisplayColor(entry, part)
@@ -345,7 +354,7 @@ export function compareLessonMaterials(
   const raw: MaterialRequirement[] = bom.entries.map((entry) => ({
     ...entry,
     modelColorCode: entry.colorCode,
-    mapping: resolver(entry.partId),
+    mapping: resolver(entry.partId, entry.partDescription || entry.partName),
     status: 'satisfied' as MaterialStatus,
     matched: 0,
     substituted: 0,
