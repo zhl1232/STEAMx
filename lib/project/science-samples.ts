@@ -10,9 +10,10 @@ export function isReviewedScienceProject(id: string | number): boolean {
   return reviewed.some(sample => sample.id === Number(id))
 }
 
-/** The released 55 share one content version in development and production. Legacy 59 retain their database guard. */
+/** Reviewed content is shared in all environments. Legacy 59 retain their database guard. */
 export function getScienceSample(id: string | number): ScienceSample | null {
-  return reviewed.find(sample => sample.id === Number(id)) ?? samples.find(sample => sample.id === Number(id)) ?? null
+  const released = reviewed.find(sample => sample.id === Number(id))
+  return released ?? samples.find(sample => sample.id === Number(id)) ?? null
 }
 
 export function scienceSampleIds(): number[] {

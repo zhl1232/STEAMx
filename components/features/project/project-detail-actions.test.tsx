@@ -255,14 +255,27 @@ it("offers viewing guidance without starting a project or requiring an upload", 
   expect(mocks.startExploration).not.toHaveBeenCalled()
 })
 
-it('preparation entry opens records without starting an unverified experiment', async () => {
+it('preparation entry opens exploration records', async () => {
   vi.clearAllMocks()
   mocks.user = { id: 'fixture-user' }
   mocks.exploring = false
   mocks.completed = false
   render(<ProjectDetailActions projectId={1213} projectTitle="火山喷发" variant="hero" practicePending />)
-  expect(screen.getByRole('link', { name: '查看材料与准备' })).toHaveAttribute('href', '#project-materials')
+  expect(screen.getByRole('link', { name: '查看材料与步骤' })).toHaveAttribute('href', '#project-materials')
   fireEvent.click(screen.getByRole('button', { name: '记录探索过程' }))
   await waitFor(() => expect(mocks.push).toHaveBeenCalledWith('/project/1213/records'))
   expect(mocks.startExploration).not.toHaveBeenCalled()
+})
+
+it('lets guests view steps and sign in to record their exploration', () => {
+  vi.clearAllMocks()
+  mocks.user = null
+  mocks.exploring = false
+  mocks.completed = false
+  render(<ProjectDetailActions projectId={552} projectTitle="平衡鸟" variant="hero" practicePending />)
+  expect(screen.getByText('查看材料与步骤无需登录；登录后可记录探索过程和发现。')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: '登录记录探索过程' }))
+  expect(mocks.promptLogin).toHaveBeenCalledWith(expect.any(Function), expect.objectContaining({
+    description: '登录后可记录探索过程',
+  }))
 })

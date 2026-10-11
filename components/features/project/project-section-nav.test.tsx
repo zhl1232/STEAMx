@@ -78,3 +78,9 @@ it.each([false, true])("uses viewing chapter labels with responsive anchors (mob
   expect(screen.queryByRole("link", { name: "材料" })).not.toBeInTheDocument()
   expect(screen.queryByRole("link", { name: "步骤" })).not.toBeInTheDocument()
 })
+
+it.each([false, true])("uses the default preparation step label (mobile=%s)", (mobile) => {
+  render(<ProjectSectionNav mobile={mobile} practicePending />)
+  expect(screen.getByRole("link", { name: "步骤" })).toHaveAttribute("href", mobile ? "#project-steps-mobile" : "#project-steps")
+  expect(screen.queryByRole("link", { name: "按说明书操作" })).not.toBeInTheDocument()
+})

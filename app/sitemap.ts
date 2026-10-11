@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 
 import { hasLdrawModelFile } from "@/lib/courses/ldraw-bom-source";
 import { getContentClassificationSettings } from "@/lib/content-classification";
+import { isRetiredProject } from "@/lib/project/project-successors";
 import { logger } from "@/lib/logger";
 import { LEARNING_TOPICS } from "@/lib/seo/learning-topics";
 import { PLAYGROUND_METADATA_PATHS } from "@/lib/seo/playground-metadata";
@@ -136,7 +137,7 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
     }));
   });
 
-  content.projects.forEach((project) => {
+  content.projects.filter(project => !isRetiredProject(project.id)).forEach((project) => {
     routes.push(sitemapEntry(`/project/${project.id}`, {
       lastModified: toLastModified(project.updated_at),
       changeFrequency: "weekly",
@@ -306,7 +307,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
 
 // Catalog visibility changes should reach crawlers within minutes of publication.
 // Bump the key when changing the policy so a deployment drops the old hourly snapshot.
-const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v4-course-visibility"], { revalidate: 300 });
+const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v5-project-successors"], { revalidate: 300 });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return getCachedSitemap();

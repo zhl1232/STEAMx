@@ -1,0 +1,62 @@
+.page { padding-top: 24px; padding-bottom: 56px; }
+.page a:focus-visible { outline: 3px solid hsl(var(--brand-blue)); outline-offset: 5px; border-radius: 4px; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: hsl(var(--muted-foreground)); }
+.breadcrumb a:hover { text-decoration: underline; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; padding: 48px 0; }
+.intro { max-width: 40rem; }
+.eyebrow { display: flex; align-items: center; gap: 8px; color: hsl(var(--brand-blue)); font-size: 14px; font-weight: 600; }
+.intro h1 { font-size: clamp(36px, 4vw, 56px); line-height: 1.15; font-weight: 800; letter-spacing: -.035em; margin-top: 20px; }
+.lead { font-size: clamp(21px, 2.2vw, 28px); font-weight: 600; margin-top: 16px; }
+.description { color: hsl(var(--muted-foreground)); font-size: 16px; line-height: 1.85; margin-top: 16px; max-width: 38rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 28px; }
+.actions a { gap: 8px; }
+.textLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: hsl(var(--brand-blue)); font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+.textLink:hover { text-decoration-thickness: 2px; }
+.plan { background: hsl(var(--brand-blue-soft)); border: 1px solid hsl(var(--brand-blue-border)); border-radius: 16px; padding: clamp(24px, 3vw, 40px); }
+.plan h2 { font-size: 20px; font-weight: 700; margin-top: 24px; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 12px 0 4px; }
+.price strong { font-size: clamp(40px, 4vw, 52px); font-weight: 800; line-height: 1.2; letter-spacing: -.04em; }
+.price span { font-size: 14px; }
+.plan > p:not(.price) { font-size: 14px; line-height: 1.8; }
+.facts { margin: 24px 0; display: grid; gap: 12px; font-size: 14px; }
+.facts > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+.facts dd { font-weight: 600; }
+.notice { border-top: 1px solid hsl(var(--brand-blue-border)); padding-top: 16px; }
+.benefits { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 48px; padding: 40px 0; border-top: 1px solid hsl(var(--border)); }
+.page h2 { font-weight: 700; }
+.benefits h2, .sectionHeading h2 { font-size: 26px; margin-top: 8px; line-height: 1.4; }
+.benefitList { display: grid; gap: 28px; }
+.benefitList > div { display: flex; align-items: flex-start; gap: 16px; }
+.benefitList svg { width: 24px; height: 24px; flex-shrink: 0; color: hsl(var(--brand-blue)); margin-top: 2px; }
+.page h3 { font-size: 18px; line-height: 1.5; font-weight: 650; }
+.benefitList p, .service p { color: hsl(var(--muted-foreground)); line-height: 1.85; margin-top: 8px; font-size: 15px; }
+.rules { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 48px; padding: 24px 0 40px; }
+.rules h2 { font-size: 20px; }
+.rules ul { list-style: disc; padding-left: 20px; display: grid; gap: 10px; font-size: 15px; line-height: 1.8; }
+.rules li::marker { color: hsl(var(--brand-blue)); }
+.free { display: flex; align-items: center; gap: 20px; padding: 24px 32px; border-radius: 12px; background: hsl(var(--brand-green-soft)); border: 1px solid hsl(var(--brand-green-border)); }
+.free > svg { width: 32px; height: 32px; flex-shrink: 0; color: hsl(var(--brand-green)); }
+.free h2 { font-size: 20px; }
+.free p { margin-top: 6px; font-size: 14px; line-height: 1.8; }
+.free > a { margin-left: auto; flex-shrink: 0; }
+.service { padding: 56px 0 40px; scroll-margin-top: 96px; }
+.serviceGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 32px; }
+.serviceGrid > section { border-top: 1px solid hsl(var(--border)); padding-top: 20px; }
+.number { display: block; font-size: 14px; font-weight: 600; color: hsl(var(--brand-blue)); margin-bottom: 12px; }
+.service .caption { font-size: 13px; margin-top: 0; }
+.operator { border-top: 1px solid hsl(var(--border)); padding-top: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; font-size: 14px; line-height: 1.9; }
+.operator h2 { font-size: 14px; margin-bottom: 4px; }
+@media (max-width: 767px) {
+  .page { padding-top: 20px; padding-bottom: 32px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 28px 0 36px; }
+  .intro h1 { margin-top: 16px; }
+  .actions { margin-top: 20px; gap: 8px 20px; }
+  .benefits, .rules { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 28px 0; }
+  .benefits h2, .sectionHeading h2 { font-size: 24px; }
+  .free { flex-wrap: wrap; gap: 12px; padding: 24px; }
+  .free > svg { width: 24px; height: 24px; }
+  .free > div { flex: 1 1 calc(100% - 36px); min-width: 0; }
+  .free > a { margin-left: 36px; }
+  .service { padding: 36px 0; }
+  .serviceGrid { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 24px; }
+}

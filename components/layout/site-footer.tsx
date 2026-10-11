@@ -16,6 +16,7 @@ const siteFooterColumns = [
     title: "关于我们",
     links: [
       { label: "关于我们", href: "/about" },
+      { label: "会员服务说明", href: "/membership" },
       { label: "联系我们", href: "/about#contact" },
     ],
   },

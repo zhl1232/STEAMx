@@ -9,3 +9,9 @@ it("counts viewing points and hides the equipment count while retaining activity
   expect(screen.getByText("3 步")).toBeInTheDocument()
   expect(screen.getByText("2 项材料")).toBeInTheDocument()
 })
+
+it("uses the ordinary step count for preparation projects", () => {
+  render(<MobileProjectMetaChips categoryTone="science" stepsCount={4} materialsCount={2} practicePending />)
+  expect(screen.getByText("4 步")).toBeInTheDocument()
+  expect(screen.queryByText(/按说明书操作/)).not.toBeInTheDocument()
+})

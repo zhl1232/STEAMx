@@ -59,3 +59,20 @@ describe('sitemap routing', () => {
   })
 })
 
+
+describe('retired project redirects', () => {
+  it('redirects the retired detail and nested paths with HTTP 301', async () => {
+    const redirects = (await nextConfig.redirects()).filter(rule => rule.source.startsWith('/project/'))
+
+    // Next.js matches whole path segments: /project/1010 and /project/1010/:path*
+    // cannot match /project/10100 (or its nested paths).
+    expect(redirects).toEqual([
+      { source: '/project/907', destination: '/project/1098', statusCode: 301 },
+      { source: '/project/907/:path*', destination: '/project/1098/:path*', statusCode: 301 },
+      { source: '/project/997', destination: '/project/1098', statusCode: 301 },
+      { source: '/project/997/:path*', destination: '/project/1098/:path*', statusCode: 301 },
+      { source: '/project/1010', destination: '/project/1098', statusCode: 301 },
+      { source: '/project/1010/:path*', destination: '/project/1098/:path*', statusCode: 301 },
+    ])
+  })
+})

@@ -6,7 +6,7 @@
 
 science-reviewed.data.json是这55项详情的版本化内容源；getProjectById先执行原有approved/moderation/classification查询，resolver再按ID、标题、科学分类匹配覆盖。development与production共用正文、材料、步骤、FAQ、安全和拓展。数据库、媒体与OSS不写入；DB直接查询的列表、搜索摘要仍保持原值。后续修改这55项详情正文须更新版本化文件；回滚应用版本即可回滚本次覆盖。旧59保持原生产数据库一致性保护，旧10稿不发布。
 
-小迪在同样的公开审核门禁后读取同一份内容，不接受客户端系统提示，不传内部instructionGap、来源或审核备注。公开mode和演示限制用于区分22项实践、24项准备、9项观看；后两类不生成HowTo，可信提示明确不补造用量和操作。
+小迪在同样的公开审核门禁后读取同一份内容，不接受客户端系统提示，不传内部instructionGap、来源或审核备注。公开mode和演示限制用于区分35项实践、11项准备、9项观看（2026-10-11：1098「吸管独奏」根据已核实的完整版素材补全并改为 activity；scope.json 保留原发布快照计数与校验值）；后两类不生成HowTo，可信提示明确不补造用量和操作。
 
 两道问题只预填、不自动发送；旧文字/图片草稿保持，跨账号/项目取消，游客无登录后自动发送回调。没有改变聊天发送、配额或权限协议。
 
@@ -24,3 +24,5 @@ science-reviewed.data.json是这55项详情的版本化内容源；getProjectByI
 - 已验收开发版此前55×2尺寸共110浏览器检查通过；它不是本次production部署验证。生产发布后另行只读检查实际页面和部署状态。
 
 仓库workflow保持原样：PR触发CI / PR Checks（含构建和smoke）；合并main触发Release Deploy（含复用CI、镜像和部署）。不手工额外触发、不重跑已成功流水线。分支保护详情读取接口403，后续以PR checks和正常GitHub合并接口执行为准，不使用admin绕过。
+
+907、997、1010 均与 1098 重复，2026-10-11 起下线并 301 到 1098。审核内容及 sources.json 清单迁入 1098，第一步改为自备材料，总数仍为 55；scope.json 保留原发布 ID、计数与校验值作为历史快照。旧项目不删数据，后续由人工将 907、997、1010 的 moderation_state 改为 hidden；本次不连接数据库、不写 migration。回滚需删除继任映射并恢复 moderation_state。

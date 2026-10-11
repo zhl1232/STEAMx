@@ -93,6 +93,8 @@
 
 ## 1. 页面路由 (`app/`)
 
+- `/membership` — `app/membership/page.tsx` 与局部 CSS：公开的探索会员服务说明，展示拟定 19.9 元 / 30 天、每购买周期 1500 点 AI 额度及交付售后。明确尚未开放购买，仅提供免费探索、课程与既有反馈入口；桌面页脚增加入口。不改支付、自然月额度、权限或数据库。开售前差异与验收见 `docs/MEMBERSHIP_PAGE_HANDOFF.md`。
+
 **PC 搜索落地与学习入口（2026-09-22）**
 
 - `/learn/[topic]` 的积木、Scratch、科学专题按「简介 → 真实课程/项目 → 学习方法与准备」呈现，保留完整服务端正文、公开查询、空态与 SEO；桌面资源卡前移至首屏，`#start-learning` 保持可用。
@@ -816,4 +818,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - 2026-10-09 科学扩展：66 条缺材料/步骤的视频项目逐条处理，54 条新稿加原 5 条共 59 条 dev 覆盖，12 条保留阻碍；已完整的 709 条不覆盖。指南最多读取 6 条 dev 候选，避免随目录扩大而全量取详情。批次证据与补充输入清单见 `docs/science-expansion-2026-10-09/`；部分安全对照活动为明确标注的编辑补充，未做实物验证。
 
-- 2026-10-10 科学55项正式内容：`science-reviewed.data.json`为精确55项已审核版本，详情数据库公开审核后按ID/标题/分类匹配覆盖，与小迪`getScienceTutorContent`使用同一份正文和定位。development/production一致，旧59保护不变、旧10稿不引入；preparation/observation不生成HowTo。两段拓展及两问只预填，保留草稿与账号/项目隔离。教学参考收口为站内入口/图片灯箱，保留备案、版权文件、登录支付。来源与发布边界见`docs/science55-release-2026-10-10/`；无需DB/OSS写入，列表和搜索数据库摘要未改。
+- 2026-10-10 科学55项正式内容：`science-reviewed.data.json`为精确55项已审核版本，详情数据库公开审核后按ID/标题/分类匹配覆盖，与小迪`getScienceTutorContent`使用同一份正文和定位。development/production一致，旧59保护不变、旧10稿不引入；preparation/observation不生成HowTo。两段拓展及 2–3 问只预填，保留草稿与账号/项目隔离。教学参考收口为站内入口/图片灯箱，保留备案、版权文件、登录支付。来源与发布边界见`docs/science55-release-2026-10-10/`；无需DB/OSS写入，列表和搜索数据库摘要未改。
+
+- `lib/project/science-reviewed.data.json`：首批 28 项「拓展探索」已转为正式内容，按 ID、标题匹配写入 27 项的 extension / extensionQuestions；907「欢叫的吸管」已退役，草稿丢弃，未应用到 1098 或其他项目。开发覆盖及草稿文件已移除，页面与小迪在 development / production / test 所有环境共享审核数据，其他字段不变。
+- 2026-10-11 科学步骤文案与吸管实验：15 项审核科学内容补全操作步骤；1098「吸管独奏」按已核实的完整版素材补全剪口、弯折和吹气步骤，改为 activity，当前 activity 35 / preparation 11 / observation 9。准备模式与普通项目共用步骤标题和数量，移除页面通用说明书提示，仅在确有需要的具体步骤中提说明书；小迪内部用量、配比和组装细节约束保持不变。`lib/project/science-kit-steps.test.ts` 防止劝退词与通用提示回归；仅修改本地内容与展示，无数据库变更。
+
+- 项目继任机制：`lib/project/project-successors.json` 为旧 ID → 继任 ID 的唯一映射源，`project-successors.ts` 提供冻结映射、合法性检查和退役判断；`next.config.mjs` 读取 JSON 生成详情及子路径的 HTTP 301，`app/sitemap.ts` 兜底排除退役项目并更新缓存键。旧数据保留，人工将 `projects.moderation_state` 改为 `hidden` 后由现有公开查询/RLS 排除；回滚为删除映射并恢复 moderation_state。
+- 907、997、1010 均与 1098 重复，2026-10-11 起下线并 301 到 1098。审核内容迁入 1098「吸管独奏」，第一步改为自备吸管和杯子，仍为 55 项；本次仅准备代码，未连接数据库、未修改数据库状态。

@@ -180,7 +180,7 @@ export function ProjectDetailActions({
         void startSafely()
       }, {
         title: practicePending ? "登录记录探索过程" : viewingGuide ? "登录记录观看心得" : isObservation ? "登录以开始观察" : "登录以开始我的项目",
-        description: practicePending ? "登录后可记录材料准备与问题；操作资料补齐后再开展实验" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
+        description: practicePending ? "登录后可记录探索过程" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
       })
       return
     }
@@ -268,7 +268,7 @@ export function ProjectDetailActions({
           <Button asChild tone="brand" className="min-h-11 gap-2">
             <a href="#project-materials">
               <ListChecks className="h-4 w-4" aria-hidden />
-              {practicePending ? "查看材料与准备" : viewingGuide ? "查看观看准备与要点" : "查看材料与步骤"}
+              {practicePending ? "查看材料与步骤" : viewingGuide ? "查看观看准备与要点" : "查看材料与步骤"}
             </a>
           </Button>
           <Button type="button" variant="outline" onClick={handleStart} disabled={starting} className="min-h-11">
@@ -277,7 +277,7 @@ export function ProjectDetailActions({
         </div>
         {!user ? (
           <p className="text-xs leading-5 text-muted-foreground">
-            {practicePending ? "材料准备无需登录；本页操作步骤尚待补充，可先记录问题。" : viewingGuide ? "观看准备与要点无需登录；可记录观看心得，无需制作或上传作品。" : "查看材料与步骤无需登录；登录后可记录过程和上传作品。"}
+            {practicePending ? "查看材料与步骤无需登录；登录后可记录探索过程和发现。" : viewingGuide ? "观看准备与要点无需登录；可记录观看心得，无需制作或上传作品。" : "查看材料与步骤无需登录；登录后可记录过程和上传作品。"}
           </p>
         ) : null}
       </div>
