@@ -32,7 +32,6 @@ export default function MembershipPage() {
         </div>
 
         <section className={styles.plan} aria-labelledby="plan-title">
-          <p className={styles.status}>筹备中 · 尚未开放购买</p>
           <h2 id="plan-title">探索会员月卡</h2>
           <p className={styles.price}><span>拟定价格</span><strong>¥19.9</strong><span>/ 30 天</span></p>
           <p>自实际开通时起连续计算 30 天</p>
