@@ -1,7 +1,7 @@
 {
   "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
   "revision": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
-  "reviewedAt": "2026-10-11T06:49:00.345174+00:00",
+  "reviewedAt": "2026-10-11T07:00:56.050165+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yi-dong-guang-gao-pai",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "e8f1a9ced195f3957891cd020fb6998ad89ecb03681ef33d654af799e5c45a92",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "85a5f780d1a73ab3fb47843d8bca7a8c8e74a8a49d5cf44b41ac0e977f90a605",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "43a7fc16c2369f2bd81858f611938489d16d20b42eb84d272f87b30d5d271714",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b6c561db9f81e23c6f4494043897fe86d69e814cbe282b1f0c542db168436e01",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "400746a634b819cca0a5cc0e658890c23e62c230099acd5cdd5d1484f07f3b77",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "408869ab71333e4d1190b7997cc60db181d4044797b3f7f063ca949635d41627",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3e24e81292687bf74afec91ea6627a24b32980b2e0d2a97d4282a54cf785f276",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fc2421f04337c0fd9c6aa274649758eb0c70c39e041d360b7796d0703ecf7083",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "bbe03efbe761b0077541642068beba1ed5fe947661396dd3d438822cbe6998c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "6b5f52ed056f8b2d6dc17ecc6aaaf22b0f24c30a02f987e6963c869bd3a514d1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "dbec89fb22cf30910f2fc8e1d8f3d0d7413e079a551031b0dd6f5370e992832b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "f04ee4e05ed68dd4798788b7980b46db77cf548d2c82f04311dd9c7b59d258bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "f04ee4e05ed68dd4798788b7980b46db77cf548d2c82f04311dd9c7b59d258bc",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "D full-frame final3 compared against all12 source pages. Giraffe/zebra upright front orientation and blank reverse verified; frame and blue/yellow perimeter correspond. Two central6527 flanges diameter82 inside80LDU printed-column gap retain potential1LDU interference each side. Gear engagement under load unverified; no physical or cumulative-step acceptance."
+  "limitations": "All12 D cumulative frames actually screened against source12-page contact; originalstep6 and10 inspected, sourcep6 enlarged. NEW missing sourcep6 yellow crank/carrier, visible in BOM1x and under upper beam, matches6526 candidate; currentstep6 has only2 pulleys and beam, omits this carrier. Recheck its pin engagement and both pulley axial positions before claiming support closure. Model unchanged this checkpoint. Animal orientation matches; central82LDU pulley vs80LDU column gap potential1LDU each side remains. Dynamic gear engagement unverified. No physical acceptance."
 }

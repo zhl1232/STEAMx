@@ -59,3 +59,7 @@
 - No model, shared docs or historical 67-course QA changes.
 
 - Fan08253354: both p7 6526 carriers are now placed. Prior omission archived; static carrier/sheet fit is inferred and no friction or physical validation is claimed. Current known omission groups:3; identity issue families unchanged29.
+
+## Billboard p6 checkpoint finding
+
+Current issue families:30 (was29). One yellow carrier is visibly called out1x and omitted; 6526 remains a candidate, not confirmed. Candidate geometry is locally available with its recorded license. Both pulley axial positions, secondary-pin mating and shaft retention remain unverified. This adds one candidate omission group; the three confirmed known-part omission groups are unchanged. Evidence: billboard review.json.unknown and current-pixel-review.json. Models and QA snapshots unchanged.

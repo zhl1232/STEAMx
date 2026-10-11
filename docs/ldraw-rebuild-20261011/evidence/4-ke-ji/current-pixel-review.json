@@ -1,7 +1,7 @@
 {
   "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
   "revision": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
-  "reviewedAt": "2026-10-11T06:48:57.327674+00:00",
+  "reviewedAt": "2026-10-11T07:00:53.058870+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ke-ji",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,72 @@
       "view": "top",
       "sha256": "9295afbc132ddf1eb3656493dd160e40a13ee4e4e4b41b0f189a96efef41280e",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bfad00d72139d694c4048553a86d9ba23da262913a232201152c42581daa918d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3c7d6f39f39320b2971c1e3f2cbb915ca49a4e6f884ee4c33a985a011e066ba1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "591e6f6b509a33f7e7883e460561373a9240ad8583fce3346ad5e1aa62cb74fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b325a262a549de7d8df09bb543c8b85475dc8050ad4a446ba2263c4a24aaee21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b325a262a549de7d8df09bb543c8b85475dc8050ad4a446ba2263c4a24aaee21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "95362618d67ac5a9e4ef008c1a98297d7021c896f0d132fa379c585639ebfbee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8310eccc4fbbb65a49e152b1ac0a377d16fa8d8ecaa7b05914a54b033d7e547b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9e31490fc40199a15e81e48d4140e4c377ad72ce025174b10347879523306537",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9cd7611662c3b5caee9ff77a10d9060ae78b0a524c8e3c0a53cbb1b4ec8f5df8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "6ffbe19f26f83ef7f78b6ec80a75d10d9cf639efb9a4ec337623dc2cdb946fc7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "eb5c1a47af1e49c5359e3605f3fd8857083574cf8c57fef9eb53efe542de0b31",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "eb5c1a47af1e49c5359e3605f3fd8857083574cf8c57fef9eb53efe542de0b31",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "D full-frame final3 inspected against all12 source-page contact. Plane chassis, gray wing supports, cockpit and tower correspond. Confirmed blue45117c01/31239c01 geometry remains absent, so tail silhouette incomplete. Cockpit/canopy thin proxy overlap unresolved; approved simplified Toolo parts retained. No cumulative-step or physical acceptance."
+  "limitations": "All12 D cumulative frames actually screened against previously viewed source12-page contact; step4 original PNG inspected for cockpit. Sourcep5 blue45117c01/31239c01 omitted, hence renderedstep5 adds no geometry. Chassis/supports, blue upper plates, curved row, base and tower sequence correspond. Missing wing/tail and thin cockpit/canopy proxy overlap remain unresolved. Current final3 earlier inspected; no physical validation."
 }

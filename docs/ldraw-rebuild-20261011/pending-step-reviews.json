@@ -1,0 +1,430 @@
+{
+  "generatedAt": "2026-10-11T07:01:12.298306+00:00",
+  "note": "Resume queue, generated images are not viewed images. Serial rendering only; at most two courses per batch on D.",
+  "courses": [
+    {
+      "slug": "4-chun-jie-wu-shi",
+      "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+      "steps": 13,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-da-xiang",
+      "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourceSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64",
+      "steps": 13,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-diao-che",
+      "sourceSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "sourceSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "sourceSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "sourceSha256": "89de66d9b86fff818304067f735b8f40ae01edf12d7af7998b634d9faba1863f",
+      "steps": 14,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-jun-jian",
+      "sourceSha256": "e37fb1dddadb75c4fa04f175b1c848beff7476aa75d6cdc82f41c91d962c2d8f",
+      "steps": 19,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-kuai-ting",
+      "sourceSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-long-men-diao",
+      "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-mo-tian-lun",
+      "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "sourceSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-sai-che",
+      "sourceSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-sheng-jiang-jiu-yuan-che",
+      "sourceSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-ta-diao",
+      "sourceSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+      "steps": 18,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "sourceSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-wa-li",
+      "sourceSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+      "steps": 14,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "sourceSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+      "steps": 8,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "sourceSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+      "steps": 15,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-xie-zi",
+      "sourceSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "sourceSha256": "6f1f9d37c6ee2396b608de34b402051924d48397e3548404399c09ef35b5e1dd",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-yi-long",
+      "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+      "steps": 14,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-you-wen",
+      "sourceSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "sourceSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+      "steps": 15,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "4-zhi-zhu",
+      "sourceSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+      "steps": 8,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "sourceSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-dan-gan-yun-dong-yuan",
+      "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-di-qiu-yi",
+      "sourceSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+      "steps": 18,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-diao-che",
+      "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+      "steps": 17,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-diao-shan",
+      "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-fan-chuan",
+      "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+      "steps": 12,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "sourceSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+      "steps": 15,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-huo-jian",
+      "sourceSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "sourceSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "steps": 14,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-mian-bao-ji",
+      "sourceSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+      "steps": 16,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-qing-ting",
+      "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-ren-li-shui-che",
+      "sourceSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-shui-jing",
+      "sourceSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+      "steps": 13,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-tuo-gua-che",
+      "sourceSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949",
+      "steps": 17,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-wo-lun-diao-qiao",
+      "sourceSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+      "steps": 11,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-xiao-niao-de-chi-bang",
+      "sourceSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "sourceSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+      "steps": 10,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "sourceSha256": "24e7354c207dd5486c16cef1af9b3b84669e02a946323407f7393a79cc701ea4",
+      "steps": 9,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "sourceSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+      "steps": 8,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "sourceSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "steps": 14,
+      "currentStepImagesGenerated": false,
+      "nextAction": "Actually inspect every cumulative step against source pages; correct source only with evidence, then regenerate affected checks.",
+      "accepted": false
+    }
+  ]
+}

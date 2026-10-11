@@ -10,6 +10,12 @@
       "page": "2-6",
       "part": "moving drivetrain and poster pivot",
       "missing": "static source axes only; gear engagement and rotation under load unverified"
+    },
+    {
+      "page": 6,
+      "part": "yellow crank/carrier beneath upper poster beam",
+      "candidate": "6526.dat; source BOM1x and visible arm/pin match",
+      "missing": "omitted in current55-part model; shaft retention, secondary-pin engagement and both pulley axial positions need geometry review. Found during all12 cumulative-step pixel review; source deliberately unchanged at checkpoint."
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
@@ -21,8 +27,9 @@
       "iso-rear",
       "top"
     ],
-    "cumulativeStepsActuallyInspected": false,
-    "finding": "D full-frame final3 compared against all12 source pages. Giraffe/zebra upright front orientation and blank reverse verified; frame and blue/yellow perimeter correspond. Two central6527 flanges diameter82 inside80LDU printed-column gap retain potential1LDU interference each side. Gear engagement under load unverified; no physical or cumulative-step acceptance."
+    "cumulativeStepsActuallyInspected": true,
+    "cumulativeStepCount": 12,
+    "finding": "All12 D cumulative frames actually screened against source12-page contact; originalstep6 and10 inspected, sourcep6 enlarged. NEW missing sourcep6 yellow crank/carrier, visible in BOM1x and under upper beam, matches6526 candidate; currentstep6 has only2 pulleys and beam, omits this carrier. Recheck its pin engagement and both pulley axial positions before claiming support closure. Model unchanged this checkpoint. Animal orientation matches; central82LDU pulley vs80LDU column gap potential1LDU each side remains. Dynamic gear engagement unverified. No physical acceptance."
   },
   "rawCollisionChecker": "FAIL; two central pulley/pattern brick edge overlaps",
   "collisionAssessment": "Two printed columns have80LDU inner gap; official6527 flange diameter82LDU, potential1LDU edge interference each side remains, not certified. Other frame/wall collisions corrected by readingp10 BOM5 full+4 square bricks and retaining red bridge end gaps.",

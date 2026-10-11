@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-10-11T06:55:16.724414+00:00",
-  "localCheckpointCommit": "21a1283",
+  "generatedAt": "2026-10-11T07:02:20.326796+00:00",
+  "localCheckpointCommit": "4e28e5c",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
-    "draft-final-and-all-steps-pixels-reviewed": 12,
-    "draft-final-pixels-reviewed-steps-pending": 57,
+    "draft-final-and-all-steps-pixels-reviewed": 16,
+    "draft-final-pixels-reviewed-steps-pending": 53,
     "source-verified-remotely-awaiting-transfer": 60
   },
   "writtenSources": 69,
   "finalReviewed": 69,
-  "allStepsReviewed": 12,
-  "partIssueFamiliesIncludingFlexibleRoutes": 29,
+  "allStepsReviewed": 16,
+  "partIssueFamiliesIncludingFlexibleRoutes": 30,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
     "4-chun-jie-wu-shi",
@@ -49,9 +49,10 @@
     "5-xuan-yi-fei-ji",
     "5-xuan-zhuan-ka-fei-bei",
     "5-ya-mian-ji",
+    "5-yi-dong-guang-gao-pai",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T06:48:22.044Z",
+  "unknownRegistryGeneratedAt": "2026-10-11T07:01:58.578Z",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -164,9 +165,9 @@
     {
       "slug": "4-ke-ji",
       "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -678,21 +679,10 @@
     {
       "slug": "5-jiao-ban-qi",
       "sourceSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
-      "frameEdgeAuditPendingViews": [
-        "step-1",
-        "step-2",
-        "step-3",
-        "step-4",
-        "step-5",
-        "step-6",
-        "step-7",
-        "step-8",
-        "step-9",
-        "step-10"
-      ],
+      "allCumulativeStepsActuallyReviewed": true,
+      "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
     {
@@ -962,9 +952,9 @@
     {
       "slug": "5-tui-tu-ji",
       "sourceSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },
@@ -1160,9 +1150,9 @@
     {
       "slug": "5-yi-dong-guang-gao-pai",
       "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
-      "status": "draft-final-pixels-reviewed-steps-pending",
+      "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
-      "allCumulativeStepsActuallyReviewed": false,
+      "allCumulativeStepsActuallyReviewed": true,
       "frameEdgeAuditPendingViews": [],
       "accepted": false
     },

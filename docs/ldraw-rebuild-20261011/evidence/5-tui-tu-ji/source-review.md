@@ -15,3 +15,7 @@ Actually viewed old final3 originals and source p7,p8,p9. Correct official2301b 
 ## Replacement D final review - source6fd65732
 All3 original final images actually viewed, revision9ddc346d. The2301b forward concavity and lower studded lip now correspond to source p7/p9; prior inverted curve and below-ground backing visibly corrected. Small yellow geometry visible at the green concave surface remains an unresolved backing-stud/connector intrusion concern and needs close mesh inspection. Liftarm/crank capture, tyre/hub cavity fit and travel unvalidated. Cab/window/canopy omissions still leave unsupported roof. Standard current-pixel-review.json updated to revised source, explicitly INCOMPLETE, accepted=false, physicalValidation=false. No other or further model changes during checkpoint preparation.
 
+
+## Current cumulative8-step pixel record
+All8 D contact-sheet panels actually viewed; original step5 checked against source p5. Additions follow source order, with cab omissions visible already atstep3. Exact liftarm/crank relative pose and pin capture remain unresolved despite the ground-height correction; source p5 uses a different incline than current source-guided low blade pose. Existing concave-face yellow geometry/tyre and unsupported roof findings retained. current-pixel-review.json records bothfinal3 andsteps8 for6fd65732; this is observation coverage, not mechanical/fidelity acceptance. No source changes.
+

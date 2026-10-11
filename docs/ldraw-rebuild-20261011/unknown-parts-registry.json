@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T06:48:22.044Z",
+  "generatedAt": "2026-10-11T07:01:58.578Z",
   "scope": "Changed/new LDRs plus exactly deferred11; unbuilt courses are not unknown-part records",
   "acceptance": false,
   "method": "Reuse current course JSON ledgers/reviews + current LDR unresolved comments and actual approximation placements. Group confirmed aliases using prior research. Generic interfaces kept separate from missing part IDs.",
@@ -21386,6 +21386,51 @@
         }
       ],
       "issueCountUnit": "Oneunidentifiedassemblyfamily, not a verifiedcatalogID"
+    },
+    {
+      "key": "candidate:billboard-under-beam-carrier",
+      "category": "candidate_identity_unresolved",
+      "name": "Billboard yellow crank/carrier beneath upper poster beam",
+      "confirmedId": null,
+      "candidates": [
+        "6526.dat"
+      ],
+      "missingEvidence": [
+        "One source p6 BOM carrier is omitted from current 55-part model; candidate identity and complete shaft/secondary-pin engagement remain unverified."
+      ],
+      "sourcesTried": [
+        "preparation/5-yi-dong-guang-gao-pai/review.json#unknown",
+        "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
+      ],
+      "geometryLicense": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+      "geometryAvailability": {
+        "candidateId": "6526.dat",
+        "localAvailable": true,
+        "file": "STEAMx/scripts/ldraw-models/parts/6526.dat",
+        "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+        "boundary": "Availability of candidate geometry does not confirm source identity or fitted assembly."
+      },
+      "approximationBoundary": "No substitute or new geometry inserted; source unchanged.",
+      "occurrences": [
+        {
+          "slug": "5-yi-dong-guang-gao-pai",
+          "sourcePage": 6,
+          "location": "yellow carrier below upper poster beam",
+          "quantity": 1,
+          "placed": false,
+          "candidateId": "6526.dat",
+          "source": [
+            "preparation/5-yi-dong-guang-gao-pai/review.json",
+            "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
+          ],
+          "missingEvidence": "BOM1x and visible arm/pin match candidate; current step6 contains two6527 pulleys and75350 only. Both pulley axial positions and secondary-pin mating need review."
+        }
+      ],
+      "affectedCourses": [
+        "5-yi-dong-guang-gao-pai"
+      ],
+      "issueCountUnit": "One candidate identity family, not a confirmed part ID",
+      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6"
     }
   ],
   "knownPartConnectionOmissions": [
@@ -27965,7 +28010,7 @@
   "summary": {
     "reconstructedOrInProgressCourses": 69,
     "deferredCourses": 11,
-    "partIssueFamilies": 29,
+    "partIssueFamilies": 30,
     "byIssueCategory": {
       "confirmed_id_missing_geometry": 6,
       "candidate_id_missing_geometry": 2,
@@ -27973,7 +28018,7 @@
       "flexible_route_unverified": 2,
       "candidate_flexible_geometry": 1,
       "unidentified_source_shape": 8,
-      "candidate_identity_unresolved": 7,
+      "candidate_identity_unresolved": 8,
       "candidate_mould_or_assembly": 1,
       "unidentified_figure_components": 1
     },
@@ -27981,7 +28026,8 @@
     "interfaceRecordsExcludedFromUnknownCounts": true,
     "unbuiltCoursesExcluded": true,
     "acceptedCourses": 0,
-    "localExtractedOfficialParts": 6
+    "localExtractedOfficialParts": 6,
+    "candidatePartOmissionGroups": 1
   },
   "increment69": {
     "at": "2026-10-11T06:15:35.231Z",
@@ -28609,6 +28655,17 @@
         "no physical validation",
         "12LDU sheet lowering is assembly deduction from carrier clearance, not a measured source dimension"
       ]
+    },
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "sourcePage": 6,
+      "category": "shaft_and_secondary_pin_interface_unverified",
+      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "gap": "Two pulley axial positions, shaft retention and omitted candidate carrier secondary-pin engagement require review. Existing6527 diameter82 against column gap80 may interfere1LDU per side; no acceptance.",
+      "source": [
+        "preparation/5-yi-dong-guang-gao-pai/review.json",
+        "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
+      ]
     }
   ],
   "identityResolutions": [
@@ -28736,6 +28793,22 @@
       "resolvedAt": "2026-10-11T06:48:22.042Z",
       "resolution": "Both6526 carriers now placed; previous omission preserved as history",
       "currentModelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c"
+    }
+  ],
+  "candidatePartOmissions": [
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "sourcePage": 6,
+      "totalPieces": 1,
+      "candidateId": "6526.dat",
+      "confirmedId": null,
+      "issueKey": "candidate:billboard-under-beam-carrier",
+      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "source": [
+        "preparation/5-yi-dong-guang-gao-pai/review.json",
+        "preparation/5-yi-dong-guang-gao-pai/current-pixel-review.json"
+      ],
+      "countingBoundary": "Same issue as partIssues; do not double count. Not a confirmed known-part omission."
     }
   ]
 }

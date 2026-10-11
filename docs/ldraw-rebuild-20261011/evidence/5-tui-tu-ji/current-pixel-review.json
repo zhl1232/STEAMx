@@ -1,7 +1,7 @@
 {
   "sourceSha256": "6fd6573259a2fa3614f926bf70679ce20626acd6541bc6ba3ee7f3cfc599de5d",
   "revision": "9ddc346d75a1d33b986c02d948ac3477b7527283c50e2bf11aa669b88dae2b27",
-  "reviewedAt": "2026-10-11T06:54:51.172511+00:00",
+  "reviewedAt": "2026-10-11T06:58:05.553170+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tui-tu-ji",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
@@ -19,12 +19,52 @@
       "view": "top",
       "sha256": "16cd9146c814fbe7b249fc41d361f87f20d3f25c987f648e9d2842ee82dbc69b",
       "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "660ba80bfa4188a191cca54134dc5f1ffd1e364895471e9210ef6d45a34d19b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "a3cf4fc903d7ee36c78f0919a513beff54aac3b87bab37590aa52919725795e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "be9d2bd47698b2aba5d79f5f73688be9f7654f3c5075122c7f3c3decea9f3463",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "567560174046a8afa38c9628ac69b86417e0a5cd120bc247a2a195c289a16f18",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "c79e3f848475bea5beb59d7e0b4354d3c7fd7f7934a7a4ffe4d8522c2964d655",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e5d1095fd508e6992c033a421c0a0b97493ce9429f643595d23d9bc00e975d54",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "c815eb71ba01574240f15013a349e7992a621bc181de18814c47a1783b3fe004",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "bb33cca211c379bdc4c85a1c3c7553a07c253ed2a073cd436a8f1b25ef52bba9",
+      "pixelsActuallyReviewed": true
     }
   ],
   "finalAllThreeViewsReviewed": true,
-  "allCumulativeStepsReviewed": false,
+  "allCumulativeStepsReviewed": true,
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually viewed all three original D final images for source6fd6573259a2/revision9ddc346d, comparing previously inspected source p7,p8,p9. Corrected2301b scoop now opens forward with lower studded lip; previous inverted curve/below-ground backing error visibly resolved. Full model and source loose props framed. Small yellow geometry is visible through/at the green concave face: backing studs/connector intrusion remains a close-profile concern, not cleared by these views. Liftarm/short-crank capture, four tyre/hub checker groups and dynamic clearance remain unresolved. Cabin/canopy/windows omitted and roof unsupported. INCOMPLETE; no physical/user acceptance; cumulative steps not reviewed. No further source changes in this checkpoint pass."
+  "limitations": "Actually screened all8 cumulative step panels for source6fd65732; opened original step5 and source p5 for front bearing/cranks. Source order is retained: chassis, body, omitted-cab roof, arms, front bearing, blade backing,2301b curves, loose props. Low blade pose is source-guided but exact arm/crank angle and pin capture differ or remain unresolved; no physical linkage acceptance. Existing final observations retained: yellow geometry at green concave face needs close inspection,4 tyre/hub groups unresolved, omitted cab/canopy/windows leave roof unsupported. All final3 and steps observed only; INCOMPLETE, no physical/user acceptance. No source modified."
 }

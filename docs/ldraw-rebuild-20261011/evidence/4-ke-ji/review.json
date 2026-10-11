@@ -41,8 +41,9 @@
       "iso-rear",
       "top"
     ],
-    "cumulativeStepsActuallyInspected": false,
-    "finding": "D full-frame final3 inspected against all12 source-page contact. Plane chassis, gray wing supports, cockpit and tower correspond. Confirmed blue45117c01/31239c01 geometry remains absent, so tail silhouette incomplete. Cockpit/canopy thin proxy overlap unresolved; approved simplified Toolo parts retained. No cumulative-step or physical acceptance."
+    "cumulativeStepsActuallyInspected": true,
+    "cumulativeStepCount": 12,
+    "finding": "All12 D cumulative frames actually screened against previously viewed source12-page contact; step4 original PNG inspected for cockpit. Sourcep5 blue45117c01/31239c01 omitted, hence renderedstep5 adds no geometry. Chassis/supports, blue upper plates, curved row, base and tower sequence correspond. Missing wing/tail and thin cockpit/canopy proxy overlap remain unresolved. Current final3 earlier inspected; no physical validation."
   },
   "collision": "1 cockpit/canopy proxy overlap, same approved relative seating as 3-jiu-hu-che; metadata records 0.05 LDU proxy contact, no physical fit claim",
   "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",

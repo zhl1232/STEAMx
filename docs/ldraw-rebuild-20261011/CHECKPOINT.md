@@ -1,14 +1,14 @@
 # Development checkpoint status
 
-Snapshot 2026-10-11 06:55 UTC, executor DESKTOP-MNEH90C. The 129-course audit is reproduced: 71 missing source models and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting Library transfer. The remote source task verified 713 JPG pages across six packages; upload tools are unavailable there. These 60 are not received or built locally.
+Snapshot 2026-10-11 07:02 UTC, executor DESKTOP-MNEH90C. The 129-course audit is reproduced: 71 missing source models and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting Library transfer. The remote source task verified 713 JPG pages across six packages; upload tools are unavailable there. These 60 are not received or built locally.
 
-69 current source versions have final-view pixel reviews; 12 have all cumulative steps reviewed. The other 57 still need step review. All remain unaccepted development drafts, with no physical validation. See hash-bound checkpoint-status.json.
+69 current source versions have final-view pixel reviews; 16 have all cumulative steps reviewed. The other 53 still need step review. All remain unaccepted development drafts, with no physical validation. See hash-bound checkpoint-status.json.
 
 Independent 69-course QA checked 4,975 placements: no malformed/scaled/reflected matrices, source/status issues, or stale/unclosed MPDs. 5,933 embedded DAT blocks matched 392 local part files. All accepted flags are false. This does not prove source completeness, support or mechanical motion.
 
-Current raw static checker: 69 stable-source runs, 45 exit 0 and 24 exit 2. AABB diagnostics and omitted-part/connection limitations remain in individual reports. The current registry contains 29 issue families spanning identity, geometry, licensing and flexible routing; known-part omissions and inventory deficits are separate.
+Current raw static checker: 69 stable-source runs, 45 exit 0 and 24 exit 2. AABB diagnostics and omitted-part/connection limitations remain in individual reports. The current registry contains 30 issue families spanning identity, geometry, licensing and flexible routing; known-part omissions and inventory deficits are separate.
 
-Previous local checkpoint 21a1283 preserved 69 source drafts; this snapshot saves subsequent corrections and evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The repository still contains 59 older MPDs and must be synchronized before delivery. The D closure/self-contained reports bind all 69 current source hashes.
+Local checkpoint 4e28e5c preserved all 69 current source drafts and independent QA; this follow-up snapshot adds cumulative-step review evidence. New large MPDs and pixels remain at D:/Codex-task-2-20261011/rendered-evidence because C storage is constrained. The repository still contains 59 older MPDs and must be synchronized before delivery. The D closure/self-contained reports bind all 69 current source hashes.
 
 No production models, public assets, application/workflow/package files, approval whitelist or data have been changed. No push, PR, merge, deployment or CI trigger. Six licensed part bodies extracted from existing published MPDs retain provenance in embedded-part-extraction.json.
 
@@ -40,3 +40,5 @@ At 05:28:13 UTC the serial renderer had exited normally, its Node/Chrome tree wa
 Raw collision checks are diagnostic, not a pass/fail acceptance shortcut. Dependency closure validates represented geometry only, not source completeness. No physical assembly is claimed. No push, PR, deployment, CI or production data change occurred.
 
 Raw checks at checkpoint: 59 stable-source runs; exit 0: 38, exit 2: 21. Full diagnostics remain in raw-checks-snapshot.json.
+
+
