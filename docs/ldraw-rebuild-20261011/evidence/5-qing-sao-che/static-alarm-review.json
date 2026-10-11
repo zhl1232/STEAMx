@@ -1,0 +1,223 @@
+{
+  "slug": "5-qing-sao-che",
+  "modelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+  "reviewedAt": "2026-10-11T12:57:35.156Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-qing-sao-che.ldr",
+    "sha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+    "exit": 2,
+    "output": "\nFAIL [5-qing-sao-che.ldr] 3 error(s), 78 placement(s):\n  - step 6: 5-qing-sao-che_l50 overlaps 5-qing-sao-che_l49\n  - step 11: 5-qing-sao-che_l105 overlaps 5-qing-sao-che_l50\n  - step 11: 5-qing-sao-che_l106 overlaps 5-qing-sao-che_l50\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        49,
+        50
+      ],
+      "step": 6,
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "sourceSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+      "placements": [
+        {
+          "page": 6,
+          "line": 49,
+          "id": "31196c01.dat",
+          "color": 25,
+          "transform": [
+            240,
+            -248,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 6,
+          "line": 50,
+          "id": "6345.dat",
+          "color": 46,
+          "transform": [
+            388,
+            -282,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        }
+      ],
+      "classification": "known_approved_approximation_interface_unresolved",
+      "reason": "Existing approved local31196c01 cockpit and6345 windshield overlap at inherited transform. Source p6/p12 fixes same component family; newer official exact replacement is unavailable. This is unresolved surrogate mating geometry, not a cleared collision.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    },
+    {
+      "lines": [
+        50,
+        105
+      ],
+      "step": 6,
+      "parts": [
+        "6345.dat",
+        "2302.dat"
+      ],
+      "sourceSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+      "placements": [
+        {
+          "page": 6,
+          "line": 50,
+          "id": "6345.dat",
+          "color": 46,
+          "transform": [
+            388,
+            -282,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 11,
+          "line": 105,
+          "id": "2302.dat",
+          "color": 4,
+          "transform": [
+            200,
+            -392,
+            -40,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "known_part_seat_windshield_interface_risk",
+      "reason": "Source p11 two red2302 seat caps are behind windshield, but their current bounding volumes overlap6345 at this known approximate cockpit mount. Exact 6344/31196 family support depth is not independently resolved. Retain pair as geometry/interface risk pending rendered pixels and true cockpit dimensions; no blanket cabin exception.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    },
+    {
+      "lines": [
+        50,
+        106
+      ],
+      "step": 6,
+      "parts": [
+        "6345.dat",
+        "2302.dat"
+      ],
+      "sourceSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+      "placements": [
+        {
+          "page": 6,
+          "line": 50,
+          "id": "6345.dat",
+          "color": 46,
+          "transform": [
+            388,
+            -282,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 11,
+          "line": 106,
+          "id": "2302.dat",
+          "color": 4,
+          "transform": [
+            200,
+            -392,
+            40,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "known_part_seat_windshield_interface_risk",
+      "reason": "Source p11 two red2302 seat caps are behind windshield, but their current bounding volumes overlap6345 at this known approximate cockpit mount. Exact 6344/31196 family support depth is not independently resolved. Retain pair as geometry/interface risk pending rendered pixels and true cockpit dimensions; no blanket cabin exception.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    }
+  ],
+  "rawPairCount": 3,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-qing-sao-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "limitations": [
+    "Road gears6530 radius103.798 atY-104 are approximately level, no scaling. P3 underside tie plates use a source-obscured crossbond: each pair ties blue crossbrace and half of red axle brick; central rotated plate bridges blue pair. All use24LDU true plate thickness.",
+    "P5 risers48 and lime4672plate24 put mounting topY-224. P6 two red75350 bottomsY-224, topsY-272; each inner80LDU bears on limeplate edge, outer320LDU cantilevers. Cab native foot occupiesX160..240,Z+-80 beside beam inner ends. Approximate cab sidewalls exceed nominal width and may overlap beams; not approved physical fit.",
+    "P7 shafts run worldY through hollow-stud centresX220,Z+-260/380, not arbitrary solid brick centre. 6523 collarX40 and31623 collarX100 both becomeY-284; short originY-244 and longY-184. Tube clearance/gear collar seating and shaft retention remain unverified.",
+    "Blue31622/red6529 centres are120LDU apart; blue crown local+Z faces world+Y per p7/p12; gear phase to road6530 and red gear tooth mesh remain provisional. No dynamic drive, ground sweeping or material strength is claimed.",
+    "P8 two cranks share each long shaft atY-100/-60; pin endsY-40/0. Relative phase chosen opposite to match p8 visible opposed brushes. Actual tightness/swept clearance and ground contact require checking.",
+    "P11 blue support bottomsY-272 touch beam top and existing approximate cab rear stud deck; plate spans 80LDU central gap with40LDU overlap on each blue support. Seat/cab proximity inherits approximate geometry limitations."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "current9c04/revision544030a4 final3 plus all11 cumulative steps actually reviewed; see current-pixel-review.json",
+  "externalIdentityEvidence": "preparation/batch13-cockpit-official-recheck.json (crocodile_rabbit source comparison and four official/unofficial GET404; not global absence proof)",
+  "pixelReviewFile": "preparation/5-qing-sao-che/current-pixel-review.json"
+}

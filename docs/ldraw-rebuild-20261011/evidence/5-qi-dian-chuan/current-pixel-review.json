@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+  "revision": "0e1c49943c7145626e557b58d8405f30749c1c4eb156d025150950487d6ee7c7",
+  "reviewedAt": "2026-10-11T13:03:49.514850+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-qi-dian-chuan",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4910f3ba84506164935287e6d204ace4f1611aeadf7f3a7777ab90247b1def06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "49f6764c6239691d703b4fe5bf03ce32a21da993f22152e523c9251f7ad28195",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "5b7dc8c102fc1ad79eefbb6c8ac0a35d8bd65567058e33849cd855a360bc432e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "8f5dbab67ff261dcdc91e5586ab9100b1f09fb30e27accb5a5b22370350c7bba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6c3c21e3d4550a34d79e8ec07e69308e4c33e5df61f74aa20d113ea963c1d946",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "59e862a78a8fb75c2be75a938b02a33bafce9cfc2c5917cbb628f0cc781c9068",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "7353315340d6dc7fe42086d92719ac824dbb33620926e15cc8b7bcaf439a2f35",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "0984b068daf859f9b2f651c24c2190d824d3899032accf37781c312071696532",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3d76a42a4e77478c5cdf2c75737b68954f78c1c52951c516137bcbabf92773de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "4910f3ba84506164935287e6d204ace4f1611aeadf7f3a7777ab90247b1def06",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3 and all7 cumulative steps viewed, plus original iso/rear/top/steps5-6 and sourcep6. Source yellow perimeter,6curved-blue3small2plate rim, tail cross-paddles and72waterplates correspond. Missing U-paper exposes red rails; explicit source support exception. Existing simplified cockpit intrudes into blue front crossbar/source neighbours,8raw pairs remain insufficient evidence. Shaft stack/pin depth/rotation clearance not physically verified; no acceptance."
+}

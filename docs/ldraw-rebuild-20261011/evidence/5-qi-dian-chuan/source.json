@@ -1,0 +1,67 @@
+{
+  "slug": "5-qi-dian-chuan",
+  "sourceSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+  "previousDraftSha256": null,
+  "manifest": {
+    "name": "5+气垫船搭建说明.pdf",
+    "relative_path": "5+/5+气垫船搭建说明.pdf",
+    "pages": 8,
+    "bytes": 930609,
+    "sha256": "abe42b8e0fadf121cf46fab360cfea8b5d9d36454fce9967bbcdd3afd0994e55",
+    "source_url": "https://pan.quark.cn/list#/docpdf/111a118f7151457a98e35a901609167e",
+    "slug": "5-qi-dian-chuan",
+    "lesson_id": 275,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-1.jpg",
+      "sha256": "185dcdfd8f2806bac95624ec8884076981c45a8a0f4f26e8f8f85d5970c39ec2",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-2.jpg",
+      "sha256": "7609788f5210dd9767c6a7a48e5f4baefc057878f2d1a02509c08fa0e8b2b88d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-3.jpg",
+      "sha256": "8f6b469fac64df36b36c73d04725a9adc4bd82016b6a94d30a6ba16f765d2b8f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-4.jpg",
+      "sha256": "0e4a312ac448cb642f05106562c93e5dfb5ef0cf0985f794de3afa3ed790c89c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-5.jpg",
+      "sha256": "2d28d35e9c1e9bc362806c9a5b7607d3cb56632a213daa3026a792fdf7243c06",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-6.jpg",
+      "sha256": "0a583382919bfae8162354e7827d21dbc656d9ca1bd4a3a34f07edcfde67f69a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-7.jpg",
+      "sha256": "8e789853c3f9d40b22696d2bca5d1528f361f2dd2cb2cd4d7c86174dadad2ec0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-8.jpg",
+      "sha256": "7b4885ef89e30cf9ea425b01db23e4a21749d27d5cc007dec3d7da91a9084fa0",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

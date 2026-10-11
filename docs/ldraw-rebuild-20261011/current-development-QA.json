@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-10-11T12:37:53.292552+00:00",
-  "progressSha256": "e44ec7299b8043b03def8d1dcd438a388ec34543f1fe378da2b40ea66836135c",
+  "generatedAt": "2026-10-11T13:20:52.730155+00:00",
+  "progressSha256": "0c4e3be18c1a193ba966d839f5688e13e6383888187fe998bdc5d6d26fbcd3e5",
   "selection": "All progress courses with nonempty modelSha256; no fixed count or workStatus filter",
   "method": "Read-only stable-source QA. Current/historical explicit attestations and image hashes are checked, not new pixel viewing. No physical validation.",
   "accepted": false,
   "summary": {
-    "courses": 96,
-    "placements": 7271,
+    "courses": 106,
+    "placements": 8154,
     "structuralIssueCourses": 0,
     "structuralIssues": 0,
-    "rawAlarmCourses": 38,
-    "rawErrorGroups": 140,
-    "expandedAlarmItems": 193,
-    "uniqueLocalDATFiles": 414,
-    "finalAllThreeCovered": 96,
-    "allStepsCovered": 96,
+    "rawAlarmCourses": 42,
+    "rawErrorGroups": 165,
+    "expandedAlarmItems": 243,
+    "uniqueLocalDATFiles": 419,
+    "finalAllThreeCovered": 106,
+    "allStepsCovered": 106,
     "pixelIssueCourses": 0,
-    "imagesChecked": 1419,
+    "imagesChecked": 1546,
     "pendingIndexEntries": 0
   },
   "rows": [
@@ -614,10 +614,6 @@
             10,
             11
           ]
-        },
-        {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-da-long-xia\\REVIEW.md",
-          "claim": "全部11页已逐页实际查看，源PDF SHA 2518fe79fa3fd396d1d0961b316adf3bca23b6ba453a9a22ac9fdb2f7ae0435e。当前模型e01fbbabaed3e7fa0902d5aa33e2db0e9f8b263b7dc40037e50a31bd2bdcd1c1，31件，10搭建步骤；末页为完整视图。"
         },
         {
           "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-da-long-xia.ldr",
@@ -4064,10 +4060,6 @@
           "value": true
         },
         {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-tang-lang\\REVIEW.md",
-          "claim": "源稿 SHA256：59acfbcc93af7b5d57b5ba09e7f6a26c44e8767222b1925be791d10774b2aa0f。14页实际逐页查看，13个搭建步骤，58个已放置零件；p6另有4433c01排气总成2件因缺许可几何省略。旧简化模型未复用。"
-        },
-        {
           "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-tang-lang.ldr",
           "claim": "0 // PENDING: Source14pages actuallyviewed;13constructionsteps retained."
         }
@@ -4348,10 +4340,6 @@
         }
       ],
       "sourcePixelClaims": [
-        {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-tuo-gua-che\\REVIEW.md",
-          "claim": "当前源 SHA256 `f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480`。14页原图逐页实际查看，PDF哈希已核；按13个源步骤重写旧简化稿。53件已放置，源图69个物理组件，明确省略16件。本稿为不完整开发预览，等待统一渲染及用户确认，未实物验证。"
-        },
         {
           "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-tuo-gua-che.ldr",
           "claim": "0 // Source pages1-14 actually viewed.13 assembly steps; p14 final overview."
@@ -7067,10 +7055,6 @@
             11,
             12
           ]
-        },
-        {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-zuan-tu-che\\REVIEW.md",
-          "claim": "全部12页已逐页实际查看，源PDF SHA f23f52f7f36818dc30538a7ad59028388153894e0b5dc6dfabcc11e95a6b3e35。当前模型f2303f1abf25034f7a53a684bd5d7c58f19533ead1d87c8269534b74070b2e04，52件，11搭建步骤；末页为完整视图。"
         },
         {
           "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-zuan-tu-che.ldr",
@@ -12722,6 +12706,413 @@
       "missingViews": []
     },
     {
+      "slug": "5-ping-heng-da-shi",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+      "progressHashMatches": true,
+      "placements": 117,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+平衡大师搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 11
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ping-heng-da-shi\\ledger.json",
+          "sha256": "1e17e2b85609d1db4744c0019f3cae5b497618e81c3bcd498257cb3c8b638117"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ping-heng-da-shi\\source.json",
+          "sha256": "c49bc5e0992570e90b71bf25e07d4f929484d3a73754ad4537919ae3c94a77f7"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ping-heng-da-shi\\REVIEW.md",
+          "claim": "Source SHA `90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99`. All11 source pages actually viewed;10 source steps;117 implemented placements of117 physical source items, 0 omitted. Structurally checked only; incomplete or adjusted development preview, not accepted."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-ping-heng-da-shi.mpd",
+          "sha256": "d06f4489e6b1d2389a099cb89b52d8968a18626660fc5c555e70d4ccf2b10aab",
+          "datBlocks": 110
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-ping-heng-da-shi.mpd",
+          "sha256": "d06f4489e6b1d2389a099cb89b52d8968a18626660fc5c555e70d4ccf2b10aab",
+          "datBlocks": 110
+        }
+      ],
+      "rawErrorGroups": 9,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 9,
+      "staticReportSha256": "4146a382a031185be151d2cbd485f8259fa12662991ae3180611433280b76374",
+      "expandedAlarmItems": 17,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-ping-heng-da-shi\\current-pixel-review.json",
+          "recordSha256": "36695ffb3b99af3d51dab82e924e38dc213704cae7e9bcad473fdaadeb07f50f",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 10,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+      "progressHashMatches": true,
+      "placements": 112,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+气垫船搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 8
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qi-dian-chuan\\ledger.json",
+          "sha256": "91ec9658a731bf632e7a0298ff8ec6425b310e840396bc0b91fdec299cd2ac73"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qi-dian-chuan\\source.json",
+          "sha256": "5f4ba58e52d13f45ad563b5bdf5943c1a4bc5d9e414dd3740abfd17c08ff56a2"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-qi-dian-chuan.ldr",
+          "claim": "0 // All8 source pages actually viewed; final page is presentation only."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-qi-dian-chuan.mpd",
+          "sha256": "0e1c49943c7145626e557b58d8405f30749c1c4eb156d025150950487d6ee7c7",
+          "datBlocks": 131
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-qi-dian-chuan.mpd",
+          "sha256": "0e1c49943c7145626e557b58d8405f30749c1c4eb156d025150950487d6ee7c7",
+          "datBlocks": 131
+        }
+      ],
+      "rawErrorGroups": 5,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "866217366b9758f32eddcb6d84d0f8c8084ad65f85b739f6c09164eeab28ca17",
+      "expandedAlarmItems": 8,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qi-dian-chuan\\current-pixel-review.json",
+          "recordSha256": "81405b110aa6d1faa38b0f4a6fec2a6b27bcd865e4add5c0c1cf9be9ad0334ba",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 7,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+      "progressHashMatches": true,
+      "placements": 78,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+清扫车搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 12
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qing-sao-che\\ledger.json",
+          "sha256": "7eba76ae39d22e63837ddf1be0a5b9ffeaf041924f83aa9aa313544bedcf99b1"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qing-sao-che\\source.json",
+          "sha256": "c62d61e40ab93139486be49d4657bdf97f4b8684276f24c158c821b9bbf53ce7"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qing-sao-che\\ledger.json",
+          "field": ".sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-qing-sao-che.ldr",
+          "claim": "0 // Source 27d635c5e6e0ae4b163acbeca535add8c0cb8d110f6abfaa58ff909a1e33fcc6; all12pages actually viewed."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-qing-sao-che.mpd",
+          "sha256": "544030a4aea0cc3befe90cad9a88f8eb5d513f56222d358e4dbbd29f3509fda1",
+          "datBlocks": 125
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-qing-sao-che.mpd",
+          "sha256": "544030a4aea0cc3befe90cad9a88f8eb5d513f56222d358e4dbbd29f3509fda1",
+          "datBlocks": 125
+        }
+      ],
+      "rawErrorGroups": 3,
+      "staticAlarmSummaryItems": 3,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "df59df8b1ba7574d72680d14c6da06c71367ef92f8a189091a2656587b6a8758",
+      "expandedAlarmItems": 3,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qing-sao-che\\current-pixel-review.json",
+          "recordSha256": "dc1ff0aa87a88c4851c2d1b94d6a943e0d5a7c2520cc38df8739320e053502ab",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 11,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-qing-ting",
       "issues": [],
       "pixelIssues": [],
@@ -12865,6 +13256,272 @@
       "missingViews": []
     },
     {
+      "slug": "5-qiu-qian",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+      "progressHashMatches": true,
+      "placements": 46,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+秋千搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 9
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qiu-qian\\ledger.json",
+          "sha256": "95953d3ac318885ac04ff8e78e4c16ded8820a73b6ca1fe17eb101c84aec0115"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qiu-qian\\source.json",
+          "sha256": "6f76e1abc3c09c85e9dd6b0ad8021dd9d964fd306fdd2cc8cb6051fea84925a3"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qiu-qian\\REVIEW.md",
+          "claim": "All9 original pages actually viewed;p9 is reverse final with no newBOM. Source counts preserved, no fabricatedperson/seat components."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-qiu-qian.mpd",
+          "sha256": "48e75f3eaa1bd99e25c4cb06a6561ac07d400d657eb9dcc937e14aa52be69d63",
+          "datBlocks": 109
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-qiu-qian.mpd",
+          "sha256": "48e75f3eaa1bd99e25c4cb06a6561ac07d400d657eb9dcc937e14aa52be69d63",
+          "datBlocks": 109
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "84e031b127ee74f56bdb31daa67e7c65a255f12b33664bb904d8b0d2853c4413",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-qiu-qian\\current-pixel-review.json",
+          "recordSha256": "11d4486112ded2e422e36f8ae785fdc8d6189a45512175f3b88ec100f75714e7",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 8,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+      "progressHashMatches": true,
+      "placements": 75,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+热气球搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 13
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-re-qi-qiu\\ledger.json",
+          "sha256": "840293b5b61cb831578622135f5f0a8a53b758a74ef09152bcd9a82d9a0f4ce2"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-re-qi-qiu\\source.json",
+          "sha256": "9a1c2a036c520eb2f92d1b0769c3e10022d09e9e633cf509987c5c23f497a7e4"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-re-qi-qiu.ldr",
+          "claim": "0 // All13 source pages actually viewed; final page is presentation only."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-re-qi-qiu.mpd",
+          "sha256": "0775e4c11b18d82033599d1702cfa6118ff4a2af10d30708c5cab69db55c42c1",
+          "datBlocks": 92
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-re-qi-qiu.mpd",
+          "sha256": "0775e4c11b18d82033599d1702cfa6118ff4a2af10d30708c5cab69db55c42c1",
+          "datBlocks": 92
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "6d6c5c26f6664f6069f90486185a9935f4181a6f3bf2e184fd537cb048aaefa9",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-re-qi-qiu\\current-pixel-review.json",
+          "recordSha256": "300fdc9ef8ef1a624f78bd4255262b66ca17c4be46e8d180532eefb7c89ffb37",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 12,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-ren-li-shui-che",
       "issues": [],
       "pixelIssues": [],
@@ -12999,6 +13656,437 @@
       "missingViews": []
     },
     {
+      "slug": "5-san-lun-che",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+      "progressHashMatches": true,
+      "placements": 53,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+三轮车搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 11
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-san-lun-che\\ledger.json",
+          "sha256": "429600090b141af49e2c31f85aad9fd56ee7b4760f6bb0c42f6fb38806b47d2f"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-san-lun-che\\source.json",
+          "sha256": "cd463f8abb34043f75654dff9067a99d954f5ab2988fb9d7706afedb8ce25324"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-san-lun-che\\ledger.json",
+          "field": ".sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-san-lun-che.ldr",
+          "claim": "0 // Source 191ab51508d0e9eda1faf17c9624eead826183c9db8ae287645fbe66310a2069; all11pages viewed"
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-san-lun-che.mpd",
+          "sha256": "eac49fcee2b20c079d77be4d3cceae8d01a714d183e15d8683d55be4320babe7",
+          "datBlocks": 112
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-san-lun-che.mpd",
+          "sha256": "eac49fcee2b20c079d77be4d3cceae8d01a714d183e15d8683d55be4320babe7",
+          "datBlocks": 112
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "3b8f557e03c5fe341d61b40a6e356707ef52537a459e2fd909525da8840c7b32",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-san-lun-che\\current-pixel-review.json",
+          "recordSha256": "593b1e23552534f6b8f7ef2cee10ec05d895e3defd5d0a72292ac18228a40514",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 10,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+      "progressHashMatches": true,
+      "placements": 206,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+升降电梯搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 14
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-sheng-jiang-dian-ti\\ledger.json",
+          "sha256": "d3a5b50ec72804502d094fca9d6d1908c61a583b24812fa05a3be4350fe19452"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-sheng-jiang-dian-ti\\source.json",
+          "sha256": "0afa572172112590484ef1d4a35fc5c7ad4c70bfb264520728ed5a89e6790594"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-sheng-jiang-dian-ti\\REVIEW.md",
+          "claim": "Source SHA `7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203`. All14 source pages actually viewed;13 source steps;206 implemented placements of232 physical source items, 26 omitted. Structurally checked only; incomplete or adjusted development preview, not accepted."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-sheng-jiang-dian-ti.mpd",
+          "sha256": "46f8d88989e2e5c99f4f09177d55cb30c73b38d81c2faff92b669c15a3846a91",
+          "datBlocks": 134
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-sheng-jiang-dian-ti.mpd",
+          "sha256": "46f8d88989e2e5c99f4f09177d55cb30c73b38d81c2faff92b669c15a3846a91",
+          "datBlocks": 134
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 8,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "65f48f559b90c0b353eab30afeb99ce619eec150b42e06788b4e41e961abec24",
+      "expandedAlarmItems": 8,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-sheng-jiang-dian-ti\\current-pixel-review.json",
+          "recordSha256": "86138b629670adc1afaa0ea7d1bcf330b1937f87859968f1ed5dde4ecbe1dcf0",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-11",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-12",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-13",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 13,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-shou-tui-fei-ji",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+      "progressHashMatches": true,
+      "placements": 45,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+手推飞机搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 11
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-tui-fei-ji\\ledger.json",
+          "sha256": "4df487e991e04167bf9d69bb3d6a26f2a5f94f60e71e72348ae597683a4d0b82"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-tui-fei-ji\\source.json",
+          "sha256": "87e727144a4b95db2d358715690f89247ad566047f21b80c906915bc484e15fe"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-tui-fei-ji\\REVIEW.md",
+          "claim": "All11 source pages actually viewed;p11 final adds noBOM. Sourcep1-10 counts retained."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-shou-tui-fei-ji.mpd",
+          "sha256": "c37c5f53ba6a72aa92a2921cfc5069c1923f0a1bba807276a4c5f6c77494dc3b",
+          "datBlocks": 120
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-shou-tui-fei-ji.mpd",
+          "sha256": "c37c5f53ba6a72aa92a2921cfc5069c1923f0a1bba807276a4c5f6c77494dc3b",
+          "datBlocks": 120
+        }
+      ],
+      "rawErrorGroups": 8,
+      "staticAlarmSummaryItems": 14,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "04e62565595a03fad2fc4c9f80e767a9d2aff3797c06fa3be287dcbd28772140",
+      "expandedAlarmItems": 14,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-tui-fei-ji\\current-pixel-review.json",
+          "recordSha256": "b4bd7b33b70df79976c7fd3855408d8893427ad674e1cd28eb8e707e6fb75699",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-9",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-10",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 10,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
       "slug": "5-shou-yao-zuan-zi",
       "issues": [],
       "pixelIssues": [],
@@ -13024,8 +14112,17 @@
       ],
       "sourcePixelClaims": [
         {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-yao-zuan-zi\\source-review.md",
-          "claim": "已逐页实际查看第3批PDF的10页PNG。源hash见source.json。源稿40件9步，p10为反面成品图，不增件。无虚构DAT，无生产挂载。"
+          "type": "prior-indexed-author-evidence",
+          "claims": [
+            {
+              "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shou-yao-zuan-zi/source-review.md",
+              "claim": "已逐页实际查看第3批PDF的10页PNG。源hash见source.json。源稿40件9步，p10为反面成品图，不增件。无虚构DAT，无生产挂载。"
+            },
+            {
+              "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shou-yao-zuan-zi/source-review.md",
+              "claim": "已实际看iso、iso-rear、top三视图。梁孔/握柄/蓝钻杆和冠齿位置外观与源一致，齿相位与实物啮合仍未验证。final renderer-verified only，累计步骤待验证。 pending user confirmation。"
+            }
+          ]
         }
       ],
       "packages": [
@@ -13126,6 +14223,552 @@
         }
       ],
       "expectedSteps": 9,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-shuai-gan-ji",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+      "progressHashMatches": true,
+      "placements": 60,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+甩干机搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 9
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "sha256": "88841491eaef6804705f97e0b04eb169fe2b6d5ffd1e3b33c4c87c8156c538d0"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "sha256": "480a7e94774f5a7f3b0d224996975715f338418610b2b664c1ffd279a4cc8eea"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".source.pagesDecoded.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".evidence.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\ledger.json",
+          "field": ".currentPixelObservation.sourcePagesViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\source.json",
+          "field": ".pagesDecoded.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\REVIEW.md",
+          "claim": "All9 originalpages actually viewed individually; originalPDF/pageSHA retained in source.json. 60placements /8construction steps, finalpage9 no duplicate. SourceSHA c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-shuai-gan-ji.mpd",
+          "sha256": "0ff23d7f1d9e25e69bd8068338c6e5efe1ebb0e2a61e26b224340a8cc06981cb",
+          "datBlocks": 93
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-shuai-gan-ji.mpd",
+          "sha256": "0ff23d7f1d9e25e69bd8068338c6e5efe1ebb0e2a61e26b224340a8cc06981cb",
+          "datBlocks": 93
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "feae6a8183e6c7925c46aa99c5cc18cb348db2069aa26a8ecc67948794ec02b5",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuai-gan-ji\\current-pixel-review.json",
+          "recordSha256": "74e2aab6980f809da82da4e7b98786f03747f9e7a82c6512cdfd8b86aeed8bce",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 8,
+      "finalAllThreeCovered": true,
+      "allStepsCovered": true,
+      "missingViews": []
+    },
+    {
+      "slug": "5-shuang-kai-da-men",
+      "issues": [],
+      "pixelIssues": [],
+      "modelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+      "progressHashMatches": true,
+      "placements": 91,
+      "sourceEvidence": [
+        {
+          "manifest": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\manifest.json",
+          "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+          "file": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5+\\5+双开大门搭建说明.pdf",
+          "shaMatches": true,
+          "lessonMappingMatches": true,
+          "bytesMatch": true,
+          "declaredPages": 9
+        }
+      ],
+      "reports": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "sha256": "038d7685f0bf8211d9474c56960ca3a5eed0fd8536b329e1dffa9db3bb8faccc"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "sha256": "6dcec90bd29d353adb2130a793e33e6a939a9dbbf5894689cc438876d3326d29"
+        }
+      ],
+      "sourcePixelClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".source.pagesDecoded.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".evidence.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\ledger.json",
+          "field": ".currentPixelObservation.sourcePagesViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.0.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.1.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.2.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.3.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.4.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.5.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.6.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.7.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\source.json",
+          "field": ".pagesDecoded.8.pixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\REVIEW.md",
+          "claim": "All9 originalpages actually viewed individually; originalPDF/pageSHA retained in source.json. 91placements /8construction steps, finalpage9 no duplicate. SourceSHA 3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5."
+        }
+      ],
+      "packages": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\docs\\ldraw-rebuild-20261011\\previews\\5-shuang-kai-da-men.mpd",
+          "sha256": "5dece041e340ba1737acb2efebc2c49f48a60f9864651c4d0c72147fcced6ebe",
+          "datBlocks": 117
+        },
+        {
+          "file": "D:\\Codex-task-2-20261011\\rendered-evidence\\development-previews\\5-shuang-kai-da-men.mpd",
+          "sha256": "5dece041e340ba1737acb2efebc2c49f48a60f9864651c4d0c72147fcced6ebe",
+          "datBlocks": 117
+        }
+      ],
+      "rawErrorGroups": 0,
+      "staticAlarmSummaryItems": 0,
+      "explicitRawPairReviewItems": 0,
+      "staticReportSha256": "fab948b4764358ea3255af94b74e43287c3a287c5809fde84da1013cd3763c98",
+      "expandedAlarmItems": 0,
+      "rawPairReviewsMissingDiagnosis": [],
+      "unexplainedRawPairs": [],
+      "pixelRecords": [
+        {
+          "record": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shuang-kai-da-men\\current-pixel-review.json",
+          "recordSha256": "230ed7ce73fab03a4089cff80db9c1a3c78d96f6ff94d522074dee46fb589221",
+          "type": "current",
+          "currentBinding": true,
+          "images": [
+            {
+              "view": "iso",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "iso-rear",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "top",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-1",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-2",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-3",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-4",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-5",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-6",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-7",
+              "hashMatches": true,
+              "explicitAttestation": true
+            },
+            {
+              "view": "step-8",
+              "hashMatches": true,
+              "explicitAttestation": true
+            }
+          ]
+        }
+      ],
+      "expectedSteps": 8,
       "finalAllThreeCovered": true,
       "allStepsCovered": true,
       "missingViews": []
@@ -13433,8 +15076,17 @@
       ],
       "sourcePixelClaims": [
         {
-          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-tou-lan-ji\\source-review.md",
-          "claim": "已逐页实际查看第3批PDF全部10页PNG，源hash见source.json。源稿57件9步，p10成品页不增件。"
+          "type": "prior-indexed-author-evidence",
+          "claims": [
+            {
+              "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-lan-ji/source-review.md",
+              "claim": "已逐页实际查看第3批PDF全部10页PNG，源hash见source.json。源稿57件9步，p10成品页不增件。"
+            },
+            {
+              "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-lan-ji/source-review.md",
+              "claim": "已实际看iso、iso-rear、top三视图。篮圈、靶板、双支柱、蓝球形色一致；杯托深度仍缺反向源图，维持INCOMPLETE，不凭渲染声称可弹射。 pending user confirmation。"
+            }
+          ]
         }
       ],
       "packages": [

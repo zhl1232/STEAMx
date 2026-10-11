@@ -1,0 +1,87 @@
+0 5-shuai-gan-ji - source-based dev-only reconstruction
+0 Name: 5-shuai-gan-ji.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: Two10studholebricks formLframe,studfaces towardfront
+1 4 0 0 0 1 0 0 0 0 -1 0 1 0 75350.dat
+1 4 240 -160 0 0 0 1 1 0 0 0 1 0 75350.dat
+0 STEP
+0 // Source page 2: Sixyellow4studbricks clampfront/backofLbase
+1 14 -120 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 40 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 200 0 -48 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 -120 0 96 1 0 0 0 0 1 0 -1 0 3011.dat
+1 14 40 0 96 1 0 0 0 0 1 0 -1 0 3011.dat
+1 14 200 0 96 1 0 0 0 0 1 0 -1 0 3011.dat
+0 STEP
+0 // Source page 3: Secondsideclamp layers withstaggered2studends
+1 14 -160 0 -96 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 240 0 -96 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 -40 0 -96 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 120 0 -96 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 -160 0 144 1 0 0 0 0 1 0 -1 0 3437.dat
+1 14 240 0 144 1 0 0 0 0 1 0 -1 0 3437.dat
+1 14 -40 0 144 1 0 0 0 0 1 0 -1 0 3011.dat
+1 14 120 0 144 1 0 0 0 0 1 0 -1 0 3011.dat
+0 STEP
+0 // Source page 4: Thirdclamp layers,verticalfeet andredplates4x2
+1 14 -40 0 -144 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 120 0 -144 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 -160 40 -144 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 240 40 -144 0 0 1 1 0 0 0 1 0 3011.dat
+1 4 -120 0 -168 1 0 0 0 0 -1 0 1 0 40666.dat
+1 4 200 0 -168 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 -40 0 192 1 0 0 0 0 1 0 -1 0 3011.dat
+1 14 120 0 192 1 0 0 0 0 1 0 -1 0 3011.dat
+1 14 -160 40 192 0 0 -1 1 0 0 0 -1 0 3011.dat
+1 14 240 40 192 0 0 -1 1 0 0 0 -1 0 3011.dat
+1 4 -120 0 216 1 0 0 0 0 1 0 -1 0 40666.dat
+1 4 200 0 216 1 0 0 0 0 1 0 -1 0 40666.dat
+0 STEP
+0 // Source page 5: Vertical40toothinputgear and24toothgear;two shortblueaxles and crank
+1 1 240 -280 24 1 0 0 0 1 0 0 0 1 6523.dat
+1 1 240 -120 24 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 180 -280 24 0 0 1 0 1 0 -1 0 0 6530.dat
+1 4 180 -120 24 0 0 1 0 1 0 -1 0 0 6529.dat
+1 14 320 -280 24 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // Source page 6: Horizontalgeartrain two24T/one24Tcrown;two blueaxles,grayoutputshaft and crank
+1 1 0 0 24 0 -1 0 1 0 0 0 0 1 6523.dat
+1 1 120 0 24 0 -1 0 1 0 0 0 0 1 6523.dat
+1 7 -120 -20 24 0 -1 0 1 0 0 0 0 1 6522.dat
+1 4 -120 -60 24 1 0 0 0 0 -1 0 1 0 6529.dat
+1 4 0 -60 24 1 0 0 0 0 -1 0 1 0 6529.dat
+1 1 120 -60 24 1 0 0 0 0 -1 0 1 0 31622.dat
+1 14 -120 -100 24 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 STEP
+0 // Source page 7: 10studrotatingcrossbeam and8x8graybase
+1 4 -120 -168 24 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 -120 -192 24 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // Source page 8: Three8x8hollowringlayers;yellow12 blue6
+1 14 -200 -240 -96 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -240 144 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -240 -96 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -240 144 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -240 24 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -240 24 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -288 -56 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -288 104 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -288 -56 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -288 104 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -288 -96 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -288 144 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -336 -96 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -336 144 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -336 -96 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -336 144 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -336 24 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -336 24 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // PENDING: P4 hiddenbaseclamp andverticalfeet bond inferred fromfrontsource and8yellow/4redplatecount; retain sourcecount, no scale.
+0 // PENDING: Gear nominalpitch160/120LDU; toothphase, orthogonalcrown mesh, axle retention and torque unverified.
+0 // PENDING: P7 grayaxle engagesrotatingbeam22LDU; offsetcrankpin40LDU,centerpassages used; platform mechanical strength/sweep remains unverified.
+0 // PENDING: P8 three6brick rings match12yellow+6blueBOM; hiddenbackseams inferred with alternatingbond.
+0 // Source page 9: finished view, no duplicated placements.

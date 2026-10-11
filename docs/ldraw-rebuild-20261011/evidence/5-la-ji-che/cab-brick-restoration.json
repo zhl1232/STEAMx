@@ -1,0 +1,53 @@
+{
+  "slug": "5-la-ji-che",
+  "modelSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+  "previousSourceSha256": "c25f8f3183a277aaaf7eb63e52bfbb8983a1c68a4b3cc10d18743b438b259c82",
+  "sourcePages": [
+    14,
+    15
+  ],
+  "sourceImages": [
+    {
+      "page": 14,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-la-ji-che/page-14.jpg",
+      "sha256": "afae9bb9c045a4ea32fba114c76a3deca4ff1e67cc9ee5fcf18826574289f49d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-la-ji-che/page-15.jpg",
+      "sha256": "1c92e1b05a1677957ecb0c0ad0b561c68f14b2c09dca46e3874533da0f3a4bfa",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "reason": "p14 near and far window flanking columns, full depth rear stud strip, page BOM; p15 rear exposed stud strip beyond six roof plates.",
+  "corrections": [
+    {
+      "page": 14,
+      "part": "3437.dat",
+      "count": 8,
+      "placement": "six at X=-640,Y=-240/-288/-336,Z=+-120; two at X=-400,Y=-336,Z=+-120"
+    },
+    {
+      "page": 14,
+      "part": "3011.dat",
+      "count": 5,
+      "placement": "four X=-400,Y=-240/-288,Z=+-80,RY90; fifth X=-400,Y=-336,Z=0,RY90",
+      "support": "lower two full 8-stud rows supported on yellow cab ring; upper central 4-stud brick crossbonds lower row seam, end small bricks fill remaining 2+2 studs"
+    },
+    {
+      "page": 15,
+      "part": "3011.dat",
+      "restoredCount": 1,
+      "placement": "X=-400,Y=-384,Z=0,RY90",
+      "support": "bottom Y=-336 matches restored central p14 brick top; bounds X[-440,-360],Z[-80,80]; adjacent outer roof bricks Z[80,160] and[-160,-80], no volumetric overlap. Rear edge extends40LDU past six plate roof X=-400, visible source stud strip."
+    }
+  ],
+  "placedCount": 150,
+  "omittedCount": 0,
+  "rawPairs": 0,
+  "currentPixels": "current72e2def3 final3 and all15 cumulative steps actually reviewed, revision4f709d810d1dd5c66354eb4e13c15ea8e9919b6e4889b0d1924a4d5726e26282",
+  "accepted": false,
+  "physicalValidated": false,
+  "pixelReviewFile": "preparation/5-la-ji-che/current-pixel-review.json"
+}

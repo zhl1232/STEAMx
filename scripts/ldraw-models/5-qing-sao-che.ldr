@@ -1,0 +1,106 @@
+0 Sweeper - source-based development draft; unaccepted
+0 Name: 5-qing-sao-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source 27d635c5e6e0ae4b163acbeca535add8c0cb8d110f6abfaa58ff909a1e33fcc6; all12pages actually viewed.
+0 // Existing approved31196c01/6345 approximation; no new custom geometry.
+0 // SOURCE PAGE 1 four red axle bricks and four inward facing short blue gear axles
+1 4 -240 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 -240 -104 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -240 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 -240 -104 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 240 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 240 -104 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 240 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 240 -104 100 0 0 1 0 1 0 -1 0 0 6523.dat
+0 STEP
+0 // SOURCE PAGE 2 four yellow40-tooth gears used as road wheels
+1 14 -240 -104 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 -240 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 240 -104 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 240 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+0 // SOURCE PAGE 3 four blue cross braces and six yellow underside tie plates
+1 1 -120 -128 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -128 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -80 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -160 -80 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -120 -80 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 120 -128 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -128 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -80 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -80 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 120 -80 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 4 green8x16 deck
+1 2 0 -152 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // SOURCE PAGE 5 four blue cab riser bricks and lime4x8plate
+1 1 200 -200 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -200 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -200 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -200 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 240 -224 0 0 0 1 0 1 0 -1 0 0 4672.dat
+0 STEP
+0 // SOURCE PAGE 6 two cantilevered transverse red beams and source orange cab with pale windshield
+1 4 200 -272 -280 0 0 1 0 1 0 -1 0 0 75350.dat
+1 4 200 -272 280 0 0 1 0 1 0 -1 0 0 75350.dat
+1 25 240 -248 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 46 388 -282 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+0 // SOURCE PAGE 7 two short and two long blue vertical gear axles, blue crown gears and red24-tooth gears
+1 1 220 -244 -260 0 1 0 -1 0 0 0 0 1 6523.dat
+1 1 220 -184 -380 0 1 0 -1 0 0 0 0 1 31623.dat
+1 1 220 -176 -260 1 0 0 0 0 1 0 -1 0 31622.dat
+1 4 220 -176 -380 1 0 0 0 0 -1 0 1 0 6529.dat
+1 1 220 -244 260 0 1 0 -1 0 0 0 0 1 6523.dat
+1 1 220 -184 380 0 1 0 -1 0 0 0 0 1 31623.dat
+1 1 220 -176 260 1 0 0 0 0 1 0 -1 0 31622.dat
+1 4 220 -176 380 1 0 0 0 0 -1 0 1 0 6529.dat
+0 STEP
+0 // SOURCE PAGE 8 paired yellow sweep cranks at staggered heights on each long shaft
+1 14 220 -100 -380 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 14 220 -60 -380 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 220 -100 380 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 220 -60 380 -1 0 0 0 1 0 0 0 -1 6526.dat
+0 STEP
+0 // SOURCE PAGE 9 three cargo rim layers: yellow8, red8, yellow8
+1 14 -240 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -200 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -200 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -248 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -248 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -248 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -248 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -248 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -248 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -248 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -248 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -296 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -296 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -296 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -296 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -296 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -296 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -296 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -296 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 10 five white/red striped safety fences
+1 15 -200 -392 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 40 -392 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -200 -392 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 40 -392 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -300 -392 0 0 0 1 0 1 0 -1 0 0 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 11 two blue supports, blue bridge plate and two red curved seat pieces
+1 1 200 -320 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -320 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -344 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 200 -392 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 200 -392 40 1 0 0 0 1 0 0 0 1 2302.dat

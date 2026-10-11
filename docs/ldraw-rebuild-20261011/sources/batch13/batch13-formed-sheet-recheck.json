@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-11T12:49:41.376453+00:00",
+  "requests": [
+    {
+      "url": "https://library.ldraw.org/library/official/parts/61898d.dat",
+      "status": 200,
+      "sha256": "5fdb1770e7a47faabe48e2ca146ec1553a16873fb97a5ce1dcfa699e7566d6db",
+      "header": [
+        "0 Sheet Plastic 24 x 25 Rectangle",
+        "0 Name: 61898d.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2019-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Sheet Plastic",
+        "0 !KEYWORDS dacta, Duplo, Early Simple Machines, Sail",
+        "",
+        "0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02"
+      ],
+      "saved": "preparation\\independent-qa\\batch13-candidates\\official\\61898d.dat"
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/61898dc02.dat",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/61898dc03.dat",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/61898ec02.dat",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

@@ -1,0 +1,2641 @@
+{
+  "slug": "5-shuang-kai-da-men",
+  "pages": 9,
+  "source": {
+    "name": "5+双开大门搭建说明.pdf",
+    "relative_path": "5+/5+双开大门搭建说明.pdf",
+    "pages": 9,
+    "bytes": 1415699,
+    "sha256": "7727afa50db40d36ad32201cbbc4b50c28ae4f25301e20554710e5a742f28b79",
+    "source_url": "https://pan.quark.cn/list#/docpdf/7a3f19db62a440d680fb5a4fb6644260",
+    "slug": "5-shuang-kai-da-men",
+    "lesson_id": 288,
+    "course_id": 7,
+    "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5+/5+双开大门搭建说明.pdf",
+    "localBytesVerified": true,
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-1.jpg",
+        "sha256": "d00fefb0b38696548dd3549b68e5ff24b94b9c0f897fc0b29426625043acf2c0",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-2.jpg",
+        "sha256": "2fadfb3b113a795588a2cf418c590338bdc8782885a288ea6a157efc00c68ff6",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-3.jpg",
+        "sha256": "e3653cd85c2c54030fb90e88d07b0acc09d44529360ff43fdfe2ac41b27c3be7",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-4.jpg",
+        "sha256": "45b3a3208163efb006efb89054054513a4889ccf1a56386273cd9b8185537c13",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-5.jpg",
+        "sha256": "6d354967ab0ed56ee907711cb91efaaa48dd4cb3a78ace44fded5b31c9943c86",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-6.jpg",
+        "sha256": "0738e7bce9dd317dac96218acfac50c4938030c28d9b7ce361a8d418565af502",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-7.jpg",
+        "sha256": "a3e2b1b4ac737a7303a10a372705d70feed98c04521dc49140e06123af978efe",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-8.jpg",
+        "sha256": "5fdb9c6e0d2bf8309f78f5e6f8c0b624e37b54b3ea80bd60bcc7c0f804800a73",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-9.jpg",
+        "sha256": "a17d7ae29ac713fdb5972f6e43389e603f130ee83f4a55ad258a327f19c72ed4",
+        "pixelsViewed": true
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-1.jpg",
+      "sha256": "d00fefb0b38696548dd3549b68e5ff24b94b9c0f897fc0b29426625043acf2c0",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-2.jpg",
+      "sha256": "2fadfb3b113a795588a2cf418c590338bdc8782885a288ea6a157efc00c68ff6",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-3.jpg",
+      "sha256": "e3653cd85c2c54030fb90e88d07b0acc09d44529360ff43fdfe2ac41b27c3be7",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-4.jpg",
+      "sha256": "45b3a3208163efb006efb89054054513a4889ccf1a56386273cd9b8185537c13",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-5.jpg",
+      "sha256": "6d354967ab0ed56ee907711cb91efaaa48dd4cb3a78ace44fded5b31c9943c86",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-6.jpg",
+      "sha256": "0738e7bce9dd317dac96218acfac50c4938030c28d9b7ce361a8d418565af502",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-7.jpg",
+      "sha256": "a3e2b1b4ac737a7303a10a372705d70feed98c04521dc49140e06123af978efe",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-8.jpg",
+      "sha256": "5fdb9c6e0d2bf8309f78f5e6f8c0b624e37b54b3ea80bd60bcc7c0f804800a73",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-9.jpg",
+      "sha256": "a17d7ae29ac713fdb5972f6e43389e603f130ee83f4a55ad258a327f19c72ed4",
+      "pixelsViewed": true
+    }
+  ],
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "24x24base;two4x4towers13layers with alternating bond;27blue/24red ordinary4stud bricks,one top holebrick plus lower10+4stud rail",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Ground plane",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -192,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -192,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -288,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -288,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -384,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-17",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -384,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-18",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-19",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-20",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -480,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-21",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -480,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-22",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-23",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-24",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -576,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-25",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -576,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-26",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-27",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-28",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-29",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-30",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-31",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-32",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-33",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-34",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -192,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-35",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -192,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-36",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-37",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-38",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -288,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-39",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -288,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-40",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-41",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-42",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -384,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-43",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -384,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-44",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-45",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-46",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -480,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-47",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -480,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-48",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-49",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-50",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -576,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-51",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            360,
+            -576,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-52",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-53",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            400,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Layer bottom seats prior layer/base; alternating seam inferred from visible tower faces",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-54",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom rail on base",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-55",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            200,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Completes14stud opening bottom rail",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 55
+    },
+    {
+      "sourcePage": 2,
+      "note": "Two lower vertical hinge brackets,6Lshafts,cranks and retainers",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -200,
+            -136,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Vertical nativeY central passage through lower rail; selected source hinge row",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -68,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Hinge retainer above bottomrail",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -136,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Studface toward front; verticalnativeZ holes receive hinge shaft/crank pin",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -196,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Mainhole on hingeY; inward80LDU integralpin enters bracket top; exact stack inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            200,
+            -136,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Vertical nativeY central passage through lower rail; selected source hinge row",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            200,
+            -68,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Hinge retainer above bottomrail",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            160,
+            -136,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Studface toward front; verticalnativeZ holes receive hinge shaft/crank pin",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            200,
+            -196,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Mainhole on hingeY; inward80LDU integralpin enters bracket top; exact stack inferred",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 63
+    },
+    {
+      "sourcePage": 3,
+      "note": "Two10studrails and two24LDUblue2x4plate seamclamps",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -624,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sourcep3 thin2x4plate,24LDU actualDAT; seam clamp",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom at tower topY-624",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom at tower topY-624",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -696,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sourcep3 thin2x4plate,24LDU actualDAT; seam clamp",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 67
+    },
+    {
+      "sourcePage": 4,
+      "note": "Upper pair of40tooth gears,8Lshafts and two crank clamp pairs",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -200,
+            -596,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Vertical upperhinge through railcentral passage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -692,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "40tooth gear on toprail surface, toothphase pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -536,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper door support matcheslower bracket studplane",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -596,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Pin inward80 then down into bracket",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -476,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Pin inward80 then up into bracket; shaftretention pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            200,
+            -596,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Vertical upperhinge through railcentral passage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            200,
+            -692,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "40tooth gear on toprail surface, toothphase pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-8",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            160,
+            -536,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upper door support matcheslower bracket studplane",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-9",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            200,
+            -596,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Pin inward80 then down into bracket",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-10",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            200,
+            -476,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Pin inward80 then up into bracket; shaftretention pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 77
+    },
+    {
+      "sourcePage": 5,
+      "note": "Two6x12green leaves,closed pose",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            -120,
+            -336,
+            -72
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottom plane Z-48 mates upper/lower bracket studplane; leafs meet atX0",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            120,
+            -336,
+            -72
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottom plane Z-48 mates upper/lower bracket studplane; leafs meet atX0",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 79
+    },
+    {
+      "sourcePage": 6,
+      "note": "Center pair upright4stud latch bricks plus shortblueaxle",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "BackplaneZ-72 mates door leaf studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            40,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "BackplaneZ-72 mates door leaf studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -336,
+            -96
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source blueaxle selected6523; supported only byleft latch brick. EndX-20 does not lockrightbrick; latch closure unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 82
+    },
+    {
+      "sourcePage": 7,
+      "note": "Two red4studtopbearings;horizontalgray6Lshaft withtwo crowngears and retainers",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -744,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Onbluecenterbrick; holeaxisX; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -792,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Onbluecenterbrick; holeaxisX; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -768,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lowerbearing rowXshaft; gearcenters inferred; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -60,
+            -768,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Betweenbearing andcrown; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            -100,
+            -768,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Orthogonal crowngear against40toothgear; toothphase anddepth pending; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            60,
+            -768,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Betweenbearing andcrown; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            100,
+            -768,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Orthogonal crowngear against40toothgear; toothphase anddepth pending; upperbearingrow selected after24LDU blueplate thickness check",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 89
+    },
+    {
+      "sourcePage": 8,
+      "note": "Longblueinputaxle and crank",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "31623.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -592,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "8L selected by longshaft icon; gearplaneY-692 at120LDU centerpitch to40toothgear",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -320,
+            -732,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Mainhole oninputshaft; integralhandlepin projectsup/outleft",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 91
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "unknownIds": [],
+  "omitted": [],
+  "pending": [
+    "Tower hiddenbond is alternate4x4layout matching source27blue/24red ordinary count; top left holebrick accountssecondsmallredholepiece.",
+    "Hinge axisstack uses real48LDU brick,40LDU cranks,24LDU plates; exactretention/friction and opening sweep unverified.",
+    "P6 6523 versus31623 length not conclusively measured; selectedshort sourceicon, entersleftbrick only; rightlatchclosure notclaimed.",
+    "P7 orthogonalgear axis/phase/depth remain mechanicalrisk; inferred upperbearingrow.",
+    "Source pose closed; no dualpose duplicate, no physical validation.",
+    "Currentfinal showsgreen8L hinge shafts abovegear by44LDU beyondupperface. Source exactexposure/stack notfullyresolved; no automatic shortening."
+  ],
+  "verification": "Raw geometry and central render pending",
+  "inventory": "9656/9090 known rows compared; combined color availability unknown where incomplete",
+  "modelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-shuang-kai-da-men.ldr",
+  "totalPlacements": 91,
+  "bom": {
+    "4268.dat|2": 1,
+    "3011.dat|1": 27,
+    "3011.dat|4": 24,
+    "75349.dat|4": 10,
+    "75350.dat|4": 3,
+    "6522.dat|7": 3,
+    "6527.dat|14": 4,
+    "6526.dat|14": 7,
+    "40666.dat|1": 2,
+    "6521.dat|2": 2,
+    "6530.dat|14": 2,
+    "4196.dat|2": 2,
+    "6523.dat|1": 1,
+    "31622.dat|1": 2,
+    "31623.dat|1": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "4268.dat|2": 1,
+        "3011.dat|1": 27,
+        "3011.dat|4": 24,
+        "75349.dat|4": 2,
+        "75350.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "6522.dat|7": 2,
+        "6527.dat|14": 2,
+        "75349.dat|4": 2,
+        "6526.dat|14": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "40666.dat|1": 2,
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "6521.dat|2": 2,
+        "6530.dat|14": 2,
+        "75349.dat|4": 2,
+        "6526.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "4196.dat|2": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "75349.dat|4": 2,
+        "6523.dat|1": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "75349.dat|4": 2,
+        "6522.dat|7": 1,
+        "6527.dat|14": 2,
+        "31622.dat|1": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "31623.dat|1": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryByPart": [
+    {
+      "partId": "4268.dat",
+      "color": "Green",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 27,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 24,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 20,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 10,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 6,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 7,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "40666.dat",
+      "color": "Blue",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 12
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6521.dat",
+      "color": "Green",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Green",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6530.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "4196.dat",
+      "color": "Green",
+      "installedQuantity": 2,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6523.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "31622.dat",
+      "color": "Blue",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "31623.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-shuang-kai-da-men.ldr] 91 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "currentPixelObservation": {
+    "sourceSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+    "revision": "5dece041e340ba1737acb2efebc2c49f48a60f9864651c4d0c72147fcced6ebe",
+    "finalViewsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "stepsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sourcePagesViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "additionalOriginalViewed": "iso-rear.png",
+    "finding": "No additional definite source placement correction established; mechanical/hiddenlayout limitations remain. Observation only.",
+    "accepted": false
+  }
+}

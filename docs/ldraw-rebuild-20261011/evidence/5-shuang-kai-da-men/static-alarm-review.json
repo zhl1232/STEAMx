@@ -1,0 +1,76 @@
+{
+  "slug": "5-shuang-kai-da-men",
+  "sourceSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-shuang-kai-da-men.ldr] 91 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Tower hiddenbond is alternate4x4layout matching source27blue/24red ordinary count; top left holebrick accountssecondsmallredholepiece.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Hinge axisstack uses real48LDU brick,40LDU cranks,24LDU plates; exactretention/friction and opening sweep unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P6 6523 versus31623 length not conclusively measured; selectedshort sourceicon, entersleftbrick only; rightlatchclosure notclaimed.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P7 orthogonalgear axis/phase/depth remain mechanicalrisk; inferred upperbearingrow.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Source pose closed; no dualpose duplicate, no physical validation.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Currentfinal showsgreen8L hinge shafts abovegear by44LDU beyondupperface. Source exactexposure/stack notfullyresolved; no automatic shortening.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "currentPixelObservation": {
+    "sourceSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+    "revision": "5dece041e340ba1737acb2efebc2c49f48a60f9864651c4d0c72147fcced6ebe",
+    "finalViewsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "stepsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sourcePagesViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "additionalOriginalViewed": "iso-rear.png",
+    "finding": "No additional definite source placement correction established; mechanical/hiddenlayout limitations remain. Observation only.",
+    "accepted": false
+  }
+}

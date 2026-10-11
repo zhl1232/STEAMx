@@ -1,0 +1,16 @@
+{
+  "sourceBefore": "0f74ae940476e4548b12921d9bdc7978841228489a864b113f880eacb30dbfc4",
+  "sourceAfter": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+  "sourcePages": [
+    12,
+    13
+  ],
+  "defect": "4672 is4x8; source floor is8x8",
+  "correction": "Replace single4672.dat with official51262.dat unchanged pose",
+  "unchanged": "All other placements/steps; source-backed suspension exceptions retained",
+  "oldPixels": "pixel-review-before-basket-correction.json",
+  "freshRenderRequired": false,
+  "freshRenderReviewedRevision": "0775e4c11b18d82033599d1702cfa6118ff4a2af10d30708c5cab69db55c42c1",
+  "freshPixelReview": "current-pixel-review.json",
+  "observation": "Current51262 floor covers four fence footprints; mechanical/suspension limits unchanged"
+}

@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+  "revision": "0ff23d7f1d9e25e69bd8068338c6e5efe1ebb0e2a61e26b224340a8cc06981cb",
+  "reviewedAt": "2026-10-11T12:55:09.990051+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shuai-gan-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "58844afe3ab967274005cdc5ea3267a140101d6bfb523b06754e52765db2af49",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "56ca5195a6760f525ebda2c602dfe5b67a9ad34aea3e1e97d68324e0185ce382",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "f467bbd72b336ce0e128f413c5f7d965efc66c39f1b96aea18a6bfe2304da3fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "d069f3b5b50927393fd9e31ac0553305c437fed0fac76464454bf49e3df2fe1e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6f446db3c13778a2d86eab16bcf652c0458687710062649fe87af834f8cffbe0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "0b88bfa377f5063b471d63d7fd49c504d227f360e7959c5e522e211c9ce4543f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a387d516953d8d00942cfda88904498aad0e5bc6aaee7902ccfc327fc91b3c11",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "c84b3f0ec23954f8567ee0840bae8f4f4c2d520d006299aeb8e1fd6ca67778e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "95fa710437ff3a34f39c74102cd53d60a012d618b7e69dcd6c538676169370cd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "89dd2d611b3497bd4788c375663209abf4856cc10e00297752a4a9f0ac76b903",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "58844afe3ab967274005cdc5ea3267a140101d6bfb523b06754e52765db2af49",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3/all8 cumulative frames plus originalstep7 viewed against originalpages1-9, finalp9 re-viewed. Lframe, gear/axle transmission arrangement, rotatingcrossbeam/8x8plate and threehollowrings visible. No additional definite source correction established. P4hiddenfootbond, gearphase/orthogonalcontact, shaftretention and22LDUgray engagement remain inferred/unverified; dynamic interference not validated; rawPASS not acceptance."
+}

@@ -1,0 +1,356 @@
+{
+  "at": "2026-10-11T12:56:25.562657+00:00",
+  "scope": "Independent orientation/placement constraints, no model edits",
+  "sourceImages": [
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-05.jpg",
+      "sha256": "1009b4210699a1dae7c704a0d169c65acafa049120ec61a142cb08a084b73b20",
+      "actuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-06.jpg",
+      "sha256": "376e0b80d54664a58a54774cab844056e7cb6198e22a61559008897aa100aa05",
+      "actuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-08.jpg",
+      "sha256": "a28f21b11e89c49e54a94b42e31ca5bcf79b48bf09077a900e8a3dd5734754f1",
+      "actuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-09.jpg",
+      "sha256": "9cbf1a60ef1b9e0d5bada5f8c4f3509684fd252a0e5ce5e0af74d9fff741b3ad",
+      "actuallyViewed": true
+    }
+  ],
+  "actualFaceGeometryBounds": {
+    "75349.dat": {
+      "min": [
+        -80.0,
+        -11.0,
+        -40.0
+      ],
+      "max": [
+        80.0,
+        48.0,
+        40.0
+      ]
+    },
+    "75350.dat": {
+      "min": [
+        -200.0,
+        -11.0,
+        -40.0
+      ],
+      "max": [
+        200.0,
+        48.0,
+        40.0
+      ]
+    },
+    "40666.dat": {
+      "min": [
+        -80.0,
+        -11.0,
+        -40.0
+      ],
+      "max": [
+        80.0,
+        24.0,
+        40.0
+      ]
+    },
+    "6527.dat": {
+      "min": [
+        -41.0,
+        -41.0,
+        -20.0
+      ],
+      "max": [
+        41.0,
+        41.0,
+        20.0
+      ]
+    }
+  },
+  "dependencyHashes": {
+    "75349.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c"
+    },
+    "6518.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6518.dat",
+      "sha256": "d4be191ea0f0baa5755beb53a617bf5c52186422a63abc2a14ea546ee3b9d356"
+    },
+    "rect.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71"
+    },
+    "s/6518s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\6518s01.dat",
+      "sha256": "19de774d52518b29da21768f5c3f9cf2d62eeaae82a7ff2203d7faeb197d3adb"
+    },
+    "stud7a.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\stud7a.dat",
+      "sha256": "d0bde5b1dd75800ce1f4e0751947c1f378bd0ceb8aa1e4ceb8df7ede58123ff2"
+    },
+    "4-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da"
+    },
+    "4-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4"
+    },
+    "4-4ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd"
+    },
+    "4-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543"
+    },
+    "4-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f"
+    },
+    "2-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f"
+    },
+    "2-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763"
+    },
+    "2-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6"
+    },
+    "2-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925"
+    },
+    "rect1.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb"
+    },
+    "6517.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6517.dat",
+      "sha256": "37473e8e483ce2426b493e96ba2e4098e36e125fa6d368f0db1b3ed47da5867a"
+    },
+    "s/6517s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\6517s01.dat",
+      "sha256": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b"
+    },
+    "1-4cyls.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4cyls.dat",
+      "sha256": "aaee6ffe6e4a191d6cad4496677132eb0349303d6e48c13c7a2240dcea1db621"
+    },
+    "3-8cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8cyli.dat",
+      "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206"
+    },
+    "3-8edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8edge.dat",
+      "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5"
+    },
+    "2-4ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ring3.dat",
+      "sha256": "83daf728f0285b7471139e3fd5335603e548300307c0bb8615a4d3f76ca8dde0"
+    },
+    "1-8cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8cyli.dat",
+      "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4"
+    },
+    "1-8edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8edge.dat",
+      "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab"
+    },
+    "1-16edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c"
+    },
+    "2-4cylc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cylc.dat",
+      "sha256": "b172c10584f59fa091f454276ecd5c0c707eba007934a23ccac9307007b1a1e9"
+    },
+    "2-4disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4disc.dat",
+      "sha256": "dcb05df95858362d5d6581c2ad7cf92e7e054cab60e580a2240ae043b07b9f2c"
+    },
+    "box4-1.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d"
+    },
+    "stud8a.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\stud8a.dat",
+      "sha256": "291cbfdb54441d6457a3e17155a8741cc8424a01f8e9b99a7c9a015085aacfb9"
+    },
+    "4-4ring7.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3"
+    },
+    "rect2p.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc"
+    },
+    "rect3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865"
+    },
+    "75350.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53"
+    },
+    "6516.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6516.dat",
+      "sha256": "fe40233cc54af0f327a7c2763bbca95cd0dca04138394b2183b3c04a4f479762"
+    },
+    "6515.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6515.dat",
+      "sha256": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057"
+    },
+    "40666.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+    },
+    "stud8.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\stud8.dat",
+      "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115"
+    },
+    "box5.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318"
+    },
+    "stud7.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a"
+    },
+    "6527.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b"
+    },
+    "t04i2500.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\t04i2500.dat",
+      "sha256": "16a0e74be0e6e149ea99ffd6aff98b3406c19fc7727d0453b1fe1572cf4e40bb"
+    },
+    "4-4ring5.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring5.dat",
+      "sha256": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1"
+    },
+    "48/4-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cylo.dat",
+      "sha256": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6"
+    },
+    "48/4-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\4-4edge.dat",
+      "sha256": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7"
+    },
+    "48/1-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\1-4edge.dat",
+      "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6"
+    },
+    "48/4-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cyli.dat",
+      "sha256": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2"
+    },
+    "48/1-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\1-4cyli.dat",
+      "sha256": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b"
+    },
+    "48/4-4aring.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\4-4aring.dat",
+      "sha256": "4c0d575f91df941b5d3313427d699813cc3cf9f09c334cbad7a0eceeaf98f573"
+    },
+    "48/4-4ring9.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring9.dat",
+      "sha256": "d8de1753705319aa11a189b579323b778c9b6cf4869360e698c64a8a0cdbf3d2"
+    },
+    "48/1-4ring9.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\48\\1-4ring9.dat",
+      "sha256": "08cf8697a97526c9636b00578b792ef8452d3f74d7615e3a1d5644417908b42a"
+    },
+    "1-4chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec"
+    },
+    "t04i1304.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\t04i1304.dat",
+      "sha256": "e23d62de56e98c40060f11106d93688dd6a53d5d92507673c4d3690184769cfc"
+    },
+    "t02i1111.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\t02i1111.dat",
+      "sha256": "827358bfc070521d4cfafac88fb7f74c41bd75e4ca712e13e28afc34c3533e40"
+    },
+    "3-16chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1"
+    },
+    "1-8chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8chrd.dat",
+      "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74"
+    },
+    "1-16chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16chrd.dat",
+      "sha256": "e429dd760eb6f0cf460a74e6ebf52c023bedbdea82de7801efa1694b5a1a82e8"
+    },
+    "empty.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\empty.dat",
+      "sha256": "192c9b9ee2e425cfbc9e9b12ff61ee0f05ae1cb0c12dc37d5590adb6abb65128"
+    },
+    "1-8cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8cylo.dat",
+      "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf"
+    },
+    "3-8cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8cylo.dat",
+      "sha256": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd"
+    }
+  },
+  "observations": [
+    "p6 short three-hole row and central nine-hole row appear parallel in the displayed projection; topplate fourstud direction also follows longbeam. This supports parallel short/long axes with commonholeaxisZ more strongly than shortbrickE.",
+    "p8 andp9 front/backarm pairing consistent with axleZ; source perspective alone doesnotsettle layeroffset or overallwidth.",
+    "14stud totalwidth mustnotbe treatedasgiven: source illustrative lengths maynotmatch exactpiece dimensions."
+  ],
+  "candidateConstraints": [
+    {
+      "candidate": "CurrentE14stud",
+      "shortCentersX": [
+        -240,
+        240
+      ],
+      "shortLongAxis": "Z",
+      "shortHoleAxis": "X",
+      "assessment": "Rejectedasacceptedlayout: source hole-row direction weaker match; ownerhasactualinner6527 collisionwithcentrallong. Keeprawdiagnostic."
+    },
+    {
+      "candidate": "ParallelI samelevel buttjoint",
+      "shortCentersX": [
+        -280,
+        280
+      ],
+      "overallBodyX": [
+        -360,
+        360
+      ],
+      "studWidth": 18,
+      "plateCentersX": [
+        -200,
+        200
+      ],
+      "contact": "160LDU plate spanslast80LDUoflong andfirst80LDUofshort, no transversebodyoverlap. Geometricconnectivitycandidate only.",
+      "unresolved": "Outer80LDU(two studs) shortbrick top remainsuncovered byplate; sourcep6appearsbluefullcap. Cannotcertifyuniquesourcefit or choosejusttosilencecollision."
+    },
+    {
+      "candidate": "ParallelI14studstepped",
+      "assessment": "RequiresYseparationatleast48LDUforoverlappinglong/shortbody. Sourceendstacklayersneedproof; not silentlymoveonewholebrickheight."
+    }
+  ],
+  "recommendation": "Favorparallel holeplanes as source interpretation, but preserve unresolvedheight/widthconstraint. Owner/coordinator must explicitly choose reasonable adjustedpose or retain knownconnectionomission; no scaling,newpieces,orcollisionwaiver.",
+  "accepted": false,
+  "physicalValidation": false
+}

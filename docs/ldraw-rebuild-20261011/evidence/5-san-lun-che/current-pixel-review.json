@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+  "revision": "eac49fcee2b20c079d77be4d3cceae8d01a714d183e15d8683d55be4320babe7",
+  "reviewedAt": "2026-10-11T12:51:16.192982+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-san-lun-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "dc7d88eef2a4484133ab38632401c4466ce994806adb54e3c320de65f98dba2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "babc05e5b178caac1e5f307a387975845673c827f0032f02ca7db22367657d1d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b24fe9b62aaf5b2672659ebd5ccd9085c06e30a2fa35a402962e9c30342dd0c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "1c2fe492ca4dffda91e14642495389be202745adc3a52d0ce8ea33698fdc7ad2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6f1451cefb8bcd24a38cd5530f02455072194824c01b05be7a1f8b44a758625c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "2b66c44bfa76374360b8dfafc9b3f2900fd7bd0bdbfabb210e147e48044f0e3e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "ea0992baf29f38d725f4093079955b0ca93958c3a3e91b29d079e1777b759ffd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "0d8cbd11e9eeb857ab6871183c82f1dc53665c939ddeef6c46f577f54de56d7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "5f40d397ea8f9b2509aeeb2adf3c75336f43d393dc55e0fe3866947c0a576637",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8845541d597d7e7fdf87c733fa9dc57896bd3c93a9f185a4ff623aabcbe0c83a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7680a7a62adad767c27997465b1d131c324cd3dfe59fb28db42402f5f563027c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "ef6c358444cbfb2bc240ee1932d8b0a0981b136108e81125aa8c8517f77c231f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "dc7d88eef2a4484133ab38632401c4466ce994806adb54e3c320de65f98dba2d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed final iso/iso-rear/top and all10 cumulative step frames in current sheets; compared with all11 source pages previously actually viewed, especially p7 vertical coupling and p11 reverse final. No new source order/visible outline discrepancy found; single red front gear wheel, two yellow rear gear wheels, four pulley pivot and three fences present. Frames uncropped. P7 hidden axis atX140,Z20 is explicitly adjusted to hollow stud row; internal tube fit/retention and steering swept clearance remain unverified. Cantilever coupling brick has80LDU deck bearing; vertical two40LDU middle pulleys match80LDU gap, rigid24/48 thickness retained. Raw0 is not connection or physical validation."
+}

@@ -1,12 +1,12 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T12:34:41.230147+00:00",
+  "generatedAt": "2026-10-11T13:12:15.720163+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
-  "sourceBlocker": "No missing-source blocker: all129 sources are reported available in Library (122 PDFs and7 existing JPG lessons). This executor has locally materialized 96; remaining33 are queued for official local import, not missing and not yet model-complete.",
+  "sourceBlocker": "No missing-source blocker: all129 sources are reported available in Library (122 PDFs and7 existing JPG lessons). This executor has locally materialized 106; remaining23 are queued for official local import, not missing and not yet model-complete.",
   "summary": {
-    "reconstructed-development-draft-pending-validation": 96,
-    "source-verified-remotely-awaiting-transfer": 33
+    "reconstructed-development-draft-pending-validation": 106,
+    "source-verified-remotely-awaiting-transfer": 23
   },
   "courses": [
     {
@@ -2321,17 +2321,21 @@
       "slug": "5-ping-heng-da-shi",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+      "placements": 117,
+      "steps": 10,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2344,17 +2348,25 @@
       "slug": "5-qi-dian-chuan",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+      "placements": 112,
+      "steps": 7,
+      "headerLimitations": [
+        "5-qi-dian-chuan - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.",
+        "// UNVERIFIED 31196c01 - Known identity family but existing local simplified geometry; exact official cockpit unavailable, approximate width may overlap adjacent source bricks. Not a new accepted assembly."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2367,17 +2379,21 @@
       "slug": "5-qing-sao-che",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+      "placements": 78,
+      "steps": 11,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2421,17 +2437,21 @@
       "slug": "5-qiu-qian",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+      "placements": 46,
+      "steps": 8,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2444,17 +2464,27 @@
       "slug": "5-re-qi-qiu",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+      "placements": 75,
+      "steps": 12,
+      "headerLimitations": [
+        "5-re-qi-qiu - source reconstruction; INCOMPLETE dev-only",
+        "// No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.",
+        "// SOURCE PAGE 10 - Four official pulley bodies; hook/string assemblies remain incomplete",
+        "// SOURCE PAGE 12 - Basket and four hooks below shell; source-backed suspension with missing cord geometry",
+        "// UNVERIFIED basket suspension - Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2497,17 +2527,21 @@
       "slug": "5-san-lun-che",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+      "placements": 53,
+      "steps": 10,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2520,17 +2554,25 @@
       "slug": "5-sheng-jiang-dian-ti",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+      "placements": 206,
+      "steps": 13,
+      "headerLimitations": [
+        "// INCOMPLETE DEV ONLY. Figures/windows/rope geometry omitted. Source-backed suspended hook/car pose is not a physical-support pass.",
+        "// Two8-piece figure variants unresolved; not replaced with unrelated prints.",
+        "// Four red/white window assemblies omitted: exact leaf/frame identity and rear pair arrangement unresolved."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2543,17 +2585,21 @@
       "slug": "5-shou-tui-fei-ji",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+      "placements": 45,
+      "steps": 10,
+      "headerLimitations": []
     },
     {
       "grade": "大班大颗粒积木",
@@ -2593,17 +2639,23 @@
       "slug": "5-shuai-gan-ji",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+      "placements": 60,
+      "steps": 8,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -2616,17 +2668,23 @@
       "slug": "5-shuang-kai-da-men",
       "courseId": 7,
       "category": "missing-source",
-      "workStatus": "source-verified-remotely-awaiting-transfer",
+      "workStatus": "reconstructed-development-draft-pending-validation",
       "accepted": false,
       "auditBaseSourceExists": false,
       "auditBaseMpdExists": false,
       "auditBaseReviewExists": false,
-      "currentDevelopmentSourceRebuilt": false,
+      "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": false,
       "librarySourceAvailable": true,
       "authoritativeSourceCatalog": "sources/source-mapping-complete-129.json",
       "sourcePackageLibraryFileId": "libfile_40f0774308d48191824e29a723063636",
-      "sourceCoverage": "verified-remotely-awaiting-library-transfer"
+      "sourceCoverage": "downloaded_pdf",
+      "modelSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+      "placements": 91,
+      "steps": 8,
+      "headerLimitations": [
+        "// INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below."
+      ]
     },
     {
       "grade": "大班大颗粒积木",
@@ -3675,7 +3733,7 @@
       ]
     }
   ],
-  "locallyMaterializedSourceCourses": 96,
+  "locallyMaterializedSourceCourses": 106,
   "authoritativeLibraryCatalog": {
     "libraryFileId": "libfile_da69e9aaa1748191b9c6a9482c255b06",
     "version": 3,
@@ -3684,10 +3742,10 @@
     "boundary": "Library coverage is separate from local course import and model completion."
   },
   "reportedUpstreamSourceQueue": {
-    "activeBatch": 12,
+    "activeBatch": 13,
     "reportedAvailableInLibraryCourses": 129,
     "reportedStillDownloadingCourses": 0,
-    "note": "All129 sources available. Batch11 checkpoint78aaa94 pushed and verified:86 drafts reviewed. Batch12 materialized, hashes/catalog/130 rendered source pages verified; models in progress. Continue sequential12-16 after meaningful checkpoints.",
+    "note": "All129 sources available. Batch12 checkpoint2facb04 pushed and verified:96 drafts reviewed. Batch13 officially materialized and independently verified:10 PDFs107 pages, models in progress. Continue sequential13-16.",
     "queue": [
       {
         "batch": 11,
@@ -3727,7 +3785,7 @@
           "5+蝴蝶",
           "5+龙门吊"
         ],
-        "status": "queued-library-reference-not-locally-materialized"
+        "status": "pushed-reviewed-development-checkpoint-2facb04"
       },
       {
         "batch": 13,
@@ -3747,7 +3805,7 @@
           "5+甩干机",
           "5+秋千"
         ],
-        "status": "queued-library-reference-not-locally-materialized"
+        "status": "materialized-source-verified-models-in-progress"
       },
       {
         "batch": 14,

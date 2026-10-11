@@ -1,0 +1,29 @@
+{
+  "previousSourceSha256": "6b5a98045ca9ae5e0a3334ab410a5a768eb9d7b50f39bccc3f32e67e9ee61aa4",
+  "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+  "sourcePages": [
+    9,
+    10,
+    11
+  ],
+  "change": "Two official formed propeller placements changed from 61898bc01 to longer 61898cc01; unchanged rigid transforms and 0/80 hole locations. No scaling or new approximate DAT.",
+  "identityStatus": "Strong longer-blade candidate, exact source sheet identity not uniquely proven by oblique illustration.",
+  "observations": "Actual old final and step10 pixels showed short broad paddles. Source p9-p11 has substantially longer blades relative to 80 LDU carrier holes. cc formed Z span722 vs bc526. Whole XZ AABB is misleading because opposed leaves are laterally offset; independent rotated bounding widths ratio cc3.46 vs bc3.30.",
+  "independentEvidence": "../batch13-propeller-oriented-width.json",
+  "officialSource": "https://library.ldraw.org/library/official/parts/61898cc01.dat",
+  "license": "CC BY 4.0",
+  "unchangedGeometry": "All wheel and handle transforms unchanged. Existing mesh findings remain applicable to those unchanged pairs; original mesh output retains original source binding.",
+  "currentPixels": "Reviewed current final3/all10; longer span closer, broad top silhouette remains candidate uncertainty",
+  "risks": [
+    "Exact blade shape/identity remains candidate",
+    "Tyre inner hubs 52 strict crossings each; upper handle hubs22 each remain",
+    "Sheet fold, separation, carrier clamping and motion not physically validated"
+  ],
+  "pixelReview": {
+    "file": "current-pixel-review.json",
+    "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+    "revision": "c37c5f53ba6a72aa92a2921cfc5069c1923f0a1bba807276a4c5f6c77494dc3b",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true
+  }
+}

@@ -1,21 +1,21 @@
 # Dynamic development QA
 
-2026-10-11T12:37:53.292552+00:00
+2026-10-11T13:20:52.730155+00:00
 
 ```json
 {
-  "courses": 96,
-  "placements": 7271,
+  "courses": 106,
+  "placements": 8154,
   "structuralIssueCourses": 0,
   "structuralIssues": 0,
-  "rawAlarmCourses": 38,
-  "rawErrorGroups": 140,
-  "expandedAlarmItems": 193,
-  "uniqueLocalDATFiles": 414,
-  "finalAllThreeCovered": 96,
-  "allStepsCovered": 96,
+  "rawAlarmCourses": 42,
+  "rawErrorGroups": 165,
+  "expandedAlarmItems": 243,
+  "uniqueLocalDATFiles": 419,
+  "finalAllThreeCovered": 106,
+  "allStepsCovered": 106,
   "pixelIssueCourses": 0,
-  "imagesChecked": 1419,
+  "imagesChecked": 1546,
   "pendingIndexEntries": 0
 }
 ```

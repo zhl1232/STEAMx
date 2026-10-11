@@ -1,0 +1,69 @@
+{
+  "name": "5+双开大门搭建说明.pdf",
+  "relative_path": "5+/5+双开大门搭建说明.pdf",
+  "pages": 9,
+  "bytes": 1415699,
+  "sha256": "7727afa50db40d36ad32201cbbc4b50c28ae4f25301e20554710e5a742f28b79",
+  "source_url": "https://pan.quark.cn/list#/docpdf/7a3f19db62a440d680fb5a4fb6644260",
+  "slug": "5-shuang-kai-da-men",
+  "lesson_id": 288,
+  "course_id": 7,
+  "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5+/5+双开大门搭建说明.pdf",
+  "localBytesVerified": true,
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-1.jpg",
+      "sha256": "d00fefb0b38696548dd3549b68e5ff24b94b9c0f897fc0b29426625043acf2c0",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-2.jpg",
+      "sha256": "2fadfb3b113a795588a2cf418c590338bdc8782885a288ea6a157efc00c68ff6",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-3.jpg",
+      "sha256": "e3653cd85c2c54030fb90e88d07b0acc09d44529360ff43fdfe2ac41b27c3be7",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-4.jpg",
+      "sha256": "45b3a3208163efb006efb89054054513a4889ccf1a56386273cd9b8185537c13",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-5.jpg",
+      "sha256": "6d354967ab0ed56ee907711cb91efaaa48dd4cb3a78ace44fded5b31c9943c86",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-6.jpg",
+      "sha256": "0738e7bce9dd317dac96218acfac50c4938030c28d9b7ce361a8d418565af502",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-7.jpg",
+      "sha256": "a3e2b1b4ac737a7303a10a372705d70feed98c04521dc49140e06123af978efe",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-8.jpg",
+      "sha256": "5fdb9c6e0d2bf8309f78f5e6f8c0b624e37b54b3ea80bd60bcc7c0f804800a73",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuang-kai-da-men/page-9.jpg",
+      "sha256": "a17d7ae29ac713fdb5972f6e43389e603f130ee83f4a55ad258a327f19c72ed4",
+      "pixelsViewed": true
+    }
+  ]
+}

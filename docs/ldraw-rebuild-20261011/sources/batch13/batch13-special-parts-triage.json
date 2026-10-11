@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-11T12:43:22.621564+00:00",
+  "scope": "Preliminary final-page triage only, not whole-source/model acceptance",
+  "rows": [
+    {
+      "slug": "5-re-qi-qiu",
+      "sourcePage": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-13.jpg",
+      "sha256": "c22d1327bb377cb944abc2db912e5b9a6c1427b8e6d5f37050bbd63158276f72",
+      "pixelsActuallyViewed": true,
+      "observations": [
+        "Four visible vertical cords suspend basket from upper pulleys; flexible routes and actual length/knot must remain independently evidenced.",
+        "Basket white/red rails and yellow hooks require inset source identity check; final view alone does not certify variant."
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "sourcePage": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qing-sao-che\\page-12.jpg",
+      "sha256": "4ad77bc8708d7f287af2cff5c7f1c92b0755e1b6b3351542ca0c0df0399111fa",
+      "pixelsActuallyViewed": true,
+      "observations": [
+        "Front pale shell with orange base is a distinct curved assembly requiring source inset/catalog evidence; do not substitute a generic brick.",
+        "White/red fence pattern variants must be checked against actual DAT and source, not shape-only chosen."
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "slug": "5-shuai-gan-ji",
+      "sourcePage": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shuai-gan-ji\\page-9.jpg",
+      "sha256": "e37797290703589b3d009c73a67b1a6263004e4c7d423576ffb0d09da7f8dd89",
+      "pixelsActuallyViewed": true,
+      "observations": [
+        "Side view displays horizontal-to-vertical gear drive and suspended basket: actual gear axis/phase and crank support require contact review.",
+        "Final page alone cannot establish all earlier-page BOM or precise assembly seating."
+      ],
+      "identityConfirmed": false
+    }
+  ],
+  "accepted": false
+}
