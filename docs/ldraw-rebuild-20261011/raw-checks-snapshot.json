@@ -386,10 +386,10 @@
   },
   {
     "path": "scripts/ldraw-models/5-tou-shi-che.ldr",
-    "sha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+    "sha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
     "exit": 2,
     "stableDuringCheck": true,
-    "output": "\nFAIL [5-tou-shi-che.ldr] 12 error(s), 48 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+    "output": "\nFAIL [5-tou-shi-che.ldr] 14 error(s), 50 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n  - step 9: 5-tou-shi-che_l75 overlaps 5-tou-shi-che_l72\n  - step 9: 5-tou-shi-che_l76 overlaps 5-tou-shi-che_l73\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
   },
   {
     "path": "scripts/ldraw-models/5-tui-tu-ji.ldr",
@@ -456,7 +456,7 @@
   },
   {
     "path": "scripts/ldraw-models/5-yi-dong-guang-gao-pai.ldr",
-    "sha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+    "sha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
     "exit": 2,
     "stableDuringCheck": true,
     "output": "\nFAIL [5-yi-dong-guang-gao-pai.ldr] 2 error(s), 55 placement(s):\n  - step 7: 5-yi-dong-guang-gao-pai_l50 overlaps 5-yi-dong-guang-gao-pai_l46\n  - step 7: 5-yi-dong-guang-gao-pai_l53 overlaps 5-yi-dong-guang-gao-pai_l46\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"

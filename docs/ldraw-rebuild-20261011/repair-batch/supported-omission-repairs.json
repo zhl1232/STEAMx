@@ -1,0 +1,10 @@
+{
+  "batch": "20261011-supported-omissions",
+  "at": "2026-10-11T08:41:42.298079+00:00",
+  "knownPiecesRestored": 2,
+  "knownPiecesStillOmittedAcrossOriginalFourGroups": 23,
+  "knownGroupsFullyResolved": 0,
+  "partIdentityFamiliesResolved": 1,
+  "positionCorrections": 1,
+  "accepted": false
+}

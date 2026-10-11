@@ -39,7 +39,7 @@
     "true_risk": 0,
     "insufficient_evidence": 1
   },
-  "remainingNonAlarmLimitations": "Three known-ID lower pivot/retainer parts omitted; arm pivot assignment unresolved, frame mold variant uncertain, cord schematic.",
+  "remainingNonAlarmLimitations": "Three known-ID lower pivot/retainer parts omitted; arm pivot assignment unresolved, frame mold variant uncertain, cord schematic. New source re-review p6/7 exposes missing upper-vs-lower red-beam stagger. Candidate80LDU isolated shift loses current40LDU cab-platform support overlap and creates40LDU gap; coordinated spacer/platform/boom-hole repair unresolved. See omission-repair-20261011.json.",
   "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
   "rawPassDoesNotProveSupportOrSourceFidelity": true,
   "accepted": false,

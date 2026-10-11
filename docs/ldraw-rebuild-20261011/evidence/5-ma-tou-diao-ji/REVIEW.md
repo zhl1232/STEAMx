@@ -32,3 +32,6 @@ Unresolved evidence:
 - Set quantities unknown. All placed identities use existing real catalog parts; no new approximation introduced.
 
 Support: alternating columns share a base; bridge plates span columns; ordinary brick platform/roof/cap interfaces checked by dimensions. Slew bearing, cantilever platform retention, boom pivots and rope load path are manual/mechanical checks, not proven by AABB checker. Final views and cumulative step pixels pending parent rendering.
+
+## Omission reassessment20261011
+Actually re-viewed p6/7/8/10/11/15. Three known parts remain omitted, each with precise missing hole/stack evidence in omission-repair-20261011.json. New defect: upper red beam protrudes toward boom in source, unlike equalX origins in current draft. An isolated80LDU upper-beam shift would remove current40LDU blue-platform overlap and leave40LDU gap; cabin/spacer/pivot topology must be coordinated. Do not add a lower axle or shift parts just to clear alarms. Source SHA unchanged 8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e.

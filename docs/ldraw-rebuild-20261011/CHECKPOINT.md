@@ -1,6 +1,6 @@
 # Development checkpoint status
 
-Snapshot 2026-10-11 08:15 UTC, executor DESKTOP-MNEH90C. The 129-course scope is reproduced: 71 missing sources and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting official Library transfer. The remote source task verified 713 JPG pages in six packages; unavailable upload tools block transfer, not source existence.
+Snapshot 2026-10-11 08:41 UTC, executor DESKTOP-MNEH90C. The 129-course scope is reproduced: 71 missing sources and 58 simplified drafts. There are 69 locally sourced development LDRs and 60 remotely source-verified courses awaiting official Library transfer. The remote source task verified 713 JPG pages in six packages; unavailable upload tools block transfer, not source existence.
 
 Current hash-bound checks: 69 final-view reviews and 69 complete cumulative-step reviews. Six corrected courses (sniper, warship, road roller, larva, fish tail and 5+ bulldozer) have renewed final and step pixel evidence. Pixel review records inspection, not approval: larva tail-hinge height, missing parts and mechanical interfaces remain explicit. Separate source/final/steps/static/problem/confirmation dimensions are in COURSE-STATUS-69.md and course-status-69.json.
 
@@ -8,7 +8,7 @@ All 69 development MPDs were repacked, dependency-closure checked and synchroniz
 
 The raw checker reports 45 exit0 and 24 exit2 courses. All 69 have per-course static interpretation reports. Original alarms remain available separately from mesh-level interpretation. Blanket tyre-clearance claims were withdrawn; nominal surface crossings, insufficient source evidence and actual mesh conflicts remain differentiated. Neither zero alarms nor zero triangle intersections establishes physical fit.
 
-The registry contains 29 part-issue families, with known-part omissions and inventory deficits separate. This is not an unknown-ID count. Independent reports are dated snapshots and must be read with their source hashes. No physical validation or user approval is asserted. The user authorized incremental pushes to this development branch; branch-backup.json records verified remote checkpoints. No production/public/application/workflow/package files, whitelist or data changed; no PR, merge or deployment. Workflow triggers were checked before pushing, with Actions results recorded separately.
+The registry contains 28 part-issue families, with known-part omissions and inventory deficits separate. This is not an unknown-ID count. Independent reports are dated snapshots and must be read with their source hashes. No physical validation or user approval is asserted. The user authorized incremental pushes to this development branch; branch-backup.json records verified remote checkpoints. No production/public/application/workflow/package files, whitelist or data changed; no PR, merge or deployment. Workflow triggers were checked before pushing, with Actions results recorded separately.
 
 ## Historical 59-course resource checkpoint
 # Local resource checkpoint

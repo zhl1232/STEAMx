@@ -1,23 +1,23 @@
 {
-  "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-  "revision": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
-  "reviewedAt": "2026-10-11T08:07:03.917845+00:00",
+  "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+  "revision": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
+  "reviewedAt": "2026-10-11T08:40:24.199450+00:00",
   "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tou-shi-che",
   "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
   "images": [
     {
       "view": "iso",
-      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "sha256": "7b4983439513daa4c1e9b8b8286310b75daf9090772f05bb3f50e5f35f4324ce",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "iso-rear",
-      "sha256": "e3f1e9966cda6259101a8205a41d8688440baf18122dc079caa260b572489123",
+      "sha256": "cefc31d4ecf768c7e4780036f855a841a5a4211e91bd254632e2a5247a8e6c98",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "top",
-      "sha256": "28bb77700bcc4f46485f297f0c5cd43d5234c288e2f32314d87f58a6562ceb4b",
+      "sha256": "225935a32bd6e574ee9a956b9a25d86392b053f97680a90949666fddd3baef82",
       "pixelsActuallyReviewed": true
     },
     {
@@ -62,17 +62,17 @@
     },
     {
       "view": "step-9",
-      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "sha256": "7b4983439513daa4c1e9b8b8286310b75daf9090772f05bb3f50e5f35f4324ce",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-10",
-      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "sha256": "7b4983439513daa4c1e9b8b8286310b75daf9090772f05bb3f50e5f35f4324ce",
       "pixelsActuallyReviewed": true
     },
     {
       "view": "step-11",
-      "sha256": "206fa6110bc003bf7ec0563f512397764a2f95fc23e12b0514bf5db0944c7645",
+      "sha256": "7b4983439513daa4c1e9b8b8286310b75daf9090772f05bb3f50e5f35f4324ce",
       "pixelsActuallyReviewed": true
     }
   ],
@@ -81,5 +81,5 @@
   "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
   "accepted": false,
   "physicalValidation": false,
-  "limitations": "Actually screened all11 D cumulative frames for74298d1a and enlarged step6 original. Four legs now visibly accumulate as front pair then rear pair; top levers, rear axle and extensions are visible. Steps10/11 add no rigid geometry because unresolved basket/payload assembly is explicitly omitted, not renderer loss. Total17 known-ID pieces remain omitted; no completion claim. Current tyre geometry has four pairs with225 strict triangle crossings each, four zero-result pairs insufficient; four noncoaxial tyre/retainer pairs separately have conservative5.99693LDU radial separation. Uniform42.183 tyre cavity exemption revoked. Kit6525 requirement6 versus reference4 needs2 extra. Pixel review does not establish retention/physical assembly; no source edits or user acceptance."
+  "limitations": "Actually inspected all three final contact-sheet frames and all11 current cumulative frames foracd8d1b5/revision1e049b6f; enlarged original step9. Both restored p9 retainers are visible at the existing lower linking shaft ends, with four retainers now shown across the two p9 shafts; retained through steps10/11. Steps1-8 match previous reviewed geometry; steps10/11 remain identical because15 known-ID basket/payload pieces are still omitted. Source support reasoning does not waive collisions: two restored-adjacent pulley pairs each have22 strict triangle crossings; four tyre/rim pairs each225, four tyre/rim pairs insufficient, four noncoaxial tyre/retainer pairs conservative separated. Uniform42.183 cavity exemption remains revoked. Model remains INCOMPLETE/unaccepted; no physical retention validation or LDR change during this review."
 }

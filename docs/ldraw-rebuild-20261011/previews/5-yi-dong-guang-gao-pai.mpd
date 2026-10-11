@@ -42,7 +42,7 @@
 0 STEP
 
 0 // STEP 6 - upper rotating poster beam with two retaining pulleys
-1 14 0 -148 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -127 0 1 0 0 0 0 -1 0 1 0 6527.dat
 1 4 0 -216 0 1 0 0 0 1 0 0 0 1 75350.dat
 1 14 0 -236 0 1 0 0 0 0 -1 0 1 0 6527.dat
 0 STEP

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-11T07:44:58.208Z",
+  "generatedAt": "2026-10-11T08:41:34.448Z",
   "scope": "69 current drafts only, excludes deferred11; independent read-only current-source snapshot",
   "method": "Matrices and DAT/MPD text checked. Materialized PDFs SHA-checked. Existing authors source-view claims indexed, not new pixel inspection or physical validation. No browser/render/repack/model mutations.",
   "summary": {
     "models": 69,
-    "placements": 4975,
+    "placements": 4977,
     "matrixIssues": 0,
     "sourceIssues": 0,
     "statusIssues": 0,
@@ -1575,10 +1575,10 @@
           "claim": "0 // Source PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28; all twelve pages actually viewed."
         }
       ],
-      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-      "placements": 48,
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+      "placements": 50,
       "maxMatrixError": 7.954816805266773e-10,
-      "developmentMpdSha256": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
+      "developmentMpdSha256": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false
@@ -1809,10 +1809,10 @@
           "value": "All12 source pages contact inspected; enlarged structural pages inspected"
         }
       ],
-      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
       "placements": 55,
       "maxMatrixError": 0,
-      "developmentMpdSha256": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+      "developmentMpdSha256": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
       "previewMatchesCurrentSource": true,
       "previewDependencyClosure": true,
       "userAccepted": false

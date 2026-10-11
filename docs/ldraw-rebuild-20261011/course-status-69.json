@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T08:15:46.942137+00:00",
+  "generatedAt": "2026-10-11T08:41:43.999152+00:00",
   "note": "Separate evidence dimensions; reviewed pixels are not approval and static exit0 is not assembly proof.",
   "courses": [
     {
@@ -86,31 +86,6 @@
               "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x2 and45117c01 spoiler x1 missing geometry; omitted."
             },
             {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": 7,
-              "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
-              "quantity": 1,
-              "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
-              "pointer": "missing/0",
-              "rawObservation": {
-                "id": "4433c01",
-                "count": 1,
-                "page": 7,
-                "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
-              }
-            },
-            {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": null,
-              "location": "see observation",
-              "quantity": null,
-              "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
-              "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
-              "pointer": "line6",
-              "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
-            },
-            {
               "slug": "4-cha-che",
               "sourcePage": 8,
               "location": "gray fork tools",
@@ -133,11 +108,46 @@
             {
               "slug": "4-ya-lu-ji",
               "sourcePage": 7,
-              "location": "exhaust pipes",
-              "quantity": 2,
-              "source": "Prior missing-parts research and author messages in this task",
-              "missingEvidence": [
-                "Reusable geometry with clear license"
+              "quantity": 1,
+              "location": "Toolo exhaust pipe",
+              "source": "preparation/source-identity-quantity-recheck-20261011.json",
+              "missingEvidence": "Licensed geometry remains unavailable. Source p7 explicitly shows 1x; previous quantity2 corrected, repeated evidence is not additive.",
+              "supersededDuplicateEvidence": [
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
+                  "quantity": 1,
+                  "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
+                  "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
+                  "pointer": "missing/0",
+                  "rawObservation": {
+                    "id": "4433c01",
+                    "count": 1,
+                    "page": 7,
+                    "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
+                  }
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": null,
+                  "location": "see observation",
+                  "quantity": null,
+                  "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
+                  "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
+                  "pointer": "line6",
+                  "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "exhaust pipes",
+                  "quantity": 2,
+                  "source": "Prior missing-parts research and author messages in this task",
+                  "missingEvidence": [
+                    "Reusable geometry with clear license"
+                  ]
+                }
               ]
             }
           ],
@@ -2429,31 +2439,6 @@
               "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x2 and45117c01 spoiler x1 missing geometry; omitted."
             },
             {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": 7,
-              "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
-              "quantity": 1,
-              "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
-              "pointer": "missing/0",
-              "rawObservation": {
-                "id": "4433c01",
-                "count": 1,
-                "page": 7,
-                "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
-              }
-            },
-            {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": null,
-              "location": "see observation",
-              "quantity": null,
-              "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
-              "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
-              "pointer": "line6",
-              "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
-            },
-            {
               "slug": "4-cha-che",
               "sourcePage": 8,
               "location": "gray fork tools",
@@ -2476,11 +2461,46 @@
             {
               "slug": "4-ya-lu-ji",
               "sourcePage": 7,
-              "location": "exhaust pipes",
-              "quantity": 2,
-              "source": "Prior missing-parts research and author messages in this task",
-              "missingEvidence": [
-                "Reusable geometry with clear license"
+              "quantity": 1,
+              "location": "Toolo exhaust pipe",
+              "source": "preparation/source-identity-quantity-recheck-20261011.json",
+              "missingEvidence": "Licensed geometry remains unavailable. Source p7 explicitly shows 1x; previous quantity2 corrected, repeated evidence is not additive.",
+              "supersededDuplicateEvidence": [
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
+                  "quantity": 1,
+                  "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
+                  "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
+                  "pointer": "missing/0",
+                  "rawObservation": {
+                    "id": "4433c01",
+                    "count": 1,
+                    "page": 7,
+                    "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
+                  }
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": null,
+                  "location": "see observation",
+                  "quantity": null,
+                  "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
+                  "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
+                  "pointer": "line6",
+                  "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "exhaust pipes",
+                  "quantity": 2,
+                  "source": "Prior missing-parts research and author messages in this task",
+                  "missingEvidence": [
+                    "Reusable geometry with clear license"
+                  ]
+                }
               ]
             }
           ],
@@ -3094,40 +3114,6 @@
             "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
             "localAvailable": true
           }
-        },
-        {
-          "key": "candidate:double-curved-brick",
-          "category": "candidate_identity_unresolved",
-          "name": "Red double-curved2x4 brick",
-          "confirmedId": null,
-          "candidates": [
-            "4198"
-          ],
-          "missingEvidence": [
-            "Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT."
-          ],
-          "sourcesTried": [
-            "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
-          ],
-          "geometryLicense": null,
-          "approximationBoundary": "No new geometry invented",
-          "occurrences": [
-            {
-              "slug": "4-tui-tu-ji",
-              "sourcePage": 7,
-              "location": "red double-curved top bricks",
-              "quantity": 3,
-              "source": [
-                "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-tui-tu-ji/evidence.json",
-                "scripts/ldraw-models/4-tui-tu-ji.ldr"
-              ],
-              "missingEvidence": "Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT."
-            }
-          ],
-          "affectedCourses": [
-            "4-tui-tu-ji"
-          ],
-          "issueCountUnit": "part identity/family; not physical piece count"
         }
       ],
       "otherKnownLimitations": "See course evidence, connection omissions, inventory deficits and static report; no issues in one test does not establish overall completion.",
@@ -3931,31 +3917,6 @@
               "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x2 and45117c01 spoiler x1 missing geometry; omitted."
             },
             {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": 7,
-              "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
-              "quantity": 1,
-              "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
-              "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
-              "pointer": "missing/0",
-              "rawObservation": {
-                "id": "4433c01",
-                "count": 1,
-                "page": 7,
-                "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
-              }
-            },
-            {
-              "slug": "4-ya-lu-ji",
-              "sourcePage": null,
-              "location": "see observation",
-              "quantity": null,
-              "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
-              "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
-              "pointer": "line6",
-              "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
-            },
-            {
               "slug": "4-cha-che",
               "sourcePage": 8,
               "location": "gray fork tools",
@@ -3978,11 +3939,46 @@
             {
               "slug": "4-ya-lu-ji",
               "sourcePage": 7,
-              "location": "exhaust pipes",
-              "quantity": 2,
-              "source": "Prior missing-parts research and author messages in this task",
-              "missingEvidence": [
-                "Reusable geometry with clear license"
+              "quantity": 1,
+              "location": "Toolo exhaust pipe",
+              "source": "preparation/source-identity-quantity-recheck-20261011.json",
+              "missingEvidence": "Licensed geometry remains unavailable. Source p7 explicitly shows 1x; previous quantity2 corrected, repeated evidence is not additive.",
+              "supersededDuplicateEvidence": [
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "Toolo exhaust pipe, confirmed identity; no authorized geometry available",
+                  "quantity": 1,
+                  "missingEvidence": "{\"id\":\"4433c01\",\"count\":1,\"page\":7,\"role\":\"Toolo exhaust pipe, confirmed identity; no authorized geometry available\"}",
+                  "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
+                  "pointer": "missing/0",
+                  "rawObservation": {
+                    "id": "4433c01",
+                    "count": 1,
+                    "page": 7,
+                    "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
+                  }
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": null,
+                  "location": "see observation",
+                  "quantity": null,
+                  "missingEvidence": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.",
+                  "source": "scripts/ldraw-models/4-ya-lu-ji.ldr",
+                  "pointer": "line6",
+                  "rawObservation": "0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional."
+                },
+                {
+                  "slug": "4-ya-lu-ji",
+                  "sourcePage": 7,
+                  "location": "exhaust pipes",
+                  "quantity": 2,
+                  "source": "Prior missing-parts research and author messages in this task",
+                  "missingEvidence": [
+                    "Reusable geometry with clear license"
+                  ]
+                }
               ]
             }
           ],
@@ -5569,7 +5565,7 @@
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-ma-tou-diao-ji/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "e6775325a7936bee038445c554b0790d78ed401882845a5174eadb0bc9683889",
+      "staticInterpretationReportSha256": "e75f2e6bc7f73a1480f021280a2af898b944ee2cbaf34eabc5327aeac3718302",
       "unresolvedSourceComments": [
         "// INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.",
         "// OMITTED UNRESOLVED p10: second 6522 grey axle and two 6527 retainers; source shows lower pivot but exact arm engagement/depth obscured. Do not duplicate grey axle at p11 blue winding shaft. Both boom placements remain provisional at the visible upper pivot."
@@ -6579,14 +6575,14 @@
     },
     {
       "slug": "5-tou-shi-che",
-      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-tou-shi-che/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "9681535027a839491e380bdf5e14ddd2241ef4c7ec03720be4da0ff39b228e5e",
+      "staticInterpretationReportSha256": "9164bba2225fed4da77f5147413ba697e7fb45548d87e48c4bd8cb1d15468607",
       "unresolvedSourceComments": [
         "Catapult - incomplete source reconstruction",
         "// INCOMPLETE: page7 material inset omits2 visibly added long lever beams; extra2 beams required pending source-BOM clarification. Basket cranks and payload omitted pending pin orientation evidence.",
@@ -7265,14 +7261,14 @@
     },
     {
       "slug": "5-yi-dong-guang-gao-pai",
-      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
       "sourceDraft": "rewritten-from-viewed-local-source",
       "finalViewsReviewed": true,
       "allCumulativeStepsReviewed": true,
       "rawStaticCheckerExit": 2,
       "staticInterpretationReport": "evidence/5-yi-dong-guang-gao-pai/static-alarm-review.json",
       "staticInterpretationMatchesCurrentSource": true,
-      "staticInterpretationReportSha256": "9591b5607ff77d541a5bec2cfc807ccc48ceeec9451ac59f34e746c4a23d9d7a",
+      "staticInterpretationReportSha256": "c7c17ec3c9e1a8932926b3afb36e4bc7204cdd255f137a02a063cc4d2df08dad",
       "unresolvedSourceComments": [
         "5-yi-dong-guang-gao-pai - source reconstruction, INCOMPLETE dev-only",
         "// STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.",

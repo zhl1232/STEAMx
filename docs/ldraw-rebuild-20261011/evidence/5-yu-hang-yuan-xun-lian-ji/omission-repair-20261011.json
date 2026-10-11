@@ -1,0 +1,257 @@
+{
+  "slug": "5-yu-hang-yuan-xun-lian-ji",
+  "reviewedAt": "2026-10-11T08:27:25.371Z",
+  "scope": "P6 omitted6529x1/31622x1/6523x2; fresh source5-8 and actual officialDAT review",
+  "beforeSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+  "afterSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+  "sourceUnchanged": true,
+  "beforePlacementCount": 109,
+  "afterPlacementCount": 109,
+  "addedPlacementCount": 0,
+  "omittedTargetCountBefore": 4,
+  "omittedTargetCountAfter": 4,
+  "sourcePages": [
+    {
+      "page": 5,
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-5.jpg",
+      "sha256": "f372904b4873fc40cb99ba1a1b489c003f2ce72c42bd40eb8e70cf1edecb4403",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "page": 6,
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-6.jpg",
+      "sha256": "7cf31e4bb75bfb9977ea7a2975452125dc493008f46dc16269322fdd6c25d523",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "page": 7,
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-7.jpg",
+      "sha256": "5b77acd7b218cb7cf44edd6f63ab4137444a2fd02efa1bfd45dbe1d8e3801406",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "page": 8,
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-8.jpg",
+      "sha256": "f4c2383f42a0feaca07295d613038aed20b205f6f33d1d43921e8e939b11c718",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "highResolutionEvidence": {
+    "path": "D:/Codex-task-2-20261011/rendered-evidence/source-pages/trainer-omission-repair/p6.png",
+    "sha256": "bbbd133ed0289fecab37f175fd64484a44536293213caa4aaaafb223b0b505b2",
+    "pixelsActuallyReviewed": true,
+    "method": "single-page pdftoppm scale-to3000, existing PDF; no generated replacement artwork"
+  },
+  "datEvidence": [
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6523.dat",
+      "sha256": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6523s01.dat",
+      "sha256": "0465d5bc6982a8a7012c898d09d88e944408def249c758a89a556a1f4d4cc6f2",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtooth8.dat",
+      "sha256": "550fd28020126ad96cfe47e86af9651d253924dec43fa052254345fed7f6977d",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6529.dat",
+      "sha256": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31622.dat",
+      "sha256": "f3f46ef936923e8bbbf3cc1f8105d6f72e42a827beaf08313bfcb383937fb30a",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtoothc.dat",
+      "sha256": "2b1de48461f594d001cee6c84471f2656c3822a4175236925424f8070be40cf3",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6515.dat",
+      "sha256": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057",
+      "read": true
+    },
+    {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6517s01.dat",
+      "sha256": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b",
+      "read": true
+    }
+  ],
+  "frame": {
+    "origin": [
+      0,
+      -517.765834,
+      -19.659649
+    ],
+    "rotation": "Rx(55 degrees), unchanged inferred static pose",
+    "axes": {
+      "X": "along upper rail, positive toward right support",
+      "Y": "beam height, downward in local unrotated frame",
+      "Z": "across rail thickness; upper rail center +240; inner face +200, outer face +280"
+    }
+  },
+  "verifiedInterfaceFacts": [
+    "75350 expands6515+6516;6515 places s/6517s01 at local X=-160..160 in40LDU increments.",
+    "s/6517s01 bore is centered at localY24, axisZ, radius9; rail outer facesZ±40. Upper model rail originX-200/Z240, so candidate holes lie at global-localX=-360..-40, Y24, Z240.",
+    "6529 and31622 use daxlehole nativeZ=-20..20. P6 near-side gears must map their nativeZ axis to localZ, not P5 X-axis.",
+    "6523 origin is not the pinion center; its200LDU shaft and offset40LDU pinion permit multiple insertion depths."
+  ],
+  "items": [
+    {
+      "partId": "31622.dat",
+      "count": 1,
+      "sourcePage": 6,
+      "identity": "known official crown gear",
+      "newObservation": "P6 enlarged and p8 identify BLUE gear nearer upper-left frame corner, inboard/below top rail. This corrects the old unassembled candidate ordering.",
+      "axis": "parallel to local Z through upper rail, gear on inner face",
+      "candidateCenterSets": [
+        [
+          -320,
+          24,
+          180
+        ],
+        [
+          -280,
+          24,
+          180
+        ]
+      ],
+      "notPlacement": true,
+      "missingEvidence": [
+        "Exact top-rail bore counted from left end: first candidate x=-320 versus neighboring x=-280 cannot be fixed from obscured image.",
+        "Crown face direction (+Z or -Z) and axial seating distance are obscured by rail and adjacent P5 red gear.",
+        "Contact relationship with perpendicular P5 X-axis gear must be resolved before assigning mesh/shaft retention."
+      ],
+      "requiredEvidence": "One orthographic view from frame interior toward upper rail (local +Z), showing blue crown full face and all rail bores; one side view along local X showing crown teeth against P5 red gear. Include 40LDU stud pitch or count holes."
+    },
+    {
+      "partId": "6529.dat",
+      "count": 1,
+      "sourcePage": 6,
+      "identity": "known official 24T spur gear",
+      "newObservation": "Red gear is farther right along upper rail than blue crown; both are inside frame, rather than the old red-left/blue-right ordering.",
+      "axis": "parallel local Z",
+      "candidateCenterSets": [
+        [
+          -200,
+          24,
+          180
+        ],
+        [
+          -160,
+          24,
+          180
+        ]
+      ],
+      "notPlacement": true,
+      "missingEvidence": [
+        "Exact bore is conditional on blue gear bore. Enlarged projected separation suggests about three 40LDU pitches (120), not old two-pitch80, but source obscures individual port centers.",
+        "Z seating and which hub face bears against inner rail cannot be measured from same oblique view.",
+        "Visible outer teeth do not show their exact phase or engagement with neighboring crown."
+      ],
+      "requiredEvidence": "Same interior orthographic view including both gear centers, and side view locating hub faces relative to inner rail face; count intervening ports or measure axle-center distance."
+    },
+    {
+      "partId": "6523.dat",
+      "instance": "near-left/crown shaft",
+      "count": 1,
+      "sourcePage": 6,
+      "identity": "known official 5L axle with 8T pinion",
+      "newObservation": "Upper-left blue projecting shaft and pinion are visible beyond outer top-rail face; shaft axis local Z, pinion side outward (+Z) supported by source.",
+      "datTransformEvidence": "Native axle axis X extends -100..100; pinion nominal center X=+40, teeth axial extent approximately20..60 from s/6523s01 + dtooth8. Map native +X to local +Z, e.g. Ry(-90), not identity.",
+      "conditionalPose": {
+        "centers": [
+          [
+            -320,
+            24,
+            260
+          ],
+          [
+            -280,
+            24,
+            260
+          ]
+        ],
+        "nativePositiveX": "local +Z",
+        "shaftSpanZ": [
+          160,
+          360
+        ],
+        "pinionCenterZ": 300,
+        "gearHubSpanZ": [
+          160,
+          200
+        ]
+      },
+      "notPlacement": true,
+      "missingEvidence": [
+        "Exact rail bore follows unresolved crown bore.",
+        "Original image does not measure exposed plain tip or rail-to-pinion shoulder gap; center Z260 is an interface-consistent hypothesis, not a recovered installation depth."
+      ],
+      "requiredEvidence": "Exterior close view along rail/local X showing pinion shoulder at outer face, plus interior view proving which crown bore this shaft enters. Measure protrusion beyond each rail face."
+    },
+    {
+      "partId": "6523.dat",
+      "instance": "right/red-gear shaft",
+      "count": 1,
+      "sourcePage": 6,
+      "identity": "known official 5L axle with 8T pinion",
+      "newObservation": "Second projecting blue shaft/pinion lies to the right and is parallel to first; cannot instantiate solely from the parts list.",
+      "datTransformEvidence": "Same 200LDU native X axle and +40 pinion offset; local +Z direction expected from outward visible pinion.",
+      "conditionalPose": {
+        "centers": [
+          [
+            -200,
+            24,
+            260
+          ],
+          [
+            -160,
+            24,
+            260
+          ]
+        ],
+        "nativePositiveX": "local +Z",
+        "shaftSpanZ": [
+          160,
+          360
+        ],
+        "pinionCenterZ": 300
+      },
+      "notPlacement": true,
+      "missingEvidence": [
+        "Exact right bore and center spacing depend on paired-hole identification.",
+        "Axial insertion depth and downstream P7 crank/long shaft interface are not visible; P7/P8 repeat the same occlusion rather than supplying reverse side."
+      ],
+      "requiredEvidence": "Same exterior/interior paired views with both shaft ends visible; show P7 connection before central bar is added, or measure rail-hole indices and shaft protrusion."
+    }
+  ],
+  "decision": "Do not add unsupported locations. Four IDs/counts are known, axis family and outside pinion side now narrowed; bore selection and crown face/insertion depth remain unresolved. No reliable independent subset has a uniquely evidenced placement.",
+  "supersedes": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\unassembled-p6-evidence.json",
+    "reason": "Old candidate red-left/blue-right and80LDU spacing are not source-backed. Keep historical file only; this fresh review is authoritative for P6 uncertainty."
+  },
+  "mechanicalLimits": [
+    "P7 central red bar remains floating. None of these omitted items is credited as support.",
+    "No new placeholder, scaling, collider exemption or movement to obtain zero alarms.",
+    "No model change: existing static report/render source binding stays valid."
+  ],
+  "nextRender": {
+    "needed": false,
+    "ifResolved": "Repack and inspect cumulative steps6,7,8 plus all3 final views and raw collision/connection diagnostics."
+  },
+  "accepted": false,
+  "physicalValidation": false
+}

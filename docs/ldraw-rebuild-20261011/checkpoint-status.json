@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-11T08:15:46.116631+00:00",
-  "localCheckpointCommit": "84c0a74",
+  "generatedAt": "2026-10-11T08:41:42.997575+00:00",
+  "localCheckpointCommit": "d454941",
   "note": "Conservative source-hash-bound pixel review snapshot. Two final views minimum. All statuses are development drafts, not approval. Unreported owner reviews are excluded. Part issue families include geometry, identity, license and flexible-route issues; not an unknown-ID count or additional courses. Working sources may be newer than local checkpoint.",
   "summary": {
     "draft-final-and-all-steps-pixels-reviewed": 69,
@@ -9,7 +9,7 @@
   "writtenSources": 69,
   "finalReviewed": 69,
   "allStepsReviewed": 69,
-  "partIssueFamiliesIncludingFlexibleRoutes": 29,
+  "partIssueFamiliesIncludingFlexibleRoutes": 28,
   "affectedCoursesAtUnknownRegistrySnapshot": [
     "4-cha-che",
     "4-chun-jie-wu-shi",
@@ -50,7 +50,7 @@
     "5-ya-mian-ji",
     "5-zhuan-wan-xiao-che"
   ],
-  "unknownRegistryGeneratedAt": "2026-10-11T07:46:09.412Z",
+  "unknownRegistryGeneratedAt": "2026-10-11T08:41:42.298079+00:00",
   "courses": [
     {
       "slug": "4-cha-che",
@@ -918,7 +918,7 @@
     },
     {
       "slug": "5-tou-shi-che",
-      "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
       "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
       "allCumulativeStepsActuallyReviewed": true,
@@ -1125,7 +1125,7 @@
     },
     {
       "slug": "5-yi-dong-guang-gao-pai",
-      "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
       "status": "draft-final-and-all-steps-pixels-reviewed",
       "finalAtLeastTwoViewsActuallyReviewed": true,
       "allCumulativeStepsActuallyReviewed": true,

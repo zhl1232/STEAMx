@@ -1,6 +1,6 @@
 {
   "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
-  "generatedAt": "2026-10-11T07:39:30.253076+00:00",
+  "generatedAt": "2026-10-11T08:33:27.559843+00:00",
   "branch": "models/129-course-source-rebuild-20261011",
   "note": "Progress snapshot, not acceptance. Status requires individual report and pixel review; no physical validation.",
   "sourceBlocker": "69 locally materialized courses; 60 await verified Library transfer. Parent reports original JPGs located on separately connected PC-20260523FVXD at the user-authorized Desktop/pdf-preview folder. This executor remains DESKTOP-MNEH90C; that remote path is not treated as local. All remaining 60 courses are matched on that remote PC: 713 decoded JPG pages with continuity and final-page checks. Six packages cannot yet be uploaded because official Library prepare_uploads/finalize_uploads tools are unavailable there; no Library IDs exist. These 60 are awaiting transfer, not missing at source and not locally received or built.",
@@ -2374,8 +2374,8 @@
       "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": true,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-      "placements": 48,
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+      "placements": 50,
       "steps": 11,
       "headerLimitations": [
         "Catapult - incomplete source reconstruction",
@@ -2910,7 +2910,7 @@
       "currentDevelopmentSourceRebuilt": true,
       "currentDevelopmentPreviewPresent": true,
       "sourceCoverage": "downloaded_pdf",
-      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
       "placements": 55,
       "steps": 12,
       "headerLimitations": [

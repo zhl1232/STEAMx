@@ -71,7 +71,9 @@
 1 7 173.205081 -601.575681 0 0 0 1 0 1 0 -1 0 0 6522.dat
 1 14 173.205081 -601.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 173.205081 -601.575681 100 1 0 0 0 1 0 0 0 1 6527.dat
-0 // OMITTED p9 two inner retainers: source depth uncertain; same-plane80LDU centres collide with neighbouring pulley rims.
+0 // REPAIRED p9: two source-visible retainers on existing t120 axle; local support verified independently. Adjacent pulley mesh risk retained, not offset to suppress alarm.
+1 14 103.923048 -561.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 103.923048 -561.575681 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted
 0 // OMITTED p10 basket axle and two retainers together with unresolved cranks; not placed as unsupported partial basket.

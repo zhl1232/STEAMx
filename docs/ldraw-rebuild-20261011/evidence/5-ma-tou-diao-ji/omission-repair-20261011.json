@@ -1,0 +1,64 @@
+{
+  "slug": "5-ma-tou-diao-ji",
+  "beforeSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+  "afterSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+  "sourcePagesActuallyReViewed": [
+    6,
+    7,
+    8,
+    10,
+    11,
+    15
+  ],
+  "beforePlacedCount": 83,
+  "afterPlacedCount": 83,
+  "beforeOmittedCount": 3,
+  "afterOmittedCount": 3,
+  "restoredBOM": {},
+  "remainingOmittedBOM": {
+    "6522.dat": 1,
+    "6527.dat": 2
+  },
+  "items": [
+    {
+      "id": "p10-lower-grey-axle",
+      "part": "6522.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "Lower red2x10 front boom pivot below and toward cabin from upper pivot",
+      "observed": "p10/p11/p15 show two distinct lower/upper gray-axis retainer centers. p6/p7 show upper red beam projecting farther toward boom than lower red beam, unlike current equalX draft.",
+      "cannotDistinguish": "Which first/second/third front lower red hole is used once source beam stagger is reconstructed; whether near/far boom engages lower/upper pivot or both are layered on one side. Source near retainer hides hole and rear boom interface.",
+      "requiredEvidence": "Perpendicular side view including both complete red beam ends and hole rows, plus rear/end view showing which boom sits on each side of each axle. Measure vertical/horizontal pivot spacing or identify hole index from front ends."
+    },
+    {
+      "id": "p10-lower-retainer-visible-near",
+      "part": "6527.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "Lower gray boom axle visible-near end",
+      "observed": "Material inset confirms four total retainers for two gray axles; current draft contains only the two upper-pivot retainers.",
+      "cannotDistinguish": "Retainer could be outside one boom thickness or directly beside lower red beam with the other boom on opposite/deeper side; outer face direction and axle insertion depth hidden. A sameX lower shaft72LDU below existing upper creates rim-projection overlap, but source pivots also appear horizontally staggered.",
+      "requiredEvidence": "Axial/end view of lower pivot with pulley removed showing red-brick side, boom thickness/order and axle protrusion length; do not choose offset solely for clearance."
+    },
+    {
+      "id": "p10-lower-retainer-occluded-far",
+      "part": "6527.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "Lower gray boom axle occluded-far end",
+      "observed": "Material inset confirms four total retainers for two gray axles; current draft contains only the two upper-pivot retainers.",
+      "cannotDistinguish": "Retainer could be outside one boom thickness or directly beside lower red beam with the other boom on opposite/deeper side; outer face direction and axle insertion depth hidden. A sameX lower shaft72LDU below existing upper creates rim-projection overlap, but source pivots also appear horizontally staggered.",
+      "requiredEvidence": "Axial/end view of lower pivot with pulley removed showing red-brick side, boom thickness/order and axle protrusion length; do not choose offset solely for clearance."
+    }
+  ],
+  "newlyIdentifiedSourceDifference": {
+    "location": "Source p6/p7 upper red beam relative to lower red beam",
+    "finding": "Upper beam visibly protrudes toward boom; current both red75350 originsX=-240 is not faithful to this stagger. Rough two-stud80LDU shift is a candidate, not a locked measurement.",
+    "candidate": "Move upper beam toward negativeX by80LDU, then re-establish two yellow support plates and blue cab platform/upper axle source indices.",
+    "whyNotIsolatedSafeRepair": "Current rotated3011 blue platform bodyX[-80,80] contacts current upper red bodyX[-440,-40] across40LDU. Shifting only upper red beam toX[-520,-120] leaves40LDU gap and removes that stud-support overlap. Thus isolated beam change creates a known support loss; cabin/platform and yellow spacers need coordinated source confirmation. Existing upper boom axleX=-400 would also change from first upper hole to third, so relative mounting evidence must be re-evaluated.",
+    "neededNextEvidence": "Side-on source crop/full-resolution view of source6/8 with front/back stud counts and top-down platform-to-red-beam overlap; lower/upper pivot hole indices from source10 side view."
+  },
+  "decision": "No source change: preserve explicit three-piece omission rather than add a lower pivot onto demonstrably provisional red-beam/boom topology. Source structural discrepancy is now explicit and needs coordinated repair, not dismissed as merely a missingID.",
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,10 +1,10 @@
 {
   "slug": "5-tou-shi-che",
-  "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-  "checkedAtUTC": "2026-10-11T07:07:36.555707+00:00",
-  "checkpointFile": "preparation/checkpoint-checks.json",
-  "rawCheckerExit": 2,
-  "rawCheckerOutput": "\nFAIL [5-tou-shi-che.ldr] 12 error(s), 48 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+  "checkedAtUTC": "2026-10-11T08:29:13.690154+00:00",
+  "checkpointFile": "Prior checkpoint superseded; current raw checker run2026-10-11 after local p9 addition",
+  "rawCheckerExit": 1,
+  "rawCheckerOutput": "\nFAIL [5-tou-shi-che.ldr] 14 error(s), 50 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n  - step 9: 5-tou-shi-che_l75 overlaps 5-tou-shi-che_l72\n  - step 9: 5-tou-shi-che_l76 overlaps 5-tou-shi-che_l73\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
   "sourceStableDuringOriginalCheck": true,
   "sourceHashRechecked": true,
   "alarms": [
@@ -42,7 +42,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 225
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -78,7 +79,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 0
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -114,7 +116,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 225
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -150,7 +153,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 0
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -186,7 +190,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 225
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -222,7 +227,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 0
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -258,7 +264,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 225
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 2,
@@ -294,7 +301,8 @@
           "nominalRadialGapLDU": 1.180519575030587
         }
       },
-      "strictSurfaceCrossingTrianglePairs": 0
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 5,
@@ -329,7 +337,8 @@
         "pulleyMaxRadiusLDU": 41.00248042496941,
         "conservativeGapLDU": 5.996930402921272
       },
-      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified."
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 5,
@@ -364,7 +373,8 @@
         "pulleyMaxRadiusLDU": 41.00248042496941,
         "conservativeGapLDU": 5.996930402921272
       },
-      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified."
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 6,
@@ -399,7 +409,8 @@
         "pulleyMaxRadiusLDU": 41.00248042496941,
         "conservativeGapLDU": 5.996930402921272
       },
-      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified."
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
     },
     {
       "step": 6,
@@ -434,20 +445,68 @@
         "pulleyMaxRadiusLDU": 41.00248042496941,
         "conservativeGapLDU": 5.996930402921272
       },
-      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified."
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 9,
+      "lines": [
+        75,
+        72
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "placements": [
+        "1 14 103.923048 -561.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 173.205081 -601.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "true_risk",
+      "strictSurfaceCrossingTrianglePairs": 22,
+      "reason": "Source-restored adjacent retainers at actual axis sites have22 strict triangle crossing witnesses. Kept source-supported positions; no artificial coordinate adjustment to suppress overlap. This is a current mesh issue, not evidence of rubber/physical compliance.",
+      "evidence": [
+        "preparation/5-tou-shi-che/p9-pulley-pair-transforms.json",
+        "preparation/5-tou-shi-che/p9-pulley-triangles.json"
+      ],
+      "action": "Preserve warning and request exact axial seating/phase evidence."
+    },
+    {
+      "step": 9,
+      "lines": [
+        76,
+        73
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "placements": [
+        "1 14 103.923048 -561.575681 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 173.205081 -601.575681 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "true_risk",
+      "strictSurfaceCrossingTrianglePairs": 22,
+      "reason": "Source-restored adjacent retainers at actual axis sites have22 strict triangle crossing witnesses. Kept source-supported positions; no artificial coordinate adjustment to suppress overlap. This is a current mesh issue, not evidence of rubber/physical compliance.",
+      "evidence": [
+        "preparation/5-tou-shi-che/p9-pulley-pair-transforms.json",
+        "preparation/5-tou-shi-che/p9-pulley-triangles.json"
+      ],
+      "action": "Preserve warning and request exact axial seating/phase evidence."
     }
   ],
-  "alarmCount": 12,
+  "alarmCount": 14,
   "classificationCounts": {
     "false_positive_aabb": 4,
-    "true_risk": 4,
+    "true_risk": 6,
     "insufficient_evidence": 4
   },
-  "remainingNonAlarmLimitations": "17 known-ID basket/axle/retainer/payload parts omitted because connections unresolved; source-inset beam omission and kit deficits separately recorded. Former uniform42.183LDU cavity/1.183 clearance claim is revoked. See current tyre triangle evidence; model remains unaccepted.",
+  "remainingNonAlarmLimitations": "15 known-ID basket/shaft/retainer/payload parts still omitted; four tyre/rim pairs and two newly restored neighbouring pulley pairs have strict mesh crossings. No physical validation. Upper mechanism depths remain unresolved.",
   "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
   "rawPassDoesNotProveSupportOrSourceFidelity": true,
   "accepted": false,
   "physicalValidation": false,
-  "sourceModified": false,
-  "uniformRadiusExemptionWithdrawnAt": "2026-10-11T07:23:43.612419+00:00"
+  "sourceModified": true,
+  "uniformRadiusExemptionWithdrawnAt": "2026-10-11T07:23:43.612419+00:00",
+  "previousSourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c"
 }

@@ -3,7 +3,18 @@
   "assembled": false,
   "countedInMainModel": false,
   "coordinateFrame": "trainer local frame; world rotationRx55degrees around main X hinge",
-  "items": [
+  "items": [],
+  "sourceImage": {
+    "page": 6,
+    "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-6.jpg",
+    "sha256": "7cf31e4bb75bfb9977ea7a2975452125dc493008f46dc16269322fdd6c25d523",
+    "pixelsViewed": true
+  },
+  "warning": "REJECTED historical placement hypotheses: red-left/blue-right ordering and 80LDU paired center spacing are superseded by fresh P6 enlarged/P8 source review. Never instantiate these coordinates. See omission-repair-20261011.json for current itemized evidence and unresolved interfaces.",
+  "status": "superseded_rejected",
+  "supersededBy": "omission-repair-20261011.json",
+  "currentAssemblyCandidate": false,
+  "historicalRejectedItems": [
     {
       "id": "6529.dat",
       "count": 1,
@@ -15,7 +26,10 @@
           180
         ]
       ],
-      "uncertainty": "Which axial side of top rail and relation to left-side gear unclear"
+      "uncertainty": "Which axial side of top rail and relation to left-side gear unclear",
+      "status": "rejected_historical_only",
+      "currentAssemblyCandidate": false,
+      "supersededBy": "omission-repair-20261011.json"
     },
     {
       "id": "31622.dat",
@@ -28,7 +42,10 @@
           180
         ]
       ],
-      "uncertainty": "Crown face direction and gear-to-pinion alignment unresolved; listed coordinates are hypotheses, not placements"
+      "uncertainty": "Crown face direction and gear-to-pinion alignment unresolved; listed coordinates are hypotheses, not placements",
+      "status": "rejected_historical_only",
+      "currentAssemblyCandidate": false,
+      "supersededBy": "omission-repair-20261011.json"
     },
     {
       "id": "6523.dat",
@@ -46,14 +63,11 @@
           240
         ]
       ],
-      "uncertainty": "Top beam bore selection, exact separation and geared-end direction unclear"
+      "uncertainty": "Top beam bore selection, exact separation and geared-end direction unclear",
+      "status": "rejected_historical_only",
+      "currentAssemblyCandidate": false,
+      "supersededBy": "omission-repair-20261011.json"
     }
   ],
-  "sourceImage": {
-    "page": 6,
-    "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-6.jpg",
-    "sha256": "7cf31e4bb75bfb9977ea7a2975452125dc493008f46dc16269322fdd6c25d523",
-    "pixelsViewed": true
-  },
-  "warning": "Do not instantiate candidate coordinates or count as assembled/support evidence without source and interface resolution."
+  "historyPreservation": "Original item IDs, counts, candidate axes/centers and uncertainty text preserved only in historicalRejectedItems; empty items means no current candidates in this file."
 }

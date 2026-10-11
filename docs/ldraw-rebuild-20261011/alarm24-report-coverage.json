@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-11T07:46:09.412Z",
+  "generatedAt": "2026-10-11T08:41:48.317Z",
   "summary": {
     "courses": 69,
     "rawAlarmCourses": 24,
-    "rawErrorGroups": 79,
-    "expandedAlarmItems": 97,
+    "rawErrorGroups": 81,
+    "expandedAlarmItems": 99,
     "staleCheckHashes": 0,
     "staleStaticReportHashes": 0,
     "unexplainedRawPairMentions": 0
@@ -741,7 +741,7 @@
       "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
       "checkShaMatches": true,
       "staticReport": "preparation/5-ma-tou-diao-ji/static-alarm-review.json",
-      "staticReportSha256": "e6775325a7936bee038445c554b0790d78ed401882845a5174eadb0bc9683889",
+      "staticReportSha256": "e75f2e6bc7f73a1480f021280a2af898b944ee2cbaf34eabc5327aeac3718302",
       "staticReportSourceShaMatches": true,
       "rawErrorGroups": 1,
       "expandedAlarmItems": 1,
@@ -879,17 +879,17 @@
     },
     {
       "slug": "5-tou-shi-che",
-      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
       "checkShaMatches": true,
       "staticReport": "preparation/5-tou-shi-che/static-alarm-review.json",
-      "staticReportSha256": "9681535027a839491e380bdf5e14ddd2241ef4c7ec03720be4da0ff39b228e5e",
+      "staticReportSha256": "9164bba2225fed4da77f5147413ba697e7fb45548d87e48c4bd8cb1d15468607",
       "staticReportSourceShaMatches": true,
-      "rawErrorGroups": 12,
-      "expandedAlarmItems": 12,
-      "rawPairMentions": 12,
+      "rawErrorGroups": 14,
+      "expandedAlarmItems": 14,
+      "rawPairMentions": 14,
       "unexplainedRawPairs": [],
       "classifications": {
-        "true_risk": 4,
+        "true_risk": 6,
         "insufficient_evidence": 4,
         "false_positive_aabb": 4
       },
@@ -1039,10 +1039,10 @@
     },
     {
       "slug": "5-yi-dong-guang-gao-pai",
-      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
       "checkShaMatches": true,
       "staticReport": "preparation/5-yi-dong-guang-gao-pai/static-alarm-review.json",
-      "staticReportSha256": "9591b5607ff77d541a5bec2cfc807ccc48ceeec9451ac59f34e746c4a23d9d7a",
+      "staticReportSha256": "c7c17ec3c9e1a8932926b3afb36e4bc7204cdd255f137a02a063cc4d2df08dad",
       "staticReportSourceShaMatches": true,
       "rawErrorGroups": 2,
       "expandedAlarmItems": 2,
@@ -1106,5 +1106,5 @@
       "meaning": "Classification preserved from author evidence; not a physical fit or generic tyre exemption."
     }
   ],
-  "limits": "79 raw checker error groups expand into97 course-specific alarm items. These are not97 unique physical failures. Manual extra risks remain separate; no cross-owner aggregate classification sum. Tyre asymmetric cavity and triangle evidence supersede generic clearance claims."
+  "limits": "Raw checker error groups and expanded report items are different counts, dynamically calculated above. Expanded items are not unique physical failures. Manual extra risks remain separate; no cross-owner aggregate classification sum. Tyre cavity and triangle evidence supersede generic clearance claims."
 }

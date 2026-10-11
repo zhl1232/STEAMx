@@ -2477,7 +2477,7 @@
     },
     {
       "sourcePage": 6,
-      "note": "red and blue gears plus two geared axles: omitted until axes are resolved",
+      "note": "P6 known red/crown gears and two short geared shafts omitted. Historical red-left/blue-right and80LDU candidate layout REJECTED; current evidence and precise missing views: omission-repair-20261011.json.",
       "placements": [],
       "cumulativePlacements": 106
     },
@@ -2651,7 +2651,8 @@
     "All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown.",
     "Final full-frame review confirms floating central bar. Known omitted gears/short geared shafts reclassified from unknown IDs; adding them requires a defensible connection pose.",
     "Sourcep5 red gear pair restored using left-frame X-axis holes120LDU apart. Main8L green axles moved20LDU inward to capture inner gear/right inner crank; left outercrank mirrored to its shaft endpoint. Gear phase and dynamic fit unverified.",
-    "Sourcep6 red/crown gears and two short geared shafts remain UNASSEMBLED evidence only; they do not support the floating centerbar."
+    "Sourcep6 red/crown gears and two short geared shafts remain UNASSEMBLED evidence only; they do not support the floating centerbar.",
+    "REJECTED historical placement hypotheses: red-left/blue-right ordering and 80LDU paired center spacing are superseded by fresh P6 enlarged/P8 source review. Never instantiate these coordinates. See omission-repair-20261011.json for current itemized evidence and unresolved interfaces."
   ],
   "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
   "knownOmitted": [
@@ -2719,5 +2720,15 @@
     "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\collision.txt",
     "physicalFit": false,
     "rendering": "Central queue pending; no independent browser launched"
+  },
+  "p6EvidenceStatus": {
+    "status": "unassembled_pending",
+    "currentReport": "omission-repair-20261011.json",
+    "rejectedHistoricalFile": "unassembled-p6-evidence.json",
+    "rejectedHypotheses": [
+      "red-left/blue-right ordering",
+      "80LDU paired spacing and associated old coordinates"
+    ],
+    "currentPlacementCandidate": false
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T07:46:09.412Z",
+  "generatedAt": "2026-10-11T08:41:48.317Z",
   "summary": {
     "compared": 69,
     "byteMismatches": 0,
@@ -505,9 +505,9 @@
     },
     {
       "slug": "5-tou-shi-che",
-      "modelSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
-      "repoMpdSha256": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
-      "dMpdSha256": "67a2fdeb753fcd6cd5c3e162c26d8b1d40bf37df09f8827470ff5a541f83b7e1",
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+      "repoMpdSha256": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
+      "dMpdSha256": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
       "byteIdentical": true,
       "sourceMatches": true,
       "closed": true
@@ -595,9 +595,9 @@
     },
     {
       "slug": "5-yi-dong-guang-gao-pai",
-      "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
-      "repoMpdSha256": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
-      "dMpdSha256": "e0eb8ea8ab068df5dbbf8415e0c995190145d971a87234f4b6329cd2c0b68299",
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+      "repoMpdSha256": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+      "dMpdSha256": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
       "byteIdentical": true,
       "sourceMatches": true,
       "closed": true

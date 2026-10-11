@@ -1,9 +1,9 @@
 {
   "slug": "5-yi-dong-guang-gao-pai",
-  "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
   "checkpointSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
-  "reviewedAt": "2026-10-11T07:19:33.065557+00:00",
-  "rawExit": 2,
+  "reviewedAt": "2026-10-11T08:29:24.483982+00:00",
+  "rawExit": 1,
   "rawOutput": "\nFAIL [5-yi-dong-guang-gao-pai.ldr] 2 error(s), 55 placement(s):\n  - step 7: 5-yi-dong-guang-gao-pai_l50 overlaps 5-yi-dong-guang-gao-pai_l46\n  - step 7: 5-yi-dong-guang-gao-pai_l53 overlaps 5-yi-dong-guang-gao-pai_l46\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
   "alarmPairCount": 2,
   "classificationCounts": {
@@ -79,9 +79,11 @@
       "page": 6,
       "part": "yellow crank/carrier beneath upper poster beam",
       "candidate": "6526.dat identity confirmed from source BOM and official geometry",
-      "missing": "placement unresolved: direct insertion at main centre(0,-148,0) overlaps current lower pulley; source lower pulley sits lower. Need joint seating depth/axial-stack reconstruction. See step6-carrier-evidence.json"
+      "missing": "6526 still omitted. Lower pulley source-supported seating fixed separately; upper crank depth/offset pin target remain unresolved. See omission-repair-20261011.json for concrete requested views/measurements."
     }
   ],
   "accepted": false,
-  "physicalValidation": false
+  "physicalValidation": false,
+  "sourceChangedSinceCheckpoint": true,
+  "localRepair": "Lower pulley moved21LDU; affected old alarm pairs concern unchanged upper pulley, current raw checker confirms same pair set."
 }

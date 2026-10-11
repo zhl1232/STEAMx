@@ -4,7 +4,7 @@
   "verification": "structurally checked only",
   "sourcePages": 12,
   "sourcePixels": "All12 source pages contact inspected; enlarged structural pages inspected",
-  "modelSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
   "unknown": [
     {
       "page": "2-6",
@@ -15,23 +15,13 @@
       "page": 6,
       "part": "yellow crank/carrier beneath upper poster beam",
       "candidate": "6526.dat identity confirmed from source BOM and official geometry",
-      "missing": "placement unresolved: direct insertion at main centre(0,-148,0) overlaps current lower pulley; source lower pulley sits lower. Need joint seating depth/axial-stack reconstruction. See step6-carrier-evidence.json"
+      "missing": "6526 still omitted. Lower pulley source-supported seating fixed separately; upper crank depth/offset pin target remain unresolved. See omission-repair-20261011.json for concrete requested views/measurements."
     }
   ],
   "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
   "knownApproximate": [],
-  "render": {
-    "sourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
-    "viewsActuallyInspected": [
-      "iso",
-      "iso-rear",
-      "top"
-    ],
-    "cumulativeStepsActuallyInspected": true,
-    "cumulativeStepCount": 12,
-    "finding": "All12 D cumulative frames actually screened against source12-page contact; originalstep6 and10 inspected, sourcep6 enlarged. NEW missing sourcep6 yellow crank/carrier, visible in BOM1x and under upper beam, matches6526 candidate; currentstep6 has only2 pulleys and beam, omits this carrier. Recheck its pin engagement and both pulley axial positions before claiming support closure. Model unchanged this checkpoint. Animal orientation matches; central82LDU pulley vs80LDU column gap potential1LDU each side remains. Dynamic gear engagement unverified. No physical acceptance."
-  },
-  "rawCollisionChecker": "FAIL; two central pulley/pattern brick edge overlaps",
+  "render": "Current full-frame final3 and all12 cumulative steps actually reviewed; evidence current-pixel-review.json. Remains INCOMPLETE.",
+  "rawCollisionChecker": "FAIL; same2 upper pulley/printed-column edge alarms, no new alarms.",
   "collisionAssessment": "Two printed columns have80LDU inner gap; official6527 flange diameter82LDU, potential1LDU edge interference each side remains, not certified. Other frame/wall collisions corrected by readingp10 BOM5 full+4 square bricks and retaining red bridge end gaps.",
   "matrixCheck": {
     "status": "PASS",
@@ -57,5 +47,20 @@
       "additionalBeyondSingle9656IgnoringColor": 4
     }
   ],
-  "patternPixelReview": "Official giraffe and zebra front upright orientation, blank reverse, compared against sourcep7 and current full-frame final3; resolved visual-orientation item."
+  "patternPixelReview": "Official giraffe and zebra front upright orientation, blank reverse, compared against sourcep7 and current full-frame final3; resolved visual-orientation item.",
+  "omissionRepairEvidence": "omission-repair-20261011.json",
+  "currentCumulativePixelReview": {
+    "allCumulativeStepsActuallyReviewed": true,
+    "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+    "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+    "stepCount": 12,
+    "evidence": "current-pixel-review.json",
+    "limitations": "Actually viewed current final3 originals and all12 cumulative steps via contact sheet, with original step6/7 and sourcep6/7 enlarged. Lower6527 atY=-127 now sits at lower red beam stud-top as source supports; exact hidden contact is not established by pixels. Source6526 remains omitted; upper pulley diameter82 versus column gap80 remains1LDU risk per side. Visible green shaft protrusion above upper retainer differs from sourcep6 and remains an unresolved axial-stack constraint. Local zero strict triangle crossings is not physical clearance proof. No LDR edits in this review; INCOMPLETE, accepted=false, physicalValidation=false."
+  },
+  "currentFinalPixelReview": {
+    "allThreeViewsActuallyReviewed": true,
+    "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+    "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+    "evidence": "current-pixel-review.json"
+  }
 }
