@@ -1,42 +1,111 @@
-0 5+ 单杆运动员 (Horizontal Bar Athlete) - DUPLO draft for manual repair
+0 5-dan-gan-yun-dong-yuan - source reconstruction, INCOMPLETE dev-only
 0 Name: 5-dan-gan-yun-dong-yuan.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+单杆运动员 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Uprights, rotating bar, athlete body and hanging legs are simplified.
-
-0 // STEP 1 - yellow base and red uprights
-1 14 -240 -24 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -24 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 eae1ec8c9ef1ab6e983ae0a76c934e7e9a4c38a646cc61e4d1a9c9877bbc3c12
+0 // STATUS: INCOMPLETE; source pages 1-11 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // Exact mapping: source title uses 单杠运动员; website lesson247 uses 单杆运动员. Same course, no new lesson.
+0 // STEP 1 - two vertical red holed 2x10 columns and eight sideways yellow foundation bricks
+1 4 -256 -200 0 0 0 1 1 0 0 0 1 0 75350.dat
+1 4 256 -200 0 0 0 1 1 0 0 0 1 0 75350.dat
+1 14 -168 -40 -80 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 -168 -40 80 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 -344 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -344 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 168 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 168 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 344 -40 -80 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 344 -40 80 0 -1 0 0 0 1 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 2 - top horizontal bar
-1 14 -160 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 0 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 160 -240 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 -320 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 320 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - eight orange thin plates bridge base joints; eight yellow bricks extend rails
+1 14 -168 -40 -240 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 -168 -40 240 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 -344 -40 -240 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -344 -40 240 0 1 0 0 0 1 1 0 0 3011.dat
+1 25 -144 -40 -80 0 -1 0 0 0 1 -1 0 0 40666.dat
+1 25 -144 -40 80 0 -1 0 0 0 1 -1 0 0 40666.dat
+1 25 -368 -40 -80 0 1 0 0 0 1 1 0 0 40666.dat
+1 25 -368 -40 80 0 1 0 0 0 1 1 0 0 40666.dat
+1 14 168 -40 -240 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 168 -40 240 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 344 -40 -240 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 14 344 -40 240 0 -1 0 0 0 1 -1 0 0 3011.dat
+1 25 144 -40 -80 0 1 0 0 0 1 1 0 0 40666.dat
+1 25 144 -40 80 0 1 0 0 0 1 1 0 0 40666.dat
+1 25 368 -40 -80 0 -1 0 0 0 1 -1 0 0 40666.dat
+1 25 368 -40 80 0 -1 0 0 0 1 -1 0 0 40666.dat
 0 STEP
 
-0 // STEP 3 - athlete head and torso
-1 14 0 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -336 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -60 -384 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 60 -384 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - twelve sideways yellow bricks bridge the two foundation banks
+1 14 -144 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -144 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -96 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -96 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -48 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -48 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 0 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 0 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 48 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 48 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 96 -40 -80 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 96 -40 80 0 1 0 0 0 1 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 4 - arms and hanging legs
-1 14 -120 -300 -260 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 14 120 -300 -260 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 4 -80 -432 -160 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 80 -432 -160 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 -120 -520 -200 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 120 -520 -200 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - second pair of upright holed bars with four orange splice blocks
+1 4 -256 -600 0 0 0 1 1 0 0 0 1 0 75350.dat
+1 25 -256 -400 -24 0 0 1 1 0 0 0 1 0 40666.dat
+1 25 -256 -400 48 0 0 1 1 0 0 0 1 0 40666.dat
+1 4 256 -600 0 0 0 1 1 0 0 0 1 0 75350.dat
+1 25 256 -400 -24 0 0 1 1 0 0 0 1 0 40666.dat
+1 25 256 -400 48 0 0 1 1 0 0 0 1 0 40666.dat
+0 STEP
+
+0 // STEP 5 - right upper shaft, gear, yellow retainer and crank/short-beam arm
+1 2 180 -760 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 4 316 -760 0 0 0 1 0 1 0 -1 0 0 6529.dat
+1 14 196 -760 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 160 -760 0 0 -1 0 0 0 1 -1 0 0 6526.dat
+1 14 120 -640 0 0 1 0 0 0 1 1 0 0 6524.dat
+0 STEP
+
+0 // STEP 6 - left upper shaft, gear and arm; official31625 central blue worm sleeve
+1 2 -180 -760 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 4 -316 -760 0 0 0 -1 0 1 0 1 0 0 6529.dat
+1 14 -196 -760 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -160 -760 0 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 -120 -640 0 0 1 0 0 0 1 1 0 0 6524.dat
+1 1 0 -760 0 0 0 1 0 1 0 -1 0 0 31625.dat
+0 STEP
+
+0 // STEP 7 - lower shoulder shaft, two retainers and three red torso bricks
+1 2 0 -520 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -160 -520 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 160 -520 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 -40 -544 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 4 40 -544 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 4 0 -496 0 0 0 -1 0 1 0 1 0 0 75349.dat
+0 STEP
+
+0 // STEP 8 - yellow rounded head with movable eyes
+1 14 0 -640 0 1 0 0 0 1 0 0 0 1 73162p01.dat
+0 STEP
+
+0 // STEP 9 - hip brick and Axle6, two retainers, two Beam7 legs
+1 4 0 -448 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 71 0 -424 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -100 -424 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -60 -304 0 0 1 0 0 0 1 1 0 0 6524.dat
+1 14 100 -424 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 60 -304 0 0 1 0 0 0 1 1 0 0 6524.dat
+0 STEP
+
+0 // STEP 10 - two red curved shoes; source tube-on-beam retention unverified
+1 4 -80 -200 0 0 -1 0 1 0 0 0 0 1 2302.dat
+1 4 80 -200 0 0 1 0 1 0 0 0 0 -1 2302.dat
+0 STEP
+
+0 // STEP 11 - finished view only

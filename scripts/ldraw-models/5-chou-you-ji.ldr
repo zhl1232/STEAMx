@@ -1,43 +1,97 @@
-0 5+ 抽油机 (Pumpjack) - DUPLO draft for manual repair
+0 5+ Pumpjack - source reconstruction draft
 0 Name: 5-chou-you-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+抽油机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Walking beam, horsehead, crank wheel, derrick and hanging cable are simplified.
-
-0 // STEP 1 - green field and blue pit
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 240 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 400 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY: all13 source PDF pages visually inspected; p13 final view.
+0 // INCOMPLETE: p4/p5 flexible cord geometry pending; crank-to-large-gear joint needs precise source evidence.
+0 // Source page 1: 24x24 green base, four blue feet and two parallel2x10 red bearing bricks.
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -80 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -120 -160 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 -80 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -72 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -120 160 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 2 - yellow/red support tower
-1 14 -80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 2: four11-hole beams, four axle6 and12pulley retainers; each support triangle uses400LDU end-hole distance and320LDU foot span.
+1 14 -40 -279.303028 -60 -0.916515 0 0.4 -0.4 0 -0.916515 0 1 0 6525.dat
+1 71 -120 -96 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -120 -96 -20 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -120 -96 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -120 -96 -220 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 120 -279.303028 -100 -0.916515 0 -0.4 0.4 0 -0.916515 0 1 0 6525.dat
+1 71 200 -96 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -96 -20 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 200 -96 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 200 -96 -220 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -40 -279.303028 60 -0.916515 0 0.4 -0.4 0 -0.916515 0 1 0 6525.dat
+1 71 -120 -96 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -120 -96 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -120 -96 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -120 -96 220 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -279.303028 100 -0.916515 0 -0.4 0.4 0 -0.916515 0 1 0 6525.dat
+1 71 200 -96 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 200 -96 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -96 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -96 220 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-
-0 // STEP 3 - triangular braces and walking beam
-1 8 -160 -216 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -216 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 14 -240 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 80 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Source page 3: two end-to-end2x10 red walking beam bricks with blue2x4 plates bridging seam; central axle8 and outer pulleys.
+1 4 -199.914906 -487.442277 0 0.999994 -0.003485 0 0.003485 0.999994 0 0 0 1 75350.dat
+1 4 200.082665 -486.048332 0 0.999994 -0.003485 0 0.003485 0.999994 0 0 0 1 75350.dat
+1 1 0.167516 -510.745159 0 0.999994 -0.003485 0 0.003485 0.999994 0 0 0 1 40666.dat
+1 1 -0.083394 -438.745596 0 0.999994 -0.003485 0 0.003485 0.999994 0 0 0 1 40666.dat
+1 2 40 -462.606056 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 40 -462.606056 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 40 -462.606056 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-
-0 // STEP 4 - horsehead, crank and hanging line
-1 4 360 -336 -120 0 0 1 0 1 0 -1 0 0 2302.dat
-1 0 360 -240 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -240 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -320 -144 80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 8 420 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 4: source flexible cord prepared separately; omitted until verified real cord geometry/length is available.
+0 // UNKNOWN p4 cord length/form: source black line, combination inventory75536 contains28Lcord; no fabricatedDAT.
+0 STEP
+0 // Source page 5: source pulley+hook+cord subassembly. Rigid pulley placed in eventual p6 pose; official4663 short-crossbar hook verified.
+1 14 359.998057 -461.4909 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 400 -232 120 1 0 0 0 1 0 0 0 1 4663.dat
+0 // p5 official4663 hook matched source+catalog; eye positioned above hollowweight, exact knot and cord path unknown.
+0 STEP
+0 // Source page 6: blue5L8tooth axle through right walkingbeam hole and pulley; source cord suspended from this pulley.
+1 1 359.998057 -461.4909 0 0 0 1 0 1 0 -1 0 0 6523.dat
+0 STEP
+0 // Source page 7: ten blue2x4 bricks form two-layer6x8 hollow weight surrounding hook; five bricks per layer, opening2x4.
+1 1 360 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -168 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 480 -168 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -168 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -168 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -216 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 480 -216 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -216 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -216 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 8: 7-hole connecting rod, upper axle6 and three pulleys at left walkingbeam end.
+1 14 -359.997571 -344 100 1 0 0 0 0 1 0 -1 0 6524.dat
+1 71 -359.997571 -464 20 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -359.997571 -464 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -359.997571 -464 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -359.997571 -464 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 9: blue5L axle, two pulleys and shortcrank at connectingrod lower joint; integralpin pointsdown80LDU.
+1 1 -359.997571 -224 40 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -359.997571 -224 -40 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -359.997571 -224 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -359.997571 -224 60 1 0 0 0 0 1 0 -1 0 6526.dat
+0 STEP
+0 // Source page 10: two blue bricks and red2x4 bearing for drive axle.
+1 1 -400 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -168 -40 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 11: grey axle6 and large40tooth flywheel on leftmost bearing hole.
+1 71 -440 -144 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -440 -144 20 1 0 0 0 1 0 0 0 1 6530.dat
+0 // REVIEW maincrank integralpin is near flywheel rim; visible source connection is obscured. Do not claim kinematic closure.
+0 STEP
+0 // Source page 12: two retaining pulleys and rear handle on flywheel axle; page13 is final view.
+1 14 -440 -144 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -440 -144 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -440 -144 -140 1 0 0 0 0 -1 0 1 0 6526.dat

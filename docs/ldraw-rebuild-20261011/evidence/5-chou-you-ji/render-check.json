@@ -1,0 +1,27 @@
+{
+  "partCount": 116,
+  "missingParts": [],
+  "stepCount": 12,
+  "revision": "afe81abb353263424afb7f3263f5ed67daa77295ff5d189eb0e0661ec2ff7c5c",
+  "sourceSha256": "b818833a94a9f6ed4885c5d8fa6d2f776b427ccb600348aaad548c29c825ef95",
+  "stepRenderMethod": "cumulative source truncated at STEP, repacked",
+  "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "logs": [
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    }
+  ]
+}

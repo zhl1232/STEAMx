@@ -1,0 +1,72 @@
+[
+  {
+    "name": "4+叉车搭建说明.pdf",
+    "relative_path": "4+/4+叉车搭建说明.pdf",
+    "pages": 15,
+    "bytes": 2101718,
+    "sha256": "f5f48f9048435436f0647273313f97036e3431ca5e9bf51c090fab20b62d0a4d"
+  },
+  {
+    "name": "4+大象搭建说明.pdf",
+    "relative_path": "4+/4+大象搭建说明.pdf",
+    "pages": 12,
+    "bytes": 1592153,
+    "sha256": "f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e"
+  },
+  {
+    "name": "4+客机搭建说明.pdf",
+    "relative_path": "4+/4+客机搭建说明.pdf",
+    "pages": 12,
+    "bytes": 1759225,
+    "sha256": "25cc2fb679437ef1003dc94cc7db86865f6f2a8c4414b315d71d425b0075f3fa"
+  },
+  {
+    "name": "4+直升机搭建说明.pdf",
+    "relative_path": "4+/4+直升机搭建说明.pdf",
+    "pages": 16,
+    "bytes": 3667135,
+    "sha256": "4f366150ee004ae5922ab18ba5f80d765890adc7d31acaac67f2fe4052cf56c5"
+  },
+  {
+    "name": "5+单杠运动员搭建说明.pdf",
+    "relative_path": "5+/5+单杠运动员搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1366842,
+    "sha256": "eae1ec8c9ef1ab6e983ae0a76c934e7e9a4c38a646cc61e4d1a9c9877bbc3c12"
+  },
+  {
+    "name": "5+吊扇搭建说明.pdf",
+    "relative_path": "5+/5+吊扇搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1647834,
+    "sha256": "3cb1b483da9d075adfad3c9206144dc4096bc50c322309c639f7756b42f27d48"
+  },
+  {
+    "name": "5+抽油机搭建说明.pdf",
+    "relative_path": "5+/5+抽油机搭建说明.pdf",
+    "pages": 13,
+    "bytes": 2445166,
+    "sha256": "4a52e39cf0afdf1db7288b6706fcbd142beaa51003d057fa98ade927b34e9885"
+  },
+  {
+    "name": "5+搅拌器搭建说明.pdf",
+    "relative_path": "5+/5+搅拌器搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1332643,
+    "sha256": "e4dc2c2168b1fca01cb54a3118a386dceae0f256bb35f7f976515676baabf1c1"
+  },
+  {
+    "name": "5+摇摇车搭建说明.pdf",
+    "relative_path": "5+/5+摇摇车搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1854924,
+    "sha256": "fd542a1ad2646091f19bbf8fabc18814222436928750899ef48236c519f4d01e"
+  },
+  {
+    "name": "5+蜻蜓搭建说明.pdf",
+    "relative_path": "5+/5+蜻蜓搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1570546,
+    "sha256": "e0db02d33d4011b5e4e6236370c4cae045d0a7f96fe8a159f16efd1ab8b706de"
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "slug": "5-diao-shan",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 10,
+  "sourcePixels": "10-page contact sheet and enlarged structural pages viewed",
+  "modelSha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+  "unknown": [
+    {
+      "page": 7,
+      "part": "two small yellow carriers",
+      "candidate": "6526 unresolved",
+      "missing": "exact identity and blade axial clamp; omitted"
+    },
+    {
+      "page": 7,
+      "part": "61898bc01 blade cross stack",
+      "missing": "formed official13x26 sheets visually fit source; 2LDU stack/rotor phase inferred, no physical clamp verification"
+    },
+    {
+      "page": 8,
+      "part": "gear mesh and crank retention",
+      "missing": "source-backed axes and120LDU spacing; mechanical fit not physically tested"
+    }
+  ],
+  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "knownApproximate": [],
+  "render": "65piece iso pixels inspected; support/gear layout agrees source, wrong pink29 corrected to lime27; revised color render pending",
+  "rawCollisionChecker": "PASS"
+}

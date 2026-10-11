@@ -1,0 +1,125 @@
+{
+  "inventoryEvidenceSHA256": "a6e4d1ab4f29a0462f03047a4d7cf66bb278890505b4900f49afba914140304d",
+  "singleSetReferenceOnly": true,
+  "bom": [
+    {
+      "id": "76395.dat",
+      "color": "Black",
+      "quantity": 10,
+      "inventory45002": {
+        "catalogPart": "86599",
+        "available": 7,
+        "extraNeeded": 3
+      },
+      "notes": ""
+    },
+    {
+      "id": "74957.dat",
+      "color": "Dark Bluish Gray",
+      "quantity": 4,
+      "inventory45002": {
+        "catalogPart": "74957",
+        "available": 2,
+        "extraNeeded": 2
+      },
+      "notes": ""
+    },
+    {
+      "id": "28336.dat",
+      "color": "Dark Bluish Gray",
+      "quantity": 7,
+      "inventory45002": {
+        "catalogPart": "45202",
+        "available": 4,
+        "extraNeeded": 3
+      },
+      "notes": ""
+    },
+    {
+      "id": "76057.dat",
+      "color": "Yellow",
+      "quantity": 8,
+      "inventory45002": {
+        "catalogPart": "31184c01",
+        "available": 1,
+        "extraNeeded": 7
+      },
+      "notes": ""
+    },
+    {
+      "id": "76057.dat",
+      "color": "Red",
+      "quantity": 1,
+      "inventory45002": {
+        "catalogPart": "31184c01",
+        "available": 1,
+        "extraNeeded": 0
+      },
+      "notes": ""
+    },
+    {
+      "id": "2302.dat",
+      "color": "Yellow",
+      "quantity": 2,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "99565.dat",
+      "color": "Light Bluish Gray",
+      "quantity": 2,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "44970.dat",
+      "color": "Black",
+      "quantity": 2,
+      "inventory45002": {
+        "catalogPart": "44970",
+        "available": 8,
+        "extraNeeded": 0
+      },
+      "notes": ""
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "color": "Dark Bluish Gray",
+      "quantity": 2,
+      "inventory45002": {
+        "catalogPart": "74847",
+        "available": 5,
+        "extraNeeded": 0
+      },
+      "notes": "Dev-only dimension-corrected simplified geometry"
+    },
+    {
+      "id": "3011.dat",
+      "color": "Orange",
+      "quantity": 3,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "40666.dat",
+      "color": "Orange",
+      "quantity": 4,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "3437.dat",
+      "color": "Green",
+      "quantity": 5,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "40666.dat",
+      "color": "Green",
+      "quantity": 4,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    }
+  ]
+}

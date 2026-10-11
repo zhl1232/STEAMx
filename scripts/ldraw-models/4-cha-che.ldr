@@ -1,45 +1,124 @@
-0 4+ 叉车 (Forklift) - DUPLO draft for manual repair
+0 4+ 叉车 - source-step reconstruction; INCOMPLETE exhaust-pipe forks
 0 Name: 4-cha-che.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+叉车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Fork mast, forks and load pallet are simplified.
-
-0 // STEP 1 - vehicle chassis
-1 2 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 2 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 // SOURCE: Library libfile_fae16f1e8c10819194b9b37eb3b7a0e2, 15-page 4+ forklift PDF.
+0 // STATUS: INCOMPLETE. Source pages 1-15 visually inspected. No acceptance or physical-fit claim.
+0 // KNOWN APPROXIMATE GEOMETRY: 76395,76057,99565,44970 use prior user-approved local parts.
+0 // UNRESOLVED: source p8 two 4433c01 exhaust-pipe forks: identity verified, reusable geometry unavailable.
+0 // Source p7 mast uses dev-129/28331 approximate geometry corrected to inventory 2x11; manual joint fit remains unverified.
+0 // Source p6 sideways sandwich retained with manual screw connection; p14 pallet intentionally separate on ground.
+0 // Inventory availability by color is unknown. +X is vehicle front, +Y down.
+0 // STEP 1 - 2 Toolo 4x6 chassis blocks and green 6x12 plate
+1 0 -160 24 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 160 24 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
-0 // STEP 2 - striped body
-1 4 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - four source wheel rims and four off-road tyres; manual screw axle fit
+1 71 -160 48 -144 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -160 48 -144 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -160 48 144 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -160 48 144 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 160 48 -144 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 160 48 -144 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 160 48 144 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 160 48 144 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
 
-0 // STEP 3 - cab and overhead guard
-1 0 -120 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -120 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 3 - two black 4x6 body blocks, two yellow 2x4 front supports
+1 0 -160 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 0 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 14 160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 4 - vertical mast
-1 0 -300 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -300 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -300 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -300 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -300 -288 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - red perimeter and central fill; preserve rear 2x2 recess and front opening
+1 4 -160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 5 - forks and load
-1 8 -440 -72 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 8 -440 -72 40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 27 -620 -48 -40 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 -620 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 5 - front striped columns: 4 yellow + 4 red bricks, 2 grey screw bricks
+1 14 160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 72 160 -336 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 72 160 -336 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+
+0 // STEP 6 - front sideways sandwich: 2 black screw blocks, 2 red bricks, 2 yellow plates
+1 0 288 -256 0 0 -1 0 0 0 -1 1 0 0 76395.dat
+1 4 336 -256 -80 0 -1 0 -1 0 0 0 0 -1 3011.dat
+1 14 360 -256 -80 0 -1 0 -1 0 0 0 0 -1 40666.dat
+1 4 336 -256 80 0 -1 0 -1 0 0 0 0 -1 3011.dat
+1 14 360 -256 80 0 -1 0 -1 0 0 0 0 -1 40666.dat
+1 0 408 -256 0 0 -1 0 0 0 -1 1 0 0 76395.dat
+0 STEP
+
+0 // STEP 7 - known Toolo long mast and top coupling; dev-only approximate length, manual joint
+1 72 264 -416 0 0 1 0 0 0 1 1 0 0 74957.dat
+1 72 324 -416 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
+0 STEP
+
+0 // STEP 8 - lower angled fork joint; 2 verified 4433c01 exhaust-pipe tools lack geometry, omitted
+1 72 372 49 0 0 0 -1 0 1 0 1 0 0 28336.dat
+0 STEP
+
+0 // STEP 9 - rear red crossbar, two yellow pillar starts, blue curved seat
+1 4 -200 -144 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -144 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -144 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 10 - two red curved rear caps; outward curve direction checked during rendering
+1 4 -200 -192 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 -200 -192 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+
+0 // STEP 11 - rear cabin posts: four red and four yellow 2x2 bricks
+1 4 -120 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -240 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -336 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -240 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -288 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -120 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 12 - two black 4x6 roof blocks bridging rear posts and front columns
+1 0 -80 -384 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 80 -384 0 0 0 -1 0 1 0 1 0 0 76395.dat
+0 STEP
+
+0 // STEP 13 - source child driver: red cap/8-shirt, white sleeves with brown hands and yellow legs
+1 14 -80 -144 0 0 0 1 0 1 0 -1 0 0 47205.dat
+1 15 -74 -181 0 0 0 1 0 1 0 -1 0 0 47204.dat
+1 4 -74 -181 0 0 0 1 0 1 0 -1 0 0 47203p03.dat
+1 15 -73.5 -208 0 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 15 -73.5 -208 0 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 14 -72 -223 0 0 0 1 0 1 0 -1 0 0 47206p01.dat
+1 4 -72 -223 0 0 0 1 0 1 0 -1 0 0 47199.dat
+0 STEP
+
+0 // STEP 14 - separate pallet: four blue 2x4 bricks and yellow 4x8 plate
+1 1 620 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 620 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 860 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 860 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 740 -72 0 1 0 0 0 1 0 0 0 1 4672.dat
+0 // Source page 15 is the final inspection view; it adds no building step.

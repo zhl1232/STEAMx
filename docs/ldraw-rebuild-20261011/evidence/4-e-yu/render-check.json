@@ -1,0 +1,25 @@
+{
+  "partCount": 46,
+  "missingParts": [],
+  "stepCount": 10,
+  "revision": "a3c11fd5b4afcfa500bbe1b6b41cedaf00602d9df6ba3e6a360b6ac5c220d082",
+  "renderedViews": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "logs": [
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    },
+    {
+      "type": "log",
+      "text": "Preview render complete {modelUrl: /model, boundingBox: Object, size: Array(3)}"
+    }
+  ]
+}

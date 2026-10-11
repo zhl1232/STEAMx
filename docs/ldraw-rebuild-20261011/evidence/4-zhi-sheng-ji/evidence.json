@@ -1,0 +1,35 @@
+{
+  "status": "incomplete-pending-source-and-step-acceptance",
+  "slug": "4-zhi-sheng-ji",
+  "source": {
+    "file": "D:/Codex-task-2-20261011/inputs/pdfbatch1/4+/4+直升机搭建说明.pdf",
+    "sha256": "4f366150ee004ae5922ab18ba5f80d765890adc7d31acaac67f2fe4052cf56c5",
+    "pages": 16,
+    "allPagesPixelsViewed": true
+  },
+  "modelSha256": "182587cd04b1a6d7b4db9222e9d08a87aada69889cf15508f689d6d19b30da07",
+  "placements": 89,
+  "additiveSteps": 15,
+  "missingGeometry": [
+    {
+      "part": "86601 or6669c01 candidate",
+      "count": 2,
+      "sourcePage": 7,
+      "role": "three-blade tail propellers",
+      "idConfirmedBy": "Inventory86601 exists, but source photo family is being discriminated by missing_parts; not final identity",
+      "remaining": "usable licensed geometry; physical axle fit"
+    }
+  ],
+  "knownApproximation": [
+    "76395",
+    "74957",
+    "28336",
+    "dev-129/28331",
+    "31196c01",
+    "60535"
+  ],
+  "checker": "1 conservative cockpit-canopy proxy overlap; exact face clipping not rerun in this workspace; no exemption added",
+  "render": "awaiting parent serial queue",
+  "accepted": false,
+  "metadataUsedHash": "057218a7b538dfd0e1920ca0ddf9f3979a89bcd10d838514e148d201ba0153ab"
+}

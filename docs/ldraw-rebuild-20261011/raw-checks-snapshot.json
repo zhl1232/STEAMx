@@ -1,0 +1,205 @@
+[
+  {
+    "path": "scripts/ldraw-models/4-cha-che.ldr",
+    "sha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-cha-che.ldr] 71 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-ci-xuan-fu-lie-che.ldr",
+    "sha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [4-ci-xuan-fu-lie-che.ldr] 2 error(s), 92 placement(s):\n  - step 9: 4-ci-xuan-fu-lie-che_l88 overlaps 4-ci-xuan-fu-lie-che_l87\n  - step 9: 4-ci-xuan-fu-lie-che_l90 overlaps 4-ci-xuan-fu-lie-che_l89\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-da-xiang.ldr",
+    "sha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-da-xiang.ldr] 46 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-e-yu.ldr",
+    "sha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-e-yu.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-ji-guan-qiang.ldr",
+    "sha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-ji-guan-qiang.ldr] 41 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-ju-ji-qiang.ldr",
+    "sha256": "64dc9c3d66fc15e370948865661c7b65a4fe3d68f1240c85ebfdbff4a23eba32",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-ju-ji-qiang.ldr] 67 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-ke-ji.ldr",
+    "sha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [4-ke-ji.ldr] 1 error(s), 69 placement(s):\n  - step 4: 4-ke-ji_l48 overlaps 4-ke-ji_l47\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-qing-ting.ldr",
+    "sha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-qing-ting.ldr] 26 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-sai-che.ldr",
+    "sha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-sai-che.ldr] 40 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-sun-wu-kong.ldr",
+    "sha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-sun-wu-kong.ldr] 79 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-wa-li.ldr",
+    "sha256": "2f024d32d56958cf276824d76b259f940dcad1ebc3cdb72405e27d6dff9fb55b",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-wa-li.ldr] 47 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-wu-ren-ji.ldr",
+    "sha256": "ae82ca5edc058480f3b8719c64c7c09119b2efeba77e5f94b2d52c389365ffa5",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-wu-ren-ji.ldr] 32 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-xiang-wei-she.ldr",
+    "sha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-xiang-wei-she.ldr] 44 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-xiao-tu-zi.ldr",
+    "sha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-xiao-tu-zi.ldr] 54 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-xie-zi.ldr",
+    "sha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-xie-zi.ldr] 54 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-yao-yao-ma.ldr",
+    "sha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-yao-yao-ma.ldr] 81 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-zhi-sheng-ji.ldr",
+    "sha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [4-zhi-sheng-ji.ldr] 1 error(s), 89 placement(s):\n  - step 4: 4-zhi-sheng-ji_l63 overlaps 4-zhi-sheng-ji_l62\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/4-zhi-zhu.ldr",
+    "sha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-zhi-zhu.ldr] 41 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-bing-qiu-yun-dong-yuan.ldr",
+    "sha256": "5f6ebadb1ca4cb026dc6afd63454949eb8102620b32dc52360cba576c0bb54db",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-bing-qiu-yun-dong-yuan.ldr] 2 error(s), 51 placement(s):\n  - step 7: 5-bing-qiu-yun-dong-yuan_l52 overlaps 5-bing-qiu-yun-dong-yuan_l49\n  - step 8: 5-bing-qiu-yun-dong-yuan_l59 overlaps 5-bing-qiu-yun-dong-yuan_l57; 5-bing-qiu-yun-dong-yuan_l59 overlaps 5-bing-qiu-yun-dong-yuan_l58\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-chou-you-ji.ldr",
+    "sha256": "b818833a94a9f6ed4885c5d8fa6d2f776b427ccb600348aaad548c29c825ef95",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-chou-you-ji.ldr] 63 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-dan-gan-yun-dong-yuan.ldr",
+    "sha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-dan-gan-yun-dong-yuan.ldr] 70 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-diao-shan.ldr",
+    "sha256": "67fe4348abc7fba7839b753bd04505fd8ccab51fccb3405085f2c9fc46b88872",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-diao-shan.ldr] 65 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-huan-wei-che.ldr",
+    "sha256": "8261a3929b4d5804b2ba0a69c7b029e0bbe9e7b0c4f87e8a6e0c17b35eeb7259",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-huan-wei-che.ldr] 1 error(s), 84 placement(s):\n  - step 2: 5-huan-wei-che_l29 overlaps 5-huan-wei-che_l28\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-huo-jian.ldr",
+    "sha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-huo-jian.ldr] 12 error(s), 182 placement(s):\n  - step 3: 5-huo-jian_l30 overlaps 5-huo-jian_l29\n  - step 3: 5-huo-jian_l31 overlaps 5-huo-jian_l29\n  - step 3: 5-huo-jian_l33 overlaps 5-huo-jian_l32\n  - step 3: 5-huo-jian_l34 overlaps 5-huo-jian_l32\n  - step 3: 5-huo-jian_l36 overlaps 5-huo-jian_l35\n  - step 3: 5-huo-jian_l37 overlaps 5-huo-jian_l35\n  - step 3: 5-huo-jian_l39 overlaps 5-huo-jian_l38\n  - step 3: 5-huo-jian_l40 overlaps 5-huo-jian_l38\n  - step 3: 5-huo-jian_l42 overlaps 5-huo-jian_l41\n  - step 3: 5-huo-jian_l43 overlaps 5-huo-jian_l41\n  - step 3: 5-huo-jian_l45 overlaps 5-huo-jian_l44\n  - step 3: 5-huo-jian_l46 overlaps 5-huo-jian_l44\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-jiao-ban-qi.ldr",
+    "sha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-jiao-ban-qi.ldr] 2 error(s), 85 placement(s):\n  - step 5: 5-jiao-ban-qi_l58 overlaps 5-jiao-ban-qi_l55\n  - step 5: 5-jiao-ban-qi_l59 overlaps 5-jiao-ban-qi_l56\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-ping-heng-cheng.ldr",
+    "sha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-ping-heng-cheng.ldr] 70 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-qing-ting.ldr",
+    "sha256": "312388798fec6f8a69641fbf17648d472ac4987ade9166179fff05fbb1975ae0",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-qing-ting.ldr] 8 error(s), 56 placement(s):\n  - step 5: 5-qing-ting_l50 overlaps 5-qing-ting_l47\n  - step 5: 5-qing-ting_l51 overlaps 5-qing-ting_l33; 5-qing-ting_l51 overlaps 5-qing-ting_l48\n  - step 7: 5-qing-ting_l69 overlaps 5-qing-ting_l17\n  - step 7: 5-qing-ting_l70 overlaps 5-qing-ting_l59\n  - step 7: 5-qing-ting_l71 overlaps 5-qing-ting_l17; 5-qing-ting_l71 overlaps 5-qing-ting_l59; 5-qing-ting_l71 overlaps 5-qing-ting_l69; 5-qing-ting_l71 overlaps 5-qing-ting_l70\n  - step 7: 5-qing-ting_l72 overlaps 5-qing-ting_l20\n  - step 7: 5-qing-ting_l73 overlaps 5-qing-ting_l64\n  - step 7: 5-qing-ting_l74 overlaps 5-qing-ting_l20; 5-qing-ting_l74 overlaps 5-qing-ting_l64; 5-qing-ting_l74 overlaps 5-qing-ting_l72; 5-qing-ting_l74 overlaps 5-qing-ting_l73\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-xuan-yi-fei-ji.ldr",
+    "sha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+    "exit": 2,
+    "stableDuringCheck": true,
+    "output": "\nFAIL [5-xuan-yi-fei-ji.ldr] 4 error(s), 40 placement(s):\n  - step 1: 5-xuan-yi-fei-ji_l16 overlaps 5-xuan-yi-fei-ji_l14; 5-xuan-yi-fei-ji_l16 overlaps 5-xuan-yi-fei-ji_l15\n  - step 1: 5-xuan-yi-fei-ji_l19 overlaps 5-xuan-yi-fei-ji_l17; 5-xuan-yi-fei-ji_l19 overlaps 5-xuan-yi-fei-ji_l18\n  - step 1: 5-xuan-yi-fei-ji_l23 overlaps 5-xuan-yi-fei-ji_l21; 5-xuan-yi-fei-ji_l23 overlaps 5-xuan-yi-fei-ji_l22\n  - step 1: 5-xuan-yi-fei-ji_l26 overlaps 5-xuan-yi-fei-ji_l24; 5-xuan-yi-fei-ji_l26 overlaps 5-xuan-yi-fei-ji_l25\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  {
+    "path": "scripts/ldraw-models/5-yao-yao-che.ldr",
+    "sha256": "cc2135ac295b338696650bfcb5ff599f1881818250b97a5f86cc34d3ff772b3c",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [5-yao-yao-che.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  }
+]

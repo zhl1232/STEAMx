@@ -1,0 +1,29 @@
+{
+  "slug": "5-qing-ting",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 10,
+  "sourcePixels": "All10 source pages visually inspected; p1/3/5/6/8 enlarged",
+  "modelSha256": "b16d75b6a2ce32bb694e38152209ab116d0ce5c96f7e1543dadb2cf657a08eee",
+  "unknown": [
+    {
+      "page": 9,
+      "part": "printed pond baseplate",
+      "missing": "exact printed ID and licensed geometry"
+    },
+    {
+      "page": 9,
+      "part": "five single-stud five-petal flowers",
+      "candidate": "6510",
+      "missing": "held with absent base to avoid unsupported ornaments"
+    },
+    {
+      "page": "5-8",
+      "part": "mechanical axle/wing connections",
+      "missing": "manual angular pose and hidden retention; static source reconstruction only"
+    }
+  ],
+  "inventoryQuantity": "unknown; source BOM is not kit availability",
+  "knownApproximate": [],
+  "render": "pending main integrator"
+}

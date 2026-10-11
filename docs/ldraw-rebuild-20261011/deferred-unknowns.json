@@ -1,0 +1,209 @@
+[
+  {
+    "slug": "4-kong-que",
+    "lessonId": 171,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [],
+    "referencedParts": [
+      "10661.dat",
+      "2302.dat",
+      "3011.dat",
+      "3437.dat",
+      "3437pe1.dat",
+      "4268.dat",
+      "45202.dat",
+      "51708.dat",
+      "74844.dat",
+      "74847.dat",
+      "75349.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "4-sheng-dan-xue-qiao",
+    "lessonId": 188,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 4+ 圣诞雪橇 - INCOMPLETE source reconstruction",
+      "0 // INCOMPLETE: only standard seat steps 11-13 reconstructed, separate manual-support subassembly.",
+      "0 // Final view: seat only, no Toolo running frame/reindeer/passengers. INCOMPLETE."
+    ],
+    "referencedParts": [
+      "2302.dat",
+      "3011.dat",
+      "3437.dat",
+      "40666.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "4-zhao-xiang-ji",
+    "lessonId": 224,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // INCOMPLETE: source tripod/mechanical supports and red 31195 elbow assembly",
+      "0 // are unresolved. 31195 remains excluded pending interface review.",
+      "0 // STEP 2 / source page 2 - tripod leg geometry unresolved (INCOMPLETE)",
+      "0 // STEP 3 / source page 3 - tripod head geometry unresolved (INCOMPLETE)",
+      "0 // STEP 4 / source page 4 - tripod platform geometry unresolved (INCOMPLETE)",
+      "0 // STEP 5 / source page 5 - tripod platform geometry unresolved (INCOMPLETE)",
+      "0 // STEP 6 / source page 6 - confirmed 6490 upper support plate; tripod support remains missing"
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "31191.dat",
+      "31452.dat",
+      "3437.dat",
+      "40666.dat",
+      "4268.dat",
+      "6490.dat",
+      "73162p01.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "4-zhong-guo-jie",
+    "lessonId": 227,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 4+ 中国结 (Chinese Knot) - incomplete DUPLO draft",
+      "0 // INCOMPLETE: source6-11 hinge placement, cord and pulley assemblies remain unresolved.",
+      "0 // Core gap48LDU inferred from source proportions, not confirmed missing-part geometry.",
+      "0 // Rotation/boss fit is approximate, not verified screw engagement.",
+      "0 // Underside interface at core planesX/Z=+/-240; threaded mounting remains approximate."
+    ],
+    "referencedParts": [
+      "40666.dat",
+      "4196.dat",
+      "60535.dat",
+      "76057.dat",
+      "76395.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-bian-dan",
+    "lessonId": 230,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // STATUS: INCOMPLETE. Mechanical shoulder beam, axles, wheels, strings, hooks and side-hole bricks omitted."
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "3437.dat",
+      "40666.dat",
+      "51262.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-bian-su-feng-shan",
+    "lessonId": 231,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // STATUS: INCOMPLETE. The source's red/yellow gear train, side-hole frame,"
+    ],
+    "referencedParts": [
+      "31452.dat",
+      "3437.dat",
+      "40666.dat",
+      "4196.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-bing-chuang",
+    "lessonId": 232,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // Status: INCOMPLETE - unresolved Toolo/axle/gear/figure geometry is intentionally omitted.",
+      "0 // Support: platform is connected at the supplemented end only; missing side-hole beams must support its far end.",
+      "0 // INCOMPLETE: unresolved source components remain intentionally visible in the ledger."
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "31021p01.dat",
+      "4196.dat",
+      "4268.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-bu-gu-niao",
+    "lessonId": 234,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.",
+      "0 // Separate 3-piece bird subassembly, facing -X: two inverted inside curves and inverted yellow eye head. Head studs at X=-380/-340,Z=-60/-20/20/60 enter the blue underside sockets at Y=-312. Missing carrier anchor/connection at Y=-216 is inferred, not verified; no direct attachment to the well claimed.",
+      "0 // Final partial shell plus separate bird. Missing Toolo towers/drive/carrier prevent full mechanical assembly."
+    ],
+    "referencedParts": [
+      "2301b.dat",
+      "3011.dat",
+      "3437.dat",
+      "51262.dat",
+      "6490.dat",
+      "73162p01.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-chang-pian-ji",
+    "lessonId": 238,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.",
+      "0 // Four yellow thick bricks: rear horizontal pair and front vertical pair, with 1x1-stud corner overlaps. Whole cover remains a separate component: missing Toolo carrier; scene anchor X=-320,Y=-640,Z=0 is inferred, not a verified hinge pose.",
+      "0 // Final partial base and separate cover. Mechanism, outer three-brick stack and verified whole-model support remain INCOMPLETE."
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "40666.dat",
+      "4196.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-che-ku-men",
+    "lessonId": 239,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.",
+      "0 // Adds yellow 9 long + 2 square then blue 10 long. Two front yellow squares lack direct support where the source has missing Toolo; the upper blue course reconnects them. No claim of complete load bearing.",
+      "0 // Final cumulative partial shell; opening mechanism, door and vehicle remain INCOMPLETE."
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "3437.dat",
+      "4268.dat",
+      "6490.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  },
+  {
+    "slug": "5-dui-kang-qiu-zhuo",
+    "lessonId": 252,
+    "priority": "deferred by user",
+    "sourceExists": true,
+    "sourceComments": [
+      "0 // INCOMPLETE: source mechanical rods, paddles, knobs and ball omitted; source yellow ball is unresolved (candidate 22119.dat not confirmed)."
+    ],
+    "referencedParts": [
+      "3011.dat",
+      "3437.dat",
+      "40666.dat",
+      "4268.dat"
+    ],
+    "note": "Read-only source audit; source images not reviewed in this deferred scope. Candidate identity is not verified by this extraction."
+  }
+]

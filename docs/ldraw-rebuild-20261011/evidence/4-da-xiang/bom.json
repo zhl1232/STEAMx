@@ -1,0 +1,44 @@
+[
+  {
+    "part": "76395.dat",
+    "color": 0,
+    "quantity": 7,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "76057.dat",
+    "color": 72,
+    "quantity": 18,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "99565.dat",
+    "color": 71,
+    "quantity": 6,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "44970.dat",
+    "color": 0,
+    "quantity": 4,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "60535.dat",
+    "color": 0,
+    "quantity": 1,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "28336.dat",
+    "color": 72,
+    "quantity": 5,
+    "kitQuantity": "unknown"
+  },
+  {
+    "part": "74957.dat",
+    "color": 72,
+    "quantity": 3,
+    "kitQuantity": "unknown"
+  }
+]

@@ -1,0 +1,92 @@
+{
+  "pdfBatches": [
+    {
+      "batch": 1,
+      "libraryFileId": "libfile_f6df9c75694881918d746cfa7e75e662",
+      "archiveBytes": 15538942,
+      "archiveSha256": "27e7b7d3810f181c61193b920a0e67a10c94f85594978d34515212a2d605858f",
+      "manifest": "pdfbatch1-manifest.json",
+      "pdfCount": 10,
+      "pages": 120,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 2,
+      "libraryFileId": "libfile_bb3ed76e50d08191be193b930ffdb70e",
+      "archiveBytes": 15224683,
+      "archiveSha256": "74056dd924f1e8b09c9eee0455955adbe1e648ff1ddf79ff3f1f40e96812394e",
+      "manifest": "pdfbatch2-manifest.json",
+      "pdfCount": 10,
+      "pages": 118,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 3,
+      "libraryFileId": "libfile_3122b325f034819195cfc0e59edd549f",
+      "archiveBytes": 16091116,
+      "archiveSha256": "72391e7821d7be8fa24af97e7426d851de2c2be6b346b91d39b290f57136efb9",
+      "manifest": "pdfbatch3-manifest.json",
+      "pdfCount": 10,
+      "pages": 125,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 4,
+      "libraryFileId": "libfile_f7d166569aa481919986d005945ca126",
+      "archiveBytes": 15256094,
+      "archiveSha256": "fcc664ee3c21bd88414a20898bd21495cec269938d494ad07fbdc8d1727b84af",
+      "manifest": "pdfbatch4-manifest.json",
+      "pdfCount": 10,
+      "pages": 131,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 5,
+      "libraryFileId": "libfile_f2541d17289481919e48dc82cda90a0a",
+      "archiveBytes": 17227046,
+      "archiveSha256": "624448dceb524222e880bb466e9d9a48280da3a22596b25ba41c6cbca833fef2",
+      "manifest": "pdfbatch5-manifest.json",
+      "pdfCount": 10,
+      "pages": 134,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 6,
+      "libraryFileId": "libfile_2abbac32ed08819185e8cf495b4d2b83",
+      "archiveBytes": 1059954,
+      "archiveSha256": "f82be008ea5a2815edf3609d30a50b209f0d8907b145f5bb3394beac4648f9a2",
+      "manifest": "pdfbatch6-manifest.json",
+      "pdfCount": 1,
+      "pages": 10,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 7,
+      "libraryFileId": "libfile_a9e9f8dbde24819193dcf7ba30400c7d",
+      "archiveBytes": 10508446,
+      "archiveSha256": "c506b61c53b3ac68c92d50ea05b82a7ce240aee3acd7041e12168e1377ba9afe",
+      "manifest": "pdfbatch7-manifest.json",
+      "pdfCount": 7,
+      "pages": 84,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    },
+    {
+      "batch": 8,
+      "libraryFileId": "libfile_33daa0b375c081918613b572433ac93d",
+      "archiveBytes": 3059958,
+      "archiveSha256": "9f89b382104a6b8f2d908ab38eef6fc8f204cfc05f2c566089249205000a59b8",
+      "manifest": "pdfbatch8-manifest.json",
+      "pdfCount": 2,
+      "pages": 26,
+      "materialization": "Official Library helper on this machine via WSL; xattrs applied; ZIP CRC and extracted hashes checked."
+    }
+  ],
+  "originalImageLibraries": [
+    "libfile_bb377fe4e9bc8191a7376e3adcba2257",
+    "libfile_f1b8d0abcba08191adf73366f31c7f1f"
+  ],
+  "auditLibrary": "libfile_272938d514808191b81c2106db86b460",
+  "inventoryLibrary": "libfile_072966dc74448191bc9f9aa07a32e57c",
+  "geometryLookupLibrary": "libfile_58d8c12cd9a48191966b0a00bad4668c",
+  "scope": "67 available courses; 62 unavailable from current source. No hidden-template account-ban inference."
+}

@@ -1,0 +1,28 @@
+{
+  "slug": "4-ji-guan-qiang",
+  "status": "incomplete-pending-source-and-step-acceptance",
+  "sourceSha256": "a44f50db1002915ed2baca1e6ac59ada63363e5d46aada816e44ada453e5b515",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "d1fa3f6bb531d6e21610da13dd6f9e0b3861301b373f3a3927be10da69541ced",
+  "placements": 40,
+  "sourceStages": 12,
+  "missing": [
+    {
+      "id": "unknown",
+      "count": 1,
+      "page": 10,
+      "role": "black U shaped holder, candidate under review"
+    },
+    {
+      "id": "unknown",
+      "count": 1,
+      "page": 12,
+      "role": "red bucket/seat, candidate under review"
+    }
+  ],
+  "checker": "PASS raw LDR; manual support/collision parts excluded by existing catalog policy, no added exemptions",
+  "metadataUsedHash": "4908bc49335f72d15688613f6db768d6c7d981c814273b776fabbb79ebbd231c",
+  "render": "awaiting parent serial renderer",
+  "accepted": false
+}

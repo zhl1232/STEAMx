@@ -1,0 +1,28 @@
+{
+  "slug": "4-sai-che",
+  "status": "incomplete-pending-source-and-step-acceptance",
+  "sourceSha256": "72064f97c043dbc88a88921b96c874fc12f127892a6c2a2221eac7e39d65f124",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+  "placements": 40,
+  "sourceStages": 12,
+  "missing": [
+    {
+      "id": "4433c01",
+      "count": 2,
+      "page": 3,
+      "role": "rear exhaust pipes"
+    },
+    {
+      "id": "45117c01",
+      "count": 1,
+      "page": 6,
+      "role": "blue Toolo spoiler"
+    }
+  ],
+  "checker": "PASS raw LDR; manual support/collision parts excluded by existing catalog policy, no added exemptions",
+  "metadataUsedHash": "35281b23d98e545b64fbfb0c733b44d0e1ab3336fe458ea992a0d64cb17c24ce",
+  "render": "awaiting parent serial renderer",
+  "accepted": false
+}

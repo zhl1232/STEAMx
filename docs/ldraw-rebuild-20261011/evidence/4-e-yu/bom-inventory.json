@@ -1,0 +1,102 @@
+{
+  "inventoryEvidenceSHA256": "a6e4d1ab4f29a0462f03047a4d7cf66bb278890505b4900f49afba914140304d",
+  "singleSetReferenceOnly": true,
+  "bom": [
+    {
+      "id": "4196.dat",
+      "color": "Green",
+      "quantity": 3,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "76395.dat",
+      "color": "Black",
+      "quantity": 4,
+      "inventory45002": {
+        "catalogPart": "86599",
+        "available": 7,
+        "extraNeeded": 0
+      },
+      "notes": ""
+    },
+    {
+      "id": "10199.dat",
+      "color": "Green",
+      "quantity": 1,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "3011.dat",
+      "color": "Green",
+      "quantity": 14,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "2302.dat",
+      "color": "Green",
+      "quantity": 3,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "28336.dat",
+      "color": "Dark Bluish Gray",
+      "quantity": 6,
+      "inventory45002": {
+        "catalogPart": "45202",
+        "available": 4,
+        "extraNeeded": 2
+      },
+      "notes": ""
+    },
+    {
+      "id": "74957.dat",
+      "color": "Dark Bluish Gray",
+      "quantity": 6,
+      "inventory45002": {
+        "catalogPart": "74957",
+        "available": 2,
+        "extraNeeded": 4
+      },
+      "notes": ""
+    },
+    {
+      "id": "3437pe1.dat",
+      "color": "Yellow",
+      "quantity": 2,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "3437.dat",
+      "color": "Green",
+      "quantity": 1,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "40666.dat",
+      "color": "Red",
+      "quantity": 2,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "3437.dat",
+      "color": "White",
+      "quantity": 12,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    },
+    {
+      "id": "40666.dat",
+      "color": "Lime",
+      "quantity": 6,
+      "inventory45002": "unknown or outside matched 45002 rows; do not infer unavailable",
+      "notes": ""
+    }
+  ]
+}
