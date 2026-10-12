@@ -121,15 +121,19 @@
 0 STEP
 0 // SOURCE PAGE 10 - Rope preparation / assembly; non-BOM schematic route.
 0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
-0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
-0 // ROPE ENDPOINTS: (0, -422.3464, 9) -> (0, -170, 9) LDU.
-1 0 0 -422.3464 9 3 0 0 0 252.3464 0 0 0 3 s/steamx-rope.dat
+0 // Drum tangent: (160,-896,112); hook eye: (160,-170,128). Radius 3 LDU, non-BOM.
+0 // Short outward lead clears the bracket base (front Z=120), then hangs vertically; route is schematic.
+1 0 160 -896 112 3 0 0 0 44 -1.02522919 0 16 2.81938027 s/steamx-rope.dat
+1 0 160 -852 128 3 0 0 0 682 0 0 0 3 s/steamx-rope.dat
 0 STEP
-0 // SOURCE PAGE 11 - Grey pulley and black hook stand-ins below cradle
-0 // PENDING USER CONFIRMATION: pulley/hook IDs are stand-ins: grey 6527 and black 4663, not confirmed source parts. Compact holder candidate 2223 has no geometry; holder omitted.
-1 71 0 -458 0 1 0 0 0 1 0 0 0 1 6527.dat
-1 0 0 -170 9 1 0 0 0 1 0 0 0 1 4663.dat
+0 // SOURCE PAGE 11 / courseware slide 13 - winch assembly and black U bracket
+0 // User-confirmed IDs 2026-10-12: 14013c01 includes drum, cord and long black hook as ONE material.
+0 // 13358 official base bottom Y=24 rests on beam top Y=-816; front 40 LDU overhang is intentional (rear row seats on beam studs).
+0 // Drum axle matches bracket local (0,-56,0); axle fit/support remain manual for the simplified drum.
+1 0 160 -840 80 1 0 0 0 1 0 0 0 1 13358.dat
+1 71 160 -896 80 1 0 0 0 1 0 0 0 1 14013c01.dat
+1 0 160 -170 128 0 0 1 0 1 0 -1 0 0 s/steamx-14013c01-hook.dat
 0 STEP
 0 // SOURCE PAGE 12 - attachment instruction retained; no new rigid geometry
-0 // Pulley rim meets cradle underside Y=-499; compact holder/axle retention unresolved.
-0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Bracket seated on beam top per user placement; drum retained between official bracket cheeks.
+0 // ROPE: non-BOM schematic cylinder; length/route approximated from courseware, not measured.

@@ -13,6 +13,7 @@ export type KitCounts = Record<KitSetNum, number>
 
 const DEFAULT_KITS_BY_COURSE: Record<number, Partial<KitCounts>> = {
   5: { '9090-2': 1, '9076-1': 1 },
+  // Course 6 = 中班。
   6: { '45002-1': 1, '9090-2': 1, '9076-1': 1 },
   7: { '9656-1': 1, '9090-2': 1, '9076-1': 1 },
 }
