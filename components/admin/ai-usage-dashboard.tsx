@@ -21,6 +21,8 @@ type UsageDaily = {
   day: string
   chats: number
   creditsUsed: number
+  dailyCreditsUsed: number
+  walletCreditsUsed: number
   freeChats: number
   memberChats: number
 }
@@ -36,7 +38,7 @@ export function AiUsageDashboard() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
   const [daily, setDaily] = useState<UsageDaily[]>([])
-  const [totals, setTotals] = useState({ chats: 0, creditsUsed: 0, freeChats: 0, memberChats: 0 })
+  const [totals, setTotals] = useState({ chats: 0, creditsUsed: 0, dailyCreditsUsed: 0, walletCreditsUsed: 0, freeChats: 0, memberChats: 0 })
   const [topUsers, setTopUsers] = useState<TopUser[]>([])
 
   const load = useCallback(async () => {
@@ -46,7 +48,7 @@ export function AiUsageDashboard() {
       if (!res.ok) throw new Error(await getApiErrorMessage(res, '加载失败'))
       const payload = await res.json()
       setDaily(payload.daily ?? [])
-      setTotals(payload.totals ?? { chats: 0, creditsUsed: 0, freeChats: 0, memberChats: 0 })
+      setTotals(payload.totals ?? { chats: 0, creditsUsed: 0, dailyCreditsUsed: 0, walletCreditsUsed: 0, freeChats: 0, memberChats: 0 })
       setTopUsers(payload.topUsers ?? [])
     } catch (error) {
       toast({
@@ -68,7 +70,7 @@ export function AiUsageDashboard() {
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div>
           <CardTitle>AI 导师用量看板</CardTitle>
-          <CardDescription>近 30 天对话与代币消耗（基于 ai_credit_logs）</CardDescription>
+          <CardDescription>近 30 天对话与代币消耗，包含每日赠送与会员月度代币，日期按北京时间统计。</CardDescription>
         </div>
         <Button type="button" variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
           {loading ? <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-1.5 h-4 w-4" />}
@@ -79,8 +81,8 @@ export function AiUsageDashboard() {
         <div className="grid gap-3 sm:grid-cols-4">
           <Stat label="总对话" value={totals.chats} />
           <Stat label="代币消耗" value={formatTutorCredits(totals.creditsUsed)} />
-          <Stat label="免费次数" value={totals.freeChats} />
-          <Stat label="会员钱包扣减" value={totals.memberChats} />
+          <Stat label="赠送代币消耗" value={formatTutorCredits(totals.dailyCreditsUsed)} />
+          <Stat label="月度代币消耗" value={formatTutorCredits(totals.walletCreditsUsed)} />
         </div>
 
         <div>
@@ -92,8 +94,8 @@ export function AiUsageDashboard() {
                   <TableHead>日期</TableHead>
                   <TableHead className="text-right">对话</TableHead>
                   <TableHead className="text-right">代币</TableHead>
-                  <TableHead className="text-right">免费</TableHead>
-                  <TableHead className="text-right">会员</TableHead>
+                  <TableHead className="text-right">赠送代币</TableHead>
+                  <TableHead className="text-right">月度代币</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -109,8 +111,8 @@ export function AiUsageDashboard() {
                       <TableCell>{row.day}</TableCell>
                       <TableCell className="text-right tabular-nums">{row.chats}</TableCell>
                       <TableCell className="text-right tabular-nums">{formatTutorCredits(row.creditsUsed)}</TableCell>
-                      <TableCell className="text-right tabular-nums">{row.freeChats}</TableCell>
-                      <TableCell className="text-right tabular-nums">{row.memberChats}</TableCell>
+                      <TableCell className="text-right tabular-nums">{formatTutorCredits(row.dailyCreditsUsed)}</TableCell>
+                      <TableCell className="text-right tabular-nums">{formatTutorCredits(row.walletCreditsUsed)}</TableCell>
                     </TableRow>
                   ))
                 )}

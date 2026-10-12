@@ -44,8 +44,8 @@ jobs:
       - name: Run unit tests
         run: pnpm exec vitest run
 
-      - name: Verify SEO check script
-        run: node --test scripts/check-seo.test.mjs
+      - name: Verify deployment, migration, and SEO scripts
+        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs
 
       - name: Build app
         if: github.event_name == 'pull_request'

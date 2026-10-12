@@ -30,11 +30,13 @@ import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
 import { prepareLessonBomForCourse } from "@/lib/courses/lesson-materials";
+import { createLdrawStepHighlight } from "@/lib/utils/ldraw-step-highlight";
 import type { LdrawBom } from "@/lib/utils/ldraw-bom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
+import { PartThumbnail } from "./part-thumbnail";
 import type {
     Building3DBrickInstance,
     Building3DLessonContent,
@@ -224,6 +226,8 @@ function partMap(parts: Building3DPart[]) {
 
 type PartLine = {
     key: string;
+    partId?: string;
+    colorCode?: number;
     label: string;
     colorHex: string;
     count: number;
@@ -244,6 +248,8 @@ const EMPTY_BOM_STEP: LdrawBom["steps"][number] = {
 function toPartLines(entries: LdrawBom["entries"]): PartLine[] {
     return entries.map((entry) => ({
         key: `${entry.partId}|${entry.colorCode}`,
+        partId: entry.partId,
+        colorCode: entry.colorCode,
         label: `${entry.colorName}${entry.partName}`,
         colorHex: entry.colorHex,
         count: entry.count,
@@ -251,26 +257,29 @@ function toPartLines(entries: LdrawBom["entries"]): PartLine[] {
     }));
 }
 
-function PartLineList({ id, lines }: { id?: string; lines: PartLine[] }) {
+function PartLineList({ id, lines, compact = false }: { id?: string; lines: PartLine[]; compact?: boolean }) {
     return (
-        <ul id={id} className="space-y-1.5">
+        <ul id={id} className={cn("grid gap-1.5", compact ? "grid-cols-2 lg:grid-cols-1" : "grid-cols-1")}>
             {lines.map((line) => (
                 <li
                     key={line.key}
-                    className="flex items-center justify-between gap-2.5 rounded-sm border border-border bg-background px-2.5 py-1.5"
+                    className="flex min-w-0 items-center gap-2 rounded-sm border border-border bg-background px-2 py-1.5"
                     title={line.title}
                 >
-                    <span className="flex min-w-0 items-center gap-2">
-                        <span
-                            className="h-3.5 w-3.5 shrink-0 rounded-sm border border-black/15 dark:border-white/25"
-                            style={{ backgroundColor: line.colorHex }}
-                        />
+                    {line.partId && line.colorCode !== undefined ? (
+                        <PartThumbnail partId={line.partId} colorCode={line.colorCode} colorHex={line.colorHex} />
+                    ) : (
+                        <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-white">
+                            <span className="h-7 w-7 rounded-sm border border-black/15" style={{ backgroundColor: line.colorHex }} />
+                        </span>
+                    )}
+                    <span className="min-w-0 flex-1">
                         {/* 零件名较长（如「白色2×2 积木（眼睛）」），换行比截断更有用 */}
-                        <span className="min-w-0 text-[13px] font-medium leading-tight text-foreground">
+                        <span className="block text-xs font-medium leading-snug text-foreground lg:text-[13px]">
                             {line.label}
                         </span>
                     </span>
-                    <span className="shrink-0 text-xs font-bold tabular-nums text-muted-foreground">
+                    <span className="shrink-0 text-sm font-bold tabular-nums text-foreground">
                         ×{line.count}
                     </span>
                 </li>
@@ -782,6 +791,7 @@ export function Building3DWorkspace({
     initialCompleted = false,
     onCompleted,
     navigationSlot,
+    voiceControlsSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -790,9 +800,11 @@ export function Building3DWorkspace({
     initialCompleted?: boolean;
     onCompleted?: () => void;
     navigationSlot?: ReactNode;
+    voiceControlsSlot?: ReactNode;
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
+    const partsScrollRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<SceneState | null>(null);
     const nativeFullscreenSessionRef = useRef(false);
     const immersiveScrollYRef = useRef<number | null>(null);
@@ -890,6 +902,7 @@ export function Building3DWorkspace({
 
     useEffect(() => {
         activeBuildStepIndexRef.current = activeBuildStepIndex;
+        if (partsScrollRef.current) partsScrollRef.current.scrollTop = 0;
     }, [activeBuildStepIndex]);
 
     useEffect(() => {
@@ -1063,6 +1076,7 @@ export function Building3DWorkspace({
                 controls.dampingFactor = 0.08;
                 controls.minDistance = 4;
                 controls.maxDistance = 16;
+                const stepHighlight = createLdrawStepHighlight();
 
                 let frame = 0;
                 let resizeObserver: ResizeObserver | null = null;
@@ -1074,6 +1088,8 @@ export function Building3DWorkspace({
                     cancelAnimationFrame(frame);
                     resizeObserver?.disconnect();
                     controls.dispose();
+                    // Restore shared source edge materials before scene disposal.
+                    stepHighlight.dispose();
                     disposeObject3D(scene);
                     edgeRenderer?.dispose();
                     scene.clear();
@@ -1237,6 +1253,7 @@ export function Building3DWorkspace({
                                 for (const [index, loadedRoot] of ldrawStepRoots) {
                                     loadedRoot.visible = index <= visibleLdrawStep;
                                 }
+                                stepHighlight.registerStep(nextStep, stepRoot);
                             }
                             prefetchLdrawStep(loadedLdrawStep + 1);
                         })();
@@ -1291,6 +1308,9 @@ export function Building3DWorkspace({
                 const focusStep = (stepIndex: number, resetCamera = false) => {
                     if (ldrawAssembly) {
                         const contentStep = Math.min(Math.max(stepIndex, 0), content.steps3d.length - 1);
+                        // Keep the content step, not the clamped model step: wrap-up
+                        // pages without new geometry must not highlight old pieces.
+                        stepHighlight.setStep(contentStep);
                         const clamped = ldrawStepCount === null
                             ? contentStep
                             : Math.min(contentStep, ldrawStepCount - 1);
@@ -1343,6 +1363,16 @@ export function Building3DWorkspace({
                 resizeObserver = new ResizeObserver(resize);
                 resizeObserver.observe(mount);
                 resize();
+                // Publish controls before awaiting the first model: step changes
+                // during a slow load must update visibility and the current hint.
+                state = {
+                    cleanup: () => {
+                        cleanupScene();
+                        cleanupIncompleteScene = null;
+                    },
+                    focusStep,
+                };
+                sceneRef.current = state;
                 focusStep(activeBuildStepIndexRef.current, true);
                 if (ldrawAssembly) {
                     const loadLdrawSteps = root.userData.loadLdrawSteps as (() => Promise<void>) | undefined;
@@ -1356,18 +1386,11 @@ export function Building3DWorkspace({
                     renderer.render(scene, camera);
                 };
                 animate();
-
-                state = {
-                    cleanup: () => {
-                        cleanupScene();
-                        cleanupIncompleteScene = null;
-                    },
-                    focusStep,
-                };
-                sceneRef.current = state;
             } catch (error) {
                 cleanupIncompleteScene?.();
                 cleanupIncompleteScene = null;
+                if (sceneRef.current === state) sceneRef.current = null;
+                state = null;
                 if (!cancelled) setLoadError(getErrorMessage(error, "3D 场景初始化失败"));
             } finally {
                 if (!cancelled) {
@@ -1591,6 +1614,8 @@ export function Building3DWorkspace({
                 </div>
             </div>
 
+            {view === "lesson" ? voiceControlsSlot : null}
+
             {view === "works" && hasWorks ? (
                 <LessonWorksGallery
                     courseId={courseId}
@@ -1667,7 +1692,7 @@ export function Building3DWorkspace({
             ) : null}
 
             <div className={cn(
-                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(260px,42dvh,440px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
+                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(220px,42dvh,380px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
@@ -1734,13 +1759,13 @@ export function Building3DWorkspace({
                     "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
                     isImmersive && "overflow-hidden border-l border-t-0",
                 )}>
-                    <div className="flex h-full min-h-0 flex-col">
+                    <div className={cn("flex h-full min-h-0 flex-col", !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]")}>
                         {(() => {
                             const desc = activeStep?.description?.trim();
                             const isGeneric = !desc || desc.includes("按照三维示范") || desc.includes("添加本步零件") || desc === activeStep?.title;
                             const hasCustomTitle = activeStep?.title && !/^搭建第\s*\d+\s*步$/.test(activeStep.title);
                             return (
-                                <div className="border-b border-border px-3.5 py-2.5">
+                                <div className="shrink-0 border-b border-border px-3 py-2 lg:px-3.5 lg:py-2.5">
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
                                             <h3 className="text-sm font-bold text-foreground">
@@ -1764,20 +1789,26 @@ export function Building3DWorkspace({
                                 </div>
                             );
                         })()}
-                        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+                        <div ref={partsScrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2 lg:px-4 lg:py-3">
                             <div className="mb-2 flex items-center justify-between gap-2">
                                 <h4 className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
                                     <Box className="h-3.5 w-3.5" />
                                     本步零件
+                                    {bomStep ? (
+                                        <span className="ml-1 shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-semibold tabular-nums text-foreground">
+                                            {bomStep.partCount} 块
+                                        </span>
+                                    ) : null}
                                 </h4>
-                                {bomStep ? (
-                                    <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs font-semibold tabular-nums text-foreground">
-                                        {bomStep.partCount} 块
+                                {content.ldrawModelUrl && stepPartLines.length > 0 ? (
+                                    <span className="flex shrink-0 items-center gap-1 text-[11px] text-muted-foreground">
+                                        <span aria-hidden className="h-2.5 w-2.5 rounded-[2px] border-2 border-current" />
+                                        清晰轮廓为本步新增
                                     </span>
                                 ) : null}
                             </div>
                             {stepPartLines.length > 0 ? (
-                                <PartLineList id="building-3d-step-parts" lines={stepPartLines} />
+                                <PartLineList id="building-3d-step-parts" lines={stepPartLines} compact={!isImmersive} />
                             ) : (
                                 <p className="rounded-sm border border-dashed border-border bg-background px-3 py-2 text-xs leading-relaxed text-muted-foreground">
                                     {bomStep

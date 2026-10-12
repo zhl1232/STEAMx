@@ -8,6 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonStepGuide } from "@/components/features/courses/lesson-step-guide";
 import { LessonWorkspaceRenderer } from "@/components/features/courses/lesson-workspace-renderer";
+import { BuildingVoiceControls } from "@/components/features/courses/building-voice-controls";
 import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry";
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
@@ -24,7 +25,7 @@ import {
     buildScratchStepCheck,
     type ScratchStepCheckResult,
 } from "@/lib/courses/scratch-step-check";
-import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
+import { buildBuildingLessonDisplaySteps, buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -116,18 +117,26 @@ export function LessonPageClient({
             : lesson.steps ?? [],
         [lesson.content?.building3d, lesson.steps, lesson.title, lessonWorkspace],
     );
+    const buildingPages = useMemo(
+        () => lessonWorkspace === "building_3d"
+            ? buildBuildingLessonFlow({ lessonTitle: lesson.title, content: lesson.content?.building3d })
+            : [],
+        [lesson.content?.building3d, lesson.title, lessonWorkspace],
+    );
     const [activeStep, setActiveStep] = useState(() =>
         lessonWorkspace === "building_3d"
             ? clampStepIndex(initialStepIndex, steps.length)
             : 0,
     );
+    const navigationEpochRef = useRef(0);
+    const [navigationEpoch, setNavigationEpoch] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
     const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
     const [scratchEditorContext, setScratchEditorContext] = useState<ScratchEditorContext | null>(null);
     const focusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext();
+    const { registerToolHandlers, setOverride: setTutorOverride, clearOverride: clearTutorOverride, open: tutorOpen, setOpen: setTutorOpen } = useTutorContext();
     const clampedActiveStep = clampStepIndex(activeStep, steps.length);
     const activeStepTitle = steps[clampedActiveStep]?.title;
     // Scratch 编辑器（仅 ≥ md 可用）需要固定一屏：平板（md–lg）上限制侧栏高度，把剩余空间留给编辑器。
@@ -136,15 +145,25 @@ export function LessonPageClient({
     const usesFixedEditorWorkspace = lessonWorkspace === "scratch";
 
     const handleStepChange = useCallback((index: number) => {
+        navigationEpochRef.current += 1;
+        setNavigationEpoch(navigationEpochRef.current);
         const nextStep = clampStepIndex(index, steps.length);
         setActiveStep(nextStep);
         if (lessonWorkspace === "building_3d") {
             replaceBuildingStepInUrl(nextStep);
-            if (window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
+            // 连续搭建时保留家长已经找到的画布位置；跨到课件或视频时仍从页首阅读。
+            const staysInBuild = buildingPages[clampedActiveStep]?.kind === "build" && buildingPages[nextStep]?.kind === "build";
+            if (!staysInBuild && window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
                 window.scrollTo({ top: 0, behavior: "instant" });
             }
         }
-    }, [lessonWorkspace, steps.length]);
+    }, [buildingPages, clampedActiveStep, lessonWorkspace, steps.length]);
+
+    const handleVoiceStepChange = useCallback((index: number) => {
+        // Reject a result even in the gap before a manual navigation rerenders.
+        if (navigationEpochRef.current !== navigationEpoch) return;
+        handleStepChange(index);
+    }, [handleStepChange, navigationEpoch]);
 
     useEffect(() => {
         if (!shouldRecordStart) return;
@@ -164,6 +183,8 @@ export function LessonPageClient({
         const restoreStepFromUrl = () => {
             if (window.location.pathname !== lessonPath) return;
             const routeStep = readBuildingStepFromUrl(steps.length);
+            navigationEpochRef.current += 1;
+            setNavigationEpoch(navigationEpochRef.current);
             setActiveStep(routeStep);
             replaceBuildingStepInUrl(routeStep);
         };
@@ -381,6 +402,19 @@ export function LessonPageClient({
                             lesson={lesson}
                             previewHref={previewHref}
                             activeStepIndex={clampedActiveStep}
+                            buildingVoiceControlsSlot={
+                                <BuildingVoiceControls
+                                    key={`${courseId}:${lesson.id}`}
+                                    courseId={courseId}
+                                    lessonId={lesson.id}
+                                    navigationKey={`${lesson.updated_at}:${navigationEpoch}:${JSON.stringify(steps)}`}
+                                    stepIndex={clampedActiveStep}
+                                    stepCount={steps.length}
+                                    tutorOpen={tutorOpen}
+                                    onCloseTutor={() => setTutorOpen(false)}
+                                    onNavigate={handleVoiceStepChange}
+                                />
+                            }
                             buildingNavigationSlot={
                                 <LessonStepGuide
                                     steps={steps}

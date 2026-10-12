@@ -15,6 +15,8 @@ function needsLightEdge(face: Color, code?: string): boolean {
 /** Mix in display space to retain a subtle face tint; never mutate the face. */
 export function ldrawEdgeColor(face: Color, native?: Color, code?: string, allowLight = true): string {
   if (allowLight && needsLightEdge(face, code)) {
+    // Keep explicit dark families in the display-gray band, independent of face tint.
+    if (['0', '8', '72', '308'].includes(code ?? '')) return '#808080'
     return `#${face.clone().convertLinearToSRGB().lerp(new Color(1, 1, 1), 0.5).convertSRGBToLinear().getHexString()}`
   }
   return `#${(native ?? face.clone().multiplyScalar(0.25)).getHexString()}`
@@ -57,8 +59,9 @@ export function createLdrawEdgeRenderer(getFace: (code: string) => Material | nu
     if (!material) {
       material = (conditional && source ? source.clone() : new LineBasicMaterial()) as ColoredMaterial
       material.color.set(color)
-      material.opacity = 0.7
-      material.transparent = true
+      // Dark overrides need full opacity; #808080 at 0.7 still blends into black under ACES.
+      material.opacity = light ? 1 : 0.7
+      material.transparent = !light
       material.depthWrite = false
       material.toneMapped = false
       materials.set(key, material)

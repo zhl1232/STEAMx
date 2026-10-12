@@ -107,12 +107,16 @@ export type TutorGreeting = {
 }
 
 export type AiCreditStatus = {
+  creditUnit: 'credits'
   isMember: boolean
   walletBalance: number
   monthlyGrant: number
   freeDaily: number
   freeUsedToday: number
   freeRemainingToday: number
+  dailyChargeCap: number
+  /** Asia/Shanghai calendar day for the non-accumulating daily allowance. */
+  dailyPeriod: string
   grantPeriod: string
   dayResetAt: number
   canChat: boolean
@@ -133,7 +137,5 @@ export type AiCreditConsumeResult = {
 export type TutorBilling = {
   source: 'wallet' | 'free'
   chargedCredits: number
-  outputTokens: number | null
-  usageMissing: boolean
   receiptId: number
 }

@@ -55,7 +55,7 @@ jobs:
           node-version: "22"
 
       - name: Verify deployment script
-        run: node --test deploy/registry-deploy.test.mjs scripts/check-seo.test.mjs
+        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs
 
       - name: Validate required secrets
         shell: bash
@@ -135,6 +135,9 @@ jobs:
       NGINX_SITE_PATH: ${{ vars.NGINX_SITE_PATH || '/etc/nginx/sites-available/steam-app' }}
       NGINX_SITE_ENABLED_PATH: ${{ vars.NGINX_SITE_ENABLED_PATH || '/etc/nginx/sites-enabled/steam-app' }}
       DEPLOY_DIR: /tmp/steam-deploy-${{ github.run_id }}-${{ github.run_attempt }}
+      # Reviewed database changes for this release. Other pending migrations fail
+      # before writes; future schema changes require an explicit allowlist update.
+      MIGRATION_ALLOWLIST: 20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -163,6 +166,11 @@ jobs:
         run: |
           mkdir -p .tmp/deploy-bundle
           cp deploy/docker-compose.yml deploy/registry-deploy.sh nginx.conf .tmp/deploy-bundle/
+          mkdir -p .tmp/deploy-bundle/migrations/scripts .tmp/deploy-bundle/migrations/supabase
+          cp scripts/db-push.mjs .tmp/deploy-bundle/migrations/scripts/
+          # Keep the complete directory so the scoped runner can detect every
+          # pending migration, including changes outside the approved three.
+          cp -R supabase/migrations .tmp/deploy-bundle/migrations/supabase/
 
       - name: Copy deployment bundle to server
         uses: appleboy/scp-action@v0.1.7
@@ -188,12 +196,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 60m
-          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH
+          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
           script: |
             set -eu
             trap 'rm -rf -- "$DEPLOY_DIR"' EXIT
             export CANDIDATE_COMPOSE_FILE="$DEPLOY_DIR/docker-compose.yml"
             export CANDIDATE_NGINX_FILE="$DEPLOY_DIR/nginx.conf"
+            export CANDIDATE_MIGRATION_DIR="$DEPLOY_DIR/migrations"
             cd /opt/steam-app
             missing_runtime=""
             for name in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY DASHSCOPE_API_KEY; do

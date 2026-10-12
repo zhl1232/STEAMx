@@ -16,6 +16,7 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { TutorMascotFeedback } from '@/lib/ai/tutor/mascot-state'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus, TutorBilling } from '@/lib/ai/tutor/types'
+import { TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
@@ -354,7 +355,7 @@ export function useTutorChatStream({
           setQuota((q) => (q ? { ...q, canChat: false } : q))
           patchStreaming({
             role: 'assistant',
-            content: payload.error ?? '今日免费次数或本月代币已用完。开通会员每月可获 1500 代币～',
+            content: payload.error ?? TUTOR_CREDIT_EXHAUSTED_MESSAGE,
             error: true,
           })
           setMascotFeedback('error')
@@ -488,9 +489,9 @@ export function useTutorChatStream({
         if (!settledText) throw new Error('连接中断，请稍后重新打开对话，查看回复是否已保存。')
         const shouldSpeak = willSpeak && !replayed
         const speechResult = willSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
-        // null 表示这条语音已被另一条流/场景接管；只有收到过“stale”帧时才重试，
-        // 避免用户主动停止后，旧 SSE 结束时又自动重新播放。
-        const speechNeedsRetry = speechResult === false || speechStreamWentStale
+        // null 表示语音已被停止或另一个音频会话接管；迟到的 PCM 不能让旧答复
+        // 再次抢占课程语音。只有仍然拥有播放会话的失败才允许自动补播。
+        const speechNeedsRetry = speechResult !== null && (speechResult === false || speechStreamWentStale)
         if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechNeedsRetry) {
           void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }

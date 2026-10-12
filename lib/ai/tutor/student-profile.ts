@@ -5,6 +5,7 @@ import { BADGES } from '@/lib/gamification/badges'
 import { buildPlaygroundUserStats } from '@/lib/gamification/playground-badges'
 import type { UserStats } from '@/lib/gamification/types'
 import { getAiCreditStatusForProfile } from '@/lib/api/ai-credits'
+import { formatTutorQuota } from '@/lib/ai/tutor/billing'
 import type { MembershipProfile } from '@/lib/membership'
 import {
   GROWTH_TASK_REWARD_ACTION_TYPE,
@@ -114,9 +115,7 @@ async function loadAiCreditSummary(
   profile: MembershipProfile | null,
 ) {
   const quota = await getAiCreditStatusForProfile(supabase, profile)
-  return quota.isMember
-    ? `AI 额度：会员代币余额 ${quota.walletBalance}，本月额度 ${quota.monthlyGrant}`
-    : `AI 额度：今日免费剩余 ${quota.freeRemainingToday}/${quota.freeDaily} 次`
+  return `AI 额度：${formatTutorQuota(quota)}`
 }
 
 function formatRadarSummary(radar: SteamRadarWithGuidance | null) {

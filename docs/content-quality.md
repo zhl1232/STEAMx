@@ -37,9 +37,9 @@
 
 ### 当前科学内容来源
 
-科学内容同时有数据库正文、历史样板与应用版本化内容。维护前先按项目 ID 核对当前读取来源及匹配条件，不能把不同批次数量直接视作替代关系。55 项版本化正文、数据库列表/搜索摘要及旧项目继任的边界见 [科学 55 项维护与发布记录](science55-release-2026-10-10/README.md)。本次保留该目录及其 `scope.json`、`sources.json` 的历史含义。
+科学内容同时有数据库正文、历史样板与应用版本化内容。维护前先按项目 ID 核对当前读取来源及匹配条件，不能把不同批次数量直接视作替代关系。55 项版本化正文、数据库列表/搜索摘要及旧项目继任的边界见 [科学 55 项维护与发布记录](archive/science/2026-10-10/README.md)。同目录原路径保留迁移指引，其 `scope.json`、`sources.json` 仍留在 `docs/science55-release-2026-10-10/`。
 
-旧 [五页样板](science-samples-review-2026-10-09.md) 和 [科学扩展批次](science-expansion-2026-10-09/README.md) 继续保存来源与未确认项；其中 12 项阻碍须结合后续版本核对，不能随着批次整理自动关闭。可见步骤与 HowTo 保持一致；视频上传日期、稳定媒体地址等没有事实依据时，不补造 VideoObject 字段。SEO 操作见 [SEO / GEO 日常检查](seo-daily-operations.md)。
+旧 [五页样板](archive/science/2026-10-09/science-samples-review.md) 和 [科学扩展批次](archive/science/2026-10-09/expansion/README.md) 继续保存来源与未确认项；其中 12 项阻碍须结合后续版本核对，不能随着批次整理自动关闭。可见步骤与 HowTo 保持一致；视频上传日期、稳定媒体地址等没有事实依据时，不补造 VideoObject 字段。SEO 操作见 [SEO / GEO 日常检查](seo-daily-operations.md)。
 
 ## STEAM 主题分类
 

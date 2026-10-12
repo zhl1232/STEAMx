@@ -10,12 +10,12 @@
 | [产品架构](product-architecture.md) | 项目、课程、实践、记录与商城的已有边界，以及待讨论差异 |
 | [内容质量与验收](content-quality.md) | 材料/视频/模型/实物/家庭使用的证据口径与内容核验规则 |
 | [AI 开发规范](AI_DEVELOPMENT_GUIDELINES.md) | 模型决策与服务端确定性边界 |
+| [小迪代币计费](ai/tutor-credit-accounting.md) | 会员月度与每日赠币、实际模型用量、代币结算、客户展示与语音成本边界 |
 | [设计规范](design-system.md) | 布局、组件、字体和样式约定 |
 | [PBL 指南](PBL_CHALLENGE_GUIDE.md) | 挑战内容生产与当前系统规则 |
 | [互动资格与内容访问](TRUST_AND_INTERACTION_ACCESS.md) | 能力矩阵、登录与账号限制、权限实现 |
 | [商城渠道决策](STORE_CHANNEL_FULFILLMENT_DECISION.md) | 站内交易准备、人工采购与供应商代发；支付及开售条件 |
 | [探索记录](EXPLORATION_RECORDS.md) | 普通项目记录的公开审核契约与本地文字恢复边界 |
-| [内容删除政策](content-triage-2026-08-13.md) | 禁止重新导入的项目与权威 ID 来源 |
 
 ## 维护与操作
 
@@ -31,11 +31,10 @@
 | [Scratch 维护与验收](SCRATCH_CURRICULUM_ROLLOUT.md) | 导入、旧课保护、发布顺序与真实账号保存/续学验收 |
 | [小班材料覆盖](courses/lesson-kit-coverage-small-class.md) | 默认库存、替代规则与小班课时粗算范围 |
 | [中班/大班材料覆盖](courses/lesson-kit-coverage-middle-senior.md) | 默认库存、扫描模型范围与缺件说明 |
-| [3D 边线性能](courses/ldraw-edge-lines-perf.md) | 边线渲染、性能检查与已知取舍 |
-| [科学 55 项内容维护](science55-release-2026-10-10/README.md) | 版本化正文、数据库摘要与项目继任边界 |
 | [物种图鉴](NATURE_SPECIES_ATLAS_IMPLEMENTATION.md) | 图鉴读模型、缩略图与发布核查 |
 | [游乐场联网](playground-online-features.md) | 对战、竞速和房间生命周期 |
 | [LDraw 当前状态](ldraw-status.md) | 历史发布基线、后续确认候选与待核对状态 |
+| [手机积木搭建体验](courses/mobile-building-experience.md) | 成品图、视角连续性、明确开启的语音口令、识别成本与手机验收边界 |
 | [LDraw 课程资源发布](ldraw-publishing.md) | 模型独立 OSS 发布、应用发布范围、首次启用与版本缓存规则 |
 | [SEO / GEO 索引清单](seo-indexing-checklist.md) | Sitemap、站长验证、百度推送与高价值 URL |
 | [SEO / GEO 日常检查](seo-daily-operations.md) | 发布检查、每日异常检查、三个专题及 Google/百度/Bing 效果跟踪 |
@@ -45,9 +44,9 @@
 ## 待办与历史
 
 - [下一步](next-step.md)：集中维护当前任务、优先级和关闭条件；网站试推广与商城准备并行，已完成事项回到模块说明。
-- 待验收和专项依据：[会员开售差异](MEMBERSHIP_PAGE_HANDOFF.md)、[科学五页样板](science-samples-review-2026-10-09.md)、[科学扩展与阻碍](science-expansion-2026-10-09/README.md)。这些文件仍有有效约束或未完成项，本批不整体归档。
+- 待验收和专项依据：[会员开售差异](MEMBERSHIP_PAGE_HANDOFF.md)。科学五页样板与科学扩展批次已归档，见下方历史记录；其中未完成项仍由 [下一步](next-step.md) 承接。
 - [2026-10-09 发布包](releases/2026-10-09/README.md) 保留原目录；其中资产清单仍被发布脚本读取，发布候选不等于生产完成。
-- 2026-10-12 归档的批次记录：[趣味实验核对](archive/content/2026-09-21/fun-science-content.md)、[科教版内容整理](archive/content/2026-09-21/science-kit-content.md)、[视频分类调整](archive/content/2026-09-21/video-classification.md)、[探索页与封面调整](archive/explore/2026-09-22-optimization.md)、[3+ 模型 2026-09-15 发布](archive/ldraw/releases/2026-09-15/release-notes.md)。原路径保留迁移指引；原正文、数量与哈希作为历史证据保留。
+- 2026-10-12 归档的批次记录：[趣味实验核对](archive/content/2026-09-21/fun-science-content.md)、[科教版内容整理](archive/content/2026-09-21/science-kit-content.md)、[视频分类调整](archive/content/2026-09-21/video-classification.md)、[探索页与封面调整](archive/explore/2026-09-22-optimization.md)、[3+ 模型 2026-09-15 发布](archive/ldraw/releases/2026-09-15/release-notes.md)、[内容分诊硬删除](archive/content/2026-08-13/content-triage.md)、[科学五页样板](archive/science/2026-10-09/science-samples-review.md)、[科学扩展批次](archive/science/2026-10-09/expansion/README.md)、[科学 55 项发布说明](archive/science/2026-10-10/README.md)。原路径保留迁移指引；science55 / science-expansion 目录下的 json 留在原处；原正文、数量与哈希作为历史证据保留。
 - 历史产品方案：[PBL 阶段重构](archive/PBL_STAGE_FLOW_REDESIGN.md)、[免费课与积木变现](archive/free-course-and-brick-monetization-plan.md)、[2026-08-14 产品评审](archive/product-design-review-2026-08-14.md)。
 - [LDraw 历史总账](archive/ldraw/ldraw-model-audit.md)、[状态历史快照](archive/ldraw/ldraw-status-history-2026-09-15.md)、[PROJECT_INDEX LDraw 过程归档](archive/ldraw/project-index-ldraw-history-2026-09-15.md)与各批次原始记录保留验收依据；[2026-09-08 确认记录](archive/ldraw/ldraw-confirmed-2026-09-08.md)和[2026-09-09 挂载记录](archive/ldraw/ldraw-mounted-2026-09-09.md)已归档，最新汇总从 [LDraw 当前状态](ldraw-status.md)进入。
 - `ui-gpt-designs/` 是被 Git 忽略的本地设计参考图，不属于受版本管理的文档；需要保留的参考图应自行备份到项目外。

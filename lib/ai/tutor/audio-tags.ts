@@ -1,4 +1,5 @@
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
+import type { DashScopeUsageObserver } from '@/lib/ai/dashscope'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/lib/supabase/types'
@@ -49,6 +50,7 @@ export async function planTutorAudioAttachment(
   userMessage: string,
   reply: string,
   audios: TutorAudioRef[],
+  options?: { usageObserver?: DashScopeUsageObserver },
 ) {
   if (audios.length === 0) return null
 
@@ -68,7 +70,7 @@ export async function planTutorAudioAttachment(
           `【候选音频】\n${candidates}`,
         ].join('\n\n'),
       }],
-      { modelMode: 'planner', temperature: 0, maxTokens: 120 },
+      { modelMode: 'planner', temperature: 0, maxTokens: 120, usageObserver: options?.usageObserver },
     )
     return parseAudioDecision(raw, audios)
   } catch {
