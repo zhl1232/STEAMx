@@ -1,0 +1,113 @@
+{
+  "slug": "5-da-zhuang-ji",
+  "sourceSha256": "05c91b442c9643ed4bf33398954938b0a9f7ae43fbc1d80e5670e2bf8a9d77ca",
+  "beforeHeadSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 12,
+  "stepsAfter": 12,
+  "placementsBefore": 83,
+  "placementsAfter": 83,
+  "maxOrthonormalError": 6.823033249503396e-10,
+  "maxDeterminantError": 6.823033249503396e-10,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 9,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-da-zhuang-ji-collision.log",
+  "date": "2026-10-12",
+  "title": "打桩机",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    2,
+    12
+  ],
+  "reviewedRenderedSteps": [
+    2,
+    12
+  ],
+  "changes": [
+    "第 12 步四块蓝砖从锤杆单侧两层改为两侧各一层，红色长孔砖现在夹在蓝砖之间，与分步图一致。",
+    "第 2 步罩色由透明黄 46 改为不透明浅黄 19。",
+    "第 7–9 页确认上臂是 11 孔、下臂是 7 孔，红手柄朝座舱、锤杆位于另一端；末页更换了观察方向，未随意加长或反装整组吊臂。"
+  ],
+  "unresolved": [
+    "未修好：保留 9 条碰撞错误（8 条轮胎/轮毂、1 条座舱/罩），未放宽规则。",
+    "立柱支点距 192 与锤杆孔距 200 的四连杆配置仍为推断，下臂略斜；不能宣称机构运动闭合已经确认。"
+  ],
+  "landmarksAndSupport": [
+    "上臂孔端距 400、下臂孔端距 240 LDU，不缩放零件。",
+    "蓝砖在锤杆局部 Y=-48 与 +48 两面；每面沿长轴放两块 3011，厚度均 48 LDU，原世界矩阵保留。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-01.jpg",
+      "sha256": "e6cb01fc78a4410f1c92a42bd2d59a704e4eed72bab2026235fcbb880edeeb55"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-02.jpg",
+      "sha256": "59bf341d9d84096ecea369b3c23c7635a252281eecfa5313fcc189f247088489"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-03.jpg",
+      "sha256": "a15a674dfdc9c37957d58e3ad3abb5929b2be17b52ea9d88e35e0efb03b4d69e"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-04.jpg",
+      "sha256": "cde4186ceb834d6e515c536bc5e4a6b96c7319557f8b88058c6fd42345caa78a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-05.jpg",
+      "sha256": "7e42b7a2e345f9cddfafb10c1b799356f9bbb8d3aade6de68de4c3891a8bef47"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-06.jpg",
+      "sha256": "313fe80afb459054cfd4e1985332b10cbea92e3bfdd05e05521adaf22f11c0fe"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-07.jpg",
+      "sha256": "7b555e2cc4f37f9550ce096355fe2669af18910f6d69ff42752673b12fc36149"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-08.jpg",
+      "sha256": "55c81ca938812755a937aa9d71ad935b778e66cd4c7f9d5edf200885953eba2f"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-09.jpg",
+      "sha256": "509445ccefbc1ab5847c01d666e15320c7bf70f2524a9e9c6e7e6ac31d53a7f4"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-10.jpg",
+      "sha256": "98d0837dd8785757e0ab73abcf8291a1578037d7e07aa17700968b328d956d9b"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-11.jpg",
+      "sha256": "d92749bf14bfed74a8f3314f367449fc14d6449a2e8cf171f4c64dbdfbd28c3f"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-12.jpg",
+      "sha256": "e31bff5e2552e1b182c1621c38712b9f87874fe94a9b5291b41463f868059fc1"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-da-zhuang-ji/page-13.jpg",
+      "sha256": "a6d4345d1f2ba108ad2a60379cce06ec4c3510ac693e8b3690ba63aa18fb8d8b"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "edd862a81da59c19d7d6e05d9b59c58c9fe06d11c7c09d042742ea8917393a20",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-da-zhuang-ji.png",
+    "sha256": "605f48159feb2e3be4d890c224ffcb24bee9c76ee1a49e5b46c769b13e18c6f0"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-da-zhuang-ji.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

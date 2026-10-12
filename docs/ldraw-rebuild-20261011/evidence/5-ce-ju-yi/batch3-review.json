@@ -1,0 +1,99 @@
+{
+  "slug": "5-ce-ju-yi",
+  "sourceSha256": "68beeffc8722ebf81b09f7e743f95ddd1d2956bc22a0286465fea0aaf6733623",
+  "beforeHeadSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 9,
+  "stepsAfter": 9,
+  "placementsBefore": 50,
+  "placementsAfter": 52,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 8,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-ce-ju-yi-collision.log",
+  "date": "2026-10-12",
+  "title": "测距仪",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    9
+  ],
+  "reviewedRenderedSteps": [
+    9
+  ],
+  "changes": [
+    "第 9 步新增官方 61898f 绿色带刻度薄片，以及同轴 6526 指针；真实号码和印刷均来自官方 DAT，没有画替代圆轮。",
+    "官方许可 CC BY 4.0；新增两个缺失的 48 分辨率 primitive，纠正刻度盘原来错误的普通砖元数据。",
+    "红/黄前端舱体与蓝夹层原本已在第 1–2 步；保留并在渲染中显示。"
+  ],
+  "unresolved": [
+    "未修好：第 3 步四个短曲柄仍缺失，80 LDU 曲柄端距与原上下孔线不能证明闭合，未强行穿插。",
+    "碰撞检查仍为 8 条错误（与基线相同），涉及轮胎/轮毂和相邻皮带轮。刻度盘夹紧及指针轴向保持力未验证。"
+  ],
+  "landmarksAndSupport": [
+    "刻度盘原点 (-125,-216,0)，原局部 XZ 平面转向 YZ，印刷面朝 -X；半径 119、厚 1 LDU、下端 -Z=-145。",
+    "指针主孔与输出轴共线 Y=-216,Z=0；指针厚度及同轴固定保留机械复核。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-01.jpg",
+      "sha256": "7e2873878fea346ab097c73cfe3a13954db388d4809cb6b8e962afbba0473682"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-02.jpg",
+      "sha256": "3d7b9ec341c0c1d74c1b23b295db0c871bcc9887bef04f1f1cb3592e7e2694bc"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-03.jpg",
+      "sha256": "902dfb6a7ca4f083fa3b53945e3c176ed6e4c1a75e647b9837f4cd322aa23563"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-04.jpg",
+      "sha256": "2a52fd804e473ab15229ea64452e0fd9afd0950c1638b2f5837cabd591bcacdd"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-05.jpg",
+      "sha256": "5aa56d7c3497d0d21ab2444047a3ed9a96d0391436eacc0f3099674d4661da86"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-06.jpg",
+      "sha256": "f039ed120de40da5104eb833c1e18e20e8d86a2112d7953feb7c0b6c1d9810cc"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-07.jpg",
+      "sha256": "628e796b624b979d523e3e8a223cc42fa928c708deacb6512c738abd5a2d7f6d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-08.jpg",
+      "sha256": "be211af90b22b2293d8c135a093d8453073c1747292218f98dd44eb2a456dbf4"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-09.jpg",
+      "sha256": "3f2e6919ea6249d2e53f17d39aae669a28509d99a32c780ddc1a2a39f88d0712"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-ju-yi/page-10.jpg",
+      "sha256": "7474ddba99767efb9dc20a057e663d6563286cbcac59c1caeead89cf41938c8f"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "2815cc7eeb721e9e054732ad432f69cb59ae99205a673852c582d2900914b1d7",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-ce-ju-yi.png",
+    "sha256": "a6911cc303985849080af6ded977ff23d15a3e3e046bbc365644c9d4c170fa94"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-ce-ju-yi.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

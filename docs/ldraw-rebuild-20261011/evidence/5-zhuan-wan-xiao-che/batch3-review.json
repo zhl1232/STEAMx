@@ -1,0 +1,119 @@
+{
+  "slug": "5-zhuan-wan-xiao-che",
+  "sourceSha256": "f9b22d607ba152da6be108932d7854aa256f55162e5bac0a66745ce26c9fc10f",
+  "beforeHeadSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 14,
+  "stepsAfter": 14,
+  "placementsBefore": 68,
+  "placementsAfter": 76,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 6,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-zhuan-wan-xiao-che-collision.log",
+  "date": "2026-10-12",
+  "title": "转弯小车",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    14
+  ],
+  "reviewedRenderedSteps": [
+    14
+  ],
+  "changes": [
+    "第 14 步补入八个人物组件，使用已有官方腿、髋、转轴、8 号红上衣、两臂、黄头和红帽；采用官方 47511 装配偏移。",
+    "修正人物前后朝向，使印刷与脸面朝前转向机构；脚底落在黄色座位顶面。",
+    "第 3 步中部是两只 6527 皮带轮，第 5 步前齿轮、第 14 步三面栏杆均早已存在；不将皮带轮擅改为蜗杆。"
+  ],
+  "unresolved": [
+    "未修好：保持 6 条转向组件碰撞错误，销轴/轮毂交叠及真实转向联动未验证。",
+    "帽下的精确表情被源图遮挡，采用本地同系列 47206p01，属于明确标注的外观推断。"
+  ],
+  "landmarksAndSupport": [
+    "双脚底中心 (60,-296,0)，脚孔对应座位顶面 X=60,Z=±20 凸点；人物整体朝 -X。",
+    "三根栏杆保留原步骤和数量；未用新近似人仔或虚构编号。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-01.jpg",
+      "sha256": "7540a9e45a9834d9d91f5c00daa8cb9b3b1273b62e795aebbe813951ce1a5c11"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-02.jpg",
+      "sha256": "9c163b7d8e88f5ca1244cdc8760fd492da3c6f410cfb55103045a1e57c8d8ef7"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-03.jpg",
+      "sha256": "265cbd36807c2eed61286679d1d395f216c84fe22d14b0ca331d9c1cbe40ca9c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-04.jpg",
+      "sha256": "c73f2c792b9be781c9cd61f95d0ea0a53c0f19a458bd3901a94bc1fb3c599bfb"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-05.jpg",
+      "sha256": "9e9912431d09688cffd7303774511102db0d2363fc2bfc97e202f72a2d377056"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-06.jpg",
+      "sha256": "bb82627ca4c1e50e8960e83db50a8c082b79affe154bbd4eba613548d2a51137"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-07.jpg",
+      "sha256": "23dbbfdcb20393d78827cb088cd781b98b1edffefff3c256139c912d35de580c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-08.jpg",
+      "sha256": "ecbe304b0f67dc3c2270463abfbc87492ef2d34fe229ffcaa6c575cc61dccd86"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-09.jpg",
+      "sha256": "76a76917c9bb8e4d0b48dac697c933db8aa10dfc312509c4c2777a237fd351e9"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-10.jpg",
+      "sha256": "80feec0bb7845332fad68ad145463602aa426d2d030a9176c4c43cb49ac53c5a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-11.jpg",
+      "sha256": "4857141a74c0ae4d64eefc9f47e9fedb7ae257037f90dd4dbe443aab40cf9dc5"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-12.jpg",
+      "sha256": "b530df98be8444dfaf4ee36f6c441369a1bf1a1ea425d8645cd429e9fdbc0dad"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-13.jpg",
+      "sha256": "f6727e14b4057082b10afbd0d544295c5fb545e45f317aca2440445cc91f7f42"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-14.jpg",
+      "sha256": "3fa3a346da8d6d656e9a01db2d717fea0e59b8c11d1a26857749603b39076226"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhuan-wan-xiao-che/page-15.jpg",
+      "sha256": "6ced7a695848eeffe35770453ea748e2d59491e637abe32e59972f937960eecc"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "367ffc7ee17e32e7080a5376d13e9799f3cc07163fae2521d161a240199aadaf",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-zhuan-wan-xiao-che.png",
+    "sha256": "1816e67d887073a497feed010e1ded97ced9631db3828b872a462c322060cd4e"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-zhuan-wan-xiao-che.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

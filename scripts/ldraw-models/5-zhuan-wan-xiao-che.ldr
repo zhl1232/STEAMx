@@ -2,9 +2,10 @@
 0 Name: 5-zhuan-wan-xiao-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P3 central yellow double-groove 6527 pulleys, P5 red steering gear and P14 three guardrails already present. Do not replace pulleys by an invented worm. Driver restored from exact locally available source-family components; face detail is inferred.
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV-ONLY. All15 source PDF pages visually inspected.
-0 // INCOMPLETE: p14 multipart printed driver identity unknown; omitted rather than substituted.
+0 // INCOMPLETE: driver restored with existing official child components; exact face details and physical steering remain unverified.
 0 // Neutral steering static pose; hidden kingpin/gear linkage requires manual review.
 0 // Source page 1: green8x16 chassis with two front projecting long red rails.
 1 2 0 -200 0 1 0 0 0 1 0 0 0 1 6490.dat
@@ -97,10 +98,19 @@
 1 14 40 -296 -40 0 0 1 0 1 0 -1 0 0 2302b.dat
 1 14 40 -296 40 0 0 1 0 1 0 -1 0 0 2302b.dat
 0 STEP
-0 // Source page 14: three white/red-striped guardrails; multipart driver unverified, not fabricated.
+0 // Source page 14: three white/red-striped guardrails and source multipart driver (official 47511 assembly transforms)
 1 15 140 -392 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 140 -392 140 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 300 -392 0 0 0 1 0 1 0 -1 0 0 31021p01.dat
+0 // P14 source: red cap/printed green 8 torso, white hips/sleeves, brown hands, yellow legs/head. p01 face is inferred beneath cap; no new geometry.
+1 14 60 -296 -0.0 0 0 1 0 1 0 -1 0 0 47205.dat
+1 15 66 -333 -0.0 0 0 1 0 1 0 -1 0 0 47207.dat
+1 15 66 -333 -0.0 0 0 1 0 1 0 -1 0 0 47204.dat
+1 4 66 -333 -0.0 0 0 1 0 1 0 -1 0 0 47203p03.dat
+1 15 66.5 -360 -0.0 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 15 66.5 -360 -0.0 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 14 68 -375 -0.0 0 0 1 0 1 0 -1 0 0 47206p01.dat
+1 4 68 -375 -0.0 0 0 1 0 1 0 -1 0 0 47199.dat
 0 // p15 final side view; no added parts.
 0 // Rear brick/bumper footprint inferred from oblique source; render review pending.
 0 // Pending user confirmation. No physical steering certification.

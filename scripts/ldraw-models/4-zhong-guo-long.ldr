@@ -2,73 +2,74 @@
 0 Name: 4-zhong-guo-long.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P5 shows blue Toolo head wings, NOT a rider. Unsupported blue wings remain explicitly omitted. P11-12 orange decorations are square 2x2 bricks; dark-gray structural bodies retained as source gray, light-gray eyes face the front jaw screw plane. Eye screw seating remains approximate.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF SHA256 de176ffaf6642f30107e5511bc9a7dd9a77c3d1bb0ba8e66cd8e63c658a30bb3; all source pages actually viewed. Existing approved Toolo approximations only; no physical validation.
 0 // SOURCE PAGE 1: four eleven-stud long fork arms form straight segmented spine
-1 7 0 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 7 400 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 7 800 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 7 1200 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 0 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 400 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 800 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 1200 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
 0 STEP
 0 // SOURCE PAGE 2: two clutch cubes and neck fork
-1 7 0 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 7 0 -508 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 7 -48 -633 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -508 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -48 -633 0 1 0 0 0 1 0 0 0 1 74957.dat
 0 STEP
 0 // SOURCE PAGE 3: three gray Toolo2x4 form staggered upper jaw
-1 7 -88 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
-1 7 -248 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
-1 7 -168 -729 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -88 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -248 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -168 -729 0 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
 0 // SOURCE PAGE 4: yellow spacer and lower jaw
 1 14 -168 -633 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -168 -585 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -168 -585 0 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
 0 // SOURCE PAGE 5: two screw rims form eyes; unsupported wing/tail substitutes prohibited
-1 7 -168 -705 -65 1 0 0 0 0 1 0 -1 0 99565.dat
-1 7 -168 -705 65 1 0 0 0 0 -1 0 1 0 99565.dat
+1 7 -273 -705 -40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 7 -273 -705 40 0 -1 0 1 0 0 0 0 1 99565.dat
 0 // OMITTED blue Toolo wing45117c01/45116/86593 and tail31239c01/76223: candidate identities, no approved available geometry. Not substituted by ordinary31215.
 0 STEP
 0 // SOURCE PAGE 6: two spine clutch supports and four upper vertical leg bricks
-1 7 220 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 7 220 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
-1 7 220 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
-1 7 1020 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 7 1020 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
-1 7 1020 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 220 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 220 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 220 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 1020 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1020 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 1020 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
 0 // SOURCE PAGE 7: four lower leg bricks offset outward on upper stud faces
-1 7 220 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
-1 7 220 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
-1 7 1020 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
-1 7 1020 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 220 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 220 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 1020 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 1020 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
 0 // SOURCE PAGE 8: two fork ankles and two short toe arms
-1 7 220 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
-1 7 -28 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
-1 7 220 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
-1 7 -28 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 220 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -28 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 220 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -28 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
 0 STEP
 0 // SOURCE PAGE 9: two fork ankles and two short toe arms
-1 7 1020 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
-1 7 772 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
-1 7 1020 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
-1 7 772 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 1020 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 772 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 1020 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 772 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
 0 STEP
 0 // SOURCE PAGE 10: two rear scoop toes; two front wide toothed blades lack verified geometry
 1 25 772 -265 -136 0 0 -1 0 1 0 1 0 0 dev-129/6294.dat
 1 25 772 -265 136 0 0 -1 0 1 0 1 0 0 dev-129/6294.dat
 0 // OMITTED front two orange narrow toothed Toolo blades: shape differs from6294; unknown designID, no substitute generated.
 0 STEP
-0 // SOURCE PAGE 11: four orange curved leg decorations on outward-facing studs
-1 25 220 -420 -136 0 0 1 1 0 0 0 1 0 2302.dat
-1 25 220 -340 -184 0 0 1 1 0 0 0 1 0 2302.dat
-1 25 220 -420 136 0 0 -1 1 0 0 0 -1 0 2302.dat
-1 25 220 -340 184 0 0 -1 1 0 0 0 -1 0 2302.dat
+0 // SOURCE PAGE 11: four orange 2x2 square leg decorations on outward-facing studs
+1 25 220 -420 -136 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 220 -340 -184 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 220 -420 136 0 0 -1 1 0 0 0 -1 0 3437.dat
+1 25 220 -340 184 0 0 -1 1 0 0 0 -1 0 3437.dat
 0 STEP
-0 // SOURCE PAGE 12: four orange curved leg decorations on outward-facing studs
-1 25 1020 -420 -136 0 0 1 1 0 0 0 1 0 2302.dat
-1 25 1020 -340 -184 0 0 1 1 0 0 0 1 0 2302.dat
-1 25 1020 -420 136 0 0 -1 1 0 0 0 -1 0 2302.dat
-1 25 1020 -340 184 0 0 -1 1 0 0 0 -1 0 2302.dat
+0 // SOURCE PAGE 12: four orange 2x2 square leg decorations on outward-facing studs
+1 25 1020 -420 -136 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 1020 -340 -184 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 1020 -420 136 0 0 -1 1 0 0 0 -1 0 3437.dat
+1 25 1020 -340 184 0 0 -1 1 0 0 0 -1 0 3437.dat
 0 // Source13 finished view: no additions. Source angles and hidden Toolo screw engagement remain manual; all geometry is official or previously approved approximation.

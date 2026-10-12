@@ -2,6 +2,7 @@
 0 Name: 5-zhi-sheng-ji.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P11 two crossed 7-hole tail blades were present on +Z side. Source-facing after view exposes them. Removed opposite-side yellow 40T gear per user request; this is a documented deviation from P6, not an assertion that P6 lacks the gear.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -38,9 +39,9 @@
 1 14 -600 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -520 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // Source page 6: 40T yellow gear on gray6L side axle, opposite pulley
+0 // Source page 6: gray6L side axle and pulley; 40T gear omitted per explicit request
 1 7 -40 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 -40 -168 -80 1 0 0 0 1 0 0 0 1 6530.dat
+0 // OMITTED by explicit batch3 user request: yellow 6530 gear at (-40,-168,-80), despite source P6-9 showing it on the opposite side from P14. Step boundary retained; transmission now intentionally incomplete.
 1 14 -40 -168 60 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // Source page 7: 24T red input gear at160LDU centre distance with crank and opposite pulley

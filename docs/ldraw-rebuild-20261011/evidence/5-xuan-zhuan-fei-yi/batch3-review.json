@@ -1,0 +1,100 @@
+{
+  "slug": "5-xuan-zhuan-fei-yi",
+  "sourceSha256": "fe434e3a494501bc55d8f55ad7c5ea05c215c45eecadff505132a585b1fc68c7",
+  "beforeHeadSha256": "9138733d270fd1dd1eb5f46b8de6dd3dcc170beb1a6d45d042af1ea3df40b161",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 9,
+  "stepsAfter": 9,
+  "placementsBefore": 67,
+  "placementsAfter": 67,
+  "maxOrthonormalError": 8.76160033413953e-10,
+  "maxDeterminantError": 8.76160033413953e-10,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 5,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-xuan-zhuan-fei-yi-collision.log",
+  "date": "2026-10-12",
+  "title": "旋转飞椅",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    8,
+    9
+  ],
+  "reviewedRenderedSteps": [
+    8,
+    9
+  ],
+  "changes": [
+    "第 8–9 步改为两组下垂座椅、两组近水平抬起座椅，修正原稿四组全部向下的错误姿态。",
+    "保留八根 7 孔吊臂、240 LDU 两端孔距，以及原上部十字梁。只旋转并同步移动下轴、座椅、轮，不拉长零件。"
+  ],
+  "unresolved": [
+    "未修好：35°/80° 是从图片推断的静态姿态，不是测量角度或运动仿真。",
+    "碰撞检查仍 5 条错误（1 条轮胎/轮毂、4 条相邻上部皮带轮），未消除，也未设豁免；中轴支撑与保持力未确认。"
+  ],
+  "landmarksAndSupport": [
+    "抬起组上轴 (0,-548,±160)，下轴 (0,-506.32443736,±396.353860723)，轴距 240。",
+    "抬起组吊臂中心 (±64,-527.16221868,±278.176930361)，所有矩阵 det≈+1。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-01.jpg",
+      "sha256": "a1b3c0bd093fa40b59bd097ee7f592faf4a6aa1b2ed85b0099129db1fe569d6d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-02.jpg",
+      "sha256": "119bc4120bf5d83c8739990fee5594389ff01a1220a536848aa46260658d04b4"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-03.jpg",
+      "sha256": "ae70695687cb07484e6cc870343e2381467fdc26076493499bfce04bfd6f792b"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-04.jpg",
+      "sha256": "ce63f1c639b37ce330e4d9ce7e6c3a330faf2ea88353aa1441523b49e94013d0"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-05.jpg",
+      "sha256": "8adc425f93be18a9e5bc576fb97d7623ee0fa8bcf2f2f703220aa5480be8fbd5"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-06.jpg",
+      "sha256": "9883e0c7328d9332ab5b3688dd226d404a96ce19992da1d2e1a229a2fe66459d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-07.jpg",
+      "sha256": "812581b48548cedaecd9040a87c21f338c6c747461270ca46b1b09f35a105ea1"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-08.jpg",
+      "sha256": "fac8522394275f3100d35eb8df175e20fea7660c3c5af6dc58526a0b359da29a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-09.jpg",
+      "sha256": "f0f5f52060d8fe783c968c93ab9d71eb9d4f4f11a41766f03b119960460888d2"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-xuan-zhuan-fei-yi/page-10.jpg",
+      "sha256": "2ea1bab86afbad409f7bf4d7ddc0b09197b757abb4a6f3ea2ef6931c68479cc6"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "375e1e696fd548f695d03468620d92c5bd72ff181a6d2fd29673b6db66b5efc2",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-xuan-zhuan-fei-yi.png",
+    "sha256": "1cdba9279043e74b2595a7403a9f9d959319ff2ee1d64d1db07f11e76080e04c"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-xuan-zhuan-fei-yi.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}
