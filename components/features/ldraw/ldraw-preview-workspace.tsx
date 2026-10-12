@@ -33,6 +33,7 @@ import {
   splitMainModelSteps,
   splitPackedMpd,
 } from '@/lib/utils/ldraw-mpd'
+import { createLdrawEdgeRenderer } from '@/lib/utils/ldraw-edges'
 import type { LdrawReviewStatus } from '@/lib/courses/ldraw-review'
 import type { LdrawModelInfo } from '@/lib/courses/ldraw-packer'
 
@@ -238,6 +239,12 @@ export function LdrawPreviewWorkspace() {
           // 若加载不到则使用默认材质
         }
 
+        if (cancelled) {
+          controls.dispose()
+          renderer.dispose()
+          return
+        }
+
         threeStateRef.current = {
           renderer,
           scene,
@@ -276,6 +283,7 @@ export function LdrawPreviewWorkspace() {
         return () => {
           cancelAnimationFrame(animationFrameId)
           window.removeEventListener('resize', handleResize)
+          controls.dispose()
           renderer.dispose()
         }
       } catch (err) {
@@ -283,10 +291,16 @@ export function LdrawPreviewWorkspace() {
       }
     }
 
-    void initThree()
+    let cleanupScene: (() => void) | undefined
+    void initThree().then((cleanup) => {
+      if (cancelled) cleanup?.()
+      else cleanupScene = cleanup
+    })
 
     return () => {
       cancelled = true
+      cleanupScene?.()
+      threeStateRef.current = null
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -448,7 +462,10 @@ export function LdrawPreviewWorkspace() {
     if (!fullMpdText || !threeStateRef.current) return
 
     let cancelled = false
-    const { scene, camera, controls, loader, THREE } = threeStateRef.current
+    const state = threeStateRef.current
+    const { scene, camera, controls, loader, THREE } = state
+    const edgeRenderer = createLdrawEdgeRenderer((code) => loader.getMaterial(code))
+    let preparedModel: import('three').Group | null = null
 
     async function renderStep() {
       setRendering(true)
@@ -476,6 +493,9 @@ export function LdrawPreviewWorkspace() {
         )
 
         if (cancelled) return
+
+        edgeRenderer.prepare(modelGroup)
+        preparedModel = modelGroup
 
         // 移除旧模型
         if (threeStateRef.current?.currentModelGroup) {
@@ -536,6 +556,11 @@ export function LdrawPreviewWorkspace() {
 
     return () => {
       cancelled = true
+      if (preparedModel) {
+        scene.remove(preparedModel)
+        if (state.currentModelGroup === preparedModel) state.currentModelGroup = null
+      }
+      edgeRenderer.dispose()
     }
   }, [fullMpdText, currentStep, threeReady, currentFileName, modelRevision])
 
