@@ -70,3 +70,18 @@ describe('explore page initial client props', () => {
     }));
   });
 });
+
+describe('legacy explore grade parameters', () => {
+  it.each([['初中', []], ['科教版,初中', ['科教版']], ['kejiao16a-src:1,二年级', []]])(
+    'loads %s with matching sanitized server and client filters', async (tags, expected) => {
+      vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
+      vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
+      const page = await ExplorePage({ searchParams: Promise.resolve({ tags }) });
+      expect(getProjects).toHaveBeenLastCalledWith(expect.objectContaining({ tags: expected }), expect.anything());
+      const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
+      const key = expected.length ? new URLSearchParams({ tags: expected.join(',') }).toString() : '';
+      expect(children[1].props.initialFiltersKey).toBe(key);
+      expect((await generateMetadata({ searchParams: Promise.resolve({ tags }) })).robots).toEqual({ index: false, follow: true });
+    },
+  );
+});

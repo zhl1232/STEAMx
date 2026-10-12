@@ -185,3 +185,10 @@ describe('explore presets', () => {
         })).toBe(true)
     })
 })
+
+it('serializes legacy grade URLs as their effective filters without mutating the URL', () => {
+    const params = new URLSearchParams({ tags: '科教版,初中' })
+    expect(serializeExploreFilterParams(params)).toBe(new URLSearchParams({ tags: '科教版' }).toString())
+    expect(params.get('tags')).toBe('科教版,初中')
+    expect(serializeExploreFilterParams(new URLSearchParams({ tags: '初中' }))).toBe('')
+})

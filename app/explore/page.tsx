@@ -7,7 +7,7 @@ import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classific
 import { parseExploreSortBy } from '@/lib/explore/presets'
 import { buildExploreFiltersKey } from '@/lib/explore-scroll-restore'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
-import { visibleProjectTags } from '@/lib/project/tags'
+import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -68,7 +68,7 @@ function buildInitialFiltersKey(params: Awaited<ExplorePageProps['searchParams']
   if (subCategory) query.set('subCategory', subCategory)
   if (difficulty) query.set('difficulty', difficulty)
   if (age !== null) query.set('age', String(age))
-  const normalizedTags = visibleProjectTags(tags?.split(',') ?? [])
+  const normalizedTags = sanitizeProjectTagsParam(tags)
   if (normalizedTags.length > 0) query.set('tags', normalizedTags.join(','))
   if (sortBy !== 'popular') query.set('sortBy', sortBy)
   return buildExploreFiltersKey(query)
@@ -84,7 +84,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     subCategory: params.subCategory,
     difficulty: normalizeDifficultyParam(params.difficulty) ?? 'all',
     age: parseAgeParam(params.age) ?? undefined,
-    tags: params.tags?.split(',').filter(Boolean),
+    tags: sanitizeProjectTagsParam(firstParam(params.tags)),
   }
   const sortBy = parseExploreSortBy(firstParam(params.sortBy))
   const viewerKey = await getRecommendationViewerKey()
