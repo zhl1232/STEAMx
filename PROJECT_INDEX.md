@@ -847,5 +847,6 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record. Current evolving counts: COURSE-STATUS-CURRENT.md, progress-129.json and current-development-QA.json; files named69 remain historical snapshots.
 - scripts/ldraw-models/parts/dev-129/: isolated approximate geometry for source-based development models; does not replace published part geometry.
+- 2026-10-12 两课本地复核：`4-chun-jie-wu-shi.ldr` 保留 13 步/58 零件位，按课件修正上颌 6×8 横拼、舌头、耳座横梁、眼睛叉座与尾端接头，并恢复尾叉/弧顶和耳朵/眼睛的分步顺序；黄色凹耳编号未确认，独立第 12 步明确省略。`4-da-long-xia.ldr` 保留 10 步，27→31 零件位，恢复四个已有几何的钳端叉座，修正接头轴心、触角展开、背壳断口和整体抬头姿态；八条 4433c01 腿及 31239c01 尾翼仍因缺几何省略。均仅为待验收源文件，不更新公开 MPD、保护名单或发布脚本；Toolo 近似连接不代表实物配合验证。
 
 > LDraw 线上保护：`scripts/ldraw-production-protected.json` 列出的 63 个 slug 在预览中有确认记录时保持 confirmed，即使新打包哈希不同；标记「已确认（线上版本，受保护）」；冻结 MPD 匹配记录时仍展示冻结内容。`scripts/publish-ldraw-assets.mjs` 对所有选择模式（含 `--only` / `--prefix`）在资产校验与上传前跳过保护名单，输出「跳过（线上已确认，受保护）」。
