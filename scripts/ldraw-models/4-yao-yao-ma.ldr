@@ -121,7 +121,7 @@
 1 71 -328 -895.698521 64 1 0 0 0 0 -1 0 1 0 99565.dat
 1 0 -328 -895.698521 64 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
-0 // SOURCE PAGE 19: two side-screwed ear hinges; source angle and screw engagement manual
-1 72 -288 -967.698521 -88 0 -1 0 0 0 -1 1 0 0 28336.dat
-1 72 -288 -967.698521 88 0 -1 0 0 0 -1 1 0 0 28336.dat
+0 // SOURCE PAGE 19: two side-screwed ear hinges; rotate about fixed side-hole centers so ear tips rise vertically (source p19/20); screw fit manual
+1 72 -300.607453215 -988.822201497 -88 0 -0.474689449 -0.880153354 0 0.880153354 -0.474689449 1 0 0 28336.dat
+1 72 -300.607453215 -988.822201497 88 0 -0.474689449 -0.880153354 0 0.880153354 -0.474689449 1 0 0 28336.dat
 0 // SOURCE PAGE 20: finished view; no new additions.
