@@ -4,6 +4,9 @@ import { packLocalLdrawModel } from './ldraw-packer'
 import { summarizePackedLdrawBom, type LdrawBomEntry } from '../utils/ldraw-bom'
 import { buildEmbeddedLookup, createPackedLdrawStep, splitPackedMpd } from '../utils/ldraw-mpd'
 import { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse } from './lesson-materials'
+import { getDefaultKitsForCourse } from './course-kit-config'
+import { resolveLdrawPart } from './ldraw-part-mapping'
+import inventories from './ldraw-kit-inventories.json'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
 
 // Source integration regression: exercise the real local packer and the same
@@ -27,6 +30,7 @@ const models = [
 function expectNoSchematics(entries: LdrawBomEntry[]) {
   expect(entries.map((entry) => entry.partId)).not.toContain('steamx-rope.dat')
   expect(entries.map((entry) => entry.partId)).not.toContain('steamx-75536-hook.dat')
+  expect(entries.map((entry) => entry.partId)).not.toContain('steamx-14013c01-hook.dat')
 }
 
 it.each(models)('%s packs ropes without adding schematic materials', async (slug, count, steps) => {
@@ -46,7 +50,7 @@ it.each(models)('%s packs ropes without adding schematic materials', async (slug
   expect(bom.steps.reduce((sum, step) => sum + assemblies(step.entries), 0)).toBe(count)
   expectNoSchematics(bom.entries)
   expect(bom.entries.filter((entry) => entry.partId === '4663.dat').reduce((sum, entry) => sum + entry.count, 0))
-    .toBe(slug === '4-long-men-diao' ? 1 : 0)
+    .toBe(0)
 
   for (const step of bom.steps) {
     expectNoSchematics(step.entries)
@@ -61,9 +65,9 @@ it.each(models)('%s packs ropes without adding schematic materials', async (slug
 
   const ropeLines = mainText.split('\n').filter((line) => /^1 .* s\/steamx-rope.dat$/.test(line))
   const hookEyes = mainText.split('\n')
-    .filter((line) => /^1 .* (?:s\/steamx-75536-hook|4663)\.dat$/.test(line))
+    .filter((line) => /^1 .* s\/steamx-(?:75536|14013c01)-hook\.dat$/.test(line))
     .map((line) => line.split(/\s+/).slice(2, 5).map(Number))
-  expect(ropeLines).toHaveLength(count || 1)
+  expect(ropeLines).toHaveLength(slug === '4-long-men-diao' ? 2 : count)
   expect(hookEyes).toHaveLength(count || 1)
   const connectedHooks = new Set<number>()
   for (const line of ropeLines) {
@@ -81,8 +85,14 @@ it.each(models)('%s packs ropes without adding schematic materials', async (slug
     const start = tokens.slice(2, 5).map(Number)
     const end = start.map((value, i) => value + y[i])
     const hook = hookEyes.findIndex((eye) => Math.hypot(...eye.map((value, i) => value - end[i])) < 0.00001)
-    expect(hook, 'every rope must end at a hook eye').toBeGreaterThanOrEqual(0)
-    connectedHooks.add(hook)
+    if (hook >= 0) {
+      connectedHooks.add(hook)
+    } else {
+      // The winch lead clears the bracket before joining the vertical cord.
+      const next = ropeLines.findIndex((candidate, i) => i > ropeLines.indexOf(line) &&
+        candidate.split(/\s+/).slice(2, 5).map(Number).every((value, axis) => Math.abs(value - end[axis]) < 0.00001))
+      expect(next, 'every cord segment must lead to a later segment or a hook eye').toBeGreaterThanOrEqual(0)
+    }
   }
   expect(connectedHooks.size).toBe(hookEyes.length)
 }, 60_000)
@@ -112,3 +122,36 @@ it('defines the local composite using only official wheel geometry', () => {
     '1 16 0 0 0 1 0 0 0 1 0 0 0 1 6527.dat',
   ])
 })
+
+it('中班龙门吊 counts one complete winch and one bracket, covered by course 6 defaults', async () => {
+  const packed = await packLocalLdrawModel('4-long-men-diao.ldr')
+  const rawBom = summarizePackedLdrawBom(packed.mpdText)
+  const bom = prepareLessonBomForCourse(6, rawBom)
+  for (const candidate of [rawBom, bom]) {
+    for (const entries of [candidate.entries, candidate.steps.flatMap((step) => step.entries)]) {
+      for (const [id, color] of [['14013c01', 71], ['13358', 0]] as const) {
+        expect(entries.filter((entry) => entry.partId === `${id}.dat`)).toMatchObject([
+          { count: 1, colorCode: color },
+        ])
+        expect(resolveLdrawPart(`${id}.dat`)).toEqual({ partNums: [id], flags: {} })
+        expect(inventories['45002-1'].parts.filter((part) => part.partNum === id)).toMatchObject([
+          { quantity: 1, colorId: color },
+        ])
+      }
+      for (const id of ['75536.dat', '6527.dat', '4663.dat']) {
+        expect(entries.map((entry) => entry.partId)).not.toContain(id)
+      }
+      expectNoSchematics(entries)
+    }
+  }
+  const kits = getDefaultKitsForCourse(6)
+  const result = compareLessonMaterials(bom, mergeKitInventories(kits), mergeLessonMaterialPreferences(6))
+  // The existing 13 Toolo base blocks exceed the default kit's 7; this repair
+  // must introduce no shortage for either of the two replacement materials.
+  expect(result.requiredMissing.filter((entry) => ['14013c01.dat', '13358.dat'].includes(entry.partId))).toEqual([])
+  for (const id of ['14013c01.dat', '13358.dat']) {
+    expect(result.entries.find((entry) => entry.partId === id)).toMatchObject({
+      count: 1, matched: 1, missing: 0, status: 'satisfied',
+    })
+  }
+}, 60_000)
