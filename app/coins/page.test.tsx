@@ -100,6 +100,12 @@ describe("CoinsPage", () => {
     expect(screen.queryByText("challenge_prize")).not.toBeInTheDocument();
   });
 
+  it.each([390, 768, 1440])("keeps the shop reachable from the wallet at %ipx", (width) => {
+    setViewport(width);
+    render(<CoinsPage />);
+    expect(screen.getByRole("link", { name: "去兑换装扮" })).toHaveAttribute("href", "/shop");
+  });
+
   it("uses a center-style mobile header without a back button", () => {
     render(<CoinsPage />);
 

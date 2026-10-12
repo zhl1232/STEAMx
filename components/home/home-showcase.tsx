@@ -189,7 +189,7 @@ function HomeHero({ image }: { image: string }) {
   );
 }
 
-function MobileLeaderboardEntry({ className }: { className?: string }) {
+function LeaderboardEntry({ className }: { className?: string }) {
   return (
     <Link
       href="/leaderboard"
@@ -581,16 +581,25 @@ export function HomeShowcase({
         <MobileShortcutCarousel>
           <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
           <NatureChannel className="h-full" />
-          <MobileLeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+          <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
         </MobileShortcutCarousel>
 
+        <Link href="/start" className="inline-flex min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] hover:underline">
+          探索指南
+          <ChevronRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
         <StartExploreSection categoryTileCounts={categoryTileCounts} />
 
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]">
           <HomeWorksSection
             initialData={{ works, nextOffset: worksNextOffset, hasMore: worksHasMore }}
           />
-          <HomeNatureSection observations={recentNatureObservations} />
+          <div className="min-w-0 md:space-y-5">
+            <HomeNatureSection observations={recentNatureObservations} />
+            <div className="hidden md:block">
+              <LeaderboardEntry />
+            </div>
+          </div>
         </div>
 
         <div className="hidden md:block">
