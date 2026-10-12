@@ -1,16 +1,17 @@
 const DISPLAY_NAME_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 const DISPLAY_NAME_SUFFIX_LENGTH = 4
 
-export function createDefaultDisplayName(randomBytes?: Uint8Array): string {
+export function createDefaultDisplayName(randomBytes?: Uint8Array, format?: 'hex'): string {
   const bytes = randomBytes ?? crypto.getRandomValues(new Uint8Array(DISPLAY_NAME_SUFFIX_LENGTH))
 
   if (bytes.length < DISPLAY_NAME_SUFFIX_LENGTH) {
     throw new Error(`Default display name requires ${DISPLAY_NAME_SUFFIX_LENGTH} random bytes`)
   }
 
+  const alphabet = format === 'hex' ? '0123456789ABCDEF' : DISPLAY_NAME_ALPHABET
   let suffix = ''
   for (let index = 0; index < DISPLAY_NAME_SUFFIX_LENGTH; index += 1) {
-    suffix += DISPLAY_NAME_ALPHABET[bytes[index] % DISPLAY_NAME_ALPHABET.length]
+    suffix += alphabet[bytes[index] % alphabet.length]
   }
 
   return `新用户${suffix}`

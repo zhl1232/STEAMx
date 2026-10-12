@@ -1,3 +1,4 @@
+import { ensureProfile } from '@/lib/auth/ensure-profile'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireRole, handleApiError } from '@/lib/api/auth'
@@ -121,6 +122,10 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: '该邮箱已被注册' }, { status: 400 })
       }
       return NextResponse.json({ error: msg }, { status: 400 })
+    }
+
+    if (data.user) {
+      await ensureProfile({ userId: data.user.id, userMetadata: data.user.user_metadata, phone: data.user.phone })
     }
 
     return NextResponse.json({

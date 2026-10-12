@@ -1,3 +1,5 @@
+import { ensureProfile } from '@/lib/auth/ensure-profile'
+vi.mock('@/lib/auth/ensure-profile', () => ({ ensureProfile: vi.fn(async () => ({ ok: false, created: false })) }))
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => {
@@ -99,6 +101,7 @@ describe('native Supabase phone auth routes', () => {
     const response = await verifyOtp(request({ phone: '13800138000', code: '123456' }))
 
     expect(response.status).toBe(200)
+    expect(ensureProfile).toHaveBeenCalledWith(expect.objectContaining({ userId: 'user-1', phone: '+8613800138000' }))
     expect(response.headers.get('Cache-Control')).toBe('no-store')
     await expect(response.json()).resolves.toEqual({
       ok: true,

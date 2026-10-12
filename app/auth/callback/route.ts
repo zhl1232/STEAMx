@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger'
+import { ensureProfile } from '@/lib/auth/ensure-profile'
 import { createClient } from '@/lib/supabase/server'
 import { sanitizeInternalHref } from '@/lib/utils/safe-internal-href'
 import { NextResponse } from 'next/server'
@@ -36,6 +38,14 @@ export async function GET(request: Request) {
       return NextResponse.redirect(
         buildLoginRedirectUrl(requestUrl, nextPath, 'auth_callback_failed')
       )
+    }
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await ensureProfile({ userId: user.id, userMetadata: user.user_metadata, phone: user.phone })
+      }
+    } catch {
+      logger.error('[auth/callback] profile recovery user lookup failed')
     }
   }
 

@@ -1,3 +1,5 @@
+import { ensureProfile } from '@/lib/auth/ensure-profile'
+vi.mock('@/lib/auth/ensure-profile', () => ({ ensureProfile: vi.fn(async () => ({ ok: false, created: false })) }))
 /** @vitest-environment node */
 
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
@@ -56,4 +58,14 @@ describe('GET /auth/callback', () => {
       'http://localhost/login?authError=auth_callback_failed'
     )
   })
+})
+
+it('ensures the exchanged current user without changing the redirect on recovery failure', async () => {
+  vi.mocked(createClient).mockResolvedValue({ auth: {
+    exchangeCodeForSession: vi.fn().mockResolvedValue({ error: null }),
+    getUser: vi.fn().mockResolvedValue({ data: { user: { id: 'current', user_metadata: { full_name: 'Name' }, phone: null } } }),
+  } } as never)
+  const response = await GET(new Request('http://localhost/auth/callback?code=ok&next=/explore'))
+  expect(response.headers.get('location')).toBe('http://localhost/explore')
+  expect(ensureProfile).toHaveBeenCalledWith({ userId: 'current', userMetadata: { full_name: 'Name' }, phone: null })
 })

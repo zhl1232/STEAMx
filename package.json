@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "ops:check-profiles": "node scripts/check-missing-profiles.mjs",
     "dev": "next dev --turbo",
     "dev:turbo": "next dev --turbo",
     "dev:webpack": "next dev --webpack",
