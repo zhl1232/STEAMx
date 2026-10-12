@@ -16,7 +16,7 @@ jobs:
     environment: Production
     timeout-minutes: 4
     steps:
-      - name: Readonly - hourly memcheck
+      - name: Readonly - swap/swappiness check
         timeout-minutes: 3
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -29,8 +29,8 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXI7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gZnJlZSA9PT09PSIKZnJlZSAtbQo=' | base64 -d > /tmp/memcheck.sh
-            chmod 700 /tmp/memcheck.sh
-            rc=0; bash /tmp/memcheck.sh || rc=$?
-            rm -f /tmp/memcheck.sh
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gZnJlZSA9PT09PSIKZnJlZSAtbQplY2hvICI9PT09PSBzd2Fwb24gPT09PT0iCnN3YXBvbiAtLXNob3cgfHwgdHJ1ZQplY2hvICI9PT09PSBzd2FwcGluZXNzID09PT09IgpjYXQgL3Byb2Mvc3lzL3ZtL3N3YXBwaW5lc3MKZWNobyAiPT09PT0gc3lzY3RsIGZpbGUgPT09PT0iCmxzIC1sYSAvZXRjL3N5c2N0bC5kLzk5LXN0ZWFteC1zd2FwcGluZXNzLmNvbmYgMj4vZGV2L251bGwgfHwgZWNobyAibm8gOTktc3RlYW14LXN3YXBwaW5lc3MuY29uZiIKY2F0IC9ldGMvc3lzY3RsLmQvOTktc3RlYW14LXN3YXBwaW5lc3MuY29uZiAyPi9kZXYvbnVsbCB8fCB0cnVlCmVjaG8gIj09PT09IGZzdGFiIHN3YXAgPT09PT0iCmdyZXAgLW4gc3dhcCAvZXRjL2ZzdGFiIHx8IGVjaG8gIm5vIHN3YXAgaW4gZnN0YWIiCmVjaG8gIj09PT09IHN3YXBmaWxlID09PT09IgpzdGF0IC1jICJzd2FwZmlsZV9ieXRlcz0lcyBtb2RlPSVhIiAvc3dhcGZpbGUgMj4vZGV2L251bGwgfHwgZWNobyAibm8gL3N3YXBmaWxlIgo=' | base64 -d > /tmp/swapcheck.sh
+            chmod 700 /tmp/swapcheck.sh
+            rc=0; bash /tmp/swapcheck.sh || rc=$?
+            rm -f /tmp/swapcheck.sh
             exit $rc
