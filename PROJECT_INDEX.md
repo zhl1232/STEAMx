@@ -125,7 +125,7 @@
 
 | 路由 | 入口文件 | 功能说明 |
 |------|----------|----------|
-| `/project/[id]/records` | `app/project/[id]/records/page.tsx` + `components/features/project/project-records-client.tsx` | 当前用户的项目 Journey 工作台与公开记录流：进行中的项目可从手机页头、桌面标题区「+ 记录」或绿色卡片「记录」/卡片本体继续添加过程记录，已有记录时并列保留最终作品操作；一次只保持一个 active Journey，普通项目完成一次后可重新开始新的尝试；私密过程记录只在本人时间线展示，单条公开后进入审核；最终作品默认公开审核，审核拒绝后可按意见修改并重提；旧 `completed_projects` / `project_explorations` 仅作兼容投影 |
+| `/project/[id]/records` | `app/project/[id]/records/page.tsx` + `components/features/project/project-records-client.tsx` | 当前用户的项目 Journey 工作台与公开记录流：md 起使用 max-w-6xl 宽容器、标题/类型筛选/开始或记录按钮同行；公开记录卡 md 两列、xl 三列，缩略图 md 起 4:3，手机单列保持不变；组内各步骤保留 highlight 锚点与滚动高亮，加载骨架同步网格；进行中的项目可从手机页头、桌面标题区「+ 记录」或绿色卡片「记录」/卡片本体继续添加过程记录，已有记录时并列保留最终作品操作；一次只保持一个 active Journey，普通项目完成一次后可重新开始新的尝试；私密过程记录只在本人时间线展示，单条公开后进入审核；最终作品默认公开审核，审核拒绝后可按意见修改并重提；旧 `completed_projects` / `project_explorations` 仅作兼容投影 |
 | `/pbl/[id]/submit` | `app/pbl/[id]/submit/page.tsx` | PBL 命题项目的最终作品入口；阶段过程留在 `/pbl/[id]` 工作台，最终作品与阶段记录共用同一次 Journey |
 | `/` | `app/page.tsx` | 首页 — Hero 使用统一 创探空间品牌，并保留 `/explore` 入口，桌面端采用 340–390px 大图与响应式淡入蒙版，标题「从兴趣出发，在动手中成长」（桌面两行、移动端单行）、副标题「在真实项目中动手探索，学会拆解问题、持续迭代。」，仅保留一个探索按钮；移动端 Hero 下方快捷入口的第一页为「新手推荐 / 积木搭建，从这里开始」（说明为「免费积木课，跟着 3D 步骤动手搭」，桌面按钮为「挑一节课」），其后保持自然观察与排行榜；手机分类标题旁隐藏重复的免费积木课入口；桌面端「探索你感兴趣的方向」保留免费积木课文字入口与 6 大分类入口，移除重复推荐横幅和全部项目链接，分类使用中性边框；主体不再重复探索页热门项目，改为统一作品「大家的新作品」与最近公开观察「自然新发现」，桌面双栏、移动端顺序滚动，桌面端在自然板块置顶常驻生态探索横幅，实现与左侧三列、4:3 缩略图的作品网格并列；继续保留移动端自然观察/排行榜快捷入口与桌面社区动态（空态引导到 `/explore`）；本周挑战仅在有 featured PBL 时展示并进入 `/pbl/[id]`，不再从首页推广空的创造营/挑战列表 |
 | `/explore` | `app/explore/page.tsx` | 探索页 — 服务端首屏携带筛选条件标识，详情返回恢复列表时仅复用条件匹配的首屏，否则按当前筛选重新取第一页再恢复后续页及滚动锚点，避免默认首屏混入标签结果；没有滚动记录时也校验并修复首屏来源。恢复失败显示重试入口并从未完成页重试，新筛选取消旧恢复请求。`e2e/explore-return.spec.ts` 覆盖标签筛选后浏览器往返。项目卡链接一律是无参数的 `/project/:id`：点击时 `lib/explore/project-navigation-context.ts` 把带筛选的探索 URL 与后续最多 24 张卡片写入 sessionStorage，详情页的「返回探索」（桌面与移动头部）和「继续看下一个项目」（`components/features/project/explore-project-context.tsx`）读取它，不再使用 `?from=explore&sourceIndex=` 与筛选 query；为你推荐横栏链接同样无参数并清除旧上下文。专注项目发现，项目列表默认「热门推荐」，并提供「趣味实验」「科教版」快捷入口，支持搜索、分类/子分类筛选、精确年龄排序和 `beginner/intermediate/challenge` 三档难度筛选（兼容旧星级/英文参数）；移动端项目网格使用左右对称的页面 gutter，分类栏取消额外横向内边距，与卡片及返回入口对齐；侧栏移除通用等级/经验/徽章进度卡和登录保存进度提示，浏览态保留热门标签与探索小贴士，结果态释放空侧栏供项目列表使用；项目卡不再查询或展示已停用的项目评论数，统一展示项目点赞、公开最终作品数和投币三个互补指标，其中作品数通过批量 RPC 获取，避免逐卡查询；探索页使用独立 `explore` 卡片变体：基于内容容器宽度显示 2/3/4 列，移动端封面 16:10、桌面端 16:9；分类为 12px 高对比度标签，卡片省略难度文案，适龄与完整陪同建议同行、窄屏自动换行，底部展示点赞与作品数（含零值）；移动端用户主页保留原 compact 变体。桌面搜索与筛选入口稳定常驻，草稿输入与已提交条件分离，清空即时生效且保留其它筛选，分类切换在结果态持续可用；筛选抽屉桌面右侧满高、移动端底部 85dvh，取消后恢复触发按钮焦点，支持中文输入法组合输入。`e2e/explore-interactions.spec.ts` 覆盖搜索竞态、清空、分类、焦点与响应式网格；分页加载时骨架列表与真实项目网格分离，并按整页数量预留，避免 `auto-rows-fr` 重算已有卡片造成滚动跳动；作品预览已移到首页，不在此重复展示；自然观察列表/物种图鉴规范入口为 `/nature/observations`、`/nature/species`，旧 `/explore/observations`、`/explore/species` 及详情地址由 `next.config.mjs` 直接永久重定向并保留查询参数，对应的旧页面壳已删除 |
@@ -260,7 +260,7 @@
 - 两处导航都把「创造营」换成了主线课程入口，项目挑战降为次级：`/create` 与 `/pbl/*` 归到「课程」这一项的 active 判定里，不再单独占一个顶层槽位。要加新频道前先想清楚它是不是又一个平级「从这里开始」——改版前正是七个平级入口指向五个频道，谁都不是主线
 - `mobile-global-header.tsx` — 移动端全局头部；顶部铃铛作为消息中心唯一入口，头像菜单只保留个人中心、按权限显示的管理/审核员入口和退出登录，钱包、内容库、编辑资料和商店从个人中心的快捷入口进入；桌面端头像菜单保持完整入口
 - `header-search.tsx` — 头部搜索栏
-- `user-button.tsx` — 用户头像菜单；有效会员/创始会员显示会员身份与到期状态
+- `user-button.tsx` — 桌面头像菜单只保留个人中心、我的钱包、按原权限显示管理后台/申请成为审核员、退出登录；昵称/邮箱/会员状态保留，compact 手机菜单不变。桌面消息使用 `conditional-app-shell.tsx` 已有的单个 `NotificationBell`，不重复添加
 - `notification-bell.tsx` — 通知铃铛
 - `share-button.tsx` — 分享按钮
 - `login-dialog.tsx` — 登录引导弹窗，与登录页共用验证码/密码流程；使用 Radix Dialog 管理键盘焦点、Escape 和背景滚动锁定，关闭时把焦点交还原操作入口
@@ -795,7 +795,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 14. 平台引导与公告（2026-09-22）
 
-- `/start`（`app/start/page.tsx`、`lib/product/onboarding.ts`）：平台探索指南，覆盖积木、Scratch、科学实验、自然观察、项目学习与游乐场；家长/老师通过现有 `/about#contact` 客服入口备注「入群」。登录成功保留 `next`、待执行动作等原始意图，只有无意图的新注册用户进入指南；常驻入口位于用户菜单。
+- `/start`（`app/start/page.tsx`、`lib/product/onboarding.ts`）：平台探索指南，覆盖积木、Scratch、科学实验、自然观察、项目学习与游乐场；家长/老师通过现有 `/about#contact` 客服入口备注「入群」。登录成功保留 `next`、待执行动作等原始意图，只有无意图的新注册用户进入指南；常驻入口位于首页「探索指南」链接（手机/桌面均可见）与手机 compact 用户菜单。
 - 新手主线仍使用原任务 ID 与 10/20/30 XP，文案与服务端资格扩展为开始实践、完成实践、保存作品/记录；保留历史领取与毕业徽章，资料和观察为可选任务。`20260922121000_platform_starter_tasks.sql` 提供可信来源聚合与原子领取 RPC，`lib/profile/growth-tasks.ts`、`lib/api/weekly-plan-data.ts` 和成长任务 API 共用口径。游乐场领奖资格仅使用服务端维护的 `function_wars_match_results` 战绩；客户端可写的 `playground_stats`（包括离线与其它游戏自报统计）不作为领奖依据，展示聚合与领取条件保持一致。
 - `/announcements`、`/announcements/[id]`：公开公告目录与详情；草稿不可读，撤回只显示安全占位，过期保留正文并禁用操作入口。`components/features/communications/` 包含公开页、管理员编辑器、欢迎操作入口和全局公告组件；`PlatformCommunications` 挂在正常应用外壳中，普通通知只入消息中心，重要通知显示可关闭横幅，紧急通知仅在安全页面经服务端原子领取后弹出，同一用户每会话最多一个，输入/其他弹窗/学习中不打断。
 - `/messages?tab=system`：平台助手欢迎消息与公告统一进入系统公告分类，不创建管理员私信。欢迎卡提供探索指南和客服入群入口；分类在服务端筛选，未读数按四类准确统计，分页以 `created_at + id` 保持稳定，分类/用户切换拒绝陈旧响应。
@@ -849,3 +849,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record. Current evolving counts: COURSE-STATUS-CURRENT.md, progress-129.json and current-development-QA.json; files named69 remain historical snapshots.
 - scripts/ldraw-models/parts/dev-129/: isolated approximate geometry for source-based development models; does not replace published part geometry.
+
+## 桌面记录与入口调整（2026-10-12）
+
+- `components/layout/main-nav.tsx` 移除桌面顶部排行榜；`components/home/home-showcase.tsx` 的 `LeaderboardEntry` 同时用于手机快捷轮播和 md 起自然新发现旁的桌面卡片，`/leaderboard` 路由保留。首页增加全尺寸「探索指南」入口到 `/start`。
+- `app/profile/page.tsx` 共用 `ProfileHero` 增加常用入口：内容库 `/profile/library`、编辑资料 `/settings/profile`、排行榜 `/leaderboard`；手机/桌面、空档案均展示，原弹窗编辑及手机四个快捷入口保留。
+- `/coins` 已有「去兑换装扮」按钮（所有尺寸）与 xl 侧栏「去商店看看」，均进入 `/shop`，保留复用；消息页由桌面现有铃铛、手机全局铃铛/个人页「消息中心」进入，复用未读通知与私信合计数。
+- 回归测试：`project-records-client.test.tsx` 用真实分组卡验证组内非代表步骤滚动、高亮消退和无效目标；`user-button.test.tsx` 覆盖桌面/compact 菜单、权限、会员、退出及铃铛；首页、钱包和个人页测试验证入口与空状态。无数据库或迁移变更，不推送。

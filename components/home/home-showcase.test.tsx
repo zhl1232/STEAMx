@@ -75,5 +75,10 @@ describe("HomeShowcase hero", () => {
     expect(screen.getByRole("link", { name: "免费积木课" })).toHaveAttribute("href", "/courses");
     expect(screen.queryByText(/乐高/)).not.toBeInTheDocument();
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "探索指南" })).toHaveAttribute("href", "/start");
+    const leaderboardLinks = screen.getAllByRole("link", { name: /社区排行榜/ });
+    expect(leaderboardLinks).toHaveLength(2);
+    for (const link of leaderboardLinks) expect(link).toHaveAttribute("href", "/leaderboard");
+    expect(leaderboardLinks[1].parentElement).toHaveClass("hidden", "md:block");
   });
 });
