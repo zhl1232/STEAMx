@@ -4,6 +4,8 @@ import { dirname, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 export const LDRAW_REVIEW_CANDIDATES = [
+  "5-xuan-zhuan-ka-fei-bei",
+  "5-tou-lan-ji",
   "5-shui-zha",
   "5-ma-tou-diao-ji",
   "5-la-ji-che",
