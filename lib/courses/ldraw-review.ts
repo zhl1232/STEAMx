@@ -4,6 +4,11 @@ import { dirname, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 export const LDRAW_REVIEW_CANDIDATES = [
+  "5-shui-zha",
+  "5-ma-tou-diao-ji",
+  "5-la-ji-che",
+  "5-da-di-shu",
+  "5-da-cha-de-xiao-niu",
   // 151 pieces / 8 source steps; 10 classified native mating contacts; axle lengths and hidden color seams inferred.
   '5-tuo-luo-da-zhan.ldr',
   // 70 pieces / 10 source steps; 48 classified static mating contacts; axle length and hidden base seams inferred.
