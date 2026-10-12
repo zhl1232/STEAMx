@@ -911,6 +911,17 @@ function ProfileHero({
   const showInlineStats = compact ? !splitStats : false
   const editorActions = (
     <div className="flex shrink-0 items-center gap-1">
+      {!compact ? [
+        { href: '/profile/library', label: '内容库', icon: FolderOpen },
+        { href: '/leaderboard', label: '排行榜', icon: Trophy },
+      ].map(({ href, label, icon: Icon }) => (
+        <Button key={href} asChild variant="outline" className="h-11 gap-1.5 border-border/60 bg-background/70 px-3 text-xs font-medium md:text-sm">
+          <Link href={href} aria-label={label} title={label}>
+            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+            {label}
+          </Link>
+        </Button>
+      )) : null}
       <Button
         type="button"
         variant={compact ? 'ghost' : 'outline'}
@@ -1006,19 +1017,31 @@ function ProfileHero({
                 avatarClassName="rounded-full object-cover"
               />
             </button>
-            <LevelGuideDialog>
-              <button
-                type="button"
-                className={cn(
-                  'inline-flex h-6 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
-                  compact
-                    ? 'relative mt-1.5 hover:-translate-y-0.5'
-                    : 'relative z-10 mt-2 hover:-translate-y-0.5',
-                )}
-              >
-                Lv.{profileContext.level}
-              </button>
-            </LevelGuideDialog>
+            <div className={compact ? 'contents' : 'flex items-center justify-center gap-1.5'}>
+              <LevelGuideDialog>
+                <button
+                  type="button"
+                  className={cn(
+                    'inline-flex h-6 items-center rounded-full border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--background)/0.98)] px-2.5 text-[10px] font-bold text-[hsl(var(--brand-blue))] shadow-xs backdrop-blur-md transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
+                    compact
+                      ? 'relative mt-1.5 hover:-translate-y-0.5'
+                      : 'relative z-10 mt-2 hover:-translate-y-0.5',
+                  )}
+                >
+                  Lv.{profileContext.level}
+                </button>
+              </LevelGuideDialog>
+              {!compact ? (
+                <Link
+                  href="/leaderboard"
+                  aria-label="查看排行榜"
+                  title="查看排行榜"
+                  className="mt-2 inline-flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-border/60 bg-background/70 text-muted-foreground transition hover:bg-accent hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
+                >
+                  <Trophy className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           <div className="min-w-0 flex-1">
@@ -1118,20 +1141,6 @@ function ProfileHero({
           </div>
         ) : null}
 
-        {!compact ? (
-          <nav aria-label="个人中心常用入口" className="mt-4 hidden md:flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border/40 pt-2">
-            {[
-              { href: '/profile/library', label: '内容库', icon: FolderOpen },
-              { href: '/leaderboard', label: '排行榜', icon: Trophy },
-            ].map(({ href, label, icon: Icon }) => (
-              <Link key={href} href={href} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
-                <Icon className="h-4 w-4" aria-hidden="true" />
-                {label}
-              </Link>
-            ))}
-          </nav>
-        ) : null}
-
         {/* 移动端：将 4 个高频快捷入口无缝收纳在 Hero 底部 */}
         {compact ? (
           <div className="mt-3.5 border-t border-[hsl(var(--surface-border)/0.4)] pt-2.5 dark:border-[hsl(var(--surface-border-strong)/0.45)]">
@@ -1181,6 +1190,7 @@ function ProfileStatTile({ stat, compact, bordered }: { stat: ProfileStat; compa
   return (
     <Link
       href={stat.href}
+      aria-label={`${stat.value} ${stat.label}`}
       className={cn(
         'group flex items-center justify-center transition hover:bg-[hsl(var(--surface-muted)/0.72)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30',
         compact
