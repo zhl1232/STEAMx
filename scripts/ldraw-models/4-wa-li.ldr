@@ -2,6 +2,7 @@
 0 Name: 4-wa-li.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // 2026-10-12 local source review: p3 blue 31193 restored as existing local-only geometry, provisional closed pose. p12 exact scoop side walls/teeth unresolved; INCOMPLETE, not cleared for publication.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -18,8 +19,9 @@
 1 71 80 24 144 1 0 0 0 0 -1 0 1 0 99565.dat
 1 0 0 24 144 1 0 0 0 1 0 0 0 1 71981.dat
 0 STEP
-0 // Source page 3: yellow round-door frame, blue door omitted for provenance/fit review
+0 // Source page 3: yellow round-door frame. Blue 31193 restored from existing local geometry for this development draft only; provenance/license and exact hinge fit remain unresolved.
 1 14 120 -240 0 0 0 -1 0 1 0 1 0 0 31191.dat
+1 1 137.5 -31.551 0 0 0 -1 0 1 0 1 0 0 31193.dat
 0 STEP
 0 // Source page 4: four yellow2x4 and two2x2 bricks: two back courses and first side course
 1 14 -120 -48 -40 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -66,6 +68,7 @@
 1 72 248 -264 321 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
 0 STEP
 0 // Source page 12: two orange scoop hands
+0 // NOT FIXED: existing approved dev-129/6294 approximation lacks the source scoop side walls/teeth. No new geometry authorized; retained as an explicitly approximate candidate, not an exact scoop.
 1 25 248 -264 -321 0 1 0 1 0 0 0 0 -1 dev-129/6294.dat
 1 25 248 -264 321 0 1 0 -1 0 0 0 0 1 dev-129/6294.dat
 0 STEP
@@ -79,7 +82,7 @@
 1 72 48 -509 0 0 0 1 0 1 0 -1 0 0 76057.dat
 1 71 112 -485 -40 0 -1 0 1 0 0 0 0 1 99565.dat
 1 71 112 -485 40 0 -1 0 1 0 0 0 0 1 99565.dat
-0 // PENDING: Known blue31193 door omitted: existing historical mesh has unresolved provenance and hinge placement.
+0 // PENDING: Blue31193 uses existing historical mesh, not an official/licensed replacement; provisional closed position follows local metadata. Hinge retention and provenance unresolved; do not publish.
 0 // PENDING: Fixed71981 belt loop has estimated180LDU centre separation versus source-visible160LDU chassis wheel spacing; no scaling, fit/tension remains pending.
 0 // PENDING: Side shoulder studs/screws, clasp joints and scoop contacts use approximate Toolo geometry; exact fit not certified.
 0 // PENDING: Source-derived wall-course quantities are preserved; central rendered comparison of roof/doorway and arm joints remains required.
