@@ -1,4 +1,4 @@
-0 4+ 叉车 - source-step reconstruction; INCOMPLETE exhaust-pipe forks
+0 4+ 叉车 - source-step reconstruction; forks via local approx 4433c01
 0 Name: 4-cha-che.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
@@ -58,7 +58,9 @@
 1 72 160 -336 80 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
 
-0 // STEP 6 - front sideways sandwich: 2 black screw blocks, 2 red bricks, 2 yellow plates
+0 // STEP 6 - source p6: two black 4x6 screw bricks (24 studs each), not a 2x6 plate
+0 // Sideways sandwich body thickness: 48 black + 48 red + 24 yellow + 48 black = 168 LDU.
+0 // Existing approved simplified 76395 geometry retained; exact screw/mould details remain unresolved.
 1 0 288 -256 0 0 -1 0 0 0 -1 1 0 0 76395.dat
 1 4 336 -256 -80 0 -1 0 -1 0 0 0 0 -1 3011.dat
 1 14 360 -256 -80 0 -1 0 -1 0 0 0 0 -1 40666.dat
@@ -72,8 +74,12 @@
 1 72 324 -416 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
 0 STEP
 
-0 // STEP 8 - lower angled fork joint; 2 verified 4433c01 exhaust-pipe tools lack geometry, omitted
+0 // STEP 8 - lower angled fork joint + two Toolo exhaust-pipe forks (4433c01)
+0 // Official DAT unavailable; using local simplified mesh parts/dev-129/4433c01.dat (CC BY 4.0 approx).
+0 // Attachment at 28336 cheek pivots (~world 324,-16,±40); pipe extends +X toward pallet.
 1 72 372 49 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 71 324 -16 40 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
+1 71 324 -16 -40 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
 0 STEP
 
 0 // STEP 9 - rear red crossbar, two yellow pillar starts, blue curved seat
@@ -115,10 +121,10 @@
 1 4 -72 -223 0 0 0 1 0 1 0 -1 0 0 47199.dat
 0 STEP
 
-0 // STEP 14 - separate pallet: four blue 2x4 bricks and yellow 4x8 plate
+0 // STEP 14 - separate pallet: four blue 2x4 bricks and lime 4x8 plate (source p14-15)
 1 1 620 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 1 620 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 1 860 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 1 860 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 740 -72 0 1 0 0 0 1 0 0 0 1 4672.dat
+1 27 740 -72 0 1 0 0 0 1 0 0 0 1 4672.dat
 0 // Source page 15 is the final inspection view; it adds no building step.
