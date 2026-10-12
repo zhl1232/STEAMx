@@ -1,13 +1,14 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import reviewed from './science-reviewed.data.json'
-import legacy from './science-samples.data.json'
+import legacyData from './science-samples.data.json'
 import { applyScienceSample, getScienceSample, getScienceSampleForProject, scienceSampleIds } from './science-samples'
 import { getScienceTutorContent } from '@/lib/ai/tutor/science-context'
 import { buildProjectJsonLd } from '@/lib/seo/json-ld'
 import type { Project } from '@/lib/mappers/types'
+const legacy: import('./science-samples').ScienceSample[] = legacyData
 afterEach(() => vi.unstubAllEnvs())
-const expectedIds = [478,552,586,617,624,642,657,675,700,717,738,745,763,772,792,810,812,813,822,843,847,867,869,876,891,893,903,925,930,949,957,964,977,979,985,1021,1040,1049,1098,1100,1102,1116,1157,1175,1189,1195,1198,1213,1215,1220,1222,1249,1269,1285,1299]
-test.each(['development', 'production', 'test'])('exact approved55 content and tutor agree in %s; other drafts stay out', env => {
+const expectedIds = [478,552,586,617,624,642,657,675,700,717,738,745,763,772,792,810,812,813,822,843,847,867,869,876,891,893,903,925,930,949,957,964,977,979,985,1021,1040,1049,1098,1100,1102,1116,1157,1175,1176,1177,1178,1179,1180,1181,1183,1184,1187,1188,1189,1190,1191,1192,1193,1194,1195,1198,1200,1201,1202,1204,1205,1206,1207,1210,1211,1212,1213,1214,1215,1216,1217,1218,1219,1220,1222,1227,1228,1230,1231,1232,1233,1236,1239,1244,1246,1248,1249,1254,1257,1259,1262,1269,1277,1281,1283,1284,1285,1286,1293,1295,1299,1307,1308,1309,1315,1321,1322,1323]
+test.each(['development', 'production', 'test'])('exact approved114 content and tutor agree in %s; other drafts stay out', env => {
  vi.stubEnv('NODE_ENV', env)
  expect(reviewed.map(row => row.id)).toEqual(expectedIds)
  expect(scienceSampleIds()).toHaveLength(114)
@@ -43,7 +44,7 @@ test.each(['development', 'production', 'test'])('exact approved55 content and t
  for (const item of legacy) expect(getScienceSample(item.id)).toEqual(item)
 })
 test('public safety modes and static alternative remain explicit', () => {
- expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(35)
+ expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(94)
  expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(11)
  expect(reviewed.filter(x => x.mode === 'observation')).toHaveLength(9)
  expect(getScienceSample(1269)?.extension).toContain('插座和电器里的电很危险，绝对不能用身体去试。')

@@ -25,11 +25,11 @@
 
 ## 2. 当前实现地图
 
-共享领域代码位于 [`lib/content-classification/`](/home/arron/work/lib/content-classification/index.ts)：类型、常量、三档映射、候选规则、校验、公开查询、JSON-LD、设置读取和管理员辅助函数均从这里复用。公开展示组件是 [`components/ui/content-classification.tsx`](/home/arron/work/components/ui/content-classification.tsx)。
+共享领域代码位于 [`lib/content-classification/`](../lib/content-classification/index.ts)：类型、常量、三档映射、候选规则、校验、公开查询、JSON-LD、设置读取和管理员辅助函数均从这里复用。公开展示组件是 [`components/ui/content-classification.tsx`](../components/ui/content-classification.tsx)。
 
 已存在的运维和管理入口：
 
-- [`/admin/content-classifications`](/home/arron/work/app/admin/content-classifications/page.tsx) 提供课程、项目、挑战的候选队列和人工复核。
+- [`/admin/content-classifications`](../app/admin/content-classifications/page.tsx) 提供课程、项目、挑战的候选队列和人工复核。
 - `GET /api/admin/content-classifications` 查询队列；支持 `contentType`、`status`、分页和安全关键词筛选。
 - `GET/PATCH /api/admin/content-classifications/[contentType]/[id]` 读取详情、历史和候选；PATCH 只能写候选字段及内部难度，不能写审核状态和审核元数据。
 - `POST /api/admin/content-classifications/[contentType]/[id]/review` 以 `approve` 或 `return` 写入审核结论，要求完整三轴、UUID 幂等键和 revision；过期 revision 返回冲突。moderator 不能审核自己创建的内容，admin 的自审例外会进入审计说明。

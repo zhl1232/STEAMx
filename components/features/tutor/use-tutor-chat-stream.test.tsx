@@ -217,6 +217,39 @@ describe('tutor chat lifecycle', () => {
     expect(result.current.busy).toBe(false)
   })
 
+  it('does not restart speech after course controls take over and old PCM arrives', async () => {
+    mocks.fetch.mockResolvedValue(response([
+      { type: 'audio', pcm: 'AAAA', sampleRate: 24000 },
+      { type: 'audio_done' },
+      { type: 'done', reply: '这段文字仍然保留。' },
+    ]))
+    const opts = { ...options(), autoReadReplies: true }
+    vi.mocked(opts.pushStreamedPcm).mockReturnValue(null)
+    vi.mocked(opts.finishStreamedSpeech).mockReturnValue(null)
+    const { result } = renderHook(() => useTutorChatStream(opts))
+
+    await act(async () => { await result.current.sendMessage('帮我看看') })
+
+    expect(opts.pushStreamedPcm).toHaveBeenCalled()
+    expect(opts.playSpeech).not.toHaveBeenCalled()
+    expect(result.current.messages.at(-1)?.content).toBe('这段文字仍然保留。')
+  })
+
+  it('still retries a failed speech stream while the same audio session is active', async () => {
+    mocks.fetch.mockResolvedValue(response([
+      { type: 'audio', pcm: 'AAAA', sampleRate: 24000 },
+      { type: 'done', reply: '可以重新播放的答复。' },
+    ]))
+    const opts = { ...options(), autoReadReplies: true }
+    vi.mocked(opts.pushStreamedPcm).mockReturnValue(false)
+    vi.mocked(opts.finishStreamedSpeech).mockReturnValue(false)
+    const { result } = renderHook(() => useTutorChatStream(opts))
+
+    await act(async () => { await result.current.sendMessage('帮我看看') })
+
+    expect(opts.playSpeech).toHaveBeenCalledWith('可以重新播放的答复。', expect.any(String))
+  })
+
   it('keeps an in-progress retry on its original request identity', async () => {
     mocks.fetch.mockResolvedValueOnce(new Response(JSON.stringify({ error: '处理中', requestState: 'processing' }), { status: 409 }))
       .mockResolvedValueOnce(response([{ type: 'done', reply: '原请求的回复', replayed: true }]))

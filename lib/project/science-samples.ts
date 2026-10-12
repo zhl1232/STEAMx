@@ -1,8 +1,9 @@
 import type { Project } from '@/lib/mappers/types'
-import samples from './science-samples.data.json'
+import samplesData from './science-samples.data.json'
 import reviewedData from './science-reviewed.data.json'
 
-export type ScienceSample = typeof samples[number] & { mode?: 'activity' | 'observation' | 'preparation'; instructionGap?: string; demonstrationReason?: string; sourceRelation?: 'alternative'; extensionQuestions?: string[] }
+export type ScienceSample = Omit<typeof reviewedData[number], 'mode' | 'instructionGap' | 'demonstrationReason' | 'sourceRelation' | 'extensionQuestions'> & { mode?: 'activity' | 'observation' | 'preparation'; instructionGap?: string; demonstrationReason?: string; sourceRelation?: 'alternative'; extensionQuestions?: string[] }
+const samples = samplesData as ScienceSample[]
 const reviewed = reviewedData as ScienceSample[]
 
 /** Explicit release scope; other drafts are not included. */
@@ -10,7 +11,7 @@ export function isReviewedScienceProject(id: string | number): boolean {
   return reviewed.some(sample => sample.id === Number(id))
 }
 
-/** Reviewed content is shared in all environments. Legacy 59 retain their database guard. */
+/** Reviewed content is shared in all environments. Non-reviewed legacy samples retain their database guard. */
 export function getScienceSample(id: string | number): ScienceSample | null {
   const released = reviewed.find(sample => sample.id === Number(id))
   return released ?? samples.find(sample => sample.id === Number(id)) ?? null

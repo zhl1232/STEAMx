@@ -488,9 +488,9 @@ export function useTutorChatStream({
         if (!settledText) throw new Error('连接中断，请稍后重新打开对话，查看回复是否已保存。')
         const shouldSpeak = willSpeak && !replayed
         const speechResult = willSpeak ? finishStreamedSpeech(assistantSpeechKeyRef.current) : null
-        // null 表示这条语音已被另一条流/场景接管；只有收到过“stale”帧时才重试，
-        // 避免用户主动停止后，旧 SSE 结束时又自动重新播放。
-        const speechNeedsRetry = speechResult === false || speechStreamWentStale
+        // null 表示语音已被停止或另一个音频会话接管；迟到的 PCM 不能让旧答复
+        // 再次抢占课程语音。只有仍然拥有播放会话的失败才允许自动补播。
+        const speechNeedsRetry = speechResult !== null && (speechResult === false || speechStreamWentStale)
         if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechNeedsRetry) {
           void playSpeech(full || '…', assistantSpeechKeyRef.current)
         }

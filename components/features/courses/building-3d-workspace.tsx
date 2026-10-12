@@ -791,6 +791,7 @@ export function Building3DWorkspace({
     initialCompleted = false,
     onCompleted,
     navigationSlot,
+    voiceControlsSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -799,6 +800,7 @@ export function Building3DWorkspace({
     initialCompleted?: boolean;
     onCompleted?: () => void;
     navigationSlot?: ReactNode;
+    voiceControlsSlot?: ReactNode;
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
@@ -1611,6 +1613,8 @@ export function Building3DWorkspace({
                     ) : null}
                 </div>
             </div>
+
+            {view === "lesson" ? voiceControlsSlot : null}
 
             {view === "works" && hasWorks ? (
                 <LessonWorksGallery

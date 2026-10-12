@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { useEffect, useState } from "react";
 
 import { Building3DWorkspace } from "./building-3d-workspace";
 import type { CourseLessonRow } from "@/lib/courses/types";
@@ -124,6 +125,21 @@ function renderWorkspace(lesson = baseLesson, activeStepIndex = 0) {
             activeStepIndex={activeStepIndex}
             onStepChange={vi.fn()}
         />,
+    );
+}
+
+function VoiceControlsProbe({ onMount, onRelease }: { onMount: () => void; onRelease: () => void }) {
+    const [listening, setListening] = useState(false);
+    useEffect(() => {
+        onMount();
+        return onRelease;
+    }, [onMount, onRelease]);
+    return (
+        <div data-testid="voice-controls-slot">
+            <button type="button" onClick={() => setListening((value) => !value)}>
+                {listening ? "暂停语音监听" : "开启语音监听"}
+            </button>
+        </div>
     );
 }
 
@@ -348,6 +364,57 @@ describe("Building3DWorkspace", () => {
             else Reflect.deleteProperty(HTMLElement.prototype, "requestFullscreen");
             if (scrollDescriptor) Object.defineProperty(window, "scrollY", scrollDescriptor);
             else Reflect.deleteProperty(window, "scrollY");
+        }
+    });
+
+    it("keeps the voice slot inside fullscreen without remounting and releases it when viewing works", async () => {
+        const fullscreenDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
+        const requestFullscreen = vi.fn().mockResolvedValue(undefined);
+        Object.defineProperty(HTMLElement.prototype, "requestFullscreen", { configurable: true, value: requestFullscreen });
+        const onMount = vi.fn();
+        const onRelease = vi.fn();
+        const lesson = {
+            ...baseLesson,
+            content: { ...baseLesson.content, workSubmission: { enabled: true } },
+        };
+        try {
+            render(
+                <Building3DWorkspace
+                    courseId={7}
+                    lesson={lesson}
+                    activeStepIndex={0}
+                    onStepChange={vi.fn()}
+                    voiceControlsSlot={<VoiceControlsProbe onMount={onMount} onRelease={onRelease} />}
+                />,
+            );
+            const slot = screen.getByTestId("voice-controls-slot");
+            const workspace = slot.closest("section");
+            expect(workspace).toBe(screen.getByRole("button", { name: "全屏横向展示" }).closest("section"));
+            expect(slot.previousElementSibling).toContainElement(screen.getByRole("button", { name: "全屏横向展示" }));
+            fireEvent.click(screen.getByRole("button", { name: "开启语音监听" }));
+            fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+            await waitFor(() => expect(requestFullscreen).toHaveBeenCalledOnce());
+            expect(requestFullscreen.mock.contexts[0]).toBe(workspace);
+            expect(workspace).toHaveClass("fixed", "z-[100]");
+            expect(screen.getByTestId("voice-controls-slot")).toBe(slot);
+            expect(screen.getByRole("button", { name: "暂停语音监听" })).toBeInTheDocument();
+            expect(onMount).toHaveBeenCalledOnce();
+            expect(onRelease).not.toHaveBeenCalled();
+
+            fireEvent.click(screen.getByRole("button", { name: "退出全屏" }));
+            expect(screen.getByTestId("voice-controls-slot")).toBe(slot);
+            expect(onMount).toHaveBeenCalledOnce();
+            expect(onRelease).not.toHaveBeenCalled();
+
+            fireEvent.click(screen.getByRole("button", { name: /^作品$/ }));
+            expect(screen.queryByTestId("voice-controls-slot")).not.toBeInTheDocument();
+            expect(onRelease).toHaveBeenCalledOnce();
+            fireEvent.click(screen.getByRole("button", { name: "课程内容" }));
+            expect(screen.getByRole("button", { name: "开启语音监听" })).toBeInTheDocument();
+            expect(onMount).toHaveBeenCalledTimes(2);
+        } finally {
+            if (fullscreenDescriptor) Object.defineProperty(HTMLElement.prototype, "requestFullscreen", fullscreenDescriptor);
+            else Reflect.deleteProperty(HTMLElement.prototype, "requestFullscreen");
         }
     });
 
