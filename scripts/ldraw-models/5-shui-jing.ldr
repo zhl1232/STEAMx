@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF batch04 manifest, SHA256 c74be14c5416e50d7cdcb0dad0dcea4896b00836eef15e4306d487494aebc96f
+0 // BATCH2: current steps3-4 include two ropes/hooks into the well. Local page13 shows a DIFFERENT tall red/blue lever well; audit pair is the striped square winch well. Source-version match remains NOT FIXED.
 0 // STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.

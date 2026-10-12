@@ -174,8 +174,13 @@
 1 14 -31.724319 -468.900589 -104 1 0 0 0 0 -1 0 1 0 6526.dat
 1 14 -31.724319 -468.900589 104 -1 0 0 0 0 -1 0 -1 0 6526.dat
 0 STEP
-0 // SOURCE PAGE 17 - Cabin roof plate; unresolved door assemblies and dependent floor omitted
+0 // SOURCE PAGE 17 - Cabin roof, two red closed-back frames and two blue floor plates.
 1 1 -31.724319 -444.900589 0 1 0 0 0 1 0 0 0 1 40666.dat
-0 // UNVERIFIED 2332ac01/4253c01 frame + white4pane leaf - Source has white unequal-height4panes;90265equalpanes mismatch. Candidatec01 complete shortcuts are redframe/backpanel only, not whiteleaf. Identity variant and combinedgeometry unresolved; do not substitute.
-0 // UNVERIFIED 40666 - Known ID geometry available, omitted because two missingwindow/wall assemblies remove its source support. Source fullcabin height/attach remains unresolved.
+1 4 -31.724319 -420.900589 -40 1 0 0 0 1 0 0 0 1 2332ac01.dat
+1 4 -31.724319 -420.900589 40 -1 0 0 0 1 0 0 0 -1 2332ac01.dat
+1 1 -31.724319 -276.900589 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -31.724319 -276.900589 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Frame identity: source page17 two red 2x4x3 closed-back door frames with raised outline. Official 2332ac01 includes frame2332a and red backplateu9525; it does NOT include white pane.
+0 // Top beam bottom Y=-444.900589 -> blue plate bottom/frame top=-420.900589 -> frame bottom/floor top=-276.900589. Two frames Z=+/-40 form a 4x4 cabin; roof bridges their seam. Suspended stud retention requires physical verification.
+0 // UNRESOLVED white unequal-height four-pane leaves: 90265 has equal panes, 4809 arched outline, 31022 curved top; no exact geometry identified. Omitted, NOT FIXED; no silent substitute.
 0 // Source final page adds no parts.

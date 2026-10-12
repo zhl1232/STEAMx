@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF batch03, lesson249 course7, SHA256 fc5ab2b26cfa8e653fadcd1dac66e9d21bce1ef454c7d78e25ac6e61dc300c0c
+0 // BATCH2: current rope and side cranks are present (steps10,12,14-16). Local courseware page12 is a DIFFERENT Toolo crane with barriers; audit pair uses the 17-page Technic crane. Source-version match remains NOT FIXED; do not mix builds.
 0 // STATUS: INCOMPLETE; source pages 1-17 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.

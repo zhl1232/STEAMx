@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 fad0f9695b509dc78b30a403cca4b8f5c0f810d223e6940ffc87e59c7e05d054
+0 // BATCH2: raised supported phase. Rotate three eccentric cranks180deg about world Z through gear centres Y=-216; lower pins move Y=-136 to -296, lifting followers and balls160LDU. Existing parts only. Phase differs from low-crank depiction in source; dynamic operation not certified.
 0 // All10 source pages actually viewed; final page is presentation only.
 0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
 0 // SOURCE PAGE 1 - Square base and three striped wall tiers
@@ -52,15 +53,15 @@
 0 // UNVERIFIED 6530/6529 - Nominal40/24 pitch centres160; static teeth phase/contact and manual rotation not certified
 0 STEP
 0 // SOURCE PAGE 4 - Three eccentric crank and seven-hole follower assemblies
-1 14 -320 -216 -24 1 0 0 0 0 1 0 -1 0 6526.dat
-1 14 -320 -256 -64 1 0 0 0 0 -1 0 1 0 6524.dat
-1 1 -320 -136 -104 0 0 1 0 1 0 -1 0 0 6523.dat
-1 14 0 -216 -24 1 0 0 0 0 1 0 -1 0 6526.dat
-1 14 0 -256 -64 1 0 0 0 0 -1 0 1 0 6524.dat
-1 1 0 -136 -104 0 0 1 0 1 0 -1 0 0 6523.dat
-1 14 320 -216 -24 1 0 0 0 0 1 0 -1 0 6526.dat
-1 14 320 -256 -64 1 0 0 0 0 -1 0 1 0 6524.dat
-1 1 320 -136 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -320 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 -320 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 -320 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 0 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 0 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 0 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 320 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 320 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 320 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
 0 // UNVERIFIED 6526+6523 - Coaxial layout follows source but integral carrier pin and inserted axle hidden engagement need sectional/physical evidence; not an automatically solved linkage
 0 STEP
 0 // SOURCE PAGE 5 - Two blue wall tiers and rear operating crank
@@ -102,9 +103,9 @@
 1 1 320 -512.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
 0 // UNVERIFIED 31452/42029 - Tube localZ flange and historic holder axis inferred numerically; radial/depth tolerance and freedom of movement require actual mesh/physical check
 0 STEP
-0 // SOURCE PAGE 9 - Three source balls in supported low static pose rather than source raised phase
-1 14 -320 -465 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
-1 4 0 -465 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
-1 1 320 -465 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
-0 // UNVERIFIED 22119/6524 - Source raised ball centre candidateY-608 would leave143LDU unsupported gap. Actual tube minimum bore exceeds ball radius, so rim cannot support it. Low static rest centreY-465 preserves identities/count but dynamic coupling, stability and full motion remain unverified. Nominal sphere clearance is only geometric evidence.
+0 // SOURCE PAGE 9 - Three source balls at raised follower-supported phase; yellow, red, blue.
+1 14 -320 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+1 4 0 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+1 1 320 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+0 // UNVERIFIED dynamics: raised follower top Y=-560, ball centre Y=-625 (radius65), nearest top Z offset1.3925LDU, conservative spherical contact gap0.0149LDU. Balls are supported by followers, not the wider tube bore. Tube rim Y=-632.414, ball top=-690; visible cap57.586LDU. Source p4 shows another crank phase; static high phase chosen to expose targets without floating them.
 0 // Source final page adds no parts.

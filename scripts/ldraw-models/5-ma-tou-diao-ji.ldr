@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa; all fifteen source pages viewed.
+0 // BATCH2 page12-15 review: existing non-BOM rope connects boom-tip pulley to lower hook; old audit screenshot predates rope geometry. Retained, no duplicate rope/75536. Schematic route, not physical validation.
 0 // INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.
 0 // 31196c01 is the previously approved local approximation. Cord uses the approved non-BOM cylinder.
 0 // SOURCE PAGE 1: green base and three six-layer alternating blue/yellow columns
