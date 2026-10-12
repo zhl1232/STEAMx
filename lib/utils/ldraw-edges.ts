@@ -59,8 +59,9 @@ export function createLdrawEdgeRenderer(getFace: (code: string) => Material | nu
     if (!material) {
       material = (conditional && source ? source.clone() : new LineBasicMaterial()) as ColoredMaterial
       material.color.set(color)
-      material.opacity = 0.7
-      material.transparent = true
+      // Dark overrides need full opacity; #808080 at 0.7 still blends into black under ACES.
+      material.opacity = light ? 1 : 0.7
+      material.transparent = !light
       material.depthWrite = false
       material.toneMapped = false
       materials.set(key, material)
