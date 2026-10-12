@@ -2,6 +2,7 @@
 0 Name: 4-tuo-gua-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 p5-6/p13: five missing p6 bricks belong to cab rear wall (3 lime3011 + 2 yellow3011), not cargo fencing. Cargo fence count4 is source-correct. Exact rear-wall stud seating versus side-built pillars/roof unresolved; NOT FIXED. Exhaust/driver still absent.
 0 // Batch2 source review 2026-10-12: p13 four31021p01 fences already present and retained, no duplicate BOM. Tow reinforcement p8 restored; p6 rear wall still unresolved. Exhaust and figure omitted. Rear wall fit requires render review.
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV-ONLY INCOMPLETE. Source PDF SHA256 3c89a70687d2dbf3d6061236f2a31a9ace1fb2a5e9ab3e3c5971127b3b391f23

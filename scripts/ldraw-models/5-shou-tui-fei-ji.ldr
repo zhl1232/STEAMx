@@ -2,6 +2,7 @@
 0 Name: 5-shou-tui-fei-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 p1-5/p9-11: chassis stud planes are horizontal in world XZ; upward push handle is intentional in source. Both slender lime rotor sheets remain omitted: available formed sheets have incompatible outlines. NOT FIXED; do not flatten the entire handle or scale substitutes.
 0 // 2026-10-12 local source review: p1-5 chassis is already level (+Y down); rotate complete display -90 degrees around Y for side view. Incorrect rotor candidates removed honestly; two source sheets remain unresolved, NOT COMPLETE.
 0 // SOURCE PAGE 1: Two upper long red beams bonded by lower central long beam
 1 4 0 -24 0 0 0 -1 0 1 0 1 0 0 75350.dat
