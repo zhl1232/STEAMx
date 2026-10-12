@@ -1,14 +1,14 @@
-0 4+ 二胡 - source-reconstructed local review candidate
+0 4+ 二胡 - INCOMPLETE source reconstruction
 0 Name: 4-er-hu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: /mnt/d/pdf预览/4+二胡搭建说明_pdf pages1-11.
-0 // Source7-10 restored; local review candidate, no human acceptance or publication.
-0 // 53 parts across11 source steps; blue neck skins are24LDU plates.
+0 // INCOMPLETE: Toolo peg/spool/bow geometry in steps7-10 unresolved and omitted.
+0 // 39 standard parts from source1-6; blue neck skins are 24 LDU 40666 plates.
 0 // Depth layers follow real 24/48 LDU thickness; early upright assembly requires hand support.
 0 // Hidden frame bond and exact neck anchor are image-guided; physical clutch unverified.
-0 NumOfBricks: 53
+0 NumOfBricks 39
 0 // Source step 1
 1 4 0 -120 0 1 0 0 0 0 -1 0 1 0 4196.dat
 1 14 -160 -200 -48 1 0 0 0 0 -1 0 1 0 3011.dat
@@ -60,27 +60,12 @@
 1 1 -40 -960 -48 0 0 -1 -1 0 0 0 1 0 40666.dat
 1 1 -40 -1120 -48 0 0 -1 -1 0 0 0 1 0 40666.dat
 0 STEP
-0 // Source step 7 - source-guided placement; screw retention and inferred joint angles require physical review
-1 7 -40 -1200 -96 0 0 -1 -1 0 0 0 1 0 76057.dat
-1 7 -40 -1360 -96 0 0 -1 -1 0 0 0 1 0 76057.dat
-1 1 -40 -1280 -120 0 0 -1 -1 0 0 0 1 0 40666.dat
-1 1 -40 -1280 -48 0 0 -1 -1 0 0 0 1 0 40666.dat
+0 // Source step 7 - unresolved Toolo components omitted
 0 STEP
-0 // Source step 8 - source-guided placement; screw retention and inferred joint angles require physical review
-1 7 -120 -1360 -72 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -120 -1360 -72 0 1 0 -1 0 0 0 0 1 44970.dat
-1 7 -120 -1200 -72 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -120 -1200 -72 0 1 0 -1 0 0 0 0 1 44970.dat
+0 // Source step 8 - unresolved Toolo components omitted
 0 STEP
-0 // Source step 9 - source-guided placement; screw retention and inferred joint angles require physical review
-1 7 48 -1360 -72 0 -1 0 0 0 -1 1 0 0 28336.dat
-1 7 233 -1568 -72 0.8 -0.6 0 0.6 0.8 0 0 0 1 28334.dat
-1 7 48 -1200 -72 0 -1 0 0 0 -1 1 0 0 28336.dat
-1 7 233 -1408 -72 0.8 -0.6 0 0.6 0.8 0 0 0 1 28334.dat
+0 // Source step 9 - unresolved Toolo components omitted
 0 STEP
-0 // Source step 10 - source-guided placement; screw retention and inferred joint angles require physical review
-0 // Separate handheld bow, source10; display placement does not imply an attachment to the body.
-1 7 200 -480 -230 0.8 -0.6 0 0.6 0.8 0 0 0 1 28331.dat
-1 7 -40 -160 -230 0.8 -0.6 0 0.6 0.8 0 0 0 1 28331.dat
+0 // Source step 10 - unresolved Toolo components omitted
 0 STEP
 0 // Source step 11

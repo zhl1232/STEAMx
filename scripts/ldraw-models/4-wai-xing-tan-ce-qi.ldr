@@ -1,87 +1,41 @@
-0 Alien probe - local reconstruction pending human acceptance
+0 4+ 外星探测器 (Alien Rover) - DUPLO draft for manual repair
 0 Name: 4-wai-xing-tan-ce-qi.ldr
-0 // Renderer-verified only; not accepted or published.
-0 // Fifth base tile inferred below four visible tiles from printed quantity; hidden seam not confirmed.
-0 // Cross uses four hanging end plates with two studs each; hold during assembly.
-0 // Side hinge bases have two stud contacts each; poses inferred, physical retention untested.
-0 // STEP 1 - source page 1
-1 0 -120 0 -80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 -120 0 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 120 0 -80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 120 0 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: 4+外星探测器 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Rover suspension, camera mast, antenna head and solar panels are simplified.
+
+0 // STEP 1 - low rover base and wheels
+1 0 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 2 - source page 2
-1 72 -200 24 -208 -1 0 0 0 0 1 0 1 0 28336.dat
-1 72 -200 146 -273 1 0 0 0 -1 0 0 0 -1 74957.dat
-1 72 -200 24 208 1 0 0 0 0 1 0 -1 0 28336.dat
-1 72 -200 146 273 1 0 0 0 -1 0 0 0 -1 74957.dat
-1 72 200 24 -208 -1 0 0 0 0 1 0 1 0 28336.dat
-1 72 200 146 -273 1 0 0 0 -1 0 0 0 -1 74957.dat
-1 72 200 24 208 1 0 0 0 0 1 0 -1 0 28336.dat
-1 72 200 146 273 1 0 0 0 -1 0 0 0 -1 74957.dat
+
+0 // STEP 2 - side suspension arms
+1 8 -260 -72 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 8 0 -72 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 8 260 -72 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
+1 8 -260 -72 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 8 0 -72 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+1 8 260 -72 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
 0 STEP
-0 // STEP 3 - source page 3
-1 72 -280 122 -273 0 1 0 0 0 1 1 0 0 99565.dat
-1 0 -280 122 -273 0 1 0 0 0 1 1 0 0 44970.dat
-1 72 -120 122 -273 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 0 -120 122 -273 0 -1 0 0 0 -1 1 0 0 44970.dat
-1 72 -280 122 273 0 1 0 0 0 1 1 0 0 99565.dat
-1 0 -280 122 273 0 1 0 0 0 1 1 0 0 44970.dat
-1 72 -120 122 273 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 0 -120 122 273 0 -1 0 0 0 -1 1 0 0 44970.dat
-1 72 120 122 -273 0 1 0 0 0 1 1 0 0 99565.dat
-1 0 120 122 -273 0 1 0 0 0 1 1 0 0 44970.dat
-1 72 280 122 -273 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 0 280 122 -273 0 -1 0 0 0 -1 1 0 0 44970.dat
-1 72 120 122 273 0 1 0 0 0 1 1 0 0 99565.dat
-1 0 120 122 273 0 1 0 0 0 1 1 0 0 44970.dat
-1 72 280 122 273 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 0 280 122 273 0 -1 0 0 0 -1 1 0 0 44970.dat
+
+0 // STEP 3 - mast and camera head
+1 0 0 -168 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 0 -328 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 0 0 -488 0 1 0 0 0 0 -1 0 1 0 31452.dat
+1 8 0 -600 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -60 -648 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 60 -648 -80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // STEP 4 - source page 4
-1 0 -160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 0 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 0 -96 0 1 0 0 0 1 0 0 0 1 76395.dat
-0 STEP
-0 // STEP 5 - source page 5
-1 72 -160 -96 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 72 -368 -281 0 0.6 0.8 0 -0.8 0.6 0 0 0 1 28334.dat
-1 72 -368 -355 0 0 0 -1 0 1 0 1 0 0 74957.dat
-0 STEP
-0 // STEP 6 - source page 6
-1 4 -368 -379 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -488 -355 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -248 -355 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -368 -403 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -368 -379 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -368 -379 120 0 0 1 0 1 0 -1 0 0 40666.dat
-0 STEP
-0 // STEP 7 - source page 7
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 60535.dat
-1 72 40 -216 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 72 -8 -681 0 1 0 0 0 1 0 0 0 1 28331.dat
-1 72 -8 -755 0 0 0 -1 0 1 0 1 0 0 74957.dat
-0 STEP
-0 // STEP 8 - source page 8
-1 72 -8 -803 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 0 -8 -851 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 72 112 -827 -80 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 72 112 -827 80 0 -1 0 0 0 -1 1 0 0 99565.dat
-0 STEP
-0 // STEP 9 - source page 9
-1 72 0 -96 -120 -1 0 0 0 1 0 0 0 -1 28336.dat
-1 72 0 -161 -368 0 0 1 1 0 0 0 1 0 28334.dat
-1 72 0 -235 -368 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 0 -96 120 1 0 0 0 1 0 0 0 1 28336.dat
-1 72 0 -161 368 0 0 1 -1 0 0 0 -1 0 28334.dat
-1 72 0 -235 368 1 0 0 0 1 0 0 0 1 74957.dat
-0 STEP
-0 // STEP 10 - source page 10
-1 0 0 -283 -368 1 0 0 0 1 0 0 0 1 76395.dat
-1 4 0 -307 -368 1 0 0 0 1 0 0 0 1 4196.dat
-1 0 0 -283 368 1 0 0 0 1 0 0 0 1 76395.dat
-1 4 0 -307 368 1 0 0 0 1 0 0 0 1 4196.dat
-0 STEP
-0 // STEP 11 - source page 11
+
+0 // STEP 4 - red solar panels and antenna
+1 4 -300 -168 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
+1 4 -420 -216 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 4 300 -168 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
+1 4 420 -216 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+1 8 0 -680 -80 0 0 1 0 1 0 -1 0 0 40666.dat

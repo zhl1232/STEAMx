@@ -1,10 +1,13 @@
-0 4+ Windmill house source reconstruction draft
+0 4+ 风车房 - INCOMPLETE source reconstruction
 0 Name: 4-feng-che-fang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 // Pending human acceptance. Hidden wall/roof seams inferred from source.
-0 // Simplified Toolo screws/turntable: physical retention and rotation clearance untested.
-0 // Window hinge uses source-closed pose; 36 mesh crossings confined to retaining clips.
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source: /mnt/d/pdf预览/4+风车房搭建说明_pdf, 18 source pages.
+0 // INCOMPLETE: source 1-7 base, table, walls and window only; roof and fan omitted.
+0 // House footprint 14x12 studs, 4-stud doorway five bricks high, window occupies layers 5-7.
+0 // Hidden wall seams, base anchors and table placement inferred from source outline/BOM.
+0 // Window insert uses local 61649/90265 hinge placement; strict mesh hinge crossing remains subject to review.
 0 // Source page 1
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 1 280 -48 320 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -125,127 +128,34 @@
 1 1 120 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // Source page 8
-1 0 -280 -480 -200 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -280 -480 40 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -120 -480 -200 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -120 -480 40 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 40 -480 -200 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 40 -480 40 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 9
-1 4 -360 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -360 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -360 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 120 -528 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 120 -528 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 120 -528 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 10
-1 4 -400 -480 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -400 -480 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -400 -480 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 160 -480 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 160 -480 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 160 -480 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -440 -432 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -440 -432 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -440 -432 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 200 -432 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 200 -432 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 200 -432 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 11
-1 4 -320 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -320 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -320 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -240 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -240 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -240 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 0 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 0 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 0 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -576 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -624 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -624 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -280 -624 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -624 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -624 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -200 -624 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -624 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -624 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -624 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -624 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -624 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -40 -624 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -624 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -624 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 40 -624 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 12
-1 0 -120 -672 -240 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 -120 -672 -80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 -120 -672 80 1 0 0 0 1 0 0 0 1 76395.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 13
-1 0 -120 -608 208 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 -120 -608 280 1 0 0 0 0 1 0 -1 0 60535.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 14
-1 4 -160 -720 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -720 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -720 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -720 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -720 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -80 -720 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -768 -240 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -768 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -120 -768 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 15
-1 25 -200 -568 304 -1 0 0 0 0 -1 0 -1 0 40666.dat
-1 25 -160 -688 304 0 0 1 -1 0 0 0 -1 0 40666.dat
-1 25 -40 -648 304 1 0 0 0 0 1 0 -1 0 40666.dat
-1 25 -80 -528 304 0 0 -1 1 0 0 0 -1 0 40666.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 16
-1 14 -160 -608 328 0 0 -1 1 0 0 0 -1 0 40666.dat
-1 14 -80 -608 328 0 0 -1 1 0 0 0 -1 0 40666.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 17
-1 25 -360 -568 304 -1 0 0 0 0 -1 0 -1 0 40666.dat
-1 25 -280 -568 328 -1 0 0 0 0 -1 0 -1 0 40666.dat
-1 25 -440 -568 328 -1 0 0 0 0 -1 0 -1 0 40666.dat
-1 25 -160 -848 304 0 0 1 -1 0 0 0 -1 0 40666.dat
-1 25 -160 -768 328 0 0 1 -1 0 0 0 -1 0 40666.dat
-1 25 -160 -928 328 0 0 1 -1 0 0 0 -1 0 40666.dat
-1 25 120 -648 304 1 0 0 0 0 1 0 -1 0 40666.dat
-1 25 40 -648 328 1 0 0 0 0 1 0 -1 0 40666.dat
-1 25 200 -648 328 1 0 0 0 0 1 0 -1 0 40666.dat
-1 25 -80 -368 304 0 0 -1 1 0 0 0 -1 0 40666.dat
-1 25 -80 -448 328 0 0 -1 1 0 0 0 -1 0 40666.dat
-1 25 -80 -288 328 0 0 -1 1 0 0 0 -1 0 40666.dat
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.
 0 STEP
 0 // Source page 18
+0 // OMITTED: roof/fan assembly deferred; source standard roof bricks exist but depend on missing Toolo platforms/axle.

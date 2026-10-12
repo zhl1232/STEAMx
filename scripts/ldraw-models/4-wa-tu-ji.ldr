@@ -1,47 +1,38 @@
-0 4+ 挖土机 - local source reconstruction, pending human acceptance
+0 4+ 挖土机 (Excavator) - DUPLO draft for manual repair
 0 Name: 4-wa-tu-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 NumOfBricks: 19
-0 // Source8 pages:3 lower bodies,4 hubs/2 tracks,turntable/top body,cab/window,long+short arms and6294 scoop.
-0 //7 ordinary connections/68 stud matches,7 mechanical anchors;19 parts connected including fixed-track contact.
-0 // Strict35 mesh pairs retain cab underside167,canopy4 and window36 localized fit exceptions.
-0 // Rear window faces away from cab; original tube boom and substituted bucket removed.
-0 // Inferred short arm15deg and scoop45deg; existing72LDU turntable is thicker than source.
-0 // Approved approximate Toolo/cab/scoop reused; retention,strength,moving clearance and stability untested.
-0 // Evidence:.tmp/4plus-round7-20260929/excavator/review-final.json. Not accepted or published.
-0 // Source page 1
-1 0 0.0 0.0 -80.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
-1 0 0.0 0.0 80.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
-1 0 0.0 -48.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+0 // Source: 4+挖土机 finished image and course instructions.
+0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
+0 // Tracks, cab, articulated boom and bucket are simplified.
+
+0 // STEP 1 - black tracked base
+1 0 -160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 160 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
+1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
-0 // Source page 2
-1 7 160.0 24.0 -80.0 0.0 -1.0 0.0 0.0 0.0 1.0 -1.0 0.0 0.0 99565.dat
-1 7 160.0 24.0 80.0 0.0 -1.0 0.0 0.0 0.0 1.0 -1.0 0.0 0.0 99565.dat
-1 0 160.0 24.924805 0.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 71981.dat
+
+0 // STEP 2 - black turntable and red cab
+1 0 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -168 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -168 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -216 -120 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
-0 // Source page 3
-1 7 -160.0 24.0 -80.0 0.0 1.0 0.0 0.0 0.0 -1.0 -1.0 0.0 0.0 99565.dat
-1 7 -160.0 24.0 80.0 0.0 1.0 0.0 0.0 0.0 -1.0 -1.0 0.0 0.0 99565.dat
-1 0 -160.0 24.924805 0.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 71981.dat
+
+0 // STEP 3 - yellow window and gray boom
+1 14 -80 -216 -140 1 0 0 0 1 0 0 0 1 2302.dat
+1 8 160 -216 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 8 260 -300 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 8 360 -384 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+1 0 240 -264 -60 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // Source page 4
-1 0 0.0 -120.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 60535.dat
-1 0 0.0 -168.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
-0 STEP
-0 // Source page 5
-1 4 40.0 -192.0 0.0 -1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 31196c01.dat
-1 46 40.0 -226.0 148.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 -1.0 0.0 6345.dat
-1 4 40.0 -360.0 -40.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 61649.dat
-1 15 105.5 -288.0 -83.5 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 90265.dat
-0 STEP
-0 // Source page 6
-1 7 -80.0 -216.0 -40.0 -1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 -1.0 28336.dat
-1 7 -80.0 -281.0 312.0 0.0 0.0 1.0 -1.0 0.0 0.0 0.0 -1.0 0.0 28331.dat
-0 STEP
-0 // Source page 7
-1 7 -80.0 -87.81483474218635 363.76380902050414 0.0 0.0 1.0 -0.25881904510252074 -0.9659258262890683 0.0 0.9659258262890683 -0.25881904510252074 0.0 28334.dat
-1 25 -80.0 -87.81483474218635 363.76380902050414 -1.0 0.0 0.0 0.0 0.7071067811865476 0.7071067811865475 0.0 0.7071067811865475 -0.7071067811865476 6294.dat
-0 STEP
-0 // Source page 8
+
+0 // STEP 4 - dipper stick and orange bucket
+1 8 460 -300 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 8 560 -216 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
+1 25 640 -144 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
+1 25 700 -96 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+1 4 -120 -264 -120 1 0 0 0 1 0 0 0 1 3437.dat
