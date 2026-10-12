@@ -3,13 +3,16 @@ import {
   listAllLdrawModels,
   packLdrawTextToMpd,
   packLocalLdrawModel,
+  readFrozenConfirmedLdrawModel,
 } from '@/lib/courses/ldraw-packer'
 import {
+  isProductionProtected,
   confirmLdrawModel,
   getLdrawReviewRecords,
   isLdrawReviewCandidate,
   reviewRecordFor,
   reviewStatusFor,
+  legacyReviewStatusFor,
 } from '@/lib/courses/ldraw-review'
 
 export const runtime = 'nodejs'
@@ -26,14 +29,21 @@ export async function GET(request: NextRequest) {
 
       const result = await packLocalLdrawModel(sanitized, { forceFreshDependencies: true })
       const records = await getLdrawReviewRecords()
-      const reviewStatus = reviewStatusFor(sanitized, records, result.revision)
+      const record = reviewRecordFor(sanitized, records)
+      const frozen = result.revision !== record?.revision
+        ? await readFrozenConfirmedLdrawModel(sanitized, record)
+        : null
+      const reviewStatus = reviewStatusFor(sanitized, records, result.revision, frozen?.revision)
       return NextResponse.json(
         {
           modelName: sanitized.replace(/\.ldr$/, ''),
           fileName: sanitized,
-          ...result,
+          ...(frozen ?? result),
+          productionProtected: Boolean(record && isProductionProtected(sanitized)),
+          servedFrozenConfirmed: frozen !== null,
           reviewStatus,
-          confirmedAt: reviewStatus === 'confirmed' ? reviewRecordFor(sanitized, records)?.confirmedAt ?? null : null,
+          legacyReviewStatus: legacyReviewStatusFor(reviewStatus),
+          confirmedAt: record?.confirmedAt ?? null,
           canConfirm: process.env.NODE_ENV !== 'production' && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0,
         },
         {
@@ -44,11 +54,13 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const models = await listAllLdrawModels()
+    const records = await getLdrawReviewRecords()
+    const models = await listAllLdrawModels(records)
     return NextResponse.json(
       {
         models,
         total: models.length,
+        reviewRecordCount: Object.keys(records).length,
       },
       {
         headers: {
@@ -127,7 +139,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const record = await confirmLdrawModel(model, current.revision)
-    return NextResponse.json({ model, revision: current.revision, reviewStatus: 'confirmed', confirmedAt: record.confirmedAt })
+    return NextResponse.json({ model, revision: current.revision, reviewStatus: 'confirmed', legacyReviewStatus: 'confirmed', confirmedAt: record.confirmedAt, reviewRecordCount: Object.keys(await getLdrawReviewRecords()).length })
   } catch (error) {
     const err = error as Error
     return NextResponse.json({ error: err.message || '确认模型失败' }, { status: 500 })
