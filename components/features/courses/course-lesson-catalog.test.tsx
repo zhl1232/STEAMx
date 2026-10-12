@@ -30,7 +30,7 @@ describe("CourseLessonCatalog", () => {
     render(<CourseLessonCatalog courseId={5} lessons={[lesson({ id: 1, title: "埃菲尔铁塔", finishedImageUrl: "/finished.webp" })]} showProgressFilters desktopCards />);
 
     expect(screen.getByRole("img", { name: "埃菲尔铁塔成品参考图" })).toHaveAttribute("src", "/finished.webp");
-    expect(screen.getAllByRole("link", { name: /埃菲尔铁塔/ })[0]).toHaveAttribute("href", "/courses/5/lessons/1");
+    expect(screen.getByRole("link", { name: /埃菲尔铁塔/ })).toHaveAttribute("href", "/courses/5/lessons/1");
   });
 
   it("uses a text card for missing images and never substitutes a course cover", () => {
@@ -39,6 +39,7 @@ describe("CourseLessonCatalog", () => {
     expect(screen.getAllByText("暂无成品图")).toHaveLength(1);
     expect(screen.queryByRole("img")).toBeNull();
     expect(screen.queryByText("tech_programming")).toBeNull();
+    expect(screen.getByRole("link", { name: /小桥/ })).toHaveAttribute("href", "/courses/5/lessons/2");
   });
 
   it("replaces a failed image with a text card", () => {
@@ -48,14 +49,19 @@ describe("CourseLessonCatalog", () => {
 
     expect(screen.getAllByText("图片暂时无法显示")).toHaveLength(1);
     expect(screen.queryByRole("img", { name: "小车成品参考图" })).toBeNull();
+    expect(screen.getByRole("link", { name: /小车/ })).toHaveAttribute("href", "/courses/5/lessons/3");
   });
 
-  it("keeps search and model filtering connected to the correct lesson link", () => {
+  it.each([false, true])("keeps search, filters, anchors and reset connected to lessons (cards: %s)", (desktopCards) => {
     const lessons = [
-      lesson({ id: 10, title: "长颈龙", searchText: "长颈龙 changjinglong cjl", hasModel: true }),
-      lesson({ id: 11, title: "城堡", searchText: "城堡 chengbao cb", hasModel: false }),
+      lesson({ id: 10, title: "长颈龙", initial: "C", searchText: "长颈龙 changjinglong cjl", hasModel: true }),
+      lesson({ id: 11, title: "城堡", initial: "C", searchText: "城堡 chengbao cb", hasModel: false, isCompleted: true }),
     ];
-    render(<CourseLessonCatalog courseId={5} lessons={lessons} showProgressFilters desktopCards={false} />);
+    render(<CourseLessonCatalog courseId={5} lessons={lessons} showProgressFilters desktopCards={desktopCards} />);
+
+    fireEvent.change(screen.getByRole("textbox", { name: "在本课程内搜索课时" }), { target: { value: "cjl" } });
+    expect(screen.getByRole("link", { name: /长颈龙/ })).toHaveAttribute("href", "/courses/5/lessons/10");
+    expect(screen.queryByRole("link", { name: /城堡/ })).toBeNull();
 
     fireEvent.change(screen.getByRole("textbox", { name: "在本课程内搜索课时" }), { target: { value: "城堡" } });
     expect(screen.getByText("找到 1 节课时")).toBeInTheDocument();
@@ -65,5 +71,16 @@ describe("CourseLessonCatalog", () => {
     fireEvent.click(screen.getByRole("button", { name: /有 3D 分步/ }));
     expect(screen.getByText("没有匹配的课时")).toBeInTheDocument();
     expect(within(screen.getByRole("group", { name: "课时筛选" })).getByRole("button", { name: /有 3D 分步/ })).toHaveAttribute("aria-pressed", "true");
+
+    fireEvent.click(screen.getByRole("button", { name: "清除筛选" }));
+    expect(screen.getByRole("textbox", { name: "在本课程内搜索课时" })).toHaveValue("");
+    expect(screen.getByRole("link", { name: /长颈龙/ })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /城堡/ })).toBeInTheDocument();
+    const initialLink = within(screen.getByRole("navigation", { name: "按名称首字母跳转" })).getByRole("link", { name: "C" });
+    expect(document.querySelector(initialLink.getAttribute("href")!)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "已完成" }));
+    expect(screen.getByRole("link", { name: /城堡/ })).toHaveAttribute("href", "/courses/5/lessons/11");
+    expect(screen.queryByRole("link", { name: /长颈龙/ })).toBeNull();
   });
 });

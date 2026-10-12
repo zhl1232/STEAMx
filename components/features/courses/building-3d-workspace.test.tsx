@@ -194,6 +194,10 @@ describe("Building3DWorkspace", () => {
         const stepParts = within(document.getElementById("building-3d-step-parts")!);
         expect(stepParts.getByText("黄色2×4 积木")).toBeInTheDocument();
         expect(stepParts.getByText("×2")).toBeInTheDocument();
+        const thumbnail = document.getElementById("building-3d-step-parts")!.querySelector("img");
+        expect(thumbnail).toHaveAttribute("src", expect.stringContaining("/courses/part-thumbs/"));
+        expect(thumbnail).toHaveAttribute("alt", "");
+        expect(screen.getByText("清晰轮廓为本步新增")).toBeInTheDocument();
 
         // 搭建开始处默认展开整套零件清单
         const allParts = screen.getByRole("button", { name: /全部零件/ });
@@ -259,6 +263,7 @@ describe("Building3DWorkspace", () => {
         expect(await screen.findByText("0 块")).toBeInTheDocument();
         expect(document.getElementById("building-3d-step-parts")).toBeNull();
         expect(screen.getByText(/这一步模型里没有新增零件/)).toBeInTheDocument();
+        expect(screen.queryByText("清晰轮廓为本步新增")).not.toBeInTheDocument();
         expect(screen.queryByText("蓝色2×2 积木")).not.toBeInTheDocument();
         // 总清单仍然可查
         expect(screen.getByText("2 种 · 3 块")).toBeInTheDocument();

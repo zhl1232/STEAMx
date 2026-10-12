@@ -24,7 +24,7 @@ import {
     buildScratchStepCheck,
     type ScratchStepCheckResult,
 } from "@/lib/courses/scratch-step-check";
-import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
+import { buildBuildingLessonDisplaySteps, buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import type { CourseLessonRow } from "@/lib/courses/types";
 import { cn } from "@/lib/utils";
 
@@ -116,6 +116,12 @@ export function LessonPageClient({
             : lesson.steps ?? [],
         [lesson.content?.building3d, lesson.steps, lesson.title, lessonWorkspace],
     );
+    const buildingPages = useMemo(
+        () => lessonWorkspace === "building_3d"
+            ? buildBuildingLessonFlow({ lessonTitle: lesson.title, content: lesson.content?.building3d })
+            : [],
+        [lesson.content?.building3d, lesson.title, lessonWorkspace],
+    );
     const [activeStep, setActiveStep] = useState(() =>
         lessonWorkspace === "building_3d"
             ? clampStepIndex(initialStepIndex, steps.length)
@@ -140,11 +146,13 @@ export function LessonPageClient({
         setActiveStep(nextStep);
         if (lessonWorkspace === "building_3d") {
             replaceBuildingStepInUrl(nextStep);
-            if (window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
+            // 连续搭建时保留家长已经找到的画布位置；跨到课件或视频时仍从页首阅读。
+            const staysInBuild = buildingPages[clampedActiveStep]?.kind === "build" && buildingPages[nextStep]?.kind === "build";
+            if (!staysInBuild && window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
                 window.scrollTo({ top: 0, behavior: "instant" });
             }
         }
-    }, [lessonWorkspace, steps.length]);
+    }, [buildingPages, clampedActiveStep, lessonWorkspace, steps.length]);
 
     useEffect(() => {
         if (!shouldRecordStart) return;

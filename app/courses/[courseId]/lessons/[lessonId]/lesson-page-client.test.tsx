@@ -364,6 +364,56 @@ describe('LessonPageClient', () => {
     expect(window.location.search).toBe('')
   })
 
+  it('keeps the phone scroll position between build steps and resets it when changing page kinds', () => {
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const matchMedia = vi.spyOn(window, 'matchMedia').mockReturnValue({
+      matches: true, media: '(max-width: 1023px)', onchange: null,
+      addListener: vi.fn(), removeListener: vi.fn(), addEventListener: vi.fn(),
+      removeEventListener: vi.fn(), dispatchEvent: vi.fn(),
+    })
+    const buildingLesson: CourseLessonRow = {
+      ...lesson,
+      title: '救援车',
+      lesson_type: 'building_3d',
+      content: {
+        building3d: {
+          ldrawModelUrl: '/courses/ldraw/rescue.mpd',
+          slideImageUrls: Array.from({ length: 10 }, (_, index) => `/slides/rescue-${index + 1}.webp`),
+          parts: [],
+          steps3d: ['搭建底盘', '连接车轮', '装上车身'].map((title) => ({ title, description: title, partIds: [] })),
+        },
+      },
+    }
+    window.history.replaceState({}, '', '/courses/7/lessons/42?step=5')
+
+    try {
+      render(
+        <TutorProvider>
+          <LessonPageClient courseId={7} courseTitle="积木课" lesson={buildingLesson} previewHref="/preview" initialStepIndex={4} />
+        </TutorProvider>,
+      )
+      const directory = within(screen.getByRole('complementary'))
+
+      fireEvent.click(screen.getByRole('button', { name: '下一页' }))
+      expect(screen.getByText('workspace step 6')).toBeInTheDocument()
+      expect(window.location.search).toBe('?step=6')
+      fireEvent.click(directory.getByRole('button', { name: /搭建底盘/ }))
+      fireEvent.click(directory.getByRole('button', { name: /装上车身/ }))
+      expect(screen.getByText('workspace step 7')).toBeInTheDocument()
+      expect(scrollTo).not.toHaveBeenCalled()
+
+      fireEvent.click(screen.getByRole('button', { name: '下一页' }))
+      expect(screen.getByText('workspace step 8')).toBeInTheDocument()
+      expect(scrollTo).toHaveBeenLastCalledWith({ top: 0, behavior: 'instant' })
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+      fireEvent.click(directory.getByRole('button', { name: /搭建底盘/ }))
+      expect(scrollTo).toHaveBeenCalledTimes(2)
+    } finally {
+      scrollTo.mockRestore()
+      matchMedia.mockRestore()
+    }
+  })
+
   it('keeps playground sidebars compact so step copy is not repeated', () => {
     const playgroundLesson: CourseLessonRow = {
       ...lesson,
