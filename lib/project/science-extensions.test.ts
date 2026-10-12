@@ -34,15 +34,49 @@ const secondBatch = [
   { id: 1299, title: '茶水变色' },
 ] as const
 
+const thirdBatch = [
+  { id: 1176, title: '小丑走钢丝' },
+  { id: 1177, title: '食物链' },
+  { id: 1178, title: '磁铁走迷宫' },
+  { id: 1179, title: '不倒翁' },
+  { id: 1180, title: '变大变小' },
+  { id: 1181, title: '3D眼镜' },
+  { id: 1183, title: '荷塘月色' },
+  { id: 1184, title: '颜色变变变' },
+  { id: 1187, title: '种子发芽' },
+  { id: 1188, title: '土电话' },
+  { id: 1190, title: '人体骨骼' },
+  { id: 1191, title: '百变小树' },
+  { id: 1192, title: '大气压力' },
+  { id: 1193, title: '悬浮飞球' },
+  { id: 1194, title: '望远镜' },
+  { id: 1200, title: '平衡鹰' },
+  { id: 1201, title: '水往玻璃上爬' },
+  { id: 1202, title: '橡皮筋吉他' },
+  { id: 1204, title: '磁悬浮' },
+  { id: 1205, title: '日地月模型' },
+  { id: 1206, title: '跷跷板' },
+  { id: 1207, title: '人体消化系统' },
+  { id: 1210, title: '哈哈镜' },
+  { id: 1211, title: '潜望镜' },
+  { id: 1212, title: '旋转陀螺' },
+  { id: 1214, title: '空气炮' },
+  { id: 1216, title: '小蝌蚪长大了' },
+  { id: 1217, title: '恐龙蛋' },
+  { id: 1218, title: '地球的结构' },
+] as const
+
 const releasedSnapshot = JSON.stringify(reviewed)
 afterEach(() => vi.unstubAllEnvs())
 
-test('both batches cover 55 unique projects, including all 28 second-batch IDs and titles', () => {
+test('three batches cover 84 unique projects, including second- and third-batch IDs and titles', () => {
   expect(secondBatch).toHaveLength(28)
   expect(new Set(secondBatch.map(item => item.id)).size).toBe(28)
-  expect(reviewed).toHaveLength(55)
-  expect(new Set(reviewed.map(item => item.id)).size).toBe(55)
-  for (const item of secondBatch) {
+  expect(reviewed).toHaveLength(84)
+  expect(new Set(reviewed.map(item => item.id)).size).toBe(84)
+  expect(thirdBatch).toHaveLength(29)
+  expect(new Set(thirdBatch.map(item => item.id)).size).toBe(29)
+  for (const item of [...secondBatch, ...thirdBatch]) {
     expect(reviewed.find(sample => sample.id === item.id)).toMatchObject(item)
     expect(getScienceSample(item.id)).toMatchObject(item)
   }
@@ -66,9 +100,9 @@ test.each(reviewed)('$id $title has three nonempty questions with Chinese questi
   }
 })
 
-test('all 165 extension questions are unique across both batches', () => {
+test('all 252 extension questions are unique across three batches', () => {
   const questions = reviewed.flatMap(item => item.extensionQuestions)
-  expect(questions).toHaveLength(165)
+  expect(questions).toHaveLength(252)
   expect(new Set(questions).size).toBe(questions.length)
 })
 
@@ -83,6 +117,19 @@ test('second-batch examples reach the page and tutor', () => {
   expect(getScienceSample(1098)?.extensionQuestions?.some(question => question.includes('插得越深'))).toBe(true)
   const sample = reviewed.find(item => item.id === 1249)!
   expect(getScienceTutorContent(1249, '火药', '科学')?.questions).toEqual(sample.extensionQuestions)
+})
+
+test.each([
+  { id: 1188, title: '土电话' },
+  { id: 1214, title: '空气炮' },
+])('third-batch $id $title reaches the page and tutor in production', ({ id, title }) => {
+  vi.stubEnv('NODE_ENV', 'production')
+  const sample = reviewed.find(item => item.id === id)!
+  expect(sample.title).toBe(title)
+  expect(getScienceSample(id)).toEqual(sample)
+  expect(getScienceTutorContent(id, title, '科学')).toMatchObject({
+    extension: sample.extension, questions: sample.extensionQuestions,
+  })
 })
 
 test.each(['development', 'production', 'test'])('page and tutor share reviewed extensions in %s without mutating JSON', env => {
