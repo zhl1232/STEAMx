@@ -30,9 +30,21 @@ describe('tutor reading experience', () => {
   it('formats credit-only receipts while preserving historical charged amounts', () => {
     expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 1.23, receiptId: 1 })).toBe('本次 1.23 代币')
     expect(formatTutorBillingCaption({ source: 'free', chargedCredits: 0, receiptId: 2 })).toBe('本次免费')
+    expect(formatTutorBillingCaption({ source: 'free', chargedCredits: 36.5, receiptId: 5 })).toBe('本次 36.5 代币（今日赠送）')
     expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0, receiptId: 3 })).toBe('本次 0 代币')
     expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0.123, receiptId: 4 })).toBe('本次 0.123 代币')
     expect(formatTutorBillingCaption()).toBeNull()
+  })
+
+  it('shows a daily-credit charge and an exhaustion message without a call quota or purchase prompt', () => {
+    render(<TutorMessageList {...props()} busy={false} messages={[{
+      role: 'assistant', content: '回答', billing: { source: 'free', chargedCredits: 36.5, receiptId: 5 },
+    }]} quota={{ creditUnit: 'credits', isMember: false, walletBalance: 0, monthlyGrant: 0,
+      freeDaily: 300, freeUsedToday: 300, freeRemainingToday: 0, dailyChargeCap: 100, dailyPeriod: '2026-10-12',
+      grantPeriod: '', dayResetAt: 0, canChat: false }} />)
+    expect(screen.getByText('本次 36.5 代币（今日赠送）')).toBeInTheDocument()
+    expect(screen.getByText('可用代币不足，请明天使用新的赠送代币。')).toBeInTheDocument()
+    expect(document.body.textContent).not.toMatch(/免费次数|开通会员|token|100\s*[:∶]/i)
   })
 
   it('keeps credit receipts visible in current replies and archived history', () => {

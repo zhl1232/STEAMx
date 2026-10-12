@@ -114,10 +114,12 @@ export type TutorUsageSnapshot = {
 /** One instance per admitted user request; no ambient/global accounting state. */
 export function createTutorUsageCollector({ maxTotalTokens, onBudgetExceeded }: {
   maxTotalTokens: number
-  /** Service confirms an atomic switch to this request's free allowance. */
+  /** Service confirms the daily allowance, including explicit bounded platform support. */
   onBudgetExceeded?: (minimumTotalTokens: number) => Promise<{ maxTotalTokens: number } | null>
 }) {
-  if (!validCount(maxTotalTokens)) throw new Error('Invalid tutor request budget')
+  if (!validCount(maxTotalTokens) || maxTotalTokens < 1 || maxTotalTokens > MAX_REQUEST_TOKENS) {
+    throw new Error('Invalid tutor request budget')
+  }
   const calls: TutorUsageCall[] = []
   let budgetUsed = 0
   let budgetExceeded = false

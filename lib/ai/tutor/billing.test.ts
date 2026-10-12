@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { formatTutorCredits, parseTutorBilling } from './billing'
+import { formatTutorCredits, formatTutorQuota, parseTutorBilling } from './billing'
+import type { AiCreditStatus } from './types'
 
 describe('public tutor credit receipts', () => {
   it('keeps historical charges and removes raw usage instead of applying the new tariff', () => {
@@ -13,6 +14,20 @@ describe('public tutor credit receipts', () => {
     expect(parseTutorBilling(receipt)).toEqual(receipt)
     expect(parseTutorBilling({ ...receipt, source: 'free', chargedCredits: 0, usageMissing: true }))
       .toEqual({ source: 'free', chargedCredits: 0, receiptId: 13 })
+    expect(parseTutorBilling({ ...receipt, source: 'free', chargedCredits: 42.31, totalTokens: 4231 }))
+      .toEqual({ source: 'free', chargedCredits: 42.31, receiptId: 13 })
+  })
+
+  it('shows daily and monthly balances as separate credits with the server tier allowance', () => {
+    const quota: AiCreditStatus = { creditUnit: 'credits', isMember: false, walletBalance: 0, monthlyGrant: 0,
+      freeDaily: 300, freeUsedToday: 12.34, freeRemainingToday: 287.66, dailyChargeCap: 100, dailyPeriod: '2026-10-12',
+      grantPeriod: '', dayResetAt: 0, canChat: true }
+    expect(formatTutorQuota(quota)).toBe('今日赠送 287.66/300 代币\n每次最多使用 100 赠送代币')
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 1500, monthlyGrant: 20000 }))
+      .toBe('本月 1,500/20,000 代币\n今日赠送 287.66/300 代币')
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 0, monthlyGrant: 20000 }))
+      .toBe('今日赠送 287.66/300 代币\n每次最多使用 100 赠送代币')
+    expect(formatTutorQuota({ ...quota, creditUnit: undefined } as unknown as AiCreditStatus)).toBeNull()
   })
 
   it('rejects invalid amounts, identities and sources', () => {

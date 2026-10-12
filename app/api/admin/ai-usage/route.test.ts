@@ -51,7 +51,7 @@ describe('admin AI usage route', () => {
 
     const response = await GET()
     const payload = await response.json()
-    expect(payload.totals).toEqual({ chats: 5, creditsUsed: 8.22, freeChats: 2, memberChats: 3 })
+    expect(payload.totals).toEqual({ chats: 5, creditsUsed: 8.22, dailyCreditsUsed: 0, walletCreditsUsed: 8.22, freeChats: 2, memberChats: 3 })
     expect(payload.topUsers[0]).toMatchObject({ chats: 5, creditsUsed: 8.22 })
   })
 
@@ -74,15 +74,41 @@ describe('admin AI usage route', () => {
 
     const response = await GET()
     const payload = await response.json()
-    expect(payload.totals).toEqual({ chats: 4, creditsUsed: 0.42, freeChats: 2, memberChats: 2 })
+    expect(payload.totals).toEqual({ chats: 4, creditsUsed: 0.42, dailyCreditsUsed: 0, walletCreditsUsed: 0.42, freeChats: 2, memberChats: 2 })
     expect(payload.daily).toEqual([
-      { day: '2026-10-11', chats: 1, creditsUsed: 0, freeChats: 1, memberChats: 0 },
-      { day: '2026-10-12', chats: 3, creditsUsed: 0.42, freeChats: 1, memberChats: 2 },
+      { day: '2026-10-11', chats: 1, creditsUsed: 0, dailyCreditsUsed: 0, walletCreditsUsed: 0, freeChats: 1, memberChats: 0 },
+      { day: '2026-10-12', chats: 3, creditsUsed: 0.42, dailyCreditsUsed: 0, walletCreditsUsed: 0.42, freeChats: 1, memberChats: 2 },
     ])
     expect(payload.topUsers).toEqual(expect.arrayContaining([
       { userId: 'user-a', displayName: 'A', chats: 2, creditsUsed: 0 },
       { userId: 'user-b', displayName: 'B', chats: 2, creditsUsed: 0.42 },
     ]))
     expect(payload.topUsers).toHaveLength(2)
+  })
+
+  it('includes real daily credits once, applies fixed-price refunds and groups by the Shanghai day', async () => {
+    const created_at = '2026-10-11T16:15:00.000Z'
+    mockUsageLogs([
+      { user_id: 'user-a', amount: -300, reason: 'free_chat', created_at,
+        meta: { creditPolicy: 'daily_credits_v1', billing: 'tutor_total_tokens', source: 'free', state: 'settled', chargedCredits: 40.5 } },
+      { user_id: 'user-a', amount: -10, reason: 'credit_chat', created_at,
+        meta: { creditPolicy: 'daily_credits_v1', billing: 'tutor_total_tokens', source: 'free', state: 'settled', chargedCredits: 60.25 } },
+      ...['quota_reserved', 'quota_consumed', 'quota_canceled', 'settled'].map(state => ({
+        user_id: 'user-a', amount: -300, reason: 'free_chat', created_at,
+        meta: { creditPolicy: 'daily_credits_v1', billing: 'tutor_total_tokens', source: 'free', state, parentReceiptId: 42, chargedCredits: 60.25 },
+      })),
+      { user_id: 'user-a', amount: -2, reason: 'free_chat', created_at,
+        meta: { creditPolicy: 'daily_credits_v1', source: 'free', cost: 2, refundedCredits: 0.5 } },
+      { user_id: 'user-b', amount: -7.12, reason: 'credit_chat', created_at,
+        meta: { creditPolicy: 'daily_credits_v1', source: 'wallet', cost: 7.12, refundedCredits: 1.12 } },
+    ])
+    const payload = await (await GET()).json()
+    expect(payload.totals).toEqual({ chats: 4, creditsUsed: 108.25, dailyCreditsUsed: 102.25,
+      walletCreditsUsed: 6, freeChats: 3, memberChats: 1 })
+    expect(payload.daily).toEqual([{ day: '2026-10-12', ...payload.totals }])
+    expect(payload.topUsers).toEqual([
+      { userId: 'user-a', displayName: 'A', chats: 3, creditsUsed: 102.25 },
+      { userId: 'user-b', displayName: 'B', chats: 1, creditsUsed: 6 },
+    ])
   })
 })

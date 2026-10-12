@@ -3,7 +3,7 @@ import { createHash, randomUUID } from 'node:crypto'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database, Json } from '@/lib/supabase/types'
 import type { TutorSendInput } from '@/lib/schemas'
-import { TUTOR_MAX_OUTPUT_TOKENS, TUTOR_MAX_TOTAL_TOKENS } from './billing'
+import { TUTOR_MAX_OUTPUT_TOKENS, TUTOR_MAX_TOTAL_TOKENS, validTutorReservationBudget } from './billing'
 import type { TutorUsageSnapshot } from './usage'
 
 type Conversation = Database['public']['Tables']['tutor_conversations']['Row']
@@ -53,6 +53,10 @@ export async function beginTutorRequest(userId: string, input: TutorSendInput): 
   }
   const result = await rpc('begin_tutor_usage_request_service', args)
     .catch(() => rpc('begin_tutor_usage_request_service', args)) as TutorRequestResult
+  if (result.status === 'started' && (!Number.isSafeInteger(result.receiptId) || result.receiptId <= 0 ||
+      !validTutorReservationBudget(result as unknown as Record<string, unknown>))) {
+    throw new Error('Invalid tutor request reservation')
+  }
   // Keep the executor credential server-side, including an admission recovered
   // after a lost response. It is never part of a public replay or billing DTO.
   return result.status === 'started' ? { ...result, executorId: args.p_executor_id } : result
@@ -61,6 +65,8 @@ export async function beginTutorRequest(userId: string, input: TutorSendInput): 
 export async function fallbackTutorUsageToFree(userId: string, requestId: string, input: {
   receiptId: number; executorId: string; minimumTotalTokens: number
 }): Promise<{ maxTotalTokens: number } | null> {
+  if (!Number.isSafeInteger(input.minimumTotalTokens) || input.minimumTotalTokens < 1 ||
+      input.minimumTotalTokens > TUTOR_MAX_TOTAL_TOKENS) throw new Error('Invalid tutor fallback budget')
   const args = {
     p_user_id: userId, p_request_id: requestId, p_receipt_id: input.receiptId,
     p_executor_id: input.executorId, p_min_total_tokens: input.minimumTotalTokens,
@@ -70,7 +76,8 @@ export async function fallbackTutorUsageToFree(userId: string, requestId: string
   if (result.ok !== true) return null
   if (result.source !== 'free' || result.receiptId !== input.receiptId ||
       typeof result.maxTotalTokens !== 'number' || !Number.isSafeInteger(result.maxTotalTokens) ||
-      result.maxTotalTokens < input.minimumTotalTokens || result.maxTotalTokens > TUTOR_MAX_TOTAL_TOKENS) {
+      result.maxTotalTokens < input.minimumTotalTokens || result.maxTotalTokens > TUTOR_MAX_TOTAL_TOKENS ||
+      ((result.creditUnit != null || result.creditPolicy != null || result.dailyChargeCap != null) && !validTutorReservationBudget(result))) {
     throw new Error('Invalid tutor free fallback reservation')
   }
   return { maxTotalTokens: result.maxTotalTokens }

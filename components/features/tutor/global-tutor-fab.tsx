@@ -60,10 +60,9 @@ import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { hasTutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
-import { formatTutorCredits } from '@/lib/ai/tutor/billing'
+import { formatTutorQuota } from '@/lib/ai/tutor/billing'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
-import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
 import { SecureUploadError, getSecureUploadErrorMessage, uploadFileSecure } from '@/lib/utils/upload'
 import { cn } from '@/lib/utils'
 
@@ -108,14 +107,6 @@ type TutorPanelProps = {
   hideOnMobile?: boolean
   /** Additional bottom space reserved by the current page's fixed footer. */
   fabBottomInset?: number
-}
-
-function formatQuota(quota: AiCreditStatus | null) {
-  if (!quota) return null
-  if (quota.isMember) {
-    return `可用代币 ${formatTutorCredits(quota.walletBalance)}/${formatTutorCredits(quota.monthlyGrant || MEMBER_AI_MONTHLY_CREDITS)}`
-  }
-  return `今日免费 ${quota.freeRemainingToday}/${quota.freeDaily}`
 }
 
 /**
@@ -573,7 +564,7 @@ export function GlobalTutorFab({
               </div>
               <p className="truncate text-[11px] text-muted-foreground">{panelSubtitle}</p>
               {quota ? (
-                <p className="text-[10px] text-[hsl(var(--brand-blue)/0.85)]">{formatQuota(quota)}</p>
+                <p className="whitespace-pre-line text-[10px] text-[hsl(var(--brand-blue)/0.85)]">{formatTutorQuota(quota)}</p>
               ) : null}
             </div>
             <DropdownMenu>

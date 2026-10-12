@@ -4,10 +4,7 @@ import { useState } from 'react'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
-  Edit3,
-  Library,
   LogOut,
-  MessageCircle,
   User as UserIcon,
   Loader2,
   LayoutDashboard,
@@ -25,7 +22,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { UserAvatar } from "@/components/ui/user-avatar"
-import { CoinIcon } from "@/components/icons/coin-icon"
 import { LoginDialog } from '@/components/layout/login-dialog'
 import { getMembershipSummary } from '@/lib/membership'
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
@@ -138,48 +134,21 @@ export function UserButton({ compact = false }: UserButtonProps) {
             <span>个人中心</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/start" className="cursor-pointer">
-            <Compass className="mr-2 h-4 w-4" />
-            <span>探索指南</span>
-          </Link>
-        </DropdownMenuItem>
-        {!compact ? (
+        {compact ? (
           <DropdownMenuItem asChild>
-            <Link href="/messages" className="cursor-pointer">
-              <MessageCircle className="mr-2 h-4 w-4" />
-              <span>消息中心</span>
+            <Link href="/start" className="cursor-pointer">
+              <Compass className="mr-2 h-4 w-4" />
+              <span>探索指南</span>
             </Link>
           </DropdownMenuItem>
-        ) : null}
-        {!compact ? (
-          <>
-            <DropdownMenuItem asChild>
-              <Link href="/coins" className="cursor-pointer">
-                <WalletCards className="mr-2 h-4 w-4" />
-                <span>我的钱包</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/profile/library" className="cursor-pointer">
-                <Library className="mr-2 h-4 w-4" />
-                <span>内容库</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/settings/profile" className="cursor-pointer">
-                <Edit3 className="mr-2 h-4 w-4" />
-                <span>编辑资料</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/shop" className="cursor-pointer">
-                <CoinIcon className="mr-2 h-4 w-4" />
-                <span>商店</span>
-              </Link>
-            </DropdownMenuItem>
-          </>
-        ) : null}
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link href="/coins" className="cursor-pointer">
+              <WalletCards className="mr-2 h-4 w-4" />
+              <span>我的钱包</span>
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         {canReview ? (
           <DropdownMenuItem asChild>

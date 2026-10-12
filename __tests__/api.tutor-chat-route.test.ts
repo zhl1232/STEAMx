@@ -153,12 +153,15 @@ const PROFILE = {
   membership_expires_at: null,
 }
 const QUOTA = {
+  creditUnit: 'credits' as const,
   isMember: false,
   walletBalance: 0,
-  monthlyGrant: 1500,
-  freeDaily: 5,
-  freeUsedToday: 1,
-  freeRemainingToday: 4,
+  monthlyGrant: 0,
+  freeDaily: 300,
+  freeUsedToday: 60,
+  freeRemainingToday: 240,
+  dailyChargeCap: 100,
+  dailyPeriod: '2026-10-12',
   grantPeriod: '',
   dayResetAt: 1_800_000_000,
   canChat: true,
@@ -661,7 +664,7 @@ describe('/api/tutor/chat route', () => {
 
     expect(response.status).toBe(402)
     await expect(response.json()).resolves.toMatchObject({
-      error: '今日免费次数或本月代币已用完。',
+      error: '可用代币不足，请明天使用新的赠送代币。',
       code: 'quota_exceeded',
       resetAt: 1_800_000_000,
     })
@@ -1053,7 +1056,7 @@ describe('/api/tutor/chat route', () => {
     createClientMock.mockResolvedValue(client as never)
     beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never,
       receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 2000 })
-    vi.mocked(fallbackTutorUsageToFree).mockResolvedValue(accepted ? { maxTotalTokens: 131072 } : null)
+    vi.mocked(fallbackTutorUsageToFree).mockResolvedValue(accepted ? { maxTotalTokens: 30000 } : null)
     vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
       recordModelUsage(options?.usageObserver, { promptTokens: 1000, completionTokens: 50 }, 100)
       return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'] }
@@ -1075,7 +1078,7 @@ describe('/api/tutor/chat route', () => {
       handle.finish({ usage: { promptTokens: 2500, completionTokens: 100 }, status: 'completed' })
       yield '恢复后的回答'; return '恢复后的回答'
     })
-    billingOverride = { source: 'free', chargedCredits: 0, receiptId: 41 }
+    billingOverride = { source: 'free', chargedCredits: 36.5, receiptId: 41 }
     const events = await readSseEvents(await POST(createPostRequest({ content: '继续解释' })))
     expect(fallbackTutorUsageToFree).toHaveBeenCalledExactlyOnceWith(USER_ID, REQUEST_ID, {
       receiptId: 41, executorId: EXECUTOR_ID, minimumTotalTokens: expect.any(Number),

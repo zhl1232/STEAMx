@@ -16,6 +16,7 @@ import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import type { TutorMascotFeedback } from '@/lib/ai/tutor/mascot-state'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus, TutorBilling } from '@/lib/ai/tutor/types'
+import { TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import type { ResolvedTutorContext } from '@/lib/ai/tutor/resolve-context'
 import type { TutorSceneCapability } from '@/lib/ai/tutor/scene-capabilities'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
@@ -354,7 +355,7 @@ export function useTutorChatStream({
           setQuota((q) => (q ? { ...q, canChat: false } : q))
           patchStreaming({
             role: 'assistant',
-            content: payload.error ?? '今日免费次数或本月代币已用完。开通会员每月可获 1500 代币～',
+            content: payload.error ?? TUTOR_CREDIT_EXHAUSTED_MESSAGE,
             error: true,
           })
           setMascotFeedback('error')

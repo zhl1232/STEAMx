@@ -2,13 +2,15 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 
 import {
-  FREE_AI_DAILY_QUOTA,
+  FREE_AI_DAILY_CREDITS,
+  FREE_AI_PER_REQUEST_CREDIT_CAP,
   MEMBER_AI_MONTHLY_CREDITS,
   getMembershipSummary,
   type MembershipProfile,
+  type MembershipSummary,
 } from '@/lib/membership'
 import type { AiCreditConsumeResult, AiCreditStatus } from '@/lib/ai/tutor/types'
-import { parseTutorBilling, TUTOR_MAX_OUTPUT_TOKENS, TUTOR_MAX_TOTAL_TOKENS } from '@/lib/ai/tutor/billing'
+import { parseTutorBilling, TUTOR_MAX_OUTPUT_TOKENS, TUTOR_MAX_TOTAL_TOKENS, validTutorReservationBudget } from '@/lib/ai/tutor/billing'
 import type { TutorUsageSnapshot } from '@/lib/ai/tutor/usage'
 import type { Database, Json } from '@/lib/supabase/types'
 
@@ -41,15 +43,12 @@ export async function reserveTutorCredit(userId: string, requestId: string): Pro
   if (value?.ok !== true) return { ok: false, error: String(value?.error ?? 'empty_result'),
     resetAt: typeof value?.resetAt === 'number' ? value.resetAt : undefined }
   if ((value.source !== 'wallet' && value.source !== 'free') ||
-      !Number.isSafeInteger(value.receiptId) ||
-      typeof value.maxOutputTokens !== 'number' || !Number.isSafeInteger(value.maxOutputTokens) ||
-      value.maxOutputTokens < 1 || value.maxOutputTokens > TUTOR_MAX_OUTPUT_TOKENS ||
-      typeof value.maxTotalTokens !== 'number' || !Number.isSafeInteger(value.maxTotalTokens) ||
-      value.maxTotalTokens < 1 || value.maxTotalTokens > TUTOR_MAX_TOTAL_TOKENS) {
+      !Number.isSafeInteger(value.receiptId) || Number(value.receiptId) <= 0 ||
+      !validTutorReservationBudget(value)) {
     throw new Error('Invalid tutor credit reservation')
   }
   return { ok: true, source: value.source, receiptId: value.receiptId as number,
-    maxOutputTokens: value.maxOutputTokens, maxTotalTokens: value.maxTotalTokens,
+    maxOutputTokens: value.maxOutputTokens as number, maxTotalTokens: value.maxTotalTokens as number,
     reservedCredits: Number(value.reservedCredits ?? 0) }
 }
 
@@ -65,14 +64,30 @@ export async function settleTutorCredit(userId: string, receiptId: number, usage
   return billing
 }
 
-function parseCreditStatus(data: CreditRpcResult | null): AiCreditStatus {
+function nonNegativeCredit(value: unknown, fallback: number): number {
+  const amount = value ?? fallback
+  if (typeof amount !== 'number' || !Number.isFinite(amount) || amount < 0) {
+    throw new Error('Invalid AI credit status')
+  }
+  return amount
+}
+
+function parseCreditStatus(data: CreditRpcResult | null, membership: MembershipSummary): AiCreditStatus {
+  // A pre-migration response uses these same free* keys for counts. Never show
+  // those values as credits or silently grant a made-up daily balance.
+  if (data?.creditUnit !== 'credits') throw new Error('AI credit policy unavailable')
+  const isMember = data.isMember === true
+  const monthlyFallback = membership.isActive ? membership.quota : MEMBER_AI_MONTHLY_CREDITS
   return {
-    isMember: Boolean(data?.isMember),
-    walletBalance: Number(data?.walletBalance ?? 0),
-    monthlyGrant: Number(data?.monthlyGrant ?? MEMBER_AI_MONTHLY_CREDITS),
-    freeDaily: Number(data?.freeDaily ?? FREE_AI_DAILY_QUOTA),
-    freeUsedToday: Number(data?.freeUsedToday ?? 0),
-    freeRemainingToday: Number(data?.freeRemainingToday ?? 0),
+    creditUnit: 'credits',
+    isMember,
+    walletBalance: nonNegativeCredit(data.walletBalance, 0),
+    monthlyGrant: nonNegativeCredit(data.monthlyGrant, isMember ? monthlyFallback : 0),
+    freeDaily: nonNegativeCredit(data.freeDaily, FREE_AI_DAILY_CREDITS),
+    freeUsedToday: nonNegativeCredit(data.freeUsedToday, 0),
+    freeRemainingToday: nonNegativeCredit(data.freeRemainingToday, 0),
+    dailyChargeCap: nonNegativeCredit(data.dailyChargeCap, FREE_AI_PER_REQUEST_CREDIT_CAP),
+    dailyPeriod: String(data.dailyPeriod ?? ''),
     grantPeriod: String(data?.grantPeriod ?? ''),
     dayResetAt: Number(data?.dayResetAt ?? 0),
     canChat: Boolean(data?.canChat),
@@ -101,12 +116,12 @@ export async function getAiCreditStatusForProfile(
   const membership = getMembershipSummary(profile)
   const { data, error } = await supabase.rpc('get_ai_credit_status', {
     p_is_member: membership.isActive,
-    p_monthly_grant: MEMBER_AI_MONTHLY_CREDITS,
-    p_free_daily: FREE_AI_DAILY_QUOTA,
+    p_monthly_grant: membership.isActive ? membership.quota : 0,
+    p_free_daily: FREE_AI_DAILY_CREDITS,
   } as never)
 
   if (error) throw error
-  return parseCreditStatus((data ?? null) as CreditRpcResult | null)
+  return parseCreditStatus((data ?? null) as CreditRpcResult | null, membership)
 }
 
 export async function consumeAiCredit(

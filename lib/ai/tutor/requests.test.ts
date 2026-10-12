@@ -36,7 +36,7 @@ describe('durable tutor request RPCs', () => {
   })
 
   it('retains the exact admitted executor privately for a free fallback', async () => {
-    mocks.rpc.mockResolvedValue({ data: { status: 'started', receiptId: 41, maxTotalTokens: 1000 } })
+    mocks.rpc.mockResolvedValue({ data: { status: 'started', receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 1000 } })
     const result = await beginTutorRequest(user, input())
     expect(result).toMatchObject({ status: 'started', executorId: mocks.rpc.mock.calls[0][1].p_executor_id })
   })
@@ -44,9 +44,10 @@ describe('durable tutor request RPCs', () => {
   it('recovers an uncertain free fallback using the same request, receipt and executor', async () => {
     const executorId = '44444444-4444-4444-8444-444444444444'
     mocks.rpc.mockRejectedValueOnce(new Error('lost after funding switch'))
-      .mockResolvedValueOnce({ data: { ok: true, source: 'free', receiptId: 41, maxTotalTokens: 131072 } })
+      .mockResolvedValueOnce({ data: { ok: true, source: 'free', receiptId: 41, maxTotalTokens: 30_000,
+        creditUnit: 'credits', creditPolicy: 'daily_credits_v1', dailyChargeCap: 100, reservedCredits: 100, maxOutputTokens: 8192 } })
     await expect(fallbackTutorUsageToFree(user, requestId, { receiptId: 41, executorId, minimumTotalTokens: 4000 }))
-      .resolves.toEqual({ maxTotalTokens: 131072 })
+      .resolves.toEqual({ maxTotalTokens: 30_000 })
     expect(mocks.rpc.mock.calls[0]).toEqual(mocks.rpc.mock.calls[1])
     expect(mocks.rpc.mock.calls[0]).toEqual(['fallback_tutor_usage_to_free_service', {
       p_user_id: user, p_request_id: requestId, p_receipt_id: 41, p_executor_id: executorId, p_min_total_tokens: 4000,
@@ -59,6 +60,41 @@ describe('durable tutor request RPCs', () => {
     await expect(fallbackTutorUsageToFree(user, requestId, args)).resolves.toBeNull()
     mocks.rpc.mockResolvedValueOnce({ data: { ok: true, source: 'free', receiptId: 99, maxTotalTokens: 131072 } })
     await expect(fallbackTutorUsageToFree(user, requestId, args)).rejects.toThrow('Invalid tutor free fallback reservation')
+  })
+
+  it('rejects unsupported or invalid sponsored daily fallback caps before model retry', async () => {
+    const args = { receiptId: 41, executorId: 'executor', minimumTotalTokens: 4000 }
+    const daily = { ok: true, source: 'free', receiptId: 41, creditUnit: 'credits', creditPolicy: 'daily_credits_v1', dailyChargeCap: 100,
+      reservedCredits: 100, maxOutputTokens: 8192, maxTotalTokens: 30_000 }
+    for (const patch of [{ maxTotalTokens: 131072 }, { maxTotalTokens: 3999 },
+      { maxTotalTokens: Infinity }, { reservedCredits: 101 }, { creditUnit: undefined },
+      { creditPolicy: undefined }, { dailyChargeCap: undefined }]) {
+      mocks.rpc.mockResolvedValueOnce({ data: { ...daily, ...patch } })
+      await expect(fallbackTutorUsageToFree(user, requestId, args)).rejects.toThrow('Invalid tutor free fallback reservation')
+    }
+    for (const minimumTotalTokens of [0, -1, NaN, Infinity, 131073]) {
+      await expect(fallbackTutorUsageToFree(user, requestId, { ...args, minimumTotalTokens })).rejects.toThrow('Invalid tutor fallback budget')
+    }
+    expect(mocks.rpc).toHaveBeenCalledTimes(7)
+  })
+
+  it('does not admit a model request with a non-finite or unfunded budget', async () => {
+    for (const patch of [{ maxTotalTokens: Infinity }, { maxTotalTokens: 30_001 }, { maxOutputTokens: 0 }]) {
+      mocks.rpc.mockResolvedValueOnce({ data: { status: 'started', source: 'free', receiptId: 41, creditUnit: 'credits',
+        creditPolicy: 'daily_credits_v1', dailyChargeCap: 100, reservedCredits: 100, maxTotalTokens: 30_000, maxOutputTokens: 8192, ...patch } })
+      await expect(beginTutorRequest(user, input())).rejects.toThrow('Invalid tutor request reservation')
+    }
+  })
+
+  it('keeps monthly-wallet work funded even when daily sponsorship exists', async () => {
+    mocks.rpc.mockResolvedValueOnce({ data: { status: 'started', source: 'wallet', receiptId: 41,
+      creditUnit: 'credits', creditPolicy: 'daily_credits_v1', reservedCredits: 100,
+      maxTotalTokens: 30_000, maxOutputTokens: 8192 } })
+    await expect(beginTutorRequest(user, input())).rejects.toThrow('Invalid tutor request reservation')
+    mocks.rpc.mockResolvedValueOnce({ data: { status: 'started', source: 'wallet', receiptId: 41,
+      creditUnit: 'credits', creditPolicy: 'daily_credits_v1', reservedCredits: 100,
+      maxTotalTokens: 10_000, maxOutputTokens: 8192 } })
+    await expect(beginTutorRequest(user, input())).resolves.toMatchObject({ maxTotalTokens: 10_000 })
   })
 
   it('retries an uncertain completion with identical arguments and never issues a refund', async () => {

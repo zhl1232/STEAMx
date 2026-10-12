@@ -187,12 +187,16 @@ export function ProjectRecordsClient({
       return () => window.clearTimeout(timer)
     }
 
+    let clearHighlight: number | undefined
     const retry = window.setTimeout(() => {
       if (scrollToHighlight()) {
-        window.setTimeout(() => setHighlightedId(null), 2500)
+        clearHighlight = window.setTimeout(() => setHighlightedId(null), 2500)
       }
     }, 120)
-    return () => window.clearTimeout(retry)
+    return () => {
+      window.clearTimeout(retry)
+      window.clearTimeout(clearHighlight)
+    }
   }, [highlightCompletionId, filtered])
 
   const ensureExploration = async () => {
@@ -280,49 +284,51 @@ export function ProjectRecordsClient({
       <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
       <RecordsPageContent>
-        <div data-testid="desktop-records-header" className="mb-5 hidden items-center justify-between gap-4 md:flex">
-          <p className="min-w-0 text-2xl font-black text-foreground">
-            探索记录
-            <span className="font-normal text-muted-foreground"> · {projectTitle}</span>
-          </p>
-          {mode === "project" && journeyActive ? (
-            <Button type="button" tone="success" className="shrink-0" onClick={() => void openRecordFlow()}>
-              + 记录
+        {recordsError && <div role="alert" className="rounded-md border p-4 text-sm">探索记录加载失败，已有记录已保留。<Button variant="outline" className="ml-3" disabled={recordsLoading} onClick={() => void loadJourneyRecords().catch(() => {})}>{recordsLoading ? "重试中…" : "重试"}</Button></div>}
+        <div className="md:mb-6 md:flex md:items-center md:gap-4">
+          <div data-testid="desktop-records-header" className="hidden min-w-0 flex-1 items-center gap-4 md:flex">
+            <p className="min-w-0 text-2xl font-black text-foreground">
+              探索记录
+              <span className="font-normal text-muted-foreground"> · {projectTitle}</span>
+            </p>
+          </div>
+          <RecordsFilterRow>
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
+                <ListFilter className="h-3.5 w-3.5" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-xs font-semibold text-foreground">筛选记录</p>
+                <p className="hidden text-[11px] text-muted-foreground sm:block">按类型浏览探索内容</p>
+              </div>
+            </div>
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger
+                aria-label="按记录类型筛选"
+                className="control-field h-8 w-[116px] shrink-0 rounded-full bg-[hsl(var(--surface-raised)/0.88)] px-3 text-xs shadow-none"
+              >
+                <SelectValue placeholder="全部类型" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">全部类型</SelectItem>
+                {RECORD_TYPE_OPTIONS.map((option) => (
+                  <SelectItem key={option.id} value={option.id}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </RecordsFilterRow>
+          {mode === "project" ? (
+            <Button type="button" tone="success" className="hidden shrink-0 md:inline-flex" onClick={() => void (journeyActive ? openRecordFlow() : handleStartExploration())}>
+              {journeyActive ? "+ 记录" : "开始我的项目"}
             </Button>
           ) : null}
         </div>
-        {recordsError && <div role="alert" className="rounded-md border p-4 text-sm">探索记录加载失败，已有记录已保留。<Button variant="outline" className="ml-3" disabled={recordsLoading} onClick={() => void loadJourneyRecords().catch(() => {})}>{recordsLoading ? "重试中…" : "重试"}</Button></div>}
-        <RecordsFilterRow>
-          <div className="flex min-w-0 items-center gap-2">
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]">
-              <ListFilter className="h-3.5 w-3.5" aria-hidden="true" />
-            </span>
-            <div className="min-w-0">
-              <p className="truncate text-xs font-semibold text-foreground">筛选记录</p>
-              <p className="hidden text-[11px] text-muted-foreground sm:block">按类型浏览探索内容</p>
-            </div>
-          </div>
-          <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger
-              aria-label="按记录类型筛选"
-              className="control-field h-8 w-[116px] shrink-0 rounded-full bg-[hsl(var(--surface-raised)/0.88)] px-3 text-xs shadow-none"
-            >
-              <SelectValue placeholder="全部类型" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">全部类型</SelectItem>
-              {RECORD_TYPE_OPTIONS.map((option) => (
-                <SelectItem key={option.id} value={option.id}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </RecordsFilterRow>
 
         {mode === "project" ? (
           <section
-            className={`exploration-cta-banner${journeyActive ? " cursor-pointer transition-shadow hover:shadow-md" : ""}`}
+            className={`exploration-cta-banner${journeyActive ? " cursor-pointer transition-shadow hover:shadow-md" : " md:hidden"}`}
             onClick={journeyActive ? (event) => {
               // The real buttons provide keyboard access and handle their own actions.
               if (event.target instanceof Element && event.target.closest("button")) return
@@ -451,12 +457,12 @@ function RecordsPageShell({ children }: { children: React.ReactNode }) {
 }
 
 function RecordsPageContent({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-2xl">{children}</div>
+  return <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-6xl md:pt-8 md:pb-8">{children}</div>
 }
 
 function RecordsFilterRow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1">
+    <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1 md:mb-0 md:shrink-0">
       {children}
     </div>
   )
@@ -504,7 +510,7 @@ function RecordsFeedList({
   isPartial: boolean
 }) {
   return (
-    <div className="space-y-5 pb-2">
+    <div className="space-y-5 pb-2 md:grid md:grid-cols-2 md:items-start md:gap-6 md:space-y-0 xl:grid-cols-3">
       {groups.map((group) => (
         <ExplorationRecordGroupCard
           key={group.key}

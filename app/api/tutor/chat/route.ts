@@ -52,7 +52,7 @@ import {
 import { logger } from '@/lib/logger'
 import { getAiCreditStatusForProfile } from '@/lib/api/ai-credits'
 import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, fallbackTutorUsageToFree, getTutorChatSession, type TutorRequestResult } from '@/lib/ai/tutor/requests'
-import { parseTutorBilling } from '@/lib/ai/tutor/billing'
+import { parseTutorBilling, TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import { createTutorUsageCollector } from '@/lib/ai/tutor/usage'
 import type { TutorBilling } from '@/lib/ai/tutor/types'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
@@ -253,7 +253,7 @@ function requestResultResponse(result: Exclude<TutorRequestResult, { status: 'st
     unavailable: '这条回复已删除，无法恢复。',
     conflict: '提问内容已变化，请重新发送。',
     stale_topic: '话题已更新，请重新打开对话后发送。',
-    rejected: '今日免费次数或本月代币已用完。',
+    rejected: TUTOR_CREDIT_EXHAUSTED_MESSAGE,
   }
   return NextResponse.json({ error: errors[result.status], requestState: result.status,
     ...(result.status === 'rejected' ? { code: result.error, resetAt: result.resetAt } : {}),

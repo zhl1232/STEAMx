@@ -18,8 +18,7 @@ import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
 import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
 import type { TutorBilling } from '@/lib/ai/tutor/types'
-import { formatTutorCredits } from '@/lib/ai/tutor/billing'
-import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
+import { formatTutorCredits, TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
 
@@ -57,7 +56,9 @@ export type TutorMessageListProps = {
 
 export function formatTutorBillingCaption(billing?: TutorBilling): string | null {
   if (!billing) return null
-  if (billing.source === 'free') return '本次免费'
+  if (billing.source === 'free') return billing.chargedCredits === 0
+    ? '本次免费'
+    : `本次 ${formatTutorCredits(billing.chargedCredits)} 代币（今日赠送）`
   return `本次 ${formatTutorCredits(billing.chargedCredits)} 代币`
 }
 
@@ -330,7 +331,7 @@ export function TutorMessageList({
 
       {isAuthenticated && view === 'chat' && quota && !quota.canChat && (
         <div className="rounded-sm border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
-          今日免费次数或本月代币已用完。开通会员每月可获 {MEMBER_AI_MONTHLY_CREDITS} 代币。
+          {TUTOR_CREDIT_EXHAUSTED_MESSAGE}
         </div>
       )}
       {isAuthenticated && view === 'chat' && recoveryAction && (

@@ -36,7 +36,7 @@ describe('buildStudentDataAccessSummary', () => {
         '成长任务：已完成 3/5；下一项「连续探索 3 天」（2/3）',
         '课程进度：在学《Scratch 入门》的「出场动画」',
         '游乐场：玩过 6 个小游戏；累计胜利/通关 12 次',
-        'AI 额度：今日免费剩余 4/5 次',
+        'AI 额度：今日赠送 240/300 代币',
       ]),
     })
 
@@ -47,7 +47,7 @@ describe('buildStudentDataAccessSummary', () => {
     expect(text).toContain('成长任务：已完成 3/5')
     expect(text).toContain('课程进度：在学《Scratch 入门》的「出场动画」')
     expect(text).toContain('游乐场：玩过 6 个小游戏')
-    expect(text).toContain('AI 额度：今日免费剩余 4/5 次')
+    expect(text).toContain('AI 额度：今日赠送 240/300 代币')
     expect(text).toContain('不可见：手机号、私信正文、账号安全设置、支付信息')
     expect(text).toContain('原始定位')
   })

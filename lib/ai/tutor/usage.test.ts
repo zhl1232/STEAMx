@@ -127,12 +127,12 @@ describe('request execution budget', () => {
     expect(() => collector.forPurpose('audio_planner').start(attempt)).toThrow(TutorUsageBudgetError)
   })
 
-  it.each([-1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1])('rejects an invalid request budget %s', (maxTotalTokens) => {
+  it.each([0, -1, 1.5, NaN, Infinity, 131_073, Number.MAX_SAFE_INTEGER + 1])('rejects an invalid request budget %s', (maxTotalTokens) => {
     expect(() => createTutorUsageCollector({ maxTotalTokens })).toThrow('Invalid tutor request budget')
   })
 })
 
-describe('confirmed switch to a request free allowance', () => {
+describe('confirmed switch to funded daily credits', () => {
   const largeAttempt = { ...attempt, payload: { ...payload, messages: [{ role: 'user', content: '课程资料'.repeat(400) }] } }
 
   it('shares one recovery and keeps verified, unknown and in-flight reservations', async () => {
@@ -151,7 +151,7 @@ describe('confirmed switch to a request free allowance', () => {
     expect(collector.snapshot()).toMatchObject({ totalTokens: 200, pendingCalls: 1, usageMissing: true })
     expect(collector.snapshot().calls).toHaveLength(3)
     pending.finish({ usage: { totalTokens: 100 }, status: 'completed' })
-    confirm({ maxTotalTokens: 131_072 })
+    confirm({ maxTotalTokens: 30_000 })
     expect(await first).toBe(true)
     expect(await concurrent).toBe(true)
     main.start(largeAttempt).finish({ usage: { totalTokens: 4000 }, status: 'completed' })
