@@ -85,28 +85,38 @@
 1 1 120 -48 120 0 0 -1 0 1 0 1 0 0 6523.dat
 0 // UNVERIFIED 6523 - 5L identity from source gear collar and exposed length; exact depth hidden, no suspension load validation
 0 STEP
-0 // SOURCE PAGE 9 - Source string preparation - omitted flexible element
-0 // UNVERIFIED 75536 string - Source page9 shows one thread and page10 repeats entire assembly4x. Exact length, winding, knots and licensed flexible geometry unverified; no invented string.
+0 // SOURCE PAGE 9 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (-111.523786, -13.368613, -209.0) -> (-50.0, 238.0, -120.0) LDU.
+1 0 -111.523786 -13.368613 -209.0 2.913988 61.523786 -0.231948 -0.713214 251.368613 -0.947674 0 89.0 2.83692 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (111.523786, -13.368613, -209.0) -> (50.0, 238.0, -120.0) LDU.
+1 0 111.523786 -13.368613 -209.0 2.913988 -61.523786 0.231948 0.713214 251.368613 -0.947674 0 89.0 2.83692 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (-111.523786, -13.368613, 209.0) -> (-50.0, 238.0, 120.0) LDU.
+1 0 -111.523786 -13.368613 209.0 2.913988 61.523786 0.231948 -0.713214 251.368613 0.947674 0 -89.0 2.83692 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (111.523786, -13.368613, 209.0) -> (50.0, 238.0, 120.0) LDU.
+1 0 111.523786 -13.368613 209.0 2.913988 -61.523786 -0.231948 0.713214 251.368613 0.947674 0 -89.0 2.83692 s/steamx-rope.dat
 0 STEP
-0 // SOURCE PAGE 10 - Four official pulley bodies; hook/string assemblies remain incomplete
-1 14 -120 -48 -200 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 120 -48 -200 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 -120 -48 200 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 120 -48 200 1 0 0 0 1 0 0 0 1 6527.dat
-0 // UNVERIFIED 4663 suspension - Official hooks added with basket onp12; flexible string geometry absent but sourcep11-13 explicitly supports hanging relationship.
+0 // SOURCE PAGE 10 - Four 75536 wheel bodies; associated non-BOM hooks installed with basket in page 12
+1 14 -120 -48 -200 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 120 -48 -200 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 -120 -48 200 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 120 -48 200 1 0 0 0 1 0 0 0 1 75536.dat
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 STEP
 0 // SOURCE PAGE 11 - Source attaches suspension groups - no further rigid additions
 0 // UNVERIFIED upper shell suspension - Upper shell retains source form; overhead support not shown by source and not invented.
 0 STEP
-0 // SOURCE PAGE 12 - Basket and four hooks below shell; source-backed suspension with missing cord geometry
+0 // SOURCE PAGE 12 - Basket with four non-BOM hooks seated across front/back lower rails.
+0 // Hook eye Y238 puts inner bowl floor at lower rail Y328; rotated across rails. Seat and tension are schematic.
 1 71 0 360 0 1 0 0 0 1 0 0 0 1 51262.dat
 1 15 -20 264 -120 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 20 264 120 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 -120 264 20 0 0 -1 0 1 0 1 0 0 31021p01.dat
 1 15 120 264 -20 0 0 -1 0 1 0 1 0 0 31021p01.dat
-1 14 -120 284 -160 1 0 0 0 1 0 0 0 1 4663.dat
-1 14 120 284 -160 1 0 0 0 1 0 0 0 1 4663.dat
-1 14 -120 284 160 -1 0 0 0 1 0 0 0 -1 4663.dat
-1 14 120 284 160 -1 0 0 0 1 0 0 0 -1 4663.dat
-0 // UNVERIFIED basket suspension - Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified.
+1 14 -50 238 -120 0 0 1 0 1 0 -1 0 0 s/steamx-75536-hook.dat
+1 14 50 238 -120 0 0 1 0 1 0 -1 0 0 s/steamx-75536-hook.dat
+1 14 -50 238 120 0 0 -1 0 1 0 1 0 0 s/steamx-75536-hook.dat
+1 14 50 238 120 0 0 -1 0 1 0 1 0 0 s/steamx-75536-hook.dat
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 // Source final page adds no parts.

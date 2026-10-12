@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE DEV ONLY. Figures/windows/rope geometry omitted. Source-backed suspended hook/car pose is not a physical-support pass.
+0 // INCOMPLETE DEV ONLY. Figures/windows omitted; rope route schematic, physical support unverified.
 0 // SOURCE PAGE 1
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 14 -440 -48 40 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -202,14 +202,19 @@
 1 1 80 -912 80 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // SOURCE PAGE 8
-0 // Two source ropes omitted; no invented path or length.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (-320, -828.3464, -11) -> (-320, -558, -80) LDU.
+1 0 -320 -828.3464 -11 3 0 0 -0 270.3464 0.741901 0 -69 2.906817 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (320, -828.3464, -11) -> (320, -558, -80) LDU.
+1 0 320 -828.3464 -11 3 0 0 -0 270.3464 0.741901 0 -69 2.906817 s/steamx-rope.dat
 0 STEP
 0 // SOURCE PAGE 9
 0 // Two known hooks retained in source-backed suspended pose; rope geometry and eye retention NOT validated.
-1 14 -320 -864 -20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -320 -558 -80 1 0 0 0 1 0 0 0 1 4663.dat
-1 14 320 -864 -20 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 320 -558 -80 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 -320 -864 -20 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 -320 -558 -80 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 14 320 -864 -20 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 320 -558 -80 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 STEP
 0 // SOURCE PAGE 10
 1 7 -320 -864 80 0 0 1 0 1 0 -1 0 0 6522.dat

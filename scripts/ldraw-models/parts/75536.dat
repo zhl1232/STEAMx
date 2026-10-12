@@ -1,0 +1,10 @@
+0 Duplo Technic Wedge Belt Wheel with 28L Cord and Duplo Hook Short With Crossbar
+0 Name: 75536.dat
+0 Author: STEAMx
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // STEAMx local composite; geometry = the 6527 wheel only, with the same origin/orientation.
+0 // Cord and hook are placed in the model as non-BOM subparts so that one 75536 is counted once.
+0 // Real material: one 6527 wheel + one 28L cord + one 4663 hook, sold as one piece.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 6527.dat

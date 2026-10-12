@@ -5,7 +5,7 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa; all fifteen source pages viewed.
 0 // INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.
-0 // 31196c01 is the previously approved local approximation. String is a schematic type2 line.
+0 // 31196c01 is the previously approved local approximation. Cord uses the approved non-BOM cylinder.
 0 // SOURCE PAGE 1: green base and three six-layer alternating blue/yellow columns
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 1 -400 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
@@ -107,11 +107,14 @@
 1 14 -560.601402 -725.362572 -160 0 0 -1 -1 0 0 0 1 0 6526.dat
 0 STEP
 0 // SOURCE PAGE 12: source string shown as schematic straight hanging segment
-2 0 -629.4305745404184 -779.6608177155967 0 -629.4305745404184 -336 0
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (-629.430575, -788.007218, 9) -> (-629.430575, -336, 9) LDU.
+1 0 -629.430575 -788.007218 9 3 0 0 0 452.007218 0 0 0 3 s/steamx-rope.dat
 0 STEP
 0 // SOURCE PAGE 13: hook-and-pulley hanging assembly
-1 14 -629.430575 -823.660818 0 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -629.430575 -336 0 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 -629.430575 -823.660818 0 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 -629.430575 -336 9 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 STEP
 0 // SOURCE PAGE 14: top guide axle, two yellow pulleys and red 24T gear
 1 7 -629.430575 -823.660818 0 0 0 1 0 1 0 -1 0 0 6522.dat

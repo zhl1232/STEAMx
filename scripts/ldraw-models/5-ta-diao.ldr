@@ -74,13 +74,17 @@
 1 14 0 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 0 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // SOURCE PAGE 9 - Prepare flexible lifting string - geometry absent
-0 // UNVERIFIED 75536 stringcomponent - Known assemblyuses6527and4663; exact cordlength/winding/knot andflexiblegeometry notavailable. Do notinventlinegeometry.
+0 // SOURCE PAGE 9 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (560, -564.3464, 9) -> (560, -240, 9) LDU.
+1 0 560 -564.3464 9 3 0 0 0 324.3464 0 0 0 3 s/steamx-rope.dat
 0 STEP
-0 // SOURCE PAGE 10 - Known pulley and hook placed in final source-supported suspension locations
-1 14 560 -600 0 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 560 -240 0 1 0 0 0 1 0 0 0 1 4663.dat
-0 // UNVERIFIED hook support - Sourceexplicitstring supports4663; currentcordmesh absent, vertical360LDU drop isillustrationinference notmeasuredlength. No actualsupport/hoistingvalidation.
+0 // SOURCE PAGE 10 - 75536 wheel and non-BOM hook at winch end X560, opposite counterweight X-400.
+0 // Current source already hung the hook here; comparison screenshot predates this source. Drop remains an illustration estimate.
+1 14 560 -600 0 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 560 -240 9 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 STEP
 0 // SOURCE PAGE 11 - Tip winch shaft, red drivegear and two retainers
 1 0 560 -600 0 0 0 -1 0 1 0 1 0 0 6521.dat

@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV-ONLY: all13 source PDF pages visually inspected; p13 final view.
-0 // INCOMPLETE: p4/p5 flexible cord geometry pending; crank-to-large-gear joint needs precise source evidence.
+0 // INCOMPLETE: crank-to-large-gear joint needs precise source evidence; cord route is schematic.
 0 // Source page 1: 24x24 green base, four blue feet and two parallel2x10 red bearing bricks.
 1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 1 -80 -72 -160 1 0 0 0 1 0 0 0 1 3011.dat
@@ -45,12 +45,15 @@
 1 14 40 -462.606056 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 40 -462.606056 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // Source page 4: source flexible cord prepared separately; omitted until verified real cord geometry/length is available.
-0 // UNKNOWN p4 cord length/form: source black line, combination inventory75536 contains28Lcord; no fabricatedDAT.
+0 // Source page 4 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (364.012024, -426.063972, 69) -> (386, -232, 120) LDU.
+1 0 364.012024 -426.063972 69 2.980927 21.987976 -0.085334 -0.337747 194.063972 -0.753152 0 51 2.902668 s/steamx-rope.dat
 0 STEP
 0 // Source page 5: source pulley+hook+cord subassembly. Rigid pulley placed in eventual p6 pose; official4663 short-crossbar hook verified.
-1 14 359.998057 -461.4909 60 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 400 -232 120 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 359.998057 -461.4909 60 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 386 -232 120 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 // p5 official4663 hook matched source+catalog; eye positioned above hollowweight, exact knot and cord path unknown.
 0 STEP
 0 // Source page 6: blue5L8tooth axle through right walkingbeam hole and pulley; source cord suspended from this pulley.

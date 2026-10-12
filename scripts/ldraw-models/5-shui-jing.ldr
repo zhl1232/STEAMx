@@ -7,6 +7,7 @@
 0 // STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 // STEP 1 - four blue bricks form suspended counterweight
 1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
@@ -19,10 +20,18 @@
 1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
-0 // STEP 3 - rope preparation; flexible geometry pending
+0 // STEP 3 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (0.188641, -612.346899, -89) -> (2, -270, -100) LDU.
+1 0 0.188641 -612.346899 -89 2.999958 1.811359 0.00051 -0.015873 342.346899 0.096341 0 -11 2.998453 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (0.188641, -612.346899, 89) -> (2, -270, 100) LDU.
+1 0 0.188641 -612.346899 89 2.999958 1.811359 -0.00051 -0.015873 342.346899 -0.096341 0 11 2.998453 s/steamx-rope.dat
 0 STEP
 
 0 // STEP 4 - two rope assemblies; source upper pulleys are placed when support shaft exists in step11
+1 14 2 -270 -100 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 14 2 -270 100 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 STEP
 
 0 // STEP 5 - grey lower axle and two lower pulley attachment points
@@ -146,8 +155,8 @@
 1 2 0 -648 -160 0 0 1 0 1 0 -1 0 0 6521.dat
 1 2 0 -648 160 0 0 1 0 1 0 -1 0 0 6521.dat
 1 1 0 -648 0 1 0 0 0 1 0 0 0 1 31625.dat
-1 14 0 -648 -80 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 0 -648 80 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -648 -80 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 0 -648 80 1 0 0 0 1 0 0 0 1 75536.dat
 1 14 0 -648 -260 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 4 0 -648 260 1 0 0 0 1 0 0 0 1 6529.dat
 1 14 0 -648 300 1 0 0 0 0 -1 0 1 0 6526.dat

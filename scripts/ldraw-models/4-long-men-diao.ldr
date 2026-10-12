@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // All13 source pages actually viewed. No physical verification or user acceptance.
-0 // INCOMPLETE: p10 cord andp11 compact pulley holder/pulley/long black hook lack confirmed complete geometry; omitted. Suspended Toolo loop estimated interfaces.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 // Existing approved Toolo approximations: fit, thread engagement and load support remain manual.
 0 // SOURCE PAGE 1 - three black Toolo base blocks; four bare gray rims
 1 0 -400 0 -120 0 0 1 0 1 0 -1 0 0 76395.dat
@@ -119,11 +119,17 @@
 1 71 0 -547 0 0 0 1 0 1 0 -1 0 0 76057.dat
 1 4 0 -619 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-0 // SOURCE PAGE 10 - cord preparation omitted: length androute unknown
-0 // UNKNOWN p10 cord physical length and material; no fabricated geometry.
+0 // SOURCE PAGE 10 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (0, -422.3464, 9) -> (0, -170, 9) LDU.
+1 0 0 -422.3464 9 3 0 0 0 252.3464 0 0 0 3 s/steamx-rope.dat
 0 STEP
-0 // SOURCE PAGE 11 - pulley assembly omitted
-0 // UNKNOWN p11 compact U holder candidate2223, small gray pulley andlong black hook: not4663 short hook; exact IDs/geometry unavailable.
+0 // SOURCE PAGE 11 - Grey pulley and black hook stand-ins below cradle
+0 // PENDING USER CONFIRMATION: pulley/hook IDs are stand-ins: grey 6527 and black 4663, not confirmed source parts. Compact holder candidate 2223 has no geometry; holder omitted.
+1 71 0 -458 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 0 -170 9 1 0 0 0 1 0 0 0 1 4663.dat
 0 STEP
 0 // SOURCE PAGE 12 - attachment instruction retained; no new rigid geometry
-0 // UNKNOWN p12 omitted pulley/rope/hook would attach below lower cradle; retention unresolved.
+0 // Pulley rim meets cradle underside Y=-499; compact holder/axle retention unresolved.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.

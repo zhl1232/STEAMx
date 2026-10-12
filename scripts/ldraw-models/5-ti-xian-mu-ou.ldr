@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10; all ten pages viewed.
-0 // Strings are schematic type2 lines, not numbered rigid parts. Knot, actual length, tension and hook retention unresolved.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
 0 // SOURCE PAGE 1: red body, head, two long crossbars, three grey axles and six pulleys
 1 4 0 -400 0 0 0 1 1 0 0 0 1 0 75350.dat
 1 4 0 -648 24 1 0 0 0 1 0 0 0 1 75349.dat
@@ -60,14 +60,18 @@
 1 4 320 -767.846097 -140 1 0 0 0 1 0 0 0 1 6529.dat
 0 STEP
 0 // SOURCE PAGE 6: two source strings shown schematically; final routed length is not measured
-2 0 -320 -1212 -36 -320 -857.8460969082653 -36
-2 0 320 -1212 -36 320 -857.8460969082653 -36
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (-320, -1220.3464, -27) -> (-320, -857.846097, -36) LDU.
+1 0 -320 -1220.3464 -27 3 0 0 -0 362.500303 0.07446 0 -9 2.999076 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (320, -1220.3464, -27) -> (320, -857.846097, -36) LDU.
+1 0 320 -1220.3464 -27 3 0 0 -0 362.500303 0.07446 0 -9 2.999076 s/steamx-rope.dat
 0 STEP
 0 // SOURCE PAGE 7: two hook-and-pulley string assemblies
-1 14 -320 -1256 -36 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -320 -857.846097 -36 1 0 0 0 1 0 0 0 1 4663.dat
-1 14 320 -1256 -36 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 320 -857.846097 -36 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 -320 -1256 -36 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 -320 -857.846097 -36 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 14 320 -1256 -36 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 320 -857.846097 -36 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 STEP
 0 // SOURCE PAGE 8: attach hooks to raised hands; no additional rigid parts
 0 // Hook pose and string tension are source-derived visual estimates; no mechanical acceptance.
