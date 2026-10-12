@@ -46,7 +46,7 @@ test('public safety modes and static alternative remain explicit', () => {
  expect(reviewed.filter(x => (x.mode ?? 'activity') === 'activity')).toHaveLength(35)
  expect(reviewed.filter(x => x.mode === 'preparation')).toHaveLength(11)
  expect(reviewed.filter(x => x.mode === 'observation')).toHaveLength(9)
- expect(getScienceSample(1269)?.extension).toContain('不用身体尝试其他电路')
+ expect(getScienceSample(1269)?.extension).toContain('插座和电器里的电很危险，绝对不能用身体去试。')
  expect(getScienceSample(1249)?.safety).toContain('不安排儿童制作')
  expect(getScienceSample(700)?.sourceRelation).toBe('alternative')
  expect(getScienceSample(700)?.safety).toContain('不抛掷')

@@ -1,0 +1,57 @@
+name: Check missing profiles (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-readonly-missing-profiles-production
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: Production
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check script syntax locally
+        run: |
+          node --check scripts/check-missing-profiles.mjs
+          node --check scripts/lib/missing-profiles.mjs
+      - name: Copy read-only scripts
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: scripts/check-missing-profiles.mjs,scripts/lib/missing-profiles.mjs
+          target: /tmp/steam-profile-check-${{ github.run_id }}-${{ github.run_attempt }}/
+      - name: Check profiles inside steam-app
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            set -euo pipefail
+            dir="/tmp/steam-profile-check-${{ github.run_id }}-${{ github.run_attempt }}"
+            container_dir="/tmp/pc-${{ github.run_id }}-${{ github.run_attempt }}"
+            cleanup() {
+              result=$?
+              trap - EXIT
+              docker exec steam-app rm -rf -- "$container_dir" || true
+              rm -rf -- "$dir" || true
+              exit "$result"
+            }
+            trap cleanup EXIT
+            docker exec steam-app mkdir -p "$container_dir"
+            tar -C "$dir/scripts" -cf - check-missing-profiles.mjs lib/missing-profiles.mjs | docker exec -i steam-app tar -C "$container_dir" -xf -
+            docker exec steam-app node "$container_dir/check-missing-profiles.mjs"

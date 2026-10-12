@@ -1,3 +1,4 @@
+import { ensureProfile } from '@/lib/auth/ensure-profile'
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
@@ -8,7 +9,6 @@ import {
   createDefaultDisplayName,
   isPhoneBasedDisplayName,
 } from '@/lib/auth/default-display-name'
-import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
 import { PLATFORM_ONBOARDING_HREF } from '@/lib/product/onboarding'
 import { isSupabasePhoneProvider } from '@/lib/auth/phone-provider'
 
@@ -128,6 +128,7 @@ export async function POST(req: Request) {
         if (finalMappingError || finalMapping?.[0]?.user_id !== currentUser.id) {
           return NextResponse.json({ error: '手机号已被绑定，请稍后重试' }, { status: 409 })
         }
+        await ensureProfile({ userId: data.user.id, userMetadata: data.user.user_metadata, phone: data.user.phone })
         return NextResponse.json({ ok: true })
       }
 
@@ -174,6 +175,8 @@ export async function POST(req: Request) {
       if (finalMappingError || finalMapping?.[0]?.user_id !== data.user.id) {
         return NextResponse.json({ error: '手机号已绑定其他账号，请联系管理员处理' }, { status: 409 })
       }
+
+      await ensureProfile({ userId: data.user.id, userMetadata: data.user.user_metadata, phone: data.user.phone ?? phone })
 
       const sessionClient = await createClient()
       const { error: sessionError } = await sessionClient.auth.setSession(data.session)
@@ -394,7 +397,6 @@ export async function POST(req: Request) {
       }
     }
 
-    const username = (userMetadata?.username as string | undefined) || `user_${Math.random().toString(36).slice(2, 10)}`
     const metadataDisplayName = userMetadata?.full_name as string | undefined
     const displayName =
       !metadataDisplayName || isPhoneBasedDisplayName(metadataDisplayName, phone)
@@ -416,18 +418,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const avatarUrl = getDefaultAvatarPath(userId)
-    await supabaseAdmin
-      .from('profiles')
-      .upsert(
-        {
-          id: userId,
-          username,
-          display_name: displayName,
-          avatar_url: avatarUrl,
-        } as never,
-        { onConflict: 'id', ignoreDuplicates: true }
-      )
+    await ensureProfile({ userId, userMetadata, phone })
 
     await supabaseAdmin.from('phone_to_user').upsert(
       { phone, user_id: userId },

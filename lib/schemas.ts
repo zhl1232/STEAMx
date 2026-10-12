@@ -164,7 +164,17 @@ const ScratchEditorContextSchema = z.object({
   targets: z.array(ScratchEditorTargetContextSchema).max(20).default([]),
 });
 
+const TutorPreviousContextSchema = z.object({
+  contextType: TutorContextTypeSchema,
+  contextId: z.string().max(64),
+  stageIndex: z.number().int().min(0).max(50).optional(),
+  lessonId: z.number().int().positive().optional(),
+  surface: TutorGlobalSurfaceSchema.optional(),
+  gameKey: TutorPlaygroundGameKeySchema.optional(),
+});
+
 export const TutorSendSchema = z.object({
+  previousContext: TutorPreviousContextSchema.optional(),
   requestId: z.string().uuid(),
   epoch: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
   contextType: TutorContextTypeSchema.default('global'),

@@ -14,7 +14,7 @@ import { SearchHighlight } from "@/components/ui/search-highlight";
 import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
 import { formatCount } from "@/lib/project/format-count";
-import { visibleProjectTags } from "@/lib/project/tags";
+import { displayProjectTags } from "@/lib/project/tags";
 
 interface ProjectCardProps {
     project: Project;
@@ -42,7 +42,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
     const imageSrc = typeof project.image === "string" ? project.image.trim() : "";
     const [imageError, setImageError] = useState(false);
-    const visibleTags = visibleProjectTags(project.tags)
+    const visibleTags = displayProjectTags(project.tags)
     const previewTag = visibleTags.find((tag) => tag !== project.category && tag !== project.sub_category);
     const detailHref = href || `/project/${project.id}`;
     const categoryTone = getCategoryTone(project.category);

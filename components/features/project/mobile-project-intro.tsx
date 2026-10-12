@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 
-import { visibleProjectTags } from "@/lib/project/tags"
+import { displayProjectTags } from "@/lib/project/tags"
 import { isPlaceholderProjectDescription } from "@/lib/seo/project-description"
 import { cn } from "@/lib/utils"
 
@@ -19,7 +19,7 @@ export function MobileProjectIntro({
   embedded?: boolean
 }) {
   const [expanded, setExpanded] = useState(false)
-  const visibleTags = visibleProjectTags(tags)
+  const visibleTags = displayProjectTags(tags)
   const description = isPlaceholderProjectDescription(summary) ? "" : summary.trim()
   const needsExpand = description.length > COLLAPSED_MAX_CHARS
 

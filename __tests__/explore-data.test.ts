@@ -7,6 +7,8 @@ import {
   getProjectTotalCoinsReceived,
   getProjectExplorationRecordsCount,
   getProjects,
+  rankTagsByPopularity,
+  buildTagScope,
   shouldBlendPopularExplore,
 } from '@/lib/api/explore-data'
 import {
@@ -15,6 +17,8 @@ import {
 } from '@/lib/recommendations/seed'
 import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
+
+vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: null }))
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
@@ -234,5 +238,25 @@ describe('getProjects strict errors', () => {
     failedQuery()
     vi.mocked(callRpc).mockResolvedValue({ data: null, error: { message: 'offline' } } as never)
     await expect(getProjects({}, { sortBy: 'popular', page: 0, blendPopular: true, strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+  })
+})
+
+describe('explore tag options', () => {
+  const entries = [
+    { category: '科学', subCategory: '物理', tags: ['科教版', '幼儿园中班', '二年级', '初中', '平衡', '科学', 'kejiao16a-src:1'] },
+    { category: '工程', subCategory: '结构', tags: ['高中', '高一', '小班', '九年级', '平衡', '搭建'] },
+    { category: '艺术', tags: ['科教版', '大班'] },
+    { tags: null },
+  ]
+  it('ranks only public options by project popularity', () => {
+    expect(rankTagsByPopularity(entries, new Set(['科学']))).toEqual(['平衡', '搭建'])
+  })
+  it('excludes hidden labels from all category and subcategory scopes', () => {
+    const scope = buildTagScope(entries, new Set(['科学']))
+    expect(scope.all).toEqual(expect.arrayContaining(['平衡', '搭建']))
+    expect(scope.all).toHaveLength(2)
+    expect(scope.byCategory).toEqual({ 科学: ['平衡'], 工程: scope.bySubCategory.结构 })
+    expect(scope.bySubCategory.物理).toEqual(['平衡'])
+    expect(scope.bySubCategory.结构).toHaveLength(2)
   })
 })

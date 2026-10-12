@@ -49,6 +49,9 @@ import {
   useTutorChatStream,
   type TutorSendMessageFn,
 } from '@/components/features/tutor/use-tutor-chat-stream'
+import { useTutorSheet } from './use-tutor-sheet'
+import { TutorMobileSheet, tutorSheetSummary } from './tutor-mobile-sheet'
+import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { useTutorFabDrag } from '@/components/features/tutor/use-tutor-fab-drag'
 import { useTutorHistory } from '@/components/features/tutor/use-tutor-history'
 import { useTutorVoice } from '@/components/features/tutor/use-tutor-voice'
@@ -148,6 +151,13 @@ export function GlobalTutorFab({
   const { toast } = useToast()
   const tutorCtx = useOptionalTutorContext()
   const queryClient = useQueryClient()
+  const sheet = useTutorSheet(open, fabBottomInset)
+  const { collapse } = sheet
+  const dispatchToolCall = tutorCtx?.dispatchToolCall
+  const handleToolCall = useCallback((toolCall: TutorToolCall) => {
+    if (['course.focus_lesson_step', 'course.highlight_scratch_blocks', 'pbl.focus_current_stage', 'playground.hint_minesweeper'].includes(toolCall.name)) collapse()
+    return dispatchToolCall?.(toolCall) ?? Promise.resolve(false)
+  }, [collapse, dispatchToolCall])
 
   const [mounted, setMounted] = useState(false)
   const [input, setInput] = useState('')
@@ -267,6 +277,8 @@ export function GlobalTutorFab({
 
   const {
     messages,
+    displayMessages = messages,
+    hasCarried = false,
     setMessages,
     busy,
     toolPendingCount,
@@ -280,6 +292,7 @@ export function GlobalTutorFab({
   } = useTutorChatStream({
     contextKey,
     epoch: sessionQuery.data?.epoch,
+    sceneTitle: sessionQuery.data?.scene?.title,
     context,
     stageIndex,
     lessonStepIndex,
@@ -287,7 +300,7 @@ export function GlobalTutorFab({
     scratchBlockTargetItemIndex,
     scratchEditorContext,
     clientToolCapabilities,
-    dispatchToolCall: tutorCtx?.dispatchToolCall,
+    dispatchToolCall: dispatchToolCall ? handleToolCall : undefined,
     sessionInput,
     busyRef,
     autoReadReplies: voice.autoReadReplies,
@@ -371,11 +384,17 @@ export function GlobalTutorFab({
     const updateViewport = () => {
       panel.style.setProperty('--tutor-viewport-height', `${viewport?.height ?? window.innerHeight}px`)
       panel.style.setProperty('--tutor-viewport-top', `${viewport?.offsetTop ?? 0}px`)
+      const inputFocused = panel.contains(document.activeElement) &&
+        document.activeElement?.matches('textarea, input, [contenteditable="true"]')
+      panel.dataset.sheetKeyboard = String(Boolean(viewport && window.innerHeight - viewport.height > 150 && inputFocused))
+      panel.style.setProperty('--tutor-viewport-bottom', `${Math.max(0, window.innerHeight - (viewport?.height ?? window.innerHeight) - (viewport?.offsetTop ?? 0))}px`)
     }
     updateViewport()
     viewport?.addEventListener('resize', updateViewport)
     viewport?.addEventListener('scroll', updateViewport)
     window.addEventListener('resize', updateViewport)
+    panel.addEventListener('focusin', updateViewport)
+    panel.addEventListener('focusout', updateViewport)
     const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const launcher = fabRef.current
     // Focus the dialog on touch screens without opening the software keyboard.
@@ -392,22 +411,29 @@ export function GlobalTutorFab({
       viewport?.removeEventListener('resize', updateViewport)
       viewport?.removeEventListener('scroll', updateViewport)
       window.removeEventListener('resize', updateViewport)
+      panel.removeEventListener('focusin', updateViewport)
+      panel.removeEventListener('focusout', updateViewport)
       if (previousFocus?.isConnected && previousFocus !== document.body) previousFocus.focus({ preventScroll: true })
       else launcher?.focus({ preventScroll: true })
     }
   }, [open, mounted])
 
-  // 切换场景（换页面/换阶段）时清空旧话题残留的编排层状态
+  const draftUserRef = useRef(user?.id)
+
+  // 场景信息随页面刷新，未发草稿仅在身份变化时清空。
   useEffect(() => {
     setGreeting(null)
     setSceneTitle('')
-    setPendingImages([])
+    if (draftUserRef.current !== user?.id) {
+      setPendingImages([])
+      setInput('')
+    }
+    draftUserRef.current = user?.id
     setSuggestedImages([])
     setMascotFeedback(null)
-    setInput('')
     setQuota(null)
     setUploadingImage(false)
-  }, [contextKey])
+  }, [contextKey, user?.id])
 
   useEffect(() => {
     if (!sessionQuery.data) return
@@ -523,6 +549,7 @@ export function GlobalTutorFab({
       {open && (
         <section
           ref={panelRef}
+          {...sheet.panelProps}
           role="dialog"
           aria-label="小迪 AI 学习导师"
           tabIndex={-1}
@@ -533,7 +560,8 @@ export function GlobalTutorFab({
             fabPlacement === 'compact' && panelStyles.compact,
           )}
         >
-          <div className="flex shrink-0 items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3 py-2">
+          <TutorMobileSheet sheet={sheet} summary={tutorSheetSummary(displayMessages)}>
+          <div {...sheet.headerProps} className={cn(panelStyles.header, "flex shrink-0 items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--status-info-surface)/0.5)] px-3 py-2")}>
             <span className="relative h-11 w-10 shrink-0 overflow-visible drop-shadow-[0_8px_12px_hsl(var(--brand-blue)/0.18)]">
               <span className="absolute left-1/2 top-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center">
                 <XiaoDi state={mascotState} size={52} onCycleEnd={handleMascotCycleEnd} />
@@ -558,7 +586,7 @@ export function GlobalTutorFab({
                   <MoreHorizontal className="h-4 w-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="max-md:z-[52]">
                 <DropdownMenuItem disabled={busy || history.startingNewTopic || !user} onClick={() => void history.startNewTopic()}>
                   <MessageSquarePlus className="mr-2 h-4 w-4" />
                   开启新对话
@@ -610,8 +638,8 @@ export function GlobalTutorFab({
           <TutorMessageList
             view={view}
             isAuthenticated={Boolean(user)}
-            messages={messages}
-            greeting={greeting}
+            messages={displayMessages}
+            greeting={hasCarried ? null : greeting}
             busy={busy || history.startingNewTopic}
             streamPhase={streamPhase}
             recoveryAction={failedMessage ? {
@@ -705,7 +733,7 @@ export function GlobalTutorFab({
               onReview={onReview}
             />
           ) : (
-            <div className="flex flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
+            <div className="flex shrink-0 flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
               <p className="text-xs text-muted-foreground">登录后就能和小迪一对一聊。</p>
               <Button
                 type="button"
@@ -721,11 +749,13 @@ export function GlobalTutorFab({
               </Button>
             </div>
           )}
+          </TutorMobileSheet>
         </section>
       )}
 
       {!open && voice.voiceFeedback && (
         <div
+          data-tutor-ui
           className={cn(
             'fixed right-3 z-50 w-[min(82vw,18rem)] md:hidden',
             hideOnMobile && 'hidden',
@@ -749,6 +779,7 @@ export function GlobalTutorFab({
 
       {!open && !voice.voiceFeedback && voice.showVoiceHint && voice.voicePreferences.mobileLongPressInput && (
         <div
+          data-tutor-ui
           role="status"
           className={cn(
             'fixed right-3 z-50 max-w-46 rounded-sm border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground/86 shadow-[0_16px_34px_-18px_hsl(var(--surface-shadow)/0.55)] md:hidden',
@@ -772,6 +803,7 @@ export function GlobalTutorFab({
       )}
 
       <button
+        data-tutor-ui
         ref={fabRef}
         type="button"
         onClick={drag.handleFabClick}

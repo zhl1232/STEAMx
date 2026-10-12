@@ -280,6 +280,17 @@ export function ProjectRecordsClient({
       <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
       <RecordsPageContent>
+        <div data-testid="desktop-records-header" className="mb-5 hidden items-center justify-between gap-4 md:flex">
+          <p className="min-w-0 text-2xl font-black text-foreground">
+            探索记录
+            <span className="font-normal text-muted-foreground"> · {projectTitle}</span>
+          </p>
+          {mode === "project" && journeyActive ? (
+            <Button type="button" tone="success" className="shrink-0" onClick={() => void openRecordFlow()}>
+              + 记录
+            </Button>
+          ) : null}
+        </div>
         {recordsError && <div role="alert" className="rounded-md border p-4 text-sm">探索记录加载失败，已有记录已保留。<Button variant="outline" className="ml-3" disabled={recordsLoading} onClick={() => void loadJourneyRecords().catch(() => {})}>{recordsLoading ? "重试中…" : "重试"}</Button></div>}
         <RecordsFilterRow>
           <div className="flex min-w-0 items-center gap-2">
@@ -310,7 +321,14 @@ export function ProjectRecordsClient({
         </RecordsFilterRow>
 
         {mode === "project" ? (
-          <section className="exploration-cta-banner">
+          <section
+            className={`exploration-cta-banner${journeyActive ? " cursor-pointer transition-shadow hover:shadow-md" : ""}`}
+            onClick={journeyActive ? (event) => {
+              // The real buttons provide keyboard access and handle their own actions.
+              if (event.target instanceof Element && event.target.closest("button")) return
+              void openRecordFlow()
+            } : undefined}
+          >
             <span className="exploration-cta-icon">
               <Sprout className="h-5 w-5" />
             </span>
@@ -336,6 +354,11 @@ export function ProjectRecordsClient({
               ) : null}
             </div>
             <div className="flex shrink-0 flex-col gap-1.5">
+              {journeyActive ? (
+                <Button type="button" size="sm" tone="success" onClick={() => void openRecordFlow()}>
+                  记录
+                </Button>
+              ) : null}
               {!journeyActive ? (
                 <Button
                   type="button"

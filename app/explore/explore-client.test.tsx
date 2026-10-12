@@ -158,6 +158,21 @@ describe('ExploreClient', () => {
         )
     })
 
+    it('ignores grade-only URLs on initial render and later URL navigation', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '初中' })
+        const props = { initialProjects: [makeProject(1, '未筛选项目')], initialHasMore: false,
+            initialFiltersKey: '', categories: ['全部', '科学'] }
+        const { rerender } = render(<ExploreClient {...props} />)
+        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByText('未筛选项目')).toBeInTheDocument()
+        currentSearchParams = new URLSearchParams({ tags: '科教版,初中' })
+        rerender(<ExploreClient {...props} />)
+        await waitFor(() => expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true'))
+        currentSearchParams = new URLSearchParams({ tags: '二年级,高中' })
+        rerender(<ExploreClient {...props} />)
+        await waitFor(() => expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true'))
+    })
+
     it('rebuilds page one when the saved filters differ from the SSR payload', async () => {
         currentSearchParams = new URLSearchParams('tags=已选标签')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
@@ -647,8 +662,8 @@ describe('ExploreClient', () => {
         expect(requestUrl).not.toContain('tags=')
     })
 
-    it('activates science-edu preset via tags=科教版 and stays in explore mode', async () => {
-        currentSearchParams = new URLSearchParams({ tags: '科教版' })
+    it.each(['科教版', '科教版,初中', '科教版,幼儿园中班,二年级,kejiao16a-src:1'])('activates science-edu preset via tags=%s and stays in explore mode', async (tags) => {
+        currentSearchParams = new URLSearchParams({ tags })
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({
             ok: true,

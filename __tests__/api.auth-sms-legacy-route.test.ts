@@ -1,3 +1,5 @@
+import { ensureProfile } from '@/lib/auth/ensure-profile'
+vi.mock('@/lib/auth/ensure-profile', () => ({ ensureProfile: vi.fn(async () => ({ ok: false, created: false })) }))
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 type Otp = { id: string; phone: string; code: string; type: string; user_id: string | null; expires_at: string }
@@ -75,6 +77,7 @@ describe('legacy SMS verification', () => {
   it('logs an existing user in once and consumes duplicate matching codes', async () => {
     state.rows.push({ ...state.rows[0], id: 'otp-2' })
     expect((await POST(request())).status).toBe(200)
+    expect(ensureProfile).toHaveBeenCalledWith(expect.objectContaining({ userId: 'user-1', phone: '+8613800138000' }))
     expect(state.rows).toHaveLength(0)
     expect((await POST(request())).status).toBe(400)
     expect(admin.auth.admin.generateLink).toHaveBeenCalledTimes(1)

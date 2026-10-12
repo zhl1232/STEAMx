@@ -8,8 +8,6 @@ import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
 import type { UserStats } from "@/lib/gamification/types";
 import { logger } from "@/lib/logger";
-import { getDefaultAvatarPath } from "@/lib/profile/avatar-options";
-import { createDefaultDisplayName } from "@/lib/auth/default-display-name";
 import { invalidateProfileHomeData } from "@/lib/profile/profile-home-client";
 import { createClient } from "@/lib/supabase/client";
 
@@ -169,18 +167,10 @@ export function DailyCheckInSync() {
                 if (error) {
                     if (error.code === "23503") {
                         try {
-                            const displayName =
-                                user.user_metadata?.full_name ||
-                                user.user_metadata?.name ||
-                                createDefaultDisplayName();
-                            const avatarUrl = getDefaultAvatarPath(user.id);
-
-                            await supabase
-                                .from("profiles")
-                                .upsert(
-                                    { id: user.id, display_name: displayName, avatar_url: avatarUrl },
-                                    { onConflict: "id", ignoreDuplicates: true },
-                                );
+                            const recovery = await fetch('/api/profile/ensure', { method: 'POST' });
+                            if (!recovery.ok || !(await recovery.json()).ok) {
+                                throw new Error('Profile recovery failed');
+                            }
 
                             const { data: retryData, error: retryError } = await supabase.rpc("daily_check_in") as {
                                 data: CheckInResult | null;

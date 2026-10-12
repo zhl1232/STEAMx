@@ -64,7 +64,7 @@ import {
 import {
   AI_TUTOR_RATE_LIMIT_PER_MINUTE,
 } from '@/lib/membership'
-import { TutorSendSchema } from '@/lib/schemas'
+import { TutorSendSchema, type TutorSendInput } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 import { createTutorSpeechStreamer } from '@/lib/ai/tutor/speech'
@@ -275,6 +275,43 @@ async function loadHistory(
   return ((data ?? []) as TutorMessageRow[]).reverse().map(mapMessage)
 }
 
+const PREVIOUS_CONTEXT_TURNS = 4
+const PREVIOUS_CONTEXT_CHAR_BUDGET = 1500
+
+/** Optional continuity only: never create a session or write to the previous page. */
+async function loadPreviousContextHistory(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  currentType: string,
+  currentId: string,
+  previous: TutorSendInput['previousContext'],
+): Promise<TutorEngineMessage[]> {
+  if (!previous || (previous.contextType === currentType && previous.contextId === currentId)) return []
+  try {
+    const session = await supabase.from('tutor_conversations').select('id')
+      .eq('user_id', userId).eq('context_type', previous.contextType)
+      .eq('context_id', previous.contextId).eq('status', 'active').maybeSingle()
+    if (session.error || !session.data) return []
+    const rows = await supabase.from('tutor_messages').select('role, content')
+      .eq('conversation_id', session.data.id).order('id', { ascending: false }).limit(PREVIOUS_CONTEXT_TURNS)
+    if (rows.error) return []
+    const history: TutorEngineMessage[] = []
+    let remaining = PREVIOUS_CONTEXT_CHAR_BUDGET
+    for (const row of (rows.data ?? []).slice(0, PREVIOUS_CONTEXT_TURNS)) {
+      if (remaining <= 0) break
+      if (row.role !== 'user' && row.role !== 'assistant') continue
+      const content = (row.role === 'assistant' ? sanitizeTutorReply(row.content) : row.content).slice(0, remaining)
+      if (!content) continue
+      history.unshift({ role: row.role, content })
+      remaining -= content.length
+    }
+    if (history.length) history.unshift({ role: 'user', content: `以下是用户在上一个页面（${previous.contextType}）和你的最近对话，仅供衔接，当前页面以新上下文为准` })
+    return history
+  } catch {
+    return []
+  }
+}
+
 /** 从最新往旧累计字符成本，超出预算即停；至少保留最近 2 条。 */
 function trimHistoryToCharBudget(history: TutorEngineMessage[], budget = HISTORY_CHAR_BUDGET) {
   const kept: TutorEngineMessage[] = []
@@ -468,10 +505,11 @@ export async function POST(request: NextRequest) {
     const messageAudiosPromise = canUseSpeciesAudio
       ? findSpeciesAudiosForMessage(supabase, content)
       : Promise.resolve<TutorAudioRef[]>([])
-    const [messageAudios, recentRows] = await Promise.all([
+    const [messageAudios, recentRows, previousHistory] = await Promise.all([
       messageAudiosPromise,
       supabase.from('tutor_messages').select('*').eq('conversation_id', conversation.id)
         .order('id', { ascending: false }).limit(CONTEXT_TURNS),
+      loadPreviousContextHistory(supabase, user.id, contextType, contextId, parsed.data.previousContext),
     ])
     if (recentRows.error) throw recentRows.error
     timing.mark('message_audio')
@@ -699,7 +737,7 @@ export async function POST(request: NextRequest) {
       speciesHintsSummary: hintsSummary,
     })
     const referenceSources = [promptScene.summary, resourceSummary, studentProfile.text]
-    const engineHistory = trimHistoryToCharBudget(history)
+    const engineHistory = trimHistoryToCharBudget([...previousHistory, ...history])
     timing.mark('build_prompt')
     const earlyAudioPlanPromise =
       canUsePromptSpeciesAudio && availableAudios.length > 0

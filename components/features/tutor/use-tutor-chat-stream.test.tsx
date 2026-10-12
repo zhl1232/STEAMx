@@ -12,6 +12,7 @@ vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ 
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: mocks.toast }) }))
 vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => mocks.query }))
 
+import { useTutorHistory } from './use-tutor-history'
 import { useTutorChatStream, type UseTutorChatStreamOptions } from './use-tutor-chat-stream'
 
 function options(): UseTutorChatStreamOptions {
@@ -34,6 +35,52 @@ describe('tutor chat lifecycle', () => {
     mocks.fetch.mockReset()
     mocks.user = { id: 'user-a' }
     vi.stubGlobal('fetch', mocks.fetch)
+  })
+
+  it('carries completed messages across loading, sends in the new scene, and clears on a new topic or account', async () => {
+    mocks.fetch.mockImplementation(async () => response([{ type: 'done', reply: '上一页答案' }]))
+    const opts = options()
+    const { result, rerender } = renderHook((props: { key: string; epoch?: number; title?: string }) => useTutorChatStream({
+      ...opts, contextKey: props.key, epoch: props.epoch, sceneTitle: props.title,
+      context: { contextType: 'project', contextId: props.key },
+    }), { initialProps: { key: '1', epoch: 0, title: '旧页' } as { key: string; epoch?: number; title?: string } })
+    await act(async () => { await result.current.sendMessage('旧问题') })
+    rerender({ key: '2' })
+    expect(result.current.displayMessages.map((m) => m.content)).toEqual(['旧问题', '上一页答案', '现在在：新页面'])
+    rerender({ key: '2', epoch: 0, title: '新项目' })
+    expect(result.current.displayMessages.at(-1)?.content).toBe('现在在：新项目')
+    await act(async () => { await result.current.sendMessage('接着说') })
+    expect(result.current.displayMessages.filter((m) => m.content === '上一页答案')).toHaveLength(2)
+    expect(JSON.parse(mocks.fetch.mock.calls.at(-1)![1].body)).toMatchObject({ contextId: '2', previousContext: { contextType: 'project', contextId: '1' } })
+    act(() => result.current.resetChat())
+    expect(result.current.displayMessages).toEqual([])
+    await act(async () => { await result.current.sendMessage('新话题') })
+    expect(JSON.parse(mocks.fetch.mock.calls.at(-1)![1].body).previousContext).toBeUndefined()
+    rerender({ key: '3', epoch: 0 })
+    expect(result.current.hasCarried).toBe(true)
+    mocks.user = { id: 'user-b' }
+    rerender({ key: '3', epoch: 0 })
+    expect(result.current.displayMessages).toEqual([])
+  })
+
+  it('startNewTopic clears the carried segment after successful archiving', async () => {
+    const opts = options()
+    const contextKeyRef = { current: 'home' }
+    const { result, rerender } = renderHook(({ key }) => {
+      const chat = useTutorChatStream({ ...opts, contextKey: key })
+      const history = useTutorHistory({ epoch: 0, contextKey: key, contextKeyRef, busyRef: opts.busyRef,
+        contextType: 'global', contextId: '', buildParams: () => new URLSearchParams(),
+        loadSession: async () => undefined, onResetChat: chat.resetChat })
+      return { chat, history }
+    }, { initialProps: { key: 'home' } })
+    act(() => result.current.chat.setMessages([{ role: 'assistant', content: '上一页' }]))
+    contextKeyRef.current = 'next'
+    rerender({ key: 'next' })
+    expect(result.current.chat.hasCarried).toBe(true)
+    mocks.fetch.mockResolvedValue(new Response('{}'))
+    await act(async () => { await result.current.history.startNewTopic() })
+    expect(result.current.chat.displayMessages).toEqual([])
+    expect(result.current.chat.hasCarried).toBe(false)
   })
 
   it('releases a switched scene and ignores an old failure while its replacement is streaming', async () => {

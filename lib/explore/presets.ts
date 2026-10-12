@@ -1,3 +1,4 @@
+import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { normalizeDifficultyParam } from '@/lib/content-classification/validation'
 
 export type SortBy = 'latest' | 'popular'
@@ -161,6 +162,10 @@ export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams 
 }
 
 export function serializeExploreFilterParams(params: URLSearchParams): string {
-    const entries = Array.from(params.entries()).sort(([a], [b]) => a.localeCompare(b))
+    const normalized = new URLSearchParams(params)
+    const tags = sanitizeProjectTagsParam(normalized.get('tags'))
+    if (tags.length) normalized.set('tags', tags.join(','))
+    else normalized.delete('tags')
+    const entries = Array.from(normalized.entries()).sort(([a], [b]) => a.localeCompare(b))
     return new URLSearchParams(entries).toString()
 }

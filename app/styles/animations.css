@@ -71,7 +71,8 @@
 }
 
 .route-transition-enter {
-  animation: route-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Release transform after entry so fixed descendants use the viewport again. */
+  animation: route-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 .achievement-toast-icon {

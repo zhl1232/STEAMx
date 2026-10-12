@@ -34,7 +34,7 @@ test('real composer allows edit, keeps draft on close and protects an existing d
  fireEvent.click(screen.getByRole('button', { name: '发送' }))
  expect(mock.send).toHaveBeenCalledWith('我想补充的问题', [])
 })
-test('real composer clears text on project/account switch and follows visual viewport height', async () => {
+test('real composer preserves text on project switch, clears on account switch and follows visual viewport height', async () => {
  const viewport = new EventTarget()
  Object.assign(viewport, { height: 400, offsetTop: 0 })
  Object.defineProperty(window, 'visualViewport', { configurable: true, value: viewport })
@@ -43,9 +43,10 @@ test('real composer clears text on project/account switch and follows visual vie
  await screen.findByRole('textbox')
  await waitFor(() => expect(screen.getByRole('dialog').style.getPropertyValue('--tutor-viewport-height')).toBe('400px'))
  rerender(<TutorProvider><Harness id="1215" /></TutorProvider>)
- expect(screen.getByRole('textbox')).toHaveValue('')
+ expect(screen.getByRole('textbox')).toHaveValue('为什么喷发？')
  fireEvent.click(screen.getByText('选问题'))
  expect(screen.getByRole('textbox')).toHaveValue('为什么喷发？')
+ expect(mock.toast).toHaveBeenCalledWith({ title: '已保留当前草稿，请发送或清空文字和照片后再选问题。' })
  mock.user = { id: 'b' }
  rerender(<TutorProvider><Harness id="1215" /></TutorProvider>)
  expect(screen.getByRole('textbox')).toHaveValue('')
