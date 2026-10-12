@@ -2,6 +2,7 @@
 0 Name: 4-zhi-zhu.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p8 shell yellow14 instead of orange25. p3 jaw clutches hang down from fork pivots instead of extending as horizontal blocks. Grey rim eyes already present p4. Mixer p6 omitted; p5 near-side forks rotated so all8 pivots meet p7 open arm ends atY=-24,Z=+/-233; fits remain approximate.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -20,8 +21,8 @@
 1 72 368 -24 40 0 -1 0 1 0 0 0 0 1 28336.dat
 0 STEP
 0 // Source page 3: two clutch blocks fitted to the mandible forks
-1 72 493 -24 -88 0 -1 0 1 0 0 0 0 1 74957.dat
-1 72 493 -24 88 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 433 36 -88 1 0 0 0 -1 0 0 0 -1 74957.dat
+1 72 433 36 88 1 0 0 0 -1 0 0 0 -1 74957.dat
 0 STEP
 0 // Source page 4: two bare rim eyes, two yellow Toolo head bricks and one rear grey Toolo brick
 1 14 240 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
@@ -31,34 +32,34 @@
 1 71 384 -72 40 0 -1 0 1 0 0 0 0 1 99565.dat
 0 STEP
 0 // Source page 5: eight body-side forks, four each side, prongs directed upward/outward
-1 72 -240 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -240 24 -168 1 0 0 0 0 -1 0 1 0 28336.dat
 1 72 -240 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 72 -80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -80 24 -168 1 0 0 0 0 -1 0 1 0 28336.dat
 1 72 -80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 72 80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 80 24 -168 1 0 0 0 0 -1 0 1 0 28336.dat
 1 72 80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 72 240 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 240 24 -168 1 0 0 0 0 -1 0 1 0 28336.dat
 1 72 240 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
 0 STEP
 0 // Source page 6: yellow concrete mixer assembly unresolved; omitted pending confirmed ID and geometry
 0 STEP
 0 // Source page 7: eight short Toolo arms form downward legs
-1 72 -240 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
-1 72 -240 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
-1 72 -80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
-1 72 -80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
-1 72 80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
-1 72 80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
-1 72 240 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
-1 72 240 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 -240 117.421356 -374.421356 0 0 -1 -0.7071067811865476 -0.7071067811865476 0 -0.7071067811865476 0.7071067811865476 0 dev-129/28334.dat
+1 72 -240 117.421356 374.421356 0 0 1 -0.7071067811865476 -0.7071067811865476 0 0.7071067811865476 -0.7071067811865476 0 dev-129/28334.dat
+1 72 -80 117.421356 -374.421356 0 0 -1 -0.7071067811865476 -0.7071067811865476 0 -0.7071067811865476 0.7071067811865476 0 dev-129/28334.dat
+1 72 -80 117.421356 374.421356 0 0 1 -0.7071067811865476 -0.7071067811865476 0 0.7071067811865476 -0.7071067811865476 0 dev-129/28334.dat
+1 72 80 117.421356 -374.421356 0 0 -1 -0.7071067811865476 -0.7071067811865476 0 -0.7071067811865476 0.7071067811865476 0 dev-129/28334.dat
+1 72 80 117.421356 374.421356 0 0 1 -0.7071067811865476 -0.7071067811865476 0 0.7071067811865476 -0.7071067811865476 0 dev-129/28334.dat
+1 72 240 117.421356 -374.421356 0 0 -1 -0.7071067811865476 -0.7071067811865476 0 -0.7071067811865476 0.7071067811865476 0 dev-129/28334.dat
+1 72 240 117.421356 374.421356 0 0 1 -0.7071067811865476 -0.7071067811865476 0 0.7071067811865476 -0.7071067811865476 0 dev-129/28334.dat
 0 STEP
-0 // Source page 8: four orange and four yellow curved2x3 bricks in opposing pairs
-1 25 -120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 25 -120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // Source page 8: eight yellow-family curved2x3 bricks (p8 icon orange shading not retained as orange25) in opposing pairs
+1 14 -120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
 1 14 -40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
 1 14 -40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
-1 25 40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 25 40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
 1 14 120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
 1 14 120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
 0 // PENDING: Rear yellow mixer assembly fromp6 is omitted until ID/geometry are confirmed; do not treat this model as complete.

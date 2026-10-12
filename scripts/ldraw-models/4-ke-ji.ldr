@@ -2,6 +2,7 @@
 0 Name: 4-ke-ji.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p7 cabin colour light blue9; tower p9-11 retains source8 red/yellow courses, source footprint retained. Canopy seating remains unresolved: raw checker reports overlap with cockpit; no collision exemption. Nose is -X; source-view camera must face -X. Toolo blue tail omitted, no fabricated wings.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 25cc2fb679437ef1003dc94cc7db86865f6f2a8c4414b315d71d425b0075f3fa
 0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
@@ -62,10 +63,10 @@
 0 STEP
 
 0 // STEP 7 - four light-blue 2x3 curved bricks down cabin centerline
-1 11 -160 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 11 -80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 11 0 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 11 80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 9 -160 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 9 -80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 9 0 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
+1 9 80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
 0 STEP
 
 0 // STEP 8 - green 24x24 airport base; aircraft rests on tyres rather than studs

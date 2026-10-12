@@ -2,6 +2,7 @@
 0 Name: 4-xiang-wei-she.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p14/15 yellow objects moved clear of tail; two source-visible separate objects, not connected snake structure. Head remains raised as p2-4; joint fit unresolved.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // STATUS: INCOMPLETE - source-based draft, pending rendered comparison and mechanical interface review.
 0 // No user confirmation, physical validation or publication is claimed.
@@ -38,18 +39,18 @@
 0 STEP
 0 // STEP 7 - p7: first upper body brick; articulated next lower segment and connector
 1 0 320 0 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 661.421356 48 141.421356 0.707107 0 -0.707107 0 1 0 0.707107 0 0.707107 76395.dat
-1 72 480 72 88 0.92388 0.382683 0 0 0 1 0.382683 -0.92388 0 76057.dat
+1 0 661.421356 48 141.421356 0.7071067811865476 0 -0.7071067811865476 0 1 0 0.7071067811865476 0 0.7071067811865476 76395.dat
+1 72 480 72 88 0.9238795325112867 0.3826834323650898 0 0 0 1 0.3826834323650898 -0.9238795325112867 0 76057.dat
 0 STEP
 0 // STEP 8 - p8: second upper body brick, next lower segment and connector
-1 0 604.852814 0 84.852814 0.707107 0 -0.707107 0 1 0 0.707107 0 0.707107 76395.dat
+1 0 604.852814 0 84.852814 0.7071067811865476 0 -0.7071067811865476 0 1 0 0.7071067811865476 0 0.7071067811865476 76395.dat
 1 0 922.842712 48 282.842712 1 0 0 0 1 0 0 0 1 76395.dat
-1 72 802.842712 72 322.842712 0.92388 0.382683 0 0 0 1 0.382683 -0.92388 0 76057.dat
+1 72 802.842712 72 322.842712 0.9238795325112867 0.3826834323650898 0 0 0 1 0.3826834323650898 -0.9238795325112867 0 76057.dat
 0 STEP
 0 // STEP 9 - p9: third upper body brick, bent lower tail and connector
 1 0 842.842712 0 282.842712 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 962.842712 48 482.842712 0 0 -1 0 1 0 1 0 0 76395.dat
-1 72 1090.842712 72 362.842712 0.707107 0.707107 0 0 0 1 0.707107 -0.707107 0 76057.dat
+1 72 1090.842712 72 362.842712 0.7071067811865476 0.7071067811865476 0 0 0 1 0.7071067811865476 -0.7071067811865476 0 76057.dat
 0 STEP
 0 // STEP 10 - p10: tail-end side connector and small fork
 1 72 962.842712 72 650.842712 1 0 0 0 0 1 0 -1 0 76057.dat
@@ -61,9 +62,9 @@
 1 14 400 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
 0 // STEP 12 - p12: red/lime/yellow 2x4 plates across second upper segment
-1 4 548.284271 -24 28.284271 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 40666.dat
-1 27 604.852814 -24 84.852814 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 40666.dat
-1 14 661.421356 -24 141.421356 0.707107 0 0.707107 0 1 0 -0.707107 0 0.707107 40666.dat
+1 4 548.284271 -24 28.284271 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
+1 27 604.852814 -24 84.852814 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
+1 14 661.421356 -24 141.421356 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
 0 STEP
 0 // STEP 13 - p13: three colour plates on third upper segment and two yellow curved tail bricks
 1 4 762.842712 -24 282.842712 0 0 1 0 1 0 -1 0 0 40666.dat
@@ -72,20 +73,21 @@
 1 14 922.842712 0 562.842712 0 0 -1 0 1 0 1 0 0 2302.dat
 1 14 1002.842712 0 562.842712 0 0 -1 0 1 0 1 0 0 2302.dat
 0 STEP
-0 // STEP 14 - p14: one yellow teaching subassembly, 4 large bricks and 2 square bricks; shown in final p15 rotated pose
-1 14 782.842712 16 648 1 0 0 0 0 -1 0 1 0 3437.dat
-1 14 782.842712 56 600 1 0 0 0 0 -1 0 1 0 3011.dat
-1 14 782.842712 -24 600 1 0 0 0 0 -1 0 1 0 3011.dat
-1 14 742.842712 16 552 0 0 1 1 0 0 0 1 0 3011.dat
-1 14 822.842712 16 552 0 0 1 1 0 0 0 1 0 3011.dat
-1 14 782.842712 16 504 1 0 0 0 0 -1 0 1 0 3437.dat
+0 // STEP 14 - p14: separate six-piece yellow teaching object; NOT attached to snake tail
+1 14 240 -72 -420.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -24 -460.0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -24 -380.0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 24 -420.0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 24 -420.0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 72 -420.0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // STEP 15 - p15: same subassembly turned90deg in final presentation; additional square attachment unresolved, no duplicate inset
-0 // PENDING: Page15 depicts the same yellow6-piece subassembly rotated90deg. Only one final rotated assembly is kept. The additional yellow3437 has an occluded/unresolved connection and is omitted.
-0 // PENDING: Yellow subassembly is grounded beside the tail as a separate displayed assembly. Its mechanical attachment to the tail fork is not established by the source views; do not claim it is connected.
-0 // PENDING: Body articulated joints p7-9 have source-inferred provisional 45/0/90 degree plan poses; hidden screw axes and support require renderer/mesh correction before completion.
-0 // PENDING: Head clutch/fork pin positions use existing unmeasured geometry and need interface review.
-0 // PENDING: All Toolo IDs are known; geometry remains Local simplified part. Parts quantities by kit/colour are unknown.
-0 // Source page 16 is the finished view; no additional placement duplicated.
-0 // Sourcep7 pixel correction: first upper body and sourcep11 covers moved one stud behind neckfork.
-0 // Downstream sourcep7-15 articulated body follows the40LDU neck correction; all joint fits remain provisional.
+0 // STEP 15 - p15: second six-piece teaching object displayed on its side, separated from tail
+1 14 540 40 -392.0 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 540 80 -344.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 540 0 -344.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 500 40 -296.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 580 40 -296.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 540 40 -248.0 1 0 0 0 0 -1 0 1 0 3437.dat
+0 // Source p14 and p15 each specify2x3437+4x3011; p16 shows both separate teaching objects. No yellow brick is added to tail.
+0 // PENDING: articulated body connector angles and head fork fits still approximate, not physical acceptance.
+0 // Source p16 final view, no additions.

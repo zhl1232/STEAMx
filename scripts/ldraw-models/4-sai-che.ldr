@@ -2,6 +2,7 @@
 0 Name: 4-sai-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p12 side panels reviewed: studs already face outward; source placement retained; p4 wheel roots aligned to body side120+24. Source black body and4 wheels retained. p3 exhaust and p6 blue wing omitted; silhouette still incomplete.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: 4433c01 exhaust x2 and45117c01 spoiler x1 missing geometry; omitted.
 0 // All 13 PDF source pages actually viewed; page13 adds no parts.
@@ -25,14 +26,14 @@
 0 // MISSING 4433c01 exhaust x2: rear body side holes; no substitute.
 0 STEP
 0 // SOURCE PAGE 4
-1 71 -200 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 -200 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 -200 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 -200 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
-1 71 200 -57.378574 -145 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 200 -57.378574 -145 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 200 -57.378574 145 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 200 -57.378574 145 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -200 -57.378574 -144 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -200 -57.378574 -144 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -200 -57.378574 144 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -200 -57.378574 144 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 200 -57.378574 -144 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 200 -57.378574 -144 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 200 -57.378574 144 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 200 -57.378574 144 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
 0 // SOURCE PAGE 5
 1 0 -200 -177.378574 0 0 0 1 0 1 0 -1 0 0 76395.dat

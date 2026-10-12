@@ -2,6 +2,7 @@
 0 Name: 4-da-xiang.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p1 black body retained; blue p4/p5 is omitted Toolo shell, not black bricks recoloured. Trunk p9-11 corrected to project forward/up; blue silhouette remains incomplete.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e
 0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
@@ -41,7 +42,7 @@
 0 // STEP 5 - front and rear screw bricks; front turntable; UNRESOLVED blue tail
 1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
 1 72 200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
-1 0 -240 -48 0 0 -1 0 0 0 -1 1 0 0 60535.dat
+1 14 -240 -48 0 0 -1 0 0 0 -1 1 0 0 60535.dat
 0 STEP
 
 0 // STEP 6 - eight grey screw bricks in two 4x8 layers on upper black body
@@ -74,18 +75,22 @@
 0 // STEP 9 - two grey wheel-rim eyes and first angled trunk bracket
 1 71 -330 -48 -72 0 -1 0 0 0 -1 1 0 0 99565.dat
 1 71 -330 -48 72 0 -1 0 0 0 -1 1 0 0 99565.dat
-1 72 -328 -24 0 0 -1 0 0 0 1 -1 0 0 28336.dat
+1 72 -328 -24 0 0 1 0 0 0 1 1 0 0 28336.dat
 0 STEP
 
 0 // STEP 10 - trunk clutch and next angled bracket; provisional articulated pose
-1 72 -421 36 0 0 -1 0 0 0 1 -1 0 0 74957.dat
-1 72 -451 28 0 0 -1 0 0 0 -1 1 0 0 28336.dat
+0 // p10: fork pin (-393,24,0); clutch local Y=60 meets it. Next base seats on clutch top.
+1 72 -453 24 0 0 1 0 0 0 1 1 0 0 74957.dat
+1 72 -501 24 0 0 1 0 0 0 -1 -1 0 0 28336.dat
+
 0 STEP
 
 0 // STEP 11 - upturned trunk: two clutch blocks and third angled bracket; provisional joints
-1 72 -510 -50 0 0 -1 0 0 0 -1 1 0 0 74957.dat
-1 72 -526 -96 0 0 1 0 0 0 1 1 0 0 28336.dat
-1 72 -478 -169 0 0 1 0 0 0 1 1 0 0 74957.dat
+0 // p11: upright clutch pin (-566,-24,0); upper fork pin (-614,-197,0). Fits remain approximate.
+1 72 -566 -84 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 -566 -132 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -614 -257 0 1 0 0 0 1 0 0 0 1 74957.dat
+
 0 STEP
 
 0 // STEP 12 - source final alternate view; no new parts
