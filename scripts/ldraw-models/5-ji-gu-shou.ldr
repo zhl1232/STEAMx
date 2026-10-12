@@ -59,11 +59,12 @@
 0 // SOURCE PAGE 9: two crank-driven7hole drumstick arms at different source phases
 1 14 60 -360 -160 0 1 0 0 0 1 1 0 0 6526.dat
 1 14 100 -240 -160 0 1 0 0 0 1 1 0 0 6524.dat
-1 14 60 -360 160 0.000000000 1.000000000 0.000000000 0.866025404 0.000000000 0.500000000 0.500000000 0.000000000 -0.866025404 6526.dat
-1 14 100 -300 56.076951546 0.000000000 1.000000000 0.000000000 0.866025404 0.000000000 0.500000000 0.500000000 0.000000000 -0.866025404 6524.dat
+1 14 60 -360 160 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 100 -280 120 0 1 0 1 0 0 0 0 -1 6524.dat
 0 STEP
 0 // SOURCE PAGE 10: upright blue geared axle with tyre drum and one top pulley; page11 final
 1 4 160 -48 0 0 0 1 0 1 0 -1 0 0 75349.dat
 1 1 160 -148 0 0 1 0 -1 0 0 0 0 1 6523.dat
 1 0 160 -188 0 1 0 0 0 0 -1 0 1 0 6292.dat
 1 14 160 -212 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 // ok-batch4 p9..11: near crank pin (100,-280,160), beam hole at local Z=-40; beam horizontal toward drum. Far stick remains hanging per source.

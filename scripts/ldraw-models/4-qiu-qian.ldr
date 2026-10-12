@@ -1,123 +1,138 @@
-0 Swing - unaccepted source reconstruction with manual-fit Toolo interfaces
+0 4+ Swing - local courseware version, unaccepted
 0 Name: 4-qiu-qian.ldr
-0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source PDF SHA256 cd5aa1adf92117930398e8c2294bb68c4e20b3dbad7028022a709d801f758f3f; all source pages actually viewed. Existing approved Toolo approximations only; no physical validation.
-0 // SOURCE PAGE 1: base and four five-layer inward-stepping red/yellow feet
-1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
-1 14 -400 -48 -320 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -96 -280 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -144 -240 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -48 320 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -96 200 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -144 240 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -240 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -48 -320 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -48 -240 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -96 -280 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -144 -240 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -240 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -48 240 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -48 320 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -96 200 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -144 240 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -240 160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // VERSION: local courseware p1..11 replaces different 7-step Toolo version from pairs.
+0 // Reused same-source 3-qiu-qian placements; donor unchanged. Physical hanger retention remains unresolved.
+0 // Original timeline slot count retained; local source page groups remain explicitly labelled below.
+0 // STEP1: four alternating foot courses, 8blue and8yellow bricks
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -200 -72 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -72 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -72 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -72 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -120 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -120 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -120 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -120 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -168 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -168 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -168 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -168 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -216 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -216 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -216 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -216 -400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // SOURCE PAGE 2: sixth red step pairs and seventh yellow bridging layer
-1 4 -400 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -336 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -288 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -288 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -336 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP2: four alternating foot courses, 8blue and8yellow bricks
+1 1 -200 -72 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -72 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -72 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -72 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -120 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -120 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -120 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -120 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -168 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -168 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -168 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -168 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -216 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -216 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -216 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -216 400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // SOURCE PAGE 3: two five-layer striped4x4 towers
-1 4 -400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -400 -528 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -528 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP3: four alternating6x4 tower courses,6blue and6yellow
+1 1 -80 -264 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -264 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -264 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -312 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -312 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -312 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -360 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -360 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -360 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -408 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 -400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -408 -400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // SOURCE PAGE 4: two Toolo4x6 caps and eight red curved roof bricks
-1 0 -400 -624 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 4 -440 -672 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 -440 -672 40 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 -360 -672 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 -360 -672 40 0 0 -1 0 1 0 1 0 0 2302.dat
-1 0 400 -624 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 4 360 -672 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 360 -672 40 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 440 -672 -40 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 440 -672 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // STEP4: four alternating6x4 tower courses,6blue and6yellow
+1 1 -80 -264 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -264 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -264 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -312 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -312 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -312 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -360 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -360 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -360 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -408 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -408 400 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -408 400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // SOURCE PAGE 5: two inward-facing turntables and angled Toolo fork blocks
-1 0 -280 -600 0 0 -1 0 0 0 1 -1 0 0 60535.dat
-1 7 -232 -600 0 0 -1 0 0 0 1 -1 0 0 28336.dat
-1 0 280 -600 0 0 1 0 0 0 1 1 0 0 60535.dat
-1 7 232 -600 0 0 1 0 0 0 1 1 0 0 28336.dat
+0 // STEP5: two red6x2x5 round doorway frames, on inward half of towers
+1 4 0 -648 -360 1 0 0 0 1 0 0 0 1 31191.dat
+1 4 0 -648 360 1 0 0 0 1 0 0 0 1 31191.dat
+0 // Local source page boundary retained as comment inside legacy timeline slot.
+0 // STEP6: two coaxial straight tubes through each doorway; aperture centerY=-538
+1 1 0 -538 -400 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 -538 -280 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 -538 400 -1 0 0 0 1 0 0 0 -1 31452.dat
+1 1 0 -538 280 -1 0 0 0 1 0 0 0 -1 31452.dat
+0 // Local source page boundary retained as comment inside legacy timeline slot.
+0 // STEP7: both ring-holder stud faces point +Z; coaxial slide inferred from seat closure.
+0 // Measured local ring axis (0,Y,-30.84) maps to world Y=-538.
+1 4 0 -507.16 -264 1 0 0 0 0 1 0 -1 0 42029.dat
+1 4 0 -507.16 216 1 0 0 0 0 1 0 -1 0 42029.dat
 0 STEP
-0 // SOURCE PAGE 6: two short arms, inverted clutch blocks and turned inward seat supports; approved approximations, manual fit only
-1 7 -167 -552 0 1 0 0 0 1 0 0 0 1 dev-129/28334.dat
-1 7 167 -552 0 1 0 0 0 1 0 0 0 1 dev-129/28334.dat
-1 7 -167 -292 0 1 0 0 0 -1 0 0 0 -1 74957.dat
-1 7 167 -292 0 1 0 0 0 -1 0 0 0 -1 74957.dat
-1 7 -127 -316 88 1 0 0 0 0 1 0 -1 0 76057.dat
-1 7 127 -316 88 1 0 0 0 0 1 0 -1 0 76057.dat
+0 // STEP8: front and rear red plates bridge holder lower half and red arm upper half.
+0 // Local p8: red arm bricks, opposite red/yellow connecting plates.
+0 // Holder slide/physical retention remain inferred.
+1 4 0 -377.7835 -264 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 4 0 -297.7835 -216 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 4 0 -377.7835 -192 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 14 0 -377.7835 216 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 4 0 -297.7835 264 0 0 1 -1 0 0 0 -1 0 3011.dat
+1 14 0 -377.7835 288 0 0 1 -1 0 0 0 -1 0 40666.dat
+0 // Local source page boundary retained as comment inside legacy timeline slot.
+0 // STEP9: eleven sideways 2x2 bricks BELOW the red arms, all studs toward +Z.
+0 // End plates bridge lower arm half and seat end: near front / far rear.
+0 // Chain spans Z=-264..264 (11x48); plates extend total span to -288..288.
+1 14 0 -177.7835 -216 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -168 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -120 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -72 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 -24 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 24 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 72 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 120 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 168 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 216 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -177.7835 264 0 0 1 -1 0 0 0 -1 0 3437.dat
+1 14 0 -217.7835 -264 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 14 0 -217.7835 288 0 0 1 -1 0 0 0 -1 0 40666.dat
 0 STEP
-0 // SOURCE PAGE 7: seat rests on both bracket upper edges; child feet aligned to seat studs. Source8 final, no additional parts.
-1 0 0 -404 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 14 0 -404 -20 1 0 0 0 1 0 0 0 1 47205.dat
-1 4 0 -441 -14 1 0 0 0 1 0 0 0 1 47207.dat
-1 4 0 -441 -14 1 0 0 0 1 0 0 0 1 47204.dat
-1 4 0 -441 -14 1 0 0 0 1 0 0 0 1 47203p03.dat
-1 15 0 -468 -13.5 1 0 0 0 1 0 0 0 1 47198p03.dat
-1 15 0 -468 -13.5 -1 0 0 0 1 0 0 0 -1 47198p03.dat
-1 14 0 -483 -12 1 0 0 0 1 0 0 0 1 47206p01.dat
-1 4 0 -483 -12 1 0 0 0 1 0 0 0 1 47199.dat
+0 // STEP10: fourteen blue and four yellow full 2x4 bricks form the stepped overhead arch;
+0 // the printed movable-eyes brick is the confirmed 73162p01 source part.
+1 1 -40 -696 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -696 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -696 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -696 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -744 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -744 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -744 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -744 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -792 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -792 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -792 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -792 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -840 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -840 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -840 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -840 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -888 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -888 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -984 0 0 0 -1 0 1 0 1 0 0 73162p01.dat
+0 // Local source page boundary retained as comment inside legacy timeline slot.
+0 // STEP11: final alternate source view; no new parts.
+0 // Symmetric side-built bricks use proper rotations (det+1); donor reflected matrices not retained.

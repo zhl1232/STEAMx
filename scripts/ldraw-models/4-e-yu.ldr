@@ -28,10 +28,10 @@
 1 72 -160 24 -303 -1 0 0 0 0 1 0 1 0 74957.dat
 1 72 -160 -24 168 1 0 0 0 0 1 0 -1 0 28336.dat
 1 72 -160 24 303 1 0 0 0 0 1 0 -1 0 74957.dat
-1 72 240 -24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
-1 72 240 24 -303 -1 0 0 0 0 1 0 1 0 74957.dat
-1 72 240 -24 168 1 0 0 0 0 1 0 -1 0 28336.dat
-1 72 240 24 303 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 240 -24 -168 -1 0 0 0 -0.819152044 0.573576436 0 0.573576436 0.819152044 28336.dat
+1 72 240 114.117194924 -206.113520781 -1 0 0 0 -0.819152044 0.573576436 0 0.573576436 0.819152044 74957.dat
+1 72 240 -24 168 1 0 0 0 -0.819152044 0.573576436 0 -0.573576436 -0.819152044 28336.dat
+1 72 240 114.117194924 206.113520781 1 0 0 0 -0.819152044 0.573576436 0 -0.573576436 -0.819152044 74957.dat
 0 STEP
 0 // STEP 4 - source page 4: two lifting hinges with top clutch blocks
 1 72 280 -48 -80 0 0 -1 0 1 0 1 0 0 28336.dat
@@ -88,3 +88,4 @@
 1 27 40 -120 80 1 0 0 0 1 0 0 0 1 40666.dat
 0 // Source page 11 is final view, adds no parts.
 0 // Unresolved: tail plate-to-body binding and exact hinge/clutch seating; see external ledger.
+0 // ok-batch4: p3/11 front legs folded down 55deg about body-side axis; angle inferred, Toolo fit remains manual.

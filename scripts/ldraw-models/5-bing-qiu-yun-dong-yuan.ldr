@@ -55,7 +55,7 @@
 0 // Source page 8: tyre and two pulley hubs on shoulder axle; red24tooth gear on reverse.
 1 71 0 -432 0 0 0 1 0 1 0 -1 0 0 6522.dat
 1 14 0 -432 120 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 0 -432 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -432 80 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 0 0 -432 120 1 0 0 0 1 0 0 0 1 6292.dat
 1 4 0 -432 -60 -1 0 0 0 1 0 0 0 -1 6529.dat
 0 // Tyre/pulley fit is source-supported; exact nested solids and shaft depth pending manual renderer check.
@@ -81,3 +81,4 @@
 0 STEP
 0 // Source page 12: red ball rests on same floor plane; finalpage13 adds no parts.
 1 4 -480 -65 -220 1 0 0 0 1 0 0 0 1 41250.dat
+0 // ok-batch4 p8: second yellow hub moved to rear tyre side (Z80); front red gear remains exposed.

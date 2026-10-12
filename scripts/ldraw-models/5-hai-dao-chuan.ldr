@@ -223,3 +223,4 @@
 1 14 0 -362.424319 280 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 0 -314.424319 -40 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 0 -314.424319 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // ok-batch4 p8/9/12: yellow lower hull courses and blue curved upper end caps are explicit in local source; do not recolour yellow bricks blue merely to hide the lower edge. Final p14 viewing-angle/height discrepancy remains unresolved.
