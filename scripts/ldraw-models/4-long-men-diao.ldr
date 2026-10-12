@@ -121,19 +121,20 @@
 0 STEP
 0 // SOURCE PAGE 10 - Rope preparation / assembly; non-BOM schematic route.
 0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
-0 // Drum tangent: (160,-896,112); hook eye: (160,-170,128). Radius 3 LDU, non-BOM.
-0 // Short outward lead clears the bracket base (front Z=120), then hangs vertically; route is schematic.
-1 0 160 -896 112 3 0 0 0 44 -1.02522919 0 16 2.81938027 s/steamx-rope.dat
-1 0 160 -852 128 3 0 0 0 682 0 0 0 3 s/steamx-rope.dat
+0 // Drum tangent: (0,-419,-32); hook eye: (0,-120,-32). Radius 3 LDU, non-BOM.
+0 // Two consecutive vertical segments run from the drum groove to the hook eye; route remains schematic.
+1 0 0 -419 -32 3 0 0 0 44 0 0 0 3 s/steamx-rope.dat
+1 0 0 -375 -32 3 0 0 0 255 0 0 0 3 s/steamx-rope.dat
 0 STEP
 0 // SOURCE PAGE 11 / courseware slide 13 - winch assembly and black U bracket
 0 // User-confirmed IDs 2026-10-12: 14013c01 includes drum, cord and long black hook as ONE material.
-0 // 13358 official base bottom Y=24 rests on beam top Y=-816; front 40 LDU overhang is intentional (rear row seats on beam studs).
+0 // Source p12/p13: inverted bracket under lower cradle; mounting plane Y=-499 meets lower grey block underside. Exact capture is unresolved, not a stud-to-stud support claim.
 0 // Drum axle matches bracket local (0,-56,0); axle fit/support remain manual for the simplified drum.
-1 0 160 -840 80 1 0 0 0 1 0 0 0 1 13358.dat
-1 71 160 -896 80 1 0 0 0 1 0 0 0 1 14013c01.dat
-1 0 160 -170 128 0 0 1 0 1 0 -1 0 0 s/steamx-14013c01-hook.dat
+1 0 0 -475 0 1 0 0 0 -1 0 0 0 -1 13358.dat
+1 71 0 -419 0 1 0 0 0 -1 0 0 0 -1 14013c01.dat
+1 0 0 -120 -32 0 0 1 0 1 0 -1 0 0 s/steamx-14013c01-hook.dat
 0 STEP
 0 // SOURCE PAGE 12 - attachment instruction retained; no new rigid geometry
-0 // Bracket seated on beam top per user placement; drum retained between official bracket cheeks.
+0 // Bracket moved beneath grey cradle to match supplied source; drum axle aligned with bracket cheeks. Inverted mounting needs physical confirmation.
 0 // ROPE: non-BOM schematic cylinder; length/route approximated from courseware, not measured.
+0 // OK-BATCH1 2026-10-12: Cord, drum and long hook already present in current draft. Moved existing bracket/drum/cord/hook beneath cradle per supplied p12/p13. NOT FIXED mechanically: inverted capture and source exact fit remain unverified; no new geometry.

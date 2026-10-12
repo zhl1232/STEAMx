@@ -125,3 +125,4 @@
 0 // PENDING: Train bottom at nominal rail envelope is a display/contact hypothesis; sliding guidance, pin clearances and vertical support need mesh/physical evidence.
 0 // PENDING: Cockpit/canopy assembly reuses approved approximate base and known official canopy transform; exact moulded fit remains unverified.
 0 // Source page 13: finished view, no duplicated placements.
+0 // OK-BATCH1 2026-10-12: Source p5/p6 confirms six pillars, five chained long rails and one end stop, already present. NOT FIXED: simplified arm silhouette/pillar registration still differs; no invented replacement mesh.

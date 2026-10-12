@@ -98,3 +98,4 @@
 1 14 -440 -144 60 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -440 -144 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 14 -440 -144 -140 1 0 0 0 0 -1 0 1 0 6526.dat
+0 // OK-BATCH1 2026-10-12: Current draft already contains visible schematic cord linking end pulley and hollow blue weight. Source p4-p7 rechecked; existing scaled unit-cylinder is a non-BOM schematic, not a rigid-part transform or physical cord certification.

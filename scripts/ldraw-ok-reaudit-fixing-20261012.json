@@ -1,0 +1,68 @@
+{
+  "note": "ok-reaudit clearly_wrong+minor fixes",
+  "models": [
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "高架连杆轮廓/配准仍简化，未宣称外形正确"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-jun-jian",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "船尾黄弧装置缺件号/几何；臂角仅近似"
+    },
+    {
+      "slug": "4-long-men-diao",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "课件版本错配风险；尾桨仍缺几何"
+    },
+    {
+      "slug": "4-ta-diao",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "末端吊具6295与顶黑件2223仍缺几何"
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "尾桨6670c01仍缺几何"
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    }
+  ]
+}

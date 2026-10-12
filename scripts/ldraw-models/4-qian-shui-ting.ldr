@@ -76,3 +76,4 @@
 0 STEP
 
 0 // STEP 10 - final source view, no new pieces
+0 // OK-BATCH1 2026-10-12: NOT FIXED: supplied courseware is a different 12-page yellow hull model; current source/audit is 10-page red Toolo hull. Preserve current model and step boundaries. Tail propeller geometry remains omitted; turntable black top/yellow ring is existing local 60535 geometry.

@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
-0 // DEV-ONLY INCOMPLETE: cockpit geometry and hidden fork-to-clip capture pending; official window assemblies restored.
+0 // DEV-ONLY INCOMPLETE: cockpit moulded fit and hidden fork-to-clip capture pending; official window assemblies restored.
 0 // All14 source PDF pages viewed. Source SHA256 0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a.
 0 // Toolo parts76057/76395/99565/44970/28336/74957 reuse previously approved local approximate geometry; not official measured CAD.
 0 // Source p1: four gray2x4 screw bearings, four wheel hubs, four tyres.
@@ -35,12 +35,15 @@
 1 0 -200 -202 80 1 0 0 0 1 0 0 0 1 76395.dat
 1 72 -200 -250 80 0 0 -1 0 1 0 1 0 0 28336.dat
 0 STEP
-0 // Source p5: five blue cab surround bricks; red cockpit and pale canopy omitted pending identity/pose.
+0 // Source p5: five blue cab surround bricks; restored red 31196c01 cockpit and pale 6345 canopy from source p5.
 1 1 0 -202 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 160 -202 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 0 -202 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 160 -202 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -40 -202 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Rear mounting underside Y=-154 rests on green deck; nose faces +X. Existing approved approximate base, official canopy; snap fit remains manual.
+1 4 160 -178 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 19 308 -212 0 0 -1 0 0 0 1 -1 0 0 6345.dat
 0 STEP
 0 // Source p6: three official61649 red open-back frames and90265 white four-pane windows, with matched closed hinge axes.
 1 4 160 -346 -120 1 0 0 0 1 0 0 0 1 61649.dat
@@ -98,6 +101,6 @@
 1 1 -80 -524 0 0 0 -1 0 1 0 1 0 0 2302b.dat
 1 1 -80 -524 80 0 0 -1 0 1 0 1 0 0 2302b.dat
 0 // p14 final view, no additions.
-0 // No inferred hidden cockpit geometry added. Three official frame/window assemblies restored; hidden fork support still requires fit review.
+0 // Cockpit restored using existing local 31196c01 and official 6345; no new substitute geometry. Three official frame/window assemblies restored; hidden fork support still requires fit review.
 0 // Fork and lower clip fit, hub screw depth and top curve grid require rendered/source review.
 0 // Pending user confirmation; no physical support, movement or toy firing validation.
