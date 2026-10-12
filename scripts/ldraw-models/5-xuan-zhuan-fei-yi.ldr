@@ -2,6 +2,7 @@
 0 Name: 5-xuan-zhuan-fei-yi.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P8-10 show two lowered seats and two raised seats. Raised Z pair now 80deg from vertical; all eight 7-hole links retain 240-LDU end-hole distance, upper pivots and paired link spacing. Pose angle inferred; not a motion simulation.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 02d4eff7a940029db28365edf47eec38f2c21f62626e38b0650b1176b6801f37
 0 // All10 source pages actually viewed; final page is presentation only.
@@ -65,16 +66,16 @@
 1 14 -228.829172 -401.701755 -64.0 0.819152044 0 -0.573576436 0.573576436 0 0.819152044 0.0 -1 0.0 6524.dat
 1 14 -160 -500 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
 1 7 0 -548 160 -1 0 0 0 1 0 0 0 -1 6522.dat
-1 14 64.0 -449.701755 228.829172 0.0 -1 0.0 0.573576436 0 0.819152044 -0.819152044 0 0.573576436 6524.dat
+1 14 64 -527.16221868 278.176930361 0 -1 0 0.984807753 0 0.173648178 -0.173648178 0 0.984807753 6524.dat
 1 14 104 -548 160 0 0 1 0 1 0 -1 0 0 6527.dat
-1 14 -64.0 -449.701755 228.829172 0.0 -1 0.0 0.573576436 0 0.819152044 -0.819152044 0 0.573576436 6524.dat
+1 14 -64 -527.16221868 278.176930361 0 -1 0 0.984807753 0 0.173648178 -0.173648178 0 0.984807753 6524.dat
 1 14 -104 -548 160 0 0 -1 0 1 0 1 0 0 6527.dat
 1 7 0 -548 -160 1 0 0 0 1 0 0 0 1 6522.dat
-1 14 -64.0 -449.701755 -228.829172 0.0 1 0.0 0.573576436 0 0.819152044 0.819152044 0 -0.573576436 6524.dat
+1 14 -64 -527.16221868 -278.176930361 0 1 0 0.984807753 0 0.173648178 0.173648178 0 -0.984807753 6524.dat
 1 14 -104 -548 -160 0 0 -1 0 1 0 1 0 0 6527.dat
-1 14 64.0 -449.701755 -228.829172 0.0 1 0.0 0.573576436 0 0.819152044 0.819152044 0 -0.573576436 6524.dat
+1 14 64 -527.16221868 -278.176930361 0 1 0 0.984807753 0 0.173648178 0.173648178 0 -0.984807753 6524.dat
 1 14 104 -548 -160 0 0 1 0 1 0 -1 0 0 6527.dat
-0 // UNVERIFIED swinging link pose - 35degrees fromvertical is source-shape inferred staticphase, not exact measured angle. Paired7hole beams keep240LDU endpoint distance and4LDU clearance fromredbeam sides. Motion envelope not tested.
+0 // UNVERIFIED swinging link pose - X-axis pair 35degrees and Z-axis pair 80degrees fromvertical are source-shape inferred staticphases, not exact measured angle. Paired7hole beams keep240LDU endpoint distance and4LDU clearance fromredbeam sides. Motion envelope not tested.
 0 STEP
 0 // SOURCE PAGE 9 - Four lower cross axles, four shortbeam seats and eight wheels
 1 7 297.658345 -303.403509 0.0 0 0 -1 0 1 0 1 0 0 6522.dat
@@ -85,13 +86,13 @@
 1 4 -297.658345 -327.403509 0.0 -1 0 0 0 1 0 0 0 -1 75349.dat
 1 14 -297.658345 -303.403509 104.0 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -297.658345 -303.403509 -104.0 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 7 0.0 -351.403509 297.658345 -1 0 0 0 1 0 0 0 -1 6522.dat
-1 4 0.0 -375.403509 297.658345 0 0 -1 0 1 0 1 0 0 75349.dat
-1 14 104.0 -351.403509 297.658345 0 0 1 0 1 0 -1 0 0 6527.dat
-1 14 -104.0 -351.403509 297.658345 0 0 -1 0 1 0 1 0 0 6527.dat
-1 7 0.0 -351.403509 -297.658345 1 0 0 0 1 0 0 0 1 6522.dat
-1 4 0.0 -375.403509 -297.658345 0 0 1 0 1 0 -1 0 0 75349.dat
-1 14 -104.0 -351.403509 -297.658345 0 0 -1 0 1 0 1 0 0 6527.dat
-1 14 104.0 -351.403509 -297.658345 0 0 1 0 1 0 -1 0 0 6527.dat
+1 7 0 -506.32443736 396.353860723 -1 0 0 0 1 0 0 0 -1 6522.dat
+1 4 0 -530.32443736 396.353860723 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 104 -506.32443736 396.353860723 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -104 -506.32443736 396.353860723 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 0 -506.32443736 -396.353860723 1 0 0 0 1 0 0 0 1 6522.dat
+1 4 0 -530.32443736 -396.353860723 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -104 -506.32443736 -396.353860723 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 104 -506.32443736 -396.353860723 0 0 1 0 1 0 -1 0 0 6527.dat
 0 // UNVERIFIED seat retention - Source seat/axle/link geometry retained. Shaft/pulleyfriction, sideclearance underload and spinning balance not certified; no people or unsourcedconnector added.
 0 // Source final page adds no parts.

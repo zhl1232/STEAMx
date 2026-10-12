@@ -1,0 +1,108 @@
+{
+  "slug": "5-fan-chuan",
+  "sourceSha256": "9c764b0582b8ac60dfebf78cf6e351cfcb2b42a4a462d7639968e25993f8787e",
+  "beforeHeadSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 12,
+  "stepsAfter": 12,
+  "placementsBefore": 107,
+  "placementsAfter": 107,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 0,
+  "collisionErrors": 0,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-fan-chuan-collision.log",
+  "date": "2026-10-12",
+  "title": "帆船",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [],
+  "reviewedRenderedSteps": [
+    6,
+    12
+  ],
+  "changes": [
+    "未改几何。第 6 步已经有两排各三扇窗，前后端开口；与课件舱室布局一致。",
+    "第 11–12 步已经有 1 张宽帆 + 2 张窄帆；重渲染显示三张完整帆，不重复添加前帆。"
+  ],
+  "unresolved": [
+    "未修好：六根桅杆轴仍缺失，源杆长及套筒插深未确认；帆片、轮和套筒没有完整轴支撑，不能因碰撞通过就标为修好。"
+  ],
+  "landmarksAndSupport": [
+    "窗排 Z=±120，窗中心 X=-160/0/160；屋顶分三片承接。",
+    "帆中心 X=-480/0/560；官方帆孔距约 358.08 LDU，现有轮/套筒位置不构成已验证的桅杆。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-01.jpg",
+      "sha256": "da4d488fec7c8db7c09f3f731e44b6c519f3c7b2aeb59a5533fade0ea57c181d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-02.jpg",
+      "sha256": "5d84e735c3c07515d3677574f1a3fcff137e2845593f9cf06b192c00aed44f19"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-03.jpg",
+      "sha256": "505b96dd29780a0ba6eb0eac679a62bf2383a954ba81ee9e9379155677456500"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-04.jpg",
+      "sha256": "5de3c0fb6ca8d4b1ae52335bcf097c75f5ff6162061229c962d8509baf99d38c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-05.jpg",
+      "sha256": "36c9515d519069d28fc17f00cac11b308bb43a130e3f68c90f57ebce42ca56c4"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-06.jpg",
+      "sha256": "c6e1df65e1bdd12a2a9a47fc4709a84479db97d2728d541bf76593b9e3e8cbb4"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-07.jpg",
+      "sha256": "d85da8d27277fad8ca87855b6491bec349badd9826f785d42f7464dc1f521c61"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-08.jpg",
+      "sha256": "aa58898e7a279cfba744c5e4419104538e174663ae0475f96b0bfeeda807fe3d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-09.jpg",
+      "sha256": "e89ae4338c4dea479d52fcbf9d9d3019fc568f22ae5c937c2fcab53dc2af024b"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-10.jpg",
+      "sha256": "90d2986bbe1f0e90b7f5378c989c6664d938c0c611aa34571bff27114128092f"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-11.jpg",
+      "sha256": "9d3d99a2f18edb7718fa45791de0cb8e2e88e46f1f21a3ca7d40c1f493b5ab49"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-12.jpg",
+      "sha256": "16e290c81fd0120afff5ec3d23761119e523c7b9fab49d58fbc8695515947242"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-fan-chuan/page-13.jpg",
+      "sha256": "5119c99b90a4b96f94605a1f7876cd37be130a164a82d1113b1b24e03693f919"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "c6794253d08fbc58d7e45129a2895ebe69b091e285cb32c75275a1ce7410d36d",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-fan-chuan.png",
+    "sha256": "820581031fe691b1742e5bd0fc67868aa1cc15c20f690c0a1d9733f6ffab756f"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-fan-chuan.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

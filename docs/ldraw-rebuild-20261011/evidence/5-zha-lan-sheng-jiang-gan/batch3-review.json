@@ -1,0 +1,100 @@
+{
+  "slug": "5-zha-lan-sheng-jiang-gan",
+  "sourceSha256": "71c2b9654f22ed29daf4c1f0b794fddb6caf3ba1b686290aa3f3329d2bd82820",
+  "beforeHeadSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 10,
+  "stepsAfter": 10,
+  "placementsBefore": 68,
+  "placementsAfter": 68,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 3,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-zha-lan-sheng-jiang-gan-collision.log",
+  "date": "2026-10-12",
+  "title": "栅栏升降杆",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [],
+  "reviewedRenderedSteps": [
+    3,
+    10
+  ],
+  "changes": [
+    "未改几何。两根长横杆早已沿世界 Z 轴水平，三根短竖杆连接其中；旧视角导致横杆看起来很短。",
+    "第 10 步早已有红车架/黄轮、橙色座舱和浅黄罩三件独立小车；换到课件所示一侧后可见，没有重复加车。"
+  ],
+  "unresolved": [
+    "未修好：保留 3 条碰撞错误（两组门铰链、座舱与罩），支柱两轴与长杆连接关系仍为推断。"
+  ],
+  "landmarksAndSupport": [
+    "两条横杆中心 Y=-448/-288，端点等高，水平跨度 400 LDU。",
+    "小车底盘原点 (360,-48,320)，独立摆放于底板侧面；新预览从其所在一侧观察。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-01.jpg",
+      "sha256": "2c5b6c720188ec5eba42adc8407b2f22b8fac0e8c84a2753bdcb784345e331a7"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-02.jpg",
+      "sha256": "c4e70b6892050945df8ad7f0de5b0500615adb74e52c372aef719251dc530748"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-03.jpg",
+      "sha256": "c84015a5178d3d93b7db1aa1551d836d33ce12c52f8bd6ce8b863075dc5dbbbf"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-04.jpg",
+      "sha256": "f196b619527a40be5f003aedec45eefb62ab728d1d12f91f862cd02460ea838a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-05.jpg",
+      "sha256": "c210f142d1d439818b8fc08ad860a6df9798e281e74f6614aee991e8603deae5"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-06.jpg",
+      "sha256": "7fc2ccdf6e5844d852310a82a754c0c43eb6da8ba3fb0b6a64cfb71bc536d011"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-07.jpg",
+      "sha256": "196bded5669765498219c7a0adb7c2b07dd5bd26a9eef4e1b7c58e1b1fa464cb"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-08.jpg",
+      "sha256": "0ce72679735b5d26c0a061578e0e5788c30835bb0e4743a8c90ab37fce65efa2"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-09.jpg",
+      "sha256": "1658630c023de0b82290831dfae69069667e115c22f72161cc74b46e9b21a319"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-10.jpg",
+      "sha256": "134d79357411bd6a7c6bf787cc52707143bd1cf88450d598c52ee0cca0243373"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zha-lan-sheng-jiang-gan/page-11.jpg",
+      "sha256": "506bd39a01bd12fcd3494798ffba350ead324a893651a196b4db09ba881ef21f"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "002ff2df6b71b0bca7e8d9d8212647f960879b3b5258d610f48a8812019818de",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-zha-lan-sheng-jiang-gan.png",
+    "sha256": "79cdaff9eb04603319fb38e802a55e433ba21571ce3e8e08352e9cc869c2f949"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-zha-lan-sheng-jiang-gan.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

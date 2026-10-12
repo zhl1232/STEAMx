@@ -2,6 +2,7 @@
 0 Name: 5-ce-ju-yi.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P1-2 red/yellow/blue front body was present; P9 official green graduated sheet restored, not a green wheel substitution. Four P3 cranks still unresolved; INCOMPLETE.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -69,12 +70,15 @@
 1 1 -80 -216 0 1 0 0 0 1 0 0 0 1 6523.dat
 1 4 -80 -216 0 0 0 1 0 1 0 -1 0 0 6529.dat
 0 STEP
-0 // Source page 9: two belt-wheel retainers; printed dial omitted, short crank identified but dial-side axial stack unresolved
+0 // Source page 9: two belt-wheel retainers, official printed dial and source pointer crank
 1 14 -80 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -80 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 // P9 official 61898f: local XZ sheet, local -Z base downward; printed local -Y face points -X toward front of gearbox. Output axle and pointer share (-80,-216,0) axis.
+1 2 -125 -216 0 0 1 0 0 0 -1 -1 0 0 61898f.dat
+1 14 -146 -216 0 0 1 0 -1 0 0 0 0 1 6526.dat
 0 // PENDING: P3 four source cranks omitted because candidate upper/lower hole closure not exact; explicit deficit not hidden.
 0 // PENDING: P5-7 rods/axles share documented exact hole lines; source selected hole indices inferred by visible two neighboringholes, requiring visual confirmation.
 0 // PENDING: P8 gearbox input/output axes taken from real31624 subfile; gear tooth phase, physical rotation and short-geared axle clearance unverified.
-0 // PENDING: P9 digital graduation sheet61898f missing licensed localgeometry; one short crank not installed without axialstack proof.
+0 // PENDING: P9 official dial and pointer restored. Output axle passes sheet centre; exact sheet clamp and pointer retention remain manual, no physical certification.
 0 // PENDING: P5-7 adjacent belt-wheel centers80LDU; realDAT rims radius41 create potential2LDU radial interference at equal depth; retain alarm pending source-facing orientation/axial stagger review, do not move axles off holegrid.
 0 // Source page 10: finished view, no duplicated placements.

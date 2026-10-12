@@ -854,6 +854,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - 2026-10-12 两课本地复核：`4-chun-jie-wu-shi.ldr` 保留 13 步/58 零件位，按课件修正上颌 6×8 横拼、舌头、耳座横梁、眼睛叉座与尾端接头，并恢复尾叉/弧顶和耳朵/眼睛的分步顺序；黄色凹耳编号未确认，独立第 12 步明确省略。`4-da-long-xia.ldr` 保留 10 步，27→31 零件位，恢复四个已有几何的钳端叉座，修正接头轴心、触角展开、背壳断口和整体抬头姿态；八条 4433c01 腿及 31239c01 尾翼仍因缺几何省略。均仅为待验收源文件，不更新公开 MPD、保护名单或发布脚本；Toolo 近似连接不代表实物配合验证。
 - 2026-10-12 batch2 九课本地复核：仅修改 `4-da-xiang / 4-ju-ji-qiang / 4-ke-ji / 4-sai-che / 4-tuo-gua-che / 4-xiang-wei-she / 4-yi-long / 4-you-wen / 4-zhi-zhu` 源草稿；修正象鼻铰接、玩具枪前段/枪托、客机顶色、轮组定位、拖车白板、蛇的独立教具、翼龙眼睛和蜘蛛壳色/前颚/腿叉。保留原步骤边界；幼蚊仅补源图复核说明。缺失 Toolo 外壳、准星、排气及未解连接仍用 `0 //` 说明，未标记整批修好；客机舱罩/座舱原有碰撞未解决。未更新公开 MPD、验收状态、保护模型或 batch1；中文逐课报告与检查日志在本次工作目录 `/workspace/pending-fix-20261012/batch2-report.md`、`batch2-checks/`，不构成发布记录。
 
+- 2026-10-12 batch3 九课本地复核：仅处理 `4-zhong-guo-long / 5-ce-feng-yi / 5-ce-ju-yi / 5-da-zhuang-ji / 5-fan-chuan / 5-xuan-zhuan-fei-yi / 5-zha-lan-sheng-jiang-gan / 5-zhi-sheng-ji / 5-zhuan-wan-xiao-che`。修正龙身深灰/方形腿饰/眼轮朝向、测距仪官方绿色刻度盘与指针、打桩机锤杆双侧蓝砖、飞椅两组抬起吊臂及转弯小车儿童人仔；直升机大黄齿轮按用户明确要求省略，同时注明与源第 6 页不同。测风仪十层塔身、帆船三帆六窗、栅栏水平横杆与独立小车已存在，保留结构并补源视角复核，避免重复添加。新增官方 `parts/61898f.dat` 与两项 `p/48` 依赖，元数据仅纠正该刻度盘的薄片坐标；不引入新近似件。每课 `docs/ldraw-rebuild-20261011/evidence/<slug>/batch3-review.json` 绑定源/依赖哈希、分步和检查结果；中文报告 `/workspace/pending-fix-20261012/batch3-report.md`。保留未修好项与碰撞失败，未改验收状态、公开 MPD、保护名单或其它批次，未发布。
+
 ## 桌面记录与入口调整（2026-10-12）
 
 - `components/layout/main-nav.tsx` 移除桌面顶部排行榜；`components/home/home-showcase.tsx` 的 `LeaderboardEntry` 同时用于手机快捷轮播和 md 起自然新发现旁的桌面卡片，`/leaderboard` 路由保留。首页增加全尺寸「探索指南」入口到 `/start`。

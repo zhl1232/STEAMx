@@ -1,0 +1,83 @@
+{
+  "slug": "5-ce-feng-yi",
+  "sourceSha256": "6c0485a419499be9b1bc8870b40a19299f67b859b147f48279936145da599bd1",
+  "beforeHeadSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 6,
+  "stepsAfter": 6,
+  "placementsBefore": 96,
+  "placementsAfter": 96,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 0,
+  "collisionErrors": 0,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-ce-feng-yi-collision.log",
+  "date": "2026-10-12",
+  "title": "测风仪",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [],
+  "reviewedRenderedSteps": [
+    2
+  ],
+  "changes": [
+    "未改几何。第 2 页清单是红砖 20 + 黄砖 20，原稿为十层、每层四块 3011，柱身 480 LDU，数量和高度没有缺层。",
+    "原稿 6 根红色长梁与底座均存在；重做近景预览，避免不同缩放造成“偏矮偏简”的错觉。"
+  ],
+  "unresolved": [
+    "未修好（未整课验收）：隐藏的蓝色底座铺法、中轴穿孔和旋转固定尚无充分证据。",
+    "不能为迎合旧对照图而擅加层数；本次只确认“十层柱身并未缺失”。"
+  ],
+  "landmarksAndSupport": [
+    "柱身从 Y=-96 到 -576，10×48 LDU；按源两色各 20 块，不拉伸模型。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-01.jpg",
+      "sha256": "dc627b93ddfd62fb622dbf8197d70792a20a40de5c08f541cbc4cbebfb389a20"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-02.jpg",
+      "sha256": "873fc5c585eb676fa82af6cdde05e21c7deb041d70ad591a1065bc65fd590080"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-03.jpg",
+      "sha256": "bf16e2a88167eefe240c4abb4a84395e16c74caf5dc5a512ae4cb8fd61543889"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-04.jpg",
+      "sha256": "f642ed5670f366e885299016710d0727ab36527d6599f477829cd24f01defb1d"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-05.jpg",
+      "sha256": "eaa794a7ef4cc7443cdaa4449ab8c46e238156d9afc75c9ecbb15a38d34de91c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-06.jpg",
+      "sha256": "24cf0275cce4090f2cce61a69d5643c072fcaaa23e1278d6e0d3d5f2be14f537"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-ce-feng-yi/page-07.jpg",
+      "sha256": "a55da7e7f439e53e3f1c5f255b02522046bb0c0b65539d404e4c02ac52721840"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "b884c0273eb1d90242293c77d72ba4194ecd9513172d21a7944dd280dc6aee12",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-ce-feng-yi.png",
+    "sha256": "92d779e92ed371a7c623662c9846e05b241d2b35f5204f719647e0d488cc093d"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-ce-feng-yi.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

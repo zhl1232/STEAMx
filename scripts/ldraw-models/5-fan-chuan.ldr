@@ -2,6 +2,7 @@
 0 Name: 5-fan-chuan.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P6 six windows form two parallel three-window rows, open at both ends; P11-12 contain one wide + two narrow sails, all already present. No duplicate forward sail added. Source-facing preview shows all three. Mast shafts are still unresolved and this draft is NOT structurally complete.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.

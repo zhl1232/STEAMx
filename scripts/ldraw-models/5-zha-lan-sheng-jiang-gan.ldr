@@ -2,6 +2,7 @@
 0 Name: 5-zha-lan-sheng-jiang-gan.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P3 two crossbars already run horizontally along Z at Y=-448/-288 (not vertical). P10 orange car is a separate 3-part assembly outside base. Source-facing view exposes car and full horizontal gate; no duplicate car added. Existing door/canopy intersections and support inference remain unresolved.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.

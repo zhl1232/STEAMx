@@ -98,31 +98,46 @@
       "slug": "4-zhong-guo-long",
       "class": "clearly_wrong",
       "reason": "几乎整模发灰/缺色，骑手人仔缺失（含已知省略翼件）",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "缺蓝色 Toolo 头翼与前脚两片齿刃；颜色已纠正但关键装饰仍缺可靠件号"
     },
     {
       "slug": "5-ce-feng-yi",
       "class": "clearly_wrong",
       "reason": "底座高度与课件差很多，整体明显偏矮偏简",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-ce-ju-yi",
       "class": "clearly_wrong",
       "reason": "红色舱体与前端绿色大轮缺失，只剩细长平台",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-da-zhuang-ji",
       "class": "clearly_wrong",
       "reason": "吊臂朝向/装配与课件相反或明显不同，臂长也不对",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-fan-chuan",
       "class": "clearly_wrong",
       "reason": "前桅帆缺失，船体舱室布局也与课件不一致",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-huan-wei-che",
@@ -161,7 +176,10 @@
       "slug": "5-xuan-zhuan-fei-yi",
       "class": "clearly_wrong",
       "reason": "上部翼臂比例与课件差很多，结构不像同一成品",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-yu-shua-qi",
@@ -175,7 +193,10 @@
       "slug": "5-zha-lan-sheng-jiang-gan",
       "class": "clearly_wrong",
       "reason": "栏杆呈竖直而非课件水平；橙色小车缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-zhan-chi-gao-fei",
@@ -189,7 +210,10 @@
       "slug": "5-zhi-sheng-ji",
       "class": "clearly_wrong",
       "reason": "尾旋翼叶片缺失；机身侧面多了一颗课件没有的大黄齿轮",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-zhu-ge-lian-nu",
@@ -203,7 +227,10 @@
       "slug": "5-zhuan-wan-xiao-che",
       "class": "clearly_wrong",
       "reason": "缺小人仔、前部转向齿轮组和中部蜗杆等关键机构，后栏也不完整",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "4-diao-che",
