@@ -14,10 +14,10 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     environment: Production
-    timeout-minutes: 8
+    timeout-minutes: 5
     steps:
-      - name: Readonly - hourly memcheck 20261012-1833
-        timeout-minutes: 7
+      - name: Readonly - hourly memcheck 20261013-0633
+        timeout-minutes: 4
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
