@@ -1,70 +1,85 @@
-0 4+ 鸵鸟 - INCOMPLETE source reconstruction
+0 Ostrich - pending human acceptance
 0 Name: 4-tuo-niao.ldr
-0 Author: OpenAI
-0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: /mnt/d/pdf预览/4+鸵鸟搭建说明_pdf, 14 pages.
-0 // INCOMPLETE: standard tail and three eggs only; missing Toolo structure is not replaced by ordinary bricks.
-0 // Tail and egg scene anchors are inferred. Tail requires missing mechanical support; sideways egg is loose.
+0 // LIMIT: Static stride angles about 36.87 degrees and wing pitch are inferred, not measured or animated.
+0 // LIMIT: Wings use the user-approved approximate 6294 geometry; exact profile and clip fit are unmeasured. Two orange scoops require one extra beyond a single 45002 inventory.
+0 // LIMIT: Egg positions and hidden seams are inferred. The sideways egg is loose on base stud tips, not stud-connected.
+0 // LIMIT: Tail middle row bridges two level supports. Beak hangs from partial studs under the yellow Toolo brick.
+0 // LIMIT: Simplified Toolo retention and overall physical stability are untested.
 0 // Source page 1
-0 // OMITTED pages 1-8: unavailable Toolo legs, brackets, body, neck, orange wings and head support.
+1 72 80.0 -48.0 160.0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 80.0 -96.0 200.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+1 72 80.0 -481.0 8.0 0.0 0.0 1.0 0.6 0.8 0.0 -0.8 0.6 0.0 28331.dat
+1 72 240.0 -48.0 -320.0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 240.0 -96.0 -280.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 28336.dat
+1 72 240.0 -481.0 8.0 0.0 0.0 1.0 -0.6 0.8 0.0 -0.8 -0.6 0.0 28331.dat
 0 STEP
 0 // Source page 2
+1 72 80.0 -555.0 8.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 74957.dat
+1 72 240.0 -555.0 8.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 74957.dat
 0 STEP
 0 // Source page 3
+1 0 160.0 -603.0 8.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
 0 STEP
 0 // Source page 4
+1 0 160.0 -603.0 -152.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+1 0 160.0 -603.0 168.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+1 0 160.0 -651.0 -72.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
+1 0 160.0 -651.0 88.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 76395.dat
 0 STEP
 0 // Source page 5
+1 72 160.0 -651.0 -192.0 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 72 160.0 -916.0 -240.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 28334.dat
+1 72 160.0 -990.0 -240.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 74957.dat
 0 STEP
 0 // Source page 6
+1 14 160.0 -1038.0 -280.0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 4 160.0 -990.0 -320.0 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 160.0 -1086.0 -240.0 0 0 1 0 1 0 -1 0 0 3437pe1.dat
 0 STEP
 0 // Source page 7
+1 72 80.0 -699.0 -72.0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 240.0 -699.0 -72.0 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
 0 // Source page 8
+1 25 32.0 -764.0 -72.0 0.0 -0.8660254037844386 -0.5 0.0 -0.5 0.8660254037844386 -1.0 0.0 0.0 6294.dat
+1 25 288.0 -764.0 -72.0 0.0 0.8660254037844386 0.5 0.0 -0.5 0.8660254037844386 1.0 0.0 0.0 6294.dat
 0 STEP
 0 // Source page 9
-0 // Tail: 9 x 2302; source-backed shape, display height inferred; missing Toolo platform must support the three separate columns.
-1 14 160 -432 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 160 -432 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 160 -432 80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 280 -432 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 280 -432 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 280 -432 80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 200 -480 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 200 -480 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 200 -480 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 80.0 -651.0 208.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 80.0 -699.0 168.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 80.0 -699.0 48.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 160.0 -651.0 208.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 160.0 -699.0 168.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 160.0 -699.0 48.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 240.0 -651.0 208.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 240.0 -699.0 168.0 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 240.0 -699.0 48.0 0 0 -1 0 1 0 1 0 0 2302.dat
 0 STEP
 0 // Source page 10
-1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 2 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 4268.dat
 0 STEP
 0 // Source page 11
-0 // Six-brick egg: 2 x 3437 + 4 x 3011. Hidden middle seams alternate; scene anchors inferred from source.
-1 14 -120 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -96 200 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -120 -192 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80.0 -48.0 -240.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3437.dat
+1 14 -80.0 -96.0 -280.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3011.dat
+1 14 -80.0 -96.0 -200.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3011.dat
+1 14 -120.0 -144.0 -240.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 3011.dat
+1 14 -40.0 -144.0 -240.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 3011.dat
+1 14 -80.0 -192.0 -240.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3437.dat
 0 STEP
 0 // Source page 12
-0 // Six-brick egg: 2 x 3437 + 4 x 3011. Hidden middle seams alternate; scene anchors inferred from source.
-0 // Loose sideways egg: rigid +90deg X rotation, side rests at Y=-11 on actual base stud tips; not stud-connected to base.
-1 14 -360 -91 152 1 0 0 0 0 -1 0 1 0 3437.dat
-1 14 -360 -51 104 1 0 0 0 0 -1 0 1 0 3011.dat
-1 14 -360 -131 104 1 0 0 0 0 -1 0 1 0 3011.dat
-1 14 -400 -91 56 0 0 1 1 0 0 0 1 0 3011.dat
-1 14 -320 -91 56 0 0 1 1 0 0 0 1 0 3011.dat
-1 14 -360 -91 8 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 -320.0 -91.0 -96.0 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 -320.0 -51.0 -144.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 -320.0 -131.0 -144.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 -360.0 -91.0 -192.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 -280.0 -91.0 -192.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 -320.0 -91.0 -240.0 1 0 0 0 0 -1 0 1 0 3437.dat
 0 STEP
 0 // Source page 13
-0 // Six-brick egg: 2 x 3437 + 4 x 3011. Hidden middle seams alternate; scene anchors inferred from source.
-1 14 -120 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -144 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -144 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -120 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80.0 -48.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3437.dat
+1 14 -80.0 -96.0 -40.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3011.dat
+1 14 -80.0 -96.0 40.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3011.dat
+1 14 -120.0 -144.0 0.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 3011.dat
+1 14 -40.0 -144.0 0.0 0.0 0.0 1.0 0.0 1.0 0.0 -1.0 0.0 0.0 3011.dat
+1 14 -80.0 -192.0 0.0 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 3437.dat
 0 STEP
 0 // Source page 14
-0 // Final source view; mechanical bird remains absent, no completion/physical-support claim.

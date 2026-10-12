@@ -1,48 +1,100 @@
-0 4+ 帆船 (Sailing Ship) - DUPLO draft for manual repair
+0 Sailboat - pending human acceptance
 0 Name: 4-fan-chuan.ldr
-0 Author: OpenAI
-0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+帆船 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Hull, railings and curved sails are simplified.
-
-0 // STEP 1 - long hull
-1 14 -480 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -320 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 320 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 480 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Hidden seams and articulation poses inferred; not accepted.
+0 // LIMIT: Hidden brick seams and static sail angles inferred.
+0 // LIMIT: Step 5 four end bricks require holding until step 6 bridges them.
+0 // LIMIT: 6294 is an authorized local approximation; middle scoop upper lip intersects long arm: 122 triangle pairs, 244 intersection points, scoop-local X [-36,36], Y [-36,-3.0567945], Z [-66,-50]. Source pages 10/12 support this attachment, but physical fit is unverified.
+0 // LIMIT: Requires four orange 6294 scoops; single 45002 provides one, three additional scoops required.
+0 // LIMIT: Toolo retention, stability and floating ability not tested.
+0 // STEP 1 - source page 1
+1 0 -80 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - deck and railings
-1 0 -400 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -520 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -280 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -40 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 200 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 440 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - source page 2
+1 0 -160 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 3 - masts
-1 0 -240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 420 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 420 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - source page 3
+1 0 -320 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -240 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -400 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 320 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 240 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 400 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 4 - orange sails
-1 25 -160 -240 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 200 -240 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 480 -300 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 4 -600 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 600 -96 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 4 - source page 4
+1 1 -80 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 5 - source page 5
+1 14 -480 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -560 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 6 - source page 6
+1 14 -480 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -640 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -640 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 640 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 640 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 7 - source page 7
+1 1 -580 -336 0 -1 0 0 0 1 0 0 0 -1 2301.dat
+1 1 580 -336 0 1 0 0 0 1 0 0 0 1 2301.dat
+0 STEP
+0 // STEP 8 - source page 8
+1 72 -280 -192 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 0 -144 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 280 -192 0 0 0 1 0 1 0 -1 0 0 28336.dat
+0 STEP
+0 // STEP 9 - source page 9
+1 72 -232 -457 0 1 0 0 0 1 0 0 0 1 28334.dat
+1 72 -48 -609 0 1 0 0 0 1 0 0 0 1 28331.dat
+1 72 328 -457 0 1 0 0 0 1 0 0 0 1 28334.dat
+0 STEP
+0 // STEP 10 - source page 10
+1 25 -232 -457 0 0 0.866025404 -0.5 0 0.5 0.866025404 1 0 0 6294.dat
+1 25 -48 -609 0 0 0.866025404 -0.5 0 0.5 0.866025404 1 0 0 6294.dat
+1 25 -48 -409 0 0 0.866025404 -0.5 0 0.5 0.866025404 1 0 0 6294.dat
+1 25 328 -457 0 0 0.866025404 -0.5 0 0.5 0.866025404 1 0 0 6294.dat
+0 STEP
+0 // STEP 11 - source page 11
+1 15 -360 -288 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 -288 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -288 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -288 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -600 -336 -60 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 600 -336 -60 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -360 -288 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 -288 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -288 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -288 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -600 -336 60 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 600 -336 60 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 STEP
+0 // STEP 12 - source page 12
+0 STEP
+0 // STEP 13 - source page 13

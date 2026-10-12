@@ -1,36 +1,82 @@
-0 4+ 宝剑 (Sword and Shield) - DUPLO draft for manual repair
+0 4+ 宝剑 (Sword and scabbard) - source-reconstructed local candidate
 0 Name: 4-bao-jian.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+宝剑 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Shield and sword are laid out as side-built silhouettes for manual repair.
-
-0 // STEP 1 - shield core
-1 1 -400 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 80 -48 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 -400 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -400 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 NumOfBricks: 52
+0 // Source: /mnt/d/pdf预览/4+宝剑搭建说明_pdf/4+宝剑搭建说明-{1..9}.jpg
+0 // REVIEW: source topology and mesh joints checked; thread/retention details and centre curve level remain approximate.
+0 // Source shows two separate assemblies: sword at z=-380 and scabbard at z=0.
+0 // Toolo meshes are approved approximations, not proof of physical screw or fork connections.
+0 // Arm pivot-to-tip lengths 400+200 LDU are source-inferred, not physically measured.
+0 // Standard parts use 24-LDU plates and 48-LDU bricks; no fabricated/scaled geometry.
+0 // STEP 1 - central clutch and two side-built guards (source page 1)
+1 8 874 -40 -380 0 -1 0 0 0 -1 1 0 0 74957.dat
+1 8 850 -40 -292 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 8 850 -40 -468 0 0 -1 -1 0 0 0 1 0 28336.dat
 0 STEP
-
-0 // STEP 2 - shield ridge
-1 1 -280 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -120 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 40 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 2 - long arm followed by short arm, collinear blade (source page 2)
+1 8 800 -40 -380 0 -1 0 1 0 0 0 0 1 28331.dat
+1 8 400 -40 -380 0 -1 0 1 0 0 0 0 1 28334.dat
 0 STEP
-
-0 // STEP 3 - sword blade
-1 8 540 -48 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 8 640 -148 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 8 740 -248 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 8 840 -348 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 2302.dat
+0 // STEP 3 - six side-built 2x2 bricks forming alternating handle (source page 3)
+1 14 922 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
+1 25 970 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
+1 14 1018 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
+1 25 1066 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
+1 14 1114 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
+1 25 1162 -40 -380 0 -1 0 0 0 -1 1 0 0 3437.dat
 0 STEP
-
-0 // STEP 4 - guard and hilt
-1 0 460 -20 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 0 400 -80 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3437.dat
-1 14 340 -140 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 25 260 -220 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 3437.dat
+0 // STEP 4 - four blue plates, contiguous 20x4-stud scabbard floor (source page 4)
+1 1 40 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 760 0 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 240 0 0 1 0 0 0 1 0 0 0 1 4672.dat
+1 1 560 0 0 1 0 0 0 1 0 0 0 1 4672.dat
+0 STEP
+0 // STEP 5 - two red plate rails with one-stud outward overhang (source page 5)
+1 4 80 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 240 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 560 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 720 -24 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 80 -24 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 240 -24 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -24 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 560 -24 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 720 -24 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 6 - brick-height side walls and three curved closed-end bricks (source page 6)
+1 4 40 -72 -80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 160 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 480 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 640 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 760 -72 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -72 80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 160 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 480 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 640 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 760 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Centre curved brick rests directly on blue floor, one plate below side curves; inferred support from page 6.
+1 4 40 -48 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // STEP 7 - ten red capping plates, preserving central channel (source page 7)
+1 4 80 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 240 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 560 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 720 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 80 -96 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 240 -96 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -96 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 560 -96 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 720 -96 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 8 - four blue cover plates bridging the channel (source page 8)
+1 1 40 -120 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 760 -120 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 240 -120 0 1 0 0 0 1 0 0 0 1 4672.dat
+1 1 560 -120 0 1 0 0 0 1 0 0 0 1 4672.dat
+0 STEP
+0 // STEP 9 - finished separate sword and scabbard reference (source page 9; no additions)

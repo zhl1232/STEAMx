@@ -1,12 +1,13 @@
-0 4+ 电话机 (Telephone) - source-reconstruction draft
+0 4+ 电话机 (Telephone) - local review candidate
 0 Name: 4-dian-hua-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE: Toolo dial/cradle/upper plates and tube receiver omitted pending support/port checks.
+0 // REVIEW: 46 pieces restored; receiver rests on four actual mesh contacts.
 0 // Source: /mnt/d/pdf预览/4+电话机搭建说明_pdf pages 1,2,4 and duplicate-folder page 3.
 0 // Source page 3 is absent from the primary folder; duplicate page is retained in scratch evidence.
-0 // Steps 5-8 Toolo/special geometry intentionally unresolved; no substitute geometry is inserted.
+0 // LIMITATION: three source-matched pipe joints retain 478/43/43 strict crossings inside their 13-LDU connector zones; snap fit is not physically certified.
+0 // Dial hidden attachment and loose receiver retention are inferred.
 0 // Steps 1-4 rebuilt from confirmed 4196/3011 geometry on the 40 LDU grid.
 
 0 // STEP 1 - two red 6 x 12 plates form the 12 x 12 base
@@ -49,15 +50,33 @@
 1 25 160 -168 -40 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEPS 5-8 intentionally empty pending confirmed Toolo geometry.
-0 // STEP 5 unresolved black side-hole pieces x4
+0 // STEP 5 - source-guided reconstruction
+1 0 -80 -216 -120 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -216 -80 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -216 120 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -120 -216 80 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-0 // STEP 6 unresolved dial/backing x1
+0 // STEP 6 - source-guided reconstruction
+0 // Hidden dial mounting is inferred at front wall; not a certified threaded connection.
+1 0 0 -144 272 1 0 0 0 0 1 0 -1 0 60535.dat
 0 STEP
-0 // STEP 7 unresolved black side-hole pieces x2
+0 // STEP 7 - source-guided reconstruction
+1 0 -80 -264 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -264 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-0 // STEP 8 unresolved gray cradle assemblies x4
+0 // STEP 8 - source-guided reconstruction
+1 7 -80 -312 40 1 0 0 0 1 0 0 0 1 28336.dat
+1 7 -80 -312 -40 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 7 80 -312 40 1 0 0 0 1 0 0 0 1 28336.dat
+1 7 80 -312 -40 -1 0 0 0 1 0 0 0 -1 28336.dat
 0 STEP
-0 // STEP 9 tube chain pending port placement/support review: 31452 x3, 31195 x4
+0 // STEP 9 - source-guided reconstruction
+1 1 -209.9954300469221 -402.17043750358033 0.0 0.0 0.006036103080637793 0.9999817825638625 0.0 0.9999817825638624 -0.0060361030806377934 -1.0 0.0 0.0 31452.dat
+1 1 -89.9976161392586 -402.8947698732569 0.0 0.0 0.006036103080637793 0.9999817825638625 0.0 0.9999817825638624 -0.0060361030806377934 -1.0 0.0 0.0 31452.dat
+1 1 30.00019776840489 -403.61910224293337 0.0 0.0 0.006036103080637793 0.9999817825638625 0.0 0.9999817825638624 -0.0060361030806377934 -1.0 0.0 0.0 31452.dat
+1 4 149.9980116760684 -404.34343461260994 0.0 -0.006036103080637793 0.0 0.9999817825638625 -0.9999817825638624 0.0 -0.0060361030806377934 0.0 -1.0 0.0 31195.dat
+1 4 235.06062284125548 -369.70825033765357 0.0 0.7028259475823445 0.0 0.7113622890644256 -0.7113622890644257 0.0 0.7028259475823445 0.0 -1.0 0.0 31195.dat
+1 4 -294.63372730995263 -366.5109023914274 0.0 -0.7113620689341789 0.0 0.7028257300936589 -0.7028257300936589 0.0 -0.7113620689341789 0.0 -1.0 0.0 31195.dat
+1 4 -329.26891158490906 -281.4482912262403 0.0 -0.9999817825638625 0.0 -0.006036103080637793 0.0060361030806377934 0.0 -0.9999817825638624 0.0 -1.0 0.0 31195.dat
 0 STEP
 0 // STEP 10 finished view has no additions
