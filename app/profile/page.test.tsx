@@ -30,9 +30,16 @@ it.each([390, 768, 1440])('keeps profile destinations visible even for an empty 
   })))
   try {
     render(<ProfilePage />)
-    const nav = await screen.findByRole('navigation', { name: '个人中心常用入口' })
-    for (const [name, href] of [['内容库', '/profile/library'], ['编辑资料', '/settings/profile'], ['排行榜', '/leaderboard']]) {
-      expect(within(nav).getByRole('link', { name })).toHaveAttribute('href', href)
+    if (width >= 768) {
+      const nav = await screen.findByRole('navigation', { name: '个人中心常用入口' })
+      expect(nav).toHaveClass('hidden', 'md:flex')
+      for (const [name, href] of [['内容库', '/profile/library'], ['排行榜', '/leaderboard']]) {
+        expect(within(nav).getByRole('link', { name })).toHaveAttribute('href', href)
+      }
+      expect(within(nav).queryByRole('link', { name: '编辑资料' })).not.toBeInTheDocument()
+    } else {
+      expect(await screen.findByRole('link', { name: /我的内容/ })).toHaveAttribute('href', '/profile/library')
+      expect(screen.queryByRole('navigation', { name: '个人中心常用入口' })).not.toBeInTheDocument()
     }
     expect(screen.getAllByRole('button', { name: '编辑资料' }).length).toBeGreaterThan(0)
   } finally { vi.unstubAllGlobals() }

@@ -16,7 +16,7 @@ import {
   Trophy,
   WalletCards,
 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
@@ -41,6 +41,8 @@ type CoinLogEntry = Omit<CoinLogRow, "id"> & {
   id: CoinLogRow["id"] | string;
   synthetic?: "balance_baseline";
 };
+
+const COIN_LOG_PAGE_SIZE = 20;
 
 const COIN_EARNING_RULES = [
   {
@@ -403,30 +405,48 @@ export default function CoinsPage() {
   const userId = user?.id ?? "";
 
   const {
-    data: logs = [],
+    data,
     isLoading,
     isError,
     error,
     refetch,
-  } = useQuery<CoinLogRow[]>({
-    queryKey: ["coin_logs", userId],
-    queryFn: async () => {
-      if (!userId) return [];
-      const { data, error } = await supabase
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isFetchNextPageError,
+  } = useInfiniteQuery({
+    queryKey: ["coin_logs", userId, "infinite"],
+    initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const { data, error, count } = await supabase
         .from("coin_logs")
         .select(
           "id, user_id, amount, action_type, resource_id, created_at, counterparty_display_text",
+          { count: "exact" },
         )
         .eq("user_id", userId)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: false })
+        .range(pageParam, pageParam + COIN_LOG_PAGE_SIZE - 1);
       if (error) throw error;
-      return data ?? [];
+      const logs = data ?? [];
+      const nextOffset = pageParam + logs.length;
+      return {
+        logs,
+        count,
+        nextOffset: logs.length === COIN_LOG_PAGE_SIZE && (count === null || nextOffset < count)
+          ? nextOffset
+          : undefined,
+      };
     },
+    getNextPageParam: (lastPage) => lastPage.nextOffset,
     enabled: !!userId,
     refetchOnWindowFocus: true,
   });
 
 
+  const logs = useMemo(() => data?.pages.flatMap((page) => page.logs) ?? [], [data]);
 
   const nextReward = useMemo(
     () => SHOP_ITEMS.filter((item) => item.price > coins).sort((a, b) => a.price - b.price)[0],
@@ -434,7 +454,7 @@ export default function CoinsPage() {
   );
 
   const displayLogs = useMemo<CoinLogEntry[]>(() => {
-    if (!userId) return logs;
+    if (!userId || !data || hasNextPage || isError) return logs;
 
     const loggedBalance = logs.reduce((total, log) => total + log.amount, 0);
     const baselineAmount = coins - loggedBalance;
@@ -461,7 +481,7 @@ export default function CoinsPage() {
         synthetic: "balance_baseline",
       },
     ];
-  }, [coins, logs, userId]);
+  }, [coins, logs, userId, data, hasNextPage, isError]);
 
 
   if (authLoading || !user) {
@@ -566,16 +586,29 @@ export default function CoinsPage() {
                   <h2 className="text-lg font-bold">交易记录</h2>
                 </div>
                 <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1 text-xs font-semibold text-muted-foreground dark:bg-white/3">
-                  共 {displayLogs.length} 条
+                  共 {(data?.pages.at(-1)?.count ?? logs.length) + displayLogs.length - logs.length} 条
                 </span>
               </div>
               <CoinLogTimeline
                 logs={displayLogs}
                 isLoading={isLoading}
-                isError={isError}
+                isError={isError && !isFetchNextPageError}
                 error={error}
                 onRetry={() => refetch()}
               />
+              {hasNextPage ? (
+                <div className="flex flex-col items-center gap-3 px-5 py-4">
+                  {isFetchNextPageError ? <p role="alert" className="text-sm text-destructive">加载更多失败，请重试</p> : null}
+                  <Button
+                    variant="outline"
+                    disabled={isFetching}
+                    onClick={() => { if (!isFetching) void fetchNextPage(); }}
+                  >
+                    {isFetchingNextPage ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+                    {isFetchingNextPage ? "加载中..." : "加载更多"}
+                  </Button>
+                </div>
+              ) : null}
             </section>
           </section>
 
