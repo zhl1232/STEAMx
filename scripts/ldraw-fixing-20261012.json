@@ -353,55 +353,82 @@
       "slug": "5-ping-heng-da-shi",
       "class": "minor",
       "reason": "头顶黄圆件缺失/变成红平片",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-qi-dian-chuan",
       "class": "minor",
       "reason": "前端米色圆顶缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-qing-sao-che",
       "class": "minor",
       "reason": "前端米色圆顶缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-re-qi-qiu",
       "class": "minor",
       "reason": "气球与吊篮之间连接杆/绳缺失（绳线示意可能未跟上）",
-      "uncertain": "绳线是否已按方案 C 更新需对照当前 dev"
+      "uncertain": "绳线是否已按方案 C 更新需对照当前 dev",
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-ren-li-shui-che",
       "class": "minor",
       "reason": "视角接近侧翻，立柱表现不清",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch6",
+      "returnedToPending": false,
+      "unfixedReason": "已转 90° 仍与终页轮廓/遮挡不完全吻合"
     },
     {
       "slug": "5-san-lun-che",
       "class": "minor",
       "reason": "前转向柱偏细/缺件感",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-sheng-jiang-dian-ti",
       "class": "minor",
       "reason": "顶部蓝拱与部分红色装饰缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-shou-yao-zuan-zi",
       "class": "minor",
       "reason": "整体左右镜像感（朝向相反）",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch6",
+      "returnedToPending": false,
+      "unfixedReason": "已转 180° 钻头朝右，但摇柄侧与课件仍不符"
     },
     {
       "slug": "5-tuo-gua-che",
       "class": "minor",
       "reason": "视角接近镜像，主体结构大致在",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-tuo-yuan-ji",
