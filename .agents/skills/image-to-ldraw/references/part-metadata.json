@@ -40883,6 +40883,31 @@
       "notes": [
         "Non-BOM geometry, user-authorized 2026-10-12; authored locally under CC BY 4.0. Cord uses a scaled unit cylinder; long hook is posed at its string eye. Visual route/contact review is required; neither component is a rigid load-bearing brick."
       ]
+    },
+    "dev-129/4433c01.dat": {
+      "name": "Duplo Toolo Exhaust Pipe 4433c01 (dev-129 local approximation for forklift forks)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -22,
+        "xMax": 22,
+        "yMin": -22,
+        "yMax": 22,
+        "zMin": 0,
+        "zMax": 148
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 148,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "2026-10-12 local approx for 4-cha-che forks; official/unofficial DAT unavailable (404).",
+        "Silhouette from BrickLink PN/66/4433c01 and courseware p8/p15; screw fit not exact.",
+        "Not physical-fit evidence."
+      ]
     }
   }
 }

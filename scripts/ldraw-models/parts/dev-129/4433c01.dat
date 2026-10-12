@@ -1,0 +1,25 @@
+0 Duplo Toolo Exhaust Pipe (Local simplified part for forklift forks)
+0 // DEV-ONLY approximate geometry. Canonical design 4433c01.
+0 // Do not use as physical-fit or official geometry evidence.
+0 // Shape inferred from BrickLink PN/66/4433c01 photo + courseware p8/p15 silhouettes.
+0 Name: 4433c01.dat
+0 Author: STEAMX local reconstruction
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Screw-joint end at origin, pipe extends +Z. Pearl Light Gray body; tip often black in photos.
+0 BFC CERTIFY CCW
+0 // Screw collar (yellow axle visible in photos; grey housing)
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4-4cyli.dat
+1 16 0 0 0 22 0 0 0 22 0 0 0 12 4-4cyli.dat
+1 16 0 0 12 22 0 0 0 22 0 0 0 1 4-4disc.dat
+0 // Perforated muffler body (simplified solid cylinder + ring marks)
+1 16 0 0 28 18 0 0 0 18 0 0 0 70 4-4cyli.dat
+1 16 0 0 28 18 0 0 0 18 0 0 0 1 4-4disc.dat
+1 16 0 0 98 18 0 0 0 18 0 0 0 1 4-4disc.dat
+1 16 0 0 40 20 0 0 0 20 0 0 0 2 4-4cyli.dat
+1 16 0 0 60 20 0 0 0 20 0 0 0 2 4-4cyli.dat
+1 16 0 0 80 20 0 0 0 20 0 0 0 2 4-4cyli.dat
+0 // Tip pipe (black in catalog; courseware draws grey — use main colour 16)
+1 16 0 0 98 12 0 0 0 12 0 0 0 50 4-4cyli.dat
+1 16 0 0 148 12 0 0 0 12 0 0 0 1 4-4disc.dat
+1 0 0 0 148 10 0 0 0 10 0 0 0 1 4-4ndis.dat

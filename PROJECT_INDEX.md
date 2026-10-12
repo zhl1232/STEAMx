@@ -787,6 +787,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ## 13. LDraw 课程状态
 
 - 2026-10-12 batch7 五课 minor 本地复核：小火车、旋翼飞机、旋转灯笼整模绕 Y 轴 -90° 对齐预览默认观察侧，保留全部步骤、零件和相对装配；小火车后部色号正确，不因光照换色。椭圆机试转 180° 后撤回，完整机构姿态仍未修好；折叠梯原有细黑 type-2 示意线保留，实体拉线外观仍未修好，两课源未改。碰撞 3 课通过，火车 5 条/飞机 4 条既有报警保留；review/packer/protected 共 25 项通过。五张 after、逐课结论及哈希记录见 `/workspace/pending-fix-20261012/batch7-report.md` 与 `batch7-checks/review.json`；未改待确认状态、保护名单、公共资产或数据库，未提交或发布。
+- 2026-10-12 叉车 `4-cha-che`：托盘顶板改石灰绿；两根货叉用本地近似 `parts/dev-129/4433c01.dat`（官方 DAT 仍无）；报告 `/workspace/pending-fix-20261012/cha-che-report.md`。
 
 - 2026-10-12 batch6 九课 minor 本地复核：清扫车第 6 步 6345 罩从透明黄改为不透明米色；人力水车整模绕竖轴 90°、手摇钻子与拖挂车 180°，保留步骤和全部零件的相对位置，不使用反射。平衡大师黄头、气垫船米色罩、热气球四绳、三轮车四轴套、电梯顶部蓝板及红机构当前已存在，未重复加件。水车完整轮廓、手摇钻子摇柄可见侧仍标「未修好」；碰撞 4 课通过、5 课保留与 before 相同的报警，review/packer/protected 共 25 项通过。九张 after、源/依赖哈希及逐课结论见 `/workspace/pending-fix-20261012/batch6-report.md` 和 `batch6-checks/review.json`；未改待确认清单、保护名单、公共 MPD 或数据库，未提交或发布。
 
