@@ -3,58 +3,59 @@
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Batch7: global proper Y rotation for source-facing default preview; relative assembly and source steps unchanged.
 0 // Source Library batch02 original PDF, lesson306 course7; SHA256 3f6423a6809f49d9ef815e4139bb54b1a0659ad73c90bee14396bb0170287d56
 0 // STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.
 0 // 5+旋翼飞机, distinct from 4+直升机. Rubber transmission remains unresolved; no motion proof.
 0 // STEP 1 - red2x10 holed chassis, two6L axles, eight yellow wheels and four tyres
-1 4 0 0 0 1 0 0 0 1 0 0 0 1 75350.dat
-1 71 -160 24 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 -160 24 -60 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 -160 24 -120 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 0 -160 24 -90 -1 0 0 0 1 0 0 0 -1 6292.dat
-1 14 -160 24 60 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 -160 24 120 1 0 0 0 1 0 0 0 1 6527.dat
-1 0 -160 24 90 1 0 0 0 1 0 0 0 1 6292.dat
-1 71 160 24 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 160 24 -60 1 0 0 0 1 0 0 0 1 6527.dat
-1 14 160 24 -120 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 0 160 24 -90 -1 0 0 0 1 0 0 0 -1 6292.dat
-1 14 160 24 60 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 160 24 120 1 0 0 0 1 0 0 0 1 6527.dat
-1 0 160 24 90 1 0 0 0 1 0 0 0 1 6292.dat
+1 4 0 0 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 71 0 24 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 24 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 120 24 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 0 90 24 -160 0 0 1 0 1 0 -1 0 0 6292.dat
+1 14 -60 24 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -120 24 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 0 -90 24 -160 0 0 -1 0 1 0 1 0 0 6292.dat
+1 71 0 24 160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 24 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 120 24 160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 0 90 24 160 0 0 1 0 1 0 -1 0 0 6292.dat
+1 14 -60 24 160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -120 24 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 0 -90 24 160 0 0 -1 0 1 0 1 0 0 6292.dat
 0 STEP
 
 0 // STEP 2 - four yellow2x4 bricks along fuselage
-1 14 -240 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 240 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
 0 // STEP 3 - three yellow2x4 bricks and curved yellow front/rear ends
-1 14 -160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -280 -96 0 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 14 280 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 0 -96 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 -280 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 0 -96 280 0 0 -1 0 1 0 1 0 0 2302.dat
 0 STEP
 
 0 // STEP 4 - three red2x10 beams form wings and spine, yellow curved nose and thin bridge plate
-1 4 120 -144 0 1 0 0 0 1 0 0 0 1 75350.dat
-1 4 -160 -144 -240 0 0 -1 0 1 0 1 0 0 75350.dat
-1 4 -160 -144 240 0 0 -1 0 1 0 1 0 0 75350.dat
-1 14 -280 -144 0 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 14 -160 -168 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 0 -144 120 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 240 -144 -160 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 4 -240 -144 -160 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 14 0 -144 -280 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 0 -168 -160 -1 0 0 0 1 0 0 0 -1 40666.dat
 0 STEP
 
 0 // STEP 5 - transverse driveshaft and yellow retainers; two official blue31622 crown gears
-1 71 -40 -120 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 -40 -120 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
-1 14 -40 -120 60 1 0 0 0 1 0 0 0 1 6527.dat
-1 1 -40 -120 -100 -1 0 0 0 1 0 0 0 -1 31622.dat
-1 1 -40 -120 100 1 0 0 0 1 0 0 0 1 31622.dat
+1 71 0 -120 -40 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 -120 -40 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -60 -120 -40 0 0 -1 0 1 0 1 0 0 6527.dat
+1 1 100 -120 -40 0 0 1 0 1 0 -1 0 0 31622.dat
+1 1 -100 -120 -40 0 0 -1 0 1 0 1 0 0 31622.dat
 0 STEP
 
 0 // STEP 6 - source rubber-band loop preparation; 4 loops, not a rigid construction addition
@@ -64,15 +65,15 @@
 0 STEP
 
 0 // STEP 8 - two official blue5L pinion shafts and red24-tooth wing gears
-1 1 -160 -120 -160 1 0 0 0 1 0 0 0 1 6523.dat
-1 4 -100 -120 -160 0 0 1 0 1 0 -1 0 0 6529.dat
-1 1 -160 -120 160 1 0 0 0 1 0 0 0 1 6523.dat
-1 4 -100 -120 160 0 0 1 0 1 0 -1 0 0 6529.dat
+1 1 160 -120 -160 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 160 -120 -100 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 -160 -120 -160 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -160 -120 -100 1 0 0 0 1 0 0 0 1 6529.dat
 0 STEP
 
 0 // STEP 9 - two yellow40-tooth rotor disks on wing shafts
-1 14 -240 -120 -160 0 0 1 0 1 0 -1 0 0 6530.dat
-1 14 -240 -120 160 0 0 1 0 1 0 -1 0 0 6530.dat
+1 14 160 -120 -240 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -160 -120 -240 1 0 0 0 1 0 0 0 1 6530.dat
 0 STEP
 
 0 // STEP 10 - finished alternate view only
