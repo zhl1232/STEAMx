@@ -14,10 +14,10 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     environment: Production
-    timeout-minutes: 4
+    timeout-minutes: 8
     steps:
       - name: Readonly - hourly memcheck
-        timeout-minutes: 3
+        timeout-minutes: 7
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -25,12 +25,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           timeout: 30s
-          command_timeout: 2m
+          command_timeout: 5m
           script_stop: true
           script: |
             set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXI7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gZnJlZSA9PT09PSIKZnJlZSAtbQo=' | base64 -d > /tmp/memcheck.sh
-            chmod 700 /tmp/memcheck.sh
-            rc=0; bash /tmp/memcheck.sh || rc=$?
-            rm -f /tmp/memcheck.sh
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAiPT09PT0gbWVtIGxpbWl0cyA9PT09PSIKZm9yIGMgaW4gc3RlYW0tYXBwIHN0ZWFtLWF1dG8taW50ZXJhY3Rpb25zLXdvcmtlciBzdGVhbS1jb21tdW5pY2F0aW9ucy13b3JrZXI7IGRvCiAgZG9ja2VyIGluc3BlY3QgIiRjIiAtLWZvcm1hdCAne3suTmFtZX19IG1lbT17ey5Ib3N0Q29uZmlnLk1lbW9yeX19IG1lbXN3YXA9e3suSG9zdENvbmZpZy5NZW1vcnlTd2FwfX0gc3RhdHVzPXt7LlN0YXRlLlN0YXR1c319JyAyPi9kZXYvbnVsbCB8fCBlY2hvICIkYyBtaXNzaW5nIgpkb25lCmVjaG8gIj09PT09IGRvY2tlciBzdGF0cyA9PT09PSIKZG9ja2VyIHN0YXRzIC0tbm8tc3RyZWFtIC0tZm9ybWF0ICd7ey5OYW1lfX0ge3suTWVtVXNhZ2V9fScKZWNobyAiPT09PT0gZnJlZSA9PT09PSIKZnJlZSAtbQo=' | base64 -d > /tmp/ops_readonly_step.sh
+            chmod 700 /tmp/ops_readonly_step.sh
+            rc=0; bash /tmp/ops_readonly_step.sh || rc=$?
+            rm -f /tmp/ops_readonly_step.sh
             exit $rc
