@@ -37,7 +37,10 @@
       "slug": "4-wa-li",
       "class": "clearly_wrong",
       "reason": "胸前蓝色圆件缺失；橙色手爪件型不对（扁片而非挖斗）",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "蓝门已补（本地31193），挖斗形状仍不对；未放回待确认"
     },
     {
       "slug": "4-xiang-wei-she",
@@ -49,7 +52,10 @@
       "slug": "4-ya-lu-ji",
       "class": "clearly_wrong",
       "reason": "前端蓝色滚筒总成整段缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "蓝色滚筒仍缺确认件号/几何；未放回待确认"
     },
     {
       "slug": "4-yi-long",
@@ -103,25 +109,34 @@
       "slug": "5-huan-wei-che",
       "class": "clearly_wrong",
       "reason": "黄斗侧板缺失，露出内部红结构",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-qing-ting",
       "class": "clearly_wrong",
       "reason": "（初看像缺翅膀）实核为整体相对课件翻转约180°；翅膀与底座齐全但朝向反了",
-      "uncertain": "零件齐全，主要是朝向反了；若只关心零件可降为 minor"
+      "uncertain": "零件齐全，主要是朝向反了；若只关心零件可降为 minor",
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-shou-tui-fei-ji",
       "class": "clearly_wrong",
       "reason": "整机竖放而非平放，螺旋桨叶片尺寸/颜色也明显不对",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "课件细长旋翼无匹配几何，已省略并注释；未放回待确认"
     },
     {
       "slug": "5-tui-tu-ji",
       "class": "clearly_wrong",
       "reason": "有零件悬浮/未装上，装配状态不对",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-xuan-zhuan-fei-yi",
@@ -133,7 +148,9 @@
       "slug": "5-yu-shua-qi",
       "class": "clearly_wrong",
       "reason": "雨刷杆大幅后倾，姿态与课件竖直朝向不符",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-zha-lan-sheng-jiang-gan",
@@ -145,7 +162,9 @@
       "slug": "5-zhan-chi-gao-fei",
       "class": "clearly_wrong",
       "reason": "翅膀平展而非课件高举 V 形，躯干姿态也不对",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-zhi-sheng-ji",
@@ -157,7 +176,9 @@
       "slug": "5-zhu-ge-lian-nu",
       "class": "clearly_wrong",
       "reason": "中央红色料斗方向转了90°，支腿尖端蓝色细节也缺",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
     },
     {
       "slug": "5-zhuan-wan-xiao-che",
