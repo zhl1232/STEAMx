@@ -75,7 +75,7 @@ describe('render-only LDraw edges', () => {
     expect(conditional.material).toBe(source)
     const brickEdge = lines.find((line) => line.material !== source)!.material as LineBasicMaterial
     expect(brickEdge.color.getHexString()).toBe(ldrawEdgeColor(face.color, undefined, '0').slice(1))
-    expect(brickEdge.opacity).toBe(0.7)
+    expect(brickEdge.opacity).toBe(1)
     renderer.dispose()
   })
   it.each([[160, false], [180, true]])('applies the >64-stud footprint rule to unlisted plates of width %s', (width, native) => {
