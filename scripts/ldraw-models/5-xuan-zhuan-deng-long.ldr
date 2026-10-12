@@ -3,90 +3,91 @@
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Batch7: global proper Y rotation for source-facing default preview; relative assembly and source steps unchanged.
 0 // Source PDF batch07 manifest, SHA256 f0578a565b92d54bbc9bac73d4e27ef1da2e51fe5deaccf1b788b69d97c06b15
 0 // STATUS: INCOMPLETE; source pages 1-11 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.
 0 // STEP 1 - two yellow foundation bricks and four red ring bricks
-1 14 0 0 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 0 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -40 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -40 0 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 4 80 -48 -40 0 0 -1 0 1 0 1 0 0 3011.dat
-1 4 40 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -48 80 -1 0 0 0 1 0 0 0 -1 3011.dat
 1 4 -80 -48 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -40 -48 -80 -1 0 0 0 1 0 0 0 -1 3011.dat
 0 STEP
 
 0 // STEP 2 - four outward facing red frames with white inserts
-1 4 0 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 65.5 -120 -160.0 1 0 0 0 1 0 0 0 1 90265.dat
 1 4 120 -192 0 0 0 -1 0 1 0 1 0 0 61649.dat
-1 15 160.0 -120 65.5 0 0 -1 0 1 0 1 0 0 90265.dat
+1 15 160 -120 65.5 0 0 -1 0 1 0 1 0 0 90265.dat
 1 4 0 -192 120 -1 0 0 0 1 0 0 0 -1 61649.dat
-1 15 -65.5 -120 160.0 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 15 -65.5 -120 160 -1 0 0 0 1 0 0 0 -1 90265.dat
 1 4 -120 -192 0 0 0 1 0 1 0 -1 0 0 61649.dat
-1 15 -160.0 -120 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
+1 15 -160 -120 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
+1 4 0 -192 -120 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 65.5 -120 -160 1 0 0 0 1 0 0 0 1 90265.dat
 0 STEP
 
 0 // STEP 3 - twelve yellow corner bricks in four three-high stacks
-1 14 -120 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -96 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 120 -144 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 120 -192 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -96 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -144 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -192 -120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 120 -96 120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 120 -144 120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 120 -192 120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -96 120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -144 120 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 -120 -192 120 0 0 -1 0 1 0 1 0 0 3437.dat
 0 STEP
 
 0 // STEP 4 - four red roof ring bricks
-1 4 -40 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
 1 4 80 -240 -40 0 0 -1 0 1 0 1 0 0 3011.dat
-1 4 40 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -240 80 -1 0 0 0 1 0 0 0 -1 3011.dat
 1 4 -80 -240 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -40 -240 -80 -1 0 0 0 1 0 0 0 -1 3011.dat
 0 STEP
 
 0 // STEP 5 - three roof neck bricks, red centre with vertical bore
-1 4 0 -288 0 1 0 0 0 1 0 0 0 1 75349.dat
-1 14 0 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -288 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 80 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -80 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
 0 // STEP 6 - holed red top, green vertical axle and two pulley retainers
-1 4 0 -336 0 1 0 0 0 1 0 0 0 1 75349.dat
-1 2 0 -336 0 0 1 0 -1 0 0 0 0 1 6521.dat
-1 14 0 -356 0 1 0 0 0 0 -1 0 1 0 6527.dat
-1 14 0 -396 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 0 -336 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 2 0 -336 0 0 0 -1 -1 0 0 0 1 0 6521.dat
+1 14 0 -356 0 0 -1 0 0 0 -1 1 0 0 6527.dat
+1 14 0 -396 0 0 -1 0 0 0 -1 1 0 0 6527.dat
 0 STEP
 
 0 // STEP 7 - sideways handle beam and yellow40tooth output gear
-1 4 160 -456 -24 1 0 0 0 0 -1 0 1 0 75350.dat
-1 14 0 -516 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 4 24 -456 160 0 -1 0 0 0 -1 1 0 0 75350.dat
+1 14 0 -516 0 0 -1 0 0 0 -1 1 0 0 6530.dat
 0 STEP
 
 0 // STEP 8 - handle extension joined by two thin yellow2x4 plates
-1 4 560 -456 -24 1 0 0 0 0 -1 0 1 0 75350.dat
-1 14 360 -456 -48 1 0 0 0 0 -1 0 1 0 40666.dat
-1 14 360 -456 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 4 24 -456 560 0 -1 0 0 0 -1 1 0 0 75350.dat
+1 14 48 -456 360 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 14 -48 -456 360 0 1 0 0 0 1 1 0 0 40666.dat
 0 STEP
 
 0 // STEP 9 - input axle, red24tooth gear, yellow crank and lower retainer
-1 71 160 -516 0 0 1 0 -1 0 0 0 0 1 6522.dat
-1 4 160 -516 0 1 0 0 0 0 -1 0 1 0 6529.dat
-1 14 160 -556 0 0 0 1 0 -1 0 1 0 0 6526.dat
-1 14 160 -396 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 71 0 -516 160 0 0 -1 -1 0 0 0 1 0 6522.dat
+1 4 0 -516 160 0 -1 0 0 0 -1 1 0 0 6529.dat
+1 14 0 -556 160 -1 0 0 0 -1 0 0 0 1 6526.dat
+1 14 0 -396 160 0 1 0 0 0 1 1 0 0 6527.dat
 0 STEP
 
 0 // STEP 10 - bottom bearing axle and two hanging7hole arms supported by crank pins
-1 4 0 48 0 1 0 0 0 1 0 0 0 1 75349.dat
-1 71 0 72 0 0 0 1 0 1 0 -1 0 0 6522.dat
-1 14 0 72 -80 1 0 0 0 0 1 0 -1 0 6526.dat
-1 14 0 272 -120 1 0 0 0 0 1 0 -1 0 6524.dat
-1 14 0 72 80 -1 0 0 0 0 1 0 1 0 6526.dat
-1 14 0 272 120 -1 0 0 0 0 1 0 1 0 6524.dat
+1 4 0 48 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 71 0 72 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 80 72 0 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 120 272 0 0 1 0 0 0 1 1 0 0 6524.dat
+1 14 -80 72 0 0 -1 0 0 0 1 -1 0 0 6526.dat
+1 14 -120 272 0 0 -1 0 0 0 1 -1 0 0 6524.dat
 0 STEP
 
 0 // STEP 11 - final view, no new pieces

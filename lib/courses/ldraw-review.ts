@@ -333,6 +333,10 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-san-lun-che.ldr',
   '5-sheng-jiang-dian-ti.ldr',
   '5-tuo-gua-che.ldr',
+  // 2026-10-12 batch7 修好放回待确认：
+  '5-xiao-huo-che.ldr',
+  '5-xuan-yi-fei-ji.ldr',
+  '5-xuan-zhuan-deng-long.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'

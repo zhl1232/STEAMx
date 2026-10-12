@@ -434,31 +434,46 @@
       "slug": "5-tuo-yuan-ji",
       "class": "minor",
       "reason": "整体旋转约180°",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch7",
+      "returnedToPending": false,
+      "unfixedReason": "试转180°反而更差已撤回；连杆相位/踏板倾角仍不完全一致"
     },
     {
       "slug": "5-xiao-huo-che",
       "class": "minor",
       "reason": "视角偏后，后部颜色略暗",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-xuan-yi-fei-ji",
       "class": "minor",
       "reason": "整机水平旋转约90°",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-xuan-zhuan-deng-long",
       "class": "minor",
       "reason": "长臂朝向与课件不一致",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-zhe-die-ti",
       "class": "minor",
       "reason": "主体梯子正确，仅缺两腿间细黑拉线",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch7",
+      "returnedToPending": false,
+      "unfixedReason": "已有细示意线但仍淡；清晰黑绳实体未恢复"
     }
   ]
 }
