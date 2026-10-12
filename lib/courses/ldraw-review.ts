@@ -1,4 +1,5 @@
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
+import protectedModels from '../../scripts/ldraw-production-protected.json'
+import { mkdir, readdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
@@ -223,10 +224,136 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '3-liang-ting.ldr',
   '3-lun-chuan.ldr',
   '3-mao-mao-chong.ldr',
-
+  // 2026-10-12: 129 课开发稿（docs/ldraw-rebuild-20261011/HANDOFF-129.md @4a0a4a90），供用户确认。
+  '4-cha-che.ldr',
+  '4-chun-jie-wu-shi.ldr',
+  '4-ci-xuan-fu-lie-che.ldr',
+  '4-da-long-xia.ldr',
+  '4-da-xiang.ldr',
+  '4-dao-dan-che.ldr',
+  '4-diao-che.ldr',
+  '4-du-jiao-xian.ldr',
+  '4-ji-guan-qiang.ldr',
+  '4-ju-ji-qiang.ldr',
+  '4-jun-jian.ldr',
+  '4-ke-ji.ldr',
+  '4-kuai-ting.ldr',
+  '4-long-men-diao.ldr',
+  '4-mo-tian-lun.ldr',
+  '4-qian-shui-ting.ldr',
+  '4-qiu-qian.ldr',
+  '4-sai-che.ldr',
+  '4-sheng-jiang-jiu-yuan-che.ldr',
+  '4-shou-ge-ji.ldr',
+  '4-ta-diao.ldr',
+  '4-tang-lang.ldr',
+  '4-tui-tu-ji.ldr',
+  '4-tuo-gua-che.ldr',
+  '4-wa-li.ldr',
+  '4-wu-ren-ji.ldr',
+  '4-xie-zi.ldr',
+  '4-xuan-zhuan-fei-ji.ldr',
+  '4-ya-lu-ji.ldr',
+  '4-yi-long.ldr',
+  '4-zhi-sheng-ji.ldr',
+  '4-zhi-zhu.ldr',
+  '4-zhong-guo-long.ldr',
+  '4-zuan-tu-che.ldr',
+  '5-bing-qiu-yun-dong-yuan.ldr',
+  '5-ce-feng-yi.ldr',
+  '5-ce-ju-yi.ldr',
+  '5-cha-che.ldr',
+  '5-chou-you-ji.ldr',
+  '5-ci-xuan-fu-lie-che.ldr',
+  '5-da-cha-de-xiao-niu.ldr',
+  '5-da-di-shu.ldr',
+  '5-da-zhuang-ji.ldr',
+  '5-dan-che.ldr',
+  '5-dan-gan-yun-dong-yuan.ldr',
+  '5-di-qiu-yi.ldr',
+  '5-diao-che.ldr',
+  '5-diao-shan.ldr',
+  '5-e-yu.ldr',
+  '5-fan-chuan.ldr',
+  '5-fan-dou-che.ldr',
+  '5-feng-che-fang.ldr',
+  '5-ge-cao-ji.ldr',
+  '5-hai-dao-chuan.ldr',
+  '5-hu-die.ldr',
+  '5-hua-ban-che.ldr',
+  '5-huan-wei-che.ldr',
+  '5-huo-jian.ldr',
+  '5-ji-gu-shou.ldr',
+  '5-ji-xie-shou.ldr',
+  '5-jiao-ban-qi.ldr',
+  '5-kai-ye-zi-qi.ldr',
+  '5-la-ji-che.ldr',
+  '5-lan-che.ldr',
+  '5-long-men-diao.ldr',
+  '5-ma-tou-diao-ji.ldr',
+  '5-mian-bao-ji.ldr',
+  '5-nian-yao-ren-zai.ldr',
+  '5-ping-heng-da-shi.ldr',
+  '5-qi-dian-chuan.ldr',
+  '5-qing-sao-che.ldr',
+  '5-qing-ting.ldr',
+  '5-qiu-qian.ldr',
+  '5-re-qi-qiu.ldr',
+  '5-ren-li-shui-che.ldr',
+  '5-san-lun-che.ldr',
+  '5-sheng-jiang-dian-ti.ldr',
+  '5-shou-tui-fei-ji.ldr',
+  '5-shou-yao-zuan-zi.ldr',
+  '5-shuai-gan-ji.ldr',
+  '5-shuang-kai-da-men.ldr',
+  '5-shui-jing.ldr',
+  '5-shui-zha.ldr',
+  '5-si-qu-che.ldr',
+  '5-ta-diao.ldr',
+  '5-ti-xian-mu-ou.ldr',
+  '5-tian-ping.ldr',
+  '5-tou-lan-ji.ldr',
+  '5-tou-shi-che.ldr',
+  '5-tui-tu-ji.ldr',
+  '5-tuo-gua-che.ldr',
+  '5-tuo-yuan-ji.ldr',
+  '5-wo-lun-diao-qiao.ldr',
+  '5-xi-yi-ji.ldr',
+  '5-xiao-huo-che.ldr',
+  '5-xiao-niao-de-chi-bang.ldr',
+  '5-xiao-song-shu-qi-che.ldr',
+  '5-xuan-yi-fei-ji.ldr',
+  '5-xuan-zhuan-ai-xin.ldr',
+  '5-xuan-zhuan-can-ting.ldr',
+  '5-xuan-zhuan-deng-long.ldr',
+  '5-xuan-zhuan-fei-yi.ldr',
+  '5-xuan-zhuan-ka-fei-bei.ldr',
+  '5-xuan-zhuan-men.ldr',
+  '5-xuan-zhuan-mu-ma.ldr',
+  '5-xuan-zhuan-wu-tai.ldr',
+  '5-ya-lu-ji.ldr',
+  '5-ya-mian-ji.ldr',
+  '5-ya-shui-jing.ldr',
+  '5-yan-jing-she.ldr',
+  '5-yao-yao-che.ldr',
+  '5-yi-dong-guang-gao-pai.ldr',
+  '5-yu-er-de-wei-ba.ldr',
+  '5-yu-hang-yuan-xun-lian-ji.ldr',
+  '5-yu-shua-qi.ldr',
+  '5-zha-lan-sheng-jiang-gan.ldr',
+  '5-zhan-chi-gao-fei.ldr',
+  '5-zhe-die-ti.ldr',
+  '5-zhi-sheng-ji.ldr',
+  '5-zhu-ge-lian-nu.ldr',
+  '5-zhuan-wan-xiao-che.ldr',
 ] as const
 
-export type LdrawReviewStatus = 'pending' | 'confirmed' | 'untracked'
+export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
+
+/** Compatibility for consumers of the former two review outcomes. */
+export function legacyReviewStatusFor(status: LdrawReviewStatus): 'confirmed' | 'pending' {
+  return status === 'confirmed' ? 'confirmed' : 'pending'
+}
 export interface LdrawReviewRecord {
   revision: string
   confirmedAt: string
@@ -249,7 +376,14 @@ async function readRecord(fileName: string): Promise<LdrawReviewRecord | null> {
 }
 
 async function readRecords(): Promise<Record<string, LdrawReviewRecord>> {
-  const entries = await Promise.all(LDRAW_REVIEW_CANDIDATES.map(async (fileName) => ({ fileName, record: await readRecord(fileName) })))
+  let files: string[]
+  try {
+    files = (await readdir(REVIEW_DIR)).filter((name) => name.endsWith('.ldr.json')).map((name) => name.slice(0, -5))
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    return {}
+  }
+  const entries = await Promise.all(files.map(async (fileName) => ({ fileName, record: await readRecord(fileName) })))
   return entries.reduce<Record<string, LdrawReviewRecord>>((records, entry) => {
     if (entry.record) records[entry.fileName] = entry.record
     return records
@@ -270,10 +404,15 @@ export async function confirmLdrawModel(fileName: string, revision: string): Pro
   return record
 }
 
-export function reviewStatusFor(fileName: string, records: Record<string, LdrawReviewRecord>, revision?: string): LdrawReviewStatus {
-  if (!isLdrawReviewCandidate(fileName)) return 'untracked'
+export function isProductionProtected(fileName: string): boolean {
+  return protectedModels.models.includes(fileName.replace(/\.ldr$/, ''))
+}
+
+export function reviewStatusFor(fileName: string, records: Record<string, LdrawReviewRecord>, revision?: string, frozenRevision?: string): LdrawReviewStatus {
   const record = records[fileName]
-  return record && (!revision || record.revision === revision) ? 'confirmed' : 'pending'
+  if (!record) return isLdrawReviewCandidate(fileName) ? 'unconfirmed' : 'untracked'
+  if (isProductionProtected(fileName)) return 'confirmed'
+  return record.revision === revision || record.revision === frozenRevision ? 'confirmed' : 'changed'
 }
 
 export function reviewRecordFor(fileName: string, records: Record<string, LdrawReviewRecord>) {

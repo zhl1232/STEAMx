@@ -85,3 +85,29 @@ test('invalid confirmation timestamp and missing upload URL fail preflight', asy
   await writeFile(path.join(f.reviews, '3-toy.ldr.json'), JSON.stringify({ revision: hash(f.body), confirmedAt: new Date().toISOString() }))
   await assert.rejects(() => makePlan({ modelDir: f.models, reviewDir: f.reviews, only: ['3-toy'], assetsBaseUrl: '' }), /assets_base_url|required/i)
 })
+
+for (const selector of [{ only: ['3-shu-kou-bei'] }, { prefix: '3-shu-' }]) {
+  test(`protected models are skipped before validation: ${JSON.stringify(selector)}`, async () => {
+    const f = await fixture()
+    // Deliberately invalid and without a record: protected assets must never be inspected.
+    await writeFile(path.join(f.models, '3-shu-kou-bei.mpd'), 'invalid draft')
+    const output = []
+    const original = console.info
+    console.info = (value) => output.push(value)
+    try {
+      const plan = await makePlan({ modelDir: f.models, reviewDir: f.reviews, assetsBaseUrl: 'https://assets.test', ...selector })
+      assert.deepEqual(plan.items, [])
+      assert.equal(plan.color, undefined)
+      assert.deepEqual(plan.skipped, ['3-shu-kou-bei'])
+      assert.ok(output.some((line) => line.includes('跳过（线上已确认，受保护）')))
+      const fail = async () => { throw new Error('must not contact OSS') }
+      assert.deepEqual(await publishPlan(plan, { client: { head: fail, put: fail, get: fail } }), [])
+    } finally { console.info = original }
+  })
+}
+
+test('mixed selections publish only unprotected models', async () => {
+  const f = await fixture()
+  const plan = await makePlan({ modelDir: f.models, reviewDir: f.reviews, assetsBaseUrl: 'https://assets.test', only: ['3-toy', '3-shu-kou-bei'] })
+  assert.deepEqual(plan.items.map((item) => item.slug), ['3-toy'])
+})

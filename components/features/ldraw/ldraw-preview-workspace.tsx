@@ -33,18 +33,27 @@ import {
   splitMainModelSteps,
   splitPackedMpd,
 } from '@/lib/utils/ldraw-mpd'
+import type { LdrawReviewStatus } from '@/lib/courses/ldraw-review'
 import type { LdrawModelInfo } from '@/lib/courses/ldraw-packer'
 
 const COLOR_CONFIG_URL = '/courses/ldraw/LDConfig.ldr'
 
 type ViewPreset = 'iso' | 'top' | 'front' | 'side'
-type ReviewFilter = 'all' | 'pending' | 'confirmed'
+type ReviewFilter = 'all' | LdrawReviewStatus
+
+// Accept older API responses during development reloads.
+function normalizeReviewStatus(status: unknown, confirmedAt?: string | null): LdrawReviewStatus {
+  if (status === 'confirmed' || status === 'changed' || status === 'untracked' || status === 'unconfirmed') return status
+  return status === 'pending' && confirmedAt ? 'changed' : 'unconfirmed'
+}
 
 export function LdrawPreviewWorkspace() {
   const { toast } = useToast()
 
   // 模型列表与筛选
   const [models, setModels] = useState<LdrawModelInfo[]>([])
+  const [reviewRecordCount, setReviewRecordCount] = useState(0)
+  const [servedFrozenConfirmed, setServedFrozenConfirmed] = useState(false)
   const [loadingModels, setLoadingModels] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<'all' | '3+' | '4+' | '5+' | 'unpacked' | 'packed'>('all')
@@ -67,7 +76,8 @@ export function LdrawPreviewWorkspace() {
   })
   const [modelRevision, setModelRevision] = useState<string | null>(null)
   const [renderedVersion, setRenderedVersion] = useState<string | null>(null)
-  const [reviewStatus, setReviewStatus] = useState<'pending' | 'confirmed' | 'untracked'>('pending')
+  const [productionProtected, setProductionProtected] = useState(false)
+  const [reviewStatus, setReviewStatus] = useState<LdrawReviewStatus>('unconfirmed')
   const [canConfirm, setCanConfirm] = useState(false)
   const [confirming, setConfirming] = useState(false)
   const [confirmError, setConfirmError] = useState<string | null>(null)
@@ -120,7 +130,8 @@ export function LdrawPreviewWorkspace() {
         if (!res.ok) throw new Error('获取模型列表失败')
         const data = await res.json()
         if (!cancelled) {
-          setModels(data.models ?? [])
+          setModels((data.models ?? []).map((item: LdrawModelInfo) => ({ ...item, reviewStatus: normalizeReviewStatus(item.reviewStatus, item.confirmedAt) })))
+          setReviewRecordCount(data.reviewRecordCount ?? 0)
           setLoadingModels(false)
         }
       } catch (err) {
@@ -302,7 +313,9 @@ export function LdrawPreviewWorkspace() {
     loadAbortRef.current = abortController
     setRendering(true)
     setRenderError(null)
-    setReviewStatus('pending')
+    setReviewStatus('unconfirmed')
+    setProductionProtected(false)
+    setServedFrozenConfirmed(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setConfirmError(null)
@@ -330,15 +343,19 @@ export function LdrawPreviewWorkspace() {
         missingParts: data.missingParts || [],
       })
       setModelRevision(typeof data.revision === 'string' ? data.revision : null)
-      setReviewStatus(data.reviewStatus === 'confirmed' ? 'confirmed' : 'pending')
+      setProductionProtected(data.productionProtected === true)
+      setReviewStatus(normalizeReviewStatus(data.reviewStatus, data.confirmedAt))
+      setServedFrozenConfirmed(data.servedFrozenConfirmed === true)
       setCanConfirm(data.canConfirm === true)
       setModels((items) => items.map((item) => item.name === fileName ? {
         ...item,
-        reviewStatus: data.reviewStatus === 'confirmed' ? 'confirmed' : item.reviewStatus === 'untracked' ? 'untracked' : 'pending',
+        productionProtected: data.productionProtected === true,
+        reviewStatus: normalizeReviewStatus(data.reviewStatus, data.confirmedAt),
+        legacyReviewStatus: data.legacyReviewStatus,
         confirmedAt: data.confirmedAt ?? null,
       } : item))
       if (showToast) {
-        toast({ title: `已重新读取 ${fileName} 最新内容` })
+        toast({ title: data.servedFrozenConfirmed ? `已载入 ${fileName} 已确认发布版本` : `已重新读取 ${fileName} 最新内容` })
       }
     } catch (err) {
       if (requestId !== loadRequestIdRef.current || abortController.signal.aborted) return
@@ -367,7 +384,9 @@ export function LdrawPreviewWorkspace() {
     loadAbortRef.current = abortController
     setRendering(true)
     setRenderError(null)
-    setReviewStatus('pending')
+    setReviewStatus('unconfirmed')
+    setProductionProtected(false)
+    setServedFrozenConfirmed(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setCanConfirm(false)
@@ -396,7 +415,9 @@ export function LdrawPreviewWorkspace() {
         missingParts: data.missingParts || [],
       })
       setModelRevision(typeof data.revision === 'string' ? data.revision : null)
-      setReviewStatus('pending')
+      setReviewStatus('unconfirmed')
+      setProductionProtected(false)
+      setServedFrozenConfirmed(false)
       toast({ title: 'LDR 解析打包成功' })
     } catch (err) {
       if (requestId !== loadRequestIdRef.current || abortController.signal.aborted) return
@@ -613,7 +634,8 @@ export function LdrawPreviewWorkspace() {
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(data.error || '确认失败')
-      setModels((items) => items.map((item) => item.name === fileName ? { ...item, reviewStatus: 'confirmed', confirmedAt: data.confirmedAt ?? new Date().toISOString() } : item))
+      setModels((items) => items.map((item) => item.name === fileName ? { ...item, reviewStatus: 'confirmed', legacyReviewStatus: 'confirmed', confirmedAt: data.confirmedAt ?? new Date().toISOString() } : item))
+      setReviewRecordCount(data.reviewRecordCount)
       if (loadRequestIdRef.current !== requestId) return
       setReviewStatus('confirmed')
       setCanConfirm(false)
@@ -624,8 +646,12 @@ export function LdrawPreviewWorkspace() {
     }
   }
 
-  const pendingCount = models.filter((item) => item.reviewStatus === 'pending').length
+  const changedCount = models.filter((item) => item.reviewStatus === 'changed').length
+  const unconfirmedCount = models.filter((item) => item.reviewStatus === 'unconfirmed').length
+  const untrackedCount = models.filter((item) => item.reviewStatus === 'untracked').length
+  const protectedCount = models.filter((item) => item.reviewStatus === 'confirmed' && item.productionProtected).length
   const confirmedCount = models.filter((item) => item.reviewStatus === 'confirmed').length
+  const confirmedTotal = Math.max(confirmedCount, reviewRecordCount - changedCount)
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden bg-background text-foreground">
@@ -795,12 +821,14 @@ export function LdrawPreviewWorkspace() {
                 ))}
               </div>
               <div className="mb-2 flex flex-wrap gap-1 border-b pb-2">
-                {(['all', 'pending', 'confirmed'] as const).map((filter) => (
+                {(['all', 'confirmed', 'changed', 'unconfirmed', 'untracked'] as const).map((filter) => (
                   <button key={filter} onClick={() => setReviewFilter(filter)} className={cn('rounded-md px-2 py-0.5 text-[11px] font-medium', reviewFilter === filter ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-accent')}>
-                    {filter === 'all' ? `审核状态 (${models.length})` : filter === 'pending' ? `修复完待确认 (${pendingCount})` : `已确认 (${confirmedCount})`}
+                    {filter === 'all' ? `审核状态 (${models.length})` : filter === 'confirmed' ? `已确认 ${confirmedTotal}` : filter === 'changed' ? `有改动待复核 ${changedCount}` : filter === 'unconfirmed' ? `待确认 ${unconfirmedCount}` : `未跟踪 ${untrackedCount}`}
                   </button>
                 ))}
               </div>
+
+              <p className="mb-2 text-[11px] text-muted-foreground">确认记录总数 {reviewRecordCount}，其中已确认（线上版本）{protectedCount + Math.max(0, confirmedTotal - confirmedCount)}</p>
 
               {/* 模型列表 */}
               <div className="flex-1 overflow-y-auto space-y-1 pr-1">
@@ -828,15 +856,9 @@ export function LdrawPreviewWorkspace() {
                         <span className="font-mono text-xs font-semibold truncate">
                           {item.name}
                         </span>
-                        {item.reviewStatus === 'untracked' ? (
-                          <span className={cn('shrink-0 rounded px-1 text-[10px]', item.hasMpd ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground')}>
-                            {item.hasMpd ? '已生成' : '草稿'}
-                          </span>
-                        ) : (
-                          <span className={cn('shrink-0 rounded px-1 text-[10px]', item.reviewStatus === 'confirmed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-amber-500/10 text-amber-600 dark:text-amber-400')}>
-                            {item.reviewStatus === 'confirmed' ? '已确认' : '待确认'}
-                          </span>
-                        )}
+                        <span className={cn('shrink-0 rounded px-1 text-[10px]', item.reviewStatus === 'confirmed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : item.reviewStatus === 'changed' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-muted text-muted-foreground')}>
+                          {item.reviewStatus === 'confirmed' ? (item.productionProtected ? '已确认（线上版本）' : '已确认') : item.reviewStatus === 'changed' ? '有改动·待复核' : item.reviewStatus === 'unconfirmed' ? '待确认' : '未跟踪'}
+                        </span>
                       </div>
                       <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">
                         {item.title}
@@ -951,7 +973,7 @@ export function LdrawPreviewWorkspace() {
                 <p className="mt-1.5 text-[10px] text-muted-foreground">仅记录本地验收状态，不会发布模型。</p>
                 {confirmError ? <p className="mt-1 text-[11px] text-destructive">{confirmError}</p> : null}
               </div>
-            ) : reviewStatus === 'confirmed' ? <p className="mt-3 border-t pt-3 text-center text-[11px] text-emerald-600">当前版本已确认</p> : null}
+            ) : reviewStatus === 'confirmed' ? <p className="mt-3 border-t pt-3 text-center text-[11px] text-emerald-600">{productionProtected ? '已确认（线上版本）' : servedFrozenConfirmed ? '当前展示已确认的发布版本' : '当前版本已确认'}</p> : null}
           </div>
         </div>
 
