@@ -828,6 +828,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - `lib/project/science-reviewed.data.json`：首批 28 项「拓展探索」已转为正式内容，按 ID、标题匹配写入 27 项的 extension / extensionQuestions；907「欢叫的吸管」已退役，草稿丢弃，未应用到 1098 或其他项目。开发覆盖及草稿文件已移除，页面与小迪在 development / production / test 所有环境共享审核数据，其他字段不变。
 - 2026-10-11 第二批 28 项（含 1098）写入 `science-reviewed.data.json`，55 项拓展均已改为两段 + 3 问。
+- 2026-10-12 第三批 29 个幼儿园科教版项目从 legacy 迁入 `science-reviewed.data.json`，仅替换拓展为两段并新增 3 个小迪预填问题，正文不变；reviewed 共 84 项（activity 64 / preparation 11 / observation 9），legacy 剩余 30 项，总计 114 个唯一 ID。新增 29 项沿用 reviewed 页面覆盖与小迪科学上下文，不再受数据库正文一致性保护限制。范围与核验依据见 `docs/science-extensions-batch3-2026-10-12.md`。
 - 2026-10-11 科学步骤文案与吸管实验：15 项审核科学内容补全操作步骤；1098「吸管独奏」按已核实的完整版素材补全剪口、弯折和吹气步骤，改为 activity，当前 activity 35 / preparation 11 / observation 9。准备模式与普通项目共用步骤标题和数量，移除页面通用说明书提示，仅在确有需要的具体步骤中提说明书；小迪内部用量、配比和组装细节约束保持不变。`lib/project/science-kit-steps.test.ts` 防止劝退词与通用提示回归；仅修改本地内容与展示，无数据库变更。
 
 - 项目继任机制：`lib/project/project-successors.json` 为旧 ID → 继任 ID 的唯一映射源，`project-successors.ts` 提供冻结映射、合法性检查和退役判断；`next.config.mjs` 读取 JSON 生成详情及子路径的 HTTP 301，`app/sitemap.ts` 兜底排除退役项目并更新缓存键。旧数据保留，人工将 `projects.moderation_state` 改为 `hidden` 后由现有公开查询/RLS 排除；回滚为删除映射并恢复 moderation_state。
