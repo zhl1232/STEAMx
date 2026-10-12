@@ -137,3 +137,21 @@ describe("sitemap generation failures", () => {
     expect(select).toHaveBeenCalledWith("species", "slug, nature_topic, updated_at");
   });
 });
+
+
+it('shares the effective content dates with the project and Article without changing creation dates', async () => {
+  const { applyLedCardContent } = await import('@/lib/project/led-card')
+  const { applyScienceSample } = await import('@/lib/project/science-samples')
+  const { default: reviewed } = await import('@/lib/project/science-reviewed.data.json')
+  const { buildProjectJsonLd } = await import('@/lib/seo/json-ld')
+  for (const id of [149, 478, 738]) {
+    const sample = reviewed.find(row => row.id === id)
+    const row = { id, title: sample?.title ?? 'LED 发光贺卡', category: '科学', updated_at: '2026-03-24T00:00:00Z' }
+    const project = applyScienceSample(applyLedCardContent({ ...row, author: '作者', author_id: 'author', image: '', likes: 0, updatedAt: row.updated_at, createdAt: row.updated_at }))
+    const entries = buildSitemapEntries({ projects:[row], species:[], observations:[], courses:[], lessons:[], works:[], resources:[], challenges:[] })
+    const entry = entries.find(entry => new URL(entry.url).pathname === '/project/' + id)!
+    expect((entry.lastModified as Date).toISOString()).toBe(project.updatedAt)
+    const jsonLd = buildProjectJsonLd({ ...project, dateCreated: project.createdAt, dateModified: project.updatedAt })
+    expect(jsonLd['@graph']?.find(item => item['@type'] === 'Article')).toMatchObject({ dateModified: project.updatedAt, dateCreated: new Date(project.createdAt!).toISOString() })
+  }
+})

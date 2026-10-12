@@ -61,7 +61,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
             <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", isExploreVariant && "explore-card", className)}>
                 <div
                     className={cn(
-                        "surface-card surface-card-interactive group relative h-full overflow-hidden rounded-md",
+                        "surface-card surface-card-interactive has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary group relative h-full overflow-hidden rounded-md",
                         isVerticalCompact
                             ? "flex flex-col gap-0 p-0"
                             : isDenseCompact
@@ -69,13 +69,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 : "grid grid-cols-[128px_minmax(0,1fr)] gap-3 p-2.5 sm:flex sm:flex-col sm:gap-0 sm:p-0",
                     )}
                 >
-                    <Link
-                        href={detailHref}
-                        prefetch={false}
-                        scroll={scroll}
-                        className="absolute inset-0 z-0"
-                        aria-label={`查看项目：${project.title}`}
-                    />
 
                     <div
                         className={cn(
@@ -126,7 +119,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
                     <div
                         className={cn(
-                            "pointer-events-none relative flex min-w-0 flex-col justify-between gap-2",
+                            "pointer-events-none flex min-w-0 flex-col justify-between gap-2",
                             isVerticalCompact
                                 ? isExploreVariant ? "flex-1 gap-3 p-3" : "flex-1 p-3"
                                 : isDenseCompact
@@ -142,7 +135,10 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
                                 )}
                             >
-                                <SearchHighlight text={project.title} query={searchQuery} />
+                                <Link href={detailHref} prefetch={false} scroll={scroll}
+                                    className="pointer-events-auto after:absolute after:inset-0 after:z-0 after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-primary">
+                                    <SearchHighlight text={project.title} query={searchQuery} />
+                                </Link>
                             </h3>
 
                             {isVerticalCompact ? (
@@ -243,14 +239,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
     if (variant === "featured") {
         return (
             <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1.5", className)}>
-                <div className="surface-card surface-card-interactive group relative flex h-full flex-col overflow-hidden">
-                    <Link
-                        href={detailHref}
-                        prefetch={false}
-                        scroll={scroll}
-                        className="absolute inset-0 z-0"
-                        aria-label={`查看重点推荐项目：${project.title}`}
-                    />
+                <div className="surface-card surface-card-interactive has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary group relative flex h-full flex-col overflow-hidden">
 
                     <div className="pointer-events-none relative aspect-video w-full overflow-hidden bg-[hsl(var(--surface-muted))] xl:aspect-auto xl:min-h-[300px] xl:flex-1">
                         {imageSrc && !imageError ? (
@@ -306,10 +295,13 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         </div>
                     </div>
 
-                    <div className="pointer-events-none relative flex flex-col gap-3 p-4">
+                    <div className="pointer-events-none flex flex-col gap-3 p-4">
                         <div className="space-y-2">
                             <h3 className="line-clamp-2 text-[18px] font-extrabold leading-snug text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]">
-                                <SearchHighlight text={project.title} query={searchQuery} />
+                                <Link href={detailHref} prefetch={false} scroll={scroll}
+                                    className="pointer-events-auto after:absolute after:inset-0 after:z-0 after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-primary">
+                                    <SearchHighlight text={project.title} query={searchQuery} />
+                                </Link>
                             </h3>
                             <p className="line-clamp-2 text-[13px] leading-5 text-muted-foreground">
                                 <SearchHighlight
@@ -355,15 +347,7 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
     return (
         <div className={cn("transition-transform duration-300 hover:-translate-y-1.5", className)}>
-            <div className="surface-card surface-card-interactive group relative block overflow-hidden">
-                {/* Main Card Link Overlay */}
-                <Link
-                    href={detailHref}
-                    prefetch={false}
-                    scroll={scroll}
-                    className="absolute inset-0 z-0"
-                    aria-label={`查看项目：${project.title}`}
-                />
+            <div className="surface-card surface-card-interactive has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary group relative block overflow-hidden">
 
                 <div className="relative aspect-16/10 w-full overflow-hidden bg-muted pointer-events-none">
                     {imageSrc && !imageError ? (
@@ -420,10 +404,13 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     </div>
                 </div>
 
-                <div className={cn("relative flex flex-col gap-4 bg-linear-to-br from-background via-background to-muted/20 p-4 pointer-events-none", mobileCompact && "max-md:gap-3 max-md:p-3")}>
+                <div className={cn("flex flex-col gap-4 bg-linear-to-br from-background via-background to-muted/20 p-4 pointer-events-none", mobileCompact && "max-md:gap-3 max-md:p-3")}>
                     <div className={cn("space-y-2", mobileCompact && "max-md:space-y-1.5")}>
                         <h3 className={cn("flex-1 text-base font-semibold leading-snug transition-colors group-hover:text-primary", mobileCompact && "max-md:text-[15px] max-md:leading-5")}>
-                            <SearchHighlight text={project.title} query={searchQuery} />
+                            <Link href={detailHref} prefetch={false} scroll={scroll}
+                                className="pointer-events-auto after:absolute after:inset-0 after:z-0 after:content-[''] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-primary">
+                                <SearchHighlight text={project.title} query={searchQuery} />
+                            </Link>
                         </h3>
                         {mobileCompact && categoryLabel ? (
                             <ToneBadge tone={categoryTone} className="hidden w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-[10px] font-medium max-md:block">

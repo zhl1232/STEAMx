@@ -1,3 +1,4 @@
+import { effectiveUpdatedAt } from '@/lib/project/effective-updated-at';
 import type { MetadataRoute } from "next";
 import { unstable_cache } from "next/cache";
 
@@ -49,7 +50,7 @@ interface LessonRow extends TimestampedIdRow {
 }
 
 interface SitemapContentRows {
-  projects: TimestampedIdRow[];
+  projects: (TimestampedIdRow & { title?: string | null; category?: string | null })[];
   species: SpeciesRow[];
   observations: TimestampedIdRow[];
   courses: TimestampedIdRow[];
@@ -139,7 +140,7 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
 
   content.projects.filter(project => !isRetiredProject(project.id)).forEach((project) => {
     routes.push(sitemapEntry(`/project/${project.id}`, {
-      lastModified: toLastModified(project.updated_at),
+      lastModified: toLastModified(effectiveUpdatedAt({ ...project, updatedAt: project.updated_at })),
       changeFrequency: "weekly",
       priority: 0.8,
     }));
@@ -204,7 +205,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     const createProjectsQuery = () => {
       let query = supabase
         .from("projects")
-        .select("id, updated_at")
+        .select("id, title, category, updated_at")
         .eq("status", "approved")
         .eq("moderation_state", "approved");
       if (classificationSettings.enforcementEnabled) {
@@ -307,7 +308,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
 
 // Catalog visibility changes should reach crawlers within minutes of publication.
 // Bump the key when changing the policy so a deployment drops the old hourly snapshot.
-const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v5-project-successors"], { revalidate: 300 });
+const getCachedSitemap = unstable_cache(generateSitemap, ["public-sitemap-v6-effective-project-dates"], { revalidate: 300 });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return getCachedSitemap();

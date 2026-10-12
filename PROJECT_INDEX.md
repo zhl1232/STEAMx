@@ -840,3 +840,10 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `app/api/profile/ensure/route.ts`：POST 仅为当前已认证用户补建并限流，忽略客户端 userId；`daily-check-in-sync.tsx` 的 23503 恢复改调此接口，成功才重试签到，不再浏览器 upsert profiles。
 - `scripts/check-missing-profiles.mjs`、`scripts/lib/missing-profiles.mjs`：`pnpm ops:check-profiles` 分页只读用户与 profile id，报告脱敏缺失清单，退出码 0/1/2；纯函数与模拟网络测试在 `scripts/check-missing-profiles.test.ts`。
 - `.github/workflows/ops-readonly-missing-profiles.yml`：仅手动、Production 环境、contents: read、独立 concurrency 组；runner 用 Node 22 做两个脚本语法检查，scp/ssh 使用服务器连接 secrets 传入 `steam-app` 容器执行，复用 env_file 注入的 Supabase 环境，不依赖 GitHub Supabase secrets。保持相对 import 路径，EXIT trap 清理两端临时目录并保留 0/1/2 退出码。未来只需加每日 schedule 并配通知，当前不启用。部署授权、只应用此迁移、阿里云权限和未来 schedule/CI 接入见 `docs/ensure-profile.md`；此次未连接生产、未应用迁移。
+
+
+### 公开项目修改日期与卡片链接
+
+- lib/project/effective-updated-at.ts 统一取 DB 与已发布覆盖内容更新时间的较晚者；LED/科学映射写回 updatedAt，详情可见日期及 Article.dateModified 沿用该值，sitemap 使用同一函数并读取标题/分类以保持科学内容身份门禁。
+- published-content-dates.json 保存逐项目最后一次进入 main 的内容变更提交及时间（非草稿作者时间、文件时间或部署时刻）。初始值逐项比较 main 首父链 reviewed JSON；149 对应 #42，首批扩展 #49，次批 #56。以后发布正文/扩展/配图时，只更新实际变更项目的记录并保留可核查提交；未发布 legacy 草稿不参与日期覆盖。
+- project-card.tsx 各变体只有一个包含可见标题的 Link，以伪元素保留全卡点击区域；独立操作层级不变，无新增焦点或嵌套链接。

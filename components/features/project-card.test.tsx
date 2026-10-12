@@ -116,3 +116,18 @@ describe("ProjectCard explore variant", () => {
     expect(screen.getByTestId("explore-project-stats")).toHaveTextContent("0 点赞0 作品")
   })
 })
+
+
+describe.each(['default', 'featured', 'compact', 'explore'] as const)('ProjectCard %s title link', variant => {
+  it('links the visible highlighted title once, with no nested interactive elements', () => {
+    const { container } = render(<ProjectCard project={project} variant={variant} searchQuery="小车" href="/project/42/records" scroll={false} />)
+    const link = screen.getByRole('link', { name: /会跑的\s*小车/ })
+    expect(link).toHaveTextContent(project.title)
+    expect(link).toHaveAttribute('href', '/project/42/records')
+    expect(screen.getByRole('heading', { name: /会跑的\s*小车/ })).toContainElement(link)
+    expect(screen.getAllByRole('link')).toHaveLength(1)
+    expect(container.querySelector('a a, a button, a [tabindex]')).toBeNull()
+    link.focus()
+    expect(link).toHaveFocus()
+  })
+})
