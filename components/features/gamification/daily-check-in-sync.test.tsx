@@ -121,6 +121,7 @@ function renderSync(queryClient = new QueryClient({ defaultOptions: { queries: {
 describe("DailyCheckInSync", () => {
     afterEach(() => {
         vi.useRealTimers();
+        vi.unstubAllGlobals();
     });
 
     beforeEach(() => {
@@ -130,6 +131,7 @@ describe("DailyCheckInSync", () => {
         mockRpc.mockReset();
         mockToast.mockReset();
         mockUpsert.mockReset();
+        vi.stubGlobal("fetch", vi.fn(async () => Response.json({ ok: true, created: true })));
         mockLoggerError.mockReset();
         mockCheckBadges.mockReset();
         mockGamificationState.userStats = {
@@ -340,14 +342,8 @@ describe("DailyCheckInSync", () => {
             expect(mockRpc).toHaveBeenCalledTimes(2);
         });
 
-        expect(mockUpsert).toHaveBeenCalledWith(
-            expect.objectContaining({
-                id: "user-1",
-                display_name: "探索者",
-                avatar_url: expect.stringMatching(/^\/avatars\/default-\d+\.svg$/),
-            }),
-            { onConflict: "id", ignoreDuplicates: true },
-        );
+        expect(fetch).toHaveBeenCalledWith('/api/profile/ensure', { method: 'POST' });
+        expect(mockUpsert).not.toHaveBeenCalled();
         expect(mockRefreshProfile).toHaveBeenCalled();
         expect(mockCheckBadges).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -357,4 +353,18 @@ describe("DailyCheckInSync", () => {
         );
         expect(mockToast).toHaveBeenCalled();
     });
+    it.each([false, 'http', 'network'])('does not immediately retry RPC after failed recovery: %s', async failure => {
+        mockAuthState.user = makeUser();
+        mockRpc.mockResolvedValue({ data: null, error: { code: '23503', message: 'missing' } });
+        vi.mocked(fetch).mockImplementation(async () => {
+            if (failure === 'network') throw new Error('offline');
+            return Response.json({ ok: false }, { status: failure === 'http' ? 503 : 200 });
+        });
+        const view = renderSync();
+        await waitFor(() => expect(mockLoggerError).toHaveBeenCalled());
+        expect(mockRpc).toHaveBeenCalledTimes(1);
+        expect(mockUpsert).not.toHaveBeenCalled();
+        view.unmount();
+    });
+
 });

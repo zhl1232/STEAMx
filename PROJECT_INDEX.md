@@ -825,3 +825,11 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 - 项目继任机制：`lib/project/project-successors.json` 为旧 ID → 继任 ID 的唯一映射源，`project-successors.ts` 提供冻结映射、合法性检查和退役判断；`next.config.mjs` 读取 JSON 生成详情及子路径的 HTTP 301，`app/sitemap.ts` 兜底排除退役项目并更新缓存键。旧数据保留，人工将 `projects.moderation_state` 改为 `hidden` 后由现有公开查询/RLS 排除；回滚为删除映射并恢复 moderation_state。
 - 907、997、1010 均与 1098 重复，2026-10-11 起下线并 301 到 1098。审核内容迁入 1098「吸管独奏」，第一步改为自备吸管和杯子，仍为 55 项；本次仅准备代码，未连接数据库、未修改数据库状态。
+
+## 注册资料保障（2026-10-12，本地待上线）
+
+- `supabase/migrations/20261012100000_ensure_profile_on_signup.sql`：更新安全 definer 的 `handle_new_user`，username 校验/唯一竞态重试与注册失败隔离，按存在性挂 `on_auth_user_created`；避免非 owner 的 postgres DROP TRIGGER 权限问题。
+- `lib/auth/ensure-profile.ts`：server-only 幂等补资料；原生/旧短信登录、管理员建号、auth callback 共用，错误不阻断原响应。`default-display-name.ts` 增加可选 hex 后缀模式，其他调用保持原默认行为。
+- `app/api/profile/ensure/route.ts`：POST 仅为当前已认证用户补建并限流，忽略客户端 userId；`daily-check-in-sync.tsx` 的 23503 恢复改调此接口，成功才重试签到，不再浏览器 upsert profiles。
+- `scripts/check-missing-profiles.mjs`、`scripts/lib/missing-profiles.mjs`：`pnpm ops:check-profiles` 分页只读用户与 profile id，报告脱敏缺失清单，退出码 0/1/2；纯函数与模拟网络测试在 `scripts/check-missing-profiles.test.ts`。
+- `.github/workflows/ops-readonly-missing-profiles.yml`：仅手动、Production 环境、contents: read、独立 concurrency 组；runner 用 Node 22 做两个脚本语法检查，scp/ssh 使用服务器连接 secrets 传入 `steam-app` 容器执行，复用 env_file 注入的 Supabase 环境，不依赖 GitHub Supabase secrets。保持相对 import 路径，EXIT trap 清理两端临时目录并保留 0/1/2 退出码。未来只需加每日 schedule 并配通知，当前不启用。部署授权、只应用此迁移、阿里云权限和未来 schedule/CI 接入见 `docs/ensure-profile.md`；此次未连接生产、未应用迁移。
