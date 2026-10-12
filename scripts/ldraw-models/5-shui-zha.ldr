@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // BATCH2 page11-15 review: both existing non-BOM ropes connect top pulley grooves to gate hooks. Old audit screenshot predates rope geometry. Schematic routes retained; manual linkage review remains.
 0 // INCOMPLETE: source-based draft; other unresolved interfaces remain recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
 0 // Source page 1: Sidebuilt6x12gate:14yellow2x4plates,6bluebricks,2redholepegs,back6x12plate

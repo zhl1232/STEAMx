@@ -4,6 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
 0 // DEV ONLY incomplete: trolley motion, axle retention and guide interfaces unverified; cord route is schematic.
+0 // BATCH2: current step12 rope and step13 hook are present. Local courseware page13 is a DIFFERENT red/yellow Toolo gantry; audit pair uses blue/yellow rail gantry. Source-version match remains NOT FIXED.
 0 // SOURCE PAGE 1
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 14 -360 -48 -400 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -142,7 +143,7 @@
 1 0 0 -693.3464 -91 3 0 0 0 383.3464 0 0 0 3 s/steamx-rope.dat
 0 STEP
 0 // SOURCE PAGE 13
-0 // Known omission: 4663 hook; cannot hang without confirmed string. Pulley supported by p14 shaft after subassembly.
+0 // 75536 rope/hook assembly is present; pulley receives p14 shaft after subassembly.
 1 14 0 -729 -100 1 0 0 0 1 0 0 0 1 75536.dat
 1 14 0 -310 -91 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
 0 STEP

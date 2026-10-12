@@ -63,6 +63,69 @@
       "fixStatus": "fixed-ok-batch1",
       "returnedToPending": true,
       "unfixedReason": null
+    },
+    {
+      "slug": "5-da-cha-de-xiao-niu",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-da-di-shu",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-diao-che",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "课件/对照版本错配（Toolo vs Technic），绳虽已在但未整课验收"
+    },
+    {
+      "slug": "5-la-ji-che",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-lan-che",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "车厢框体已补，白色窗扇仍缺可靠件"
+    },
+    {
+      "slug": "5-long-men-diao",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "绳钩已在；课件/对照版本错配"
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-shui-jing",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "绳已在；课件/对照版本错配（杠杆井 vs 卷扬井）"
+    },
+    {
+      "slug": "5-shui-zha",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
     }
   ]
 }
