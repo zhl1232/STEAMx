@@ -205,3 +205,4 @@
 1 14 80 -696 120 1 0 0 0 1 0 0 0 1 40666.dat
 0 // Source p17 final view. Top plate layout and axial depths inferred from oblique images.
 0 // Pending user confirmation. No final render or physical verification.
+0 // Batch5 source review 2026-10-12: p15-17 top small raised detail already present: yellow40666 cap at(80,-696,+/-120), orange3437 top atY-672 leaves exposed end studs. Source BOM12 orange2x2 +2 yellow2x4 plates per slice matches; do not duplicate caps.

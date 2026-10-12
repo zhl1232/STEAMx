@@ -272,55 +272,82 @@
       "slug": "4-shou-ge-ji",
       "class": "minor",
       "reason": "颜色偏灰暗，收割刀盘表现不清（含已知省略排气管）",
-      "uncertain": "渲染偏暗，可能放大了颜色问题；建议在 dev 再看一眼"
+      "uncertain": "渲染偏暗，可能放大了颜色问题；建议在 dev 再看一眼",
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "刀盘无几何；颜色非 LDR 色号错误"
     },
     {
       "slug": "4-tang-lang",
       "class": "minor",
       "reason": "整体偏灰，绿色不明显（含已知省略排气管）",
-      "uncertain": "渲染偏暗，可能放大了颜色问题"
+      "uncertain": "渲染偏暗，可能放大了颜色问题",
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "绿色已在；排气管仍缺几何"
     },
     {
       "slug": "4-tui-tu-ji",
       "class": "minor",
       "reason": "推土铲颜色偏灰而非橙色",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "橙色铲刀仍缺身份/几何"
     },
     {
       "slug": "4-wu-ren-ji",
       "class": "minor",
       "reason": "四片旋翼与前置镜头缺失（已知缺旋翼几何）；臂架也偏简",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "镜头本已在；四片旋翼仍缺几何"
     },
     {
       "slug": "4-xiao-tu-zi",
       "class": "minor",
       "reason": "耳朵直立而非后仰，胡萝卜未贴近前爪",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "4-xie-zi",
       "class": "minor",
       "reason": "钳爪朝向与刺尾细节略差",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "尾姿已改善；钳爪朝向与尾钩仍未修好"
     },
     {
       "slug": "4-xuan-zhuan-fei-ji",
       "class": "minor",
       "reason": "已知缺机翼/尾翼类件，其余主体大致像",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "机翼/尾翼缺几何"
     },
     {
       "slug": "5-mian-bao-ji",
       "class": "minor",
       "reason": "吐司顶端小凸起细节缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-nian-yao-ren-zai",
       "class": "minor",
       "reason": "底座红块缺失",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "5-ping-heng-da-shi",
