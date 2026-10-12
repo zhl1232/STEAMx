@@ -36,6 +36,8 @@
 >
 > Token 计费验证：`lib/ai/tutor/billing.test.ts`、路由/引擎/前端回归，以及 `scripts/test-tutor-token-billing.mjs`（通过 `PGLITE_MODULE_PATH` 指定临时 PGlite）覆盖小数扣费、余额预算、权限、幂等、失败/过期释放、免费次数及跨月；SQL 测试使用隔离库，不代替真实多连接并发验证。两条代币迁移均需与应用协调发布；此变更未自动向远端应用迁移。
 
+> 小迪跨页面衔接（2026-10-11）：`components/features/tutor/tutor-carryover.ts` 管理同用户最近 20 条展示携带段（含分隔条），按 role+content 去重新场景历史；分隔标题随 session 更新，摘要取整个展示列表最近 assistant，携带时隐藏 greeting。未发文字/图片跨场景保留，换用户或开启新对话清空携带段；流式 scope 仍中止旧请求。POST 可带最近离开的 `previousContext`，只读本人该场景 active 会话最近 4 条、最多 1500 字纯文本（助手清洗），放在当前历史前，合并后仍走既有 6000 字历史预算；查询失败忽略。同场景忽略，计费及每场景会话存储不变，无数据库变更。
+
 > 小迪可靠性与体验修复（2026-09-20）：客户端按用户身份和场景隔离请求，场景切换/登录失效/新话题会取消旧流并复位忙碌状态，旧响应及语音转写不会覆盖新会话；新增“停止接收回复”（服务端仍可能继续保存）、保持请求身份的断流恢复，以及服务端确定失败后的重新尝试；历史归档失败保留原对话，发送中禁止归档。消息区保留用户上翻位置并提供“回到最新消息”；面板支持焦点进入/返回与 Escape 收起，输入框有可访问标签。`tutor-panel.module.css` 在手机端按 Visual Viewport 可见高度布置面板，避免键盘/短屏裁切发送区，主要触控按钮为 44px。
 >
 > 小迪等待优化：共享 DashScope 客户端仅对已知兼容的 tutor 混合推理模型显式设置 `enable_thinking: false`，自定义或固定推理模型不强加该参数；界面区分“准备资料”和“组织回答”。完整回复过滤仍保留，防止缺失起始标签的推理内容泄漏；不宣称恢复逐 token 展示。
@@ -294,6 +296,8 @@
 > 小迪移动端趴边（2026-10-04）：`tutor-fab-mascot.tsx` 在完整站立小迪与透明半身探头素材之间做短暂交叉淡入，完整露出头部、嫩芽和搭边的手；素材仅在移动端预加载并等待 decode，左侧镜像复用，加载失败保留原姿势。趴边素材使用 44px 画布补偿其较少的透明留白，与站立姿势约 30px 的可见头部对齐，按左右边分别锚定，切换时不突然放大。`use-tutor-fab-drag` 空闲 3 秒后把完整 80px 触控区域平移到最近屏幕边缘，`tutor-fab-dock.module.css` 用 280ms 无回弹缓动；触摸/拖拽期间取消位置补间并从当前可见位置跟手，持久化仍保存未停靠坐标。录音、回复和反馈动画期间暂停趴边，气泡始终留在对应屏幕边缘内；`prefers-reduced-motion` 同时关闭平移与姿势切换补间。
 
 > `/works/[id]` 详情页视觉层次：首屏明确展示作品标题与探索状态；无探索过程的作品使用带媒体计数与缩略图胶囊的作品展台，有探索过程时以时间线为首要内容并在时间线末尾突出最终成果，避免重复渲染主图；作者/支持、来源、探索时间线和留言区使用可辨识的内容面板，来源卡保留项目/课程课时上下文与返回入口，时间线记录卡在移动端保持连续滚动并保留 44px 级操作命中区。
+
+- `components/features/tutor/use-tutor-sheet.ts` + `tutor-mobile-sheet.tsx` — 小迪手机（<768px）三档 bottom sheet：默认半屏（52% 可视高度）、全屏（92%）、60px 摘要条；独立 hook 管理把手与 header 非按钮区域 pointer 拖动、吸附、键盘、pathname/hash/站内链接收起；快速滑动按当前档位一次升降一档，header 点击不切档。`global-tutor-fab.tsx` 接入页面聚焦工具收起，`tutor-sheet-inset.ts` 测量页面可见、贴底且宽度至少半屏/高度不超过 40% 的 fixed/sticky 底栏，排除装饰层与小迪自身；collapsed 期间通过 document.body MutationObserver（childList/subtree 与 class/style/hidden 属性）及 window/visualViewport resize 按帧合并测量；进入收起或路由变化后在 0/100/300/700/1500ms 补测，忽略小迪自身 DOM 变更且 inset 相同不更新状态，展开/关闭时清理 observer、定时器和待执行帧，与 `fabBottomInset` 取最大值，通过 `--tutor-sheet-collapsed-bottom` 保留 8px 间隙，无底栏则加安全区。`--tutor-sheet-collapsed-bottom` 仅在 collapsed 时写入 section；half/full 左右贴边、上圆角 16px、下圆角与底边框为 0，底部贴 visualViewport 并覆盖页面底栏，padding-bottom 仅保留安全区（无安全区为 0）。`tutor-panel.module.css` 使用 visualViewport 避让软键盘，键盘打开也不加底栏 inset；body 与消息列表通过 flex-1/min-h-0 分配剩余高度，composer/登录提示不收缩，把手保持 44px 触控区。回归覆盖三档 style 隔离、键盘及 CSS 底部留白约束。收起保留消息/草稿/待发图片，X/Escape 仍关闭；桌面与跨场景草稿清理逻辑不变。
 
 > 小迪行为更新（2026-08-17）：默认不主动把学生过去做过的项目、去过的地点或观察记录拿来做知识回答的收尾；只有用户主动询问个人记录，或回答确实依赖该经历时才自然引用。语音播放遇到浏览器 Web Audio/实时 PCM 失败时自动回退到整段音频，不能因为播放器故障打断文字回复。
 

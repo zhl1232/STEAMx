@@ -197,6 +197,8 @@ type SupabaseOptions = {
   profile?: typeof PROFILE | null
   conversation?: typeof CONVERSATION | null
   recentMessages?: Array<Record<string, unknown>>
+  previousMessages?: Array<Record<string, unknown>>
+  previousError?: boolean
   insertError?: Error | null
   updateConversationError?: Error | null
 }
@@ -221,7 +223,7 @@ function createTutorSupabaseMock(options: SupabaseOptions = {}) {
   const conversationMaybeSingle = vi.fn().mockResolvedValue({ data: conversation, error: null })
   const conversationLimit = vi.fn(() => ({ maybeSingle: conversationMaybeSingle }))
   const conversationOrder = vi.fn(() => ({ limit: conversationLimit }))
-  const fourthConversationEq = vi.fn(() => ({ order: conversationOrder }))
+  const fourthConversationEq = vi.fn(() => ({ order: conversationOrder, maybeSingle: vi.fn().mockResolvedValue({ data: { id: 'previous-id' }, error: options.previousError ? new Error('unavailable') : null }) }))
   const thirdConversationEq = vi.fn(() => ({ eq: fourthConversationEq }))
   const secondConversationEq = vi.fn(() => ({ eq: thirdConversationEq }))
   const firstConversationEq = vi.fn(() => ({ eq: secondConversationEq }))
@@ -233,7 +235,8 @@ function createTutorSupabaseMock(options: SupabaseOptions = {}) {
   }
   const messageLimit = vi.fn().mockResolvedValue(recentMessagesResult)
   const messageOrder = vi.fn(() => ({ limit: messageLimit }))
-  const messageEq = vi.fn(() => ({ order: messageOrder }))
+  const previousLimit = vi.fn().mockResolvedValue({ data: options.previousMessages ?? [], error: null })
+  const messageEq = vi.fn((_column: string, id: string) => ({ order: id === 'previous-id' ? vi.fn(() => ({ limit: previousLimit })) : messageOrder }))
   const messageSelect = vi.fn(() => ({ eq: messageEq }))
   const messageInsert = vi.fn().mockResolvedValue({
     data: null,
@@ -275,6 +278,12 @@ function createTutorSupabaseMock(options: SupabaseOptions = {}) {
       from,
     },
     messageInsert,
+    conversationSelect,
+    firstConversationEq,
+    secondConversationEq,
+    thirdConversationEq,
+    fourthConversationEq,
+    previousLimit,
     conversationUpdate,
   }
 }
@@ -365,6 +374,56 @@ describe('/api/tutor/chat route', () => {
       yield '，一起探索吧！'
       return '你好，一起探索吧！'
     })
+  })
+
+  it('reads only the authenticated previous active conversation and caps text at four messages / 1500 chars', async () => {
+    const db = createTutorSupabaseMock({ previousMessages: Array.from({ length: 6 }, (_, i) => ({
+      role: i % 2 ? 'user' : 'assistant', content: `${i}` + '字'.repeat(399), images: ['/private.png'],
+    })) })
+    createClientMock.mockResolvedValue(db.client as never)
+    await readSseEvents(await POST(createPostRequest({ contextType: 'project', contextId: 'new', content: '继续', previousContext: { contextType: 'project', contextId: 'old' } })))
+    const history = streamChatWithTutorMock.mock.calls[0][1]
+    expect(history[0].content).toContain('上一个页面（project）')
+    const previous = history.slice(1, -1)
+    expect(previous).toHaveLength(4)
+    expect(previous.reduce((total, m) => total + m.content.length, 0)).toBe(1500)
+    expect(previous.every((m) => !m.images)).toBe(true)
+    expect(previous.at(-1)?.content.startsWith('0')).toBe(true)
+    expect(db.previousLimit).toHaveBeenCalledWith(4)
+    expect(db.firstConversationEq).toHaveBeenCalledWith('user_id', USER_ID)
+    expect(db.secondConversationEq).toHaveBeenCalledWith('context_type', 'project')
+    expect(db.thirdConversationEq).toHaveBeenCalledWith('context_id', 'old')
+    expect(db.fourthConversationEq).toHaveBeenCalledWith('status', 'active')
+    expect(getTutorChatSession).not.toHaveBeenCalled()
+    expect(db.messageInsert).not.toHaveBeenCalled()
+    expect(db.conversationUpdate).not.toHaveBeenCalled()
+    expect(beginMock).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([undefined, { contextType: 'project', contextId: 'new' }])('ignores absent or same-session previousContext %s', async (previousContext) => {
+    const db = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(db.client as never)
+    await readSseEvents(await POST(createPostRequest({ contextType: 'project', contextId: 'new', content: '继续', previousContext })))
+    expect(db.conversationSelect).not.toHaveBeenCalled()
+    expect(streamChatWithTutorMock.mock.calls[0][1].map((m) => m.content)).toEqual(['继续'])
+  })
+
+  it('sanitizes previous assistant text while keeping user text and current history after it', async () => {
+    const db = createTutorSupabaseMock({
+      previousMessages: [{ role: 'assistant', content: '<think>内部分析</think>可以观察气泡。' }, { role: 'user', content: '标签 <think> 是什么？' }],
+      recentMessages: [{ role: 'assistant', content: '本页回复' }],
+    })
+    createClientMock.mockResolvedValue(db.client as never)
+    await readSseEvents(await POST(createPostRequest({ content: '继续', previousContext: { contextType: 'project', contextId: 'old' } })))
+    expect(streamChatWithTutorMock.mock.calls[0][1].slice(1).map((m) => m.content)).toEqual(['标签 <think> 是什么？', '可以观察气泡。', '本页回复', '继续'])
+  })
+
+  it('silently ignores previous-context query failures', async () => {
+    const db = createTutorSupabaseMock({ previousError: true })
+    createClientMock.mockResolvedValue(db.client as never)
+    const events = await readSseEvents(await POST(createPostRequest({ content: '继续', previousContext: { contextType: 'project', contextId: 'old' } })))
+    expect(events.some((event) => event.type === 'done')).toBe(true)
+    expect(streamChatWithTutorMock.mock.calls[0][1].map((m) => m.content)).toEqual(['继续'])
   })
 
   it('returns an empty anonymous payload without loading quota or profile data', async () => {

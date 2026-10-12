@@ -17,6 +17,16 @@ function props(): TutorMessageListProps {
 }
 
 describe('tutor reading experience', () => {
+  it('renders scene dividers without speech actions and leaves history detail separate', () => {
+    const initial = props()
+    const { rerender } = render(<TutorMessageList {...initial} messages={[{ role: 'divider', content: '现在在：小车' }]} />)
+    expect(screen.getByText('现在在：小车')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '朗读这条回复' })).not.toBeInTheDocument()
+    rerender(<TutorMessageList {...initial} messages={[{ role: 'divider', content: '现在在：小车' }]} view="historyDetail" historyDetail={{ id: 'old', title: '历史', archivedAt: null, messages: [{ role: 'assistant', content: '历史回复' }] }} />)
+    expect(screen.queryByText('现在在：小车')).not.toBeInTheDocument()
+    expect(screen.getByText('历史回复')).toBeInTheDocument()
+  })
+
   it('formats wallet, free, and unknown usage captions without inventing zero tokens', () => {
     expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0.123, outputTokens: 123, usageMissing: false, receiptId: 1 })).toBe('本次 0.123 代币 · 123 token')
     expect(formatTutorBillingCaption({ source: 'free', chargedCredits: 0, outputTokens: 456, usageMissing: false, receiptId: 2 })).toBe('本次免费 · 456 token')
@@ -43,7 +53,7 @@ describe('tutor reading experience', () => {
     const initial = props()
     const { rerender } = render(<TutorMessageList {...initial} isAuthenticated={false} />)
     expect(screen.queryByText('第一段')).not.toBeInTheDocument()
-    rerender(<TutorMessageList {...initial} isAuthenticated={false} view="historyDetail" historyDetail={{ id: 'private', title: '历史', archivedAt: null, messages: initial.messages }} />)
+    rerender(<TutorMessageList {...initial} isAuthenticated={false} view="historyDetail" historyDetail={{ id: 'private', title: '历史', archivedAt: null, messages: initial.messages.filter((message) => message.role !== 'divider') }} />)
     expect(screen.queryByText('第一段')).not.toBeInTheDocument()
   })
 })

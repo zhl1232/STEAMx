@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type Dispatch, type MutableRefObject, type SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
+import { carryTutorMessages, tutorDisplayMessages, type TutorDisplayMessage, type TutorPreviousContext } from './tutor-carryover'
 import { readTutorStreamEvents } from '@/components/features/tutor/tutor-stream-protocol'
 import {
   tutorSessionQueryKey,
@@ -47,6 +48,7 @@ export type TutorSendMessageFn = (text: string, images?: string[], options?: Tut
 export type UseTutorChatStreamOptions = {
   contextKey: string
   epoch?: number
+  sceneTitle?: string
   context: ResolvedTutorContext
   stageIndex?: number
   lessonStepIndex?: number
@@ -78,6 +80,7 @@ export type UseTutorChatStreamOptions = {
 export function useTutorChatStream({
   contextKey,
   epoch,
+  sceneTitle,
   context,
   stageIndex,
   lessonStepIndex,
@@ -105,6 +108,11 @@ export function useTutorChatStream({
   const queryClient = useQueryClient()
 
   const [messages, setMessages] = useState<TutorChatMessage[]>([])
+  const [carried, setCarried] = useState<TutorDisplayMessage[]>([])
+  const [previousContext, setPreviousContext] = useState<TutorPreviousContext>()
+  const [localRequestIds, setLocalRequestIds] = useState<ReadonlySet<string>>(() => new Set())
+  const displayMessages = tutorDisplayMessages(carried, messages, sceneTitle, localRequestIds)
+  const snapshotRef = useRef({ userId: user?.id, contextKey, context, stageIndex, displayMessages, epoch })
   const [busy, setBusy] = useState(false)
   const [toolPendingCount, setToolPendingCount] = useState(0)
   const [streamPhase, setStreamPhase] = useState<'preparing' | 'generating' | null>(null)
@@ -118,7 +126,9 @@ export function useTutorChatStream({
   const effectScopeRef = useRef(scope)
   useLayoutEffect(() => { scopeRef.current = scope }, [scope])
 
-  const resetChat = useCallback(() => {
+  const resetChat = useCallback((preserveCarry = false) => {
+    if (!preserveCarry) { setCarried([]); setPreviousContext(undefined) }
+    setLocalRequestIds(new Set())
     generationRef.current += 1
     streamAbortRef.current?.abort()
     streamAbortRef.current = null
@@ -136,8 +146,26 @@ export function useTutorChatStream({
   useEffect(() => {
     if (effectScopeRef.current !== scope) onStopSpeech()
     effectScopeRef.current = scope
-    resetChat()
+    const previous = snapshotRef.current
+    const switching = previous.contextKey !== contextKey && previous.userId === user?.id && Boolean(user?.id)
+    if (switching) {
+      const next = carryTutorMessages(previous.displayMessages)
+      setCarried(next)
+      setPreviousContext(next.length ? {
+        contextType: previous.context.contextType, contextId: previous.context.contextId,
+        stageIndex: previous.stageIndex, lessonId: previous.context.lessonId,
+        surface: previous.context.surface, gameKey: previous.context.playgroundGameKey,
+      } : undefined)
+    }
+    // Loading the new page's epoch must not erase the carried segment.
+    resetChat(switching || (previous.userId === user?.id && previous.epoch === undefined))
+    // The snapshot belongs to the last committed render, before the scope reset.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scope, resetChat, onStopSpeech])
+
+  useEffect(() => {
+    snapshotRef.current = { userId: user?.id, contextKey, context, stageIndex, displayMessages, epoch }
+  })
 
   useEffect(() => {
     return () => {
@@ -181,7 +209,7 @@ export function useTutorChatStream({
         return
       }
       const requestBody = options.retryBody ?? JSON.stringify({
-        requestId: crypto.randomUUID(), epoch,
+        requestId: crypto.randomUUID(), epoch, previousContext,
         contextType: context.contextType, contextId: context.contextId,
         content: trimmed, images: images ?? [], stageIndex, lessonId: context.lessonId,
         lessonStepIndex, lessonStepCount, scratchBlockTargetItemIndex,
@@ -190,6 +218,7 @@ export function useTutorChatStream({
         speak: Boolean(autoReadReplies || options.forceReadReply),
       })
       const { requestId, epoch: requestEpoch } = JSON.parse(requestBody) as { requestId: string; epoch: number }
+      setLocalRequestIds((current) => new Set([...current, requestId]))
       const generation = ++generationRef.current
       const requestScope = scopeRef.current
       const isCurrent = () => generationRef.current === generation && scopeRef.current === requestScope
@@ -498,6 +527,7 @@ export function useTutorChatStream({
     [
       user,
       epoch,
+      previousContext,
       context.contextType,
       context.contextId,
       context.lessonId,
@@ -537,6 +567,8 @@ export function useTutorChatStream({
   }, [busyRef, failedMessage, sendMessage])
 
   return {
+    displayMessages,
+    hasCarried: carried.length > 0,
     messages,
     setMessages,
     busy,
