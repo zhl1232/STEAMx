@@ -86,3 +86,4 @@
 1 4 140 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
 1 4 540 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
 1 4 540 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // Batch5 source review 2026-10-12: p1 red3437/2302 feet, p9 red4196 trough foundation and p11 eight red40666 rim plates already present. Rechecked p1/p9-12; no missing red foundation placement established. Do not duplicate red solids.

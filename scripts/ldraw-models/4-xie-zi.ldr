@@ -63,11 +63,11 @@
 0 STEP
 0 // Source page 9: rear fork base and first raised short tail arm
 1 72 -280 -48 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 72 -469.421356 -254.421356 0 -0.707107 0.707107 0 0.707107 0.707107 0 0 0 -1 dev-129/28334.dat
+1 72 -428.000000000 -286.205080757 0 -0.866025404 0.500000000 0.000000000 0.500000000 0.866025404 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
 0 STEP
 0 // Source page 10: two curled tail short arms; terminal hook not yet identified
-1 72 -269.421356 -254.421356 0 0 -1 0 1 0 0 0 0 1 dev-129/28334.dat
-1 72 -96.216275 -154.421356 0 0.5 -0.866025 0 -0.866025 -0.5 0 0 0 -1 dev-129/28334.dat
+1 72 -254.794919243 -386.205080757 0 -0.500000000 -0.866025404 0.000000000 -0.866025404 0.500000000 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
+1 72 -61.609753985 -334.441271736 0 0.258819045 -0.965925826 0.000000000 -0.965925826 -0.258819045 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
 0 STEP
 0 // Source page 11: ten red2x3 curved bricks cover body in five opposing pairs
 1 4 -160 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
@@ -84,3 +84,6 @@
 0 // PENDING: All Toolo pivots and scoop clamp fits remain source-inferred approximate geometry, not physical validation.
 0 // PENDING: Six leg angles45deg, horizontal claws and three tail segment angles are display poses inferred from source; central final/step pixel comparison required.
 0 // Source page 12: finished view, no duplicated placements.
+0 // Batch5 p9-10/p12: raised three-link curled tail, lower pivot fixed (-328,-113,0); adjacent 200LDU pivots coincide. Angles remain source-inferred.
+0 // Batch5 UNRESOLVED: terminal hook 6295 confirmed in existing source-identity research, licensed geometry unavailable; still omitted.
+0 // Batch5 UNRESOLVED: p8 scoop opening/clip pose cannot be certified from approved approximate 6294 geometry; do not invent or mirror shell geometry.

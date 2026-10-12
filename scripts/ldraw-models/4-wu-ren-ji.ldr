@@ -54,3 +54,4 @@
 1 72 0 -48 208 1 0 0 0 -1 0 0 0 -1 28336.dat
 1 71 0 -72 273 1 0 0 0 0 -1 0 1 0 99565.dat
 0 // Camera rim holder joints are inferred; final sourcep9 changes viewpoint only.
+0 // Batch5 source review 2026-10-12: p8 camera already present: gray99565 rim at(0,-72,273), on front face of inverted28336 base. Opposite-side view exposes it; do not duplicate. p4 four dev-129/28331 arms remain approved simplified geometry; p6 four6670c01 rotors still omitted. INCOMPLETE.

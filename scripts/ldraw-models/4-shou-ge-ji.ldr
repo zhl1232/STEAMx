@@ -68,3 +68,4 @@
 1 4 40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 4 120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 // Source page9 final opposite-side view; no added parts.
+0 // Batch5 source review 2026-10-12: p4/p6/p8-9 red4/yellow14 body and front supports already match source color families. p5 four blade disks remain omitted (86601 alias; geometry missing), as do p6 cage45146/exhaust4433c01. Not a gray-part recolor fix; INCOMPLETE.
