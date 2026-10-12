@@ -2,6 +2,8 @@
 0 Name: 4-you-wen.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // Batch2 p1-12 review: all3 crossbeam blocks,4 red tail bricks, head clutch/brick/arm,2 wheels and2 long arms are present. No source-backed missing hammer.
+0 // Source p12 shows opposite side to p11; compare with camera from -X. Existing proper rotations retained; no invented pump assembly.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE REVIEW: tail board and head clutch mounting angles inferred; Toolo parts approximate.
 0 // All 12 source pages actually viewed. No physical verification.

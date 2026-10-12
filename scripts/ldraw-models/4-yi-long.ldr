@@ -2,6 +2,7 @@
 0 Name: 4-yi-long.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p12 eyes lifted to upper red head and moved to outer4-stud sides. p14 source wings are BLACK, p8 yellow bricks retained. No yellow wing skin in source. Blue Toolo shells and4 unidentified orange rakes remain omitted.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -23,7 +24,7 @@
 0 STEP
 0 // Source page 4: rear fork and long tail arm
 1 72 -80 -144 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 72 -410.842712 -491.842712 0 -0.707107 0.707107 0 0.707107 0.707107 0 0 0 -1 dev-129/28331.dat
+1 72 -410.842712 -491.842712 0 -0.7071067811865476 0.7071067811865476 0 0.7071067811865476 0.7071067811865476 0 0 0 -1 dev-129/28331.dat
 0 STEP
 0 // Source page 5: front fork and vertical long neck
 1 72 160 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
@@ -55,8 +56,8 @@
 0 // Source page 12: two upper red Toolo bricks and paired wheel eyes
 1 4 248 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
 1 4 248 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 71 208 -693 -64 1 0 0 0 0 1 0 -1 0 99565.dat
-1 71 208 -693 64 1 0 0 0 0 -1 0 1 0 99565.dat
+1 71 208 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 208 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
 0 STEP
 0 // Source page 13: known Toolo blue wing45117c01 and tail31239c01 omitted: missing verified geometry
 0 STEP

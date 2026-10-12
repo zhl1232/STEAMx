@@ -7,31 +7,42 @@
       "slug": "4-da-xiang",
       "class": "clearly_wrong",
       "reason": "缺象鼻和蓝色装饰件（课件有）；身侧颜色也偏黑，Toolo 机翼/尾翼已知省略但主体仍明显不对",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-ju-ji-qiang",
       "class": "clearly_wrong",
       "reason": "枪管前段约一半缺失，枪口准星不见，整体轮廓明显变短",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-ke-ji",
       "class": "clearly_wrong",
       "reason": "飞机颜色偏黑、朝向相反，塔体比例也与课件差一截",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-sai-che",
       "class": "clearly_wrong",
       "reason": "中段车身/轮组与课件差很多，后翼等关键部位缺失或不完整（含已知省略的排气管/尾翼）",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-tuo-gua-che",
       "class": "clearly_wrong",
       "reason": "拖车围栏整块缺失，驾驶室颜色/细节也与课件不符",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "后墙五块侧装砖支撑网格未解；围栏本就有"
     },
     {
       "slug": "4-wa-li",
@@ -46,7 +57,9 @@
       "slug": "4-xiang-wei-she",
       "class": "clearly_wrong",
       "reason": "尾段堆了多余黄砖块，头部姿态与课件不一致，另有散件感",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-ya-lu-ji",
@@ -61,19 +74,25 @@
       "slug": "4-yi-long",
       "class": "clearly_wrong",
       "reason": "黄色翼面与头部彩色细节缺失，剪影明显不完整（含已知省略 Toolo 翼/尾）",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-you-wen",
       "class": "clearly_wrong",
       "reason": "抽油机顶部横梁/锤头机构缺失大半",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-zhi-zhu",
       "class": "clearly_wrong",
       "reason": "身色偏黑橙而非课件黄黑，前部灰杆眼睛缺失，腿结构也不同",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
     },
     {
       "slug": "4-zhong-guo-long",
