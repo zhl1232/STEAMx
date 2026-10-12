@@ -182,6 +182,83 @@
       "fixStatus": "unfixed-ok-batch3",
       "returnedToPending": false,
       "unfixedReason": "中央蓝轴与黄轮已补、外框直立；第6步顶部传动仍缺"
+    },
+    {
+      "slug": "4-e-yu",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "黑色准星对应 2223，本地无几何且官方/非官方 DAT 404，未代用"
+    },
+    {
+      "slug": "4-qing-ting",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-qiu-qian",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-e-yu",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-hai-dao-chuan",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "本地分步明确下层为黄船体；外轮廓黄缘差异未解清，未擅自改蓝"
+    },
+    {
+      "slug": "5-huo-jian",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ji-gu-shou",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-xiao-niao-de-chi-bang",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "绿色短十字轴缺可靠轴长/编号，6521 过长，继续省略"
     }
   ]
 }

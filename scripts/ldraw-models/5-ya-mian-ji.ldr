@@ -73,3 +73,4 @@
 1 14 -120 -48 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
 1 14 120 -48 -400 0 0 -1 0 -1 0 -1 0 0 3011.dat
 0 // Source page6 final. Loose tray shafts are not substituted or fabricated.
+0 // ok-batch4 UNFIXED: local p5/6 shows two short green cross-axles in tray; available Duplo6521 (320 LDU) exceeds160 LDU cavity, no scaling or invented part ID.

@@ -72,7 +72,7 @@
 1 4 -120 -498.206041 181.979313 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 40666.dat
 0 // PENDING: Source 10pages actually viewed. Gear IDs distinguish yellow40tooth6530,red24tooth6529,bluecrown31622; axle lengths and hidden end capture remain inferred.
 0 // PENDING: Crown gears use perpendicular axes; actual mesh relative to red gears not accepted until key-angle render and interface review.
-0 // PENDING: Selected wings tilt30degrees symmetrically; source shows one articulated state, no duplicate subassemblies.
+0 // ok-batch4 p9/10: current wing roots are already15/50degrees upward, asymmetrical as local source; do not flatten them.
 0 // PENDING: P3beam vertical registration and head/tail stud attachments need finalpixel review; no physical motion certification.
 0 // PENDING: Finalpixel correction raises two wings to15/50degree upward poses and seats head on beak. Crown gear engagement remains unresolved; approx16LDU edge gap is not accepted as a functional mesh. New finalrender required.
 0 // Source page 10: finished view, no duplicated placements.
