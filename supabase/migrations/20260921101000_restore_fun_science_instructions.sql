@@ -1,4 +1,4 @@
--- Restore 22 fun-science projects from their own videos; see docs/fun-science-content-2026-09-21.md.
+-- Restore 22 fun-science projects from their own videos; see docs/archive/content/2026-09-21/fun-science-content.md.
 -- Apply after content review and authorization using pnpm db:push.
 BEGIN;
 SET LOCAL request.jwt.claim.role = 'service_role';

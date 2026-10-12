@@ -1,4 +1,4 @@
-# STEAMX · 史迪姆 — 全局设计规范
+# 创探空间 — 全局设计规范
 
 > 面向 3–16 岁儿童与青少年、家长与教师。界面应鼓励式、清晰、偏探索感；桌面端优先宽容器，信息分区清楚。
 > 本规范与 [`/design-system`](../app/design-system/page.tsx) 展示页、`app/globals.css` 及 `components/ui/*` 保持一致。
