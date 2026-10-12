@@ -1,4 +1,5 @@
 0 5+ Basketball launcher - source reconstruction draft
+0 // OK-BATCH3 2026-10-12: P7-P9 current geometry already has the two full 6525 launch levers, four 6526 cup cranks and blue 22119 ball. Old pairs render is stale; current render matches courseware P10. Cup seating remains a static pose, not a launch test.
 0 Name: 5-tou-lan-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model

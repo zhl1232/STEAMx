@@ -4,7 +4,8 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28; all twelve pages actually viewed.
-0 // INCOMPLETE: page7 material inset omits2 visibly added long lever beams; extra2 beams required pending source-BOM clarification. Basket cranks and payload omitted pending pin orientation evidence.
+0 // OK-BATCH3: P9 extensions are actual 6525 11-hole parts; P10-P11 static cup pose is inferred and outer retainer stack remains UNFIXED. No claim of a source-exact basket.
+0 // INCOMPLETE: P7 inset includes the two long beams; source count corrected after full-size local review. Basket cranks and blue payload restored; outer retainer depth remains unresolved, UNFIXED.
 0 // SOURCE PAGE 1: two red chassis hole bricks
 1 4 0 -48 -40 1 0 0 0 1 0 0 0 1 75350.dat
 1 4 0 -48 40 1 0 0 0 1 0 0 0 1 75350.dat
@@ -52,7 +53,6 @@
 0 // SOURCE PAGE 7: green apex bearing axle, two outside retainers and two visible lever beams omitted from source material callout
 1 14 0 -501.575681 -20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
 1 14 0 -501.575681 20 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
-0 // SOURCE BOM DISCREPANCY p7: two6525 lever beams visibly appear, but material inset lists only axle+two pulleys. Recorded as2 extra required beams, not silently counted as p6 supports.
 1 2 0 -501.575681 0 0 0 1 0 1 0 -1 0 0 6521.dat
 1 14 0 -501.575681 -140 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 0 -501.575681 140 1 0 0 0 1 0 0 0 1 6527.dat
@@ -64,9 +64,9 @@
 1 14 -173.205081 -401.575681 60 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 -173.205081 -401.575681 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // SOURCE PAGE 9: two seven-hole extension rails and two grey linking axles
-1 14 207.846097 -621.575681 -60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6524.dat
-1 14 207.846097 -621.575681 60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6524.dat
+0 // SOURCE PAGE 9: two eleven-hole extension rails (local P9 inset) and two grey linking axles
+1 14 277.128129303 -661.575681 -60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
+1 14 277.128129303 -661.575681 60 0.5 0 0.866025404 0.866025404 0 -0.5 0 1 0 6525.dat
 1 7 103.923048 -561.575681 0 0 0 1 0 1 0 -1 0 0 6522.dat
 1 7 173.205081 -601.575681 0 0 0 1 0 1 0 -1 0 0 6522.dat
 1 14 173.205081 -601.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat
@@ -75,11 +75,20 @@
 1 14 103.923048 -561.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat
 1 14 103.923048 -561.575681 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // SOURCE PAGE 10: basket far shaft and retainers; four crank poses unresolved and omitted
-0 // OMITTED p10 basket axle and two retainers together with unresolved cranks; not placed as unsupported partial basket.
-0 // OMITTED p10 four 6526 cranks: bent pin orientation and attachment depth obscured.
+0 // SOURCE PAGE 10: source basket crank pairs, main holes on grey shaft; pins meet above the lever rails.
+0 // UNFIXED: outer basket retainers omitted: source 6L shaft cannot retain +/-100 crank bodies plus outside 40-LDU pulleys; exact depth unresolved.
+1 7 415.692193816 -741.575681 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 415.692193816 -741.575681 -20 0.5 0.0 -0.866025404 -0.866025404 0.0 -0.5 0.0 1.0 0.0 6526.dat
+1 14 415.692193816 -741.575681 20 -0.5 0.0 -0.866025404 0.866025404 0.0 -0.5 0.0 -1.0 0.0 6526.dat
+1 14 415.692193816 -741.575681 -100 0.5 0.0 -0.866025404 -0.866025404 0.0 -0.5 0.0 1.0 0.0 6526.dat
+1 14 415.692193816 -741.575681 100 -0.5 0.0 -0.866025404 0.866025404 0.0 -0.5 0.0 -1.0 0.0 6526.dat
 0 STEP
-0 // SOURCE PAGE 11: basket near shaft and retainers; four cranks and payload support omitted
-0 // OMITTED p11 basket axle and two retainers together with unresolved cranks/payload.
-0 // OMITTED p11 four 6526 cranks and one blue3437 payload until basket support is established.
+0 // SOURCE PAGE 11: source basket crank pairs, main holes on grey shaft; pins meet above the lever rails.
+0 // UNFIXED: outer basket retainers omitted: source 6L shaft cannot retain +/-100 crank bodies plus outside 40-LDU pulleys; exact depth unresolved.
+1 7 346.410161514 -701.575681 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 346.410161514 -701.575681 -20 1.0 0.0 0.0 0.0 0.0 -1.0 -0.0 1.0 0.0 6526.dat
+1 14 346.410161514 -701.575681 20 -1.0 0.0 0.0 -0.0 0.0 -1.0 -0.0 -1.0 0.0 6526.dat
+1 14 346.410161514 -701.575681 -100 1.0 0.0 0.0 0.0 0.0 -1.0 -0.0 1.0 0.0 6526.dat
+1 14 346.410161514 -701.575681 100 -1.0 0.0 0.0 -0.0 0.0 -1.0 -0.0 -1.0 0.0 6526.dat
+1 1 317.410161514 -831.80515442 0 0.866025404 0.5 0 -0.5 0.866025404 0 0 0 1 3437.dat
 0 // Source page12 final. Current beam assignment/angles are provisional static visual hypothesis, not source-verified mechanical assembly.

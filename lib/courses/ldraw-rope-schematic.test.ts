@@ -9,7 +9,10 @@ import { resolveLdrawPart } from './ldraw-part-mapping'
 import inventories from './ldraw-kit-inventories.json'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
 
-// Source integration regression: exercise the real local packer and the same
+// Source integration regression:
+// ok-batch3: 5-ta-diao / 5-tian-ping rebuilt to local Toolo courseware without ropes;
+// they are no longer in this rope schematic matrix.
+// exercise the real local packer and the same
 // step/material APIs used by the lesson pages, without database or network IO.
 const models = [
   ['5-lan-che', 1, 17],
@@ -20,9 +23,7 @@ const models = [
   ['5-re-qi-qiu', 4, 12],
   ['5-shui-jing', 2, 13],
   ['5-shui-zha', 2, 14],
-  ['5-ta-diao', 1, 15],
   ['5-ti-xian-mu-ou', 2, 9],
-  ['5-tian-ping', 4, 10],
   ['4-long-men-diao', 0, 12],
   ['5-long-men-diao', 1, 14],
 ] as const
@@ -100,8 +101,6 @@ it.each(models)('%s packs ropes without adding schematic materials', async (slug
 it.each([
   ['5-re-qi-qiu', 1, 4, 2, 2],
   ['5-re-qi-qiu', 2, 4, 4, 0],
-  ['5-tian-ping', 1, 4, 2, 2],
-  ['5-tian-ping', 2, 4, 4, 0],
   ['5-lan-che', 1, 1, 1, 0],
 ] as const)('%s with 9656 ×%s accounts for complete 75536 assemblies', async (slug, copies, needs, matched, missing) => {
   const packed = await packLocalLdrawModel(`${slug}.ldr`)
