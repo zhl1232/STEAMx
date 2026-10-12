@@ -8,9 +8,7 @@ import {
   FlaskConical,
   Heart,
   Leaf,
-  Lightbulb,
   MapPin,
-  UsersRound,
 } from "lucide-react";
 
 import { MobileShortcutCarousel } from "@/components/home/mobile-shortcut-carousel";
@@ -29,9 +27,8 @@ import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
 import {
   BRAND_FULL_NAME,
   BRAND_HERO_SUBTITLE,
+  BRAND_HOME_HERO_GUIDE,
   BRAND_HOME_HERO_TITLE,
-  BRAND_POSITIONING,
-  BRAND_TAGLINE,
 } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +36,7 @@ const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
-const homeHeroTitleLines = BRAND_HOME_HERO_TITLE.split("，").filter(Boolean);
+const homeHeroTitleLines = BRAND_HOME_HERO_TITLE.match(/[^，]+，?/g) ?? [BRAND_HOME_HERO_TITLE];
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -90,100 +87,77 @@ function formatCategoryTileCountLabel(source: HomeCategoryCountSource, counts: H
   return `${nf.format(counts[source.category])} 个项目`;
 }
 
-const homeHeroFeatures = [
-  { icon: FlaskConical, label: "动手实践", color: "text-[hsl(var(--brand-blue))]" },
-  { icon: Lightbulb, label: "跨学科融合", color: "text-[hsl(var(--brand-amber))]" },
-  { icon: UsersRound, label: "社区协作", color: "text-[hsl(var(--tone-science))]" },
-  { icon: Leaf, label: "自然探索", color: "text-[hsl(var(--brand-green))]" },
-] as const;
-
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
-      <div className="relative min-h-[176px] max-[379px]:min-h-[164px] min-[390px]:min-h-[184px] md:min-h-[340px] lg:min-h-[370px] xl:min-h-[390px]">
+      <div className="relative">
         <Image
           src={image}
-          alt="孩子们在湖边进行 STEAM 实验"
+          alt=""
           width={1672}
           height={941}
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-0 h-full w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
+          className="absolute inset-x-0 bottom-0 h-[210px] w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
         />
         <Image
           src={heroWideImage}
-          alt="孩子们在湖边进行 STEAM 实验"
+          alt=""
           fill
           priority
           loading="eager"
           sizes="1800px"
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        <div className="absolute inset-x-0 top-0 h-[132px] bg-[linear-gradient(180deg,rgba(248,252,255,0.78)_0%,rgba(248,252,255,0.62)_38%,rgba(248,252,255,0.24)_72%,rgba(248,252,255,0)_100%)] dark:bg-[linear-gradient(180deg,rgba(6,12,22,0.62)_0%,rgba(6,12,22,0.46)_38%,rgba(6,12,22,0.16)_72%,rgba(6,12,22,0)_100%)] md:hidden" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/40 to-transparent md:hidden" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[210px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] md:hidden" />
 
-        <div className="relative z-10 flex min-h-[192px] flex-col justify-start px-4 pb-0 pt-3.5 max-[379px]:min-h-[184px] min-[390px]:min-h-[200px] md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
-          <div className="max-w-[276px] min-[390px]:max-w-[308px] md:max-w-[310px] lg:max-w-[410px] xl:max-w-[460px]">
+        <div className="relative z-10 flex min-h-[370px] flex-col justify-start px-4 pb-36 pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+          <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               {BRAND_FULL_NAME}
             </p>
-            <h1 className="font-heading text-[22px] font-black leading-none tracking-normal text-foreground dark:[text-shadow:0_2px_10px_rgba(0,0,0,0.28)] min-[390px]:text-[24px] md:mt-2.5 md:text-[36px] md:leading-[1.12] lg:text-[48px] xl:text-[52px]">
-              <span className="md:hidden" aria-label={BRAND_TAGLINE}>
-                <span className="text-[hsl(var(--brand-blue))]">探索</span>
-                <span className="px-1.5 text-foreground">·</span>
-                <span className="text-[hsl(var(--brand-green))]">创造</span>
-                <span className="px-1.5 text-foreground">·</span>
-                <span className="text-[hsl(var(--brand-amber))]">成长</span>
-              </span>
-              <span className="hidden md:block" aria-label={BRAND_HOME_HERO_TITLE}>
-                {homeHeroTitleLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </span>
+            <h1
+              aria-label={BRAND_HOME_HERO_TITLE}
+              className="font-heading text-[clamp(1.375rem,6.4vw,1.75rem)] font-black leading-[1.22] tracking-normal text-foreground md:mt-2.5 md:text-[32px] md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
+            >
+              {homeHeroTitleLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
             </h1>
 
-            <p className="mt-1.5 whitespace-nowrap text-[15px] font-bold leading-tight tracking-[0.02em] text-foreground dark:text-white dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:text-[16px] md:hidden">
-              {BRAND_HOME_HERO_TITLE}
-            </p>
-            <p className="mt-1 max-w-[17.5rem] text-[12px] font-medium leading-snug tracking-[0.01em] text-foreground/72 dark:text-white/78 dark:[text-shadow:0_1px_8px_rgba(0,0,0,0.35)] min-[390px]:max-w-[19rem] min-[390px]:text-[13px] md:hidden">
-              {BRAND_POSITIONING}
-            </p>
-            <p className="mt-3 hidden max-w-[500px] text-[15px] leading-7 text-muted-foreground md:block lg:text-[16px]">
+            <p className="mt-3 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:text-[15px] md:leading-7 lg:text-[16px]">
               {BRAND_HERO_SUBTITLE}
             </p>
+            <p className="mt-1.5 max-w-[30rem] text-[13px] leading-5 text-muted-foreground md:text-[14px] md:leading-6">
+              {BRAND_HOME_HERO_GUIDE}
+            </p>
 
-            <div className="mt-5 hidden flex-wrap gap-3 md:flex">
+            <div className="mt-4 flex flex-wrap items-center gap-2 md:mt-5 md:gap-3">
+              <Link
+                href="/courses"
+                className={cn(
+                  buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
+                  "group h-11 gap-2 px-4 text-[14px] font-semibold md:px-6",
+                )}
+              >
+                挑一节免费课程
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </Link>
               <Link
                 href="/explore"
                 className={cn(
-                  buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
-                  "group h-11 gap-2 px-6 text-[14px] font-semibold",
+                  buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
+                  "h-11 px-4 text-[14px] font-semibold md:px-6",
                 )}
               >
-                开始探索项目
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                看看动手项目
               </Link>
-
             </div>
-
-          </div>
-
-          <div className="mt-auto grid w-full max-w-[300px] grid-cols-4 gap-1.5 pt-2 text-white/80 max-[379px]:hidden min-[390px]:max-w-[320px] min-[390px]:gap-2 md:hidden">
-            {homeHeroFeatures.map((item) => (
-              <div
-                key={item.label}
-                className="flex min-h-[28px] items-center justify-center gap-0.5 px-0.5 py-0.5 text-center drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] min-[390px]:gap-1"
-              >
-                <item.icon className="h-[11px] w-[11px] shrink-0 text-white/76 min-[390px]:h-3 min-[390px]:w-3" strokeWidth={2.2} />
-                <span className="whitespace-nowrap text-[10px] font-semibold leading-none tracking-normal text-white/78">{item.label}</span>
-              </div>
-            ))}
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -281,7 +255,7 @@ function MainlineStartCard({ className }: { className?: string }) {
           积木搭建，从这里开始
         </h3>
         <p className="mt-0.5 line-clamp-1 text-[11px] leading-4 text-muted-foreground md:text-[13px] md:leading-5">
-          免费积木课，跟着 3D 步骤动手搭
+          免费积木课，跟着 3D 步骤一起搭
         </p>
       </div>
       <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[hsl(var(--brand-blue))] px-3.5 py-1.5 text-[12px] font-bold text-white shadow-xs transition duration-300 group-hover:translate-x-0.5 group-hover:bg-[hsl(var(--brand-blue)/0.9)] md:inline-flex">

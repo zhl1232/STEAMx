@@ -69,7 +69,7 @@ describe("buildWebsiteJsonLd", () => {
       name: "创探空间",
       alternateName: ["创探空间 STEAM"],
       url: "https://steam.bj.cn/",
-      description: "少儿 STEAM 项目式学习平台",
+      description: "帮家长陪孩子找项目、动手做",
       slogan: "探索 · 创造 · 成长",
       logo: {
         "@type": "ImageObject",
@@ -85,7 +85,7 @@ describe("buildWebsiteJsonLd", () => {
       "@id": "https://steam.bj.cn/#website",
       name: "创探空间",
       url: "https://steam.bj.cn/",
-      description: expect.stringContaining("少儿 STEAM 项目式学习平台"),
+      description: expect.stringContaining("帮助家长陪孩子找到感兴趣的动手项目"),
       inLanguage: "zh-CN",
       publisher: { "@id": "https://steam.bj.cn/#organization" },
     });

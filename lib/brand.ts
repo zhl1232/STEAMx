@@ -16,16 +16,22 @@ export const BRAND_TAGLINE = "探索 · 创造 · 成长";
  */
 export const BRAND_HERO_TITLE = "兴趣是最好的老师";
 /**
- * Homepage hero headline (desktop + mobile only). Desktop splits it into lines at "，";
- * mobile shows it on one line under the BRAND_TAGLINE slogan.
+ * Homepage hero headline (desktop + mobile only). Both layouts may split it at "，"
+ * so the parent-facing message stays readable on narrow screens.
  */
-export const BRAND_HOME_HERO_TITLE = "从兴趣出发，在动手中成长";
+export const BRAND_HOME_HERO_TITLE = "陪孩子找个有趣的项目，一起动手做。";
 /** Homepage hero subtitle shown under the headline. */
-export const BRAND_HERO_SUBTITLE = "在真实项目中动手探索，学会拆解问题、持续迭代。";
-/** Full hero statement (headline + subtitle) for places that need one sentence. */
-export const BRAND_HERO_STATEMENT = `${BRAND_HERO_TITLE}。${BRAND_HERO_SUBTITLE}`;
+export const BRAND_HERO_SUBTITLE = "搭积木、做小实验、学编程，去自然里观察。";
+/** A practical next step shown with the homepage activities and free-course entry. */
+export const BRAND_HOME_HERO_GUIDE = "从孩子想做的开始，跟着指导一步步尝试。";
+/**
+ * Educational statement used by welcome/contact messages. Keep it independent
+ * from homepage activity copy and aligned with the deployed welcome-message default.
+ */
+export const BRAND_HERO_STATEMENT =
+  `${BRAND_HERO_TITLE}。在真实项目中动手探索，学会拆解问题、持续迭代。`;
 
-export const BRAND_POSITIONING = "少儿 STEAM 项目式学习平台";
+export const BRAND_POSITIONING = "帮家长陪孩子找项目、动手做";
 
 /** Core educational belief — short tagline (about / brand docs; not SEO title spam). */
 export const BRAND_CORE_TAGLINE =
@@ -39,7 +45,7 @@ export const BRAND_OFFICIAL_URL = "https://steam.bj.cn";
 
 /** Default meta / Open Graph description; keep aligned with the visible hero copy. */
 export const BRAND_DESCRIPTION =
-  `${BRAND_FULL_NAME}是面向 3–16 岁孩子的${BRAND_POSITIONING}。兴趣是最好的老师：孩子在积木搭建、科学实验、自然观察和编程项目中动手发现问题、尝试解决、获得成功反馈。`;
+  `${BRAND_FULL_NAME}帮助家长陪孩子找到感兴趣的动手项目，提供积木搭建、科学小实验、编程和自然观察的内容与指导。先挑一节免费课程，一起动手做。`;
 
 /** Extra names search engines may use for the brand entity (never the legacy STEAMX / 史迪姆 names). */
 export const BRAND_ALTERNATE_NAMES = [`${BRAND_NAME} STEAM`] as const;
