@@ -786,6 +786,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 13. LDraw 课程状态
 
+- 2026-10-12 绳索开发稿：13 个指定 `scripts/ldraw-models/{4,5}-*.ldr` 用黑色、半径 3 LDU 的 `parts/s/steamx-rope.dat` 圆柱表示绳索（非 BOM 示意，长度/路径按课件近似）。`parts/75536.dat` 是同原点/方向的 6527 轮体本地组合件；每套轮+28L 绳+4663 钩只计一个 75536，钩用 `parts/s/steamx-75536-hook.dat` 子件独立放置，不重复计料。中班龙门吊例外：灰 6527/黑 4663 为待确认的普通计料替身，75536 数量为 0。`lib/courses/ldraw-rope-schematic.test.ts` 覆盖 13 稿完整/分步打包与 BOM 排除、75536 数量，以及 9656 单套只有 2 套绳钩时热气球/天平各缺 2 套的材料核算；未修改已发布 MPD 或数据库。
+
 - 3+ 的 100 个模型与小班课程 100 个课时已确认并完成生产发布，当前入口见 `docs/ldraw-status.md`，精确哈希与发布校验见 `docs/ldraw-published-2026-09-15.md`。
 - 4+/5+ 草稿继续保留独立状态。2026-09-10 至 09-15 的逐次修复过程已迁至 `docs/archive/ldraw/project-index-ldraw-history-2026-09-15.md`，不再把过期“待确认”结论留在当前导航。
 - 课程模型发布走已确认 MPD → 哈希命名 OSS 资产 → 课时字段更新，详见 `docs/ldraw-publishing.md`；首次启用 OSS 运行时读取需要应用部署，后续纯模型/文档变更跳过 Docker 镜像。
