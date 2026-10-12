@@ -432,7 +432,7 @@ export function ExplorationRecordGroupCardSkeleton() {
           </div>
           <Skeleton className="h-6 w-14 rounded-full" />
         </header>
-        <Skeleton className="mx-3.5 aspect-[16/10] rounded-sm" />
+        <Skeleton className="mx-3.5 aspect-[16/10] rounded-sm md:aspect-[4/3]" />
         <div className="space-y-2 px-3.5 pb-3 pt-2.5">
           <Skeleton className="h-3 w-20 rounded-full" />
           <Skeleton className="h-4 w-full rounded-full" />
@@ -561,7 +561,7 @@ export function ProjectRecordsPageSkeleton() {
         className="sticky top-0 z-30 border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
         rightSlot={<Skeleton className="h-8 w-14 rounded-full" />}
       />
-      <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-2xl">
+      <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-6xl md:pt-8">
         <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1">
           <div className="flex items-center gap-2">
             <Skeleton className="h-7 w-7 rounded-full" />
@@ -577,7 +577,7 @@ export function ProjectRecordsPageSkeleton() {
           </div>
           <Skeleton className="h-8 w-20 shrink-0 rounded-full" />
         </section>
-        <div className="space-y-5">
+        <div className="space-y-5 md:grid md:grid-cols-2 md:gap-6 md:space-y-0 xl:grid-cols-3">
           <ExplorationRecordGroupCardSkeleton />
           <ExplorationRecordGroupCardSkeleton />
         </div>

@@ -1,11 +1,18 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import CoinsPage from "./page";
 import { getActionLabel } from "./action-label";
 
-const mockUseQuery = vi.fn();
-const mockRefetch = vi.fn();
+const { mockRange, mockSelect, mockEq, mockOrder } = vi.hoisted(() => ({
+  mockRange: vi.fn(), mockSelect: vi.fn(), mockEq: vi.fn(), mockOrder: vi.fn(),
+}));
+
+function renderPage() {
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
+  return render(<QueryClientProvider client={client}><CoinsPage /></QueryClientProvider>);
+}
 
 function setViewport(width: number) {
   Object.defineProperty(window, "matchMedia", {
@@ -51,32 +58,27 @@ vi.mock("@/lib/context/gamification-context", () => ({
 vi.mock("@/lib/supabase/client", () => ({
   createClient: () => ({
     from: vi.fn(() => ({
-      select: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      order: vi.fn(),
+      select: mockSelect.mockReturnThis(),
+      eq: mockEq.mockReturnThis(),
+      order: mockOrder.mockReturnThis(),
+      range: mockRange,
     })),
   }),
 }));
 
-vi.mock("@tanstack/react-query", () => ({
-  useQuery: (...args: unknown[]) => mockUseQuery(...args),
-}));
-
 describe("CoinsPage", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
     setViewport(390);
-    mockUseQuery.mockReturnValue({
+    mockRange.mockResolvedValue({
       data: [],
-      isLoading: false,
-      isError: false,
+      count: 0,
       error: null,
-      refetch: mockRefetch,
     });
   });
 
-  it("renders challenge prize logs with a human-readable label", () => {
-    mockUseQuery.mockReturnValue({
+  it("renders challenge prize logs with a human-readable label", async () => {
+    mockRange.mockResolvedValue({
       data: [
         {
           id: 1,
@@ -88,40 +90,42 @@ describe("CoinsPage", () => {
           counterparty_display_text: "挑战第1名奖励",
         },
       ],
-      isLoading: false,
-      isError: false,
+      count: 1,
       error: null,
-      refetch: mockRefetch,
     });
 
-    render(<CoinsPage />);
+    renderPage();
 
-    expect(screen.getByText("挑战第1名奖励")).toBeInTheDocument();
+    expect(await screen.findByText("挑战第1名奖励")).toBeInTheDocument();
     expect(screen.queryByText("challenge_prize")).not.toBeInTheDocument();
   });
 
+  it.each([390, 768, 1440])("keeps the shop reachable from the wallet at %ipx", (width) => {
+    setViewport(width);
+    renderPage();
+    expect(screen.getByRole("link", { name: "去兑换装扮" })).toHaveAttribute("href", "/shop");
+  });
+
   it("uses a center-style mobile header without a back button", () => {
-    render(<CoinsPage />);
+    renderPage();
 
     expect(screen.getByRole("heading", { name: "硬币", level: 1 })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "返回上一页" })).not.toBeInTheDocument();
   });
 
+  it("adds a historical balance entry when current coins exceed logged transactions", async () => {
+    renderPage();
 
-
-  it("adds a historical balance entry when current coins exceed logged transactions", () => {
-    render(<CoinsPage />);
-
-    expect(screen.getAllByText("历史结余")).not.toHaveLength(0);
+    expect(await screen.findAllByText("历史结余")).not.toHaveLength(0);
     expect(screen.getByText("早期余额或系统同步，未记录到具体流水")).toBeInTheDocument();
     expect(screen.getByText("共 1 条")).toBeInTheDocument();
   });
 
-  it("renders today's transaction time only once to keep desktop and mobile metadata consistent", () => {
+  it("renders today's transaction time only once to keep desktop and mobile metadata consistent", async () => {
     const createdAt = new Date(Date.now() - 60_000).toISOString();
     const expectedTime = new Date(createdAt).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" });
 
-    mockUseQuery.mockReturnValue({
+    mockRange.mockResolvedValue({
       data: [
         {
           id: 1,
@@ -133,33 +137,88 @@ describe("CoinsPage", () => {
           counterparty_display_text: null,
         },
       ],
-      isLoading: false,
-      isError: false,
+      count: 1,
       error: null,
-      refetch: mockRefetch,
     });
 
-    render(<CoinsPage />);
+    renderPage();
 
-    expect(screen.getAllByText(expectedTime)).toHaveLength(1);
+    expect(await screen.findAllByText(expectedTime)).toHaveLength(1);
   });
 
-  it("shows a retry state when coin logs fail to load", () => {
-    mockUseQuery.mockReturnValue({
+  it("shows a retry state when coin logs fail to load", async () => {
+    mockRange.mockResolvedValue({
       data: [],
-      isLoading: false,
-      isError: true,
+      count: null,
       error: new Error("coin logs unavailable"),
-      refetch: mockRefetch,
     });
 
-    render(<CoinsPage />);
+    renderPage();
 
-    expect(screen.getByText("加载记录失败")).toBeInTheDocument();
+    expect(await screen.findByText("加载记录失败")).toBeInTheDocument();
     expect(screen.getByText("coin logs unavailable")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "刷新重试" }));
-    expect(mockRefetch).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(mockRange).toHaveBeenCalledTimes(2));
+  });
+
+  const logs = Array.from({ length: 41 }, (_, index) => ({
+    id: 41 - index,
+    user_id: "11111111-1111-1111-1111-111111111111",
+    amount: 1,
+    action_type: "challenge_prize",
+    resource_id: null,
+    created_at: "2026-03-20T12:00:00.000Z",
+    counterparty_display_text: `奖励 ${index + 1}`,
+  }));
+
+  it.each([390, 1440])("loads 20 records per page and hides the button at the end at %ipx", async (width) => {
+    setViewport(width);
+    mockRange.mockImplementation(async (from: number, to: number) => ({
+      data: logs.slice(from, to + 1), count: logs.length, error: null,
+    }));
+    renderPage();
+    expect(await screen.findByText("奖励 20")).toBeInTheDocument();
+    expect(screen.queryByText("奖励 21")).not.toBeInTheDocument();
+    expect(screen.queryByText("历史结余")).not.toBeInTheDocument();
+    expect(screen.getByText("共 41 条")).toBeInTheDocument();
+    expect(mockSelect).toHaveBeenCalledWith(expect.any(String), { count: "exact" });
+    expect(mockEq).toHaveBeenCalledWith("user_id", logs[0].user_id);
+    expect(mockOrder).toHaveBeenCalledWith("id", { ascending: false });
+    expect(mockRange).toHaveBeenLastCalledWith(0, 19);
+
+    let resolvePage!: (value: unknown) => void;
+    mockRange.mockImplementationOnce(() => new Promise((resolve) => { resolvePage = resolve; }));
+    fireEvent.click(screen.getByRole("button", { name: "加载更多" }));
+    expect(await screen.findByRole("button", { name: "加载中..." })).toBeDisabled();
+    expect(screen.getByText("奖励 1")).toBeInTheDocument();
+    await act(async () => { resolvePage({ data: logs.slice(20, 40), count: 41, error: null }); });
+    expect(await screen.findByText("奖励 40")).toBeInTheDocument();
+    expect(mockRange).toHaveBeenLastCalledWith(20, 39);
+    expect(screen.queryByText("奖励 41")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "加载更多" }));
+    expect(await screen.findByText("奖励 41")).toBeInTheDocument();
+    expect(screen.getByText("奖励 1")).toBeInTheDocument();
+    expect(mockRange).toHaveBeenLastCalledWith(40, 59);
+    expect(screen.queryByRole("button", { name: "加载更多" })).not.toBeInTheDocument();
+    expect(screen.getAllByText("历史结余")).not.toHaveLength(0);
+    expect(screen.getByText("共 42 条")).toBeInTheDocument();
+  });
+
+  it("keeps loaded rows and retries the same page after a load-more failure", async () => {
+    mockRange.mockResolvedValueOnce({ data: logs.slice(0, 20), count: 40, error: null })
+      .mockResolvedValueOnce({ data: null, count: null, error: new Error("unavailable") })
+      .mockResolvedValueOnce({ data: logs.slice(20, 40), count: 40, error: null });
+    renderPage();
+    fireEvent.click(await screen.findByRole("button", { name: "加载更多" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("加载更多失败，请重试");
+    expect(screen.getByText("奖励 1")).toBeInTheDocument();
+    expect(screen.queryByText("历史结余")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "加载更多" }));
+    expect(await screen.findByText("奖励 40")).toBeInTheDocument();
+    expect(mockRange.mock.calls).toEqual([[0, 19], [20, 39], [20, 39]]);
+    expect(screen.queryByRole("button", { name: "加载更多" })).not.toBeInTheDocument();
   });
 });
 

@@ -110,13 +110,14 @@ export function ExplorationRecordGroupCard({
             </span>
           </header>
 
-          <div className="relative mx-3.5 aspect-[16/10] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
+          <div className="relative mx-3.5 aspect-[16/10] md:aspect-[4/3] overflow-hidden rounded-sm bg-[hsl(var(--surface-muted))]">
             {image ? (
               <OptimizedImage
                 src={image}
                 alt={`${group.author} 的${recordLabel}`}
                 fill
                 variant="grid"
+                sizes="(max-width: 767px) 46vw, (max-width: 1279px) 50vw, 360px"
                 className="object-cover transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
               />
             ) : (
