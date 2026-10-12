@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF batch07 manifest, SHA256 10a10ad5fe1d90d98a10de8a6f9553143f45931e77c2eaab9d90f006e11cbde1
-0 // STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.
+0 // STATUS: INCOMPLETE; PPT slides 07-20 and finished image reviewed 2026-10-12, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.
 0 // STEP 1 - three black screw bricks beneath green6x12 body plate
@@ -14,18 +14,7 @@
 1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 
-0 // STEP 2 - two side legs, each decorated with two red and one yellow thin2x4 plates
-1 0 -187.3616114660535 99.17540966287268 -168 -0.3420201433256687 0 0.9396926207859084 0.9396926207859084 0 0.3420201433256687 0 1 0 76395.dat
-1 4 -160.0 24.0 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
-1 14 -187.3616114660535 99.17540966287268 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
-1 4 -214.72322293210698 174.35081932574536 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
-1 0 -187.3616114660535 99.17540966287268 168 -0.3420201433256687 0 -0.9396926207859084 0.9396926207859084 0 -0.3420201433256687 0 -1 0 76395.dat
-1 4 -160.0 24.0 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
-1 14 -187.3616114660535 99.17540966287268 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
-1 4 -214.72322293210698 174.35081932574536 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
-0 STEP
-
-0 // STEP 3 - two side legs, each decorated with two red and one yellow thin2x4 plates
+0 // STEP 2 - slide-08: two straight legs, each decorated with two red and one yellow thin2x4 plates
 1 0 160.0 104.0 -168 -0.0 0 1.0 1.0 0 0.0 0 1 0 76395.dat
 1 4 160.0 24.0 -192 1.0 0.0 0.0 0.0 0.0 -1.0 0 1 0 40666.dat
 1 14 160.0 104.0 -192 1.0 0.0 0.0 0.0 0.0 -1.0 0 1 0 40666.dat
@@ -34,6 +23,17 @@
 1 4 160.0 24.0 192 -1.0 0.0 0.0 0.0 0.0 -1.0 0 -1 0 40666.dat
 1 14 160.0 104.0 192 -1.0 0.0 0.0 0.0 0.0 -1.0 0 -1 0 40666.dat
 1 4 160.0 184.0 192 -1.0 0.0 0.0 0.0 0.0 -1.0 0 -1 0 40666.dat
+0 STEP
+
+0 // STEP 3 - slide-09: two angled legs, each decorated with two red and one yellow thin2x4 plates
+1 0 -187.3616114660535 99.17540966287268 -168 -0.3420201433256687 0 0.9396926207859084 0.9396926207859084 0 0.3420201433256687 0 1 0 76395.dat
+1 4 -160.0 24.0 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
+1 14 -187.3616114660535 99.17540966287268 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
+1 4 -214.72322293210698 174.35081932574536 -192 0.939693 0.0 0.34202 0.34202 0.0 -0.939693 0 1 0 40666.dat
+1 0 -187.3616114660535 99.17540966287268 168 -0.3420201433256687 0 -0.9396926207859084 0.9396926207859084 0 -0.3420201433256687 0 -1 0 76395.dat
+1 4 -160.0 24.0 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
+1 14 -187.3616114660535 99.17540966287268 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
+1 4 -214.72322293210698 174.35081932574536 192 -0.939693 0.0 0.34202 -0.34202 0.0 -0.939693 0 -1 0 40666.dat
 0 STEP
 
 0 // STEP 4 - front black platform and six red back blocks, one screw brick at tail centre
@@ -46,18 +46,19 @@
 1 4 160 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 5 - six curved red roof bricks across three rear rows
+0 // STEP 5 - rear angled tail and clutch cap
+1 72 160 -120 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 208 -244 0 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+
+0 // STEP 6 - six curved red roof bricks across three rear rows
 1 4 40 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
 1 4 40 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
 1 4 120 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
 1 4 120 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
 1 4 200 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
 1 4 200 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-0 STEP
-
-0 // STEP 6 - rear angled tail and clutch cap
-1 72 160 -120 0 0 0 1 0 1 0 -1 0 0 28336.dat
-1 72 208 -233 0 1 0 0 0 1 0 0 0 1 74957.dat
+0 // Curved noses surround the tail base; exact clearance against the approved approximate Toolo fork remains unverified.
 0 STEP
 
 0 // STEP 7 - turntable and two lower jaw platform blocks
@@ -67,38 +68,41 @@
 0 STEP
 
 0 // STEP 8 - red tongue and front spacer plus two stacked yellow rear neck bricks
-1 4 -280 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -208 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 4 -160 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 -40 -208 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 14 -40 -256 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 9 - two upper head platform blocks
-1 0 -320 -256 0 0 0 -1 0 1 0 1 0 0 76395.dat
-1 0 -160 -256 0 0 0 -1 0 1 0 1 0 0 76395.dat
+0 // STEP 9 - slide-15: upper jaw is 6 studs deep by 8 wide, crossing the 8x6 lower jaw.
+1 0 -200 -256 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -200 -256 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 10 - two yellow screw blocks and two yellow ear pedestals; concave ears unresolved
+0 // STEP 10 - two yellow screw blocks and rear yellow crossbar; ear geometry is omitted in step 12
 1 14 -240 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
 1 14 -240 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -120 -304 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -304 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
 0 // STEP 11 - two yellow upper face screw blocks, red nose and central angled crest
-1 14 -240 -352 -40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -240 -352 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -280 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 -200 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
 1 4 -280 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 72 -200 -400 0 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
 
-0 // STEP 12 - two sideways cheek supports and wheel rim plus tyre eyes
-1 72 -240 -304 -128 0 0 -1 1 0 0 0 -1 0 28336.dat
-1 71 -344 -304 -100 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -344 -304 -100 0 1 0 -1 0 0 0 0 1 44970.dat
-1 72 -240 -304 128 0 0 -1 -1 0 0 0 1 0 28336.dat
-1 71 -344 -304 100 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -344 -304 100 0 1 0 -1 0 0 0 0 1 44970.dat
+0 // STEP 12 - slide-18: OMITTED 2 x yellow concave 2x3x2 ears.
+0 // Exact part ID/geometry remains unconfirmed; no convex-slope substitution.
 0 STEP
 
-0 // STEP 13 - final source view only
+0 // STEP 13 - slide-19: two cheek forks, rims and tyres.
+0 // Fork bottoms meet yellow side faces at Z=+/-80; front bore and rim axle share Y=-328, Z=+/-104.
+0 // Approved approximate screw interfaces only; the cheek pivots are decorative brow tips, not wheel axles.
+1 72 -240 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
+1 71 -304 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -304 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -240 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 -304 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -304 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
